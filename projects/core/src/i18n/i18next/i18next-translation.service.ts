@@ -7,7 +7,6 @@
 import { Inject, inject, Injectable, isDevMode } from '@angular/core';
 import { i18n, TOptions } from 'i18next';
 import { Observable } from 'rxjs';
-import { FeatureConfigService } from '../../features-config';
 import { LoggerService } from '../../logger';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
@@ -19,7 +18,6 @@ export class I18nextTranslationService implements TranslationService {
   private readonly NON_BREAKING_SPACE = String.fromCharCode(160);
   protected readonly NAMESPACE_SEPARATOR = ':';
 
-  private featureConfigService = inject(FeatureConfigService);
   protected logger = inject(LoggerService);
 
   constructor(
@@ -96,34 +94,12 @@ export class I18nextTranslationService implements TranslationService {
     return this.i18next.loadNamespaces(chunkNames);
   }
 
-  /**
-   * Returns a fallback value in case when the given key is missing
-   * @param key
-   * @deprecated Use getFallbackValue(keys: string[]) instead. Will be removed in the next major
-   */
-  protected getFallbackValue(key: string): string;
-
-  /**
-   * Returns a fallback value in case when the given keys are missing
-   * @param keys
-   */
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
-  protected getFallbackValue(keys: string[]): string;
-
   protected getFallbackValue(keyOrKeys: string | string[]): string {
-    // TODO: (CXSPA-7315) Remove feature toggle in the next major
-    const formErrorsDescriptiveMessagesEnabled =
-      this.featureConfigService.isEnabled('formErrorsDescriptiveMessages');
+    const formattedKey = Array.isArray(keyOrKeys)
+      ? keyOrKeys.join(', ')
+      : keyOrKeys;
 
-    if (Array.isArray(keyOrKeys) && formErrorsDescriptiveMessagesEnabled) {
-      return isDevMode()
-        ? `[${keyOrKeys.join(', ')}]`
-        : this.NON_BREAKING_SPACE;
-    } else {
-      return isDevMode() && formErrorsDescriptiveMessagesEnabled
-        ? `[${keyOrKeys}]`
-        : this.NON_BREAKING_SPACE;
-    }
+    return isDevMode() ? `[${formattedKey}]` : this.NON_BREAKING_SPACE;
   }
 
   private reportMissingKey(chunkNamesByKeys: Map<string, string>) {
