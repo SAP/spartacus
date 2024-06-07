@@ -59,4 +59,31 @@ describe('checkout using digital-payments with billing address', () => {
     reviewPlacedOrder();
     signOut();
   });
+  it('cancel adding a new card after filling out billing address', () => {
+    interceptDigitalPaymentsRequest();
+    cy.visit('/electronics-spa/en/USD/login');
+    loginUser(my_user);
+    cy.wait(3000);
+    goToCheapProductDetailsPage();
+    addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
+    checkoutShippingAddress();
+    checkoutDeliveryMode(); 
+    cy.get('cx-card').its('length').then((expectedCount)=>{
+      clickAddNewPayment();
+      cy.wait('@getDigitalPaymentsRequest');
+      fillBillingAddress(my_user.billingAddress);
+      cy.get('button.btn.btn-block.btn-secondary')
+        .should('be.enabled')
+        .contains('Back')
+        .click();
+        cy.get('cx-dp-confirmation-dialog')
+        .find('button.btn.btn-primary') 
+        .should('be.visible')
+        .contains('Continue')
+        .click();
+      
+        cy.get('cx-card').its('length').should('eq', expectedCount);
+      signOut();
+    })
+  });
 });
