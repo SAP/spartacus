@@ -28,16 +28,14 @@ function getStandardCases(key: string) {
       case: CASE_TITLES[key],
       url: CASE_URLS[key],
       navigateToNext: () => {
-        cy.get('cx-pagination a.page[aria-label="page 2"]').first().click();
+        cy.get('cx-pagination a.page').contains('2').first().click();
       },
     },
     {
       case: CASE_TITLES[key] + ' (2nd page)',
       url: CASE_URLS[key] + '?currentPage=1',
       navigateToNext: () => {
-        cy.get('cx-pagination a.start[aria-label="first page"]')
-          .first()
-          .click();
+        cy.get('cx-pagination a.start').first().click();
       },
     },
     {
@@ -52,7 +50,7 @@ function getStandardCases(key: string) {
       case: CASE_TITLES[key] + ' (with sort)',
       url: CASE_URLS[key] + '?sortCode=topRated',
       navigateToNext: () => {
-        cy.get('cx-pagination a.page[aria-label="page 2"]').first().click();
+        cy.get('cx-pagination a.page').contains('2').first().click();
       },
     },
     {
@@ -66,7 +64,7 @@ function getStandardCases(key: string) {
       case: CASE_TITLES[key] + ' (with query and sort)',
       url: CASE_URLS[key] + CASE_QUERY_PARTS[key] + ':availableInStores:Chiba',
       navigateToNext: () => {
-        cy.get('cx-pagination a.page[aria-label="page 2"]').first().click();
+        cy.get('cx-pagination a.page').contains('2').first().click();
       },
     },
     {
