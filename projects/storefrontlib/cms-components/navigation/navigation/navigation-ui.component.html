@@ -89,6 +89,7 @@
             (click)="toggleOpen($any($event))"
             (mouseenter)="onMouseEnter($event)"
             (keydown.space)="onSpace($any($event))"
+            (keydown.enter)="onSpace($any($event))"
             (keydown.esc)="back()"
             (keydown.arrowDown)="focusOnNode($any($event))"
             (focus)="depth || reinitializeMenu()"

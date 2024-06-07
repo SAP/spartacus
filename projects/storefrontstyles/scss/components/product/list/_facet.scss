@@ -5,16 +5,16 @@ $intialExpandedFacetsLarge: 3 !default;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   margin: 0.4rem 0;
   padding: 0.4rem;
   width: 100%;
-
   border-bottom: 1px solid var(--cx-color-light);
-
   cursor: pointer;
-
   font-weight: var(--cx-font-weight-semi);
+
+  @include forFeature('santoriniV2') {
+    border-bottom: 1px solid var(--cx-color-medium);
+  }
 
   &:hover,
   &:focus {
@@ -156,23 +156,21 @@ $intialExpandedFacetsLarge: 3 !default;
     &::before {
       content: '✓';
       color: transparent;
-
       flex-shrink: 0;
-
       font-size: 1rem;
       font-weight: bold;
-
       width: 1.3rem;
       height: 1.35rem;
-
       border-radius: 0.2rem;
       border: solid 1px var(--cx-color-light);
-
       display: flex;
       justify-content: center;
       align-items: center;
-
       margin-inline-end: 0.5rem;
+
+      @include forFeature('santoriniV2') {
+        border: solid 2px var(--cx-color-text);
+      }
     }
 
     &.selected::before {

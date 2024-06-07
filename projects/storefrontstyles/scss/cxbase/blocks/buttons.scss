@@ -31,6 +31,10 @@ button {
   min-width: 48px;
   border-radius: var(--cx-buttons-border-radius);
 
+  @include forFeature('santoriniV2') {
+    @include type('4');
+  }
+
   &-sm {
     padding-top: 0;
     padding-bottom: 0;
@@ -58,6 +62,9 @@ button {
       background-color: var(--cx-color-primary);
       border-color: var(--cx-color-primary);
       @include cx-darken(88);
+      @include forFeature('santoriniV2') {
+        filter: none;
+      }
     }
 
     &.disabled,
@@ -81,6 +88,11 @@ button {
       background-color: var(--cx-color-primary);
       border-color: var(--cx-color-primary);
       @include cx-lighten(88);
+
+      @include forFeature('santoriniV2') {
+        background-color: var(--cx-color-primary-accent);
+        filter: none;
+      }
 
       &:focus {
         box-shadow: 0 0 0 0.2rem rgba(var(--cx-color-primary), 0.5);
@@ -152,6 +164,11 @@ button {
     .focus {
       border-radius: 4px;
     }
+
+    @include forFeature('santoriniV2') {
+      @include type('6');
+      color: var(--cx-color-primary);
+    }
   }
 }
 
@@ -162,6 +179,10 @@ button {
   border-style: none;
   font-size: var(--cx-font-size, 1rem);
   width: auto;
+
+  @include forFeature('santoriniV2') {
+    @include type('6');
+  }
 
   &:hover {
     background-color: var(--cx-color-transparent);

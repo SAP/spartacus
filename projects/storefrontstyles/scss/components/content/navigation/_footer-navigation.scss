@@ -2,6 +2,11 @@
   background-color: var(--cx-color-background-dark);
   a {
     font-size: var(--cx-font-small, 0.8rem);
+
+    @include forFeature('santoriniV2') {
+      @include type('8');
+    }
+
     &:hover {
       color: var(--cx-color-inverse);
       text-decoration: underline;
@@ -28,6 +33,12 @@
 
       > li {
         margin: 3vw;
+      }
+    }
+
+    @include forFeature('santoriniV2') {
+      nav ul.childs > li > cx-generic-link > a:hover {
+        color: var(--cx-color-inverse);
       }
     }
   }
