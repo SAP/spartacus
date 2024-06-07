@@ -8,11 +8,11 @@
     <div class="cx-dialog-header modal-header">
       <div class="header-title">
         <h3 id="asm-customer-360-title" class="modal-title">
-          {{ 'asmCustomer360.header.title' | cxTranslate }}
+          {{ 'asmCustomer360.header.newTitle' | cxTranslate }}
         </h3>
         <div id="asm-customer-360-desc" class="cx-visually-hidden">
           {{
-            'asmCustomer360.header.subTitle'
+            'asmCustomer360.header.newSubtitle'
               | cxTranslate: { name: customer.firstName }
           }}
         </div>
@@ -50,7 +50,7 @@
             <div class="cx-asm-customer-info ml-3">
               <div class="cx-asm-customer-name">
                 {{
-                  'asmCustomer360.header.subTitle'
+                  'asmCustomer360.header.newSubTitle'
                     | cxTranslate: { name: customerOverview?.name }
                 }}
               </div>
