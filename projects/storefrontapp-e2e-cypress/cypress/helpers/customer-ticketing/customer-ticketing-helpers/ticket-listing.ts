@@ -244,7 +244,7 @@ export function verifyTicketIdIsSmallerInNextPageComparedToPreviousPageByCompari
     getIdInRow(FIRST_ROW_TICKET_LIST).then((id) => {
       const smallerId = parseInt(id.text(), 10);
       var next_page = page + 1;
-      cy.get(`[aria-label="page ${next_page}"]`).click();
+      clickPageOnPagination(next_page);
       getIdInRow(FIRST_ROW_TICKET_LIST)
         .invoke('text')
         .then(parseInt)
@@ -264,8 +264,17 @@ export function verifyTicketIdIsSmallerInLastPageComparedToFirstPageByComparingI
   });
 }
 
-export function clickPageOnPagination(pageLabel: string) {
-  cy.get(`[aria-label="${pageLabel} page"]`).click();
+export function clickPageOnPagination(pageLabel: 'first' | 'last' | number) {
+  switch (pageLabel) {
+    case 'first':
+      cy.get(`cx-pagination a.start`).click();
+      break;
+    case 'last':
+      cy.get(`cx-pagination a.end`).click();
+      break;
+    default:
+      cy.get(`cx-pagination a.page`).contains(pageLabel).click();
+  }
 }
 
 export function verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingIds() {
