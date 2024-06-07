@@ -36,7 +36,7 @@ export class DpConfirmationDialogComponent {
   }
 
   continue() {
-    let queryParams = { ...this.activatedRoute.snapshot.queryParams };
+    const queryParams = { ...this.activatedRoute.snapshot.queryParams };
     delete queryParams[DP_CARD_REGISTRATION_STATUS];
     this.router.navigate([], {
       queryParams,
