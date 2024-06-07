@@ -35,8 +35,15 @@
             <div *ngIf="item.basePrice" class="cx-value">
               {{ item.basePrice?.formattedValue }}
             </div>
-          </div></ng-container
-        >
+          </div></ng-container>
+          <ng-template
+          id="cx-item-list-discount"
+          role="columnheader"
+          [cxOutlet]="quoteOutlet.CPQ_QUOTE"
+          [cxOutletContext]="{
+            items: item
+          }"
+        ></ng-template>
       </div>
     </div>
     <div class="cx-cart-addons">
@@ -92,6 +99,7 @@
     }"
   ></ng-template>
 
+  <!-- {{item | json}} -->
   <!-- item price with discount -->
   <!-- <ng-template
   role="cell"

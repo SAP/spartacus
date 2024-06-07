@@ -22,21 +22,5 @@
   "
   class="cpq-quote-discount"
 >
-  <td class="center">
-    <ng-container *ngFor="let discount of quoteDiscountData.cpqDiscounts">
-      <span role="cell" class="cx-total cx-discount">
-        {{ discount.isoCode
-        }}{{
-          getDiscountedPrice(quoteDiscountData.basePrice?.value, discount.value)
-        }}
-      </span>
-    </ng-container>
-
-    <!-- Iterate over quoteDiscountData.basePrice -->
-    <ng-container *ngIf="quoteDiscountData?.basePrice">
-      <span class="cx-formattedValue strike-through">
-      {{ quoteDiscountData.basePrice?.formattedValue }}
-    </span></ng-container>
-
-  </td>
+ <span class="offer">{{quoteDiscountData?.basePrice?.formattedValue}}</span>
 </ng-container>

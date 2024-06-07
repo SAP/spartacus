@@ -12,6 +12,7 @@ import {
 } from '@spartacus/storefront';
 import { CpqQuoteHeadingComponent } from './components/cpq-quote-heading/cpq-quote-heading.component';
 import { CpqQuoteDiscountComponent } from './components/cpq-quote-discount-tbody/cpq-quote.component';
+import { CpqQuoteOfferComponent } from './components/cpq-quote/cpq-quote-offer.component';
 
 import { CommonModule } from '@angular/common';
 import { I18nModule, UrlModule } from '@spartacus/core';
@@ -20,8 +21,8 @@ import { QuoteOutlet } from '@spartacus/quote/root';
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, IconModule],
 
-  declarations: [CpqQuoteHeadingComponent, CpqQuoteDiscountComponent],
-  exports: [CpqQuoteHeadingComponent, CpqQuoteDiscountComponent],
+  declarations: [CpqQuoteHeadingComponent, CpqQuoteDiscountComponent,CpqQuoteOfferComponent],
+  exports: [CpqQuoteHeadingComponent, CpqQuoteDiscountComponent,CpqQuoteOfferComponent],
   providers: [
     provideOutlet({
       id: QuoteOutlet.CPQ_QUOTE_MODULE,
@@ -32,6 +33,11 @@ import { QuoteOutlet } from '@spartacus/quote/root';
       id: QuoteOutlet.CPQ_QUOTE_HEADING,
       position: OutletPosition.AFTER,
       component: CpqQuoteHeadingComponent,
+    }),
+    provideOutlet({
+      id: QuoteOutlet.CPQ_QUOTE,
+      position: OutletPosition.AFTER,
+      component: CpqQuoteOfferComponent,
     }),
   ],
 })

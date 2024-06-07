@@ -72,7 +72,7 @@ describe('Cpq Quote Discount Component', () => {
       });
 
       const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-total').length).toBe(0);
+      expect(htmlElem.querySelectorAll('.cx-discount').length).toBe(0);
     });
 
     it('should be displayed if model provides data', () => {
@@ -82,7 +82,7 @@ describe('Cpq Quote Discount Component', () => {
 
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-total').length).toBe(1);
+      expect(htmlElem.querySelectorAll('.cx-discount').length).toBe(1);
     });
 
     it('should display the appliedValue data', () => {
@@ -95,7 +95,7 @@ describe('Cpq Quote Discount Component', () => {
 
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
-      const discountsDisplayed = htmlElem.querySelectorAll('.cx-total');
+      const discountsDisplayed = htmlElem.querySelectorAll('.cx-discount');
       expect(discountsDisplayed.length).toBe(discounts.length);
 
       for (let i = 0; i < discountsDisplayed.length; i++) {
@@ -104,5 +104,33 @@ describe('Cpq Quote Discount Component', () => {
         );
       }
     });
+
+
   });
+  // describe('formattedValue', () => {
+  //   it('should be displayed if model provides data', () => {
+  //     const formattedValue = 'USD100.00';
+  //     mockCartItemContext.item$.next({ basePrice: { formattedValue } });
+  //     fixture.detectChanges();
+  //     const htmlElem = fixture.nativeElement;
+  //     expect(htmlElem.querySelectorAll('.cx-formattedValue').length).toBe(1);
+  //   });
+  //   it('should not render formattedValue element', () => {
+  //     const formattedValue = 'USD100.00';
+  //     mockCartItemContext.item$.next({ basePrice:  { formattedValue } });
+  //     fixture.detectChanges();
+
+  //     const htmlElem = fixture.nativeElement;
+  //     expect(htmlElem.querySelectorAll('.cx-formattedValue').length).toBe(1);
+  //   });
+  //   it('should not render formattedValue element', () => {
+  //     mockCartItemContext.item$.next({ basePrice: { formattedValue: undefined } });
+  //     fixture.detectChanges();
+
+  //     const spanElement = fixture.nativeElement.querySelector('.cx-formattedValue');
+  //     expect(spanElement).toBeFalsy();
+  //   });
+  // });
+
+
 });
