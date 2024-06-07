@@ -8,6 +8,7 @@
     [attr.aria-label]="
       'productFacetNavigation.filterBy.name' | cxTranslate: { name: facet.name }
     "
+    [cxFocus]="{ key: facet.name }"
   >
     {{ facet.name }}
     <cx-icon class="collapse-icon" [type]="collapseIcon"></cx-icon>
