@@ -78,6 +78,10 @@ $space: 0.5rem;
       flex: none;
     }
     justify-content: flex-start;
+
+    @include forFeature('santoriniV2') {
+      @include type('8');
+    }
   }
 
   .SiteLinks {

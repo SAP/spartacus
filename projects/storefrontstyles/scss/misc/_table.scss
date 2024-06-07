@@ -32,6 +32,10 @@
     font-size: var(--cx-font-size, 0.875rem);
     white-space: nowrap;
 
+    @include forFeature('santoriniV2') {
+      @include type('6');
+    }
+
     &:nth-last-of-type(1) {
       padding-inline-end: 16px;
     }

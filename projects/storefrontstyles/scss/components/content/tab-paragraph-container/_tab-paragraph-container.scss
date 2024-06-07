@@ -4,6 +4,7 @@ $useAccordionOnly: false !default;
 @mixin accordion {
   > button {
     border-top: 1px var(--cx-color-light) solid;
+
     font-size: var(--cx-font-size, 1.188rem);
     padding-top: 15px;
     padding-inline-end: 0;
@@ -13,6 +14,16 @@ $useAccordionOnly: false !default;
     text-align: start;
     height: 63px;
     position: relative;
+
+    @include forFeature('santoriniV2') {
+      @include type('3');
+      border-top: 1px solid var(--cx-color-medium);
+
+      &:focus {
+        box-shadow: 0 0 0 0;
+      }
+    }
+
     > span.accordion-icon {
       &:before {
         content: '+';
