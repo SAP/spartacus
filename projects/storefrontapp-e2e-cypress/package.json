@@ -37,7 +37,7 @@
     "cy:run:ci:opps": "cypress run --config-file cypress.config.ci.ts --env API_URL=https://api.cg79x9wuu9-eccommerc1-s5-public.model-t.myhybris.cloud/ --record --key $CYPRESS_KEY --tag \"opps\" --group OPPS --spec \"cypress/e2e/vendor/opps/*.e2e.cy.ts\"",
     "cy:run:ci:my-account-v2": "cypress run --config-file cypress.config.ci.ts --env API_URL=https://api.cg79x9wuu9-eccommerc1-s5-public.model-t.myhybris.cloud/ --record --key $CYPRESS_KEY --tag \"my-account-v2\" --group MY-ACCOUNT-V2 --spec \"cypress/e2e/regression/my-account/my-account-v2-*.e2e.cy.ts\"",
     "cy:run:ci:release": "cypress run --config-file cypress.config.ci.ts --spec \"$(cat tests_to_run.txt)\" --reporter junit --reporter-options mochaFile=results/e2e-test-b2c-[hash].xml",
-    "cy:run:ci:b2b:release": "cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers",
+    "cy:run:ci:b2b:release": "cypress run --config-file cypress.config.ci.ts --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec \"cypress/e2e/b2b/regression/**/*e2e.cy.ts\" --reporter junit --reporter-options mochaFile=results/e2e-test-b2b-[hash].xml",
     "cy:run:ci:ssr:release": "cypress run --config-file cypress.config.ci.ts --config baseUrl=http://localhost:4000 --spec \"cypress/e2e/ssr/*.e2e.cy.ts\" --reporter junit --reporter-options mochaFile=results/e2e-test-ssr-[hash].xml"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   ICON_TYPE,
   LaunchDialogService,
@@ -9,6 +9,8 @@ import {
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CloseAccountComponent } from './close-account.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { By } from '@angular/platform-browser';
 
 @Component({
   selector: 'cx-icon',
@@ -31,18 +33,29 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   }
 }
 
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
+}
+
 describe('CloseAccountComponent', () => {
   let component: CloseAccountComponent;
   let fixture: ComponentFixture<CloseAccountComponent>;
   let launchDialogService: LaunchDialogService;
+  let routingService: RoutingService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [CloseAccountComponent, MockUrlPipe, MockCxIconComponent],
+        declarations: [
+          CloseAccountComponent,
+          MockUrlPipe,
+          MockCxIconComponent,
+          MockFeatureDirective,
+        ],
         providers: [
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+          { provide: RoutingService, useClass: MockRoutingService },
         ],
       }).compileComponents();
     })
@@ -53,6 +66,7 @@ describe('CloseAccountComponent', () => {
     component = fixture.componentInstance;
 
     launchDialogService = TestBed.inject(LaunchDialogService);
+    routingService = TestBed.inject(RoutingService);
   });
 
   it('should create', () => {
@@ -69,5 +83,15 @@ describe('CloseAccountComponent', () => {
       component['element'],
       component['vcr']
     );
+  });
+
+  it('should navigate to home on cancel', () => {
+    spyOn(routingService, 'go');
+    fixture.detectChanges();
+    const cancelBtn = fixture.debugElement.query(
+      By.css('button.btn-secondary')
+    );
+    cancelBtn.triggerEventHandler('click');
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
   });
 });
