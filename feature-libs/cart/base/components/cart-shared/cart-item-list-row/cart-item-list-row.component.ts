@@ -1,10 +1,4 @@
-/*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import { Component, OnDestroy, Optional } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CartItemContext } from '@spartacus/cart/base/root';
 import { CartItemComponent } from '../cart-item/cart-item.component';
 import { CartItemContextSource } from '../cart-item/model/cart-item-context-source.model';
@@ -28,13 +22,11 @@ export class CartItemListRowComponent
   private subscription: Subscription;
   constructor(
     cartItemContextSource: CartItemContextSource,
-    @Optional() CpqQuoteService: CpqQuoteService
+    private cpqQuoteService: CpqQuoteService // Injecting CpqQuoteService directly here
   ) {
     super(cartItemContextSource);
-    this.subscription = CpqQuoteService.isFlag$.subscribe((isFlag) => {
-      console.log(isFlag);
+    this.subscription = this.cpqQuoteService.isFlag$.subscribe((isFlag) => {
       this.isFlagquote = isFlag;
-      console.log(isFlag);
     });
   }
   readonly quoteOutlet = QuoteOutlet;

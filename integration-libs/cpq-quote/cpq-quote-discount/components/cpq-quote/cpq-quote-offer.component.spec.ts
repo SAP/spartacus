@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CpqQuoteOfferComponent } from './cpq-quote-offer.component';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { Observable, ReplaySubject, of, take} from 'rxjs';
+import { Observable, ReplaySubject, of, take } from 'rxjs';
 import { Component, Input } from '@angular/core';
 
 import { LanguageService } from '@spartacus/core';
@@ -28,7 +28,6 @@ class MockLanguageService {
 class MockConfigureCpqDiscountsComponent {
   @Input() cartEntry: Partial<OrderEntry & Array<CpqDiscounts>>;
 }
-
 
 describe('CpqQuoteOfferComponent', () => {
   let component: CpqQuoteOfferComponent;
@@ -84,21 +83,19 @@ describe('CpqQuoteOfferComponent', () => {
       });
 
       // const htmlElem = fixture.nativeElement;
-      expect(
-        htmlElem.querySelectorAll('.offer').length
-      ).toBe(0);
+      expect(htmlElem.querySelectorAll('.offer').length).toBe(0);
     });
     it('should be displayed if model provides data', () => {
       mockCartItemContext.item$.next({
         cpqDiscounts: [
           {
             appliedValue: 1,
-            isoCode:2,
+            isoCode: 2,
             value: 2,
           },
           {
             appliedValue: 1,
-            isoCode:2,
+            isoCode: 2,
             value: 3,
           },
         ],
@@ -106,10 +103,7 @@ describe('CpqQuoteOfferComponent', () => {
 
       fixture.detectChanges();
       // const htmlElem = fixture.nativeElement;
-      expect(
-        htmlElem.querySelectorAll('.offer').length
-      ).toBe(2);
+      expect(htmlElem.querySelectorAll('.offer').length).toBe(2);
     });
+  });
 });
-});
-

@@ -21,8 +21,16 @@ import { QuoteOutlet } from '@spartacus/quote/root';
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, IconModule],
 
-  declarations: [CpqQuoteHeadingComponent, CpqQuoteDiscountComponent,CpqQuoteOfferComponent],
-  exports: [CpqQuoteHeadingComponent, CpqQuoteDiscountComponent,CpqQuoteOfferComponent],
+  declarations: [
+    CpqQuoteHeadingComponent,
+    CpqQuoteDiscountComponent,
+    CpqQuoteOfferComponent,
+  ],
+  exports: [
+    CpqQuoteHeadingComponent,
+    CpqQuoteDiscountComponent,
+    CpqQuoteOfferComponent,
+  ],
   providers: [
     provideOutlet({
       id: QuoteOutlet.CPQ_QUOTE_MODULE,

@@ -74,5 +74,4 @@ describe('Cpq-Quote Heading Component', () => {
     mockOutletContextData.next([]);
     expect(cpqQuoteServiceSpy).toHaveBeenCalledWith(true); // Because hasDiscounts is false
   });
-
 });

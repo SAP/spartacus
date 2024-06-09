@@ -9,5 +9,5 @@ import discountCaption from './cpq-quote.json';
 
 export const en = {
   cpqQuoteHeading,
-  discountCaption
+  discountCaption,
 };

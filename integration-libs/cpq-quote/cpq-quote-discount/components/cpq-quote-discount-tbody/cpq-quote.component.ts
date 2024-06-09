@@ -1,4 +1,4 @@
-import { Component, Optional, OnDestroy, OnInit, Inject} from '@angular/core';
+import { Component, Optional, OnDestroy, OnInit, Inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { CpqDiscounts } from 'integration-libs/cpq-quote/root/model';
 import { EMPTY, Observable, Subscription } from 'rxjs';
@@ -20,13 +20,12 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
   readonly orderEntry$: Observable<ExtendedOrderEntry> = // Use ExtendedOrderEntry here
     this.cartItemContext?.item$ ?? EMPTY;
 
-
   constructor(
     @Optional()
     @Inject(CartItemContext)
-    protected cartItemContext: CartItemContext,
-    // private cpqQuoteService: CpqQuoteService
-  ) {}
+    protected cartItemContext: CartItemContext
+  ) // private cpqQuoteService: CpqQuoteService
+  {}
 
   ngOnInit(): void {
     if (this.cartItemContext) {
@@ -34,7 +33,6 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
         this.quoteDiscountData = data;
         // const hasDiscounts = this.quoteDiscountData?.cpqDiscounts && this.quoteDiscountData.cpqDiscounts.length > 0;
         // this.cpqQuoteService.setIsFlag(!hasDiscounts);
-
       });
     } else {
       this.quoteDiscountData = null;
@@ -46,7 +44,10 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-  getDiscountedPrice(basePrice: number | undefined, discountPercentage: number | undefined): number | undefined {
+  getDiscountedPrice(
+    basePrice: number | undefined,
+    discountPercentage: number | undefined
+  ): number | undefined {
     if (basePrice !== undefined && discountPercentage !== undefined) {
       const discountAmount = (basePrice * discountPercentage) / 100;
       return basePrice - discountAmount;

@@ -104,8 +104,6 @@ describe('Cpq Quote Discount Component', () => {
         );
       }
     });
-
-
   });
   describe('formattedValue', () => {
     it('should be displayed if model provides data', () => {
@@ -114,19 +112,25 @@ describe('Cpq Quote Discount Component', () => {
       const discounts: CpqDiscounts[] = [
         { appliedValue: 30, isoCode: 'USD', value: 15 },
       ];
-      mockCartItemContext.item$.next({ basePrice: { formattedValue, value }, cpqDiscounts: discounts });
+      mockCartItemContext.item$.next({
+        basePrice: { formattedValue, value },
+        cpqDiscounts: discounts,
+      });
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
-      const formattedValueSpan = htmlElem.querySelectorAll('.cx-formattedValue');
+      const formattedValueSpan =
+        htmlElem.querySelectorAll('.cx-formattedValue');
       expect(formattedValueSpan.length).toBe(1);
     });
     it('should not render formattedValue element', () => {
-      mockCartItemContext.item$.next({ basePrice: { formattedValue: undefined } });
+      mockCartItemContext.item$.next({
+        basePrice: { formattedValue: undefined },
+      });
       fixture.detectChanges();
 
-      const spanElement = fixture.nativeElement.querySelector('.cx-formattedValue');
+      const spanElement =
+        fixture.nativeElement.querySelector('.cx-formattedValue');
       expect(spanElement).toBeFalsy();
     });
   });
-
 });

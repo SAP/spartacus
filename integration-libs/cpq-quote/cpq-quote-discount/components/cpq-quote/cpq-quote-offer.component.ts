@@ -22,7 +22,7 @@ export class CpqQuoteOfferComponent implements OnInit, OnDestroy {
   constructor(
     @Optional()
     @Inject(CartItemContext)
-    protected cartItemContext: CartItemContext,
+    protected cartItemContext: CartItemContext
   ) {}
 
   ngOnInit(): void {
@@ -38,5 +38,4 @@ export class CpqQuoteOfferComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-
 }
