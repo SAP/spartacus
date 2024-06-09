@@ -1,10 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 import { Component, Optional, OnDestroy, OnInit, Inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { CpqDiscounts } from 'integration-libs/cpq-quote/root/model';
 import { EMPTY, Observable, Subscription } from 'rxjs';
-// import { CpqQuoteService } from '../../cpq-qute.service';
-
-// Extend the OrderEntry interface to include cpqDiscounts property
 interface ExtendedOrderEntry extends OrderEntry {
   cpqDiscounts?: CpqDiscounts[];
 }
@@ -24,15 +26,12 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
     @Optional()
     @Inject(CartItemContext)
     protected cartItemContext: CartItemContext
-  ) // private cpqQuoteService: CpqQuoteService
-  {}
+  ) {}
 
   ngOnInit(): void {
     if (this.cartItemContext) {
       this.subscription = this.orderEntry$.subscribe((data) => {
         this.quoteDiscountData = data;
-        // const hasDiscounts = this.quoteDiscountData?.cpqDiscounts && this.quoteDiscountData.cpqDiscounts.length > 0;
-        // this.cpqQuoteService.setIsFlag(!hasDiscounts);
       });
     } else {
       this.quoteDiscountData = null;
