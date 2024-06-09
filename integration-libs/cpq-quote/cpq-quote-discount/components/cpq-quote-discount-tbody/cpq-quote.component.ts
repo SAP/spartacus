@@ -7,6 +7,7 @@ import { Component, Optional, OnDestroy, OnInit, Inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { CpqDiscounts } from 'integration-libs/cpq-quote/root/model';
 import { EMPTY, Observable, Subscription } from 'rxjs';
+import { CpqQuoteService } from '../../cpq-qute.service';
 interface ExtendedOrderEntry extends OrderEntry {
   cpqDiscounts?: CpqDiscounts[];
 }
@@ -21,12 +22,17 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   readonly orderEntry$: Observable<ExtendedOrderEntry> = // Use ExtendedOrderEntry here
     this.cartItemContext?.item$ ?? EMPTY;
-
+  isFlagquote = true;
   constructor(
     @Optional()
     @Inject(CartItemContext)
-    protected cartItemContext: CartItemContext
-  ) {}
+    protected cartItemContext: CartItemContext,
+    private cpqQuoteService: CpqQuoteService
+  ) {
+    this.subscription = this.cpqQuoteService.isFlag$.subscribe((isFlag) => {
+      this.isFlagquote = isFlag;
+    });
+  }
 
   ngOnInit(): void {
     if (this.cartItemContext) {

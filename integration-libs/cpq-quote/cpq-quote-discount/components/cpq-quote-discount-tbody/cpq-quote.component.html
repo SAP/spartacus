@@ -1,28 +1,12 @@
-<!-- <ng-container
-  *ngIf="
-    quoteDiscountData &&
-    quoteDiscountData.cpqDiscounts &&
-    quoteDiscountData.cpqDiscounts.length > 0
-  "
-  class="cpq-quote-discount"
->
-  <ng-container *ngFor="let discount of quoteDiscountData.cpqDiscounts">
-    <td role="cell" class="cx-total cx-discount">
-      {{ discount?.value }}
-    </td>
-  </ng-container>
-</ng-container> -->
-
-<ng-container
-  *ngIf="
-    quoteDiscountData &&
-    quoteDiscountData.basePrice?.value !== undefined &&
-    quoteDiscountData.cpqDiscounts &&
-    quoteDiscountData.cpqDiscounts.length > 0
-  "
-  class="cpq-quote-discount"
->
-  <td class="center">
+<td class="center" *ngIf="!isFlagquote">
+  <ng-container
+    *ngIf="
+      quoteDiscountData &&
+      quoteDiscountData.basePrice?.value !== undefined &&
+      quoteDiscountData.cpqDiscounts &&
+      quoteDiscountData.cpqDiscounts.length > 0
+    "
+  >
     <ng-container *ngFor="let discount of quoteDiscountData.cpqDiscounts">
       <span role="cell" class="cx-total cx-discount">
         {{ discount.isoCode
@@ -31,18 +15,17 @@
         }}
       </span>
     </ng-container>
-
-    <!-- Iterate over quoteDiscountData.basePrice -->
-    <ng-container *ngIf="quoteDiscountData?.cpqDiscounts; else withoutDiscount">
-      <span class="cx-formattedValue strike-through">
-        {{ quoteDiscountData.basePrice?.formattedValue }}
-      </span>
-    </ng-container>
-
-    <ng-template #withoutDiscount>
-      <span class="cx-formattedValue strike-through">
-        {{ quoteDiscountData.basePrice?.formattedValue }}
-      </span>
-    </ng-template>
-  </td>
-</ng-container>
+  </ng-container>
+  <!-- Iterate over quoteDiscountData.basePrice -->
+  <span
+    class="cx-formattedValue"
+    [ngClass]="{
+      'strike-through':
+        quoteDiscountData &&
+        quoteDiscountData.cpqDiscounts &&
+        quoteDiscountData.cpqDiscounts.length > 0
+    }"
+  >
+    {{ quoteDiscountData?.basePrice?.formattedValue }}
+  </span>
+</td>

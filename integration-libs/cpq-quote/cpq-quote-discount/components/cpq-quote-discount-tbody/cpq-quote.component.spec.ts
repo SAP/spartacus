@@ -1,11 +1,12 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CpqQuoteDiscountComponent } from './cpq-quote.component';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, of } from 'rxjs';
 import { CpqDiscounts } from '@spartacus/cpq-quote/root';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { take } from 'rxjs/operators';
+import { CpqQuoteService } from '../../cpq-qute.service';
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
@@ -23,24 +24,25 @@ describe('Cpq Quote Discount Component', () => {
   let component: CpqQuoteDiscountComponent;
   let fixture: ComponentFixture<CpqQuoteDiscountComponent>;
   let mockCartItemContext: MockCartItemContext;
+  let cpqQuoteServiceMock: Partial<CpqQuoteService>;
 
-  beforeEach(
-    waitForAsync(() => {
-      mockCartItemContext = new MockCartItemContext();
-
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
-        declarations: [
-          CpqQuoteDiscountComponent,
-          MockConfigureCpqDiscountsComponent,
-        ],
-        providers: [
-          { provide: CartItemContext, useValue: mockCartItemContext },
-        ],
-      }).compileComponents();
-    })
-  );
-
+  beforeEach(async () => {
+    cpqQuoteServiceMock = {
+      isFlag$: of(false), // Mock isFlag$ to return false
+    };
+    mockCartItemContext = new MockCartItemContext();
+    await TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [
+        CpqQuoteDiscountComponent,
+        MockConfigureCpqDiscountsComponent,
+      ],
+      providers: [
+        { provide: CpqQuoteService, useValue: cpqQuoteServiceMock },
+        { provide: CartItemContext, useValue: mockCartItemContext },
+      ],
+    }).compileComponents();
+  });
   beforeEach(() => {
     fixture = TestBed.createComponent(CpqQuoteDiscountComponent);
     component = fixture.componentInstance;
@@ -48,6 +50,12 @@ describe('Cpq Quote Discount Component', () => {
     fixture.detectChanges();
   });
 
+  it('should display all content when isFlagquote is false', () => {
+    const contentElements = fixture.nativeElement.querySelectorAll(
+      '.cx-total, .cx-formattedValue'
+    );
+    expect(contentElements.length).toBeGreaterThan(0); // Ensure that at least one element is found
+  });
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -106,6 +114,15 @@ describe('Cpq Quote Discount Component', () => {
     });
   });
   describe('formattedValue', () => {
+    it('should render formattedValue element if basePrice.formattedValue is defined', () => {
+      const formattedValue = 'USD100.00';
+      mockCartItemContext.item$.next({ basePrice: { formattedValue } });
+      fixture.detectChanges();
+      const spanElement =
+        fixture.nativeElement.querySelector('.cx-formattedValue');
+      expect(spanElement).toBeTruthy();
+      expect(spanElement.textContent.trim()).toBe(formattedValue);
+    });
     it('should be displayed if model provides data', () => {
       const formattedValue = 'USD100.00';
       const value = 100;
@@ -118,18 +135,16 @@ describe('Cpq Quote Discount Component', () => {
       });
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
-      const formattedValueSpan =
-        htmlElem.querySelectorAll('.cx-formattedValue');
+      const formattedValueSpan = htmlElem.querySelectorAll('.strike-through');
       expect(formattedValueSpan.length).toBe(1);
     });
-    it('should not render formattedValue element', () => {
+    it('should not render formattedValue element if basePrice.formattedValue is undefined', () => {
       mockCartItemContext.item$.next({
         basePrice: { formattedValue: undefined },
       });
       fixture.detectChanges();
-
       const spanElement =
-        fixture.nativeElement.querySelector('.cx-formattedValue');
+        fixture.nativeElement.querySelector('.strike-through');
       expect(spanElement).toBeFalsy();
     });
   });
