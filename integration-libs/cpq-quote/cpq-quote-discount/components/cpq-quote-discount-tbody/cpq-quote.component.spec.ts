@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CpqQuoteDiscountComponent } from './cpq-quote.component';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { ReplaySubject, of } from 'rxjs';
-import { CpqDiscounts } from '@spartacus/cpq-quote/root';
+import { CpqDiscounts } from '../../../root/model';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { take } from 'rxjs/operators';
