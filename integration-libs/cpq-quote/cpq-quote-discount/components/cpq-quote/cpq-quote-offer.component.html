@@ -1,18 +1,3 @@
-<!-- <ng-container
-  *ngIf="
-    quoteDiscountData &&
-    quoteDiscountData.cpqDiscounts &&
-    quoteDiscountData.cpqDiscounts.length > 0
-  "
-  class="cpq-quote-discount"
->
-  <ng-container *ngFor="let discount of quoteDiscountData.cpqDiscounts">
-    <td role="cell" class="cx-total cx-discount">
-      {{ discount?.value }}
-    </td>
-  </ng-container>
-</ng-container> -->
-
 <ng-container
   *ngIf="
     quoteDiscountData &&
@@ -22,5 +7,18 @@
   "
   class="cpq-quote-discount"
 >
- <span class="offer">{{quoteDiscountData?.basePrice?.formattedValue}}</span>
+  <ng-container *ngFor="let discount of quoteDiscountData.cpqDiscounts">
+    <div class="offer">
+      {{
+        'discountCaption'
+          | cxTranslate
+            : {
+                discount: discount?.value,
+              }
+      }}
+    </div></ng-container>
+
+
 </ng-container>
+
+

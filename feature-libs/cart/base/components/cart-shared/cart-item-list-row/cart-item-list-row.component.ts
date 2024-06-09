@@ -32,7 +32,9 @@ export class CartItemListRowComponent
   ) {
     super(cartItemContextSource);
     this.subscription = CpqQuoteService.isFlag$.subscribe((isFlag) => {
+      console.log(isFlag);
       this.isFlagquote = isFlag;
+      console.log(isFlag);
     });
   }
   readonly quoteOutlet = QuoteOutlet;

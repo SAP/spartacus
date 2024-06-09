@@ -1,17 +1,26 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CpqQuoteOfferComponent } from './cpq-quote-offer.component';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { ReplaySubject } from 'rxjs';
-import { CpqDiscounts } from '@spartacus/cpq-quote/root';
+import { Observable, ReplaySubject, of, take} from 'rxjs';
 import { Component, Input } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { take } from 'rxjs/operators';
-import { CpqQuoteService } from '../../cpq-qute.service';
+
+import { LanguageService } from '@spartacus/core';
+import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
+import { CpqDiscounts } from '../../../root/model';
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
 }
-
+class MockTranslationService implements Partial<TranslationService> {
+  translate(): Observable<string> {
+    return of('');
+  }
+}
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('en-US');
+  }
+}
 @Component({
   selector: 'cx-cpq-quote-offer',
   template: '',
@@ -20,58 +29,87 @@ class MockConfigureCpqDiscountsComponent {
   @Input() cartEntry: Partial<OrderEntry & Array<CpqDiscounts>>;
 }
 
-describe('Cpq Quote Offer display', () => {
+
+describe('CpqQuoteOfferComponent', () => {
   let component: CpqQuoteOfferComponent;
   let fixture: ComponentFixture<CpqQuoteOfferComponent>;
   let mockCartItemContext: MockCartItemContext;
-  let cpqQuoteService: CpqQuoteService;
+  let htmlElem: HTMLElement;
 
   beforeEach(
     waitForAsync(() => {
-      mockCartItemContext = new MockCartItemContext();
-
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
+        imports: [I18nTestingModule],
         declarations: [
           CpqQuoteOfferComponent,
           MockConfigureCpqDiscountsComponent,
         ],
         providers: [
-          { provide: CartItemContext, useValue: mockCartItemContext },
-          CpqQuoteService
+          { provide: CartItemContext, useClass: MockCartItemContext },
+          {
+            provide: TranslationService,
+            useClass: MockTranslationService,
+          },
+          { provide: LanguageService, useClass: MockLanguageService },
         ],
       }).compileComponents();
     })
   );
-
   beforeEach(() => {
     fixture = TestBed.createComponent(CpqQuoteOfferComponent);
     component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
-    cpqQuoteService = TestBed.inject(CpqQuoteService); // Inject the service
+
     fixture.detectChanges();
   });
-
-  it('should set isFlag to false when quoteDiscountData has cpqDiscounts', (done: DoneFn) => {
-    mockCartItemContext.item$.next({
-      cpqDiscounts: [{ appliedValue: 30, isoCode: 'USD', value: 15 }],
-    });
-    component.ngOnInit();
-    fixture.detectChanges();
-    cpqQuoteService.isFlag$.pipe(take(1)).subscribe(flag => {
-      expect(flag).toBe(false);
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+  it('should expose orderEntry$', (done) => {
+    const orderEntry: Partial<OrderEntry & Array<CpqDiscounts>> = {
+      cpqDiscounts: [],
+    };
+    component.orderEntry$.pipe(take(1)).subscribe((value) => {
+      expect(value).toBe(orderEntry);
       done();
     });
+
+    mockCartItemContext.item$.next(orderEntry);
   });
+  describe('estimated delivery date', () => {
+    it('should not be displayed if model provides empty array', () => {
+      mockCartItemContext.item$.next({
+        cpqDiscounts: undefined,
+      });
 
-
-  it('should set isFlag to true when quoteDiscountData is null', (done: DoneFn) => {
-    component.ngOnInit();
-    component.quoteDiscountData = null;
-    fixture.detectChanges(); // Manually trigger change detection
-    cpqQuoteService.isFlag$.pipe(take(1)).subscribe(flag => {
-      expect(flag).toBe(true);
-      done();
+      // const htmlElem = fixture.nativeElement;
+      expect(
+        htmlElem.querySelectorAll('.offer').length
+      ).toBe(0);
     });
-  });
+    it('should be displayed if model provides data', () => {
+      mockCartItemContext.item$.next({
+        cpqDiscounts: [
+          {
+            appliedValue: 1,
+            isoCode:2,
+            value: 2,
+          },
+          {
+            appliedValue: 1,
+            isoCode:2,
+            value: 3,
+          },
+        ],
+      });
+
+      fixture.detectChanges();
+      // const htmlElem = fixture.nativeElement;
+      expect(
+        htmlElem.querySelectorAll('.offer').length
+      ).toBe(2);
+    });
 });
+});
+

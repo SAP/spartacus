@@ -16,6 +16,7 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
+import { CpqQuoteService } from '../../cpq-qute.service';
 
 @Component({
   selector: 'cx-cpq-quote-heading',
@@ -26,13 +27,15 @@ export class CpqQuoteHeadingComponent implements OnInit, OnDestroy {
   quoteDiscountData: OrderEntry;
   protected subscription = new Subscription();
   discountLabel: string;
+  datacheck: any;
 
   constructor(
     // Inject OutletContextData dependency
     @Optional()
     @Inject(OutletContextData)
     protected outlet: OutletContextData,
-    protected translationService: TranslationService
+    protected translationService: TranslationService,
+    private cpqQuoteService: CpqQuoteService
   ) {}
 
   // discountLabel: string = 'Discount Percentage';
@@ -50,6 +53,10 @@ export class CpqQuoteHeadingComponent implements OnInit, OnDestroy {
     if (this.outlet?.context$) {
       this.subscription.add(
         this.outlet.context$.subscribe((context) => {
+          this.datacheck =context;
+          const hasDiscounts = this.datacheck.some((item: any) => item.cpqDiscounts && item.cpqDiscounts.length > 0);
+      // Set flag based on the existence of cpqDiscounts in any item
+      this.cpqQuoteService.setIsFlag(!hasDiscounts);
           if (context && context.length > 0) {
             this.dataAvailable = context.some(
               (item: { cpqDiscounts: string | any[] }) =>

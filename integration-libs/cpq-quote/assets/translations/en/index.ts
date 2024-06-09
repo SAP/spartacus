@@ -5,7 +5,9 @@
  */
 
 import cpqQuoteHeading from './cpq-quote.json';
+import discountCaption from './cpq-quote.json';
 
 export const en = {
   cpqQuoteHeading,
+  discountCaption
 };

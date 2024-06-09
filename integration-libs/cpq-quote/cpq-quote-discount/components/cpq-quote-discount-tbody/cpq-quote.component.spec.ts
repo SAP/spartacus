@@ -107,30 +107,26 @@ describe('Cpq Quote Discount Component', () => {
 
 
   });
-  // describe('formattedValue', () => {
-  //   it('should be displayed if model provides data', () => {
-  //     const formattedValue = 'USD100.00';
-  //     mockCartItemContext.item$.next({ basePrice: { formattedValue } });
-  //     fixture.detectChanges();
-  //     const htmlElem = fixture.nativeElement;
-  //     expect(htmlElem.querySelectorAll('.cx-formattedValue').length).toBe(1);
-  //   });
-  //   it('should not render formattedValue element', () => {
-  //     const formattedValue = 'USD100.00';
-  //     mockCartItemContext.item$.next({ basePrice:  { formattedValue } });
-  //     fixture.detectChanges();
+  describe('formattedValue', () => {
+    it('should be displayed if model provides data', () => {
+      const formattedValue = 'USD100.00';
+      const value = 100;
+      const discounts: CpqDiscounts[] = [
+        { appliedValue: 30, isoCode: 'USD', value: 15 },
+      ];
+      mockCartItemContext.item$.next({ basePrice: { formattedValue, value }, cpqDiscounts: discounts });
+      fixture.detectChanges();
+      const htmlElem = fixture.nativeElement;
+      const formattedValueSpan = htmlElem.querySelectorAll('.cx-formattedValue');
+      expect(formattedValueSpan.length).toBe(1);
+    });
+    it('should not render formattedValue element', () => {
+      mockCartItemContext.item$.next({ basePrice: { formattedValue: undefined } });
+      fixture.detectChanges();
 
-  //     const htmlElem = fixture.nativeElement;
-  //     expect(htmlElem.querySelectorAll('.cx-formattedValue').length).toBe(1);
-  //   });
-  //   it('should not render formattedValue element', () => {
-  //     mockCartItemContext.item$.next({ basePrice: { formattedValue: undefined } });
-  //     fixture.detectChanges();
-
-  //     const spanElement = fixture.nativeElement.querySelector('.cx-formattedValue');
-  //     expect(spanElement).toBeFalsy();
-  //   });
-  // });
-
+      const spanElement = fixture.nativeElement.querySelector('.cx-formattedValue');
+      expect(spanElement).toBeFalsy();
+    });
+  });
 
 });

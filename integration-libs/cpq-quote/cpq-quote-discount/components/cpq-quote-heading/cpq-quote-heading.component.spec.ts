@@ -3,7 +3,7 @@ import { CpqQuoteHeadingComponent } from './cpq-quote-heading.component';
 import { TranslationService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
-describe('CpqQuoteHeadingComponent', () => {
+describe('Cpq-Quote Heading Component', () => {
   let component: CpqQuoteHeadingComponent;
   let fixture: ComponentFixture<CpqQuoteHeadingComponent>;
   let mockOutletContextData: BehaviorSubject<any[]>;
@@ -65,4 +65,14 @@ describe('CpqQuoteHeadingComponent', () => {
     component.ngOnDestroy();
     expect(component['subscription'].closed).toBe(true);
   });
+
+  it('should set flag in cpqQuoteService based on cpqDiscounts availability', () => {
+    // Mock cpqQuoteService
+    const cpqQuoteServiceSpy = spyOn(component['cpqQuoteService'], 'setIsFlag');
+    mockOutletContextData.next([{ cpqDiscounts: ['discount1', 'discount2'] }]);
+    expect(cpqQuoteServiceSpy).toHaveBeenCalledWith(false);
+    mockOutletContextData.next([]);
+    expect(cpqQuoteServiceSpy).toHaveBeenCalledWith(true); // Because hasDiscounts is false
+  });
+
 });
