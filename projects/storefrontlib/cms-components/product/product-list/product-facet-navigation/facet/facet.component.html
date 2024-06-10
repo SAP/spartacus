@@ -9,6 +9,7 @@
       'productFacetNavigation.filterBy.name' | cxTranslate: { name: facet.name }
     "
     *cxFeature="'!a11yTabComponent'"
+    [cxFocus]="{ key: facet.name }"
   >
     {{ facet.name }}
     <cx-icon class="collapse-icon" [type]="collapseIcon"></cx-icon>
