@@ -13,7 +13,8 @@
           (click)="select(i, $event)"
           [attr.aria-expanded]="i === activeTabNum"
         >
-          {{ component.title | cxTranslate: { param: tabTitleParams[i] | async }
+          {{
+            component.title | cxTranslate: { param: tabTitleParams[i] | async }
           }}
 
           <span class="accordion-icon" aria-hidden="true"></span>
