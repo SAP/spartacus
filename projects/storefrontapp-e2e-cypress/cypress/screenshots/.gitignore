@@ -1,0 +1,5 @@
+# Ignore everything in this directory
+# We do this because we want this folder to exist so we can display screenshots on the release pipeline
+*
+# Except this file
+!.gitignore
