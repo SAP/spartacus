@@ -44,6 +44,7 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
+import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
 interface CartTypeKey {
   [key: string]: string;
 }
@@ -147,11 +148,42 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
               result.actionType === CustomerListColumnActionType.ACTIVE_CART
             ) {
               this.routingService.go({ cxRoute: 'cart' });
+            } else if (
+              'actionType' in result &&
+              result.actionType === CustomerListColumnActionType.CUSTOMER_360
+            ) {
+              this.customer$
+                .pipe(
+                  filter((curCustomer) => !!curCustomer),
+                  take(1)
+                )
+                .subscribe((customer) => {
+                  setTimeout(() => {
+                    this.showC360Dialog(customer);
+                  }, 500);
+                });
             }
           }
         })
     );
     this.subscribeForDeeplink();
+  }
+
+  protected showC360Dialog(customer: User | undefined): void {
+    const data = { customer: customer };
+    this.launchDialogService.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CUSTOMER_360,
+      this.element,
+      data
+    );
+
+    this.subscription.add(
+      this.launchDialogService.dialogClose
+        .pipe(filter((closeContent) => Boolean(closeContent)))
+        .subscribe((event: AsmDialogActionEvent) => {
+          this.asmComponentService.handleAsmDialogAction(event);
+        })
+    );
   }
 
   /**
