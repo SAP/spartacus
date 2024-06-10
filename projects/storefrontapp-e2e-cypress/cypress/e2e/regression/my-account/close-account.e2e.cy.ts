@@ -50,7 +50,7 @@ describe('My Account - Close Account', () => {
           option: 'Close Account',
         });
 
-        cy.get('cx-close-account a').click({ force: true });
+        cy.get('cx-close-account button.btn-secondary').click({ force: true });
         cy.location('pathname').should('contain', '/');
       });
 
@@ -66,7 +66,7 @@ describe('My Account - Close Account', () => {
 
         cy.location('pathname').should('contain', CLOSE_ACCOUNT_URL);
 
-        cy.get('cx-close-account button').click({ force: true });
+        cy.get('cx-close-account button.btn-primary').click({ force: true });
 
         cy.get(
           'cx-close-account-modal .cx-close-account-modal-container .cx-close-account-modal-footer button:first-of-type'
