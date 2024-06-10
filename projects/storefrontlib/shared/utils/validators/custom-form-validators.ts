@@ -38,7 +38,7 @@ export class CustomFormValidators {
       : { cxInvalidEmail: true };
   }
 
-  // TODO: Remove after removing formErrorsDescriptiveMessages feature toggle
+  // TODO: (CXSPA-7567) Remove after removing formErrorsDescriptiveMessages feature toggle
   /**
    * Checks control's value with predefined password regexp
    *
