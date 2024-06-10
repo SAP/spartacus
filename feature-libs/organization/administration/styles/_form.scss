@@ -47,6 +47,10 @@
         padding-inline-start: 30px;
         font-size: 16px;
         font-weight: normal;
+
+        @include forFeature('santoriniV2') {
+          @include type('6');
+        }
       }
     }
   }

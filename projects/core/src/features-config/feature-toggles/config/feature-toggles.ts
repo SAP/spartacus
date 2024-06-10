@@ -245,6 +245,11 @@ export interface FeatureTogglesInterface {
   a11yCloseProductImageBtnFocus?: boolean;
 
   /**
+   * Enables the updated Santorini theme.
+   */
+  santoriniV2?: boolean;
+
+  /**
    * Modifies the template of 'WishListComponent'.
    * Empty wishlist notification will be displayed in a paragraph instead of a heading.
    */
@@ -305,6 +310,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySemanticPaginationLabel: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
+  santoriniV2: false,
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
   a11yFacetsDialogFocusHandling: false,

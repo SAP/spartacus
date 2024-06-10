@@ -28,6 +28,10 @@
     padding-top: 0;
     position: relative;
     text-align: var(--cx-text-align, center);
+
+    @include forFeature('santoriniV2') {
+      @include type('6');
+    }
   }
 
   &-text {
@@ -50,6 +54,10 @@
     font-size: var(--cx-font-size, 0.8125rem);
     font-weight: var(--cx-font-weight-normal);
     padding: 0 12px;
+
+    @include forFeature('santoriniV2') {
+      @include type('8');
+    }
   }
 
   &-icon {
