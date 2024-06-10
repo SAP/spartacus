@@ -136,6 +136,10 @@
 
       @include placeholder {
         color: currentColor;
+
+        @include forFeature('santoriniV2') {
+          color: var(--cx-color-dark);
+        }
       }
     }
 
@@ -152,6 +156,10 @@
       border: none;
       padding: 6px;
       color: var(--cx-color-medium);
+
+      @include forFeature('santoriniV2') {
+        color: var(--cx-color-secondary);
+      }
 
       @include media-breakpoint-down(sm) {
         color: var(--cx-color-primary);
@@ -182,6 +190,10 @@
     color: #000;
     background-color: #fff;
     font-size: var(--cx-font-small, 1rem);
+
+    @include forFeature('santoriniV2') {
+      @include type('8');
+    }
 
     @include media-breakpoint-down(sm) {
       top: 105px;
@@ -265,12 +277,20 @@
           font-size: inherit;
           font-weight: inherit;
 
+          @include forFeature('santoriniV2') {
+            @include type('8');
+          }
+
           // Required for text-overflow to do anything
           white-space: nowrap;
           overflow: hidden;
         }
         .price {
           font-weight: normal;
+
+          @include forFeature('santoriniV2') {
+            @include type('8');
+          }
         }
       }
     }

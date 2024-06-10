@@ -55,6 +55,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     protected winRef: WindowRef
   ) {
     useFeatureStyles('a11yTruncatedTextForResponsiveView');
+    useFeatureStyles('a11yPreventSRFocusOnHiddenElements');
   }
 
   ngOnInit(): void {
