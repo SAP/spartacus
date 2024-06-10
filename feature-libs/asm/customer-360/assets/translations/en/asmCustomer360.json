@@ -5,7 +5,9 @@
     "applyActionAlter": "The action couldn't be completed. Please try again later.",
     "header": {
       "title": "Customer Profile",
+      "newTitle": "Customer 360°",
       "subTitle": "{{name}} Customer 360° View",
+      "newSubTitle": "{{name}} 360 View",
       "activeCartLabel": "{{cartSize}} item added to cart",
       "recentOrderLabel": "Last order {{price}}",
       "recentTicketLabel": "Last ticket",

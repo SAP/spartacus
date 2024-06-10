@@ -8,9 +8,7 @@
   (click)="block($event)"
 >
   <div class="list-header">
-    <h4>
-      {{ 'productList.filterBy.label' | cxTranslate }}
-    </h4>
+    <h4>{{ 'productList.filterBy.label' | cxTranslate }}</h4>
     <button
       type="button"
       class="close"
@@ -41,4 +39,17 @@
             }
     }}"
   ></cx-facet>
+
+  <ng-container *cxFeature="'a11yFacetsDialogFocusHandling'">
+    <div *ngIf="isDialog" class="cx-facet-list-footer">
+      <button
+        #backToResultsBtn
+        class="btn btn-primary"
+        (click)="close()"
+        cxAutoFocus
+      >
+        {{ 'productFacetNavigation.backToResults' | cxTranslate }}
+      </button>
+    </div>
+  </ng-container>
 </section>
