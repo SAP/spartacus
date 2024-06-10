@@ -7,14 +7,18 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FeatureConfigService, ImageGroup, Product } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  FeaturesConfigModule,
+  ImageGroup,
+  Product,
+} from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import {
   BREAKPOINT,
   BreakpointService,
   CurrentProductService,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { ProductImageZoomViewComponent } from './product-image-zoom-view.component';
 
@@ -124,13 +128,13 @@ describe('ProductImageZoomViewComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
+      imports: [FeaturesConfigModule],
       declarations: [
         ProductImageZoomViewComponent,
         MockIconComponent,
         MockMediaComponent,
         MockProductThumbnailsComponent,
         MockProductImageZoomThumbnailsComponent,
-        MockFeatureDirective,
       ],
       providers: [
         { provide: CurrentProductService, useClass: MockCurrentProductService },
