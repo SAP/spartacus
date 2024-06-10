@@ -229,6 +229,16 @@ export interface FeatureTogglesInterface {
   a11yTruncatedTextForResponsiveView?: boolean;
 
   /**
+   * Modifies getAriaLabel method in 'PaginationComponent' to return a sematic label.
+   */
+  a11ySemanticPaginationLabel?: boolean;
+
+  /**
+   * Prevents screen reader from stopping on invisible elements when being in read mode for `BreadcrumbComponent`, `QuickOrderFormComponent`
+   */
+  a11yPreventSRFocusOnHiddenElements?: boolean;
+
+  /**
    * In `LoginComponent` the outline of "My Account" link when focused will not cover the user name
    */
   a11yMyAccountLinkOutline?: boolean;
@@ -238,6 +248,11 @@ export interface FeatureTogglesInterface {
    * will be fully visible
    */
   a11yCloseProductImageBtnFocus?: boolean;
+
+  /**
+   * Enables the updated Santorini theme.
+   */
+  santoriniV2?: boolean;
 
   /**
    * Modifies the template of 'WishListComponent'.
@@ -305,8 +320,11 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   cartQuickOrderRemoveListeningToFailEvent: false,
   a11yVisibleFocusOverflows: false,
   a11yTruncatedTextForResponsiveView: false,
+  a11ySemanticPaginationLabel: false,
+  a11yPreventSRFocusOnHiddenElements: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
+  santoriniV2: false,
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
