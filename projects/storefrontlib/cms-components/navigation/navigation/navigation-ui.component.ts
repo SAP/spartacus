@@ -110,6 +110,26 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     if (this.resetMenuOnClose) {
       this.resetOnMenuCollapse();
     }
+    if (
+      this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
+    ) {
+      this.focusOnMenuExpansion();
+    }
+  }
+
+  /**
+   * Focus on the first focusable element in the hamburger menu when the menu is opened.
+   */
+  focusOnMenuExpansion(): void {
+    this.subscriptions.add(
+      this.hamburgerMenuService?.isExpanded.subscribe((isExpanded) => {
+        if (isExpanded && this.navAriaLabel?.includes('menu')) {
+          setTimeout(() => {
+            this.elemRef.nativeElement.querySelector('[tabindex="0"]').focus();
+          });
+        }
+      })
+    );
   }
 
   /**
@@ -153,26 +173,22 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * This method performs the actions required to reset the state of the menu and reset any visual components.
    */
   reinitializeMenu(): void {
-    if (this.openNodes?.length > 0) {
-      // TODO: (CXSPA-5919) Remove feature flag next major release
-      if (
-        this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
-      ) {
-        this.elemRef.nativeElement
-          .querySelectorAll('li.is-open:not(.back), li.is-opened')
-          .forEach((el: any) => {
-            this.renderer.removeClass(el, 'is-open');
-            this.renderer.removeClass(el, 'is-opened');
-          });
-      }
+    // TODO: (CXSPA-5919) Remove feature flag next major release
+    if (
+      this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
+    ) {
+      this.elemRef.nativeElement
+        .querySelectorAll('li.is-open:not(.back), li.is-opened')
+        .forEach((el: any) => {
+          this.renderer.removeClass(el, 'is-open');
+          this.renderer.removeClass(el, 'is-opened');
+        });
       this.clear();
-      if (
-        !this.featureConfigService?.isEnabled(
-          'a11yNavigationUiKeyboardControls'
-        )
-      ) {
-        this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
-      }
+      this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
+      this.updateClasses();
+    } else if (this.openNodes?.length > 0) {
+      this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
+      this.clear();
     }
   }
 
@@ -265,7 +281,16 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
         this.openNodes[this.openNodes.length - 1],
         'is-open'
       );
-      this.openNodes.pop();
+      if (
+        this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
+      ) {
+        const removedNode = this.openNodes.pop();
+        setTimeout(() => {
+          (removedNode?.querySelector('[tabindex="0"]') as HTMLElement).focus();
+        }, 0);
+      } else {
+        this.openNodes.pop();
+      }
       this.updateClasses();
     }
   }
