@@ -28,7 +28,6 @@ export const SUBJECT_DELIMITER = 10;
 export const STATUS_DELIMITER = 9;
 export const TICKET_SUBJECT_MAX_LENGTH = 255;
 export const TICKET_MESSAGE_MAX_LENGTH = 5000;
-export const LAST_PAGE = 'last';
 
 export enum TestSortingTypes {
   byChangedOn = 'Changed On',
