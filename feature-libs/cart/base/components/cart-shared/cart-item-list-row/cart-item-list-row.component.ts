@@ -28,12 +28,14 @@ export class CartItemListRowComponent
   private subscription: Subscription;
   constructor(
     cartItemContextSource: CartItemContextSource,
-    @Inject(CpqQuoteService) private cpqQuoteService: CpqQuoteService  // Injecting CpqQuoteService directly here
+    @Inject(CpqQuoteService) private cpqQuoteService: CpqQuoteService // Injecting CpqQuoteService directly here
   ) {
     super(cartItemContextSource);
-    this.subscription = this.cpqQuoteService.isFlag$.subscribe((isFlag: boolean) => {
-      this.isFlagquote = isFlag;
-    });
+    this.subscription = this.cpqQuoteService.isFlag$.subscribe(
+      (isFlag: boolean) => {
+        this.isFlagquote = isFlag;
+      }
+    );
   }
   readonly quoteOutlet = QuoteOutlet;
   ngOnDestroy(): void {
