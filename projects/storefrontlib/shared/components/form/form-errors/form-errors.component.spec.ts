@@ -1,7 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, MockTranslatePipe } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  I18nTestingModule,
+  MockTranslatePipe,
+} from '@spartacus/core';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { FormErrorsComponent } from './form-errors.component';
 
@@ -13,15 +17,31 @@ describe('FormErrors', () => {
   let component: FormErrorsComponent;
   let fixture: ComponentFixture<FormErrorsComponent>;
   let control: UntypedFormControl;
+  let featureConfigService: jasmine.SpyObj<FeatureConfigService>;
 
   const getContent = () => fixture.debugElement.nativeElement.innerText;
 
   beforeEach(
     waitForAsync(() => {
+      const featureConfigServiceMock = jasmine.createSpyObj(
+        'FeatureConfigService',
+        ['isEnabled']
+      );
+
       TestBed.configureTestingModule({
         imports: [RouterTestingModule, I18nTestingModule],
+        providers: [
+          FeatureConfigService,
+          { provide: FeatureConfigService, useValue: featureConfigServiceMock },
+        ],
         declarations: [FormErrorsComponent, MockFeatureDirective],
       }).compileComponents();
+
+      featureConfigService = TestBed.inject(
+        FeatureConfigService
+      ) as jasmine.SpyObj<FeatureConfigService>;
+
+      featureConfigService.isEnabled.and.returnValue(true);
     })
   );
 
