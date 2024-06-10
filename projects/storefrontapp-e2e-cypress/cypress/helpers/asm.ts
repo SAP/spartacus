@@ -386,10 +386,9 @@ export function asmB2bCustomerLists(): void {
     .its('response.statusCode')
     .should('eq', 200);
 
-  cy.get('cx-customer-list table')
-    .contains('tbody tr', asmForB2BCustomer)
-    .closest('tbody tr')
-    .find('td:nth-child(5)')
+  cy.get('cx-customer-list')
+    .find('.cx-btn-cell')
+    .find('.fa-shopping-cart')
     .then(($cart) => {
       cy.wrap($cart).click();
       cy.get('cx-customer-list').should('not.exist');
