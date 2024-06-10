@@ -12,10 +12,18 @@
         formControlName="name"
         (blur)="createUidWithName(form.get('name'), form.get('uid'))"
       />
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
           label: 'orgUnit.name' | cxTranslate
         }"
+        [control]="form.get('name')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('name')"
       ></cx-form-errors>
     </label>

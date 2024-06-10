@@ -23,8 +23,16 @@
         appendTo="cx-org-list"
       >
       </ng-select>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{ label: 'orgUnitAddress.country' | cxTranslate }"
+        [control]="form.get('country.isocode')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('country.isocode')"
       ></cx-form-errors>
     </label>

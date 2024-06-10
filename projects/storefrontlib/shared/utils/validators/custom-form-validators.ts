@@ -38,11 +38,13 @@ export class CustomFormValidators {
       : { cxInvalidEmail: true };
   }
 
+  // TODO: Remove after removing formErrorsDescriptiveMessages feature toggle
   /**
    * Checks control's value with predefined password regexp
    *
    * NOTE: Use it as a control validator
    *
+   * @deprecated Use passwordValidators instead
    * @static
    * @param {AbstractControl} control
    * @returns {(ValidationErrors | null)} Uses 'cxInvalidPassword' validator error

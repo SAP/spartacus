@@ -94,6 +94,9 @@ export class I18nextTranslationService implements TranslationService {
     return this.i18next.loadNamespaces(chunkNames);
   }
 
+  /**
+   * Returns a fallback value in case when the all given keys are missing
+   */
   protected getFallbackValue(keyOrKeys: string | string[]): string {
     const formattedKey = Array.isArray(keyOrKeys)
       ? keyOrKeys.join(', ')
