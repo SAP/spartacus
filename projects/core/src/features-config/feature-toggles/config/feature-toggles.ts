@@ -273,7 +273,6 @@ export interface FeatureTogglesInterface {
    * and responsive in tab and accordion stles.
    */
   a11yTabComponent?: boolean;
-}
 
   /**
    * In `FacetListComponent` dialog view focus will be moved to the first facet
@@ -282,6 +281,7 @@ export interface FeatureTogglesInterface {
    */
   a11yFacetsDialogFocusHandling?: boolean;
 }
+
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDownloadProposalButton: false,
   showPromotionsInPDP: false,

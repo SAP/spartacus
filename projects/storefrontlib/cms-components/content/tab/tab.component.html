@@ -1,9 +1,14 @@
 <ng-container *ngIf="mode$ | async as mode">
   <ng-container *ngIf="tabs$ | async as tabs">
     <!-- Tab List is the list of buttons to open tabs -->
-    <div role="tablist" [attr.aria-label]="config.label" [class]="mode.toLowerCase()">
+    <div
+      role="tablist"
+      [attr.aria-label]="config.label"
+      [class]="mode.toLowerCase()"
+    >
       <ng-container *ngFor="let tab of tabs; let i = index">
         <button
+          class="tab-btn"
           role="tab"
           (click)="select(i, mode)"
           (keydown)="handleKeydownEvent(i, tabs, mode, $event)"
