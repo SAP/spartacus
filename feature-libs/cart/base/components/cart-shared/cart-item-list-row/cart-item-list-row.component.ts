@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { CartItemContext } from '@spartacus/cart/base/root';
 import { CartItemComponent } from '../cart-item/cart-item.component';
 import { CartItemContextSource } from '../cart-item/model/cart-item-context-source.model';
@@ -28,10 +28,10 @@ export class CartItemListRowComponent
   private subscription: Subscription;
   constructor(
     cartItemContextSource: CartItemContextSource,
-    private cpqQuoteService: CpqQuoteService // Injecting CpqQuoteService directly here
+    @Inject(CpqQuoteService) private cpqQuoteService: CpqQuoteService  // Injecting CpqQuoteService directly here
   ) {
     super(cartItemContextSource);
-    this.subscription = this.cpqQuoteService.isFlag$.subscribe((isFlag) => {
+    this.subscription = this.cpqQuoteService.isFlag$.subscribe((isFlag: boolean) => {
       this.isFlagquote = isFlag;
     });
   }
