@@ -119,6 +119,12 @@
       padding: 0 10px;
     }
   }
+
+  .quick-order-form-description {
+    @include forFeature('a11yPreventSRFocusOnHiddenElements') {
+      visibility: hidden;
+    }
+  }
 }
 
 .quick-order-searchbox-is-active {

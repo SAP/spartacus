@@ -305,6 +305,7 @@ if (environment.estimatedDeliveryDate) {
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
         a11yKeyboardAccessibleZoom: true,
+        a11yPreventSRFocusOnHiddenElements: true,
         a11yVisibleFocusOverflows: true,
         a11yTruncatedTextForResponsiveView: true,
         a11ySemanticPaginationLabel: true,
