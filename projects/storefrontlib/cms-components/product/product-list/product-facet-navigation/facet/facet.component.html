@@ -8,7 +8,6 @@
     [attr.aria-label]="
       'productFacetNavigation.filterBy.name' | cxTranslate: { name: facet.name }
     "
-    *cxFeature="'!a11yTabComponent'"
     [cxFocus]="{ key: facet.name }"
   >
     {{ facet.name }}
@@ -37,9 +36,8 @@
       }}"
     >
       <span aria-hidden="true"
-        >{{ value.name }}<span aria-hidden="true" class="count"
-          >{{ value.count }}</span
-        ></span
+        >{{ value.name
+        }}<span aria-hidden="true" class="count">{{ value.count }}</span></span
       >
     </a>
 

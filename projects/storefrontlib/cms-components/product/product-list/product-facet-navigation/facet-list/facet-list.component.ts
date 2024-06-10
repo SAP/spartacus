@@ -5,9 +5,7 @@
  */
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -17,10 +15,7 @@ import {
   OnInit,
   Optional,
   Output,
-  QueryList,
   Renderer2,
-  TemplateRef,
-  ViewChildren,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -35,15 +30,13 @@ import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetGroupCollapsedState, FacetList } from '../facet.model';
 import { FacetComponent } from '../facet/facet.component';
 import { FacetService } from '../services/facet.service';
-import { filter, take } from 'rxjs/operators';
-import { Tab, TabConfig, TAB_MODE } from '../../../../content/tab/Tab';
 
 @Component({
   selector: 'cx-facet-list',
   templateUrl: './facet-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
+export class FacetListComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();
   private _isDialog: boolean;
 
@@ -58,15 +51,12 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
     this._isDialog = value;
     if (value) {
       this.renderer.addClass(document.body, 'modal-open');
-      this.renderFacets();
     }
   }
 
   get isDialog(): boolean {
     return this._isDialog;
   }
-
-  @ViewChildren('facetsRef') facetsRef: QueryList<TemplateRef<any>>;
 
   /** Emits when the list must close */
   @Output() closeList = new EventEmitter();
@@ -91,19 +81,10 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
     optional: true,
   });
 
-  tabConfig: TabConfig = {
-    label: 'Product Facets',
-    mode: TAB_MODE.ACCORDIAN,
-    openTabs: [0],
-  };
-
-  tabs$: BehaviorSubject<Tab[]> = new BehaviorSubject<Tab[]>([]);
-
   constructor(
     protected facetService: FacetService,
     protected elementRef: ElementRef,
-    protected renderer: Renderer2,
-    protected changeDetectorRef: ChangeDetectorRef
+    protected renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
@@ -120,18 +101,6 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!ref.isExpanded) {
       this.facetService.toggle(facet, ref.isExpanded);
     }
-  }
-
-  ngAfterViewInit(): void {
-    this.renderFacets();
-
-    // Renders facets on first PLP load on desktop
-    this.facetsRef.changes
-      .pipe(
-        take(1),
-        filter((changes) => !!changes)
-      )
-      .subscribe(() => this.renderFacets());
   }
 
   /**
@@ -154,23 +123,6 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(
         map((value) => value.toggled === FacetGroupCollapsedState.COLLAPSED)
       );
-  }
-
-  renderFacets(): void {
-    this.facetList$.pipe(take(1)).subscribe((list) => {
-      const facets = list.facets;
-      const tabs = [];
-
-      for (let i = 0; i < facets?.length; i++) {
-        tabs.push({
-          header: facets[i].name ?? 'unnamed',
-          content: this.facetsRef?.get(i),
-        });
-      }
-
-      this.tabs$.next(tabs);
-      this.changeDetectorRef.detectChanges();
-    });
   }
 
   close(event?: boolean): void {
