@@ -10,5 +10,13 @@
  * Return the index if it does not exceed any boundary.
  */
 export function wrapIntoBounds(index: number, max: number, min = 0): number {
-  return index < min ? max : index > max ? (index = min) : index;
+  if (index < min) {
+    return max;
+  }
+
+  if (index > max) {
+    return min;
+  }
+
+  return index;
 }

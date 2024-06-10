@@ -25,10 +25,14 @@ export class TabPanelComponent {
   getContentType(
     content: TemplateRef<any> | ContentSlotComponentData
   ): string | undefined {
-    return content instanceof TemplateRef
-      ? TAB_PANEL_CONTENT_TYPE.TEMPLATE_REF
-      : content?.flexType
-      ? TAB_PANEL_CONTENT_TYPE.CONTENT_SLOT_COMPONENT_DATA
-      : undefined;
+    if (content instanceof TemplateRef) {
+      return TAB_PANEL_CONTENT_TYPE.TEMPLATE_REF;
+    }
+
+    if (content?.flexType) {
+      return TAB_PANEL_CONTENT_TYPE.CONTENT_SLOT_COMPONENT_DATA;
+    }
+
+    return undefined;
   }
 }

@@ -27,7 +27,7 @@ export class TabComponent implements OnInit {
   @Input() tabs$: Observable<Tab[]>;
   @Input() config: TabConfig;
 
-  TAB_MODE = TAB_MODE
+  TAB_MODE = TAB_MODE;
 
   openTabs$: BehaviorSubject<number[]>;
   mode$: Observable<TAB_MODE>;
@@ -139,8 +139,8 @@ export class TabComponent implements OnInit {
   }
 
   /**
-   * Returns index 0 if the tab is already open, 
-   * no tabs are open and its the first tab (ie. 0), 
+   * Returns index 0 if the tab is already open,
+   * no tabs are open and its the first tab (ie. 0),
    * or in 'ACCORDIAN' mode.
    * Otherwise returns -1.
    */
@@ -178,14 +178,18 @@ export class TabComponent implements OnInit {
    * If unspecified breakpoint, return 'TAB' mode by default.
    */
   protected getMode(): Observable<TAB_MODE> {
-    return this.config.mode
-      ? of<TAB_MODE>(this.config.mode)
-      : this.config.breakpoint
-      ? this.breakpointService
-          .isUp(this.config.breakpoint)
-          .pipe(
-            map((isUp: boolean) => (isUp ? TAB_MODE.TAB : TAB_MODE.ACCORDIAN))
-          )
-      : of<TAB_MODE>(TAB_MODE.TAB);
+    if (this.config.mode) {
+      return of<TAB_MODE>(this.config.mode);
+    }
+
+    if (this.config.breakpoint) {
+      return this.breakpointService
+        .isUp(this.config.breakpoint)
+        .pipe(
+          map((isUp: boolean) => (isUp ? TAB_MODE.TAB : TAB_MODE.ACCORDIAN))
+        );
+    }
+
+    return of<TAB_MODE>(TAB_MODE.TAB);
   }
 }
