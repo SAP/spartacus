@@ -9,6 +9,10 @@
     border-radius: 4px;
     border: 1px solid var(--cx-color-light);
 
+    @include forFeature('santoriniV2') {
+      border: 1px solid var(--cx-color-dark);
+    }
+
     &.cx-product-grid {
       .fas {
         font-size: 24px;
