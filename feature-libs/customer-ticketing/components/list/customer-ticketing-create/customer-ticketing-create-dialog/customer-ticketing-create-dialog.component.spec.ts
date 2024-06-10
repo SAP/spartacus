@@ -140,9 +140,6 @@ describe('CustomerTicketingCreateDialogComponent', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
 
     spyOn(globalMessageService, 'add').and.callThrough();
-    customerTicketingFacade.getTicketCategories = createSpy().and.returnValue(
-      of(mockCategories)
-    );
   });
 
   beforeEach(() => {
