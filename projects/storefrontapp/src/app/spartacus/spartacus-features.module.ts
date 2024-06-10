@@ -297,7 +297,7 @@ if (environment.estimatedDeliveryDate) {
         a11yStoreFinderOverflow: true,
         a11yCartSummaryHeadingOrder: true,
         a11ySearchBoxMobileFocus: true,
-        a11yFacetKeyboardNavigation: true,
+        a11yFacetKeyboardNavigation: false,
         a11yUnitsListKeyboardControls: true,
         a11yCartItemsLinksStyles: true,
         a11yHideSelectBtnForSelectedAddrOrPayment: true,
