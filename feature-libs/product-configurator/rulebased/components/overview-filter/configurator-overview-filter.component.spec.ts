@@ -167,6 +167,22 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       );
     });
 
+    it('should render `No filters available` text', () => {
+      mockRouterState.state.params.displayOnly = true;
+      mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
+      product = {
+        baseProduct: 'BASE' + PRODUCT_CODE,
+      };
+      overview.overview.possibleGroups = [];
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-no-overview-filters-available'
+      );
+    });
+
     it('should render always default options', () => {
       overview.overview.possibleGroups = [];
       fixture.detectChanges();

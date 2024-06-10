@@ -80,3 +80,12 @@
     </div>
   </ng-container>
 </ng-container>
+<div
+  *ngIf="
+    (isDisplayOnlyVariant() | async) ||
+    config.overview.possibleGroups?.length === 0
+  "
+  class="cx-no-overview-filters-available"
+>
+  {{ 'configurator.overviewFilter.noFiltersAvailable' | cxTranslate }}
+</div>
