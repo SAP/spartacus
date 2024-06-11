@@ -7,7 +7,7 @@
 import { Component, inject, Input, OnChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { ProductScope, ProductService, RoutingService } from '@spartacus/core';
-import { EMPTY, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -67,7 +67,7 @@ export class ConfiguratorOverviewFilterComponent implements OnChanges {
               routerState.state.queryParams.productCode,
               ProductScope.LIST
             )
-          : EMPTY;
+          : of(undefined);
       }),
       map((product) => {
         return (product && !!product.baseProduct) ?? false;

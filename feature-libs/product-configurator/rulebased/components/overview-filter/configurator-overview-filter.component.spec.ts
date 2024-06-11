@@ -173,7 +173,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       product = {
         baseProduct: 'BASE' + PRODUCT_CODE,
       };
-      overview.overview.possibleGroups = [];
+      overview.overview.possibleGroups = [{ id: '1' }];
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -417,6 +417,31 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
 
     describe('isDisplayOnlyVariant', () => {
+      it('should return `false` in case displayOnly property is `false`', () => {
+        mockRouterState.state.params.displayOnly = false;
+        mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
+        fixture.detectChanges();
+
+        component
+          .isDisplayOnlyVariant()
+          .subscribe((isDisplayOnlyVariant) => {
+            expect(isDisplayOnlyVariant).toBe(false);
+          })
+          .unsubscribe();
+      });
+
+      it('should return `false` in case the product code is unknown', () => {
+        mockRouterState.state.params.displayOnly = true;
+        fixture.detectChanges();
+
+        component
+          .isDisplayOnlyVariant()
+          .subscribe((isDisplayOnlyVariant) => {
+            expect(isDisplayOnlyVariant).toBe(false);
+          })
+          .unsubscribe();
+      });
+
       it('should return `false` in case the product is `undefined`', () => {
         mockRouterState.state.params.displayOnly = true;
         mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
