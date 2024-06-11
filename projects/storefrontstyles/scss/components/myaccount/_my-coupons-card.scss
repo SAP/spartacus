@@ -120,5 +120,9 @@
 
   button.cx-card-read-more {
     font-size: 1rem;
+
+    @include forFeature('santoriniV2') {
+      @include type('8');
+    }
   }
 }
