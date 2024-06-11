@@ -68,51 +68,67 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
   ): HttpParams {
     let params = new HttpParams({ encoder: this.paramEncoder });
     const paramName = this.config.digitalPayments?.occQueryParams;
-    params = params.append(paramName?.sessionId ?? '', sessionId);
-    params = params.append(paramName?.signature ?? '', signature);
+
+    params = this.appendParam(params, paramName?.sessionId, sessionId);
+    params = this.appendParam(params, paramName?.signature, signature);
+
     if (billingAddress && paramName) {
-      if (paramName.billingAddress) {
-        params = params.append(paramName.billingAddress, true);
-      }
-      if (
-        paramName.country &&
-        billingAddress.country &&
-        billingAddress.country.isocode
-      ) {
-        params = params.append(
-          paramName.country,
-          billingAddress.country.isocode
-        );
-      }
-      if (paramName.firstName && billingAddress.firstName) {
-        params = params.append(paramName.firstName, billingAddress.firstName);
-      }
-      if (paramName.lastName && billingAddress.lastName) {
-        params = params.append(paramName.lastName, billingAddress.lastName);
-      }
-      if (paramName.line1 && billingAddress.line1) {
-        params = params.append(paramName.line1, billingAddress.line1);
-      }
-      if (paramName.line2 && billingAddress.line2) {
-        params = params.append(paramName.line2, billingAddress.line2);
-      }
-      if (paramName.town && billingAddress.town) {
-        params = params.append(paramName.town, billingAddress.town);
-      }
-      if (
-        paramName.region &&
-        billingAddress.region &&
-        billingAddress.region.isocodeShort
-      ) {
-        params = params.append(
-          paramName.region,
-          billingAddress.region.isocodeShort
-        );
-      }
-      if (paramName.postalCode && billingAddress.postalCode) {
-        params = params.append(paramName.postalCode, billingAddress.postalCode);
-      }
+      params = this.appendBillingAddressParams(
+        params,
+        paramName,
+        billingAddress
+      );
     }
+
+    return params;
+  }
+
+  private appendParam(
+    params: HttpParams,
+    paramName: string | undefined,
+    paramValue: string | undefined
+  ): HttpParams {
+    if (paramName && paramValue) {
+      params = params.append(paramName, paramValue);
+    }
+    return params;
+  }
+
+  private appendBillingAddressParams(
+    params: HttpParams,
+    paramName: any,
+    billingAddress: Address
+  ): HttpParams {
+    params = this.appendParam(params, paramName.billingAddress, 'true');
+    params = this.appendParam(
+      params,
+      paramName.country,
+      billingAddress.country?.isocode
+    );
+    params = this.appendParam(
+      params,
+      paramName.firstName,
+      billingAddress.firstName
+    );
+    params = this.appendParam(
+      params,
+      paramName.lastName,
+      billingAddress.lastName
+    );
+    params = this.appendParam(params, paramName.line1, billingAddress.line1);
+    params = this.appendParam(params, paramName.line2, billingAddress.line2);
+    params = this.appendParam(params, paramName.town, billingAddress.town);
+    params = this.appendParam(
+      params,
+      paramName.region,
+      billingAddress.region?.isocodeShort
+    );
+    params = this.appendParam(
+      params,
+      paramName.postalCode,
+      billingAddress.postalCode
+    );
+
     return params;
   }
 }
