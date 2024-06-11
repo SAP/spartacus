@@ -183,7 +183,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       );
     });
 
-    it('should render always default options', () => {
+    it('should always render default options', () => {
       overview.overview.possibleGroups = [];
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
@@ -194,7 +194,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
       );
     });
 
-    it('should not render any filter options', () => {
+    it('should not render any filter options for read-only variants', () => {
       mockRouterState.state.params.displayOnly = true;
       mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
       product = {
