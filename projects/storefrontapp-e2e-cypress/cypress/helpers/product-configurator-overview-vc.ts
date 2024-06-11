@@ -197,28 +197,63 @@ export function toggleSidebar(): void {
 }
 
 /**
- * Verifies whether `Price-Relevant Options` filter option is displayed.
+ * Verifies whether the expected amount of filter options is correct.
+ *
+ * @param filterOptions - expected amount of the filter options
  */
-export function checkPriceFilterOptionDisplayed(): void {
-  cy.get('#cx-configurator-overview-filter-option-price').should('exist');
+export function checkAmountOfFilterOptions(filterOptions: number): void {
+  cy.get('cx-configurator-overview-filter')
+    .find('.cx-overview-filter-option')
+    .should('have.length', filterOptions);
 }
 
 /**
- * Verifies whether `My Selections` filter option is displayed.
+ * Verifies whether `Price-Relevant Options` filter option is displayed or not.
+ *
+ * @param isDisplayed -  default is true. if set to false, will verify if `Price-Relevant Options` filter option is not displayed.
  */
-export function checkMySelectionsFilterOptionDisplayed(): void {
-  cy.get('#cx-configurator-overview-filter-option-mySelections').should(
-    'exist'
-  );
+export function checkPriceFilterOptionDisplayed(
+  isDisplayed: boolean = true
+): void {
+  if (isDisplayed) {
+    cy.get('#cx-configurator-overview-filter-option-price').should('exist');
+  } else {
+    cy.get('#cx-configurator-overview-filter-option-price').should('not.exist');
+  }
 }
 
 /**
- * Verifies whether `My Selections` filter option is not displayed.
+ * Verifies whether `My Selections` filter option is displayed or not.
+ *
+ * @param isDisplayed -  default is true. if set to false, will verify if `My Selections` filter option is not displayed.
  */
-export function checkMySelectionsFilterOptionNotDisplayed(): void {
-  cy.get('#cx-configurator-overview-filter-option-mySelections').should(
-    'not.exist'
-  );
+export function checkMySelectionsFilterOptionDisplayed(
+  isDisplayed: boolean = true
+): void {
+  if (isDisplayed) {
+    cy.get('#cx-configurator-overview-filter-option-mySelections').should(
+      'exist'
+    );
+  } else {
+    cy.get('#cx-configurator-overview-filter-option-mySelections').should(
+      'not.exist'
+    );
+  }
+}
+
+/**
+ * Verifies whether `No filters available` text is displayed or not.
+ *
+ * @param isDisplayed -  default is true. if set to false, will verify if `No filters available` filter option is not displayed.
+ */
+export function checkNoFiltersAvailableDisplayed(
+  isDisplayed: boolean = true
+): void {
+  if (isDisplayed) {
+    cy.get('.cx-no-overview-filters-available').should('exist');
+  } else {
+    cy.get('.cx-no-overview-filters-available').should('not.exist');
+  }
 }
 
 /**

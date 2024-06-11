@@ -6,6 +6,7 @@ import * as configurationCart from '../../../helpers/product-configurator-cart';
 import * as configurationOverview from '../../../helpers/product-configurator-overview';
 import * as configuration from '../../../helpers/product-configurator';
 import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
+import { checkAmountOfFilterOptions } from '../../../helpers/product-configurator-overview-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL-STD-METALLIC';
@@ -84,6 +85,8 @@ function checkDisplayOnlyOverviewPage() {
   configurationOverviewVc.checkMenuDisplayed();
   configurationOverviewVc.toggleSidebar();
   configurationOverviewVc.checkFilterDisplayed();
-  configurationOverviewVc.checkPriceFilterOptionDisplayed();
-  configurationOverviewVc.checkMySelectionsFilterOptionNotDisplayed();
+  configurationOverviewVc.checkAmountOfFilterOptions(5);
+  configurationOverviewVc.checkPriceFilterOptionDisplayed(false);
+  configurationOverviewVc.checkMySelectionsFilterOptionDisplayed(false);
+  configurationOverviewVc.checkNoFiltersAvailableDisplayed(false);
 }
