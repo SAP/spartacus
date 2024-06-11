@@ -40,7 +40,7 @@
         <ng-template
           id="cx-item-list-discount"
           role="columnheader"
-          [cxOutlet]="quoteOutlet.CPQ_QUOTE"
+          [cxOutlet]="CartOutlets.CPQ_QUOTE"
           [cxOutletContext]="{
             items: item
           }"
@@ -94,7 +94,7 @@
   <!-- item price with discount -->
   <ng-template
     role="cell"
-    [cxOutlet]="quoteOutlet.CPQ_QUOTE_MODULE"
+    [cxOutlet]="CartOutlets.CPQ_QUOTE_MODULE"
     [cxOutletContext]="{
       items: item
     }"
