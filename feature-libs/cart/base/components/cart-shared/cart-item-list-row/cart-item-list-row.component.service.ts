@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 })
 export class CartItemListComponentService {
   showBasePriceWithDiscount() {
-    // rename as per your requirement
     return true;
   }
 }

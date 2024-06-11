@@ -20,6 +20,7 @@ export class CpqQuoteService extends CartItemListComponentService {
     this.isFlagSubject.next(value);
   }
   showBasePriceWithDiscount(): boolean {
-    return false;
+    const isFlag = this.isFlagSubject.getValue();
+    return isFlag;
   }
 }
