@@ -267,13 +267,16 @@ function handleReadOrderEntryConfigurationSuccess(
   state: Configurator.Configuration,
   action: ConfiguratorActions.ReadOrderEntryConfigurationSuccess
 ): Configurator.Configuration | undefined {
-  const configuration = {
-    ...action.payload,
-    overview: {
-      ...action.payload.overview,
-      possibleGroups: action.payload.overview?.groups,
-    },
-  };
+  const overview = action.payload.overview;
+  const configuration = overview
+    ? {
+        ...action.payload,
+        overview: {
+          ...overview,
+          possibleGroups: overview.groups,
+        },
+      }
+    : action.payload;
 
   const result: Configurator.Configuration = {
     ...state,
