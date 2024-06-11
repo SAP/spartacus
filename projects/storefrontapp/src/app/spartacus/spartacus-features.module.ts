@@ -304,6 +304,7 @@ if (environment.estimatedDeliveryDate) {
         a11yFocusableCarouselControls: true,
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
+        a11yPreventSRFocusOnHiddenElements: true,
         a11yVisibleFocusOverflows: true,
         a11yTruncatedTextForResponsiveView: true,
         a11ySemanticPaginationLabel: true,
