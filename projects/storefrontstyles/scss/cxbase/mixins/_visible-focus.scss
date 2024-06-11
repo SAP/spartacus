@@ -4,6 +4,16 @@
   outline-width: var(--cx-visual-focus-width, 2px);
   outline-offset: 4px;
   transition: none;
+  @include forFeature('santoriniV2') {
+    // !important statement not optimal, remove when possible
+    // overrides bootstrap styles and specific feature flag adjustments
+    // box-shadow reset was added .mouse-focus in storefront.scss
+    outline-style: solid;
+    outline-color: var(--cx-color-visual-focus);
+    outline-width: var(--cx-visual-focus-width, 2px);
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 2px var(--cx-color-inverse);
+  }
   // TODO: (CXSPA-7208) Remove feature flag next major
   @include forFeature('a11yVisibleFocusOverflows') {
     z-index: 1000;
