@@ -305,12 +305,16 @@ if (environment.estimatedDeliveryDate) {
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
         a11yOrganizationLinkableCells: true,
+        a11yPreventSRFocusOnHiddenElements: true,
         a11yVisibleFocusOverflows: true,
         a11yTruncatedTextForResponsiveView: true,
+        a11ySemanticPaginationLabel: true,
         a11yMyAccountLinkOutline: true,
         a11yCloseProductImageBtnFocus: true,
+        santoriniV2: true,
         a11yEmptyWishlistHeading: true,
         a11yUseButtonsForBtnLinks: true,
+        a11yFacetsDialogFocusHandling: true,
       };
       return appFeatureToggles;
     }),

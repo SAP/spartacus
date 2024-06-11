@@ -1,8 +1,10 @@
 import { DebugElement } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule } from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { PaginationConfig } from './config/pagination.config';
 import { PaginationComponent } from './pagination.component';
 import { PaginationItemType } from './pagination.model';
@@ -25,8 +27,8 @@ describe('PaginationComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
-        declarations: [PaginationComponent],
+        imports: [RouterTestingModule, I18nTestingModule],
+        declarations: [PaginationComponent, MockFeatureDirective],
         providers: [
           {
             provide: PaginationConfig,

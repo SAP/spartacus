@@ -28,6 +28,12 @@
     }
   }
 
+  @include forFeature('santoriniV2') {
+    cx-media {
+      color: black;
+    }
+  }
+
   .no-link {
     display: block;
   }
