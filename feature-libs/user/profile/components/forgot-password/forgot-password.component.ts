@@ -4,10 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Optional,
+  inject,
+} from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-forgot-password',
@@ -15,6 +21,10 @@ import { ForgotPasswordComponentService } from './forgot-password-component.serv
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForgotPasswordComponent {
+  @Optional() protected routingService = inject(RoutingService, {
+    optional: true,
+  });
+
   constructor(protected service: ForgotPasswordComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
@@ -22,5 +32,9 @@ export class ForgotPasswordComponent {
 
   onSubmit(): void {
     this.service.requestEmail();
+  }
+
+  navigateTo(cxRoute: string): void {
+    this.routingService?.go({ cxRoute });
   }
 }

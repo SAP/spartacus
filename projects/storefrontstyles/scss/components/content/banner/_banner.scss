@@ -13,6 +13,7 @@
   }
 
   @include forFeature('a11yOrganizationsBanner') {
+    display: block;
     position: relative;
     a {
       z-index: 1;
@@ -21,6 +22,9 @@
       top: 0;
       left: 0;
       position: absolute;
+    }
+    cx-generic-link {
+      display: unset;
     }
   }
 

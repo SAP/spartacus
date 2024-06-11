@@ -1,25 +1,42 @@
 <ng-container *ngIf="product$ | async as product">
   <ng-container *ngIf="product.configurable">
-    <a
-      [routerLink]="
-        {
-          cxRoute: 'configure' + product.configuratorType,
-          params: {
-            ownerType: ownerTypeProduct,
-            entityKey: product.code
-          }
-        } | cxUrl
-      "
-      [queryParams]="{
-        displayRestartDialog: isDisplayRestartDialog(product.configuratorType),
-        productCode: product.code
-      }"
-      class="btn btn-primary btn-block"
-      cxAutoFocus
-      [attr.aria-label]="
-        getAriaLabelTranslationKey(product.configuratorType) | cxTranslate
-      "
-      >{{ getTranslationKey(product.configuratorType) | cxTranslate }}</a
-    >
+    <!-- TODO: (CXSPA-7252) - Remove feature flag next major release -->
+    <ng-container *cxFeature="'a11yUseButtonsForBtnLinks'">
+      <button
+        (click)="navigateToConfigurator(product)"
+        class="btn btn-primary btn-block"
+        cxAutoFocus
+        [attr.aria-label]="
+          getAriaLabelTranslationKey(product.configuratorType) | cxTranslate
+        "
+      >
+        {{ getTranslationKey(product.configuratorType) | cxTranslate }}
+      </button>
+    </ng-container>
+    <ng-container *cxFeature="'!a11yUseButtonsForBtnLinks'">
+      <a
+        [routerLink]="
+          {
+            cxRoute: 'configure' + product.configuratorType,
+            params: {
+              ownerType: ownerTypeProduct,
+              entityKey: product.code
+            }
+          } | cxUrl
+        "
+        [queryParams]="{
+          displayRestartDialog: isDisplayRestartDialog(
+            product.configuratorType
+          ),
+          productCode: product.code
+        }"
+        class="btn btn-primary btn-block"
+        cxAutoFocus
+        [attr.aria-label]="
+          getAriaLabelTranslationKey(product.configuratorType) | cxTranslate
+        "
+        >{{ getTranslationKey(product.configuratorType) | cxTranslate }}</a
+      >
+    </ng-container>
   </ng-container>
 </ng-container>

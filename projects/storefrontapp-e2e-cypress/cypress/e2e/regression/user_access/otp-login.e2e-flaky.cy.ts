@@ -15,6 +15,26 @@ export function listenForCreateVerificationToken(): string {
   );
 }
 
+export function listenForUserVerficationCodeEmailReceive(
+  customerEmail: string
+) {
+  const mailCCV2Url =
+    Cypress.env('MAIL_CCV2_URL') +
+    Cypress.env('MAIL_CCV2_PREFIX') +
+    '/search?query=' +
+    customerEmail +
+    '&kind=to';
+
+  cy.request({
+    method: 'GET',
+    url: mailCCV2Url,
+  }).then((response) => {
+    if (response.body.total != 2) {
+      listenForUserVerficationCodeEmailReceive(customerEmail);
+    }
+  });
+}
+
 describe('OTP Login', () => {
   viewportContext(['mobile'], () => {
     describe('Create OTP', () => {
@@ -40,8 +60,7 @@ describe('OTP Login', () => {
         cy.get('cx-verification-token-form').should('exist');
         cy.get('cx-verification-token-form').should('be.visible');
 
-        cy.log('The email being sent is asynchronous, so waiting 10s');
-        cy.wait(10000);
+        listenForUserVerficationCodeEmailReceive(user.email);
 
         const mailCCV2Url =
           Cypress.env('MAIL_CCV2_URL') +
