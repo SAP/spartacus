@@ -12,7 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class CpqQuoteService extends CartItemListComponentService{
+export class CpqQuoteService extends CartItemListComponentService {
   private isFlagSubject = new BehaviorSubject<boolean>(true); // Default value is true
   isFlag$ = this.isFlagSubject.asObservable();
 

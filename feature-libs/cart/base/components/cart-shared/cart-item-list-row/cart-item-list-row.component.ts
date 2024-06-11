@@ -26,9 +26,7 @@ export class CartItemListRowComponent
   protected componentService = inject(CartItemListComponentService);
   isFlagquote = this.componentService.showBasePriceWithDiscount();
   private subscription: Subscription;
-  constructor(
-    cartItemContextSource: CartItemContextSource,
-  ) {
+  constructor(cartItemContextSource: CartItemContextSource) {
     super(cartItemContextSource);
   }
   ngOnDestroy(): void {

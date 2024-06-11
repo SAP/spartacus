@@ -15,7 +15,7 @@ import { SchematicConfig } from '../../utils/lib-utils';
 import { CART_BASE_MODULE } from '../cart-schematics-config';
 
 export const CPQ_QUOTE_FOLDER_NAME = 'cpq-quote';
-export const CPQ_QUOTE_MODULE_NAME = 'cpq-quote';
+export const CPQ_QUOTE_MODULE_NAME = 'CpqQuote';
 export const CPQ_QUOTE_MODULE_ROOT = 'CpqQuoteRootModule';
 export const CPQ_QUOTE_TRANSLATIONS = 'cpqquoteTranslations';
 export const CPQ_QUOTE_TRANSLATION_CHUNKS_CONFIG =
@@ -28,7 +28,7 @@ export const CPQ_QUOTE_SCHEMATICS_CONFIG: SchematicConfig = {
     mainScope: SPARTACUS_CPQ_QUOTE,
   },
   folderName: CPQ_QUOTE_FOLDER_NAME,
-  moduleName: CPQ_QUOTE_MODULE,
+  moduleName: CPQ_QUOTE_MODULE_NAME,
   featureModule: {
     name: CPQ_QUOTE_MODULE,
     importPath: SPARTACUS_CPQ_QUOTE,

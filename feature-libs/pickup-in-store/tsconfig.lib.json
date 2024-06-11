@@ -88,24 +88,6 @@
       "@spartacus/user/profile": ["dist/user/profile"],
       "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
       "@spartacus/user/profile/root": ["dist/user/profile/root"],
-      "@spartacus/quote/assets": ["dist/quote/assets"],
-      "@spartacus/quote/components/cart-guard": [
-        "dist/quote/components/cart-guard"
-      ],
-      "@spartacus/quote/components": ["dist/quote/components"],
-      "@spartacus/quote/components/request-button": [
-        "dist/quote/components/request-button"
-      ],
-      "@spartacus/quote/core": ["dist/quote/core"],
-      "@spartacus/quote": ["dist/quote"],
-      "@spartacus/quote/occ": ["dist/quote/occ"],
-      "@spartacus/quote/root": ["dist/quote/root"],
-      "@spartacus/cpq-quote/assets": ["dist/cpq-quote/assets"],
-      "@spartacus/cpq-quote/cpq-quote-discount": [
-        "dist/cpq-quote/cpq-quote-discount"
-      ],
-      "@spartacus/cpq-quote": ["dist/cpq-quote"],
-      "@spartacus/cpq-quote/root": ["dist/cpq-quote/root"],
       "@spartacus/pdf-invoices/assets": ["dist/pdf-invoices/assets"],
       "@spartacus/pdf-invoices/components": ["dist/pdf-invoices/components"],
       "@spartacus/pdf-invoices/core": ["dist/pdf-invoices/core"],

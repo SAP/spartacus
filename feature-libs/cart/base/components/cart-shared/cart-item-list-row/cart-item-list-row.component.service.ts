@@ -1,10 +1,11 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartItemListComponentService {
-    showBasePriceWithDiscount() { // rename as per your requirement
-        return true;
-    }
+  showBasePriceWithDiscount() {
+    // rename as per your requirement
+    return true;
+  }
 }

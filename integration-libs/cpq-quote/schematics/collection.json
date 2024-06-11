@@ -2,7 +2,7 @@
   "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
     "ng-add": {
-      "factory": "./add-cpq-quote/index#addCpqQuote",
+      "factory": "./add-cpq-quote/index#addCpqQuoteFeature",
       "description": "Add Cpq-Quote",
       "schema": "./add-cpq-quote/schema.json",
       "private": true,
@@ -10,7 +10,7 @@
       "aliases": ["install"]
     },
     "add": {
-      "factory": "./add-cpq-quote/index#addCpqQuote",
+      "factory": "./add-cpq-quote/index#addCpqQuoteFeature",
       "description": "Add and configure Cpq-Quote feature",
       "schema": "./add-cpq-quote/schema.json"
     }
