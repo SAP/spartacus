@@ -16,7 +16,9 @@ import { CpqQuoteOfferComponent } from './components/cpq-quote/cpq-quote-offer.c
 
 import { CommonModule } from '@angular/common';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { QuoteOutlet } from '@spartacus/quote/root';
+import { CartOutlets } from '@spartacus/cart/base/root';
+import { CpqQuoteService } from './cpq-qute.service';
+import { CartItemListComponentService } from '@spartacus/cart/base/components';
 
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, IconModule],
@@ -32,18 +34,19 @@ import { QuoteOutlet } from '@spartacus/quote/root';
     CpqQuoteOfferComponent,
   ],
   providers: [
+    { provide: CartItemListComponentService, useClass: CpqQuoteService },
     provideOutlet({
-      id: QuoteOutlet.CPQ_QUOTE_MODULE,
+      id: CartOutlets.CPQ_QUOTE_MODULE,
       position: OutletPosition.AFTER,
       component: CpqQuoteDiscountComponent,
     }),
     provideOutlet({
-      id: QuoteOutlet.CPQ_QUOTE_HEADING,
+      id: CartOutlets.CPQ_QUOTE_HEADING,
       position: OutletPosition.AFTER,
       component: CpqQuoteHeadingComponent,
     }),
     provideOutlet({
-      id: QuoteOutlet.CPQ_QUOTE,
+      id: CartOutlets.CPQ_QUOTE,
       position: OutletPosition.AFTER,
       component: CpqQuoteOfferComponent,
     }),

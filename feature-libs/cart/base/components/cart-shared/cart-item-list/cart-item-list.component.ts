@@ -25,7 +25,6 @@ import {
   CartOutlets,
 } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
-import { QuoteOutlet } from '@spartacus/quote/root';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
@@ -85,7 +84,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     }
   }
   readonly CartOutlets = CartOutlets;
-  readonly quoteOutlet = QuoteOutlet;
+
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
