@@ -30,7 +30,7 @@
   },
   "verificationTokenDialog": {
     "title": "Didn’t receive the code",
-    "noReceiveCode": "If you don't receive the code, the reasons might be:",
+    "noReceiveCode": "If you didn't receive the code, the reasons might be:",
     "contentLine1": "1. The email hasn't come yet.",
     "contentLine2": "2. The received email has been treated as junk email.",
     "contentLine3": "3. Either the email address or the password you entered is incorrect.",
