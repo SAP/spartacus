@@ -2,21 +2,16 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  I18nTestingModule,
-  Product,
-  ProductService,
-  RouterState,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewFilterComponent } from './configurator-overview-filter.component';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
+import { Observable, of } from 'rxjs';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -41,24 +36,6 @@ const mockRouterState: any = {
   },
 };
 
-let routerStateObservable: any = null;
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-
-  go() {}
-}
-
-let product: Product;
-
-class MockProductService {
-  get(): Observable<Product> {
-    return of(product);
-  }
-}
-
 function initTestData() {
   overview = structuredClone({
     ...ConfiguratorTestUtils.createConfiguration(configId, owner),
@@ -78,8 +55,8 @@ function initTestComponent() {
   htmlElem = fixture.nativeElement;
   component = fixture.componentInstance;
   component.config = overview;
+  isDisplayOnlyVariant = false;
   component.ngOnChanges();
-  product = undefined;
   fixture.detectChanges();
 }
 
@@ -91,10 +68,16 @@ class MockConfiguratorOverviewFilterBarComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
 }
 
+let isDisplayOnlyVariant: boolean;
+class MockConfiguratorStorefrontUtilsService {
+  isDisplayOnlyVariant(): Observable<boolean> {
+    return of(isDisplayOnlyVariant);
+  }
+}
+
 describe('ConfiguratorOverviewFilterComponent', () => {
   function configureTestingModule(): TestBed {
     mockRouterState.state.params.displayOnly = false;
-    routerStateObservable = of(mockRouterState);
 
     return TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule],
@@ -108,12 +91,8 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           useValue: mockConfigCommonsService,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ProductService,
-          useClass: MockProductService,
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
       ],
     });
@@ -154,9 +133,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     it('should render one filter header for variant', () => {
       mockRouterState.state.params.displayOnly = true;
       mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
-      product = {
-        baseProduct: 'BASE' + PRODUCT_CODE,
-      };
+      isDisplayOnlyVariant = true;
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
@@ -170,9 +147,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     it('should render `No filters available` text', () => {
       mockRouterState.state.params.displayOnly = true;
       mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
-      product = {
-        baseProduct: 'BASE' + PRODUCT_CODE,
-      };
+      isDisplayOnlyVariant = true;
       overview.overview.possibleGroups = [{ id: '1' }];
       fixture.detectChanges();
 
@@ -197,9 +172,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     it('should not render any filter options for read-only variants', () => {
       mockRouterState.state.params.displayOnly = true;
       mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
-      product = {
-        baseProduct: 'BASE' + PRODUCT_CODE,
-      };
+      isDisplayOnlyVariant = true;
       overview.overview.possibleGroups = [];
       fixture.detectChanges();
 
@@ -413,62 +386,6 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           groupFilters: ['3', '5'],
           possibleGroups: overview.overview.possibleGroups,
         },
-      });
-    });
-
-    describe('isDisplayOnlyVariant', () => {
-      it('should return `false` in case displayOnly property is `false`', () => {
-        mockRouterState.state.params.displayOnly = false;
-        mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
-        fixture.detectChanges();
-
-        component
-          .isDisplayOnlyVariant()
-          .subscribe((isDisplayOnlyVariant) => {
-            expect(isDisplayOnlyVariant).toBe(false);
-          })
-          .unsubscribe();
-      });
-
-      it('should return `false` in case the product code is unknown', () => {
-        mockRouterState.state.params.displayOnly = true;
-        fixture.detectChanges();
-
-        component
-          .isDisplayOnlyVariant()
-          .subscribe((isDisplayOnlyVariant) => {
-            expect(isDisplayOnlyVariant).toBe(false);
-          })
-          .unsubscribe();
-      });
-
-      it('should return `false` in case the product is `undefined`', () => {
-        mockRouterState.state.params.displayOnly = true;
-        mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
-        fixture.detectChanges();
-
-        component
-          .isDisplayOnlyVariant()
-          .subscribe((isDisplayOnlyVariant) => {
-            expect(isDisplayOnlyVariant).toBe(false);
-          })
-          .unsubscribe();
-      });
-
-      it('should return `true` in case the product is a variant product in the display only view', () => {
-        mockRouterState.state.params.displayOnly = true;
-        mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
-        product = {
-          baseProduct: 'BASE' + PRODUCT_CODE,
-        };
-        fixture.detectChanges();
-
-        component
-          .isDisplayOnlyVariant()
-          .subscribe((isDisplayOnlyVariant) => {
-            expect(isDisplayOnlyVariant).toBe(true);
-          })
-          .unsubscribe();
       });
     });
   });

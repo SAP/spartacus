@@ -6,19 +6,19 @@
 
 import { Component, inject, Input, OnChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { ProductScope, ProductService, RoutingService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-overview-filter',
   templateUrl: './configurator-overview-filter.component.html',
 })
 export class ConfiguratorOverviewFilterComponent implements OnChanges {
-  protected productService = inject(ProductService);
-  protected routingService = inject(RoutingService);
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService
@@ -59,20 +59,7 @@ export class ConfiguratorOverviewFilterComponent implements OnChanges {
    * then returns `true`, otherwise `false`.
    */
   isDisplayOnlyVariant(): Observable<boolean> {
-    return this.routingService.getRouterState().pipe(
-      switchMap((routerState) => {
-        return routerState.state.params.displayOnly &&
-          routerState.state.queryParams.productCode
-          ? this.productService.get(
-              routerState.state.queryParams.productCode,
-              ProductScope.LIST
-            )
-          : of(undefined);
-      }),
-      map((product) => {
-        return (product && !!product.baseProduct) ?? false;
-      })
-    );
+    return this.configuratorStorefrontUtilsService.isDisplayOnlyVariant();
   }
 
   protected extractGroupFilterState(

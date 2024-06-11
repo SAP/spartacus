@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -44,7 +44,7 @@ function initTestComponent() {
   component.ghostStyle = false;
   fixture.detectChanges();
   configuratorStorefrontUtilsService = TestBed.inject(
-    ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    ConfiguratorStorefrontUtilsService
   );
 
   spyOn(configuratorStorefrontUtilsService, 'getElement').and.callThrough();
@@ -76,6 +76,7 @@ class MockConfiguratorStorefrontUtilsService {
   createOvMenuItemId(): void {}
   getSpareViewportHeight(): void {}
   getVerticallyScrolledPixels(): void {}
+  isDisplayOnlyVariant(): void {}
 }
 
 class MockRoutingService {
