@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as common from './common';
+import { SampleUser } from '../sample-data/checkout-flow';
 import * as authForm from './auth-forms';
+import * as common from './common';
 import * as login from './login';
 import * as configurationCart from './product-configurator-cart';
 import * as configurationCartVc from './product-configurator-cart-vc';
 import * as productSearch from './product-search';
 import { verifyGlobalMessageAfterRegistration } from './register';
-import { SampleUser } from '../sample-data/checkout-flow';
 
 const nextBtnSelector =
   'cx-configurator-previous-next-buttons button:contains("Next")';
@@ -474,7 +474,7 @@ export function clickOnGroupByGroupIndex(groupIndex: number): void {
  * Clicks the group menu.
  */
 export function clickHamburger(): void {
-  cy.get('cx-configurator-group-title cx-hamburger-menu [aria-label="Menu"]')
+  cy.get('cx-configurator-group-title cx-hamburger-menu button')
     .click()
     .then(() => {
       checkUpdatingMessageNotDisplayed();
@@ -485,9 +485,9 @@ export function clickHamburger(): void {
  * Verifies whether the group menu is displayed.
  */
 export function checkHamburgerDisplayed(): void {
-  cy.get(
-    'cx-configurator-group-title cx-hamburger-menu [aria-label="Menu"]'
-  ).should('be.visible');
+  cy.get('cx-configurator-group-title cx-hamburger-menu button').should(
+    'be.visible'
+  );
 }
 
 /**
