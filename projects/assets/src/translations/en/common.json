@@ -169,7 +169,7 @@
   "formErrors": {
     "labeled": {
       "required": "Field {{label}} is required",
-      "cxInvalidEmail": "Field {{label}} has not a valid email format.  Match pattern: example@yourdomain.com",
+      "cxInvalidEmail": "Field {{label}} has not a valid email format. Match pattern: example@yourdomain.com",
       "cxInvalidPassword": "Field {{label}} has not a valid password format",
       "cxMinOneUpperCaseCharacter": "Password must contain at least one uppercase character",
       "cxMinOneDigit": "Password must contain at least one digit",

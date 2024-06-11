@@ -99,6 +99,14 @@
         formControlName="companyName"
       />
       <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'userRegistrationForm.fields.companyName.label' | cxTranslate
+        }"
+        [control]="registerForm.get('companyName')"
+      ></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="registerForm.get('companyName')"
       ></cx-form-errors>
     </label>
