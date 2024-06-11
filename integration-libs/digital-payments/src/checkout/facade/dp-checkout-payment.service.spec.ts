@@ -1,6 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { PaymentDetails, UserIdService } from '@spartacus/core';
-import { Observable, of, throwError } from 'rxjs';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  PaymentDetails,
+  UserIdService,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';
 import { DpPaymentRequest } from './../models/dp-checkout.model';
 import { DpCheckoutPaymentService } from './dp-checkout-payment.service';
@@ -20,6 +24,12 @@ class MockDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
     of({})
   );
 }
+class MockUserIdService2 {
+  takeUserId() {
+    return of(OCC_USER_ID_ANONYMOUS);
+  }
+}
+
 class MockUserIdService {
   takeUserId() {
     return of(userId);
@@ -105,30 +115,63 @@ describe('DpCheckoutPaymentService', () => {
 
     expect(paymentDetails).toEqual(initialPaymentDetailsState);
   });
+});
+describe('DpCheckoutPaymentService With Pre-Conditions failing', () => {
+  let service: DpCheckoutPaymentService;
+  let dpAdapter: DigitalPaymentsAdapter;
+  let userIdService: UserIdService;
+  let cardFacade: ActiveCartFacade;
+  const signature = 'mockSignature';
+  const sessionId = 'mockSessionId';
 
-  describe('if preconditions are not met', () => {
-    beforeEach(() => {
-      spyOn<any>(service, 'checkoutPreconditions').and.returnValue(
-        throwError('Precondition failed')
-      );
-    });
-    it('should not create payment details', (done) => {
-      service.createPaymentDetails(sessionId, signature).subscribe({
-        error: (error) => {
-          expect(error).toEqual('Precondition failed');
-          expect(dpAdapter.createPaymentRequest).not.toHaveBeenCalled();
-          done();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [],
+      providers: [
+        DpCheckoutPaymentService,
+        {
+          provide: DigitalPaymentsAdapter,
+          useClass: MockDigitalPaymentsAdapter,
         },
-      });
+        {
+          provide: UserIdService,
+          useClass: MockUserIdService2,
+        },
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartFacade,
+        },
+      ],
     });
-    // it('should not get card registration details if preconditions are not met', (done) => {
-    //   service.getCardRegistrationDetails().subscribe({
-    //     error: (error) => {
-    //       expect(error).toEqual('Precondition failed');
-    //       expect(dpAdapter.createPaymentRequest).not.toHaveBeenCalled();
-    //       done();
-    //     },
-    //   });
-    // });
+    service = TestBed.inject(DpCheckoutPaymentService);
+    dpAdapter = TestBed.inject(DigitalPaymentsAdapter);
+    cardFacade = TestBed.inject(ActiveCartFacade);
+    userIdService = TestBed.inject(UserIdService);
+  });
+  it('should not create payment details if preconditions are not met', (done) => {
+    spyOn(userIdService, 'takeUserId').and.returnValue(
+      of(OCC_USER_ID_ANONYMOUS)
+    );
+    spyOn(cardFacade, 'isGuestCart').and.returnValue(of(false));
+    service.createPaymentDetails(sessionId, signature).subscribe({
+      error: (error) => {
+        expect(error.message).toEqual('Checkout conditions not met');
+        expect(dpAdapter.createPaymentDetails).not.toHaveBeenCalled();
+        done();
+      },
+    });
+  });
+  it('should not get card registration details if preconditions are not met', (done) => {
+    spyOn(userIdService, 'takeUserId').and.returnValue(
+      of(OCC_USER_ID_ANONYMOUS)
+    );
+    spyOn(cardFacade, 'isGuestCart').and.returnValue(of(false));
+    service.getCardRegistrationDetails().subscribe({
+      error: (error) => {
+        expect(error.message).toEqual('Checkout conditions not met');
+        expect(dpAdapter.createPaymentRequest).not.toHaveBeenCalled();
+        done();
+      },
+    });
   });
 });

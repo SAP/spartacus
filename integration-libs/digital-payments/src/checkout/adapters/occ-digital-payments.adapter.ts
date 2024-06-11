@@ -70,37 +70,48 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
     const paramName = this.config.digitalPayments?.occQueryParams;
     params = params.append(paramName?.sessionId ?? '', sessionId);
     params = params.append(paramName?.signature ?? '', signature);
-    if (billingAddress) {
-      params = params.append(paramName?.billingAddress ?? '', true);
-      params = params.append(
-        paramName?.country ?? '',
-        billingAddress?.country?.isocode ?? ''
-      );
-      params = params.append(
-        paramName?.firstName ?? '',
-        billingAddress?.firstName ?? ''
-      );
-      params = params.append(
-        paramName?.lastName ?? '',
-        billingAddress?.lastName ?? ''
-      );
-      params = params.append(
-        paramName?.line1 ?? '',
-        billingAddress?.line1 ?? ''
-      );
-      params = params.append(
-        paramName?.line2 ?? '',
-        billingAddress?.line2 ?? ''
-      );
-      params = params.append(paramName?.town ?? '', billingAddress?.town ?? '');
-      params = params.append(
-        paramName?.region ?? '',
-        billingAddress?.region?.isocodeShort ?? ''
-      );
-      params = params.append(
-        paramName?.postalCode ?? '',
-        billingAddress?.postalCode ?? ''
-      );
+    if (billingAddress && paramName) {
+      if (paramName.billingAddress) {
+        params = params.append(paramName.billingAddress, true);
+      }
+      if (
+        paramName.country &&
+        billingAddress.country &&
+        billingAddress.country.isocode
+      ) {
+        params = params.append(
+          paramName.country,
+          billingAddress.country.isocode
+        );
+      }
+      if (paramName.firstName && billingAddress.firstName) {
+        params = params.append(paramName.firstName, billingAddress.firstName);
+      }
+      if (paramName.lastName && billingAddress.lastName) {
+        params = params.append(paramName.lastName, billingAddress.lastName);
+      }
+      if (paramName.line1 && billingAddress.line1) {
+        params = params.append(paramName.line1, billingAddress.line1);
+      }
+      if (paramName.line2 && billingAddress.line2) {
+        params = params.append(paramName.line2, billingAddress.line2);
+      }
+      if (paramName.town && billingAddress.town) {
+        params = params.append(paramName.town, billingAddress.town);
+      }
+      if (
+        paramName.region &&
+        billingAddress.region &&
+        billingAddress.region.isocodeShort
+      ) {
+        params = params.append(
+          paramName.region,
+          billingAddress.region.isocodeShort
+        );
+      }
+      if (paramName.postalCode && billingAddress.postalCode) {
+        params = params.append(paramName.postalCode, billingAddress.postalCode);
+      }
     }
     return params;
   }

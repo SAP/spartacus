@@ -42,7 +42,15 @@ export class DpCheckoutPaymentService {
   });
 
   getCardRegistrationDetails(): Observable<DpPaymentRequest | undefined> {
-    return this.RequestUrlQuery.get();
+    return this.RequestUrlQuery.getState().pipe(
+      map((state) => {
+        if (state.loading === false && state.error !== false) {
+          throw new Error(state.error.message);
+        } else {
+          return state.data;
+        }
+      })
+    );
   }
 
   protected createPaymentDetailsCommand: Command<
