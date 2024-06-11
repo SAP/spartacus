@@ -45,9 +45,14 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
-  @HostBinding('attr.role') role = 'presentation';
 
-  // TODO: (CXSPA-7464) - Remove feature flag and following binding next major release.
+  // TODO: (CXSPA-7464) - Remove feature flags and following bindings next major release.
+  @HostBinding('attr.role') role = this?.featureConfigService?.isEnabled(
+    'a11yScreenReaderBloatFix'
+  )
+    ? null
+    : 'presentation';
+
   // required by esc focus
   @HostBinding('tabindex') tabindex = this?.featureConfigService?.isEnabled(
     'a11yScreenReaderBloatFix'
