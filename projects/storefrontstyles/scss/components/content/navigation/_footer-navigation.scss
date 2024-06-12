@@ -3,7 +3,7 @@
   a {
     font-size: var(--cx-font-small, 0.8rem);
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       @include type('8');
     }
 
@@ -36,7 +36,7 @@
       }
     }
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       nav ul.childs > li > cx-generic-link > a:hover {
         color: var(--cx-color-inverse);
       }
