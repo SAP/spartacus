@@ -104,6 +104,6 @@ export class ConfiguratorGroupComponent {
   }
 
   trackByFn(_index: number, attribute: Configurator.Attribute) {
-    return attribute.stateHash;
+    return attribute.key;
   }
 }

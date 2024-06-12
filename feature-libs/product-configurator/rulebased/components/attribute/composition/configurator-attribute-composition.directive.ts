@@ -10,7 +10,7 @@ import {
   Injector,
   Input,
   isDevMode,
-  OnInit,
+  OnChanges,
   ViewContainerRef,
 } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
@@ -20,7 +20,7 @@ import { ConfiguratorAttributeCompositionContext } from './configurator-attribut
 @Directive({
   selector: '[cxConfiguratorAttributeComponent]',
 })
-export class ConfiguratorAttributeCompositionDirective implements OnInit {
+export class ConfiguratorAttributeCompositionDirective implements OnChanges {
   @Input('cxConfiguratorAttributeComponent')
   context: ConfiguratorAttributeCompositionContext;
 
@@ -31,13 +31,14 @@ export class ConfiguratorAttributeCompositionDirective implements OnInit {
     protected configuratorAttributeCompositionConfig: ConfiguratorAttributeCompositionConfig
   ) {}
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     const componentKey = this.context.componentKey;
-
+    console.log('component changed: ' + componentKey);
     const composition =
       this.configuratorAttributeCompositionConfig.productConfigurator
         ?.assignment;
     if (composition) {
+      this.vcr.clear();
       this.renderComponent(composition[componentKey], componentKey);
     }
   }

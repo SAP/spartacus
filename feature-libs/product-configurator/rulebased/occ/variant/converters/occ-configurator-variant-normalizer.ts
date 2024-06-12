@@ -11,7 +11,6 @@ import { take } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../../components/config/configurator-ui-settings.config';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
-import { md5 } from 'js-md5';
 
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantNormalizer
@@ -78,18 +77,9 @@ export class OccConfiguratorVariantNormalizer
 
     this.setGroupDescription(group);
 
-    group.stateHash = this.hashCode(JSON.stringify(group));
-
     if (source.subGroups) {
       source.subGroups.forEach((sourceSubGroup) => {
-        let subGroup = this.convertGroup(
-          sourceSubGroup,
-          group.subGroups,
-          flatGroupList
-        );
-        group.stateHash = this.hashCode(
-          group.stateHash ?? '' + subGroup.stateHash
-        );
+        this.convertGroup(sourceSubGroup, group.subGroups, flatGroupList);
       });
     }
 
@@ -175,7 +165,6 @@ export class OccConfiguratorVariantNormalizer
     //Has to be called after setSelectedSingleValue because it depends on the value of this property
     this.compileAttributeIncomplete(attribute);
 
-    attribute.stateHash = this.hashCode(JSON.stringify(attribute));
     attributeList.push(attribute);
   }
 
@@ -563,21 +552,5 @@ export class OccConfiguratorVariantNormalizer
         break;
       }
     }
-  }
-
-  /**
-   * Returns a hash code from a string
-   * @param  {String} stringToHash The string to hash.
-   * @return {string} md5
-   */
-  hashCode(stringToHash: string): string {
-    return md5(stringToHash);
-    //  let hash = 0;
-    //  for (let i = 0, len = stringToHash.length; i < len; i++) {
-    //    let chr = stringToHash.charCodeAt(i);
-    //    hash = (hash << 5) - hash + chr;
-    //    hash |= 0; // Convert to 32bit integer
-    //  }
-    //  return hash;
   }
 }

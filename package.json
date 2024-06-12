@@ -142,7 +142,6 @@
     "i18next": "^23.7.6",
     "i18next-http-backend": "^2.4.2",
     "i18next-resources-to-backend": "^1.2.0",
-    "js-md5": "^0.8.3",
     "ngx-infinite-scroll": "^17.0.0",
     "rxjs": "^7.8.0",
     "ts-loader": "^9.4.4",

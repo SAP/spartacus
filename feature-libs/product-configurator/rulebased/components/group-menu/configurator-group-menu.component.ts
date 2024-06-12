@@ -685,6 +685,6 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   trackByFn(_index: number, group: Configurator.Group) {
-    return group.stateHash;
+    return group.id;
   }
 }
