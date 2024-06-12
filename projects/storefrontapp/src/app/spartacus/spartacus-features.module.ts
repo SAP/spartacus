@@ -313,6 +313,7 @@ if (environment.estimatedDeliveryDate) {
         a11yCloseProductImageBtnFocus: true,
         formErrorsDescriptiveMessages: true,
         santoriniV2: true,
+        a11yNotificationPreferenceFieldset: true,
         a11yEmptyWishlistHeading: true,
         a11yUseButtonsForBtnLinks: true,
         a11yFacetsDialogFocusHandling: true,

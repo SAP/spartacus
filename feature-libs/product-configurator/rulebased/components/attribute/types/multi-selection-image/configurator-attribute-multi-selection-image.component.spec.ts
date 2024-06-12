@@ -47,6 +47,10 @@ class MockConfig {
   features = [{ productConfiguratorAttributeTypesV2: false }];
 }
 
+class MockConfiguratorStorefrontUtilsService {
+  assembleValuesForMultiSelectAttributes(): void {}
+}
+
 describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionImageComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeMultiSelectionImageComponent>;
@@ -69,7 +73,10 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
           PopoverModule,
         ],
         providers: [
-          ConfiguratorStorefrontUtilsService,
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
+          },
           {
             provide: ConfiguratorGroupsService,
             useClass: MockGroupService,
