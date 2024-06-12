@@ -26,7 +26,8 @@
     "loaded": "Loaded",
     "results": "Results",
     "of": "of",
-    "required": "required"
+    "required": "required",
+    "selected": "Selected"
   },
   "pageMetaResolver": {
     "category": {
@@ -55,6 +56,7 @@
   "navigation": {
     "categoryNavLabel": "Category menu",
     "footerNavLabel": "Footer links",
+    "goTo": "Go to {{location}}",
     "navigateTo": "Navigate to {{nav}}",
     "scrollToTop": "Scroll back to the top of the page"
   },

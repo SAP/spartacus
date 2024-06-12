@@ -213,6 +213,13 @@ export interface FeatureTogglesInterface {
   cartQuickOrderRemoveListeningToFailEvent?: boolean;
 
   /**
+   * Sets 'linkable' property in 'CellComponent' to be false by default.
+   * Modifies all table configs to acomodate this change.
+   * This stops unnecessary anchor tags from being rendered in the table cells.
+   */
+  a11yOrganizationLinkableCells?: boolean;
+
+  /**
    * Stops the focus indicator from overflowing and being obstructed by other elements.
    * Modifies the 'visible-focus' mixin. Includes style changes for:
    * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent
@@ -229,6 +236,16 @@ export interface FeatureTogglesInterface {
   a11yTruncatedTextForResponsiveView?: boolean;
 
   /**
+   * Modifies getAriaLabel method in 'PaginationComponent' to return a sematic label.
+   */
+  a11ySemanticPaginationLabel?: boolean;
+
+  /**
+   * Prevents screen reader from stopping on invisible elements when being in read mode for `BreadcrumbComponent`, `QuickOrderFormComponent`
+   */
+  a11yPreventSRFocusOnHiddenElements?: boolean;
+
+  /**
    * In `LoginComponent` the outline of "My Account" link when focused will not cover the user name
    */
   a11yMyAccountLinkOutline?: boolean;
@@ -238,6 +255,11 @@ export interface FeatureTogglesInterface {
    * will be fully visible
    */
   a11yCloseProductImageBtnFocus?: boolean;
+
+  /**
+   * Enables the updated Santorini theme.
+   */
+  santoriniV2?: boolean;
 
   /**
    * Modifies the template of 'WishListComponent'.
@@ -295,10 +317,14 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusableCarouselControls: false,
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yOrganizationLinkableCells: false,
   a11yVisibleFocusOverflows: false,
   a11yTruncatedTextForResponsiveView: false,
+  a11ySemanticPaginationLabel: false,
+  a11yPreventSRFocusOnHiddenElements: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
+  santoriniV2: false,
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
   a11yFacetsDialogFocusHandling: false,

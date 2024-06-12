@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "author": "SAP, Spartacus team",
   "engines": {
-    "node": "^18.13.0 || ^20.10.0"
+    "node": "^18.20.0 || ^20.12.0"
   },
   "scripts": {
     "build:analyze": "npm run build -- --stats-json && npx --yes webpack-bundle-analyzer dist/storefrontapp/stats.json",
@@ -144,7 +144,6 @@
     "i18next-resources-to-backend": "^1.2.0",
     "ngx-infinite-scroll": "^17.0.0",
     "rxjs": "^7.8.0",
-    "ts-loader": "^9.4.4",
     "tslib": "^2.6.2",
     "zone.js": "0.14.2"
   },
