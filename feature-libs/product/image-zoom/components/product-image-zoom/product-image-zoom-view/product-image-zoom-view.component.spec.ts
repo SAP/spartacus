@@ -5,7 +5,13 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   FeatureConfigService,
@@ -414,5 +420,22 @@ describe('ProductImageZoomViewComponent', () => {
         y: 10,
       });
     });
+  });
+
+  describe('a11y', () => {
+    it('should refocus on zoomButton after image loads', fakeAsync(() => {
+      const mockZoomButton = {
+        nativeElement: {
+          focus: jasmine.createSpy('focus'),
+        },
+      };
+      productImageZoomViewComponent.zoomButton = mockZoomButton;
+
+      productImageZoomViewComponent.zoom();
+      productImageZoomViewComponent['imageLoaded'].next(true);
+      tick();
+
+      expect(mockZoomButton.nativeElement.focus).toHaveBeenCalled();
+    }));
   });
 });
