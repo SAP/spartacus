@@ -262,6 +262,11 @@ export interface FeatureTogglesInterface {
   santoriniV2?: boolean;
 
   /**
+   * Moves input elements of 'NotificationPreferenceComponent' into a fieldset.
+   */
+  a11yNotificationPreferenceFieldset?: boolean;
+
+  /**
    * Modifies the template of 'WishListComponent'.
    * Empty wishlist notification will be displayed in a paragraph instead of a heading.
    */
@@ -281,6 +286,7 @@ export interface FeatureTogglesInterface {
    */
   a11yFacetsDialogFocusHandling?: boolean;
 }
+
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDownloadProposalButton: false,
   showPromotionsInPDP: false,
@@ -325,6 +331,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
   santoriniV2: false,
+  a11yNotificationPreferenceFieldset: false,
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
   a11yFacetsDialogFocusHandling: false,
