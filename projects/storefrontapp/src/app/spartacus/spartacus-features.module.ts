@@ -269,6 +269,7 @@ if (environment.estimatedDeliveryDate) {
     // CXSPA-6793: refactor to`provideFeatureToggles` and `satisfies` keyword
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        formErrorsDescriptiveMessages: true,
         showDownloadProposalButton: false,
         showPromotionsInPDP: false,
         recentSearches: false,
@@ -311,9 +312,8 @@ if (environment.estimatedDeliveryDate) {
         a11ySemanticPaginationLabel: true,
         a11yMyAccountLinkOutline: true,
         a11yCloseProductImageBtnFocus: true,
-        formErrorsDescriptiveMessages: true,
-        santoriniV2: true,
         a11yNotificationPreferenceFieldset: true,
+        a11yImproveContrast: true,
         a11yEmptyWishlistHeading: true,
         a11yUseButtonsForBtnLinks: true,
         a11yFacetsDialogFocusHandling: true,
