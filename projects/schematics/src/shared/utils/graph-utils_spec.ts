@@ -27,6 +27,7 @@ import {
   SPARTACUS_STOREFINDER,
   SPARTACUS_TRACKING,
   SPARTACUS_USER,
+  SPARTACUS_CPQ_QUOTE,
 } from '../libs-constants';
 import {
   Graph,
@@ -157,6 +158,7 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT,
         SPARTACUS_PICKUP_IN_STORE,
         SPARTACUS_ESTIMATED_DELIVERY_DATE,
+        SPARTACUS_CPQ_QUOTE,
       ]);
     });
   });
@@ -211,6 +213,7 @@ describe('Graph utils', () => {
           "Bulk-Pricing",
           "Pickup-In-Store",
           "Quote",
+"cpq-quote"
         ]
       `);
     });
