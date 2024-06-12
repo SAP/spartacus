@@ -14,7 +14,7 @@
     font-size: var(--cx-font-size, 1.188rem);
     font-weight: var(--cx-font-weight-bold);
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       @include type('4');
     }
 
