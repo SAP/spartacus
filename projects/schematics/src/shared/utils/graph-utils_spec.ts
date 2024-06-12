@@ -11,6 +11,7 @@ import {
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_ESTIMATED_DELIVERY_DATE,
+  SPARTACUS_CPQ_QUOTE,
   SPARTACUS_OPPS,
   SPARTACUS_ORDER,
   SPARTACUS_ORGANIZATION,
@@ -27,7 +28,6 @@ import {
   SPARTACUS_STOREFINDER,
   SPARTACUS_TRACKING,
   SPARTACUS_USER,
-  SPARTACUS_CPQ_QUOTE,
 } from '../libs-constants';
 import {
   Graph,
@@ -195,6 +195,7 @@ describe('Graph utils', () => {
           "Store-Finder",
           "ASM",
           "ASM-Customer-360",
+          "Cpq-Quote",
           "Segment-Refs",
           "S4HANA-Order-Management",
           "OPPS",
@@ -213,7 +214,6 @@ describe('Graph utils', () => {
           "Bulk-Pricing",
           "Pickup-In-Store",
           "Quote",
-"cpq-quote"
         ]
       `);
     });
