@@ -15,5 +15,9 @@ export interface TranslatableParams {
 }
 
 export function isTranslatable(input: any): input is Translatable {
-  return typeof input === 'object' && ('key' in input || 'raw' in input);
+  return (
+    input !== null &&
+    typeof input === 'object' &&
+    ('key' in input || 'raw' in input)
+  );
 }

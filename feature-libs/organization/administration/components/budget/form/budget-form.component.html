@@ -60,16 +60,6 @@
         'orgBudget.startDate' | cxTranslate
       }}</span>
       <cx-date-picker
-        *cxFeature="'!formErrorsDescriptiveMessages'"
-        [control]="$any(form.get('startDate'))"
-        [max]="form.get('endDate')?.value"
-        [required]="true"
-        (update)="form.get('endDate')?.updateValueAndValidity()"
-      ></cx-date-picker>
-
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-      <cx-date-picker
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [control]="$any(form.get('startDate'))"
         [max]="form.get('endDate')?.value"
         [required]="true"
