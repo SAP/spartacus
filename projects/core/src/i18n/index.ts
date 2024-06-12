@@ -12,7 +12,6 @@ export * from './i18next/index';
 export * from './numeric.pipe';
 export * from './testing/index';
 export * from './translatable';
-export * from './translatable.spec';
 export * from './translate.pipe';
 export * from './translation-chunk.service';
 export * from './translation-resources';
