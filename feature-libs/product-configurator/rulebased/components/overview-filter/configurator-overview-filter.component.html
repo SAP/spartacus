@@ -50,11 +50,7 @@
     </div>
   </div>
 </ng-container>
-<ng-container
-  *ngIf="
-    config.overview.possibleGroups && config.overview.possibleGroups.length > 1
-  "
->
+<ng-container *ngIf="config.overview.possibleGroups?.length !== 1">
   <div class="cx-overview-filter-header">
     {{ 'configurator.overviewFilter.byGroup' | cxTranslate }}
   </div>
