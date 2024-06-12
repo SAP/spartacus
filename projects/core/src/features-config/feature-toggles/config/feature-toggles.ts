@@ -218,6 +218,13 @@ export interface FeatureTogglesInterface {
   a11yKeyboardAccessibleZoom?: boolean;
 
   /**
+   * Sets 'linkable' property in 'CellComponent' to be false by default.
+   * Modifies all table configs to acomodate this change.
+   * This stops unnecessary anchor tags from being rendered in the table cells.
+   */
+  a11yOrganizationLinkableCells?: boolean;
+
+  /**
    * Stops the focus indicator from overflowing and being obstructed by other elements.
    * Modifies the 'visible-focus' mixin. Includes style changes for:
    * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent
@@ -260,6 +267,11 @@ export interface FeatureTogglesInterface {
   santoriniV2?: boolean;
 
   /**
+   * Moves input elements of 'NotificationPreferenceComponent' into a fieldset.
+   */
+  a11yNotificationPreferenceFieldset?: boolean;
+
+  /**
    * Modifies the template of 'WishListComponent'.
    * Empty wishlist notification will be displayed in a paragraph instead of a heading.
    */
@@ -279,6 +291,7 @@ export interface FeatureTogglesInterface {
    */
   a11yFacetsDialogFocusHandling?: boolean;
 }
+
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDownloadProposalButton: false,
   showPromotionsInPDP: false,
@@ -316,6 +329,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
   a11yKeyboardAccessibleZoom: false,
+  a11yOrganizationLinkableCells: false,
   a11yVisibleFocusOverflows: false,
   a11yTruncatedTextForResponsiveView: false,
   a11ySemanticPaginationLabel: false,
@@ -323,6 +337,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
   santoriniV2: false,
+  a11yNotificationPreferenceFieldset: false,
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
   a11yFacetsDialogFocusHandling: false,
