@@ -3,7 +3,6 @@ import { CpqQuoteOfferComponent } from './cpq-quote-offer.component';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { Observable, ReplaySubject, of, take } from 'rxjs';
 import { Component, Input } from '@angular/core';
-
 import { LanguageService } from '@spartacus/core';
 import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
 import { CpqDiscounts } from '../../../root/model';
@@ -83,7 +82,7 @@ describe('CpqQuoteOfferComponent', () => {
       });
 
       // const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.offer').length).toBe(0);
+      expect(htmlElem.querySelectorAll('.cx-offer').length).toBe(0);
     });
     it('should be displayed if model provides data', () => {
       mockCartItemContext.item$.next({
@@ -103,7 +102,7 @@ describe('CpqQuoteOfferComponent', () => {
 
       fixture.detectChanges();
       // const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.offer').length).toBe(2);
+      expect(htmlElem.querySelectorAll('.cx-offer').length).toBe(2);
     });
   });
 });

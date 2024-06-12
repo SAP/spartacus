@@ -3,7 +3,8 @@ import { CpqQuoteHeadingComponent } from './cpq-quote-heading.component';
 import { TranslationService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
-describe('Cpq-Quote Heading Component', () => {
+
+describe('CpqQuoteHeadingComponent', () => {
   let component: CpqQuoteHeadingComponent;
   let fixture: ComponentFixture<CpqQuoteHeadingComponent>;
   let mockOutletContextData: BehaviorSubject<any[]>;

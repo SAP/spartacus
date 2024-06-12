@@ -138,6 +138,3 @@ export interface QuoteAttachment {
   id: string;
   filename?: string;
 }
-// export enum QuoteOutlet {
-
-// }

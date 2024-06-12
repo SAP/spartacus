@@ -17,7 +17,6 @@ interface ExtendedOrderEntry extends OrderEntry {
 @Component({
   selector: 'cx-cpq-quote-offer',
   templateUrl: './cpq-quote-offer.component.html',
-  styleUrls: ['./cpq-quote-offer.component.scss'],
 })
 export class CpqQuoteOfferComponent implements OnInit, OnDestroy {
   quoteDiscountData: ExtendedOrderEntry | null;

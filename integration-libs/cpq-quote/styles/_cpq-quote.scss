@@ -1,5 +1,12 @@
-.cx-discount {
-  height: 133px;
-  width: 155px;
-  text-align: center;
+%cx-cpq-quote {
+  .cx-center {
+    text-align: center;
+    height: 124px;
+    .cx-formatted-value {
+      text-decoration: line-through;
+      display: block;
+      color: #b8b8b8;
+      font-size: 13px;
+    }
+  }
 }

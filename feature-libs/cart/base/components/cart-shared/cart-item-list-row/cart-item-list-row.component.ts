@@ -24,7 +24,7 @@ export class CartItemListRowComponent
   implements OnDestroy
 {
   protected componentService = inject(CartItemListComponentService);
-  isFlagquote = this.componentService.showBasePriceWithDiscount();
+  isFlagQuote = this.componentService.showBasePriceWithDiscount();
   private subscription: Subscription;
   constructor(cartItemContextSource: CartItemContextSource) {
     super(cartItemContextSource);

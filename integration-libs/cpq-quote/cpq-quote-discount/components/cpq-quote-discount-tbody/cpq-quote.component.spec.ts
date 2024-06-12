@@ -20,7 +20,7 @@ class MockConfigureCpqDiscountsComponent {
   @Input() cartEntry: Partial<OrderEntry & Array<CpqDiscounts>>;
 }
 
-describe('Cpq Quote Discount Component', () => {
+describe('CpqQuoteDiscountComponent', () => {
   let component: CpqQuoteDiscountComponent;
   let fixture: ComponentFixture<CpqQuoteDiscountComponent>;
   let mockCartItemContext: MockCartItemContext;
@@ -50,9 +50,9 @@ describe('Cpq Quote Discount Component', () => {
     fixture.detectChanges();
   });
 
-  it('should display all content when isFlagquote is false', () => {
+  it('should display all content when isFlagQuote is false', () => {
     const contentElements = fixture.nativeElement.querySelectorAll(
-      '.cx-total, .cx-formattedValue'
+      '.cx-total, .cx-formatted-value'
     );
     expect(contentElements.length).toBeGreaterThan(0); // Ensure that at least one element is found
   });
@@ -118,8 +118,9 @@ describe('Cpq Quote Discount Component', () => {
       const formattedValue = 'USD100.00';
       mockCartItemContext.item$.next({ basePrice: { formattedValue } });
       fixture.detectChanges();
-      const spanElement =
-        fixture.nativeElement.querySelector('.cx-formattedValue');
+      const spanElement = fixture.nativeElement.querySelector(
+        '.cx-formatted-value'
+      );
       expect(spanElement).toBeTruthy();
       expect(spanElement.textContent.trim()).toBe(formattedValue);
     });

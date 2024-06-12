@@ -11,15 +11,10 @@
       </th>
 
       <ng-template
-        id="cx-item-list-discount"
         role="columnheader"
         [cxOutlet]="CartOutlets.CPQ_QUOTE_HEADING"
         [cxOutletContext]="items"
       ></ng-template>
-
-      <!-- <th role="columnheader" class="cx-item-list-qty">
-      {{ 'cartItems.itemPrice' | cxTranslate }}
-    </th> -->
       <th role="columnheader" class="cx-item-list-qty">
         {{ 'cartItems.quantity' | cxTranslate }}
       </th>

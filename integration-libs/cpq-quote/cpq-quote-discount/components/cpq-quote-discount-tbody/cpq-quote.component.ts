@@ -17,14 +17,13 @@ interface ExtendedOrderEntry extends OrderEntry {
 @Component({
   selector: 'cx-cpq-quote',
   templateUrl: './cpq-quote.component.html',
-  styleUrls: ['./cpq-quote.component.scss'],
 })
 export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
   quoteDiscountData: ExtendedOrderEntry | null;
   private subscription: Subscription;
   readonly orderEntry$: Observable<ExtendedOrderEntry> = // Use ExtendedOrderEntry here
     this.cartItemContext?.item$ ?? EMPTY;
-  isFlagquote = true;
+  isFlagQuote = true;
   constructor(
     @Optional()
     @Inject(CartItemContext)
@@ -32,7 +31,7 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
     private cpqQuoteService: CpqQuoteService
   ) {
     this.subscription = this.cpqQuoteService.isFlag$.subscribe((isFlag) => {
-      this.isFlagquote = isFlag;
+      this.isFlagQuote = isFlag;
     });
   }
 

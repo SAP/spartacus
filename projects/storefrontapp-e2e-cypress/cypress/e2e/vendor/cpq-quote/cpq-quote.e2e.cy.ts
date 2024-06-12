@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as quote from '../../../helpers/b2b/b2b-quote';
-import * as quoteq from '../../../helpers/vendor/cpq-quote/cpq-quote';
+import * as Commonquote from '../../../helpers/b2b/b2b-quote';
+import * as cpqQuote from '../../../helpers/vendor/cpq-quote/cpq-quote';
 
 const BUYER_EMAIL = 'james.weber@harvestlive.inc';
 const BUYER_PASSWORD = 'welcome';
@@ -24,19 +24,17 @@ context('CPQ Discount Percentage ', () => {
     };
     cy.cxConfig(globalMessageSettings);
     cy.visit('/');
-    quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
-    quote.registerReadVendorQuoteRoute();
-    quote.registerReadQuoteRoute();
+    Commonquote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
+    cpqQuote.registerReadVendorQuoteRoute();
+    cpqQuote.registerReadQuoteRoute();
   });
 
   it('should display CPQ Discount Percentage ', () => {
-    quote.navigateToVendorQuoteListFromMyAccount();
-    quote.checkQuoteListDisplayed();
-    quote.navigateToVendorQuote();
-    quoteq.DiscountPercentageQuote();
-    quoteq.DiscountPercentageQuoterow();
-    quoteq.DiscountQuoterow();
-
-    // quote.logout();
+    cpqQuote.navigateQuoteList();
+    cpqQuote.checkQuoteListDisplayed();
+    Commonquote.navigateToQuotesList();
+    cpqQuote.checkDiscountDisplayed();
+    cpqQuote.checkDiscountDisplayedrow();
+    cpqQuote.checkDiscountDisplayedOffer();
   });
 });
