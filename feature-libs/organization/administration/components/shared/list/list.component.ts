@@ -44,6 +44,7 @@ export class ListComponent<T = any, P = PaginationModel> {
   ) {
     useFeatureStyles('a11yOrganizationListHeadingOrder');
     useFeatureStyles('a11yListOversizedFocus');
+    useFeatureStyles('a11yOrganizationLinkableCells');
   }
 
   @HostBinding('class')
