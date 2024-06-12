@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AuthGuard, CmsConfig } from '@spartacus/core';
+import { AuthGuard, CmsConfig, FeatureConfigService } from '@spartacus/core';
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { TableConfig } from '@spartacus/storefront';
@@ -93,10 +93,71 @@ export const costCenterCmsConfig: CmsConfig = {
   },
 };
 
-export function costCenterTableConfigFactory(): TableConfig {
+export function costCenterTableConfigFactory(
+  featureConfigService: FeatureConfigService
+): TableConfig {
+  // TODO: (CXSPA-7155) - Remove feature flag and legacy config next major release
+  if (featureConfigService?.isEnabled('a11yOrganizationLinkableCells')) {
+    return newCostCenterTableConfig;
+  }
   return costCenterTableConfig;
 }
 
+export const newCostCenterTableConfig: TableConfig = {
+  table: {
+    [OrganizationTableType.COST_CENTER]: {
+      cells: ['name', 'active', 'currency', 'unit'],
+      options: {
+        cells: {
+          name: {
+            dataComponent: ActiveLinkCellComponent,
+            linkable: true,
+          },
+          active: {
+            dataComponent: StatusCellComponent,
+          },
+          currency: {
+            dataComponent: CellComponent,
+          },
+          unit: {
+            dataComponent: UnitCellComponent,
+          },
+        },
+      },
+    },
+
+    [OrganizationTableType.COST_CENTER_ASSIGNED_BUDGETS]: {
+      cells: ['name', 'actions'],
+      options: {
+        cells: {
+          name: {
+            dataComponent: BudgetDetailsCellComponent,
+          },
+          actions: {
+            dataComponent: AssignCellComponent,
+          },
+        },
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+      },
+    },
+
+    [OrganizationTableType.COST_CENTER_BUDGETS]: {
+      cells: ['name', 'actions'],
+      options: {
+        cells: {
+          name: {
+            dataComponent: BudgetDetailsCellComponent,
+          },
+          actions: {
+            dataComponent: AssignCellComponent,
+          },
+        },
+      },
+    },
+  },
+};
 export const costCenterTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.COST_CENTER]: {

@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Optional,
+  inject,
+} from '@angular/core';
+import { FeatureConfigService } from '@spartacus/core';
 import {
   OutletContextData,
   TableDataOutletContext,
@@ -17,6 +23,10 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CellComponent {
+  @Optional() featuteConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
+
   constructor(protected outlet: OutletContextData<TableDataOutletContext>) {}
 
   get tabIndex(): number {
@@ -37,9 +47,15 @@ export class CellComponent {
    * If the cells is linkable, an anchor link is created to the detailed route
    * of the given `_type`.
    *
-   * Defaults to `true`.
+   * Defaults to `true. If 'a11yOrganizationLinkableCells' feature flag is enabled, it will default to `false`.
    */
   get linkable(): boolean {
+    // TODO: (CXSPA-7155) - Remove feature flag and update JSDoc next major release
+    if (this.featuteConfigService?.isEnabled('a11yOrganizationLinkableCells')) {
+      return (
+        this.property !== undefined && (this.cellOptions.linkable ?? false)
+      );
+    }
     return this.property !== undefined && (this.cellOptions.linkable ?? true);
   }
 
