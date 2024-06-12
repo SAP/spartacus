@@ -39,6 +39,11 @@ class MockFormComponentService
   );
   displayMessage = createSpy('displayMessage').and.stub();
 }
+
+class MockRoutingService {
+  go = createSpy();
+}
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -56,6 +61,7 @@ describe('VerificationTokenFormComponent', () => {
   let el: DebugElement;
   let service: VerificationTokenFormComponentService;
   let launchDialogService: LaunchDialogService;
+  let routineservice: RoutingService;
 
   beforeEach(
     waitForAsync(() => {
@@ -79,7 +85,7 @@ describe('VerificationTokenFormComponent', () => {
           },
           {
             provide: RoutingService,
-            useClass: RoutingService,
+            useClass: MockRoutingService,
           },
           ChangeDetectorRef,
         ],
@@ -91,6 +97,7 @@ describe('VerificationTokenFormComponent', () => {
     fixture = TestBed.createComponent(VerificationTokenFormComponent);
     service = TestBed.inject(VerificationTokenFormComponentService);
     launchDialogService = TestBed.inject(LaunchDialogService);
+    routineservice = TestBed.inject(RoutingService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -140,6 +147,25 @@ describe('VerificationTokenFormComponent', () => {
     });
   });
 
+  describe('refresh with no tokenId/pwd/loginId', () => {
+    it('should navigate back to loginn', () => {
+      history.pushState(
+        {
+          tokenId: '',
+          password: '',
+          loginId: '',
+        },
+        ''
+      );
+      component.ngOnInit();
+      expect(routineservice.go).toHaveBeenCalledWith(['/login']);
+      expect(service.displayMessage).toHaveBeenCalledWith(
+        'verificationTokenForm.needInputCredentials',
+        {}
+      );
+    });
+  });
+
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
       const request = spyOn(component, 'onSubmit');
@@ -184,7 +210,7 @@ describe('VerificationTokenFormComponent', () => {
       );
       expect(service.displayMessage).toHaveBeenCalledWith(
         'verificationTokenForm.createVerificationToken',
-        {target: 'example@example.com'}
+        { target: 'example@example.com' }
       );
     });
   });
