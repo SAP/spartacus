@@ -5,11 +5,12 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Buffer } from 'buffer';
 import { Observable, ReplaySubject } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { ChatGPT4 } from '../model/chat-gpt-4.model';
+import { LoggerService } from '@spartacus/core';
 
 const CHAT_GPT_URL =
   'https://azure-openai-serv-i057149.cfapps.sap.hana.ondemand.com/api/v1/completions';
@@ -27,6 +28,8 @@ const AUTH_CLIENT_SECRET =
   providedIn: 'root',
 })
 export class ChatGptBtpConnector {
+  protected logger = inject(LoggerService);
+
   constructor(protected http: HttpClient) {}
 
   private _token$: ReplaySubject<ChatGPT4.AccessData>;
@@ -83,7 +86,7 @@ export class ChatGptBtpConnector {
         if (functions) {
           body.functions = functions;
         }
-        console.log('POSTING TO GPT: ', structuredClone(body));
+        this.logger.log('POSTING TO GPT: ', structuredClone(body));
         return this.http
           .post<ChatGPT4.Response>(CHAT_GPT_URL, body, {
             headers: {
@@ -92,7 +95,7 @@ export class ChatGptBtpConnector {
           })
           .pipe(
             tap((response) =>
-              console.log('RECEIVED FROM GPT: ', structuredClone(response))
+              this.logger.log('RECEIVED FROM GPT: ', structuredClone(response))
             )
           );
       })

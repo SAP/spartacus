@@ -11,7 +11,7 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
@@ -20,6 +20,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { BehaviorSubject } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -42,11 +43,15 @@ class MockUpdatePasswordService
   resetForm = createSpy().and.stub();
 }
 
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
+}
+
 describe('UpdatePasswordComponent', () => {
   let component: UpdatePasswordComponent;
   let fixture: ComponentFixture<UpdatePasswordComponent>;
   let el: DebugElement;
-
+  let routingService: RoutingService;
   let service: UpdatePasswordComponentService;
 
   beforeEach(
@@ -60,12 +65,17 @@ describe('UpdatePasswordComponent', () => {
           UrlTestingModule,
           PasswordVisibilityToggleModule,
         ],
-        declarations: [UpdatePasswordComponent, MockCxSpinnerComponent],
+        declarations: [
+          UpdatePasswordComponent,
+          MockCxSpinnerComponent,
+          MockFeatureDirective,
+        ],
         providers: [
           {
             provide: UpdatePasswordComponentService,
             useClass: MockUpdatePasswordService,
           },
+          { provide: RoutingService, useClass: MockRoutingService },
         ],
       })
         .overrideComponent(UpdatePasswordComponent, {
@@ -80,6 +90,7 @@ describe('UpdatePasswordComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     service = TestBed.inject(UpdatePasswordComponentService);
+    routingService = TestBed.inject(RoutingService);
 
     fixture.detectChanges();
   });
@@ -131,6 +142,13 @@ describe('UpdatePasswordComponent', () => {
     it('should call the service method on submit', () => {
       component.onSubmit();
       expect(service.updatePassword).toHaveBeenCalled();
+    });
+
+    it('should navigate to home on cancel', () => {
+      spyOn(routingService, 'go');
+      const cancelBtn = el.query(By.css('button.btn-secondary'));
+      cancelBtn.triggerEventHandler('click');
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
     });
   });
 });

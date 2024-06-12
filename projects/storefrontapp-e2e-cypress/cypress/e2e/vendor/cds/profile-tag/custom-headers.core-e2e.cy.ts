@@ -53,15 +53,15 @@ describe('Custom header additions to occ calls', () => {
           win,
           profileTagHelper.EventNames.CONSENT_CHANGED
         );
-        expect(consentAccepted.length).to.equal(2);
-        expect(consentAccepted[1].data.granted).to.eq(true);
+        expect(consentAccepted.length).to.equal(3);
+        expect(consentAccepted[2].data.granted).to.eq(true);
       });
       cy.get('.Section4 cx-banner').first().find('a').click({ force: true });
       cy.wait(`@${productPage}`)
         .its('request.headers')
         .should('have.deep.property', X_CONSENT_REFERENCE_HEADER);
       // withdraw consent
-      cy.get('button.btn.btn-link').contains('Consent Preferences').click();
+      cy.get('button.btn.btn-link').contains('Consent').click();
       cy.get('input.form-check-input').uncheck();
       cy.get('button.close').click();
       navigation.visitHomePage({
@@ -85,8 +85,8 @@ describe('Custom header additions to occ calls', () => {
           win,
           profileTagHelper.EventNames.CONSENT_CHANGED
         );
-        expect(consentAccepted.length).to.equal(2);
-        expect(consentAccepted[1].data.granted).to.eq(true);
+        expect(consentAccepted.length).to.equal(3);
+        expect(consentAccepted[2].data.granted).to.eq(true);
       });
       // search for cameras
       createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 12);

@@ -27,6 +27,10 @@
       padding-inline-start: 7px;
       font-size: var(--cx-font-size, 1.188rem);
       font-weight: var(--cx-font-weight-bold);
+
+      @include forFeature('santoriniV2') {
+        @include type('3');
+      }
     }
 
     .total {

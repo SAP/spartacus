@@ -10,7 +10,7 @@ export function checkBanner() {
 
 export function clickHamburger() {
   cy.onMobile(() => {
-    cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
+    cy.get('cx-hamburger-menu button').click();
   });
 }
 

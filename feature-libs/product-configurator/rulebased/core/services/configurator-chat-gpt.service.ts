@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Product, ProductScope, ProductService } from '@spartacus/core';
+import { inject, Injectable } from '@angular/core';
+import {
+  LoggerService,
+  Product,
+  ProductScope,
+  ProductService,
+} from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable, OperatorFunction, combineLatest, of } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
@@ -102,6 +107,8 @@ const FUNCTION_SELECT_VALUES: ChatGPT4.Function = {
   providedIn: 'root',
 })
 export class ConfiguratorChatGptService {
+  protected logger = inject(LoggerService);
+
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService
       .extractRouterData()
@@ -162,7 +169,7 @@ export class ConfiguratorChatGptService {
         })
       );
     } catch (error) {
-      console.error(error);
+      this.logger.error(error);
       return of({
         role: ChatGPT4.Role.ASSISTANT,
         content:
@@ -243,11 +250,11 @@ export class ConfiguratorChatGptService {
     if (response.choices[0].finish_reason === ChatGPT4.FinishReason.CALL) {
       const message = response.choices[0].message;
       if (!message.function_call) {
-        console.log(message);
+        this.logger.log(message);
         throw new Error('function call missing in message');
       }
       this.conversation.push(message);
-      console.log(
+      this.logger.log(
         `GPT wants to call function ${message.function_call.name} with args ${message.function_call.arguments}`
       );
       switch (message.function_call.name) {
@@ -257,7 +264,7 @@ export class ConfiguratorChatGptService {
         case FUNCTION_SELECT_VALUES.name:
           return this.handleConfigChanges(message.function_call, config);
         default:
-          console.log(`function ${message.function_call} is unknown!`);
+          this.logger.log(`function ${message.function_call} is unknown!`);
           return of(response);
       }
     }
@@ -297,10 +304,10 @@ export class ConfiguratorChatGptService {
   }
 
   handleTokenLimit(usage: ChatGPT4.Usage): void {
-    console.log('current token usage: ', usage);
+    this.logger.log('current token usage: ', usage);
     // very simple implementation, but should be sufficient in most cases
     if (usage.total_tokens > 8 * 1024 * 0.75) {
-      console.log(
+      this.logger.log(
         'More than 75% of the 8K token limit consumed, dropping last message.'
       );
       this.conversation = [this.conversation[0]].concat(
@@ -345,7 +352,7 @@ export class ConfiguratorChatGptService {
 
   isPricingMerged(config: Configurator.Configuration): boolean {
     const pricingMerged = config.pricingMerged || !config.pricingEnabled;
-    console.log(
+    this.logger.log(
       'pricing merged=' +
         config.pricingMerged +
         ' pricingEnabled=' +
@@ -361,7 +368,7 @@ export class ConfiguratorChatGptService {
     updates.selections.forEach((update) => {
       const attribute = this.findAttribute(update.attribute_id, config);
       if (!attribute) {
-        console.log(
+        this.logger.log(
           'attribute not found in config, attr name=' + update.attribute_id
         );
         return;
@@ -380,7 +387,10 @@ export class ConfiguratorChatGptService {
     update: GptSelection
   ) {
     const values = this.calculateSelectedValues(update.value_ids, attribute);
-    console.log(`updating attribute ${attribute.name} to these values`, values);
+    this.logger.log(
+      `updating attribute ${attribute.name} to these values`,
+      values
+    );
     this.configuratorCommonsService.updateConfiguration(
       owner,
       {
@@ -416,7 +426,7 @@ export class ConfiguratorChatGptService {
       update.value_ids[0],
       attribute
     )?.name;
-    console.log(
+    this.logger.log(
       `selecting ${selectedValueName} for attribute ${attribute.name}`
     );
     this.configuratorCommonsService.updateConfiguration(
@@ -433,11 +443,10 @@ export class ConfiguratorChatGptService {
     valueName: string,
     attribute: Configurator.Attribute
   ): Configurator.Value | undefined {
-    const value = attribute.values?.find(
+    return attribute.values?.find(
       (foundValue) =>
         foundValue.name === valueName || foundValue.valueDisplay === valueName
     );
-    return value;
   }
 
   protected findAttribute(
@@ -464,7 +473,7 @@ export class ConfiguratorChatGptService {
       }
     }
     const applied = currentValue?.selected ?? true;
-    console.log(
+    this.logger.log(
       `last update is ${applied ? 'applied' : 'not yet applied'}`,
       lastUpdate
     );
