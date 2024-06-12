@@ -148,7 +148,7 @@ describe('VerificationTokenFormComponent', () => {
   });
 
   describe('refresh with no tokenId/pwd/loginId', () => {
-    it('should navigate back to loginn', () => {
+    it('should navigate back to login page', () => {
       history.pushState(
         {
           tokenId: '',
