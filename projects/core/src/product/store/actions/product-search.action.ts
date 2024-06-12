@@ -24,6 +24,10 @@ export const GET_PRODUCT_SUGGESTIONS_FAIL =
 export const CLEAR_PRODUCT_SEARCH_RESULT =
   '[Product] Clear Product Search Result';
 
+export const GET_PRODUCTS_LIST = '[Product] Get Products List';
+export const GET_PRODUCTS_LIST_SUCCESS = '[Product] Get Products List Success';
+export const GET_PRODUCTS_LIST_FAIL = '[Product] Get Products List Fail';
+
 export class SearchProducts implements Action {
   readonly type = SEARCH_PRODUCTS;
   constructor(
@@ -63,6 +67,21 @@ export class GetProductSuggestionsFail implements Action {
   constructor(public payload: ErrorModel | undefined) {}
 }
 
+export class GetProductsList implements Action {
+  readonly type = GET_PRODUCTS_LIST;
+  constructor(public payload: { codeList: string[]; componentId: string }) {}
+}
+
+export class GetProductsListSuccess implements Action {
+  readonly type = GET_PRODUCTS_LIST_SUCCESS;
+  constructor(public payload: {results: ProductSearchPage; componentId: string } ) {}
+}
+
+export class GetProductsListFail implements Action {
+  readonly type = GET_PRODUCTS_LIST_FAIL;
+  constructor(public payload: ErrorModel | undefined) {}
+}
+
 export class ClearProductSearchResult implements Action {
   readonly type = CLEAR_PRODUCT_SEARCH_RESULT;
   constructor(
@@ -81,4 +100,7 @@ export type ProductSearchAction =
   | GetProductSuggestions
   | GetProductSuggestionsSuccess
   | GetProductSuggestionsFail
+  | GetProductsList
+  | GetProductsListSuccess
+  | GetProductsListFail
   | ClearProductSearchResult;

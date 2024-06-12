@@ -59,6 +59,21 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
       );
   }
 
+  searchByCodes(
+    codeList: string[]
+  ): Observable<ProductSearchPage> {
+    const context = new HttpContext().set(OCC_HTTP_TOKEN, {
+      sendUserIdAsHeader: true,
+    });
+    const codeFilter = 'code:' + codeList.join(',');
+
+    //TODO: Current Product Search API can max return 100 products. This is a limitation of the current API.
+    //TODO: Need chunk logic to invoke multiple API calls if the codeList is more than 100 ?
+    return this.http
+      .get(this.getSearchByCodesEndpoint(codeFilter), { context })
+      .pipe(this.converter.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER));
+  }
+
   loadSuggestions(
     term: string,
     pageSize: number = 3
@@ -85,6 +100,15 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
   protected getSuggestionEndpoint(term: string, max: string): string {
     return this.occEndpoints.buildUrl('productSuggestions', {
       queryParams: { term, max },
+    });
+  }
+
+  protected getSearchByCodesEndpoint(
+    filters: string,
+    searchConfig: SearchConfig = { pageSize: 100 }
+  ): string {
+    return this.occEndpoints.buildUrl('productSearch', {
+      queryParams: { filters, ...searchConfig },
     });
   }
 }

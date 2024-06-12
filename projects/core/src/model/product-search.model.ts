@@ -82,6 +82,10 @@ export interface Suggestion {
   value?: string;
 }
 
+export interface ProductsListMap {
+  [componentId: string]: Product[];
+}
+
 export interface ClearSearch {
   clearPageResults?: boolean;
   clearSearchboxResults?: boolean;

@@ -5,8 +5,8 @@
  */
 
 import {
-  ProductSearchPage,
-  Suggestion,
+  ProductSearchPage, ProductsListMap,
+  Suggestion
 } from '../../../model/product-search.model';
 import { ProductActions } from '../actions/index';
 import { ProductsSearchState } from '../product-state';
@@ -15,6 +15,7 @@ export const initialState: ProductsSearchState = {
   results: {},
   suggestions: [],
   auxResults: {},
+  productsListResults: {},
 };
 
 export function reducer(
@@ -37,6 +38,19 @@ export function reducer(
       return {
         ...state,
         suggestions,
+      };
+    }
+
+    case ProductActions.GET_PRODUCTS_LIST_SUCCESS: {
+      const productList = action.payload.results.products;
+      const componentId = action.payload.componentId;
+
+      return <ProductsSearchState>{
+        ...state,
+        productsListResults: {
+          ...state.productsListResults,
+          [componentId]: productList,
+        }
       };
     }
 
@@ -65,3 +79,6 @@ export const getAuxSearchResults = (
 export const getProductSuggestions = (
   state: ProductsSearchState
 ): Suggestion[] => state.suggestions;
+export const getProductsListResults = (
+  state: ProductsSearchState
+): ProductsListMap => state.productsListResults;

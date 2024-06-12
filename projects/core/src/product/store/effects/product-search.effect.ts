@@ -81,6 +81,32 @@ export class ProductsSearchEffects {
     )
   );
 
+  getProductsList$: Observable<
+    | ProductActions.GetProductsListSuccess
+    | ProductActions.GetProductsListFail
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.GET_PRODUCTS_LIST),
+      map((action: ProductActions.GetProductsList) => action.payload),
+      mergeMap((payload) => {
+        return this.productSearchConnector
+          .searchByCodes(payload.codeList)
+          .pipe(
+            map((data) => {
+              return new ProductActions.GetProductsListSuccess({results:data, componentId: payload.componentId});
+            }),
+            catchError((error) =>
+              of(
+                new ProductActions.GetProductsListFail(
+                  normalizeHttpError(error, this.logger)
+                )
+              )
+            )
+          );
+      })
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private productSearchConnector: ProductSearchConnector

@@ -4,14 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {
   CmsProductCarouselComponent as model,
+  FeatureConfigService,
   Product,
   ProductScope,
   ProductService,
+  ProductSearchService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import {Observable, of, switchMap} from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 
@@ -21,6 +23,8 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCarouselComponent {
+  private featureConfigService: FeatureConfigService = inject(FeatureConfigService);
+
   protected readonly PRODUCT_SCOPE = [ProductScope.LIST, ProductScope.STOCK];
 
   protected readonly PRODUCT_SCOPE_ITEM = [ProductScope.LIST_ITEM];
@@ -47,19 +51,27 @@ export class ProductCarouselComponent {
     this.componentData$.pipe(
       map((data) => {
         const componentMappingExist = !!data.composition?.inner?.length;
+        const componentId = data.uid;
         const codes = data.productCodes?.trim().split(' ') ?? [];
-        return { componentMappingExist, codes };
+        return { componentMappingExist, codes, componentId };
       }),
-      map(({ componentMappingExist, codes }) => {
+      switchMap(({ componentMappingExist, codes ,componentId}) => {
         const productScope = componentMappingExist
           ? [...this.PRODUCT_SCOPE]
           : [...this.PRODUCT_SCOPE_ITEM];
-        return codes.map((code) => this.productService.get(code, productScope));
+        if(this.featureConfigService.isEnabled('productCarouselUseBatchApi')) {
+          console.log('Feature Flag True - will be removed later');
+          return this.productSearchService.searchAndReturnResults(codes, componentId);
+        } else {
+          console.log('Feature Flag False - will be removed later');
+          return of(codes.map((code) => this.productService.get(code, productScope)));
+        }
       })
     );
 
   constructor(
     protected componentData: CmsComponentData<model>,
-    protected productService: ProductService
+    protected productService: ProductService,
+    protected productSearchService: ProductSearchService
   ) {}
 }

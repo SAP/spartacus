@@ -325,6 +325,7 @@ if (environment.estimatedDeliveryDate) {
           true,
         a11yFacetsDialogFocusHandling: true,
         a11yLinkBtnsToTertiaryBtns: true,
+        productCarouselUseBatchApi: true,
       };
       return appFeatureToggles;
     }),

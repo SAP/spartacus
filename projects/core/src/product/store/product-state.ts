@@ -6,7 +6,8 @@
 
 import {
   ProductSearchPage,
-  Suggestion,
+  ProductsListMap,
+  Suggestion
 } from '../../model/product-search.model';
 import { Product, ProductReference, Review } from '../../model/product.model';
 import { EntityScopedLoaderState } from '../../state/utils/scoped-loader/scoped-loader.state';
@@ -29,6 +30,7 @@ export interface ProductsSearchState {
   results: ProductSearchPage;
   suggestions: Suggestion[];
   auxResults: ProductSearchPage;
+  productsListResults: ProductsListMap;
 }
 
 export interface ProductReviewsState {
