@@ -29,7 +29,6 @@ import { RoutingService } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VerificationTokenFormComponent implements OnInit {
-  protected routingService: RoutingService = inject(RoutingService);
   constructor() {}
   protected service: VerificationTokenFormComponentService = inject(
     VerificationTokenFormComponentService
@@ -37,6 +36,7 @@ export class VerificationTokenFormComponent implements OnInit {
   protected launchDialogService: LaunchDialogService =
     inject(LaunchDialogService);
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  protected routingService: RoutingService = inject(RoutingService);
 
   waitTime: number = 60;
 

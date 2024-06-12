@@ -12,7 +12,7 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   FormErrorsModule,
   LaunchDialogService,
@@ -76,6 +76,10 @@ describe('VerificationTokenFormComponent', () => {
           {
             provide: LaunchDialogService,
             useClass: MockLaunchDialogService,
+          },
+          {
+            provide: RoutingService,
+            useClass: RoutingService,
           },
           ChangeDetectorRef,
         ],
@@ -179,7 +183,8 @@ describe('VerificationTokenFormComponent', () => {
         ONE_TIME_PASSWORD_LOGIN_PURPOSE
       );
       expect(service.displayMessage).toHaveBeenCalledWith(
-        'example@example.com'
+        'verificationTokenForm.createVerificationToken',
+        {target: 'example@example.com'}
       );
     });
   });
