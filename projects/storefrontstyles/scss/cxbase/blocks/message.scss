@@ -29,7 +29,7 @@
     position: relative;
     text-align: var(--cx-text-align, center);
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       @include type('6');
     }
   }
@@ -55,7 +55,7 @@
     font-weight: var(--cx-font-weight-normal);
     padding: 0 12px;
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       @include type('8');
     }
   }

@@ -17,7 +17,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
     box-shadow: none;
   }
 
-  @include forFeature('santoriniV2') {
+  @include forFeature('a11yImproveContrast') {
     color: var(--cx-color-text);
   }
 
@@ -38,7 +38,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
   }
 
   nav {
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       // complements reboot to remove focus-ring from unfocused elements
       &[tabindex='-1']:focus {
         box-shadow: 0 0 0 0 !important;
@@ -72,7 +72,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
           color: inherit;
           padding: 0px 5px;
 
-          @include forFeature('santoriniV2') {
+          @include forFeature('a11yImproveContrast') {
             color: var(--cx-color-primary);
           }
         }

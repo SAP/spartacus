@@ -267,9 +267,27 @@ export interface FeatureTogglesInterface {
   a11yCloseProductImageBtnFocus?: boolean;
 
   /**
-   * Enables the updated Santorini theme.
+   * Improve colour contrast in the demonstration theme Santorini
+   * to comply with accessibility standards. On activation, colour
+   * assignations for all UI elements will change and previous keyboard
+   * focus-ring gets replaced by a new bi-colour focus-ring.
+   *
+   * Note: If you're not using in your app the `StorefrontComponent`
+   *       (`<cx-storefront>`) from Spartacus, then you'll need to also add
+   *       the following line to the constructor of your app's root component:
+   *
+   * ```
+   * constructor() {
+   *   useFeatureStyles('a11yImproveContrast');
+   * }
+   * ```
    */
-  santoriniV2?: boolean;
+  a11yImproveContrast?: boolean;
+
+  /**
+   * Moves input elements of 'NotificationPreferenceComponent' into a fieldset.
+   */
+  a11yNotificationPreferenceFieldset?: boolean;
 
   /**
    * Modifies the template of 'WishListComponent'.
@@ -291,6 +309,7 @@ export interface FeatureTogglesInterface {
    */
   a11yFacetsDialogFocusHandling?: boolean;
 }
+
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useExtractedBillingAddressComponent: false,
   showBillingAddressInDigitalPayments: false,
@@ -336,7 +355,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventSRFocusOnHiddenElements: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
-  santoriniV2: false,
+  a11yNotificationPreferenceFieldset: false,
+  a11yImproveContrast: false,
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
   a11yFacetsDialogFocusHandling: false,
