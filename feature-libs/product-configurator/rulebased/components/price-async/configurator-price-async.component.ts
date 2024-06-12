@@ -88,24 +88,17 @@ export class ConfiguratorPriceAsyncComponent {
   }
 
   getPriceData(configuration: Configurator.Configuration): PriceData {
-    let attribute = configuration.groups
-      .find(
-        // find active group
-        (group) => group.attributes && group.attributes.length > 0
+    let priceSupplement = configuration.priceSupplements
+      ?.find(
+        (attrSupplement) =>
+          attrSupplement.attributeUiKey === this.options.attributeKey
       )
-      ?.attributes?.find(
-        (attribute) => attribute.key === this.options.attributeKey
+      ?.valueSupplements.find(
+        (valueSupplement) =>
+          valueSupplement.attributeValueKey === this.options.valueName
       );
 
-    let priceData: PriceData = { totalPrice: attribute?.attributePriceTotal };
-
-    if (this.options.valueName) {
-      let value = attribute?.values?.find(
-        (value) => value.name === this.options.valueName
-      );
-      priceData.totalPrice = value?.valuePriceTotal;
-      priceData.valuePrice = value?.valuePrice;
-    }
+    let priceData: PriceData = { valuePrice: priceSupplement?.priceValue };
     return priceData;
   }
 

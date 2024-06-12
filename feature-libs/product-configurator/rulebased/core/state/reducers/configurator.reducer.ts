@@ -11,7 +11,6 @@ import {
 
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
-import { ConfiguratorStateUtils } from '../configurator-state-utils';
 
 export const initialState: Configurator.Configuration = {
   configId: '',
@@ -453,24 +452,16 @@ function takeOverPricingChanges(
   state: Configurator.Configuration
 ): Configurator.Configuration {
   const content = { ...action.payload };
-  const priceSupplements = content.priceSupplements;
-  const groups =
-    priceSupplements && priceSupplements.length > 0
-      ? ConfiguratorStateUtils.mergeGroupsWithSupplements(
-          state.groups,
-          priceSupplements
-        )
-      : state.groups;
 
   const result = {
     ...state,
     ...content,
-    groups: groups,
     interactionState: {
       ...state.interactionState,
       ...content.interactionState,
       issueNavigationDone: true,
     },
   };
+  console.log(result);
   return result;
 }
