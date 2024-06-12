@@ -32,7 +32,8 @@ const START_MSG =
   // 'The JSON should be given without any announcement at the end of the response. ' +
   'Please help the user with selecting the attribute values based on his wishes and needs. ' +
   'Please do not use any markdown syntax in your response.' +
-  'Please only answer questions related to the product and the configuration and politely deny any other queries.';
+  'Please only answer questions related to the product and the configuration and politely deny any other queries. ' +
+  'Please answer the user in the language he used in his queries.';
 
 type GptGroupResponse = { groupId: string };
 
