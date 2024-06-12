@@ -1,6 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery-Date feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
+exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery-Date feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { estimatedDeliveryDateTranslationChunksConfig, estimatedDeliveryDateTranslations } from "@spartacus/estimated-delivery-date/assets";
+import { EstimatedDeliveryDateRootModule } from "@spartacus/estimated-delivery-date/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    EstimatedDeliveryDateRootModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: estimatedDeliveryDateTranslations,
+      chunks: estimatedDeliveryDateTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class EstimatedDeliveryDateFeatureModule { }
+"
+`;
 
 exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery-Date feature general setup should add the feature using the lazy loading syntax 2`] = `
 "import { NgModule } from '@angular/core';
@@ -149,4 +170,26 @@ exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery
 }"
 `;
 
-exports[`Spartacus Estimated-Delivery-Date schematics: ng-add eager loading should import appropriate modules 1`] = `""`;
+exports[`Spartacus Estimated-Delivery-Date schematics: ng-add eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { EstimatedDeliveryDateModule } from "@spartacus/estimated-delivery-date";
+import { estimatedDeliveryDateTranslationChunksConfig, estimatedDeliveryDateTranslations } from "@spartacus/estimated-delivery-date/assets";
+import { EstimatedDeliveryDateRootModule } from "@spartacus/estimated-delivery-date/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    EstimatedDeliveryDateRootModule,
+    EstimatedDeliveryDateModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: estimatedDeliveryDateTranslations,
+      chunks: estimatedDeliveryDateTranslationChunksConfig,
+    },
+  })]
+})
+export class EstimatedDeliveryDateFeatureModule { }
+"
+`;

@@ -6,6 +6,7 @@ import * as configurationCart from '../../../helpers/product-configurator-cart';
 import * as configurationOverview from '../../../helpers/product-configurator-overview';
 import * as configuration from '../../../helpers/product-configurator';
 import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
+import { checkAmountOfFilterOptions } from '../../../helpers/product-configurator-overview-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL-STD-METALLIC';
@@ -23,15 +24,15 @@ context('Product Configuration', () => {
     describe('support back navigation to the product detail page after clicking Show Details button', () => {
       it('should display a product overview from the catalog', () => {
         configuration.searchForProduct(testProduct);
-        configurationVc.clickOnShowDetailsBtn(testProduct);
-        configurationOverview.checkConfigOverviewPageDisplayed();
+        configurationVc.clickOnShowDetailsBtn();
+        checkDisplayOnlyOverviewPage();
         configurationOverview.clickCloseBtnOnOP();
       });
 
       it('should display a product overview from the products details page', () => {
         common.goToPDPage(electronicsShop, testProduct);
-        configurationVc.clickOnShowDetailsBtn(testProduct);
-        configurationOverview.checkConfigOverviewPageDisplayed();
+        configurationVc.clickOnShowDetailsBtn();
+        checkDisplayOnlyOverviewPage();
         configurationOverview.clickCloseBtnOnOP();
       });
     });
@@ -47,7 +48,7 @@ context('Product Configuration', () => {
         configuration.searchForProduct(testProduct);
         common.clickOnAddToCartBtnOnPD();
         common.clickOnConfigurationLink(true);
-        configurationOverview.checkConfigOverviewPageDisplayed();
+        checkDisplayOnlyOverviewPage();
         configurationOverview.clickCloseBtnOnOP(false, true);
       });
 
@@ -55,7 +56,7 @@ context('Product Configuration', () => {
         common.goToPDPage(electronicsShop, testProduct);
         common.clickOnAddToCartBtnOnPD();
         common.clickOnConfigurationLink(true);
-        configurationOverview.checkConfigOverviewPageDisplayed();
+        checkDisplayOnlyOverviewPage();
         configurationOverview.clickCloseBtnOnOP(false, true);
       });
 
@@ -65,7 +66,7 @@ context('Product Configuration', () => {
         common.clickOnViewCartBtnOnPD();
         cart.verifyCartNotEmpty();
         configurationCart.clickOnDisplayConfigurationLink(0);
-        configurationOverview.checkConfigOverviewPageDisplayed();
+        checkDisplayOnlyOverviewPage();
         configurationOverview.clickCloseBtnOnOP(false, true);
       });
     });
@@ -77,3 +78,15 @@ context('Product Configuration', () => {
     });
   });
 });
+
+function checkDisplayOnlyOverviewPage() {
+  configurationOverview.checkConfigOverviewPageDisplayed();
+  configurationOverviewVc.checkSidebarDisplayed();
+  configurationOverviewVc.checkMenuDisplayed();
+  configurationOverviewVc.toggleSidebar();
+  configurationOverviewVc.checkFilterDisplayed();
+  configurationOverviewVc.checkAmountOfFilterOptions(5);
+  configurationOverviewVc.checkPriceFilterOptionDisplayed(false);
+  configurationOverviewVc.checkMySelectionsFilterOptionDisplayed(false);
+  configurationOverviewVc.checkNoFiltersAvailableDisplayed(false);
+}

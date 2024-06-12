@@ -213,6 +213,13 @@ export interface FeatureTogglesInterface {
   cartQuickOrderRemoveListeningToFailEvent?: boolean;
 
   /**
+   * Sets 'linkable' property in 'CellComponent' to be false by default.
+   * Modifies all table configs to acomodate this change.
+   * This stops unnecessary anchor tags from being rendered in the table cells.
+   */
+  a11yOrganizationLinkableCells?: boolean;
+
+  /**
    * Stops the focus indicator from overflowing and being obstructed by other elements.
    * Modifies the 'visible-focus' mixin. Includes style changes for:
    * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent
@@ -229,6 +236,16 @@ export interface FeatureTogglesInterface {
   a11yTruncatedTextForResponsiveView?: boolean;
 
   /**
+   * Modifies getAriaLabel method in 'PaginationComponent' to return a sematic label.
+   */
+  a11ySemanticPaginationLabel?: boolean;
+
+  /**
+   * Prevents screen reader from stopping on invisible elements when being in read mode for `BreadcrumbComponent`, `QuickOrderFormComponent`
+   */
+  a11yPreventSRFocusOnHiddenElements?: boolean;
+
+  /**
    * In `LoginComponent` the outline of "My Account" link when focused will not cover the user name
    */
   a11yMyAccountLinkOutline?: boolean;
@@ -238,6 +255,49 @@ export interface FeatureTogglesInterface {
    * will be fully visible
    */
   a11yCloseProductImageBtnFocus?: boolean;
+
+  /**
+   * Improve colour contrast in the demonstration theme Santorini
+   * to comply with accessibility standards. On activation, colour
+   * assignations for all UI elements will change and previous keyboard
+   * focus-ring gets replaced by a new bi-colour focus-ring.
+   *
+   * Note: If you're not using in your app the `StorefrontComponent`
+   *       (`<cx-storefront>`) from Spartacus, then you'll need to also add
+   *       the following line to the constructor of your app's root component:
+   *
+   * ```
+   * constructor() {
+   *   useFeatureStyles('a11yImproveContrast');
+   * }
+   * ```
+   */
+  a11yImproveContrast?: boolean;
+
+  /**
+   * Moves input elements of 'NotificationPreferenceComponent' into a fieldset.
+   */
+  a11yNotificationPreferenceFieldset?: boolean;
+
+  /**
+   * Modifies the template of 'WishListComponent'.
+   * Empty wishlist notification will be displayed in a paragraph instead of a heading.
+   */
+  a11yEmptyWishlistHeading?: boolean;
+
+  /**
+   * When enabled the button-like UI elements will use `<button>` under the hood instead of `<a>`
+   * in the following components: `AddedToCartDialogComponent`, `ForgotPasswordComponent`,
+   * `LoginRegisterComponent`, `ConfigureProductComponent`
+   */
+  a11yUseButtonsForBtnLinks?: boolean;
+
+  /**
+   * In `FacetListComponent` dialog view focus will be moved to the first facet
+   * after single-select facet selection.
+   * New "Back To Results" button is added
+   */
+  a11yFacetsDialogFocusHandling?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -276,8 +336,16 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusableCarouselControls: false,
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yOrganizationLinkableCells: false,
   a11yVisibleFocusOverflows: false,
   a11yTruncatedTextForResponsiveView: false,
+  a11ySemanticPaginationLabel: false,
+  a11yPreventSRFocusOnHiddenElements: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
+  a11yNotificationPreferenceFieldset: false,
+  a11yImproveContrast: false,
+  a11yEmptyWishlistHeading: false,
+  a11yUseButtonsForBtnLinks: false,
+  a11yFacetsDialogFocusHandling: false,
 };

@@ -4,6 +4,7 @@ import { I18nTestingModule, PageMeta, PageMetaService } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { BreadcrumbComponent } from './breadcrumb.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 class MockPageMetaService {
   getMeta(): Observable<PageMeta> {
@@ -22,7 +23,7 @@ describe('BreadcrumbComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [BreadcrumbComponent],
+        declarations: [BreadcrumbComponent, MockFeatureDirective],
         providers: [
           { provide: PageMetaService, useClass: MockPageMetaService },
           {

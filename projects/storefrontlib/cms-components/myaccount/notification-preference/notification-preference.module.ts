@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   provideDefaultConfigFactory,
@@ -17,9 +18,9 @@ import {
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import { NotificationPreferenceComponent } from './notification-preference.component';
-import { USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE } from '../my-account-v2/use-my-account-v2-consent-notification-perference';
 import { MyAccountV2NotificationPreferenceComponent } from '../my-account-v2';
+import { USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE } from '../my-account-v2/use-my-account-v2-consent-notification-perference';
+import { NotificationPreferenceComponent } from './notification-preference.component';
 
 const myAccountV2CmsMapping: CmsConfig = {
   cmsComponents: {
@@ -35,6 +36,7 @@ const myAccountV2CmsMapping: CmsConfig = {
     CommonModule,
     SpinnerModule,
     I18nModule,
+    FeaturesConfigModule,
     RouterModule.forChild([
       {
         // @ts-ignore

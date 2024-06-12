@@ -7,7 +7,6 @@
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
 import {
   FIRST_ROW_TICKET_LIST,
-  LAST_PAGE,
   SECOND_ROW_TICKET_LIST,
   TestCategory,
   TestStatus,
@@ -260,7 +259,7 @@ describe('ticket listing', () => {
       customerTicketing.visitElectronicTicketListingPage();
       customerTicketing.verifyPaginationExist();
       customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.byId);
-      customerTicketing.clickPageOnPagination(LAST_PAGE);
+      customerTicketing.clickPageOnPagination('last');
       customerTicketing.verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingIds();
     });
   });
