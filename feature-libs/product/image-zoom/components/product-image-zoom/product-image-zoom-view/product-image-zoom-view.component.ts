@@ -409,8 +409,4 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
   onImageLoad() {
     this.imageLoaded.next(true);
   }
-
-  get isMobile(): Observable<boolean> {
-    return this.breakpointService.isDown(BREAKPOINT.sm);
-  }
 }
