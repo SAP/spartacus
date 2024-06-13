@@ -360,7 +360,6 @@
     "@spartacus/core": "2211.24.0",
     "@spartacus/schematics": "2211.24.0",
     "@spartacus/storefront": "2211.24.0",
-    "@spartacus/styles": "2211.24.0",
     "rxjs": "^7.8.0"
   },
   "@spartacus/digital-payments": {
