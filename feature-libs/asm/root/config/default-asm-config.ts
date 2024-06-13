@@ -49,7 +49,8 @@ export const defaultAsmConfig: AsmConfig = {
           headerLocalizationKey: 'asm.customerList.tableHeader.activeCart',
           icon: {
             symbol: ICON_TYPE.CART,
-            captionLocalizationKey: 'asm.customerList.tableHeader.activeCart',
+            captionLocalizationKey:
+              'asm.customerList.tableHeader.viewActiveCart',
           },
           actionType: CustomerListColumnActionType.ACTIVE_CART,
         },
@@ -57,7 +58,7 @@ export const defaultAsmConfig: AsmConfig = {
           headerLocalizationKey: 'asm.customerList.tableHeader.orders',
           icon: {
             symbol: ICON_TYPE.C360_INVOICE,
-            captionLocalizationKey: 'asm.customerList.tableHeader.orders',
+            captionLocalizationKey: 'asm.customerList.tableHeader.viewOrders',
           },
           actionType: CustomerListColumnActionType.ORDER_HISTORY,
         },
@@ -65,7 +66,8 @@ export const defaultAsmConfig: AsmConfig = {
           headerLocalizationKey: 'asm.customerList.tableHeader.customer360',
           icon: {
             symbol: ICON_TYPE.C360_CIRCLE_USER,
-            captionLocalizationKey: 'asm.customerList.tableHeader.customer360',
+            captionLocalizationKey:
+              'asm.customerList.tableHeader.viewCustomer360',
           },
           actionType: CustomerListColumnActionType.CUSTOMER_360,
         },

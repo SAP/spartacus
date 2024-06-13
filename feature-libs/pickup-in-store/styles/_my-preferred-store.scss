@@ -27,7 +27,7 @@
       margin-bottom: 0;
       color: var(--cx-color-primary);
 
-      @include forFeature('santoriniV2') {
+      @include forFeature('a11yImproveContrast') {
         @include type('2');
       }
     }

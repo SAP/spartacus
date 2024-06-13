@@ -10,6 +10,16 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * In `CheckoutPaymentFormComponent`, use the extracted billing address component instead of embedded billing address form.
+   */
+  useExtractedBillingAddressComponent?: boolean;
+
+  /**
+   * In `DpPaymentCallbackComponent` it shows the billing address form.
+   */
+  showBillingAddressInDigitalPayments?: boolean;
+
+  /**
    * In `QuoteLinksComponent` it shows the download button.
    * API for this button is available in commerce 2211.16 and above
    */
@@ -213,6 +223,13 @@ export interface FeatureTogglesInterface {
   cartQuickOrderRemoveListeningToFailEvent?: boolean;
 
   /**
+   * Sets 'linkable' property in 'CellComponent' to be false by default.
+   * Modifies all table configs to acomodate this change.
+   * This stops unnecessary anchor tags from being rendered in the table cells.
+   */
+  a11yOrganizationLinkableCells?: boolean;
+
+  /**
    * Stops the focus indicator from overflowing and being obstructed by other elements.
    * Modifies the 'visible-focus' mixin. Includes style changes for:
    * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent
@@ -250,9 +267,27 @@ export interface FeatureTogglesInterface {
   a11yCloseProductImageBtnFocus?: boolean;
 
   /**
-   * Enables the updated Santorini theme.
+   * Improve colour contrast in the demonstration theme Santorini
+   * to comply with accessibility standards. On activation, colour
+   * assignations for all UI elements will change and previous keyboard
+   * focus-ring gets replaced by a new bi-colour focus-ring.
+   *
+   * Note: If you're not using in your app the `StorefrontComponent`
+   *       (`<cx-storefront>`) from Spartacus, then you'll need to also add
+   *       the following line to the constructor of your app's root component:
+   *
+   * ```
+   * constructor() {
+   *   useFeatureStyles('a11yImproveContrast');
+   * }
+   * ```
    */
-  santoriniV2?: boolean;
+  a11yImproveContrast?: boolean;
+
+  /**
+   * Moves input elements of 'NotificationPreferenceComponent' into a fieldset.
+   */
+  a11yNotificationPreferenceFieldset?: boolean;
 
   /**
    * Modifies the template of 'WishListComponent'.
@@ -274,7 +309,10 @@ export interface FeatureTogglesInterface {
    */
   a11yFacetsDialogFocusHandling?: boolean;
 }
+
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  useExtractedBillingAddressComponent: false,
+  showBillingAddressInDigitalPayments: false,
   showDownloadProposalButton: false,
   showPromotionsInPDP: false,
   recentSearches: false,
@@ -310,13 +348,15 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusableCarouselControls: false,
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yOrganizationLinkableCells: false,
   a11yVisibleFocusOverflows: false,
   a11yTruncatedTextForResponsiveView: false,
   a11ySemanticPaginationLabel: false,
   a11yPreventSRFocusOnHiddenElements: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
-  santoriniV2: false,
+  a11yNotificationPreferenceFieldset: false,
+  a11yImproveContrast: false,
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
   a11yFacetsDialogFocusHandling: false,

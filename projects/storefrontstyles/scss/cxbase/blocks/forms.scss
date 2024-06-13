@@ -11,7 +11,7 @@
     -webkit-box-shadow: none;
   }
 
-  @include forFeature('santoriniV2') {
+  @include forFeature('a11yImproveContrast') {
     border: 1px solid var(--cx-color-dark);
 
     &:focus {
@@ -45,7 +45,7 @@ cx-form-errors {
     position: relative;
     word-break: break-word;
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       @include type('7');
     }
 
@@ -212,7 +212,7 @@ legend {
     border-width: 2px;
     border-color: var(--cx-color-medium);
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       border-color: var(--cx-color-text);
     }
 
@@ -243,7 +243,7 @@ legend {
 .form-control[type='text'] {
   &:focus {
     background-color: var(--cx-color-background);
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       background-color: var(--cx-color-inverse);
     }
     box-shadow: none;
@@ -259,7 +259,7 @@ input[type='radio'] {
   border-color: var(--cx-color-medium);
   position: absolute;
 
-  @include forFeature('santoriniV2') {
+  @include forFeature('a11yImproveContrast') {
     border-color: var(--cx-color-text);
   }
 
@@ -303,7 +303,7 @@ input[type='radio'] {
     .ng-dropdown-panel-items {
       .ng-option.ng-option-marked {
         background-color: var(--cx-color-light);
-        @include forFeature('santoriniV2') {
+        @include forFeature('a11yImproveContrast') {
           outline: 2px solid var(--cx-color-visual-focus);
           margin-top: 2px;
           margin-bottom: 2px;
@@ -326,7 +326,7 @@ input[type='radio'] {
     padding: 0.6875rem 0;
     line-height: 1.6;
     height: unset;
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       border: 1px solid var(--cx-color-dark);
     }
 
@@ -407,7 +407,7 @@ input {
     color: var(--cx-color-secondary);
     opacity: 1;
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       color: var(--cx-color-secondary);
     }
   }

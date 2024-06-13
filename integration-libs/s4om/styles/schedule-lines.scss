@@ -12,7 +12,7 @@ cx-schedule-lines {
     font-size: var(--cx-font-size, 1rem);
     padding-inline-end: 0.313rem;
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       @include type('7');
     }
   }

@@ -1,14 +1,15 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NotificationPreferenceComponent } from './notification-preference.component';
+import { Component, DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
   NotificationPreference,
   UserNotificationPreferenceService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
-import { DebugElement, Component } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import { cold, getTestScheduler } from 'jasmine-marbles';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { of } from 'rxjs';
+import { NotificationPreferenceComponent } from './notification-preference.component';
 
 @Component({
   selector: 'cx-spinner',
@@ -52,7 +53,11 @@ describe('NotificationPreferenceComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [NotificationPreferenceComponent, MockCxSpinnerComponent],
+        declarations: [
+          NotificationPreferenceComponent,
+          MockCxSpinnerComponent,
+          MockFeatureDirective,
+        ],
         providers: [
           {
             provide: UserNotificationPreferenceService,
