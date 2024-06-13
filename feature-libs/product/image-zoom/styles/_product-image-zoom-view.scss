@@ -126,6 +126,10 @@ cx-product-image-zoom-view {
         right: 0;
         bottom: 0;
 
+        @include media-breakpoint-down(sm) {
+          display: none;
+        }
+
         &:focus {
           box-shadow: none;
         }

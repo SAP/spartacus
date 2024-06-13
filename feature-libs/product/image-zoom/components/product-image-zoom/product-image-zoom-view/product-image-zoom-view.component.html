@@ -33,7 +33,7 @@
       </div>
       <button
         #zoomButton
-        *ngIf="!(isMobile | async) && (imageLoaded | async)"
+        *ngIf="imageLoaded | async"
         [attr.aria-label]="
           isZoomed
             ? ('common.zoomOut' | cxTranslate)

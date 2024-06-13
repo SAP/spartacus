@@ -13,7 +13,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Renderer2,
   ViewChild,
   inject,
@@ -75,7 +74,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     this.defaultImageReady.asObservable();
   protected zoomReady$: Observable<boolean> = this.zoomReady.asObservable();
 
-  @Optional() featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   activeThumb: EventEmitter<ImageGroup> = new EventEmitter<ImageGroup>();
 
