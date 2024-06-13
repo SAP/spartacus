@@ -445,6 +445,7 @@ function takeOverChanges(
       issueNavigationDone: true,
     },
   };
+  console.log('reducer config');
   return replaceUnchangedAttributesWithOriginalObjects(result, state);
 }
 
@@ -463,7 +464,7 @@ function takeOverPricingChanges(
       issueNavigationDone: true,
     },
   };
-  console.log(result);
+  console.log('reducer pricing');
   return result;
 }
 function replaceUnchangedAttributesWithOriginalObjects(
@@ -505,7 +506,14 @@ function replaceUnchangedAttributesWithOriginalObjects(
         optimizedAttrList.push(newAttr);
       }
     });
-    ConfiguratorStateUtils;
+
+    const optimizedGroups: Configurator.Group[] = [];
+    newConfig.groups.forEach((group) => {
+      optimizedGroups.push(
+        group.id === optimizedGroup.id ? optimizedGroup : group
+      );
+    });
+    newConfig.groups = optimizedGroups;
   }
   return newConfig;
 }

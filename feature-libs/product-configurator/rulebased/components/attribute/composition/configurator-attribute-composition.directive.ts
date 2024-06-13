@@ -33,7 +33,7 @@ export class ConfiguratorAttributeCompositionDirective implements OnChanges {
 
   ngOnChanges(): void {
     const componentKey = this.context.componentKey;
-    console.log('component changed: ' + componentKey);
+    console.log('component changed: ' + this.context.attribute.key);
     const composition =
       this.configuratorAttributeCompositionConfig.productConfigurator
         ?.assignment;

@@ -117,7 +117,7 @@ export class ConfiguratorStateUtils {
    *
    * If no element of the `array` satisfied the `predicate`, it returns the original `array`.
    */
-  protected static updateArrayElement<T>(
+  static updateArrayElement<T>(
     array: T[] | undefined,
     predicate: (value: T, index: number, obj: T[]) => unknown,
     projection: (value: T, index: number) => T
