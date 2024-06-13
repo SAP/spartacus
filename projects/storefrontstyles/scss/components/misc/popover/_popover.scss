@@ -30,7 +30,7 @@
   padding: 1rem 0.938rem;
   box-shadow: 0px 1px 11px 2px var(--cx-popover-box-shadow-color);
 
-  @include forFeature('santoriniV2') {
+  @include forFeature('a11yImproveContrast') {
     @include type('7');
   }
 
