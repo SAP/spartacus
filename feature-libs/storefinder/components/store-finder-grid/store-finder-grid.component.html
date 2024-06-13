@@ -11,14 +11,12 @@
       <h3 class="cx-counter-title">
         {{ 'storeFinder.storesFoundTitle' | cxTranslate }}
       </h3>
-      <div aria-live="assertive">
-        <span role="alert">
-          {{
-            'storeFinder.storesFound'
-              | cxTranslate: { count: locations?.stores?.length }
-          }}
-        </span>
-      </div>
+      <span role="alert">
+        {{
+          'storeFinder.storesFound'
+            | cxTranslate: { count: locations?.stores?.length }
+        }}
+      </span>
     </div>
     <div *cxFeature="'!a11yStoreFinderAlerts'" class="cx-visually-hidden">
       {{
