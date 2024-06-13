@@ -226,6 +226,18 @@ class MockProductService {
   }
 }
 
+const isCartEntryOrGroupVisited = true;
+class MockConfiguratorStorefrontUtilsService {
+  createGroupId(groupId?: string): string | undefined {
+    if (groupId) {
+      return groupId + '-group';
+    }
+  }
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(isCartEntryOrGroupVisited);
+  }
+}
+
 const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositionConfig =
   {
     productConfigurator: {
@@ -314,7 +326,7 @@ describe('ConfiguratorGroupComponent', () => {
           { provide: LanguageService, useValue: mockLanguageService },
           {
             provide: ConfiguratorStorefrontUtilsService,
-            useClass: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
           },
           {
             provide: ConfiguratorExpertModeService,

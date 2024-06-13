@@ -17,6 +17,7 @@
   },
   "verificationTokenForm": {
     "createVerificationToken": "Verification code sent to {{target}}. Please check and enter the code.",
+    "needInputCredentials": "Please enter your credentials to continue.",
     "sendRateLime": "in {{waitTime}} seconds",
     "resend": "Resend",
     "verificationCode": {

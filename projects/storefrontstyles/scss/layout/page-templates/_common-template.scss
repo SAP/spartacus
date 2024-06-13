@@ -21,7 +21,7 @@ cx-page-layout {
 
   &.footer {
     background-color: var(--cx-color-dark);
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       background-color: var(--cx-color-secondary);
     }
 
