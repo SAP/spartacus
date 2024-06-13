@@ -12,36 +12,32 @@ import { FormErrorsComponent } from './form-errors.component';
 const mockErrorName = 'exampleError';
 const mockError = { [mockErrorName]: true };
 const mockErrorDetails: [string, string | boolean][] = [[mockErrorName, true]];
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string) {
+    return true;
+  }
+}
 
 describe('FormErrors', () => {
   let component: FormErrorsComponent;
   let fixture: ComponentFixture<FormErrorsComponent>;
   let control: UntypedFormControl;
-  let featureConfigService: jasmine.SpyObj<FeatureConfigService>;
 
   const getContent = () => fixture.debugElement.nativeElement.innerText;
 
   beforeEach(
     waitForAsync(() => {
-      const featureConfigServiceMock = jasmine.createSpyObj(
-        'FeatureConfigService',
-        ['isEnabled']
-      );
-
       TestBed.configureTestingModule({
         imports: [RouterTestingModule, I18nTestingModule],
         providers: [
           FeatureConfigService,
-          { provide: FeatureConfigService, useValue: featureConfigServiceMock },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
+          },
         ],
         declarations: [FormErrorsComponent, MockFeatureDirective],
       }).compileComponents();
-
-      featureConfigService = TestBed.inject(
-        FeatureConfigService
-      ) as jasmine.SpyObj<FeatureConfigService>;
-
-      featureConfigService.isEnabled.and.returnValue(true);
     })
   );
 
