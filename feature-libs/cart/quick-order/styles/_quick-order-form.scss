@@ -28,7 +28,7 @@
       right: 6px;
       top: 4px;
 
-      @include forFeature('santoriniV2') {
+      @include forFeature('a11yImproveContrast') {
         color: var(--cx-color-secondary);
       }
     }

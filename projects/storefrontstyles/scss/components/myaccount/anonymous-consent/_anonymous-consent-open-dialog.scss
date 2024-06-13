@@ -11,7 +11,7 @@
     color: var(--cx-color-inverse);
     font-size: 0.875rem;
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       @include type('8');
       color: var(--cx-color-inverse);
     }

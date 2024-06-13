@@ -79,7 +79,7 @@ $space: 0.5rem;
     }
     justify-content: flex-start;
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       @include type('8');
     }
   }

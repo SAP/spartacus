@@ -2,7 +2,7 @@
   .pdf-container {
     padding-top: 0.938rem;
     font-size: var(--cx-font-size, 0.875rem);
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       @include type('7');
     }
     a {
@@ -11,7 +11,7 @@
       text-decoration: underline;
       font-weight: 600;
 
-      @include forFeature('santoriniV2') {
+      @include forFeature('a11yImproveContrast') {
         @include type('3');
       }
     }

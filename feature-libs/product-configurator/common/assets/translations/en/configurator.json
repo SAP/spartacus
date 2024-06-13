@@ -120,7 +120,8 @@
       "removeAllFilters": "Remove All Filters",
       "removeByPrice": "Remove Price-Relevant Filter",
       "removeMySelections": "Remove My Selections Filter",
-      "removeByGroup": "Remove Group Filter for group {{group}}"
+      "removeByGroup": "Remove Group Filter for group {{group}}",
+      "noFiltersAvailable": "No filters available"
     },
     "group": {
       "general": "General",
