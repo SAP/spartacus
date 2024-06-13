@@ -25,7 +25,7 @@
     font-size: var(--cx-font-size, 0.92rem);
     background: var(--cx-color-background);
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       @include type('7');
     }
 

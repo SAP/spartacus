@@ -393,7 +393,13 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive = createSpy().and.returnValue(of(cart));
 }
 
-describe('ConfigAddToCartButtonComponent', () => {
+class MockConfiguratorStorefrontUtilsService {
+  focusFirstActiveElement(): void {}
+  getElement(): void {}
+  changeStyling(): void {}
+}
+
+describe('ConfiguratorAddToCartButtonComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let configuratorCommonsService: ConfiguratorCommonsService;
@@ -454,6 +460,7 @@ describe('ConfigAddToCartButtonComponent', () => {
           },
           {
             provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
           },
           {
             provide: IntersectionService,

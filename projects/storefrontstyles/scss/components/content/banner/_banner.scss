@@ -28,7 +28,7 @@
     }
   }
 
-  @include forFeature('santoriniV2') {
+  @include forFeature('a11yImproveContrast') {
     cx-media {
       color: black;
     }
