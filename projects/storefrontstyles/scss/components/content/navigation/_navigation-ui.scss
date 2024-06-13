@@ -93,7 +93,7 @@
         color: var(--cx-color-primary);
       }
 
-      @include forFeature('santoriniV2') {
+      @include forFeature('a11yImproveContrast') {
         &:hover {
           color: var(--cx-color-text);
         }
@@ -114,7 +114,7 @@
       }
     }
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       // arrow down caret to stay white on desktop
       // adding outline to convey button's definition
       button:hover {
@@ -156,7 +156,7 @@
       cx-generic-link a {
         padding: 1rem;
 
-        @include forFeature('santoriniV2') {
+        @include forFeature('a11yImproveContrast') {
           // adjust style for mobile menu, has diff background colour
           &:hover {
             color: var(--cx-color-primary);
@@ -176,7 +176,7 @@
           padding-bottom: 22px;
           padding-inline-start: 0;
           padding-inline-end: 0;
-          @include forFeature('santoriniV2') {
+          @include forFeature('a11yImproveContrast') {
             margin-top: 2px;
             margin-bottom: 2px;
             margin-inline-start: 5px;
@@ -221,7 +221,7 @@
     ul.childs > li > cx-generic-link > a {
       padding: 5px 0;
     }
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       li > cx-generic-link > a {
         padding-top: 10px;
         padding-bottom: 12px;
@@ -253,7 +253,7 @@
         font-size: 1rem;
       }
 
-      @include forFeature('santoriniV2') {
+      @include forFeature('a11yImproveContrast') {
         padding-inline-start: 0;
       }
     }
@@ -273,7 +273,7 @@
         }
       }
 
-      @include forFeature('santoriniV2') {
+      @include forFeature('a11yImproveContrast') {
         cx-generic-link:hover {
           color: var(--cx-color-text);
         }
@@ -292,7 +292,7 @@
       text-decoration: none;
       white-space: nowrap;
     }
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       a:hover {
         color: var(--cx-color-inverse);
         text-decoration: underline;
@@ -449,7 +449,7 @@
     &.accNavComponent {
       background-color: transparent;
 
-      @include forFeature('santoriniV2') {
+      @include forFeature('a11yImproveContrast') {
         // my account button has text, this fixes white hover on desktop
         button:hover {
           color: var(--cx-color-primary);
