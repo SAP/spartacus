@@ -39,7 +39,8 @@ const integrationLibsFolders: string[] = [
   'epd-visualization',
   's4om',
   'segment-refs',
-  'opps'
+  'opps',
+  'cpq-quote',
 ];
 
 const commands = [
@@ -70,6 +71,7 @@ const commands = [
   'build tracking/schematics',
   'build user/schematics',
   'build customer-ticketing/schematics',
+  'build cpq-quote/schematics',
   'build all libs',
   'test all schematics',
   'exit',
