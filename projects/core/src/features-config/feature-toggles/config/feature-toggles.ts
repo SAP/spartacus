@@ -273,6 +273,11 @@ export interface FeatureTogglesInterface {
    * New "Back To Results" button is added
    */
   a11yFacetsDialogFocusHandling?: boolean;
+
+  /**
+   * Removes 'aria-live' from 'StoreFinderComponent' and adds 'alert' role to child components elements.
+   */
+  a11yStoreFinderAlerts?: boolean;
 }
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDownloadProposalButton: false,
@@ -320,4 +325,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
   a11yFacetsDialogFocusHandling: false,
+  a11yStoreFinderAlerts: false,
 };

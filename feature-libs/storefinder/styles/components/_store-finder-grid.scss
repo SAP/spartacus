@@ -3,6 +3,11 @@
     border-style: solid;
     border-width: 1px 0 0 0;
     border-color: var(--cx-color-light);
+    @include forFeature('a11yStoreFinderAlerts') {
+      border-style: unset;
+      border-width: unset;
+      border-color: unset;
+    }
     display: inline-block;
     padding: 10px 0 0 0;
 
@@ -13,5 +18,17 @@
 
   .cx-spinner {
     padding: 2rem 0;
+  }
+  // TODO: (CXSPA-7581) - Remove feature flag next major release
+  @include forFeature('a11yStoreFinderAlerts') {
+    .cx-counter {
+      text-align: start;
+      margin: 0 0.75rem 1.5rem 0.75rem;
+      line-height: var(--cx-line-height, 1.5);
+
+      &-title {
+        @include type('3');
+      }
+    }
   }
 }
