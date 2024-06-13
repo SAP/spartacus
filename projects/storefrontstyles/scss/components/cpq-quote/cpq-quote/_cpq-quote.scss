@@ -1,0 +1,12 @@
+%cx-cpq-quote {
+  .cx-center {
+    text-align: center !important;
+    height: 124px;
+    .strike-through {
+      text-decoration: line-through;
+      display: block;
+      color: #b8b8b8;
+      font-size: 13px;
+    }
+  }
+}

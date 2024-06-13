@@ -32,6 +32,7 @@ context('CPQ Discount Percentage ', () => {
     cpqQuote.navigateQuoteList();
     cpqQuote.checkQuoteListDisplayed();
     Commonquote.navigateToQuotesList();
+    cpqQuote.navigateToVendorQuote();
     cpqQuote.checkDiscountDisplayed();
     cpqQuote.checkDiscountDisplayedrow();
     cpqQuote.checkDiscountDisplayedOffer();
