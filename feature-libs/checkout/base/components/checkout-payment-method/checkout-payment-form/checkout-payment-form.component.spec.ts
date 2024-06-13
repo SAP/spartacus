@@ -12,6 +12,7 @@ import {
   AddressValidation,
   CardType,
   Country,
+  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   PaymentDetails,
@@ -27,6 +28,7 @@ import {
 import { EMPTY, Observable, of } from 'rxjs';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 import createSpy = jasmine.createSpy;
+import { CheckoutBillingAddressFormService } from '../../checkout-billing-address';
 
 @Component({
   selector: 'cx-spinner',
@@ -156,6 +158,24 @@ class MockUserAddressService implements Partial<UserAddressService> {
   getRegions = createSpy().and.returnValue(of([]));
   verifyAddress = createSpy().and.returnValue(of({}));
 }
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string): boolean {
+    return false;
+  }
+}
+class MockCheckoutBillingAddressFormService
+  implements Partial<CheckoutBillingAddressFormService>
+{
+  getBillingAddress(): Address {
+    return mockBillingAddress;
+  }
+  isBillingAddressSameAsDeliveryAddress(): boolean {
+    return true;
+  }
+  isBillingAddressFormValid(): boolean {
+    return true;
+  }
+}
 
 describe('CheckoutPaymentFormComponent', () => {
   let component: CheckoutPaymentFormComponent;
@@ -206,6 +226,11 @@ describe('CheckoutPaymentFormComponent', () => {
           { provide: UserPaymentService, useValue: mockUserPaymentService },
           { provide: GlobalMessageService, useValue: mockGlobalMessageService },
           { provide: UserAddressService, useClass: MockUserAddressService },
+          {
+            provide: CheckoutBillingAddressFormService,
+            useClass: MockCheckoutBillingAddressFormService,
+          },
+          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         ],
       })
         .overrideComponent(CheckoutPaymentFormComponent, {
