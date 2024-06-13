@@ -133,13 +133,17 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       if (context.cartIsLoading !== undefined) {
         this.setLoading = context.cartIsLoading;
       }
-      if (context.items !== undefined) {
+      if (context.items !== undefined && this.isItemsChanged(context.items)) {
         this.cd.markForCheck();
         this._setItems(context.items, {
           forceRerender: contextRequiresRerender,
         });
       }
     });
+  }
+
+  protected isItemsChanged(newItems: OrderEntry[]): boolean {
+    return JSON.stringify(this.items) !== JSON.stringify(newItems);
   }
 
   /**
