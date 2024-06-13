@@ -148,6 +148,7 @@ describe('Graph utils', () => {
         SPARTACUS_OPPS,
         SPARTACUS_EPD_VISUALIZATION,
         SPARTACUS_DIGITAL_PAYMENTS,
+        SPARTACUS_CPQ_QUOTE,
         SPARTACUS_CDS,
         SPARTACUS_CDP,
         SPARTACUS_CDC,
@@ -158,7 +159,6 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT,
         SPARTACUS_PICKUP_IN_STORE,
         SPARTACUS_ESTIMATED_DELIVERY_DATE,
-        SPARTACUS_CPQ_QUOTE,
       ]);
     });
   });
@@ -195,6 +195,7 @@ describe('Graph utils', () => {
           "Store-Finder",
           "ASM",
           "ASM-Customer-360",
+          "Cpq-Quote",
           "Segment-Refs",
           "S4HANA-Order-Management",
           "OPPS",
@@ -206,7 +207,6 @@ describe('Graph utils', () => {
           "CDC",
           "SmartEdit",
           "Estimated-Delivery-Date",
-          "Cpq-Quote",
           "Qualtrics",
           "Future-Stock",
           "Product-Variants",

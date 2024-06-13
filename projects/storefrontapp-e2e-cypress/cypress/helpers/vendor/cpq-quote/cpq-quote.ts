@@ -15,14 +15,6 @@ const SHOP_NAME = Cypress.env('BASE_SITE'); //Powertools-spa
 const QUOTE_LIST_PATH = `${SHOP_NAME}/en/USD/my-account/quotes`;
 const listComponentSelector = 'cx-quote-list';
 
-export function registerReadVendorQuoteRoute() {
-  log('Registers read vendor quote route.', registerReadVendorQuoteRoute.name);
-  cy.intercept({
-    method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${SHOP_NAME}/users/*/quotes*`,
-  }).as(READ_VENDOR_QUOTE.substring(1)); // strip the '@'
-}
-
 /**
  * Navigates to the quote list.
  */

@@ -1,12 +1,15 @@
-%cx-cpq-quote {
-  .cx-center {
-    text-align: center;
-    height: 124px;
-    .cx-formatted-value {
-      text-decoration: line-through;
-      display: block;
-      color: #b8b8b8;
-      font-size: 13px;
-    }
+.cx-offer {
+  color: var(--cx-color-success);
+  font-weight: 600;
+  font-size: 13px;
+}
+.cx-center {
+  text-align: center;
+  height: 124px;
+  .strike-through {
+    text-decoration: line-through;
+    display: block;
+    color: #b8b8b8;
+    font-size: 13px;
   }
 }

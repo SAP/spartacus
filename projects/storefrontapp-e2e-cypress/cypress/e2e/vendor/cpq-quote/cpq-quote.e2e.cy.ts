@@ -25,7 +25,6 @@ context('CPQ Discount Percentage ', () => {
     cy.cxConfig(globalMessageSettings);
     cy.visit('/');
     Commonquote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);
-    cpqQuote.registerReadVendorQuoteRoute();
     cpqQuote.registerReadQuoteRoute();
   });
 
