@@ -22,7 +22,7 @@ import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
-import { Tab, TabConfig } from '../tab/Tab';
+import { Tab, TabConfig } from '../tab/tab';
 
 const defaultTabConfig = {
   openTabs: [0],
@@ -43,7 +43,9 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
 
   tabTitleParams: (Observable<any> | null)[] = [];
 
-  tabConfig$ = new BehaviorSubject<TabConfig>(defaultTabConfig);
+  tabConfig$: BehaviorSubject<TabConfig> = new BehaviorSubject<TabConfig>(
+    defaultTabConfig
+  );
 
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,

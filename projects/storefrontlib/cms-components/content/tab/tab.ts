@@ -20,7 +20,7 @@ export interface Tab {
   /**
    * Content to display in tab panel when open.
    */
-  content?: TemplateRef<any> | ContentSlotComponentData;
+  content?: TemplateRef<any> | ContentSlotComponentData | any;
   id?: string;
   attributes?: TabAttributes;
 }

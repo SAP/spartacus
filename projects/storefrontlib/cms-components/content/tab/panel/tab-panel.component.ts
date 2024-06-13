@@ -5,8 +5,7 @@
  */
 
 import { Component, Input, TemplateRef } from '@angular/core';
-import { ContentSlotComponentData } from '@spartacus/core';
-import { Tab, TAB_PANEL_CONTENT_TYPE } from '../Tab';
+import { Tab, TAB_PANEL_CONTENT_TYPE } from '../tab';
 
 @Component({
   selector: 'cx-tab-panel',
@@ -22,9 +21,9 @@ export class TabPanelComponent {
   /**
    * Returns the content type as a string of 'TemplateRef' or 'ContentSlotComponentData'.
    */
-  getContentType(
-    content: TemplateRef<any> | ContentSlotComponentData
-  ): string | undefined {
+  getContentType(): string | undefined {
+    const content = this.tab.content;
+
     if (content instanceof TemplateRef) {
       return TAB_PANEL_CONTENT_TYPE.TEMPLATE_REF;
     }

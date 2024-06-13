@@ -15,7 +15,7 @@ import {
 import { BreakpointService } from '../../../layout/breakpoint';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { Tab, TabConfig, TAB_MODE } from './Tab';
+import { Tab, TabConfig, TAB_MODE } from './tab';
 import { wrapIntoBounds } from './tab.utils';
 
 @Component({
@@ -25,7 +25,7 @@ import { wrapIntoBounds } from './tab.utils';
 })
 export class TabComponent implements OnInit {
   @Input() tabs$: Observable<Tab[]>;
-  @Input() config: TabConfig;
+  @Input() config: TabConfig | any;
 
   TAB_MODE = TAB_MODE;
 
