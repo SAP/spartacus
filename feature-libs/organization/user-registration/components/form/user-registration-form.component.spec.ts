@@ -11,6 +11,7 @@ import {
   NgSelectA11yDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { UserRegistrationFormComponent } from './user-registration-form.component';
 import { UserRegistrationFormService } from './user-registration-form.service';
@@ -130,6 +131,7 @@ describe('UserRegistrationFormComponent', () => {
           MockUrlPipe,
           NgSelectA11yDirective,
           SpinnerComponent,
+          MockFeatureDirective,
         ],
         providers: [
           {

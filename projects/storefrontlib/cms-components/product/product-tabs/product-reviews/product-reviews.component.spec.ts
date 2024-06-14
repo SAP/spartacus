@@ -6,6 +6,7 @@ import {
   Product,
   ProductReviewService,
 } from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { FormErrorsModule, ItemCounterModule } from '../../../../shared/index';
 import { CurrentProductService } from '../../current-product.service';
@@ -65,7 +66,11 @@ describe('ProductReviewsComponent in product', () => {
             useClass: MockCurrentProductService,
           },
         ],
-        declarations: [MockStarRatingComponent, ProductReviewsComponent],
+        declarations: [
+          MockStarRatingComponent,
+          ProductReviewsComponent,
+          MockFeatureDirective,
+        ],
       }).compileComponents();
     })
   );
