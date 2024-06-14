@@ -25,6 +25,7 @@ import {
   LaunchDialogService,
   NgSelectA11yModule,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 import createSpy = jasmine.createSpy;
@@ -212,6 +213,7 @@ describe('CheckoutPaymentFormComponent', () => {
           MockBillingAddressFormComponent,
           MockCxIconComponent,
           MockSpinnerComponent,
+          MockFeatureDirective,
         ],
         providers: [
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
