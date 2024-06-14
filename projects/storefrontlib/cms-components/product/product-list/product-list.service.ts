@@ -15,8 +15,6 @@ export class ProductListService {
   private shouldHideAddToCartForUnpurchasableProducts =
     this.featureConfig.isEnabled('shouldHideAddToCartForUnpurchasableProducts');
 
-  constructor() {}
-
   shouldHideAddToCartButton(product: any): boolean {
     return (
       this.shouldHideAddToCartForUnpurchasableProducts &&

@@ -32,7 +32,7 @@ import { ProductListService } from '../product-list.service';
 })
 export class ProductListItemComponent implements OnChanges {
   protected productListService = inject(ProductListService);
-  hideAddToCartButton: boolean;
+  hideAddToCartButton = false;
 
   readonly ProductListOutlets = ProductListOutlets;
   @Input() product: any;
