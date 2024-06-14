@@ -1,0 +1,6 @@
+%cx-checkout-billing-address-form {
+  .cx-payment-form-billing-address {
+    @include type('4');
+    padding: 0.875rem 0 1.25rem 0;
+  }
+}

@@ -182,7 +182,13 @@
         </div>
 
         <!-- BILLING -->
-        <div class="cx-payment-form-billing">
+        <div
+          *ngIf="
+            !useExtractedBillingAddressComponent;
+            else showExtractedBillingAddressForm
+          "
+          class="cx-payment-form-billing"
+        >
           <div class="cx-payment-form-billing-address">
             {{ 'paymentForm.billingAddress' | cxTranslate }}
           </div>
@@ -452,4 +458,8 @@
 
 <ng-template #spinner>
   <cx-spinner></cx-spinner>
+</ng-template>
+
+<ng-template #showExtractedBillingAddressForm>
+  <cx-checkout-billing-address-form></cx-checkout-billing-address-form>
 </ng-template>
