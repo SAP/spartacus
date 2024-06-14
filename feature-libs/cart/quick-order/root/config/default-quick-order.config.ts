@@ -14,7 +14,7 @@ export const defaultQuickOrderConfig: QuickOrderConfig = {
       minCharactersBeforeRequest: 3,
     },
     list: {
-      hardDeleteTimeout: 7000,
+      hardDeleteTimeout: 240_000,
     },
   },
 };
