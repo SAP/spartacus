@@ -284,9 +284,9 @@ export function asmCustomerLists(): void {
 
   cy.get('cx-customer-list')
     .find('.cx-btn-cell')
-    .not('[aria-label="Orders"]')
-    .not('[aria-label="Active Cart"]')
-    .not('[aria-label="Customer 360°"]')
+    .not('[aria-label="View Orders"]')
+    .not('[aria-label="View Active Cart"]')
+    .not('[aria-label="View Customer 360°"]')
     .then(($rows) => {
       expect($rows.length).to.eq(5);
       cy.wrap($rows[0]).click();
