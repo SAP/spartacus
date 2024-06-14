@@ -153,5 +153,10 @@ describe('CpqQuoteDiscountComponent', () => {
       component.ngOnInit();
       expect(component.quoteDiscountData).toBeNull();
     });
+    it('should unsubscribe on ngOnDestroy', () => {
+      const unsubscribeSpy = spyOn(component['subscription'], 'unsubscribe');
+      component.ngOnDestroy();
+      expect(unsubscribeSpy).toHaveBeenCalled();
+    });
   });
 });

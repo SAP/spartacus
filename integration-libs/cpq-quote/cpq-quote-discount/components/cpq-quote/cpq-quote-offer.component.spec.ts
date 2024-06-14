@@ -75,6 +75,7 @@ describe('CpqQuoteOfferComponent', () => {
 
     mockCartItemContext.item$.next(orderEntry);
   });
+
   describe('estimated delivery date', () => {
     it('should not be displayed if model provides empty array', () => {
       mockCartItemContext.item$.next({
@@ -103,6 +104,12 @@ describe('CpqQuoteOfferComponent', () => {
       fixture.detectChanges();
       // const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-offer').length).toBe(2);
+    });
+
+    it('should set quoteDiscountData to null if cartItemContext is null', () => {
+      (component as any).cartItemContext = null;
+      component.ngOnInit();
+      expect(component.quoteDiscountData).toBeNull();
     });
   });
 });

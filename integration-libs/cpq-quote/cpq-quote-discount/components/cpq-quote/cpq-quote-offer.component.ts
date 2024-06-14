@@ -35,6 +35,8 @@ export class CpqQuoteOfferComponent implements OnInit, OnDestroy {
       this.subscription = this.orderEntry$.subscribe((data) => {
         this.quoteDiscountData = data;
       });
+    } else {
+      this.quoteDiscountData = null;
     }
   }
 
