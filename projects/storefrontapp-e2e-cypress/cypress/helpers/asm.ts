@@ -788,8 +788,9 @@ export function fillCreateCustomerForm({
 }
 
 export function verifyFormErrors() {
-  const requiredFieldMessage = 'This field is required';
-  const notValidEmailMessage = 'This is not a valid email format';
+  const requiredFieldMessage = 'Field is required';
+  const notValidEmailMessage =
+    'Field  has not a valid email format. Match pattern: example@yourdomain.com';
 
   cy.get('cx-asm-create-customer-form').within(() => {
     cy.get('[formcontrolname="firstName"] + cx-form-errors').contains(
@@ -804,7 +805,7 @@ export function verifyFormErrors() {
 
     cy.get('[formcontrolname="email"] + cx-form-errors').within(() => {
       cy.get('p').contains(requiredFieldMessage);
-      cy.get('p+p').contains(notValidEmailMessage);
+      cy.get('p+p').should('contain', notValidEmailMessage);
     });
 
     cy.get('cx-form-errors p').should('have.length', 4);
