@@ -12,7 +12,7 @@ $intialExpandedFacetsLarge: 3 !default;
   cursor: pointer;
   font-weight: var(--cx-font-weight-semi);
 
-  @include forFeature('santoriniV2') {
+  @include forFeature('a11yImproveContrast') {
     border-bottom: 1px solid var(--cx-color-medium);
   }
 
@@ -168,7 +168,7 @@ $intialExpandedFacetsLarge: 3 !default;
       align-items: center;
       margin-inline-end: 0.5rem;
 
-      @include forFeature('santoriniV2') {
+      @include forFeature('a11yImproveContrast') {
         border: solid 2px var(--cx-color-text);
       }
     }

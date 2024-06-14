@@ -16,11 +16,11 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
 import createSpy = jasmine.createSpy;
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-spinner',

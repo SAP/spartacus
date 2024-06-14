@@ -1,14 +1,15 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
 import { ResetPasswordComponent } from './reset-password.component';
@@ -46,7 +47,7 @@ describe('ResetPasswordComponent', () => {
           FormErrorsModule,
           SpinnerModule,
         ],
-        declarations: [ResetPasswordComponent],
+        declarations: [ResetPasswordComponent, MockFeatureDirective],
         providers: [
           {
             provide: ResetPasswordComponentService,

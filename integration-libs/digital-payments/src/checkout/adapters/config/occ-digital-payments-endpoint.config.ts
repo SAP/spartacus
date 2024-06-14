@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccConfig } from '@spartacus/core';
+import { OccConfig, Config } from '@spartacus/core';
 import { DigitalPaymentsOccEndpoints } from './index';
+import { Injectable } from '@angular/core';
 
 const occDigitalPaymentsEndpoints: DigitalPaymentsOccEndpoints = {
   paymentRequest:
@@ -22,3 +23,29 @@ export const occDigitalPaymentsConfig: OccConfig = {
     },
   },
 };
+
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
+export abstract class DigitalPaymentsConfig {
+  digitalPayments?: {
+    occQueryParams?: {
+      sessionId?: string;
+      signature?: string;
+      billingAddress?: string;
+      country?: string;
+      firstName?: string;
+      lastName?: string;
+      line1?: string;
+      line2?: string;
+      town?: string;
+      region?: string;
+      postalCode?: string;
+    };
+  };
+}
+
+declare module '@spartacus/core' {
+  interface Config extends DigitalPaymentsConfig {}
+}

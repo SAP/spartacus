@@ -4,29 +4,36 @@
     else ghostFilterButton
   "
 >
-  <button
-    #filterButton
-    class="btn btn-secondary cx-config-filter-button"
-    tabindex="0"
-    (click)="openFilterModal(configurationWithOv)"
-    title="{{
-      (getNumFilters(configurationWithOv.overview) > 0
-        ? 'configurator.a11y.filterOverviewWithCount'
-        : 'configurator.a11y.filterOverview'
-      )
-        | cxTranslate
-          : { numAppliedFilters: getNumFilters(configurationWithOv.overview) }
-    }}"
+  <ng-container
+    *ngIf="
+      !(isDisplayOnlyVariant() | async) &&
+      configurationWithOv.overview.possibleGroups?.length !== 1
+    "
   >
-    {{
-      (getNumFilters(configurationWithOv.overview) > 0
-        ? 'configurator.button.filterOverviewWithCount'
-        : 'configurator.button.filterOverview'
-      )
-        | cxTranslate
-          : { numAppliedFilters: getNumFilters(configurationWithOv.overview) }
-    }}
-  </button>
+    <button
+      #filterButton
+      class="btn btn-secondary cx-config-filter-button"
+      tabindex="0"
+      (click)="openFilterModal(configurationWithOv)"
+      title="{{
+        (getNumFilters(configurationWithOv.overview) > 0
+          ? 'configurator.a11y.filterOverviewWithCount'
+          : 'configurator.a11y.filterOverview'
+        )
+          | cxTranslate
+            : { numAppliedFilters: getNumFilters(configurationWithOv.overview) }
+      }}"
+    >
+      {{
+        (getNumFilters(configurationWithOv.overview) > 0
+          ? 'configurator.button.filterOverviewWithCount'
+          : 'configurator.button.filterOverview'
+        )
+          | cxTranslate
+            : { numAppliedFilters: getNumFilters(configurationWithOv.overview) }
+      }}
+    </button>
+  </ng-container>
   <cx-configurator-overview-filter-bar
     [config]="configurationWithOv"
   ></cx-configurator-overview-filter-bar>

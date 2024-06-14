@@ -6,6 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import {
+  FeatureConfigService,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -29,7 +30,7 @@ import { userCmsConfig, userTableConfigFactory } from './user.config';
   ],
   providers: [
     provideDefaultConfig(userCmsConfig),
-    provideDefaultConfigFactory(userTableConfigFactory),
+    provideDefaultConfigFactory(userTableConfigFactory, [FeatureConfigService]),
   ],
 })
 export class UserComponentsModule {}
