@@ -21,6 +21,7 @@ import { Observable } from 'rxjs';
 import { VerificationToken } from '@spartacus/user/account/root';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-verification-token-form',
@@ -35,6 +36,7 @@ export class VerificationTokenFormComponent implements OnInit {
   protected launchDialogService: LaunchDialogService =
     inject(LaunchDialogService);
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  protected routingService: RoutingService = inject(RoutingService);
 
   waitTime: number = 60;
 
@@ -70,8 +72,19 @@ export class VerificationTokenFormComponent implements OnInit {
         },
         'verifyToken'
       );
-      this.startWaitTimeInterval();
-      this.service.displayMessage(this.target);
+      if (!this.target || !this.password || !this.tokenId) {
+        this.service.displayMessage(
+          'verificationTokenForm.needInputCredentials',
+          {}
+        );
+        this.routingService.go(['/login']);
+      } else {
+        this.startWaitTimeInterval();
+        this.service.displayMessage(
+          'verificationTokenForm.createVerificationToken',
+          { target: this.target }
+        );
+      }
     }
   }
 
@@ -93,7 +106,11 @@ export class VerificationTokenFormComponent implements OnInit {
       )
       .subscribe({
         next: (result: VerificationToken) => (this.tokenId = result.tokenId),
-        complete: () => this.service.displayMessage(this.target),
+        complete: () =>
+          this.service.displayMessage(
+            'verificationTokenForm.createVerificationToken',
+            { target: this.target }
+          ),
       });
   }
 
