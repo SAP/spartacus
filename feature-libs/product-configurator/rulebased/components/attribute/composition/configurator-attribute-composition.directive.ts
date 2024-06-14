@@ -34,22 +34,33 @@ export class ConfiguratorAttributeCompositionDirective implements OnChanges {
   ) {}
 
   ngOnChanges(): void {
-    const attributeContentHasChanged = ObjectComparisonUtils.deepEqualObjects(
-      this.attribute,
-      this.context.attribute
-    );
-    if (attributeContentHasChanged) {
+    // Each time we update the configuration a complete new configuration state is emitted, including new attributes objects, regardless of if an attribute actually changed.
+    // Hence we compare the last rendered attribute with the the current state and only re-render the attribute if there are actual changes. This improves performance significantly.
+    const attributeDeepEqualsPreviousVersion =
+      this.attribute &&
+      ObjectComparisonUtils.deepEqualObjects(
+        this.attribute,
+        this.context.attribute
+      );
+    if (attributeDeepEqualsPreviousVersion) {
       console.log(
-        'content of input attribute did not change, attribute key: ' +
-          this.context.attribute.key
+        'NO CHANGE: ' +
+          this.context.attribute.key +
+          ' (' +
+          this.context.componentKey +
+          ')'
       );
       return;
     }
     this.attribute = this.context.attribute;
     console.log(
-      're-render attribute due to content change, attribute key ' +
-        this.context.attribute.key
+      'RE-RENDER COMPONENT: ' +
+        this.context.attribute.key +
+        ' (' +
+        this.context.componentKey +
+        ')'
     );
+
     const componentKey = this.context.componentKey;
     const composition =
       this.configuratorAttributeCompositionConfig.productConfigurator
