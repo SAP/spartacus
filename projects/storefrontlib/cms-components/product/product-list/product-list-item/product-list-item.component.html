@@ -62,7 +62,7 @@
       </div>
       <div class="col-12 col-md-5 col-xl-5">
         <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
-          <ng-container *ngIf="product.price">
+          <ng-container *ngIf="!hideAddToCartButton">
             <ng-container cxInnerComponentsHost></ng-container>
           </ng-container>
         </ng-template>

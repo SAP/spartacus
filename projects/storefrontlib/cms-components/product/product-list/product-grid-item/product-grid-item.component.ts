@@ -10,10 +10,12 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { ProductListOutlets } from '../../product-outlets.model';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
+import { ProductListService } from '../product-list.service';
 
 @Component({
   selector: 'cx-product-grid-item',
@@ -28,6 +30,9 @@ import { ProductListItemContext } from '../model/product-list-item-context.model
   ],
 })
 export class ProductGridItemComponent implements OnChanges {
+  protected productListService = inject(ProductListService);
+  hideAddToCartButton: boolean;
+
   readonly ProductListOutlets = ProductListOutlets;
   @Input() product: any;
 
@@ -37,6 +42,8 @@ export class ProductGridItemComponent implements OnChanges {
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.product) {
+      this.hideAddToCartButton =
+        this.productListService.shouldHideAddToCartButton(this.product);
       this.productListItemContextSource.product$.next(this.product);
     }
   }
