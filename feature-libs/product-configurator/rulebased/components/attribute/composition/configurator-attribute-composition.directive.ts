@@ -13,9 +13,10 @@ import {
   OnChanges,
   ViewContainerRef,
 } from '@angular/core';
-import { LoggerService } from '@spartacus/core';
+import { LoggerService, ObjectComparisonUtils } from '@spartacus/core';
 import { ConfiguratorAttributeCompositionConfig } from './configurator-attribute-composition.config';
 import { ConfiguratorAttributeCompositionContext } from './configurator-attribute-composition.model';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 
 @Directive({
   selector: '[cxConfiguratorAttributeComponent]',
@@ -25,6 +26,7 @@ export class ConfiguratorAttributeCompositionDirective implements OnChanges {
   context: ConfiguratorAttributeCompositionContext;
 
   protected logger = inject(LoggerService);
+  protected attribute: Configurator.Attribute;
 
   constructor(
     protected vcr: ViewContainerRef,
@@ -32,8 +34,23 @@ export class ConfiguratorAttributeCompositionDirective implements OnChanges {
   ) {}
 
   ngOnChanges(): void {
+    const attributeContentHasChanged = ObjectComparisonUtils.deepEqualObjects(
+      this.attribute,
+      this.context.attribute
+    );
+    if (attributeContentHasChanged) {
+      console.log(
+        'content of input attribute did not change, attribute key: ' +
+          this.context.attribute.key
+      );
+      return;
+    }
+    this.attribute = this.context.attribute;
+    console.log(
+      're-render attribute due to content change, attribute key ' +
+        this.context.attribute.key
+    );
     const componentKey = this.context.componentKey;
-    console.log('component changed: ' + this.context.attribute.key);
     const composition =
       this.configuratorAttributeCompositionConfig.productConfigurator
         ?.assignment;

@@ -11,7 +11,6 @@ import {
 
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
-import { ObjectComparisonUtils } from 'projects/core/src/util/object-comparison-utils';
 
 export const initialState: Configurator.Configuration = {
   configId: '',
@@ -446,7 +445,7 @@ function takeOverChanges(
     },
   };
   console.log('reducer config');
-  return replaceUnchangedAttributesWithOriginalObjects(result, state);
+  return result;
 }
 
 function takeOverPricingChanges(
@@ -466,54 +465,4 @@ function takeOverPricingChanges(
   };
   console.log('reducer pricing');
   return result;
-}
-function replaceUnchangedAttributesWithOriginalObjects(
-  newConfig: Configurator.Configuration,
-  oldConfig: Configurator.Configuration
-): Configurator.Configuration {
-  if (newConfig.groups === oldConfig.groups) {
-    console.log('groups not changed at all');
-    return newConfig;
-  }
-
-  // consider multilevel !!!
-
-  let oldGroupWithAttributes: Configurator.Group | undefined;
-  const newGroupWithAttributes = newConfig.groups.find(
-    (group) =>
-      group.groupType === Configurator.GroupType.ATTRIBUTE_GROUP &&
-      (group.attributes?.length ?? 0 > 0)
-  );
-  if (newGroupWithAttributes) {
-    oldGroupWithAttributes = oldConfig.groups.find(
-      (group) => group.id === newGroupWithAttributes?.id
-    );
-  }
-  if (oldGroupWithAttributes && newGroupWithAttributes) {
-    const optimizedAttrList: Configurator.Attribute[] = [];
-    const optimizedGroup: Configurator.Group = {
-      ...newGroupWithAttributes,
-      attributes: optimizedAttrList,
-    };
-    newGroupWithAttributes?.attributes?.forEach((newAttr) => {
-      const oldAttr = oldGroupWithAttributes?.attributes?.find(
-        (oldAttr) => oldAttr.key === newAttr.key
-      );
-      if (oldAttr && ObjectComparisonUtils.deepEqualObjects(oldAttr, newAttr)) {
-        console.log('REUSE ATTR' + oldAttr.key);
-        optimizedAttrList.push(oldAttr);
-      } else {
-        optimizedAttrList.push(newAttr);
-      }
-    });
-
-    const optimizedGroups: Configurator.Group[] = [];
-    newConfig.groups.forEach((group) => {
-      optimizedGroups.push(
-        group.id === optimizedGroup.id ? optimizedGroup : group
-      );
-    });
-    newConfig.groups = optimizedGroups;
-  }
-  return newConfig;
 }
