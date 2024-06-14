@@ -138,11 +138,30 @@
             {{ 'quickOrderCartForm.add' | cxTranslate }}
           </button>
 
+          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            [translationParams]="{
+              label: 'quickOrderCartForm.productCodeLabel' | cxTranslate
+            }"
             [control]="quickOrderForm.get('productCode')"
           ></cx-form-errors>
 
           <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
+            [control]="quickOrderForm.get('productCode')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            [translationParams]="{
+              label: 'quickOrderCartForm.quantityLabel' | cxTranslate
+            }"
+            [control]="quickOrderForm.get('quantity')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="quickOrderForm.get('quantity')"
           ></cx-form-errors>
         </ng-container>

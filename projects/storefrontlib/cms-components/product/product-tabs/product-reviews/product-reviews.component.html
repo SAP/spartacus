@@ -76,7 +76,20 @@
             class="form-control"
             formControlName="title"
           />
-          <cx-form-errors [control]="reviewForm.get('title')"></cx-form-errors>
+
+          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+          <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            [translationParams]="{
+              label: 'productReview.reviewTitle' | cxTranslate
+            }"
+            [control]="reviewForm.get('title')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
+            [control]="reviewForm.get('title')"
+          ></cx-form-errors>
         </label>
       </div>
       <div class="form-group">
@@ -91,7 +104,18 @@
             rows="3"
             formControlName="comment"
           ></textarea>
+
+          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            [translationParams]="{
+              label: 'productReview.writeYourComments' | cxTranslate
+            }"
+            [control]="reviewForm.get('comment')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="reviewForm.get('comment')"
           ></cx-form-errors>
         </label>
@@ -114,7 +138,20 @@
             (change)="setRating($event)"
             [disabled]="false"
           ></cx-star-rating>
-          <cx-form-errors [control]="reviewForm.get('rating')"></cx-form-errors>
+
+          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+          <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            [translationParams]="{
+              label: 'productReview.rating' | cxTranslate
+            }"
+            [control]="reviewForm.get('rating')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
+            [control]="reviewForm.get('rating')"
+          ></cx-form-errors>
         </label>
       </div>
       <div class="form-group">

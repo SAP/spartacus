@@ -10,6 +10,20 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * In `FormErrorsComponent` it uses more descriptive validation error messages
+   * in all UI form fields existing before v2211.25.
+   *
+   * 1. The `FormErrorsComponent` uses new i18n keys:
+   * `formErrors.labeled.<validatorName>` instead of `formErrors.<validatorName>`,
+   * for example `formErrors.labeled.required` instead of `formErrors.required`.
+   *
+   * 2. The existing usages of `CustomFormValidators.passwordValidator` are replaced with
+   * an array of new, more specific validators `CustomFormValidators.passwordValidators`
+   * (with the plural `...Validators`)
+   */
+  formErrorsDescriptiveMessages?: boolean;
+
+  /**
    * In `CheckoutPaymentFormComponent`, use the extracted billing address component instead of embedded billing address form.
    */
   useExtractedBillingAddressComponent?: boolean;
@@ -318,6 +332,7 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  formErrorsDescriptiveMessages: true,
   useExtractedBillingAddressComponent: false,
   showBillingAddressInDigitalPayments: false,
   showDownloadProposalButton: false,

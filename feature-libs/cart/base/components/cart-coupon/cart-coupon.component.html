@@ -77,7 +77,17 @@
           >
             {{ 'voucher.apply' | cxTranslate }}
           </button>
+          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            [translationParams]="{
+              label: 'voucher.placeholder' | cxTranslate
+            }"
+            [control]="couponForm.get('couponCode')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="couponForm.get('couponCode')"
           ></cx-form-errors>
         </ng-container>
