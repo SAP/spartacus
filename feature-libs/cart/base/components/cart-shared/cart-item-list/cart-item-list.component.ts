@@ -12,6 +12,7 @@ import {
   OnDestroy,
   OnInit,
   Optional,
+  inject,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
@@ -24,7 +25,7 @@ import {
   SelectiveCartFacade,
   CartOutlets,
 } from '@spartacus/cart/base/root';
-import { UserIdService } from '@spartacus/core';
+import { FeatureConfigService, UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
@@ -84,6 +85,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     }
   }
   readonly CartOutlets = CartOutlets;
+  private featureConfigService = inject(FeatureConfigService);
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
@@ -133,13 +135,29 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       if (context.cartIsLoading !== undefined) {
         this.setLoading = context.cartIsLoading;
       }
-      if (context.items !== undefined && this.isItemsChanged(context.items)) {
-        this.cd.markForCheck();
-        this._setItems(context.items, {
-          forceRerender: contextRequiresRerender,
-        });
-      }
+      this.updateItemsOnContextChange(context, contextRequiresRerender);
     });
+  }
+
+  protected updateItemsOnContextChange(
+    context: ItemListContext,
+    contextRequiresRerender: boolean
+  ) {
+    const preventRedundantRecreationEnabled =
+      this.featureConfigService.isEnabled(
+        'a11yPreventCartItemsFormRedundantRecreation'
+      );
+    if (
+      context.items !== undefined &&
+      (!preventRedundantRecreationEnabled ||
+        contextRequiresRerender ||
+        this.isItemsChanged(context.items))
+    ) {
+      this.cd.markForCheck();
+      this._setItems(context.items, {
+        forceRerender: contextRequiresRerender,
+      });
+    }
   }
 
   protected isItemsChanged(newItems: OrderEntry[]): boolean {
