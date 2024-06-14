@@ -148,5 +148,10 @@ describe('CpqQuoteDiscountComponent', () => {
         fixture.nativeElement.querySelector('.strike-through');
       expect(spanElement).toBeFalsy();
     });
+    it('should set quoteDiscountData to null if cartItemContext is null', () => {
+      (component as any).cartItemContext = null;
+      component.ngOnInit();
+      expect(component.quoteDiscountData).toBeNull();
+    });
   });
 });

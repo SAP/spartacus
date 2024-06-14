@@ -58,6 +58,5 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
       const discountAmount = (basePrice * discountPercentage) / 100;
       return basePrice - discountAmount;
     }
-    return undefined;
   }
 }
