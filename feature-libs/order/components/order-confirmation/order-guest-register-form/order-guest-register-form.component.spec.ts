@@ -10,6 +10,7 @@ import {
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { OrderGuestRegisterFormComponent } from './order-guest-register-form.component';
 import createSpy = jasmine.createSpy;
@@ -42,7 +43,7 @@ describe('OrderGuestRegisterFormComponent', () => {
           FormErrorsModule,
           PasswordVisibilityToggleModule,
         ],
-        declarations: [OrderGuestRegisterFormComponent],
+        declarations: [OrderGuestRegisterFormComponent, MockFeatureDirective],
         providers: [
           { provide: AuthService, useClass: MockAuthService },
           { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },

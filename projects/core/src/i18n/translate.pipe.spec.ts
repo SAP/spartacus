@@ -60,6 +60,19 @@ describe('TranslatePipe', () => {
       expect(result).toBe('expectedValue');
     });
 
+    it('should return result of service.translate if first argument is an array', () => {
+      spyOn(service, 'translate').and.returnValue(of('expectedValue'));
+      const result = pipe.transform(['testKey', 'anotherTestKey'], {
+        param: 'param1',
+      });
+      expect(service.translate).toHaveBeenCalledWith(
+        ['testKey', 'anotherTestKey'],
+        { param: 'param1' },
+        true
+      );
+      expect(result).toBe('expectedValue');
+    });
+
     it('should translate with merged params from the first and the second argument', () => {
       spyOn(service, 'translate').and.returnValue(EMPTY);
       pipe.transform(
@@ -69,6 +82,22 @@ describe('TranslatePipe', () => {
       expect(service.translate).toHaveBeenCalledWith(
         'testKey',
         { param1: 'value1', param2: 'value2' },
+        true
+      );
+    });
+
+    it('should translate with merged params from the first and the second argument, if key in first argument contains array', () => {
+      spyOn(service, 'translate').and.returnValue(of());
+      pipe.transform(
+        {
+          key: ['testKey', 'anotherTestKey'],
+          params: { param1: 'value1', param2: 'value2' },
+        },
+        { param3: 'value3' }
+      );
+      expect(service.translate).toHaveBeenCalledWith(
+        ['testKey', 'anotherTestKey'],
+        { param1: 'value1', param2: 'value2', param3: 'value3' },
         true
       );
     });

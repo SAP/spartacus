@@ -17,7 +17,20 @@
       formControlName="userId"
       placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
     />
-    <cx-form-errors [control]="form.get('userId')"></cx-form-errors>
+
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+    <cx-form-errors
+      *cxFeature="'formErrorsDescriptiveMessages'"
+      [translationParams]="{
+        label: 'loginForm.emailAddress.label' | cxTranslate
+      }"
+      [control]="form.get('userId')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!formErrorsDescriptiveMessages'"
+      [control]="form.get('userId')"
+    ></cx-form-errors>
   </label>
 
   <label>
@@ -34,7 +47,20 @@
       [attr.aria-label]="'loginForm.password.placeholder' | cxTranslate"
       cxPasswordVisibilitySwitch
     />
-    <cx-form-errors [control]="form.get('password')"></cx-form-errors>
+
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+    <cx-form-errors
+      *cxFeature="'formErrorsDescriptiveMessages'"
+      [translationParams]="{
+        label: 'loginForm.password.label' | cxTranslate
+      }"
+      [control]="form.get('password')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!formErrorsDescriptiveMessages'"
+      [control]="form.get('password')"
+    ></cx-form-errors>
   </label>
 
   <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">
