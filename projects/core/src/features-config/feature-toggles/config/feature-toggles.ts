@@ -9,11 +9,10 @@
 // We want this interface to be STRICT and cause a compilation error when a removed property is used.
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
-
   /**
-  * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
-  * when a product does not have a defined price or its purchasable field is set to false
-  */
+   * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
+   * when a product does not have a defined price or its purchasable field is set to false
+   */
   shouldHideAddToCartForUnpurchasableProducts?: boolean;
 
   /**
