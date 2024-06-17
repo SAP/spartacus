@@ -155,3 +155,43 @@ $zoomThumbOnHover: true !default;
 $overlayWhileLoading: true !default;
 $useTabsOnPDP: true !default;
 $useAccordionOnly: true !default;
+
+// santorini-updated variables for impex file, remove on next major
+// complements the a11yImproveContrast feature flag
+.santorini-updated {
+  --cx-color-background: #f4f4f4;
+  --cx-color-text: #14293a;
+  --cx-color-inverse: #ffffff;
+  --cx-color-transparent: transparent;
+  --cx-color-primary: #055f9f;
+  --cx-color-secondary: #556b82;
+  --cx-color-success: #256f3a;
+  --cx-color-info: #0064d8;
+  --cx-color-warning: #b44f00;
+  --cx-color-danger: #aa0808;
+  --cx-color-light: #f1f1f1;
+  --cx-color-dark: #77818b;
+  --cx-color-primary-accent: #0f4880;
+  --cx-color-success-accent: #f0fbe4;
+  --cx-color-danger-accent: #fff1f1;
+  --cx-color-warning-accent: #fff5df;
+  --cx-color-info-accent: #deeffe;
+  --cx-color-medium: #d3d6db;
+  --cx-color-background-dark: #212738;
+  --cx-color-visual-focus: #1f3a93;
+  --cx-color-background-focus: rgba(80, 176, 244, 0.1);
+  --cx-color-border-focus: rgba(166, 204, 232, 0.6);
+  --cx-page-width-max: 1140px;
+  --cx-font-weight-light: 300;
+  --cx-font-weight-normal: 400;
+  --cx-font-weight-semi: 600;
+  --cx-font-weight-bold: 700;
+  --cx-text-transform: capitalize;
+  --cx-direction: ltr;
+  --cx-transition-duration: 0.5s;
+  --cx-animation-duration: 1s;
+  --cx-border-radius: 1em;
+  --cx-buttons-border-radius: 2rem;
+  --cx-buttons-border-width: 3px;
+  --cx-border-style: solid;
+}
