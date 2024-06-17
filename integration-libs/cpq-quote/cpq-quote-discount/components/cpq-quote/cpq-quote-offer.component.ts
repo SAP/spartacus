@@ -6,7 +6,7 @@
 
 import { Component, Optional, OnDestroy, OnInit, Inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { CpqDiscounts } from '../../../root/model';
+import { CpqDiscounts } from '@spartacus/cpq-quote/root';
 import { Observable, Subscription } from 'rxjs';
 
 // Extend the OrderEntry interface to include cpqDiscounts property

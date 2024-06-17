@@ -6,10 +6,10 @@
 
 import { Component, Optional, OnDestroy, OnInit, Inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { CpqDiscounts } from '../../../root/model';
 
 import { Observable, Subscription } from 'rxjs';
 import { CpqQuoteService } from '../../cpq-qute.service';
+import { CpqDiscounts } from '@spartacus/cpq-quote/root';
 interface ExtendedOrderEntry extends OrderEntry {
   cpqDiscounts?: CpqDiscounts[];
 }

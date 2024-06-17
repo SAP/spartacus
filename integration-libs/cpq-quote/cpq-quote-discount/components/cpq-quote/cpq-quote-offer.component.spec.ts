@@ -5,7 +5,7 @@ import { Observable, ReplaySubject, of, take } from 'rxjs';
 import { Component, Input } from '@angular/core';
 import { LanguageService } from '@spartacus/core';
 import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
-import { CpqDiscounts } from '../../../root/model';
+import { CpqDiscounts } from '@spartacus/cpq-quote/root';
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
