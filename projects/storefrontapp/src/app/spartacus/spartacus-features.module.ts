@@ -319,6 +319,8 @@ if (environment.estimatedDeliveryDate) {
         a11yImproveContrast: true,
         a11yEmptyWishlistHeading: true,
         a11yUseButtonsForBtnLinks: true,
+        a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
+          true,
         a11yFacetsDialogFocusHandling: true,
       };
       return appFeatureToggles;
