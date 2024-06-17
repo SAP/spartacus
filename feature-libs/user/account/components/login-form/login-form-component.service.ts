@@ -71,6 +71,11 @@ export class LoginFormComponentService {
       .subscribe();
   }
 
+  onCDCLoginSuccess(account: any): void {
+    console.log(account);
+    this.auth.syncCdcToken(account.id_token);
+  }
+
   protected onSuccess(isLoggedIn: boolean): void {
     if (isLoggedIn) {
       // We want to remove error messages on successful login (primary the bad

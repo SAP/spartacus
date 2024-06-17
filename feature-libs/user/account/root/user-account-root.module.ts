@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { UserAccountEventModule } from './events/user-account-event.module';
 import {
   USER_ACCOUNT_CORE_FEATURE,
   USER_ACCOUNT_FEATURE,
 } from './feature-name';
+import { OidcLoginService } from './facade/oidc-login.service';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultUserAccountComponentsConfig(): CmsConfig {
@@ -33,6 +34,21 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
 
 @NgModule({
   imports: [UserAccountEventModule],
-  providers: [provideDefaultConfigFactory(defaultUserAccountComponentsConfig)],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: oidcLoginFactory,
+      deps: [OidcLoginService],
+      multi: true,
+    },
+    provideDefaultConfigFactory(defaultUserAccountComponentsConfig)
+  ],
 })
 export class UserAccountRootModule {}
+
+export function oidcLoginFactory(loginService: OidcLoginService): () => void {
+  const isReady = () => {
+    loginService.tryLogin();
+  };
+  return isReady;
+}
