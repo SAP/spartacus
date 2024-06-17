@@ -1,40 +1,96 @@
 <ng-container *ngIf="cart$ | async as cart">
   <div class="form-group">
     <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <ng-container
+      *cxFeature="
+        '!a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
+      "
+    >
+      <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
+        {{ 'formLegend.required' | cxTranslate }}
+      </p>
+    </ng-container>
+
     <form (ngSubmit)="applyVoucher()" [formGroup]="couponForm">
       <label class="cx-cart-coupon-title">
         {{ 'voucher.coupon' | cxTranslate }}
-        <abbr
-          *cxFeature="'a11yRequiredAsterisks'"
-          class="text-decoration-none"
-          title="{{ 'common.required' | cxTranslate }}"
-          >*</abbr
+        <!-- TODO: (CXSPA-7479) Remove feature flags next major -->
+        <ng-container
+          *cxFeature="
+            '!a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
+          "
         >
+          <abbr
+            *cxFeature="'a11yRequiredAsterisks'"
+            class="text-decoration-none"
+            title="{{ 'common.required' | cxTranslate }}"
+            >*</abbr
+          >
+        </ng-container>
       </label>
 
       <div class="cx-cart-coupon-container">
-        <input
-          [attr.aria-label]="'voucher.couponLabel' | cxTranslate"
-          required="true"
-          type="text"
-          class="form-control input-coupon-code"
-          formControlName="couponCode"
-          placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
-        />
-        <button
-          class="btn btn-block btn-secondary apply-coupon-button"
-          type="submit"
-          [disabled]="cartIsLoading$ | async"
-          [class.disabled]="cartIsLoading$ | async"
+        <!-- TODO: (CXSPA-7479) Remove feature flags next major -->
+        <ng-container
+          *cxFeature="
+            'a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
+          "
         >
-          {{ 'voucher.apply' | cxTranslate }}
-        </button>
-        <cx-form-errors
-          [control]="couponForm.get('couponCode')"
-        ></cx-form-errors>
+          <input
+            [attr.aria-label]="'voucher.couponLabel' | cxTranslate"
+            type="text"
+            class="form-control input-coupon-code"
+            formControlName="couponCode"
+            placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
+          />
+          <button
+            class="btn btn-block btn-secondary apply-coupon-button"
+            type="submit"
+            [disabled]="
+              (cartIsLoading$ | async) || !couponForm?.get('couponCode')?.value
+            "
+            [class.disabled]="cartIsLoading$ | async"
+          >
+            {{ 'voucher.apply' | cxTranslate }}
+          </button>
+        </ng-container>
+
+        <ng-container
+          *cxFeature="
+            '!a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
+          "
+        >
+          <!-- TODO: (CXSPA-7479) Remove feature flags next major -->
+          <input
+            [attr.aria-label]="'voucher.couponLabel' | cxTranslate"
+            required="true"
+            type="text"
+            class="form-control input-coupon-code"
+            formControlName="couponCode"
+            placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
+          />
+          <button
+            class="btn btn-block btn-secondary apply-coupon-button"
+            type="submit"
+            [disabled]="cartIsLoading$ | async"
+            [class.disabled]="cartIsLoading$ | async"
+          >
+            {{ 'voucher.apply' | cxTranslate }}
+          </button>
+          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+          <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            [translationParams]="{
+              label: 'voucher.placeholder' | cxTranslate
+            }"
+            [control]="couponForm.get('couponCode')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
+            [control]="couponForm.get('couponCode')"
+          ></cx-form-errors>
+        </ng-container>
       </div>
     </form>
   </div>
