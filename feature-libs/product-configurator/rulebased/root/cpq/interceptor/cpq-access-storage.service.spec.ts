@@ -71,41 +71,39 @@ describe('CpqAccessStorageService', () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        providers: [
-          {
-            provide: CpqAccessLoaderService,
-            useClass: CpqAccessLoaderServiceMock,
-          },
-          {
-            provide: CpqConfiguratorAuthConfig,
-            useValue: defaultCpqConfiguratorAuthConfig,
-          },
-          {
-            provide: AuthService,
-            useClass: AuthServiceMock,
-          },
-        ],
-      });
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        {
+          provide: CpqAccessLoaderService,
+          useClass: CpqAccessLoaderServiceMock,
+        },
+        {
+          provide: CpqConfiguratorAuthConfig,
+          useValue: defaultCpqConfiguratorAuthConfig,
+        },
+        {
+          provide: AuthService,
+          useClass: AuthServiceMock,
+        },
+      ],
+    });
 
-      serviceUnderTest = TestBed.inject(
-        CpqAccessStorageService as Type<CpqAccessStorageService>
-      );
-      cpqAccessLoaderService = TestBed.inject(
-        CpqAccessLoaderService as Type<CpqAccessLoaderService>
-      );
+    serviceUnderTest = TestBed.inject(
+      CpqAccessStorageService as Type<CpqAccessStorageService>
+    );
+    cpqAccessLoaderService = TestBed.inject(
+      CpqAccessLoaderService as Type<CpqAccessLoaderService>
+    );
 
-      accessDataSoonExpiring.accessTokenExpirationTime =
-        Date.now() + TIME_UNTIL_TOKEN_EXPIRES;
+    accessDataSoonExpiring.accessTokenExpirationTime =
+      Date.now() + TIME_UNTIL_TOKEN_EXPIRES;
 
-      accessDataObs = accessDataSubject = new Subject<CpqAccessData>();
-      authDataObs = authDataSubject = new BehaviorSubject<Boolean>(true);
-      httpBehaviour = true;
-    })
-  );
+    accessDataObs = accessDataSubject = new Subject<CpqAccessData>();
+    authDataObs = authDataSubject = new BehaviorSubject<Boolean>(true);
+    httpBehaviour = true;
+  }));
 
   afterEach(() => {
     authDataSubject.next(false); // stops the auto pulling of access data

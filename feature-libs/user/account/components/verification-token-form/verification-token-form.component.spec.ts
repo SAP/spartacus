@@ -63,35 +63,33 @@ describe('VerificationTokenFormComponent', () => {
   let launchDialogService: LaunchDialogService;
   let routineservice: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          SpinnerModule,
-        ],
-        declarations: [VerificationTokenFormComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: VerificationTokenFormComponentService,
-            useClass: MockFormComponentService,
-          },
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          ChangeDetectorRef,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        SpinnerModule,
+      ],
+      declarations: [VerificationTokenFormComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: VerificationTokenFormComponentService,
+          useClass: MockFormComponentService,
+        },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        ChangeDetectorRef,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(VerificationTokenFormComponent);

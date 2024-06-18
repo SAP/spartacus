@@ -188,60 +188,58 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     return component;
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
-          ConfiguratorShowMoreComponent,
-          MockProductCardComponent,
-          MockConfiguratorAttributeQuantityComponent,
-          MockConfiguratorPriceComponent,
-          MockFocusDirective,
-          MockFeatureLevelDirective,
-        ],
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          I18nTestingModule,
-          RouterTestingModule,
-          UrlTestingModule,
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+        ConfiguratorShowMoreComponent,
+        MockProductCardComponent,
+        MockConfiguratorAttributeQuantityComponent,
+        MockConfiguratorPriceComponent,
+        MockFocusDirective,
+        MockFeatureLevelDirective,
+      ],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
 
-        providers: [
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-        ],
-      })
-        .overrideComponent(
-          ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
-          {
-            set: {
-              changeDetection: ChangeDetectionStrategy.Default,
-              providers: [
-                {
-                  provide: ConfiguratorAttributeProductCardComponent,
-                  useClass: MockProductCardComponent,
-                },
-                {
-                  provide: ConfiguratorAttributeQuantityService,
-                  useClass: ConfiguratorAttributeQuantityService,
-                },
-              ],
-            },
-          }
-        )
-        .compileComponents();
+      providers: [
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+      ],
     })
-  );
+      .overrideComponent(
+        ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+        {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+            providers: [
+              {
+                provide: ConfiguratorAttributeProductCardComponent,
+                useClass: MockProductCardComponent,
+              },
+              {
+                provide: ConfiguratorAttributeQuantityService,
+                useClass: ConfiguratorAttributeQuantityService,
+              },
+            ],
+          },
+        }
+      )
+      .compileComponents();
+  }));
 
   afterEach(() => {
     document.body.removeChild(htmlElem);

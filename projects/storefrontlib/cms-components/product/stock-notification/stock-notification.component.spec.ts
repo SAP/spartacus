@@ -118,35 +118,33 @@ describe('StockNotificationComponent', () => {
 
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
-        declarations: [
-          StockNotificationComponent,
-          StockNotificationDialogComponent,
-          MockUrlPipe,
-          FocusDirective,
-        ],
-        providers: [
-          { provide: UserIdService, useValue: userIdService },
-          { provide: CurrentProductService, useValue: currentProductService },
-          { provide: GlobalMessageService, useValue: globalMessageService },
-          { provide: TranslationService, useValue: translationService },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: UserNotificationPreferenceService,
-            useValue: notificationPrefService,
-          },
-          {
-            provide: StockNotificationDialogComponent,
-            useValue: dialogComponent,
-          },
-          { provide: UserInterestsService, useValue: interestsService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
+      declarations: [
+        StockNotificationComponent,
+        StockNotificationDialogComponent,
+        MockUrlPipe,
+        FocusDirective,
+      ],
+      providers: [
+        { provide: UserIdService, useValue: userIdService },
+        { provide: CurrentProductService, useValue: currentProductService },
+        { provide: GlobalMessageService, useValue: globalMessageService },
+        { provide: TranslationService, useValue: translationService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: UserNotificationPreferenceService,
+          useValue: notificationPrefService,
+        },
+        {
+          provide: StockNotificationDialogComponent,
+          useValue: dialogComponent,
+        },
+        { provide: UserInterestsService, useValue: interestsService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     userIdService.getUserId.and.returnValue(of(OCC_USER_ID_CURRENT));

@@ -110,29 +110,27 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          ConfiguratorConflictAndErrorMessagesComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [
+        ConfiguratorConflictAndErrorMessagesComponent,
+        MockCxIconComponent,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
 
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-        ],
-      });
-    })
-  );
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+      ],
+    });
+  }));
   beforeEach(() => {
     fixture = TestBed.createComponent(
       ConfiguratorConflictAndErrorMessagesComponent
