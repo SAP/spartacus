@@ -143,9 +143,21 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
     expect(htmlElem.classList.contains('ghost')).toBeFalsy();
   });
 
-  it('should render no filter button for variant', () => {
+  it('should render filter button for variant in case there is more than one group', () => {
     isDisplayOnlyVariant = true;
-    ovConfig.overview.possibleGroups = [];
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-config-filter-button'
+    );
+  });
+
+  it('should render no filter button for variant in case there is only one group', () => {
+    isDisplayOnlyVariant = true;
+    ovConfig.overview.possibleGroups =
+      ovConfig.overview.possibleGroups.slice(1);
     fixture.detectChanges();
 
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
