@@ -1,8 +1,6 @@
 %cx-configurator-exit-button {
-  @include forFeature('a11yImproveContrast') {  
-  
+  @include forFeature('a11yImproveContrast') {
     .btn-tertiary {
-
       &:hover {
         text-decoration: underline;
       }
