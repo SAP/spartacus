@@ -14,7 +14,7 @@ import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import { AuthService, I18nTestingModule, Product } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
-import { MockFeatureDirectivesModule } from 'projects/storefrontlib/shared/test/mock-feature-directives.module';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 import createSpy = jasmine.createSpy;
@@ -109,16 +109,13 @@ describe('AddToWishListComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          RouterTestingModule,
-          MockFeatureDirectivesModule,
-        ],
+        imports: [I18nTestingModule, RouterTestingModule],
         declarations: [
           AddToWishListComponent,
           MockIconComponent,
           MockUrlPipe,
           MockAtMessageDirective,
+          MockFeatureDirective,
         ],
         providers: [
           { provide: AuthService, useClass: MockAuthService },

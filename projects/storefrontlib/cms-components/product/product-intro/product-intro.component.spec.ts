@@ -10,6 +10,7 @@ import {
   ComponentCreateEvent,
   ComponentDestroyEvent,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductIntroComponent } from './product-intro.component';
@@ -51,7 +52,11 @@ describe('ProductIntroComponent in product', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [ProductIntroComponent, MockStarRatingComponent],
+        declarations: [
+          ProductIntroComponent,
+          MockStarRatingComponent,
+          MockFeatureDirective,
+        ],
         providers: [
           {
             provide: CurrentProductService,
