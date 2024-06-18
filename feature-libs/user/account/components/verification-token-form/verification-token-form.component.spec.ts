@@ -12,7 +12,7 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   FormErrorsModule,
   LaunchDialogService,
@@ -39,6 +39,11 @@ class MockFormComponentService
   );
   displayMessage = createSpy('displayMessage').and.stub();
 }
+
+class MockRoutingService {
+  go = createSpy();
+}
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -56,6 +61,7 @@ describe('VerificationTokenFormComponent', () => {
   let el: DebugElement;
   let service: VerificationTokenFormComponentService;
   let launchDialogService: LaunchDialogService;
+  let routineservice: RoutingService;
 
   beforeEach(
     waitForAsync(() => {
@@ -77,6 +83,10 @@ describe('VerificationTokenFormComponent', () => {
             provide: LaunchDialogService,
             useClass: MockLaunchDialogService,
           },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
           ChangeDetectorRef,
         ],
       }).compileComponents();
@@ -87,6 +97,7 @@ describe('VerificationTokenFormComponent', () => {
     fixture = TestBed.createComponent(VerificationTokenFormComponent);
     service = TestBed.inject(VerificationTokenFormComponentService);
     launchDialogService = TestBed.inject(LaunchDialogService);
+    routineservice = TestBed.inject(RoutingService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -136,6 +147,25 @@ describe('VerificationTokenFormComponent', () => {
     });
   });
 
+  describe('refresh with no tokenId/pwd/loginId', () => {
+    it('should navigate back to login page', () => {
+      history.pushState(
+        {
+          tokenId: '',
+          password: '',
+          loginId: '',
+        },
+        ''
+      );
+      component.ngOnInit();
+      expect(routineservice.go).toHaveBeenCalledWith(['/login']);
+      expect(service.displayMessage).toHaveBeenCalledWith(
+        'verificationTokenForm.needInputCredentials',
+        {}
+      );
+    });
+  });
+
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
       const request = spyOn(component, 'onSubmit');
@@ -179,7 +209,8 @@ describe('VerificationTokenFormComponent', () => {
         ONE_TIME_PASSWORD_LOGIN_PURPOSE
       );
       expect(service.displayMessage).toHaveBeenCalledWith(
-        'example@example.com'
+        'verificationTokenForm.createVerificationToken',
+        { target: 'example@example.com' }
       );
     });
   });

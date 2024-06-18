@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -19,8 +19,9 @@ import {
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponService,
+  FeatureConfigService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 @Component({
@@ -40,6 +41,10 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   couponBoxIsActive = false;
+
+  @Optional() protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   constructor(
     protected cartVoucherService: CartVoucherFacade,
@@ -84,8 +89,16 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
     this.cartVoucherService.resetAddVoucherProcessingState();
 
+    // TODO: (CXSPA-7479) Remove feature flags next major
+    const shouldHaveRequiredValidator = !this.featureConfigService?.isEnabled(
+      'a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
+    );
+
     this.couponForm = this.formBuilder.group({
-      couponCode: ['', [Validators.required]],
+      couponCode: [
+        '',
+        shouldHaveRequiredValidator ? [Validators.required] : [],
+      ],
     });
 
     // TODO(#7241): Replace process subscriptions with event listeners and drop process for ADD_VOUCHER

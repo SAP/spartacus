@@ -10,6 +10,36 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
+   * when a product does not have a defined price or its purchasable field is set to false
+   */
+  shouldHideAddToCartForUnpurchasableProducts?: boolean;
+
+  /**
+   * In `FormErrorsComponent` it uses more descriptive validation error messages
+   * in all UI form fields existing before v2211.25.
+   *
+   * 1. The `FormErrorsComponent` uses new i18n keys:
+   * `formErrors.labeled.<validatorName>` instead of `formErrors.<validatorName>`,
+   * for example `formErrors.labeled.required` instead of `formErrors.required`.
+   *
+   * 2. The existing usages of `CustomFormValidators.passwordValidator` are replaced with
+   * an array of new, more specific validators `CustomFormValidators.passwordValidators`
+   * (with the plural `...Validators`)
+   */
+  formErrorsDescriptiveMessages?: boolean;
+
+  /**
+   * In `CheckoutPaymentFormComponent`, use the extracted billing address component instead of embedded billing address form.
+   */
+  useExtractedBillingAddressComponent?: boolean;
+
+  /**
+   * In `DpPaymentCallbackComponent` it shows the billing address form.
+   */
+  showBillingAddressInDigitalPayments?: boolean;
+
+  /**
    * In `QuoteLinksComponent` it shows the download button.
    * API for this button is available in commerce 2211.16 and above
    */
@@ -257,9 +287,27 @@ export interface FeatureTogglesInterface {
   a11yCloseProductImageBtnFocus?: boolean;
 
   /**
-   * Enables the updated Santorini theme.
+   * Improve colour contrast in the demonstration theme Santorini
+   * to comply with accessibility standards. On activation, colour
+   * assignations for all UI elements will change and previous keyboard
+   * focus-ring gets replaced by a new bi-colour focus-ring.
+   *
+   * Note: If you're not using in your app the `StorefrontComponent`
+   *       (`<cx-storefront>`) from Spartacus, then you'll need to also add
+   *       the following line to the constructor of your app's root component:
+   *
+   * ```
+   * constructor() {
+   *   useFeatureStyles('a11yImproveContrast');
+   * }
+   * ```
    */
-  santoriniV2?: boolean;
+  a11yImproveContrast?: boolean;
+
+  /**
+   * Moves input elements of 'NotificationPreferenceComponent' into a fieldset.
+   */
+  a11yNotificationPreferenceFieldset?: boolean;
 
   /**
    * Modifies the template of 'WishListComponent'.
@@ -275,13 +323,25 @@ export interface FeatureTogglesInterface {
   a11yUseButtonsForBtnLinks?: boolean;
 
   /**
+   * When enabled disable "Apply" button in promo code component in cart for empty input,
+   * disable "Add" button in quick order component when input is empty and remove
+   * required validators for both inputs
+   */
+  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields?: boolean;
+
+  /**
    * In `FacetListComponent` dialog view focus will be moved to the first facet
    * after single-select facet selection.
    * New "Back To Results" button is added
    */
   a11yFacetsDialogFocusHandling?: boolean;
 }
+
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  formErrorsDescriptiveMessages: true,
+  shouldHideAddToCartForUnpurchasableProducts: false,
+  useExtractedBillingAddressComponent: false,
+  showBillingAddressInDigitalPayments: false,
   showDownloadProposalButton: false,
   showPromotionsInPDP: false,
   recentSearches: false,
@@ -324,8 +384,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventSRFocusOnHiddenElements: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
-  santoriniV2: false,
+  a11yNotificationPreferenceFieldset: false,
+  a11yImproveContrast: false,
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
+  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
 };

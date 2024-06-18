@@ -14,7 +14,7 @@
         font-weight: 600;
         color: theme-color('text');
 
-        @include forFeature('santoriniV2') {
+        @include forFeature('a11yImproveContrast') {
           @include type('3');
         }
 

@@ -62,7 +62,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     protected elementRef: ElementRef<HTMLElement>,
     protected keyboardFocusService: KeyboardFocusService
   ) {
-    useFeatureStyles('santoriniV2');
+    useFeatureStyles('a11yImproveContrast');
   }
 
   ngOnInit(): void {

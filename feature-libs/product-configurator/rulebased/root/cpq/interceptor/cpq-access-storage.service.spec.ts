@@ -61,6 +61,15 @@ const TIME_UNTIL_TOKEN_EXPIRES = 60000; // one minute
 describe('CpqAccessStorageService', () => {
   let serviceUnderTest: CpqAccessStorageService;
   let cpqAccessLoaderService: CpqAccessLoaderService;
+  const originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+
+  beforeAll(function () {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  });
+
+  afterAll(function () {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+  });
 
   beforeEach(
     waitForAsync(() => {

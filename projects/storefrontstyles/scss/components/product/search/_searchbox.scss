@@ -137,7 +137,7 @@
       @include placeholder {
         color: currentColor;
 
-        @include forFeature('santoriniV2') {
+        @include forFeature('a11yImproveContrast') {
           color: var(--cx-color-dark);
         }
       }
@@ -157,7 +157,7 @@
       padding: 6px;
       color: var(--cx-color-medium);
 
-      @include forFeature('santoriniV2') {
+      @include forFeature('a11yImproveContrast') {
         color: var(--cx-color-secondary);
       }
 
@@ -191,7 +191,7 @@
     background-color: #fff;
     font-size: var(--cx-font-small, 1rem);
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       @include type('8');
     }
 
@@ -277,7 +277,7 @@
           font-size: inherit;
           font-weight: inherit;
 
-          @include forFeature('santoriniV2') {
+          @include forFeature('a11yImproveContrast') {
             @include type('8');
           }
 
@@ -288,7 +288,7 @@
         .price {
           font-weight: normal;
 
-          @include forFeature('santoriniV2') {
+          @include forFeature('a11yImproveContrast') {
             @include type('8');
           }
         }

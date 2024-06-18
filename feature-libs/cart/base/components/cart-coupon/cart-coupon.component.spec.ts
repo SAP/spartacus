@@ -15,6 +15,7 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, of } from 'rxjs';
 import { CartCouponComponent } from './cart-coupon.component';
 
@@ -73,7 +74,11 @@ describe('CartCouponComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
-        declarations: [CartCouponComponent, MockAppliedCouponsComponent],
+        declarations: [
+          CartCouponComponent,
+          MockAppliedCouponsComponent,
+          MockFeatureDirective,
+        ],
         providers: [
           { provide: ActiveCartFacade, useValue: mockActiveCartService },
           { provide: CartVoucherFacade, useValue: mockCartVoucherService },
