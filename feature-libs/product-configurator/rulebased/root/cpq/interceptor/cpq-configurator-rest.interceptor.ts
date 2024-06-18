@@ -26,6 +26,11 @@ import { CpqAccessStorageService } from './cpq-access-storage.service';
  */
 export const MARKER_HEADER_CPQ_CONFIGURATOR = 'x-cpq-configurator';
 
+/**
+ * @deprecated since 2211.25. Not needed for commerce based CPQ orchestration (which is the default communication flavour).
+ * Refer to configuration setting ConfiguratorCoreConfig.productConfigurator.cpqOverOcc = true.
+ * The other flavour (performing direct calls from composable storefront to CPQ) is technically no longer supported.
+ */
 @Injectable({
   providedIn: 'root',
 })
