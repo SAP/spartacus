@@ -18,12 +18,13 @@ import {
   Title,
   UserAddressService,
 } from '@spartacus/core';
+import { FormErrorsModule, LaunchDialogService } from '@spartacus/storefront';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddressFormComponent } from './address-form.component';
 import createSpy = jasmine.createSpy;
-import { FormErrorsModule, LaunchDialogService } from '@spartacus/storefront';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
 
 const mockTitles: Title[] = [
   {
@@ -146,7 +147,11 @@ describe('AddressFormComponent', () => {
           I18nTestingModule,
           FormErrorsModule,
         ],
-        declarations: [AddressFormComponent, MockNgSelectA11yDirective],
+        declarations: [
+          AddressFormComponent,
+          MockNgSelectA11yDirective,
+          MockFeatureDirective,
+        ],
         providers: [
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
           { provide: UserAddressService, useClass: MockUserAddressService },

@@ -3,6 +3,7 @@ import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { AuthRedirectService, I18nTestingModule, User } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, of } from 'rxjs';
 import { CheckoutLoginComponent } from './checkout-login.component';
 import createSpy = jasmine.createSpy;
@@ -31,7 +32,7 @@ describe('CheckoutLoginComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-        declarations: [CheckoutLoginComponent],
+        declarations: [CheckoutLoginComponent, MockFeatureDirective],
         providers: [
           { provide: ActiveCartFacade, useClass: MockActiveCartService },
           {

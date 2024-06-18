@@ -1,9 +1,18 @@
 <ng-container *ngIf="errorsDetails$ | async as errorDetails">
   <ng-container *ngIf="!hidden">
     <p *ngFor="let error of errorDetails">
-      {{
-        prefix + '.' + error[0] | cxTranslate: getTranslationParams(error[1])
-      }}
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <ng-container *cxFeature="'formErrorsDescriptiveMessages'">
+        {{
+          [prefix + '.' + error[0], fallbackPrefix + '.' + error[0]]
+            | cxTranslate: getTranslationParams(error[1])
+        }}
+      </ng-container>
+      <ng-container *cxFeature="'!formErrorsDescriptiveMessages'">
+        {{
+          prefix + '.' + error[0] | cxTranslate: getTranslationParams(error[1])
+        }}
+      </ng-container>
     </p>
   </ng-container>
 </ng-container>
