@@ -81,7 +81,7 @@ class MockConfiguratorStorefrontUtilsService {
   removeStyling(): void {}
 }
 
-fdescribe('ConfiguratorGroupTitleComponent', () => {
+describe('ConfiguratorGroupTitleComponent', () => {
   let component: ConfiguratorGroupTitleComponent;
   let fixture: ComponentFixture<ConfiguratorGroupTitleComponent>;
   let htmlElem: HTMLElement;
