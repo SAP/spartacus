@@ -11,12 +11,18 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
+  Optional,
+  inject,
 } from '@angular/core';
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
   ConsentTemplate,
+  FeatureConfigService,
+  GlobalMessageService,
+  GlobalMessageType,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
@@ -33,6 +39,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   @HostBinding('attr.aria-modal') modal = true;
 
   private subscriptions = new Subscription();
+  private featureConfigService = inject(FeatureConfigService);
 
   showLegalDescription: boolean | undefined = true;
   iconTypes = ICON_TYPE;
@@ -48,6 +55,10 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     autofocus: 'input[type="checkbox"]',
     focusOnEscape: true,
   };
+
+  @Optional() globalMessageService = inject(GlobalMessageService, {
+    optional: true,
+  });
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
@@ -70,6 +81,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         this.requiredConsents = this.config.anonymousConsents.requiredConsents;
       }
     }
+    useFeatureStyles('a11yUseButtonsForBtnLinks');
   }
 
   ngOnInit(): void {
@@ -106,7 +118,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
             })
           )
         )
-        .subscribe()
+        .subscribe(() => this.onConsentWithdrawnSuccess())
     );
     this.close('rejectAll');
   }
@@ -136,7 +148,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
             })
           )
         )
-        .subscribe()
+        .subscribe(() => this.onConsentGivenSuccess())
     );
     this.close('allowAll');
   }
@@ -159,8 +171,10 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     if (template.id) {
       if (given) {
         this.anonymousConsentsService.giveConsent(template.id);
+        this.onConsentGivenSuccess();
       } else {
         this.anonymousConsentsService.withdrawConsent(template.id);
+        this.onConsentWithdrawnSuccess();
       }
     }
   }
@@ -175,6 +189,32 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
       }
     }
     return null;
+  }
+
+  private onConsentGivenSuccess(): void {
+    if (
+      this.featureConfigService.isEnabled(
+        'a11yNotificationsOnAnonymousConsentChange'
+      )
+    ) {
+      this.globalMessageService?.add(
+        { key: 'consentManagementForm.message.success.given' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    }
+  }
+
+  private onConsentWithdrawnSuccess(): void {
+    if (
+      this.featureConfigService.isEnabled(
+        'a11yNotificationsOnAnonymousConsentChange'
+      )
+    ) {
+      this.globalMessageService?.add(
+        { key: 'consentManagementForm.message.success.withdrawn' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    }
   }
 
   ngOnDestroy(): void {
