@@ -171,10 +171,19 @@ describe('ConfiguratorGroupTitleComponent', () => {
     spyOn(breakpointService, 'isDown').and.returnValue(of(true));
     fixture.detectChanges();
     expect(component).toBeDefined();
-    expect(configuratorStorefrontUtilsService.changeStyling).toHaveBeenCalled();
+    expect(
+      configuratorStorefrontUtilsService.changeStyling
+    ).toHaveBeenCalledTimes(2);
     expect(
       configuratorStorefrontUtilsService.changeStyling
     ).toHaveBeenCalledWith('.PreHeader', 'display', 'block');
+    expect(
+      configuratorStorefrontUtilsService.changeStyling
+    ).toHaveBeenCalledWith(
+      'cx-configurator-add-to-cart-button',
+      'z-index',
+      '0'
+    );
     expect(
       configuratorStorefrontUtilsService.focusFirstActiveElement
     ).toHaveBeenCalledWith('cx-hamburger-menu');
@@ -189,10 +198,19 @@ describe('ConfiguratorGroupTitleComponent', () => {
       htmlElem,
       'cx-hamburger-menu'
     );
-    expect(configuratorStorefrontUtilsService.changeStyling).toHaveBeenCalled();
+    expect(
+      configuratorStorefrontUtilsService.changeStyling
+    ).toHaveBeenCalledTimes(2);
     expect(
       configuratorStorefrontUtilsService.changeStyling
     ).toHaveBeenCalledWith('.PreHeader', 'display', 'none');
+    expect(
+      configuratorStorefrontUtilsService.changeStyling
+    ).toHaveBeenCalledWith(
+      'cx-configurator-add-to-cart-button',
+      'z-index',
+      'calc(var(--cx-popover-z-index) + 10)'
+    );
     expect(
       configuratorStorefrontUtilsService.focusFirstActiveElement
     ).toHaveBeenCalledWith('.cx-group-title');
