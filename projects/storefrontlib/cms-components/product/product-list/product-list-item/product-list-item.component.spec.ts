@@ -94,37 +94,35 @@ describe('ProductListItemComponent in product-list', () => {
     },
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule, OutletModule],
-        declarations: [
-          ProductListItemComponent,
-          MockPictureComponent,
-          MockAddToCartComponent,
-          MockStarRatingComponent,
-          MockUrlPipe,
-          MockCxIconComponent,
-          MockFeatureDirective,
-          MockOutletDirective,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-        ],
-      })
-        .overrideComponent(ProductListItemComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule, OutletModule],
+      declarations: [
+        ProductListItemComponent,
+        MockPictureComponent,
+        MockAddToCartComponent,
+        MockStarRatingComponent,
+        MockUrlPipe,
+        MockCxIconComponent,
+        MockFeatureDirective,
+        MockOutletDirective,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ProductListItemComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListItemComponent);

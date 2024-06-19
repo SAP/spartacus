@@ -275,8 +275,8 @@ export class OrgUnitService {
     return (a.id ?? '').toLowerCase() < (b.id ?? '').toLowerCase()
       ? -1
       : (a.id ?? '').toLowerCase() > (b.id ?? '').toLowerCase()
-      ? 1
-      : 0;
+        ? 1
+        : 0;
   }
 
   getUsers(

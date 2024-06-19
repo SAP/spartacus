@@ -57,33 +57,31 @@ describe('ConfigurationUpdateMessageComponent', () => {
   let fixture: ComponentFixture<ConfiguratorUpdateMessageComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      routerStateObservable = of(ConfigurationTestData.mockRouterState);
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          ConfiguratorUpdateMessageComponent,
-          MockCxSpinnerComponent,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
+  beforeEach(waitForAsync(() => {
+    routerStateObservable = of(ConfigurationTestData.mockRouterState);
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [
+        ConfiguratorUpdateMessageComponent,
+        MockCxSpinnerComponent,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
 
-          {
-            provide: ConfiguratorMessageConfig,
-            useClass: MockMessageConfig,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-        ],
-      });
-    })
-  );
+        {
+          provide: ConfiguratorMessageConfig,
+          useClass: MockMessageConfig,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+      ],
+    });
+  }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorUpdateMessageComponent);
     htmlElem = fixture.nativeElement;

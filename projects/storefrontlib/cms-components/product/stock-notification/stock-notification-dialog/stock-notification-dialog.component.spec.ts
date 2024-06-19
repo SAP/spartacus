@@ -42,25 +42,23 @@ describe('StockNotificationDialogComponent', () => {
     },
   ];
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [StockNotificationDialogComponent, FocusDirective],
-        imports: [
-          I18nTestingModule,
-          RouterTestingModule,
-          SpinnerModule,
-          UrlTestingModule,
-        ],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          { provide: UserInterestsService, useValue: interestsService },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [StockNotificationDialogComponent, FocusDirective],
+      imports: [
+        I18nTestingModule,
+        RouterTestingModule,
+        SpinnerModule,
+        UrlTestingModule,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: UserInterestsService, useValue: interestsService },
+      ],
+    }).compileComponents();
 
-      launchDialogService = TestBed.inject(LaunchDialogService);
-    })
-  );
+    launchDialogService = TestBed.inject(LaunchDialogService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StockNotificationDialogComponent);

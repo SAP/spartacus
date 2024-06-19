@@ -88,7 +88,8 @@
       position: relative;
       &-input {
         border: none;
-        box-shadow: 0 0 0 1px rgba(85, 107, 130, 0.0625),
+        box-shadow:
+          0 0 0 1px rgba(85, 107, 130, 0.0625),
           0 1px 0 rgba(85, 107, 129, 1);
         height: 48px;
         width: 100%;
@@ -100,7 +101,8 @@
           color: #6c7079;
         }
         &:hover {
-          box-shadow: 0 0 0 1px rgba(104, 174, 255, 0.25),
+          box-shadow:
+            0 0 0 1px rgba(104, 174, 255, 0.25),
             0 1px 0 rgba(0, 100, 217, 1);
           & ~ .cx-asm-customer-360-promotion-listing-search-icon-reset {
             display: inline;

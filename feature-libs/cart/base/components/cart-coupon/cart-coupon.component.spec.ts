@@ -70,26 +70,24 @@ describe('CartCouponComponent', () => {
 
   const appliedVouchers: Voucher[] = [{ code: 'CustomerCoupon1' }];
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
-        declarations: [
-          CartCouponComponent,
-          MockAppliedCouponsComponent,
-          MockFeatureDirective,
-        ],
-        providers: [
-          { provide: ActiveCartFacade, useValue: mockActiveCartService },
-          { provide: CartVoucherFacade, useValue: mockCartVoucherService },
-          {
-            provide: CustomerCouponService,
-            useValue: mockCustomerCouponService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
+      declarations: [
+        CartCouponComponent,
+        MockAppliedCouponsComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: ActiveCartFacade, useValue: mockActiveCartService },
+        { provide: CartVoucherFacade, useValue: mockCartVoucherService },
+        {
+          provide: CustomerCouponService,
+          useValue: mockCustomerCouponService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartCouponComponent);

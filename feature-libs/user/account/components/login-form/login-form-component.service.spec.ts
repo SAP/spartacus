@@ -33,25 +33,23 @@ describe('LoginFormComponentService', () => {
   let authService: AuthService;
   let winRef: WindowRef;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        declarations: [],
-        providers: [
-          LoginFormComponentService,
-          { provide: WindowRef, useClass: MockWinRef },
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      declarations: [],
+      providers: [
+        LoginFormComponentService,
+        { provide: WindowRef, useClass: MockWinRef },
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     service = TestBed.inject(LoginFormComponentService);

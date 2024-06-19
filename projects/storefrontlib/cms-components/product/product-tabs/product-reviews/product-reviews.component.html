@@ -27,7 +27,7 @@
         <div
           class="review"
           tabindex="0"
-          *ngFor="let review of reviews | slice: 0:maxListItems"
+          *ngFor="let review of reviews | slice: 0 : maxListItems"
         >
           <div class="title">{{ review.headline }}</div>
           <cx-star-rating [rating]="review.rating ?? 0"></cx-star-rating>

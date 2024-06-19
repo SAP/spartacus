@@ -31,22 +31,20 @@ class MockTabFocusService {
 describe('TabFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: TabFocusService;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent, CustomFocusDirective],
-        providers: [
-          {
-            provide: TabFocusService,
-            useClass: MockTabFocusService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent, CustomFocusDirective],
+      providers: [
+        {
+          provide: TabFocusService,
+          useClass: MockTabFocusService,
+        },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MockComponent);
-      service = TestBed.inject(TabFocusService);
-    })
-  );
+    fixture = TestBed.createComponent(MockComponent);
+    service = TestBed.inject(TabFocusService);
+  }));
 
   const event = {
     preventDefault: () => {},

@@ -94,49 +94,47 @@ describe('ConfigAttributeRadioButtonComponent', () => {
 
   const values: Configurator.Value[] = [value1, value2, value3];
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeRadioButtonComponent,
-          ConfiguratorAttributeInputFieldComponent,
-          ConfiguratorAttributeNumericInputFieldComponent,
-          ItemCounterComponent,
-          MockFocusDirective,
-          MockConfiguratorAttributeQuantityComponent,
-          MockConfiguratorPriceComponent,
-          MockConfiguratorShowMoreComponent,
-        ],
-        imports: [
-          I18nTestingModule,
-          ReactiveFormsModule,
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
-        providers: [
-          ConfiguratorStorefrontUtilsService,
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockGroupService,
-          },
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeRadioButtonComponent,
+        ConfiguratorAttributeInputFieldComponent,
+        ConfiguratorAttributeNumericInputFieldComponent,
+        ItemCounterComponent,
+        MockFocusDirective,
+        MockConfiguratorAttributeQuantityComponent,
+        MockConfiguratorPriceComponent,
+        MockConfiguratorShowMoreComponent,
+      ],
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
+      providers: [
+        ConfiguratorStorefrontUtilsService,
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockGroupService,
+        },
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

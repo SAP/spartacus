@@ -44,34 +44,32 @@ describe('ForgotPasswordComponent', () => {
   let service: ForgotPasswordComponentService;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          SpinnerModule,
-        ],
-        declarations: [
-          ForgotPasswordComponent,
-          MockUrlPipe,
-          MockFeatureDirective,
-        ],
-        providers: [
-          {
-            provide: ForgotPasswordComponentService,
-            useClass: MockForgotPasswordService,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        SpinnerModule,
+      ],
+      declarations: [
+        ForgotPasswordComponent,
+        MockUrlPipe,
+        MockFeatureDirective,
+      ],
+      providers: [
+        {
+          provide: ForgotPasswordComponentService,
+          useClass: MockForgotPasswordService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ForgotPasswordComponent);
