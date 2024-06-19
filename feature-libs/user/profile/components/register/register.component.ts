@@ -72,6 +72,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.registerComponentService.generateAdditionalConsentsFormControl?.() ??
         this.fb.array([]),
       termsandconditions: [false, Validators.requiredTrue],
+      captcha: [false, Validators.requiredTrue],
     },
     {
       validators: CustomFormValidators.passwordsMustMatch(
@@ -242,6 +243,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.anonymousConsentsService.withdrawConsent(registerConsent);
       }
     }
+  }
+
+  /**
+   * Triggered via CaptchaComponent when a user confirms captcha
+   */
+  captchaConfirmed() {
+    this.registerForm.get('captcha')?.setValue(true);
   }
 
   ngOnDestroy() {
