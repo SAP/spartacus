@@ -46,6 +46,11 @@ export interface QuoteOccEndpoints {
    * Add a comment to a line item of a quote.
    */
   addQuoteEntryComment?: string | OccEndpoint;
+
+  /**
+   * Downloads the proposal document associated with a quote.
+   */
+  downloadAttachment?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {

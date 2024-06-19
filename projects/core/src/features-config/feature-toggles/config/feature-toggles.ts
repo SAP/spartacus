@@ -10,6 +10,42 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
+   * when a product does not have a defined price or its purchasable field is set to false
+   */
+  shouldHideAddToCartForUnpurchasableProducts?: boolean;
+
+  /**
+   * In `FormErrorsComponent` it uses more descriptive validation error messages
+   * in all UI form fields existing before v2211.25.
+   *
+   * 1. The `FormErrorsComponent` uses new i18n keys:
+   * `formErrors.labeled.<validatorName>` instead of `formErrors.<validatorName>`,
+   * for example `formErrors.labeled.required` instead of `formErrors.required`.
+   *
+   * 2. The existing usages of `CustomFormValidators.passwordValidator` are replaced with
+   * an array of new, more specific validators `CustomFormValidators.passwordValidators`
+   * (with the plural `...Validators`)
+   */
+  formErrorsDescriptiveMessages?: boolean;
+
+  /**
+   * In `CheckoutPaymentFormComponent`, use the extracted billing address component instead of embedded billing address form.
+   */
+  useExtractedBillingAddressComponent?: boolean;
+
+  /**
+   * In `DpPaymentCallbackComponent` it shows the billing address form.
+   */
+  showBillingAddressInDigitalPayments?: boolean;
+
+  /**
+   * In `QuoteLinksComponent` it shows the download button.
+   * API for this button is available in commerce 2211.16 and above
+   */
+  showDownloadProposalButton?: boolean;
+
+  /**
    * In `ProductSummaryComponent` it shows the promotions info.
    */
   showPromotionsInPDP?: boolean;
@@ -31,6 +67,16 @@ export interface FeatureTogglesInterface {
    */
   storeFrontLibCardParagraphTruncated?: boolean;
 
+  /**
+   * In `ConfiguratorAttributeDropDownComponent`, `ConfiguratorAttributeSingleSelectionImageComponent`
+   * and in 'ConfiguratorAttributeMultiSelectionImageComponent' some HTML changes were done
+   * to render read-only attribute with images and a long description at the value level accordingly.
+   *
+   * In `cx-configurator-price`, `cx-configurator-show-more`,`cx-configurator-attribute-drop-down`,
+   * `cx-configurator-attribute-selection-image`, `cx-configurator-attribute-single-selection-bundle-dropdown`,
+   * `cx-configurator-attribute-type` and `cx-configurator-form-group` some styling changes were done
+   * to render read-only attribute with images and a long description at the value level accordingly.
+   */
   productConfiguratorAttributeTypesV2?: boolean;
 
   /**
@@ -142,9 +188,161 @@ export interface FeatureTogglesInterface {
    * Corrects heading order inside 'OrderSummaryComponent' template.
    */
   a11yCartSummaryHeadingOrder?: boolean;
+
+  /**
+   * Improves focus behaviour of 'SearchBoxComponent'.
+   * On mobile, search box will no longer open on focus.
+   */
+  a11ySearchBoxMobileFocus?: boolean;
+
+  /**
+   * Modifies 'FacetComponent' to enable keyboard navigation for facets in the product list page.
+   */
+  a11yFacetKeyboardNavigation?: boolean;
+
+  /**
+   * Allows users to navigate through the list of units using the arrow keys.
+   * Enables keyboard controls inside 'ToggleLinkCellComponent' and
+   * adjusts 'ListComponent' styles to accomodate.
+   */
+  a11yUnitsListKeyboardControls?: boolean;
+
+  /**
+   * When set to `true`, product titles in `CartItemComponent`, `QuickOrderItemComponent`, `WishListItemComponent`
+   * adopt a more link-like style, appearing blue with an underline. This enhances visual cues for clickable elements,
+   * providing a more intuitive user experience.
+   */
+  a11yCartItemsLinksStyles?: boolean;
+
+  /**
+   * If enabled, the "Select this address/payment" button
+   * will not be displayed in `CheckoutPaymentMethodComponent`
+   * and `CheckoutDeliveryAddressComponent` when the address
+   * or payment method is already selected.
+   */
+  a11yHideSelectBtnForSelectedAddrOrPayment?: boolean;
+
+  /**
+   * Determines whether the controls in the `CarouselComponent` are focusable and accessible from the keyboard.
+   */
+  a11yFocusableCarouselControls?: boolean;
+
+  /**
+   * In `CmsGuardsService`, it uses the `GuardsComposer` instead of
+   * calling its own deprecated method `canActivateGuard()`.
+   */
+  cmsGuardsServiceUseGuardsComposer?: boolean;
+
+  /**
+   * In `CartQuickOrderFormComponent` it stops calling the deprecated method
+   * `watchAddEntryFailEvent()`, which listens to the `CartAddEntryFailEvent`.
+   *
+   * It avoids showing an unnecessary duplicated error message on the failure
+   * of adding to the cart.
+   */
+  cartQuickOrderRemoveListeningToFailEvent?: boolean;
+
+  /**
+   * Sets 'linkable' property in 'CellComponent' to be false by default.
+   * Modifies all table configs to acomodate this change.
+   * This stops unnecessary anchor tags from being rendered in the table cells.
+   */
+  a11yOrganizationLinkableCells?: boolean;
+
+  /**
+   * Stops the focus indicator from overflowing and being obstructed by other elements.
+   * Modifies the 'visible-focus' mixin. Includes style changes for:
+   * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent
+   */
+  a11yVisibleFocusOverflows?: boolean;
+
+  /**
+   * When enabled then on mobile(320px) responsive view:
+   * 1. `ProductListComponent` - grid view button is aligned correctly
+   * 2. `QuickOrderFormComponent` - search combobox options are not truncated
+   * 3. `BreadcrumbComponent` - breadcrumb heading is not truncated
+   * 4. `CheckoutProgressMobileTopComponent` - checkout step names do not have huge vertical white space
+   */
+  a11yTruncatedTextForResponsiveView?: boolean;
+
+  /**
+   * Modifies getAriaLabel method in 'PaginationComponent' to return a sematic label.
+   */
+  a11ySemanticPaginationLabel?: boolean;
+
+  /**
+   * Prevents screen reader from stopping on invisible elements when being in read mode for `BreadcrumbComponent`, `QuickOrderFormComponent`
+   */
+  a11yPreventSRFocusOnHiddenElements?: boolean;
+
+  /**
+   * In `LoginComponent` the outline of "My Account" link when focused will not cover the user name
+   */
+  a11yMyAccountLinkOutline?: boolean;
+
+  /**
+   * When enabled focus outline on the close button inside `ProductImageZoomDialogComponent`
+   * will be fully visible
+   */
+  a11yCloseProductImageBtnFocus?: boolean;
+
+  /**
+   * Improve colour contrast in the demonstration theme Santorini
+   * to comply with accessibility standards. On activation, colour
+   * assignations for all UI elements will change and previous keyboard
+   * focus-ring gets replaced by a new bi-colour focus-ring.
+   *
+   * Note: If you're not using in your app the `StorefrontComponent`
+   *       (`<cx-storefront>`) from Spartacus, then you'll need to also add
+   *       the following line to the constructor of your app's root component:
+   *
+   * ```
+   * constructor() {
+   *   useFeatureStyles('a11yImproveContrast');
+   * }
+   * ```
+   */
+  a11yImproveContrast?: boolean;
+
+  /**
+   * Moves input elements of 'NotificationPreferenceComponent' into a fieldset.
+   */
+  a11yNotificationPreferenceFieldset?: boolean;
+
+  /**
+   * Modifies the template of 'WishListComponent'.
+   * Empty wishlist notification will be displayed in a paragraph instead of a heading.
+   */
+  a11yEmptyWishlistHeading?: boolean;
+
+  /**
+   * When enabled the button-like UI elements will use `<button>` under the hood instead of `<a>`
+   * in the following components: `AddedToCartDialogComponent`, `ForgotPasswordComponent`,
+   * `LoginRegisterComponent`, `ConfigureProductComponent`
+   */
+  a11yUseButtonsForBtnLinks?: boolean;
+
+  /**
+   * When enabled disable "Apply" button in promo code component in cart for empty input,
+   * disable "Add" button in quick order component when input is empty and remove
+   * required validators for both inputs
+   */
+  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields?: boolean;
+
+  /**
+   * In `FacetListComponent` dialog view focus will be moved to the first facet
+   * after single-select facet selection.
+   * New "Back To Results" button is added
+   */
+  a11yFacetsDialogFocusHandling?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  formErrorsDescriptiveMessages: true,
+  shouldHideAddToCartForUnpurchasableProducts: false,
+  useExtractedBillingAddressComponent: false,
+  showBillingAddressInDigitalPayments: false,
+  showDownloadProposalButton: false,
   showPromotionsInPDP: false,
   recentSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
@@ -171,4 +369,25 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yListOversizedFocus: false,
   a11yStoreFinderOverflow: false,
   a11yCartSummaryHeadingOrder: false,
+  a11ySearchBoxMobileFocus: false,
+  a11yFacetKeyboardNavigation: false,
+  a11yUnitsListKeyboardControls: false,
+  a11yCartItemsLinksStyles: false,
+  a11yHideSelectBtnForSelectedAddrOrPayment: false,
+  a11yFocusableCarouselControls: false,
+  cmsGuardsServiceUseGuardsComposer: false,
+  cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yOrganizationLinkableCells: false,
+  a11yVisibleFocusOverflows: false,
+  a11yTruncatedTextForResponsiveView: false,
+  a11ySemanticPaginationLabel: false,
+  a11yPreventSRFocusOnHiddenElements: false,
+  a11yMyAccountLinkOutline: false,
+  a11yCloseProductImageBtnFocus: false,
+  a11yNotificationPreferenceFieldset: false,
+  a11yImproveContrast: false,
+  a11yEmptyWishlistHeading: false,
+  a11yUseButtonsForBtnLinks: false,
+  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
+  a11yFacetsDialogFocusHandling: false,
 };

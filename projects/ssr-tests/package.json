@@ -1,0 +1,22 @@
+{
+  "name": "ssr-tests",
+  "version": "2211.24.1",
+  "private": true,
+  "description": "Spartacus SSR Tests",
+  "keywords": [
+    "spartacus",
+    "ssr",
+    "tests"
+  ],
+  "license": "Apache-2.0",
+  "author": "SAP, Spartacus team",
+  "scripts": {
+    "test": "../../node_modules/.bin/jest --config ./jest.config.js"
+  },
+  "dependencies": {
+    "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "http-proxy": "^1.18.1"
+  }
+}

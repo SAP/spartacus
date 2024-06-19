@@ -171,13 +171,20 @@ describe('ConfiguratorRestartDialogComponent', () => {
     expect(
       mockConfigCommonsService.forceNewConfiguration
     ).not.toHaveBeenCalled();
-    expect(mockRoutingService.go).toHaveBeenCalledWith({
-      cxRoute: 'configure' + product.configuratorType,
-      params: {
-        ownerType: CommonConfigurator.OwnerType.PRODUCT,
-        entityKey: product.code,
+    expect(mockRoutingService.go).toHaveBeenCalledWith(
+      {
+        cxRoute: 'configure' + product.configuratorType,
+        params: {
+          ownerType: CommonConfigurator.OwnerType.PRODUCT,
+          entityKey: product.code,
+        },
       },
-    });
+      {
+        queryParams: {
+          productCode: product.code,
+        },
+      }
+    );
   });
 
   it('should create a new default config on restart', () => {

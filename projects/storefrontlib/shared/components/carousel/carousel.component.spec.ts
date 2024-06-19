@@ -7,6 +7,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
+import { MockFeatureDirective } from '../../test/mock-feature-directive';
 
 class MockCarouselService {
   getItemsPerSlide(
@@ -56,6 +57,7 @@ describe('Carousel Component', () => {
           CarouselComponent,
           MockCxIconComponent,
           MockTemplateComponent,
+          MockFeatureDirective,
         ],
         providers: [
           { provide: CarouselService, useClass: MockCarouselService },

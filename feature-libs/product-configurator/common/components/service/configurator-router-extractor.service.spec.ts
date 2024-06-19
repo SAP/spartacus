@@ -282,6 +282,67 @@ describe('ConfigRouterExtractorService', () => {
         })
         .unsubscribe();
     });
+
+    it('should check whether navigateToCheckout was set via query parameter', () => {
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.navigateToCheckout).toBe(false);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL if the navigation to the checkout is relevant', () => {
+      mockRouterState.state.queryParams = { navigateToCheckout: 'true' };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.navigateToCheckout).toBe(true);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL if the navigation to the checkout is not relevant', () => {
+      mockRouterState.state.queryParams = { navigateToCheckout: 'false' };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.navigateToCheckout).toBe(false);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL that a product code has been passed', () => {
+      mockRouterState.state.queryParams = {
+        productCode: PRODUCT_CODE,
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.productCode).toBe(PRODUCT_CODE);
+        })
+        .unsubscribe();
+    });
+
+    it('should be fine with a product code not provided', () => {
+      mockRouterState.state.queryParams = {};
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.productCode).toBe(undefined);
+        })
+        .unsubscribe();
+    });
   });
 
   describe('createOwnerFromRouterState', () => {

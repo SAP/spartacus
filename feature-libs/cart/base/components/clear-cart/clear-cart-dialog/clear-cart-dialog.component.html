@@ -2,6 +2,7 @@
   [cxFocus]="focusConfig"
   (esc)="close('Escape clicked')"
   class="cx-clear-cart-dialog"
+  role="dialog"
 >
   <div class="cx-clear-cart-container">
     <ng-container *ngIf="!isClearing; else loading">

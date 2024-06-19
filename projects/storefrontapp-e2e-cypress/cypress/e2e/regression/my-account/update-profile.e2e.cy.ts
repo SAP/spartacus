@@ -44,7 +44,7 @@ describe('My Account - Update Profile', () => {
       });
 
       it('should be able to cancel and go back to home', () => {
-        cy.get('cx-update-profile button').click();
+        cy.get('cx-update-profile button.btn-secondary').click();
         checkBanner();
 
         cy.location('pathname').should('contain', '/');

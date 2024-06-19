@@ -14,7 +14,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Product } from '@spartacus/core';
+import { Product, useFeatureStyles } from '@spartacus/core';
 import {
   ProductListItemContext,
   ProductListItemContextSource,
@@ -42,7 +42,9 @@ export class WishListItemComponent implements OnChanges {
 
   constructor(
     protected productListItemContextSource: ProductListItemContextSource
-  ) {}
+  ) {
+    useFeatureStyles('a11yCartItemsLinksStyles');
+  }
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.cartEntry) {

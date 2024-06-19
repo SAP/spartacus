@@ -4,10 +4,15 @@ import {
   DebugElement,
   Directive,
   Input,
+  QueryList,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Facet, I18nTestingModule } from '@spartacus/core';
+import {
+  Facet,
+  FeatureConfigService,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetCollapseState } from '../facet.model';
@@ -49,6 +54,12 @@ const MockFacet: Facet = {
   ],
 };
 
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 describe('FacetComponent', () => {
   let component: FacetComponent;
   let fixture: ComponentFixture<FacetComponent>;
@@ -64,7 +75,10 @@ describe('FacetComponent', () => {
           MockCxIconComponent,
           MockKeyboadFocusDirective,
         ],
-        providers: [{ provide: FacetService, useClass: MockFacetService }],
+        providers: [
+          { provide: FacetService, useClass: MockFacetService },
+          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        ],
       })
         .overrideComponent(FacetComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },
@@ -146,6 +160,125 @@ describe('FacetComponent', () => {
       component.toggleGroup(new UIEvent('close'));
       fixture.detectChanges();
       expect(facetService.toggle).toHaveBeenCalledWith(component.facet, true);
+    });
+  });
+
+  describe('A11y', () => {
+    const firstOptionElement = document.createElement('a');
+    const secondOptionElement = document.createElement('a');
+    const facetHeaderElement = document.createElement('button');
+    const mockArrowDownOnHeaderEvent = new KeyboardEvent('keydown', {
+      key: 'ArrowDown',
+    });
+    const mockArrowDownOnOptionEvent = new KeyboardEvent('keydown', {
+      key: 'ArrowDown',
+    });
+    const mockArrowUpEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+    const mockArrowRightEvent = new KeyboardEvent('keydown', {
+      key: 'ArrowRight',
+    });
+    const mockArrowLeftEvent = new KeyboardEvent('keydown', {
+      key: 'ArrowLeft',
+    });
+    Object.defineProperty(mockArrowDownOnHeaderEvent, 'target', {
+      value: facetHeaderElement,
+    });
+    Object.defineProperty(mockArrowDownOnOptionEvent, 'target', {
+      value: secondOptionElement,
+    });
+    Object.defineProperty(mockArrowUpEvent, 'target', {
+      value: secondOptionElement,
+    });
+
+    beforeEach(() => {
+      component.values = Object.assign(new QueryList(), {
+        _results: [
+          { nativeElement: firstOptionElement },
+          { nativeElement: secondOptionElement },
+        ],
+        first: { nativeElement: firstOptionElement },
+        last: { nativeElement: secondOptionElement },
+      });
+      Object.defineProperty(component, 'isExpanded', {
+        writable: true,
+        value: true,
+      });
+      component.facetHeader = {
+        nativeElement: facetHeaderElement,
+      };
+      spyOn(component, 'toggleGroup');
+      spyOn(firstOptionElement, 'focus');
+      spyOn(secondOptionElement, 'focus');
+    });
+
+    it('should initialize keyboard controls and find tiggered values index', () => {
+      spyOn(component, 'onArrowLeft');
+      spyOn(component, 'onArrowRight');
+      spyOn(component, 'onArrowDown');
+      spyOn(component, 'onArrowUp');
+
+      component.onKeydown(mockArrowLeftEvent);
+      expect(component.onArrowLeft).toHaveBeenCalledWith(mockArrowLeftEvent);
+
+      component.onKeydown(mockArrowRightEvent);
+      expect(component.onArrowRight).toHaveBeenCalledWith(mockArrowRightEvent);
+
+      component.onKeydown(mockArrowUpEvent);
+      expect(component.onArrowUp).toHaveBeenCalledWith(mockArrowUpEvent, 1);
+
+      component.onKeydown(mockArrowDownOnHeaderEvent);
+      expect(component.onArrowDown).toHaveBeenCalledWith(
+        mockArrowDownOnHeaderEvent,
+        -1
+      );
+
+      component.onKeydown(mockArrowDownOnOptionEvent);
+      expect(component.onArrowDown).toHaveBeenCalledWith(
+        mockArrowDownOnHeaderEvent,
+        1
+      );
+    });
+
+    it('should open facet on ArrowRight', () => {
+      Object.defineProperty(component, 'isExpanded', {
+        writable: true,
+        value: false,
+      });
+
+      component.onArrowRight(mockArrowRightEvent);
+
+      expect(component.toggleGroup).toHaveBeenCalled();
+    });
+
+    it('should close facet on ArrowLeft and facetHeader regains focus', () => {
+      spyOn(component.facetHeader.nativeElement, 'focus');
+
+      component.onArrowLeft(mockArrowLeftEvent);
+
+      expect(component.toggleGroup).toHaveBeenCalled();
+      expect(component.facetHeader.nativeElement.focus).toHaveBeenCalled();
+    });
+
+    it('should focus the first option on ArrowDown if triggered on facetHeader, else focus on next option', () => {
+      const currentIndex = 0;
+
+      component.onArrowDown(mockArrowDownOnHeaderEvent, currentIndex);
+      expect(component.values.first.nativeElement.focus).toHaveBeenCalled();
+
+      component.onArrowDown(mockArrowDownOnOptionEvent, currentIndex);
+      expect(
+        component.values.get(currentIndex + 1)?.nativeElement.focus
+      ).toHaveBeenCalled();
+    });
+
+    it('should focus on the previous option on ArrowUp', () => {
+      const currentIndex = 1;
+
+      component.onArrowUp(mockArrowUpEvent, currentIndex);
+
+      expect(
+        component.values.get(currentIndex - 1)?.nativeElement.focus
+      ).toHaveBeenCalled();
     });
   });
 });

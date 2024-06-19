@@ -119,7 +119,8 @@ describe('Spartacus CDC schematics: ng-add', () => {
   describe('CDC-B2C feature', () => {
     describe('validation of jsSDKUrl', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner.runSchematic(
+        appTree = await schematicRunner.runExternalSchematic(
+          SPARTACUS_SCHEMATICS,
           'ng-add',
           {
             ...cdcFeatureOptions,
@@ -140,7 +141,8 @@ describe('Spartacus CDC schematics: ng-add', () => {
     });
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner.runSchematic(
+        appTree = await schematicRunner.runExternalSchematic(
+          SPARTACUS_SCHEMATICS,
           'ng-add',
           {
             ...cdcFeatureOptions,
@@ -194,7 +196,8 @@ describe('Spartacus CDC schematics: ng-add', () => {
     });
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner.runSchematic(
+        appTree = await schematicRunner.runExternalSchematic(
+          SPARTACUS_SCHEMATICS,
           'ng-add',
           {
             ...cdcFeatureOptions,
@@ -217,7 +220,8 @@ describe('Spartacus CDC schematics: ng-add', () => {
   describe('CDC-B2B feature', () => {
     describe('validation of jsSDKUrl', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner.runSchematic(
+        appTree = await schematicRunner.runExternalSchematic(
+          SPARTACUS_SCHEMATICS,
           'ng-add',
           {
             ...cdcB2bFeatureOptions,
@@ -246,7 +250,8 @@ describe('Spartacus CDC schematics: ng-add', () => {
     });
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner.runSchematic(
+        appTree = await schematicRunner.runExternalSchematic(
+          SPARTACUS_SCHEMATICS,
           'ng-add',
           {
             ...cdcB2bFeatureOptions,
@@ -313,7 +318,8 @@ describe('Spartacus CDC schematics: ng-add', () => {
     });
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner.runSchematic(
+        appTree = await schematicRunner.runExternalSchematic(
+          SPARTACUS_SCHEMATICS,
           'ng-add',
           {
             ...cdcB2bFeatureOptions,

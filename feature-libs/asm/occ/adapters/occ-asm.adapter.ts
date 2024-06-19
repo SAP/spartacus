@@ -136,12 +136,16 @@ export class OccAsmAdapter implements AsmAdapter {
     const headers = InterceptorUtil.createHeader(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
       true,
-      new HttpHeaders()
+      new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     );
-    const params: HttpParams = new HttpParams()
-      .set('baseSite', this.activeBaseSite)
-      .set('cartId', cartId)
-      .set('customerId', customerId);
+    const params: HttpParams = new HttpParams().set(
+      'baseSite',
+      this.activeBaseSite
+    );
+
+    const body = new URLSearchParams();
+    body.set('cartId', cartId);
+    body.set('customerId', customerId);
 
     const url = this.occEndpointsService.buildUrl(
       'asmBindCart',
@@ -152,7 +156,7 @@ export class OccAsmAdapter implements AsmAdapter {
       }
     );
 
-    return this.http.post<void>(url, {}, { headers, params }).pipe(
+    return this.http.post<void>(url, body, { headers, params }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       })

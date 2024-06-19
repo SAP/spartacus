@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AuthGuard, CmsConfig } from '@spartacus/core';
+import { AuthGuard, CmsConfig, FeatureConfigService } from '@spartacus/core';
 import {
   AdminGuard,
   OrgUnitGuard,
@@ -194,9 +194,140 @@ export const unitsCmsConfig: CmsConfig = {
   },
 };
 
-export function unitsTableConfigFactory(): TableConfig {
+export function unitsTableConfigFactory(
+  featureConfigService?: FeatureConfigService
+): TableConfig {
+  if (featureConfigService?.isEnabled('a11yOrganizationLinkableCells')) {
+    // TODO: (CXSPA-7155) - Remove feature flag and legacy config next major release
+    return newUnitsTableConfig;
+  }
   return unitsTableConfig;
 }
+
+export const newUnitsTableConfig: TableConfig = {
+  table: {
+    [OrganizationTableType.UNIT]: {
+      cells: ['name'],
+      options: {
+        layout: TableLayout.VERTICAL,
+        cells: {
+          name: {
+            dataComponent: ToggleLinkCellComponent,
+            linkable: true,
+          },
+          active: {
+            dataComponent: StatusCellComponent,
+          },
+          uid: {
+            dataComponent: CellComponent,
+          },
+        },
+      },
+      [BREAKPOINT.lg]: {
+        cells: ['name', 'active', 'uid'],
+      },
+    },
+    [OrganizationTableType.UNIT_USERS]: {
+      cells: ['name', 'roles'],
+      options: {
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+        cells: {
+          name: {
+            dataComponent: UserDetailsCellComponent,
+          },
+          roles: {
+            dataComponent: UnitUserRolesCellComponent,
+          },
+        },
+      },
+    },
+
+    [OrganizationTableType.UNIT_CHILDREN]: {
+      cells: ['name', 'active'],
+      options: {
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+        cells: {
+          name: {
+            dataComponent: UnitDetailsCellComponent,
+          },
+          active: {
+            dataComponent: StatusCellComponent,
+          },
+        },
+      },
+    },
+
+    [OrganizationTableType.UNIT_APPROVERS]: {
+      cells: ['name', 'orgUnit', 'actions'],
+      options: {
+        cells: {
+          name: {
+            dataComponent: UserDetailsCellComponent,
+          },
+          actions: {
+            dataComponent: AssignCellComponent,
+          },
+          orgUnit: {
+            dataComponent: UnitCellComponent,
+          },
+        },
+      },
+    },
+
+    [OrganizationTableType.UNIT_ASSIGNED_APPROVERS]: {
+      cells: ['name', 'orgUnit', 'actions'],
+      options: {
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+        cells: {
+          name: {
+            dataComponent: UserDetailsCellComponent,
+          },
+          actions: {
+            dataComponent: AssignCellComponent,
+          },
+          orgUnit: {
+            dataComponent: UnitCellComponent,
+          },
+        },
+      },
+    },
+
+    [OrganizationTableType.UNIT_COST_CENTERS]: {
+      cells: ['name'],
+      options: {
+        cells: {
+          name: {
+            dataComponent: CostCenterDetailsCellComponent,
+          },
+        },
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+      },
+    },
+
+    [OrganizationTableType.UNIT_ADDRESS]: {
+      cells: ['formattedAddress'],
+      options: {
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+        cells: {
+          formattedAddress: {
+            dataComponent: LinkCellComponent,
+            linkable: true,
+          },
+        },
+      },
+    },
+  },
+};
 
 export const unitsTableConfig: TableConfig = {
   table: {

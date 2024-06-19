@@ -14,7 +14,7 @@ import {
   OnInit,
   TemplateRef,
 } from '@angular/core';
-import { LoggerService } from '@spartacus/core';
+import { LoggerService, useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
@@ -87,7 +87,9 @@ export class CarouselComponent implements OnInit {
 
   protected logger = inject(LoggerService);
 
-  constructor(protected el: ElementRef, protected service: CarouselService) {}
+  constructor(protected el: ElementRef, protected service: CarouselService) {
+    useFeatureStyles('a11yFocusableCarouselControls');
+  }
 
   ngOnInit() {
     if (!this.template && isDevMode()) {

@@ -8,11 +8,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Optional,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-close-account',
@@ -21,6 +24,9 @@ import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 })
 export class CloseAccountComponent {
   @ViewChild('element') element: ElementRef;
+  @Optional() protected routingService = inject(RoutingService, {
+    optional: true,
+  });
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -35,5 +41,9 @@ export class CloseAccountComponent {
     );
 
     dialog?.pipe(take(1)).subscribe();
+  }
+
+  navigateTo(cxRoute: string): void {
+    this.routingService?.go({ cxRoute });
   }
 }

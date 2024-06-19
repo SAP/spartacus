@@ -6,3 +6,5 @@
 
 export * from './cms-page.guard';
 export * from './cms-page-guard.service';
+export * from './before-cms-page-guard.service';
+export * from './before-cms-page-guard.token';
