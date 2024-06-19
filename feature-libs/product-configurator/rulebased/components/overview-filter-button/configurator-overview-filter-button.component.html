@@ -6,7 +6,7 @@
 >
   <ng-container
     *ngIf="
-      !(isDisplayOnlyVariant() | async) &&
+      !(isDisplayOnlyVariant() | async) ||
       configurationWithOv.overview.possibleGroups?.length !== 1
     "
   >
