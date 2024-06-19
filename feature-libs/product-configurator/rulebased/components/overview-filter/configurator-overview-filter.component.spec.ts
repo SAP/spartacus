@@ -98,14 +98,12 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     });
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      initTestData();
-      initMocks();
-      configureTestingModule().compileComponents();
-      initTestComponent();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    initTestData();
+    initMocks();
+    configureTestingModule().compileComponents();
+    initTestComponent();
+  }));
 
   describe('in a component test environment', () => {
     it('should create component', () => {

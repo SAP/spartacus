@@ -12,9 +12,9 @@ let emissionCounterKey = 0;
 
 @Component({
   selector: 'cx-test-cmp',
-  template: `
-<span [cxAbstractOrderContext]="abstractOrderKey"><cx-test-cmp-inner/>        
-</span>`,
+  template: ` <span [cxAbstractOrderContext]="abstractOrderKey"
+    ><cx-test-cmp-inner />
+  </span>`,
 })
 class TestComponent {
   abstractOrderKey: AbstractOrderKeyInput = {
@@ -43,19 +43,17 @@ describe('AbstractOrderContextDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
   let testOuterComponent: TestComponent;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [TestComponent, TestInnerComponent],
-        imports: [AbstractOrderContextModule],
-        providers: [],
-      }).compileComponents();
-      emissionCounterKey = 0;
-      fixture = TestBed.createComponent(TestComponent);
-      testOuterComponent = fixture.componentInstance;
-      fixture.detectChanges();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [TestComponent, TestInnerComponent],
+      imports: [AbstractOrderContextModule],
+      providers: [],
+    }).compileComponents();
+    emissionCounterKey = 0;
+    fixture = TestBed.createComponent(TestComponent);
+    testOuterComponent = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it('should propagate abstract order ID to inner component', () => {
     expect(fixture.nativeElement.innerHTML).toContain(abstractOrderId);

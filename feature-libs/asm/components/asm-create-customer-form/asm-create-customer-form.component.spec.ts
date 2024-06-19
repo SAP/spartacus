@@ -111,29 +111,27 @@ describe('AsmCreateCustomerFormComponent', () => {
   let launchDialogService: LaunchDialogService;
   let asmCreateCustomerFacade: AsmCreateCustomerFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          AsmCreateCustomerFormComponent,
-          MockCxIconComponent,
-          MockKeyboadFocusDirective,
-        ],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: AsmCreateCustomerFacade,
-            useClass: MockAsmCreateCustomerFacade,
-          },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        AsmCreateCustomerFormComponent,
+        MockCxIconComponent,
+        MockKeyboadFocusDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: AsmCreateCustomerFacade,
+          useClass: MockAsmCreateCustomerFacade,
+        },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
-      launchDialogService = TestBed.inject(LaunchDialogService);
-      asmCreateCustomerFacade = TestBed.inject(AsmCreateCustomerFacade);
-    })
-  );
+    launchDialogService = TestBed.inject(LaunchDialogService);
+    asmCreateCustomerFacade = TestBed.inject(AsmCreateCustomerFacade);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmCreateCustomerFormComponent);

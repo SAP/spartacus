@@ -60,30 +60,28 @@ describe('EscapeFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: EscapeFocusService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent, CustomFocusDirective],
-        providers: [
-          {
-            provide: EscapeFocusService,
-            useClass: MockEscapeFocusService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent, CustomFocusDirective],
+      providers: [
+        {
+          provide: EscapeFocusService,
+          useClass: MockEscapeFocusService,
+        },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MockComponent);
-      component = fixture.componentInstance;
-      service = TestBed.inject(EscapeFocusService);
+    fixture = TestBed.createComponent(MockComponent);
+    component = fixture.componentInstance;
+    service = TestBed.inject(EscapeFocusService);
 
-      spyOn(service, 'shouldFocus').and.callThrough();
-      spyOn(service, 'handleEscape').and.callThrough();
+    spyOn(service, 'shouldFocus').and.callThrough();
+    spyOn(service, 'handleEscape').and.callThrough();
 
-      spyOn(component, 'handleEmit');
+    spyOn(component, 'handleEmit');
 
-      fixture.detectChanges();
-    })
-  );
+    fixture.detectChanges();
+  }));
 
   describe('config', () => {
     it('should use focusOnEscape by default', () => {

@@ -40,19 +40,17 @@ describe('ProductVariantStyleIconsComponent', () => {
   let component: ProductVariantStyleIconsComponent;
   let fixture: ComponentFixture<ProductVariantStyleIconsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ProductVariantStyleIconsComponent],
-        providers: [
-          {
-            provide: OccConfig,
-            useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ProductVariantStyleIconsComponent],
+      providers: [
+        {
+          provide: OccConfig,
+          useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductVariantStyleIconsComponent);

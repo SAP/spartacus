@@ -30,19 +30,17 @@ describe('Scheduled Replenishment Order Connector', () => {
   let adapter: ScheduledReplenishmentOrderAdapter;
   let connector: ScheduledReplenishmentOrderConnector;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          ScheduledReplenishmentOrderConnector,
-          {
-            provide: ScheduledReplenishmentOrderAdapter,
-            useClass: MockScheduledReplenishmentOrderAdapter,
-          },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        ScheduledReplenishmentOrderConnector,
+        {
+          provide: ScheduledReplenishmentOrderAdapter,
+          useClass: MockScheduledReplenishmentOrderAdapter,
+        },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     adapter = TestBed.inject(ScheduledReplenishmentOrderAdapter);

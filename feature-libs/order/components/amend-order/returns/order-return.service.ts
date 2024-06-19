@@ -61,7 +61,7 @@ export class OrderReturnService extends OrderAmendService {
           ({
             orderEntryNumber: Number(entryNumber),
             quantity: <number>entries[entryNumber],
-          } as CancelOrReturnRequestEntryInput)
+          }) as CancelOrReturnRequestEntryInput
       );
 
     this.form.reset();

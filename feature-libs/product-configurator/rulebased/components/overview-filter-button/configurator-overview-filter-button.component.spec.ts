@@ -85,35 +85,33 @@ class MockConfiguratorStorefrontUtilsService {
 }
 
 describe('ConfigurationOverviewFilterButtonComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      initTestData();
-      initMocks();
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          ConfiguratorOverviewFilterButtonComponent,
-          MockConfiguratorOverviewFilterBarComponent,
-        ],
-        providers: [
-          { provide: LaunchDialogService, useValue: mockLaunchDialogService },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useValue: mockConfigRouterService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useValue: mockConfigCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
-          },
-        ],
-      }).compileComponents();
-      initComponent();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    initTestData();
+    initMocks();
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        ConfiguratorOverviewFilterButtonComponent,
+        MockConfiguratorOverviewFilterBarComponent,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useValue: mockLaunchDialogService },
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useValue: mockConfigRouterService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useValue: mockConfigCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+      ],
+    }).compileComponents();
+    initComponent();
+  }));
 
   beforeEach(() => {
     fixture.detectChanges(); //due to the additional delay(0)
