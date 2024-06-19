@@ -27,17 +27,15 @@ describe('ReturnRequestOverviewComponent', () => {
   let fixture: ComponentFixture<ReturnRequestOverviewComponent>;
   let returnRequestService: ReturnRequestService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [ReturnRequestOverviewComponent],
-        providers: [
-          { provide: ReturnRequestService, useClass: MockReturnRequestService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [ReturnRequestOverviewComponent],
+      providers: [
+        { provide: ReturnRequestService, useClass: MockReturnRequestService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReturnRequestOverviewComponent);

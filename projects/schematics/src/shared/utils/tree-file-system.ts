@@ -10,7 +10,10 @@ import * as path from 'path';
 import { FileSystemHost, ts } from 'ts-morph';
 
 export class TreeFileSystem implements FileSystemHost {
-  constructor(private readonly tree: Tree, private readonly rootDir: string) {}
+  constructor(
+    private readonly tree: Tree,
+    private readonly rootDir: string
+  ) {}
 
   private resolvePath(filePath: string) {
     return normalize(resolve(normalize(this.rootDir), normalize(filePath)));

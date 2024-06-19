@@ -94,35 +94,33 @@ describe('CartDetailsComponent', () => {
 
   const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
-        declarations: [
-          CartDetailsComponent,
-          MockCartItemListComponent,
-          MockCartCouponComponent,
-          MockCartValidationWarningsComponent,
-        ],
-        providers: [
-          { provide: SelectiveCartFacade, useValue: mockSelectiveCartFacade },
-          { provide: AuthService, useValue: mockAuthService },
-          { provide: RoutingService, useValue: mockRoutingService },
-          {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartService,
-          },
-          {
-            provide: CartConfigService,
-            useValue: mockCartConfig,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
+      declarations: [
+        CartDetailsComponent,
+        MockCartItemListComponent,
+        MockCartCouponComponent,
+        MockCartValidationWarningsComponent,
+      ],
+      providers: [
+        { provide: SelectiveCartFacade, useValue: mockSelectiveCartFacade },
+        { provide: AuthService, useValue: mockAuthService },
+        { provide: RoutingService, useValue: mockRoutingService },
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
+        },
+        {
+          provide: CartConfigService,
+          useValue: mockCartConfig,
+        },
+      ],
+    }).compileComponents();
 
-      mockCartConfig.isSelectiveCartEnabled.and.returnValue(true);
-      mockSelectiveCartFacade.isStable.and.returnValue(of(true));
-    })
-  );
+    mockCartConfig.isSelectiveCartEnabled.and.returnValue(true);
+    mockSelectiveCartFacade.isStable.and.returnValue(of(true));
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartDetailsComponent);
