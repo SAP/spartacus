@@ -39,21 +39,19 @@ describe('CouponDialogComponent', () => {
   let fixture: ComponentFixture<CouponDialogComponent>;
   let el: DebugElement;
   let launchDialogService: LaunchDialogService;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          CouponDialogComponent,
-          MockCxIconComponent,
-          FocusDirective,
-        ],
-        imports: [I18nTestingModule],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        CouponDialogComponent,
+        MockCxIconComponent,
+        FocusDirective,
+      ],
+      imports: [I18nTestingModule],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CouponDialogComponent);

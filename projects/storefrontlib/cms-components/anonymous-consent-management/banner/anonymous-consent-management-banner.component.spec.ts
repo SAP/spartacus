@@ -38,24 +38,22 @@ describe('AnonymousConsentManagementBannerComponent', () => {
   let anonymousConsentsService: AnonymousConsentsService;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [AnonymousConsentManagementBannerComponent],
-        providers: [
-          {
-            provide: AnonymousConsentsService,
-            useClass: MockAnonymousConsentsService,
-          },
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [AnonymousConsentManagementBannerComponent],
+      providers: [
+        {
+          provide: AnonymousConsentsService,
+          useClass: MockAnonymousConsentsService,
+        },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

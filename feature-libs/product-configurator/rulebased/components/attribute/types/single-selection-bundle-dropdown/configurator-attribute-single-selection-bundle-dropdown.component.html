@@ -34,16 +34,16 @@
             | cxTranslate
               : { value: item.valueDisplay, attribute: attribute.label })
           : item.valuePrice && item.valuePrice?.value !== 0
-          ? ('configurator.a11y.selectedValueOfAttributeFullWithPrice'
-            | cxTranslate
-              : {
-                  value: item.valueDisplay,
-                  attribute: attribute.label,
-                  price: item.valuePriceTotal?.formattedValue ?? 0
-                })
-          : ('configurator.a11y.selectedValueOfAttributeFull'
-            | cxTranslate
-              : { value: item.valueDisplay, attribute: attribute.label })
+            ? ('configurator.a11y.selectedValueOfAttributeFullWithPrice'
+              | cxTranslate
+                : {
+                    value: item.valueDisplay,
+                    attribute: attribute.label,
+                    price: item.valuePriceTotal?.formattedValue ?? 0
+                  })
+            : ('configurator.a11y.selectedValueOfAttributeFull'
+              | cxTranslate
+                : { value: item.valueDisplay, attribute: attribute.label })
       "
       [value]="item.valueCode"
     >

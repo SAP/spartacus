@@ -10,6 +10,12 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
+   * when a product does not have a defined price or its purchasable field is set to false
+   */
+  shouldHideAddToCartForUnpurchasableProducts?: boolean;
+
+  /**
    * In `FormErrorsComponent` it uses more descriptive validation error messages
    * in all UI form fields existing before v2211.25.
    *
@@ -317,6 +323,13 @@ export interface FeatureTogglesInterface {
   a11yUseButtonsForBtnLinks?: boolean;
 
   /**
+   * When enabled disable "Apply" button in promo code component in cart for empty input,
+   * disable "Add" button in quick order component when input is empty and remove
+   * required validators for both inputs
+   */
+  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields?: boolean;
+
+  /**
    * In `FacetListComponent` dialog view focus will be moved to the first facet
    * after single-select facet selection.
    * New "Back To Results" button is added
@@ -332,6 +345,7 @@ export interface FeatureTogglesInterface {
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   formErrorsDescriptiveMessages: true,
+  shouldHideAddToCartForUnpurchasableProducts: false,
   useExtractedBillingAddressComponent: false,
   showBillingAddressInDigitalPayments: false,
   showDownloadProposalButton: false,
@@ -380,6 +394,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yImproveContrast: false,
   a11yEmptyWishlistHeading: false,
   a11yUseButtonsForBtnLinks: false,
+  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
   a11yLinkBtnsToTertiaryBtns: false,
 };

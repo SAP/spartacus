@@ -120,26 +120,21 @@ describe('UpdateEmailComponentService', () => {
         expect(authService.coreLogout).toHaveBeenCalled();
       });
 
-      it(
-        'should reroute to the login page',
-        waitForAsync(() => {
-          service.save();
-          expect(userService.update).not.toHaveBeenCalled();
-          expect(
-            cdcJsService.updateUserEmailWithoutScreenSet
-          ).toHaveBeenCalled();
-          authService.coreLogout().then(() => {
-            expect(routingService.go).toHaveBeenCalledWith(
-              { cxRoute: 'login' },
-              {
-                state: {
-                  newUid: 'tester@sap.com',
-                },
-              }
-            );
-          });
-        })
-      );
+      it('should reroute to the login page', waitForAsync(() => {
+        service.save();
+        expect(userService.update).not.toHaveBeenCalled();
+        expect(cdcJsService.updateUserEmailWithoutScreenSet).toHaveBeenCalled();
+        authService.coreLogout().then(() => {
+          expect(routingService.go).toHaveBeenCalledWith(
+            { cxRoute: 'login' },
+            {
+              state: {
+                newUid: 'tester@sap.com',
+              },
+            }
+          );
+        });
+      }));
 
       it('reset form', () => {
         spyOn(service.form, 'reset').and.callThrough();
@@ -149,24 +144,19 @@ describe('UpdateEmailComponentService', () => {
         expect(service.form.reset).toHaveBeenCalled();
       });
 
-      it(
-        'should set the redirect url to the home page before navigating to the login page',
-        waitForAsync(() => {
-          service.save();
-          expect(userService.update).not.toHaveBeenCalled();
-          expect(
-            cdcJsService.updateUserEmailWithoutScreenSet
-          ).toHaveBeenCalled();
-          expect(authRedirectService.setRedirectUrl).toHaveBeenCalledWith(
-            routingService.getUrl({ cxRoute: 'home' })
+      it('should set the redirect url to the home page before navigating to the login page', waitForAsync(() => {
+        service.save();
+        expect(userService.update).not.toHaveBeenCalled();
+        expect(cdcJsService.updateUserEmailWithoutScreenSet).toHaveBeenCalled();
+        expect(authRedirectService.setRedirectUrl).toHaveBeenCalledWith(
+          routingService.getUrl({ cxRoute: 'home' })
+        );
+        authService.coreLogout().then(() => {
+          expect(authRedirectService.setRedirectUrl).toHaveBeenCalledBefore(
+            routingService.go
           );
-          authService.coreLogout().then(() => {
-            expect(authRedirectService.setRedirectUrl).toHaveBeenCalledBefore(
-              routingService.go
-            );
-          });
-        })
-      );
+        });
+      }));
     });
 
     describe('error', () => {

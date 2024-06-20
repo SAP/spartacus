@@ -43,23 +43,21 @@ describe('CloseAccountComponent', () => {
   let launchDialogService: LaunchDialogService;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [
-          CloseAccountComponent,
-          MockUrlPipe,
-          MockCxIconComponent,
-          MockFeatureDirective,
-        ],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          { provide: RoutingService, useClass: MockRoutingService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [
+        CloseAccountComponent,
+        MockUrlPipe,
+        MockCxIconComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CloseAccountComponent);

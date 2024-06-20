@@ -72,33 +72,31 @@ describe('FacetListComponent', () => {
   let focusService: KeyboardFocusService;
   let featureConfigService: FeatureConfigService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [
-          FacetListComponent,
-          MockIconComponent,
-          MockFacetComponent,
-          MockKeyboadFocusDirective,
-          MockFeatureDirective,
-        ],
-        providers: [
-          { provide: FacetService, useClass: MockFacetService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [
+        FacetListComponent,
+        MockIconComponent,
+        MockFacetComponent,
+        MockKeyboadFocusDirective,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: FacetService, useClass: MockFacetService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
           },
-        ],
-      })
-        .overrideComponent(FacetListComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+        },
+      ],
     })
-  );
+      .overrideComponent(FacetListComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetListComponent);

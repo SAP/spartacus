@@ -57,49 +57,47 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   let htmlElem: HTMLElement;
   let config: Config;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeMultiSelectionImageComponent,
-          MockFocusDirective,
-          MockConfiguratorPriceComponent,
-        ],
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          I18nTestingModule,
-          IconTestingModule,
-          PopoverModule,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockGroupService,
-          },
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          { provide: Config, useClass: MockConfig },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeMultiSelectionImageComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeMultiSelectionImageComponent,
+        MockFocusDirective,
+        MockConfiguratorPriceComponent,
+      ],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        IconTestingModule,
+        PopoverModule,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockGroupService,
+        },
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        { provide: Config, useClass: MockConfig },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeMultiSelectionImageComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   function createImage(url: string, altText: string): Configurator.Image {
     const image: Configurator.Image = {

@@ -149,37 +149,35 @@ describe('OrderDetailItemsComponent', () => {
   let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      mockOrderDetailsService = <OrderDetailsService>{
-        isOrderDetailsLoading(): Observable<boolean> {
-          return of(false);
-        },
-        getOrderDetails() {
-          return of(mockOrder);
-        },
-      };
+  beforeEach(waitForAsync(() => {
+    mockOrderDetailsService = <OrderDetailsService>{
+      isOrderDetailsLoading(): Observable<boolean> {
+        return of(false);
+      },
+      getOrderDetails() {
+        return of(mockOrder);
+      },
+    };
 
-      TestBed.configureTestingModule({
-        imports: [
-          CardModule,
-          I18nTestingModule,
-          PromotionsModule,
-          RouterTestingModule,
-          OutletModule,
-        ],
-        providers: [
-          { provide: OrderDetailsService, useValue: mockOrderDetailsService },
-          { provide: CmsComponentData, useValue: MockCmsComponentData },
-        ],
-        declarations: [
-          OrderDetailItemsComponent,
-          MockConsignmentTrackingComponent,
-          OrderConsignedEntriesComponent,
-        ],
-      }).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule({
+      imports: [
+        CardModule,
+        I18nTestingModule,
+        PromotionsModule,
+        RouterTestingModule,
+        OutletModule,
+      ],
+      providers: [
+        { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+        { provide: CmsComponentData, useValue: MockCmsComponentData },
+      ],
+      declarations: [
+        OrderDetailItemsComponent,
+        MockConsignmentTrackingComponent,
+        OrderConsignedEntriesComponent,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailItemsComponent);
