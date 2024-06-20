@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CartItemContext } from '@spartacus/cart/base/root';
 import { CartItemComponent } from '../cart-item/cart-item.component';
 import { CartItemContextSource } from '../cart-item/model/cart-item-context-source.model';
-import { Subscription } from 'rxjs';
 import { CartItemListComponentService } from './cart-item-list-row.component.service';
 
 @Component({
@@ -19,17 +18,10 @@ import { CartItemListComponentService } from './cart-item-list-row.component.ser
     { provide: CartItemContext, useExisting: CartItemContextSource },
   ],
 })
-export class CartItemListRowComponent
-  extends CartItemComponent
-  implements OnDestroy
-{
+export class CartItemListRowComponent extends CartItemComponent {
   protected componentService = inject(CartItemListComponentService);
   isFlagQuote = this.componentService.showBasePriceWithDiscount();
-  private subscription: Subscription;
   constructor(cartItemContextSource: CartItemContextSource) {
     super(cartItemContextSource);
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }
