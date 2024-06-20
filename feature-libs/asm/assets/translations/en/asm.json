@@ -27,11 +27,17 @@
       "searchTerm": {
         "label": "Customer Name/Email Address"
       },
+      "searchOrder": {
+        "label": "Search by exact order ID"
+      },
       "submit": "Start Session",
       "startEmulation": "Start Emulation",
       "noMatch": "No customer found.",
-      "noMatchResult": "This account cannot be found.",
-      "createCustomer": "Create New Customer"
+      "noMatchResult": "No matching customer found.",
+      "noOrderMatchResult": "Search by exact order ID.",
+      "createCustomer": "Create New Customer",
+      "customer": "Customer",
+      "orderID": "Order ID"
     },
     "createCustomerForm": {
       "title": "Create New Customer",

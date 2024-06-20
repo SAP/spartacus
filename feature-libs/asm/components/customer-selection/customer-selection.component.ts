@@ -21,7 +21,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { AsmService } from '@spartacus/asm/core';
-import { AsmConfig, CustomerSearchPage } from '@spartacus/asm/root';
+import {
+  AsmConfig,
+  AsmDeepLinkParameters,
+  CustomerSearchPage,
+} from '@spartacus/asm/root';
 
 import { User } from '@spartacus/core';
 import {
@@ -46,12 +50,18 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   searchResultsLoading$: Observable<boolean>;
   searchResults: Observable<CustomerSearchPage>;
   selectedCustomer: User | undefined;
+  searchByCustomer: boolean = false;
+  searchByOrder: boolean = false;
 
   @Output()
-  submitEvent = new EventEmitter<{ customerId?: string }>();
+  submitEvent = new EventEmitter<{
+    customerId?: string;
+    parameters?: AsmDeepLinkParameters;
+  }>();
 
   @ViewChild('resultList') resultList: ElementRef;
   @ViewChild('searchTerm') searchTerm: ElementRef;
+  @ViewChild('searchOrder') searchOrder: ElementRef;
 
   @ViewChild('createCustomerLink') createCustomerLink: ElementRef;
   @ViewChildren('searchResultItem') searchResultItems: QueryList<
@@ -71,6 +81,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.customerSelectionForm = this.fb.group({
       searchTerm: ['', Validators.required],
+      searchOrder: ['', Validators.required],
     });
     this.asmService.customerSearchReset();
     this.searchResultsLoading$ =
@@ -81,21 +92,33 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       this.customerSelectionForm.controls.searchTerm.valueChanges
         .pipe(debounceTime(300))
         .subscribe((searchTermValue) => {
-          this.handleSearchTerm(searchTermValue);
+          this.searchByCustomer = true;
+          this.searchByOrder = false;
+          this.handleSearchByCustomer(searchTermValue);
+        })
+    );
+
+    this.subscription.add(
+      this.customerSelectionForm.controls.searchOrder.valueChanges
+        .pipe(debounceTime(300))
+        .subscribe((searchTermValue) => {
+          this.searchByCustomer = false;
+          this.searchByOrder = true;
+          this.handleSearchByOrder(searchTermValue);
         })
     );
   }
 
-  protected handleSearchTerm(searchTermValue: string) {
-    if (
-      !!this.selectedCustomer &&
-      searchTermValue !== this.selectedCustomer.name
-    ) {
+  protected handleSearchByCustomer(searchTermValue: string) {
+    if (!!this.selectedCustomer) {
       this.selectedCustomer = undefined;
     }
-    if (Boolean(this.selectedCustomer)) {
-      return;
+    if (!!this.customerSelectionForm.controls.searchOrder.value) {
+      this.customerSelectionForm.controls.searchOrder.setValue(undefined, {
+        emitEvent: false,
+      });
     }
+
     this.asmService.customerSearchReset();
     this.activeFocusedButtonIndex = -1;
     if (searchTermValue.trim().length >= 3) {
@@ -106,20 +129,48 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     }
   }
 
+  protected handleSearchByOrder(searchOrderValue: string) {
+    if (!!this.selectedCustomer) {
+      this.selectedCustomer = undefined;
+    }
+    if (!!this.customerSelectionForm.controls.searchTerm.value) {
+      this.customerSelectionForm.controls.searchTerm.setValue(undefined, {
+        emitEvent: false,
+      });
+    }
+
+    this.asmService.customerSearchReset();
+    this.activeFocusedButtonIndex = -1;
+    if (searchOrderValue.trim().length >= 3) {
+      this.asmService.customerSearch({
+        orderId: searchOrderValue,
+        pageSize: this.config.asm?.customerSearch?.maxResults,
+      });
+    }
+  }
+
   selectCustomerFromList(event: UIEvent, customer: User) {
     this.selectedCustomer = customer;
     this.customerSelectionForm.controls.searchTerm.setValue(
-      this.selectedCustomer.name
+      this.selectedCustomer.name,
+      {
+        emitEvent: false,
+      }
     );
     this.asmService.customerSearchReset();
-    this.searchTerm.nativeElement.focus();
+    // this.searchTerm.nativeElement.focus();
     event.preventDefault();
     event.stopPropagation();
   }
 
   onSubmit(): void {
-    if (this.customerSelectionForm.valid && !!this.selectedCustomer) {
-      this.submitEvent.emit({ customerId: this.selectedCustomer.customerId });
+    if (!!this.selectedCustomer) {
+      this.submitEvent.emit({
+        customerId: this.selectedCustomer.customerId,
+        parameters: {
+          orderId: this.customerSelectionForm.controls.searchOrder.value,
+        },
+      });
     } else {
       this.customerSelectionForm.markAllAsTouched();
     }
@@ -237,6 +288,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
       this.createCustomerLink
     );
+    this.searchTerm.nativeElement.blur();
   }
   /**
    * Verifies whether the user navigates into a subgroup of the main group menu.

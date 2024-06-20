@@ -108,6 +108,7 @@ describe('CustomerSelectionComponent', () => {
   let launchDialogService: LaunchDialogService;
 
   const validSearchTerm = 'cUstoMer@test.com';
+  const validSearchOrderID = 'valid_order_id';
 
   beforeEach(
     waitForAsync(() => {
@@ -154,7 +155,7 @@ describe('CustomerSelectionComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit selection event when submitted', () => {
+  it('should emit selection event when submitted (CXSPA-7026)', () => {
     spyOn(component, 'onSubmit').and.callThrough();
     spyOn(component.submitEvent, 'emit').and.stub();
 
@@ -170,11 +171,15 @@ describe('CustomerSelectionComponent', () => {
     expect(component.onSubmit).toHaveBeenCalled();
     expect(component.submitEvent.emit).toHaveBeenCalledWith({
       customerId: mockCustomer.customerId,
+      parameters: {
+        orderId: '',
+      },
     });
   });
 
-  it('should display spinner when customer search is running', () => {
+  it('should display spinner when customer search is running (CXSPA-7026)', () => {
     customerSearchResultsLoading.next(true);
+    component.searchByCustomer = true;
     fixture.detectChanges();
 
     expect(el.query(By.css('cx-dot-spinner'))).toBeTruthy();
@@ -214,20 +219,35 @@ describe('CustomerSelectionComponent', () => {
     );
   }));
 
+  it('should display 1 search results for valid search order (CXSPA-7026)', fakeAsync(() => {
+    spyOn(asmService, 'customerSearch').and.callFake(() => {
+      customerSearchResults.next({ entries: [mockCustomer] });
+      customerSearchResultsLoading.next(false);
+    });
+    component.customerSelectionForm.controls.searchOrder.setValue(
+      validSearchOrderID
+    );
+
+    tick(300);
+
+    fixture.detectChanges();
+    expect(el.queryAll(By.css('div.asm-results button')).length).toEqual(1);
+  }));
+
   it('should close the result list when we click out of the result list area', () => {
     spyOn(asmService, 'customerSearchReset').and.stub();
 
     component.customerSelectionForm.controls.searchTerm.setValue(
       validSearchTerm
     );
-    fixture.detectChanges();
-    expect(el.query(By.css('div.asm-results'))).toBeTruthy();
     el.nativeElement.ownerDocument.dispatchEvent(new MouseEvent('click'));
     fixture.detectChanges();
     expect(asmService.customerSearchReset).toHaveBeenCalled();
   });
 
-  it('should display customer registration message if no result was found', () => {
+  it('should display customer registration message if no customer was found (CXSPA-7026)', () => {
+    component.searchByCustomer = true;
+
     spyOn(asmService, 'customerSearch').and.callFake(() => {
       customerSearchResults.next({ entries: [] });
       customerSearchResultsLoading.next(false);
@@ -237,13 +257,31 @@ describe('CustomerSelectionComponent', () => {
       validSearchTerm
     );
     fixture.detectChanges();
-    expect(el.queryAll(By.css('div.asm-results button')).length).toEqual(1);
-    const createAccountButton = el.query(By.css('div.asm-results button'));
+    expect(el.queryAll(By.css('div.cx-message-content div')).length).toEqual(1);
+    const createAccountButton = el.query(By.css('span.linkStyleLabel'));
     expect(createAccountButton.nativeElement.innerText).toEqual(
-      'asm.customerSearch.noMatchResultasm.customerSearch.createCustomer'
+      'asm.customerSearch.createCustomer'
     );
     createAccountButton.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(asmService.customerSearchReset).toHaveBeenCalled();
+  });
+
+  it('should display search exact order message if no customer was found by order ID (CXSPA-7026)', () => {
+    component.searchByOrder = true;
+
+    spyOn(asmService, 'customerSearch').and.callFake(() => {
+      customerSearchResults.next({ entries: [] });
+      customerSearchResultsLoading.next(false);
+    });
+    component.customerSelectionForm.controls.searchOrder.setValue(
+      validSearchOrderID
+    );
+    fixture.detectChanges();
+    expect(el.queryAll(By.css('div.cx-message-content div')).length).toEqual(1);
+    const createAccountButton = el.query(By.css('span.cx-message-text'));
+    expect(createAccountButton.nativeElement.innerText).toEqual(
+      'asm.customerSearch.noOrderMatchResult'
+    );
   });
 
   it('should be able to select a customer from the result list.', fakeAsync(() => {
