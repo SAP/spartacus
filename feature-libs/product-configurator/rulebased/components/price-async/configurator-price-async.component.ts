@@ -88,7 +88,7 @@ export class ConfiguratorPriceAsyncComponent {
   }
 
   getPriceData(configuration: Configurator.Configuration): PriceData {
-    let priceSupplement = configuration.priceSupplements
+    const priceSupplement = configuration.priceSupplements
       ?.find(
         (attrSupplement) =>
           attrSupplement.attributeUiKey === this.options.attributeKey
@@ -98,12 +98,12 @@ export class ConfiguratorPriceAsyncComponent {
           valueSupplement.attributeValueKey === this.options.valueName
       );
 
-    let priceData: PriceData = { valuePrice: priceSupplement?.priceValue };
+    const priceData: PriceData = { valuePrice: priceSupplement?.priceValue };
     return priceData;
   }
 
   getDisplayPrice(priceData: PriceData): string {
-    let priceDetails = priceData.totalPrice ?? priceData.valuePrice;
+    const priceDetails = priceData.totalPrice ?? priceData.valuePrice;
     return this.compileFormattedValue(
       priceDetails?.value ?? 0,
       priceDetails?.formattedValue,

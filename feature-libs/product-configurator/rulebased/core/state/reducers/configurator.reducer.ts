@@ -444,7 +444,6 @@ function takeOverChanges(
       issueNavigationDone: true,
     },
   };
-  console.log('reducer config');
   return result;
 }
 
@@ -463,6 +462,5 @@ function takeOverPricingChanges(
       issueNavigationDone: true,
     },
   };
-  console.log('reducer pricing');
   return result;
 }

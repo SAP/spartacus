@@ -43,23 +43,9 @@ export class ConfiguratorAttributeCompositionDirective implements OnChanges {
         this.context.attribute
       );
     if (attributeDeepEqualsPreviousVersion) {
-      console.log(
-        'NO CHANGE: ' +
-          this.context.attribute.key +
-          ' (' +
-          this.context.componentKey +
-          ')'
-      );
       return;
     }
     this.attribute = this.context.attribute;
-    console.log(
-      'RE-RENDER COMPONENT: ' +
-        this.context.attribute.key +
-        ' (' +
-        this.context.componentKey +
-        ')'
-    );
 
     const componentKey = this.context.componentKey;
     const composition =
