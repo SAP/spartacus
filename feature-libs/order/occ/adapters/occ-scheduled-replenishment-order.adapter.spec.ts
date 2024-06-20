@@ -82,18 +82,16 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
   let httpMock: HttpTestingController;
   let converter: ConverterService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        providers: [
-          OccScheduledReplenishmentOrderAdapter,
-          { provide: OccConfig, useValue: MockOccModuleConfig },
-          { provide: LoggerService, useClass: MockLoggerService },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        OccScheduledReplenishmentOrderAdapter,
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     occAdapter = TestBed.inject(OccScheduledReplenishmentOrderAdapter);

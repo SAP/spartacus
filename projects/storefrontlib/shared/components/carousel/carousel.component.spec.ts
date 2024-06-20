@@ -49,22 +49,18 @@ describe('Carousel Component', () => {
 
   let templateFixture: ComponentFixture<MockTemplateComponent>;
   let template;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          CarouselComponent,
-          MockCxIconComponent,
-          MockTemplateComponent,
-          MockFeatureDirective,
-        ],
-        providers: [
-          { provide: CarouselService, useClass: MockCarouselService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        CarouselComponent,
+        MockCxIconComponent,
+        MockTemplateComponent,
+        MockFeatureDirective,
+      ],
+      providers: [{ provide: CarouselService, useClass: MockCarouselService }],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CarouselComponent);

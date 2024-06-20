@@ -81,30 +81,28 @@ describe('OrderConsignedEntriesComponent', () => {
   let fixture: ComponentFixture<OrderConsignedEntriesComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          CardModule,
-          I18nTestingModule,
-          RouterTestingModule,
-          OutletModule,
-        ],
-        providers: [
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '1.4', consignmentTracking: true },
-            },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        CardModule,
+        I18nTestingModule,
+        RouterTestingModule,
+        OutletModule,
+      ],
+      providers: [
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.4', consignmentTracking: true },
           },
-        ],
-        declarations: [
-          OrderConsignedEntriesComponent,
-          MockConsignmentTrackingComponent,
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+      declarations: [
+        OrderConsignedEntriesComponent,
+        MockConsignmentTrackingComponent,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderConsignedEntriesComponent);

@@ -119,41 +119,39 @@ describe('ReorderDialogComponent', () => {
   let el: DebugElement;
   let reorderOrderFacade: ReorderOrderFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          FormsModule,
-          ReactiveFormsModule,
-          RouterTestingModule,
-          SpinnerModule,
-          I18nTestingModule,
-          PromotionsModule,
-        ],
-        declarations: [
-          ReorderDialogComponent,
-          MockCxIconComponent,
-          MockSpinnerComponent,
-          MockFocusDirective,
-        ],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: ReorderOrderFacade,
-            useClass: MockReorderOrderFacade,
-          },
-          {
-            provide: MultiCartFacade,
-            useClass: MockMultiCartService,
-          },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        SpinnerModule,
+        I18nTestingModule,
+        PromotionsModule,
+      ],
+      declarations: [
+        ReorderDialogComponent,
+        MockCxIconComponent,
+        MockSpinnerComponent,
+        MockFocusDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: ReorderOrderFacade,
+          useClass: MockReorderOrderFacade,
+        },
+        {
+          provide: MultiCartFacade,
+          useClass: MockMultiCartService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReorderDialogComponent);

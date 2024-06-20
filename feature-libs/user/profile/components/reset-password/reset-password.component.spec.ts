@@ -37,26 +37,24 @@ describe('ResetPasswordComponent', () => {
   let el: DebugElement;
   let service: ResetPasswordComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          SpinnerModule,
-        ],
-        declarations: [ResetPasswordComponent, MockFeatureDirective],
-        providers: [
-          {
-            provide: ResetPasswordComponentService,
-            useClass: MockResetPasswordService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        SpinnerModule,
+      ],
+      declarations: [ResetPasswordComponent, MockFeatureDirective],
+      providers: [
+        {
+          provide: ResetPasswordComponentService,
+          useClass: MockResetPasswordService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResetPasswordComponent);
