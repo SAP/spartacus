@@ -12,7 +12,18 @@
         formControlName="name"
         (blur)="createUidWithName(form.get('name'), form.get('uid'))"
       />
-      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{ label: 'orgUserGroup.name' | cxTranslate }"
+        [control]="form.get('name')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('name')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -26,7 +37,18 @@
         placeholder="{{ 'orgUserGroup.uid' | cxTranslate }}"
         formControlName="uid"
       />
-      <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{ label: 'orgUserGroup.uid' | cxTranslate }"
+        [control]="form.get('uid')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('uid')"
+      ></cx-form-errors>
     </label>
 
     <label [formGroup]="$any(form.get('orgUnit'))">
@@ -46,7 +68,18 @@
         [placeholder]="'orgUserGroup.orgUnit' | cxTranslate"
       >
       </ng-select>
-      <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{ label: 'orgUserGroup.orgUnit' | cxTranslate }"
+        [control]="form.get('orgUnit.uid')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('orgUnit.uid')"
+      ></cx-form-errors>
     </label>
   </ng-container>
 </cx-org-form>

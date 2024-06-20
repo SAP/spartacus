@@ -90,24 +90,22 @@ const MockTabKeyEvent = {
 
 describe('VisibleFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          MockComponent,
-          CustomFocusDirective,
-          CustomFakeFocusDirective,
-        ],
-        providers: [
-          {
-            provide: BaseFocusService,
-            useClass: MockVisibleFocusService,
-          },
-        ],
-      }).compileComponents();
-      fixture = TestBed.createComponent(MockComponent);
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        MockComponent,
+        CustomFocusDirective,
+        CustomFakeFocusDirective,
+      ],
+      providers: [
+        {
+          provide: BaseFocusService,
+          useClass: MockVisibleFocusService,
+        },
+      ],
+    }).compileComponents();
+    fixture = TestBed.createComponent(MockComponent);
+  }));
 
   beforeEach(() => {
     fixture.detectChanges();

@@ -157,27 +157,19 @@ describe('ProductImageZoomViewComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it(
-      'should have 2 thumbnails',
-      waitForAsync(() => {
-        let items: Observable<ThumbnailsGroup>[];
-        productImageZoomViewComponent.thumbnails$.subscribe((i) => (items = i));
-        expect(items.length).toBe(2);
-      })
-    );
+    it('should have 2 thumbnails', waitForAsync(() => {
+      let items: Observable<ThumbnailsGroup>[];
+      productImageZoomViewComponent.thumbnails$.subscribe((i) => (items = i));
+      expect(items.length).toBe(2);
+    }));
 
-    it(
-      'should have thumb with url in first product',
-      waitForAsync(() => {
-        let thumbs: Observable<ThumbnailsGroup>[];
-        productImageZoomViewComponent.thumbnails$.subscribe(
-          (i) => (thumbs = i)
-        );
-        let thumb: any;
-        thumbs[0].subscribe((p) => (thumb = p));
-        expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
-      })
-    );
+    it('should have thumb with url in first product', waitForAsync(() => {
+      let thumbs: Observable<ThumbnailsGroup>[];
+      productImageZoomViewComponent.thumbnails$.subscribe((i) => (thumbs = i));
+      let thumb: any;
+      thumbs[0].subscribe((p) => (thumb = p));
+      expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
+    }));
 
     it('should zoom on click', () => {
       const defaultImageElement = fixture.debugElement.query(
@@ -222,14 +214,11 @@ describe('ProductImageZoomViewComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it(
-      'should not have thumbnails in case there is only one GALLERY image',
-      waitForAsync(() => {
-        let items: Observable<ThumbnailsGroup>[];
-        productImageZoomViewComponent.thumbnails$.subscribe((i) => (items = i));
-        expect(items.length).toBe(0);
-      })
-    );
+    it('should not have thumbnails in case there is only one GALLERY image', waitForAsync(() => {
+      let items: Observable<ThumbnailsGroup>[];
+      productImageZoomViewComponent.thumbnails$.subscribe((i) => (items = i));
+      expect(items.length).toBe(0);
+    }));
   });
 
   describe('without pictures', () => {

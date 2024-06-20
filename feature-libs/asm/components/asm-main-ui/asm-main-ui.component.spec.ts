@@ -6,7 +6,13 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import {
@@ -173,32 +179,30 @@ describe('AsmMainUiComponent', () => {
   let asmEnablerService: AsmEnablerService;
   const testCustomerId: string = 'test.customer@hybris.com';
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          AsmMainUiComponent,
-          MockAsmToggleUiComponent,
-          MockCSAgentLoginFormComponent,
-          MockCustomerSelectionComponent,
-          MockAsmSessionTimerComponent,
-          MockCustomerEmulationComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
-          { provide: UserAccountFacade, useClass: MockUserAccountFacade },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: AsmComponentService, useClass: MockAsmComponentService },
-          { provide: AsmService, useClass: MockAsmService },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        AsmMainUiComponent,
+        MockAsmToggleUiComponent,
+        MockCSAgentLoginFormComponent,
+        MockCustomerSelectionComponent,
+        MockAsmSessionTimerComponent,
+        MockCustomerEmulationComponent,
+        MockCxIconComponent,
+      ],
+      providers: [
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
+        { provide: UserAccountFacade, useClass: MockUserAccountFacade },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: AsmComponentService, useClass: MockAsmComponentService },
+        { provide: AsmService, useClass: MockAsmService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmMainUiComponent);
@@ -460,6 +464,27 @@ describe('AsmMainUiComponent', () => {
     });
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
   });
+
+  it('should be able to open c360 dialog', fakeAsync(() => {
+    spyOn(launchDialogService, 'openDialogAndSubscribe');
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+    spyOn(userAccountFacade, 'get').and.returnValue(
+      of({ customerId: 'testuser' })
+    );
+    component.ngOnInit();
+    dialogClose$.next({
+      selectedUser: {},
+      actionType: CustomerListColumnActionType.CUSTOMER_360,
+    });
+
+    tick(1000);
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ASM_CUSTOMER_360,
+      component.element,
+      // any parameter is accept
+      jasmine.any(Object)
+    );
+  }));
 
   it('should be able to open create account dialog', () => {
     spyOn(launchDialogService, 'openDialogAndSubscribe');

@@ -44,21 +44,19 @@ describe('SkipLinkComponent', () => {
   let skipLinkComponent: SkipLinkComponent;
   let fixture: ComponentFixture<SkipLinkComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [SkipLinkComponent, MockFocusDirective],
-        providers: [
-          {
-            provide: SkipLinkConfig,
-            useValue: { skipLinks: [mockSkipLinks] },
-          },
-          { provide: SkipLinkService, useClass: MockSkipLinkService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [SkipLinkComponent, MockFocusDirective],
+      providers: [
+        {
+          provide: SkipLinkConfig,
+          useValue: { skipLinks: [mockSkipLinks] },
+        },
+        { provide: SkipLinkService, useClass: MockSkipLinkService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(async () => {
     fixture = TestBed.createComponent(SkipLinkComponent);

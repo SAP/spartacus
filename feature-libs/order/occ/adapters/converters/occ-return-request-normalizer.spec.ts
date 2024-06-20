@@ -17,7 +17,7 @@ describe('OccReturnRequestNormalizer', () => {
         ({
           ...product,
           code: (product as Product).code + 'converted',
-        } as any)
+        }) as any
     );
   });
 

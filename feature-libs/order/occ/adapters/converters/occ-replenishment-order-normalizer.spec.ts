@@ -22,19 +22,17 @@ describe('OccReplenishmentOrderNormalizer', () => {
   let normalizer: OccReplenishmentOrderNormalizer;
   let converter: ConverterService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          OccReplenishmentOrderNormalizer,
-          {
-            provide: ConverterService,
-            useClass: MockConverterService,
-          },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        OccReplenishmentOrderNormalizer,
+        {
+          provide: ConverterService,
+          useClass: MockConverterService,
+        },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     normalizer = TestBed.inject(OccReplenishmentOrderNormalizer);

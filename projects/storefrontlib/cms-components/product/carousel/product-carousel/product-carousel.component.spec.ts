@@ -135,11 +135,9 @@ describe('ProductCarouselComponent', () => {
     ],
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule(testBedDefaults).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(testBedDefaults).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductCarouselComponent);
@@ -147,12 +145,9 @@ describe('ProductCarouselComponent', () => {
     fixture.detectChanges();
   });
 
-  it(
-    'should be created',
-    waitForAsync(() => {
-      expect(component).toBeTruthy();
-    })
-  );
+  it('should be created', waitForAsync(() => {
+    expect(component).toBeTruthy();
+  }));
 
   it('should have 2 items', (done) => {
     const productService = TestBed.inject(ProductService);
@@ -170,28 +165,22 @@ describe('ProductCarouselComponent', () => {
     });
   });
 
-  it(
-    'should have product code 111 in first product',
-    waitForAsync(() => {
-      let items: Observable<Product | undefined>[] = [];
-      component.items$.subscribe((i) => (items = i));
-      let product: Product | undefined;
-      items[0].subscribe((p) => (product = p));
+  it('should have product code 111 in first product', waitForAsync(() => {
+    let items: Observable<Product | undefined>[] = [];
+    component.items$.subscribe((i) => (items = i));
+    let product: Product | undefined;
+    items[0].subscribe((p) => (product = p));
 
-      expect(product).toBe(mockProducts[1]);
-    })
-  );
+    expect(product).toBe(mockProducts[1]);
+  }));
 
   describe('UI test', () => {
-    it(
-      'should have 2 rendered templates',
-      waitForAsync(() => {
-        const el = fixture.debugElement.queryAll(
-          By.css('cx-product-carousel-item')
-        );
-        expect(el.length).toEqual(2);
-      })
-    );
+    it('should have 2 rendered templates', waitForAsync(() => {
+      const el = fixture.debugElement.queryAll(
+        By.css('cx-product-carousel-item')
+      );
+      expect(el.length).toEqual(2);
+    }));
   });
 
   describe('Carousel with inner component mapping', () => {

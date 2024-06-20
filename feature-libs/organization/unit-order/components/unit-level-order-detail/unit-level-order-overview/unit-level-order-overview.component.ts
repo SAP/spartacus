@@ -44,7 +44,7 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
           ({
             title: textTitle,
             text: [orderCode],
-          } as Card)
+          }) as Card
       )
     );
   }
@@ -74,7 +74,7 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
           ({
             title: textTitle,
             text: [textStatus],
-          } as Card)
+          }) as Card
       )
     );
   }
@@ -156,7 +156,7 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
                 ? deliveryMode.deliveryCost?.formattedValue
                 : '',
             ],
-          } as Card)
+          }) as Card
       )
     );
   }
@@ -178,7 +178,7 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
             title: textTitle,
             textBold: payment?.accountHolderName,
             text: [payment?.cardNumber, textExpires],
-          } as Card)
+          }) as Card
       )
     );
   }
@@ -197,7 +197,7 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
               billingAddress?.formattedAddress,
               billingAddress?.country?.name,
             ],
-          } as Card)
+          }) as Card
       )
     );
   }
@@ -210,7 +210,7 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
           ({
             title: textTitle,
             text: [customer?.name, `(${customer?.email})`],
-          } as Card)
+          }) as Card
       )
     );
   }
@@ -223,7 +223,7 @@ export class UnitLevelOrderOverviewComponent implements OnInit {
           ({
             title: textTitle,
             text: [orgUnit],
-          } as Card)
+          }) as Card
       )
     );
   }
