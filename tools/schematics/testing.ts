@@ -205,6 +205,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build order/schematics':
     case 'build checkout/schematics':
     case 'build quote/schematics':
+    case 'build cpq-quote/schematics':
     case 'build cdc/schematics':
     case 'build cds/schematics':
     case 'build digital-payments/schematics':
