@@ -22,7 +22,7 @@ import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
-import { Tab, TabConfig } from '../tab/tab';
+import { Tab, TabConfig } from '../tab/tab.model';
 
 const defaultTabConfig = {
   openTabs: [0],

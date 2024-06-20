@@ -5,7 +5,7 @@
  */
 
 import { Component, Input, TemplateRef } from '@angular/core';
-import { Tab, TAB_PANEL_CONTENT_TYPE } from '../tab';
+import { Tab, TAB_PANEL_CONTENT_TYPE } from '../tab.model';
 
 @Component({
   selector: 'cx-tab-panel',

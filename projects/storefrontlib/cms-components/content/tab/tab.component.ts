@@ -15,7 +15,7 @@ import {
 import { BreakpointService } from '../../../layout/breakpoint';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { Tab, TabConfig, TAB_MODE } from './tab';
+import { Tab, TabConfig, TAB_MODE } from './tab.model';
 import { wrapIntoBounds } from './tab.utils';
 
 @Component({
