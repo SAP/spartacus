@@ -158,7 +158,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       }
     );
     this.asmService.customerSearchReset();
-    // this.searchTerm.nativeElement.focus();
     event.preventDefault();
     event.stopPropagation();
   }
