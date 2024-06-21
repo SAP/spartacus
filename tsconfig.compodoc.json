@@ -686,6 +686,15 @@
       "@spartacus/segment-refs/root": [
         "integration-libs/segment-refs/root/public_api"
       ],
+      "@spartacus/s4-service/assets": [
+        "integration-libs/s4-service/assets/public_api"
+      ],
+      "@spartacus/s4-service": [
+        "integration-libs/s4-service/public_api"
+      ],
+      "@spartacus/s4-service/root": [
+        "integration-libs/s4-service/root/public_api"
+      ],
       "@spartacus/assets": [
         "projects/assets/src/public_api"
       ],

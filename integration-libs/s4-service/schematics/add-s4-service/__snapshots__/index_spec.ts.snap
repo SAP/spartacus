@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus S/4HANA Service Integration Schematics: ng-add S/4HANA Service Integration feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { S4ServiceModule } from "@spartacus/s4-service";
+import { s4ServiceTranslationChunksConfig, s4ServiceTranslations } from "@spartacus/s4-service/assets";
+import { S4ServiceRootModule } from "@spartacus/s4-service/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    S4ServiceRootModule,
+    S4ServiceModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: s4ServiceTranslations,
+      chunks: s4ServiceTranslationChunksConfig,
+    },
+  })]
+})
+export class S4ServiceFeatureModule { }
+"
+`;
+
+exports[`Spartacus S/4HANA Service Integration Schematics: ng-add S/4HANA Service Integration feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { S4ServiceModule } from "@spartacus/s4-service";
+import { s4ServiceTranslationChunksConfig, s4ServiceTranslations } from "@spartacus/s4-service/assets";
+import { S4ServiceRootModule } from "@spartacus/s4-service/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    S4ServiceRootModule,
+    S4ServiceModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: s4ServiceTranslations,
+      chunks: s4ServiceTranslationChunksConfig,
+    },
+  })]
+})
+export class S4ServiceFeatureModule { }
+"
+`;

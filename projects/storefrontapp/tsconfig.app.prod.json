@@ -373,6 +373,9 @@
       "@spartacus/s4om/root": ["dist/s4om/root"],
       "@spartacus/segment-refs": ["dist/segment-refs"],
       "@spartacus/segment-refs/root": ["dist/segment-refs/root"],
+      "@spartacus/s4-service/assets": ["dist/s4-service/assets"],
+      "@spartacus/s4-service": ["dist/s4-service"],
+      "@spartacus/s4-service/root": ["dist/s4-service/root"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]
