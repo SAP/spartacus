@@ -18,7 +18,7 @@ context('Assisted Service Module', () => {
   describe('Customer Support Agent - Emulation', () => {
     asm.testCustomerEmulation();
 
-    it('should checkout as customer', () => {
+    it('should checkout as customer (CXSPA-7026)', () => {
       const customer = getSampleUser();
 
       cy.log('--> Agent logging in');
