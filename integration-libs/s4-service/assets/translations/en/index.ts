@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import cdc from './cdc.json';
+import s4Service from './s4-service.json';
 
 export const en = {
-  cdc,
+  s4Service,
 };
