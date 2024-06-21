@@ -50,6 +50,16 @@ context('Assisted Service Module', () => {
 
       cy.log('--> Place order');
       checkout.placeOrderWithCheapProduct();
+
+      cy.log('--> Starting customer emulation with customer order ID');
+      cy.get('.cx-page-title').then((el) => {
+        const orderNumber = el.text().match(/\d+/)[0];
+        cy.log('--> End session');
+        cy.get('cx-customer-emulation')
+          .findByText(/End Session/i)
+          .click();
+        asm.startCustomerEmulationWithOrderID(orderNumber, customer);
+      });
     });
   });
 
