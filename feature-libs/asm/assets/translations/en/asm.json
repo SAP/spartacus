@@ -28,13 +28,13 @@
         "label": "Customer Name/Email Address"
       },
       "searchOrder": {
-        "label": "Search by exact order ID"
+        "label": "Search by full order ID"
       },
       "submit": "Start Session",
       "startEmulation": "Start Emulation",
       "noMatch": "No customer found.",
       "noMatchResult": "No matching customer found.",
-      "noOrderMatchResult": "Search by exact order ID.",
+      "noOrderMatchResult": "Search by full order ID.",
       "createCustomer": "Create New Customer",
       "customer": "Customer",
       "orderID": "Order ID"
