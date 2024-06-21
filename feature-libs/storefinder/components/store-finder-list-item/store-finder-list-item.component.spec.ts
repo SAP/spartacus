@@ -101,23 +101,21 @@ describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
   let fixture: ComponentFixture<StoreFinderListItemComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          CommonModule,
-          ReactiveFormsModule,
-          I18nTestingModule,
-          RouterTestingModule,
-          OutletModule,
-        ],
-        declarations: [StoreFinderListItemComponent],
-        providers: [
-          { provide: StoreFinderService, useClass: MockStoreFinderService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        I18nTestingModule,
+        RouterTestingModule,
+        OutletModule,
+      ],
+      declarations: [StoreFinderListItemComponent],
+      providers: [
+        { provide: StoreFinderService, useClass: MockStoreFinderService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListItemComponent);

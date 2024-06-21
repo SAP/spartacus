@@ -51,31 +51,29 @@ describe('CdcLoginComponentService', () => {
   let cdcJsService: CdcJsService;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        declarations: [],
-        providers: [
-          CdcLoginFormComponentService,
-          { provide: WindowRef, useClass: MockWinRef },
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: Store, useValue: { dispatch: () => {} } },
-          { provide: CdcJsService, useClass: MockCDCJsService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: LoginFormComponentService,
-            useClass: MockLoginFormComponentService,
-          },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      declarations: [],
+      providers: [
+        CdcLoginFormComponentService,
+        { provide: WindowRef, useClass: MockWinRef },
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: Store, useValue: { dispatch: () => {} } },
+        { provide: CdcJsService, useClass: MockCDCJsService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: LoginFormComponentService,
+          useClass: MockLoginFormComponentService,
+        },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     cdcLoginService = TestBed.inject(CdcLoginFormComponentService);

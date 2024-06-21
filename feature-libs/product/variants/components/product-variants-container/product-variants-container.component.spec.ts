@@ -88,30 +88,28 @@ describe('ProductVariantsContainerComponent', () => {
   let component: ProductVariantsContainerComponent;
   let fixture: ComponentFixture<ProductVariantsContainerComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ProductVariantsContainerComponent,
-          MockUrlPipe,
-          MockCxProductStyleSelectorComponent,
-          MockCxProductSizeSelectorComponent,
-          MockCxProductColorSelectorComponent,
-        ],
-        imports: [RouterTestingModule, I18nTestingModule],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ProductVariantsContainerComponent,
+        MockUrlPipe,
+        MockCxProductStyleSelectorComponent,
+        MockCxProductSizeSelectorComponent,
+        MockCxProductColorSelectorComponent,
+      ],
+      imports: [RouterTestingModule, I18nTestingModule],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductVariantsContainerComponent);

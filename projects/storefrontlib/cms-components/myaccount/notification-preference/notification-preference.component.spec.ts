@@ -49,24 +49,22 @@ describe('NotificationPreferenceComponent', () => {
     },
   ];
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          NotificationPreferenceComponent,
-          MockCxSpinnerComponent,
-          MockFeatureDirective,
-        ],
-        providers: [
-          {
-            provide: UserNotificationPreferenceService,
-            useValue: notificationPreferenceService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        NotificationPreferenceComponent,
+        MockCxSpinnerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        {
+          provide: UserNotificationPreferenceService,
+          useValue: notificationPreferenceService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationPreferenceComponent);

@@ -28,21 +28,19 @@ describe('CheckoutLoginComponent', () => {
   let email: AbstractControl;
   let emailConfirmation: AbstractControl;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-        declarations: [CheckoutLoginComponent, MockFeatureDirective],
-        providers: [
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          {
-            provide: AuthRedirectService,
-            useClass: MockRedirectAfterAuthService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+      declarations: [CheckoutLoginComponent, MockFeatureDirective],
+      providers: [
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: AuthRedirectService,
+          useClass: MockRedirectAfterAuthService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutLoginComponent);
