@@ -98,12 +98,17 @@
       cursor: pointer;
       user-select: none;
 
+      button {
+        text-align: start;
+      }
+
       &:hover,
       &.active {
         color: $asmLinkColor;
       }
 
       &.active {
+        display: inline-block;
         &.desc::after,
         &.asc::after {
           content: '';

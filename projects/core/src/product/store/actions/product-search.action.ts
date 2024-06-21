@@ -42,7 +42,10 @@ export class SearchProductsFail implements Action {
 
 export class SearchProductsSuccess implements Action {
   readonly type = SEARCH_PRODUCTS_SUCCESS;
-  constructor(public payload: ProductSearchPage, public auxiliary?: boolean) {}
+  constructor(
+    public payload: ProductSearchPage,
+    public auxiliary?: boolean
+  ) {}
 }
 
 export class GetProductSuggestions implements Action {

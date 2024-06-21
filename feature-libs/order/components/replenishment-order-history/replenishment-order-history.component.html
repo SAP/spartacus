@@ -15,11 +15,7 @@
         <!-- Select Form and Pagination Top -->
         <div class="cx-replenishment-order-history-sort top row">
           <label
-            class="
-              cx-replenishment-order-history-form-group
-              form-group
-              col-sm-12 col-md-4 col-lg-4
-            "
+            class="cx-replenishment-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4"
           >
             <span>{{ 'orderHistory.sortBy' | cxTranslate }}</span>
             <cx-sorting
@@ -123,10 +119,7 @@
                       params: order
                     } | cxUrl
                   "
-                  class="
-                    cx-replenishment-order-history-value
-                    cx-purchase-order-number
-                  "
+                  class="cx-replenishment-order-history-value cx-purchase-order-number"
                 >
                   {{
                     order?.purchaseOrderNumber?.length > 0
@@ -164,7 +157,7 @@
                   "
                   class="cx-replenishment-order-history-value"
                 >
-                  {{ order?.trigger.displayTimeTable | slice: 0:-12 }}
+                  {{ order?.trigger.displayTimeTable | slice: 0 : -12 }}
                 </a>
               </td>
               <td role="cell">
@@ -179,9 +172,7 @@
                       params: order
                     } | cxUrl
                   "
-                  class="
-                    cx-replenishment-order-history-value cx-next-order-date
-                  "
+                  class="cx-replenishment-order-history-value cx-next-order-date"
                 >
                   {{
                     order?.active

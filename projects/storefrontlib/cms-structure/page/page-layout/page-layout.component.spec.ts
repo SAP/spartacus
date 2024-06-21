@@ -156,13 +156,11 @@ describe('SectionLayoutComponent', () => {
   let sectionLayoutComponent: MockHeaderComponent;
   let fixture: ComponentFixture<MockHeaderComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [TestModule],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [TestModule],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MockHeaderComponent);

@@ -138,42 +138,40 @@ describe('SearchBoxComponent', () => {
     clearResults() {}
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          BrowserAnimationsModule,
-          RouterModule.forRoot([]),
-          I18nTestingModule,
-        ],
-        declarations: [
-          SearchBoxComponent,
-          MockUrlPipe,
-          MockHighlightPipe,
-          MockCxIconComponent,
-          MockMediaComponent,
-        ],
-        providers: [
-          {
-            provide: ProductSearchService,
-            useValue: {},
-          },
-          {
-            provide: CmsComponentData,
-            useClass: MockCmsComponentData,
-          },
-          {
-            provide: SearchBoxComponentService,
-            useClass: SearchBoxComponentServiceSpy,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        BrowserAnimationsModule,
+        RouterModule.forRoot([]),
+        I18nTestingModule,
+      ],
+      declarations: [
+        SearchBoxComponent,
+        MockUrlPipe,
+        MockHighlightPipe,
+        MockCxIconComponent,
+        MockMediaComponent,
+      ],
+      providers: [
+        {
+          provide: ProductSearchService,
+          useValue: {},
+        },
+        {
+          provide: CmsComponentData,
+          useClass: MockCmsComponentData,
+        },
+        {
+          provide: SearchBoxComponentService,
+          useClass: SearchBoxComponentServiceSpy,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   describe('Default config', () => {
     beforeEach(() => {
@@ -242,15 +240,12 @@ describe('SearchBoxComponent', () => {
         expect(fixture.debugElement.query(By.css('.results'))).toBeFalsy();
       });
 
-      it(
-        'should contain search results panel after search input',
-        waitForAsync(() => {
-          searchBoxComponent.queryText = 'test input';
-          fixture.detectChanges();
+      it('should contain search results panel after search input', waitForAsync(() => {
+        searchBoxComponent.queryText = 'test input';
+        fixture.detectChanges();
 
-          expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
-        })
-      );
+        expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
+      }));
 
       it('should contain 2 suggestion after search', () => {
         searchBoxComponent.queryText = 'te';

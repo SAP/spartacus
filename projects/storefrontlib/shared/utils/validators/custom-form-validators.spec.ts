@@ -12,6 +12,10 @@ describe('FormValidationService', () => {
   let email: UntypedFormControl;
   let emailError: ValidationErrors;
   let passwordError: ValidationErrors;
+  let minOneUpperCaseCharacterError: ValidationErrors;
+  let minOneDigitError: ValidationErrors;
+  let minOneSpecialCharacterError: ValidationErrors;
+  let minSixCharactersLengthError: ValidationErrors;
   let starRatingEmpty: ValidationErrors;
   let budgetNegative: ValidationErrors;
   let specialCharacters: ValidationErrors;
@@ -41,6 +45,22 @@ describe('FormValidationService', () => {
 
     passwordError = {
       cxInvalidPassword: true,
+    };
+
+    minOneUpperCaseCharacterError = {
+      cxMinOneUpperCaseCharacter: true,
+    };
+
+    minOneDigitError = {
+      cxMinOneDigit: true,
+    };
+
+    minOneSpecialCharacterError = {
+      cxMinOneSpecialCharacter: true,
+    };
+
+    minSixCharactersLengthError = {
+      cxMinSixCharactersLength: true,
     };
 
     starRatingEmpty = {
@@ -137,6 +157,110 @@ describe('FormValidationService', () => {
         expect(
           CustomFormValidators.passwordValidator(form.get('password'))
         ).toEqual(passwordError);
+      });
+    });
+  });
+
+  describe('minimum one upper case character validator', () => {
+    const validPasswords = ['Test', 'TEST', 'test123Test!@#'];
+    const invalidPasswords = ['test123!', 'test1234', 'test!@#%', 'te1!'];
+
+    validPasswords.forEach((validPassword: string) => {
+      it(`should allow password ${validPassword}`, () => {
+        form.get('password').setValue(validPassword);
+        expect(
+          CustomFormValidators.minOneUpperCaseCharacterValidator(
+            form.get('password')
+          )
+        ).toBeNull();
+      });
+    });
+
+    invalidPasswords.forEach((invalidPassword: string) => {
+      it(`should reject password '${invalidPassword}'`, function () {
+        form.get('password').setValue(invalidPassword);
+        expect(
+          CustomFormValidators.minOneUpperCaseCharacterValidator(
+            form.get('password')
+          )
+        ).toEqual(minOneUpperCaseCharacterError);
+      });
+    });
+  });
+
+  describe('minimum one digit validator', () => {
+    const validPasswords = ['Test1', 'TEST12', 'testTest!7@#'];
+    const invalidPasswords = ['testTEST!@#', 'Test!!', 'Test!@#%', 'Test!'];
+
+    validPasswords.forEach((validPassword: string) => {
+      it(`should allow password ${validPassword}`, () => {
+        form.get('password').setValue(validPassword);
+        expect(
+          CustomFormValidators.minOneDigitValidator(form.get('password'))
+        ).toBeNull();
+      });
+    });
+
+    invalidPasswords.forEach((invalidPassword: string) => {
+      it(`should reject password '${invalidPassword}'`, function () {
+        form.get('password').setValue(invalidPassword);
+        expect(
+          CustomFormValidators.minOneDigitValidator(form.get('password'))
+        ).toEqual(minOneDigitError);
+      });
+    });
+  });
+
+  describe('minimum one special character validator', () => {
+    const validPasswords = ['Test!', 'T@EST', 'test123Test!@#'];
+    const invalidPasswords = ['test123', 'Test1234', 'TEST', 'Te5t88'];
+
+    validPasswords.forEach((validPassword: string) => {
+      it(`should allow password ${validPassword}`, () => {
+        form.get('password').setValue(validPassword);
+        expect(
+          CustomFormValidators.minOneSpecialCharacterValidator(
+            form.get('password')
+          )
+        ).toBeNull();
+      });
+    });
+
+    invalidPasswords.forEach((invalidPassword: string) => {
+      it(`should reject password '${invalidPassword}'`, function () {
+        form.get('password').setValue(invalidPassword);
+        expect(
+          CustomFormValidators.minOneSpecialCharacterValidator(
+            form.get('password')
+          )
+        ).toEqual(minOneSpecialCharacterError);
+      });
+    });
+  });
+
+  describe('minimum six characters length validator', () => {
+    const validPasswords = ['Test12', 'TEST12@', 'test123Test!@#'];
+    const invalidPasswords = ['tes1', 'Tes12', 'Te!#%', 'Te1!'];
+
+    validPasswords.forEach((validPassword: string) => {
+      it(`should allow password ${validPassword}`, () => {
+        form.get('password').setValue(validPassword);
+        expect(
+          CustomFormValidators.minSixCharactersLengthValidator(
+            form.get('password')
+          )
+        ).toBeNull();
+      });
+    });
+
+    invalidPasswords.forEach((invalidPassword: string) => {
+      it(`should reject password '${invalidPassword}'`, function () {
+        form.get('password').setValue(invalidPassword);
+        expect(
+          CustomFormValidators.minSixCharactersLengthValidator(
+            form.get('password')
+          )
+        ).toEqual(minSixCharactersLengthError);
       });
     });
   });

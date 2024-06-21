@@ -927,14 +927,12 @@ describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', (
   let component: ConfiguratorCartEntryBundleInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryBundleInfoComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [ConfiguratorCartEntryBundleInfoComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [ConfiguratorCartEntryBundleInfoComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
