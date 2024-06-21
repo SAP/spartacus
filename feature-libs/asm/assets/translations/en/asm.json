@@ -25,7 +25,7 @@
     },
     "customerSearch": {
       "searchTerm": {
-        "label": "Customer Name/Email Address"
+        "label": "Search by name or email address"
       },
       "searchOrder": {
         "label": "Search by full order ID"
