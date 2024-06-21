@@ -321,6 +321,7 @@ if (environment.estimatedDeliveryDate) {
         a11yNotificationPreferenceFieldset: true,
         a11yImproveContrast: true,
         a11yEmptyWishlistHeading: true,
+        a11yScreenReaderBloatFix: true,
         a11yUseButtonsForBtnLinks: true,
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
