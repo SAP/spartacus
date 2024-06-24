@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   Cart,
@@ -56,10 +56,14 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     cartId: string,
     saveCartName: string
   ): Observable<Cart> {
+    const httpParams: HttpParams = new HttpParams()
+      .set('saveCartName', saveCartName)
+      .set('cartId', cartId);
+
     return this.http
       .post<Occ.Cart>(
-        this.getCloneSavedCartEndpoint(userId, cartId, saveCartName),
-        cartId
+        this.getCloneSavedCartEndpoint(userId, cartId),
+        httpParams
       )
       .pipe(
         map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
@@ -86,13 +90,9 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     });
   }
 
-  protected getCloneSavedCartEndpoint(
-    userId: string,
-    cartId: string,
-    saveCartName: string
-  ): string {
+  protected getCloneSavedCartEndpoint(userId: string, cartId: string): string {
     return this.occEndpoints.buildUrl('cloneSavedCart', {
-      urlParams: { userId, cartId, saveCartName },
+      urlParams: { userId, cartId },
     });
   }
 }
