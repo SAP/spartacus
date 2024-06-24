@@ -8,37 +8,22 @@
       #searchTerm
       type="text"
       formControlName="searchTerm"
-      [attr.aria-label]="'asm.customerSearch.searchTerm.label' | cxTranslate"
-      placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
+      [attr.aria-label]="
+        'asm.customerSearch.searchCustomer.label' | cxTranslate
+      "
+      placeholder="{{
+        'asm.customerSearch.searchCustomer.label' | cxTranslate
+      }}"
       (keydown.arrowdown)="focusFirstItem($event)"
       (keydown.end)="setSelectionEnd($event)"
     />
 
-    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-    <cx-form-errors
-      *cxFeature="'formErrorsDescriptiveMessages'"
-      [translationParams]="{
-        label: 'asm.customerSearch.searchTerm.label' | cxTranslate
-      }"
-      [control]="customerSelectionForm.get('searchTerm')"
-    ></cx-form-errors>
-
-    <cx-form-errors
-      *cxFeature="'!formErrorsDescriptiveMessages'"
-      [control]="customerSelectionForm.get('searchTerm')"
-    ></cx-form-errors>
-
     <div *ngIf="searchResults | async as results" #resultList>
       <div
         *ngIf="
-          !(searchResultsLoading$ | async) &&
-          searchTerm.value.length >= 3 &&
-          searchByCustomer &&
-          !!results.entries &&
-          results.entries.length <= 0
+          isNoResultMessageInfoVisible(results, searchByCustomer, searchTerm)
         "
-        class="cx-message cx-message-info"
-        ng-reflect-ng-class="[object Object]"
+        class="cx-message cx-message-info selection-message-info"
       >
         <div class="cx-message-content">
           <div class="cx-message-header">
@@ -49,7 +34,7 @@
               ></cx-icon>
             </span>
             <span class="cx-message-text"
-              >{{ 'asm.customerSearch.noMatchResult' | cxTranslate }}
+              >{{ 'asm.customerSearch.noCustomerMatchResult' | cxTranslate }}
             </span>
             <span
               #createCustomerLink
@@ -62,9 +47,7 @@
         </div>
       </div>
       <div
-        *ngIf="
-          !!results.entries && searchByCustomer && results.entries.length > 0
-        "
+        *ngIf="isSearchResultsVisible(results, searchByCustomer)"
         class="asm-results"
       >
         <button
@@ -91,10 +74,7 @@
       </div>
     </div>
 
-    <div
-      class="asm-results"
-      *ngIf="(searchResultsLoading$ | async) && searchByCustomer"
-    >
+    <div class="asm-results" *ngIf="isLoading && searchByCustomer">
       <cx-dot-spinner
         aria-hidden="false"
         [attr.aria-label]="'common.loading' | cxTranslate"
@@ -116,19 +96,12 @@
       (keydown.arrowdown)="focusFirstItem($event)"
       (keydown.end)="setSelectionEnd($event)"
     />
-    <cx-form-errors
-      [control]="customerSelectionForm.get('searchOrder')"
-    ></cx-form-errors>
     <div *ngIf="searchResults | async as results" #resultList>
       <div
         *ngIf="
-          !(searchResultsLoading$ | async) &&
-          searchOrder.value.length >= 3 &&
-          searchByOrder &&
-          !!results.entries &&
-          results.entries.length <= 0
+          isNoResultMessageInfoVisible(results, searchByOrder, searchOrder)
         "
-        class="cx-message cx-message-info"
+        class="cx-message cx-message-info selection-message-info"
       >
         <div class="cx-message-content">
           <div class="cx-message-header">
@@ -145,12 +118,7 @@
         </div>
       </div>
       <div
-        *ngIf="
-          !!results.entries &&
-          searchByOrder &&
-          results.entries.length > 0 &&
-          searchByOrder
-        "
+        *ngIf="isSearchResultsVisible(results, searchByOrder)"
         class="asm-results"
       >
         <button
@@ -177,10 +145,7 @@
       </div>
     </div>
 
-    <div
-      class="asm-results"
-      *ngIf="(searchResultsLoading$ | async) && searchByOrder"
-    >
+    <div class="asm-results" *ngIf="isLoading && searchByOrder">
       <cx-dot-spinner
         aria-hidden="false"
         [attr.aria-label]="'common.loading' | cxTranslate"
@@ -188,7 +153,11 @@
     </div>
   </label>
 
-  <button type="submit" [class.active]="selectedCustomer">
+  <button
+    type="submit"
+    [class.active]="selectedCustomer"
+    [disabled]="!selectedCustomer"
+  >
     {{ 'asm.customerSearch.submit' | cxTranslate }}
   </button>
 </form>

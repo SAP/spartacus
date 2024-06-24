@@ -25,6 +25,9 @@
     },
     "customerSearch": {
       "searchTerm": {
+        "label": "Customer Name/Email Address"
+      },
+      "searchCustomer": {
         "label": "Search by name or email address"
       },
       "searchOrder": {
@@ -33,7 +36,8 @@
       "submit": "Start Session",
       "startEmulation": "Start Emulation",
       "noMatch": "No customer found.",
-      "noMatchResult": "No matching customer found.",
+      "noMatchResult": "This account cannot be found.",
+      "noCustomerMatchResult": "No matching customer found.",
       "noOrderMatchResult": "Search by full order ID.",
       "createCustomer": "Create New Customer",
       "customer": "Customer",

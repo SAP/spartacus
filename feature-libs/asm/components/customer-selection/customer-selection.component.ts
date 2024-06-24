@@ -15,11 +15,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { AsmService } from '@spartacus/asm/core';
 import {
   AsmConfig,
@@ -52,6 +48,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   selectedCustomer: User | undefined;
   searchByCustomer: boolean = false;
   searchByOrder: boolean = false;
+  isLoading: boolean = false;
 
   @Output()
   submitEvent = new EventEmitter<{
@@ -80,8 +77,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.customerSelectionForm = this.fb.group({
-      searchTerm: ['', Validators.required],
-      searchOrder: ['', Validators.required],
+      searchTerm: '',
+      searchOrder: '',
     });
     this.asmService.customerSearchReset();
     this.searchResultsLoading$ =
@@ -106,6 +103,12 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
           this.searchByOrder = true;
           this.handleSearchByOrder(searchTermValue);
         })
+    );
+
+    this.subscription.add(
+      this.searchResultsLoading$.subscribe((loading) => {
+        this.isLoading = loading;
+      })
     );
   }
 
@@ -147,6 +150,20 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
         pageSize: this.config.asm?.customerSearch?.maxResults,
       });
     }
+  }
+
+  isNoResultMessageInfoVisible(
+    results: any,
+    searchFlag: boolean,
+    searchElement: HTMLInputElement
+  ): boolean {
+    const searchTermValid = searchElement.value.length >= 3;
+    const hasEntries = !!results.entries && results.entries.length > 0;
+    return !this.isLoading && searchTermValid && searchFlag && !hasEntries;
+  }
+
+  isSearchResultsVisible(results: any, searchFlag: boolean): boolean {
+    return !!results.entries && searchFlag && results.entries.length > 0;
   }
 
   selectCustomerFromList(event: UIEvent, customer: User) {

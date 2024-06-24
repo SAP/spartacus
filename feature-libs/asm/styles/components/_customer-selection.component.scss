@@ -17,10 +17,6 @@
       margin-inline-end: 2rem;
       min-width: auto;
 
-      cx-form-errors p {
-        color: #db0002;
-      }
-
       .input-contaier {
         display: flex;
         .icon-wrapper {
@@ -44,6 +40,12 @@
         }
       }
 
+      .selection-message-info {
+        z-index: 11;
+        width: 25rem;
+        position: absolute;
+      }
+
       @media (min-width: 575px) {
         min-width: 20rem;
         margin-bottom: 0;
@@ -51,10 +53,9 @@
       }
 
       .linkStyleLabel {
-        font-family: '72';
+        @include type('7');
         font-weight: var(--cx-font-weight-bold);
-        margin-inline-start: 0.3rem;
-        font-size: 0.93rem;
+        margin-inline-start: 0.2rem;
         color: var(--cx-color-primary);
       }
 
@@ -140,6 +141,12 @@
         width: 100%;
         &:focus {
           outline: none;
+        }
+        &.ng-invalid {
+          &.ng-dirty,
+          &.ng-touched {
+            border-color: initial;
+          }
         }
       }
     }
