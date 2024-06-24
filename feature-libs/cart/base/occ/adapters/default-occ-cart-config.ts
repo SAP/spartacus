@@ -22,9 +22,21 @@ export const defaultOccCartConfig: OccConfig = {
         addEmail: 'users/${userId}/carts/${cartId}/email',
         deleteCart: 'users/${userId}/carts/${cartId}',
         cartVoucher: 'users/${userId}/carts/${cartId}/vouchers',
-        saveCart: '/users/${userId}/carts/${cartId}/save',
+        saveCart:
+          '/users/${userId}/carts/${cartId}/save?saveCartName=${saveCartName}&saveCartDescription=${saveCartDescription}',
         validate: 'users/${userId}/carts/${cartId}/validate?fields=DEFAULT',
         /* eslint-enable */
+      },
+    },
+  },
+};
+
+export const newDefaultOccCartConfig: OccConfig = {
+  backend: {
+    occ: {
+      endpoints: {
+        ...defaultOccCartConfig.backend.occ.endpoints,
+        saveCart: '/users/${userId}/carts/${cartId}/save',
       },
     },
   },

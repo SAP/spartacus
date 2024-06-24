@@ -335,6 +335,12 @@ export interface FeatureTogglesInterface {
    * New "Back To Results" button is added
    */
   a11yFacetsDialogFocusHandling?: boolean;
+
+  /**
+   * Enables the use of the new default URL for saveCart and cloneSavedCart.
+   * This toggle is used in the following files: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
+   */
+  newOccDefaultEndpointForSaveCartAndCloneSavedCart?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -390,4 +396,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUseButtonsForBtnLinks: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
+  newOccDefaultEndpointForSaveCartAndCloneSavedCart: false,
 };

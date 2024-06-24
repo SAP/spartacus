@@ -13,9 +13,9 @@ import {
   FeatureToggles,
   ProductModule,
   ProductOccModule,
+  provideFeatureTogglesFactory,
   UserModule,
   UserOccModule,
-  provideFeatureTogglesFactory,
 } from '@spartacus/core';
 import {
   AnonymousConsentManagementBannerModule,
@@ -39,16 +39,16 @@ import {
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
-  PDFModule,
   PageTitleModule,
   PaymentMethodsModule,
+  PDFModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
   ProductFacetNavigationModule,
   ProductImagesModule,
   ProductIntroModule,
-  ProductListModule,
   ProductListingPageModule,
+  ProductListModule,
   ProductPageEventModule,
   ProductReferencesModule,
   ProductSummaryModule,
@@ -322,6 +322,7 @@ if (environment.estimatedDeliveryDate) {
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
         a11yFacetsDialogFocusHandling: true,
+        newOccDefaultEndpointForSaveCartAndCloneSavedCart: true,
       };
       return appFeatureToggles;
     }),

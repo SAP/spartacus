@@ -5,19 +5,29 @@
  */
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable, Optional } from '@angular/core';
 import {
   Cart,
   CART_NORMALIZER,
   SaveCartResult,
 } from '@spartacus/cart/base/root';
 import { SavedCartAdapter } from '@spartacus/cart/saved-cart/core';
-import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
+import {
+  ConverterService,
+  FeatureConfigService,
+  Occ,
+  OccEndpointsService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OccSavedCartAdapter implements SavedCartAdapter {
+  @Optional() protected featureConfigService?: FeatureConfigService = inject(
+    FeatureConfigService,
+    { optional: true }
+  );
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -56,13 +66,18 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     cartId: string,
     saveCartName: string
   ): Observable<Cart> {
-    const httpParams: HttpParams = new HttpParams()
-      .set('saveCartName', saveCartName)
-      .set('cartId', cartId);
+    const httpParams: HttpParams = new HttpParams();
+    if (
+      this.featureConfigService?.isEnabled(
+        'newOccDefaultEndpointForSaveCartAndCloneSavedCart'
+      )
+    ) {
+      httpParams.set('saveCartName', saveCartName).set('cartId', cartId);
+    }
 
     return this.http
       .post<Occ.Cart>(
-        this.getCloneSavedCartEndpoint(userId, cartId),
+        this.getCloneSavedCartEndpoint(userId, cartId, saveCartName),
         httpParams
       )
       .pipe(
@@ -90,9 +105,13 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     });
   }
 
-  protected getCloneSavedCartEndpoint(userId: string, cartId: string): string {
+  protected getCloneSavedCartEndpoint(
+    userId: string,
+    cartId: string,
+    saveCartName: string
+  ): string {
     return this.occEndpoints.buildUrl('cloneSavedCart', {
-      urlParams: { userId, cartId },
+      urlParams: { userId, cartId, saveCartName },
     });
   }
 }

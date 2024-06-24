@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable, Optional } from '@angular/core';
 import { CartAdapter } from '@spartacus/cart/base/core';
 import {
   Cart,
@@ -14,6 +14,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   ConverterService,
+  FeatureConfigService,
   InterceptorUtil,
   Occ,
   OCC_CART_ID_CURRENT,
@@ -26,6 +27,11 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OccCartAdapter implements CartAdapter {
+  @Optional() protected featureConfigService?: FeatureConfigService = inject(
+    FeatureConfigService,
+    { optional: true }
+  );
+
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
@@ -109,12 +115,22 @@ export class OccCartAdapter implements CartAdapter {
       urlParams: {
         userId,
         cartId,
+        saveCartName,
+        saveCartDescription,
       },
     });
 
-    const httpParams: HttpParams = new HttpParams()
-      .set('saveCartName', saveCartName)
-      .set('saveCartDescription', saveCartDescription);
+    const httpParams: HttpParams = new HttpParams();
+
+    if (
+      this.featureConfigService?.isEnabled(
+        'newOccDefaultEndpointForSaveCartAndCloneSavedCart'
+      )
+    ) {
+      httpParams
+        .set('saveCartName', saveCartName)
+        .set('saveCartDescription', saveCartDescription);
+    }
 
     return this.http.patch<Occ.Cart>(endpoint, httpParams).pipe(
       map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
