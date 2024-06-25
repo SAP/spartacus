@@ -689,7 +689,7 @@ export class ConfiguratorGroupMenuComponent {
    * track-by function for the ngFor generating the group menu.
    * @param _index
    * @param group
-   * @returns groupId if feature 'productConfigurationDeltaRendering' is active, the group itself otherwise (same as if the there were not track-by function)
+   * @returns groupId if feature 'productConfigurationDeltaRendering' is active, the group itself otherwise (same as if there were not track-by function)
    */
   trackByFn = (_index: number, group: Configurator.Group) => {
     return this.featureConfig.isEnabled('productConfigurationDeltaRendering')

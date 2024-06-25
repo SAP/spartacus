@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { LanguageService } from '@spartacus/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
+import { FeatureConfigService, LanguageService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -28,6 +33,8 @@ export class ConfiguratorGroupComponent {
 
   activeLanguage$: Observable<string> = this.languageService.getActive();
   uiType = Configurator.UiType;
+
+  protected featureConfig = inject(FeatureConfigService);
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -102,4 +109,16 @@ export class ConfiguratorGroupComponent {
       ? this.typePrefix + attribute.uiTypeVariation
       : this.typePrefix + attribute.uiType;
   }
+
+  /**
+   * track-by function for the ngFor generating the attribute list of the current group.
+   * @param _index
+   * @param group
+   * @returns attribute key if feature 'productConfigurationDeltaRendering' is active, the attribute itself otherwise (same as if there were not track-by function)
+   */
+  trackByFn = (_index: number, attribute: Configurator.Attribute) => {
+    return this.featureConfig.isEnabled('productConfigurationDeltaRendering')
+      ? attribute.key
+      : attribute;
+  };
 }
