@@ -38,7 +38,10 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
    * @deprecated since 5.2
    */
   constructor(router: Router);
-  constructor(protected router: Router, protected cd?: ChangeDetectorRef) {}
+  constructor(
+    protected router: Router,
+    protected cd?: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

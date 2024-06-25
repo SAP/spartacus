@@ -105,7 +105,7 @@ function read(path: string): string {
 
 function format(path: string): void {
   execSync(
-    `node ./node_modules/prettier/bin-prettier.js --config ./.prettierrc ${path} --write`
+    `node ./node_modules/prettier/bin/prettier.cjs --config ./.prettierrc ${path} --write`
   );
 }
 

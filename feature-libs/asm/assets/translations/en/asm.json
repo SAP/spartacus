@@ -74,8 +74,11 @@
         "order": "Order",
         "view": "360 View",
         "activeCart": "Active Cart",
+        "viewActiveCart": "View Active Cart",
         "orders": "Orders",
-        "customer360": "Customer 360°"
+        "viewOrders": "View Orders",
+        "customer360": "Customer 360°",
+        "viewCustomer360": "View Customer 360°"
       },
       "tableSort": {
         "sortBy": "Sort by",

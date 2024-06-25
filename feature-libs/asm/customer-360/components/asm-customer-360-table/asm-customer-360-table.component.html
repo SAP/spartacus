@@ -49,7 +49,8 @@
           [class.asc]="listSortOrder === SortOrder.ASC"
           [class.desc]="listSortOrder !== SortOrder.ASC"
           [attr.aria-sort]="
-            sortDirection | cxArgs: column.property:sortProperty:listSortOrder
+            sortDirection
+              | cxArgs: column.property : sortProperty : listSortOrder
           "
           [ngClass]="{
             'text-start':

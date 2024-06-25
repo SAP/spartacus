@@ -147,7 +147,7 @@ export class MyAccountV2OrderHistoryService {
         (
           responses: [
             OrderHistoryListView | undefined,
-            ReturnRequestList | undefined
+            ReturnRequestList | undefined,
           ]
         ) => {
           const returnRequests = responses?.[1]?.returnRequests;

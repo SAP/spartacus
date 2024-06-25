@@ -72,26 +72,24 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   let fixture: ComponentFixture<ReplenishmentOrderCancellationDialogComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, KeyboardFocusTestingModule],
-        declarations: [
-          ReplenishmentOrderCancellationDialogComponent,
-          MockCxIconComponent,
-          MockFeatureLevelDirective,
-        ],
-        providers: [
-          {
-            provide: ReplenishmentOrderHistoryFacade,
-            useClass: MockReplenishmentOrderHistoryFacade,
-          },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, KeyboardFocusTestingModule],
+      declarations: [
+        ReplenishmentOrderCancellationDialogComponent,
+        MockCxIconComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [
+        {
+          provide: ReplenishmentOrderHistoryFacade,
+          useClass: MockReplenishmentOrderHistoryFacade,
+        },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

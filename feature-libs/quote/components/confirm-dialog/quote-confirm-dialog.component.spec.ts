@@ -77,26 +77,24 @@ describe('QuoteConfirmDialogComponent', () => {
     data$ = dialogDataSender;
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          QuoteConfirmDialogComponent,
-          MockKeyboardFocusDirective,
-          MockCxIconComponent,
-        ],
-        providers: [
-          CxDatePipe,
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-          { provide: LanguageService, useClass: MockLanguageService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        QuoteConfirmDialogComponent,
+        MockKeyboardFocusDirective,
+        MockCxIconComponent,
+      ],
+      providers: [
+        CxDatePipe,
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+        { provide: LanguageService, useClass: MockLanguageService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     dialogDataSender = new BehaviorSubject({

@@ -66,22 +66,20 @@ describe('MyAccountV2ConsignmentEntriesComponent', () => {
   let fixture: ComponentFixture<MyAccountV2ConsignmentEntriesComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nModule],
-        providers: [
-          { provide: TranslationService, useClass: MockTranslationService },
-          { provide: LanguageService, useClass: MockLanguageService },
-        ],
-        declarations: [
-          MyAccountV2ConsignmentEntriesComponent,
-          MockUrlPipe,
-          MockDatePipe,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nModule],
+      providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
+        { provide: LanguageService, useClass: MockLanguageService },
+      ],
+      declarations: [
+        MyAccountV2ConsignmentEntriesComponent,
+        MockUrlPipe,
+        MockDatePipe,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2ConsignmentEntriesComponent);

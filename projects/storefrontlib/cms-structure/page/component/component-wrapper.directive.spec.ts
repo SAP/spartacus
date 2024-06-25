@@ -143,15 +143,13 @@ describe('ComponentWrapperDirective', () => {
   describe('in SSR', () => {
     let cmsConfig: CmsConfig;
 
-    beforeEach(
-      waitForAsync(() => {
-        testBedConfig.providers.push({
-          provide: PLATFORM_ID,
-          useValue: 'server',
-        });
-        TestBed.configureTestingModule(testBedConfig).compileComponents();
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      testBedConfig.providers.push({
+        provide: PLATFORM_ID,
+        useValue: 'server',
+      });
+      TestBed.configureTestingModule(testBedConfig).compileComponents();
+    }));
 
     describe('with angular component', () => {
       beforeEach(() => {
@@ -180,11 +178,9 @@ describe('ComponentWrapperDirective', () => {
   });
 
   describe('in non-SSR', () => {
-    beforeEach(
-      waitForAsync(() => {
-        TestBed.configureTestingModule(testBedConfig).compileComponents();
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      TestBed.configureTestingModule(testBedConfig).compileComponents();
+    }));
 
     describe('with angular component', () => {
       beforeEach(() => {

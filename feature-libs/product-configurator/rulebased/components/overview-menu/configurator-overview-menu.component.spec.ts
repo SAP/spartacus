@@ -107,24 +107,22 @@ function initialize() {
 }
 
 describe('ConfigurationOverviewMenuComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [MockCxIconComponent, ConfiguratorOverviewMenuComponent],
-        providers: [
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [MockCxIconComponent, ConfiguratorOverviewMenuComponent],
+      providers: [
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   afterEach(() => {
     document.body.removeChild(htmlElem);
