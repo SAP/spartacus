@@ -41,6 +41,9 @@
 
         @include media-breakpoint-down(sm) {
           inline-size: 50%;
+          @include forFeature('a11yMobileVisibleFocus') {
+            outline-offset: -2px !important;
+          }
         }
 
         @include media-breakpoint-down(sm) {
