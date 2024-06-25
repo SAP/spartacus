@@ -266,6 +266,7 @@ if (environment.requestedDeliveryDate) {
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
         productConfiguratorAttributeTypesV2: true,
+        strictHttpAndNgrxErrorHandling: true,
         a11yRequiredAsterisks: true,
         a11yQuantityOrderTabbing: true,
         a11yNavigationUiKeyboardControls: true,
@@ -292,4 +293,4 @@ if (environment.requestedDeliveryDate) {
     }),
   ],
 })
-export class SpartacusFeaturesModule {}
+export class SpartacusFeaturesModule { }

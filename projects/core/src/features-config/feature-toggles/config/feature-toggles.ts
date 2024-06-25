@@ -44,6 +44,11 @@ export interface FeatureTogglesInterface {
   productConfiguratorAttributeTypesV2?: boolean;
 
   /**
+  * Enable strict error handling for errors occurred in HTTP calls and in NgRx failure actions.
+  */
+  strictHttpAndNgrxErrorHandling?: boolean;
+
+  /**
    * Adds asterisks to required form fields in all components existing before v2211.20
    */
   a11yRequiredAsterisks?: boolean;
@@ -160,6 +165,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
   productConfiguratorAttributeTypesV2: false,
+  strictHttpAndNgrxErrorHandling: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
   a11yNavigationUiKeyboardControls: false,
