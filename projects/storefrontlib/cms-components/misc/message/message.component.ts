@@ -84,8 +84,9 @@ export class MessageComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     // TODO: (CXSPA-7725) - Remove feature flag next major release.
     if (this.featureConfigService.isEnabled('a11yCxMessageFocus')) {
-      if (this.accordionText || this.actionButtonText)
+      if (this.accordionText || this.actionButtonText) {
         this.messageContainer.nativeElement.focus();
+      }
     }
   }
 }

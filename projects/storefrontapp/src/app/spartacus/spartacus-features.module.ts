@@ -112,7 +112,7 @@ if (environment.b2b) {
     OrderApprovalFeatureModule,
     OrganizationUserRegistrationFeatureModule,
     UnitOrderFeatureModule,
-    FutureStockFeatureModule,
+    FutureStockFeatureModule
   );
 } else {
   featureModules.push(PickupInStoreFeatureModule);
