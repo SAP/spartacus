@@ -5,3 +5,5 @@
  */
 
 export * from './s4-service-components.module';
+export * from './checkout-service-details/checkout-service-details.component';
+export * from './checkout-service-details/checkout-service-details.module';

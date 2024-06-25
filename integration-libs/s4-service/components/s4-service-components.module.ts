@@ -5,7 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
+import { CheckoutServiceDetailsModule } from './checkout-service-details/checkout-service-details.module';
+
 @NgModule({
-  imports: [],
+  imports: [CheckoutServiceDetailsModule],
 })
 export class S4ServiceComponentsModule {}
