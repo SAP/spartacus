@@ -293,4 +293,4 @@ if (environment.requestedDeliveryDate) {
     }),
   ],
 })
-export class SpartacusFeaturesModule { }
+export class SpartacusFeaturesModule {}
