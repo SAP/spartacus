@@ -44,8 +44,8 @@ export interface FeatureTogglesInterface {
   productConfiguratorAttributeTypesV2?: boolean;
 
   /**
-  * Enable strict error handling for errors occurred in HTTP calls and in NgRx failure actions.
-  */
+   * Enable strict error handling in SSR for errors occurred in HTTP calls and in NgRx failure actions.
+   */
   strictHttpAndNgrxErrorHandling?: boolean;
 
   /**
