@@ -5,3 +5,8 @@
  */
 
 export * from './s4-service-root.module';
+//uncomment this once something is added to index.ts file
+//export * from './config/index';
+// export * from './events/index';
+// export * from './facade/index';
+// export * from './model/index';
