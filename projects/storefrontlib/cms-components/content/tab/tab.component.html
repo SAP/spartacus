@@ -1,54 +1,52 @@
 <ng-container *ngIf="mode$ | async as mode">
-  <ng-container *ngIf="tabs$ | async as tabs">
-    <!-- Tab List is the list of buttons to open tabs -->
-    <div
-      role="tablist"
-      [attr.aria-label]="config.label"
-      [class]="mode.toLowerCase()"
-    >
-      <ng-container *ngFor="let tab of tabs; let i = index">
-        <button
-          class="tab-btn"
-          role="tab"
-          (click)="select(i, mode)"
-          (keydown)="handleKeydownEvent(i, tabs, mode, $event)"
-          [attr.aria-selected]="isOpen(i)"
-          [attr.aria-expanded]="isOpen(i)"
-          [attr.aria-controls]="'section-' + i"
-          [attr.tabindex]="getTabIndex(i, mode)"
-          [attr.id]="tab.id"
-          [class.active]="isOpen(i)"
-          #tabHeader
-        >
-          {{ tab.headerKey ? (tab.headerKey | cxTranslate) : tab.header }}
-        </button>
+  <!-- Tab List is the list of buttons to open tabs -->
+  <div
+    role="tablist"
+    [attr.aria-label]="config.label |cxTranslate"
+    [class]="mode.toLowerCase()"
+  >
+    <ng-container *ngFor="let tab of tabs; let i = index">
+      <button
+        class="tab-btn"
+        role="tab"
+        (click)="select(i, mode)"
+        (keydown)="handleKeydownEvent(i, tabs, mode, $event)"
+        [attr.aria-selected]="isOpen(i)"
+        [attr.aria-expanded]="isOpen(i)"
+        [attr.aria-controls]="'section-' + i"
+        [attr.tabindex]="getTabIndex(i, mode)"
+        [attr.id]="tab.id"
+        [class.active]="isOpen(i)"
+        #tabHeader
+      >
+        {{ tab.headerKey ? (tab.headerKey | cxTranslate) : tab.header }}
+      </button>
 
-        <!-- Show tab panels under selected button in Accordian mode -->
-        <ng-container
-          *ngIf="mode === TAB_MODE.ACCORDIAN && isOpen(i)"
-          [ngTemplateOutlet]="tabPanel"
-          [ngTemplateOutletContext]="{ tabNum: i }"
-        ></ng-container>
-      </ng-container>
-    </div>
-
-    <!-- Show selected tab panel under all buttons in Tab mode -->
-    <ng-container *ngIf="mode === TAB_MODE.TAB">
+      <!-- Show tab panels under selected button in Accordian mode -->
       <ng-container
-        *ngFor="let tab of tabs; let i = index"
+        *ngIf="mode === TAB_MODE.ACCORDIAN && isOpen(i)"
         [ngTemplateOutlet]="tabPanel"
         [ngTemplateOutletContext]="{ tabNum: i }"
-      >
-      </ng-container>
+      ></ng-container>
     </ng-container>
+  </div>
 
-    <!-- Tab Panel shows the content of the given tab -->
-    <ng-template #tabPanel let-tabNum="tabNum">
-      <cx-tab-panel
-        [tab]="tabs[tabNum]"
-        [isOpen]="isOpen(tabNum)"
-        [tabNum]="tabNum"
-      ></cx-tab-panel>
-    </ng-template>
+  <!-- Show selected tab panel under all buttons in Tab mode -->
+  <ng-container *ngIf="mode === TAB_MODE.TAB">
+    <ng-container
+      *ngFor="let tab of tabs; let i = index"
+      [ngTemplateOutlet]="tabPanel"
+      [ngTemplateOutletContext]="{ tabNum: i }"
+    >
+    </ng-container>
   </ng-container>
+
+  <!-- Tab Panel shows the content of the given tab -->
+  <ng-template #tabPanel let-tabNum="tabNum">
+    <cx-tab-panel
+      [tab]="tabs[tabNum]"
+      [isOpen]="isOpen(tabNum)"
+      [tabNum]="tabNum"
+    ></cx-tab-panel>
+  </ng-template>
 </ng-container>

@@ -5,6 +5,7 @@
  */
 
 import { TemplateRef } from '@angular/core';
+import { Translatable } from '@spartacus/core';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
 
 export interface Tab {
@@ -26,9 +27,9 @@ export interface Tab {
 
 export interface TabConfig {
   /**
-   *
+   * Translatable key to set aria-label of tablist.
    */
-  label?: string;
+  label?: Translatable | string;
   attributes?: TabAttributes;
   /**
    * Use this to set the tab mode. Defaults to 'TAB' when not set.
@@ -61,9 +62,4 @@ export interface TabAttributes {
 export enum TAB_MODE {
   TAB = 'TAB',
   ACCORDIAN = 'ACCORDIAN',
-}
-
-export enum TAB_PANEL_CONTENT_TYPE {
-  TEMPLATE_REF = 'TemplateRef',
-  CONTENT_SLOT_COMPONENT_DATA = 'ContentSlotComponentData',
 }

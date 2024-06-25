@@ -35,15 +35,27 @@ const defaultTabConfig = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
+  /**
+   * @deprecated This method will be removed.
+   */
   activeTabNum = 0;
+  /**
+   * @deprecated This method will be removed.
+   */
   ariaLabel: string;
 
+  /**
+   * @deprecated This method will be removed.
+   */
   @ViewChildren(ComponentWrapperDirective)
   children!: QueryList<ComponentWrapperDirective>;
 
   @ViewChildren('tabRef')
   tabRefs: QueryList<any>;
 
+  /**
+   * @deprecated This method will be removed.
+   */
   tabTitleParams: (Observable<any> | null)[] = [];
 
   tabConfig$: BehaviorSubject<TabConfig> = new BehaviorSubject<TabConfig>(
@@ -78,11 +90,6 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
                 };
               }
 
-              this.tabConfig$.next({
-                label: <string>data.name,
-                ...defaultTabConfig,
-              });
-
               return {
                 ...tab,
                 title: `${data.uid}.tabs.${tab.uid}`,
@@ -90,12 +97,23 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
             })
           )
         )
+      ).pipe(
+        // Update tablist label with name from CMS
+        tap(() => {
+          this.tabConfig$.next({
+            label: `${data?.uid}.tabPanelContainerRegion`,
+            ...defaultTabConfig,
+          });
+        })
       )
     )
   );
 
   tabs$: Observable<Tab[]>;
 
+  /**
+   * @deprecated This method will be removed.
+   */
   select(tabNum: number, event?: MouseEvent): void {
     this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
     if (event && event?.target) {
@@ -109,6 +127,9 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     }
   }
 
+  /**
+   * @deprecated This method will be removed.
+   */
   ngOnInit(): void {
     this.activeTabNum =
       this.winRef?.nativeWindow?.history?.state?.activeTab ?? this.activeTabNum;
@@ -121,6 +142,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
       this.getTitleParams(this.children);
     }
 
+    // Render the tabs after the templates have completed loading in the view.
     this.tabs$ = combineLatest([this.components$, this.tabRefs.changes]).pipe(
       map(([components, refs]) =>
         components.map((component, index) => ({
@@ -131,10 +153,16 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     );
   }
 
+  /**
+   * @deprecated This method will be removed.
+   */
   tabCompLoaded(componentRef: any): void {
     this.tabTitleParams.push(componentRef.instance.tabTitleParam$);
   }
 
+  /**
+   * @deprecated This method will be removed.
+   */
   protected getTitleParams(children: QueryList<ComponentWrapperDirective>) {
     children.forEach((comp) => {
       this.tabTitleParams.push(comp['cmpRef']?.instance.tabTitleParam$ ?? null);
