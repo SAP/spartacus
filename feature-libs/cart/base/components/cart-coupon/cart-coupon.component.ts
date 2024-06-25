@@ -71,7 +71,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
         ([cart, activeCardId, customerCoupons]: [
           Cart,
           string,
-          CustomerCouponSearchResult
+          CustomerCouponSearchResult,
         ]) => {
           this.cartId = activeCardId;
           this.getApplicableCustomerCoupons(

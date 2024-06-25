@@ -297,11 +297,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
 
   clear(): void {
     this.openNodes = [];
-    if (
-      !this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
-    ) {
-      this.updateClasses();
-    }
+    this.updateClasses();
   }
 
   onMouseEnter(event: MouseEvent) {

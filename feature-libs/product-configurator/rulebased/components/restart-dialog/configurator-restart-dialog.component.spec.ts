@@ -81,34 +81,32 @@ describe('ConfiguratorRestartDialogComponent', () => {
     return <jasmine.Spy>f;
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      initializeMocks();
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorRestartDialogComponent,
-          MockCxIconComponent,
-          MockKeyboadFocusDirective,
-        ],
-        imports: [I18nTestingModule],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: ConfiguratorCommonsService,
-            useValue: mockConfigCommonsService,
-          },
-          {
-            provide: RoutingService,
-            useValue: mockRoutingService,
-          },
-          {
-            provide: ProductService,
-            useValue: mockProductService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    initializeMocks();
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorRestartDialogComponent,
+        MockCxIconComponent,
+        MockKeyboadFocusDirective,
+      ],
+      imports: [I18nTestingModule],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: ConfiguratorCommonsService,
+          useValue: mockConfigCommonsService,
+        },
+        {
+          provide: RoutingService,
+          useValue: mockRoutingService,
+        },
+        {
+          provide: ProductService,
+          useValue: mockProductService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     initialize();

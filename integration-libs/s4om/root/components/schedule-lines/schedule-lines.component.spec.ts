@@ -40,25 +40,23 @@ describe('ScheduleLinesCartEntryComponent', () => {
   let htmlElem: HTMLElement;
   let mockCartItemContext: MockCartItemContext;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
-        declarations: [
-          ScheduleLinesComponent,
-          MockConfigureScheduleLineComponent,
-        ],
-        providers: [
-          { provide: CartItemContext, useClass: MockCartItemContext },
-          {
-            provide: TranslationService,
-            useClass: MockTranslationService,
-          },
-          { provide: LanguageService, useClass: MockLanguageService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      declarations: [
+        ScheduleLinesComponent,
+        MockConfigureScheduleLineComponent,
+      ],
+      providers: [
+        { provide: CartItemContext, useClass: MockCartItemContext },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
+        { provide: LanguageService, useClass: MockLanguageService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ScheduleLinesComponent);

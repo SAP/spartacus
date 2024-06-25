@@ -21,23 +21,21 @@ describe('CSAgentLoginFormComponent', () => {
   const validUserId = 'asagent';
   const validPassword = 'testPass123!';
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          PasswordVisibilityToggleModule,
-        ],
-        declarations: [
-          CSAgentLoginFormComponent,
-          DotSpinnerComponent,
-          MockFeatureDirective,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        PasswordVisibilityToggleModule,
+      ],
+      declarations: [
+        CSAgentLoginFormComponent,
+        DotSpinnerComponent,
+        MockFeatureDirective,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CSAgentLoginFormComponent);

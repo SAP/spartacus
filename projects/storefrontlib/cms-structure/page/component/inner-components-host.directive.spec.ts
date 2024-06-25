@@ -103,45 +103,43 @@ describe('InnerComponentsHostDirective', () => {
   describe('UI tests', () => {
     let fixture: ComponentFixture<HostComponent>;
 
-    beforeEach(
-      waitForAsync(() => {
-        TestBed.configureTestingModule({
-          imports: [PageComponentModule.forRoot()],
-          declarations: [
-            HostComponent,
-            InnerComponentsHostDirective,
-            ComponentWrapperDirective,
-          ],
-          providers: [
-            Renderer2,
-            { provide: CmsConfig, useValue: MockCmsModuleConfig },
-            { provide: CmsService, useClass: MockCmsService },
-            {
-              provide: DynamicAttributeService,
-              useClass: MockDynamicAttributeService,
-            },
-            {
-              provide: ComponentHandler,
-              useExisting: WebComponentHandler,
-              multi: true,
-            },
-            {
-              provide: CxApiService,
-              useValue: { cms: {}, auth: {}, routing: {} },
-            },
-            {
-              provide: ConfigInitializerService,
-              useClass: MockConfigInitializerService,
-            },
-            {
-              provide: CmsComponentData,
-              useValue: MockCmsComponentData,
-            },
-          ],
-        }).compileComponents();
-        fixture = TestBed.createComponent(HostComponent);
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [PageComponentModule.forRoot()],
+        declarations: [
+          HostComponent,
+          InnerComponentsHostDirective,
+          ComponentWrapperDirective,
+        ],
+        providers: [
+          Renderer2,
+          { provide: CmsConfig, useValue: MockCmsModuleConfig },
+          { provide: CmsService, useClass: MockCmsService },
+          {
+            provide: DynamicAttributeService,
+            useClass: MockDynamicAttributeService,
+          },
+          {
+            provide: ComponentHandler,
+            useExisting: WebComponentHandler,
+            multi: true,
+          },
+          {
+            provide: CxApiService,
+            useValue: { cms: {}, auth: {}, routing: {} },
+          },
+          {
+            provide: ConfigInitializerService,
+            useClass: MockConfigInitializerService,
+          },
+          {
+            provide: CmsComponentData,
+            useValue: MockCmsComponentData,
+          },
+        ],
+      }).compileComponents();
+      fixture = TestBed.createComponent(HostComponent);
+    }));
 
     it('should render inner components', () => {
       fixture.detectChanges();
