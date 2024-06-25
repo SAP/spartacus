@@ -23,8 +23,8 @@ export function getItemStatus<T>(
       status: currentState.success
         ? LoadStatus.SUCCESS
         : currentState.error
-        ? LoadStatus.ERROR
-        : null,
+          ? LoadStatus.ERROR
+          : null,
       item: currentState.value,
     }))
   );

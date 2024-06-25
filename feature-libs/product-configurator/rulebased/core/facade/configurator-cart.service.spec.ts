@@ -101,35 +101,33 @@ describe('ConfiguratorCartService', () => {
   let store: Store<StateWithConfigurator>;
   let configuratorUtils: CommonConfiguratorUtilsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      cartObs = of(cart);
-      isStableObs = of(true);
-      checkoutLoadingObs = of({ loading: true, error: false, data: undefined });
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
-        providers: [
-          ConfiguratorCartService,
+  beforeEach(waitForAsync(() => {
+    cartObs = of(cart);
+    isStableObs = of(true);
+    checkoutLoadingObs = of({ loading: true, error: false, data: undefined });
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
+      providers: [
+        ConfiguratorCartService,
 
-          {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartService,
-          },
-          {
-            provide: CheckoutQueryFacade,
-            useClass: MockCheckoutQueryFacade,
-          },
-          {
-            provide: UserIdService,
-            useClass: MockUserIdService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
+        },
+        {
+          provide: CheckoutQueryFacade,
+          useClass: MockCheckoutQueryFacade,
+        },
+        {
+          provide: UserIdService,
+          useClass: MockUserIdService,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     serviceUnderTest = TestBed.inject(ConfiguratorCartService);
     store = TestBed.inject(Store);

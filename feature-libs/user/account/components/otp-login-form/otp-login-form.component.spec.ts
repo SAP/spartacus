@@ -58,28 +58,26 @@ describe('OneTimePasswordLoginFormComponent', () => {
   let service: VerificationTokenFacade;
   let winRef: WindowRef;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          SpinnerModule,
-        ],
-        declarations: [OneTimePasswordLoginFormComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: VerificationTokenFacade,
-            useClass: MockVerificationTokenService,
-          },
-          { provide: WindowRef, useClass: MockWinRef },
-          { provide: RoutingService, useClass: MockRoutingService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        SpinnerModule,
+      ],
+      declarations: [OneTimePasswordLoginFormComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: VerificationTokenFacade,
+          useClass: MockVerificationTokenService,
+        },
+        { provide: WindowRef, useClass: MockWinRef },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     winRef = TestBed.inject(WindowRef);

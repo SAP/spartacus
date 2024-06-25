@@ -47,28 +47,26 @@ describe('ProductIntroComponent in product', () => {
   let translationService: TranslationService;
   let eventService: EventService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [ProductIntroComponent, MockStarRatingComponent],
-        providers: [
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-          {
-            provide: TranslationService,
-            useClass: MockTranslationService,
-          },
-          {
-            provide: EventService,
-            useClass: MockEventService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [ProductIntroComponent, MockStarRatingComponent],
+      providers: [
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
+        {
+          provide: EventService,
+          useClass: MockEventService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     translationService = TestBed.inject(TranslationService);
@@ -213,7 +211,7 @@ describe('ProductIntroComponent in product', () => {
       productIntroComponent.product$ = of({
         averageRating: 5,
       } as Product);
-      productIntroComponent['getReviewsComponent'] = () => ({} as HTMLElement);
+      productIntroComponent['getReviewsComponent'] = () => ({}) as HTMLElement;
 
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
@@ -253,7 +251,7 @@ describe('ProductIntroComponent in product', () => {
       productIntroComponent.product$ = of({
         averageRating: 4,
       } as Product);
-      productIntroComponent['getReviewsComponent'] = () => ({} as HTMLElement);
+      productIntroComponent['getReviewsComponent'] = () => ({}) as HTMLElement;
 
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).not.toContain(

@@ -18,23 +18,21 @@ describe('PersistFocusService', () => {
   let service: PersistFocusService;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent],
-        providers: [
-          PersistFocusService,
-          {
-            provide: SelectFocusUtility,
-            useClass: MockSelectFocusUtility,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent],
+      providers: [
+        PersistFocusService,
+        {
+          provide: SelectFocusUtility,
+          useClass: MockSelectFocusUtility,
+        },
+      ],
+    }).compileComponents();
 
-      service = TestBed.inject(PersistFocusService);
-      fixture = TestBed.createComponent(MockComponent);
-    })
-  );
+    service = TestBed.inject(PersistFocusService);
+    fixture = TestBed.createComponent(MockComponent);
+  }));
 
   it('should inject service', () => {
     expect(service).toBeTruthy();

@@ -139,24 +139,22 @@ describe('ConfiguratorTextfieldService', () => {
     of(productConfiguration)
   );
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [StoreModule.forRoot({})],
-        providers: [
-          ConfiguratorTextfieldService,
-          {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartService,
-          },
-          {
-            provide: UserIdService,
-            useClass: MockUserIdService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [StoreModule.forRoot({})],
+      providers: [
+        ConfiguratorTextfieldService,
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
+        },
+        {
+          provide: UserIdService,
+          useClass: MockUserIdService,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     serviceUnderTest = TestBed.inject(
       ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>

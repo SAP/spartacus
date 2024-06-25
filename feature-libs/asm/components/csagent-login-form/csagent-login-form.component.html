@@ -13,7 +13,20 @@
       formControlName="userId"
       [attr.aria-label]="'asm.loginForm.userId.label' | cxTranslate"
     />
-    <cx-form-errors [control]="csAgentLoginForm.get('userId')"></cx-form-errors>
+
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+    <cx-form-errors
+      *cxFeature="'formErrorsDescriptiveMessages'"
+      [translationParams]="{
+        label: 'asm.loginForm.userId.label' | cxTranslate
+      }"
+      [control]="csAgentLoginForm.get('userId')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!formErrorsDescriptiveMessages'"
+      [control]="csAgentLoginForm.get('userId')"
+    ></cx-form-errors>
   </label>
 
   <span class="label-content">
@@ -27,7 +40,18 @@
       [attr.aria-label]="'asm.loginForm.password.label' | cxTranslate"
       cxPasswordVisibilitySwitch
     />
+
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
+      *cxFeature="'formErrorsDescriptiveMessages'"
+      [translationParams]="{
+        label: 'asm.loginForm.password.label' | cxTranslate
+      }"
+      [control]="csAgentLoginForm.get('password')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!formErrorsDescriptiveMessages'"
       [control]="csAgentLoginForm.get('password')"
     ></cx-form-errors>
   </label>

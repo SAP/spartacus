@@ -79,35 +79,33 @@ const owner = ConfiguratorModelUtils.createOwner(
 );
 
 describe('ConfigAttributeFooterComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, IconModule],
-        declarations: [
-          ConfiguratorAttributeFooterComponent,
-          MockFeatureLevelDirective,
-        ],
-        providers: [
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, IconModule],
+      declarations: [
+        ConfiguratorAttributeFooterComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
 
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeFooterComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeFooterComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   it('should render an empty component because showRequiredMessageForUserInput$ is `false`', () => {
     createComponentWithData(false).ngOnInit();

@@ -107,33 +107,31 @@ describe('MyAccountV2OrderHistoryComponent', () => {
   let fixture: ComponentFixture<MyAccountV2OrderHistoryComponent>;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          MyAccountV2OrderHistoryComponent,
-          MockUrlPipe,
-          MockPaginationComponent,
-          MockMyAccountV2OrderConsolidatedInformationComponent,
-          MockSpinnerComponent,
-        ],
-        providers: [
-          { provide: RoutingService, useClass: MockRoutingService },
-          {
-            provide: MyAccountV2OrderHistoryService,
-            useClass: MockMyAccountV2OrderHistoryService,
-          },
-          { provide: TranslationService, useClass: MockTranslationService },
-          {
-            provide: ReplenishmentOrderHistoryFacade,
-            useClass: MockReplenishmentOrderHistoryFacade,
-          },
-        ],
-      }).compileComponents();
-      routingService = TestBed.inject(RoutingService);
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        MyAccountV2OrderHistoryComponent,
+        MockUrlPipe,
+        MockPaginationComponent,
+        MockMyAccountV2OrderConsolidatedInformationComponent,
+        MockSpinnerComponent,
+      ],
+      providers: [
+        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: MyAccountV2OrderHistoryService,
+          useClass: MockMyAccountV2OrderHistoryService,
+        },
+        { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: ReplenishmentOrderHistoryFacade,
+          useClass: MockReplenishmentOrderHistoryFacade,
+        },
+      ],
+    }).compileComponents();
+    routingService = TestBed.inject(RoutingService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2OrderHistoryComponent);

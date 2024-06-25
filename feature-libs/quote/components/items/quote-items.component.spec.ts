@@ -29,29 +29,27 @@ describe('QuoteItemsComponent', () => {
   let eventService: EventService;
   let quoteItemsComponentService: QuoteItemsComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      initMocks();
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          IconTestingModule,
-          AbstractOrderContextModule,
-        ],
-        declarations: [QuoteItemsComponent, MockOutletDirective],
-        providers: [
-          {
-            provide: EventService,
-            useValue: eventService,
-          },
-          {
-            provide: QuoteItemsComponentService,
-            useValue: quoteItemsComponentService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    initMocks();
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        IconTestingModule,
+        AbstractOrderContextModule,
+      ],
+      declarations: [QuoteItemsComponent, MockOutletDirective],
+      providers: [
+        {
+          provide: EventService,
+          useValue: eventService,
+        },
+        {
+          provide: QuoteItemsComponentService,
+          useValue: quoteItemsComponentService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteItemsComponent);

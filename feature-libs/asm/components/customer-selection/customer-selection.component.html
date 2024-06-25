@@ -10,7 +10,18 @@
       (keydown.arrowdown)="focusFirstItem($event)"
       (keydown.end)="setSelectionEnd($event)"
     />
+
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
+      *cxFeature="'formErrorsDescriptiveMessages'"
+      [translationParams]="{
+        label: 'asm.customerSearch.searchTerm.label' | cxTranslate
+      }"
+      [control]="customerSelectionForm.get('searchTerm')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!formErrorsDescriptiveMessages'"
       [control]="customerSelectionForm.get('searchTerm')"
     ></cx-form-errors>
   </label>

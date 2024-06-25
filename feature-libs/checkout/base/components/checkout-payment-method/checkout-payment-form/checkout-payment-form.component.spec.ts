@@ -25,6 +25,7 @@ import {
   LaunchDialogService,
   NgSelectA11yModule,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 import createSpy = jasmine.createSpy;
@@ -191,54 +192,53 @@ describe('CheckoutPaymentFormComponent', () => {
     billingAddress: UntypedFormGroup['controls'];
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      mockCheckoutDeliveryService = new MockCheckoutDeliveryService();
-      mockCheckoutPaymentService = new MockCheckoutPaymentService();
-      mockUserPaymentService = new MockUserPaymentService();
-      mockGlobalMessageService = new MockGlobalMessageService();
+  beforeEach(waitForAsync(() => {
+    mockCheckoutDeliveryService = new MockCheckoutDeliveryService();
+    mockCheckoutPaymentService = new MockCheckoutPaymentService();
+    mockUserPaymentService = new MockUserPaymentService();
+    mockGlobalMessageService = new MockGlobalMessageService();
 
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          NgSelectA11yModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        declarations: [
-          CheckoutPaymentFormComponent,
-          MockCardComponent,
-          MockBillingAddressFormComponent,
-          MockCxIconComponent,
-          MockSpinnerComponent,
-        ],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: CheckoutPaymentFacade,
-            useValue: mockCheckoutPaymentService,
-          },
-          {
-            provide: CheckoutDeliveryAddressFacade,
-            useValue: mockCheckoutDeliveryService,
-          },
-          { provide: UserPaymentService, useValue: mockUserPaymentService },
-          { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-          { provide: UserAddressService, useClass: MockUserAddressService },
-          {
-            provide: CheckoutBillingAddressFormService,
-            useClass: MockCheckoutBillingAddressFormService,
-          },
-          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-        ],
-      })
-        .overrideComponent(CheckoutPaymentFormComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        NgSelectA11yModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      declarations: [
+        CheckoutPaymentFormComponent,
+        MockCardComponent,
+        MockBillingAddressFormComponent,
+        MockCxIconComponent,
+        MockSpinnerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: CheckoutPaymentFacade,
+          useValue: mockCheckoutPaymentService,
+        },
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useValue: mockCheckoutDeliveryService,
+        },
+        { provide: UserPaymentService, useValue: mockUserPaymentService },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        {
+          provide: CheckoutBillingAddressFormService,
+          useClass: MockCheckoutBillingAddressFormService,
+        },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      ],
     })
-  );
+      .overrideComponent(CheckoutPaymentFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPaymentFormComponent);

@@ -269,6 +269,8 @@ if (environment.estimatedDeliveryDate) {
     // CXSPA-6793: refactor to`provideFeatureToggles` and `satisfies` keyword
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        formErrorsDescriptiveMessages: true,
+        shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
         showBillingAddressInDigitalPayments: false,
         showDownloadProposalButton: false,
@@ -316,7 +318,10 @@ if (environment.estimatedDeliveryDate) {
         a11yNotificationPreferenceFieldset: true,
         a11yImproveContrast: true,
         a11yEmptyWishlistHeading: true,
+        a11yScreenReaderBloatFix: true,
         a11yUseButtonsForBtnLinks: true,
+        a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
+          true,
         a11yFacetsDialogFocusHandling: true,
         a11yStoreFinderAlerts: true,
       };

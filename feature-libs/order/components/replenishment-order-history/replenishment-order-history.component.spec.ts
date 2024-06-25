@@ -122,36 +122,34 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   let launchDialogService: LaunchDialogService;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          ReplenishmentOrderHistoryComponent,
-          MockUrlPipe,
-          MockPaginationComponent,
-          MockSortingComponent,
-        ],
-        providers: [
-          { provide: RoutingService, useClass: MockRoutingService },
-          {
-            provide: ReplenishmentOrderHistoryFacade,
-            useClass: MockReplenishmentOrderHistoryFacade,
-          },
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        ReplenishmentOrderHistoryComponent,
+        MockUrlPipe,
+        MockPaginationComponent,
+        MockSortingComponent,
+      ],
+      providers: [
+        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: ReplenishmentOrderHistoryFacade,
+          useClass: MockReplenishmentOrderHistoryFacade,
+        },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+      ],
+    }).compileComponents();
 
-      replenishmentOrderHistoryFacade = TestBed.inject(
-        ReplenishmentOrderHistoryFacade
-      );
-      routingService = TestBed.inject(RoutingService);
-      launchDialogService = TestBed.inject(LaunchDialogService);
-    })
-  );
+    replenishmentOrderHistoryFacade = TestBed.inject(
+      ReplenishmentOrderHistoryFacade
+    );
+    routingService = TestBed.inject(RoutingService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReplenishmentOrderHistoryComponent);

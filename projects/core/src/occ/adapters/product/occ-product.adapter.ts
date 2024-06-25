@@ -47,7 +47,7 @@ export class OccProductAdapter implements ProductAdapter {
             data$: scopedProduct.data$?.pipe(
               this.converter.pipeable(PRODUCT_NORMALIZER)
             ),
-          } as ScopedProductData)
+          }) as ScopedProductData
       );
   }
 

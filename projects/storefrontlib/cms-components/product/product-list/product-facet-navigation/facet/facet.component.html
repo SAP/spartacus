@@ -18,7 +18,7 @@
   <div>
     <!-- TODO: (CXSPA-6892) - Remove feature flag next major release. -->
     <a
-      *ngFor="let value of facet.values | slice: 0:state.topVisible"
+      *ngFor="let value of facet.values | slice: 0 : state.topVisible"
       #facetValue
       routerLink="./"
       [queryParams]="getLinkParams(value)"
@@ -45,7 +45,7 @@
       <a
         *ngFor="
           let value of facet.values
-            | slice: state.topVisible ?? 0:state.maxVisible
+            | slice: state.topVisible ?? 0 : state.maxVisible
         "
         #facetValue
         routerLink="./"

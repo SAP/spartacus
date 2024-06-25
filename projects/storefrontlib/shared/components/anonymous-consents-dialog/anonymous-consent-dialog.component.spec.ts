@@ -76,38 +76,36 @@ describe('AnonymousConsentsDialogComponent', () => {
   let anonymousConsentsConfig: AnonymousConsentsConfig;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      const mockConfig: AnonymousConsentsConfig = {
-        anonymousConsents: { showLegalDescriptionInDialog: true },
-      };
+  beforeEach(waitForAsync(() => {
+    const mockConfig: AnonymousConsentsConfig = {
+      anonymousConsents: { showLegalDescriptionInDialog: true },
+    };
 
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, KeyboardFocusTestingModule],
-        declarations: [
-          AnonymousConsentDialogComponent,
-          MockCxIconComponent,
-          MockConsentManagementFormComponent,
-          MockCxSpinnerComponent,
-        ],
-        providers: [
-          {
-            provide: AnonymousConsentsService,
-            useClass: MockAnonymousConsentsService,
-          },
-          {
-            provide: AnonymousConsentsConfig,
-            useValue: mockConfig,
-          },
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      }).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, KeyboardFocusTestingModule],
+      declarations: [
+        AnonymousConsentDialogComponent,
+        MockCxIconComponent,
+        MockConsentManagementFormComponent,
+        MockCxSpinnerComponent,
+      ],
+      providers: [
+        {
+          provide: AnonymousConsentsService,
+          useClass: MockAnonymousConsentsService,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockConfig,
+        },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AnonymousConsentDialogComponent);

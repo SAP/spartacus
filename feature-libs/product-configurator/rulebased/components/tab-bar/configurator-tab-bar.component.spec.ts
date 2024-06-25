@@ -103,41 +103,39 @@ describe('ConfigTabBarComponent', () => {
   let routingService: RoutingService;
   let keyboardFocusService: KeyboardFocusService;
 
-  beforeEach(
-    waitForAsync(() => {
-      mockRouterState.state.params.displayOnly = false;
+  beforeEach(waitForAsync(() => {
+    mockRouterState.state.params.displayOnly = false;
 
-      routerStateObservable = of(mockRouterState);
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterModule, RouterTestingModule],
-        declarations: [ConfiguratorTabBarComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorTabBarComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+    routerStateObservable = of(mockRouterState);
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterModule, RouterTestingModule],
+      declarations: [ConfiguratorTabBarComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorTabBarComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
     component = fixture.componentInstance;

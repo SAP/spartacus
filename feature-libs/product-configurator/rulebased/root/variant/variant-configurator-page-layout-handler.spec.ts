@@ -66,26 +66,24 @@ const sectionContent = 'content';
 describe('VariantConfiguratorPageLayoutHandler', () => {
   let classUnderTest: VariantConfiguratorPageLayoutHandler;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockRouterExtractorService,
-          },
-          {
-            provide: BreakpointService,
-            useClass: MockBreakpointService,
-          },
-          {
-            provide: LayoutConfig,
-            useValue: mockLayoutConfig,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockRouterExtractorService,
+        },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
+        {
+          provide: LayoutConfig,
+          useValue: mockLayoutConfig,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     classUnderTest = TestBed.inject(
       VariantConfiguratorPageLayoutHandler as Type<VariantConfiguratorPageLayoutHandler>
