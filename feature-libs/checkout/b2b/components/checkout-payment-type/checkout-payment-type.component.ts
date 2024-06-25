@@ -87,7 +87,7 @@ export class CheckoutPaymentTypeComponent {
     map(
       ([selectedPaymentType, availablePaymentTypes]: [
         PaymentType | undefined,
-        PaymentType[]
+        PaymentType[],
       ]) => {
         if (
           selectedPaymentType &&

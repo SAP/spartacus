@@ -38,7 +38,7 @@ export class CdsMerchandisingProductService {
       map(
         ([siteContext, userContext]: [
           MerchandisingSiteContext,
-          MerchandisingUserContext
+          MerchandisingUserContext,
         ]) => {
           return {
             queryParams: {

@@ -10,9 +10,18 @@
 @import '../../cxbase/functions';
 
 //fonts (see _fonts.scss to import)
-$font-family-sans-serif: 'Open Sans', -apple-system, BlinkMacSystemFont,
-  'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
-  'Segoe UI Emoji', 'Segoe UI Symbol';
+$font-family-sans-serif:
+  'Open Sans',
+  -apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  'Roboto',
+  'Helvetica Neue',
+  Arial,
+  sans-serif,
+  'Apple Color Emoji',
+  'Segoe UI Emoji',
+  'Segoe UI Symbol';
 
 // TODO: Replace `$font-url` with swap url in 5.0 to use swap strategy by default.
 // $font-url: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap' !default;

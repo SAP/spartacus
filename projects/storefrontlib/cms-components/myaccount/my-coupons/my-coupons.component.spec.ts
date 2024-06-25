@@ -165,33 +165,31 @@ describe('MyCouponsComponent', () => {
   );
   const subscriptionFail = new BehaviorSubject<boolean>(false);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
-        declarations: [
-          MyCouponsComponent,
-          MockedCouponCardComponent,
-          MockCxIconComponent,
-          MockPaginationComponent,
-          MockSortingComponent,
-        ],
-        providers: [
-          { provide: CustomerCouponService, useValue: customerCouponService },
-          {
-            provide: MyCouponsComponentService,
-            useValue: myCouponsComponentService,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
+      declarations: [
+        MyCouponsComponent,
+        MockedCouponCardComponent,
+        MockCxIconComponent,
+        MockPaginationComponent,
+        MockSortingComponent,
+      ],
+      providers: [
+        { provide: CustomerCouponService, useValue: customerCouponService },
+        {
+          provide: MyCouponsComponentService,
+          useValue: myCouponsComponentService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
           },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyCouponsComponent);

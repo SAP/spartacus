@@ -134,41 +134,39 @@ describe('AddressFormComponent', () => {
   const defaultAddressCheckbox = (): DebugElement =>
     fixture.debugElement.query(By.css('[formcontrolname=defaultAddress]'));
 
-  beforeEach(
-    waitForAsync(() => {
-      mockGlobalMessageService = {
-        add: createSpy(),
-      };
+  beforeEach(waitForAsync(() => {
+    mockGlobalMessageService = {
+      add: createSpy(),
+    };
 
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        declarations: [
-          AddressFormComponent,
-          MockNgSelectA11yDirective,
-          MockFeatureDirective,
-        ],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          { provide: UserAddressService, useClass: MockUserAddressService },
-          { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-          { provide: UserProfileFacade, useClass: MockUserProfileFacade },
-        ],
-      })
-        .overrideComponent(AddressFormComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
-
-      userProfileFacade = TestBed.inject(UserProfileFacade);
-      userAddressService = TestBed.inject(UserAddressService);
-      launchDialogService = TestBed.inject(LaunchDialogService);
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      declarations: [
+        AddressFormComponent,
+        MockNgSelectA11yDirective,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        { provide: UserProfileFacade, useClass: MockUserProfileFacade },
+      ],
     })
-  );
+      .overrideComponent(AddressFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+
+    userProfileFacade = TestBed.inject(UserProfileFacade);
+    userAddressService = TestBed.inject(UserAddressService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressFormComponent);

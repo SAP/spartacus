@@ -752,7 +752,7 @@ export function addPackageJsonDependencies(
  * Adds libraries dependencies to package.json
  */
 export function addPackageJsonDependenciesForLibrary<
-  OPTIONS extends LibraryOptions
+  OPTIONS extends LibraryOptions,
 >(dependencies: Record<string, string>, _options: OPTIONS): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);

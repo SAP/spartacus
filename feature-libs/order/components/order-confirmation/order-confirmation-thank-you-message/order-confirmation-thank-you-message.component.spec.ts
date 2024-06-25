@@ -50,24 +50,22 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
   let orderFacade: OrderFacade;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          OrderConfirmationThankYouMessageComponent,
-          MockAddtoHomeScreenBannerComponent,
-          MockGuestRegisterFormComponent,
-          MockFeatureLevelDirective,
-        ],
-        providers: [
-          { provide: OrderFacade, useClass: MockOrderFacade },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: TranslationService, useClass: MockTranslationService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        OrderConfirmationThankYouMessageComponent,
+        MockAddtoHomeScreenBannerComponent,
+        MockGuestRegisterFormComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [
+        { provide: OrderFacade, useClass: MockOrderFacade },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
