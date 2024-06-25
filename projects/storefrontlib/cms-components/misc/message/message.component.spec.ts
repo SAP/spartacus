@@ -1,8 +1,13 @@
 import { Component, DebugElement, Directive, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { GlobalMessageType, I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  GlobalMessageType,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { MessageComponent } from './message.component';
 
 @Component({
@@ -32,23 +37,34 @@ class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
 }
 
+class MockFeatureConfigService {
+  isEnabled(_feature: string) {
+    return true;
+  }
+}
+
 describe('MessageComponent', () => {
   let component: MessageComponent;
   let fixture: ComponentFixture<MessageComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          MessageComponent,
-          MockCxIconComponent,
-          MockAtMessageDirective,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        MessageComponent,
+        MockCxIconComponent,
+        MockAtMessageDirective,
+        MockFeatureDirective,
+      ],
+      providers: [
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MessageComponent);
@@ -78,7 +94,7 @@ describe('MessageComponent', () => {
   it('should show <ng-content> content', () => {
     const testFixture = TestBed.createComponent(TestHostComponent);
     const element = testFixture.debugElement.query(
-      By.css('cx-message')
+      By.css('cx-message'),
     ).nativeElement;
     expect(element.textContent).toEqual('Test');
   });
@@ -98,7 +114,7 @@ describe('MessageComponent', () => {
     fixture.detectChanges();
 
     const text = el.query(
-      By.css('.cx-message .cx-message-header .cx-message-text')
+      By.css('.cx-message .cx-message-header .cx-message-text'),
     ).nativeElement;
 
     expect(text.textContent).toEqual(' Test ');
@@ -110,12 +126,30 @@ describe('MessageComponent', () => {
     fixture.detectChanges();
 
     const button = el.query(
-      By.css('.cx-message .cx-action-link')
+      By.css('.cx-message .cx-action-link'),
     ).nativeElement;
     button.click();
 
     expect(button.textContent).toEqual(' Test ');
     expect(button).toBeTruthy();
     expect(component.buttonAction.emit).toHaveBeenCalled();
+  });
+
+  it('should focus on messageContainer after a message with an accordion renders', () => {
+    const focusSpy = spyOn(component.messageContainer.nativeElement, 'focus');
+    component.accordionText = 'Test';
+
+    component.ngAfterViewInit();
+
+    expect(focusSpy).toHaveBeenCalled();
+  });
+
+  it('should focus on messageContainer after a message with a button renders', () => {
+    const focusSpy = spyOn(component.messageContainer.nativeElement, 'focus');
+    component.actionButtonText = 'Test';
+
+    component.ngAfterViewInit();
+
+    expect(focusSpy).toHaveBeenCalled();
   });
 });

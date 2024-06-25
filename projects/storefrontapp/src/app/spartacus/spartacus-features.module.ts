@@ -112,7 +112,7 @@ if (environment.b2b) {
     OrderApprovalFeatureModule,
     OrganizationUserRegistrationFeatureModule,
     UnitOrderFeatureModule,
-    FutureStockFeatureModule
+    FutureStockFeatureModule,
   );
 } else {
   featureModules.push(PickupInStoreFeatureModule);
@@ -322,6 +322,7 @@ if (environment.estimatedDeliveryDate) {
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
         a11yFacetsDialogFocusHandling: true,
+        a11yCxMessageFocus: true,
       };
       return appFeatureToggles;
     }),
