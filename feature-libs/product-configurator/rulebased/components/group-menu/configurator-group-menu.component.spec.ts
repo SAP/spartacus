@@ -3,7 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -125,6 +129,16 @@ const mockRouterStateIssueNavigation: any = {
   },
 };
 
+let productConfigurationDeltaRenderingEnabled = false;
+class MockFeatureConfigService {
+  isEnabled(name: string): boolean {
+    if (name === 'productConfigurationDeltaRendering') {
+      return productConfigurationDeltaRenderingEnabled;
+    }
+    return false;
+  }
+}
+
 class MockConfiguratorGroupService {
   setMenuParentGroup(): void {}
 
@@ -235,47 +249,53 @@ function initialize() {
 }
 
 describe('ConfiguratorGroupMenuComponent', () => {
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [
-        ConfiguratorGroupMenuComponent,
-        MockCxIconComponent,
-        MockFocusDirective,
-      ],
-      providers: [
-        HamburgerMenuService,
-        {
-          provide: Router,
-          useClass: MockRouter,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupService,
-        },
-        {
-          provide: DirectionService,
-          useClass: MockDirectionService,
-        },
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
-        },
-      ],
-    });
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+        declarations: [
+          ConfiguratorGroupMenuComponent,
+          MockCxIconComponent,
+          MockFocusDirective,
+        ],
+        providers: [
+          HamburgerMenuService,
+          {
+            provide: Router,
+            useClass: MockRouter,
+          },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: ConfiguratorGroupsService,
+            useClass: MockConfiguratorGroupService,
+          },
+          {
+            provide: DirectionService,
+            useClass: MockDirectionService,
+          },
+          {
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
+          },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
+          },
+        ],
+      });
+    })
+  );
 
   beforeEach(() => {
     groupVisitedObservable = of(false);
@@ -1797,6 +1817,20 @@ describe('ConfiguratorGroupMenuComponent', () => {
       initialize();
       component['handleFocusLoopInMobileMode'](event);
       expect(configUtils.focusFirstActiveElement).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('trackByFn', () => {
+    it('should return group itself, if performance optimization is not active', () => {
+      productConfigurationDeltaRenderingEnabled = false;
+      expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(
+        simpleConfig.groups[0]
+      );
+    });
+
+    it('should return group ID, if performance optimization is active', () => {
+      productConfigurationDeltaRenderingEnabled = true;
+      expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(GROUP_ID_1);
     });
   });
 });
