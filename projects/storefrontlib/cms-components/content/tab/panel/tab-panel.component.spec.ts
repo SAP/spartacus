@@ -113,17 +113,5 @@ fdescribe('TabPanelComponent', () => {
       console.log(tabPanel);
       expect(tabPanel).toEqual(undefined);
     });
-
-    // TODO: Content Slot and NO DATA should not be valid cases when
-    // referring only to TemplateRef.
-
-    //  it('should display content slot component data', () => {
-    //    component.isOpen = true;
-    //    component.tabNum = 1;
-    //    component.content = fixture.detectChanges();
-    //    const tabPanel = document.querySelector('div[role="tabpanel"]');
-    //  });
-
-    // it('should not display when no valid content data', () => {});
   });
 });

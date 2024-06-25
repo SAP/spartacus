@@ -6,20 +6,6 @@
   [class.active]="isOpen"
   [style.display]="isOpen ? 'block' : 'none'"
   [cxFocus]="{ focusOnEscape: true }"
-  [ngSwitch]="getContentType()"
 >
-  <ng-container
-    *ngSwitchCase="CONTENT_TYPE.TEMPLATE_REF"
-    [ngTemplateOutlet]="tab.content"
-  ></ng-container>
-
-  <ng-container *ngSwitchCase="CONTENT_TYPE.CONTENT_SLOT_COMPONENT_DATA">
-    <ng-template
-      *ngIf="tab.content as component"
-      [cxOutlet]="component.flexType"
-      [cxOutletContext]="{}"
-    >
-      <ng-container [cxComponentWrapper]="component"></ng-container>
-    </ng-template>
-  </ng-container>
+  <ng-container [ngTemplateOutlet]="tab.content"></ng-container>
 </div>

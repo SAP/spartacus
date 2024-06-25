@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { BreakpointService } from '../../../layout/breakpoint';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Tab, TabConfig, TAB_MODE } from './tab.model';
 import { wrapIntoBounds } from './tab.utils';
 
@@ -98,8 +98,8 @@ export class TabComponent implements OnInit {
     const key = event.key;
     const FIRST_TAB = 0;
     const LAST_TAB = tabs.length - 1;
-    const PREVIOUS_TAB = this.keepTabNumInBounds(tabNum - 1);
-    const NEXT_TAB = this.keepTabNumInBounds(tabNum + 1);
+    const PREVIOUS_TAB = wrapIntoBounds(tabNum - 1, LAST_TAB);
+    const NEXT_TAB = wrapIntoBounds(tabNum + 1, LAST_TAB);
 
     switch (key) {
       case 'ArrowLeft':
@@ -154,22 +154,6 @@ export class TabComponent implements OnInit {
 
   protected getOpenTabs(): number[] {
     return this.openTabs$.value;
-  }
-
-  /**
-   * Either returns the first tab position if the tab number is beyond the number of available tabs
-   * or returns the last tab position if the tab number is less than zero.
-   */
-  protected keepTabNumInBounds(tabNum: number): number {
-    this.tabs$
-      .pipe(
-        filter((tabs) => !!tabs),
-        take(1)
-      )
-      .subscribe((tabs) => {
-        tabNum = wrapIntoBounds(tabNum, tabs.length - 1);
-      });
-    return tabNum;
   }
 
   /**

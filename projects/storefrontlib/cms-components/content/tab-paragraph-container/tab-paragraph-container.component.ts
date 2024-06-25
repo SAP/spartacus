@@ -41,6 +41,9 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   @ViewChildren(ComponentWrapperDirective)
   children!: QueryList<ComponentWrapperDirective>;
 
+  @ViewChildren('tabRef')
+  tabRefs: QueryList<any>;
+
   tabTitleParams: (Observable<any> | null)[] = [];
 
   tabConfig$: BehaviorSubject<TabConfig> = new BehaviorSubject<TabConfig>(
@@ -91,14 +94,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     )
   );
 
-  tabs$: Observable<Tab[]> = this.components$.pipe(
-    map((components) =>
-      components.map((component) => ({
-        headerKey: component.title,
-        content: component,
-      }))
-    )
-  );
+  tabs$: Observable<Tab[]>;
 
   select(tabNum: number, event?: MouseEvent): void {
     this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
@@ -124,6 +120,15 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     if (this.children.length > 0) {
       this.getTitleParams(this.children);
     }
+
+    this.tabs$ = combineLatest([this.components$, this.tabRefs.changes]).pipe(
+      map(([components, refs]) =>
+        components.map((component, index) => ({
+          headerKey: component.title,
+          content: refs.get(index),
+        }))
+      )
+    );
   }
 
   tabCompLoaded(componentRef: any): void {

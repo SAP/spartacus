@@ -5,7 +5,6 @@
  */
 
 import { TemplateRef } from '@angular/core';
-import { ContentSlotComponentData } from '@spartacus/core';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
 
 export interface Tab {
@@ -20,7 +19,7 @@ export interface Tab {
   /**
    * Content to display in tab panel when open.
    */
-  content?: TemplateRef<any> | ContentSlotComponentData | any;
+  content?: TemplateRef<any>;
   id?: string;
   attributes?: TabAttributes;
 }
