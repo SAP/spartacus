@@ -93,48 +93,43 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     return value;
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          RouterTestingModule,
-          ReactiveFormsModule,
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
-        declarations: [
-          ConfiguratorAttributeSingleSelectionBundleComponent,
-          ConfiguratorShowMoreComponent,
-          ItemCounterComponent,
-          MockProductCardComponent,
-          MockConfiguratorPriceComponent,
-          MockConfiguratorAttributeQuantityComponent,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-        ],
-      })
-        .overrideComponent(
-          ConfiguratorAttributeSingleSelectionBundleComponent,
-          {
-            set: {
-              changeDetection: ChangeDetectionStrategy.Default,
-              providers: [
-                {
-                  provide: ConfiguratorAttributeProductCardComponent,
-                  useClass: MockProductCardComponent,
-                },
-              ],
-            },
-          }
-        )
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        RouterTestingModule,
+        ReactiveFormsModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
+      declarations: [
+        ConfiguratorAttributeSingleSelectionBundleComponent,
+        ConfiguratorShowMoreComponent,
+        ItemCounterComponent,
+        MockProductCardComponent,
+        MockConfiguratorPriceComponent,
+        MockConfiguratorAttributeQuantityComponent,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeSingleSelectionBundleComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+          providers: [
+            {
+              provide: ConfiguratorAttributeProductCardComponent,
+              useClass: MockProductCardComponent,
+            },
+          ],
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     values = [

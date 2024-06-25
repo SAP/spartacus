@@ -34,23 +34,21 @@ describe('TabFocusService', () => {
   let service: TabFocusService;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent],
-        providers: [
-          TabFocusService,
-          {
-            provide: SelectFocusUtility,
-            useClass: MockSelectFocusUtility,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent],
+      providers: [
+        TabFocusService,
+        {
+          provide: SelectFocusUtility,
+          useClass: MockSelectFocusUtility,
+        },
+      ],
+    }).compileComponents();
 
-      service = TestBed.inject(TabFocusService);
-      fixture = TestBed.createComponent(MockComponent);
-    })
-  );
+    service = TestBed.inject(TabFocusService);
+    fixture = TestBed.createComponent(MockComponent);
+  }));
 
   it('should inject service', () => {
     expect(service).toBeTruthy();

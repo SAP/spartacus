@@ -48,35 +48,33 @@ describe('UpdateEmailComponent', () => {
 
   let service: UpdateEmailComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          RouterTestingModule,
-          UrlTestingModule,
-          PasswordVisibilityToggleModule,
-        ],
-        declarations: [
-          UpdateEmailComponent,
-          MockCxSpinnerComponent,
-          MockFeatureDirective,
-        ],
-        providers: [
-          {
-            provide: UpdateEmailComponentService,
-            useClass: MockUpdateEmailService,
-          },
-        ],
-      })
-        .overrideComponent(UpdateEmailComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        PasswordVisibilityToggleModule,
+      ],
+      declarations: [
+        UpdateEmailComponent,
+        MockCxSpinnerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        {
+          provide: UpdateEmailComponentService,
+          useClass: MockUpdateEmailService,
+        },
+      ],
     })
-  );
+      .overrideComponent(UpdateEmailComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateEmailComponent);

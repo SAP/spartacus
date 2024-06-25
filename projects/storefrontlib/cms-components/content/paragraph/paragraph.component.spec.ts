@@ -44,21 +44,19 @@ describe('CmsParagraphComponent in CmsLib', () => {
     }
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
-        declarations: [MockAnchorPipe, ParagraphComponent],
-        providers: [
-          {
-            provide: CmsComponentData,
-            useValue: MockCmsComponentData,
-          },
-          { provide: DomSanitizer, useClass: MockDomSanitizer },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [MockAnchorPipe, ParagraphComponent],
+      providers: [
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData,
+        },
+        { provide: DomSanitizer, useClass: MockDomSanitizer },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ParagraphComponent);

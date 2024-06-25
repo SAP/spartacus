@@ -87,7 +87,10 @@ export class CarouselComponent implements OnInit {
 
   protected logger = inject(LoggerService);
 
-  constructor(protected el: ElementRef, protected service: CarouselService) {
+  constructor(
+    protected el: ElementRef,
+    protected service: CarouselService
+  ) {
     useFeatureStyles('a11yFocusableCarouselControls');
   }
 
