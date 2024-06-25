@@ -52,29 +52,27 @@ describe('StoreFinderStoreComponent', () => {
   let fixture: ComponentFixture<StoreFinderStoreComponent>;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [SpinnerModule, RouterTestingModule, I18nTestingModule],
-        declarations: [
-          StoreFinderStoreComponent,
-          MockStoreFinderStoreDescriptionComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
-          {
-            provide: StoreFinderService,
-            useClass: MockStoreFinderService,
-          },
-          {
-            provide: ActivatedRoute,
-            useValue: mockActivatedRoute,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [SpinnerModule, RouterTestingModule, I18nTestingModule],
+      declarations: [
+        StoreFinderStoreComponent,
+        MockStoreFinderStoreDescriptionComponent,
+        MockCxIconComponent,
+      ],
+      providers: [
+        { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
+        {
+          provide: StoreFinderService,
+          useClass: MockStoreFinderService,
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: mockActivatedRoute,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     routingService = TestBed.inject(RoutingService);

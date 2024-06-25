@@ -51,23 +51,21 @@ describe('StoreFinderGridComponent', () => {
   let storeFinderService: StoreFinderService;
   let route: ActivatedRoute;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, SpinnerModule],
-        declarations: [
-          StoreFinderGridComponent,
-          MockStoreFinderListItemComponent,
-        ],
-        providers: [
-          { provide: StoreFinderService, useClass: MockStoreFinderService },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          { provide: RoutingService, useValue: mockRoutingService },
-          { provide: TranslationService, useClass: MockTranslationService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, SpinnerModule],
+      declarations: [
+        StoreFinderGridComponent,
+        MockStoreFinderListItemComponent,
+      ],
+      providers: [
+        { provide: StoreFinderService, useClass: MockStoreFinderService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: RoutingService, useValue: mockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderGridComponent);

@@ -80,29 +80,27 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
   const attributeQuantity = 4;
   const selectedValue = 'a';
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ExampleConfiguratorAttributeSingleSelectionComponent],
-        imports: [
-          I18nTestingModule,
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
-        providers: [
-          ConfiguratorAttributeQuantityService,
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ExampleConfiguratorAttributeSingleSelectionComponent],
+      imports: [
+        I18nTestingModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
+      providers: [
+        ConfiguratorAttributeQuantityService,
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

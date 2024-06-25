@@ -50,12 +50,15 @@ export class MyAccountV2OrderConsignmentsService {
   protected groupConsignments(
     consignments: Consignment[] | undefined
   ): Consignment[] | undefined {
-    const grouped = consignments?.reduce((result, current) => {
-      const key = this.getStatusGroupKey(current.status || '');
-      result[key] = result[key] || [];
-      result[key].push(current);
-      return result;
-    }, {} as { [key: string]: Consignment[] });
+    const grouped = consignments?.reduce(
+      (result, current) => {
+        const key = this.getStatusGroupKey(current.status || '');
+        result[key] = result[key] || [];
+        result[key].push(current);
+        return result;
+      },
+      {} as { [key: string]: Consignment[] }
+    );
 
     return grouped
       ? [...(grouped[1] || []), ...(grouped[0] || []), ...(grouped[-1] || [])]

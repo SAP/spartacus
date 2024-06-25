@@ -65,19 +65,17 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
   let fixture: ComponentFixture<ConfiguratorOverviewBundleAttributeComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [MediaModule, I18nTestingModule],
-        declarations: [
-          ConfiguratorOverviewBundleAttributeComponent,
-          MockConfiguratorPriceComponent,
-          MockNumericPipe,
-        ],
-        providers: [{ provide: ProductService, useClass: MockProductService }],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [MediaModule, I18nTestingModule],
+      declarations: [
+        ConfiguratorOverviewBundleAttributeComponent,
+        MockConfiguratorPriceComponent,
+        MockNumericPipe,
+      ],
+      providers: [{ provide: ProductService, useClass: MockProductService }],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

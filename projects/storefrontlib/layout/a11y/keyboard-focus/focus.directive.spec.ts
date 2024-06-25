@@ -30,24 +30,22 @@ describe('FocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let keyboardFocusService: KeyboardFocusService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [FocusDirective, MockComponent],
-        providers: [
-          {
-            provide: KeyboardFocusService,
-            useClass: MockKeyboardFocusService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [FocusDirective, MockComponent],
+      providers: [
+        {
+          provide: KeyboardFocusService,
+          useClass: MockKeyboardFocusService,
+        },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MockComponent);
+    fixture = TestBed.createComponent(MockComponent);
 
-      component = fixture.componentInstance;
-      keyboardFocusService = TestBed.inject(KeyboardFocusService);
-    })
-  );
+    component = fixture.componentInstance;
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
+  }));
 
   it('should be created', () => {
     expect(component).toBeTruthy();

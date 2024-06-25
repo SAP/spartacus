@@ -30,27 +30,25 @@ describe('AmendOrderActionsComponent', () => {
   let fixture: ComponentFixture<AmendOrderActionsComponent>;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          I18nTestingModule,
-          StoreModule.forRoot({}),
-        ],
-        declarations: [MockUrlPipe, AmendOrderActionsComponent],
-        providers: [
-          {
-            provide: RoutingConfigService,
-            useClass: MockRoutingConfigService,
-          },
-          { provide: RoutingService, useClass: MockRoutingService },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        I18nTestingModule,
+        StoreModule.forRoot({}),
+      ],
+      declarations: [MockUrlPipe, AmendOrderActionsComponent],
+      providers: [
+        {
+          provide: RoutingConfigService,
+          useClass: MockRoutingConfigService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
+    }).compileComponents();
 
-      routingService = TestBed.inject(RoutingService);
-    })
-  );
+    routingService = TestBed.inject(RoutingService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AmendOrderActionsComponent);

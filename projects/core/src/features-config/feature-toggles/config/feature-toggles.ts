@@ -316,6 +316,12 @@ export interface FeatureTogglesInterface {
   a11yEmptyWishlistHeading?: boolean;
 
   /**
+   * Removes the `tabindex` attribute from the `StorefrontComponent`.
+   * This helps to reduce the screen reader bloat.
+   */
+  a11yScreenReaderBloatFix?: boolean;
+
+  /**
    * When enabled the button-like UI elements will use `<button>` under the hood instead of `<a>`
    * in the following components: `AddedToCartDialogComponent`, `ForgotPasswordComponent`,
    * `LoginRegisterComponent`, `ConfigureProductComponent`
@@ -392,6 +398,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNotificationPreferenceFieldset: false,
   a11yImproveContrast: false,
   a11yEmptyWishlistHeading: false,
+  a11yScreenReaderBloatFix: false,
   a11yUseButtonsForBtnLinks: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
