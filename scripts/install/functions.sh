@@ -154,7 +154,11 @@ function add_s4om {
         ng add --skip-confirmation @spartacus/s4om@${SPARTACUS_VERSION} --interactive false
     fi
 }
-
+function add_cpq-quote {
+  if [ "$ADD_CPQ_QUOTE" = true ] ; then
+        ng add --skip-confirmation @spartacus/cpq-quote@${SPARTACUS_VERSION} --interactive false
+    fi
+}
 function add_requested_delivery_date {
   if [ "$ADD_REQUESTED_DELIVERY_DATE" = true ] ; then
         ng add --skip-confirmation @spartacus/requested-delivery-date@${SPARTACUS_VERSION} --interactive false
@@ -203,9 +207,9 @@ function add_spartacus_csr {
     add_s4om
     add_requested_delivery_date
     add_estimated_delivery_date
+    add_cpq-quote
     add_pdf_invoices
     remove_npmrc
-    add_cpq_quote
     )
 }
 
@@ -230,9 +234,9 @@ function add_spartacus_ssr {
     add_s4om
     add_requested_delivery_date
     add_estimated_delivery_date
+    add_cpq-quote
     add_pdf_invoices
     remove_npmrc
-    add_cpq_quote
     )
 }
 
@@ -255,9 +259,9 @@ function add_spartacus_ssr_pwa {
     add_s4om
     add_requested_delivery_date
     add_estimated_delivery_date
+    add_cpq-quote
     add_pdf_invoices
     remove_npmrc
-    add_cpq_quote
     )
 }
 
@@ -784,15 +788,15 @@ function parseInstallArgs {
                 ADD_OPPS=true
                 echo "➖ Added OPPS"
                 shift
-                ;;                
+                ;;
             s4om)
                 ADD_S4OM=true
                 echo "➖ Added S4OM"
                 shift
-                ;; 
-                cpq-quote)
+                ;;
+            cpq-quote)
                 ADD_CPQ_QUOTE=true
-                echo "➖ Added CPQ QUOTE"
+                echo "➖ Added CPQ_QUOTE"
                 shift
                 ;;
             rdd)
@@ -1023,10 +1027,4 @@ function compareSemver() {
     # If all parts are equal, the versions are equal
     echo 0
     return
-}
-
-function add_cpq_quote {
-  if [ "$ADD_CPQ_QUOTE" = true ] ; then
-        ng add --skip-confirmation @spartacus/cpq-quote@${SPARTACUS_VERSION} --interactive false
-    fi
 }

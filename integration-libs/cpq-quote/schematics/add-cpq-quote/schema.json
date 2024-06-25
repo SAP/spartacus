@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "CpqQuoteSchematics",
-  "title": "cpq-quote Schematics",
+  "title": "Cpq-Quote Schematics",
   "type": "object",
   "properties": {
     "project": {
@@ -12,13 +12,13 @@
       }
     },
     "debug": {
-      "description": "Display Cpq Discount Percentage",
+      "description": "Display additional details during the running process.",
       "type": "boolean",
       "default": false
     },
     "lazy": {
       "type": "boolean",
-      "description": "Lazy load the cpq-quote.",
+      "description": "Lazy load the Cpq-Quote.",
       "default": true
     },
     "features": {

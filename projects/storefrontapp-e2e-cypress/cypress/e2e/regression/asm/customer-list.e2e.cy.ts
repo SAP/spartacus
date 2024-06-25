@@ -37,5 +37,14 @@ context('Assisted Service Module', () => {
       asm.agentLogin('asagent', 'pw4all');
       asm.asmCustomerListPagination();
     });
+
+    it('checking c360 view link in customer list (CXSPA-6858)', () => {
+      checkout.visitHomePage('asm=true');
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
+
+      asm.agentLogin('asagent', 'pw4all');
+      asm.asmCustomerListC360Link();
+    });
   });
 });

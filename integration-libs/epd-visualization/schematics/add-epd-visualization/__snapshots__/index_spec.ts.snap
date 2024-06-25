@@ -26,7 +26,7 @@ import { EpdVisualizationConfig, EpdVisualizationRootModule } from "@spartacus/e
       },
 
       apis: {
-        baseUrl: "https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com"
+        baseUrl: "https://epd-acc-eu20-consumer.visualization.eu20.acc.epd.dev.sap"
       }
     }
   })
@@ -62,7 +62,7 @@ import { EpdVisualizationConfig, EpdVisualizationRootModule } from "@spartacus/e
       },
 
       apis: {
-        baseUrl: "https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com"
+        baseUrl: "https://epd-acc-eu20-consumer.visualization.eu20.acc.epd.dev.sap"
       }
     }
   })
@@ -104,7 +104,7 @@ import { EpdVisualizationConfig, EpdVisualizationRootModule, EPD_VISUALIZATION_F
       },
 
       apis: {
-        baseUrl: "https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com"
+        baseUrl: "https://epd-acc-eu20-consumer.visualization.eu20.acc.epd.dev.sap"
       }
     }
   })

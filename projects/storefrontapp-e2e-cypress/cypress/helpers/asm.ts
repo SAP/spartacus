@@ -284,8 +284,9 @@ export function asmCustomerLists(): void {
 
   cy.get('cx-customer-list')
     .find('.cx-btn-cell')
-    .not('[aria-label="Order"]')
-    .not('[aria-label="Cart"]')
+    .not('[aria-label="View Orders"]')
+    .not('[aria-label="View Active Cart"]')
+    .not('[aria-label="View Customer 360°"]')
     .then(($rows) => {
       expect($rows.length).to.eq(5);
       cy.wrap($rows[0]).click();
@@ -385,10 +386,9 @@ export function asmB2bCustomerLists(): void {
     .its('response.statusCode')
     .should('eq', 200);
 
-  cy.get('cx-customer-list table')
-    .contains('tbody tr', asmForB2BCustomer)
-    .closest('tbody tr')
-    .find('td:nth-child(5)')
+  cy.get('cx-customer-list')
+    .find('.cx-btn-cell')
+    .find('.fa-shopping-cart')
     .then(($cart) => {
       cy.wrap($cart).click();
       cy.get('cx-customer-list').should('not.exist');
@@ -467,6 +467,23 @@ export function asmCustomerListPagination(): void {
   );
   cy.get('cx-pagination').should('not.be.visible');
   cy.get('button').contains('Cancel').click();
+}
+
+export function asmCustomerListC360Link(): void {
+  cy.log('--> Starting customer list');
+  asm.asmOpenCustomerList();
+  cy.get('cx-customer-list table').should('exist');
+
+  cy.log('--> click 360 view link');
+  cy.get('cx-customer-list')
+    .find('.cx-btn-cell')
+    .find('.fa-circle-user')
+    .then(($rows) => {
+      cy.wrap($rows[0]).click();
+      cy.get('.cx-asm-customer-360').should('exist');
+      cy.get('.header-profile-details-log').should('exist');
+      cy.get('.cx-asm-customer-email').invoke('text').should('not.be.empty');
+    });
 }
 
 export function startCustomerEmulation(customer, b2b = false): void {
@@ -771,8 +788,9 @@ export function fillCreateCustomerForm({
 }
 
 export function verifyFormErrors() {
-  const requiredFieldMessage = 'This field is required';
-  const notValidEmailMessage = 'This is not a valid email format';
+  const requiredFieldMessage = 'Field is required';
+  const notValidEmailMessage =
+    'Field  has not a valid email format. Match pattern: example@yourdomain.com';
 
   cy.get('cx-asm-create-customer-form').within(() => {
     cy.get('[formcontrolname="firstName"] + cx-form-errors').contains(
@@ -787,7 +805,7 @@ export function verifyFormErrors() {
 
     cy.get('[formcontrolname="email"] + cx-form-errors').within(() => {
       cy.get('p').contains(requiredFieldMessage);
-      cy.get('p+p').contains(notValidEmailMessage);
+      cy.get('p+p').should('contain', notValidEmailMessage);
     });
 
     cy.get('cx-form-errors p').should('have.length', 4);

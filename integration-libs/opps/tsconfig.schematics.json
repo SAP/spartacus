@@ -550,8 +550,8 @@
       "@spartacus/cpq-quote/assets": [
         "../../integration-libs/cpq-quote/assets/public_api"
       ],
-      "@spartacus/cpq-quote/discount": [
-        "../../integration-libs/cpq-quote/discount/public_api"
+      "@spartacus/cpq-quote/cpq-quote-discount": [
+        "../../integration-libs/cpq-quote/cpq-quote-discount/public_api"
       ],
       "@spartacus/cpq-quote": ["../../integration-libs/cpq-quote/public_api"],
       "@spartacus/cpq-quote/root": [

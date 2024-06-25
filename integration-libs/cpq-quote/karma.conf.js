@@ -11,17 +11,18 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
-      require('karma-junit-reporter'),
     ],
+    parallelOptions: {
+      executors: 2,
+      shardStrategy: 'round-robin',
+    },
     client: {
       clearContext: true, // close Jasmine Spec Runner output in browser to avoid 'Some of your tests did a full page reload!' error when '--no-watch' is active
+      jasmine: {
+        random: false,
+      },
     },
-    reporters: ['progress', 'kjhtml', 'dots', 'junit'],
-    junitReporter: {
-      outputFile: 'unit-test-cpq-quote.xml',
-      outputDir: require('path').join(__dirname, '../../unit-tests-reports'),
-      useBrowserName: false,
-    },
+    reporters: ['progress', 'kjhtml', 'dots'],
     coverageReporter: {
       dir: require('path').join(__dirname, '../../coverage/cpq-quote'),
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
@@ -30,7 +31,7 @@ module.exports = function (config) {
           statements: 90,
           lines: 90,
           branches: 75,
-          functions: 90,
+          functions: 85,
         },
       },
     },

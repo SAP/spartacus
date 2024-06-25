@@ -6,19 +6,16 @@
   "prefix": "cx",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "executor": "./tools/build-lib:augmented-types",
       "options": {
+        "tsConfig": "integration-libs/cpq-quote/tsconfig.lib.json",
         "project": "integration-libs/cpq-quote/ng-package.json"
       },
       "configurations": {
         "production": {
           "tsConfig": "integration-libs/cpq-quote/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "integration-libs/cpq-quote/tsconfig.lib.json"
         }
-      },
-      "defaultConfiguration": "production"
+      }
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -27,13 +24,6 @@
         "tsConfig": "integration-libs/cpq-quote/tsconfig.spec.json",
         "polyfills": ["zone.js", "zone.js/testing"],
         "karmaConfig": "integration-libs/cpq-quote/karma.conf.js"
-      }
-    },
-    "test-jest": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npm run test:schematics",
-        "cwd": "integration-libs/cpq-quote"
       }
     },
     "lint": {
@@ -46,5 +36,5 @@
       }
     }
   },
-  "tags": ["type:feature", "type:integration"]
+  "tags": ["type:feature"]
 }

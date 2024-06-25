@@ -11,19 +11,19 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  LibraryOptions as addCpqQuoteFeature,
   addFeatures,
   addPackageJsonDependenciesForLibrary,
   analyzeApplication,
   analyzeCrossFeatureDependencies,
   finalizeInstallation,
+  LibraryOptions as SpartacusCpqQuoteOptions,
   readPackageJson,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
-export function addCpqQuoteFeature(options: addCpqQuoteFeature): Rule {
-  return (tree: Tree, context: SchematicContext): Rule => {
-    context.logger.info('Adding discount percentage feature...');
+
+export function addCpqQuoteFeature(options: SpartacusCpqQuoteOptions): Rule {
+  return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 

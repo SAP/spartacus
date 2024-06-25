@@ -2,16 +2,20 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
+    "declarationMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "target": "es2022",
     "module": "es2022",
     "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
     "importHelpers": true,
-    "skipLibCheck": true,
+    "types": [],
     "lib": ["dom", "esnext"],
+    "strict": true,
     "paths": {
       "@spartacus/cart/base/assets": ["dist/cart/base/assets"],
       "@spartacus/cart/base/components/add-to-cart": [
@@ -75,16 +79,15 @@
       "@spartacus/user/profile": ["dist/user/profile"],
       "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
       "@spartacus/user/profile/root": ["dist/user/profile/root"]
-    },
-    "resolveJsonModule": true,
-    "esModuleInterop": true
+    }
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
-    "enableResourceInlining": true
+    "enableResourceInlining": true,
+    "strictInputAccessModifiers": true
   },
-  "exclude": ["test.ts", "**/*.spec.ts"]
+  "exclude": ["test.ts", "setup-jest.ts", "**/*.spec.ts"]
 }

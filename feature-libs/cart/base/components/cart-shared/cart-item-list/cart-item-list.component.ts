@@ -23,14 +23,11 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
   CartOutlets,
-  CartItemContext,
-  quoteOutlet,
 } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
-import { CartItemContextSource } from '../cart-item/model/cart-item-context-source.model';
 
 interface ItemListContext {
   readonly?: boolean;
@@ -46,10 +43,6 @@ interface ItemListContext {
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    CartItemContextSource,
-    { provide: CartItemContext, useExisting: CartItemContextSource },
-  ],
 })
 export class CartItemListComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
@@ -70,7 +63,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   protected _items: OrderEntry[] = [];
   form: UntypedFormGroup = new UntypedFormGroup({});
 
-  @Input() item: OrderEntry;
   @Input('items')
   set items(items: OrderEntry[]) {
     this._setItems(items);
@@ -92,7 +84,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     }
   }
   readonly CartOutlets = CartOutlets;
-  readonly quoteOutlet = quoteOutlet;
+
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,

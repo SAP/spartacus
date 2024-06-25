@@ -1,7 +1,7 @@
 {
   "name": "@spartacus/cpq-quote",
-  "version": "2211.23.0",
-  "description": "Quote Discount Percentage",
+  "version": "2211.24.1",
+  "description": "cpq-quote library for Spartacus",
   "keywords": [
     "spartacus",
     "framework",
@@ -9,11 +9,11 @@
     "cpq-quote"
   ],
   "homepage": "https://github.com/SAP/spartacus",
-  "repository": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/cpq-quote",
   "license": "Apache-2.0",
   "scripts": {
-    "build:schematics": "npm run clean:schematics && npx tsc -p ./tsconfig.schematics.json",
-    "clean:schematics": "npx rimraf --glob \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "build:schematics": "npm run clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean:schematics": "../../node_modules/.bin/rimraf --glob \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
     "test:schematics": "npm --prefix ../../projects/schematics/ run clean && npm run clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
@@ -23,10 +23,10 @@
     "@angular-devkit/schematics": "^17.0.5",
     "@angular/common": "^17.0.5",
     "@angular/core": "^17.0.5",
-    "@spartacus/cart": "2211.23.0",
-    "@spartacus/core": "2211.23.0",
-    "@spartacus/schematics": "2211.23.0",
-    "@spartacus/storefront": "2211.23.0",
+    "@spartacus/cart": "2211.24.1",
+    "@spartacus/core": "2211.24.1",
+    "@spartacus/schematics": "2211.24.1",
+    "@spartacus/storefront": "2211.24.1",
     "rxjs": "^7.8.0"
   },
   "publishConfig": {

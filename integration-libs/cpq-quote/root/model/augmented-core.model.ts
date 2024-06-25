@@ -4,9 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/**
- * Identifiers of cpq-quote.
- */
 import '@spartacus/cart/base/root';
 import { CpqDiscounts } from './cpqDiscounts.model';
 

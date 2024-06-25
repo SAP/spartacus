@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "2211.23.0",
+  "version": "2211.24.1",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -69,8 +69,7 @@
       "@spartacus/epd-visualization",
       "@spartacus/s4om",
       "@spartacus/customer-ticketing",
-      "@spartacus/estimated-delivery-date",
-      "@spartacus/cpq-quote"
+      "@spartacus/estimated-delivery-date"
     ]
   },
   "schematics": "./src/collection.json"

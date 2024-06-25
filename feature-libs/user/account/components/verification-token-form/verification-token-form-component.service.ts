@@ -61,11 +61,11 @@ export class VerificationTokenFormComponentService {
       .subscribe();
   }
 
-  displayMessage(target: string) {
+  displayMessage(key: string, params: Object) {
     this.globalMessage.add(
       {
-        key: 'verificationTokenForm.createVerificationToken',
-        params: { target },
+        key: key,
+        params,
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION,
       globalMsgShowTime

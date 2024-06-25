@@ -1,0 +1,21 @@
+<ng-container
+  *ngIf="
+    quoteDiscountData &&
+    quoteDiscountData.basePrice?.value !== undefined &&
+    quoteDiscountData.cpqDiscounts &&
+    quoteDiscountData.cpqDiscounts.length > 0
+  "
+  class="cx-cpq-quote-discount"
+>
+  <ng-container *ngFor="let discount of quoteDiscountData.cpqDiscounts">
+    <div class="cx-offer">
+      {{
+        'discountCaption'
+          | cxTranslate
+            : {
+                discount: discount?.value,
+              }
+      }}
+    </div></ng-container
+  >
+</ng-container>

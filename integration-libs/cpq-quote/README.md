@@ -1,7 +1,8 @@
-This library provides Discount percentage to Spartacus UI.
+# Cpq-Quote
+This library provides a discount percentage to the Spartacus UI.
 
-As an end user utilizing the SAP Commerce B2B Storefront,
- it's imperative for transparency and informed decision-making that  can easily access and comprehend the discount percentage displayed on the Quote Table.
+As an end user utilizing the SAP Commerce B2B Storefront, it's imperative for transparency and informed decision-making that users can easily access and comprehend the discount percentage displayed on the Quote Table.
 
- Additionally, maintaining the UI consistency with the current Accelerator UI for the proposal document enhances user familiarity and usability,
-streamlining the overall experience and minimizing potential confusion or disruptions in workflow.
+It can be added to the existing Spartacus application by running `ng add @spartacus/cpq-quote`. For more information about Spartacus schematics, visit the [official Spartacus schematics documentation page.](https://sap.github.io/spartacus-docs/schematics/)
+
+For more information, see [Spartacus](https://github.com/SAP/spartacus).

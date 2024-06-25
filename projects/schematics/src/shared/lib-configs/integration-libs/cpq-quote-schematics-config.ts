@@ -5,29 +5,22 @@
  */
 
 import {
+  CART_BASE_FEATURE_NAME,
   CPQ_QUOTE_FEATURE_NAME,
-  QUOTE_FEATURE_NAME,
   SPARTACUS_CPQ_QUOTE,
   SPARTACUS_CPQ_QUOTE_ASSETS,
   SPARTACUS_CPQ_QUOTE_ROOT,
-  SPARTACUS_QUOTE,
-  SPARTACUS_QUOTE_ASSETS,
-  SPARTACUS_QUOTE_ROOT,
 } from '../../libs-constants';
 import { SchematicConfig } from '../../utils/lib-utils';
-import { QUOTE_MODULE } from '../quote-schematics-config';
+import { CART_BASE_MODULE } from '../cart-schematics-config';
 
-export const CPQ_QUOTE_FEATURE_NAME_CONSTANT = 'CPQ_QUOTE_FEATURE_NAME';
 export const CPQ_QUOTE_FOLDER_NAME = 'cpq-quote';
+export const CPQ_QUOTE_MODULE_NAME = 'CpqQuote';
+export const CPQ_QUOTE_MODULE_ROOT = 'CpqQuoteRootModule';
 export const CPQ_QUOTE_TRANSLATIONS = 'cpqquoteTranslations';
 export const CPQ_QUOTE_TRANSLATION_CHUNKS_CONFIG =
   'cpqquoteTranslationChunksConfig';
-export const CPQ_QUOTE_DISCOUNT_B_MODULE = 'CpqQuoteRootModule'; //root Blank Module
-export const CPQ_QUOTE_MODULE = 'CpqQuoteModule'; //pushed wraper
-
-
-
-
+export const CPQ_QUOTE_MODULE = 'CpqQuoteModule'; //pushed
 
 export const CPQ_QUOTE_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
@@ -35,13 +28,13 @@ export const CPQ_QUOTE_SCHEMATICS_CONFIG: SchematicConfig = {
     mainScope: SPARTACUS_CPQ_QUOTE,
   },
   folderName: CPQ_QUOTE_FOLDER_NAME,
-  moduleName: CPQ_QUOTE_MODULE,
+  moduleName: CPQ_QUOTE_MODULE_NAME,
   featureModule: {
     name: CPQ_QUOTE_MODULE,
     importPath: SPARTACUS_CPQ_QUOTE,
   },
   rootModule: {
-    name: CPQ_QUOTE_DISCOUNT_B_MODULE,
+    name: CPQ_QUOTE_MODULE_ROOT,
     importPath: SPARTACUS_CPQ_QUOTE_ROOT,
   },
   i18n: {
@@ -49,15 +42,10 @@ export const CPQ_QUOTE_SCHEMATICS_CONFIG: SchematicConfig = {
     chunks: CPQ_QUOTE_TRANSLATION_CHUNKS_CONFIG,
     importPath: SPARTACUS_CPQ_QUOTE_ASSETS,
   },
-  dependencyFeatures: [
-    SPARTACUS_QUOTE,
-    SPARTACUS_QUOTE_ROOT,
-    SPARTACUS_QUOTE_ASSETS,
-    QUOTE_FEATURE_NAME,
-  ],
+  dependencyFeatures: [CART_BASE_FEATURE_NAME],
   importAfter: [
     {
-      markerModuleName: QUOTE_MODULE,
+      markerModuleName: CART_BASE_MODULE,
       featureModuleName: CPQ_QUOTE_MODULE,
     },
   ],

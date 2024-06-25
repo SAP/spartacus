@@ -3,6 +3,19 @@
     "baseUrl": "./",
     "module": "CommonJs",
     "types": ["jest"],
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "paths": {
       "@spartacus/schematics": ["../../projects/schematics/index"],
       "@spartacus/setup": ["../../core-libs/setup/public_api"],
@@ -198,6 +211,17 @@
       ],
       "@spartacus/estimated-delivery-date/show-estimated-delivery-date": [
         "../../feature-libs/estimated-delivery-date/show-estimated-delivery-date/public_api"
+      ],
+
+      "@spartacus/cpq-quote/assets": [
+        "../../integration-libs/cpq-quote/assets/public_api"
+      ],
+      "@spartacus/cpq-quote": ["../../integration-libs/cpq-quote/public_api"],
+      "@spartacus/cpq-quote/root": [
+        "../../integration-libs/cpq-quote/root/public_api"
+      ],
+      "@spartacus/cpq-quote/cpq-quote-discount": [
+        "../../integration-libs/cpq-quote/cpq-quote-discount/public_api"
       ],
       "@spartacus/order/assets": ["../../feature-libs/order/assets/public_api"],
       "@spartacus/order/components": [
@@ -547,16 +571,6 @@
       ],
       "@spartacus/cdp": ["../../integration-libs/cdp/public_api"],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
-      "@spartacus/cpq-quote/assets": [
-        "../../integration-libs/cpq-quote/assets/public_api"
-      ],
-      "@spartacus/cpq-quote/discount": [
-        "../../integration-libs/cpq-quote/discount/public_api"
-      ],
-      "@spartacus/cpq-quote": ["../../integration-libs/cpq-quote/public_api"],
-      "@spartacus/cpq-quote/root": [
-        "../../integration-libs/cpq-quote/root/public_api"
-      ],
       "@spartacus/digital-payments/assets": [
         "../../integration-libs/digital-payments/assets/public_api"
       ],
@@ -597,20 +611,7 @@
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/storefront": ["../../projects/storefrontlib/public_api"]
-    },
-    "noEmitOnError": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noUnusedParameters": true,
-    "noUnusedLocals": true,
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true
+    }
   },
   "include": ["schematics/**/*.ts"],
   "exclude": ["schematics/*/files/**/*", "schematics/**/*_spec.ts"]

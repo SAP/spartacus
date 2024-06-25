@@ -76,6 +76,7 @@ import { CheckoutFeatureModule } from './features/checkout/checkout-feature.modu
 import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
+import { EstimatedDeliveryDateFeatureModule } from './features/estimated-delivery-date/estimated-delivery-date-feature.module';
 import { OppsFeatureModule } from './features/opps/opps-feature.module';
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
@@ -91,18 +92,17 @@ import { FutureStockFeatureModule } from './features/product/product-future-stoc
 import { ImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
 import { VariantsFeatureModule } from './features/product/product-variants-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
-import { QuoteFeatureModule } from './features/quote/quote-feature.module';
+import { QuoteFeatureModule } from './features/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
 import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
-import { EstimatedDeliveryDateFeatureModule } from './features/estimated-delivery-date/estimated-delivery-date-feature.module';
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-import { CPQQUOTEFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
-// import { CPQQUOTEFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
+import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
+
 const featureModules = [];
 
 if (environment.b2b) {
@@ -150,10 +150,10 @@ if (environment.requestedDeliveryDate) {
 if (environment.estimatedDeliveryDate) {
   featureModules.push(EstimatedDeliveryDateFeatureModule);
 }
-if (environment.cpq) {
-  featureModules.push(CPQQUOTEFeatureModule);
-}
 
+if (environment.cpq) {
+  featureModules.push(CpqQuoteFeatureModule);
+}
 @NgModule({
   imports: [
     // Auth Core
@@ -273,6 +273,9 @@ if (environment.cpq) {
     // CXSPA-6793: refactor to`provideFeatureToggles` and `satisfies` keyword
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        formErrorsDescriptiveMessages: true,
+        useExtractedBillingAddressComponent: false,
+        showBillingAddressInDigitalPayments: false,
         showDownloadProposalButton: false,
         showPromotionsInPDP: false,
         recentSearches: false,
@@ -308,10 +311,20 @@ if (environment.cpq) {
         a11yFocusableCarouselControls: true,
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
+        a11yOrganizationLinkableCells: true,
+        a11yPreventSRFocusOnHiddenElements: true,
         a11yVisibleFocusOverflows: true,
         a11yTruncatedTextForResponsiveView: true,
+        a11ySemanticPaginationLabel: true,
         a11yMyAccountLinkOutline: true,
         a11yCloseProductImageBtnFocus: true,
+        a11yNotificationPreferenceFieldset: true,
+        a11yImproveContrast: true,
+        a11yEmptyWishlistHeading: true,
+        a11yUseButtonsForBtnLinks: true,
+        a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
+          true,
+        a11yFacetsDialogFocusHandling: true,
       };
       return appFeatureToggles;
     }),

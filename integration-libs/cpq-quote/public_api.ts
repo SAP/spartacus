@@ -5,8 +5,7 @@
  */
 
 /*
- * Public API Surface of cpq-quote
+ * Public API Surface of estimated-delivery-date
  */
-
-export * from './discount/public_api';
 export * from './cpq-quote.module';
+export * from './cpq-quote-discount/public_api';

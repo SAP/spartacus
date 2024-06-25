@@ -10,19 +10,24 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  CART_BASE_FEATURE_NAME,
   CPQ_QUOTE_FEATURE_NAME,
-  LibraryOptions as CpqQuoteOptions,
+  SPARTACUS_CART_BASE,
   SPARTACUS_CPQ_QUOTE,
   SPARTACUS_SCHEMATICS,
+  LibraryOptions as SpartacusCpqQuoteOptions,
   SpartacusOptions,
-  cpqQuoteFeatureModulePath,
+  cartBaseWrapperModulePath,
+  orderFeatureModulePath,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-
-describe('Spartacus Cpq Quote Discount Display: ng-add', () => {
+const featureModulePath =
+  'src/app/spartacus/features/cpq-quote/cpq-quote-feature.module.ts';
+describe('Spartacus Cpq-quote', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_CPQ_QUOTE,
     collectionPath
@@ -51,13 +56,18 @@ describe('Spartacus Cpq Quote Discount Display: ng-add', () => {
     features: [],
   };
 
-  const libraryNoFeaturesOptions: CpqQuoteOptions = {
+  const libraryNoFeaturesOptions: SpartacusCpqQuoteOptions = {
     project: 'schematics-test',
     lazy: true,
     features: [],
   };
 
-  const rddOptions: CpqQuoteOptions = {
+  const cartBaseFeatureOptions: SpartacusCpqQuoteOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CART_BASE_FEATURE_NAME],
+  };
+
+  const cpqQuoteFeatureOptions: SpartacusCpqQuoteOptions = {
     ...libraryNoFeaturesOptions,
     features: [CPQ_QUOTE_FEATURE_NAME],
   };
@@ -65,7 +75,17 @@ describe('Spartacus Cpq Quote Discount Display: ng-add', () => {
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
+      path.join(
+        __dirname,
+        '../../../../projects/schematics/src/collection.json'
+      )
+    );
+    schematicRunner.registerCollection(
+      SPARTACUS_CART_BASE,
+      path.join(
+        __dirname,
+        '../../../../feature-libs/checkout/schematics/collection.json'
+      )
     );
 
     appTree = await schematicRunner.runExternalSchematic(
@@ -99,64 +119,82 @@ describe('Spartacus Cpq Quote Discount Display: ng-add', () => {
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(cpqQuoteFeatureModulePath)).toBeFalsy();
-    });
-
-    it('should install necessary Spartacus libraries', () => {
-      const packageJson = JSON.parse(appTree.readContent('package.json'));
-      let dependencies: Record<string, string> = {};
-      dependencies = { ...packageJson.dependencies };
-      dependencies = { ...dependencies, ...packageJson.devDependencies };
-
-      for (const toAdd in peerDependencies) {
-        // skip the SPARTACUS_SCHEMATICS, as those are added only when running by the Angular CLI, and not in the testing environment
-        if (
-          !peerDependencies.hasOwnProperty(toAdd) ||
-          toAdd === SPARTACUS_SCHEMATICS
-        ) {
-          continue;
-        }
-        // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
-        // const expectedVersion = (peerDependencies as Record<
-        //   string,
-        //   string
-        // >)[toAdd];
-        const expectedDependency = dependencies[toAdd];
-        expect(expectedDependency).toBeTruthy();
-        // expect(expectedDependency).toEqual(expectedVersion);
-      }
+      expect(appTree.exists(featureModulePath)).toBeFalsy();
     });
   });
 
-  describe('CPQ QUOTE DISCOUNT feature', () => {
+  describe('CPQ-QUOTE feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
-          rddOptions,
+          cartBaseFeatureOptions,
+          appTree
+        );
+
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          cpqQuoteFeatureOptions,
           appTree
         );
       });
 
+      it('should install necessary Spartacus libraries', async () => {
+        const packageJson = JSON.parse(appTree.readContent('package.json'));
+        let dependencies: Record<string, string> = {};
+        dependencies = { ...packageJson.dependencies };
+        dependencies = { ...dependencies, ...packageJson.devDependencies };
+
+        for (const toAdd in peerDependencies) {
+          if (
+            !peerDependencies.hasOwnProperty(toAdd) ||
+            toAdd === SPARTACUS_SCHEMATICS
+          ) {
+            continue;
+          }
+          const expectedDependency = dependencies[toAdd];
+          expect(expectedDependency).toBeTruthy();
+        }
+      });
+
+      it('should NOT install the required feature dependencies', async () => {
+        const userFeatureModule = appTree.readContent(userFeatureModulePath);
+        expect(userFeatureModule).toBeFalsy();
+
+        const orderFeatureModule = appTree.readContent(orderFeatureModulePath);
+        expect(orderFeatureModule).toBeFalsy();
+      });
+
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(cpqQuoteFeatureModulePath);
+        const module = appTree.readContent(featureModulePath);
         expect(module).toMatchSnapshot();
-      });
 
-      describe('eager loading', () => {
-        beforeEach(async () => {
-          appTree = await schematicRunner.runSchematic(
-            'ng-add',
-            { ...rddOptions, lazy: false },
-            appTree
-          );
-        });
-
-        it('should import appropriate modules', async () => {
-          const module = appTree.readContent(cpqQuoteFeatureModulePath);
-          expect(module).toMatchSnapshot();
-        });
+        const wrapperModule = appTree.readContent(cartBaseWrapperModulePath);
+        expect(wrapperModule).toMatchSnapshot();
       });
+    });
+  });
+
+  describe('eager loading', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        { ...cartBaseFeatureOptions, lazy: false },
+        appTree
+      );
+
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        { ...cpqQuoteFeatureOptions, lazy: false },
+        appTree
+      );
+    });
+
+    it('should import appropriate modules', async () => {
+      const module = appTree.readContent(featureModulePath);
+      expect(module).toMatchSnapshot();
+
+      expect(appTree.readContent(cartBaseWrapperModulePath)).toBeFalsy();
     });
   });
 });

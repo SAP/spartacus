@@ -37,6 +37,7 @@ import { cold } from 'jasmine-marbles';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { skip, take } from 'rxjs/operators';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   updateEntry(_entryNumber: number, _quantity: number): void {}
@@ -110,6 +111,7 @@ const routerState = new BehaviorSubject<RouterState>({
 } as RouterState);
 
 class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
   getRouterState = () => routerState;
 }
 
@@ -138,6 +140,7 @@ describe('AddedToCartDialogComponent', () => {
   let el: DebugElement;
   let activeCartFacade: ActiveCartFacade;
   let launchDialogService: LaunchDialogService;
+  let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -155,6 +158,7 @@ describe('AddedToCartDialogComponent', () => {
         MockCartItemComponent,
         MockUrlPipe,
         MockCxIconComponent,
+        MockFeatureDirective,
       ],
       providers: [
         {
@@ -177,6 +181,7 @@ describe('AddedToCartDialogComponent', () => {
     activeCartFacade = TestBed.inject(ActiveCartFacade);
 
     launchDialogService = TestBed.inject(LaunchDialogService);
+    routingService = TestBed.inject(RoutingService);
 
     spyOn(activeCartFacade, 'updateEntry').and.callThrough();
 
@@ -435,6 +440,34 @@ describe('AddedToCartDialogComponent', () => {
           PRODUCT_CODE
         );
       });
+    });
+  });
+
+  describe('onAction()', () => {
+    it('should redirect to the cart view on "View Cart" button click', () => {
+      spyOn(routingService, 'go');
+      spyOn(component, 'dismissModal');
+      fixture.detectChanges();
+      const viewCartBtn = el.query(
+        By.css('.cx-dialog-buttons button.btn-primary')
+      );
+      viewCartBtn.triggerEventHandler('click');
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
+      expect(component.dismissModal).toHaveBeenCalledWith('View Cart click');
+    });
+
+    it('should redirect to the checkout view on "Proceed to Checkout" button click', () => {
+      spyOn(routingService, 'go');
+      spyOn(component, 'dismissModal');
+      fixture.detectChanges();
+      const checkoutBtn = el.query(
+        By.css('.cx-dialog-buttons button.btn-secondary')
+      );
+      checkoutBtn.triggerEventHandler('click');
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'checkout' });
+      expect(component.dismissModal).toHaveBeenCalledWith(
+        'Proceed To Checkout click'
+      );
     });
   });
 });

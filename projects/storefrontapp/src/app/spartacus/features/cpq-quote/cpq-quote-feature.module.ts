@@ -6,16 +6,14 @@
 
 import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from '@spartacus/core';
-import { CpqDiscountModule } from '@spartacus/cpq-quote';
 import {
-  cpqquoteTranslations,
   cpqquoteTranslationChunksConfig,
+  cpqquoteTranslations,
 } from '@spartacus/cpq-quote/assets';
 import { CpqQuoteRootModule } from '@spartacus/cpq-quote/root';
 
 @NgModule({
-  imports: [CpqQuoteRootModule,CpqDiscountModule],
-  // imports: [CpqQuoteRootModule],
+  imports: [CpqQuoteRootModule],
   providers: [
     provideConfig(<I18nConfig>{
       i18n: {
@@ -26,5 +24,4 @@ import { CpqQuoteRootModule } from '@spartacus/cpq-quote/root';
     }),
   ],
 })
-export class CPQQUOTEFeatureModule {}
-
+export class CpqQuoteFeatureModule {}

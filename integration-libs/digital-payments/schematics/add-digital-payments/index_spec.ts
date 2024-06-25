@@ -174,6 +174,7 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(digitalPaymentsFeatureModulePath);
         expect(module).toMatchSnapshot();
+
         const wrapperModule = appTree.readContent(checkoutWrapperModulePath);
         expect(wrapperModule).toMatchSnapshot();
       });

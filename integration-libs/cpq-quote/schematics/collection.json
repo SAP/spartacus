@@ -3,7 +3,7 @@
   "schematics": {
     "ng-add": {
       "factory": "./add-cpq-quote/index#addCpqQuoteFeature",
-      "description": "Add and configure Spartacus' cpq quote discount  feature",
+      "description": "Add Cpq-Quote",
       "schema": "./add-cpq-quote/schema.json",
       "private": true,
       "hidden": true,
@@ -11,7 +11,7 @@
     },
     "add": {
       "factory": "./add-cpq-quote/index#addCpqQuoteFeature",
-      "description": "Add and configure Spartacus' cpq quote discount feature",
+      "description": "Add and configure Cpq-Quote feature",
       "schema": "./add-cpq-quote/schema.json"
     }
   }
