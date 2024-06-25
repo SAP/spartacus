@@ -90,7 +90,7 @@ import { ProductConfiguratorTextfieldFeatureModule } from './features/product-co
 import { BulkPricingFeatureModule } from './features/product/product-bulk-pricing-feature.module';
 import { FutureStockFeatureModule } from './features/product/product-future-stock-feature.module';
 import { ImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
-import { VariantsFeatureModule } from './features/product/product-variants-feature.module';
+// import { VariantsFeatureModule } from './features/product/product-variants-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
 import { QuoteFeatureModule } from './features/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
@@ -101,6 +101,7 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { VariantsMultidimensionalFeatureModule } from './features/product/variants-multidimensional-feature.module';
 
 const featureModules = [];
 
@@ -246,7 +247,8 @@ if (environment.estimatedDeliveryDate) {
 
     SmartEditFeatureModule,
 
-    VariantsFeatureModule,
+    // VariantsFeatureModule,
+    VariantsMultidimensionalFeatureModule,
     ImageZoomFeatureModule,
 
     QuoteFeatureModule,

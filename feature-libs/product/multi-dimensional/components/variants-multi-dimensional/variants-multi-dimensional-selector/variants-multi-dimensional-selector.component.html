@@ -1,0 +1,44 @@
+<ng-container *ngIf="product">
+  <div class="variant-generic-selector">
+    <ng-container *ngFor="let variant of variants">
+      <label>{{ variant.name }}</label>
+
+      <div
+        *ngIf="variantHasImages(variant.categoryVariants); else noImages"
+        class="image-variant-container"
+      >
+        <!-- TO DO check 3 element for image -->
+        <cx-media
+          *ngFor="let category of variant.categoryVariants"
+          (click)="changeVariant(category.variantOption?.code)"
+          [container]="
+            getVariantOptionImages(
+              category.variantOption?.variantOptionQualifiers
+            )
+          "
+          [ngClass]="{ active: category.variantOption?.code === product.code }"
+          [title]="category.variantValueCategory?.name"
+          class="image-variant"
+        >
+        </cx-media>
+      </div>
+
+      <ng-template #noImages>
+        <div class="select-variant-container">
+          <select
+            (change)="changeVariant($event.target.value)"
+            class="form-control"
+          >
+            <option
+              *ngFor="let cat of variant.categoryVariants"
+              [value]="cat.variantOption?.code"
+              [selected]="isSelected(cat)"
+            >
+              {{ cat.variantValueCategory?.name }}
+            </option>
+          </select>
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+</ng-container>
