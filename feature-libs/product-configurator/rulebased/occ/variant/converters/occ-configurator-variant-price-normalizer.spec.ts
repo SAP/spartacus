@@ -1,13 +1,27 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService } from '@spartacus/core';
-import { OccConfiguratorTestUtils } from '../../../testing/occ-configurator-test-utils';
-import { OccConfiguratorVariantPriceNormalizer } from './occ-configurator-variant-price-normalizer';
-import { OccConfigurator } from '../variant-configurator-occ.models';
+import { ConverterService, FeatureConfigService } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { OccConfiguratorTestUtils } from '../../../testing/occ-configurator-test-utils';
+import { OccConfigurator } from '../variant-configurator-occ.models';
+import { OccConfiguratorVariantPriceNormalizer } from './occ-configurator-variant-price-normalizer';
+
+const emptySource: OccConfigurator.Prices = {
+  configId: 'configId',
+};
 
 class MockConverterService {
   convert() {}
+}
+
+let productConfigurationDeltaRenderingEnabled = false;
+class MockFeatureConfigService {
+  isEnabled(name: string): boolean {
+    if (name === 'productConfigurationDeltaRendering') {
+      return productConfigurationDeltaRenderingEnabled;
+    }
+    return false;
+  }
 }
 
 describe('OccConfiguratorVariantPriceNormalizer', () => {
@@ -18,6 +32,7 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
       providers: [
         OccConfiguratorVariantPriceNormalizer,
         { provide: ConverterService, useClass: MockConverterService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
@@ -79,10 +94,8 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
 
   describe('convert', () => {
     it('should return a configuration with empty list of price supplements', () => {
-      const source: OccConfigurator.Prices = {
-        configId: 'configId',
-      };
-      const result: Configurator.Configuration = classUnderTest.convert(source);
+      const result: Configurator.Configuration =
+        classUnderTest.convert(emptySource);
       expect(result.priceSupplements?.length).toBe(0);
     });
 
@@ -120,6 +133,17 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
         expect(suppl.valueSupplements[1].attributeValueKey).toBe('value_3_2');
         expect(suppl.valueSupplements[2].attributeValueKey).toBe('value_3_3');
       }
+    });
+    it('should set merge price supplements flag to false when performance optimization is active', () => {
+      productConfigurationDeltaRenderingEnabled = true;
+      const result = classUnderTest.convert(emptySource);
+      expect(result.mergePriceSupplements).toBe(false);
+    });
+
+    it('should set merge price supplements flag to true when performance optimization is NOT active', () => {
+      productConfigurationDeltaRenderingEnabled = false;
+      const result = classUnderTest.convert(emptySource);
+      expect(result.mergePriceSupplements).toBe(true);
     });
   });
 });

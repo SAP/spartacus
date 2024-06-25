@@ -112,6 +112,19 @@ const CONFIGURATION_WITHOUT_OV: Configurator.Configuration = {
 const CURRENT_GROUP = 'currentGroupId';
 const PARENT_GROUP = 'parentGroupId';
 
+const priceSupplements: Configurator.AttributeSupplement[] = [
+  {
+    attributeUiKey: GROUP_ID_2 + '@' + ATTRIBUTE_NAME,
+    valueSupplements: [
+      {
+        attributeValueKey: VALUE_CODE,
+        priceValue: PRICE_DETAILS,
+        obsoletePriceValue: PRICE_DETAILS,
+      },
+    ],
+  },
+];
+
 describe('Configurator reducer', () => {
   describe('Undefined action', () => {
     it('should return the default state', () => {
@@ -403,34 +416,38 @@ describe('Configurator reducer', () => {
           'A',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        priceSupplements: [
-          {
-            attributeUiKey: GROUP_ID_2 + '@' + ATTRIBUTE_NAME,
-            valueSupplements: [
-              {
-                attributeValueKey: VALUE_CODE,
-                priceValue: PRICE_DETAILS,
-                obsoletePriceValue: PRICE_DETAILS,
-              },
-            ],
-          },
-        ],
+        mergePriceSupplements: true,
+        priceSupplements: priceSupplements,
       };
       const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
         configurationWithPriceSummary
       );
       const result = StateReduce.configuratorReducer(firstState, action);
-      const attributes = result.groups[0].attributes;
-      if (attributes) {
-        const values = attributes[0].values;
-        if (values) {
-          expect(values[0].valuePrice).toEqual(PRICE_DETAILS);
-        } else {
-          fail();
-        }
-      } else {
-        fail();
-      }
+      const price = result.groups[0]?.attributes?.[0]?.values?.[0].valuePrice;
+      expect(price).toEqual(PRICE_DETAILS);
+    });
+
+    it('should NOT merge supplement data into existing groups if not requested ', () => {
+      const actionProvidingState =
+        new ConfiguratorActions.CreateConfigurationSuccess(CONFIGURATION);
+      const firstState = StateReduce.configuratorReducer(
+        undefined,
+        actionProvidingState
+      );
+      const configurationWithPriceSummary: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(
+          'A',
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
+        mergePriceSupplements: false,
+        priceSupplements: priceSupplements,
+      };
+      const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
+        configurationWithPriceSummary
+      );
+      const result = StateReduce.configuratorReducer(firstState, action);
+      const price = result.groups[0]?.attributes?.[0]?.values?.[0].valuePrice;
+      expect(price).toBeUndefined();
     });
   });
 

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Converter } from '@spartacus/core';
+import { Injectable, inject } from '@angular/core';
+import { Converter, FeatureConfigService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
@@ -14,6 +14,8 @@ import { Configurator } from './../../../core/model/configurator.model';
 export class OccConfiguratorVariantPriceNormalizer
   implements Converter<OccConfigurator.Prices, Configurator.Configuration>
 {
+  protected featureConfig = inject(FeatureConfigService);
+
   convert(
     source: OccConfigurator.Prices,
     target?: Configurator.Configuration
@@ -35,6 +37,9 @@ export class OccConfiguratorVariantPriceNormalizer
       interactionState: {},
       priceSummary: source?.priceSummary,
       priceSupplements: priceSupplements,
+      mergePriceSupplements: !this.featureConfig.isEnabled(
+        'productConfigurationDeltaRendering'
+      ),
     };
 
     return resultTarget;
