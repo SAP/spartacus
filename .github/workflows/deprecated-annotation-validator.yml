@@ -1,0 +1,22 @@
+name: Check Deprecated Annotations
+
+on:
+  pull_request:
+    paths:
+      - '**/*.ts'
+
+jobs:
+  check-deprecated:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Fetch PR changes
+        run: |
+          git fetch origin +refs/pull/${{ github.event.pull_request.number }}/merge
+          git checkout -qf FETCH_HEAD
+
+      - name: Run deprecated check script
+        run: source ci-scripts/deprecated-annotation-validator.sh
