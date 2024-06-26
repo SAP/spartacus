@@ -346,6 +346,12 @@ export interface FeatureTogglesInterface {
    * New "Back To Results" button is added
    */
   a11yFacetsDialogFocusHandling?: boolean;
+
+  /**
+   * Replaces buttons resembling links with tetriary buttons in the following components:
+   * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
+   */
+  a11yLinkBtnsToTertiaryBtns?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -403,4 +409,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUseButtonsForBtnLinks: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
+  a11yLinkBtnsToTertiaryBtns: false,
 };
