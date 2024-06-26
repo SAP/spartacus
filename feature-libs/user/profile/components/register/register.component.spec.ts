@@ -200,6 +200,18 @@ describe('RegisterComponent', () => {
           provide: AuthConfigService,
           useClass: MockAuthConfigService,
         },
+        {
+          provide: SiteAdapter,
+          useClass: MockSiteAdapter,
+        },
+        {
+          provide: BaseSiteService,
+          useClass: MockBaseSiteService,
+        },
+        {
+          provide: LanguageService,
+          useClass: MockLanguageService,
+        },
       ],
     }).compileComponents();
   }));

@@ -32,17 +32,15 @@ describe('Captcha Component', () => {
   let fixture: ComponentFixture<CaptchaComponent>;
   let service: CaptchaProvider;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [CaptchaComponent],
-        providers: [
-          { provide: CaptchaApiConfig, useValue: mockCaptchaApiConfig },
-          MockCaptchaService,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [CaptchaComponent],
+      providers: [
+        { provide: CaptchaApiConfig, useValue: mockCaptchaApiConfig },
+        MockCaptchaService,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CaptchaComponent);
