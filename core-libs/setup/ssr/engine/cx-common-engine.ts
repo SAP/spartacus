@@ -9,8 +9,7 @@ import {
   CommonEngineOptions,
   CommonEngineRenderOptions,
 } from '@angular/ssr';
-import { CxServerErrorResponse } from '../error-handling';
-import { PROPAGATE_SERVER_ERROR_RESPONSE } from '../error-handling/server-error-response/propagate-server-error-response';
+import { PROPAGATE_ERROR_RESPONSE } from '../error-handling/error-response/propagate-error-response';
 
 /**
  * The Spartacus extension of the CommonEngine introduced to handle propagated server responses caught during server-side rendering.
@@ -33,16 +32,16 @@ export class CxCommonEngine extends CommonEngine {
    *                            OR rejects with the server error response object, if any is propagated from the rendered app.
    */
   override async render(options: CommonEngineRenderOptions): Promise<string> {
-    let errorResponse: undefined | CxServerErrorResponse;
+    let errorResponse: undefined | unknown;
 
     return super
       .render({
         ...options,
         providers: [
           {
-            provide: PROPAGATE_SERVER_ERROR_RESPONSE,
+            provide: PROPAGATE_ERROR_RESPONSE,
             useFactory: () => {
-              return (serverErrorResponse: CxServerErrorResponse) => {
+              return (serverErrorResponse: unknown) => {
                 // We're interested only the first propagated error, so we use `??=` instead of `=`:
                 errorResponse ??= serverErrorResponse;
               };

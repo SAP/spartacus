@@ -4,8 +4,7 @@ import '@angular/compiler';
 import { Component, InjectionToken, NgModule, inject } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ServerModule } from '@angular/platform-server';
-import { PROPAGATE_SERVER_ERROR_RESPONSE } from '../error-handling/server-error-response/propagate-server-error-response';
-import { CmsPageNotFoundServerErrorResponse } from '../public_api';
+import { PROPAGATE_ERROR_RESPONSE } from '../error-handling/error-response/propagate-error-response';
 import { CxCommonEngine } from './cx-common-engine';
 
 // Test how the CxCommonEngine handles successful server-side rendering
@@ -19,16 +18,14 @@ export class SuccessComponent {}
 })
 export class SuccessServerModule {}
 
-// Test how the CxCommonEngine handles propagated server errors
+// Test how the CxCommonEngine handles propagated error responses
 @Component({
   selector: 'cx-response',
   template: ``,
 })
 export class WithPropagatedErrorComponent {
   constructor() {
-    inject(PROPAGATE_SERVER_ERROR_RESPONSE)(
-      new CmsPageNotFoundServerErrorResponse({ message: 'test error' })
-    );
+    inject(PROPAGATE_ERROR_RESPONSE)(new Error('test error'));
   }
 }
 
