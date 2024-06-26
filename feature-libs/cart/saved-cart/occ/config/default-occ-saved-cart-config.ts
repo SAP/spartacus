@@ -25,7 +25,7 @@ export const newDefaultOccSavedCartConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        ...defaultOccSavedCartConfig.backend.occ.endpoints,
+        ...defaultOccSavedCartConfig?.backend?.occ?.endpoints,
         cloneSavedCart: '/users/${userId}/carts/${cartId}/clonesavedcart',
       },
     },

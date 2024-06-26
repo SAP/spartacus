@@ -35,7 +35,7 @@ export const newDefaultOccCartConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        ...defaultOccCartConfig.backend.occ.endpoints,
+        ...defaultOccCartConfig?.backend?.occ?.endpoints,
         saveCart: '/users/${userId}/carts/${cartId}/save',
       },
     },

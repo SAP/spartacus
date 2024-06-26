@@ -23,10 +23,9 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OccSavedCartAdapter implements SavedCartAdapter {
-  @Optional() protected featureConfigService?: FeatureConfigService = inject(
-    FeatureConfigService,
-    { optional: true }
-  );
+  @Optional() protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   constructor(
     protected http: HttpClient,
