@@ -364,7 +364,7 @@ export class ConfiguratorTestUtils {
 
   static getAttributeContext(): ConfiguratorAttributeCompositionContext {
     return {
-      componentKey: '',
+      componentKey: 'testComponent',
       attribute: { name: 'attributeName' },
       owner: ConfiguratorModelUtils.createInitialOwner(),
       group: { id: 'id', subGroups: [] },

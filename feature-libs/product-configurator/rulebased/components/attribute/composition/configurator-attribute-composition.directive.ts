@@ -10,21 +10,41 @@ import {
   Injector,
   Input,
   isDevMode,
+  OnChanges,
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
-import { LoggerService } from '@spartacus/core';
-import { ConfiguratorAttributeCompositionConfig } from './configurator-attribute-composition.config';
+import {
+  FeatureConfigService,
+  LoggerService,
+  ObjectComparisonUtils,
+} from '@spartacus/core';
+import {
+  AttributeComponentAssignment,
+  ConfiguratorAttributeCompositionConfig,
+} from './configurator-attribute-composition.config';
 import { ConfiguratorAttributeCompositionContext } from './configurator-attribute-composition.model';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
+
+const FEATURE_TOGGLE_PERF = 'productConfigurationDeltaRendering';
 
 @Directive({
   selector: '[cxConfiguratorAttributeComponent]',
 })
-export class ConfiguratorAttributeCompositionDirective implements OnInit {
+export class ConfiguratorAttributeCompositionDirective
+  implements OnInit, OnChanges
+{
   @Input('cxConfiguratorAttributeComponent')
   context: ConfiguratorAttributeCompositionContext;
 
+  protected lastRenderedAttribute: Configurator.Attribute;
+
   protected logger = inject(LoggerService);
+  protected featureConfig = inject(FeatureConfigService);
+
+  private readonly attrCompAssignment: AttributeComponentAssignment =
+    this.configuratorAttributeCompositionConfig.productConfigurator
+      ?.assignment ?? [];
 
   constructor(
     protected vcr: ViewContainerRef,
@@ -32,18 +52,34 @@ export class ConfiguratorAttributeCompositionDirective implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const componentKey = this.context.componentKey;
+    if (!this.featureConfig.isEnabled('productConfigurationDeltaRendering')) {
+      const componentKey = this.context.componentKey;
+      this.renderComponent(this.attrCompAssignment[componentKey], componentKey);
+    }
+  }
 
-    const composition =
-      this.configuratorAttributeCompositionConfig.productConfigurator
-        ?.assignment;
-    if (composition) {
-      this.renderComponent(composition[componentKey], componentKey);
+  /*
+   * Each time we update the configuration a complete new configuration state is emitted, including new attributes objects,
+   * regardless of if an attribute actually changed. Hence we compare the last rendered attribute with the the current state
+   * and only destroy and re-create the attribute component, if there are actual changes to its data. This improves performance significantly.
+   */
+  ngOnChanges(): void {
+    if (
+      this.featureConfig.isEnabled(FEATURE_TOGGLE_PERF) &&
+      !ObjectComparisonUtils.deepEqualObjects(
+        this.lastRenderedAttribute,
+        this.context.attribute
+      )
+    ) {
+      const componentKey = this.context.componentKey;
+      this.renderComponent(this.attrCompAssignment[componentKey], componentKey);
     }
   }
 
   protected renderComponent(component: any, componentKey: string) {
     if (component) {
+      this.lastRenderedAttribute = this.context.attribute;
+      this.vcr.clear();
       this.vcr.createComponent(component, {
         injector: this.getComponentInjector(),
       });
