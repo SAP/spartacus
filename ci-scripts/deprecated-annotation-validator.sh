@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-changed_files=$(git diff --name-only origin/main..HEAD)
+BASE_BRANCH=${GITHUB_BASE_REF:-main}
+
+git fetch origin $BASE_BRANCH
+
+changed_files=$(git diff --name-only origin/$BASE_BRANCH..HEAD)
 
 invalid_files=()
 
