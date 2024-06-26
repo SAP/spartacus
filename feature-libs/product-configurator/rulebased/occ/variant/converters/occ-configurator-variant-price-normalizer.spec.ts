@@ -134,16 +134,16 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
         expect(suppl.valueSupplements[2].attributeValueKey).toBe('value_3_3');
       }
     });
-    it('should set merge price supplements flag to false when performance optimization is active', () => {
+    it('should set async pricing flag to true when performance optimization is active', () => {
       productConfigurationDeltaRenderingEnabled = true;
       const result = classUnderTest.convert(emptySource);
-      expect(result.mergePriceSupplements).toBe(false);
+      expect(result.isAsyncPricing).toBe(true);
     });
 
-    it('should set merge price supplements flag to true when performance optimization is NOT active', () => {
+    it('should set async pricing flag to false when performance optimization is NOT active', () => {
       productConfigurationDeltaRenderingEnabled = false;
       const result = classUnderTest.convert(emptySource);
-      expect(result.mergePriceSupplements).toBe(true);
+      expect(result.isAsyncPricing).toBe(false);
     });
   });
 });

@@ -37,7 +37,7 @@ export class OccConfiguratorVariantPriceNormalizer
       interactionState: {},
       priceSummary: source?.priceSummary,
       priceSupplements: priceSupplements,
-      mergePriceSupplements: !this.featureConfig.isEnabled(
+      isAsyncPricing: this.featureConfig.isEnabled(
         'productConfigurationDeltaRendering'
       ),
     };

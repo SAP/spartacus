@@ -466,9 +466,7 @@ function takeOverPricingChanges(
   const content = { ...action.payload };
   const priceSupplements = content.priceSupplements;
   const groups =
-    content.mergePriceSupplements &&
-    priceSupplements &&
-    priceSupplements.length > 0
+    !content.isAsyncPricing && priceSupplements && priceSupplements.length > 0
       ? ConfiguratorStateUtils.mergeGroupsWithSupplements(
           state.groups,
           priceSupplements

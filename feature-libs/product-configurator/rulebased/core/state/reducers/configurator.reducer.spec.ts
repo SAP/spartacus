@@ -416,7 +416,7 @@ describe('Configurator reducer', () => {
           'A',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        mergePriceSupplements: true,
+        isAsyncPricing: false,
         priceSupplements: priceSupplements,
       };
       const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
@@ -427,7 +427,7 @@ describe('Configurator reducer', () => {
       expect(price).toEqual(PRICE_DETAILS);
     });
 
-    it('should NOT merge supplement data into existing groups if not requested ', () => {
+    it('should NOT merge supplement data into existing groups if in async pricing mode', () => {
       const actionProvidingState =
         new ConfiguratorActions.CreateConfigurationSuccess(CONFIGURATION);
       const firstState = StateReduce.configuratorReducer(
@@ -439,7 +439,7 @@ describe('Configurator reducer', () => {
           'A',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        mergePriceSupplements: false,
+        isAsyncPricing: true,
         priceSupplements: priceSupplements,
       };
       const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
