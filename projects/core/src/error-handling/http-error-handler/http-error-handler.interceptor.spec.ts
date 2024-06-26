@@ -49,7 +49,7 @@ describe('HttpErrorHandlerInterceptor', () => {
     expect(interceptor).toBeTruthy();
   });
 
-  describe('when strictHttpAndNgrxErrorHandling is enabled', () => {
+  describe('when ssrStrictErrorHandlingForHttpAndNgrx is enabled', () => {
     beforeEach(() => {
       spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
     });
@@ -100,7 +100,7 @@ describe('HttpErrorHandlerInterceptor', () => {
     });
   });
 
-  describe('when strictHttpAndNgrxErrorHandling is disabled', () => {
+  describe('when ssrStrictErrorHandlingForHttpAndNgrx is disabled', () => {
     beforeEach(() => {
       spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
     });

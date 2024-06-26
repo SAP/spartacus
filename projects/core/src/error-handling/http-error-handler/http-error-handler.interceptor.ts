@@ -26,9 +26,9 @@ import { WindowRef } from '../../window';
  */
 @Injectable()
 export class HttpErrorHandlerInterceptor implements HttpInterceptor {
-  errorHandler = inject(ErrorHandler);
-  featureService = inject(FeatureConfigService);
-  windowRef = inject(WindowRef);
+  protected errorHandler = inject(ErrorHandler);
+  protected windowRef = inject(WindowRef);
+  private featureService = inject(FeatureConfigService);
 
   intercept(
     request: HttpRequest<any>,
@@ -38,8 +38,15 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
       tap({
         error: (error) => {
           if (
-            this.featureService.isEnabled('strictHttpAndNgrxErrorHandling') &&
-            !this.windowRef.isBrowser() // handle only in SSR
+            this.featureService.isEnabled(
+              'ssrStrictErrorHandlingForHttpAndNgrx'
+            ) &&
+            // We avoid sending unpredictable errors to the browser's console, to prevent
+            // possibly exposing there potentially confidential user's data.
+            // This isn't an issue in SSR, where pages are rendered anonymously.
+            // Moreover, in SSR we want to capture all app's errors, so we can potentially send
+            // a HTTP error response (e.g. 500 error page) from SSR to a client.
+            !this.windowRef.isBrowser()
           ) {
             this.handleError(error);
           }

@@ -10,28 +10,25 @@ import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { FeatureConfigService } from '../../features-config';
 import { ErrorAction } from '../../model/index';
-import { WindowRef } from '../../window';
 import { EffectsErrorHandlerService } from './effects-error-handler.service';
 
 @Injectable()
 export class CxErrorHandlerEffect {
   protected actions$ = inject(Actions);
-  protected effectErrorHandler = inject(EffectsErrorHandlerService);
-  protected featureConfigService = inject(FeatureConfigService);
-  protected windowRef = inject(WindowRef);
+  protected effectErrorHandlerService = inject(EffectsErrorHandlerService);
+  private featureConfigService = inject(FeatureConfigService);
 
   error$: Observable<ErrorAction> = createEffect(
     () =>
       this.actions$.pipe(
-        filter(this.effectErrorHandler.filterActions),
+        filter(this.effectErrorHandlerService.filterActions),
         tap((errorAction: ErrorAction) => {
           if (
             this.featureConfigService.isEnabled(
-              'strictHttpAndNgrxErrorHandling'
-            ) &&
-            !this.windowRef.isBrowser() // handle only in SSR
+              'ssrStrictErrorHandlingForHttpAndNgrx'
+            )
           ) {
-            this.effectErrorHandler.handleError(errorAction);
+            this.effectErrorHandlerService.handleError(errorAction);
           }
         })
       ),
