@@ -68,7 +68,7 @@ export class GlobalMessageEffect {
     );
 
   /**
-   * @deprecated since 2211.24. Will be removed in 2211.35. Thats all
+   * @deprecated since 2211.24. Will be removed in 2211.35. Thats all for today
    */
   hideAfterDelay$:
     | Observable<GlobalMessageActions.RemoveMessage>
