@@ -6,7 +6,7 @@
       (change)="onConsentChange()"
       [checked]="consentGiven"
       [name]="consentTemplate.id"
-      [disabled]="isRequired(consentTemplate?.id)"
+      [disabled]="disabled || isRequired(consentTemplate?.id)"
     />
     <span class="form-check-label cx-be-bold">
       <ng-container *ngIf="consentTemplate?.name">
