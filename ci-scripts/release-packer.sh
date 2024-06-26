@@ -52,7 +52,7 @@ function pack {
 
 if [[ $1 == 'configure' ]]; then
     configure_project
-if [[ $1 == 'build' ]]; then
+elif [[ $1 == 'build' ]]; then
     build_libs
 else 
     clear_root
