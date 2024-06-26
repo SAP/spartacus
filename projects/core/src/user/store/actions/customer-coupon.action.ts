@@ -9,6 +9,7 @@ import {
   CustomerCouponNotification,
   CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
+import { ActionErrorProperty, ErrorAction } from '../../../model/index';
 import { PROCESS_FEATURE } from '../../../process/store';
 import {
   EntityFailAction,
@@ -29,7 +30,6 @@ import {
   SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
   UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
 } from '../user-state';
-import { ErrorAction, ErrorActionType } from '../../../model/index';
 
 export const LOAD_CUSTOMER_COUPONS = '[User] Load Customer Coupons';
 export const LOAD_CUSTOMER_COUPONS_FAIL = '[User] Load Customer Coupons Fail';
@@ -84,6 +84,18 @@ export class LoadCustomerCouponsFail
   implements ErrorAction
 {
   readonly type = LOAD_CUSTOMER_COUPONS_FAIL;
+
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
   constructor(public error: any) {
     super(CUSTOMER_COUPONS, error);
   }
@@ -118,7 +130,19 @@ export class SubscribeCustomerCoupon extends EntityLoadAction {
 
 export class SubscribeCustomerCouponFail extends EntityFailAction {
   readonly type = SUBSCRIBE_CUSTOMER_COUPON_FAIL;
-  constructor(public error: ErrorActionType) {
+
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(PROCESS_FEATURE, SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID, error);
   }
 }
@@ -151,7 +175,19 @@ export class UnsubscribeCustomerCoupon extends EntityLoadAction {
 
 export class UnsubscribeCustomerCouponFail extends EntityFailAction {
   readonly type = UNSUBSCRIBE_CUSTOMER_COUPON_FAIL;
-  constructor(public error: ErrorActionType) {
+
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(PROCESS_FEATURE, UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID, error);
   }
 }
@@ -203,8 +239,20 @@ export class ResetDisclaimCustomerCoupon extends EntityLoaderResetAction {
 
 export class DisclaimCustomerCouponFail extends EntityFailAction {
   readonly type = DISCLAIM_CUSTOMER_COUPON_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, DISCLAIM_CUSTOMER_COUPON_PROCESS_ID, payload);
+
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
+    super(PROCESS_FEATURE, DISCLAIM_CUSTOMER_COUPON_PROCESS_ID, error);
   }
 }
 
@@ -217,7 +265,19 @@ export class DisclaimCustomerCouponSuccess extends EntitySuccessAction {
 
 export class ClaimCustomerCouponFail extends EntityFailAction {
   readonly type = CLAIM_CUSTOMER_COUPON_FAIL;
-  constructor(public error: ErrorActionType) {
+
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(PROCESS_FEATURE, CLAIM_CUSTOMER_COUPON_PROCESS_ID, error);
   }
 }

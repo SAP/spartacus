@@ -5,8 +5,8 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ActionErrorProperty, ErrorAction } from '@spartacus/core';
 import { ConsignmentTracking } from '@spartacus/order/root';
-import { ErrorAction, ErrorActionType } from '@spartacus/core';
 
 export const LOAD_CONSIGNMENT_TRACKING = '[Order] Load Consignment Tracking';
 export const LOAD_CONSIGNMENT_TRACKING_FAIL =
@@ -30,7 +30,18 @@ export class LoadConsignmentTracking implements Action {
 export class LoadConsignmentTrackingFail implements ErrorAction {
   readonly type = LOAD_CONSIGNMENT_TRACKING_FAIL;
 
-  constructor(public error: ErrorActionType) {}
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {}
 }
 
 export class LoadConsignmentTrackingSuccess implements Action {

@@ -6,7 +6,7 @@
 
 import { createAction, props } from '@ngrx/store';
 import {
-  ErrorActionType,
+  ActionErrorProperty,
   StateUtils,
   Stock,
   StoreFinderStockSearchPage,
@@ -43,7 +43,18 @@ export class StockLevelOnHold extends StateUtils.LoaderLoadAction {
 export class StockLevelFail extends StateUtils.LoaderFailAction {
   readonly type = STOCK_LEVEL_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(STOCK_DATA, error);
   }
 }

@@ -5,7 +5,7 @@
  */
 
 import {
-  ErrorActionType,
+  ActionErrorProperty,
   ListModel,
   PROCESS_FEATURE,
   SearchConfig,
@@ -52,9 +52,21 @@ export class LoadOrderApproval extends StateUtils.EntityLoadAction {
 export class LoadOrderApprovalFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ORDER_APPROVAL_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { orderApprovalCode: string; error: null | undefined });
   constructor(
-    public payload: { orderApprovalCode: string; error: ErrorActionType }
-  ) {
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      orderApprovalCode: string;
+      error: ActionErrorProperty;
+    }
+  );
+  constructor(public payload: { orderApprovalCode: string; error: any }) {
     super(ORDER_APPROVAL_ENTITIES, payload.orderApprovalCode, payload.error);
   }
 }
@@ -91,9 +103,18 @@ export class LoadOrderApprovals extends StateUtils.EntityLoadAction {
 export class LoadOrderApprovalsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ORDER_APPROVALS_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { params: SearchConfig; error: null | undefined });
   constructor(
-    public payload: { params: SearchConfig; error: ErrorActionType }
-  ) {
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: { params: SearchConfig; error: ActionErrorProperty }
+  );
+  constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       ORDER_APPROVAL_LIST,
       StateUtils.serializeSearchConfig(payload.params),
@@ -135,9 +156,18 @@ export class MakeDecision extends StateUtils.EntityLoadAction {
 export class MakeDecisionFail extends StateUtils.EntityFailAction {
   readonly type = MAKE_DECISION_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { orderApprovalCode: string; error: null | undefined });
   constructor(
-    public payload: { orderApprovalCode: string; error: ErrorActionType }
-  ) {
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: { orderApprovalCode: string; error: ActionErrorProperty }
+  );
+  constructor(public payload: { orderApprovalCode: string; error: any }) {
     super(
       PROCESS_FEATURE,
       ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,

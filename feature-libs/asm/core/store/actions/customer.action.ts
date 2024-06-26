@@ -5,7 +5,7 @@
  */
 
 import { CustomerSearchOptions, CustomerSearchPage } from '@spartacus/asm/root';
-import { StateUtils, ErrorActionType } from '@spartacus/core';
+import { ActionErrorProperty, StateUtils } from '@spartacus/core';
 import {
   CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA,
   CUSTOMER_SEARCH_DATA,
@@ -34,7 +34,17 @@ export class CustomerSearch extends StateUtils.LoaderLoadAction {
 
 export class CustomerSearchFail extends StateUtils.LoaderFailAction {
   readonly type = CUSTOMER_SEARCH_FAIL;
-  constructor(public error: ErrorActionType) {
+
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  constructor(error: ActionErrorProperty);
+  constructor(public error: any) {
     super(CUSTOMER_SEARCH_DATA, error);
   }
 }
@@ -62,8 +72,18 @@ export class CustomerListCustomersSearch extends StateUtils.LoaderLoadAction {
 
 export class CustomerListCustomersSearchFail extends StateUtils.LoaderFailAction {
   readonly type = CUSTOMER_LIST_CUSTOMERS_SEARCH_FAIL;
-  constructor(public payload: ErrorActionType) {
-    super(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA, payload);
+
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  constructor(error: ActionErrorProperty);
+  constructor(public error: any) {
+    super(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA, error);
   }
 }
 

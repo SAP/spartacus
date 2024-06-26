@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { STORE_FINDER_DATA } from '../store-finder-state';
 import {
-  ErrorActionType,
+  ActionErrorProperty,
   GeoPoint,
   SearchConfig,
   StateUtils,
 } from '@spartacus/core';
+import { STORE_FINDER_DATA } from '../store-finder-state';
 
 export const FIND_STORES_ON_HOLD = '[StoreFinder] On Hold';
 export const FIND_STORES = '[StoreFinder] Find Stores';
@@ -50,7 +50,18 @@ export class FindStores extends StateUtils.LoaderLoadAction {
 export class FindStoresFail extends StateUtils.LoaderFailAction {
   readonly type = FIND_STORES_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(STORE_FINDER_DATA, error);
   }
 }
@@ -74,7 +85,18 @@ export class FindStoreById extends StateUtils.LoaderLoadAction {
 export class FindStoreByIdFail extends StateUtils.LoaderFailAction {
   readonly type = FIND_STORE_BY_ID_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(STORE_FINDER_DATA, error);
   }
 }

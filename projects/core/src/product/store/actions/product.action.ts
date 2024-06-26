@@ -5,12 +5,12 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ActionErrorProperty } from '@spartacus/core';
 import { Product } from '../../../model/product.model';
 import { EntityLoaderMeta } from '../../../state/utils/entity-loader/entity-loader.action';
 import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
 import { ProductScope } from '../../model/product-scope';
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
-import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_PRODUCT = '[Product] Load Product Data';
 export const LOAD_PRODUCT_FAIL = '[Product] Load Product Data Fail';
@@ -37,11 +37,20 @@ export class LoadProduct extends EntityScopedLoaderActions.EntityScopedLoadActio
 export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailAction {
   readonly type = LOAD_PRODUCT_FAIL;
 
+  /**
+   * @deprecated Please use `payload` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(productCode: string, payload: null | undefined, scope?: string);
   constructor(
     productCode: string,
-    public payload: ErrorActionType,
-    scope = ''
-  ) {
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: ActionErrorProperty,
+    scope?: string
+  );
+  constructor(productCode: string, public payload: any, scope = '') {
     super(PRODUCT_DETAIL_ENTITY, productCode, payload, scope);
   }
 }

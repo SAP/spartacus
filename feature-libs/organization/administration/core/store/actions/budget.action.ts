@@ -5,7 +5,7 @@
  */
 
 import {
-  ErrorActionType,
+  ActionErrorProperty,
   ListModel,
   SearchConfig,
   StateUtils,
@@ -40,7 +40,21 @@ export class LoadBudget extends StateUtils.EntityLoadAction {
 export class LoadBudgetFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_BUDGET_FAIL;
 
-  constructor(public payload: { budgetCode: string; error: ErrorActionType }) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { budgetCode: string; error: null | undefined });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      budgetCode: string;
+      error: ActionErrorProperty;
+    }
+  );
+  constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }
@@ -74,9 +88,18 @@ export class LoadBudgets extends StateUtils.EntityLoadAction {
 export class LoadBudgetsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_BUDGETS_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { params: SearchConfig; error: null | undefined });
   constructor(
-    public payload: { params: SearchConfig; error: ErrorActionType }
-  ) {
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: { params: SearchConfig; error: ActionErrorProperty }
+  );
+  constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       BUDGET_LIST,
       StateUtils.serializeSearchConfig(payload.params),
@@ -109,7 +132,21 @@ export class CreateBudget extends StateUtils.EntityLoadAction {
 export class CreateBudgetFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_BUDGET_FAIL;
 
-  constructor(public payload: { budgetCode: string; error: ErrorActionType }) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { budgetCode: string; error: null | undefined });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      budgetCode: string;
+      error: ActionErrorProperty;
+    }
+  );
+  constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }
@@ -135,7 +172,21 @@ export class UpdateBudget extends StateUtils.EntityLoadAction {
 export class UpdateBudgetFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_BUDGET_FAIL;
 
-  constructor(public payload: { budgetCode: string; error: ErrorActionType }) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { budgetCode: string; error: null | undefined });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      budgetCode: string;
+      error: ActionErrorProperty;
+    }
+  );
+  constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }

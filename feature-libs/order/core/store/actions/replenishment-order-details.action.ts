@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ErrorActionType, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import {
+  ActionErrorProperty,
+  PROCESS_FEATURE,
+  StateUtils,
+} from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import {
   CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
@@ -52,7 +56,18 @@ export class LoadReplenishmentOrderDetailsSuccess extends StateUtils.LoaderSucce
 export class LoadReplenishmentOrderDetailsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_REPLENISHMENT_ORDER_DETAILS_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(REPLENISHMENT_ORDER_DETAILS, error);
   }
 }
@@ -89,7 +104,18 @@ export class CancelReplenishmentOrderSuccess extends StateUtils.EntitySuccessAct
 export class CancelReplenishmentOrderFail extends StateUtils.EntityFailAction {
   readonly type = CANCEL_REPLENISHMENT_ORDER_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(PROCESS_FEATURE, CANCEL_REPLENISHMENT_ORDER_PROCESS_ID, error);
   }
 }

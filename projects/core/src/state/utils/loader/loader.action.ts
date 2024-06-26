@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorAction, ErrorActionType } from '../../../model/index';
+import { ActionErrorProperty, ErrorAction } from '../../../model/index';
 
 export const LOADER_LOAD_ACTION = '[LOADER] LOAD';
 export const LOADER_FAIL_ACTION = '[LOADER] FAIL';
@@ -73,10 +73,18 @@ export class LoaderLoadAction implements LoaderAction {
 
 export class LoaderFailAction implements LoaderAction, ErrorAction {
   type = LOADER_FAIL_ACTION;
-  error: ErrorActionType;
   readonly meta: LoaderMeta;
 
-  constructor(entityType: string, error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(entityType: string, error: null | undefined);
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  constructor(entityType: string, error: ActionErrorProperty);
+  constructor(entityType: string, public error: any) {
     this.meta = failMeta(entityType, error);
     this.error = error;
   }

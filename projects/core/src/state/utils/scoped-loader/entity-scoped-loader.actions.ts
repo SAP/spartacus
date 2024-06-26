@@ -5,18 +5,18 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ActionErrorProperty, ErrorAction } from '../../../model/index';
 import {
   ENTITY_FAIL_ACTION,
   ENTITY_LOAD_ACTION,
   ENTITY_RESET_ACTION,
   ENTITY_SUCCESS_ACTION,
-  entityFailMeta,
   EntityLoaderMeta,
+  entityFailMeta,
   entityLoadMeta,
   entityResetMeta,
   entitySuccessMeta,
 } from '../entity-loader/entity-loader.action';
-import { ErrorAction, ErrorActionType } from '../../../model/index';
 
 export namespace EntityScopedLoaderActions {
   export interface EntityScopedLoaderMeta extends EntityLoaderMeta {
@@ -86,19 +86,40 @@ export namespace EntityScopedLoaderActions {
     implements EntityScopedLoaderAction, ErrorAction
   {
     type = ENTITY_FAIL_ACTION;
-    error: ErrorActionType;
+    error: ActionErrorProperty;
     readonly meta: EntityScopedLoaderMeta;
 
+    /**
+     * @deprecated Please use `error` parameter other than `null` or `undefined`.
+     *
+     *             Note: Allowing for `null` or `undefined` will be removed in future versions
+     *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+     **/
     constructor(
       entityType: string,
       id: string | string[],
-      error: ErrorActionType,
+      error: null | undefined,
+      scope?: string
+    );
+    constructor(
+      entityType: string,
+      id: string | string[],
+      // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+      error: ActionErrorProperty,
+      scope?: string
+    );
+    constructor(
+      entityType: string,
+      id: string | string[],
+      error: any,
       scope?: string
     ) {
       this.meta = entityScopedFailMeta(entityType, id, scope, error);
       this.error = error;
     }
   }
+
+  const x = new EntityScopedFailAction('a', 'b', null, 'd');
 
   export class EntityScopedSuccessAction implements EntityScopedLoaderAction {
     type = ENTITY_SUCCESS_ACTION;

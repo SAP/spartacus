@@ -7,7 +7,7 @@
 import { Action } from '@ngrx/store';
 import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
 import { Cart } from '@spartacus/cart/base/root';
-import { ErrorActionType, StateUtils } from '@spartacus/core';
+import { ActionErrorProperty, StateUtils } from '@spartacus/core';
 
 export const CREATE_WISH_LIST = '[Wish List] Create Wish List';
 export const CREATE_WISH_LIST_FAIL = '[Wish List] Create Wish List Fail';
@@ -40,7 +40,21 @@ export class CreateWishListSuccess extends StateUtils.EntitySuccessAction {
 export class CreateWishListFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_WISH_LIST_FAIL;
 
-  constructor(public payload: { cartId: string; error: ErrorActionType }) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { cartId: string; error: null | undefined });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      cartId: string;
+      error: ActionErrorProperty;
+    }
+  );
+  constructor(public payload: { cartId: string; error: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
   }
 }
@@ -79,13 +93,27 @@ interface LoadWishListFailPayload {
    * temporary cart used to track loading/error state or to normal wish list entity.
    */
   cartId: string;
-  error: ErrorActionType;
+  error: ActionErrorProperty;
+}
+
+interface DeprecatedLoadWishListFailPayload
+  extends Omit<LoadWishListFailPayload, 'error'> {
+  error: null | undefined;
 }
 
 export class LoadWishListFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_WISH_LIST_FAIL;
 
-  constructor(public payload: LoadWishListFailPayload) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: DeprecatedLoadWishListFailPayload);
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  constructor(payload: LoadWishListFailPayload);
+  constructor(public payload: LoadWishListFailPayload & { error: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
   }
 }

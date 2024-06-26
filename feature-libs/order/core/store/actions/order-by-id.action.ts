@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '@spartacus/core';
+import { ActionErrorProperty, StateUtils } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { ORDER_BY_ID_ENTITIES } from '../order-state';
 
@@ -20,6 +20,21 @@ export class LoadOrderById extends StateUtils.EntityLoadAction {
 
 export class LoadOrderByIdFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ORDER_BY_ID_FAIL;
+
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { code: string; error: null | undefined });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      code: string;
+      error: ActionErrorProperty;
+    }
+  );
   constructor(public payload: { code: string; error: any }) {
     super(ORDER_BY_ID_ENTITIES, payload.code, payload.error);
   }

@@ -6,7 +6,7 @@
 
 import { Action } from '@ngrx/store';
 import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
-import { StateUtils, ErrorActionType } from '@spartacus/core';
+import { ActionErrorProperty, StateUtils } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
@@ -54,7 +54,22 @@ export class ReadCartEntryConfigurationSuccess extends StateUtils.EntitySuccessA
 
 export class ReadCartEntryConfigurationFail extends StateUtils.EntityFailAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION_FAIL;
-  constructor(public payload: { ownerKey: string; error: ErrorActionType }) {
+
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { ownerKey: string; error: null | undefined });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      ownerKey: string;
+      error: ActionErrorProperty;
+    }
+  );
+  constructor(public payload: { ownerKey: string; error: any }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
   }
 }
@@ -77,7 +92,21 @@ export class ReadOrderEntryConfigurationSuccess extends StateUtils.EntitySuccess
 
 export class ReadOrderEntryConfigurationFail extends StateUtils.EntityFailAction {
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_FAIL;
-  constructor(public payload: { ownerKey: string; error: ErrorActionType }) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { ownerKey: string; error: null | undefined });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      ownerKey: string;
+      error: ActionErrorProperty;
+    }
+  );
+  constructor(public payload: { ownerKey: string; error: any }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
   }
 }

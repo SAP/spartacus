@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ActionErrorProperty } from '@spartacus/core';
 import { CostCenter } from '../../../model/org-unit.model';
 import { StateUtils } from '../../../state/utils/index';
 import { USER_COST_CENTERS } from '../user-state';
-import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_ACTIVE_COST_CENTERS = '[User] Load Active CostCenters';
 export const LOAD_ACTIVE_COST_CENTERS_FAIL =
@@ -24,7 +24,19 @@ export class LoadActiveCostCenters extends StateUtils.LoaderLoadAction {
 
 export class LoadActiveCostCentersFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ACTIVE_COST_CENTERS_FAIL;
-  constructor(public error: ErrorActionType) {
+
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(USER_COST_CENTERS, error);
   }
 }

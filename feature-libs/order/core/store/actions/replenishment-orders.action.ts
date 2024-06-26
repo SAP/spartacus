@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ErrorActionType, StateUtils } from '@spartacus/core';
+import { ActionErrorProperty, StateUtils } from '@spartacus/core';
 import { ReplenishmentOrderList } from '@spartacus/order/root';
 import { REPLENISHMENT_ORDERS } from '../order-state';
 
@@ -35,7 +35,18 @@ export class LoadUserReplenishmentOrders extends StateUtils.LoaderLoadAction {
 export class LoadUserReplenishmentOrdersFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_USER_REPLENISHMENT_ORDERS_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(REPLENISHMENT_ORDERS, error);
   }
 }

@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ActionErrorProperty } from '@spartacus/core';
 import { StateUtils } from '../../../state/utils/index';
 import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
-import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_CMS_NAVIGATION_ITEMS = '[Cms] Load NavigationEntry items';
 export const LOAD_CMS_NAVIGATION_ITEMS_FAIL =
@@ -25,7 +25,19 @@ export class LoadCmsNavigationItems extends StateUtils.EntityLoadAction {
 export class LoadCmsNavigationItemsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_NAVIGATION_ITEMS_FAIL;
 
-  constructor(nodeId: string, public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(nodeId: string, error: null | undefined);
+  constructor(
+    nodeId: string,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(nodeId: string, public error: any) {
     super(NAVIGATION_DETAIL_ENTITY, nodeId, error);
   }
 }

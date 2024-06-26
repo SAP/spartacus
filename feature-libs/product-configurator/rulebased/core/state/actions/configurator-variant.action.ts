@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils, ErrorActionType } from '@spartacus/core';
+import { ActionErrorProperty, StateUtils } from '@spartacus/core';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 
@@ -21,7 +21,21 @@ export class SearchVariants extends StateUtils.EntityLoadAction {
 
 export class SearchVariantsFail extends StateUtils.EntityFailAction {
   readonly type = SEARCH_VARIANTS_FAIL;
-  constructor(public payload: { ownerKey: string; error: ErrorActionType }) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { ownerKey: string; error: null | undefined });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      ownerKey: string;
+      error: ActionErrorProperty;
+    }
+  );
+  constructor(public payload: { ownerKey: string; error: any }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
   }
 }

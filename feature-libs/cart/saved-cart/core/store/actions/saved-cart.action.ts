@@ -5,7 +5,11 @@
  */
 
 import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
-import { ErrorActionType, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import {
+  ActionErrorProperty,
+  PROCESS_FEATURE,
+  StateUtils,
+} from '@spartacus/core';
 import {
   SAVED_CART_CLONE_CART_PROCESS_ID,
   SAVED_CART_LIST_PROCESS_ID,
@@ -71,6 +75,25 @@ export class LoadSavedCartSuccess extends StateUtils.EntitySuccessAction {
 export class LoadSavedCartFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_SAVED_CART_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    userId: string;
+    cartId: string;
+    error: null | undefined;
+  });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      userId: string;
+      cartId: string;
+      error: ActionErrorProperty;
+    }
+  );
   constructor(public payload: { userId: string; cartId: string; error: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload?.error);
   }
@@ -103,10 +126,19 @@ export class LoadSavedCartsSuccess extends StateUtils.EntitySuccessAction {
 export class LoadSavedCartsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_SAVED_CARTS_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { userId: string; error: null | undefined });
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  constructor(payload: { userId: string; error: ActionErrorProperty });
   constructor(
     public payload: {
       userId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_LIST_PROCESS_ID, payload.error);
@@ -150,11 +182,30 @@ export class RestoreSavedCartSuccess extends StateUtils.EntitySuccessAction {
 export class RestoreSavedCartFail extends StateUtils.EntityFailAction {
   readonly type = RESTORE_SAVED_CART_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    userId: string;
+    cartId: string;
+    error: null | undefined;
+  });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      userId: string;
+      cartId: string;
+      error: ActionErrorProperty;
+    }
+  );
   constructor(
     public payload: {
       userId: string;
       cartId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_RESTORE_CART_PROCESS_ID, payload.error);
@@ -202,13 +253,36 @@ export class SaveCartSuccess extends StateUtils.EntitySuccessAction {
 export class SaveCartFail extends StateUtils.EntityFailAction {
   readonly type = SAVE_CART_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    userId: string;
+    cartId: string;
+    saveCartName?: string;
+    saveCartDescription?: string;
+    error: null | undefined;
+  });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      userId: string;
+      cartId: string;
+      saveCartName?: string;
+      saveCartDescription?: string;
+      error: ActionErrorProperty;
+    }
+  );
   constructor(
     public payload: {
       userId: string;
       cartId: string;
       saveCartName?: string;
       saveCartDescription?: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID, payload.error);
@@ -256,13 +330,36 @@ export class EditSavedCartSuccess extends StateUtils.EntitySuccessAction {
 export class EditSavedCartFail extends StateUtils.EntityFailAction {
   readonly type = EDIT_SAVED_CART_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    userId: string;
+    cartId: string;
+    saveCartName?: string;
+    saveCartDescription?: string;
+    error: null | undefined;
+  });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      userId: string;
+      cartId: string;
+      saveCartName?: string;
+      saveCartDescription?: string;
+      error: ActionErrorProperty;
+    }
+  );
   constructor(
     public payload: {
       userId: string;
       cartId: string;
       saveCartName?: string;
       saveCartDescription?: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID, payload.error);
@@ -300,12 +397,33 @@ export class CloneSavedCartSuccess extends StateUtils.EntitySuccessAction {
 export class CloneSavedCartFail extends StateUtils.EntityFailAction {
   readonly type = CLONE_SAVED_CART_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    userId: string;
+    cartId: string;
+    saveCartName?: string;
+    error: null | undefined;
+  });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      userId: string;
+      cartId: string;
+      saveCartName?: string;
+      error: ActionErrorProperty;
+    }
+  );
   constructor(
     public payload: {
       userId: string;
       cartId: string;
       saveCartName?: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID, payload.error);

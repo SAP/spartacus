@@ -5,8 +5,8 @@
  */
 
 import {
+  ActionErrorProperty,
   B2BUser,
-  ErrorActionType,
   ListModel,
   SearchConfig,
   StateUtils,
@@ -104,9 +104,18 @@ export class LoadB2BUser extends StateUtils.EntityLoadAction {
 export class LoadB2BUserFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_B2B_USER_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { orgCustomerId: string; error: null | undefined });
   constructor(
-    public payload: { orgCustomerId: string; error: ErrorActionType }
-  ) {
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: { orgCustomerId: string; error: ActionErrorProperty }
+  );
+  constructor(public payload: { orgCustomerId: string; error: any }) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
   }
 }
@@ -135,9 +144,18 @@ export class CreateB2BUser extends StateUtils.EntityLoadAction {
 export class CreateB2BUserFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_B2B_USER_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { orgCustomerId: string; error: null | undefined });
   constructor(
-    public payload: { orgCustomerId: string; error: ErrorActionType }
-  ) {
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: { orgCustomerId: string; error: ActionErrorProperty }
+  );
+  constructor(public payload: { orgCustomerId: string; error: any }) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
   }
 }
@@ -167,9 +185,18 @@ export class UpdateB2BUser extends StateUtils.EntityLoadAction {
 export class UpdateB2BUserFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_B2B_USER_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { orgCustomerId: string; error: null | undefined });
   constructor(
-    public payload: { orgCustomerId: string; error: ErrorActionType }
-  ) {
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: { orgCustomerId: string; error: ActionErrorProperty }
+  );
+  constructor(public payload: { orgCustomerId: string; error: any }) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
   }
 }
@@ -196,12 +223,20 @@ export class LoadB2BUsers extends StateUtils.EntityLoadAction {
 }
 
 export class LoadB2BUsersFail extends StateUtils.EntityFailAction {
-  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_B2B_USERS_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: { params: SearchConfig; error: null | undefined });
   constructor(
-    public payload: { params: SearchConfig; error: ErrorActionType }
-  ) {
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: { params: SearchConfig; error: ActionErrorProperty }
+  );
+  constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       USER_LIST,
       StateUtils.serializeSearchConfig(payload.params),
@@ -243,11 +278,30 @@ export class LoadB2BUserApprovers extends StateUtils.EntityLoadAction {
 export class LoadB2BUserApproversFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_B2B_USER_APPROVERS_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    orgCustomerId: string;
+    params: SearchConfig;
+    error: null | undefined;
+  });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      orgCustomerId: string;
+      params: SearchConfig;
+      error: ActionErrorProperty;
+    }
+  );
   constructor(
     public payload: {
       orgCustomerId: string;
       params: SearchConfig;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(
@@ -290,14 +344,32 @@ export class AssignB2BUserApprover extends StateUtils.EntityLoadAction {
 }
 
 export class AssignB2BUserApproverFail extends StateUtils.EntityFailAction {
-  error: ErrorActionType = this.payload.error;
   readonly type = ASSIGN_B2B_USER_APPROVER_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    orgCustomerId: string;
+    approverId: string;
+    error: null | undefined;
+  });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      orgCustomerId: string;
+      approverId: string;
+      error: ActionErrorProperty;
+    }
+  );
   constructor(
     public payload: {
       orgCustomerId: string;
       approverId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(B2B_USER_ENTITIES, payload.approverId, payload.error);
@@ -332,14 +404,32 @@ export class UnassignB2BUserApprover extends StateUtils.EntityLoadAction {
 }
 
 export class UnassignB2BUserApproverFail extends StateUtils.EntityFailAction {
-  error: ErrorActionType = this.payload.error;
   readonly type = UNASSIGN_B2B_USER_APPROVER_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    orgCustomerId: string;
+    approverId: string;
+    error: null | undefined;
+  });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      orgCustomerId: string;
+      approverId: string;
+      error: ActionErrorProperty;
+    }
+  );
   constructor(
     public payload: {
       orgCustomerId: string;
       approverId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(B2B_USER_ENTITIES, payload.approverId, payload.error);
@@ -377,14 +467,32 @@ export class LoadB2BUserPermissions extends StateUtils.EntityLoadAction {
 }
 
 export class LoadB2BUserPermissionsFail extends StateUtils.EntityFailAction {
-  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_B2B_USER_PERMISSIONS_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    orgCustomerId: string;
+    params: SearchConfig;
+    error: null | undefined;
+  });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      orgCustomerId: string;
+      params: SearchConfig;
+      error: ActionErrorProperty;
+    }
+  );
   constructor(
     public payload: {
       orgCustomerId: string;
       params: SearchConfig;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(B2B_USER_PERMISSIONS, payload.orgCustomerId, payload.error);
@@ -423,14 +531,32 @@ export class AssignB2BUserPermission extends StateUtils.EntityLoadAction {
 }
 
 export class AssignB2BUserPermissionFail extends StateUtils.EntityFailAction {
-  error: ErrorActionType = this.payload.error;
   readonly type = ASSIGN_B2B_USER_PERMISSION_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    orgCustomerId: string;
+    permissionId: string;
+    error: null | undefined;
+  });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      orgCustomerId: string;
+      permissionId: string;
+      error: ActionErrorProperty;
+    }
+  );
   constructor(
     public payload: {
       orgCustomerId: string;
       permissionId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PERMISSION_ENTITIES, payload.permissionId, payload.error);
@@ -465,14 +591,32 @@ export class UnassignB2BUserPermission extends StateUtils.EntityLoadAction {
 }
 
 export class UnassignB2BUserPermissionFail extends StateUtils.EntityFailAction {
-  error: ErrorActionType = this.payload.error;
   readonly type = UNASSIGN_B2B_USER_PERMISSION_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    orgCustomerId: string;
+    permissionId: string;
+    error: null | undefined;
+  });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      orgCustomerId: string;
+      permissionId: string;
+      error: ActionErrorProperty;
+    }
+  );
   constructor(
     public payload: {
       orgCustomerId: string;
       permissionId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PERMISSION_ENTITIES, payload.permissionId, payload.error);
@@ -510,14 +654,32 @@ export class LoadB2BUserUserGroups extends StateUtils.EntityLoadAction {
 }
 
 export class LoadB2BUserUserGroupsFail extends StateUtils.EntityFailAction {
-  error: ErrorActionType = this.payload.error;
   readonly type = LOAD_B2B_USER_USER_GROUPS_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    orgCustomerId: string;
+    params: SearchConfig;
+    error: null | undefined;
+  });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      orgCustomerId: string;
+      params: SearchConfig;
+      error: ActionErrorProperty;
+    }
+  );
   constructor(
     public payload: {
       orgCustomerId: string;
       params: SearchConfig;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(
@@ -562,11 +724,30 @@ export class AssignB2BUserUserGroup extends StateUtils.EntityLoadAction {
 export class AssignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
   readonly type = ASSIGN_B2B_USER_USER_GROUP_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    orgCustomerId: string;
+    userGroupId: string;
+    error: null | undefined;
+  });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      orgCustomerId: string;
+      userGroupId: string;
+      error: ActionErrorProperty;
+    }
+  );
   constructor(
     public payload: {
       orgCustomerId: string;
       userGroupId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
@@ -603,11 +784,30 @@ export class UnassignB2BUserUserGroup extends StateUtils.EntityLoadAction {
 export class UnassignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
   readonly type = UNASSIGN_B2B_USER_USER_GROUP_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    orgCustomerId: string;
+    userGroupId: string;
+    error: null | undefined;
+  });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      orgCustomerId: string;
+      userGroupId: string;
+      error: ActionErrorProperty;
+    }
+  );
   constructor(
     public payload: {
       orgCustomerId: string;
       userGroupId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);

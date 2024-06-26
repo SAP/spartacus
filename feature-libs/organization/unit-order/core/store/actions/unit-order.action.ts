@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ErrorActionType, StateUtils } from '@spartacus/core';
+import { ActionErrorProperty, StateUtils } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
-import { UNIT_ORDER_DETAILS, UNIT_ORDERS } from '../unit-order-state';
+import { UNIT_ORDERS, UNIT_ORDER_DETAILS } from '../unit-order-state';
 
 export const LOAD_UNIT_ORDERS = '[Unit Order] Load Unit Orders';
 export const LOAD_UNIT_ORDERS_FAIL = '[Unit Order] Load Unit Orders Fail';
@@ -39,7 +39,18 @@ export class LoadUnitOrders extends StateUtils.LoaderLoadAction {
 export class LoadUnitOrdersFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_UNIT_ORDERS_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(UNIT_ORDERS, error);
   }
 }
@@ -76,7 +87,18 @@ export class LoadOrderDetails extends StateUtils.LoaderLoadAction {
 export class LoadOrderDetailsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ORDER_DETAILS_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(UNIT_ORDER_DETAILS, error);
   }
 }

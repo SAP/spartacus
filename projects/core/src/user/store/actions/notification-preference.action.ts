@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '../../../state/utils/index';
+import { ActionErrorProperty } from '../../../model/index';
+import { NotificationPreference } from '../../../model/notification-preference.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
@@ -12,12 +13,11 @@ import {
   EntityLoaderResetAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
+import { StateUtils } from '../../../state/utils/index';
 import {
   NOTIFICATION_PREFERENCES,
   UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
 } from '../user-state';
-import { NotificationPreference } from '../../../model/notification-preference.model';
-import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_NOTIFICATION_PREFERENCES =
   '[User] Load Notification Preferences';
@@ -47,7 +47,18 @@ export class LoadNotificationPreferences extends StateUtils.LoaderLoadAction {
 export class LoadNotificationPreferencesFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_NOTIFICATION_PREFERENCES_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(NOTIFICATION_PREFERENCES, error);
   }
 }
@@ -73,7 +84,18 @@ export class UpdateNotificationPreferences extends EntityLoadAction {
 export class UpdateNotificationPreferencesFail extends EntityFailAction {
   readonly type = UPDATE_NOTIFICATION_PREFERENCES_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(PROCESS_FEATURE, UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID, error);
   }
 }

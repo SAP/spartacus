@@ -5,9 +5,9 @@
  */
 
 import { Address } from '../../../model/address.model';
+import { ActionErrorProperty } from '../../../model/index';
 import { StateUtils } from '../../../state/utils/index';
 import { USER_ADDRESSES } from '../user-state';
-import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_USER_ADDRESSES = '[User] Load User Addresses';
 export const LOAD_USER_ADDRESSES_FAIL = '[User] Load User Addresses Fail';
@@ -36,7 +36,18 @@ export class LoadUserAddresses extends StateUtils.LoaderLoadAction {
 export class LoadUserAddressesFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_USER_ADDRESSES_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(USER_ADDRESSES, error);
   }
 }
@@ -61,7 +72,18 @@ export class AddUserAddress extends StateUtils.LoaderLoadAction {
 export class AddUserAddressFail extends StateUtils.LoaderFailAction {
   readonly type = ADD_USER_ADDRESS_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(USER_ADDRESSES, error);
   }
 }
@@ -88,7 +110,18 @@ export class UpdateUserAddress extends StateUtils.LoaderLoadAction {
 export class UpdateUserAddressFail extends StateUtils.LoaderFailAction {
   readonly type = UPDATE_USER_ADDRESS_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(USER_ADDRESSES, error);
   }
 }
@@ -113,7 +146,18 @@ export class DeleteUserAddress extends StateUtils.LoaderLoadAction {
 export class DeleteUserAddressFail extends StateUtils.LoaderFailAction {
   readonly type = DELETE_USER_ADDRESS_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(USER_ADDRESSES, error);
   }
 }

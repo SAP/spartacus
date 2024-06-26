@@ -6,8 +6,8 @@
 
 import { Action } from '@ngrx/store';
 import {
+  ActionErrorProperty,
   ErrorAction,
-  ErrorActionType,
   ErrorModel,
   HttpErrorModel,
 } from '@spartacus/core';
@@ -24,15 +24,31 @@ interface LoadUserTokenPayload {
 }
 
 interface LoadUserTokenFailurePayload {
-  error: ErrorActionType;
+  error: ActionErrorProperty;
   initialActionPayload: LoadUserTokenPayload;
+}
+
+interface DeprecatedLoadUserTokenFailurePayload
+  extends Omit<LoadUserTokenFailurePayload, 'error'> {
+  error: null | undefined;
 }
 
 export class LoadCdcUserTokenFail implements ErrorAction {
   error: ErrorModel | HttpErrorModel | Error = this.payload.error;
   readonly type = LOAD_CDC_USER_TOKEN_FAIL;
 
-  constructor(public payload: LoadUserTokenFailurePayload) {}
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: DeprecatedLoadUserTokenFailurePayload);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: LoadUserTokenFailurePayload
+  );
+  constructor(public payload: LoadUserTokenFailurePayload & { error: any }) {}
 }
 
 export class LoadCdcUserToken implements Action {

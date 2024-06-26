@@ -6,7 +6,7 @@
 
 import { Action } from '@ngrx/store';
 import { Country } from '../../../model/address.model';
-import { ErrorAction, ErrorActionType } from '../../../model/index';
+import { ActionErrorProperty, ErrorAction } from '../../../model/index';
 
 export const LOAD_DELIVERY_COUNTRIES = '[User] Load Delivery Countries';
 export const LOAD_DELIVERY_COUNTRIES_FAIL =
@@ -25,7 +25,18 @@ export class LoadDeliveryCountries implements Action {
 export class LoadDeliveryCountriesFail implements ErrorAction {
   readonly type = LOAD_DELIVERY_COUNTRIES_FAIL;
 
-  constructor(public error: ErrorActionType) {}
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {}
 }
 
 export class LoadDeliveryCountriesSuccess implements Action {

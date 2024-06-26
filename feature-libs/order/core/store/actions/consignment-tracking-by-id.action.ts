@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '@spartacus/core';
+import { ActionErrorProperty, StateUtils } from '@spartacus/core';
 import { ConsignmentTracking } from '@spartacus/order/root';
 import {
   CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
@@ -39,8 +39,32 @@ export class LoadConsignmentTrackingById extends StateUtils.EntityLoadAction {
 
 export class LoadConsignmentTrackingByIdFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CONSIGNMENT_TRACKING_BY_ID_FAIL;
+
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    orderCode: string;
+    consignmentCode: string;
+    error: null | undefined;
+  });
   constructor(
-    public payload: { orderCode: string; consignmentCode: string; error: any }
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    payload: {
+      orderCode: string;
+      consignmentCode: string;
+      error: ActionErrorProperty;
+    }
+  );
+  constructor(
+    public payload: {
+      orderCode: string;
+      consignmentCode: string;
+      error: any;
+    }
   ) {
     super(
       CONSIGNMENT_TRACKING_BY_ID_ENTITIES,

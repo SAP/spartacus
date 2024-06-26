@@ -8,8 +8,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import {
+  ActionErrorProperty,
   ErrorAction,
-  ErrorActionType,
   HttpErrorModel,
 } from '../../model/index';
 
@@ -18,7 +18,7 @@ export class EffectsErrorHandlerService {
   constructor(protected errorHandler: ErrorHandler) {}
 
   handleError(action: ErrorAction): void {
-    const error: ErrorActionType = action.error;
+    const error: ActionErrorProperty = action.error;
 
     // Http errors are already handled in HttpErrorHandlerInterceptor.
     // To avoid duplicate errors we want to check if the error is not of type

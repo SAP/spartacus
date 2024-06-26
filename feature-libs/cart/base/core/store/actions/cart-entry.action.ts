@@ -5,7 +5,7 @@
  */
 
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { ErrorAction, ErrorActionType, StateUtils } from '@spartacus/core';
+import { ActionErrorProperty, ErrorAction, StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';
@@ -60,9 +60,32 @@ export class CartAddEntryFail
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
-  error: ErrorActionType = this.payload.error;
+  error: ActionErrorProperty = this.payload.error;
   readonly type = CART_ADD_ENTRY_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    error: null | undefined;
+    userId: string;
+    cartId: string;
+    productCode: string;
+    quantity: number;
+    pickupStore?: string;
+  });
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  constructor(payload: {
+    error: ActionErrorProperty;
+    userId: string;
+    cartId: string;
+    productCode: string;
+    quantity: number;
+    pickupStore?: string;
+  });
   constructor(
     public payload: {
       error: any;
@@ -101,12 +124,31 @@ export class CartRemoveEntryFail
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
-  error: ErrorActionType = this.payload.error;
+  error: ActionErrorProperty = this.payload.error;
   readonly type = CART_REMOVE_ENTRY_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    error: null | undefined;
+    cartId: string;
+    userId: string;
+    entryNumber: string;
+  });
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  constructor(payload: {
+    error: ActionErrorProperty;
+    cartId: string;
+    userId: string;
+    entryNumber: string;
+  });
   constructor(
     public payload: {
-      error: ErrorActionType;
+      error: any;
       cartId: string;
       userId: string;
       entryNumber: string;
@@ -154,12 +196,37 @@ export class CartUpdateEntryFail
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
-  error: ErrorActionType = this.payload.error;
+  error: ActionErrorProperty = this.payload.error;
   readonly type = CART_UPDATE_ENTRY_FAIL;
 
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(payload: {
+    error: null | undefined;
+    userId: string;
+    cartId: string;
+    entryNumber: string;
+    quantity?: number;
+    pickupStore?: string;
+    pickupToDelivery?: boolean;
+  });
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  constructor(payload: {
+    error: ActionErrorProperty;
+    userId: string;
+    cartId: string;
+    entryNumber: string;
+    quantity?: number;
+    pickupStore?: string;
+    pickupToDelivery?: boolean;
+  });
   constructor(
     public payload: {
-      error: ErrorActionType;
+      error: any;
       userId: string;
       cartId: string;
       entryNumber: string;

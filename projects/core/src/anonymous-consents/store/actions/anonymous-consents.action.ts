@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ActionErrorProperty } from '@spartacus/core';
 import {
   AnonymousConsent,
   ConsentTemplate,
 } from '../../../model/consent.model';
 import { StateUtils } from '../../../state/utils/index';
 import { ANONYMOUS_CONSENTS } from '../anonymous-consents-state';
-import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_ANONYMOUS_CONSENT_TEMPLATES =
   '[Anonymous Consents] Load Anonymous Consent Templates';
@@ -58,7 +58,18 @@ export class LoadAnonymousConsentTemplatesSuccess extends StateUtils.LoaderSucce
 export class LoadAnonymousConsentTemplatesFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ANONYMOUS_CONSENT_TEMPLATES_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(ANONYMOUS_CONSENTS, error);
   }
 }

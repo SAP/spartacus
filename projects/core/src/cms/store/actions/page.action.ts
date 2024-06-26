@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ActionErrorProperty } from '@spartacus/core';
 import { PageContext } from '../../../routing/index';
 import { StateUtils } from '../../../state/utils/index';
 import { Page } from '../../model/page.model';
-import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_CMS_PAGE_DATA = '[Cms] Load Page Data';
 export const LOAD_CMS_PAGE_DATA_FAIL = '[Cms] Load Page Data Fail';
@@ -26,7 +26,19 @@ export class LoadCmsPageData extends StateUtils.EntityLoadAction {
 export class LoadCmsPageDataFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_PAGE_DATA_FAIL;
 
-  constructor(pageContext: PageContext, public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(pageContext: PageContext, error: null | undefined);
+  constructor(
+    pageContext: PageContext,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(pageContext: PageContext, public error: any) {
     super(pageContext.type ?? '', pageContext.id, error);
   }
 }

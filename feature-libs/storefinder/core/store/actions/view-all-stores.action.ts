@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { STORE_FINDER_DATA } from '../store-finder-state';
-import { ErrorActionType, StateUtils } from '@spartacus/core';
 import { Action } from '@ngrx/store';
+import { ActionErrorProperty, StateUtils } from '@spartacus/core';
+import { STORE_FINDER_DATA } from '../store-finder-state';
 
 export const VIEW_ALL_STORES = '[StoreFinder] View All Stores';
 export const VIEW_ALL_STORES_FAIL = '[StoreFinder] View All Stores Fail';
@@ -24,7 +24,18 @@ export class ViewAllStores extends StateUtils.LoaderLoadAction {
 export class ViewAllStoresFail extends StateUtils.LoaderFailAction {
   readonly type = VIEW_ALL_STORES_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(error: null | undefined);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    error: ActionErrorProperty
+  );
+  constructor(public error: any) {
     super(STORE_FINDER_DATA, error);
   }
 }
