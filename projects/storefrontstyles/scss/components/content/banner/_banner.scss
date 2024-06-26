@@ -28,6 +28,12 @@
     }
   }
 
+  @include forFeature('a11yImproveContrast') {
+    cx-media {
+      color: black;
+    }
+  }
+
   .no-link {
     display: block;
   }

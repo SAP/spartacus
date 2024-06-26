@@ -6,6 +6,7 @@ import {
   Product,
   ProductReviewService,
 } from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { FormErrorsModule, ItemCounterModule } from '../../../../shared/index';
 import { CurrentProductService } from '../../current-product.service';
@@ -46,29 +47,31 @@ describe('ProductReviewsComponent in product', () => {
   let productReviewsComponent: ProductReviewsComponent;
   let fixture: ComponentFixture<ProductReviewsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          ItemCounterModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        providers: [
-          {
-            provide: ProductReviewService,
-            useClass: MockProductReviewService,
-          },
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-        ],
-        declarations: [MockStarRatingComponent, ProductReviewsComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        ItemCounterModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      providers: [
+        {
+          provide: ProductReviewService,
+          useClass: MockProductReviewService,
+        },
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+      ],
+      declarations: [
+        MockStarRatingComponent,
+        ProductReviewsComponent,
+        MockFeatureDirective,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductReviewsComponent);

@@ -197,7 +197,8 @@ export function removeImports(
   const removedImports: ImportSpecifier[] = [];
 
   sourceFile.getImportDeclarations().forEach((id) => {
-    id.getImportClause()
+    id
+      .getImportClause()
       ?.getNamedImports()
       .forEach((namedImport) => {
         const importName = namedImport.getName();

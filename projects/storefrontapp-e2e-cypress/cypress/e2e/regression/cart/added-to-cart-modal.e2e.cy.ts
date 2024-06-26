@@ -64,7 +64,7 @@ describe('Added to cart modal - Anonymous user', () => {
         cy.get('.cx-dialog-total').should('contain', '2 items');
 
         // check action button links
-        cy.get('button.btn-primary').should('be.visible');
+        cy.get('button.btn-primary').scrollIntoView().should('be.visible');
         cy.get('button.btn-secondary').should('be.visible');
 
         cy.get('[aria-label="Close Modal"]').click();

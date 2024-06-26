@@ -5,10 +5,10 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  ANONYMOUS_CONSENT_STATUS,
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
-  ANONYMOUS_CONSENT_STATUS,
   AuthConfigService,
   ConsentTemplate,
   GlobalMessageEntities,
@@ -29,7 +29,8 @@ import {
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
-import { EMPTY, Observable, of, Subject } from 'rxjs';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { EMPTY, Observable, Subject, of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 import createSpy = jasmine.createSpy;
@@ -156,52 +157,52 @@ describe('RegisterComponent', () => {
   let authConfigService: AuthConfigService;
   let registerComponentService: RegisterComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          NgSelectModule,
-          PasswordVisibilityToggleModule,
-          NgSelectA11yModule,
-          CaptchaModule,
-        ],
-        declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
-        providers: [
-          {
-            provide: RegisterComponentService,
-            useClass: MockRegisterComponentService,
-          },
-          {
-            provide: GlobalMessageService,
-            useClass: MockGlobalMessageService,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: AnonymousConsentsService,
-            useClass: MockAnonymousConsentsService,
-          },
-          {
-            provide: AnonymousConsentsConfig,
-            useValue: mockAnonymousConsentsConfig,
-          },
-          {
-            provide: AuthConfigService,
-            useClass: MockAuthConfigService,
-          },
-          { provide: SiteAdapter, useClass: MockSiteAdapter },
-          { provide: BaseSiteService, useClass: MockBaseSiteService },
-          { provide: LanguageService, useClass: MockLanguageService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        NgSelectModule,
+        PasswordVisibilityToggleModule,
+        NgSelectA11yModule,
+        CaptchaModule,
+      ],
+      declarations: [
+        RegisterComponent,
+        MockUrlPipe,
+        MockSpinnerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        {
+          provide: RegisterComponentService,
+          useClass: MockRegisterComponentService,
+        },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: AnonymousConsentsService,
+          useClass: MockAnonymousConsentsService,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
+        },
+        {
+          provide: AuthConfigService,
+          useClass: MockAuthConfigService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);

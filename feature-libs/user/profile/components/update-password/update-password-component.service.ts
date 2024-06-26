@@ -13,6 +13,7 @@ import {
 import {
   AuthRedirectService,
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -26,6 +27,15 @@ import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 
 @Injectable()
 export class UpdatePasswordComponentService {
+  // TODO: (CXSPA-7315) Remove feature toggle in the next major
+  private featureConfigService = inject(FeatureConfigService);
+
+  protected passwordValidators = this.featureConfigService?.isEnabled(
+    'formErrorsDescriptiveMessages'
+  )
+    ? [CustomFormValidators.passwordValidator]
+    : CustomFormValidators.passwordValidators;
+
   constructor(
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
@@ -45,7 +55,10 @@ export class UpdatePasswordComponentService {
   form: UntypedFormGroup = new UntypedFormGroup(
     {
       oldPassword: new UntypedFormControl('', Validators.required),
-      newPassword: new UntypedFormControl('', Validators.required),
+      newPassword: new UntypedFormControl('', [
+        Validators.required,
+        ...this.passwordValidators,
+      ]),
       newPasswordConfirm: new UntypedFormControl('', Validators.required),
     },
     {

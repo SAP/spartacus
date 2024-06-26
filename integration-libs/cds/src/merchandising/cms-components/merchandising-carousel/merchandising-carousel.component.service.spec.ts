@@ -156,12 +156,9 @@ describe('MerchandisingCarouselComponentService', () => {
     profileTagEventService = TestBed.inject(ProfileTagEventService);
   });
 
-  it(
-    'should be created',
-    waitForAsync(() => {
-      expect(componentService).toBeTruthy();
-    })
-  );
+  it('should be created', waitForAsync(() => {
+    expect(componentService).toBeTruthy();
+  }));
 
   describe('getMerchandisingCaourselViewportThreshold', () => {
     it('should fallback to a hardcoded carousel viewport threshold if one is not provided in the carousel CMS component config or the CDS config', () => {
