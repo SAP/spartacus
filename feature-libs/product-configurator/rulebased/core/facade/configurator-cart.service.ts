@@ -271,7 +271,9 @@ export class ConfiguratorCartService {
       new ConfiguratorActions.RemoveCartBoundConfigurations()
     );
   }
-
+  /**
+   * @deprecated
+   */
   protected isConfigurationCreated(
     configuration: Configurator.Configuration
   ): boolean {
@@ -279,6 +281,10 @@ export class ConfiguratorCartService {
     return configId.length !== 0;
   }
 
+  /**
+   * @deprecated Use different instead of this
+   * Remove all configurations that are linked to cart entries
+   */
   protected configurationNeedsReading(
     configurationState: StateUtils.LoaderState<Configurator.Configuration>
   ): boolean {

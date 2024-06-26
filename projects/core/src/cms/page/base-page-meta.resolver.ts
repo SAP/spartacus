@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { combineLatest, defer, Observable } from 'rxjs';
+import { Observable, combineLatest, defer } from 'rxjs';
 import { filter, map, shareReplay, startWith } from 'rxjs/operators';
 import { TranslationService } from '../../i18n/translation.service';
 import { CmsService } from '../facade/cms.service';
@@ -22,6 +22,9 @@ import {
 import { PageLinkService } from './routing/page-link.service';
 import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 
+/**
+ * @deprecated since 2024
+ */
 @Injectable({
   providedIn: 'root',
 })
