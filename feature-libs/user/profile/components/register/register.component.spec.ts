@@ -127,53 +127,51 @@ describe('RegisterComponent', () => {
   let authConfigService: AuthConfigService;
   let registerComponentService: RegisterComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          NgSelectModule,
-          PasswordVisibilityToggleModule,
-          NgSelectA11yModule,
-        ],
-        declarations: [
-          RegisterComponent,
-          MockUrlPipe,
-          MockSpinnerComponent,
-          MockFeatureDirective,
-        ],
-        providers: [
-          {
-            provide: RegisterComponentService,
-            useClass: MockRegisterComponentService,
-          },
-          {
-            provide: GlobalMessageService,
-            useClass: MockGlobalMessageService,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: AnonymousConsentsService,
-            useClass: MockAnonymousConsentsService,
-          },
-          {
-            provide: AnonymousConsentsConfig,
-            useValue: mockAnonymousConsentsConfig,
-          },
-          {
-            provide: AuthConfigService,
-            useClass: MockAuthConfigService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        NgSelectModule,
+        PasswordVisibilityToggleModule,
+        NgSelectA11yModule,
+      ],
+      declarations: [
+        RegisterComponent,
+        MockUrlPipe,
+        MockSpinnerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        {
+          provide: RegisterComponentService,
+          useClass: MockRegisterComponentService,
+        },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: AnonymousConsentsService,
+          useClass: MockAnonymousConsentsService,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
+        },
+        {
+          provide: AuthConfigService,
+          useClass: MockAuthConfigService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);

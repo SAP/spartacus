@@ -11,6 +11,10 @@ cx-add-to-saved-cart {
         margin-inline-end: 0;
         &:before {
           content: '|';
+          @include forFeature('a11yExpandedFocusIndicator') {
+            content: '|' / '';
+          }
+
           color: var(--cx-color-light);
           display: inline-block;
           text-decoration: none;

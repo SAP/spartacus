@@ -47,33 +47,31 @@ describe('ProductReviewsComponent in product', () => {
   let productReviewsComponent: ProductReviewsComponent;
   let fixture: ComponentFixture<ProductReviewsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          ItemCounterModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        providers: [
-          {
-            provide: ProductReviewService,
-            useClass: MockProductReviewService,
-          },
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-        ],
-        declarations: [
-          MockStarRatingComponent,
-          ProductReviewsComponent,
-          MockFeatureDirective,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        ItemCounterModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      providers: [
+        {
+          provide: ProductReviewService,
+          useClass: MockProductReviewService,
+        },
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+      ],
+      declarations: [
+        MockStarRatingComponent,
+        ProductReviewsComponent,
+        MockFeatureDirective,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductReviewsComponent);

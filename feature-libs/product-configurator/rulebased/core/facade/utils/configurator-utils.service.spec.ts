@@ -117,13 +117,11 @@ function mergeChangesAndGetFirstGroup(
 describe('ConfiguratorUtilsService', () => {
   let classUnderTest: ConfiguratorUtilsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [ConfiguratorUtilsService],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [ConfiguratorUtilsService],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     classUnderTest = TestBed.inject(
