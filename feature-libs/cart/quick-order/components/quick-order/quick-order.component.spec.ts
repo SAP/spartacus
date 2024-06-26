@@ -7,7 +7,6 @@ import {
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
-  FeatureConfigService,
   FeaturesConfig,
   GlobalMessageService,
   GlobalMessageType,
@@ -153,12 +152,6 @@ class MockProgressButtonComponent {
   @Input() disabled: boolean;
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string) {
-    return true;
-  }
-}
-
 describe('QuickOrderComponent', () => {
   let component: QuickOrderComponent;
   let fixture: ComponentFixture<QuickOrderComponent>;
@@ -192,10 +185,6 @@ describe('QuickOrderComponent', () => {
           useValue: {
             features: { level: '5.1' },
           },
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();

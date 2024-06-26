@@ -1,11 +1,7 @@
 import { Component, DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  FeatureConfigService,
-  GlobalMessageType,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { GlobalMessageType, I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { MessageComponent } from './message.component';
@@ -37,12 +33,6 @@ class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
 }
 
-class MockFeatureConfigService {
-  isEnabled(_feature: string) {
-    return true;
-  }
-}
-
 describe('MessageComponent', () => {
   let component: MessageComponent;
   let fixture: ComponentFixture<MessageComponent>;
@@ -56,12 +46,6 @@ describe('MessageComponent', () => {
         MockCxIconComponent,
         MockAtMessageDirective,
         MockFeatureDirective,
-      ],
-      providers: [
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
       ],
     }).compileComponents();
   }));

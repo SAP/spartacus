@@ -12,9 +12,8 @@ import {
   Input,
   Output,
   ViewChild,
-  inject,
 } from '@angular/core';
-import { FeatureConfigService, GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageType } from '@spartacus/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 @Component({
   selector: 'cx-message',
@@ -52,8 +51,6 @@ export class MessageComponent implements AfterViewInit {
 
   @ViewChild('messageContainer') messageContainer: ElementRef;
 
-  private featureConfigService = inject(FeatureConfigService);
-
   constructor() {
     // Intentional empty constructor
   }
@@ -82,13 +79,8 @@ export class MessageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // TODO: (CXSPA-7725) - Remove feature flag next major release.
-    if (
-      (this.featureConfigService.isEnabled('a11yCxMessageFocus') &&
-        this.accordionText) ||
-      this.actionButtonText
-    ) {
-      this.messageContainer.nativeElement.focus();
+    if (this.accordionText || this.actionButtonText) {
+      this.messageContainer?.nativeElement.focus();
     }
   }
 }
