@@ -14,6 +14,7 @@ $misc-components-allowlist: () !default;
 $pwa-components-allowlist: () !default;
 $cds-components-allowlist: () !default;
 $digital-payments-components-allowlist: () !default;
+$s4-service-components-allowlist: () !default;
 $epd-visualization-components-allowlist: () !default;
 $myaccount-components-allowlist: () !default;
 
@@ -28,6 +29,7 @@ $selectors: mergeAll(
     $pwa-components-allowlist,
     $cds-components-allowlist,
     $digital-payments-components-allowlist,
+    $s4-service-components-allowlist,
     $epd-visualization-components-allowlist
   )
 );

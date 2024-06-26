@@ -14,7 +14,6 @@ import { SchematicConfig } from '../../utils';
 
 export const S4_SERVICE_FOLDER_NAME = 's4-service';
 export const S4_SERVICE_MODULE_NAME = 'S4Service';
-export const S4_SERVICE_SCSS_FILE_NAME = 's4-service.scss';
 
 export const S4_SERVICE_MODULE = 'S4ServiceModule';
 export const S4_SERVICE_ROOT_MODULE = 'S4ServiceRootModule';
@@ -46,10 +45,6 @@ export const S4_SERVICE_SCHEMATICS_CONFIG: SchematicConfig = {
     resources: S4_SERVICE_TRANSLATIONS,
     chunks: S4_SERVICE_TRANSLATION_CHUNKS_CONFIG,
     importPath: SPARTACUS_S4_SERVICE_ASSETS,
-  },
-  styles: {
-    scssFileName: S4_SERVICE_SCSS_FILE_NAME,
-    importStyle: SPARTACUS_S4_SERVICE,
   },
   dependencyFeatures: [],
 };
