@@ -290,81 +290,79 @@ describe('ConfiguratorGroupComponent', () => {
   let fixture: ComponentFixture<ConfiguratorGroupComponent>;
   let component: ConfiguratorGroupComponent;
 
-  beforeEach(
-    waitForAsync(() => {
-      mockLanguageService = {
-        getAll: () => of([]),
-        getActive: jasmine.createSpy().and.returnValue(of('en')),
-      };
+  beforeEach(waitForAsync(() => {
+    mockLanguageService = {
+      getAll: () => of([]),
+      getActive: jasmine.createSpy().and.returnValue(of('en')),
+    };
 
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          MockCxIconComponent,
-          MockConfiguratorPriceComponent,
-          MockFocusDirective,
-          MockFeatureLevelDirective,
-          MockProductCardComponent,
-          ConfiguratorAttributeCompositionDirective,
-          ConfiguratorGroupComponent,
-          MockConfiguratorConflictDescriptionComponent,
-          ConfiguratorConflictSuggestionComponent,
-          ConfiguratorAttributeHeaderComponent,
-          ConfiguratorAttributeFooterComponent,
-          ConfiguratorAttributeNotSupportedComponent,
-          ConfiguratorAttributeRadioButtonComponent,
-          ConfiguratorAttributeDropDownComponent,
-          ConfiguratorAttributeReadOnlyComponent,
-          ConfiguratorAttributeCheckBoxComponent,
-          ConfiguratorAttributeCheckBoxListComponent,
-          ConfiguratorAttributeMultiSelectionImageComponent,
-          ConfiguratorAttributeSingleSelectionImageComponent,
-          MockConfiguratorAttributeInputFieldComponent,
-          MockConfiguratorAttributeNumericInputFieldComponent,
-          ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
-          ConfiguratorAttributeSingleSelectionBundleComponent,
-          ConfiguratorAttributeMultiSelectionBundleComponent,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
-          },
-          { provide: LanguageService, useValue: mockLanguageService },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
-          },
-          {
-            provide: ConfiguratorExpertModeService,
-            useClass: MockConfiguratorExpertModeService,
-          },
-          {
-            provide: ConfiguratorAttributeCompositionConfig,
-            useValue: mockConfiguratorAttributeCompositionConfig,
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeHeaderComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [
+        MockCxIconComponent,
+        MockConfiguratorPriceComponent,
+        MockFocusDirective,
+        MockFeatureLevelDirective,
+        MockProductCardComponent,
+        ConfiguratorAttributeCompositionDirective,
+        ConfiguratorGroupComponent,
+        MockConfiguratorConflictDescriptionComponent,
+        ConfiguratorConflictSuggestionComponent,
+        ConfiguratorAttributeHeaderComponent,
+        ConfiguratorAttributeFooterComponent,
+        ConfiguratorAttributeNotSupportedComponent,
+        ConfiguratorAttributeRadioButtonComponent,
+        ConfiguratorAttributeDropDownComponent,
+        ConfiguratorAttributeReadOnlyComponent,
+        ConfiguratorAttributeCheckBoxComponent,
+        ConfiguratorAttributeCheckBoxListComponent,
+        ConfiguratorAttributeMultiSelectionImageComponent,
+        ConfiguratorAttributeSingleSelectionImageComponent,
+        MockConfiguratorAttributeInputFieldComponent,
+        MockConfiguratorAttributeNumericInputFieldComponent,
+        ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+        ConfiguratorAttributeSingleSelectionBundleComponent,
+        ConfiguratorAttributeMultiSelectionBundleComponent,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+        { provide: LanguageService, useValue: mockLanguageService },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+        {
+          provide: ConfiguratorExpertModeService,
+          useClass: MockConfiguratorExpertModeService,
+        },
+        {
+          provide: ConfiguratorAttributeCompositionConfig,
+          useValue: mockConfiguratorAttributeCompositionConfig,
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeHeaderComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     configuratorUtils = TestBed.inject(
