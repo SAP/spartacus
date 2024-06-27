@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { CheckoutOccEndpoints } from '@spartacus/checkout/base/occ';
 import { OccConfig } from '@spartacus/core';
 
