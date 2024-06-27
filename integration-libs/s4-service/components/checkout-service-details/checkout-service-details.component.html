@@ -1,1 +1,37 @@
-<h1>{{ 'Service Details Loaded' }}</h1>
+<h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
+  {{ 'serviceOrderCheckout.heading' | cxTranslate }}
+</h2>
+
+<ng-container
+  *ngIf="
+    !(isUpdating$ | async) &&
+      (serviceOrderConfig$ | async) as serviceOrderConfig;
+    else loading
+  "
+>
+  <h3>{{ serviceOrderConfig }}</h3>
+  <h4>{{ 'will show date picker and time picker' }}</h4>
+</ng-container>
+
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>
+
+<div class="row cx-checkout-btns">
+  <div class="col-md-12 col-lg-6">
+    <button class="btn btn-block btn-secondary" (click)="back()">
+      {{ backBtnText | cxTranslate }}
+    </button>
+  </div>
+  <div class="col-md-12 col-lg-6">
+    <button
+      class="btn btn-block btn-primary"
+      [disabled]="isSetServiceDetailsHttpError$ | async"
+      (click)="next()"
+    >
+      {{ 'common.continue' | cxTranslate }}
+    </button>
+  </div>
+</div>

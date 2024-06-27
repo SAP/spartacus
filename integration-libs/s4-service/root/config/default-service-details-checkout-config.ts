@@ -39,7 +39,7 @@ export const defaultServiceDetailsCheckoutConfig: CheckoutConfig = {
       },
       {
         id: 'serviceDetails',
-        name: 's4Service-checkoutProgress.serviceDetails',
+        name: 'serviceOrderCheckout.serviceDetails',
         routeName: 'checkoutServiceDetails',
         type: [CheckoutStepType.SERVICE_DETAILS],
       },

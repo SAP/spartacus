@@ -3,3 +3,5 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
+export * from './checkout-service-details.service';

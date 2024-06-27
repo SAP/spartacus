@@ -6,7 +6,18 @@
 
 import { NgModule } from '@angular/core';
 
+import { CheckoutServiceDetailsService } from './facade';
+import { CheckoutServiceDetailsFacade } from '../root/facade';
+import { CheckoutServiceDetailsConnector } from './connector';
+
 @NgModule({
-  providers: [],
+  providers: [
+    CheckoutServiceDetailsService,
+    {
+      provide: CheckoutServiceDetailsFacade,
+      useExisting: CheckoutServiceDetailsService,
+    },
+    CheckoutServiceDetailsConnector,
+  ],
 })
 export class S4ServiceCoreModule {}

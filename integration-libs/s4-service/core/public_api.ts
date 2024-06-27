@@ -4,4 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './connector/index';
+export * from './facade/index';
 export * from './s4-service-core.module';

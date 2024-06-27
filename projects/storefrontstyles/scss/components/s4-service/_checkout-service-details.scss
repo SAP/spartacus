@@ -1,0 +1,20 @@
+@import '../../../../../feature-libs/checkout/base/styles/mixins/_checkout-media-style.scss';
+
+%cx-service-details {
+  @include checkout-media-style();
+
+  border: 1px solid var(--cx-color-medium);
+  border-radius: 10px;
+  padding: 23px 30px 8px;
+  background-color: var(--cx-color-inverse);
+
+  @include media-breakpoint-down(md) {
+    background-color: var(--cx-color-transparent);
+    margin-top: 32px;
+    padding: 23px 30px 8px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin: 2rem 0 2rem;
+  }
+}

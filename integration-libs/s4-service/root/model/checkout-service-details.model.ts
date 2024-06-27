@@ -4,8 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export interface serviceDetails {
-  scheduledDate?: string;
-  scheduledTime?: string;
+export interface ServiceDetails {
   scheduledAt?: string; //combination of above two fields
+}
+
+export interface ServiceOrderConfig {
+  leadDays?: number;
+  serviceScheduleTimes?: string[];
 }
