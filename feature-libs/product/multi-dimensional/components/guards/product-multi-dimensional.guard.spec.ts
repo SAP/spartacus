@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Product,
@@ -10,11 +10,11 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { VariantsMultiDimensionalGuard } from './variants-multi-dimensional.guard';
+import { ProductMultiDimensionalGuard } from './product-multi-dimensional.guard';
 
 const mockMultidimensionalProductAndPurchasable = {
   name: 'multidimensionalProduct',
-  productCode: 'multidimensionalTest123',
+  code: 'multidimensionalTest123',
   purchasable: true,
   multidimensional: true,
   variantMatrix: [
@@ -28,7 +28,7 @@ const mockMultidimensionalProductAndPurchasable = {
 
 const mockMultidimensionalProductAndWithOutPurchasable = {
   name: 'multidimensionalProduct',
-  productCode: 'multidimensionalTest123',
+  code: 'multidimensionalTest123',
   purchasable: false,
   multidimensional: true,
   variantMatrix: [
@@ -40,10 +40,11 @@ const mockMultidimensionalProductAndWithOutPurchasable = {
   ],
 };
 
-const mockMultidimensionalProductWithVariantMAtrix = {
+const mockMultidimensionalProductWithVariantMatrix = {
   name: 'multidimensionalProduct',
-  productCode: 'multidimensionalTest123',
+  code: 'multidimensionalTest123',
   multidimensional: true,
+  variantMatrix: [],
 };
 
 const activatedRoute = {
@@ -63,10 +64,11 @@ class MockSemanticPathService implements Partial<SemanticPathService> {
   }
 }
 
-describe('VariantsMultiDimensionalGuard', () => {
-  let guard: VariantsMultiDimensionalGuard;
+describe('ProductMultiDimensionalGuard', () => {
+  let guard: ProductMultiDimensionalGuard;
   let productService: ProductService;
   let semanticPathService: MockSemanticPathService;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -96,9 +98,10 @@ describe('VariantsMultiDimensionalGuard', () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.inject(VariantsMultiDimensionalGuard);
+    guard = TestBed.inject(ProductMultiDimensionalGuard);
     productService = TestBed.inject(ProductService);
     semanticPathService = TestBed.inject(SemanticPathService);
+    router = TestBed.inject(Router);
   });
 
   describe('canActivate', () => {
@@ -132,7 +135,7 @@ describe('VariantsMultiDimensionalGuard', () => {
             });
         });
 
-        it('should return url if product is not purchasable and navigate to product variatn page', (done) => {
+        it('should return url if product is not purchasable and navigate to product variant page', (done) => {
           spyOn(productService, 'get').and.returnValue(
             of(mockMultidimensionalProductAndWithOutPurchasable)
           );
@@ -153,10 +156,10 @@ describe('VariantsMultiDimensionalGuard', () => {
         });
       });
 
-      describe('and product has not variantMatrix', () => {
+      describe('and product has no variantMatrix', () => {
         it('should return true', (done) => {
           spyOn(productService, 'get').and.returnValue(
-            of(mockMultidimensionalProductWithVariantMAtrix)
+            of(mockMultidimensionalProductWithVariantMatrix)
           );
 
           guard

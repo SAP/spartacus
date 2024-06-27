@@ -101,7 +101,7 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-import { ProductMultidimensionalFeatureModule } from './features/product/product-multidimensional-feature.module';
+import { ProductMultiDimensionalFeatureModule } from './features/product/product-multi-dimensional-feature.module';
 
 const featureModules = [];
 
@@ -248,7 +248,7 @@ if (environment.estimatedDeliveryDate) {
     SmartEditFeatureModule,
 
     VariantsFeatureModule,
-    ProductMultidimensionalFeatureModule,
+    ProductMultiDimensionalFeatureModule,
     ImageZoomFeatureModule,
 
     QuoteFeatureModule,

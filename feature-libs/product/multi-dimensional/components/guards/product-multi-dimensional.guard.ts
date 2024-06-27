@@ -21,7 +21,7 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class VariantsMultiDimensionalGuard {
+export class ProductMultiDimensionalGuard {
   protected productService: ProductService = inject(ProductService);
   protected semanticPathService: SemanticPathService =
     inject(SemanticPathService);

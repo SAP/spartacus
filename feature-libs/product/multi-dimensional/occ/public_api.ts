@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './variants-multi-dimensional-occ.module';
+export * from './product-multi-dimensional-occ.module';

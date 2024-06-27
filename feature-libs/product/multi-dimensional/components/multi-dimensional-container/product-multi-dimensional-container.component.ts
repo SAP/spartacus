@@ -12,10 +12,10 @@ import { CurrentProductService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-variants-multi-dimensional',
-  templateUrl: './variants-multi-dimensional.component.html',
+  templateUrl: './product-multi-dimensional-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VariantsMultiDimensionalComponent {
+export class ProductMultiDimensionalContainerComponent {
   protected currentProductService: CurrentProductService = inject(
     CurrentProductService
   );

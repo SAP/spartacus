@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Product, I18nTestingModule } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { VariantsMultiDimensionalComponent } from './variants-multi-dimensional.component';
+import { ProductMultiDimensionalContainerComponent } from './product-multi-dimensional-container.component';
 
 const mockProduct: Product = {
   name: 'mockProduct',
@@ -28,13 +28,13 @@ class MockVariantsMultiDimensionalSelectorComponent {
 }
 
 describe('VariantsMultiDimensionalComponent', () => {
-  let component: VariantsMultiDimensionalComponent;
-  let fixture: ComponentFixture<VariantsMultiDimensionalComponent>;
+  let component: ProductMultiDimensionalContainerComponent;
+  let fixture: ComponentFixture<ProductMultiDimensionalContainerComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
-        VariantsMultiDimensionalComponent,
+        ProductMultiDimensionalContainerComponent,
         MockVariantsMultiDimensionalSelectorComponent,
       ],
       imports: [RouterTestingModule, I18nTestingModule],
@@ -48,7 +48,9 @@ describe('VariantsMultiDimensionalComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VariantsMultiDimensionalComponent);
+    fixture = TestBed.createComponent(
+      ProductMultiDimensionalContainerComponent
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

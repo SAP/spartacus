@@ -5,5 +5,5 @@
  */
 
 export * from './guards/index';
-export * from './variants-multi-dimensional-components.module';
-export * from './variants-multi-dimensional/index';
+export * from './product-multi-dimensional-components.module';
+export * from './multi-dimensional-container';

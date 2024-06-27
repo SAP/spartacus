@@ -23,7 +23,7 @@ import {
         [PRODUCT_MULTIDIMENSIONAL_FEATURE]: {
           module: () =>
             import('@spartacus/product/multi-dimensional').then(
-              (m) => m.VariantsMultiDimensionalModule
+              (m) => m.ProductMultiDimensionalModule
             ),
         },
       },
@@ -34,4 +34,4 @@ import {
     }),
   ],
 })
-export class ProductMultidimensionalFeatureModule {}
+export class ProductMultiDimensionalFeatureModule {}

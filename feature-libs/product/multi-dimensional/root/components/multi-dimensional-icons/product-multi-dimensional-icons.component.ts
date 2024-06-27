@@ -27,11 +27,11 @@ import { EMPTY, Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-multidimensional-icons',
-  templateUrl: './product-multidimensional-icons.component.html',
-  styleUrls: ['./product-multidimensional-icons.component.scss'],
+  templateUrl: './product-multi-dimensional-icons.component.html',
+  styleUrls: ['./product-multi-dimensional-icons.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductMultidimensionalIconsComponent
+export class ProductMultiDimensionalIconsComponent
   implements OnInit, OnDestroy
 {
   constructor(
@@ -55,7 +55,7 @@ export class ProductMultidimensionalIconsComponent
 
     this.subscriptions.add(
       this.product$.subscribe((product: Product) => {
-        if (product.variantOptions && product.variantOptions.length) {
+        if (product.multidimensional && product.variantOptions.length) {
           this.variants = product.variantOptions;
           this.setVariantsNames();
         }

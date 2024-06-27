@@ -22,20 +22,20 @@ import {
   VariantMatrixElement,
   VariantOptionQualifier,
 } from '@spartacus/core';
-import { VariantsMultiDimensionalService } from '../../../core/services/variants-multi-dimensional.service';
+import { ProductMultiDimensionalService } from '../../../core/services/product-multi-dimensional.service';
 import { ActivatedRoute } from '@angular/router';
 import { VariantsCategories } from '../../../core/model/augmented-core.model';
 import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-variants-multi-dimensional-selector',
-  templateUrl: './variants-multi-dimensional-selector.component.html',
+  templateUrl: './product-multi-dimensional-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VariantsMultiDimensionalSelectorComponent implements OnChanges {
+export class ProductMultiDimensionalSelectorComponent implements OnChanges {
   protected config: Config = inject(Config);
-  protected multiDimensionalService: VariantsMultiDimensionalService = inject(
-    VariantsMultiDimensionalService
+  protected multiDimensionalService: ProductMultiDimensionalService = inject(
+    ProductMultiDimensionalService
   );
   protected productService: ProductService = inject(ProductService);
   protected routingService: RoutingService = inject(RoutingService);
@@ -89,8 +89,8 @@ export class VariantsMultiDimensionalSelectorComponent implements OnChanges {
     return images;
   }
 
-  isSelected(cat: VariantMatrixElement) {
-    return cat.variantOption?.code === this.product.code;
+  isSelected(category: VariantMatrixElement) {
+    return category.variantOption?.code === this.product.code;
   }
 
   protected getBaseUrl(): string {

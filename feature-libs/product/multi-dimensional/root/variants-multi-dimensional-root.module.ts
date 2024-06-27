@@ -7,13 +7,13 @@
 import { NgModule } from '@angular/core';
 import { provideDefaultConfigFactory } from '@spartacus/core';
 import { PRODUCT_MULTIDIMENSIONAL_FEATURE } from './feature-name';
-import { ProductMultidimensionalIconsComponent } from './components/multidimensional-icons/product-multidimensional-icons.component';
+import { ProductMultiDimensionalIconsComponent } from './components/multi-dimensional-icons/product-multi-dimensional-icons.component';
 import {
   OutletPosition,
   ProductListOutlets,
   provideOutlet,
 } from '@spartacus/storefront';
-import { ProductMultidimensionalIconsModule } from './components/multidimensional-icons/product-multidimensional-icons.module';
+import { ProductMultiDimensionalIconsModule } from './components/multi-dimensional-icons/product-multi-dimensional-icons.module';
 
 export function defaultProductMultiDimensionalComponentsConfig() {
   const config = {
@@ -30,13 +30,13 @@ export function defaultProductMultiDimensionalComponentsConfig() {
 }
 
 @NgModule({
-  imports: [ProductMultidimensionalIconsModule],
+  imports: [ProductMultiDimensionalIconsModule],
   providers: [
     provideDefaultConfigFactory(defaultProductMultiDimensionalComponentsConfig),
     provideOutlet({
       id: ProductListOutlets.ITEM_DETAILS,
       position: OutletPosition.AFTER,
-      component: ProductMultidimensionalIconsComponent,
+      component: ProductMultiDimensionalIconsComponent,
     }),
   ],
 })

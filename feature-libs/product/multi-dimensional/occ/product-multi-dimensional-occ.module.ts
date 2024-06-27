@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { defaultOccProductVariantsMultidimensionalConfig } from './config/default-occ-variants-multidimensional-config';
+import { defaultOccProductVariantsMultidimensionalConfig } from './config/default-occ-product-multi-dimensional-config';
 
 @NgModule({
   imports: [CommonModule],
@@ -15,4 +15,4 @@ import { defaultOccProductVariantsMultidimensionalConfig } from './config/defaul
     provideDefaultConfig(defaultOccProductVariantsMultidimensionalConfig),
   ],
 })
-export class VariantsMultiDimensionalOccModule {}
+export class ProductMultiDimensionalOccModule {}

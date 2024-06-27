@@ -10,8 +10,10 @@ import {
 } from '@spartacus/core';
 import { NavigationExtras } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { MediaModule } from 'projects/storefrontlib/src/shared';
-import { VariantsMultiDimensionalSelectorComponent } from './variants-multi-dimensional-selector.component';
+import { MediaModule } from '@spartacus/storefront';
+import { ProductMultiDimensionalSelectorComponent } from './product-multi-dimensional-selector.component';
+import { VariantsMultiDimensionalService } from '../../core/services/variants-multi-dimensional.service';
+import { VariantsCategories } from '../../core/model/augmented-core.model';
 
 const mockProduct: Product = {
   baseProduct: 'baseProduct1',
@@ -272,32 +274,44 @@ class MockProductService implements Partial<ProductService> {
     return of(prepareMockProductBasedOnCode(code));
   }
 }
+class MockVariantsMultiDimensionalService
+  implements Partial<VariantsMultiDimensionalService>
+{
+  getVariants(product: Product): VariantsCategories[] {
+    return product.variantMatrix.map((matrix) => ({
+      name: matrix.parentVariantCategory.name,
+      categoryVariants: matrix.elements,
+    }));
+  }
+}
 
 describe('VariantMultiDimensionalSelectorComponent', () => {
-  let component: VariantsMultiDimensionalSelectorComponent;
-  let fixture: ComponentFixture<VariantsMultiDimensionalSelectorComponent>;
+  let component: ProductMultiDimensionalSelectorComponent;
+  let fixture: ComponentFixture<ProductMultiDimensionalSelectorComponent>;
   let productService: ProductService;
   let routingService: RoutingService;
+  let multiDimensionalService: VariantsMultiDimensionalService;
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [VariantsMultiDimensionalSelectorComponent],
+      declarations: [ProductMultiDimensionalSelectorComponent],
       imports: [RouterTestingModule, I18nTestingModule, MediaModule],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: ProductService, useClass: MockProductService },
         {
-          provide: ProductService,
-          useClass: MockProductService,
+          provide: VariantsMultiDimensionalService,
+          useClass: MockVariantsMultiDimensionalService,
         },
       ],
     }).compileComponents();
     routingService = TestBed.inject(RoutingService);
     productService = TestBed.inject(ProductService);
+    multiDimensionalService = TestBed.inject(VariantsMultiDimensionalService);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(
-      VariantsMultiDimensionalSelectorComponent
-    );
+    fixture = TestBed.createComponent(ProductMultiDimensionalSelectorComponent);
     component = fixture.componentInstance;
     component.product = mockProduct;
     fixture.detectChanges();
@@ -321,7 +335,7 @@ describe('VariantMultiDimensionalSelectorComponent', () => {
   it('should process product variant matrix and set variants for display', () => {
     component.changeVariant('code_1');
     fixture.detectChanges();
-    expect(component.variants.length).toEqual(mockProduct.categories.length);
+    expect(component.variants.length).toEqual(mockProduct.variantMatrix.length);
   });
 
   it('should render proper count of media variant based on provided variantsMatrix in product', () => {
@@ -356,10 +370,14 @@ describe('VariantMultiDimensionalSelectorComponent', () => {
 
   describe('when variant array', () => {
     it('contain hasImage flag it should return true', () => {
-      expect(component.variantHasImages(component.variants[0])).toEqual(true);
+      expect(
+        component.variantHasImages(component.variants[0].categoryVariants)
+      ).toEqual(true);
     });
     it('does not contain hasImage flag it should return false', () => {
-      expect(component.variantHasImages(component.variants[1])).toEqual(false);
+      expect(
+        component.variantHasImages(component.variants[1].categoryVariants)
+      ).toEqual(false);
     });
   });
 });

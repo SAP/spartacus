@@ -19,7 +19,7 @@ interface Leaf {
 }
 
 @Injectable({ providedIn: 'root' })
-export class VariantsMultiDimensionalService {
+export class ProductMultiDimensionalService {
   getVariants(product: Product): VariantsCategories[] {
     const baseOptions = product?.baseOptions ?? [];
 

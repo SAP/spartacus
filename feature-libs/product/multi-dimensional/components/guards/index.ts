@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './variants-multi-dimensional.guard';
+export * from './product-multi-dimensional.guard';

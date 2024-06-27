@@ -12,32 +12,32 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { VariantsMultiDimensionalComponent } from './variants-multi-dimensional.component';
+import { ProductMultiDimensionalContainerComponent } from './product-multi-dimensional-container.component';
 import { RouterModule } from '@angular/router';
-import { VariantsMultiDimensionalGuard } from '../guards/variants-multi-dimensional.guard';
+import { ProductMultiDimensionalGuard } from '../guards/product-multi-dimensional.guard';
 import { MediaModule } from '@spartacus/storefront';
-import { VariantsMultiDimensionalSelectorComponent } from './variants-multi-dimensional-selector/variants-multi-dimensional-selector.component';
+import { ProductMultiDimensionalSelectorComponent } from './multi-dimensional-selector/product-multi-dimensional-selector.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, UrlModule, I18nModule, MediaModule],
   declarations: [
-    VariantsMultiDimensionalComponent,
-    VariantsMultiDimensionalSelectorComponent,
+    ProductMultiDimensionalContainerComponent,
+    ProductMultiDimensionalSelectorComponent,
   ],
   exports: [
-    VariantsMultiDimensionalComponent,
-    VariantsMultiDimensionalSelectorComponent,
+    ProductMultiDimensionalContainerComponent,
+    ProductMultiDimensionalSelectorComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         // ProductVariantMultiDimensionalSelectorComponent
         ProductVariantSelectorComponent: {
-          component: VariantsMultiDimensionalComponent,
-          guards: [VariantsMultiDimensionalGuard],
+          component: ProductMultiDimensionalContainerComponent,
+          guards: [ProductMultiDimensionalGuard],
         },
       },
     }),
   ],
 })
-export class VariantsMultiDimensionalModule {}
+export class ProductMultiDimensionalContainerModule {}

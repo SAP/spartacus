@@ -7,12 +7,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { UrlModule, I18nModule } from '@spartacus/core';
-import { ProductMultidimensionalIconsComponent } from './product-multidimensional-icons.component';
+import { ProductMultiDimensionalIconsComponent } from './product-multi-dimensional-icons.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [CommonModule, RouterModule, UrlModule, I18nModule],
-  declarations: [ProductMultidimensionalIconsComponent],
-  exports: [ProductMultidimensionalIconsComponent],
+  declarations: [ProductMultiDimensionalIconsComponent],
+  exports: [ProductMultiDimensionalIconsComponent],
 })
-export class ProductMultidimensionalIconsModule {}
+export class ProductMultiDimensionalIconsModule {}
