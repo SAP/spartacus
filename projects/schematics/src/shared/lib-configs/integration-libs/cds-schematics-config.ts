@@ -8,6 +8,7 @@ import { CDS_CONFIG } from '../../constants';
 import {
   CDS_FEATURE_NAME,
   SPARTACUS_CDS,
+  SPARTACUS_CDS_ASSETS,
   TRACKING_PERSONALIZATION_FEATURE_NAME,
 } from '../../libs-constants';
 import {
@@ -15,6 +16,7 @@ import {
   AdditionalProviders,
 } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
+import { cdsTranslationChunksConfig, cdsTranslations } from '@spartacus/cds';
 
 export interface SpartacusCdsOptions extends LibraryOptions {
   tenant?: string;
@@ -27,6 +29,9 @@ export const CDS_FOLDER_NAME = 'cds';
 export const CDS_MODULE_NAME = 'Cds';
 
 export const CDS_MODULE = 'CdsModule';
+
+export const CDS_TRANSLATIONS = 'cdsTranslations';
+export const CDS_TRANSLATION_CHUNKS_CONFIG = 'cdsTranslationChunksConfig';
 
 export const CDS_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
@@ -42,6 +47,11 @@ export const CDS_SCHEMATICS_CONFIG: SchematicConfig = {
   },
   customConfig: buildCdsConfig,
   dependencyFeatures: [TRACKING_PERSONALIZATION_FEATURE_NAME],
+  i18n: {
+    resources: CDS_TRANSLATIONS,
+    chunks: CDS_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_CDS_ASSETS,
+  },
 };
 
 function buildCdsConfig(
