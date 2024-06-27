@@ -165,7 +165,7 @@ export class LoadOrgUnitNodesFail extends StateUtils.EntityFailAction {
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: Exclude<unknown, { error: ActionErrorProperty }>);
+  constructor(payload: { error: null | undefined });
   // eslint-disable-next-line @typescript-eslint/unified-signatures
   constructor(payload: { error: ActionErrorProperty });
   constructor(public payload: any) {
