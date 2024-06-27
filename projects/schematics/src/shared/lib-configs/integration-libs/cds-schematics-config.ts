@@ -16,7 +16,6 @@ import {
   AdditionalProviders,
 } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
-import { cdsTranslationChunksConfig, cdsTranslations } from '@spartacus/cds';
 
 export interface SpartacusCdsOptions extends LibraryOptions {
   tenant?: string;
