@@ -61,7 +61,7 @@ export class ConfiguratorPriceComponent {
   protected addSign(
     value: string | undefined,
     sign: string,
-    _before?: boolean
+    _before: boolean
   ): string {
     return this.priceService.addSign(value, sign);
   }
@@ -72,7 +72,7 @@ export class ConfiguratorPriceComponent {
   protected compileFormattedValue(
     priceValue: number,
     formattedValue: string | undefined,
-    _isRTL?: boolean
+    _isRTL: boolean
   ): string {
     return this.priceService.compileFormattedValue(priceValue, formattedValue);
   }

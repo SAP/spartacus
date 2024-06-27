@@ -377,7 +377,7 @@ describe('ConfiguratorPriceComponent', () => {
     });
 
     it('addSign should delegate to ConfiguratorPricingService', () => {
-      component['addSign']('123', '+');
+      component['addSign']('123', '+', true);
       expect(pricingService.addSign).toHaveBeenCalledWith('123', '+');
     });
 
@@ -387,7 +387,7 @@ describe('ConfiguratorPriceComponent', () => {
     });
 
     it('compileFormattedValue should delegate to ConfiguratorPricingService', () => {
-      component['compileFormattedValue'](123, '123');
+      component['compileFormattedValue'](123, '123', true);
       expect(pricingService.compileFormattedValue).toHaveBeenCalledWith(
         123,
         '123'
