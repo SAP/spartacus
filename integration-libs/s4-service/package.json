@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/s4-service",
-  "version": "2211.24.1",
+  "version": "2211.25.0-3",
   "description": "S/4HANA Service Integration Integration library for Spartacus",
   "keywords": [
     "spartacus",
@@ -22,8 +22,8 @@
   "peerDependencies": {
     "@angular-devkit/schematics": "^17.0.5",
     "@angular/core": "^17.0.5",
-    "@spartacus/core": "2211.24.1",
-    "@spartacus/schematics": "2211.24.1"
+    "@spartacus/core": "2211.25.0-3",
+    "@spartacus/schematics": "2211.25.0-3"
   },
   "publishConfig": {
     "access": "public"

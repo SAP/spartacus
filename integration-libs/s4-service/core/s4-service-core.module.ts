@@ -4,4 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './s4-service-root.module';
+import { NgModule } from '@angular/core';
+
+@NgModule({
+  providers: [],
+})
+export class S4ServiceCoreModule {}
