@@ -165,13 +165,6 @@ $space: 0.5rem;
     header {
       padding: 0 $space * 2;
     }
-    .cx-hamburger {
-      display: none;
-
-      &.is-active {
-        background-color: var(--cx-color-primary);
-      }
-    }
 
     .SiteContext,
     .SiteLinks {
@@ -203,7 +196,11 @@ $space: 0.5rem;
   }
 
   .cx-hamburger {
+    display: none;
+
     &.is-active {
+      background-color: var(--cx-color-primary);
+
       .hamburger-inner,
       .hamburger-inner::before,
       .hamburger-inner::after {
