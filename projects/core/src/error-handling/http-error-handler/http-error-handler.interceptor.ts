@@ -14,14 +14,16 @@ import {
 import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { FeatureConfigService } from '../../features-config';
 import { HttpResponseStatus } from '../../global-message';
 import { OccEndpointsService } from '../../occ';
+import { WindowRef } from '../../window';
 
 /**
  * Represents an HTTP error response for a CMS page not found.
  */
 export type CmsPageNotFoundHttpErrorResponse = HttpErrorResponse & {
-  cxCmsPageNotFound: boolean; //this guy right here is going to be visible in logs but I think it's ok
+  cxCmsPageNotFound: boolean;
 };
 
 /**
@@ -35,6 +37,8 @@ export type CmsPageNotFoundHttpErrorResponse = HttpErrorResponse & {
 export class HttpErrorHandlerInterceptor implements HttpInterceptor {
   protected errorHandler = inject(ErrorHandler);
   protected occEndpointsService = inject(OccEndpointsService);
+  protected windowRef = inject(WindowRef);
+  private featureService = inject(FeatureConfigService);
 
   intercept(
     request: HttpRequest<any>,
@@ -43,14 +47,26 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       tap({
         error: (error) => {
-          this.handleError(
-            this.isCmsPageNotFound(error)
-              ? {
-                  ...error,
-                  cxCmsPageNotFound: true,
-                }
-              : error
-          );
+          if (
+            this.featureService.isEnabled(
+              'ssrStrictErrorHandlingForHttpAndNgrx'
+            ) &&
+            // We avoid sending unpredictable errors to the browser's console, to prevent
+            // possibly exposing there potentially confidential user's data.
+            // This isn't an issue in SSR, where pages are rendered anonymously.
+            // Moreover, in SSR we want to capture all app's errors, so we can potentially send
+            // a HTTP error response (e.g. 500 error page) from SSR to a client.
+            !this.windowRef.isBrowser()
+          ) {
+            this.handleError(
+              this.isCmsPageNotFound(error)
+                ? {
+                    ...error,
+                    cxCmsPageNotFound: true,
+                  }
+                : error
+            );
+          }
         },
       })
     );
