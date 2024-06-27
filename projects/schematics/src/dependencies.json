@@ -395,10 +395,8 @@
     "@angular-devkit/schematics": "^17.0.5",
     "@angular/common": "^17.0.5",
     "@angular/core": "^17.0.5",
-    "@spartacus/checkout": "2211.24.1",
-    "@spartacus/core": "2211.24.1",
-    "@spartacus/schematics": "2211.24.1",
-    "rxjs": "^7.8.0"
+    "@spartacus/core": "2211.25.0-3",
+    "@spartacus/schematics": "2211.25.0-3"
   },
   "@spartacus/s4om": {
     "@angular-devkit/schematics": "^17.0.5",
