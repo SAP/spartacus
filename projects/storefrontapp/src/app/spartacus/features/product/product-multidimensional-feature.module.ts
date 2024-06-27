@@ -10,14 +10,17 @@ import {
   variantsMultidimensionalTranslationChunksConfig,
   variantsMultidimensionalTranslations,
 } from '@spartacus/product/multi-dimensional/assets';
-import { VariantsMultiDimensionalRootModule } from '@spartacus/product/multi-dimensional/root';
+import {
+  PRODUCT_MULTIDIMENSIONAL_FEATURE,
+  VariantsMultiDimensionalRootModule,
+} from '@spartacus/product/multi-dimensional/root';
 
 @NgModule({
   imports: [VariantsMultiDimensionalRootModule],
   providers: [
     provideConfig({
       featureModules: {
-        variantsMultidimensional: {
+        [PRODUCT_MULTIDIMENSIONAL_FEATURE]: {
           module: () =>
             import('@spartacus/product/multi-dimensional').then(
               (m) => m.VariantsMultiDimensionalModule
@@ -31,4 +34,4 @@ import { VariantsMultiDimensionalRootModule } from '@spartacus/product/multi-dim
     }),
   ],
 })
-export class VariantsMultidimensionalFeatureModule {}
+export class ProductMultidimensionalFeatureModule {}

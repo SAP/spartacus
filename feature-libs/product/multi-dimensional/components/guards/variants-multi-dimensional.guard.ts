@@ -7,13 +7,16 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 import {
+  isNotUndefined,
   Product,
   ProductScope,
   ProductService,
   SemanticPathService,
+  VariantMatrixElement,
+  VariantOption,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -33,31 +36,45 @@ export class VariantsMultiDimensionalGuard {
     }
 
     return this.productService
-      .get(productCode, ProductScope.VARIANTS_MULTIDIMENSIONAL)
+      .get(productCode, ProductScope.MULTIDIMENSIONAL)
       .pipe(
-        filter((p) => !!p),
+        filter(isNotUndefined),
         switchMap((product: Product) => {
-          // current md example product is not purchasable
           if (!product.purchasable && product.variantMatrix?.length) {
-            return of(
-              this.router.createUrlTree(
-                this.semanticPathService.transform({
-                  cxRoute: 'product',
-                  params: {
-                    code: this.getCode(product),
-                    name: product.name,
-                  },
-                })
-              )
-            );
-          } else {
-            return of(true);
+            const purchasableCode = this.findPurchasableProductCode(product);
+            if (purchasableCode) {
+              return this.productService
+                .get(purchasableCode, ProductScope.LIST)
+                .pipe(
+                  filter(isNotUndefined),
+                  take(1),
+                  map((_product: Product) => {
+                    return this.router.createUrlTree(
+                      this.semanticPathService.transform({
+                        cxRoute: 'product',
+                        params: _product,
+                      })
+                    );
+                  })
+                );
+            }
           }
+          return of(true);
         })
       );
   }
 
-  protected getCode(product: Product): string {
-    return product.variantMatrix[0].variantOption?.code;
+  protected findPurchasableProductCode(product: Product): string | undefined {
+    if (product.variantMatrix?.length) {
+      const results: VariantOption[] = product.variantMatrix
+        .map((variantMatrixElement: VariantMatrixElement) => {
+          return variantMatrixElement.variantOption;
+        })
+        .filter(
+          (variant: VariantOption) => variant.stock && variant.stock.stockLevel
+        );
+      return results.length ? results[0]?.code : undefined;
+    }
+    return undefined;
   }
 }

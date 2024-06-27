@@ -5,3 +5,7 @@
  */
 
 export * from './variants-multi-dimensional-root.module';
+export * from './feature-name';
+
+export * from './components/multidimensional-icons/product-multidimensional-icons.module';
+export * from './components/multidimensional-icons/product-multidimensional-icons.component';

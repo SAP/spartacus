@@ -11,8 +11,7 @@ export type VariantsCategories = {
   name: string;
   categoryVariants: VariantMatrixElement[];
 };
+
 declare module '@spartacus/core' {
   const enum ProductScope {}
-
-  // VARIANTS_MULTIDIMENSIONAL = 'variantsMultidimensional',
 }

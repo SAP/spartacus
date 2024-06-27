@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   Product,
+  ProductScope,
   ProductService,
   RoutingService,
   UrlCommands,
@@ -11,7 +12,6 @@ import { NavigationExtras } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { MediaModule } from 'projects/storefrontlib/src/shared';
 import { VariantsMultiDimensionalSelectorComponent } from './variants-multi-dimensional-selector.component';
-import { ProductScope } from '@spartacus/product/multi-dimensional/core';
 
 const mockProduct: Product = {
   baseProduct: 'baseProduct1',
@@ -314,7 +314,7 @@ describe('VariantMultiDimensionalSelectorComponent', () => {
     expect(component.changeVariant).toHaveBeenCalled();
     expect(productService.get).toHaveBeenCalledWith(
       'code_1',
-      ProductScope.VARIANTS_MULTIDIMENSIONAL
+      ProductScope.MULTIDIMENSIONAL
     );
   });
 

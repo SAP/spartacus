@@ -5,10 +5,13 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Product, VariantMatrixElement, VariantOption, VariantOptionQualifier } from 'projects/core/src/model';
+import {
+  Product,
+  VariantMatrixElement,
+  VariantOption,
+  VariantOptionQualifier,
+} from 'projects/core/src/model';
 import { VariantsCategories } from '../model/augmented-core.model';
-
-// import { productData } from './product-data';
 
 interface Leaf {
   variantMatrixElement: VariantMatrixElement;
@@ -17,27 +20,14 @@ interface Leaf {
 
 @Injectable({ providedIn: 'root' })
 export class VariantsMultiDimensionalService {
-  variantHasImages(variants: any[]): boolean {
-    return variants.some(
-      (variant: VariantMatrixElement) => variant.parentVariantCategory?.hasImage
-    );
-  }
-
   getVariants(product: Product): VariantsCategories[] {
-
-    // product = {
-    //   ...product,
-    //   code: '88116000_1',
-    //   variantMatrix: productData.variantMatrix,
-    //   categories: productData.categories,
-    //   baseOptions: productData.baseOptions
-    // };
     const baseOptions = product?.baseOptions ?? [];
 
     const variantMatrix = product.variantMatrix ?? [];
     const variantOptions = baseOptions[0].options ?? [];
     const leafElements = this.findLeafElements(variantMatrix, variantOptions);
-    const selectedVariants = baseOptions[0]?.selected?.variantOptionQualifiers ?? [];
+    const selectedVariants =
+      baseOptions[0]?.selected?.variantOptionQualifiers ?? [];
 
     const options: {
       qualifier: string;
@@ -57,11 +47,12 @@ export class VariantsMultiDimensionalService {
     return options.map((option) => ({
       name: option.qualifier,
       categoryVariants: leafElements.reduce((variantMatrixElements, leaf) => {
-        const matchesCriteria = selectedVariants.every((selected) =>
-          selected.name === option.qualifier ||
-          leaf.variantOptionQualifiers.some(
-            (vo) => vo.name === selected.name && vo.value === selected.value
-          )
+        const matchesCriteria = selectedVariants.every(
+          (selected) =>
+            selected.name === option.qualifier ||
+            leaf.variantOptionQualifiers.some(
+              (vo) => vo.name === selected.name && vo.value === selected.value
+            )
         );
 
         /**
@@ -75,32 +66,38 @@ export class VariantsMultiDimensionalService {
         if (matchesCriteria) {
           option.qualifiers.forEach((optionQualifier) => {
             const match = leaf.variantOptionQualifiers.find(
-              (vo) => vo.qualifier === optionQualifier.qualifier && vo.value === optionQualifier.value
+              (vo) =>
+                vo.qualifier === optionQualifier.qualifier &&
+                vo.value === optionQualifier.value
             );
             if (match) {
               variantMatrixElements.push({
                 ...leaf.variantMatrixElement,
-                variantValueCategory: { name: optionQualifier.value }
+                variantValueCategory: { name: optionQualifier.value },
               });
             }
           });
         }
         return variantMatrixElements;
-      }, [] as VariantMatrixElement[])
+      }, [] as VariantMatrixElement[]),
     }));
   }
 
-  findLeafElements(variantMatrix: VariantMatrixElement[], variantOptions: VariantOption[]): Leaf[] {
+  findLeafElements(
+    variantMatrix: VariantMatrixElement[],
+    variantOptions: VariantOption[]
+  ): Leaf[] {
     const leafElements: Leaf[] = [];
     const traverseElements = (matrix: VariantMatrixElement[]) => {
-
       matrix.forEach((element: VariantMatrixElement) => {
         if (!element.elements || element.elements.length === 0) {
-          const qualifiers = variantOptions.find((option) => option.code === element.variantOption?.code)?.variantOptionQualifiers;
+          const qualifiers = variantOptions.find(
+            (option) => option.code === element.variantOption?.code
+          )?.variantOptionQualifiers;
           if (qualifiers) {
             leafElements.push({
               variantMatrixElement: element,
-              variantOptionQualifiers: qualifiers
+              variantOptionQualifiers: qualifiers,
             });
           }
         } else {
@@ -114,7 +111,10 @@ export class VariantsMultiDimensionalService {
     return leafElements;
   }
 
-  findAllOptions(variantOptions: VariantOption[], selectedVariants: VariantOptionQualifier[]): {
+  findAllOptions(
+    variantOptions: VariantOption[],
+    selectedVariants: VariantOptionQualifier[]
+  ): {
     qualifier: string;
     qualifiers: VariantOptionQualifier[];
   }[] {
@@ -126,7 +126,6 @@ export class VariantsMultiDimensionalService {
         optionsMap.set(value, qualifier);
       });
     });
-
 
     return selectedVariants.map((selectedVariant) => {
       const qualifiers: VariantOptionQualifier[] = [];

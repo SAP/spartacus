@@ -31,6 +31,7 @@ import { VariantsMultiDimensionalSelectorComponent } from './variants-multi-dime
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
+        // ProductVariantMultiDimensionalSelectorComponent
         ProductVariantSelectorComponent: {
           component: VariantsMultiDimensionalComponent,
           guards: [VariantsMultiDimensionalGuard],
