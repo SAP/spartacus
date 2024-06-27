@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { CmsPageNotFoundHttpErrorResponse } from '@spartacus/core';
-import { defaultServerErrorResponseHandlers } from './server-error-response-handlers';
+import { defaultErrorResponseHandlers } from './error-response-handlers';
 
-describe('serverErrorResponseHandlers', () => {
+describe('errorResponseHandlers', () => {
   let documentContent: string;
   let req: any;
   let res: any;
@@ -22,8 +22,7 @@ describe('serverErrorResponseHandlers', () => {
     const err = new HttpErrorResponse({
       error: 'Page not found',
     });
-    const errorRequestHandler =
-      defaultServerErrorResponseHandlers(documentContent);
+    const errorRequestHandler = defaultErrorResponseHandlers(documentContent);
     res.headersSent = true;
 
     errorRequestHandler(err, req, res, next);
@@ -38,8 +37,7 @@ describe('serverErrorResponseHandlers', () => {
       error: 'Page not found',
       cxCmsPageNotFound: true,
     } as CmsPageNotFoundHttpErrorResponse;
-    const errorRequestHandler =
-      defaultServerErrorResponseHandlers(documentContent);
+    const errorRequestHandler = defaultErrorResponseHandlers(documentContent);
 
     errorRequestHandler(err, req, res, next);
 
@@ -50,8 +48,7 @@ describe('serverErrorResponseHandlers', () => {
 
   it('should handle unknown error response', () => {
     const err = new Error('unknown error');
-    const errorRequestHandler =
-      defaultServerErrorResponseHandlers(documentContent);
+    const errorRequestHandler = defaultErrorResponseHandlers(documentContent);
 
     errorRequestHandler(err, req, res, next);
 

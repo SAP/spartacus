@@ -18,7 +18,7 @@ import { ErrorRequestHandler } from 'express';
  * @param documentContent The document content to be sent to the client.
  * @returns The error request handler.
  */
-export const defaultServerErrorResponseHandlers =
+export const defaultErrorResponseHandlers =
   (documentContent: string): ErrorRequestHandler =>
   (err, _req, res, _next) => {
     if (!res.headersSent) {

@@ -32,7 +32,7 @@ export class CxCommonEngine extends CommonEngine {
    *                            OR rejects with the server error response object, if any is propagated from the rendered app.
    */
   override async render(options: CommonEngineRenderOptions): Promise<string> {
-    let errorResponse: undefined | unknown;
+    let error: undefined | unknown;
 
     return super
       .render({
@@ -41,9 +41,9 @@ export class CxCommonEngine extends CommonEngine {
           {
             provide: PROPAGATE_ERROR_RESPONSE,
             useFactory: () => {
-              return (serverErrorResponse: unknown) => {
+              return (errorResponse: unknown) => {
                 // We're interested only the first propagated error, so we use `??=` instead of `=`:
-                errorResponse ??= serverErrorResponse;
+                error ??= errorResponse;
               };
             },
           },
@@ -51,8 +51,8 @@ export class CxCommonEngine extends CommonEngine {
         ],
       })
       .then((html: string) => {
-        if (errorResponse) {
-          throw errorResponse;
+        if (error) {
+          throw error;
         }
         return html;
       });
