@@ -228,7 +228,7 @@ export class LoadPermissionTypesFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { error: null | undefined });
   // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-  constructor(payload: ActionErrorProperty);
+  constructor(payload: { error: ActionErrorProperty });
   constructor(public payload: any) {
     super(PERMISSION_TYPES_LIST, PERMISSION_TYPES, payload.error);
   }
