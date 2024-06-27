@@ -30,6 +30,7 @@ export class ConfiguratorPriceService {
     if (priceValue > 0) {
       return this.addSign(formattedValue, '+');
     } else {
+      // for negative values formatted value already contains the minus sign, but always before value
       if (this.isRTLDirection()) {
         const withoutSign = this.removeSign(formattedValue, '-');
         return this.addSign(withoutSign, '-');
