@@ -38,20 +38,20 @@ export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailA
   readonly type = LOAD_PRODUCT_FAIL;
 
   /**
-   * @deprecated Please use `payload` parameter other than `null` or `undefined`.
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(productCode: string, payload: null | undefined, scope?: string);
+  constructor(productCode: string, error: null | undefined, scope?: string);
   constructor(
     productCode: string,
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    payload: ActionErrorProperty,
+    error: ActionErrorProperty,
     scope?: string
   );
-  constructor(productCode: string, public payload: any, scope = '') {
-    super(PRODUCT_DETAIL_ENTITY, productCode, payload, scope);
+  constructor(productCode: string, public error: any, scope = '') {
+    super(PRODUCT_DETAIL_ENTITY, productCode, error, scope);
   }
 }
 
