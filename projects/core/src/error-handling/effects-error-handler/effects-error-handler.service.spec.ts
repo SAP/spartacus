@@ -1,12 +1,13 @@
-import { TestBed } from '@angular/core/testing';
-import { ErrorHandler } from '@angular/core';
-import { EffectsErrorHandlerService } from './effects-error-handler.service';
-import { ErrorAction, HttpErrorModel } from '@spartacus/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorHandler } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { Action } from '@ngrx/store';
+import { ErrorAction, HttpErrorModel, WindowRef } from '@spartacus/core';
+import { EffectsErrorHandlerService } from './effects-error-handler.service';
 
 describe('EffectsErrorHandlerService', () => {
-  let service: EffectsErrorHandlerService;
+  let effectsErrorHandlerService: EffectsErrorHandlerService;
+  let windowRef: WindowRef;
   let errorHandlerSpy: jasmine.SpyObj<ErrorHandler>;
 
   beforeEach(() => {
@@ -17,18 +18,20 @@ describe('EffectsErrorHandlerService', () => {
     TestBed.configureTestingModule({
       providers: [
         EffectsErrorHandlerService,
+        { provide: WindowRef, useValue: { isBrowser: () => false } },
         { provide: ErrorHandler, useValue: errorHandlerSpyObj },
       ],
     });
 
-    service = TestBed.inject(EffectsErrorHandlerService);
+    effectsErrorHandlerService = TestBed.inject(EffectsErrorHandlerService);
+    windowRef = TestBed.inject(WindowRef);
     errorHandlerSpy = TestBed.inject(
       ErrorHandler
     ) as jasmine.SpyObj<ErrorHandler>;
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(effectsErrorHandlerService).toBeTruthy();
   });
 
   describe('handleError', () => {
@@ -38,7 +41,7 @@ describe('EffectsErrorHandlerService', () => {
         error: new Error('Test error'),
       };
 
-      service.handleError(mockErrorAction);
+      effectsErrorHandlerService.handleError(mockErrorAction);
 
       expect(errorHandlerSpy.handleError).toHaveBeenCalledWith(
         mockErrorAction.error
@@ -51,7 +54,7 @@ describe('EffectsErrorHandlerService', () => {
         error: new HttpErrorModel(),
       };
 
-      service.handleError(mockErrorAction);
+      effectsErrorHandlerService.handleError(mockErrorAction);
 
       expect(errorHandlerSpy.handleError).not.toHaveBeenCalled();
     });
@@ -62,7 +65,20 @@ describe('EffectsErrorHandlerService', () => {
         error: new HttpErrorResponse({}),
       };
 
-      service.handleError(mockErrorAction);
+      effectsErrorHandlerService.handleError(mockErrorAction);
+
+      expect(errorHandlerSpy.handleError).not.toHaveBeenCalled();
+    });
+
+    it('should not call ErrorHandler.handleError in browser runtime environment', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+
+      const mockErrorAction: ErrorAction = {
+        type: 'ERROR_ACTION_TYPE',
+        error: new Error('Test error'),
+      };
+
+      effectsErrorHandlerService.handleError(mockErrorAction);
 
       expect(errorHandlerSpy.handleError).not.toHaveBeenCalled();
     });
@@ -75,17 +91,19 @@ describe('EffectsErrorHandlerService', () => {
         error: new Error(),
       };
 
-      const result = service.filterActions(mockErrorAction);
+      const result = effectsErrorHandlerService.filterActions(mockErrorAction);
 
-      expect(result).toBeTrue();
+      expect(result).toBeTruthy();
     });
 
     it('should return false for action not implementing ErrorAction interface', () => {
       const mockNonErrorAction = { type: 'SOME_ACTION' };
 
-      const result = service.filterActions(mockNonErrorAction as Action);
+      const result = effectsErrorHandlerService.filterActions(
+        mockNonErrorAction as Action
+      );
 
-      expect(result).toBeFalse();
+      expect(result).toBeFalsy();
     });
   });
 });
