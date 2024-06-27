@@ -11,4 +11,26 @@ cx-product-image-zoom-trigger {
       padding: 0 0 0 0.4em;
     }
   }
+  // TODO: (CXSPA-7603) - Remove feature flag next major release.
+  @include forFeature('a11yLinkBtnsToTertiaryBtns') {
+    .cx-action-link {
+      padding: unset;
+      height: unset;
+      margin: unset;
+
+      cx-icon {
+        padding: unset;
+      }
+    }
+
+    .btn-tertiary {
+      padding: 0;
+      height: 24px;
+      margin: 0.5em auto;
+
+      cx-icon {
+        padding: 0 0 0 0.4em;
+      }
+    }
+  }
 }
