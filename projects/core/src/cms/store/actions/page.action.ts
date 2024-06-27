@@ -35,7 +35,7 @@ export class LoadCmsPageDataFail extends StateUtils.EntityFailAction {
   constructor(pageContext: PageContext, error: null | undefined);
   constructor(
     pageContext: PageContext,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     error: ActionErrorProperty
   );
   constructor(pageContext: PageContext, public error: any) {

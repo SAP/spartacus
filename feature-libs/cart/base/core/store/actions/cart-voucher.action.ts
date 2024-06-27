@@ -50,7 +50,7 @@ export class CartAddVoucherFail extends StateUtils.EntityFailAction {
     voucherId: string;
     error: null | undefined;
   });
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
   constructor(payload: {
     userId: string;
     cartId: string;
@@ -121,7 +121,7 @@ export class CartRemoveVoucherFail
     voucherId: string;
   });
 
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
   constructor(payload: {
     error: ActionErrorProperty;
     cartId: string;

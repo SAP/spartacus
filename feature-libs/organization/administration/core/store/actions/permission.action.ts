@@ -63,7 +63,7 @@ export class LoadPermissionFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { permissionCode: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: { permissionCode: string; error: ActionErrorProperty }
   );
   constructor(public payload: { permissionCode: string; error: any }) {
@@ -108,7 +108,7 @@ export class LoadPermissionsFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { params: SearchConfig; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: { params: SearchConfig; error: ActionErrorProperty }
   );
   constructor(public payload: { params: SearchConfig; error: any }) {
@@ -152,7 +152,7 @@ export class CreatePermissionFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { permissionCode: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: { permissionCode: string; error: ActionErrorProperty }
   );
   constructor(public payload: { permissionCode: string; error: any }) {
@@ -193,7 +193,7 @@ export class UpdatePermissionFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { permissionCode: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: { permissionCode: string; error: ActionErrorProperty }
   );
   constructor(public payload: { permissionCode: string; error: any }) {
@@ -227,7 +227,7 @@ export class LoadPermissionTypesFail extends StateUtils.EntityFailAction {
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(payload: { error: null | undefined });
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
   constructor(payload: ActionErrorProperty);
   constructor(public payload: any) {
     super(PERMISSION_TYPES_LIST, PERMISSION_TYPES, payload.error);

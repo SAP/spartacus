@@ -64,7 +64,7 @@ export class CreateCartFail extends StateUtils.EntityFailAction {
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(payload: CreateCartPayload & { error: null | undefined });
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
   constructor(payload: CreateCartPayload & { error: ActionErrorProperty });
   constructor(public payload: CreateCartPayload & { error: any }) {
     super(MULTI_CART_DATA, payload.tempCartId, payload.error);
@@ -112,7 +112,7 @@ export class AddEmailToCartFail
     email: string;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       userId: string;
       cartId: string;
@@ -166,7 +166,7 @@ export class LoadCartFail extends StateUtils.EntityFailAction {
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(payload: LoadCartPayload & { error: null | undefined });
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
   constructor(payload: LoadCartPayload & { error: ActionErrorProperty });
   constructor(public payload: LoadCartPayload & { error: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
@@ -273,7 +273,7 @@ export class DeleteCartFail implements ErrorAction {
     cartId: string;
     error: null | undefined;
   });
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
   constructor(payload: {
     userId: string;
     cartId: string;

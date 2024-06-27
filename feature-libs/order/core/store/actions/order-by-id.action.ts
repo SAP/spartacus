@@ -29,7 +29,7 @@ export class LoadOrderByIdFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { code: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       code: string;
       error: ActionErrorProperty;

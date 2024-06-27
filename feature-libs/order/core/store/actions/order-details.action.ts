@@ -48,7 +48,7 @@ export class LoadOrderDetailsFail extends StateUtils.LoaderFailAction {
    **/
   constructor(error: null | undefined);
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     error: ActionErrorProperty
   );
   constructor(public error: any) {
@@ -94,7 +94,7 @@ export class CancelOrderFail extends StateUtils.EntityFailAction {
    **/
   constructor(error: null | undefined);
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     error: ActionErrorProperty
   );
   constructor(public error: any) {

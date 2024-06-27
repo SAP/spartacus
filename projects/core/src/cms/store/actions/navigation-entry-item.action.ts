@@ -34,7 +34,7 @@ export class LoadCmsNavigationItemsFail extends StateUtils.EntityFailAction {
   constructor(nodeId: string, error: null | undefined);
   constructor(
     nodeId: string,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     error: ActionErrorProperty
   );
   constructor(nodeId: string, public error: any) {

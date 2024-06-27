@@ -48,7 +48,7 @@ export class LoadBudgetFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { budgetCode: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       budgetCode: string;
       error: ActionErrorProperty;
@@ -96,7 +96,7 @@ export class LoadBudgetsFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { params: SearchConfig; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: { params: SearchConfig; error: ActionErrorProperty }
   );
   constructor(public payload: { params: SearchConfig; error: any }) {
@@ -140,7 +140,7 @@ export class CreateBudgetFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { budgetCode: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       budgetCode: string;
       error: ActionErrorProperty;
@@ -180,7 +180,7 @@ export class UpdateBudgetFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { budgetCode: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       budgetCode: string;
       error: ActionErrorProperty;

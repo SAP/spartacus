@@ -87,7 +87,7 @@ export class LoadSavedCartFail extends StateUtils.EntityFailAction {
     error: null | undefined;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       userId: string;
       cartId: string;
@@ -133,7 +133,7 @@ export class LoadSavedCartsFail extends StateUtils.EntityFailAction {
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(payload: { userId: string; error: null | undefined });
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
   constructor(payload: { userId: string; error: ActionErrorProperty });
   constructor(
     public payload: {
@@ -194,7 +194,7 @@ export class RestoreSavedCartFail extends StateUtils.EntityFailAction {
     error: null | undefined;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       userId: string;
       cartId: string;
@@ -267,7 +267,7 @@ export class SaveCartFail extends StateUtils.EntityFailAction {
     error: null | undefined;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       userId: string;
       cartId: string;
@@ -344,7 +344,7 @@ export class EditSavedCartFail extends StateUtils.EntityFailAction {
     error: null | undefined;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       userId: string;
       cartId: string;
@@ -410,7 +410,7 @@ export class CloneSavedCartFail extends StateUtils.EntityFailAction {
     error: null | undefined;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       userId: string;
       cartId: string;

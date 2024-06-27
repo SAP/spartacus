@@ -46,7 +46,7 @@ export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailA
   constructor(productCode: string, payload: null | undefined, scope?: string);
   constructor(
     productCode: string,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: ActionErrorProperty,
     scope?: string
   );

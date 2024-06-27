@@ -45,7 +45,7 @@ export class LoadCdcUserTokenFail implements ErrorAction {
    **/
   constructor(payload: DeprecatedLoadUserTokenFailurePayload);
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     error: LoadUserTokenFailurePayload
   );
   constructor(public payload: LoadUserTokenFailurePayload & { error: any }) {}

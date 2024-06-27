@@ -120,7 +120,7 @@ export class LoadOrgUnitFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { orgUnitId: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgUnitId: string;
       error: ActionErrorProperty;
@@ -200,7 +200,7 @@ export class CreateUnitFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { unitCode: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       unitCode: string;
       error: ActionErrorProperty;
@@ -240,7 +240,7 @@ export class UpdateUnitFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { unitCode: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       unitCode: string;
       error: ActionErrorProperty;
@@ -278,7 +278,7 @@ export class LoadTreeFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: { error: ActionErrorProperty }
   );
   constructor(public payload: { error: any }) {
@@ -313,7 +313,7 @@ export class LoadApprovalProcessesFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: { error: ActionErrorProperty }
   );
   constructor(public payload: { error: any }) {
@@ -390,7 +390,7 @@ export class LoadAssignedUsersFail extends StateUtils.EntityFailAction {
     error: null | undefined;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgUnitId: string;
       roleId: string;
@@ -463,7 +463,7 @@ export class AssignRoleFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { orgCustomerId: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgCustomerId: string;
       error: ActionErrorProperty;
@@ -514,7 +514,7 @@ export class UnassignRoleFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { orgCustomerId: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgCustomerId: string;
       error: ActionErrorProperty;
@@ -566,7 +566,7 @@ export class AssignApproverFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { orgCustomerId: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgCustomerId: string;
       error: ActionErrorProperty;
@@ -618,7 +618,7 @@ export class UnassignApproverFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { orgCustomerId: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgCustomerId: string;
       error: ActionErrorProperty;
@@ -665,7 +665,7 @@ export class CreateAddressFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { addressId: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       addressId: string;
       error: ActionErrorProperty;
@@ -710,7 +710,7 @@ export class UpdateAddressFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { addressId: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       addressId: string;
       error: ActionErrorProperty;
@@ -754,7 +754,7 @@ export class DeleteAddressFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { addressId: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       addressId: string;
       error: ActionErrorProperty;
@@ -805,7 +805,7 @@ export class LoadAddressesFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { orgUnitId: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgUnitId: string;
       error: ActionErrorProperty;

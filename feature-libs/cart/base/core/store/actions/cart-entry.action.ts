@@ -77,7 +77,7 @@ export class CartAddEntryFail
     quantity: number;
     pickupStore?: string;
   });
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
   constructor(payload: {
     error: ActionErrorProperty;
     userId: string;
@@ -139,7 +139,7 @@ export class CartRemoveEntryFail
     userId: string;
     entryNumber: string;
   });
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
   constructor(payload: {
     error: ActionErrorProperty;
     cartId: string;
@@ -214,7 +214,7 @@ export class CartUpdateEntryFail
     pickupStore?: string;
     pickupToDelivery?: boolean;
   });
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
   constructor(payload: {
     error: ActionErrorProperty;
     userId: string;

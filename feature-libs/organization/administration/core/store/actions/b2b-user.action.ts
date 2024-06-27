@@ -112,7 +112,7 @@ export class LoadB2BUserFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { orgCustomerId: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: { orgCustomerId: string; error: ActionErrorProperty }
   );
   constructor(public payload: { orgCustomerId: string; error: any }) {
@@ -152,7 +152,7 @@ export class CreateB2BUserFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { orgCustomerId: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: { orgCustomerId: string; error: ActionErrorProperty }
   );
   constructor(public payload: { orgCustomerId: string; error: any }) {
@@ -193,7 +193,7 @@ export class UpdateB2BUserFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { orgCustomerId: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: { orgCustomerId: string; error: ActionErrorProperty }
   );
   constructor(public payload: { orgCustomerId: string; error: any }) {
@@ -233,7 +233,7 @@ export class LoadB2BUsersFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { params: SearchConfig; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: { params: SearchConfig; error: ActionErrorProperty }
   );
   constructor(public payload: { params: SearchConfig; error: any }) {
@@ -290,7 +290,7 @@ export class LoadB2BUserApproversFail extends StateUtils.EntityFailAction {
     error: null | undefined;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgCustomerId: string;
       params: SearchConfig;
@@ -358,7 +358,7 @@ export class AssignB2BUserApproverFail extends StateUtils.EntityFailAction {
     error: null | undefined;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgCustomerId: string;
       approverId: string;
@@ -418,7 +418,7 @@ export class UnassignB2BUserApproverFail extends StateUtils.EntityFailAction {
     error: null | undefined;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgCustomerId: string;
       approverId: string;
@@ -481,7 +481,7 @@ export class LoadB2BUserPermissionsFail extends StateUtils.EntityFailAction {
     error: null | undefined;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgCustomerId: string;
       params: SearchConfig;
@@ -545,7 +545,7 @@ export class AssignB2BUserPermissionFail extends StateUtils.EntityFailAction {
     error: null | undefined;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgCustomerId: string;
       permissionId: string;
@@ -605,7 +605,7 @@ export class UnassignB2BUserPermissionFail extends StateUtils.EntityFailAction {
     error: null | undefined;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgCustomerId: string;
       permissionId: string;
@@ -668,7 +668,7 @@ export class LoadB2BUserUserGroupsFail extends StateUtils.EntityFailAction {
     error: null | undefined;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgCustomerId: string;
       params: SearchConfig;
@@ -736,7 +736,7 @@ export class AssignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
     error: null | undefined;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgCustomerId: string;
       userGroupId: string;
@@ -796,7 +796,7 @@ export class UnassignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
     error: null | undefined;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orgCustomerId: string;
       userGroupId: string;

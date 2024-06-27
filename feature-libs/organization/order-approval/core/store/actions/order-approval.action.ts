@@ -60,7 +60,7 @@ export class LoadOrderApprovalFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { orderApprovalCode: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orderApprovalCode: string;
       error: ActionErrorProperty;
@@ -111,7 +111,7 @@ export class LoadOrderApprovalsFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { params: SearchConfig; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: { params: SearchConfig; error: ActionErrorProperty }
   );
   constructor(public payload: { params: SearchConfig; error: any }) {
@@ -164,7 +164,7 @@ export class MakeDecisionFail extends StateUtils.EntityFailAction {
    **/
   constructor(payload: { orderApprovalCode: string; error: null | undefined });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: { orderApprovalCode: string; error: ActionErrorProperty }
   );
   constructor(public payload: { orderApprovalCode: string; error: any }) {

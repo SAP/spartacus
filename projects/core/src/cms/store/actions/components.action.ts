@@ -43,7 +43,7 @@ export class LoadCmsComponentFail extends StateUtils.EntityFailAction {
     pageContext: PageContext;
   });
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       uid: string;
       error: ActionErrorProperty;

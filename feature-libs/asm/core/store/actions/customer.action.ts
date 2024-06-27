@@ -42,7 +42,7 @@ export class CustomerSearchFail extends StateUtils.LoaderFailAction {
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(error: null | undefined);
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
   constructor(error: ActionErrorProperty);
   constructor(public error: any) {
     super(CUSTOMER_SEARCH_DATA, error);
@@ -80,7 +80,7 @@ export class CustomerListCustomersSearchFail extends StateUtils.LoaderFailAction
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(error: null | undefined);
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
   constructor(error: ActionErrorProperty);
   constructor(public error: any) {
     super(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA, error);
