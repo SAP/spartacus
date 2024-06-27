@@ -5,7 +5,8 @@
  */
 
 import { createAction, props } from '@ngrx/store';
-import { PointOfService } from '@spartacus/core';
+import { TypedAction } from '@ngrx/store/src/models';
+import { ActionErrorProperty, PointOfService } from '@spartacus/core';
 import {
   AugmentedPointOfService,
   PickupOption,
@@ -81,7 +82,31 @@ export const SetStoreDetailsSuccess = createAction(
   props<{ payload: PointOfService }>()
 );
 
-export const SetStoreDetailsFailure = createAction(
-  STORE_DETAILS_FAIL,
-  props<{ error: any }>()
-);
+interface TypeOf_SetStoreDetailsFailure {
+  (props: { error: ActionErrorProperty }): {
+    error: ActionErrorProperty;
+  } & TypedAction<typeof STORE_DETAILS_FAIL>;
+
+  /**
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  (props: { error: any }): { error: any } & TypedAction<
+    typeof STORE_DETAILS_FAIL
+  >;
+}
+
+// Note for future: when removing the old deprecated code, let's do the following:
+// - remove `TypeOf_SetStoreDetailsFailure`
+// - replace the implementation of `SetStoreDetailsFailure` with the following:
+// ```
+// export const SetStoreDetailsFailure = createAction(
+//   STORE_DETAILS_FAIL,
+//   props<{ error: ActionErrorProperty }>()
+// );
+// ```
+
+export const SetStoreDetailsFailure: TypeOf_SetStoreDetailsFailure =
+  createAction(STORE_DETAILS_FAIL, props<{ error: any }>());
