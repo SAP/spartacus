@@ -1,15 +1,16 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <ng-container
     *ngIf="
-      configuration.pricingEnabled && getPriceData(configuration) as priceData
+      configuration.pricingEnabled &&
+      getPriceDetails(configuration) as priceDetails
     "
   >
     <div
-      *ngIf="displayPrice(priceData)"
+      *ngIf="displayPrice(priceDetails)"
       [ngClass]="styleClass"
       [attr.aria-label]="'configurator.a11y.valueSurcharge' | cxTranslate"
     >
-      {{ getDisplayPrice(priceData) }}
+      {{ getDisplayPrice(priceDetails) }}
     </div>
   </ng-container>
 </ng-container>

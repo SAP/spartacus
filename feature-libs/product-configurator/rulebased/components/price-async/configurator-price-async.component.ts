@@ -10,12 +10,12 @@ import {
   Input,
   inject,
 } from '@angular/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { DirectionMode, DirectionService } from '@spartacus/storefront';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { Observable, switchMap } from 'rxjs';
-import { Configurator } from '../../core/model/configurator.model';
 import { useFeatureStyles } from '@spartacus/core';
+import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
+import { Observable, switchMap } from 'rxjs';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorPriceService } from '../price/configurator-price.component.service';
 
 const NO_PRICE: Configurator.PriceDetails = { value: 0, currencyIso: '' };
 
@@ -33,11 +33,11 @@ export interface ConfiguratorPriceAsyncComponentOptions {
 export class ConfiguratorPriceAsyncComponent {
   @Input() options: ConfiguratorPriceAsyncComponentOptions;
 
-  protected directionService = inject(DirectionService);
   protected configuratorCommonsService = inject(ConfiguratorCommonsService);
   protected configRouterExtractorService = inject(
     ConfiguratorRouterExtractorService
   );
+  protected priceService = inject(ConfiguratorPriceService);
 
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
@@ -50,44 +50,6 @@ export class ConfiguratorPriceAsyncComponent {
 
   constructor() {
     useFeatureStyles('productConfiguratorAttributeTypesV2');
-  }
-
-  protected isRTLDirection(): boolean {
-    return this.directionService.getDirection() === DirectionMode.RTL;
-  }
-
-  protected removeSign(value: string | undefined, sign: string): string {
-    if (value) {
-      return value.replace(sign, '');
-    }
-    return '';
-  }
-
-  protected addSign(
-    value: string | undefined,
-    sign: string,
-    before: boolean
-  ): string {
-    if (value) {
-      return before ? sign + value : value + sign;
-    }
-    return '';
-  }
-
-  protected compileFormattedValue(
-    priceValue: number,
-    formattedValue: string | undefined,
-    isRTL: boolean
-  ): string {
-    if (priceValue > 0) {
-      return this.addSign(formattedValue, '+', !isRTL);
-    } else {
-      if (isRTL) {
-        const withoutSign = this.removeSign(formattedValue, '-');
-        return this.addSign(withoutSign, '-', false);
-      }
-      return formattedValue ?? '';
-    }
   }
 
   getPriceDetails(
@@ -106,10 +68,9 @@ export class ConfiguratorPriceAsyncComponent {
   }
 
   getDisplayPrice(priceDetails: Configurator.PriceDetails): string {
-    return this.compileFormattedValue(
+    return this.priceService.compileFormattedValue(
       priceDetails.value,
-      priceDetails.formattedValue,
-      this.isRTLDirection()
+      priceDetails.formattedValue
     );
   }
 

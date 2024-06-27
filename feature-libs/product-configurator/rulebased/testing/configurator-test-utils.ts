@@ -140,12 +140,12 @@ export class ConfiguratorTestUtils {
     return {
       attributeValueKey: valueKey,
       priceValue: {
-        currencyIso: '',
+        currencyIso: 'USD',
         formattedValue: formattedValuePrice,
         value: valuePrice,
       },
       obsoletePriceValue: {
-        currencyIso: '',
+        currencyIso: 'USD',
         formattedValue: formattedValuePrice,
         value: valuePrice,
       },
@@ -159,10 +159,15 @@ export class ConfiguratorTestUtils {
     const valueSupplements: Configurator.ValueSupplement[] = [];
     for (let index = 0; index < amountOfValues; index++) {
       const number = index + 1;
-      const factor = attributeNr * number;
+      const factor = attributeNr * index - 1; //generate some negative and zero prices as well
       const valueKey = 'value_' + attributeNr + '_' + number;
       const valuePrice = 100 * factor;
-      const formattedValuePrice = valuePrice.toString() + ' €';
+      let formattedValuePrice: string;
+      if (valuePrice >= 0) {
+        formattedValuePrice = '$' + valuePrice.toString();
+      } else {
+        formattedValuePrice = '-$' + (valuePrice * -1).toString();
+      }
       const valueSupplement = this.createValueSupplement(
         valueKey,
         formattedValuePrice,

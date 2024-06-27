@@ -1,38 +1,62 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import {
-  I18nTestingModule,
-  RouterState,
-  RoutingService,
-} from '@spartacus/core';
-import { ConfiguratorPriceAsyncComponent } from './configurator-price-async.component';
-import { DirectionService } from '@spartacus/storefront';
+  CommonConfigurator,
+  ConfiguratorRouterExtractorService,
+} from '@spartacus/product-configurator/common';
+import { DirectionMode, DirectionService } from '@spartacus/storefront';
+import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
+import { EMPTY, Observable, Subject, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core';
-import { Observable, of } from 'rxjs';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import {
+  ConfiguratorPriceAsyncComponent,
+  ConfiguratorPriceAsyncComponentOptions,
+} from './configurator-price-async.component';
 
-const mockRouterState: any = {
-  state: {
-    params: {
-      entityKey: 'p123',
-      ownerType: CommonConfigurator.OwnerType.PRODUCT,
-    },
-    queryParams: {},
-    semanticRoute: 'configure/CPQCONFIGURATOR',
-  },
+/**
+ * group1@attribute_1_1
+ * - value_1_1: -$100
+ * - value_1_2: $0
+ * - value_1_3: $200
+ *
+ * group1@attribute_1_2
+ * - value_1_1: -$100
+ * - value_1_2: $100
+ * - value_1_3: $300
+ */
+const mockConfig: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration('c123'),
+  pricingEnabled: true,
+  priceSupplements: ConfiguratorTestUtils.createListOfAttributeSupplements(
+    false,
+    1,
+    0,
+    2,
+    3
+  ),
 };
 
+let direction = DirectionMode.LTR;
 class MockDirectionService {
-  getDirection(): void {}
+  getDirection(): DirectionMode {
+    return direction;
+  }
 }
 
+const configSubject = new Subject<Configurator.Configuration>();
 class MockConfiguratorCommonsService {
-  getConfiguration(): void {}
+  getConfiguration(
+    owner: CommonConfigurator.Owner
+  ): Observable<Configurator.Configuration> {
+    return owner === mockConfig.owner ? configSubject : EMPTY;
+  }
 }
 
-const routerStateObservable: Observable<RouterState> = of(mockRouterState);
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
+class MockConfiguratorRouterExtractorService {
+  extractRouterData() {
+    return of({ owner: mockConfig.owner });
   }
 }
 
@@ -55,21 +79,171 @@ describe('ConfiguratorPriceAsyncComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
         },
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
+    direction = DirectionMode.LTR;
+    mockConfig.pricingEnabled = true;
+
     fixture = TestBed.createComponent(ConfiguratorPriceAsyncComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
+    fixture.detectChanges();
   });
+
+  function initComponent(options: ConfiguratorPriceAsyncComponentOptions) {
+    component.options = options;
+    fixture.detectChanges();
+    configSubject.next(mockConfig);
+    fixture.detectChanges();
+  }
 
   it('should be created', () => {
     expect(component).toBeDefined();
-    expect(htmlElem).toBeDefined();
+  });
+  mockConfig.pricingEnabled = true;
+
+  it('should not display anything if pricing is disabled', () => {
+    mockConfig.pricingEnabled = false;
+    initComponent({
+      attributeKey: 'group1@attribute_1_2',
+      valueName: 'value_2_3',
+    });
+    expect(htmlElem.textContent).toBe('');
+  });
+
+  it('should not display zero value price ', () => {
+    initComponent({
+      attributeKey: 'group1@attribute_1_1',
+      valueName: 'value_1_2',
+    });
+
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-price'
+    );
+  });
+
+  it('should handle missing attribute price supplement', () => {
+    initComponent({
+      attributeKey: 'NOT_EXISTING',
+      valueName: 'value_1_2',
+    });
+
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-price'
+    );
+  });
+
+  it('should handle missing value price supplement', () => {
+    initComponent({
+      attributeKey: 'group1@attribute_1_1',
+      valueName: 'NOT_EXISTING',
+    });
+
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-price'
+    );
+  });
+
+  it('should display formatted value price when it is greater than zero', () => {
+    initComponent({
+      attributeKey: 'group1@attribute_1_2',
+      valueName: 'value_2_3',
+    });
+
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-price',
+      '+$300'
+    );
+  });
+
+  it('should display formatted value price when it is smaller than zero', () => {
+    initComponent({
+      attributeKey: 'group1@attribute_1_1',
+      valueName: 'value_1_1',
+    });
+
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-price',
+      '-$100'
+    );
+  });
+
+  it('should display formatted value price when it is greater than zero with RTL direction', () => {
+    direction = DirectionMode.RTL;
+    initComponent({
+      attributeKey: 'group1@attribute_1_2',
+      valueName: 'value_2_3',
+    });
+
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-price',
+      '$300+'
+    );
+  });
+
+  it('should display formatted value price when it is smaller than zero with RTL direction', () => {
+    direction = DirectionMode.RTL;
+    initComponent({
+      attributeKey: 'group1@attribute_1_1',
+      valueName: 'value_1_1',
+    });
+
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-price',
+      '$100-'
+    );
+  });
+
+  it('should light up value price when requested', () => {
+    initComponent({
+      attributeKey: 'group1@attribute_1_2',
+      valueName: 'value_2_3',
+      isLightedUp: true,
+    });
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-price'
+    );
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-price.cx-greyed-out'
+    );
+  });
+
+  it('should NOT light up value price when requested', () => {
+    initComponent({
+      attributeKey: 'group1@attribute_1_2',
+      valueName: 'value_2_3',
+      isLightedUp: false,
+    });
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-price.cx-greyed-out'
+    );
   });
 });

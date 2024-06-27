@@ -6,8 +6,14 @@
 
 import { useFeatureStyles } from '@spartacus/core';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorPriceService } from './configurator-price.component.service';
 
 export interface ConfiguratorPriceComponentOptions {
   quantity?: number;
@@ -24,46 +30,51 @@ export interface ConfiguratorPriceComponentOptions {
 export class ConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 
-  constructor(protected directionService: DirectionService) {
+  protected priceService = inject(ConfiguratorPriceService);
+
+  constructor(
+    /**
+     * @deprecated since 2211.26 / 2408 Use ConfiguratorPriceService
+     */
+    protected directionService: DirectionService
+  ) {
     useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
 
+  /**
+   * @deprecated since 2211.26 / 2408 Use ConfiguratorPriceService
+   */
   protected isRTLDirection(): boolean {
     return this.directionService.getDirection() === DirectionMode.RTL;
   }
 
+  /**
+   * @deprecated since 2211.26 / 2408 - Use ConfiguratorPriceService.removeSign() instead
+   */
   protected removeSign(value: string | undefined, sign: string): string {
-    if (value) {
-      return value.replace(sign, '');
-    }
-    return '';
+    return this.priceService.removeSign(value, sign);
   }
 
+  /**
+   * @deprecated since 2211.26 / 2408 - Use ConfiguratorPriceService.addSign() instead
+   */
   protected addSign(
     value: string | undefined,
     sign: string,
-    before: boolean
+    _before?: boolean
   ): string {
-    if (value) {
-      return before ? sign + value : value + sign;
-    }
-    return '';
+    return this.priceService.addSign(value, sign);
   }
 
+  /**
+   * @deprecated since 2211.26 / 2408 - Use ConfiguratorPriceService.compileFormattedValue() instead
+   */
   protected compileFormattedValue(
     priceValue: number,
     formattedValue: string | undefined,
-    isRTL: boolean
+    _isRTL?: boolean
   ): string {
-    if (priceValue > 0) {
-      return this.addSign(formattedValue, '+', !isRTL);
-    } else {
-      if (isRTL) {
-        const withoutSign = this.removeSign(formattedValue, '-');
-        return this.addSign(withoutSign, '-', false);
-      }
-      return formattedValue ?? '';
-    }
+    return this.priceService.compileFormattedValue(priceValue, formattedValue);
   }
 
   /**
@@ -75,10 +86,9 @@ export class ConfiguratorPriceComponent {
     if (this.formula.priceTotal) {
       return this.priceTotal;
     } else {
-      return this.compileFormattedValue(
+      return this.priceService.compileFormattedValue(
         this.formula.price?.value ?? 0,
-        this.formula.price?.formattedValue,
-        this.isRTLDirection()
+        this.formula.price?.formattedValue
       );
     }
   }
@@ -89,10 +99,9 @@ export class ConfiguratorPriceComponent {
    * @return {string} - total price formula
    */
   get priceTotal(): string {
-    return this.compileFormattedValue(
+    return this.priceService.compileFormattedValue(
       this.formula.priceTotal?.value ?? 0,
-      this.formula.priceTotal?.formattedValue,
-      this.isRTLDirection()
+      this.formula.priceTotal?.formattedValue
     );
   }
 

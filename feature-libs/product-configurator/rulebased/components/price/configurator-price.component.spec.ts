@@ -5,6 +5,7 @@ import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorPriceComponent } from './configurator-price.component';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorPriceService } from './configurator-price.component.service';
 
 @Pipe({
   name: 'cxNumeric',
@@ -130,7 +131,7 @@ describe('ConfiguratorPriceComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-price.cx-greyed-out'
+        '.cx-price'
       );
     });
 
@@ -361,6 +362,36 @@ describe('ConfiguratorPriceComponent', () => {
       component.formula = createFormula(0, undefined, -100);
       fixture.detectChanges();
       expect(component.priceTotal).toEqual('$100-');
+    });
+  });
+
+  describe('deprecated', () => {
+    let pricingService: ConfiguratorPriceService;
+    beforeEach(() => {
+      pricingService = TestBed.inject(
+        ConfiguratorPriceService as Type<ConfiguratorPriceService>
+      );
+      spyOn(pricingService, 'addSign');
+      spyOn(pricingService, 'removeSign');
+      spyOn(pricingService, 'compileFormattedValue');
+    });
+
+    it('addSign should delegate to ConfiguratorPricingService', () => {
+      component['addSign']('123', '+');
+      expect(pricingService.addSign).toHaveBeenCalledWith('123', '+');
+    });
+
+    it('removeSign should delegate to ConfiguratorPricingService', () => {
+      component['removeSign']('123', '+');
+      expect(pricingService.removeSign).toHaveBeenCalledWith('123', '+');
+    });
+
+    it('compileFormattedValue should delegate to ConfiguratorPricingService', () => {
+      component['compileFormattedValue'](123, '123');
+      expect(pricingService.compileFormattedValue).toHaveBeenCalledWith(
+        123,
+        '123'
+      );
     });
   });
 
