@@ -1,5 +1,6 @@
 {
-  "s4Service-checkoutProgress": {
-    "serviceDetails": "Service Details"
+  "serviceOrderCheckout": {
+    "serviceDetails": "Service Details",
+    "heading": "Service Schedule - Date and Time"
   }
 }
