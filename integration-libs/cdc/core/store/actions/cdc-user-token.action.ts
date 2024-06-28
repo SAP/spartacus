@@ -23,21 +23,14 @@ interface LoadUserTokenPayload {
   baseSite: string;
 }
 
-interface LoadUserTokenFailurePayload {
-  error: ActionErrorProperty;
-  initialActionPayload: LoadUserTokenPayload;
-}
-
-interface DeprecatedLoadUserTokenFailurePayload
-  extends Omit<LoadUserTokenFailurePayload, 'error'> {
-  error: null | undefined;
-}
-
 export class LoadCdcUserTokenFail implements ErrorAction {
   error: ErrorModel | HttpErrorModel | Error = this.payload.error;
   readonly type = LOAD_CDC_USER_TOKEN_FAIL;
 
-  constructor(error: LoadUserTokenFailurePayload);
+  constructor(payload: {
+    error: ActionErrorProperty;
+    initialActionPayload: LoadUserTokenPayload;
+  });
   /**
    * @deprecated Please use `error` parameter other than `null` or `undefined`.
    *
@@ -46,9 +39,17 @@ export class LoadCdcUserTokenFail implements ErrorAction {
    **/
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
-    payload: any
+    payload: {
+      error: any;
+      initialActionPayload: LoadUserTokenPayload;
+    }
   );
-  constructor(public payload: LoadUserTokenFailurePayload & { error: any }) {}
+  constructor(
+    public payload: {
+      error: any;
+      initialActionPayload: LoadUserTokenPayload;
+    }
+  ) {}
 }
 
 export class LoadCdcUserToken implements Action {
