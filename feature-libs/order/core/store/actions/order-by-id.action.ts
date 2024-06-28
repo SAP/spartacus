@@ -21,18 +21,18 @@ export class LoadOrderById extends StateUtils.EntityLoadAction {
 export class LoadOrderByIdFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ORDER_BY_ID_FAIL;
 
+  constructor(payload: { code: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { code: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       code: string;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(public payload: { code: string; error: any }) {

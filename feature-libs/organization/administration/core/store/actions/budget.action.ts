@@ -40,18 +40,18 @@ export class LoadBudget extends StateUtils.EntityLoadAction {
 export class LoadBudgetFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_BUDGET_FAIL;
 
+  constructor(payload: { budgetCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { budgetCode: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       budgetCode: string;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(public payload: { budgetCode: string; error: any }) {
@@ -88,16 +88,16 @@ export class LoadBudgets extends StateUtils.EntityLoadAction {
 export class LoadBudgetsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_BUDGETS_FAIL;
 
+  constructor(payload: { params: SearchConfig; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { params: SearchConfig; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    payload: { params: SearchConfig; error: ActionErrorProperty }
+    payload: { params: SearchConfig; error: any }
   );
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
@@ -132,18 +132,18 @@ export class CreateBudget extends StateUtils.EntityLoadAction {
 export class CreateBudgetFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_BUDGET_FAIL;
 
+  constructor(payload: { budgetCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { budgetCode: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       budgetCode: string;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(public payload: { budgetCode: string; error: any }) {
@@ -172,18 +172,18 @@ export class UpdateBudget extends StateUtils.EntityLoadAction {
 export class UpdateBudgetFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_BUDGET_FAIL;
 
+  constructor(payload: { budgetCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { budgetCode: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       budgetCode: string;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(public payload: { budgetCode: string; error: any }) {

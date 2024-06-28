@@ -25,17 +25,17 @@ export class LoadCmsNavigationItems extends StateUtils.EntityLoadAction {
 export class LoadCmsNavigationItemsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_NAVIGATION_ITEMS_FAIL;
 
+  constructor(nodeId: string, error: ActionErrorProperty);
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(nodeId: string, error: null | undefined);
   constructor(
     nodeId: string,
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    error: ActionErrorProperty
+    error: any
   );
   constructor(nodeId: string, public error: any) {
     super(NAVIGATION_DETAIL_ENTITY, nodeId, error);

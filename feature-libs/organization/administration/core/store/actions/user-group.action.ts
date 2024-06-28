@@ -94,19 +94,16 @@ export class LoadUserGroup extends StateUtils.EntityLoadAction {
 export class LoadUserGroupFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_USER_GROUP_FAIL;
 
+  constructor(payload: { userGroupId: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { userGroupId: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    payload: {
-      userGroupId: string;
-      error: ActionErrorProperty;
-    }
+    payload: { userGroupId: string; error: any }
   );
   constructor(public payload: { userGroupId: string; error: any }) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
@@ -142,16 +139,16 @@ export class LoadUserGroups extends StateUtils.EntityLoadAction {
 export class LoadUserGroupsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_USER_GROUPS_FAIL;
 
+  constructor(payload: { params: SearchConfig; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { params: SearchConfig; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    payload: { params: SearchConfig; error: ActionErrorProperty }
+    payload: { params: SearchConfig; error: any }
   );
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
@@ -195,23 +192,23 @@ export class LoadPermissions extends StateUtils.EntityLoadAction {
 export class LoadPermissionsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_USER_GROUP_PERMISSIONS_FAIL;
 
+  constructor(payload: {
+    userGroupId: string;
+    params: SearchConfig;
+    error: ActionErrorProperty;
+  });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: {
-    userGroupId: string;
-    params: SearchConfig;
-    error: null | undefined;
-  });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       userGroupId: string;
       params: SearchConfig;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(
@@ -266,23 +263,23 @@ export class LoadAvailableOrgCustomers extends StateUtils.EntityLoadAction {
 export class LoadAvailableOrgCustomersFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_FAIL;
 
+  constructor(payload: {
+    userGroupId: string;
+    params: SearchConfig;
+    error: ActionErrorProperty;
+  });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: {
-    userGroupId: string;
-    params: SearchConfig;
-    error: null | undefined;
-  });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       userGroupId: string;
       params: SearchConfig;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(
@@ -328,18 +325,18 @@ export class CreateUserGroup extends StateUtils.EntityLoadAction {
 export class CreateUserGroupFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_USER_GROUP_FAIL;
 
+  constructor(payload: { userGroupId: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { userGroupId: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       userGroupId: string;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(public payload: { userGroupId: string; error: any }) {
@@ -372,23 +369,23 @@ export class AssignMember extends StateUtils.EntityLoadAction {
 export class AssignMemberFail extends StateUtils.EntityFailAction {
   readonly type = USER_GROUP_ASSIGN_MEMBER_FAIL;
 
+  constructor(payload: {
+    userGroupId: string;
+    customerId: string;
+    error: ActionErrorProperty;
+  });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: {
-    userGroupId: string;
-    customerId: string;
-    error: null | undefined;
-  });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       userGroupId: string;
       customerId: string;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(
@@ -427,23 +424,23 @@ export class AssignPermission extends StateUtils.EntityLoadAction {
 export class AssignPermissionFail extends StateUtils.EntityFailAction {
   readonly type = USER_GROUP_ASSIGN_PERMISSION_FAIL;
 
+  constructor(payload: {
+    userGroupId: string;
+    permissionUid: string;
+    error: ActionErrorProperty;
+  });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: {
-    userGroupId: string;
-    permissionUid: string;
-    error: null | undefined;
-  });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       userGroupId: string;
       permissionUid: string;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(
@@ -482,19 +479,16 @@ export class UpdateUserGroup extends StateUtils.EntityLoadAction {
 export class UpdateUserGroupFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_USER_GROUP_FAIL;
 
+  constructor(payload: { userGroupId: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { userGroupId: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    payload: {
-      userGroupId: string;
-      error: ActionErrorProperty;
-    }
+    payload: { userGroupId: string; error: any }
   );
   constructor(public payload: { userGroupId: string; error: any }) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
@@ -525,18 +519,18 @@ export class DeleteUserGroup extends StateUtils.EntityLoadAction {
 export class DeleteUserGroupFail extends StateUtils.EntityFailAction {
   readonly type = DELETE_USER_GROUP_FAIL;
 
+  constructor(payload: { userGroupId: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { userGroupId: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       userGroupId: string;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(public payload: { userGroupId: string; error: any }) {
@@ -569,23 +563,23 @@ export class UnassignMember extends StateUtils.EntityLoadAction {
 export class UnassignMemberFail extends StateUtils.EntityFailAction {
   readonly type = USER_GROUP_UNASSIGN_MEMBER_FAIL;
 
+  constructor(payload: {
+    userGroupId: string;
+    customerId: string;
+    error: ActionErrorProperty;
+  });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: {
-    userGroupId: string;
-    customerId: string;
-    error: null | undefined;
-  });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       userGroupId: string;
       customerId: string;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(
@@ -623,18 +617,18 @@ export class UnassignAllMembers extends StateUtils.EntityLoadAction {
 export class UnassignAllMembersFail extends StateUtils.EntityFailAction {
   readonly type = USER_GROUP_UNASSIGN_ALL_MEMBERS_FAIL;
 
+  constructor(payload: { userGroupId: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { userGroupId: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       userGroupId: string;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(public payload: { userGroupId: string; error: any }) {
@@ -667,23 +661,23 @@ export class UnassignPermission extends StateUtils.EntityLoadAction {
 export class UnassignPermissionFail extends StateUtils.EntityFailAction {
   readonly type = USER_GROUP_UNASSIGN_PERMISSION_FAIL;
 
+  constructor(payload: {
+    userGroupId: string;
+    permissionUid: string;
+    error: ActionErrorProperty;
+  });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: {
-    userGroupId: string;
-    permissionUid: string;
-    error: null | undefined;
-  });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       userGroupId: string;
       permissionUid: string;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(

@@ -38,24 +38,24 @@ export class CartAddVoucher extends StateUtils.EntityLoadAction {
 export class CartAddVoucherFail extends StateUtils.EntityFailAction {
   readonly type = CART_ADD_VOUCHER_FAIL;
 
-  /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
-  constructor(payload: {
-    userId: string;
-    cartId: string;
-    voucherId: string;
-    error: null | undefined;
-  });
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
   constructor(payload: {
     userId: string;
     cartId: string;
     voucherId: string;
     error: ActionErrorProperty;
+  });
+  /**
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+  constructor(payload: {
+    userId: string;
+    cartId: string;
+    voucherId: string;
+    error: any;
   });
   constructor(
     public payload: {
@@ -108,27 +108,27 @@ export class CartRemoveVoucherFail
   error: ActionErrorProperty = this.payload.error;
   readonly type = CART_REMOVE_VOUCHER_FAIL;
 
-  /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
-  constructor(payload: {
-    error: null | undefined;
-    cartId: string;
-    userId: string;
-    voucherId: string;
-  });
-
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
   constructor(payload: {
     error: ActionErrorProperty;
     cartId: string;
     userId: string;
     voucherId: string;
   });
-
+  /**
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
+   *
+   *             Note: Allowing for `null` or `undefined` will be removed in future versions
+   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   **/
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+    payload: {
+      error: any;
+      cartId: string;
+      userId: string;
+      voucherId: string;
+    }
+  );
   constructor(
     public payload: {
       error: any;

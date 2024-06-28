@@ -21,16 +21,16 @@ export class LoadCurrencies implements Action {
 export class LoadCurrenciesFail implements ErrorAction {
   readonly type = LOAD_CURRENCIES_FAIL;
 
+  constructor(error: ActionErrorProperty);
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(error: null | undefined);
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    error: ActionErrorProperty
+    error: any
   );
   constructor(public error: any) {}
 }

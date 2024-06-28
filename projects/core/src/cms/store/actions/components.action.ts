@@ -31,22 +31,22 @@ export class LoadCmsComponent extends StateUtils.EntityLoadAction {
 export class LoadCmsComponentFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_COMPONENT_FAIL;
 
+  constructor(payload: {
+    uid: string;
+    error: ActionErrorProperty;
+    pageContext: PageContext;
+  });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: {
-    uid: string;
-    error: null | undefined;
-    pageContext: PageContext;
-  });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       uid: string;
-      error: ActionErrorProperty;
+      error: any;
       pageContext: PageContext;
     }
   );

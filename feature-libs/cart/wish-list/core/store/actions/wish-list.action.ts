@@ -40,19 +40,16 @@ export class CreateWishListSuccess extends StateUtils.EntitySuccessAction {
 export class CreateWishListFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_WISH_LIST_FAIL;
 
+  constructor(payload: { cartId: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { cartId: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    payload: {
-      cartId: string;
-      error: ActionErrorProperty;
-    }
+    payload: { cartId: string; error: any }
   );
   constructor(public payload: { cartId: string; error: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
@@ -104,15 +101,17 @@ interface DeprecatedLoadWishListFailPayload
 export class LoadWishListFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_WISH_LIST_FAIL;
 
+  constructor(payload: LoadWishListFailPayload);
   /**
    * @deprecated Please use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: DeprecatedLoadWishListFailPayload);
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-  constructor(payload: LoadWishListFailPayload);
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+    payload: DeprecatedLoadWishListFailPayload
+  );
   constructor(public payload: LoadWishListFailPayload & { error: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
   }

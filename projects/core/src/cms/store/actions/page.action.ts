@@ -26,17 +26,17 @@ export class LoadCmsPageData extends StateUtils.EntityLoadAction {
 export class LoadCmsPageDataFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_PAGE_DATA_FAIL;
 
+  constructor(pageContext: PageContext, error: ActionErrorProperty);
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(pageContext: PageContext, error: null | undefined);
   constructor(
     pageContext: PageContext,
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    error: ActionErrorProperty
+    error: any
   );
   constructor(pageContext: PageContext, public error: any) {
     super(pageContext.type ?? '', pageContext.id, error);

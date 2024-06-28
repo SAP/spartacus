@@ -37,17 +37,17 @@ export class LoadProduct extends EntityScopedLoaderActions.EntityScopedLoadActio
 export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailAction {
   readonly type = LOAD_PRODUCT_FAIL;
 
+  constructor(productCode: string, error: ActionErrorProperty, scope?: string);
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(productCode: string, error: null | undefined, scope?: string);
   constructor(
     productCode: string,
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    error: ActionErrorProperty,
+    error: any,
     scope?: string
   );
   constructor(productCode: string, public error: any, scope = '') {

@@ -44,16 +44,16 @@ export class LoadUserConsents extends StateUtils.LoaderLoadAction {
 export class LoadUserConsentsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_USER_CONSENTS_FAIL;
 
+  constructor(error: ActionErrorProperty);
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(error: null | undefined);
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    error: ActionErrorProperty
+    error: any
   );
   constructor(public error: any) {
     super(USER_CONSENTS, error);
@@ -93,16 +93,16 @@ export class GiveUserConsent extends StateUtils.EntityLoadAction {
 export class GiveUserConsentFail extends StateUtils.EntityFailAction {
   readonly type = GIVE_USER_CONSENT_FAIL;
 
+  constructor(error: ActionErrorProperty);
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(error: null | undefined);
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    error: ActionErrorProperty
+    error: any
   );
   constructor(public error: any) {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID, error);
@@ -154,16 +154,16 @@ export class WithdrawUserConsent extends StateUtils.EntityLoadAction {
 export class WithdrawUserConsentFail extends StateUtils.EntityFailAction {
   readonly type = WITHDRAW_USER_CONSENT_FAIL;
 
+  constructor(error: ActionErrorProperty);
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(error: null | undefined);
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    error: ActionErrorProperty
+    error: any
   );
   constructor(public error: any) {
     super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID, error);

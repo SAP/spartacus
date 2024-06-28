@@ -62,16 +62,16 @@ export class LoadCostCenter extends StateUtils.EntityLoadAction {
 export class LoadCostCenterFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_COST_CENTER_FAIL;
 
+  constructor(payload: { costCenterCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { costCenterCode: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    payload: { costCenterCode: string; error: ActionErrorProperty }
+    payload: { costCenterCode: string; error: any }
   );
   constructor(public payload: { costCenterCode: string; error: any }) {
     super(COST_CENTER_ENTITIES, payload.costCenterCode, payload.error);
@@ -107,16 +107,16 @@ export class LoadCostCenters extends StateUtils.EntityLoadAction {
 export class LoadCostCentersFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_COST_CENTERS_FAIL;
 
+  constructor(payload: { params: SearchConfig; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { params: SearchConfig; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    payload: { params: SearchConfig; error: ActionErrorProperty }
+    payload: { params: SearchConfig; error: any }
   );
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
@@ -151,16 +151,16 @@ export class CreateCostCenter extends StateUtils.EntityLoadAction {
 export class CreateCostCenterFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_COST_CENTER_FAIL;
 
+  constructor(payload: { costCenterCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { costCenterCode: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    payload: { costCenterCode: string; error: ActionErrorProperty }
+    payload: { costCenterCode: string; error: any }
   );
   constructor(public payload: { costCenterCode: string; error: any }) {
     super(COST_CENTER_ENTITIES, payload.costCenterCode, payload.error);
@@ -192,16 +192,16 @@ export class UpdateCostCenter extends StateUtils.EntityLoadAction {
 export class UpdateCostCenterFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_COST_CENTER_FAIL;
 
+  constructor(payload: { costCenterCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { costCenterCode: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    payload: { costCenterCode: string; error: ActionErrorProperty }
+    payload: { costCenterCode: string; error: any }
   );
   constructor(public payload: { costCenterCode: string; error: any }) {
     super(COST_CENTER_ENTITIES, payload.costCenterCode, payload.error);
@@ -236,23 +236,23 @@ export class LoadAssignedBudgets extends StateUtils.EntityLoadAction {
 export class LoadAssignedBudgetsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ASSIGNED_BUDGETS_FAIL;
 
+  constructor(payload: {
+    costCenterCode: string;
+    params: SearchConfig;
+    error: ActionErrorProperty;
+  });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: {
-    costCenterCode: string;
-    params: SearchConfig;
-    error: null | undefined;
-  });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       costCenterCode: string;
       params: SearchConfig;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(
@@ -304,18 +304,21 @@ export class AssignBudget extends StateUtils.EntityLoadAction {
 export class AssignBudgetFail extends StateUtils.EntityFailAction {
   readonly type = ASSIGN_BUDGET_FAIL;
 
+  constructor(payload: {
+    budgetCode: string;
+    error: ActionErrorProperty;
+  });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { budgetCode: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       budgetCode: string;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(
@@ -353,18 +356,21 @@ export class UnassignBudget extends StateUtils.EntityLoadAction {
 export class UnassignBudgetFail extends StateUtils.EntityFailAction {
   readonly type = UNASSIGN_BUDGET_FAIL;
 
+  constructor(payload: {
+    budgetCode: string;
+    error: ActionErrorProperty;
+  });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { budgetCode: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       budgetCode: string;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(

@@ -55,16 +55,16 @@ export class LoadPermission extends StateUtils.EntityLoadAction {
 export class LoadPermissionFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_PERMISSION_FAIL;
 
+  constructor(payload: { permissionCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { permissionCode: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    payload: { permissionCode: string; error: ActionErrorProperty }
+    payload: { permissionCode: string; error: any }
   );
   constructor(public payload: { permissionCode: string; error: any }) {
     super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
@@ -100,16 +100,16 @@ export class LoadPermissions extends StateUtils.EntityLoadAction {
 export class LoadPermissionsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_PERMISSIONS_FAIL;
 
+  constructor(payload: { params: SearchConfig; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { params: SearchConfig; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    payload: { params: SearchConfig; error: ActionErrorProperty }
+    payload: { params: SearchConfig; error: any }
   );
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
@@ -144,16 +144,16 @@ export class CreatePermission extends StateUtils.EntityLoadAction {
 export class CreatePermissionFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_PERMISSION_FAIL;
 
+  constructor(payload: { permissionCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { permissionCode: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    payload: { permissionCode: string; error: ActionErrorProperty }
+    payload: { permissionCode: string; error: any }
   );
   constructor(public payload: { permissionCode: string; error: any }) {
     super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
@@ -185,16 +185,16 @@ export class UpdatePermission extends StateUtils.EntityLoadAction {
 export class UpdatePermissionFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_PERMISSION_FAIL;
 
+  constructor(payload: { permissionCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { permissionCode: string; error: null | undefined });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    payload: { permissionCode: string; error: ActionErrorProperty }
+    payload: { permissionCode: string; error: any }
   );
   constructor(public payload: { permissionCode: string; error: any }) {
     super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
@@ -220,15 +220,17 @@ export class LoadPermissionTypes extends StateUtils.EntityLoadAction {
 export class LoadPermissionTypesFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_PERMISSION_TYPES_FAIL;
 
+  constructor(payload: { error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: { error: null | undefined });
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-  constructor(payload: { error: ActionErrorProperty });
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+    payload: { error: any }
+  );
   constructor(public payload: any) {
     super(PERMISSION_TYPES_LIST, PERMISSION_TYPES, payload.error);
   }

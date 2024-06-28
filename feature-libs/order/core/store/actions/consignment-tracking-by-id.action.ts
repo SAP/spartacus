@@ -40,23 +40,23 @@ export class LoadConsignmentTrackingById extends StateUtils.EntityLoadAction {
 export class LoadConsignmentTrackingByIdFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CONSIGNMENT_TRACKING_BY_ID_FAIL;
 
+  constructor(payload: {
+    orderCode: string;
+    consignmentCode: string;
+    error: ActionErrorProperty;
+  });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: {
-    orderCode: string;
-    consignmentCode: string;
-    error: null | undefined;
-  });
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
     payload: {
       orderCode: string;
       consignmentCode: string;
-      error: ActionErrorProperty;
+      error: any;
     }
   );
   constructor(

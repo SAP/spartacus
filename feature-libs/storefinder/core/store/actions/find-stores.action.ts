@@ -50,16 +50,16 @@ export class FindStores extends StateUtils.LoaderLoadAction {
 export class FindStoresFail extends StateUtils.LoaderFailAction {
   readonly type = FIND_STORES_FAIL;
 
+  constructor(error: ActionErrorProperty);
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(error: null | undefined);
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    error: ActionErrorProperty
+    error: any
   );
   constructor(public error: any) {
     super(STORE_FINDER_DATA, error);
@@ -85,16 +85,16 @@ export class FindStoreById extends StateUtils.LoaderLoadAction {
 export class FindStoreByIdFail extends StateUtils.LoaderFailAction {
   readonly type = FIND_STORE_BY_ID_FAIL;
 
+  constructor(error: ActionErrorProperty);
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(error: null | undefined);
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    error: ActionErrorProperty
+    error: any
   );
   constructor(public error: any) {
     super(STORE_FINDER_DATA, error);

@@ -37,16 +37,16 @@ export class LoadCdcUserTokenFail implements ErrorAction {
   error: ErrorModel | HttpErrorModel | Error = this.payload.error;
   readonly type = LOAD_CDC_USER_TOKEN_FAIL;
 
+  constructor(error: LoadUserTokenFailurePayload);
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  constructor(payload: DeprecatedLoadUserTokenFailurePayload);
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
-    error: LoadUserTokenFailurePayload
+    payload: any
   );
   constructor(public payload: LoadUserTokenFailurePayload & { error: any }) {}
 }
