@@ -42,7 +42,7 @@ export class CreateWishListFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { cartId: string; error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -102,7 +102,7 @@ export class LoadWishListFail extends StateUtils.EntityFailAction {
 
   constructor(payload: LoadWishListFailPayload);
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */

@@ -64,7 +64,7 @@ export class LoadCostCenterFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { costCenterCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -108,7 +108,7 @@ export class LoadCostCentersFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { params: SearchConfig; error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -151,7 +151,7 @@ export class CreateCostCenterFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { costCenterCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -191,7 +191,7 @@ export class UpdateCostCenterFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { costCenterCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -238,7 +238,7 @@ export class LoadAssignedBudgetsFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -301,7 +301,7 @@ export class AssignBudgetFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { budgetCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -349,7 +349,7 @@ export class UnassignBudgetFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { budgetCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */

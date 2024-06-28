@@ -57,7 +57,7 @@ export class LoadPermissionFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { permissionCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -101,7 +101,7 @@ export class LoadPermissionsFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { params: SearchConfig; error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -144,7 +144,7 @@ export class CreatePermissionFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { permissionCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -184,7 +184,7 @@ export class UpdatePermissionFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { permissionCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -218,7 +218,7 @@ export class LoadPermissionTypesFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */

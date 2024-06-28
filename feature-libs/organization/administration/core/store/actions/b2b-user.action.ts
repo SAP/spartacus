@@ -106,7 +106,7 @@ export class LoadB2BUserFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { orgCustomerId: string; error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -145,7 +145,7 @@ export class CreateB2BUserFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { orgCustomerId: string; error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -185,7 +185,7 @@ export class UpdateB2BUserFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { orgCustomerId: string; error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -224,7 +224,7 @@ export class LoadB2BUsersFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { params: SearchConfig; error: ActionErrorProperty });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -280,7 +280,7 @@ export class LoadB2BUserApproversFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -347,7 +347,7 @@ export class AssignB2BUserApproverFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -406,7 +406,7 @@ export class UnassignB2BUserApproverFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -468,7 +468,7 @@ export class LoadB2BUserPermissionsFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -531,7 +531,7 @@ export class AssignB2BUserPermissionFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -590,7 +590,7 @@ export class UnassignB2BUserPermissionFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -652,7 +652,7 @@ export class LoadB2BUserUserGroupsFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -719,7 +719,7 @@ export class AssignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -778,7 +778,7 @@ export class UnassignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */

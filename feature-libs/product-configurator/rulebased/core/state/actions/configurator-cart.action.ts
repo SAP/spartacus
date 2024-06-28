@@ -56,7 +56,7 @@ export class ReadCartEntryConfigurationFail extends StateUtils.EntityFailAction 
   readonly type = READ_CART_ENTRY_CONFIGURATION_FAIL;
 
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -92,7 +92,7 @@ export class ReadOrderEntryConfigurationSuccess extends StateUtils.EntitySuccess
 export class ReadOrderEntryConfigurationFail extends StateUtils.EntityFailAction {
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_FAIL;
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */

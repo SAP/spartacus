@@ -53,7 +53,7 @@ export class CreateConfigurationFail extends StateUtils.LoaderFailAction {
   readonly type = CREATE_CONFIGURATION_FAIL;
 
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -95,7 +95,7 @@ export class AddToCartFail extends StateUtils.LoaderFailAction {
   readonly type = ADD_TO_CART_FAIL;
 
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -121,7 +121,7 @@ export class UpdateCartEntryConfigurationFail extends StateUtils.LoaderFailActio
   readonly type = UPDATE_CART_ENTRY_CONFIGURATION_FAIL;
 
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -157,7 +157,7 @@ export class ReadCartEntryConfigurationFail extends StateUtils.LoaderFailAction 
   readonly type = READ_CART_ENTRY_CONFIGURATION_FAIL;
 
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
@@ -193,7 +193,7 @@ export class ReadOrderEntryConfigurationFail extends StateUtils.LoaderFailAction
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_FAIL;
 
   /**
-   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
