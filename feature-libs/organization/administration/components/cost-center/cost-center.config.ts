@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AuthGuard, CmsConfig, FeatureConfigService } from '@spartacus/core';
+import { inject } from '@angular/core';
+import { AuthGuard, CmsConfig, FeatureToggles } from '@spartacus/core';
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { TableConfig } from '@spartacus/storefront';
@@ -93,11 +94,10 @@ export const costCenterCmsConfig: CmsConfig = {
   },
 };
 
-export function costCenterTableConfigFactory(
-  featureConfigService: FeatureConfigService
-): TableConfig {
+export function costCenterTableConfigFactory(): TableConfig {
   // TODO: (CXSPA-7155) - Remove feature flag and legacy config next major release
-  if (featureConfigService?.isEnabled('a11yOrganizationLinkableCells')) {
+  const featureToggles = inject(FeatureToggles);
+  if (featureToggles.a11yOrganizationLinkableCells) {
     return newCostCenterTableConfig;
   }
   return costCenterTableConfig;
