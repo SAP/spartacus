@@ -1,10 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService } from '@spartacus/core';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { OccConfiguratorTestUtils } from '../../../testing/occ-configurator-test-utils';
-import { OccConfigurator } from '../variant-configurator-occ.models';
 import { OccConfiguratorVariantPriceNormalizer } from './occ-configurator-variant-price-normalizer';
+import { OccConfigurator } from '../variant-configurator-occ.models';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 
 class MockConverterService {
   convert() {}
@@ -79,9 +79,10 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
 
   describe('convert', () => {
     it('should return a configuration with empty list of price supplements', () => {
-      const result: Configurator.Configuration = classUnderTest.convert({
+      const source: OccConfigurator.Prices = {
         configId: 'configId',
-      });
+      };
+      const result: Configurator.Configuration = classUnderTest.convert(source);
       expect(result.priceSupplements?.length).toBe(0);
     });
 
