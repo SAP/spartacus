@@ -21,8 +21,10 @@ export interface Tab {
    * Content to display in tab panel when open.
    */
   content?: TemplateRef<any>;
-  id?: string;
-  attributes?: TabAttributes;
+  /**
+   * Identifies the index of the tab to set attributes by.
+   */
+  id?: number;
 }
 
 export interface TabConfig {

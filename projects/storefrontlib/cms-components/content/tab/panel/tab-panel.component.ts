@@ -12,7 +12,8 @@ import { Tab } from '../tab.model';
   templateUrl: './tab-panel.component.html',
 })
 export class TabPanelComponent {
+  /**
+   * Tab object to display content and set attributes to.
+   */
   @Input() tab: Tab;
-  @Input() tabNum: number;
-  @Input() isOpen: boolean;
 }

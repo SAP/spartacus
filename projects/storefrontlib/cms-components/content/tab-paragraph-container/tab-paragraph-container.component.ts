@@ -10,6 +10,7 @@ import {
   Component,
   OnInit,
   QueryList,
+  TemplateRef,
   ViewChildren,
 } from '@angular/core';
 import {
@@ -51,7 +52,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   children!: QueryList<ComponentWrapperDirective>;
 
   @ViewChildren('tabRef')
-  tabRefs: QueryList<any>;
+  tabRefs: QueryList<TemplateRef<any>>;
 
   /**
    * @deprecated This method will be removed.
@@ -148,6 +149,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
         components.map((component, index) => ({
           headerKey: component.title,
           content: refs.get(index),
+          id: index,
         }))
       )
     );

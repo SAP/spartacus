@@ -1,10 +1,7 @@
 <div
   role="tabpanel"
   [attr.aria-labelledby]="tab?.id"
-  [attr.id]="'section-' + tabNum"
-  [attr.tabindex]="isOpen ? 0 : -1"
-  [class.active]="isOpen"
-  [style.display]="isOpen ? 'block' : 'none'"
+  [attr.id]="'section-' + tab?.id"
   [cxFocus]="{ focusOnEscape: true }"
 >
   <ng-container [ngTemplateOutlet]="tab.content"></ng-container>

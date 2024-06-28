@@ -1,12 +1,11 @@
 //import { TemplateRef } from '@angular/core';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Tab, TAB_PANEL_CONTENT_TYPE } from '../tab.model';
+import { Tab } from '../tab.model';
 import { TabPanelComponent } from './tab-panel.component';
 
 const mockTab: Tab = {
   id: 'test',
-  content: undefined,
 };
 
 @Component({
@@ -25,7 +24,7 @@ fdescribe('TabPanelComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [TabPanelComponent],
+        declarations: [TabPanelComponent, MockComponent],
       }).compileComponents();
     })
   );
@@ -39,35 +38,6 @@ fdescribe('TabPanelComponent', () => {
 
   it('should create an instance', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('getContentType()', () => {
-    it('should return "TEMPLATE_REF" when content is TemplateRef', () => {
-      const mockFixture = TestBed.createComponent(MockComponent);
-      mockFixture.detectChanges();
-      const templateRef = mockFixture.componentInstance.templateRef;
-
-      component.tab.content = templateRef;
-      expect(component.getContentType()).toBe(
-        TAB_PANEL_CONTENT_TYPE.TEMPLATE_REF
-      );
-    });
-
-    it('should return "CONTENT_SLOT_COMPONENT_DATA" when content has flexType', () => {
-      const contentSlotComponentData = { flexType: 'component' };
-      component.tab.content = contentSlotComponentData;
-      expect(component.getContentType()).toBe(
-        TAB_PANEL_CONTENT_TYPE.CONTENT_SLOT_COMPONENT_DATA
-      );
-    });
-
-    it('should return undefined when content is null or undefined', () => {
-      component.tab.content = null;
-      expect(component.getContentType()).toBeUndefined();
-
-      component.tab.content = undefined;
-      expect(component.getContentType()).toBeUndefined();
-    });
   });
 
   describe('tab panel rendering', () => {
@@ -103,14 +73,11 @@ fdescribe('TabPanelComponent', () => {
       component.tab.content = templateRef;
       component.isOpen = true;
       component.tabNum = 1;
+      mockFixture.detectChanges();
       fixture.detectChanges();
 
-      expect(component.getContentType()).toEqual(
-        TAB_PANEL_CONTENT_TYPE.TEMPLATE_REF
-      );
-
       const tabPanel = document.querySelector('div[role="tabpanel"]');
-      console.log(tabPanel);
+      console.log(document, tabPanel);
       expect(tabPanel).toEqual(undefined);
     });
   });
