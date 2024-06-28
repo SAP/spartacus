@@ -203,6 +203,15 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
       isLightedUp: value ? value.selected : false,
     };
   }
+
+  /**
+   * Creates control options for cx-configurator-price-async component,
+   * so it can render the price for the given value of the given attribute.
+   *
+   * @param {Configurator.Attribute} attribute Configurator Attribute
+   * @param {Configurator.Value} value Configurator Attribute Value
+   * @returns {ConfiguratorPriceAsyncComponentOptions} control options
+   */
   extractValuePriceAsyncOptions(
     attribute: Configurator.Attribute,
     value: Configurator.Value
@@ -210,7 +219,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     return {
       attributeKey: attribute.key ?? '',
       valueName: value.name ?? '',
-      isLightedUp: value ? value.selected : false,
+      isLightedUp: value?.selected ?? false,
     };
   }
 

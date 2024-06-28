@@ -15,7 +15,11 @@ import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state'
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
-function createValue(code: string, name: string, isSelected: boolean) {
+function createValue(
+  code: string,
+  name: string | undefined,
+  isSelected: boolean | undefined
+) {
   const value: Configurator.Value = {
     valueCode: code,
     valueDisplay: name,
@@ -126,6 +130,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
       selectedSingleValue: selectedValue,
       groupId: groupId,
+      key: 'attrKey',
     };
     component.ownerKey = ownerKey;
     fixture.detectChanges();
@@ -395,6 +400,31 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
         value?.valuePrice?.value
       );
       expect(priceFormulaParameters?.isLightedUp).toBe(value?.selected);
+    });
+  });
+
+  describe('extractValuePriceAsyncOptions', () => {
+    it('should return empty keys if none defined', () => {
+      const value = createValue('code', undefined, undefined);
+      component.attribute.key = undefined;
+      expect(
+        component.extractValuePriceAsyncOptions(component.attribute, value)
+      ).toEqual({
+        attributeKey: '',
+        valueName: '',
+        isLightedUp: false,
+      });
+    });
+
+    it('should return attr key and value name', () => {
+      const value = createValue('code', 'name', true);
+      expect(
+        component.extractValuePriceAsyncOptions(component.attribute, value)
+      ).toEqual({
+        attributeKey: 'attrKey',
+        valueName: 'name',
+        isLightedUp: true,
+      });
     });
   });
 
