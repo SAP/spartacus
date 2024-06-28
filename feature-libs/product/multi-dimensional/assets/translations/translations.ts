@@ -7,12 +7,11 @@
 import { TranslationChunksConfig, TranslationResources } from '@spartacus/core';
 import { en } from './en/index';
 
-export const variantsMultidimensionalTranslations: TranslationResources = {
+export const productMultidimensionalTranslations: TranslationResources = {
   en,
 };
 
-// expose all translation chunk mapping for variantsMultidimensional feature
-export const variantsMultidimensionalTranslationChunksConfig: TranslationChunksConfig =
+export const productMultidimensionalTranslationChunksConfig: TranslationChunksConfig =
   {
-    variantsMultidimensional: [],
+    productMultiDimensional: ['productMultiDimensional'],
   };

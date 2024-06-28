@@ -7,8 +7,8 @@
 import { NgModule } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
 import {
-  variantsMultidimensionalTranslationChunksConfig,
-  variantsMultidimensionalTranslations,
+  productMultidimensionalTranslationChunksConfig,
+  productMultidimensionalTranslations,
 } from '@spartacus/product/multi-dimensional/assets';
 import {
   PRODUCT_MULTIDIMENSIONAL_FEATURE,
@@ -28,8 +28,8 @@ import {
         },
       },
       i18n: {
-        resources: variantsMultidimensionalTranslations,
-        chunks: variantsMultidimensionalTranslationChunksConfig,
+        resources: productMultidimensionalTranslations,
+        chunks: productMultidimensionalTranslationChunksConfig,
       },
     }),
   ],

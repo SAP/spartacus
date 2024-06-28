@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { variantsMultidimensional } from './variants-multidimensional.i18n';
-
+import productMultiDimensional from './productMultiDimensional.json';
 export const en = {
-  variantsMultidimensional,
+  productMultiDimensional,
 };

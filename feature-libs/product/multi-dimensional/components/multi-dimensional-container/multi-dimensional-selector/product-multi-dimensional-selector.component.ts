@@ -21,6 +21,7 @@ import {
   RoutingService,
   VariantMatrixElement,
   VariantOptionQualifier,
+  VariantQualifier,
 } from '@spartacus/core';
 import { ProductMultiDimensionalService } from '../../../core/services/product-multi-dimensional.service';
 import { ActivatedRoute } from '@angular/router';
@@ -53,9 +54,14 @@ export class ProductMultiDimensionalSelectorComponent implements OnChanges {
   }
 
   variantHasImages(variants: VariantMatrixElement[]): boolean {
-    return variants.some(
-      (variant: VariantMatrixElement) => variant.parentVariantCategory?.hasImage
-    );
+    return variants.every((variant: VariantMatrixElement) => {
+      if (variant.variantOption?.variantOptionQualifiers) {
+        return variant.variantOption.variantOptionQualifiers.every(
+          (qualifier: VariantOptionQualifier) => qualifier.image !== undefined
+        );
+      }
+      return false;
+    });
   }
 
   changeVariant(code: string | undefined): void {
@@ -72,18 +78,21 @@ export class ProductMultiDimensionalSelectorComponent implements OnChanges {
     }
   }
 
-  getVariantOptionImages(variantOptionQualifier: VariantOptionQualifier[]) {
-    const images = {};
-    const defaultImageObject = {
-      altText: this.product.name || '',
-    };
+  getVariantOptionImages(variantOptionQualifiers: VariantOptionQualifier[]): {
+    [key: string]: any;
+  } {
+    const imagesArray = variantOptionQualifiers
+      .filter(
+        (qualifier) => qualifier.image?.format === VariantQualifier.SWATCH
+      )
+      .map((qualifier) => ({
+        format: qualifier.image?.format,
+        url: this.getBaseUrl() + qualifier.image?.url,
+      }));
 
-    variantOptionQualifier.forEach((element: any) => {
-      const imageObject = Object.assign(defaultImageObject, {
-        format: element.image?.format,
-        url: this.getBaseUrl() + element.image?.url,
-      });
-      Object.assign(images, imageObject);
+    const images: { [key: string]: any } = {};
+    imagesArray.forEach((image, index) => {
+      images[`image${index}`] = image;
     });
 
     return images;
