@@ -52,15 +52,15 @@ export class CreateConfiguration extends StateUtils.LoaderLoadAction {
 export class CreateConfigurationFail extends StateUtils.LoaderFailAction {
   readonly type = CREATE_CONFIGURATION_FAIL;
 
+  constructor(error: ActionErrorProperty);
   /**
    * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
-  constructor(error: null | undefined);
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
-    error: ActionErrorProperty
+    error: any
   );
   constructor(public error: any) {
     super(CONFIGURATION_TEXTFIELD_DATA, error);
@@ -94,15 +94,15 @@ export class AddToCart extends StateUtils.LoaderLoadAction {
 export class AddToCartFail extends StateUtils.LoaderFailAction {
   readonly type = ADD_TO_CART_FAIL;
 
+  constructor(error: ActionErrorProperty);
   /**
    * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
-  constructor(error: null | undefined);
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
-    error: ActionErrorProperty
+    error: any
   );
   constructor(public error: any) {
     super(CONFIGURATION_TEXTFIELD_DATA, error);
@@ -120,15 +120,15 @@ export class UpdateCartEntryConfiguration extends StateUtils.LoaderLoadAction {
 export class UpdateCartEntryConfigurationFail extends StateUtils.LoaderFailAction {
   readonly type = UPDATE_CART_ENTRY_CONFIGURATION_FAIL;
 
+  constructor(error: ActionErrorProperty);
   /**
    * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
-  constructor(error: null | undefined);
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
-    error: ActionErrorProperty
+    error: any
   );
   constructor(public error: any) {
     super(CONFIGURATION_TEXTFIELD_DATA, error);
@@ -156,15 +156,15 @@ export class ReadCartEntryConfigurationSuccess extends StateUtils.LoaderSuccessA
 export class ReadCartEntryConfigurationFail extends StateUtils.LoaderFailAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION_FAIL;
 
+  constructor(error: ActionErrorProperty);
   /**
    * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
-  constructor(error: null | undefined);
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
-    error: ActionErrorProperty
+    error: any
   );
   constructor(public error: any) {
     super(CONFIGURATION_TEXTFIELD_DATA, error);
@@ -192,15 +192,15 @@ export class ReadOrderEntryConfigurationSuccess extends StateUtils.LoaderSuccess
 export class ReadOrderEntryConfigurationFail extends StateUtils.LoaderFailAction {
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_FAIL;
 
+  constructor(error: ActionErrorProperty);
   /**
    * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
    *             Support for `null` or `undefined` will be removed in future versions,
    *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    */
-  constructor(error: null | undefined);
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
-    error: ActionErrorProperty
+    error: any
   );
   constructor(public error: any) {
     super(CONFIGURATION_TEXTFIELD_DATA, error);
