@@ -247,34 +247,34 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   ): string {
     let ariaLabel = '';
     if (value.valuePrice && value.valuePrice?.value !== 0) {
+      const translationKey = value.selected
+        ? 'configurator.a11y.selectedValueOfAttributeFullWithPrice'
+        : 'configurator.a11y.valueOfAttributeFullWithPrice';
       if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
         this.translation
-          .translate(
-            'configurator.a11y.selectedValueOfAttributeFullWithPrice',
-            {
-              value: value.valueDisplay,
-              attribute: attribute.label,
-              price: value.valuePriceTotal.formattedValue,
-            }
-          )
+          .translate(translationKey, {
+            value: value.valueDisplay,
+            attribute: attribute.label,
+            price: value.valuePriceTotal.formattedValue,
+          })
           .pipe(take(1))
           .subscribe((text) => (ariaLabel = text));
       } else {
         this.translation
-          .translate(
-            'configurator.a11y.selectedValueOfAttributeFullWithPrice',
-            {
-              value: value.valueDisplay,
-              attribute: attribute.label,
-              price: value.valuePrice.formattedValue,
-            }
-          )
+          .translate(translationKey, {
+            value: value.valueDisplay,
+            attribute: attribute.label,
+            price: value.valuePrice.formattedValue,
+          })
           .pipe(take(1))
           .subscribe((text) => (ariaLabel = text));
       }
     } else {
+      const translationKey = value.selected
+        ? 'configurator.a11y.selectedValueOfAttributeFull'
+        : 'configurator.a11y.valueOfAttributeFull';
       this.translation
-        .translate('configurator.a11y.selectedValueOfAttributeFull', {
+        .translate(translationKey, {
           value: value.valueDisplay,
           attribute: attribute.label,
         })
