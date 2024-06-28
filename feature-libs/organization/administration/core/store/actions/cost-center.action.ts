@@ -64,7 +64,7 @@ export class LoadCostCenterFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { costCenterCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
@@ -109,7 +109,7 @@ export class LoadCostCentersFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { params: SearchConfig; error: ActionErrorProperty });
   /**
-   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
@@ -153,7 +153,7 @@ export class CreateCostCenterFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { costCenterCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
@@ -194,7 +194,7 @@ export class UpdateCostCenterFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { costCenterCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
@@ -242,7 +242,7 @@ export class LoadAssignedBudgetsFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
@@ -304,12 +304,9 @@ export class AssignBudget extends StateUtils.EntityLoadAction {
 export class AssignBudgetFail extends StateUtils.EntityFailAction {
   readonly type = ASSIGN_BUDGET_FAIL;
 
-  constructor(payload: {
-    budgetCode: string;
-    error: ActionErrorProperty;
-  });
+  constructor(payload: { budgetCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
@@ -356,12 +353,9 @@ export class UnassignBudget extends StateUtils.EntityLoadAction {
 export class UnassignBudgetFail extends StateUtils.EntityFailAction {
   readonly type = UNASSIGN_BUDGET_FAIL;
 
-  constructor(payload: {
-    budgetCode: string;
-    error: ActionErrorProperty;
-  });
+  constructor(payload: { budgetCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.

@@ -69,7 +69,7 @@ export class LoadProductInterestsFail extends LoaderFailAction {
 
   constructor(error: ActionErrorProperty);
   /**
-   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
@@ -118,7 +118,7 @@ export class RemoveProductInterestFail extends EntityFailAction {
 
   constructor(error: ActionErrorProperty);
   /**
-   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
@@ -159,7 +159,7 @@ export class AddProductInterestFail extends EntityFailAction {
 
   constructor(error: ActionErrorProperty);
   /**
-   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.

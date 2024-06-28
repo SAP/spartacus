@@ -26,7 +26,7 @@ export class ViewAllStoresFail extends StateUtils.LoaderFailAction {
 
   constructor(error: ActionErrorProperty);
   /**
-   * @deprecated Please !! use `error` parameter other than `null` or `undefined`.
+   * @deprecated Please use `error` parameter other than `null` or `undefined`.
    *
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
