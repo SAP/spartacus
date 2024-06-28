@@ -48,7 +48,7 @@ export class CreateWishListFail extends StateUtils.EntityFailAction {
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: { cartId: string; error: any }
   );
   constructor(public payload: { cartId: string; error: any }) {
@@ -109,7 +109,7 @@ export class LoadWishListFail extends StateUtils.EntityFailAction {
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: DeprecatedLoadWishListFailPayload
   );
   constructor(public payload: LoadWishListFailPayload & { error: any }) {

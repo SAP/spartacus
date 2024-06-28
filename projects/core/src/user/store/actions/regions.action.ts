@@ -34,7 +34,7 @@ export class LoadRegionsFail extends StateUtils.LoaderFailAction {
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     error: any
   );
   constructor(public error: any) {

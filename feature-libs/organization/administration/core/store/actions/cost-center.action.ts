@@ -70,7 +70,7 @@ export class LoadCostCenterFail extends StateUtils.EntityFailAction {
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: { costCenterCode: string; error: any }
   );
   constructor(public payload: { costCenterCode: string; error: any }) {
@@ -115,7 +115,7 @@ export class LoadCostCentersFail extends StateUtils.EntityFailAction {
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: { params: SearchConfig; error: any }
   );
   constructor(public payload: { params: SearchConfig; error: any }) {
@@ -159,7 +159,7 @@ export class CreateCostCenterFail extends StateUtils.EntityFailAction {
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: { costCenterCode: string; error: any }
   );
   constructor(public payload: { costCenterCode: string; error: any }) {
@@ -200,7 +200,7 @@ export class UpdateCostCenterFail extends StateUtils.EntityFailAction {
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: { costCenterCode: string; error: any }
   );
   constructor(public payload: { costCenterCode: string; error: any }) {
@@ -248,7 +248,7 @@ export class LoadAssignedBudgetsFail extends StateUtils.EntityFailAction {
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
       costCenterCode: string;
       params: SearchConfig;
@@ -312,7 +312,7 @@ export class AssignBudgetFail extends StateUtils.EntityFailAction {
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
       budgetCode: string;
       error: any;
@@ -361,7 +361,7 @@ export class UnassignBudgetFail extends StateUtils.EntityFailAction {
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
       budgetCode: string;
       error: any;

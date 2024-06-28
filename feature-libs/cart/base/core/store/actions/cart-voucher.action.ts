@@ -50,7 +50,7 @@ export class CartAddVoucherFail extends StateUtils.EntityFailAction {
    *             Note: Allowing for `null` or `undefined` will be removed in future versions
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
-  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
   constructor(payload: {
     userId: string;
     cartId: string;
@@ -121,7 +121,7 @@ export class CartRemoveVoucherFail
    *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
    **/
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing non-deprecated constructor
+    // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
       error: any;
       cartId: string;
