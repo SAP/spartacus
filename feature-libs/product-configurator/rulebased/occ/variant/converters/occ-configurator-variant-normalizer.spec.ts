@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
+  FeatureConfigService,
   OccConfig,
   TranslationService,
 } from '@spartacus/core';
@@ -321,6 +322,16 @@ const MockConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig = {
   },
 };
 
+let productConfigurationDeltaRenderingEnabled = false;
+class MockFeatureConfigService {
+  isEnabled(name: string): boolean {
+    if (name === 'productConfigurationDeltaRendering') {
+      return productConfigurationDeltaRenderingEnabled;
+    }
+    return false;
+  }
+}
+
 describe('OccConfiguratorVariantNormalizer', () => {
   let occConfiguratorVariantNormalizer: OccConfiguratorVariantNormalizer;
   let occConfig: OccConfig;
@@ -337,6 +348,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
           provide: ConfiguratorUISettingsConfig,
           useValue: MockConfiguratorUISettingsConfig,
         },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
@@ -1754,5 +1766,17 @@ describe('OccConfiguratorVariantNormalizer', () => {
         occConfiguratorVariantNormalizer['isRetractBlocked'](sourceAttribute);
       expect(isRetractBlocked).toBeTruthy();
     });
+  });
+
+  it('should set async pricing flag to true when performance optimization is active', () => {
+    productConfigurationDeltaRenderingEnabled = true;
+    const result = occConfiguratorVariantNormalizer.convert(configuration);
+    expect(result.isAsyncPricing).toBe(true);
+  });
+
+  it('should set async pricing flag to false when performance optimization is NOT active', () => {
+    productConfigurationDeltaRenderingEnabled = false;
+    const result = occConfiguratorVariantNormalizer.convert(configuration);
+    expect(result.isAsyncPricing).toBe(false);
   });
 });

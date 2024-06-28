@@ -30,7 +30,8 @@
           group: group,
           language: activeLanguage,
           expMode: (expMode | async) ?? false,
-          isNavigationToGroupEnabled: isNavigationToGroupEnabled
+          isNavigationToGroupEnabled: isNavigationToGroupEnabled,
+          isAsyncPricing: isAsyncPricing
         }"
       ></div>
 
@@ -41,7 +42,8 @@
           owner: owner,
           group: group,
           language: activeLanguage,
-          expMode: (expMode | async) ?? false
+          expMode: (expMode | async) ?? false,
+          isAsyncPricing: isAsyncPricing
         }"
       ></div>
 
@@ -52,7 +54,8 @@
           owner: owner,
           group: group,
           language: activeLanguage,
-          expMode: (expMode | async) ?? false
+          expMode: (expMode | async) ?? false,
+          isAsyncPricing: isAsyncPricing
         }"
       ></div>
     </ng-container>

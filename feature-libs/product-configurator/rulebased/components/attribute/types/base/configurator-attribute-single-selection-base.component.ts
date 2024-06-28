@@ -18,6 +18,7 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
+import { ConfiguratorPriceAsyncComponentOptions } from '../../../price-async/configurator-price-async.component';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -29,6 +30,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   ownerType: string;
   language: string;
   expMode: boolean;
+  isAsyncPricing: boolean;
 
   showRequiredErrorMessage$: Observable<boolean> = of(false);
 
@@ -46,6 +48,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     this.ownerType = attributeComponentContext.owner.type;
     this.language = attributeComponentContext.language;
     this.expMode = attributeComponentContext.expMode;
+    this.isAsyncPricing = attributeComponentContext.isAsyncPricing ?? false;
 
     this.showRequiredErrorMessage$ = this.configuratorStorefrontUtilsService
       .isCartEntryOrGroupVisited(
@@ -197,6 +200,16 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   ): ConfiguratorPriceComponentOptions {
     return {
       price: value?.valuePrice,
+      isLightedUp: value ? value.selected : false,
+    };
+  }
+  extractValuePriceAsyncOptions(
+    attribute: Configurator.Attribute,
+    value: Configurator.Value
+  ): ConfiguratorPriceAsyncComponentOptions {
+    return {
+      attributeKey: attribute.key ?? '',
+      valueName: value.name ?? '',
       isLightedUp: value ? value.selected : false,
     };
   }

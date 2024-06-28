@@ -26,7 +26,7 @@ import {
  * - value_1_2: $100
  * - value_1_3: $300
  */
-const mockConfig: Configurator.Configuration = {
+const mockConfigTemplate: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration('c123'),
   pricingEnabled: true,
   priceSupplements: ConfiguratorTestUtils.createListOfAttributeSupplements(
@@ -50,13 +50,13 @@ class MockConfiguratorCommonsService {
   getConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    return owner === mockConfig.owner ? configSubject : EMPTY;
+    return owner === mockConfigTemplate.owner ? configSubject : EMPTY;
   }
 }
 
 class MockConfiguratorRouterExtractorService {
   extractRouterData() {
-    return of({ owner: mockConfig.owner });
+    return of({ owner: mockConfigTemplate.owner });
   }
 }
 
@@ -64,6 +64,7 @@ describe('ConfiguratorPriceAsyncComponent', () => {
   let component: ConfiguratorPriceAsyncComponent;
   let fixture: ComponentFixture<ConfiguratorPriceAsyncComponent>;
   let htmlElem: HTMLElement;
+  let mockConfig: Configurator.Configuration;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -88,7 +89,7 @@ describe('ConfiguratorPriceAsyncComponent', () => {
 
   beforeEach(() => {
     direction = DirectionMode.LTR;
-    mockConfig.pricingEnabled = true;
+    mockConfig = mockConfigTemplate;
 
     fixture = TestBed.createComponent(ConfiguratorPriceAsyncComponent);
     component = fixture.componentInstance;
@@ -106,10 +107,10 @@ describe('ConfiguratorPriceAsyncComponent', () => {
   it('should be created', () => {
     expect(component).toBeDefined();
   });
-  mockConfig.pricingEnabled = true;
 
-  it('should not display anything if pricing is disabled', () => {
-    mockConfig.pricingEnabled = false;
+  it('should not display anything if there are no price supplements', () => {
+    mockConfig = structuredClone(mockConfigTemplate); // copy so we can manipulate
+    mockConfig.priceSupplements = undefined;
     initComponent({
       attributeKey: 'group1@attribute_1_2',
       valueName: 'value_2_3',

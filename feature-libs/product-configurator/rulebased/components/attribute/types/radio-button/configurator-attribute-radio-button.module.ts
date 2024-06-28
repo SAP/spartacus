@@ -16,7 +16,7 @@ import { ConfiguratorAttributeInputFieldModule } from '../input-field/configurat
 import { ConfiguratorAttributeNumericInputFieldModule } from '../numeric-input-field/configurator-attribute-numeric-input-field.module';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
 import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
-
+import { ConfiguratorPriceAsyncModule } from '../../../price-async/configurator-price-async.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -26,6 +26,7 @@ import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show
     KeyboardFocusModule,
     ReactiveFormsModule,
     ConfiguratorPriceModule,
+    ConfiguratorPriceAsyncModule,
     ConfiguratorAttributeNumericInputFieldModule,
     ConfiguratorAttributeInputFieldModule,
     ConfiguratorShowMoreModule,

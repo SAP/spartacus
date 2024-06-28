@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { useFeatureStyles } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, filter, switchMap } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorPriceService } from '../price/configurator-price.component.service';
@@ -21,12 +21,12 @@ const NO_PRICE: Configurator.PriceDetails = { value: 0, currencyIso: '' };
 
 export interface ConfiguratorPriceAsyncComponentOptions {
   attributeKey: string;
-  valueName?: string;
+  valueName: string;
   isLightedUp?: boolean;
 }
 
 @Component({
-  selector: 'cx-configurator-price',
+  selector: 'cx-configurator-price-async',
   templateUrl: './configurator-price-async.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -42,9 +42,9 @@ export class ConfiguratorPriceAsyncComponent {
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
-        return this.configuratorCommonsService.getConfiguration(
-          routerData.owner
-        );
+        return this.configuratorCommonsService
+          .getConfiguration(routerData.owner)
+          .pipe(filter((config) => !!config.priceSupplements));
       })
     );
 

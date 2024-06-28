@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Converter, OccConfig, TranslationService } from '@spartacus/core';
+import { Injectable, inject } from '@angular/core';
+import {
+  Converter,
+  FeatureConfigService,
+  OccConfig,
+  TranslationService,
+} from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { take } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../../components/config/configurator-ui-settings.config';
@@ -21,6 +26,8 @@ export class OccConfiguratorVariantNormalizer
    * @deprecated since 6.2
    */
   static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
+
+  protected featureConfig = inject(FeatureConfigService);
 
   constructor(
     protected config: OccConfig,
@@ -48,6 +55,9 @@ export class OccConfiguratorVariantNormalizer
       hideBasePriceAndSelectedOptions: source.hideBasePriceAndSelectedOptions,
       immediateConflictResolution: source.immediateConflictResolution ?? false,
       newConfiguration: source.newConfiguration, // we need a trinary state true, false, undefined!
+      isAsyncPricing: this.featureConfig.isEnabled(
+        'productConfigurationDeltaRendering'
+      ),
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>
