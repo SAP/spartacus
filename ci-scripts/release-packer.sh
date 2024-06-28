@@ -5,12 +5,15 @@
 set -e
 shopt -s extglob dotglob
 
+# Build all the libraries and generate the dist folders to use when releasing
+function build_libs {
+    npm ci && npm run build:libs
+}
+
 # Configure the project to move everything into a sub-folder to keep root clean for publishing
 function configure_project {
     mkdir sub-folder
     mv !(sub-folder) sub-folder
-    cd sub-folder
-    npm ci && npm run build:libs
 }
 
 # Clear root containing the old package so the next package can be published 
@@ -49,6 +52,8 @@ function pack {
 
 if [[ $1 == 'configure' ]]; then
     configure_project
+elif [[ $1 == 'build' ]]; then
+    build_libs
 else 
     clear_root
     pack "$1"

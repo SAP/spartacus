@@ -5,9 +5,20 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ImageGroup, Product } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  FeaturesConfigModule,
+  ImageGroup,
+  Product,
+} from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import {
   BREAKPOINT,
@@ -110,6 +121,12 @@ export class MockProductImageZoomThumbnailsComponent {
   @Input() activeThumb: EventEmitter<ImageGroup>;
 }
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string) {
+    return true;
+  }
+}
+
 describe('ProductImageZoomViewComponent', () => {
   let productImageZoomViewComponent: ProductImageZoomViewComponent;
   let fixture: ComponentFixture<ProductImageZoomViewComponent>;
@@ -117,6 +134,7 @@ describe('ProductImageZoomViewComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
+      imports: [FeaturesConfigModule],
       declarations: [
         ProductImageZoomViewComponent,
         MockIconComponent,
@@ -127,6 +145,7 @@ describe('ProductImageZoomViewComponent', () => {
       providers: [
         { provide: CurrentProductService, useClass: MockCurrentProductService },
         { provide: BreakpointService, useClass: MockBreakpointService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
 
@@ -390,5 +409,22 @@ describe('ProductImageZoomViewComponent', () => {
         y: 10,
       });
     });
+  });
+
+  describe('a11y', () => {
+    it('should refocus on zoomButton after image loads', fakeAsync(() => {
+      const mockZoomButton = {
+        nativeElement: {
+          focus: jasmine.createSpy('focus'),
+        },
+      };
+      productImageZoomViewComponent.zoomButton = mockZoomButton;
+
+      productImageZoomViewComponent.zoom();
+      productImageZoomViewComponent['imageLoaded'].next(true);
+      tick();
+
+      expect(mockZoomButton.nativeElement.focus).toHaveBeenCalled();
+    }));
   });
 });
