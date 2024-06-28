@@ -78,10 +78,7 @@
     </div>
   </ng-container>
 
-  <div
-    *ngIf="!withQuantity && getSelectedValue()?.valuePrice"
-    class="cx-value-price"
-  >
+  <div *ngIf="!withQuantity && getSelectedValue()" class="cx-value-price">
     <cx-configurator-price
       *ngIf="!isAsyncPricing"
       [formula]="extractValuePriceFormulaParameters(getSelectedValue())"
