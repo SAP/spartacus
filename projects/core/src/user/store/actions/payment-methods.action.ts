@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ActionErrorProperty } from '../../../model/index';
+import { ActionErrorProperty } from '../../../error-handling/effects-error-handler/error-action';
 import { PaymentDetails } from '../../../model/payment.model';
 import { StateUtils } from '../../../state/utils/index';
 import { USER_PAYMENT_METHODS } from '../user-state';

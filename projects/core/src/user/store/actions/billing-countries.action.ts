@@ -5,7 +5,10 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ActionErrorProperty, ErrorAction } from '../../../model/index';
+import {
+  ActionErrorProperty,
+  ErrorAction,
+} from '../../../error-handling/effects-error-handler/error-action';
 
 export const LOAD_BILLING_COUNTRIES = '[User] Load Billing Countries';
 export const LOAD_BILLING_COUNTRIES_FAIL = '[User] Load Billing Countries Fail';

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ActionErrorProperty } from '../../../error-handling/effects-error-handler/error-action';
 import { Address } from '../../../model/address.model';
-import { ActionErrorProperty } from '../../../model/index';
 import { StateUtils } from '../../../state/utils/index';
 import { USER_ADDRESSES } from '../user-state';
 

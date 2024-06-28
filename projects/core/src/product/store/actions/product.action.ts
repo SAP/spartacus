@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ActionErrorProperty } from '@spartacus/core';
+import { ActionErrorProperty } from '../../../error-handling/effects-error-handler/error-action';
 import { Product } from '../../../model/product.model';
 import { EntityLoaderMeta } from '../../../state/utils/entity-loader/entity-loader.action';
 import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';

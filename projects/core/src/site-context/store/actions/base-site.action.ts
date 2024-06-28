@@ -5,7 +5,10 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ActionErrorProperty, ErrorAction } from '../../../model/index';
+import {
+  ActionErrorProperty,
+  ErrorAction,
+} from '../../../error-handling/effects-error-handler/error-action';
 import { BaseSite } from '../../../model/misc.model';
 
 export const LOAD_BASE_SITE = '[Site-context] Load BaseSite';

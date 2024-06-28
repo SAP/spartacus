@@ -5,11 +5,14 @@
  */
 
 import {
+  ActionErrorProperty,
+  ErrorAction,
+} from '../../../error-handling/effects-error-handler/error-action';
+import {
   CustomerCoupon2Customer,
   CustomerCouponNotification,
   CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
-import { ActionErrorProperty, ErrorAction } from '../../../model/index';
 import { PROCESS_FEATURE } from '../../../process/store';
 import {
   EntityFailAction,

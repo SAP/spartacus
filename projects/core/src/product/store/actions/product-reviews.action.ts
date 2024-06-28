@@ -5,9 +5,9 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction } from '../../../error-handling/effects-error-handler/error-action';
 import { ErrorModel } from '../../../model/misc.model';
 import { Review } from '../../../model/product.model';
-import { ErrorAction } from '../../../model/index';
 
 export const LOAD_PRODUCT_REVIEWS = '[Product] Load Product Reviews Data';
 export const LOAD_PRODUCT_REVIEWS_FAIL =

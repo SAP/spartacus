@@ -7,11 +7,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import {
-  ActionErrorProperty,
-  ErrorAction,
-  HttpErrorModel,
-} from '../../model/index';
+import { HttpErrorModel } from '../../model/index';
+import { ActionErrorProperty, ErrorAction } from './error-action';
 
 @Injectable()
 export class EffectsErrorHandlerService {

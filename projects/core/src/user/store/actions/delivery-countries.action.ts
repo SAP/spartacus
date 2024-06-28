@@ -5,8 +5,11 @@
  */
 
 import { Action } from '@ngrx/store';
+import {
+  ActionErrorProperty,
+  ErrorAction,
+} from '../../../error-handling/effects-error-handler/error-action';
 import { Country } from '../../../model/address.model';
-import { ActionErrorProperty, ErrorAction } from '../../../model/index';
 
 export const LOAD_DELIVERY_COUNTRIES = '[User] Load Delivery Countries';
 export const LOAD_DELIVERY_COUNTRIES_FAIL =

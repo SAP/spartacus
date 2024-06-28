@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ActionErrorProperty } from '@spartacus/core';
+import { ActionErrorProperty } from '../../../error-handling/effects-error-handler/error-action';
 import { Region } from '../../../model/address.model';
 import { StateUtils } from '../../../state/utils/index';
 import { REGIONS } from '../user-state';

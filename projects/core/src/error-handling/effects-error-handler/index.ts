@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from '../../model/error-action';
 export * from './effects-error-handler.module';
 export * from './effects-error-handler.service';
+export * from './error-action';

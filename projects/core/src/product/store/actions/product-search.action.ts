@@ -5,6 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction } from '../../../error-handling/effects-error-handler/error-action';
 import { ErrorModel } from '../../../model/misc.model';
 import {
   ClearSearch,
@@ -12,7 +13,6 @@ import {
   Suggestion,
 } from '../../../model/product-search.model';
 import { SearchConfig } from '../../model/search-config';
-import { ErrorAction } from '../../../model/index';
 
 export const SEARCH_PRODUCTS = '[Product] Search Products';
 export const SEARCH_PRODUCTS_FAIL = '[Product] Search Products Fail';

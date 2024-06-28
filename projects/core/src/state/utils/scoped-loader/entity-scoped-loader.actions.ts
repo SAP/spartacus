@@ -5,7 +5,10 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ActionErrorProperty, ErrorAction } from '../../../model/index';
+import {
+  ActionErrorProperty,
+  ErrorAction,
+} from '../../../error-handling/effects-error-handler/error-action';
 import {
   ENTITY_FAIL_ACTION,
   ENTITY_LOAD_ACTION,
@@ -118,8 +121,6 @@ export namespace EntityScopedLoaderActions {
       this.error = error;
     }
   }
-
-  const x = new EntityScopedFailAction('a', 'b', null, 'd');
 
   export class EntityScopedSuccessAction implements EntityScopedLoaderAction {
     type = ENTITY_SUCCESS_ACTION;

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ActionErrorProperty } from '@spartacus/core';
+import { ActionErrorProperty } from '../../../error-handling/effects-error-handler/error-action';
 import {
   AnonymousConsent,
   ConsentTemplate,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ActionErrorProperty } from '@spartacus/core';
+import { ActionErrorProperty } from '../../../error-handling/effects-error-handler/error-action';
 import { PageContext } from '../../../routing/index';
 import { StateUtils } from '../../../state/utils/index';
 import { Page } from '../../model/page.model';

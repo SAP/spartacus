@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ActionErrorProperty } from '../../../model/index';
+import { ActionErrorProperty } from '../../../error-handling/effects-error-handler/error-action';
 import { NotificationPreference } from '../../../model/notification-preference.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {

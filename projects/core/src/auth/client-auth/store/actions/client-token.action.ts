@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ActionErrorProperty } from '@spartacus/core';
+import { ActionErrorProperty } from '../../../../error-handling/effects-error-handler/error-action';
 import { StateUtils } from '../../../../state/utils/index';
 import { ClientToken } from '../../models/client-token.model';
 import { CLIENT_TOKEN_DATA } from '../client-auth-state';

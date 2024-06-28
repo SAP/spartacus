@@ -5,7 +5,10 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ActionErrorProperty, ErrorAction } from '../../../model/index';
+import {
+  ActionErrorProperty,
+  ErrorAction,
+} from '../../../error-handling/effects-error-handler/error-action';
 
 export const LOADER_LOAD_ACTION = '[LOADER] LOAD';
 export const LOADER_FAIL_ACTION = '[LOADER] FAIL';
