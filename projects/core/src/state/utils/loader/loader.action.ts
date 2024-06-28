@@ -79,11 +79,10 @@ export class LoaderFailAction implements LoaderAction, ErrorAction {
   readonly meta: LoaderMeta;
 
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(entityType: string, error: null | undefined);
   // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
   constructor(entityType: string, error: ActionErrorProperty);

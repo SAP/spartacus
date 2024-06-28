@@ -57,11 +57,10 @@ export class LoadPermissionFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { permissionCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: { permissionCode: string; error: any }
@@ -102,11 +101,10 @@ export class LoadPermissionsFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { params: SearchConfig; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: { params: SearchConfig; error: any }
@@ -146,11 +144,10 @@ export class CreatePermissionFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { permissionCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: { permissionCode: string; error: any }
@@ -187,11 +184,10 @@ export class UpdatePermissionFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { permissionCode: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: { permissionCode: string; error: any }
@@ -222,11 +218,10 @@ export class LoadPermissionTypesFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: { error: any }

@@ -81,11 +81,10 @@ export class LoadSavedCartFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
@@ -128,11 +127,10 @@ export class LoadSavedCartsFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { userId: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: { userId: string; error: any }
@@ -190,11 +188,10 @@ export class RestoreSavedCartFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
@@ -263,11 +260,10 @@ export class SaveCartFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
@@ -340,11 +336,10 @@ export class EditSavedCartFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
@@ -406,11 +401,10 @@ export class CloneSavedCartFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {

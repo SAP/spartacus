@@ -106,11 +106,10 @@ export class LoadB2BUserFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { orgCustomerId: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: { orgCustomerId: string; error: any }
@@ -146,11 +145,10 @@ export class CreateB2BUserFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { orgCustomerId: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: { orgCustomerId: string; error: any }
@@ -187,11 +185,10 @@ export class UpdateB2BUserFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { orgCustomerId: string; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: { orgCustomerId: string; error: any }
@@ -227,11 +224,10 @@ export class LoadB2BUsersFail extends StateUtils.EntityFailAction {
 
   constructor(payload: { params: SearchConfig; error: ActionErrorProperty });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: { params: SearchConfig; error: any }
@@ -284,11 +280,10 @@ export class LoadB2BUserApproversFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
@@ -352,11 +347,10 @@ export class AssignB2BUserApproverFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
@@ -412,11 +406,10 @@ export class UnassignB2BUserApproverFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
@@ -475,11 +468,10 @@ export class LoadB2BUserPermissionsFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
@@ -539,11 +531,10 @@ export class AssignB2BUserPermissionFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
@@ -599,11 +590,10 @@ export class UnassignB2BUserPermissionFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
@@ -662,11 +652,10 @@ export class LoadB2BUserUserGroupsFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
@@ -730,11 +719,10 @@ export class AssignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {
@@ -790,11 +778,10 @@ export class UnassignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
     error: ActionErrorProperty;
   });
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- for distinguishing deprecated constructor
     payload: {

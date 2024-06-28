@@ -88,11 +88,10 @@ interface TypeOf_SetStoreDetailsFailure {
   } & TypedAction<typeof STORE_DETAILS_FAIL>;
 
   /**
-   * @deprecated Please use `error` parameter other than `null` or `undefined`.
-   *
-   *             Note: Allowing for `null` or `undefined` will be removed in future versions
-   *             together with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   **/
+   * @deprecated Use the `error` parameter with a non-null, non-undefined value.
+   *             Support for `null` or `undefined` will be removed in future versions,
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   (props: { error: any }): { error: any } & TypedAction<
     typeof STORE_DETAILS_FAIL
   >;
