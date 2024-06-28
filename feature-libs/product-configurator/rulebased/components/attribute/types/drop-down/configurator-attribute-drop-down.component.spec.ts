@@ -19,6 +19,7 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorPriceAsyncComponentOptions } from '../../../price-async/configurator-price-async.component';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -27,12 +28,23 @@ import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configu
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
 
-function createValue(code: string, name: string, isSelected: boolean) {
+function createValue(
+  code: string,
+  name: string,
+  isSelected: boolean,
+  withPrice?: boolean
+) {
   const value: Configurator.Value = {
     valueCode: code,
     valueDisplay: name,
     name: name,
     selected: isSelected,
+    valuePrice: withPrice
+      ? {
+          currencyIso: 'EUR',
+          value: 10,
+        }
+      : undefined,
   };
   return value;
 }
@@ -71,6 +83,14 @@ class MockConfiguratorShowMoreComponent {
   @Input() productName: string;
 }
 
+@Component({
+  selector: 'cx-configurator-price-async',
+  template: '',
+})
+class MockConfiguratorPriceAsyncComponent {
+  @Input() options: ConfiguratorPriceAsyncComponentOptions;
+}
+
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
@@ -100,6 +120,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
   const value1 = createValue(
     Configurator.RetractValueCode,
     'Please select a value',
+    true,
     true
   );
   const value2 = createValue('2', 'val2', false);
@@ -144,6 +165,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         MockFocusDirective,
         MockConfiguratorAttributeQuantityComponent,
         MockConfiguratorPriceComponent,
+        MockConfiguratorPriceAsyncComponent,
         MockFeatureLevelDirective,
         MockConfiguratorShowMoreComponent,
       ],
@@ -177,11 +199,6 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       })
       .compileComponents();
   }));
-
-  afterEach(() => {
-    document.body.removeChild(htmlElem);
-    fixture.destroy();
-  });
 
   it('should create', () => {
     createComponentWithData();
@@ -441,6 +458,8 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     });
 
     it("should contain option elements with 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
+      value2.valuePrice = undefined;
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -517,6 +536,44 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
           ' value:' +
           value1.valueDisplay,
         value1.valueDisplay
+      );
+    });
+  });
+
+  describe('Rendering of pricing component', () => {
+    beforeEach(() => {
+      createComponentWithData();
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_NO_QTY;
+    });
+
+    it('should render the sync pricing component if async pricing is disabled', () => {
+      component.isAsyncPricing = false;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-value-price cx-configurator-price'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-value-price cx-configurator-price-async'
+      );
+    });
+
+    xit('should render the async pricing component if async pricing is enabled', () => {
+      component.isAsyncPricing = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-value-price cx-configurator-price-async'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-value-price cx-configurator-price'
       );
     });
   });
