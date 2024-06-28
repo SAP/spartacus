@@ -12,7 +12,7 @@ import { Action } from '@ngrx/store';
  * Such a property cannot be `null` or `undefined`,
  * as it may be used to determine whether an action represents a failure/error.
  */
-export type ActionErrorProperty = NonNullable<unknown>;
+export type ActionErrorProperty = NonNullable<unknown> | Record<any, unknown>;
 
 /**
  * Interface for NgRx actions representing a failure/error.
