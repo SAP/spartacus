@@ -80,6 +80,7 @@ export class EntityFailAction implements EntityLoaderAction {
   type = ENTITY_FAIL_ACTION;
   readonly meta: EntityLoaderMeta;
 
+  // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
   constructor(entityType: string, id: EntityId, error: ActionErrorProperty);
   /**
    * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
@@ -92,7 +93,13 @@ export class EntityFailAction implements EntityLoaderAction {
     // eslint-disable-next-line @typescript-eslint/unified-signatures -- needed to deprecate only the old constructor
     error: any
   );
-  constructor(entityType: string, id: EntityId, public error: any) {
+  /**
+   * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
+   *             The `error` parameter will become required in future versions,
+   *             along with removing the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor(entityType: string, id: EntityId);
+  constructor(entityType: string, id: EntityId, public error?: any) {
     this.meta = entityFailMeta(entityType, id, error);
   }
 }
