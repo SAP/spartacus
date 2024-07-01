@@ -62,13 +62,6 @@ export abstract class CaptchaService implements CaptchaProvider, OnDestroy {
         ),
       ]).subscribe((result) => {
         const baseSite = result[1] as BaseSite;
-        // -- test code starts
-        if (baseSite) {
-          baseSite.captchaConfig = {
-            enabled: true,
-          };
-        }
-        // -- test code ends
 
         if (baseSite?.captchaConfig?.enabled) {
           this.captchaConfig = baseSite.captchaConfig;
