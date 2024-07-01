@@ -9,9 +9,10 @@
   >
     <ng-container *ngFor="let discount of quoteDiscountData.cpqDiscounts">
       <span role="cell" class="cx-total cx-discount">
-        {{ discount.isoCode
-        }}{{
+        {{ discount.isoCode }}
+        {{
           getDiscountedPrice(quoteDiscountData.basePrice?.value, discount.value)
+            | number: '1.2-2':'en-US'
         }}
       </span>
     </ng-container>
