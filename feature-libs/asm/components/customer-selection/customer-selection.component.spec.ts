@@ -109,7 +109,6 @@ describe('CustomerSelectionComponent', () => {
   let searchResultItems: Array<ElementRef<HTMLElement>> = [];
   let launchDialogService: LaunchDialogService;
   let featureConfig: FeatureConfigService;
-  let isEnabledSpy: any;
 
   const validSearchTerm = 'cUstoMer@test.com';
   const validSearchOrderID = 'valid_order_id';
@@ -150,7 +149,7 @@ describe('CustomerSelectionComponent', () => {
 
   beforeEach(() => {
     featureConfig = TestBed.inject(FeatureConfigService);
-    isEnabledSpy = spyOn(featureConfig, 'isEnabled').and.callFake(() => true);
+    spyOn(featureConfig, 'isEnabled').and.callFake(() => true);
 
     fixture = TestBed.createComponent(CustomerSelectionComponent);
     component = fixture.componentInstance;
@@ -187,7 +186,7 @@ describe('CustomerSelectionComponent', () => {
   });
 
   it('should emit selection event when submitted with showSearchingCustomerByOrderInASM disabled (CXSPA-7026)', () => {
-    isEnabledSpy.and.returnValue(false);
+    component.isShowSearchingCustomerByOrderInASM = false;
     spyOn(component, 'onSubmit').and.callThrough();
     spyOn(component.customerSelectionForm, 'markAllAsTouched').and.stub();
 
@@ -236,7 +235,7 @@ describe('CustomerSelectionComponent', () => {
   }));
 
   it('should trigger search for valid search term when showSearchingCustomerByOrderInASM disabled', fakeAsync(() => {
-    isEnabledSpy.and.returnValue(false);
+    component.isShowSearchingCustomerByOrderInASM = false;
     spyOn(asmService, 'customerSearch').and.callThrough();
     component.customerSelectionForm.controls.searchTerm.setValue(
       validSearchTerm

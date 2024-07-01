@@ -415,7 +415,9 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     );
 
     if (this.isShowSearchingCustomerByOrderInASM) {
-      this.searchTerm.nativeElement.blur();
+      setTimeout(() => {
+        this.searchTerm.nativeElement.blur();
+      });
     }
   }
   /**
