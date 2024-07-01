@@ -1,12 +1,21 @@
 /// <reference types="jest" />
 
 import { RenderingCache } from './rendering-cache';
+import {
+  SsrOptimizationOptions,
+  defaultSsrOptimizationOptions,
+} from './ssr-optimization-options';
+
+const options: SsrOptimizationOptions = {
+  cacheStrategyResolver: defaultSsrOptimizationOptions.cacheStrategyResolver,
+  avoidCachingErrors: defaultSsrOptimizationOptions.avoidCachingErrors,
+};
 
 describe('RenderingCache', () => {
   let renderingCache: RenderingCache;
 
   beforeEach(() => {
-    renderingCache = new RenderingCache({});
+    renderingCache = new RenderingCache(options);
   });
 
   it('should create rendering cache instance', () => {
@@ -77,13 +86,13 @@ describe('RenderingCache with ttl', () => {
   let renderingCache: RenderingCache;
 
   beforeEach(() => {
-    renderingCache = new RenderingCache({ ttl: 100 });
+    renderingCache = new RenderingCache({ ...options, ttl: 100 });
   });
 
   describe('get', () => {
     it('should return timestamp', () => {
       renderingCache.store('test', null, 'testHtml');
-      expect(renderingCache.get('test').time).toBeTruthy();
+      expect(renderingCache.get('test')?.time).toBeTruthy();
     });
   });
 
@@ -118,7 +127,7 @@ describe('RenderingCache with cacheSize', () => {
   let renderingCache: RenderingCache;
 
   beforeEach(() => {
-    renderingCache = new RenderingCache({ cacheSize: 2 });
+    renderingCache = new RenderingCache({ ...options, cacheSize: 2 });
   });
 
   describe('get', () => {

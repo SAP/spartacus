@@ -130,6 +130,26 @@ export interface SsrOptimizationOptions {
    * By default, the DefaultExpressServerLogger is used.
    */
   logger?: ExpressServerLogger;
+
+  /**
+   * Caching strategy resolver that determines the behavior of caching in RenderingCache.
+   * By default, the caching strategy is based on the presence of an error.
+   */
+  cacheStrategyResolver?: (
+    config: SsrOptimizationOptions,
+    entry: {
+      error?: Error | unknown;
+      html?: string;
+    }
+  ) => boolean;
+
+  /**
+   * Avoid caching of errors. By default, this value is false.
+   * Caching errors is not recommended because it can lead to serving stale content.
+   *
+   * NOTE: Treat this option as a feature toggle. In a future, such an option is going to be true by default.
+   */
+  avoidCachingErrors?: boolean;
 }
 
 export enum RenderingStrategy {
@@ -150,4 +170,7 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
     defaultRenderingStrategyResolverOptions
   ),
   logger: new DefaultExpressServerLogger(),
+  cacheStrategyResolver: (options, entry) =>
+    !(options.avoidCachingErrors === true && Boolean(entry.error)),
+  avoidCachingErrors: false,
 };

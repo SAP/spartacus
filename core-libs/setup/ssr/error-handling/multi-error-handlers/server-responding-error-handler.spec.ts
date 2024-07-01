@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { OccConfig, Priority } from '@spartacus/core';
+import { FeatureConfigService, OccConfig, Priority } from '@spartacus/core';
 import {
   CmsPageNotFoundServerErrorResponseFactory,
   SERVER_ERROR_RESPONSE_FACTORY,
@@ -40,11 +40,13 @@ describe('ServerRespondingErrorHandler', () => {
     let serverRespondingErrorHandler: ServerRespondingErrorHandler;
     let factories: ServerErrorResponseFactory[];
     let propagateServerErrorResponse: any;
+    let featureConfigService: FeatureConfigService;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [
           ServerRespondingErrorHandler,
+          FeatureConfigService,
           {
             provide: SERVER_ERROR_RESPONSE_FACTORY,
             useClass: CmsPageNotFoundServerErrorResponseFactory,
@@ -69,6 +71,7 @@ describe('ServerRespondingErrorHandler', () => {
       serverRespondingErrorHandler = TestBed.inject(
         ServerRespondingErrorHandler
       );
+      featureConfigService = TestBed.inject(FeatureConfigService);
       factories = TestBed.inject(SERVER_ERROR_RESPONSE_FACTORY);
       pageNotFoundFactory =
         factories[0] as CmsPageNotFoundServerErrorResponseFactory;
@@ -86,41 +89,66 @@ describe('ServerRespondingErrorHandler', () => {
       jest.clearAllMocks();
     });
 
-    it('should call CmsPageNotFoundServerErrorResponseFactory', () => {
-      const error = new HttpErrorResponse({
-        status: 404,
-        url: expectedUrl,
+    describe('when ssrErrorPropagation feature is enabled', () => {
+      beforeEach(() => {
+        jest.spyOn(featureConfigService, 'isEnabled').mockReturnValue(true);
+      });
+      it('should call CmsPageNotFoundServerErrorResponseFactory', () => {
+        const error = new HttpErrorResponse({
+          status: 404,
+          url: expectedUrl,
+        });
+
+        serverRespondingErrorHandler.handleError(error);
+
+        expect(pageNotFoundFactory.create).toHaveBeenCalledWith(error);
+        expect(unknownServerErrorFactory.create).not.toHaveBeenCalled();
+        expect(propagateServerErrorResponse as jest.Mock).toHaveBeenCalled();
       });
 
-      serverRespondingErrorHandler.handleError(error);
+      it('should call UnknownServerErrorResponseFactory as fallback', () => {
+        const error = {
+          headers: {},
+          url: 'https://localhost:9002/rest/v2/unknown',
+        } as HttpErrorResponse;
 
-      expect(pageNotFoundFactory.create).toHaveBeenCalledWith(error);
-      expect(unknownServerErrorFactory.create).not.toHaveBeenCalled();
-      expect(propagateServerErrorResponse as jest.Mock).toHaveBeenCalled();
+        serverRespondingErrorHandler.handleError(error);
+
+        expect(pageNotFoundFactory.create).not.toHaveBeenCalled();
+        expect(unknownServerErrorFactory.create).toHaveBeenCalledWith(error);
+        expect(propagateServerErrorResponse as jest.Mock).toHaveBeenCalled();
+      });
     });
+    describe('when ssrErrorPropagation feature is disabled', () => {
+      beforeEach(() => {
+        jest.spyOn(featureConfigService, 'isEnabled').mockReturnValue(false);
+      });
 
-    it('should call UnknownServerErrorResponseFactory as fallback', () => {
-      const error = {
-        headers: {},
-        url: 'https://localhost:9002/rest/v2/unknown',
-      } as HttpErrorResponse;
+      it('should not propagate any error', () => {
+        const error = {
+          headers: {},
+          url: 'https://localhost:9002/rest/v2/unknown',
+        } as HttpErrorResponse;
 
-      serverRespondingErrorHandler.handleError(error);
+        serverRespondingErrorHandler.handleError(error);
 
-      expect(pageNotFoundFactory.create).not.toHaveBeenCalled();
-      expect(unknownServerErrorFactory.create).toHaveBeenCalledWith(error);
-      expect(propagateServerErrorResponse as jest.Mock).toHaveBeenCalled();
+        expect(
+          propagateServerErrorResponse as jest.Mock
+        ).not.toHaveBeenCalled();
+      });
     });
   });
 
   describe('custom factories', () => {
     let serverRespondingErrorHandler: ServerRespondingErrorHandler;
     let factories: ServerErrorResponseFactory[];
+    let featureConfigService: FeatureConfigService;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [
           ServerRespondingErrorHandler,
+          FeatureConfigService,
           {
             provide: SERVER_ERROR_RESPONSE_FACTORY,
             useClass: CmsPageNotFoundServerErrorResponseFactory,
@@ -147,6 +175,9 @@ describe('ServerRespondingErrorHandler', () => {
         ServerRespondingErrorHandler
       );
       factories = TestBed.inject(SERVER_ERROR_RESPONSE_FACTORY);
+      featureConfigService = TestBed.inject(FeatureConfigService);
+
+      jest.spyOn(featureConfigService, 'isEnabled').mockReturnValue(true);
     });
 
     it('should call factory with highers priority', () => {

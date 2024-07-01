@@ -5,7 +5,11 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { MultiErrorHandler, resolveApplicable } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  MultiErrorHandler,
+  resolveApplicable,
+} from '@spartacus/core';
 import { SERVER_ERROR_RESPONSE_FACTORY } from '../server-error-response-factory';
 import { PROPAGATE_SERVER_ERROR_RESPONSE } from '../server-error-response/propagate-server-error-response';
 
@@ -25,8 +29,13 @@ export class ServerRespondingErrorHandler implements MultiErrorHandler {
   protected propagateServerErrorResponse = inject(
     PROPAGATE_SERVER_ERROR_RESPONSE
   );
+  private featureConfigService: FeatureConfigService =
+    inject(FeatureConfigService);
 
   handleError(error: unknown): void {
+    if (!this.featureConfigService.isEnabled('ssrErrorPropagation')) {
+      return;
+    }
     const cxServerErrorResponse = resolveApplicable(
       this.serverErrorResponseFactories,
       [error]
