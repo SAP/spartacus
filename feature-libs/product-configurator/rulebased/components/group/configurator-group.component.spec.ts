@@ -56,6 +56,7 @@ import { ConfiguratorAttributeMultiSelectionBundleComponent } from '../attribute
 import { ConfiguratorAttributeProductCardComponentOptions } from '../attribute/product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from '../attribute/types/single-selection-bundle/configurator-attribute-single-selection-bundle.component';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from '../attribute/types/single-selection-bundle-dropdown/configurator-attribute-single-selection-bundle-dropdown.component';
+import { ConfiguratorPriceAsyncComponentOptions } from '../price-async/configurator-price-async.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
@@ -90,6 +91,14 @@ class MockConfiguratorConflictDescriptionComponent {
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+@Component({
+  selector: 'cx-configurator-price-async',
+  template: '',
+})
+class MockConfiguratorPriceAsyncComponent {
+  @Input() options: ConfiguratorPriceAsyncComponentOptions;
 }
 
 @Component({
@@ -301,6 +310,7 @@ describe('ConfiguratorGroupComponent', () => {
       declarations: [
         MockCxIconComponent,
         MockConfiguratorPriceComponent,
+        MockConfiguratorPriceAsyncComponent,
         MockFocusDirective,
         MockFeatureLevelDirective,
         MockProductCardComponent,

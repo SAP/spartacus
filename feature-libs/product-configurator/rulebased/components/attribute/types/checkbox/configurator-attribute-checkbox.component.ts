@@ -26,6 +26,7 @@ export class ConfiguratorAttributeCheckBoxComponent
   ownerKey: string;
   expMode: boolean;
   attributeValue: Configurator.Value;
+  isAsyncPricing: boolean;
 
   attributeCheckBoxForm = new UntypedFormControl('');
 
@@ -38,6 +39,7 @@ export class ConfiguratorAttributeCheckBoxComponent
     this.group = attributeComponentContext.group.id;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
+    this.isAsyncPricing = attributeComponentContext.isAsyncPricing ?? false;
   }
 
   ngOnInit() {

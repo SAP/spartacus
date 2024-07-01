@@ -266,7 +266,7 @@ export class ConfiguratorAttributeBaseComponent {
     return {
       attributeKey: attribute.key ?? '',
       valueName: value.name ?? '',
-      isLightedUp: value?.selected ?? false,
+      isLightedUp: value.selected ?? false,
     };
   }
 

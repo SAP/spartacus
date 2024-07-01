@@ -81,8 +81,13 @@
         </div>
         <div class="cx-value-price">
           <cx-configurator-price
+            *ngIf="!isAsyncPricing"
             [formula]="extractValuePriceFormulaParameters(attributeValue)"
           ></cx-configurator-price>
+          <cx-configurator-price-async
+            *ngIf="isAsyncPricing"
+            [options]="extractValuePriceAsyncOptions(attribute, attributeValue)"
+          ></cx-configurator-price-async>
         </div>
       </div>
     </div>

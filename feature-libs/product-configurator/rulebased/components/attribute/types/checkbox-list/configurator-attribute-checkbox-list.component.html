@@ -80,7 +80,6 @@
             *ngIf="!isAsyncPricing"
             [formula]="extractValuePriceFormulaParameters(value)"
           ></cx-configurator-price>
-
           <cx-configurator-price-async
             *ngIf="isAsyncPricing"
             [options]="extractValuePriceAsyncOptions(attribute, value)"

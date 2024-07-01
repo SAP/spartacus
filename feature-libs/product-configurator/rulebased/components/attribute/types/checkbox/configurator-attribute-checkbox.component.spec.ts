@@ -16,6 +16,7 @@ import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-uti
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
+import { ConfiguratorPriceAsyncComponentOptions } from '../../../price-async/configurator-price-async.component';
 
 @Directive({
   selector: '[cxFocus]',
@@ -30,6 +31,14 @@ export class MockFocusDirective {
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+@Component({
+  selector: 'cx-configurator-price-async',
+  template: '',
+})
+class MockConfiguratorPriceAsyncComponent {
+  @Input() options: ConfiguratorPriceAsyncComponentOptions;
 }
 
 @Component({
@@ -57,6 +66,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         ConfiguratorAttributeCheckBoxComponent,
         MockFocusDirective,
         MockConfiguratorPriceComponent,
+        MockConfiguratorPriceAsyncComponent,
         MockConfiguratorShowMoreComponent,
       ],
       imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
@@ -163,6 +173,38 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-show-more'
+      );
+    });
+  });
+
+  describe('Rendering of pricing component', () => {
+    it('should render the sync pricing component if async pricing is disabled', () => {
+      component.isAsyncPricing = false;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-value-price cx-configurator-price'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-value-price cx-configurator-price-async'
+      );
+    });
+
+    it('should render the async pricing component if async pricing is enabled', () => {
+      component.isAsyncPricing = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-value-price cx-configurator-price-async'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-value-price cx-configurator-price'
       );
     });
   });
