@@ -9,14 +9,12 @@ describe('TextfieldInputFieldComponent', () => {
   let fixture: ComponentFixture<ConfiguratorTextfieldInputFieldComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule],
-        declarations: [ConfiguratorTextfieldInputFieldComponent],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule],
+      declarations: [ConfiguratorTextfieldInputFieldComponent],
+    });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTextfieldInputFieldComponent);

@@ -320,45 +320,43 @@ function setDataForQuoteEntry() {
 }
 
 describe('ConfigProductTitleComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          ConfiguratorProductTitleComponent,
-          MockCxIconComponent,
-          MockMediaComponent,
-        ],
-        providers: [
-          {
-            provide: Router,
-            useClass: MockRouter,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-          {
-            provide: ConfiguratorExpertModeService,
-            useClass: MockConfiguratorExpertModeService,
-          },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [
+        ConfiguratorProductTitleComponent,
+        MockCxIconComponent,
+        MockMediaComponent,
+      ],
+      providers: [
+        {
+          provide: Router,
+          useClass: MockRouter,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        {
+          provide: ConfiguratorExpertModeService,
+          useClass: MockConfiguratorExpertModeService,
+        },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     initialize();

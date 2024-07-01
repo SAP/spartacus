@@ -16,7 +16,8 @@ import {
   Translatable,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
 
 const mockCart: Cart = {
@@ -111,7 +112,7 @@ describe('CartQuickOrderFormComponent', () => {
         I18nTestingModule,
         ReactiveFormsModule,
       ],
-      declarations: [CartQuickOrderFormComponent],
+      declarations: [CartQuickOrderFormComponent, MockFeatureDirective],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {

@@ -91,30 +91,28 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let focusService: KeyboardFocusService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, IconModule],
-        declarations: [
-          MockConfiguratorDefaultFormComponent,
-          ConfiguratorConflictSolverDialogComponent,
-          MockKeyboardFocusDirective,
-        ],
-        providers: [
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, IconModule],
+      declarations: [
+        MockConfiguratorDefaultFormComponent,
+        ConfiguratorConflictSolverDialogComponent,
+        MockKeyboardFocusDirective,
+      ],
+      providers: [
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

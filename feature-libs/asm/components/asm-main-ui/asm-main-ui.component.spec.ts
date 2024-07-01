@@ -179,32 +179,30 @@ describe('AsmMainUiComponent', () => {
   let asmEnablerService: AsmEnablerService;
   const testCustomerId: string = 'test.customer@hybris.com';
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          AsmMainUiComponent,
-          MockAsmToggleUiComponent,
-          MockCSAgentLoginFormComponent,
-          MockCustomerSelectionComponent,
-          MockAsmSessionTimerComponent,
-          MockCustomerEmulationComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
-          { provide: UserAccountFacade, useClass: MockUserAccountFacade },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: AsmComponentService, useClass: MockAsmComponentService },
-          { provide: AsmService, useClass: MockAsmService },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        AsmMainUiComponent,
+        MockAsmToggleUiComponent,
+        MockCSAgentLoginFormComponent,
+        MockCustomerSelectionComponent,
+        MockAsmSessionTimerComponent,
+        MockCustomerEmulationComponent,
+        MockCxIconComponent,
+      ],
+      providers: [
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
+        { provide: UserAccountFacade, useClass: MockUserAccountFacade },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: AsmComponentService, useClass: MockAsmComponentService },
+        { provide: AsmService, useClass: MockAsmService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmMainUiComponent);

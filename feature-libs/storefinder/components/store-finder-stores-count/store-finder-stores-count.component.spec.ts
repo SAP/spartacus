@@ -32,24 +32,22 @@ describe('StoreFinderStoresCountComponent', () => {
   let el: DebugElement;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [SpinnerModule, I18nTestingModule, RouterTestingModule],
-        declarations: [StoreFinderStoresCountComponent],
-        providers: [
-          {
-            provide: StoreFinderService,
-            useClass: MockStoreFinderService,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [SpinnerModule, I18nTestingModule, RouterTestingModule],
+      declarations: [StoreFinderStoresCountComponent],
+      providers: [
+        {
+          provide: StoreFinderService,
+          useClass: MockStoreFinderService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderStoresCountComponent);

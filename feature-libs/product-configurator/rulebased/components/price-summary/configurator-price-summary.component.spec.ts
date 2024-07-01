@@ -77,35 +77,33 @@ describe('ConfigPriceSummaryComponent', () => {
   let fixture: ComponentFixture<ConfiguratorPriceSummaryComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      routerStateObservable = of(mockRouterState);
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          ConfiguratorPriceSummaryComponent,
-          MockFeatureLevelDirective,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
+  beforeEach(waitForAsync(() => {
+    routerStateObservable = of(mockRouterState);
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        ConfiguratorPriceSummaryComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
 
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorPriceSummaryComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorPriceSummaryComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
   beforeEach(() => {
     config = { ...defaultConfig };
     fixture = TestBed.createComponent(ConfiguratorPriceSummaryComponent);

@@ -202,7 +202,20 @@
                   required
                   type="text"
                 />
-                <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+
+                <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+                <cx-form-errors
+                  *cxFeature="'formErrorsDescriptiveMessages'"
+                  [translationParams]="{
+                    label: 'savedCartDialog.savedCartName' | cxTranslate
+                  }"
+                  [control]="form.get('name')"
+                ></cx-form-errors>
+
+                <cx-form-errors
+                  *cxFeature="'!formErrorsDescriptiveMessages'"
+                  [control]="form.get('name')"
+                ></cx-form-errors>
               </label>
             </ng-container>
           </div>
@@ -221,7 +234,18 @@
                 formControlName="description"
                 rows="5"
               ></textarea>
+
+              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
+                *cxFeature="'formErrorsDescriptiveMessages'"
+                [translationParams]="{
+                  label: 'savedCartDialog.savedCartDescription' | cxTranslate
+                }"
+                [control]="form.get('description')"
+              ></cx-form-errors>
+
+              <cx-form-errors
+                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="form.get('description')"
               ></cx-form-errors>
 
