@@ -147,7 +147,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       map(
         ([consent, template]: [
           AnonymousConsent | undefined,
-          ConsentTemplate | undefined
+          ConsentTemplate | undefined,
         ]) => {
           return {
             consent,

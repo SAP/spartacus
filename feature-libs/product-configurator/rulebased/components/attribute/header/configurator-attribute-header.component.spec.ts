@@ -125,53 +125,51 @@ describe('ConfigAttributeHeaderComponent', () => {
     },
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, IconModule],
-        declarations: [
-          ConfiguratorAttributeHeaderComponent,
-          MockConfiguratorShowMoreComponent,
-        ],
-        providers: [
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
-          },
-          {
-            provide: ConfiguratorUISettingsConfig,
-            useValue: TestConfiguratorUISettings,
-          },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, IconModule],
+      declarations: [
+        ConfiguratorAttributeHeaderComponent,
+        MockConfiguratorShowMoreComponent,
+      ],
+      providers: [
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+        {
+          provide: ConfiguratorUISettingsConfig,
+          useValue: TestConfiguratorUISettings,
+        },
 
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '*' },
           },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '*' },
-            },
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeHeaderComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeHeaderComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     config = configWithoutConflicts;

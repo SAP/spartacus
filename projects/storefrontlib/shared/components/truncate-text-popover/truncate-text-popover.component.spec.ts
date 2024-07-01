@@ -17,18 +17,16 @@ describe('TruncateTextPopoverComponent', () => {
   let fixture: ComponentFixture<TruncateTextPopoverComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          TruncateTextPopoverModule,
-          RouterTestingModule,
-        ],
-        declarations: [TruncateTextPopoverComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        TruncateTextPopoverModule,
+        RouterTestingModule,
+      ],
+      declarations: [TruncateTextPopoverComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TruncateTextPopoverComponent);

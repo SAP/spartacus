@@ -47,24 +47,22 @@ describe('ViewComponent', () => {
   let service: SplitViewService;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ViewComponent],
-        providers: [
-          { provide: SplitViewService, useClass: MockSplitViewService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-        ],
-      })
-        .overrideComponent(ViewComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ViewComponent],
+      providers: [
+        { provide: SplitViewService, useClass: MockSplitViewService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      ],
     })
-  );
+      .overrideComponent(ViewComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewComponent);

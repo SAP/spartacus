@@ -64,26 +64,24 @@ describe('ConfiguratorRouterListener', () => {
   let configuratorCartService: ConfiguratorCartService;
   let configuratorQuantityService: ConfiguratorQuantityService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: ConfiguratorCartService,
-            useValue: mockConfiguratorCartService,
-          },
-          {
-            provide: RoutingService,
-            useValue: mockRoutingService,
-          },
-          {
-            provide: ConfiguratorQuantityService,
-            useClass: MockConfiguratorQuantityService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: ConfiguratorCartService,
+          useValue: mockConfiguratorCartService,
+        },
+        {
+          provide: RoutingService,
+          useValue: mockRoutingService,
+        },
+        {
+          provide: ConfiguratorQuantityService,
+          useClass: MockConfiguratorQuantityService,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     configuratorCartService = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
