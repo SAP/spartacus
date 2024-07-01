@@ -14,8 +14,13 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
+  inject,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { AsmService } from '@spartacus/asm/core';
 import {
   AsmConfig,
@@ -23,7 +28,7 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 
-import { User } from '@spartacus/core';
+import { FeatureConfigService, User, useFeatureStyles } from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
@@ -50,6 +55,13 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   searchByOrder: boolean = false;
   isLoading: boolean = false;
 
+  activeFocusedButtonIndex = -1;
+
+  protected featureConfig = inject(FeatureConfigService);
+  isShowSearchingCustomerByOrderInASM = this.featureConfig.isEnabled(
+    'showSearchingCustomerByOrderInASM'
+  );
+
   @Output()
   submitEvent = new EventEmitter<{
     customerId?: string;
@@ -65,21 +77,38 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     ElementRef<HTMLElement>
   >;
 
-  activeFocusedButtonIndex = -1;
-
   constructor(
     protected fb: UntypedFormBuilder,
     protected asmService: AsmService,
     protected config: AsmConfig,
     protected directionService: DirectionService,
     protected launchDialogService: LaunchDialogService
-  ) {}
+  ) {
+    useFeatureStyles('showSearchingCustomerByOrderInASM');
+  }
 
   ngOnInit(): void {
-    this.customerSelectionForm = this.fb.group({
-      searchTerm: '',
-      searchOrder: '',
-    });
+    if (this.isShowSearchingCustomerByOrderInASM) {
+      this.customerSelectionForm = this.fb.group({
+        searchTerm: '',
+        searchOrder: '',
+      });
+
+      this.subscription.add(
+        this.customerSelectionForm.controls.searchOrder.valueChanges
+          .pipe(debounceTime(300))
+          .subscribe((searchTermValue) => {
+            this.searchByCustomer = false;
+            this.searchByOrder = true;
+            this.handleSearchByOrder(searchTermValue);
+          })
+      );
+    } else {
+      this.customerSelectionForm = this.fb.group({
+        searchTerm: ['', Validators.required],
+      });
+    }
+
     this.asmService.customerSearchReset();
     this.searchResultsLoading$ =
       this.asmService.getCustomerSearchResultsLoading();
@@ -89,19 +118,13 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       this.customerSelectionForm.controls.searchTerm.valueChanges
         .pipe(debounceTime(300))
         .subscribe((searchTermValue) => {
-          this.searchByCustomer = true;
-          this.searchByOrder = false;
-          this.handleSearchByCustomer(searchTermValue);
-        })
-    );
-
-    this.subscription.add(
-      this.customerSelectionForm.controls.searchOrder.valueChanges
-        .pipe(debounceTime(300))
-        .subscribe((searchTermValue) => {
-          this.searchByCustomer = false;
-          this.searchByOrder = true;
-          this.handleSearchByOrder(searchTermValue);
+          if (this.isShowSearchingCustomerByOrderInASM) {
+            this.searchByCustomer = true;
+            this.searchByOrder = false;
+            this.handleSearchByCustomer(searchTermValue);
+          } else {
+            this.handleSearchTerm(searchTermValue);
+          }
         })
     );
 
@@ -110,6 +133,26 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
         this.isLoading = loading;
       })
     );
+  }
+
+  protected handleSearchTerm(searchTermValue: string) {
+    if (
+      !!this.selectedCustomer &&
+      searchTermValue !== this.selectedCustomer.name
+    ) {
+      this.selectedCustomer = undefined;
+    }
+    if (Boolean(this.selectedCustomer)) {
+      return;
+    }
+    this.asmService.customerSearchReset();
+    this.activeFocusedButtonIndex = -1;
+    if (searchTermValue.trim().length >= 3) {
+      this.asmService.customerSearch({
+        query: searchTermValue,
+        pageSize: this.config.asm?.customerSearch?.maxResults,
+      });
+    }
   }
 
   protected handleSearchByCustomer(searchTermValue: string) {
@@ -168,27 +211,44 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   selectCustomerFromList(event: UIEvent, customer: User) {
     this.selectedCustomer = customer;
-    this.customerSelectionForm.controls.searchTerm.setValue(
-      this.selectedCustomer.name,
-      {
-        emitEvent: false,
-      }
-    );
+    if (this.isShowSearchingCustomerByOrderInASM) {
+      this.customerSelectionForm.controls.searchTerm.setValue(
+        this.selectedCustomer.name,
+        {
+          emitEvent: false,
+        }
+      );
+    } else {
+      this.customerSelectionForm.controls.searchTerm.setValue(
+        this.selectedCustomer.name
+      );
+    }
     this.asmService.customerSearchReset();
+    if (!this.isShowSearchingCustomerByOrderInASM) {
+      this.searchTerm.nativeElement.focus();
+    }
     event.preventDefault();
     event.stopPropagation();
   }
 
   onSubmit(): void {
-    if (!!this.selectedCustomer) {
-      this.submitEvent.emit({
-        customerId: this.selectedCustomer.customerId,
-        parameters: {
-          orderId: this.customerSelectionForm.controls.searchOrder.value,
-        },
-      });
+    if (this.isShowSearchingCustomerByOrderInASM) {
+      if (!!this.selectedCustomer) {
+        this.submitEvent.emit({
+          customerId: this.selectedCustomer.customerId,
+          parameters: {
+            orderId: this.customerSelectionForm.controls.searchOrder.value,
+          },
+        });
+      } else {
+        this.customerSelectionForm.markAllAsTouched();
+      }
     } else {
-      this.customerSelectionForm.markAllAsTouched();
+      if (this.customerSelectionForm.valid && !!this.selectedCustomer) {
+        this.submitEvent.emit({ customerId: this.selectedCustomer.customerId });
+      } else {
+        this.customerSelectionForm.markAllAsTouched();
+      }
     }
   }
 
@@ -208,6 +268,13 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   closeResults(event: UIEvent) {
     this.asmService.customerSearchReset();
     this.searchTerm.nativeElement.focus();
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  closeOrderSearchResults(event: UIEvent) {
+    this.asmService.customerSearchReset();
+    this.searchOrder.nativeElement.focus();
     event.preventDefault();
     event.stopPropagation();
   }
@@ -236,6 +303,19 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       const selectionStart = this.searchTerm.nativeElement.value.length;
       this.searchTerm.nativeElement.selectionStart = selectionStart;
       this.searchTerm.nativeElement.selectionEnd = selectionStart;
+    }
+  }
+
+  /**
+   * set mouse cursor to the end of search order text
+   * @param event keyboard event
+   */
+  setOrderSearchSelectionEnd(event: UIEvent): void {
+    event.preventDefault();
+    if (this.searchOrder.nativeElement.value?.length) {
+      const selectionStart = this.searchOrder.nativeElement.value.length;
+      this.searchOrder.nativeElement.selectionStart = selectionStart;
+      this.searchOrder.nativeElement.selectionEnd = selectionStart;
     }
   }
   /**
@@ -290,6 +370,35 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       this.searchTerm.nativeElement.selectionEnd = selectionPos;
     }
   }
+
+  /**
+   * set focus to order search input search text
+   * @param event keyboard event
+   */
+  focusOrderSearchInputText(event: KeyboardEvent): void {
+    event.preventDefault();
+    this.activeFocusedButtonIndex = -1;
+    this.searchOrder.nativeElement.focus();
+    if (this.searchOrder.nativeElement.value?.length) {
+      let selectionPos = this.searchOrder.nativeElement.selectionEnd;
+      const searchTermLength = this.searchOrder.nativeElement.value.length;
+
+      if (this.isBackNavigation(event)) {
+        selectionPos = selectionPos <= 0 ? 0 : selectionPos - 1;
+      } else if (this.isForwardsNavigation(event)) {
+        selectionPos =
+          selectionPos >= searchTermLength
+            ? searchTermLength
+            : selectionPos + 1;
+      } else if (event.code === 'Home') {
+        selectionPos = 0;
+      } else if (event.code === 'End') {
+        selectionPos = searchTermLength;
+      }
+      this.searchOrder.nativeElement.selectionStart = selectionPos;
+      this.searchOrder.nativeElement.selectionEnd = selectionPos;
+    }
+  }
   /**
    * set focus to selected item
    * @param {number} selectedIndex - current selected item index
@@ -304,7 +413,10 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
       this.createCustomerLink
     );
-    this.searchTerm.nativeElement.blur();
+
+    if (this.isShowSearchingCustomerByOrderInASM) {
+      this.searchTerm.nativeElement.blur();
+    }
   }
   /**
    * Verifies whether the user navigates into a subgroup of the main group menu.

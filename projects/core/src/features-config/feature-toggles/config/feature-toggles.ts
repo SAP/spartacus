@@ -51,6 +51,11 @@ export interface FeatureTogglesInterface {
   showPromotionsInPDP?: boolean;
 
   /**
+   * In `ASM` it shows searching customer by order ID.
+   */
+  showSearchingCustomerByOrderInASM?: boolean;
+
+  /**
    * In `SearchBoxComponent` it shows the recent searches.
    */
   recentSearches?: boolean;
@@ -339,6 +344,7 @@ export interface FeatureTogglesInterface {
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   formErrorsDescriptiveMessages: true,
+  showSearchingCustomerByOrderInASM: false,
   shouldHideAddToCartForUnpurchasableProducts: false,
   useExtractedBillingAddressComponent: false,
   showBillingAddressInDigitalPayments: false,

@@ -11,6 +11,7 @@ import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import { AsmConfig, CustomerSearchPage } from '@spartacus/asm/root';
 import {
+  FeatureConfigService,
   FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
@@ -107,6 +108,8 @@ describe('CustomerSelectionComponent', () => {
   let el: DebugElement;
   let searchResultItems: Array<ElementRef<HTMLElement>> = [];
   let launchDialogService: LaunchDialogService;
+  let featureConfig: FeatureConfigService;
+  let isEnabledSpy: any;
 
   const validSearchTerm = 'cUstoMer@test.com';
   const validSearchOrderID = 'valid_order_id';
@@ -146,6 +149,9 @@ describe('CustomerSelectionComponent', () => {
   }));
 
   beforeEach(() => {
+    featureConfig = TestBed.inject(FeatureConfigService);
+    isEnabledSpy = spyOn(featureConfig, 'isEnabled').and.callFake(() => true);
+
     fixture = TestBed.createComponent(CustomerSelectionComponent);
     component = fixture.componentInstance;
 
@@ -180,6 +186,24 @@ describe('CustomerSelectionComponent', () => {
     });
   });
 
+  it('should emit selection event when submitted with showSearchingCustomerByOrderInASM disabled (CXSPA-7026)', () => {
+    isEnabledSpy.and.returnValue(false);
+    spyOn(component, 'onSubmit').and.callThrough();
+    spyOn(component.customerSelectionForm, 'markAllAsTouched').and.stub();
+
+    component.customerSelectionForm.controls.searchTerm.setValue('testTerm');
+    component.selectedCustomer = mockCustomer;
+    fixture.detectChanges();
+
+    const submitBtn = fixture.debugElement.query(
+      By.css('button[type="submit"]')
+    );
+    submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
+
+    expect(component.onSubmit).toHaveBeenCalled();
+    expect(component.customerSelectionForm.markAllAsTouched).toHaveBeenCalled();
+  });
+
   it('should display spinner when customer search is running (CXSPA-7026)', () => {
     customerSearchResultsLoading.next(true);
     component.searchByCustomer = true;
@@ -197,6 +221,22 @@ describe('CustomerSelectionComponent', () => {
   });
 
   it('should trigger search for valid search term', fakeAsync(() => {
+    spyOn(asmService, 'customerSearch').and.callThrough();
+    component.customerSelectionForm.controls.searchTerm.setValue(
+      validSearchTerm
+    );
+    component.selectedCustomer = mockCustomer;
+
+    fixture.detectChanges();
+    tick(1000);
+    expect(asmService.customerSearch).toHaveBeenCalledWith({
+      query: validSearchTerm,
+      pageSize: 20,
+    });
+  }));
+
+  it('should trigger search for valid search term when showSearchingCustomerByOrderInASM disabled', fakeAsync(() => {
+    isEnabledSpy.and.returnValue(false);
     spyOn(asmService, 'customerSearch').and.callThrough();
     component.customerSelectionForm.controls.searchTerm.setValue(
       validSearchTerm
@@ -230,6 +270,7 @@ describe('CustomerSelectionComponent', () => {
     component.customerSelectionForm.controls.searchOrder.setValue(
       validSearchOrderID
     );
+    component.selectedCustomer = mockCustomer;
 
     tick(300);
 
@@ -242,6 +283,17 @@ describe('CustomerSelectionComponent', () => {
 
     component.customerSelectionForm.controls.searchTerm.setValue(
       validSearchTerm
+    );
+    el.nativeElement.ownerDocument.dispatchEvent(new MouseEvent('click'));
+    fixture.detectChanges();
+    expect(asmService.customerSearchReset).toHaveBeenCalled();
+  });
+
+  it('should close the order search result list when we click out of the result list area (CXSPA-7026)', () => {
+    spyOn(asmService, 'customerSearchReset').and.stub();
+
+    component.customerSelectionForm.controls.searchOrder.setValue(
+      validSearchOrderID
     );
     el.nativeElement.ownerDocument.dispatchEvent(new MouseEvent('click'));
     fixture.detectChanges();
@@ -445,6 +497,187 @@ describe('CustomerSelectionComponent', () => {
       );
       expect(component.searchTerm.nativeElement.selectionEnd).toEqual(
         validSearchTerm.length
+      );
+    });
+
+    it('should be able to open dialog', () => {
+      spyOn(launchDialogService, 'openDialogAndSubscribe');
+      component.createCustomer();
+      expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+        LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+        component.createCustomerLink
+      );
+    });
+  });
+
+  describe('Search result navigation for order search', () => {
+    beforeEach(fakeAsync(() => {
+      component.customerSelectionForm.controls.searchOrder.setValue(
+        validSearchOrderID
+      );
+
+      tick(300);
+
+      fixture.detectChanges();
+      searchResultItems = component.searchResultItems.toArray();
+      component.searchOrder.nativeElement.focus();
+    }));
+    it('should navigate between result items for order search', () => {
+      spyOn(searchResultItems[0].nativeElement, 'focus');
+
+      expect(component.activeFocusedButtonIndex).toEqual(-1);
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      fixture.detectChanges();
+      expect(component.activeFocusedButtonIndex).toEqual(0);
+      expect(searchResultItems[0].nativeElement.tabIndex).toEqual(0);
+      expect(searchResultItems[0].nativeElement.focus).toHaveBeenCalled();
+
+      component.focusNextChild(new UIEvent('keydown.arrowdown'));
+      fixture.detectChanges();
+      expect(component.activeFocusedButtonIndex).toEqual(1);
+      expect(searchResultItems[0].nativeElement.tabIndex).toEqual(-1);
+      expect(searchResultItems[1].nativeElement.tabIndex).toEqual(0);
+
+      component.focusPreviousChild(new UIEvent('keydown.arrowup'));
+      fixture.detectChanges();
+      expect(component.activeFocusedButtonIndex).toEqual(0);
+      expect(searchResultItems[0].nativeElement.tabIndex).toEqual(0);
+      expect(searchResultItems[1].nativeElement.tabIndex).toEqual(-1);
+    });
+
+    it('should focus search text and set cursor one right to original select position', () => {
+      const event = {
+        code: 'ArrowRight',
+        ctrlKey: false,
+        stopPropagation: () => {},
+        preventDefault: () => {},
+      };
+      spyOn(component.searchOrder.nativeElement, 'focus');
+
+      component.searchOrder.nativeElement.selectionStart =
+        validSearchOrderID.length - 5;
+      component.searchOrder.nativeElement.selectionEnd =
+        validSearchOrderID.length - 5;
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusOrderSearchInputText(event as KeyboardEvent);
+
+      expect(component.searchOrder.nativeElement.focus).toHaveBeenCalled();
+      expect(component.searchOrder.nativeElement.selectionStart).toEqual(
+        validSearchOrderID.length - 4
+      );
+      expect(component.searchOrder.nativeElement.selectionEnd).toEqual(
+        validSearchOrderID.length - 4
+      );
+    });
+    it('should focus search text and set cursor -1 from original position', () => {
+      const event = {
+        code: 'ArrowLeft',
+        ctrlKey: false,
+        stopPropagation: () => {},
+        preventDefault: () => {},
+      };
+      spyOn(component.searchOrder.nativeElement, 'focus');
+
+      component.searchOrder.nativeElement.selectionStart =
+        validSearchOrderID.length - 5;
+      component.searchOrder.nativeElement.selectionEnd =
+        validSearchOrderID.length - 5;
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusOrderSearchInputText(event as KeyboardEvent);
+
+      expect(component.searchOrder.nativeElement.focus).toHaveBeenCalled();
+      expect(component.searchOrder.nativeElement.selectionStart).toEqual(
+        validSearchOrderID.length - 6
+      );
+      expect(component.searchOrder.nativeElement.selectionEnd).toEqual(
+        validSearchOrderID.length - 6
+      );
+    });
+
+    it('should focus search text and set cursor at the begining of text', () => {
+      const event = {
+        code: 'Home',
+        ctrlKey: false,
+        stopPropagation: () => {},
+        preventDefault: () => {},
+      };
+      spyOn(component.searchOrder.nativeElement, 'focus');
+
+      component.searchOrder.nativeElement.selectionStart =
+        validSearchOrderID.length - 5;
+      component.searchOrder.nativeElement.selectionEnd =
+        validSearchOrderID.length - 5;
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusOrderSearchInputText(event as KeyboardEvent);
+
+      expect(component.searchOrder.nativeElement.focus).toHaveBeenCalled();
+      expect(component.searchOrder.nativeElement.selectionStart).toEqual(0);
+      expect(component.searchOrder.nativeElement.selectionEnd).toEqual(0);
+    });
+
+    it('should close the order search result list when keydown escape', () => {
+      const event = {
+        code: 'Escape',
+        ctrlKey: false,
+        stopPropagation: () => {},
+        preventDefault: () => {},
+      };
+      spyOn(component.searchOrder.nativeElement, 'focus');
+      spyOn(asmService, 'customerSearchReset').and.stub();
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.closeOrderSearchResults(event as KeyboardEvent);
+
+      expect(component.searchOrder.nativeElement.focus).toHaveBeenCalled();
+
+      expect(asmService.customerSearchReset).toHaveBeenCalled();
+    });
+
+    it('should close the result list when keydown escape', () => {
+      const event = {
+        code: 'Escape',
+        ctrlKey: false,
+        stopPropagation: () => {},
+        preventDefault: () => {},
+      };
+      spyOn(component.searchTerm.nativeElement, 'focus');
+      spyOn(asmService, 'customerSearchReset').and.stub();
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.closeResults(event as KeyboardEvent);
+
+      expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
+
+      expect(asmService.customerSearchReset).toHaveBeenCalled();
+    });
+
+    it('should focus search text and set cursor at the end of text', () => {
+      const event = {
+        code: 'End',
+        ctrlKey: false,
+        stopPropagation: () => {},
+        preventDefault: () => {},
+      };
+      spyOn(component.searchOrder.nativeElement, 'focus');
+
+      component.searchOrder.nativeElement.selectionStart =
+        validSearchOrderID.length - 5;
+      component.searchOrder.nativeElement.selectionEnd =
+        validSearchOrderID.length - 5;
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusOrderSearchInputText(event as KeyboardEvent);
+
+      expect(component.searchOrder.nativeElement.focus).toHaveBeenCalled();
+      expect(component.searchOrder.nativeElement.selectionStart).toEqual(
+        validSearchOrderID.length
+      );
+      expect(component.searchOrder.nativeElement.selectionEnd).toEqual(
+        validSearchOrderID.length
       );
     });
 
