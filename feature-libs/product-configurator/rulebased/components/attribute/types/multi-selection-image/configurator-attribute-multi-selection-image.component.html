@@ -54,8 +54,13 @@
           <div *ngIf="!getImage(value)" class="cx-img-dummy"></div>
           {{ getLabel(expMode, value.valueDisplay, value.valueCode) }}
           <cx-configurator-price
+            *ngIf="!isAsyncPricing"
             [formula]="extractValuePriceFormulaParameters(value)"
           ></cx-configurator-price>
+          <cx-configurator-price-async
+            *ngIf="isAsyncPricing"
+            [options]="extractValuePriceAsyncOptions(attribute, value)"
+          ></cx-configurator-price-async>
         </label>
       </div>
     </div>
@@ -140,8 +145,13 @@
               <cx-icon [type]="iconTypes.INFO"></cx-icon>
             </button>
             <cx-configurator-price
+              *ngIf="!isAsyncPricing"
               [formula]="extractValuePriceFormulaParameters(value)"
             ></cx-configurator-price>
+            <cx-configurator-price-async
+              *ngIf="isAsyncPricing"
+              [options]="extractValuePriceAsyncOptions(attribute, value)"
+            ></cx-configurator-price-async>
           </label>
         </div>
       </div>

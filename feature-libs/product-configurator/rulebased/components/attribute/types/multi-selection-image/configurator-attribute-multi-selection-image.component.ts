@@ -35,6 +35,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
 
   iconTypes = ICON_TYPE;
   protected config = inject(Config);
+  isAsyncPricing: boolean;
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
@@ -46,6 +47,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
+    this.isAsyncPricing = attributeComponentContext.isAsyncPricing ?? false;
 
     useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
