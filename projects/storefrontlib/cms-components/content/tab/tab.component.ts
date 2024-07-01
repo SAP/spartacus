@@ -95,13 +95,12 @@ export class TabComponent implements OnInit {
     mode: TAB_MODE,
     event: KeyboardEvent
   ): void {
-    const key = event.key;
     const FIRST_TAB = 0;
     const LAST_TAB = tabs.length - 1;
     const PREVIOUS_TAB = wrapIntoBounds(tabNum - 1, LAST_TAB);
     const NEXT_TAB = wrapIntoBounds(tabNum + 1, LAST_TAB);
 
-    switch (key) {
+    switch (event.key) {
       case 'ArrowLeft':
       case 'ArrowUp':
         return this.selectOrFocus(PREVIOUS_TAB, mode, event);

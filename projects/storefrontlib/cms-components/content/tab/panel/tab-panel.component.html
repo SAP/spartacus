@@ -2,6 +2,8 @@
   role="tabpanel"
   [attr.aria-labelledby]="tab?.id"
   [attr.id]="'section-' + tab?.id"
+  tabindex="0"
+  class="active"
   [cxFocus]="{ focusOnEscape: true }"
 >
   <ng-container [ngTemplateOutlet]="tab.content"></ng-container>
