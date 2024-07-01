@@ -11,13 +11,11 @@ const newReplenishmentFormData: ScheduleReplenishmentForm = {
 describe('Checkout Replenishment Form Service', () => {
   let service: CheckoutReplenishmentFormService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [CheckoutReplenishmentFormService],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [CheckoutReplenishmentFormService],
+    });
+  }));
 
   beforeEach(() => {
     service = TestBed.inject(CheckoutReplenishmentFormService);

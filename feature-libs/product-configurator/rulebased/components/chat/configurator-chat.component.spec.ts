@@ -73,33 +73,31 @@ describe('ConfiguratorChatComponent', () => {
   let configuratorChatService: ConfiguratorChatGptService;
   let configuratorSpeechRecognitionService: ConfiguratorSpeechTextRecognitionService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ConfiguratorChatComponent, MockCxIconComponent],
-        providers: [
-          ConfiguratorSpeechTextRecognitionService,
-          { provide: LoggerService, useClass: MockLoggerService },
-          {
-            provide: ConfiguratorChatGptService,
-            useClass: MockConfiguratorChatGptService,
-          },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfigRouterExtractorService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: GlobalMessageService,
-            useClass: MockGlobalMessageService,
-          },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ConfiguratorChatComponent, MockCxIconComponent],
+      providers: [
+        ConfiguratorSpeechTextRecognitionService,
+        { provide: LoggerService, useClass: MockLoggerService },
+        {
+          provide: ConfiguratorChatGptService,
+          useClass: MockConfiguratorChatGptService,
+        },
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfigRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorChatComponent);

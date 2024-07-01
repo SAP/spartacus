@@ -113,34 +113,32 @@ describe('CartItemComponent', () => {
     'isLevel',
   ]);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          ReactiveFormsModule,
-          I18nTestingModule,
-          OutletModule,
-        ],
-        declarations: [
-          CartItemComponent,
-          MockMediaComponent,
-          MockItemCounterComponent,
-          MockPromotionsComponent,
-          MockUrlPipe,
-          MockFeatureLevelDirective,
-          MockOutletDirective,
-          MockCartItemValidationWarningComponent,
-          MockAtMessageDirective,
-        ],
-        providers: [
-          {
-            provide: ControlContainer,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        I18nTestingModule,
+        OutletModule,
+      ],
+      declarations: [
+        CartItemComponent,
+        MockMediaComponent,
+        MockItemCounterComponent,
+        MockPromotionsComponent,
+        MockUrlPipe,
+        MockFeatureLevelDirective,
+        MockOutletDirective,
+        MockCartItemValidationWarningComponent,
+        MockAtMessageDirective,
+      ],
+      providers: [
+        {
+          provide: ControlContainer,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemComponent);

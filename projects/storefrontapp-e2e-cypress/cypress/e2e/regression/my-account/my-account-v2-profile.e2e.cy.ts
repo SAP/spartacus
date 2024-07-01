@@ -9,6 +9,7 @@ import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('My Account - Update Profile', () => {
+  Cypress.env('CX_MY_ACCOUNT_V2', true);
   viewportContext(['mobile'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());

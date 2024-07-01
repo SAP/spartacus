@@ -62,5 +62,8 @@ export class CustomerEffects {
       )
     );
 
-  constructor(private actions$: Actions, private asmConnector: AsmConnector) {}
+  constructor(
+    private actions$: Actions,
+    private asmConnector: AsmConnector
+  ) {}
 }

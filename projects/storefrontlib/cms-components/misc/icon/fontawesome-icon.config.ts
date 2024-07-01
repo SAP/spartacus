@@ -55,6 +55,8 @@ export const fontawesomeIconConfig: IconConfig = {
       REPEAT: 'fas fa-retweet',
       RESET: 'fas fa-times-circle',
       SEARCH: 'fas fa-search',
+      SEARCH_PLUS: 'fas fa-search-plus',
+      SEARCH_MINUS: 'fas fa-search-minus',
       SORT_AMOUNT_DOWN: 'fas fa-sort-amount-down',
       SORT_AMOUNT_UP: 'fas fa-sort-amount-up',
       SORT_DOWN: 'fas fa-sort-down',

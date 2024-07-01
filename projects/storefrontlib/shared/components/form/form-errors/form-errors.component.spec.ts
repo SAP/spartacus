@@ -1,12 +1,22 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  I18nTestingModule,
+  MockTranslatePipe,
+} from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { FormErrorsComponent } from './form-errors.component';
 
 const mockErrorName = 'exampleError';
 const mockError = { [mockErrorName]: true };
 const mockErrorDetails: [string, string | boolean][] = [[mockErrorName, true]];
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string) {
+    return true;
+  }
+}
 
 describe('FormErrors', () => {
   let component: FormErrorsComponent;
@@ -15,14 +25,19 @@ describe('FormErrors', () => {
 
   const getContent = () => fixture.debugElement.nativeElement.innerText;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [FormErrorsComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      providers: [
+        FeatureConfigService,
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
+      declarations: [FormErrorsComponent, MockFeatureDirective],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FormErrorsComponent);
@@ -82,8 +97,12 @@ describe('FormErrors', () => {
     fixture.detectChanges();
     const renderedErrors =
       fixture.debugElement.nativeElement.querySelectorAll('p');
-    expect(renderedErrors[0].innerText).toEqual('formErrors.email');
-    expect(renderedErrors[1].innerText).toEqual('formErrors.required');
+    expect(renderedErrors[0].innerText).toEqual(
+      'formErrors.labeled.email,formErrors.email'
+    );
+    expect(renderedErrors[1].innerText).toEqual(
+      'formErrors.labeled.required,formErrors.required'
+    );
   });
 
   describe('i18n', () => {
@@ -92,11 +111,46 @@ describe('FormErrors', () => {
         control.setErrors(mockError);
         control.markAsTouched();
         fixture.detectChanges();
+        expect(getContent()).toEqual(
+          'formErrors.labeled.exampleError,formErrors.exampleError'
+        );
+      });
+
+      it('should use the error key with default fallback prefix', () => {
+        const errorKeys = [
+          `${component.prefix}.${mockErrorName}`,
+          `${component.fallbackPrefix}.${mockErrorName}`,
+        ];
+        spyOn(MockTranslatePipe.prototype, 'transform')
+          .withArgs(errorKeys, {})
+          .and.returnValue(errorKeys[1]);
+
+        control.setErrors(mockError);
+        control.markAsTouched();
+        fixture.detectChanges();
         expect(getContent()).toEqual('formErrors.exampleError');
       });
 
       it('should use the error key with prefix @Input', () => {
         component.prefix = 'customPrefix';
+        control.setErrors(mockError);
+        control.markAsTouched();
+        fixture.detectChanges();
+        expect(getContent()).toEqual(
+          'customPrefix.exampleError,formErrors.exampleError'
+        );
+      });
+
+      it('should use the error key with fallbackPrefix @Input', () => {
+        component.fallbackPrefix = 'customPrefix';
+        const errorKeys = [
+          `${component.prefix}.${mockErrorName}`,
+          `${component.fallbackPrefix}.${mockErrorName}`,
+        ];
+        spyOn(MockTranslatePipe.prototype, 'transform')
+          .withArgs(errorKeys, {})
+          .and.returnValue(errorKeys[1]);
+
         control.setErrors(mockError);
         control.markAsTouched();
         fixture.detectChanges();
@@ -113,7 +167,9 @@ describe('FormErrors', () => {
         control.setErrors({ exampleError: { foo: '1', bar: '2' } });
         control.markAsTouched();
         fixture.detectChanges();
-        expect(getContent()).toEqual('formErrors.exampleError bar:2 foo:1');
+        expect(getContent()).toEqual(
+          'formErrors.labeled.exampleError,formErrors.exampleError bar:2 foo:1'
+        );
         expect(component.getTranslationParams).toHaveBeenCalledWith({
           foo: '1',
           bar: '2',

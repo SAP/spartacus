@@ -10,6 +10,26 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
+   * when a product does not have a defined price or its purchasable field is set to false
+   */
+  shouldHideAddToCartForUnpurchasableProducts?: boolean;
+
+  /**
+   * In `FormErrorsComponent` it uses more descriptive validation error messages
+   * in all UI form fields existing before v2211.25.
+   *
+   * 1. The `FormErrorsComponent` uses new i18n keys:
+   * `formErrors.labeled.<validatorName>` instead of `formErrors.<validatorName>`,
+   * for example `formErrors.labeled.required` instead of `formErrors.required`.
+   *
+   * 2. The existing usages of `CustomFormValidators.passwordValidator` are replaced with
+   * an array of new, more specific validators `CustomFormValidators.passwordValidators`
+   * (with the plural `...Validators`)
+   */
+  formErrorsDescriptiveMessages?: boolean;
+
+  /**
    * In `CheckoutPaymentFormComponent`, use the extracted billing address component instead of embedded billing address form.
    */
   useExtractedBillingAddressComponent?: boolean;
@@ -223,6 +243,11 @@ export interface FeatureTogglesInterface {
   cartQuickOrderRemoveListeningToFailEvent?: boolean;
 
   /**
+   * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
+   */
+  a11yKeyboardAccessibleZoom?: boolean;
+
+  /**
    * Sets 'linkable' property in 'CellComponent' to be false by default.
    * Modifies all table configs to acomodate this change.
    * This stops unnecessary anchor tags from being rendered in the table cells.
@@ -296,6 +321,12 @@ export interface FeatureTogglesInterface {
   a11yEmptyWishlistHeading?: boolean;
 
   /**
+   * Removes the `tabindex` attribute from the `StorefrontComponent`.
+   * This helps to reduce the screen reader bloat.
+   */
+  a11yScreenReaderBloatFix?: boolean;
+
+  /**
    * When enabled the button-like UI elements will use `<button>` under the hood instead of `<a>`
    * in the following components: `AddedToCartDialogComponent`, `ForgotPasswordComponent`,
    * `LoginRegisterComponent`, `ConfigureProductComponent`
@@ -303,14 +334,29 @@ export interface FeatureTogglesInterface {
   a11yUseButtonsForBtnLinks?: boolean;
 
   /**
+   * When enabled disable "Apply" button in promo code component in cart for empty input,
+   * disable "Add" button in quick order component when input is empty and remove
+   * required validators for both inputs
+   */
+  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields?: boolean;
+
+  /**
    * In `FacetListComponent` dialog view focus will be moved to the first facet
    * after single-select facet selection.
    * New "Back To Results" button is added
    */
   a11yFacetsDialogFocusHandling?: boolean;
+
+  /**
+   * Replaces buttons resembling links with tetriary buttons in the following components:
+   * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
+   */
+  a11yLinkBtnsToTertiaryBtns?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  formErrorsDescriptiveMessages: true,
+  shouldHideAddToCartForUnpurchasableProducts: false,
   useExtractedBillingAddressComponent: false,
   showBillingAddressInDigitalPayments: false,
   showDownloadProposalButton: false,
@@ -348,6 +394,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusableCarouselControls: false,
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yKeyboardAccessibleZoom: false,
   a11yOrganizationLinkableCells: false,
   a11yVisibleFocusOverflows: false,
   a11yTruncatedTextForResponsiveView: false,
@@ -358,6 +405,9 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNotificationPreferenceFieldset: false,
   a11yImproveContrast: false,
   a11yEmptyWishlistHeading: false,
+  a11yScreenReaderBloatFix: false,
   a11yUseButtonsForBtnLinks: false,
+  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
+  a11yLinkBtnsToTertiaryBtns: false,
 };

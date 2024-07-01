@@ -11,21 +11,19 @@ describe('ConfigurationConflictSuggestionComponent', () => {
   let fixture: ComponentFixture<ConfiguratorConflictSuggestionComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ConfiguratorConflictSuggestionComponent],
-        imports: [I18nTestingModule],
-        providers: [],
-      })
-        .overrideComponent(ConfiguratorConflictSuggestionComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ConfiguratorConflictSuggestionComponent],
+      imports: [I18nTestingModule],
+      providers: [],
     })
-  );
+      .overrideComponent(ConfiguratorConflictSuggestionComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorConflictSuggestionComponent);

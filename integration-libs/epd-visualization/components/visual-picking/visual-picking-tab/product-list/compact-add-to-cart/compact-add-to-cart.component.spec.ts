@@ -116,37 +116,35 @@ describe('CompactAddToCartComponent', () => {
 
   const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          BrowserAnimationsModule,
-          RouterTestingModule,
-          SpinnerModule,
-          I18nTestingModule,
-          ReactiveFormsModule,
-          IconModule,
-        ],
-        declarations: [CompactAddToCartComponent, MockItemCounterComponent],
-        providers: [
-          {
-            provide: LaunchDialogService,
-            useValue: MockLaunchDialogService,
-          },
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-          {
-            provide: CmsComponentData,
-            useValue: MockCmsComponentData,
-          },
-          { provide: EventService, useClass: MockEventService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        BrowserAnimationsModule,
+        RouterTestingModule,
+        SpinnerModule,
+        I18nTestingModule,
+        ReactiveFormsModule,
+        IconModule,
+      ],
+      declarations: [CompactAddToCartComponent, MockItemCounterComponent],
+      providers: [
+        {
+          provide: LaunchDialogService,
+          useValue: MockLaunchDialogService,
+        },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData,
+        },
+        { provide: EventService, useClass: MockEventService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CompactAddToCartComponent);

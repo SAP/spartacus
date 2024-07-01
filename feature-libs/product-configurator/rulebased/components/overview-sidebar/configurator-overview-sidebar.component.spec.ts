@@ -111,39 +111,37 @@ class MockConfiguratorOverviewMenuComponent {
 }
 
 describe('ConfiguratorOverviewSidebarComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          MockConfiguratorOverviewFilterComponent,
-          MockConfiguratorOverviewMenuComponent,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        MockConfiguratorOverviewFilterComponent,
+        MockConfiguratorOverviewMenuComponent,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   it('should create component', () => {
     initTestComponent();

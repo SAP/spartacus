@@ -76,40 +76,38 @@ class MockProductService {
 describe('ConfiguratorChatGptService', () => {
   let classUnderTest: ConfiguratorChatGptService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          ConfiguratorChatGptService,
-          { provide: LoggerService, useClass: MockLoggerService },
-          {
-            provide: ChatGptBtpConnector,
-            useClass: MockChatGptBtpConnector,
-          },
-          {
-            provide: ConfiguratorChatGptMapperService,
-            useClass: MockConfiguratorChatGptMapperService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfigRouterExtractorService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupService,
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        ConfiguratorChatGptService,
+        { provide: LoggerService, useClass: MockLoggerService },
+        {
+          provide: ChatGptBtpConnector,
+          useClass: MockChatGptBtpConnector,
+        },
+        {
+          provide: ConfiguratorChatGptMapperService,
+          useClass: MockConfiguratorChatGptMapperService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfigRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupService,
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     classUnderTest = TestBed.inject(ConfiguratorChatGptService);
