@@ -27,7 +27,7 @@ export class ProductBulkPricingFeatureModule { }
 exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translations } from "@spartacus/assets";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
+import { FeaturesConfig, I18nConfig, OccConfig, SiteContextConfig, provideConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
 
@@ -246,7 +246,7 @@ export class ProductFutureStockFeatureModule { }
 exports[`Spartacus Product schematics: ng-add FutureStock feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translations } from "@spartacus/assets";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
+import { FeaturesConfig, I18nConfig, OccConfig, SiteContextConfig, provideConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
 
@@ -466,7 +466,7 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup sh
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { productImageZoomTranslationChunksConfig, productImageZoomTranslations } from "@spartacus/product/image-zoom/assets";
-import { ProductImageZoomRootModule, PRODUCT_IMAGE_ZOOM_FEATURE } from "@spartacus/product/image-zoom/root";
+import { PRODUCT_IMAGE_ZOOM_FEATURE, ProductImageZoomRootModule } from "@spartacus/product/image-zoom/root";
 
 @NgModule({
   declarations: [],
@@ -650,7 +650,7 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sho
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { productVariantsTranslationChunksConfig, productVariantsTranslations } from "@spartacus/product/variants/assets";
-import { ProductVariantsRootModule, PRODUCT_VARIANTS_FEATURE } from "@spartacus/product/variants/root";
+import { PRODUCT_VARIANTS_FEATURE, ProductVariantsRootModule } from "@spartacus/product/variants/root";
 
 @NgModule({
   declarations: [],
