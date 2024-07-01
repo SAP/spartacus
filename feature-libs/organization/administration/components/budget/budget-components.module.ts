@@ -6,7 +6,6 @@
 
 import { NgModule } from '@angular/core';
 import {
-  FeatureConfigService,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -25,9 +24,7 @@ import { BudgetFormModule } from './form/budget-form.module';
   ],
   providers: [
     provideDefaultConfig(budgetCmsConfig),
-    provideDefaultConfigFactory(budgetTableConfigFactory, [
-      FeatureConfigService,
-    ]),
+    provideDefaultConfigFactory(budgetTableConfigFactory),
   ],
 })
 export class BudgetComponentsModule {}

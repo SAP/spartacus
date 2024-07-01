@@ -7,7 +7,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { I18nModule, provideDefaultConfig, CmsConfig } from '@spartacus/core';
+import {
+  CmsConfig,
+  FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import {
   CarouselModule,
   IconModule,
@@ -32,6 +37,7 @@ import { ProductImageZoomViewComponent } from './product-image-zoom-view/product
     MediaModule,
     OutletModule,
     RouterModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(defaultProductImageZoomLayoutConfig),
