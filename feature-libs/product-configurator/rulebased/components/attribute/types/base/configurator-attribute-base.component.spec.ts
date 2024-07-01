@@ -533,6 +533,34 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
   });
 
+  describe('extractValuePriceAsyncOptions', () => {
+    it('should return empty keys if none defined', () => {
+      expect(
+        classUnderTest.extractValuePriceAsyncOptions(
+          { attrCode: 123, name: 'attrName' },
+          { valueCode: '234' }
+        )
+      ).toEqual({
+        attributeKey: '',
+        valueName: '',
+        isLightedUp: false,
+      });
+    });
+
+    it('should return attr key and value name', () => {
+      expect(
+        classUnderTest.extractValuePriceAsyncOptions(
+          { key: 'attrKey', attrCode: 123, name: 'attrName' },
+          { valueCode: '234', name: 'name', selected: true }
+        )
+      ).toEqual({
+        attributeKey: 'attrKey',
+        valueName: 'name',
+        isLightedUp: true,
+      });
+    });
+  });
+
   describe('getValueDescriptionLength', () => {
     it('should return default value if productConfigurator setting is not provided', () => {
       configuratorUISettingsConfig.productConfigurator = undefined;

@@ -18,7 +18,6 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
-import { ConfiguratorPriceAsyncComponentOptions } from '../../../price-async/configurator-price-async.component';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -201,25 +200,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     return {
       price: value?.valuePrice,
       isLightedUp: value ? value.selected : false,
-    };
-  }
-
-  /**
-   * Creates control options for cx-configurator-price-async component,
-   * so it can render the price for the given value of the given attribute.
-   *
-   * @param {Configurator.Attribute} attribute Configurator Attribute
-   * @param {Configurator.Value} value Configurator Attribute Value
-   * @returns {ConfiguratorPriceAsyncComponentOptions} control options
-   */
-  extractValuePriceAsyncOptions(
-    attribute: Configurator.Attribute,
-    value: Configurator.Value
-  ): ConfiguratorPriceAsyncComponentOptions {
-    return {
-      attributeKey: attribute.key ?? '',
-      valueName: value.name ?? '',
-      isLightedUp: value?.selected ?? false,
     };
   }
 

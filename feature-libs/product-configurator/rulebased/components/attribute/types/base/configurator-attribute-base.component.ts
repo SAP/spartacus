@@ -7,6 +7,7 @@
 import { inject } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
+import { ConfiguratorPriceAsyncComponentOptions } from '../../../price-async/configurator-price-async.component';
 
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator
@@ -248,6 +249,25 @@ export class ConfiguratorAttributeBaseComponent {
       }
     }
     return styleClass;
+  }
+
+  /**
+   * Creates control options for cx-configurator-price-async component,
+   * so it can render the price for the given value of the given attribute.
+   *
+   * @param {Configurator.Attribute} attribute Configurator Attribute
+   * @param {Configurator.Value} value Configurator Attribute Value
+   * @returns {ConfiguratorPriceAsyncComponentOptions} control options
+   */
+  extractValuePriceAsyncOptions(
+    attribute: Configurator.Attribute,
+    value: Configurator.Value
+  ): ConfiguratorPriceAsyncComponentOptions {
+    return {
+      attributeKey: attribute.key ?? '',
+      valueName: value.name ?? '',
+      isLightedUp: value?.selected ?? false,
+    };
   }
 
   protected getValuePrice(value: Configurator.Value | undefined): string {

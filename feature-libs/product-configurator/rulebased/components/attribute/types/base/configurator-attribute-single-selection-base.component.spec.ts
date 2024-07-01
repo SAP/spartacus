@@ -403,31 +403,6 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     });
   });
 
-  describe('extractValuePriceAsyncOptions', () => {
-    it('should return empty keys if none defined', () => {
-      const value = createValue('code', undefined, undefined);
-      component.attribute.key = undefined;
-      expect(
-        component.extractValuePriceAsyncOptions(component.attribute, value)
-      ).toEqual({
-        attributeKey: '',
-        valueName: '',
-        isLightedUp: false,
-      });
-    });
-
-    it('should return attr key and value name', () => {
-      const value = createValue('code', 'name', true);
-      expect(
-        component.extractValuePriceAsyncOptions(component.attribute, value)
-      ).toEqual({
-        attributeKey: 'attrKey',
-        valueName: 'name',
-        isLightedUp: true,
-      });
-    });
-  });
-
   describe('withQuantity', () => {
     it('should not allow quantity', () => {
       component.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;

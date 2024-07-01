@@ -24,6 +24,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   attribute: Configurator.Attribute;
   ownerKey: string;
   expMode: boolean;
+  isAsyncPricing: boolean;
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
@@ -34,6 +35,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
+    this.isAsyncPricing = attributeComponentContext.isAsyncPricing ?? false;
   }
 
   /**

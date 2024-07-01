@@ -468,6 +468,38 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
     });
   });
 
+  describe('Rendering of pricing component', () => {
+    it('should render the sync pricing component if async pricing is disabled', () => {
+      component.isAsyncPricing = false;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-value-price cx-configurator-price'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-value-price cx-configurator-price-async'
+      );
+    });
+
+    it('should render the async pricing component if async pricing is enabled', () => {
+      component.isAsyncPricing = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-value-price cx-configurator-price-async'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-value-price cx-configurator-price'
+      );
+    });
+  });
+
   describe('Accessibility', () => {
     it("should contain input element with class name 'form-check-input' and 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
