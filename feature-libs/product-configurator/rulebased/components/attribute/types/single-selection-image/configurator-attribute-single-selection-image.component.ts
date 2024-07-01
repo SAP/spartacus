@@ -33,6 +33,7 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   attribute: Configurator.Attribute;
   ownerKey: string;
   expMode: boolean;
+  isAsyncPricing: boolean;
 
   iconTypes = ICON_TYPE;
   protected config = inject(Config);
@@ -45,6 +46,7 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
+    this.isAsyncPricing = attributeComponentContext.isAsyncPricing ?? false;
 
     useFeatureStyles('productConfiguratorAttributeTypesV2');
   }

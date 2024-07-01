@@ -273,6 +273,38 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     });
   });
 
+  describe('Rendering of pricing component', () => {
+    it('should render the sync pricing component if async pricing is disabled', () => {
+      component.isAsyncPricing = false;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-label-container cx-configurator-price'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-label-container cx-configurator-price-async'
+      );
+    });
+
+    it('should render the async pricing component if async pricing is enabled', () => {
+      component.isAsyncPricing = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-label-container cx-configurator-price-async'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-label-container cx-configurator-price'
+      );
+    });
+  });
+
   describe('Accessibility', () => {
     it("should contain input element with class name 'form-input' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
