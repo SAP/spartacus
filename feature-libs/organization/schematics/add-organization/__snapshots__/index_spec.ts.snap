@@ -27,7 +27,7 @@ export class OrganizationAccountSummaryFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Account summary feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translations } from "@spartacus/assets";
-import { FeaturesConfig, I18nConfig, OccConfig, SiteContextConfig, provideConfig } from "@spartacus/core";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
 
@@ -246,7 +246,7 @@ export class OrganizationAdministrationFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Administration feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translations } from "@spartacus/assets";
-import { FeaturesConfig, I18nConfig, OccConfig, SiteContextConfig, provideConfig } from "@spartacus/core";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
 
@@ -465,7 +465,7 @@ export class OrganizationOrderApprovalFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Order approval feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translations } from "@spartacus/assets";
-import { FeaturesConfig, I18nConfig, OccConfig, SiteContextConfig, provideConfig } from "@spartacus/core";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
 
@@ -501,7 +501,7 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { orderApprovalTranslationChunksConfig, orderApprovalTranslations } from "@spartacus/organization/order-approval/assets";
-import { ORGANIZATION_ORDER_APPROVAL_FEATURE, OrderApprovalRootModule } from "@spartacus/organization/order-approval/root";
+import { OrderApprovalRootModule, ORGANIZATION_ORDER_APPROVAL_FEATURE } from "@spartacus/organization/order-approval/root";
 
 @NgModule({
   declarations: [],
@@ -684,7 +684,7 @@ export class OrganizationUnitOrderFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Unit order feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translations } from "@spartacus/assets";
-import { FeaturesConfig, I18nConfig, OccConfig, SiteContextConfig, provideConfig } from "@spartacus/core";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
 
@@ -903,7 +903,7 @@ export class OrganizationUserRegistrationFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add User registration feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translations } from "@spartacus/assets";
-import { FeaturesConfig, I18nConfig, OccConfig, SiteContextConfig, provideConfig } from "@spartacus/core";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
 

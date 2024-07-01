@@ -45,11 +45,11 @@ export class TreeFileSystem implements FileSystemHost {
       });
     });
 
-    dir.subdirs.forEach((dir) => {
+    dir.subdirs.forEach((subDir) => {
       entries.push({
         isDirectory: true,
         isSymlink: false,
-        name: path.join(dirPath, dir.toString()),
+        name: path.join(dirPath, subDir.toString()),
         isFile: false,
       });
     });
