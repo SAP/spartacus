@@ -9,7 +9,7 @@ import {
   CommonEngineOptions,
   CommonEngineRenderOptions,
 } from '@angular/ssr';
-import { PROPAGATE_ERROR_RESPONSE } from '../error-handling/error-response/propagate-error-response';
+import { PROPAGATE_ERROR_TO_SERVER } from '../error-handling/error-response/propagate-error-response';
 
 /**
  * The Spartacus extension of the CommonEngine introduced to handle propagated server responses caught during server-side rendering.
@@ -23,13 +23,13 @@ export class CxCommonEngine extends CommonEngine {
   /**
    * @override
    * Renders for the given options.
-   * If a server error response object is populated from the rendered applications
-   * (via `PROPAGATE_SERVER_ERROR_RESPONSE` callback), then such an error
+   * If an error is populated from the rendered applications
+   * (via `PROPAGATE_ERROR_TO_SERVER` callback), then such an error
    * will be thrown and the result promise rejected - but only AFTER the rendering is complete.
    *
    * @param {CommonEngineRenderOptions} options - The options to render.
    * @returns {Promise<string>} Promise which resolves with the rendered HTML as a string
-   *                            OR rejects with the server error response object, if any is propagated from the rendered app.
+   *                            OR rejects with the error, if any is propagated from the rendered app.
    */
   override async render(options: CommonEngineRenderOptions): Promise<string> {
     let error: undefined | unknown;
@@ -39,11 +39,11 @@ export class CxCommonEngine extends CommonEngine {
         ...options,
         providers: [
           {
-            provide: PROPAGATE_ERROR_RESPONSE,
+            provide: PROPAGATE_ERROR_TO_SERVER,
             useFactory: () => {
-              return (errorResponse: unknown) => {
+              return (propagatedError: unknown) => {
                 // We're interested only the first propagated error, so we use `??=` instead of `=`:
-                error ??= errorResponse;
+                error ??= propagatedError;
               };
             },
           },

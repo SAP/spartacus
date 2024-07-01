@@ -5,7 +5,7 @@
  */
 
 import {
-  CmsPageNotFoundHttpErrorResponse,
+  CmsPageNotFoundOutboundHttpError,
   HttpResponseStatus,
 } from '@spartacus/core';
 import { ErrorRequestHandler } from 'express';
@@ -18,24 +18,16 @@ import { ErrorRequestHandler } from 'express';
  * @param documentContent The document content to be sent to the client.
  * @returns The error request handler.
  */
-export const defaultErrorResponseHandlers =
+//EXPRESS JS ERROR HANDLER
+export const defaultExpressErrorHandlers =
   (documentContent: string): ErrorRequestHandler =>
   (err, _req, res, _next) => {
     if (!res.headersSent) {
       res.set('Cache-Control', 'no-store');
-      const statusCode = isCmsPageNotFoundError(err)
-        ? HttpResponseStatus.NOT_FOUND
-        : HttpResponseStatus.INTERNAL_SERVER_ERROR;
+      const statusCode =
+        err instanceof CmsPageNotFoundOutboundHttpError
+          ? HttpResponseStatus.NOT_FOUND
+          : HttpResponseStatus.INTERNAL_SERVER_ERROR;
       res.status(statusCode).send(documentContent);
     }
   };
-
-export function isCmsPageNotFoundError(error: unknown): boolean {
-  return isCmsPageNotFoundHttpErrorResponse(error) && error.cxCmsPageNotFound;
-}
-
-export function isCmsPageNotFoundHttpErrorResponse(
-  error: unknown
-): error is CmsPageNotFoundHttpErrorResponse {
-  return error instanceof Object && 'cxCmsPageNotFound' in error;
-}

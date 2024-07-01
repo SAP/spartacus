@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { CmsPageNotFoundHttpErrorResponse } from '@spartacus/core';
-import { defaultErrorResponseHandlers } from './error-response-handlers';
+import { CmsPageNotFoundOutboundHttpError } from '@spartacus/core';
+import { defaultExpressErrorHandlers } from './express-error-handlers';
 
 describe('errorResponseHandlers', () => {
   let documentContent: string;
@@ -22,7 +22,7 @@ describe('errorResponseHandlers', () => {
     const err = new HttpErrorResponse({
       error: 'Page not found',
     });
-    const errorRequestHandler = defaultErrorResponseHandlers(documentContent);
+    const errorRequestHandler = defaultExpressErrorHandlers(documentContent);
     res.headersSent = true;
 
     errorRequestHandler(err, req, res, next);
@@ -33,11 +33,8 @@ describe('errorResponseHandlers', () => {
   });
 
   it('should handle CmsPageNotFoundHttpErrorResponse', () => {
-    const err = {
-      error: 'Page not found',
-      cxCmsPageNotFound: true,
-    } as CmsPageNotFoundHttpErrorResponse;
-    const errorRequestHandler = defaultErrorResponseHandlers(documentContent);
+    const err = new CmsPageNotFoundOutboundHttpError('Page not found');
+    const errorRequestHandler = defaultExpressErrorHandlers(documentContent);
 
     errorRequestHandler(err, req, res, next);
 
@@ -46,9 +43,9 @@ describe('errorResponseHandlers', () => {
     expect(res.send).toHaveBeenCalledWith(documentContent);
   });
 
-  it('should handle unknown error response', () => {
+  it('should handle unknown error', () => {
     const err = new Error('unknown error');
-    const errorRequestHandler = defaultErrorResponseHandlers(documentContent);
+    const errorRequestHandler = defaultExpressErrorHandlers(documentContent);
 
     errorRequestHandler(err, req, res, next);
 

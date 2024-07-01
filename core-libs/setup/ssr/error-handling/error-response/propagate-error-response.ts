@@ -7,8 +7,8 @@
 import { InjectionToken } from '@angular/core';
 
 /**
- * Function that will propagate the raw error response object captured in SSR to the CxCommonEngine.
+ * Function that will propagate the raw error captured in SSR to the CxCommonEngine.
  */
-export const PROPAGATE_ERROR_RESPONSE = new InjectionToken<
+export const PROPAGATE_ERROR_TO_SERVER = new InjectionToken<
   (error: unknown) => void
 >('PROPAGATE_ERROR_RESPONSE');

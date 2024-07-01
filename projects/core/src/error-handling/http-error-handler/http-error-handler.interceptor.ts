@@ -18,13 +18,10 @@ import { FeatureConfigService } from '../../features-config';
 import { HttpResponseStatus } from '../../global-message';
 import { OccEndpointsService } from '../../occ';
 import { WindowRef } from '../../window';
-
-/**
- * Represents an HTTP error response for a CMS page not found.
- */
-export type CmsPageNotFoundHttpErrorResponse = HttpErrorResponse & {
-  cxCmsPageNotFound: boolean;
-};
+import {
+  CmsPageNotFoundOutboundHttpError,
+  OutboundHttpError,
+} from './outbound-http-error';
 
 /**
  * This interceptor forwards all HTTP errors (e.g. 5xx or 4xx status response from backend)
@@ -41,12 +38,12 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
   private featureService = inject(FeatureConfigService);
 
   intercept(
-    request: HttpRequest<any>,
+    request: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       tap({
-        error: (error) => {
+        error: (error: unknown) => {
           if (
             this.featureService.isEnabled(
               'ssrStrictErrorHandlingForHttpAndNgrx'
@@ -58,31 +55,27 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
             // a HTTP error response (e.g. 500 error page) from SSR to a client.
             !this.windowRef.isBrowser()
           ) {
-            this.handleError(
-              this.isCmsPageNotFound(error)
-                ? {
-                    ...error,
-                    cxCmsPageNotFound: true,
-                  }
-                : error
-            );
+            this.handleError(error);
           }
         },
       })
     );
   }
 
-  protected handleError(error: HttpErrorResponse): void {
+  protected handleError(error: unknown): void {
+    this.isCmsPageNotFoundHttpError(error)
+      ? new CmsPageNotFoundOutboundHttpError(error)
+      : new OutboundHttpError(error);
     this.errorHandler.handleError(error);
   }
 
   /**
-   * Checks if the error corresponds to a CMS page not found.
+   * Checks if the error corresponds to a CMS page not found HTTP error.
    *
    * @param error - The error object to check.
-   * @returns `true` if the error corresponds to a CMS page not found, `false` otherwise.
+   * @returns `true` if the error corresponds to a CMS page not found HTTP error, `false` otherwise.
    */
-  protected isCmsPageNotFound(error: unknown): boolean {
+  protected isCmsPageNotFoundHttpError(error: unknown): boolean {
     const expectedUrl = this.occEndpointsService.buildUrl('pages');
     return (
       error instanceof HttpErrorResponse &&

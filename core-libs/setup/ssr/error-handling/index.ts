@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './error-response-handlers/index';
 export * from './error-response/index';
+export * from './express-error-handlers/index';
 export * from './multi-error-handlers/index';
