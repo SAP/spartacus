@@ -21,6 +21,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
   attribute: Configurator.Attribute;
   group: string;
   expMode: boolean;
+  isAsyncPricing: boolean;
 
   constructor(
     protected translationService: TranslationService,
@@ -30,6 +31,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
     this.expMode = attributeComponentContext.expMode;
+    this.isAsyncPricing = attributeComponentContext.isAsyncPricing ?? false;
   }
 
   protected getCurrentValueName(

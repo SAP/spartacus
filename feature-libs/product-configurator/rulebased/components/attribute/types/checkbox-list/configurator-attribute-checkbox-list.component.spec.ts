@@ -22,6 +22,7 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
+import { ConfiguratorPriceAsyncComponentOptions } from '../../../price-async/configurator-price-async.component';
 
 class MockGroupService {}
 
@@ -70,6 +71,14 @@ class MockConfiguratorStorefrontUtilsService {
   assembleValuesForMultiSelectAttributes(): void {}
 }
 
+@Component({
+  selector: 'cx-configurator-price-async',
+  template: '',
+})
+class MockConfiguratorPriceAsyncComponent {
+  @Input() options: ConfiguratorPriceAsyncComponentOptions;
+}
+
 describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxListComponent>;
@@ -83,6 +92,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
         MockFocusDirective,
         MockConfiguratorAttributeQuantityComponent,
         MockConfiguratorPriceComponent,
+        MockConfiguratorPriceAsyncComponent,
         MockConfiguratorShowMoreComponent,
       ],
       imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],

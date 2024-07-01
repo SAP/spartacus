@@ -7,12 +7,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
-import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
+import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
+import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
+import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
+import { ConfiguratorPriceAsyncModule } from '../../../price-async/configurator-price-async.module';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show
     FormsModule,
     ReactiveFormsModule,
     ConfiguratorPriceModule,
+    ConfiguratorPriceAsyncModule,
     ConfiguratorShowMoreModule,
     CommonModule,
     I18nModule,
