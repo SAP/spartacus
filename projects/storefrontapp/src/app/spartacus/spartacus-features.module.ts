@@ -58,6 +58,7 @@ import {
   SiteContextSelectorModule,
   StockNotificationModule,
   TabParagraphContainerModule,
+  ThemeSwitcherModule,
   USE_MY_ACCOUNT_V2_CONSENT,
   USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
   VideoModule,
@@ -173,6 +174,7 @@ if (environment.estimatedDeliveryDate) {
     PDFModule,
     ScrollToTopModule,
     VideoModule,
+    ThemeSwitcherModule,
 
     // User Core
     UserModule,

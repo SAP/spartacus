@@ -1,0 +1,10 @@
+{
+  "themeSwitcher": {
+    "theme": "Theme",
+    "themes": {
+      "default": "Default",
+      "highContrastDark": "HC-Dark",
+      "highContrastLight": "HC-Light"
+    }
+  }
+}
