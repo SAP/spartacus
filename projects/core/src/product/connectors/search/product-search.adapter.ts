@@ -23,7 +23,5 @@ export abstract class ProductSearchAdapter {
     pageSize?: number
   ): Observable<Suggestion[]>;
 
-  abstract searchByCodes(
-    codeList: string[]
-  ): Observable<ProductSearchPage>;
+  abstract searchByCodes(codeList: string[]): Observable<ProductSearchPage>;
 }

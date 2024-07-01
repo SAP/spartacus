@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   CmsProductCarouselComponent as model,
   FeatureConfigService,
@@ -13,7 +13,7 @@ import {
   ProductService,
   ProductSearchService,
 } from '@spartacus/core';
-import {Observable, of, switchMap} from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 
@@ -23,7 +23,8 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCarouselComponent {
-  private featureConfigService: FeatureConfigService = inject(FeatureConfigService);
+  private featureConfigService: FeatureConfigService =
+    inject(FeatureConfigService);
 
   protected readonly PRODUCT_SCOPE = [ProductScope.LIST, ProductScope.STOCK];
 
@@ -55,16 +56,21 @@ export class ProductCarouselComponent {
         const codes = data.productCodes?.trim().split(' ') ?? [];
         return { componentMappingExist, codes, componentId };
       }),
-      switchMap(({ componentMappingExist, codes ,componentId}) => {
+      switchMap(({ componentMappingExist, codes, componentId }) => {
         const productScope = componentMappingExist
           ? [...this.PRODUCT_SCOPE]
           : [...this.PRODUCT_SCOPE_ITEM];
-        if(this.featureConfigService.isEnabled('productCarouselUseBatchApi')) {
+        if (this.featureConfigService.isEnabled('productCarouselUseBatchApi')) {
           console.log('Feature Flag True - will be removed later');
-          return this.productSearchService.searchAndReturnResults(codes, componentId);
+          return this.productSearchService.searchAndReturnResults(
+            codes,
+            componentId
+          );
         } else {
           console.log('Feature Flag False - will be removed later');
-          return of(codes.map((code) => this.productService.get(code, productScope)));
+          return of(
+            codes.map((code) => this.productService.get(code, productScope))
+          );
         }
       })
     );

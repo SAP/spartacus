@@ -7,7 +7,7 @@
 import {
   ProductSearchPage,
   ProductsListMap,
-  Suggestion
+  Suggestion,
 } from '../../model/product-search.model';
 import { Product, ProductReference, Review } from '../../model/product.model';
 import { EntityScopedLoaderState } from '../../state/utils/scoped-loader/scoped-loader.state';

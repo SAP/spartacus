@@ -5,8 +5,9 @@
  */
 
 import {
-  ProductSearchPage, ProductsListMap,
-  Suggestion
+  ProductSearchPage,
+  ProductsListMap,
+  Suggestion,
 } from '../../../model/product-search.model';
 import { ProductActions } from '../actions/index';
 import { ProductsSearchState } from '../product-state';
@@ -50,7 +51,7 @@ export function reducer(
         productsListResults: {
           ...state.productsListResults,
           [componentId]: productList,
-        }
+        },
       };
     }
 

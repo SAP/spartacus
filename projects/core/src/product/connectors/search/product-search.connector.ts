@@ -30,9 +30,7 @@ export class ProductSearchConnector {
     return this.adapter.loadSuggestions(term, pageSize);
   }
 
-  searchByCodes(
-    codeList: string[]
-  ): Observable<ProductSearchPage> {
+  searchByCodes(codeList: string[]): Observable<ProductSearchPage> {
     return this.adapter.searchByCodes(codeList);
   }
 }

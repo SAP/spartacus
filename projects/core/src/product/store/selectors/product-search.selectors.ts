@@ -6,8 +6,9 @@
 
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
-  ProductSearchPage, ProductsListMap,
-  Suggestion
+  ProductSearchPage,
+  ProductsListMap,
+  Suggestion,
 } from '../../../model/product-search.model';
 import {
   ProductsSearchState,

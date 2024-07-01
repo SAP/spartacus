@@ -74,7 +74,9 @@ export class GetProductsList implements Action {
 
 export class GetProductsListSuccess implements Action {
   readonly type = GET_PRODUCTS_LIST_SUCCESS;
-  constructor(public payload: {results: ProductSearchPage; componentId: string } ) {}
+  constructor(
+    public payload: { results: ProductSearchPage; componentId: string }
+  ) {}
 }
 
 export class GetProductsListFail implements Action {
