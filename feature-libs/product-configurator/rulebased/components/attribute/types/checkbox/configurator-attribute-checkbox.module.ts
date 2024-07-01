@@ -13,6 +13,7 @@ import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 import { ConfiguratorAttributeCompositionConfig } from '../../composition';
 import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
+import { ConfiguratorPriceAsyncModule } from '../../../price-async/configurator-price-async.module';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show
     CommonModule,
     I18nModule,
     ConfiguratorPriceModule,
+    ConfiguratorPriceAsyncModule,
     ConfiguratorShowMoreModule,
   ],
   providers: [
