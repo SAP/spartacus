@@ -278,6 +278,7 @@ if (environment.estimatedDeliveryDate) {
         recentSearches: false,
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
+        productCarouselUseBatchApi: true,
         productConfiguratorAttributeTypesV2: true,
         a11yRequiredAsterisks: true,
         a11yQuantityOrderTabbing: true,
@@ -325,7 +326,6 @@ if (environment.estimatedDeliveryDate) {
           true,
         a11yFacetsDialogFocusHandling: true,
         a11yLinkBtnsToTertiaryBtns: true,
-        productCarouselUseBatchApi: true,
       };
       return appFeatureToggles;
     }),

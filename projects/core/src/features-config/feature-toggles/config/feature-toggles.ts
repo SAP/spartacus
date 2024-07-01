@@ -68,6 +68,11 @@ export interface FeatureTogglesInterface {
   storeFrontLibCardParagraphTruncated?: boolean;
 
   /**
+   * In `ProductCarouselComponent` it uses the batch API to load products.
+   */
+  productCarouselUseBatchApi?: boolean;
+
+  /**
    * In `ConfiguratorAttributeDropDownComponent`, `ConfiguratorAttributeSingleSelectionImageComponent`
    * and in 'ConfiguratorAttributeMultiSelectionImageComponent' some HTML changes were done
    * to render read-only attribute with images and a long description at the value level accordingly.
@@ -352,11 +357,6 @@ export interface FeatureTogglesInterface {
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
   a11yLinkBtnsToTertiaryBtns?: boolean;
-
-  /**
-   * In `ProductCarouselComponent` it uses the batch API to load products.
-   */
-  productCarouselUseBatchApi?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -369,6 +369,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   recentSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
+  productCarouselUseBatchApi: false,
   productConfiguratorAttributeTypesV2: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
@@ -415,5 +416,4 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
   a11yLinkBtnsToTertiaryBtns: false,
-  productCarouselUseBatchApi: false,
 };
