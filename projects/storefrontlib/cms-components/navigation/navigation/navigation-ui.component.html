@@ -1,5 +1,5 @@
 <nav [attr.aria-label]="navAriaLabel">
-  <ul>
+  <ul [attr.role]="flyout ? 'list' : 'presentation'">
     <li
       *ngIf="flyout && (node?.children?.length ?? 0) > 1"
       class="back is-open"
@@ -19,7 +19,11 @@
 <!-- we generate links in a recursive manner -->
 
 <ng-template #nav let-node="node" let-depth="depth">
-  <li>
+  <li
+    [attr.role]="
+      !flyout && node.children?.length > 0 ? 'presentation' : 'listitem'
+    "
+  >
     <ng-container *cxFeature="'!a11yNavigationUiKeyboardControls'">
       <cx-generic-link
         *ngIf="
@@ -102,7 +106,12 @@
         </ng-container>
       </ng-container>
       <ng-template #title>
-        <span *ngIf="node.title" [attr.tabindex]="-1">
+        <span
+          role="heading"
+          aria-level="4"
+          *ngIf="node.title"
+          [attr.tabindex]="-1"
+        >
           {{ node.title }}
         </span>
       </ng-template>
