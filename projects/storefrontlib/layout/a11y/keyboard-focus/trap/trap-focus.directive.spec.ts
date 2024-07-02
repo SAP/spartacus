@@ -33,22 +33,20 @@ class MockTrapFocusService {
 describe('TrapFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: TrapFocusService;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent, CustomFocusDirective],
-        providers: [
-          {
-            provide: TrapFocusService,
-            useClass: MockTrapFocusService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent, CustomFocusDirective],
+      providers: [
+        {
+          provide: TrapFocusService,
+          useClass: MockTrapFocusService,
+        },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MockComponent);
-      service = TestBed.inject(TrapFocusService);
-    })
-  );
+    fixture = TestBed.createComponent(MockComponent);
+    service = TestBed.inject(TrapFocusService);
+  }));
 
   const event = {
     preventDefault: () => {},

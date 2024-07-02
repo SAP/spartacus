@@ -123,9 +123,8 @@ describe('StockSelectors', () => {
     ];
 
     it('should return an empty list for a product without store data', () => {
-      const result = getStoresWithStockForProductCode('productCode')(
-        stateFactory()
-      );
+      const result =
+        getStoresWithStockForProductCode('productCode')(stateFactory());
       const expectedResult: PointOfServiceStock[] = [];
       expect(result).toEqual(expectedResult);
     });

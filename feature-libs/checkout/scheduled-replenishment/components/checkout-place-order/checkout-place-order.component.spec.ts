@@ -90,39 +90,37 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
   let launchDialogService: LaunchDialogService;
   let scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          AtMessageModule,
-        ],
-        declarations: [
-          MockUrlPipe,
-          CheckoutScheduledReplenishmentPlaceOrderComponent,
-        ],
-        providers: [
-          { provide: OrderFacade, useClass: MockOrderFacade },
-          {
-            provide: CheckoutReplenishmentFormService,
-            useClass: MockCheckoutReplenishmentFormService,
-          },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: ScheduledReplenishmentOrderFacade,
-            useClass: MockScheduledReplenishmentOrderFacade,
-          },
-          {
-            provide: GlobalMessageService,
-            useValue: {},
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        AtMessageModule,
+      ],
+      declarations: [
+        MockUrlPipe,
+        CheckoutScheduledReplenishmentPlaceOrderComponent,
+      ],
+      providers: [
+        { provide: OrderFacade, useClass: MockOrderFacade },
+        {
+          provide: CheckoutReplenishmentFormService,
+          useClass: MockCheckoutReplenishmentFormService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: ScheduledReplenishmentOrderFacade,
+          useClass: MockScheduledReplenishmentOrderFacade,
+        },
+        {
+          provide: GlobalMessageService,
+          useValue: {},
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
