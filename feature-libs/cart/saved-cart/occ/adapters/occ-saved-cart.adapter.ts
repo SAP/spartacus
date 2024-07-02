@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable, Optional } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   Cart,
   CART_NORMALIZER,
@@ -23,9 +23,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OccSavedCartAdapter implements SavedCartAdapter {
-  @Optional() protected featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected http: HttpClient,
@@ -68,7 +66,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     const httpParams: HttpParams = new HttpParams();
     if (
       this.featureConfigService?.isEnabled(
-        'newOccDefaultEndpointForSaveCartAndCloneSavedCart'
+        'occCartNameAndDescriptionInHttpRequestBody'
       )
     ) {
       httpParams.set('saveCartName', saveCartName).set('cartId', cartId);

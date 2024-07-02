@@ -322,7 +322,7 @@ if (environment.estimatedDeliveryDate) {
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
         a11yFacetsDialogFocusHandling: true,
-        newOccDefaultEndpointForSaveCartAndCloneSavedCart: true,
+        occCartNameAndDescriptionInHttpRequestBody: true,
       };
       return appFeatureToggles;
     }),

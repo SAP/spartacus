@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OccConfig } from '@spartacus/core';
+import {OccConfig} from '@spartacus/core';
 
 export const defaultOccSavedCartConfig: OccConfig = {
   backend: {
@@ -16,17 +16,6 @@ export const defaultOccSavedCartConfig: OccConfig = {
         restoreSavedCart: '/users/${userId}/carts/${cartId}/restoresavedcart',
         cloneSavedCart:
           '/users/${userId}/carts/${cartId}/clonesavedcart?name=${saveCartName}',
-      },
-    },
-  },
-};
-
-export const newDefaultOccSavedCartConfig: OccConfig = {
-  backend: {
-    occ: {
-      endpoints: {
-        ...defaultOccSavedCartConfig?.backend?.occ?.endpoints,
-        cloneSavedCart: '/users/${userId}/carts/${cartId}/clonesavedcart',
       },
     },
   },

@@ -16,27 +16,40 @@ import {
   CART_NORMALIZER,
   ORDER_ENTRY_PROMOTIONS_NORMALIZER,
 } from '@spartacus/cart/base/root';
-import { FeatureToggles, provideDefaultConfigFactory } from '@spartacus/core';
+import {
+  FeatureToggles,
+  provideDefaultConfigFactory,
+  OccConfig,
+} from '@spartacus/core';
 import { OccCartNormalizer } from './adapters/converters/occ-cart-normalizer';
 import { OrderEntryPromotionsNormalizer } from './adapters/converters/order-entry-promotions-normalizer';
-import {
-  defaultOccCartConfig,
-  newDefaultOccCartConfig,
-} from './adapters/default-occ-cart-config';
 import { OccCartEntryAdapter } from './adapters/occ-cart-entry.adapter';
 import { OccCartValidationAdapter } from './adapters/occ-cart-validation.adapter';
 import { OccCartVoucherAdapter } from './adapters/occ-cart-voucher.adapter';
 import { OccCartAdapter } from './adapters/occ-cart.adapter';
+import { defaultOccCartConfig } from './adapters/default-occ-cart-config';
+
+export function defaultOccCartConfigFactory(): OccConfig {
+  const featureToggles = inject(FeatureToggles);
+
+  return {
+    backend: {
+      occ: {
+        endpoints: {
+          ...defaultOccCartConfig?.backend?.occ?.endpoints,
+          saveCart: featureToggles.occCartNameAndDescriptionInHttpRequestBody
+            ? '/users/${userId}/carts/${cartId}/save'
+            : '/users/${userId}/carts/${cartId}/save?saveCartName=${saveCartName}&saveCartDescription=${saveCartDescription}',
+        },
+      },
+    },
+  };
+}
 
 @NgModule({
   imports: [CommonModule],
   providers: [
-    provideDefaultConfigFactory(() => {
-      const featureToggle: FeatureToggles = inject(FeatureToggles);
-      return featureToggle.newOccDefaultEndpointForSaveCartAndCloneSavedCart
-        ? newDefaultOccCartConfig
-        : defaultOccCartConfig;
-    }),
+    provideDefaultConfigFactory(defaultOccCartConfigFactory),
     {
       provide: CartAdapter,
       useClass: OccCartAdapter,
