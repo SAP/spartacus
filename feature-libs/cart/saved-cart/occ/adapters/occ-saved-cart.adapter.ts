@@ -4,13 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
-import {Cart, CART_NORMALIZER, SaveCartResult,} from '@spartacus/cart/base/root';
-import {SavedCartAdapter} from '@spartacus/cart/saved-cart/core';
-import {ConverterService, FeatureConfigService, Occ, OccEndpointsService,} from '@spartacus/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import {
+  Cart,
+  CART_NORMALIZER,
+  SaveCartResult,
+} from '@spartacus/cart/base/root';
+import { SavedCartAdapter } from '@spartacus/cart/saved-cart/core';
+import {
+  ConverterService,
+  FeatureConfigService,
+  Occ,
+  OccEndpointsService,
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OccSavedCartAdapter implements SavedCartAdapter {
@@ -20,8 +29,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
-  ) {
-  }
+  ) {}
 
   load(userId: string, cartId: string): Observable<Cart> {
     return this.http
@@ -61,28 +69,28 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
         'occCartNameAndDescriptionInHttpRequestBody'
       )
     ) {
-      httpParams  = httpParams.set('saveCartName', saveCartName);
+      httpParams = httpParams.set('saveCartName', saveCartName);
     }
-    const endpoint = this.getCloneSavedCartEndpoint(userId, cartId, saveCartName)
+    const endpoint = this.getCloneSavedCartEndpoint(
+      userId,
+      cartId,
+      saveCartName
+    );
 
-    return this.http
-      .post<Occ.Cart>(
-        endpoint, httpParams
-      )
-      .pipe(
-        map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
-        this.converter.pipeable(CART_NORMALIZER)
-      );
+    return this.http.post<Occ.Cart>(endpoint, httpParams).pipe(
+      map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
+      this.converter.pipeable(CART_NORMALIZER)
+    );
   }
 
   protected getSavedCartEndpoint(userId: string, cartId: string): string {
     return this.occEndpoints.buildUrl('savedCart', {
-      urlParams: {userId, cartId},
+      urlParams: { userId, cartId },
     });
   }
 
   protected getSavedCartListEndpoint(userId: string): string {
-    return this.occEndpoints.buildUrl('savedCarts', {urlParams: {userId}});
+    return this.occEndpoints.buildUrl('savedCarts', { urlParams: { userId } });
   }
 
   protected getRestoreSavedCartEndpoint(
@@ -90,7 +98,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     cartId: string
   ): string {
     return this.occEndpoints.buildUrl('restoreSavedCart', {
-      urlParams: {userId, cartId},
+      urlParams: { userId, cartId },
     });
   }
 
@@ -100,7 +108,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     saveCartName: string
   ): string {
     return this.occEndpoints.buildUrl('cloneSavedCart', {
-      urlParams: {userId, cartId, saveCartName},
+      urlParams: { userId, cartId, saveCartName },
     });
   }
 }
