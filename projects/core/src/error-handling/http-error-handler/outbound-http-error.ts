@@ -9,7 +9,7 @@
  */
 export class OutboundHttpError extends Error {
   constructor(cause: unknown) {
-    super('Backend HTTP Error', { cause });
+    super('Outbound HTTP Error', { cause });
   }
 }
 

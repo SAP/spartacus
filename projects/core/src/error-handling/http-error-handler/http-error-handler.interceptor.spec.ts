@@ -8,12 +8,22 @@ import { ErrorHandler, Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, throwError } from 'rxjs';
 import { FeatureConfigService } from '../../features-config';
+import { OccEndpointsService } from '../../occ';
 import { WindowRef } from '../../window';
 import { HttpErrorHandlerInterceptor } from './http-error-handler.interceptor';
+import {
+  CmsPageNotFoundOutboundHttpError,
+  OutboundHttpError,
+} from './outbound-http-error';
 
 @Injectable()
 class MockErrorHandler {
   handleError(_error: any): void {}
+}
+
+@Injectable()
+class MockOccEndpointsService {
+  buildUrl = (val: string) => val;
 }
 
 describe('HttpErrorHandlerInterceptor', () => {
@@ -29,6 +39,7 @@ describe('HttpErrorHandlerInterceptor', () => {
       providers: [
         HttpErrorHandlerInterceptor,
         FeatureConfigService,
+        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
         { provide: WindowRef, useValue: { isBrowser: () => false } },
         { provide: ErrorHandler, useClass: MockErrorHandler },
       ],
@@ -53,9 +64,9 @@ describe('HttpErrorHandlerInterceptor', () => {
     beforeEach(() => {
       spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
     });
-    it('should call handleError on error', (done) => {
+    it('should call handleError with OutboundHttpError for any HTTP error except 404 cms page not found', (done) => {
       const error: HttpErrorResponse = new HttpErrorResponse({
-        status: 400,
+        status: 500,
         statusText: 'error',
       });
       spyOn(errorHandler, 'handleError');
@@ -65,7 +76,29 @@ describe('HttpErrorHandlerInterceptor', () => {
       interceptor.intercept(request, next).subscribe({
         error: (err) => {
           expect(err).toEqual(error);
-          expect(errorHandler.handleError).toHaveBeenCalledWith(error);
+          expect(errorHandler.handleError).toHaveBeenCalledWith(
+            jasmine.any(OutboundHttpError)
+          );
+          done();
+        },
+      });
+    });
+
+    it('should call handleError with CmsPageNotFoundOutboundHttpError when CMS page not found', (done) => {
+      const error: HttpErrorResponse = new HttpErrorResponse({
+        url: 'pages',
+        status: 404,
+      });
+      spyOn(errorHandler, 'handleError');
+
+      next.handle = () => throwError(() => error);
+
+      interceptor.intercept(request, next).subscribe({
+        error: (err) => {
+          expect(err).toEqual(error);
+          expect(errorHandler.handleError).toHaveBeenCalledWith(
+            jasmine.any(CmsPageNotFoundOutboundHttpError)
+          );
           done();
         },
       });

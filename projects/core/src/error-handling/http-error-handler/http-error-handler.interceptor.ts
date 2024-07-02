@@ -63,7 +63,7 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
   }
 
   protected handleError(error: unknown): void {
-    this.isCmsPageNotFoundHttpError(error)
+    error = this.isCmsPageNotFoundHttpError(error)
       ? new CmsPageNotFoundOutboundHttpError(error)
       : new OutboundHttpError(error);
     this.errorHandler.handleError(error);
