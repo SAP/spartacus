@@ -13,6 +13,20 @@
     </div>
   </div>
   <div class="asm-bar-actions">
+    <div [ngStyle]="{'margin-right': '10px'}"
+      class="cx-asm-help-portal"
+    >
+      <a
+        href="https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/d1ca9a1517f847a5b57b4e08400807c1/2367ff04ccb649ac82a3795ecf72a804.html?locale=en-US"
+        target="_blank"
+        rel="noopener noreferrer"
+        role="button"
+      >
+        <i class="fa-regular fa-circle-question"></i>
+        <span >{{ 'asm.helpPortalUrl' | cxTranslate }}</span></a
+      >
+    </div>
+
     <div
       class="cx-asm-customer-list"
       *ngIf="customerSupportAgentLoggedIn$ | async"
@@ -98,3 +112,10 @@
     ></cx-csagent-login-form>
   </ng-template>
 </ng-container>
+
+<style>
+  .fa-circle-question {
+    margin-right: 5px; 
+  }
+</style>
+
