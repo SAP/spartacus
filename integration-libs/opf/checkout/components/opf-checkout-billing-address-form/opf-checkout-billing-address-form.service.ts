@@ -81,7 +81,7 @@ export class OpfCheckoutBillingAddressFormService {
       .subscribe(
         ([deliveryAddress, paymentAddress]: [
           Address | undefined,
-          Address | undefined
+          Address | undefined,
         ]) => {
           if (!paymentAddress && !!deliveryAddress) {
             this.setBillingAddress(deliveryAddress);

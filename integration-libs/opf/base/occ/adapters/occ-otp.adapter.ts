@@ -35,10 +35,9 @@ export class OccOtpAdapter implements OtpAdapter {
     cartId: string
   ): Observable<string | undefined> {
     return this.http
-      .post<string | undefined>(
-        this.getGenerateOtpKeyEndpoint(userId, cartId),
-        null
-      )
+      .post<
+        string | undefined
+      >(this.getGenerateOtpKeyEndpoint(userId, cartId), null)
       .pipe(
         catchError((error) =>
           throwError(normalizeHttpError(error, this.logger))

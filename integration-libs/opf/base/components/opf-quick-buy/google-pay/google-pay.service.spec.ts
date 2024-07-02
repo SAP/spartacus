@@ -266,9 +266,8 @@ describe('OpfGooglePayService', () => {
         of(mockAddressId)
       );
 
-      const addressId = await service['setDeliveryAddress'](
-        mockAddress
-      ).toPromise();
+      const addressId =
+        await service['setDeliveryAddress'](mockAddress).toPromise();
 
       expect(addressId).toEqual(mockAddressId);
     });

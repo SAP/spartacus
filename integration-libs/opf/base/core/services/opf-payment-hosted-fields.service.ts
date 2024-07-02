@@ -197,7 +197,7 @@ export class OpfPaymentHostedFieldsService {
     [submitSuccess, submitPending, submitFailure]: [
       MerchantCallback,
       MerchantCallback,
-      MerchantCallback
+      MerchantCallback,
     ]
   ): Observable<Order> {
     if (

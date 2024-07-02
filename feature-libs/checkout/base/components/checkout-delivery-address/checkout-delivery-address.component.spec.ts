@@ -178,7 +178,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
         {
           provide: CheckoutFlowOrchestratorService,
           useClass: MockCheckoutFlowOrchestratorService,
-        },                                   
+        },
         {
           provide: FeatureConfigService,
           useClass: MockFeatureConfigService,

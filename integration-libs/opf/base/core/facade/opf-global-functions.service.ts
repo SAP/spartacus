@@ -201,7 +201,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         const callbackArray: [
           MerchantCallback,
           MerchantCallback,
-          MerchantCallback
+          MerchantCallback,
         ] = [submitSuccess, submitPending, submitFailure];
 
         return lastValueFrom(
