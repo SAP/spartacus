@@ -13,7 +13,7 @@ import { InjectionToken } from '@angular/core';
  * or to a Prerendering Worker when using Server Prerendering.
  * Currently, it's provided OOTB only in SSR (not prerendering), in the `CxCommonEngine` class.
  *
- * Note: We need it until Angular implements a proper propagation of async errors 
+ * Note: We need it until Angular implements a proper propagation of async errors
  * from an app to the the higher layer in the server.
  * For more, see the Angular issue https://github.com/angular/angular/issues/33642
  */
