@@ -2,15 +2,29 @@
   {{ 'serviceOrderCheckout.heading' | cxTranslate }}
 </h2>
 
-<ng-container
-  *ngIf="
-    !(isUpdating$ | async) &&
-      (serviceOrderConfig$ | async) as serviceOrderConfig;
-    else loading
-  "
->
-  <h3>{{ serviceOrderConfig }}</h3>
-  <h4>{{ 'will show date picker and time picker' }}</h4>
+<ng-container *ngIf="!(isUpdating$ | async); else loading">
+  <ng-container *ngIf="serviceProducts$ | async as products">
+    <ng-container *ngIf="products.length === 0; else showScheduler">
+      {{ 'serviceOrderCheckout.clickContinue' | cxTranslate }}
+    </ng-container>
+  </ng-container>
+
+  <div class="row cx-checkout-btns">
+    <div class="col-md-12 col-lg-6">
+      <button class="btn btn-block btn-secondary" (click)="back()">
+        {{ backBtnText | cxTranslate }}
+      </button>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <button
+        class="btn btn-block btn-primary"
+        [disabled]="isSetServiceDetailsHttpError$ | async"
+        (click)="next()"
+      >
+        {{ 'common.continue' | cxTranslate }}
+      </button>
+    </div>
+  </div>
 </ng-container>
 
 <ng-template #loading>
@@ -19,19 +33,36 @@
   </div>
 </ng-template>
 
-<div class="row cx-checkout-btns">
-  <div class="col-md-12 col-lg-6">
-    <button class="btn btn-block btn-secondary" (click)="back()">
-      {{ backBtnText | cxTranslate }}
-    </button>
-  </div>
-  <div class="col-md-12 col-lg-6">
-    <button
-      class="btn btn-block btn-primary"
-      [disabled]="isSetServiceDetailsHttpError$ | async"
-      (click)="next()"
-    >
-      {{ 'common.continue' | cxTranslate }}
-    </button>
-  </div>
-</div>
+<ng-template #showScheduler>
+  <form [formGroup]="this.form">
+    <label class="row">
+      <div class="pl-4 col-8">
+        {{ 'serviceOrderCheckout.datePickerLabel' | cxTranslate }}
+      </div>
+      <div class="col-4">
+        <cx-date-picker
+          [control]="$any(form.get('scheduleDate'))"
+          [min]="minServiceDate"
+          label="serviceOrderCheckout.datePickerLabel"
+        >
+        </cx-date-picker>
+      </div>
+    </label>
+
+    <label class="row">
+      <div class="pl-4 col-8">
+        {{ 'serviceOrderCheckout.timePickerLabel' | cxTranslate }}
+      </div>
+      <div class="col-4">
+        <select
+          formControlName="scheduleTime"
+          (change)="setScheduleTime($event.target.value)"
+        >
+          <option *ngFor="let time of this.scheduleTimes" [value]="time">
+            {{ time }}
+          </option>
+        </select>
+      </div>
+    </label>
+  </form>
+</ng-template>

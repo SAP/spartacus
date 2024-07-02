@@ -7,6 +7,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+import { CheckoutServiceDetailsSetEvent } from './checkout-service-details.events';
+import { CheckoutQueryResetEvent } from '@spartacus/checkout/base/root';
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +16,17 @@ import { Subscription } from 'rxjs';
 export class CheckoutServiceDetailsEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
-  constructor(protected eventService: EventService) {}
+  constructor(protected eventService: EventService) {
+    this.onServiceDetailsSet();
+  }
 
-  // fill this later based on what all events have to occur
+  protected onServiceDetailsSet(): void {
+    this.subscriptions.add(
+      this.eventService.get(CheckoutServiceDetailsSetEvent).subscribe(() => {
+        this.eventService.dispatch({}, CheckoutQueryResetEvent);
+      })
+    );
+  }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

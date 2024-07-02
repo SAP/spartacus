@@ -5,3 +5,4 @@
  */
 
 export * from './checkout-service-details.service';
+export * from './checkout-service-schedule-picker.service';

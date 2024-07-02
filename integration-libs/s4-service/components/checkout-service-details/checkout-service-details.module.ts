@@ -10,16 +10,21 @@ import {
   CartNotEmptyGuard,
   CheckoutAuthGuard,
 } from '@spartacus/checkout/base/components';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { CheckoutServiceDetailsComponent } from './checkout-service-details.component';
-import { SpinnerModule } from '@spartacus/storefront';
+import { DatePickerModule, SpinnerModule } from '@spartacus/storefront';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     I18nModule,
     SpinnerModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    DatePickerModule,
+    ReactiveFormsModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutServiceDetails: {
           component: CheckoutServiceDetailsComponent,

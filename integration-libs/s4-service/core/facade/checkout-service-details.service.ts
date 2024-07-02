@@ -5,7 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
   UserIdService,
@@ -19,12 +19,14 @@ import {
 import { Observable, combineLatest, take, map, switchMap, tap } from 'rxjs';
 import { CheckoutServiceDetailsConnector } from '../connector';
 import {
+  CheckoutServiceDetailsFacade,
   CheckoutServiceDetailsSetEvent,
-  ServiceDetails,
 } from '@spartacus/s4-service/root';
 
 @Injectable()
-export class CheckoutServiceDetailsService {
+export class CheckoutServiceDetailsService
+  implements CheckoutServiceDetailsFacade
+{
   protected activeCartFacade = inject(ActiveCartFacade);
   protected userIdService = inject(UserIdService);
   protected commandService = inject(CommandService);
@@ -84,14 +86,34 @@ export class CheckoutServiceDetailsService {
     return this.setServiceScheduleSlotCommand.execute(scheduledAt);
   }
 
-  getServiceScheduleSlotState(): Observable<
-    QueryState<ServiceDetails | undefined>
-  > {
+  getServiceScheduleSlotState(): Observable<QueryState<string | undefined>> {
     return this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
       map((state) => ({
         ...state,
-        data: state.data?.scheduledAt,
+        data: state.data?.servicedAt,
       }))
+    );
+  }
+
+  getSelectedServiceDetailsState(): Observable<QueryState<string | undefined>> {
+    return this.checkoutQueryFacade
+      .getCheckoutDetailsState()
+      .pipe(map((state) => ({ ...state, data: state.data?.servicedAt })));
+  }
+
+  getServiceProducts(): Observable<string[]> {
+    return this.activeCartFacade.getEntries().pipe(
+      map((entries: OrderEntry[]) => {
+        return entries
+          .map((entry: OrderEntry) => {
+            if (entry.product?.productTypes === 'SERVICE') {
+              return entry?.product?.name;
+            } else {
+              return '';
+            }
+          })
+          .filter((name): name is string => name !== '');
+      })
     );
   }
 }

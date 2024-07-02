@@ -5,10 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { facadeFactory } from '@spartacus/core';
+import { QueryState, facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { S4_SERVICE_FEATURE } from '../feature-name';
-import { ServiceDetails } from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,13 +15,28 @@ import { ServiceDetails } from '../model';
     facadeFactory({
       facade: CheckoutServiceDetailsFacade,
       feature: S4_SERVICE_FEATURE,
-      methods: ['setServiceScheduleSlot'],
+      methods: [
+        'setServiceScheduleSlot',
+        'getSelectedServiceDetailsState',
+        'getServiceProducts',
+      ],
     }),
 })
 export abstract class CheckoutServiceDetailsFacade {
-  //add jsDoc for the param
-  abstract setServiceScheduleSlot(
-    scheduledAt: ServiceDetails
-  ): Observable<unknown>;
-  // recheck the return types
+  /**
+   * Set service schedule DateTime for the cart
+   */
+  abstract setServiceScheduleSlot(scheduledAt: string): Observable<unknown>;
+
+  /**
+   * Get the selected scheduled DateTime
+   */
+  abstract getSelectedServiceDetailsState(): Observable<
+    QueryState<string | undefined>
+  >;
+
+  /**
+   * Get the name of products of type SERVICE in the active cart
+   */
+  abstract getServiceProducts(): Observable<string[]>;
 }

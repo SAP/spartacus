@@ -5,7 +5,7 @@
  */
 
 export interface ServiceDetails {
-  scheduledAt?: string; //combination of above two fields
+  scheduledAt?: string; //name in request
 }
 
 export interface ServiceOrderConfig {

@@ -18,7 +18,10 @@ import { S4_SERVICE_FEATURE } from './feature-name';
 import { NgModule } from '@angular/core';
 import { CheckoutConfig } from '@spartacus/checkout/base/root';
 
-export const S4_SERVICE_CMS_COMPONENTS: string[] = ['CheckoutServiceDetails'];
+export const S4_SERVICE_CMS_COMPONENTS: string[] = [
+  'CheckoutServiceDetails',
+  'CheckoutReviewOrder',
+];
 
 export function defaultS4ServiceComponentsConfig() {
   const config: CmsConfig = {
