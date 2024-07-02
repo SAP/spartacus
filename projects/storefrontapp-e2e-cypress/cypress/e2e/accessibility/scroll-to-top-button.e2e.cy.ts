@@ -53,7 +53,7 @@ describe('Scroll to top button', () => {
       cy.get('@scrollBtn').trigger('keydown', {
         key: 'Tab',
       });
-      cy.get('cx-storefront').should('be.focused');
+      cy.get('cx-skip-link button').first().should('be.focused');
       cy.get('@scrollBtn').should('not.be.visible');
     });
   });

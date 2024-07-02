@@ -312,6 +312,7 @@ if (environment.estimatedDeliveryDate) {
         a11yFocusableCarouselControls: true,
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
+        a11yKeyboardAccessibleZoom: true,
         a11yOrganizationLinkableCells: true,
         a11yPreventSRFocusOnHiddenElements: true,
         a11yVisibleFocusOverflows: true,
@@ -322,10 +323,12 @@ if (environment.estimatedDeliveryDate) {
         a11yNotificationPreferenceFieldset: true,
         a11yImproveContrast: true,
         a11yEmptyWishlistHeading: true,
+        a11yScreenReaderBloatFix: true,
         a11yUseButtonsForBtnLinks: true,
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
         a11yFacetsDialogFocusHandling: true,
+        a11yLinkBtnsToTertiaryBtns: true,
       };
       return appFeatureToggles;
     }),

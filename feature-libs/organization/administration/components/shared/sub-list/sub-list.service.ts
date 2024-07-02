@@ -17,7 +17,7 @@ import { BaseItem } from '../organization.model';
 
 @Injectable()
 export abstract class SubListService<
-  T extends BaseItem
+  T extends BaseItem,
 > extends ListService<T> {
   /**
    * The default table structure for sub lists is only showing tables with vertical layout.

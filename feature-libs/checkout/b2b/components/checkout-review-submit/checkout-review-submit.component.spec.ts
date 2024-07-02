@@ -213,55 +213,53 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
   let component: B2BCheckoutReviewSubmitComponent;
   let fixture: ComponentFixture<B2BCheckoutReviewSubmitComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          PromotionsModule,
-          RouterTestingModule,
-          IconTestingModule,
-          OutletModule,
-        ],
-        declarations: [
-          B2BCheckoutReviewSubmitComponent,
-          MockCardComponent,
-          MockUrlPipe,
-        ],
-        providers: [
-          {
-            provide: CheckoutDeliveryAddressFacade,
-            useClass: MockCheckoutDeliveryAddressService,
-          },
-          {
-            provide: CheckoutDeliveryModesFacade,
-            useClass: MockCheckoutDeliveryModesService,
-          },
-          {
-            provide: CheckoutPaymentFacade,
-            useClass: MockCheckoutPaymentService,
-          },
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          {
-            provide: CheckoutStepService,
-            useClass: MockCheckoutStepService,
-          },
-          {
-            provide: CheckoutPaymentTypeFacade,
-            useClass: MockCheckoutPaymentTypeFacade,
-          },
-          {
-            provide: CheckoutCostCenterFacade,
-            useClass: MockCheckoutCostCenterService,
-          },
-          {
-            provide: UserCostCenterService,
-            useClass: MockUserCostCenterService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        PromotionsModule,
+        RouterTestingModule,
+        IconTestingModule,
+        OutletModule,
+      ],
+      declarations: [
+        B2BCheckoutReviewSubmitComponent,
+        MockCardComponent,
+        MockUrlPipe,
+      ],
+      providers: [
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useClass: MockCheckoutDeliveryAddressService,
+        },
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesService,
+        },
+        {
+          provide: CheckoutPaymentFacade,
+          useClass: MockCheckoutPaymentService,
+        },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
+        },
+        {
+          provide: CheckoutPaymentTypeFacade,
+          useClass: MockCheckoutPaymentTypeFacade,
+        },
+        {
+          provide: CheckoutCostCenterFacade,
+          useClass: MockCheckoutCostCenterService,
+        },
+        {
+          provide: UserCostCenterService,
+          useClass: MockUserCostCenterService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(B2BCheckoutReviewSubmitComponent);

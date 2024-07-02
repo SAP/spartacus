@@ -8,13 +8,11 @@ const mockDate = '2021-06-01';
 describe('OccScheduledReplenishmentOrderFormSerializer', () => {
   let serializer: OccScheduledReplenishmentOrderFormSerializer;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [OccScheduledReplenishmentOrderFormSerializer],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [OccScheduledReplenishmentOrderFormSerializer],
+    });
+  }));
 
   beforeEach(() => {
     serializer = TestBed.inject(OccScheduledReplenishmentOrderFormSerializer);

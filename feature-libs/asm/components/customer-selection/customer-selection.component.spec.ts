@@ -110,41 +110,39 @@ describe('CustomerSelectionComponent', () => {
 
   const validSearchTerm = 'cUstoMer@test.com';
 
-  beforeEach(
-    waitForAsync(() => {
-      customerSearchResults = new BehaviorSubject<CustomerSearchPage>({
-        entries: [],
-      });
-      customerSearchResultsLoading = new BehaviorSubject<boolean>(false);
+  beforeEach(waitForAsync(() => {
+    customerSearchResults = new BehaviorSubject<CustomerSearchPage>({
+      entries: [],
+    });
+    customerSearchResultsLoading = new BehaviorSubject<boolean>(false);
 
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-        declarations: [
-          CustomerSelectionComponent,
-          DotSpinnerComponent,
-          MockFeatureDirective,
-        ],
-        providers: [
-          { provide: AsmService, useClass: MockAsmService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: AsmConfig, useValue: MockAsmConfig },
-          {
-            provide: DirectionService,
-            useClass: MockDirectionService,
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+      declarations: [
+        CustomerSelectionComponent,
+        DotSpinnerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: AsmService, useClass: MockAsmService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: AsmConfig, useValue: MockAsmConfig },
+        {
+          provide: DirectionService,
+          useClass: MockDirectionService,
+        },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '*' },
           },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '*' },
-            },
-          },
-        ],
-      }).compileComponents();
+        },
+      ],
+    }).compileComponents();
 
-      launchDialogService = TestBed.inject(LaunchDialogService);
-    })
-  );
+    launchDialogService = TestBed.inject(LaunchDialogService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerSelectionComponent);

@@ -63,7 +63,7 @@ export class ProductFacetService {
         ({
           facets: result.facets,
           activeFacets: result.breadcrumbs,
-        } as FacetList)
+        }) as FacetList
     )
   );
 

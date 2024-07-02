@@ -146,64 +146,62 @@ describe('CheckoutDeliveryAddressComponent', () => {
   let globalMessageService: GlobalMessageService;
   let featureConfig: FeatureConfigService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          CheckoutDeliveryAddressComponent,
-          MockAddressFormComponent,
-          MockCardComponent,
-          MockSpinnerComponent,
-        ],
-        providers: [
-          { provide: UserAddressService, useClass: MockUserAddressService },
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          {
-            provide: CheckoutDeliveryAddressFacade,
-            useClass: MockCheckoutDeliveryAddressFacade,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        CheckoutDeliveryAddressComponent,
+        MockAddressFormComponent,
+        MockCardComponent,
+        MockSpinnerComponent,
+      ],
+      providers: [
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useClass: MockCheckoutDeliveryAddressFacade,
+        },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesFacade,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '6.3' },
           },
-          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: CheckoutDeliveryModesFacade,
-            useClass: MockCheckoutDeliveryModesFacade,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '6.3' },
-            },
-          },
-          {
-            provide: CheckoutFlowOrchestratorService,
-            useClass: MockCheckoutFlowOrchestratorService,
-          },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
-        ],
-      })
-        .overrideComponent(CheckoutDeliveryAddressComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
-
-      checkoutDeliveryAddressFacade = TestBed.inject(
-        CheckoutDeliveryAddressFacade
-      );
-      activeCartFacade = TestBed.inject(ActiveCartFacade);
-      checkoutStepService = TestBed.inject(
-        CheckoutStepService as Type<CheckoutStepService>
-      );
-      userAddressService = TestBed.inject(UserAddressService);
-      checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
-      globalMessageService = TestBed.inject(GlobalMessageService);
-      featureConfig = TestBed.inject(FeatureConfigService);
+        },
+        {
+          provide: CheckoutFlowOrchestratorService,
+          useClass: MockCheckoutFlowOrchestratorService,
+        },                                   
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
     })
-  );
+      .overrideComponent(CheckoutDeliveryAddressComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+
+    checkoutDeliveryAddressFacade = TestBed.inject(
+      CheckoutDeliveryAddressFacade
+    );
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
+    checkoutStepService = TestBed.inject(
+      CheckoutStepService as Type<CheckoutStepService>
+    );
+    userAddressService = TestBed.inject(UserAddressService);
+    checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    featureConfig = TestBed.inject(FeatureConfigService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutDeliveryAddressComponent);

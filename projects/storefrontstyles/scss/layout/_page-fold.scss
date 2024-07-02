@@ -14,7 +14,9 @@
 
 cx-page-layout {
   cx-page-slot {
-    transition: margin-top 0s, min-height 0s;
+    transition:
+      margin-top 0s,
+      min-height 0s;
     // we delay the minimal real estate for pending slots
     transition-delay: var(--btf-delay);
 

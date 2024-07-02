@@ -85,35 +85,33 @@ class MockConfiguratorStorefrontUtilsService {
 }
 
 describe('ConfigurationOverviewFilterButtonComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      initTestData();
-      initMocks();
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          ConfiguratorOverviewFilterButtonComponent,
-          MockConfiguratorOverviewFilterBarComponent,
-        ],
-        providers: [
-          { provide: LaunchDialogService, useValue: mockLaunchDialogService },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useValue: mockConfigRouterService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useValue: mockConfigCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
-          },
-        ],
-      }).compileComponents();
-      initComponent();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    initTestData();
+    initMocks();
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        ConfiguratorOverviewFilterButtonComponent,
+        MockConfiguratorOverviewFilterBarComponent,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useValue: mockLaunchDialogService },
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useValue: mockConfigRouterService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useValue: mockConfigCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+      ],
+    }).compileComponents();
+    initComponent();
+  }));
 
   beforeEach(() => {
     fixture.detectChanges(); //due to the additional delay(0)
@@ -143,9 +141,21 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
     expect(htmlElem.classList.contains('ghost')).toBeFalsy();
   });
 
-  it('should render no filter button for variant', () => {
+  it('should render filter button for variant in case there is more than one group', () => {
     isDisplayOnlyVariant = true;
-    ovConfig.overview.possibleGroups = [];
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-config-filter-button'
+    );
+  });
+
+  it('should render no filter button for variant in case there is only one group', () => {
+    isDisplayOnlyVariant = true;
+    ovConfig.overview.possibleGroups =
+      ovConfig.overview.possibleGroups.slice(1);
     fixture.detectChanges();
 
     CommonConfiguratorTestUtilsService.expectElementNotPresent(

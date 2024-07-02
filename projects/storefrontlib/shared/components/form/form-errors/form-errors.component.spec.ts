@@ -25,21 +25,19 @@ describe('FormErrors', () => {
 
   const getContent = () => fixture.debugElement.nativeElement.innerText;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        providers: [
-          FeatureConfigService,
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
-        ],
-        declarations: [FormErrorsComponent, MockFeatureDirective],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      providers: [
+        FeatureConfigService,
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
+      declarations: [FormErrorsComponent, MockFeatureDirective],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FormErrorsComponent);

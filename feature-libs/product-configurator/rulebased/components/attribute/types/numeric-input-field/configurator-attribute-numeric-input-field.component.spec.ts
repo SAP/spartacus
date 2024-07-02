@@ -125,57 +125,55 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     },
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      configuratorUISettingsConfig.productConfigurator =
-        defaultConfiguratorUISettingsConfig.productConfigurator;
-      mockLanguageService = {
-        getAll: () => of([]),
-        getActive: jasmine.createSpy().and.returnValue(of(locale)),
-        setActive: jasmine.createSpy(),
-      };
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeNumericInputFieldComponent,
-          MockFocusDirective,
-          MockCxIconComponent,
-        ],
-        imports: [ReactiveFormsModule, I18nTestingModule],
-        providers: [
-          { provide: LanguageService, useValue: mockLanguageService },
-          {
-            provide: ConfiguratorUISettingsConfig,
-            useValue: configuratorUISettingsConfig,
-          },
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
+  beforeEach(waitForAsync(() => {
+    configuratorUISettingsConfig.productConfigurator =
+      defaultConfiguratorUISettingsConfig.productConfigurator;
+    mockLanguageService = {
+      getAll: () => of([]),
+      getActive: jasmine.createSpy().and.returnValue(of(locale)),
+      setActive: jasmine.createSpy(),
+    };
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeNumericInputFieldComponent,
+        MockFocusDirective,
+        MockCxIconComponent,
+      ],
+      imports: [ReactiveFormsModule, I18nTestingModule],
+      providers: [
+        { provide: LanguageService, useValue: mockLanguageService },
+        {
+          provide: ConfiguratorUISettingsConfig,
+          useValue: configuratorUISettingsConfig,
+        },
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
 
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '*' },
-            },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '*' },
           },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

@@ -49,31 +49,29 @@ describe('MyAccountV2PasswordComponent', () => {
 
   let service: UpdatePasswordComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          RouterTestingModule,
-          UrlTestingModule,
-          PasswordVisibilityToggleModule,
-        ],
-        declarations: [MyAccountV2PasswordComponent, MockCxSpinnerComponent],
-        providers: [
-          {
-            provide: UpdatePasswordComponentService,
-            useClass: MockUpdatePasswordService,
-          },
-        ],
-      })
-        .overrideComponent(MyAccountV2PasswordComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        PasswordVisibilityToggleModule,
+      ],
+      declarations: [MyAccountV2PasswordComponent, MockCxSpinnerComponent],
+      providers: [
+        {
+          provide: UpdatePasswordComponentService,
+          useClass: MockUpdatePasswordService,
+        },
+      ],
     })
-  );
+      .overrideComponent(MyAccountV2PasswordComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2PasswordComponent);
