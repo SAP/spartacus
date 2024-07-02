@@ -4,7 +4,7 @@ import '@angular/compiler';
 import { Component, InjectionToken, NgModule, inject } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ServerModule } from '@angular/platform-server';
-import { PROPAGATE_ERROR_TO_SERVER } from '../error-handling/error-response/propagate-error-response';
+import { PROPAGATE_ERROR_TO_SERVER } from '../error-handling/error-response/propagate-error-to-server';
 import { CxCommonEngine } from './cx-common-engine';
 
 // Test how the CxCommonEngine handles successful server-side rendering

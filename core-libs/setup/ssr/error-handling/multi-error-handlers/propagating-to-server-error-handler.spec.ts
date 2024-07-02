@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { PROPAGATE_ERROR_TO_SERVER } from '../error-response/propagate-error-response';
+import { PROPAGATE_ERROR_TO_SERVER } from '../error-response/propagate-error-to-server';
 import { PropagatingToServerErrorHandler } from './propagating-to-server-error-handler';
 
 describe('PropagatingToServerErrorHandler', () => {

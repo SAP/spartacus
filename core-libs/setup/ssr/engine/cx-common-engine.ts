@@ -9,7 +9,7 @@ import {
   CommonEngineOptions,
   CommonEngineRenderOptions,
 } from '@angular/ssr';
-import { PROPAGATE_ERROR_TO_SERVER } from '../error-handling/error-response/propagate-error-response';
+import { PROPAGATE_ERROR_TO_SERVER } from '../error-handling/error-response/propagate-error-to-server';
 
 /**
  * The Spartacus extension of the CommonEngine introduced to handle propagated server responses caught during server-side rendering.

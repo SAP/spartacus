@@ -6,7 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { MultiErrorHandler } from '@spartacus/core';
-import { PROPAGATE_ERROR_TO_SERVER } from '../error-response/propagate-error-response';
+import { PROPAGATE_ERROR_TO_SERVER } from '../error-response/propagate-error-to-server';
 
 /**
  * Propagates the given error object to the higher layer in the server.

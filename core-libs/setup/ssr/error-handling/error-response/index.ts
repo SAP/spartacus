@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './propagate-error-response';
+export * from './propagate-error-to-server';
