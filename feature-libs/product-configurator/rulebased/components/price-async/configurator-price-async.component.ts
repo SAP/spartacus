@@ -7,12 +7,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
+  Output,
   inject,
 } from '@angular/core';
 import { useFeatureStyles } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { Observable, filter, switchMap } from 'rxjs';
+import { Observable, filter, switchMap, tap } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorPriceService } from '../price/configurator-price.component.service';
@@ -25,6 +27,11 @@ export interface ConfiguratorPriceAsyncComponentOptions {
   isLightedUp?: boolean;
 }
 
+export interface ConfiguratorValuePriceChanged {
+  source: ConfiguratorPriceAsyncComponentOptions;
+  valuePrice: Configurator.PriceDetails;
+}
+
 @Component({
   selector: 'cx-configurator-price-async',
   templateUrl: './configurator-price-async.component.html',
@@ -32,6 +39,7 @@ export interface ConfiguratorPriceAsyncComponentOptions {
 })
 export class ConfiguratorPriceAsyncComponent {
   @Input() options: ConfiguratorPriceAsyncComponentOptions;
+  @Output() priceChanged = new EventEmitter<ConfiguratorValuePriceChanged>();
 
   protected configuratorCommonsService = inject(ConfiguratorCommonsService);
   protected configRouterExtractorService = inject(
@@ -44,7 +52,16 @@ export class ConfiguratorPriceAsyncComponent {
       switchMap((routerData) => {
         return this.configuratorCommonsService
           .getConfiguration(routerData.owner)
-          .pipe(filter((config) => !!config.priceSupplements));
+          .pipe(filter((config) => !!config.priceSupplements))
+          .pipe(
+            tap((config) => {
+              const price = this.findValuePrice(config);
+              this.priceChanged.emit({
+                source: this.options,
+                valuePrice: price,
+              });
+            })
+          );
       })
     );
 
@@ -55,6 +72,10 @@ export class ConfiguratorPriceAsyncComponent {
   getPriceDetails(
     configuration: Configurator.Configuration
   ): Configurator.PriceDetails {
+    return this.findValuePrice(configuration);
+  }
+
+  private findValuePrice(configuration: Configurator.Configuration) {
     const priceSupplement = configuration.priceSupplements
       ?.find(
         (attrSupplement) =>
