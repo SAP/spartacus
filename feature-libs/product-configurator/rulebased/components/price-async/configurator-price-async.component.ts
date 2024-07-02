@@ -86,7 +86,7 @@ export class ConfiguratorPriceAsyncComponent {
     return (
       lastValuePrice.value !== valuePrice.value ||
       lastValuePrice.currencyIso !== valuePrice.currencyIso ||
-      lastValuePrice.formattedValue != valuePrice.formattedValue
+      lastValuePrice.formattedValue !== valuePrice.formattedValue
     );
   }
 
