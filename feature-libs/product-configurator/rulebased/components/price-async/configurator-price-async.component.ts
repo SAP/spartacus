@@ -12,7 +12,7 @@ import {
   Output,
   inject,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
+import { ObjectComparisonUtils, useFeatureStyles } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable, filter, switchMap, tap } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -47,6 +47,8 @@ export class ConfiguratorPriceAsyncComponent {
   );
   protected priceService = inject(ConfiguratorPriceService);
 
+  protected lastValuePrice = NO_PRICE;
+
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
@@ -55,11 +57,19 @@ export class ConfiguratorPriceAsyncComponent {
           .pipe(filter((config) => !!config.priceSupplements))
           .pipe(
             tap((config) => {
-              const price = this.findValuePrice(config);
-              this.priceChanged.emit({
-                source: this.options,
-                valuePrice: price,
-              });
+              const valuePrice = this.findValuePrice(config);
+              if (
+                !ObjectComparisonUtils.deepEqualObjects(
+                  this.lastValuePrice,
+                  valuePrice
+                )
+              ) {
+                this.lastValuePrice = valuePrice;
+                this.priceChanged.emit({
+                  source: this.options,
+                  valuePrice: valuePrice,
+                });
+              }
             })
           );
       })
