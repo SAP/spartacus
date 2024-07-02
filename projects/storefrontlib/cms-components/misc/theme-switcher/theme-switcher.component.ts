@@ -8,8 +8,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ICON_TYPE } from '../icon/icon.model';
 import { Theme } from './theme-switcher.model';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
-import { ThemeService, ThemeSwitcherConfig } from '@spartacus/storefront';
 import { Observable, map, take } from 'rxjs';
+import { ThemeSwitcherConfig } from './config';
+import { ThemeService } from '../../../layout/theme/theme.service';
 
 /**
  * Component for switching themes.
