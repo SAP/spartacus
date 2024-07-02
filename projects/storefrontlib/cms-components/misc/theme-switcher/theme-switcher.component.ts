@@ -57,11 +57,11 @@ export class ThemeSwitcherComponent implements OnInit {
    * @param themeClassName The selected theme.
    */
   onSelect(themeClassName: string): void {
-    const theme = this.themes.find(
+    const selectedTheme = this.themes.find(
       (theme) => theme.className === themeClassName
     );
-    if (theme) {
-      this.setTheme(theme);
+    if (selectedTheme) {
+      this.setTheme(selectedTheme);
     }
   }
   /**
