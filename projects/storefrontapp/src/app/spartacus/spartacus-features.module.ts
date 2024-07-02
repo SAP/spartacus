@@ -316,6 +316,7 @@ if (environment.estimatedDeliveryDate) {
         a11yVisibleFocusOverflows: true,
         a11yTruncatedTextForResponsiveView: true,
         a11ySemanticPaginationLabel: true,
+        a11yPreventCartItemsFormRedundantRecreation: true,
         a11yMyAccountLinkOutline: true,
         a11yCloseProductImageBtnFocus: true,
         a11yNotificationPreferenceFieldset: true,
