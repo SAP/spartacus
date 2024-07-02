@@ -651,4 +651,41 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       });
     });
   });
+
+  describe('mergePriceAndValue', () => {
+    it('should create a new object combining value and price if onPriceChanged was called for this value before', () => {
+      const valuePrice = { value: 100, currencyIso: 'USD' };
+      classUnderTest.onPriceChanged({
+        source: { attributeKey: 'attrKey', valueName: 'valueKey' },
+        valuePrice: valuePrice,
+      });
+      expect(
+        classUnderTest['mergePriceAndValue']({
+          valueCode: '1223',
+          name: 'valueKey',
+        })
+      ).toEqual({
+        valueCode: '1223',
+        name: 'valueKey',
+        valuePrice: valuePrice,
+      });
+    });
+
+    it('should return just the value if onPriceChanged was NOT called for this value before', () => {
+      const valuePrice = { value: 100, currencyIso: 'USD' };
+      classUnderTest.onPriceChanged({
+        source: { attributeKey: 'attrKey', valueName: 'anotherValueKey' },
+        valuePrice: valuePrice,
+      });
+      expect(
+        classUnderTest['mergePriceAndValue']({
+          valueCode: '1223',
+          name: 'valueKey',
+        })
+      ).toEqual({
+        valueCode: '1223',
+        name: 'valueKey',
+      });
+    });
+  });
 });
