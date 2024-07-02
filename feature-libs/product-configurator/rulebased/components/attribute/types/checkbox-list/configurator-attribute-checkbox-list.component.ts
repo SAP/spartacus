@@ -144,9 +144,8 @@ export class ConfiguratorAttributeCheckBoxListComponent
     attribute: Configurator.Attribute
   ): string {
     value = this.mergePriceAndValue(value);
-    let ariaLabel = '';
     let params;
-    let key: string = '';
+    let key;
     if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
       key = 'configurator.a11y.valueOfAttributeFullWithPrice';
       params = {
@@ -168,6 +167,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
         attribute: attribute.label,
       };
     }
+    let ariaLabel = '';
     this.translation
       .translate(key, params)
       .pipe(take(1))
