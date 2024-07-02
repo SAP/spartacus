@@ -32,7 +32,7 @@ describe('errorResponseHandlers', () => {
     expect(res.send).not.toHaveBeenCalled();
   });
 
-  it('should handle CmsPageNotFoundHttpErrorResponse', () => {
+  it('should handle CmsPageNotFoundOutboundHttpError', () => {
     const err = new CmsPageNotFoundOutboundHttpError('Page not found');
     const errorRequestHandler = defaultExpressErrorHandlers(documentContent);
 
