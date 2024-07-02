@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { defaultOccCheckoutServiceOrderConfig } from './config/default-occ-s4-service-config';
+import { defaultOccCheckoutServiceOrderConfig } from './config/default-occ-checkout-s4-service-config';
 import { CheckoutServiceDetailsAdapter } from '../core/connector';
 import { provideDefaultConfig } from '@spartacus/core';
 import { OccCheckoutServiceDetailsAdapter } from './adapters';

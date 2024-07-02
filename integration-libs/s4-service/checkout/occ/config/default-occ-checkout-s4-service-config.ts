@@ -9,7 +9,7 @@ import { OccConfig } from '@spartacus/core';
 
 const defaultServiceOrderCheckoutDetailsOccEndpoint: CheckoutOccEndpoints = {
   getCheckoutDetails:
-    'users/${userId}/carts/current?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL),servicedAt',
+    'users/${userId}/carts/${cartId}?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL),servicedAt',
 };
 
 export const defaultOccCheckoutServiceOrderConfig: OccConfig = {
