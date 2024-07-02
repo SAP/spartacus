@@ -12,14 +12,18 @@ import {
   Output,
   inject,
 } from '@angular/core';
-import { ObjectComparisonUtils, useFeatureStyles } from '@spartacus/core';
+import { useFeatureStyles } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable, filter, switchMap, tap } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorPriceService } from '../price/configurator-price.component.service';
 
-const NO_PRICE: Configurator.PriceDetails = { value: 0, currencyIso: '' };
+const NO_PRICE: Configurator.PriceDetails = {
+  currencyIso: '',
+  formattedValue: '-',
+  value: 0,
+};
 
 export interface ConfiguratorPriceAsyncComponentOptions {
   attributeKey: string;
@@ -58,17 +62,13 @@ export class ConfiguratorPriceAsyncComponent {
           .pipe(
             tap((config) => {
               const valuePrice = this.findValuePrice(config);
-              if (
-                !ObjectComparisonUtils.deepEqualObjects(
-                  this.lastValuePrice,
-                  valuePrice
-                )
-              ) {
-                this.lastValuePrice = valuePrice;
+              const lastValuePrice = this.lastValuePrice;
+              if (this.valuePriceChanged(lastValuePrice, valuePrice)) {
                 this.priceChanged.emit({
                   source: this.options,
                   valuePrice: valuePrice,
                 });
+                this.lastValuePrice = valuePrice;
               }
             })
           );
@@ -77,6 +77,17 @@ export class ConfiguratorPriceAsyncComponent {
 
   constructor() {
     useFeatureStyles('productConfiguratorAttributeTypesV2');
+  }
+
+  protected valuePriceChanged(
+    lastValuePrice: Configurator.PriceDetails,
+    valuePrice: Configurator.PriceDetails
+  ) {
+    return (
+      lastValuePrice.value !== valuePrice.value ||
+      lastValuePrice.currencyIso !== valuePrice.currencyIso ||
+      lastValuePrice.formattedValue != valuePrice.formattedValue
+    );
   }
 
   getPriceDetails(
