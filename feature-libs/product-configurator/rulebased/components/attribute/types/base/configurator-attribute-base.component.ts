@@ -385,15 +385,12 @@ export class ConfiguratorAttributeBaseComponent {
 
   onPriceChanged(event: ConfiguratorValuePriceChanged) {
     this.valuePrices[event.source.valueName] = event.valuePrice;
-    console.log('update value Price: ' + event.source.valueName);
   }
 
   protected mergePriceAndValue(value: Configurator.Value) {
     const valueName = value.name;
     if (valueName && this.valuePrices[valueName]) {
       value = { ...value, valuePrice: this.valuePrices[valueName] };
-      console.log('getting updated value with price: ' + value.name);
-      console.log(value);
     }
     return value;
   }
