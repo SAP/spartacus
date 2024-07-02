@@ -9,7 +9,7 @@ import { UrlTree } from '@angular/router';
 import { CheckoutB2BStepsSetGuard } from '@spartacus/checkout/b2b/components';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
 import { CheckoutServiceDetailsFacade } from '@spartacus/s4-service/root';
-import { Observable, filter, map, of } from 'rxjs';
+import { Observable, filter, map, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +24,17 @@ export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard 
       .pipe(
         filter((state) => !state.loading),
         map((state) => state.data),
-        map((mode) => (mode ? true : this.getUrl(step.routeName)))
+        switchMap((servicedAt) => {
+          return this.checkoutServiceDetailsFacade
+            .getServiceProducts()
+            .pipe(
+              map((products) =>
+                (products.length > 0 && servicedAt) || products.length === 0
+                  ? true
+                  : this.getUrl(step.routeName)
+              )
+            );
+        })
       );
   }
   protected isB2BStepSet(
