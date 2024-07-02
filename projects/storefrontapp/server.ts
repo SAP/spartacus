@@ -8,7 +8,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
-  defaultServerErrorResponseHandlers,
+  defaultExpressErrorHandlers,
   defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
 } from '@spartacus/setup/ssr';
@@ -65,7 +65,7 @@ export function app(): express.Express {
     });
   });
 
-  server.use(defaultServerErrorResponseHandlers(indexHtmlContent));
+  server.use(defaultExpressErrorHandlers(indexHtmlContent));
 
   return server;
 }
