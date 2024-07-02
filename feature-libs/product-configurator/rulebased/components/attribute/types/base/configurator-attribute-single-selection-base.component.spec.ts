@@ -15,6 +15,17 @@ import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state'
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
+const attributeWithValuePrice: Configurator.Attribute = {
+  name: 'attribute with value price',
+  label: 'attribute with value price',
+};
+const valueWithValuePrice = createValue('1', 'value with value price', true);
+valueWithValuePrice.valuePrice = {
+  currencyIso: '$',
+  formattedValue: '$100.00',
+  value: 100,
+};
+
 function createValue(
   code: string,
   name: string | undefined,
@@ -552,21 +563,6 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     });
 
     it('should return aria label for value with price and attribute additional value', () => {
-      let attributeWithValuePrice: Configurator.Attribute = {
-        name: 'attribute with value price',
-        label: 'attribute with value price',
-      };
-      let price: Configurator.PriceDetails = {
-        currencyIso: '$',
-        formattedValue: '$100.00',
-        value: 100,
-      };
-      const valueWithValuePrice = createValue(
-        '1',
-        'value with value price',
-        true
-      );
-      valueWithValuePrice.valuePrice = price;
       component.attribute.uiType =
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT ||
         Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
@@ -577,12 +573,34 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       ).toEqual(
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           attributeWithValuePrice.label +
-          ' price:' +
-          valueWithValuePrice.valuePrice?.formattedValue +
-          ' value:' +
+          ' price:$100.00 value:' +
           valueWithValuePrice.valueDisplay +
-          ' ' +
-          'configurator.a11y.additionalValue'
+          ' configurator.a11y.additionalValue'
+      );
+    });
+
+    it('should return aria label for value with price after price was changed', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT ||
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NONE;
+
+      component.onPriceChanged({
+        source: {
+          attributeKey: 'attrKey',
+          valueName: valueWithValuePrice.name ?? '',
+        },
+        valuePrice: { currencyIso: '$', formattedValue: '$200.00', value: 200 },
+      });
+      fixture.detectChanges();
+      expect(
+        component.getAriaLabel(valueWithValuePrice, attributeWithValuePrice)
+      ).toEqual(
+        'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
+          attributeWithValuePrice.label +
+          ' price:$200.00 value:' +
+          valueWithValuePrice.valueDisplay +
+          ' configurator.a11y.additionalValue'
       );
     });
   });
