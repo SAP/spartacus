@@ -19,8 +19,8 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { TranslationService, UserCostCenterService } from '@spartacus/core';
-import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/core';
-import { CheckoutServiceDetailsFacade } from '@spartacus/s4-service/root';
+import { CheckoutServiceSchedulePickerService } from 'integration-libs/s4-service/checkout/core/public_api';
+import { CheckoutServiceDetailsFacade } from 'integration-libs/s4-service/checkout/root/public_api';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -66,7 +66,9 @@ export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmi
       .getSelectedServiceDetailsState()
       .pipe(
         filter((state) => !state.loading && !state.error),
-        map((state) => state.data)
+        map((state) => {
+          return state.data;
+        })
       );
   }
   protected getCheckoutDeliverySteps(): Array<CheckoutStepType | string> {

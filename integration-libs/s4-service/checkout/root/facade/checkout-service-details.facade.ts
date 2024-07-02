@@ -5,16 +5,16 @@
  */
 
 import { Injectable } from '@angular/core';
+import { CHECKOUT_CORE_FEATURE } from '@spartacus/checkout/base/root';
 import { QueryState, facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { S4_SERVICE_FEATURE } from '../feature-name';
 
 @Injectable({
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
       facade: CheckoutServiceDetailsFacade,
-      feature: S4_SERVICE_FEATURE,
+      feature: CHECKOUT_CORE_FEATURE,
       methods: [
         'setServiceScheduleSlot',
         'getSelectedServiceDetailsState',

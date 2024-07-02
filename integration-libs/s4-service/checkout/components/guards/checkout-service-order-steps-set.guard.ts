@@ -8,7 +8,7 @@ import { Injectable, inject } from '@angular/core';
 import { UrlTree } from '@angular/router';
 import { CheckoutB2BStepsSetGuard } from '@spartacus/checkout/b2b/components';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
-import { CheckoutServiceDetailsFacade } from '@spartacus/s4-service/root';
+import { CheckoutServiceDetailsFacade } from 'integration-libs/s4-service/checkout/root/public_api';
 import { Observable, filter, map, of, switchMap } from 'rxjs';
 
 @Injectable({
@@ -25,15 +25,14 @@ export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard 
         filter((state) => !state.loading),
         map((state) => state.data),
         switchMap((servicedAt) => {
-          return this.checkoutServiceDetailsFacade
-            .getServiceProducts()
-            .pipe(
-              map((products) =>
-                (products.length > 0 && servicedAt) || products.length === 0
-                  ? true
-                  : this.getUrl(step.routeName)
-              )
-            );
+          return this.checkoutServiceDetailsFacade.getServiceProducts().pipe(
+            map((products) => {
+              return (products.length > 0 && servicedAt) ||
+                products.length === 0
+                ? true
+                : this.getUrl(step.routeName);
+            })
+          );
         })
       );
   }

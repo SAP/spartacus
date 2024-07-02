@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ServiceDetails } from '@spartacus/s4-service/root';
+import { ServiceDetails } from 'integration-libs/s4-service/checkout/root/public_api';
 import { Observable } from 'rxjs';
 
 export abstract class CheckoutServiceDetailsAdapter {

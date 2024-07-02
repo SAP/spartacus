@@ -21,7 +21,7 @@ import { CheckoutServiceDetailsConnector } from '../connector';
 import {
   CheckoutServiceDetailsFacade,
   CheckoutServiceDetailsSetEvent,
-} from '@spartacus/s4-service/root';
+} from 'integration-libs/s4-service/checkout/root/public_api';
 
 @Injectable()
 export class CheckoutServiceDetailsService
@@ -86,19 +86,20 @@ export class CheckoutServiceDetailsService
     return this.setServiceScheduleSlotCommand.execute(scheduledAt);
   }
 
-  getServiceScheduleSlotState(): Observable<QueryState<string | undefined>> {
-    return this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
-      map((state) => ({
-        ...state,
-        data: state.data?.servicedAt,
-      }))
-    );
-  }
-
   getSelectedServiceDetailsState(): Observable<QueryState<string | undefined>> {
-    return this.checkoutQueryFacade
-      .getCheckoutDetailsState()
-      .pipe(map((state) => ({ ...state, data: state.data?.servicedAt })));
+    return this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
+      switchMap((state) => {
+        return this.getServiceProducts().pipe(
+          map((products) => {
+            if (products.length > 0) {
+              return { ...state, data: state.data?.servicedAt };
+            } else {
+              return { ...state, data: undefined };
+            }
+          })
+        );
+      })
+    );
   }
 
   getServiceProducts(): Observable<string[]> {

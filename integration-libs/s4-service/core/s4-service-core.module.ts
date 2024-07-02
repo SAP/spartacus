@@ -6,24 +6,7 @@
 
 import { NgModule } from '@angular/core';
 
-import {
-  CheckoutServiceDetailsService,
-  CheckoutServiceSchedulePickerService,
-} from './facade';
-import { CheckoutServiceDetailsFacade } from '../root/facade';
-import { CheckoutServiceDetailsConnector } from './connector';
-import { CxDatePipe } from '@spartacus/core';
-
 @NgModule({
-  providers: [
-    CheckoutServiceDetailsService,
-    CheckoutServiceSchedulePickerService,
-    {
-      provide: CheckoutServiceDetailsFacade,
-      useExisting: CheckoutServiceDetailsService,
-    },
-    CheckoutServiceDetailsConnector,
-    CxDatePipe,
-  ],
+  providers: [],
 })
 export class S4ServiceCoreModule {}

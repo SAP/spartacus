@@ -6,7 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { BaseSiteService, CxDatePipe, TimeUtils } from '@spartacus/core';
-import { ServiceOrderConfig } from '@spartacus/s4-service/root';
+import { ServiceOrderConfig } from 'integration-libs/s4-service/checkout/root/public_api';
 import { take } from 'rxjs';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class CheckoutServiceSchedulePickerService {
   getMinDateForService(): string {
     const config = this.getServiceOrderConfiguration();
     let minDate = new Date();
-    minDate.setDate(minDate.getDate() + (config?.leadDays ?? 0));
+    minDate.setDate(minDate.getDate() + (config?.leadDays ?? 0 + 1)); // min date is the date after the no.of lead days
     return this.datePipe.transform(minDate, 'yyyy-MM-dd') ?? '';
   }
 

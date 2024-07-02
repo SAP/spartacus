@@ -15,8 +15,8 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/core';
-import { CheckoutServiceDetailsFacade } from '@spartacus/s4-service/root';
+import { CheckoutServiceSchedulePickerService } from 'integration-libs/s4-service/checkout/core/public_api';
+import { CheckoutServiceDetailsFacade } from 'integration-libs/s4-service/checkout/root/public_api';
 import {
   BehaviorSubject,
   map,
@@ -37,14 +37,13 @@ export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
   protected checkoutStepService = inject(CheckoutStepService);
   protected globalMessageService = inject(GlobalMessageService);
   protected checkoutServiceDetailsFacade = inject(CheckoutServiceDetailsFacade);
-  protected service = inject(CheckoutServiceSchedulePickerService);
   protected fb = inject(UntypedFormBuilder);
   protected checkoutServiceSchedulePickerService = inject(
     CheckoutServiceSchedulePickerService
   );
-  minServiceDate: string = this.service.getMinDateForService();
+  minServiceDate: string = this.checkoutServiceSchedulePickerService.getMinDateForService();
 
-  scheduleTimes: string[] = this.service.getScheduledServiceTimes();
+  scheduleTimes: string[] = this.checkoutServiceSchedulePickerService.getScheduledServiceTimes();
   form: UntypedFormGroup = this.fb.group({
     scheduleDate: [this.minServiceDate],
     scheduleTime: [this.scheduleTimes[0]],
@@ -105,15 +104,16 @@ export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
   );
 
   next(): void {
-    this.serviceProducts$.subscribe((products) => {
-      if (products.length > 0) {
-        const scheduleDate = this.form?.get('scheduleDate')?.value || '';
-        const scheduleTime = this.form?.get('scheduleTime')?.value || '';
-        const scheduleDateTime = this.service.convertToDateTime(
-          scheduleDate,
-          scheduleTime
-        );
-        this.subscription.add(
+    this.subscription.add(
+      this.serviceProducts$.subscribe((products) => {
+        if (products.length > 0) {
+          const scheduleDate = this.form?.get('scheduleDate')?.value || '';
+          const scheduleTime = this.form?.get('scheduleTime')?.value || '';
+          const scheduleDateTime = this.checkoutServiceSchedulePickerService.convertToDateTime(
+            scheduleDate,
+            scheduleTime
+          );
+
           this.checkoutServiceDetailsFacade
             .setServiceScheduleSlot(scheduleDateTime)
             .subscribe({
@@ -122,12 +122,12 @@ export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
                 this.checkoutStepService.next(this.activatedRoute);
               },
               error: () => this.onError(),
-            })
-        );
-      } else {
-        this.checkoutStepService.next(this.activatedRoute);
-      }
-    });
+            });
+        } else {
+          this.checkoutStepService.next(this.activatedRoute);
+        }
+      })
+    );
   }
 
   back(): void {

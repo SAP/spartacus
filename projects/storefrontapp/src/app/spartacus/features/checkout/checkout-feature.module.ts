@@ -25,6 +25,7 @@ import {
 import { CheckoutScheduledReplenishmentRootModule } from '@spartacus/checkout/scheduled-replenishment/root';
 import { provideConfig } from '@spartacus/core';
 import { environment } from '../../../../environments/environment';
+import { S4ServiceCheckoutRootModule } from '@spartacus/s4-service/checkout/root';
 
 const extensionModules: Type<any>[] = [];
 const extensionProviders: Provider[] = [];
@@ -51,6 +52,9 @@ if (environment.b2b) {
       },
     })
   );
+}
+if (environment.s4Service) {
+  extensionModules.push(S4ServiceCheckoutRootModule);
 }
 
 @NgModule({

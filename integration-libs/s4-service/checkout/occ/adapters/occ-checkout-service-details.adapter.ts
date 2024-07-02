@@ -11,8 +11,8 @@ import {
   OccEndpointsService,
   normalizeHttpError,
 } from '@spartacus/core';
-import { ServiceDetails } from '@spartacus/s4-service/root';
-import { CheckoutServiceDetailsAdapter } from 'integration-libs/s4-service/core/connector';
+import { ServiceDetails } from 'integration-libs/s4-service/checkout/root/public_api';
+import { CheckoutServiceDetailsAdapter } from 'integration-libs/s4-service/checkout/core/connector';
 import { Observable, catchError } from 'rxjs';
 
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };

@@ -426,6 +426,19 @@
       "@spartacus/opps": ["../../dist/opps"],
       "@spartacus/opps/root": ["../../dist/opps/root"],
       "@spartacus/s4-service/assets": ["../../dist/s4-service/assets"],
+      "@spartacus/s4-service/checkout/components": [
+        "../../dist/s4-service/checkout/components"
+      ],
+      "@spartacus/s4-service/checkout/core": [
+        "../../dist/s4-service/checkout/core"
+      ],
+      "@spartacus/s4-service/checkout": ["../../dist/s4-service/checkout"],
+      "@spartacus/s4-service/checkout/occ": [
+        "../../dist/s4-service/checkout/occ"
+      ],
+      "@spartacus/s4-service/checkout/root": [
+        "../../dist/s4-service/checkout/root"
+      ],
       "@spartacus/s4-service/components": ["../../dist/s4-service/components"],
       "@spartacus/s4-service/core": ["../../dist/s4-service/core"],
       "@spartacus/s4-service": ["../../dist/s4-service"],

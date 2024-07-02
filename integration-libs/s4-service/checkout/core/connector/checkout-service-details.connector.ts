@@ -7,7 +7,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CheckoutServiceDetailsAdapter } from './checkout-service-details.adapter';
-import { ServiceDetails } from '@spartacus/s4-service/root';
+import { ServiceDetails } from 'integration-libs/s4-service/checkout/root/public_api';
 
 @Injectable()
 export class CheckoutServiceDetailsConnector {
