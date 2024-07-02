@@ -4,14 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { CartAdapter } from '@spartacus/cart/base/core';
-import {
-  Cart,
-  CART_NORMALIZER,
-  SaveCartResult,
-} from '@spartacus/cart/base/root';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {inject, Injectable} from '@angular/core';
+import {CartAdapter} from '@spartacus/cart/base/core';
+import {Cart, CART_NORMALIZER, SaveCartResult,} from '@spartacus/cart/base/root';
 import {
   ConverterService,
   FeatureConfigService,
@@ -22,8 +18,8 @@ import {
   OccEndpointsService,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class OccCartAdapter implements CartAdapter {
@@ -33,12 +29,13 @@ export class OccCartAdapter implements CartAdapter {
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService
-  ) {}
+  ) {
+  }
 
   public loadAll(userId: string): Observable<Cart[]> {
     return this.http
       .get<Occ.CartList>(
-        this.occEndpointsService.buildUrl('carts', { urlParams: { userId } })
+        this.occEndpointsService.buildUrl('carts', {urlParams: {userId}})
       )
       .pipe(
         map((cartList) => cartList.carts ?? []),
@@ -55,7 +52,7 @@ export class OccCartAdapter implements CartAdapter {
       return this.http
         .get<Occ.Cart>(
           this.occEndpointsService.buildUrl('cart', {
-            urlParams: { userId, cartId },
+            urlParams: {userId, cartId},
           })
         )
         .pipe(this.converterService.pipeable(CART_NORMALIZER));
@@ -81,7 +78,7 @@ export class OccCartAdapter implements CartAdapter {
     return this.http
       .post<Occ.Cart>(
         this.occEndpointsService.buildUrl('createCart', {
-          urlParams: { userId },
+          urlParams: {userId},
           queryParams: params,
         }),
         toAdd
@@ -96,9 +93,9 @@ export class OccCartAdapter implements CartAdapter {
     }
     return this.http.delete<{}>(
       this.occEndpointsService.buildUrl('deleteCart', {
-        urlParams: { userId, cartId },
+        urlParams: {userId, cartId},
       }),
-      { headers }
+      {headers}
     );
   }
 
@@ -117,14 +114,14 @@ export class OccCartAdapter implements CartAdapter {
       },
     });
 
-    const httpParams: HttpParams = new HttpParams();
+    let httpParams: HttpParams = new HttpParams();
 
     if (
       this.featureConfigService?.isEnabled(
         'occCartNameAndDescriptionInHttpRequestBody'
       )
     ) {
-      httpParams
+      httpParams = httpParams
         .set('saveCartName', saveCartName)
         .set('saveCartDescription', saveCartDescription);
     }
@@ -150,6 +147,6 @@ export class OccCartAdapter implements CartAdapter {
       },
     });
 
-    return this.http.put(url, httpParams, { headers });
+    return this.http.put(url, httpParams, {headers});
   }
 }
