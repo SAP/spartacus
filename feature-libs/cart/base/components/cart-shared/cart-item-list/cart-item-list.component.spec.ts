@@ -11,9 +11,13 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import { I18nTestingModule, UserIdService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  I18nTestingModule,
+  UserIdService,
+} from '@spartacus/core';
 import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { CartItemListComponent } from './cart-item-list.component';
 
 class MockActiveCartService {
@@ -107,6 +111,12 @@ const mockContext = {
 };
 const context$ = of(mockContext);
 
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 describe('CartItemListComponent', () => {
   let component: CartItemListComponent;
   let fixture: ComponentFixture<CartItemListComponent>;
@@ -132,6 +142,7 @@ describe('CartItemListComponent', () => {
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
         { provide: MultiCartFacade, useClass: MockMultiCartService },
         { provide: UserIdService, useClass: MockUserIdService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
   }
@@ -397,6 +408,9 @@ describe('CartItemListComponent', () => {
 
   describe('Use outlet with outlet context data', () => {
     it('should be able to get inputs from outlet context data', () => {
+      const newContext = structuredClone(mockContext);
+      newContext.items = [mockItem0];
+      const context$ = new Subject();
       configureTestingModule().overrideProvider(OutletContextData, {
         useValue: { context$ },
       });
@@ -406,18 +420,16 @@ describe('CartItemListComponent', () => {
       spyOn(<any>component, '_setItems').and.callThrough();
       const setLoading = spyOnProperty(component, 'setLoading', 'set');
       component.ngOnInit();
-
-      expect(component.cartId).toEqual(mockContext.cartId);
-      expect(component.hasHeader).toEqual(mockContext.hasHeader);
-      expect(component['_setItems']).toHaveBeenCalledWith(mockContext.items, {
-        forceRerender: false,
+      context$.next(newContext);
+      expect(component.cartId).toEqual(newContext.cartId);
+      expect(component.hasHeader).toEqual(newContext.hasHeader);
+      expect(component['_setItems']).toHaveBeenCalledWith(newContext.items, {
+        forceRerender: true,
       });
-      expect(component.options).toEqual(mockContext.options);
-      expect(component.promotionLocation).toEqual(
-        mockContext.promotionLocation
-      );
-      expect(component.readonly).toEqual(mockContext.readonly);
-      expect(setLoading).toHaveBeenCalledWith(mockContext.cartIsLoading);
+      expect(component.options).toEqual(newContext.options);
+      expect(component.promotionLocation).toEqual(newContext.promotionLocation);
+      expect(component.readonly).toEqual(newContext.readonly);
+      expect(setLoading).toHaveBeenCalledWith(newContext.cartIsLoading);
     });
 
     it('should mark view for check and force re-creation of item controls when outlet context emits with changed read-only flag', () => {
@@ -442,6 +454,20 @@ describe('CartItemListComponent', () => {
       expect(control1).not.toBe(
         component.form.get(mockItem1.entryNumber.toString())
       );
+    });
+
+    it('should not call _setItems when neither contextRequiresRerender nor isItemsChanged are true', () => {
+      configureTestingModule().overrideProvider(OutletContextData, {
+        useValue: { context$ },
+      });
+      TestBed.compileComponents();
+      stubSeviceAndCreateComponent();
+
+      spyOn(<any>component, '_setItems').and.callThrough();
+      component.ngOnInit();
+
+      // context$ emits mockContext which has the same items that were set in stubSeviceAndCreateComponent
+      expect(component['_setItems']).not.toHaveBeenCalled();
     });
   });
 });
