@@ -29,27 +29,7 @@
             (change)="onSelect()"
             [formControl]="attributeCheckBoxForms[i]"
             name="{{ createAttributeIdForConfigurator(attribute) }}"
-            [attr.aria-label]="
-              value.valuePrice && value.valuePrice?.value !== 0
-                ? value.valuePriceTotal && value.valuePriceTotal?.value !== 0
-                  ? ('configurator.a11y.valueOfAttributeFullWithPrice'
-                    | cxTranslate
-                      : {
-                          value: value.valueDisplay,
-                          attribute: attribute.label,
-                          price: value.valuePriceTotal.formattedValue
-                        })
-                  : ('configurator.a11y.valueOfAttributeFullWithPrice'
-                    | cxTranslate
-                      : {
-                          value: value.valueDisplay,
-                          attribute: attribute.label,
-                          price: value.valuePrice.formattedValue
-                        })
-                : ('configurator.a11y.valueOfAttributeFull'
-                  | cxTranslate
-                    : { value: value.valueDisplay, attribute: attribute.label })
-            "
+            [attr.aria-label]="getAriaLabel(value, attribute)"
             [attr.aria-describedby]="
               createAttributeUiKey('label', attribute.name)
             "
@@ -83,6 +63,7 @@
           <cx-configurator-price-async
             *ngIf="isAsyncPricing"
             [options]="extractValuePriceAsyncOptions(attribute, value)"
+            (priceChanged)="onPriceChanged($event)"
           ></cx-configurator-price-async>
         </div>
       </div>

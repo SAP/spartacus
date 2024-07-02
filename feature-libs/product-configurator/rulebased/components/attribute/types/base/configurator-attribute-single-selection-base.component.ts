@@ -12,13 +12,12 @@ import { map, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorValuePriceChanged } from '../../../price-async/configurator-price-async.component';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -33,8 +32,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   isAsyncPricing: boolean;
 
   showRequiredErrorMessage$: Observable<boolean> = of(false);
-
-  protected valuePrices: { [key: string]: Configurator.PriceDetails } = {};
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
@@ -228,11 +225,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     value: Configurator.Value,
     attribute: Configurator.Attribute
   ): string {
-    const valueName = value.name;
-    console.log('get aria text: ' + value.name);
-    if (valueName && this.valuePrices[valueName]) {
-      value = { ...value, valuePrice: this.valuePrices[valueName] };
-    }
+    value = this.mergePriceAndValue(value);
     const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
     if (this.isWithAdditionalValues(this.attribute)) {
       const ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
@@ -240,11 +233,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     } else {
       return ariaLabel;
     }
-  }
-
-  onPriceChanged(event: ConfiguratorValuePriceChanged) {
-    this.valuePrices[event.source.valueName] = event.valuePrice;
-    console.log('update value Price: ' + event.source.valueName);
   }
 
   getAdditionalValueAriaLabel(): string {

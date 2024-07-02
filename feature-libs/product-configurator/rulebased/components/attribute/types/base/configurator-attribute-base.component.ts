@@ -7,7 +7,10 @@
 import { inject } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-import { ConfiguratorPriceAsyncComponentOptions } from '../../../price-async/configurator-price-async.component';
+import {
+  ConfiguratorPriceAsyncComponentOptions,
+  ConfiguratorValuePriceChanged,
+} from '../../../price-async/configurator-price-async.component';
 
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator
@@ -23,6 +26,7 @@ export class ConfiguratorAttributeBaseComponent {
   private static PREFIX_DDLB_OPTION_PRICE_VALUE = 'option--price';
   protected static MAX_IMAGE_LABEL_CHARACTERS = 16;
 
+  protected valuePrices: { [key: string]: Configurator.PriceDetails } = {};
   /**
    * Creates unique key for config value on the UI
    * @param prefix for key depending on usage (e.g. uiType, label)
@@ -377,5 +381,20 @@ export class ConfiguratorAttributeBaseComponent {
       (this.isReadOnly(attribute) && value.selected) ||
       !this.isReadOnly(attribute)
     );
+  }
+
+  onPriceChanged(event: ConfiguratorValuePriceChanged) {
+    this.valuePrices[event.source.valueName] = event.valuePrice;
+    console.log('update value Price: ' + event.source.valueName);
+  }
+
+  protected mergePriceAndValue(value: Configurator.Value) {
+    const valueName = value.name;
+    if (valueName && this.valuePrices[valueName]) {
+      value = { ...value, valuePrice: this.valuePrices[valueName] };
+      console.log('getting updated value with price: ' + value.name);
+      console.log(value);
+    }
+    return value;
   }
 }

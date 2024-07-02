@@ -12,13 +12,14 @@ import {
   OnInit,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { LoggerService } from '@spartacus/core';
+import { LoggerService, TranslationService } from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox-list',
@@ -34,6 +35,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
   group: string;
 
   protected logger = inject(LoggerService);
+  protected translation = inject(TranslationService);
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
@@ -135,5 +137,42 @@ export class ConfiguratorAttributeCheckBoxListComponent
     } else {
       this.onHandleAttributeQuantity(eventObject);
     }
+  }
+
+  getAriaLabel(
+    value: Configurator.Value,
+    attribute: Configurator.Attribute
+  ): string {
+    value = this.mergePriceAndValue(value);
+    let ariaLabel = '';
+    let params;
+    let key: string = '';
+    if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
+      key = 'configurator.a11y.valueOfAttributeFullWithPrice';
+      params = {
+        value: value.valueDisplay,
+        attribute: attribute.label,
+        price: value.valuePriceTotal.formattedValue,
+      };
+    } else if (value.valuePrice && value.valuePrice?.value !== 0) {
+      key = 'configurator.a11y.valueOfAttributeFullWithPrice';
+      params = {
+        value: value.valueDisplay,
+        attribute: attribute.label,
+        price: value.valuePrice.formattedValue,
+      };
+    } else {
+      key = 'configurator.a11y.valueOfAttributeFull';
+      params = {
+        value: value.valueDisplay,
+        attribute: attribute.label,
+      };
+    }
+    this.translation
+      .translate(key, params)
+      .pipe(take(1))
+      .subscribe((text) => (ariaLabel = text));
+
+    return ariaLabel;
   }
 }
