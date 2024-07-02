@@ -69,7 +69,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
         'occCartNameAndDescriptionInHttpRequestBody'
       )
     ) {
-      httpParams = httpParams.set('saveCartName', saveCartName);
+      httpParams = httpParams.set('name', saveCartName);
     }
     const endpoint = this.getCloneSavedCartEndpoint(
       userId,
