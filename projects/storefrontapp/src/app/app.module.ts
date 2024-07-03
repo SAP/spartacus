@@ -20,6 +20,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
+  CmsConfig,
   I18nConfig,
   OccConfig,
   RoutingConfig,
