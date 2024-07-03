@@ -47,6 +47,7 @@
             <cx-configurator-price-async
               *ngIf="isAsyncPricing"
               [options]="extractValuePriceAsyncOptions(attribute, value)"
+              (priceChanged)="onPriceChanged($event)"
             ></cx-configurator-price-async>
           </div>
         </div>
