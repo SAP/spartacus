@@ -6,7 +6,6 @@
 
 import { NgModule } from '@angular/core';
 import {
-  FeatureConfigService,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -26,9 +25,7 @@ import {
   ],
   providers: [
     provideDefaultConfig(permissionCmsConfig),
-    provideDefaultConfigFactory(permissionTableConfigFactory, [
-      FeatureConfigService,
-    ]),
+    provideDefaultConfigFactory(permissionTableConfigFactory),
   ],
 })
 export class PermissionComponentsModule {}
