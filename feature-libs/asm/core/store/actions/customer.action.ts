@@ -74,6 +74,13 @@ export class CustomerListCustomersSearch extends StateUtils.LoaderLoadAction {
 export class CustomerListCustomersSearchFail extends StateUtils.LoaderFailAction {
   readonly type = CUSTOMER_LIST_CUSTOMERS_SEARCH_FAIL;
 
+  /**
+   * @deprecated Please use the `error` property instead, which has the same value as `payload`.
+   *             The property `payload` will be removed
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  public payload: any;
+
   constructor(error: ActionErrorProperty);
   /**
    * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
@@ -86,6 +93,7 @@ export class CustomerListCustomersSearchFail extends StateUtils.LoaderFailAction
   );
   constructor(public error: any) {
     super(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA, error);
+    this.payload = error;
   }
 }
 
