@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AuthGuard, CmsConfig, FeatureConfigService } from '@spartacus/core';
+import { inject } from '@angular/core';
+import { AuthGuard, CmsConfig, FeatureToggles } from '@spartacus/core';
 import {
   AdminGuard,
   UserGuard,
@@ -141,11 +142,10 @@ export const userCmsConfig: CmsConfig = {
   },
 };
 
-export function userTableConfigFactory(
-  featureConfigService?: FeatureConfigService
-): TableConfig {
+export function userTableConfigFactory(): TableConfig {
   // TODO: (CXSPA-7155) - Remove feature flag and legacy config next major release
-  if (featureConfigService?.isEnabled('a11yOrganizationLinkableCells')) {
+  const featureToggles = inject(FeatureToggles);
+  if (featureToggles.a11yOrganizationLinkableCells) {
     return newUserTableConfig;
   }
   return userTableConfig;

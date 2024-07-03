@@ -15,19 +15,17 @@ describe('OccReorderOrderNormalizer', () => {
   let normalizer: OccReorderOrderNormalizer;
   let converter: ConverterService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          OccReorderOrderNormalizer,
-          {
-            provide: ConverterService,
-            useClass: MockConverterService,
-          },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        OccReorderOrderNormalizer,
+        {
+          provide: ConverterService,
+          useClass: MockConverterService,
+        },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     normalizer = TestBed.inject(OccReorderOrderNormalizer);

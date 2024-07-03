@@ -89,25 +89,23 @@ describe('ProductVariantStyleSelectorComponent', () => {
   let fixture: ComponentFixture<ProductVariantStyleSelectorComponent>;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ProductVariantStyleSelectorComponent, MockUrlPipe],
-        imports: [RouterTestingModule, I18nTestingModule],
-        providers: [
-          {
-            provide: OccConfig,
-            useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-          { provide: RoutingService, useClass: MockRoutingService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ProductVariantStyleSelectorComponent, MockUrlPipe],
+      imports: [RouterTestingModule, I18nTestingModule],
+      providers: [
+        {
+          provide: OccConfig,
+          useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
+    }).compileComponents();
+  }));
 
   describe('Empty config scenario', () => {
     beforeEach(() => {

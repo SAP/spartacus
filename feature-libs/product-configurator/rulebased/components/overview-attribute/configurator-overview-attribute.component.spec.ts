@@ -23,18 +23,16 @@ describe('ConfigurationOverviewAttributeComponent', () => {
   let htmlElem: HTMLElement;
   let breakpointService: BreakpointService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
-        declarations: [
-          ConfiguratorOverviewAttributeComponent,
-          MockConfiguratorPriceComponent,
-        ],
-        providers: [],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+      declarations: [
+        ConfiguratorOverviewAttributeComponent,
+        MockConfiguratorPriceComponent,
+      ],
+      providers: [],
+    });
+  }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorOverviewAttributeComponent);
     component = fixture.componentInstance;

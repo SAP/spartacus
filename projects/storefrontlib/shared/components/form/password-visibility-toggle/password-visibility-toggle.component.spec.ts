@@ -23,27 +23,25 @@ describe('PasswordVisibilityToggleComponent', () => {
   let fixture: ComponentFixture<PasswordVisibilityToggleComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          IconTestingModule,
-          FormsModule,
-          ReactiveFormsModule,
-          PasswordVisibilityToggleModule,
-        ],
-        declarations: [PasswordVisibilityToggleComponent],
-        providers: [
-          {
-            provide: FormConfig,
-            useValue: mockFormConfig,
-          },
-          { provide: WindowRef, useClass: MockWinRef },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        IconTestingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        PasswordVisibilityToggleModule,
+      ],
+      declarations: [PasswordVisibilityToggleComponent],
+      providers: [
+        {
+          provide: FormConfig,
+          useValue: mockFormConfig,
+        },
+        { provide: WindowRef, useClass: MockWinRef },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PasswordVisibilityToggleComponent);

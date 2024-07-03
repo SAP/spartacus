@@ -24,22 +24,20 @@ describe('PaginationComponent', () => {
   let fixture: ComponentFixture<PaginationComponent>;
   let debugEl: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [PaginationComponent, MockFeatureDirective],
-        providers: [
-          {
-            provide: PaginationConfig,
-            useValue: mockPaginationConfig,
-          },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [PaginationComponent, MockFeatureDirective],
+      providers: [
+        {
+          provide: PaginationConfig,
+          useValue: mockPaginationConfig,
+        },
 
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        ],
-      }).compileComponents();
-    })
-  );
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaginationComponent);

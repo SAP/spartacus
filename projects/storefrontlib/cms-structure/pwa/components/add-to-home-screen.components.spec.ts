@@ -25,21 +25,19 @@ describe('AddToHomeScreenComponent', () => {
   let fixture: ComponentFixture<ExampleAddToHomeScreenComponent>;
   let mockAddToHomeScreenService: AddToHomeScreenService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ExampleAddToHomeScreenComponent],
-        providers: [
-          {
-            provide: AddToHomeScreenService,
-            useClass: MockAddToHomeScreenService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ExampleAddToHomeScreenComponent],
+      providers: [
+        {
+          provide: AddToHomeScreenService,
+          useClass: MockAddToHomeScreenService,
+        },
+      ],
+    }).compileComponents();
 
-      mockAddToHomeScreenService = TestBed.inject(AddToHomeScreenService);
-    })
-  );
+    mockAddToHomeScreenService = TestBed.inject(AddToHomeScreenService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ExampleAddToHomeScreenComponent);

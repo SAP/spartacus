@@ -57,17 +57,15 @@ describe('SelectFocusUtility', () => {
   let service: SelectFocusUtility;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent],
-        providers: [SelectFocusUtility],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent],
+      providers: [SelectFocusUtility],
+    }).compileComponents();
 
-      service = TestBed.inject(SelectFocusUtility);
-      fixture = TestBed.createComponent(MockComponent);
-    })
-  );
+    service = TestBed.inject(SelectFocusUtility);
+    fixture = TestBed.createComponent(MockComponent);
+  }));
 
   it('should inject service', () => {
     expect(service).toBeTruthy();

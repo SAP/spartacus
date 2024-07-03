@@ -37,20 +37,18 @@ describe('MiniCartComponent', () => {
   let miniCartComponent: MiniCartComponent;
   let fixture: ComponentFixture<MiniCartComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [MiniCartComponent, MockUrlPipe, MockCxIconComponent],
-        providers: [
-          {
-            provide: MiniCartComponentService,
-            useValue: mockMiniCartComponentService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [MiniCartComponent, MockUrlPipe, MockCxIconComponent],
+      providers: [
+        {
+          provide: MiniCartComponentService,
+          useValue: mockMiniCartComponentService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MiniCartComponent);
