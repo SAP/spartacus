@@ -6,7 +6,6 @@
 
 import { NgModule } from '@angular/core';
 import {
-  FeatureConfigService,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -30,9 +29,7 @@ import { UserGroupUserModule } from './users/user-group-user-list.module';
   ],
   providers: [
     provideDefaultConfig(userGroupCmsConfig),
-    provideDefaultConfigFactory(userGroupTableConfigFactory, [
-      FeatureConfigService,
-    ]),
+    provideDefaultConfigFactory(userGroupTableConfigFactory),
   ],
 })
 export class UserGroupComponentsModule {}

@@ -85,6 +85,8 @@
       font-size: var(--cx-font-size, 2rem);
       line-height: 0;
       color: var(--cx-color-text);
+      padding-inline-start: 0;
+      padding-inline-end: 0;
       &:focus {
         box-shadow: 0 0 0 0;
       }
