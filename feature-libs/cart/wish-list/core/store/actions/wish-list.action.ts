@@ -115,11 +115,6 @@ export class LoadWishListFail extends StateUtils.EntityFailAction {
   }
 }
 
-export const x = new LoadWishListFail({
-  cartId: 'testCartId',
-  error: { message: 'test' },
-});
-
 export type WishListActions =
   | CreateWishList
   | CreateWishListSuccess
