@@ -48,7 +48,7 @@ export class ConfiguratorAttributeDropDownComponent
   private firstTime: boolean = true;
   private lastAttrSupplement: Configurator.AttributeSupplement | undefined;
 
-  renderOptions$: Observable<Boolean> = this.isAsyncPricing
+  renderOptions$: Observable<boolean> = this.isAsyncPricing
     ? this.configRouterExtractorService.extractRouterData().pipe(
         switchMap((routerData) => {
           return this.configuratorCommonsService
@@ -90,7 +90,7 @@ export class ConfiguratorAttributeDropDownComponent
   extractValuePrice(config: Configurator.Configuration): boolean {
     const attrKey = this.attribute.key ?? '';
     const attrSupplement = config.priceSupplements?.find(
-      (attrSupplement) => attrSupplement.attributeUiKey === attrKey
+      (supplement) => supplement.attributeUiKey === attrKey
     );
     const changed = !ObjectComparisonUtils.deepEqualObjects(
       this.lastAttrSupplement ?? {},
