@@ -397,9 +397,6 @@ export class ConfiguratorAttributeBaseComponent {
     const valueName = value.name;
     if (valueName && this.valuePrices[valueName]) {
       value = { ...value, valuePrice: this.valuePrices[valueName] };
-      console.log('Price found: ' + value.name);
-    } else {
-      console.log('no Price found: ' + value.name);
     }
     return value;
   }
@@ -426,7 +423,7 @@ export class ConfiguratorAttributeBaseComponent {
         price: value.valuePrice.formattedValue,
       };
     } else {
-      key = key = this.getAriaLabelForValue(this.isReadOnly(attribute));
+      key = this.getAriaLabelForValue(this.isReadOnly(attribute));
       params = {
         value: value.valueDisplay,
         attribute: attribute.label,
