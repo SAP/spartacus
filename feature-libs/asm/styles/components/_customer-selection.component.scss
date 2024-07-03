@@ -165,7 +165,7 @@
       display: flex;
       width: 100%;
 
-      @media (max-width: 575px) {
+      @media (max-width: 41rem) {
         flex-direction: column;
       }
       .searchLabel {
@@ -177,36 +177,13 @@
         margin-inline-end: 2rem;
         min-width: auto;
 
-        .input-contaier {
-          display: flex;
-          .icon-wrapper {
-            display: flex;
-            outline: 0;
-            border: 1px solid #89919a;
-            color: #ffffff;
-            background-color: #1672b7;
-            padding: 0 12px;
-            height: 36px;
-            border-top-left-radius: 4px;
-            border-bottom-left-radius: 4px;
-            border-right-width: 0px;
-            cursor: pointer;
-          }
-          input {
-            border: none;
-            border-radius: 4px;
-            background-color: #eff1f2;
-            box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
-          }
-        }
-
         .selection-message-info {
           z-index: 11;
           width: 25rem;
           position: absolute;
         }
 
-        @media (min-width: 575px) {
+        @media (min-width: 41rem) {
           margin-bottom: 0;
           min-width: 25rem;
         }
@@ -221,14 +198,14 @@
         .asm-results {
           position: absolute;
           top: auto;
-          border: solid 1px #89919a;
+          border: solid 0.0714rem #89919a;
           line-height: 1.5rem;
           z-index: 11;
           box-shadow:
             0 5px 20px 0 #d9d9d9,
             0 2px 8px 0 #ededed;
           background-color: #fff;
-          border-radius: 4px;
+          border-radius: 0.25rem;
           max-width: 50vw;
           max-height: 70vh;
           overflow-y: auto;
@@ -239,7 +216,7 @@
           }
 
           cx-dot-spinner {
-            height: 42px;
+            height: 3rem;
             color: #0a6ed1;
           }
 
@@ -257,7 +234,7 @@
             color: #51555a;
             display: flex;
             flex-direction: column;
-            padding: 10px;
+            padding: 0.5rem;
             width: 100%;
             align-items: flex-start;
             justify-content: flex-start;
@@ -279,7 +256,7 @@
             }
 
             span {
-              margin-inline-end: 15px;
+              margin-inline-end: 1rem;
               margin-top: 0;
               margin-bottom: 0;
               margin-inline-start: 0;
@@ -287,7 +264,7 @@
               white-space: normal;
               text-align: start;
 
-              @media (min-width: 575px) {
+              @media (min-width: 41rem) {
                 &:last-of-type {
                   margin: 0;
                 }
@@ -313,7 +290,7 @@
       button[type='submit'] {
         background-color: var(--cx-color-success-accent);
         opacity: 0.4;
-        border: 1px solid var(--cx-color-success-accent);
+        border: 0.0714rem solid var(--cx-color-success-accent);
         border-radius: 0.5rem;
         color: var(--cx-color-success);
         font-weight: var(--cx-font-weight-bold);
