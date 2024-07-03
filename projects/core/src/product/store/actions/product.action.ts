@@ -37,6 +37,13 @@ export class LoadProduct extends EntityScopedLoaderActions.EntityScopedLoadActio
 export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailAction {
   readonly type = LOAD_PRODUCT_FAIL;
 
+  /**
+   * @deprecated Please use the `error` property instead, which has the same value as `payload`.
+   *             The property `payload` will be removed
+   *             along with the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  public payload: any;
+
   constructor(productCode: string, error: ActionErrorProperty, scope?: string);
   /**
    * @deprecated Please use the `error` parameter with a non-null, non-undefined value.
@@ -49,8 +56,9 @@ export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailA
     error: any,
     scope?: string
   );
-  constructor(productCode: string, public error: any, scope = '') {
+  constructor(productCode: string, error: any, scope = '') {
     super(PRODUCT_DETAIL_ENTITY, productCode, error, scope);
+    this.payload = error;
   }
 }
 
