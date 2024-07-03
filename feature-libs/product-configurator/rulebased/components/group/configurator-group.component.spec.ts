@@ -22,6 +22,7 @@ import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
+  ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { ConfigFormUpdateEvent } from '../form/configurator-form.event';
 import { ConfiguratorConflictSuggestionComponent } from '../conflict-suggestion/configurator-conflict-suggestion.component';
@@ -236,6 +237,12 @@ class MockProductService {
   }
 }
 
+class MockConfiguratorRouterExtractorService {
+  extractRouterData() {
+    return EMPTY;
+  }
+}
+
 const isCartEntryOrGroupVisited = true;
 class MockConfiguratorStorefrontUtilsService {
   createGroupId(groupId?: string): string | undefined {
@@ -363,6 +370,10 @@ describe('ConfiguratorGroupComponent', () => {
         {
           provide: FeatureConfigService,
           useClass: MockFeatureConfigService,
+        },
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
         },
       ],
     })

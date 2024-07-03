@@ -393,6 +393,28 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         ' [+' + value.valuePrice?.formattedValue + ']'
       );
     });
+
+    it('should react onPriceChanged events', () => {
+      const valueWOPrice = ConfiguratorTestUtils.createValue(
+        'valueCode',
+        undefined
+      );
+      const valueWithPrice = {
+        name: 'valueCode',
+        valuePrice: {
+          value: 10,
+          currencyIso: 'USD',
+          formattedValue: '$10.00',
+        },
+      };
+      classUnderTest.onPriceChanged({
+        valuePrice: valueWithPrice.valuePrice,
+        source: { attributeKey: 'attrKey', valueName: 'valueCode' },
+      });
+      expect(classUnderTest['getValuePrice'](valueWOPrice)).toEqual(
+        ' [+' + valueWithPrice.valuePrice?.formattedValue + ']'
+      );
+    });
   });
 
   describe('isRequiredErrorMsg', () => {

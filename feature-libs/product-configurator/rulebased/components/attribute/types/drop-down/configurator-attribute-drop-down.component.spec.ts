@@ -12,7 +12,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
 import { Config, I18nTestingModule } from '@spartacus/core';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, Subject, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -27,6 +27,10 @@ import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/co
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
+import {
+  CommonConfigurator,
+  ConfiguratorRouterExtractorService,
+} from '@spartacus/product-configurator/common';
 
 function createValue(
   code: string,
@@ -48,6 +52,18 @@ function createValue(
   };
   return value;
 }
+
+const mockConfigTemplate: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration('c123'),
+  pricingEnabled: true,
+  priceSupplements: ConfiguratorTestUtils.createListOfAttributeSupplements(
+    false,
+    1,
+    0,
+    2,
+    3
+  ),
+};
 
 @Directive({
   selector: '[cxFocus]',
@@ -91,8 +107,20 @@ class MockConfiguratorPriceAsyncComponent {
   @Input() options: ConfiguratorPriceAsyncComponentOptions;
 }
 
+const configSubject = new Subject<Configurator.Configuration>();
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+  getConfiguration(
+    owner: CommonConfigurator.Owner
+  ): Observable<Configurator.Configuration> {
+    return owner === mockConfigTemplate.owner ? configSubject : EMPTY;
+  }
+}
+
+class MockConfiguratorRouterExtractorService {
+  extractRouterData() {
+    return of({ owner: mockConfigTemplate.owner });
+  }
 }
 
 let showRequiredErrorMessage: boolean;
@@ -111,9 +139,10 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorAttributeDropDownComponent>;
   let config: Config;
+  let mockConfig: Configurator.Configuration;
 
   const ownerKey = 'theOwnerKey';
-  const name = 'attributeName';
+  const name = 'group1@attribute_1_1';
   const groupId = 'theGroupId';
   const selectedValue = 'selectedValue';
 
@@ -123,8 +152,8 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     true,
     true
   );
-  const value2 = createValue('2', 'val2', false);
-  const value3 = createValue('3', 'val3', false);
+  const value2 = createValue('2', 'value_1_1', false);
+  const value3 = createValue('3', 'value_1_2', false);
 
   const values: Configurator.Value[] = [value1, value2, value3];
 
@@ -137,6 +166,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.attribute = {
+      key: name,
       name: name,
       label: name,
       attrCode: 444,
@@ -149,6 +179,9 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       incomplete: true,
       values,
     };
+    fixture.detectChanges();
+    mockConfig = structuredClone(mockConfigTemplate);
+    configSubject.next(mockConfig);
 
     config = TestBed.inject(Config);
     (config.features ?? {}).productConfiguratorAttributeTypesV2 = false;
@@ -186,6 +219,10 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
         {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
+        },
+        {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfigUtilsService,
         },
@@ -208,6 +245,19 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       htmlElem,
       'select.cx-required-error-msg'
     );
+  });
+
+  it('should track value prices for the given attribute', () => {
+    createComponentWithData();
+    expect(component['valuePrices'][value1.name ?? '']).toBeUndefined();
+    expect(component['valuePrices'][value2.name ?? '']).toBe(value2.valuePrice);
+    expect(component['valuePrices'][value3.name ?? '']).toBe(value3.valuePrice);
+  });
+
+  it('should not update prices if there is no change', () => {
+    createComponentWithData();
+    expect(component['extractValuePrice'](mockConfig)).toBeTruthy();
+    expect(component['extractValuePrice'](mockConfig)).toBeFalsy();
   });
 
   it('should render an empty component because showRequiredErrorMessage$ is `false`', () => {
@@ -453,7 +503,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         'form-control',
         0,
         'aria-describedby',
-        'cx-configurator--label--attributeName'
+        'cx-configurator--label--group1@attribute_1_1'
       );
     });
 

@@ -275,6 +275,9 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   protected getValuePrice(value: Configurator.Value | undefined): string {
+    if (value) {
+      value = this.mergePriceAndValue(value);
+    }
     if (value?.valuePrice?.value && !value.selected) {
       if (value.valuePrice.value < 0) {
         return ` [${value.valuePrice?.formattedValue}]`;

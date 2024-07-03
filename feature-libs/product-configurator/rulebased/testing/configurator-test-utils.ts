@@ -363,6 +363,7 @@ export class ConfiguratorTestUtils {
     isSelected = false
   ): Configurator.Value => ({
     valueCode: valueCode,
+    name: valueCode,
     valuePrice: this.createPrice(price),
     selected: isSelected,
   });
