@@ -14,6 +14,8 @@ import {
 import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs';
 
+const I18N_VALUE_OF_ATTR_FULL_WITH_PRICE =
+  'configurator.a11y.valueOfAttributeFullWithPrice';
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator
  */
@@ -221,7 +223,7 @@ export class ConfiguratorAttributeBaseComponent {
   getAriaLabelForValueWithPrice(isReadOnly: boolean): string {
     return isReadOnly
       ? 'configurator.a11y.readOnlyValueOfAttributeFullWithPrice'
-      : 'configurator.a11y.valueOfAttributeFullWithPrice';
+      : I18N_VALUE_OF_ATTR_FULL_WITH_PRICE;
   }
 
   /**
@@ -413,14 +415,14 @@ export class ConfiguratorAttributeBaseComponent {
     let params;
     let key;
     if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
-      key = 'configurator.a11y.valueOfAttributeFullWithPrice';
+      key = I18N_VALUE_OF_ATTR_FULL_WITH_PRICE;
       params = {
         value: value.valueDisplay,
         attribute: attribute.label,
         price: value.valuePriceTotal.formattedValue,
       };
     } else if (value.valuePrice && value.valuePrice?.value !== 0) {
-      key = 'configurator.a11y.valueOfAttributeFullWithPrice';
+      key = I18N_VALUE_OF_ATTR_FULL_WITH_PRICE;
       params = {
         value: value.valueDisplay,
         attribute: attribute.label,
