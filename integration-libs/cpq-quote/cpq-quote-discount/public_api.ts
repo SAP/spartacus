@@ -10,3 +10,4 @@ export * from './components/cpq-quote-discount-tbody/cpq-quote.component';
 export * from './components/cpq-quote-heading/cpq-quote-heading.component';
 export * from './components/cpq-quote/cpq-quote-offer.component';
 export * from './cpq-qute.service';
+export * from './cpq-qute-shared.service';

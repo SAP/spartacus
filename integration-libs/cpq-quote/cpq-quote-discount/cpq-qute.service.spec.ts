@@ -29,8 +29,8 @@ describe('CpqQuoteService', () => {
   });
 
   it('should return the current value of isFlag$', () => {
-    expect(service.showBasePriceWithDiscount()).toBeTruthy();
+    expect(service.getFlag$()).toBeTruthy();
     service.setIsFlag(false);
-    expect(service.showBasePriceWithDiscount()).toBeFalsy();
+    expect(service.getFlag$()).toBeFalsy();
   });
 });

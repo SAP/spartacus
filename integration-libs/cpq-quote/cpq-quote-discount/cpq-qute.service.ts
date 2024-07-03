@@ -6,20 +6,19 @@
 
 // cpq-quote-status.service.ts
 import { Injectable } from '@angular/core';
-import { CartItemListComponentService } from '@spartacus/cart/base/components';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CpqQuoteService extends CartItemListComponentService {
+export class CpqQuoteService {
   private isFlagSubject = new BehaviorSubject<boolean>(true); // Default value is true
   isFlag$ = this.isFlagSubject.asObservable();
 
   setIsFlag(value: boolean) {
     this.isFlagSubject.next(value);
   }
-  showBasePriceWithDiscount(): boolean {
+  getFlag$() {
     return this.isFlagSubject.getValue();
   }
 }
