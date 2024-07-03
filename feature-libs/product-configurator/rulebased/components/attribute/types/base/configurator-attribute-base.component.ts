@@ -11,6 +11,8 @@ import {
   ConfiguratorPriceAsyncComponentOptions,
   ConfiguratorValuePriceChanged,
 } from '../../../price-async/configurator-price-async.component';
+import { TranslationService } from '@spartacus/core';
+import { take } from 'rxjs';
 
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator
@@ -18,6 +20,7 @@ import {
 
 export class ConfiguratorAttributeBaseComponent {
   protected configuratorUISettingsConfig = inject(ConfiguratorUISettingsConfig);
+  protected translation = inject(TranslationService);
 
   private static SEPERATOR = '--';
   private static PREFIX = 'cx-configurator';
@@ -396,5 +399,46 @@ export class ConfiguratorAttributeBaseComponent {
       value = { ...value, valuePrice: this.valuePrices[valueName] };
     }
     return value;
+  }
+
+  getAriaLabelGeneric(
+    value: Configurator.Value,
+    attribute: Configurator.Attribute
+  ): string {
+    if (!value) {
+      return '';
+    } else {
+      value = this.mergePriceAndValue(value);
+    }
+    let params;
+    let key;
+    if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
+      key = 'configurator.a11y.valueOfAttributeFullWithPrice';
+      params = {
+        value: value.valueDisplay,
+        attribute: attribute.label,
+        price: value.valuePriceTotal.formattedValue,
+      };
+    } else if (value.valuePrice && value.valuePrice?.value !== 0) {
+      key = 'configurator.a11y.valueOfAttributeFullWithPrice';
+      params = {
+        value: value.valueDisplay,
+        attribute: attribute.label,
+        price: value.valuePrice.formattedValue,
+      };
+    } else {
+      key = 'configurator.a11y.valueOfAttributeFull';
+      params = {
+        value: value.valueDisplay,
+        attribute: attribute.label,
+      };
+    }
+    let ariaLabel = '';
+    this.translation
+      .translate(key, params)
+      .pipe(take(1))
+      .subscribe((text) => (ariaLabel = text));
+
+    return ariaLabel;
   }
 }

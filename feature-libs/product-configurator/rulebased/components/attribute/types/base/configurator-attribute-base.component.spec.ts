@@ -4,6 +4,7 @@ import { ConfiguratorUISettingsConfig } from '@spartacus/product-configurator/ru
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
+import { I18nTestingModule } from '@spartacus/core';
 
 const attributeCode = 1;
 const currentAttribute: Configurator.Attribute = {
@@ -26,6 +27,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       providers: [
         ConfiguratorAttributeBaseComponent,
         {

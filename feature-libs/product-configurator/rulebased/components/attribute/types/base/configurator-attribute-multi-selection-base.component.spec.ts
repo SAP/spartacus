@@ -7,6 +7,7 @@ import { ConfiguratorAttributeQuantityService } from '../../quantity/configurato
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from './configurator-attribute-multi-selection-base.component';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { I18nTestingModule } from '@spartacus/core';
 
 const createTestValue = (
   price: number | undefined,
@@ -54,6 +55,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ExampleConfiguratorAttributeMultiSelectionComponent],
+      imports: [I18nTestingModule],
       providers: [
         ConfiguratorAttributeQuantityService,
         {

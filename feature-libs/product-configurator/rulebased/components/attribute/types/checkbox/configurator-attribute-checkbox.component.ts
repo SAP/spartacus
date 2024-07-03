@@ -102,4 +102,11 @@ export class ConfiguratorAttributeCheckBoxComponent
       isLightedUp: value.selected,
     };
   }
+
+  getAriaLabel(
+    value: Configurator.Value,
+    attribute: Configurator.Attribute
+  ): string {
+    return this.getAriaLabelGeneric(value, attribute);
+  }
 }
