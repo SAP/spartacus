@@ -456,6 +456,10 @@ function takeOverChanges(
       issueNavigationDone: true,
     },
   };
+  if (result.priceSupplements) {
+    // remove any price supplements,a s they are now invalid
+    result.priceSupplements = undefined;
+  }
   return result;
 }
 

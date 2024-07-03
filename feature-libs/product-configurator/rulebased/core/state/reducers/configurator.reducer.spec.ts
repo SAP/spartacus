@@ -281,6 +281,19 @@ describe('Configurator reducer', () => {
       expect(state.productCode).toEqual(CONFIGURATION.productCode);
     });
 
+    it('should clear price supplements in the state', () => {
+      const oldConfig = structuredClone(CONFIGURATION);
+      oldConfig.priceSupplements = [
+        { attributeUiKey: 'attrKey', valueSupplements: [] },
+      ];
+      const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+        CONFIGURATION
+      );
+      const state = StateReduce.configuratorReducer(oldConfig, action);
+
+      expect(state.priceSupplements).toBeUndefined();
+    });
+
     it('should set attribute that states that a cart update is required', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         CONFIGURATION
