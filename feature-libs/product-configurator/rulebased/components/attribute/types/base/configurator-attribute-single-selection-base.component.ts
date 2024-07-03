@@ -245,42 +245,36 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     value: Configurator.Value,
     attribute: Configurator.Attribute
   ): string {
-    let ariaLabel = '';
-    if (value.valuePrice && value.valuePrice?.value !== 0) {
-      const translationKey = value.selected
-        ? 'configurator.a11y.selectedValueOfAttributeFullWithPrice'
-        : 'configurator.a11y.valueOfAttributeFullWithPrice';
-      if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
-        this.translation
-          .translate(translationKey, {
-            value: value.valueDisplay,
-            attribute: attribute.label,
-            price: value.valuePriceTotal.formattedValue,
-          })
-          .pipe(take(1))
-          .subscribe((text) => (ariaLabel = text));
-      } else {
-        this.translation
-          .translate(translationKey, {
-            value: value.valueDisplay,
-            attribute: attribute.label,
-            price: value.valuePrice.formattedValue,
-          })
-          .pipe(take(1))
-          .subscribe((text) => (ariaLabel = text));
-      }
+    let params;
+    let translationKey = value.selected
+      ? 'configurator.a11y.selectedValueOfAttributeFullWithPrice'
+      : 'configurator.a11y.valueOfAttributeFullWithPrice';
+    if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
+      params = {
+        value: value.valueDisplay,
+        attribute: attribute.label,
+        price: value.valuePriceTotal.formattedValue,
+      };
+    } else if (value.valuePrice && value.valuePrice?.value !== 0) {
+      params = {
+        value: value.valueDisplay,
+        attribute: attribute.label,
+        price: value.valuePrice.formattedValue,
+      };
     } else {
-      const translationKey = value.selected
+      translationKey = value.selected
         ? 'configurator.a11y.selectedValueOfAttributeFull'
         : 'configurator.a11y.valueOfAttributeFull';
-      this.translation
-        .translate(translationKey, {
-          value: value.valueDisplay,
-          attribute: attribute.label,
-        })
-        .pipe(take(1))
-        .subscribe((text) => (ariaLabel = text));
+      params = {
+        value: value.valueDisplay,
+        attribute: attribute.label,
+      };
     }
+    let ariaLabel = '';
+    this.translation
+      .translate(translationKey, params)
+      .pipe(take(1))
+      .subscribe((text) => (ariaLabel = text));
     return ariaLabel;
   }
 }
