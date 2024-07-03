@@ -276,6 +276,12 @@ export interface FeatureTogglesInterface {
   a11ySemanticPaginationLabel?: boolean;
 
   /**
+   * When using CartItemListComponent as an outlet ([cxOutlet]="CartOutlets.CART_ITEM_LIST"):
+   * prevents the form from being recreated when neither the items nor other dependent properties (e.g., readonly) have changed.
+   */
+  a11yPreventCartItemsFormRedundantRecreation?: boolean;
+
+  /**
    * Prevents screen reader from stopping on invisible elements when being in read mode for `BreadcrumbComponent`, `QuickOrderFormComponent`
    */
   a11yPreventSRFocusOnHiddenElements?: boolean;
@@ -399,6 +405,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yVisibleFocusOverflows: false,
   a11yTruncatedTextForResponsiveView: false,
   a11ySemanticPaginationLabel: false,
+  a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPreventSRFocusOnHiddenElements: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
