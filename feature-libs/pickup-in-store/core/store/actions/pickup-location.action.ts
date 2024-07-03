@@ -82,7 +82,7 @@ export const SetStoreDetailsSuccess = createAction(
   props<{ payload: PointOfService }>()
 );
 
-interface TypeOf_SetStoreDetailsFailure {
+interface SetStoreDetailsFailure {
   (props: { error: ActionErrorProperty }): {
     error: ActionErrorProperty;
   } & TypedAction<typeof STORE_DETAILS_FAIL>;
@@ -107,5 +107,7 @@ interface TypeOf_SetStoreDetailsFailure {
 // );
 // ```
 
-export const SetStoreDetailsFailure: TypeOf_SetStoreDetailsFailure =
-  createAction(STORE_DETAILS_FAIL, props<{ error: any }>());
+export const SetStoreDetailsFailure: SetStoreDetailsFailure = createAction(
+  STORE_DETAILS_FAIL,
+  props<{ error: any }>()
+);
