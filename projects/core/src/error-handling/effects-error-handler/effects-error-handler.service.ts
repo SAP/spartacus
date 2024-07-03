@@ -5,14 +5,16 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorHandler, Injectable } from '@angular/core';
+import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { HttpErrorModel } from '../../model/index';
+import { WindowRef } from '../../window/window-ref';
 import { ActionErrorProperty, ErrorAction } from './error-action';
 
 @Injectable()
 export class EffectsErrorHandlerService {
-  constructor(protected errorHandler: ErrorHandler) {}
+  protected errorHandler: ErrorHandler = inject(ErrorHandler);
+  protected windowRef = inject(WindowRef);
 
   handleError(action: ErrorAction): void {
     const error: ActionErrorProperty = action.error;
@@ -24,7 +26,12 @@ export class EffectsErrorHandlerService {
       !(error instanceof HttpErrorModel) &&
       !(error instanceof HttpErrorResponse);
 
-    if (isNotHttpError) {
+    // We avoid sending unpredictable errors to the browser's console, to prevent
+    // possibly exposing there potentially confidential user's data.
+    // This isn't an issue in SSR, where pages are rendered anonymously.
+    // Moreover, in SSR we want to capture all app's errors, so we can potentially send
+    // a HTTP error response (e.g. 500 error page) from SSR to a client.
+    if (isNotHttpError && !this.windowRef.isBrowser()) {
       this.errorHandler.handleError(error);
     }
   }

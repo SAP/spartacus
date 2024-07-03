@@ -6,3 +6,4 @@
 
 export * from './http-error-handler.interceptor';
 export * from './http-error-handler.module';
+export * from './outbound-http-error';
