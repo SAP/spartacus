@@ -404,14 +404,10 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   getAriaLabelGeneric(
-    value: Configurator.Value,
-    attribute: Configurator.Attribute
+    attribute: Configurator.Attribute,
+    value: Configurator.Value
   ): string {
-    if (!value) {
-      return '';
-    } else {
-      value = this.mergePriceAndValue(value);
-    }
+    value = this.mergePriceAndValue(value);
     let params;
     let key;
     if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {

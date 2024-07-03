@@ -112,19 +112,7 @@
               ? 'true'
               : 'false'
           "
-          [attr.aria-label]="
-            value.valuePrice && value.valuePrice?.value !== 0
-              ? (getAriaLabelForValueWithPrice(isReadOnly(attribute))
-                | cxTranslate
-                  : {
-                      value: value.valueDisplay,
-                      attribute: attribute.label,
-                      price: value.valuePrice.formattedValue
-                    })
-              : (getAriaLabelForValue(isReadOnly(attribute))
-                | cxTranslate
-                  : { value: value.valueDisplay, attribute: attribute.label })
-          "
+          [attr.aria-label]="getAriaLabel(attribute, value)"
           [attr.aria-describedby]="
             createAttributeUiKey('label', attribute.name)
           "
@@ -179,6 +167,7 @@
             <cx-configurator-price-async
               *ngIf="isAsyncPricing"
               [options]="extractValuePriceAsyncOptions(attribute, value)"
+              (priceChanged)="onPriceChanged($event)"
             ></cx-configurator-price-async>
           </label>
         </div>
