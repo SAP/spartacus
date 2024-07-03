@@ -23,7 +23,7 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { EMPTY, filter, Observable, of, switchMap, tap } from 'rxjs';
+import { EMPTY, filter, Observable, of, switchMap } from 'rxjs';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
