@@ -17,7 +17,7 @@ export class CheckoutServiceSchedulePickerService {
   getMinDateForService(): string {
     const config = this.getServiceOrderConfiguration();
     let minDate = new Date();
-    minDate.setDate(minDate.getDate() + (config?.leadDays ?? 0 + 1)); // min date is the date after the no.of lead days
+    minDate.setDate(minDate.getDate() + ((config?.leadDays ?? 0) + 1)); // min date is the date after the no.of lead days
     return this.datePipe.transform(minDate, 'yyyy-MM-dd') ?? '';
   }
 

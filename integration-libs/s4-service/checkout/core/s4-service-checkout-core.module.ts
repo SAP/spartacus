@@ -10,9 +10,9 @@ import {
   CheckoutServiceDetailsService,
   CheckoutServiceSchedulePickerService,
 } from './facade';
-import { CheckoutServiceDetailsFacade } from '../root/facade';
 import { CheckoutServiceDetailsConnector } from './connector';
 import { CxDatePipe } from '@spartacus/core';
+import { CheckoutServiceDetailsFacade } from '../root/facade/checkout-service-details.facade';
 
 @NgModule({
   providers: [

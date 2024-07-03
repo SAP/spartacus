@@ -15,8 +15,6 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { CheckoutServiceSchedulePickerService } from 'integration-libs/s4-service/checkout/core/public_api';
-import { CheckoutServiceDetailsFacade } from 'integration-libs/s4-service/checkout/root/public_api';
 import {
   BehaviorSubject,
   map,
@@ -26,6 +24,9 @@ import {
   Subscription,
   filter,
 } from 'rxjs';
+
+import { CheckoutServiceSchedulePickerService } from '../../core/facade';
+import { CheckoutServiceDetailsFacade } from '../../root/facade/checkout-service-details.facade';
 
 @Component({
   selector: 'cx-service-details',

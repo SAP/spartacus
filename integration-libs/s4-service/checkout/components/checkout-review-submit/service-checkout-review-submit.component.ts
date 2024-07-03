@@ -19,11 +19,11 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { TranslationService, UserCostCenterService } from '@spartacus/core';
-import { CheckoutServiceSchedulePickerService } from 'integration-libs/s4-service/checkout/core/public_api';
-import { CheckoutServiceDetailsFacade } from 'integration-libs/s4-service/checkout/root/public_api';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { CheckoutServiceSchedulePickerService } from '../../core/facade';
+import { CheckoutServiceDetailsFacade } from '../../root/facade/checkout-service-details.facade';
 
 @Component({
   selector: 'cx-review-submit',
