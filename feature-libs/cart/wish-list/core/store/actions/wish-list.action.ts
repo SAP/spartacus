@@ -94,7 +94,7 @@ interface LoadWishListFailPayload {
 
 interface DeprecatedLoadWishListFailPayload
   extends Omit<LoadWishListFailPayload, 'error'> {
-  error: null | undefined;
+  error: any;
 }
 
 export class LoadWishListFail extends StateUtils.EntityFailAction {
@@ -114,6 +114,11 @@ export class LoadWishListFail extends StateUtils.EntityFailAction {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
   }
 }
+
+export const x = new LoadWishListFail({
+  cartId: 'testCartId',
+  error: { message: 'test' },
+});
 
 export type WishListActions =
   | CreateWishList
