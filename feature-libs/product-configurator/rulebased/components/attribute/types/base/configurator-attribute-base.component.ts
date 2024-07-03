@@ -14,8 +14,6 @@ import {
 import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs';
 
-const I18N_VALUE_OF_ATTR_FULL_WITH_PRICE =
-  'configurator.a11y.valueOfAttributeFullWithPrice';
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator
  */
@@ -223,7 +221,7 @@ export class ConfiguratorAttributeBaseComponent {
   getAriaLabelForValueWithPrice(isReadOnly: boolean): string {
     return isReadOnly
       ? 'configurator.a11y.readOnlyValueOfAttributeFullWithPrice'
-      : I18N_VALUE_OF_ATTR_FULL_WITH_PRICE;
+      : 'configurator.a11y.valueOfAttributeFullWithPrice';
   }
 
   /**
@@ -399,6 +397,9 @@ export class ConfiguratorAttributeBaseComponent {
     const valueName = value.name;
     if (valueName && this.valuePrices[valueName]) {
       value = { ...value, valuePrice: this.valuePrices[valueName] };
+      console.log('Price found: ' + value.name);
+    } else {
+      console.log('no Price found: ' + value.name);
     }
     return value;
   }
@@ -411,21 +412,21 @@ export class ConfiguratorAttributeBaseComponent {
     let params;
     let key;
     if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
-      key = I18N_VALUE_OF_ATTR_FULL_WITH_PRICE;
+      key = this.getAriaLabelForValueWithPrice(this.isReadOnly(attribute));
       params = {
         value: value.valueDisplay,
         attribute: attribute.label,
         price: value.valuePriceTotal.formattedValue,
       };
     } else if (value.valuePrice && value.valuePrice?.value !== 0) {
-      key = I18N_VALUE_OF_ATTR_FULL_WITH_PRICE;
+      key = this.getAriaLabelForValueWithPrice(this.isReadOnly(attribute));
       params = {
         value: value.valueDisplay,
         attribute: attribute.label,
         price: value.valuePrice.formattedValue,
       };
     } else {
-      key = 'configurator.a11y.valueOfAttributeFull';
+      key = key = this.getAriaLabelForValue(this.isReadOnly(attribute));
       params = {
         value: value.valueDisplay,
         attribute: attribute.label,

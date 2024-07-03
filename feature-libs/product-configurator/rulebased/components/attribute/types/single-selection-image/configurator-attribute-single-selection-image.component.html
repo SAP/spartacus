@@ -31,19 +31,7 @@
         [attr.aria-checked]="
           attributeRadioButtonForm.value === value.valueCode ? 'true' : 'false'
         "
-        [attr.aria-label]="
-          value.valuePrice && value.valuePrice?.value !== 0
-            ? ('configurator.a11y.valueOfAttributeFullWithPrice'
-              | cxTranslate
-                : {
-                    value: value.valueDisplay,
-                    attribute: attribute.label,
-                    price: value.valuePrice.formattedValue
-                  })
-            : ('configurator.a11y.valueOfAttributeFull'
-              | cxTranslate
-                : { value: value.valueDisplay, attribute: attribute.label })
-        "
+        [attr.aria-label]="getAriaLabel(attribute, value)"
         [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
         (click)="onClick(value.valueCode)"
         [cxFocus]="{ key: attribute.name + '-' + value.name }"
@@ -161,7 +149,7 @@
               <cx-icon [type]="iconTypes.INFO"> </cx-icon>
             </button>
             <cx-configurator-price
-              *ngIf="isAsyncPricing"
+              *ngIf="!isAsyncPricing"
               [formula]="extractValuePriceFormulaParameters(value)"
             ></cx-configurator-price>
             <cx-configurator-price-async

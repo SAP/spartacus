@@ -18,7 +18,6 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
-import { take } from 'rxjs';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-image',
@@ -82,26 +81,6 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   }
 
   getAriaLabel(attribute: Configurator.Attribute, value: Configurator.Value) {
-    value = this.mergePriceAndValue(value);
-    let params;
-    let key;
-    if (value.valuePrice && value.valuePrice?.value !== 0) {
-      key = this.getAriaLabelForValueWithPrice(this.isReadOnly(attribute));
-      params = {
-        value: value.valueDisplay,
-        attribute: attribute.label,
-        price: value.valuePrice.formattedValue,
-      };
-    } else {
-      key = this.getAriaLabelForValue(this.isReadOnly(attribute));
-      params = { value: value.valueDisplay, attribute: attribute.label };
-    }
-    let ariaLabel = '';
-    this.translation
-      .translate(key, params)
-      .pipe(take(1))
-      .subscribe((text) => (ariaLabel = text));
-
-    return ariaLabel;
+    return this.getAriaLabelGeneric(attribute, value);
   }
 }
