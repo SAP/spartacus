@@ -60,7 +60,7 @@ export class CartAddEntryFail
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
-  error: any = this.payload.error;
+  public error: any;
   readonly type = CART_ADD_ENTRY_FAIL;
 
   constructor(
@@ -74,6 +74,7 @@ export class CartAddEntryFail
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
+    this.error = payload;
   }
 }
 
@@ -101,7 +102,7 @@ export class CartRemoveEntryFail
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
-  error: any = this.payload.error;
+  public error: any;
   readonly type = CART_REMOVE_ENTRY_FAIL;
 
   constructor(
@@ -113,6 +114,7 @@ export class CartRemoveEntryFail
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
+    this.error = payload;
   }
 }
 
@@ -154,7 +156,7 @@ export class CartUpdateEntryFail
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
-  error: any = this.payload.error;
+  public error: any;
   readonly type = CART_UPDATE_ENTRY_FAIL;
 
   constructor(
@@ -169,6 +171,7 @@ export class CartUpdateEntryFail
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
+    this.error = payload;
   }
 }
 

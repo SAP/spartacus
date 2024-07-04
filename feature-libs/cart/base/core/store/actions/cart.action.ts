@@ -90,7 +90,7 @@ export class AddEmailToCartFail
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
-  error: any = this.payload.error;
+  public error: any;
   readonly type = ADD_EMAIL_TO_CART_FAIL;
   constructor(
     public payload: {
@@ -101,6 +101,7 @@ export class AddEmailToCartFail
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
+    this.error = payload;
   }
 }
 
@@ -225,9 +226,11 @@ export class DeleteCartSuccess extends StateUtils.EntityRemoveAction {
 }
 
 export class DeleteCartFail implements ErrorAction {
-  error: any = this.payload.error;
+  public error: any;
   readonly type = DELETE_CART_FAIL;
-  constructor(public payload: { userId: string; cartId: string; error: any }) {}
+  constructor(public payload: { userId: string; cartId: string; error: any }) {
+    this.error = payload;
+  }
 }
 
 export type CartAction =

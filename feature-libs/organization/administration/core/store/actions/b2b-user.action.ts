@@ -184,7 +184,6 @@ export class LoadB2BUsers extends StateUtils.EntityLoadAction {
 }
 
 export class LoadB2BUsersFail extends StateUtils.EntityFailAction {
-  error: any = this.payload.error;
   readonly type = LOAD_B2B_USERS_FAIL;
 
   constructor(public payload: { params: SearchConfig; error: any }) {
@@ -276,7 +275,6 @@ export class AssignB2BUserApprover extends StateUtils.EntityLoadAction {
 }
 
 export class AssignB2BUserApproverFail extends StateUtils.EntityFailAction {
-  error: any = this.payload.error;
   readonly type = ASSIGN_B2B_USER_APPROVER_FAIL;
 
   constructor(
@@ -318,7 +316,6 @@ export class UnassignB2BUserApprover extends StateUtils.EntityLoadAction {
 }
 
 export class UnassignB2BUserApproverFail extends StateUtils.EntityFailAction {
-  error: any = this.payload.error;
   readonly type = UNASSIGN_B2B_USER_APPROVER_FAIL;
 
   constructor(
@@ -363,7 +360,6 @@ export class LoadB2BUserPermissions extends StateUtils.EntityLoadAction {
 }
 
 export class LoadB2BUserPermissionsFail extends StateUtils.EntityFailAction {
-  error: any = this.payload.error;
   readonly type = LOAD_B2B_USER_PERMISSIONS_FAIL;
 
   constructor(
@@ -409,7 +405,6 @@ export class AssignB2BUserPermission extends StateUtils.EntityLoadAction {
 }
 
 export class AssignB2BUserPermissionFail extends StateUtils.EntityFailAction {
-  error: any = this.payload.error;
   readonly type = ASSIGN_B2B_USER_PERMISSION_FAIL;
 
   constructor(
@@ -451,7 +446,6 @@ export class UnassignB2BUserPermission extends StateUtils.EntityLoadAction {
 }
 
 export class UnassignB2BUserPermissionFail extends StateUtils.EntityFailAction {
-  error: any = this.payload.error;
   readonly type = UNASSIGN_B2B_USER_PERMISSION_FAIL;
 
   constructor(
@@ -496,7 +490,6 @@ export class LoadB2BUserUserGroups extends StateUtils.EntityLoadAction {
 }
 
 export class LoadB2BUserUserGroupsFail extends StateUtils.EntityFailAction {
-  error: any = this.payload.error;
   readonly type = LOAD_B2B_USER_USER_GROUPS_FAIL;
 
   constructor(
