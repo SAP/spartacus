@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ErrorActionType, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
 import { ReplenishmentOrderList } from '@spartacus/order/root';
 import { REPLENISHMENT_ORDERS } from '../order-state';
 
@@ -35,7 +35,7 @@ export class LoadUserReplenishmentOrders extends StateUtils.LoaderLoadAction {
 export class LoadUserReplenishmentOrdersFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_USER_REPLENISHMENT_ORDERS_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  constructor(public error: any) {
     super(REPLENISHMENT_ORDERS, error);
   }
 }

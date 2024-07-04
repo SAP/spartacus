@@ -8,7 +8,6 @@ import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { StateUtils } from '../../../state/utils/index';
 import { COMPONENT_ENTITY } from '../cms-state';
-import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_CMS_COMPONENT = '[Cms] Load Component';
 export const LOAD_CMS_COMPONENT_FAIL = '[Cms] Load Component Fail';
@@ -34,7 +33,7 @@ export class LoadCmsComponentFail extends StateUtils.EntityFailAction {
   constructor(
     public payload: {
       uid: string;
-      error: ErrorActionType;
+      error: any;
       pageContext: PageContext;
     }
   ) {

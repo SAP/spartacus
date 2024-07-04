@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ErrorActionType, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   ReturnRequest,
   ReturnRequestEntryInputList,
@@ -13,8 +13,8 @@ import {
 } from '@spartacus/order/root';
 import {
   CANCEL_RETURN_PROCESS_ID,
-  RETURN_REQUEST_DETAILS,
   RETURN_REQUESTS,
+  RETURN_REQUEST_DETAILS,
 } from '../order-state';
 
 export const CREATE_ORDER_RETURN_REQUEST =
@@ -68,7 +68,7 @@ export class CreateOrderReturnRequest extends StateUtils.LoaderLoadAction {
 export class CreateOrderReturnRequestFail extends StateUtils.LoaderFailAction {
   readonly type = CREATE_ORDER_RETURN_REQUEST_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  constructor(public error: any) {
     super(RETURN_REQUEST_DETAILS, error);
   }
 }
@@ -97,7 +97,7 @@ export class LoadOrderReturnRequest extends StateUtils.LoaderLoadAction {
 export class LoadOrderReturnRequestFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ORDER_RETURN_REQUEST_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  constructor(public error: any) {
     super(RETURN_REQUEST_DETAILS, error);
   }
 }
@@ -127,7 +127,7 @@ export class CancelOrderReturnRequest extends StateUtils.EntityLoadAction {
 export class CancelOrderReturnRequestFail extends StateUtils.EntityFailAction {
   readonly type = CANCEL_ORDER_RETURN_REQUEST_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  constructor(public error: any) {
     super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID, error);
   }
 }
@@ -158,7 +158,7 @@ export class LoadOrderReturnRequestList extends StateUtils.LoaderLoadAction {
 export class LoadOrderReturnRequestListFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ORDER_RETURN_REQUEST_LIST_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  constructor(public error: any) {
     super(RETURN_REQUESTS, error);
   }
 }

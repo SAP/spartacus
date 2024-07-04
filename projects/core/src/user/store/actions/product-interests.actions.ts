@@ -5,16 +5,17 @@
  */
 
 import {
-  ADD_PRODUCT_INTEREST_PROCESS_ID,
-  PRODUCT_INTERESTS,
-  REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
-} from '../user-state';
-import {
   NotificationType,
   ProductInterestEntryRelation,
   ProductInterestSearchResult,
 } from '../../../model/product-interest.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
+import {
+  EntityFailAction,
+  EntityLoadAction,
+  EntityLoaderResetAction,
+  EntitySuccessAction,
+} from '../../../state/utils/entity-loader/entity-loader.action';
 import {
   LoaderFailAction,
   LoaderLoadAction,
@@ -22,12 +23,10 @@ import {
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
 import {
-  EntityFailAction,
-  EntityLoadAction,
-  EntityLoaderResetAction,
-  EntitySuccessAction,
-} from '../../../state/utils/entity-loader/entity-loader.action';
-import { ErrorActionType } from '../../../model/index';
+  ADD_PRODUCT_INTEREST_PROCESS_ID,
+  PRODUCT_INTERESTS,
+  REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
+} from '../user-state';
 
 export const LOAD_PRODUCT_INTERESTS = 'Load Product Interests';
 export const LOAD_PRODUCT_INTERESTS_FAIL = 'Load Product Interests Fail';
@@ -67,7 +66,7 @@ export class LoadProductInterests extends LoaderLoadAction {
 export class LoadProductInterestsFail extends LoaderFailAction {
   readonly type = LOAD_PRODUCT_INTERESTS_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  constructor(public error: any) {
     super(PRODUCT_INTERESTS, error);
   }
 }
@@ -105,7 +104,7 @@ export class RemoveProductInterestSuccess extends EntitySuccessAction {
 export class RemoveProductInterestFail extends EntityFailAction {
   readonly type = REMOVE_PRODUCT_INTEREST_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  constructor(public error: any) {
     super(PROCESS_FEATURE, REMOVE_PRODUCT_INTERESTS_PROCESS_ID, error);
   }
 }
@@ -135,7 +134,7 @@ export class AddProductInterestSuccess extends EntitySuccessAction {
 export class AddProductInterestFail extends EntityFailAction {
   readonly type = ADD_PRODUCT_INTEREST_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  constructor(public error: any) {
     super(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID, error);
   }
 }

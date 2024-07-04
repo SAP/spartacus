@@ -8,7 +8,6 @@ import {
   Address,
   B2BApprovalProcess,
   B2BUnit,
-  ErrorActionType,
   ListModel,
   SearchConfig,
   StateUtils,
@@ -22,8 +21,8 @@ import {
   ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
   ORG_UNIT_ASSIGNED_USERS,
   ORG_UNIT_ENTITIES,
-  ORG_UNIT_NODE_LIST,
   ORG_UNIT_NODES,
+  ORG_UNIT_NODE_LIST,
   ORG_UNIT_TREE,
   ORG_UNIT_TREE_ENTITY,
 } from '../organization-state';
@@ -112,7 +111,7 @@ export class LoadOrgUnit extends StateUtils.EntityLoadAction {
 export class LoadOrgUnitFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ORG_UNIT_FAIL;
 
-  constructor(public payload: { orgUnitId: string; error: ErrorActionType }) {
+  constructor(public payload: { orgUnitId: string; error: any }) {
     super(ORG_UNIT_ENTITIES, payload.orgUnitId, payload.error);
   }
 }
@@ -169,7 +168,7 @@ export class CreateUnit extends StateUtils.EntityLoadAction {
 export class CreateUnitFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_ORG_UNIT_FAIL;
 
-  constructor(public payload: { unitCode: string; error: ErrorActionType }) {
+  constructor(public payload: { unitCode: string; error: any }) {
     super(ORG_UNIT_ENTITIES, payload.unitCode, payload.error);
   }
 }
@@ -195,7 +194,7 @@ export class UpdateUnit extends StateUtils.EntityLoadAction {
 export class UpdateUnitFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_ORG_UNIT_FAIL;
 
-  constructor(public payload: { unitCode: string; error: ErrorActionType }) {
+  constructor(public payload: { unitCode: string; error: any }) {
     super(ORG_UNIT_ENTITIES, payload.unitCode, payload.error);
   }
 }
@@ -219,7 +218,7 @@ export class LoadTree extends StateUtils.EntityLoadAction {
 export class LoadTreeFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_UNIT_TREE_FAIL;
 
-  constructor(public payload: { error: ErrorActionType }) {
+  constructor(public payload: { error: any }) {
     super(ORG_UNIT_TREE_ENTITY, ORG_UNIT_TREE, payload.error);
   }
 }
@@ -243,7 +242,7 @@ export class LoadApprovalProcesses extends StateUtils.EntityLoadAction {
 export class LoadApprovalProcessesFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_APPROVAL_PROCESSES_FAIL;
 
-  constructor(public payload: { error: ErrorActionType }) {
+  constructor(public payload: { error: any }) {
     super(
       ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
       ORG_UNIT_APPROVAL_PROCESSES,
@@ -309,7 +308,7 @@ export class LoadAssignedUsersFail extends StateUtils.EntityFailAction {
       orgUnitId: string;
       roleId: string;
       params: SearchConfig;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(
@@ -364,7 +363,7 @@ export class AssignRoleFail extends StateUtils.EntityFailAction {
   constructor(
     public payload: {
       orgCustomerId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
@@ -401,7 +400,7 @@ export class UnassignRoleFail extends StateUtils.EntityFailAction {
   constructor(
     public payload: {
       orgCustomerId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
@@ -439,7 +438,7 @@ export class AssignApproverFail extends StateUtils.EntityFailAction {
   constructor(
     public payload: {
       orgCustomerId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
@@ -477,7 +476,7 @@ export class UnassignApproverFail extends StateUtils.EntityFailAction {
   constructor(
     public payload: {
       orgCustomerId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
@@ -507,7 +506,7 @@ export class CreateAddress extends StateUtils.EntityLoadAction {
 export class CreateAddressFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_ADDRESS_FAIL;
 
-  constructor(public payload: { addressId: string; error: ErrorActionType }) {
+  constructor(public payload: { addressId: string; error: any }) {
     super(ADDRESS_ENTITIES, payload.addressId, payload.error);
   }
 }
@@ -538,7 +537,7 @@ export class UpdateAddress extends StateUtils.EntityLoadAction {
 export class UpdateAddressFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_ADDRESS_FAIL;
 
-  constructor(public payload: { addressId: string; error: ErrorActionType }) {
+  constructor(public payload: { addressId: string; error: any }) {
     super(ADDRESS_ENTITIES, payload.addressId, payload.error);
   }
 }
@@ -568,7 +567,7 @@ export class DeleteAddress extends StateUtils.EntityLoadAction {
 export class DeleteAddressFail extends StateUtils.EntityFailAction {
   readonly type = DELETE_ADDRESS_FAIL;
 
-  constructor(public payload: { addressId: string; error: ErrorActionType }) {
+  constructor(public payload: { addressId: string; error: any }) {
     super(ADDRESS_ENTITIES, payload.addressId, payload.error);
   }
 }
@@ -605,7 +604,7 @@ export class LoadAddresses extends StateUtils.EntityLoadAction {
 export class LoadAddressesFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ADDRESSES_FAIL;
 
-  constructor(public payload: { orgUnitId: string; error: ErrorActionType }) {
+  constructor(public payload: { orgUnitId: string; error: any }) {
     super(ADDRESS_LIST, payload.orgUnitId, payload.error);
   }
 }

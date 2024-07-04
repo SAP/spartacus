@@ -4,13 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { GeoPoint, SearchConfig, StateUtils } from '@spartacus/core';
 import { STORE_FINDER_DATA } from '../store-finder-state';
-import {
-  ErrorActionType,
-  GeoPoint,
-  SearchConfig,
-  StateUtils,
-} from '@spartacus/core';
 
 export const FIND_STORES_ON_HOLD = '[StoreFinder] On Hold';
 export const FIND_STORES = '[StoreFinder] Find Stores';
@@ -50,7 +45,7 @@ export class FindStores extends StateUtils.LoaderLoadAction {
 export class FindStoresFail extends StateUtils.LoaderFailAction {
   readonly type = FIND_STORES_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  constructor(public error: any) {
     super(STORE_FINDER_DATA, error);
   }
 }
@@ -74,7 +69,7 @@ export class FindStoreById extends StateUtils.LoaderLoadAction {
 export class FindStoreByIdFail extends StateUtils.LoaderFailAction {
   readonly type = FIND_STORE_BY_ID_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  constructor(public error: any) {
     super(STORE_FINDER_DATA, error);
   }
 }

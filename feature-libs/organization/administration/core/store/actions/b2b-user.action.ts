@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  B2BUser,
-  ErrorActionType,
-  ListModel,
-  SearchConfig,
-  StateUtils,
-} from '@spartacus/core';
+import { B2BUser, ListModel, SearchConfig, StateUtils } from '@spartacus/core';
 import {
   B2B_USER_APPROVERS,
   B2B_USER_ENTITIES,
@@ -104,9 +98,7 @@ export class LoadB2BUser extends StateUtils.EntityLoadAction {
 export class LoadB2BUserFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_B2B_USER_FAIL;
 
-  constructor(
-    public payload: { orgCustomerId: string; error: ErrorActionType }
-  ) {
+  constructor(public payload: { orgCustomerId: string; error: any }) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
   }
 }
@@ -135,9 +127,7 @@ export class CreateB2BUser extends StateUtils.EntityLoadAction {
 export class CreateB2BUserFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_B2B_USER_FAIL;
 
-  constructor(
-    public payload: { orgCustomerId: string; error: ErrorActionType }
-  ) {
+  constructor(public payload: { orgCustomerId: string; error: any }) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
   }
 }
@@ -167,9 +157,7 @@ export class UpdateB2BUser extends StateUtils.EntityLoadAction {
 export class UpdateB2BUserFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_B2B_USER_FAIL;
 
-  constructor(
-    public payload: { orgCustomerId: string; error: ErrorActionType }
-  ) {
+  constructor(public payload: { orgCustomerId: string; error: any }) {
     super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
   }
 }
@@ -196,12 +184,10 @@ export class LoadB2BUsers extends StateUtils.EntityLoadAction {
 }
 
 export class LoadB2BUsersFail extends StateUtils.EntityFailAction {
-  error: ErrorActionType = this.payload.error;
+  error: any = this.payload.error;
   readonly type = LOAD_B2B_USERS_FAIL;
 
-  constructor(
-    public payload: { params: SearchConfig; error: ErrorActionType }
-  ) {
+  constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       USER_LIST,
       StateUtils.serializeSearchConfig(payload.params),
@@ -247,7 +233,7 @@ export class LoadB2BUserApproversFail extends StateUtils.EntityFailAction {
     public payload: {
       orgCustomerId: string;
       params: SearchConfig;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(
@@ -290,14 +276,14 @@ export class AssignB2BUserApprover extends StateUtils.EntityLoadAction {
 }
 
 export class AssignB2BUserApproverFail extends StateUtils.EntityFailAction {
-  error: ErrorActionType = this.payload.error;
+  error: any = this.payload.error;
   readonly type = ASSIGN_B2B_USER_APPROVER_FAIL;
 
   constructor(
     public payload: {
       orgCustomerId: string;
       approverId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(B2B_USER_ENTITIES, payload.approverId, payload.error);
@@ -332,14 +318,14 @@ export class UnassignB2BUserApprover extends StateUtils.EntityLoadAction {
 }
 
 export class UnassignB2BUserApproverFail extends StateUtils.EntityFailAction {
-  error: ErrorActionType = this.payload.error;
+  error: any = this.payload.error;
   readonly type = UNASSIGN_B2B_USER_APPROVER_FAIL;
 
   constructor(
     public payload: {
       orgCustomerId: string;
       approverId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(B2B_USER_ENTITIES, payload.approverId, payload.error);
@@ -377,14 +363,14 @@ export class LoadB2BUserPermissions extends StateUtils.EntityLoadAction {
 }
 
 export class LoadB2BUserPermissionsFail extends StateUtils.EntityFailAction {
-  error: ErrorActionType = this.payload.error;
+  error: any = this.payload.error;
   readonly type = LOAD_B2B_USER_PERMISSIONS_FAIL;
 
   constructor(
     public payload: {
       orgCustomerId: string;
       params: SearchConfig;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(B2B_USER_PERMISSIONS, payload.orgCustomerId, payload.error);
@@ -423,14 +409,14 @@ export class AssignB2BUserPermission extends StateUtils.EntityLoadAction {
 }
 
 export class AssignB2BUserPermissionFail extends StateUtils.EntityFailAction {
-  error: ErrorActionType = this.payload.error;
+  error: any = this.payload.error;
   readonly type = ASSIGN_B2B_USER_PERMISSION_FAIL;
 
   constructor(
     public payload: {
       orgCustomerId: string;
       permissionId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PERMISSION_ENTITIES, payload.permissionId, payload.error);
@@ -465,14 +451,14 @@ export class UnassignB2BUserPermission extends StateUtils.EntityLoadAction {
 }
 
 export class UnassignB2BUserPermissionFail extends StateUtils.EntityFailAction {
-  error: ErrorActionType = this.payload.error;
+  error: any = this.payload.error;
   readonly type = UNASSIGN_B2B_USER_PERMISSION_FAIL;
 
   constructor(
     public payload: {
       orgCustomerId: string;
       permissionId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PERMISSION_ENTITIES, payload.permissionId, payload.error);
@@ -510,14 +496,14 @@ export class LoadB2BUserUserGroups extends StateUtils.EntityLoadAction {
 }
 
 export class LoadB2BUserUserGroupsFail extends StateUtils.EntityFailAction {
-  error: ErrorActionType = this.payload.error;
+  error: any = this.payload.error;
   readonly type = LOAD_B2B_USER_USER_GROUPS_FAIL;
 
   constructor(
     public payload: {
       orgCustomerId: string;
       params: SearchConfig;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(
@@ -566,7 +552,7 @@ export class AssignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
     public payload: {
       orgCustomerId: string;
       userGroupId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
@@ -607,7 +593,7 @@ export class UnassignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
     public payload: {
       orgCustomerId: string;
       userGroupId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);

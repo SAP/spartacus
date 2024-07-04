@@ -7,7 +7,6 @@
 import { PaymentDetails } from '../../../model/payment.model';
 import { StateUtils } from '../../../state/utils/index';
 import { USER_PAYMENT_METHODS } from '../user-state';
-import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_USER_PAYMENT_METHODS = '[User] Load User Payment Methods';
 export const LOAD_USER_PAYMENT_METHODS_FAIL =
@@ -39,7 +38,7 @@ export class LoadUserPaymentMethods extends StateUtils.LoaderLoadAction {
 export class LoadUserPaymentMethodsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_USER_PAYMENT_METHODS_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  constructor(public error: any) {
     super(USER_PAYMENT_METHODS, error);
   }
 }
@@ -63,7 +62,7 @@ export class SetDefaultUserPaymentMethod extends StateUtils.LoaderLoadAction {
 export class SetDefaultUserPaymentMethodFail extends StateUtils.LoaderFailAction {
   readonly type = SET_DEFAULT_USER_PAYMENT_METHOD_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  constructor(public error: any) {
     super(USER_PAYMENT_METHODS, error);
   }
 }
@@ -87,7 +86,7 @@ export class DeleteUserPaymentMethod extends StateUtils.LoaderLoadAction {
 export class DeleteUserPaymentMethodFail extends StateUtils.LoaderFailAction {
   readonly type = DELETE_USER_PAYMENT_METHOD_FAIL;
 
-  constructor(public error: ErrorActionType) {
+  constructor(public error: any) {
     super(USER_PAYMENT_METHODS, error);
   }
 }

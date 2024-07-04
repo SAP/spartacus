@@ -5,7 +5,7 @@
  */
 
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { ErrorAction, ErrorActionType, StateUtils } from '@spartacus/core';
+import { ErrorAction, StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';
@@ -60,7 +60,7 @@ export class CartAddEntryFail
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
-  error: ErrorActionType = this.payload.error;
+  error: any = this.payload.error;
   readonly type = CART_ADD_ENTRY_FAIL;
 
   constructor(
@@ -101,12 +101,12 @@ export class CartRemoveEntryFail
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
-  error: ErrorActionType = this.payload.error;
+  error: any = this.payload.error;
   readonly type = CART_REMOVE_ENTRY_FAIL;
 
   constructor(
     public payload: {
-      error: ErrorActionType;
+      error: any;
       cartId: string;
       userId: string;
       entryNumber: string;
@@ -154,12 +154,12 @@ export class CartUpdateEntryFail
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
-  error: ErrorActionType = this.payload.error;
+  error: any = this.payload.error;
   readonly type = CART_UPDATE_ENTRY_FAIL;
 
   constructor(
     public payload: {
-      error: ErrorActionType;
+      error: any;
       userId: string;
       cartId: string;
       entryNumber: string;

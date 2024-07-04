@@ -6,7 +6,7 @@
 
 import { Action } from '@ngrx/store';
 import { Country } from '../../../model/address.model';
-import { ErrorAction, ErrorActionType } from '../../../model/index';
+import { ErrorAction } from '../../../model/index';
 
 export const LOAD_DELIVERY_COUNTRIES = '[User] Load Delivery Countries';
 export const LOAD_DELIVERY_COUNTRIES_FAIL =
@@ -25,7 +25,7 @@ export class LoadDeliveryCountries implements Action {
 export class LoadDeliveryCountriesFail implements ErrorAction {
   readonly type = LOAD_DELIVERY_COUNTRIES_FAIL;
 
-  constructor(public error: ErrorActionType) {}
+  constructor(public error: any) {}
 }
 
 export class LoadDeliveryCountriesSuccess implements Action {

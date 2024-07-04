@@ -6,7 +6,6 @@
 
 import { StateUtils } from '../../../state/utils/index';
 import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
-import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_CMS_NAVIGATION_ITEMS = '[Cms] Load NavigationEntry items';
 export const LOAD_CMS_NAVIGATION_ITEMS_FAIL =
@@ -25,7 +24,7 @@ export class LoadCmsNavigationItems extends StateUtils.EntityLoadAction {
 export class LoadCmsNavigationItemsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_NAVIGATION_ITEMS_FAIL;
 
-  constructor(nodeId: string, public error: ErrorActionType) {
+  constructor(nodeId: string, public error: any) {
     super(NAVIGATION_DETAIL_ENTITY, nodeId, error);
   }
 }

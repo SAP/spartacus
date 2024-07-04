@@ -5,7 +5,7 @@
  */
 
 import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
-import { ErrorActionType, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   SAVED_CART_CLONE_CART_PROCESS_ID,
   SAVED_CART_LIST_PROCESS_ID,
@@ -106,7 +106,7 @@ export class LoadSavedCartsFail extends StateUtils.EntityFailAction {
   constructor(
     public payload: {
       userId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_LIST_PROCESS_ID, payload.error);
@@ -154,7 +154,7 @@ export class RestoreSavedCartFail extends StateUtils.EntityFailAction {
     public payload: {
       userId: string;
       cartId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_RESTORE_CART_PROCESS_ID, payload.error);
@@ -208,7 +208,7 @@ export class SaveCartFail extends StateUtils.EntityFailAction {
       cartId: string;
       saveCartName?: string;
       saveCartDescription?: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID, payload.error);
@@ -262,7 +262,7 @@ export class EditSavedCartFail extends StateUtils.EntityFailAction {
       cartId: string;
       saveCartName?: string;
       saveCartDescription?: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID, payload.error);
@@ -305,7 +305,7 @@ export class CloneSavedCartFail extends StateUtils.EntityFailAction {
       userId: string;
       cartId: string;
       saveCartName?: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID, payload.error);

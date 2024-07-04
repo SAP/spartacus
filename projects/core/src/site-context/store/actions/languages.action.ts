@@ -5,8 +5,8 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction } from '../../../model/index';
 import { Language } from '../../../model/misc.model';
-import { ErrorAction, ErrorActionType } from '../../../model/index';
 
 export const LOAD_LANGUAGES = '[Site-context] Load Languages';
 export const LOAD_LANGUAGES_FAIL = '[Site-context] Load Languages Fail';
@@ -21,7 +21,7 @@ export class LoadLanguages implements Action {
 export class LoadLanguagesFail implements ErrorAction {
   readonly type = LOAD_LANGUAGES_FAIL;
 
-  constructor(public error: ErrorActionType) {}
+  constructor(public error: any) {}
 }
 
 export class LoadLanguagesSuccess implements Action {
