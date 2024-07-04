@@ -37,6 +37,8 @@ export class RecentSearchesComponent implements OnInit, OnDestroy {
   protected recentSearchesService = inject(RecentSearchesService);
   protected searchBoxComponentService = inject(SearchBoxComponentService);
   public result$: Observable<string[]>;
+  public outletContext$: Observable<SearchBoxOutlet>;
+
   protected destroy$ = new Subject<void>();
 
   constructor(
@@ -63,6 +65,8 @@ export class RecentSearchesComponent implements OnInit, OnDestroy {
     this.result$.pipe(takeUntil(this.destroy$)).subscribe((results) => {
       this.searchBoxComponentService.setRecentSearches(!!results.length);
     });
+
+    this.outletContext$ = this.outletContext.context$;
   }
 
   preventDefault(ev: UIEvent): void {
