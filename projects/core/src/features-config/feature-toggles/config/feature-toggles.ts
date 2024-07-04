@@ -423,5 +423,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
   a11yLinkBtnsToTertiaryBtns: false,
-  enableBottomHeaderSlotStyles: false
+  enableBottomHeaderSlotStyles: false,
 };
