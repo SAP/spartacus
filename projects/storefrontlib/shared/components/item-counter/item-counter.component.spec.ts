@@ -227,7 +227,7 @@ describe('ItemCounterComponent', () => {
       input.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter' }));
       fixture.detectChanges();
 
-      expect(component.control.value).toEqual('10');
+      expect(component.control.value).toEqual(10);
     });
   });
 });
