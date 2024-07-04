@@ -83,7 +83,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     protected keyboardFocusService: KeyboardFocusService
   ) {
     useFeatureStyles('a11yImproveContrast');
-    useFeatureStyles('enableBottomHeaderSlotStyles');
+    useFeatureStyles('cmsBottomHeaderSlotUsingFlexStyles');
   }
 
   ngOnInit(): void {

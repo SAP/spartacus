@@ -45,7 +45,7 @@ cx-category-navigation {
 }
 
 cx-page-slot.cx-bottom-header-slot {
-  @include forFeature('enableBottomHeaderSlotStyles') {
+  @include forFeature('cmsBottomHeaderSlotUsingFlexStyles') {
     display: flex;
 
     > * {
