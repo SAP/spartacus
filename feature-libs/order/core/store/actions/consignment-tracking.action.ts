@@ -29,8 +29,11 @@ export class LoadConsignmentTracking implements Action {
 
 export class LoadConsignmentTrackingFail implements ErrorAction {
   readonly type = LOAD_CONSIGNMENT_TRACKING_FAIL;
+  public error: any;
 
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    this.error = payload;
+  }
 }
 
 export class LoadConsignmentTrackingSuccess implements Action {

@@ -69,7 +69,7 @@ export class CreateOrderReturnRequestFail extends StateUtils.LoaderFailAction {
   readonly type = CREATE_ORDER_RETURN_REQUEST_FAIL;
 
   constructor(public payload: any) {
-    super(RETURN_REQUEST_DETAILS, error);
+    super(RETURN_REQUEST_DETAILS, payload);
   }
 }
 
@@ -98,7 +98,7 @@ export class LoadOrderReturnRequestFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ORDER_RETURN_REQUEST_FAIL;
 
   constructor(public payload: any) {
-    super(RETURN_REQUEST_DETAILS, error);
+    super(RETURN_REQUEST_DETAILS, payload);
   }
 }
 
@@ -128,7 +128,7 @@ export class CancelOrderReturnRequestFail extends StateUtils.EntityFailAction {
   readonly type = CANCEL_ORDER_RETURN_REQUEST_FAIL;
 
   constructor(public payload: any) {
-    super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID, error);
+    super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID, payload);
   }
 }
 
@@ -159,7 +159,7 @@ export class LoadOrderReturnRequestListFail extends StateUtils.LoaderFailAction 
   readonly type = LOAD_ORDER_RETURN_REQUEST_LIST_FAIL;
 
   constructor(public payload: any) {
-    super(RETURN_REQUESTS, error);
+    super(RETURN_REQUESTS, payload);
   }
 }
 

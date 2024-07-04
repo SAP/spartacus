@@ -36,7 +36,7 @@ export class LoadOrderDetails extends StateUtils.LoaderLoadAction {
 export class LoadOrderDetailsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ORDER_DETAILS_FAIL;
   constructor(public payload: any) {
-    super(ORDER_DETAILS, error);
+    super(ORDER_DETAILS, payload);
   }
 }
 
@@ -70,7 +70,7 @@ export class CancelOrder extends StateUtils.EntityLoadAction {
 export class CancelOrderFail extends StateUtils.EntityFailAction {
   readonly type = CANCEL_ORDER_FAIL;
   constructor(public payload: any) {
-    super(PROCESS_FEATURE, CANCEL_ORDER_PROCESS_ID, error);
+    super(PROCESS_FEATURE, CANCEL_ORDER_PROCESS_ID, payload);
   }
 }
 
