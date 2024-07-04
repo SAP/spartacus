@@ -443,6 +443,7 @@
       "@spartacus/s4-service/core": ["../../dist/s4-service/core"],
       "@spartacus/s4-service": ["../../dist/s4-service"],
       "@spartacus/s4-service/occ": ["../../dist/s4-service/occ"],
+      "@spartacus/s4-service/order": ["../../dist/s4-service/order"],
       "@spartacus/s4-service/root": ["../../dist/s4-service/root"],
       "@spartacus/s4om/assets": ["../../dist/s4om/assets"],
       "@spartacus/s4om": ["../../dist/s4om"],

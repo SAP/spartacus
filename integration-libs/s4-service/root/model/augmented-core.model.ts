@@ -4,6 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './s4-service-root.module';
-export * from './feature-name';
-export * from './model/index';
+import '@spartacus/order/root';
+declare module '@spartacus/order/root' {
+  interface Order {
+    servicedAt?: string;
+  }
+}

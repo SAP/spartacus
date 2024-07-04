@@ -614,6 +614,9 @@
       "@spartacus/s4-service/occ": [
         "../../integration-libs/s4-service/occ/public_api"
       ],
+      "@spartacus/s4-service/order": [
+        "../../integration-libs/s4-service/order/public_api"
+      ],
       "@spartacus/s4-service/root": [
         "../../integration-libs/s4-service/root/public_api"
       ],

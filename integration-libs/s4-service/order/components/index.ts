@@ -4,6 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './s4-service-root.module';
-export * from './feature-name';
-export * from './model/index';
+export * from './order-summary/service-details-card.component';
+export * from './service-order-component.module';

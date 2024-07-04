@@ -42,9 +42,11 @@ export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
   protected checkoutServiceSchedulePickerService = inject(
     CheckoutServiceSchedulePickerService
   );
-  minServiceDate: string = this.checkoutServiceSchedulePickerService.getMinDateForService();
+  minServiceDate: string =
+    this.checkoutServiceSchedulePickerService.getMinDateForService();
 
-  scheduleTimes: string[] = this.checkoutServiceSchedulePickerService.getScheduledServiceTimes();
+  scheduleTimes: string[] =
+    this.checkoutServiceSchedulePickerService.getScheduledServiceTimes();
   form: UntypedFormGroup = this.fb.group({
     scheduleDate: [this.minServiceDate],
     scheduleTime: [this.scheduleTimes[0]],
@@ -110,10 +112,11 @@ export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
         if (products.length > 0) {
           const scheduleDate = this.form?.get('scheduleDate')?.value || '';
           const scheduleTime = this.form?.get('scheduleTime')?.value || '';
-          const scheduleDateTime = this.checkoutServiceSchedulePickerService.convertToDateTime(
-            scheduleDate,
-            scheduleTime
-          );
+          const scheduleDateTime =
+            this.checkoutServiceSchedulePickerService.convertToDateTime(
+              scheduleDate,
+              scheduleTime
+            );
 
           this.checkoutServiceDetailsFacade
             .setServiceScheduleSlot(scheduleDateTime)
