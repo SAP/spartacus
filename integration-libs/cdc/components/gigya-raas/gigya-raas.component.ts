@@ -10,10 +10,18 @@ import {
   NgZone,
   OnInit,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { GigyaRaasComponentData } from '@spartacus/cdc/core';
 import { CdcConfig, CdcJsService } from '@spartacus/cdc/root';
-import { BaseSiteService, LanguageService, WindowRef } from '@spartacus/core';
+import {
+  AuthRedirectService,
+  AuthService,
+  BaseSiteService,
+  LanguageService,
+  RoutingService,
+  WindowRef,
+} from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
@@ -30,6 +38,10 @@ export class GigyaRaasComponent implements OnInit {
   language$: Observable<string>;
   jsError$: Observable<boolean>;
   jsLoaded$: Observable<boolean>;
+
+  protected authService = inject(AuthService);
+  protected routingService = inject(RoutingService);
+  protected authRedirectService = inject(AuthRedirectService);
 
   public constructor(
     public component: CmsComponentData<GigyaRaasComponentData>,
@@ -71,6 +83,19 @@ export class GigyaRaasComponent implements OnInit {
    * @param lang - language
    */
   showScreenSet(data: GigyaRaasComponentData, lang: string) {
+    this.authService.isUserLoggedIn().subscribe((isUserLoggedIn) => {
+      if (!isUserLoggedIn && data.showAnonymous === 'false') {
+        this.authRedirectService.saveCurrentNavigationUrl();
+        this.routingService.go({ cxRoute: 'login' });
+      } else if (isUserLoggedIn && data.showLoggedIn === 'false') {
+        this.routingService.go({ cxRoute: 'home' });
+      } else {
+        this.showScreenSetData(data, lang);
+      }
+    });
+  }
+
+  protected showScreenSetData(data: GigyaRaasComponentData, lang: string) {
     (this.winRef.nativeWindow as { [key: string]: any })?.[
       'gigya'
     ]?.accounts?.showScreenSet({

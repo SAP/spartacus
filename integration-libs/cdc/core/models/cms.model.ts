@@ -16,4 +16,6 @@ export interface GigyaRaasComponentData extends CmsComponent {
   containerID?: string; // Container name in which CDC screen will be displayed
   linkText?: string; // Text of the button for the screen set when rendered in pop-up way
   advancedConfiguration?: string; // Advanced configuration for the screen set
+  showAnonymous?: string; //whether screenset should be visible for anonymous user
+  showLoggedIn?: string; //whether screenset should be visible for logged in user
 }
