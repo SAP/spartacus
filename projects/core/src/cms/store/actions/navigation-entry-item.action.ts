@@ -24,7 +24,7 @@ export class LoadCmsNavigationItems extends StateUtils.EntityLoadAction {
 export class LoadCmsNavigationItemsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_NAVIGATION_ITEMS_FAIL;
 
-  constructor(nodeId: string, public error: any) {
+  constructor(nodeId: string, public payload: any) {
     super(NAVIGATION_DETAIL_ENTITY, nodeId, error);
   }
 }

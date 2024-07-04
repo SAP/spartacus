@@ -20,7 +20,7 @@ export class LoadCurrencies implements Action {
 
 export class LoadCurrenciesFail implements ErrorAction {
   readonly type = LOAD_CURRENCIES_FAIL;
-  constructor(public error: any) {}
+  constructor(public payload: any) {}
 }
 
 export class LoadCurrenciesSuccess implements Action {

@@ -43,7 +43,7 @@ export class LoadUserConsents extends StateUtils.LoaderLoadAction {
 export class LoadUserConsentsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_USER_CONSENTS_FAIL;
 
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(USER_CONSENTS, error);
   }
 }
@@ -81,7 +81,7 @@ export class GiveUserConsent extends StateUtils.EntityLoadAction {
 export class GiveUserConsentFail extends StateUtils.EntityFailAction {
   readonly type = GIVE_USER_CONSENT_FAIL;
 
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID, error);
   }
 }
@@ -131,7 +131,7 @@ export class WithdrawUserConsent extends StateUtils.EntityLoadAction {
 export class WithdrawUserConsentFail extends StateUtils.EntityFailAction {
   readonly type = WITHDRAW_USER_CONSENT_FAIL;
 
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID, error);
   }
 }

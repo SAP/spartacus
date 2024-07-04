@@ -21,7 +21,7 @@ export class LoadBillingCountries implements Action {
 
 export class LoadBillingCountriesFail implements ErrorAction {
   readonly type = LOAD_BILLING_COUNTRIES_FAIL;
-  constructor(public error: any) {}
+  constructor(public payload: any) {}
 }
 
 export class LoadBillingCountriesSuccess implements Action {

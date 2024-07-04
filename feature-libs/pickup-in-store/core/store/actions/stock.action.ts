@@ -38,7 +38,7 @@ export class StockLevelOnHold extends StateUtils.LoaderLoadAction {
 export class StockLevelFail extends StateUtils.LoaderFailAction {
   readonly type = STOCK_LEVEL_FAIL;
 
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(STOCK_DATA, error);
   }
 }

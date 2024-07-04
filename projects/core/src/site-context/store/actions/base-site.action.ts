@@ -26,7 +26,7 @@ export class LoadBaseSite implements Action {
 export class LoadBaseSiteFail implements ErrorAction {
   readonly type = LOAD_BASE_SITE_FAIL;
 
-  constructor(public error: any) {}
+  constructor(public payload: any) {}
 }
 
 export class LoadBaseSiteSuccess implements Action {
@@ -42,7 +42,7 @@ export class LoadBaseSites implements Action {
 export class LoadBaseSitesFail implements ErrorAction {
   readonly type = LOAD_BASE_SITES_FAIL;
 
-  constructor(public error: any) {}
+  constructor(public payload: any) {}
 }
 
 export class LoadBaseSitesSuccess implements Action {

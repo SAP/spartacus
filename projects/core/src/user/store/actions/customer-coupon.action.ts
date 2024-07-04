@@ -84,7 +84,7 @@ export class LoadCustomerCouponsFail
   implements ErrorAction
 {
   readonly type = LOAD_CUSTOMER_COUPONS_FAIL;
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(CUSTOMER_COUPONS, error);
   }
 }
@@ -118,7 +118,7 @@ export class SubscribeCustomerCoupon extends EntityLoadAction {
 
 export class SubscribeCustomerCouponFail extends EntityFailAction {
   readonly type = SUBSCRIBE_CUSTOMER_COUPON_FAIL;
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(PROCESS_FEATURE, SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID, error);
   }
 }
@@ -151,7 +151,7 @@ export class UnsubscribeCustomerCoupon extends EntityLoadAction {
 
 export class UnsubscribeCustomerCouponFail extends EntityFailAction {
   readonly type = UNSUBSCRIBE_CUSTOMER_COUPON_FAIL;
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(PROCESS_FEATURE, UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID, error);
   }
 }
@@ -217,7 +217,7 @@ export class DisclaimCustomerCouponSuccess extends EntitySuccessAction {
 
 export class ClaimCustomerCouponFail extends EntityFailAction {
   readonly type = CLAIM_CUSTOMER_COUPON_FAIL;
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(PROCESS_FEATURE, CLAIM_CUSTOMER_COUPON_PROCESS_ID, error);
   }
 }

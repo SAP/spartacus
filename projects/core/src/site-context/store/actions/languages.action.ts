@@ -21,7 +21,7 @@ export class LoadLanguages implements Action {
 export class LoadLanguagesFail implements ErrorAction {
   readonly type = LOAD_LANGUAGES_FAIL;
 
-  constructor(public error: any) {}
+  constructor(public payload: any) {}
 }
 
 export class LoadLanguagesSuccess implements Action {

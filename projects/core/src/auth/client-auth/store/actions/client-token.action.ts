@@ -23,7 +23,7 @@ export class LoadClientToken extends StateUtils.LoaderLoadAction {
 export class LoadClientTokenFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_CLIENT_TOKEN_FAIL;
 
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(CLIENT_TOKEN_DATA, error);
   }
 }

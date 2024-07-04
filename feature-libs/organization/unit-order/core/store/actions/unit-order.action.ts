@@ -39,7 +39,7 @@ export class LoadUnitOrders extends StateUtils.LoaderLoadAction {
 export class LoadUnitOrdersFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_UNIT_ORDERS_FAIL;
 
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(UNIT_ORDERS, error);
   }
 }
@@ -76,7 +76,7 @@ export class LoadOrderDetails extends StateUtils.LoaderLoadAction {
 export class LoadOrderDetailsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ORDER_DETAILS_FAIL;
 
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(UNIT_ORDER_DETAILS, error);
   }
 }

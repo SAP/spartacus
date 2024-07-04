@@ -32,7 +32,7 @@ export class LoadUserOrders extends StateUtils.LoaderLoadAction {
 export class LoadUserOrdersFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_USER_ORDERS_FAIL;
 
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(ORDERS, error);
   }
 }

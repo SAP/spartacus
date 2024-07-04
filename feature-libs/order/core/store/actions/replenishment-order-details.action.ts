@@ -52,7 +52,7 @@ export class LoadReplenishmentOrderDetailsSuccess extends StateUtils.LoaderSucce
 export class LoadReplenishmentOrderDetailsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_REPLENISHMENT_ORDER_DETAILS_FAIL;
 
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(REPLENISHMENT_ORDER_DETAILS, error);
   }
 }
@@ -89,7 +89,7 @@ export class CancelReplenishmentOrderSuccess extends StateUtils.EntitySuccessAct
 export class CancelReplenishmentOrderFail extends StateUtils.EntityFailAction {
   readonly type = CANCEL_REPLENISHMENT_ORDER_FAIL;
 
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(PROCESS_FEATURE, CANCEL_REPLENISHMENT_ORDER_PROCESS_ID, error);
   }
 }

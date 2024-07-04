@@ -34,7 +34,7 @@ export class CustomerSearch extends StateUtils.LoaderLoadAction {
 
 export class CustomerSearchFail extends StateUtils.LoaderFailAction {
   readonly type = CUSTOMER_SEARCH_FAIL;
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(CUSTOMER_SEARCH_DATA, error);
   }
 }

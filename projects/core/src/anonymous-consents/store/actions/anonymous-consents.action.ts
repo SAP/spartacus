@@ -57,7 +57,7 @@ export class LoadAnonymousConsentTemplatesSuccess extends StateUtils.LoaderSucce
 export class LoadAnonymousConsentTemplatesFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ANONYMOUS_CONSENT_TEMPLATES_FAIL;
 
-  constructor(public error: any) {
+  constructor(public payload: any) {
     super(ANONYMOUS_CONSENTS, error);
   }
 }
