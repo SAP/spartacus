@@ -72,7 +72,7 @@ export enum ICON_TYPE {
   ARROW_UP = 'ARROW_UP',
   C360_CIRCLE_USER = 'C360_CIRCLE_USER',
   C360_INVOICE = 'C360_INVOICE',
-  HELP = 'HELP'
+  HELP = 'HELP',
 }
 
 @Injectable({
