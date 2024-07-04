@@ -358,6 +358,12 @@ export interface FeatureTogglesInterface {
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
   a11yLinkBtnsToTertiaryBtns?: boolean;
+
+  /**
+   * When enabled, styles for the `cx-bottom-header-slot` class will be applied. These styles are necessary to display
+   * customization buttons in the BottomHeaderSlot in SmartEdit.
+   */
+  enableBottomHeaderSlotStyles?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -417,4 +423,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
   a11yLinkBtnsToTertiaryBtns: false,
+  enableBottomHeaderSlotStyles: false
 };
