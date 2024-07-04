@@ -24,7 +24,7 @@ import {
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, take, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-gigya-raas',
@@ -54,13 +54,19 @@ export class GigyaRaasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.jsLoaded$ = this.cdcJSService.didLoad();
-    this.jsError$ = this.cdcJSService.didScriptFailToLoad();
-    this.language$ = this.languageService.getActive().pipe(
-      distinctUntilChanged(),
-      // On language change we want to rerender CDC screen with proper translations
-      tap(() => (this.renderScreenSet = true))
-    );
+    this.component.data$.subscribe((data) => {
+      this.canActivate(data).subscribe((canActivate) => {
+        if (canActivate) {
+          this.jsLoaded$ = this.cdcJSService.didLoad();
+          this.jsError$ = this.cdcJSService.didScriptFailToLoad();
+          this.language$ = this.languageService.getActive().pipe(
+            distinctUntilChanged(),
+            // On language change we want to rerender CDC screen with proper translations
+            tap(() => (this.renderScreenSet = true))
+          );
+        }
+      });
+    });
   }
 
   /**
@@ -83,19 +89,6 @@ export class GigyaRaasComponent implements OnInit {
    * @param lang - language
    */
   showScreenSet(data: GigyaRaasComponentData, lang: string) {
-    this.authService.isUserLoggedIn().subscribe((isUserLoggedIn) => {
-      if (!isUserLoggedIn && data.showAnonymous === 'false') {
-        this.authRedirectService.saveCurrentNavigationUrl();
-        this.routingService.go({ cxRoute: 'login' });
-      } else if (isUserLoggedIn && data.showLoggedIn === 'false') {
-        this.routingService.go({ cxRoute: 'home' });
-      } else {
-        this.showScreenSetData(data, lang);
-      }
-    });
-  }
-
-  protected showScreenSetData(data: GigyaRaasComponentData, lang: string) {
     (this.winRef.nativeWindow as { [key: string]: any })?.[
       'gigya'
     ]?.accounts?.showScreenSet({
@@ -157,5 +150,22 @@ export class GigyaRaasComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  canActivate(data: GigyaRaasComponentData): Observable<boolean> {
+    return this.authService.isUserLoggedIn().pipe(
+      map((isLoggedIn) => {
+        if (!isLoggedIn && data.showAnonymous === 'false') {
+          this.authRedirectService.saveCurrentNavigationUrl();
+          this.routingService.go({ cxRoute: 'login' });
+          return false;
+        }
+        if (isLoggedIn && data.showLoggedIn === 'false') {
+          this.routingService.go({ cxRoute: 'home' });
+          return false;
+        }
+        return true;
+      })
+    );
   }
 }
