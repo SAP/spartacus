@@ -5,9 +5,8 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorModel } from '../../../model/misc.model';
-import { ProductReference } from '../../../model/product.model';
 import { ErrorAction } from '../../../model';
+import { ProductReference } from '../../../model/product.model';
 
 export const LOAD_PRODUCT_REFERENCES = '[Product] Load Product References Data';
 export const LOAD_PRODUCT_REFERENCES_FAIL =
@@ -30,8 +29,11 @@ export class LoadProductReferences implements Action {
 
 export class LoadProductReferencesFail implements ErrorAction {
   readonly type = LOAD_PRODUCT_REFERENCES_FAIL;
+  public error: any;
 
-  constructor(public error: ErrorModel) {}
+  constructor(public payload: any) {
+    this.error = payload;
+  }
 }
 
 export class LoadProductReferencesSuccess implements Action {

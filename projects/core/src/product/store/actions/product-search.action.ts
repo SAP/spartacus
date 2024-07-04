@@ -5,14 +5,13 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorModel } from '../../../model/misc.model';
+import { ErrorAction } from '../../../model/index';
 import {
   ClearSearch,
   ProductSearchPage,
   Suggestion,
 } from '../../../model/product-search.model';
 import { SearchConfig } from '../../model/search-config';
-import { ErrorAction } from '../../../model/index';
 
 export const SEARCH_PRODUCTS = '[Product] Search Products';
 export const SEARCH_PRODUCTS_FAIL = '[Product] Search Products Fail';
@@ -35,7 +34,11 @@ export class SearchProducts implements Action {
 
 export class SearchProductsFail implements ErrorAction {
   readonly type = SEARCH_PRODUCTS_FAIL;
-  constructor(public error: ErrorModel, public auxiliary?: boolean) {}
+  public error: any;
+
+  constructor(public payload: any, public auxiliary?: boolean) {
+    this.error = payload;
+  }
 }
 
 export class SearchProductsSuccess implements Action {
@@ -55,7 +58,7 @@ export class GetProductSuggestionsSuccess implements Action {
 
 export class GetProductSuggestionsFail implements ErrorAction {
   readonly type = GET_PRODUCT_SUGGESTIONS_FAIL;
-  constructor(public error: ErrorModel) {}
+  constructor(public error: any) {}
 }
 
 export class ClearProductSearchResult implements Action {
