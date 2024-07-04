@@ -23,6 +23,13 @@
                 ? (step.name | cxTranslate | cxMultiLine)
                 : (step.name | cxTranslate)
             "
+            [attr.aria-label]="
+              'checkoutProgress.state.' + getStepState(i)
+                | cxTranslate
+                  : {
+                      step: step.name | cxTranslate
+                    }
+            "
           >
           </a>
         </li>
