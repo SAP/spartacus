@@ -26,7 +26,10 @@ export class LoadCmsPageData extends StateUtils.EntityLoadAction {
 export class LoadCmsPageDataFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_PAGE_DATA_FAIL;
 
-  constructor(pageContext: PageContext, public error: ErrorActionType) {
+  constructor(
+    pageContext: PageContext,
+    public error: ErrorActionType
+  ) {
     super(pageContext.type ?? '', pageContext.id, error);
   }
 }
@@ -50,7 +53,10 @@ export class CmsSetPageSuccessIndex extends StateUtils.EntitySuccessAction {
 export class CmsSetPageFailIndex extends StateUtils.EntityFailAction {
   readonly type = CMS_SET_PAGE_FAIL_INDEX;
 
-  constructor(pageContext: PageContext, public payload: string) {
+  constructor(
+    pageContext: PageContext,
+    public payload: string
+  ) {
     super(
       pageContext.type ?? '',
       pageContext.id,

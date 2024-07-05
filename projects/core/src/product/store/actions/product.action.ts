@@ -29,7 +29,10 @@ export interface EntityScopedLoaderAction extends Action {
 export class LoadProduct extends EntityScopedLoaderActions.EntityScopedLoadAction {
   readonly type = LOAD_PRODUCT;
 
-  constructor(public payload: string, scope = '') {
+  constructor(
+    public payload: string,
+    scope = ''
+  ) {
     super(PRODUCT_DETAIL_ENTITY, payload, scope);
   }
 }
@@ -49,7 +52,10 @@ export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailA
 export class LoadProductSuccess extends EntityScopedLoaderActions.EntityScopedSuccessAction {
   readonly type = LOAD_PRODUCT_SUCCESS;
 
-  constructor(public payload: Product, scope = '') {
+  constructor(
+    public payload: Product,
+    scope = ''
+  ) {
     super(PRODUCT_DETAIL_ENTITY, payload.code ?? '', scope);
   }
 }

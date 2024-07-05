@@ -78,7 +78,11 @@ export class EntityLoadAction implements EntityLoaderAction {
 export class EntityFailAction implements EntityLoaderAction {
   type = ENTITY_FAIL_ACTION;
   readonly meta: EntityLoaderMeta;
-  constructor(entityType: string, id: EntityId, public error?: any) {
+  constructor(
+    entityType: string,
+    id: EntityId,
+    public error?: any
+  ) {
     this.meta = entityFailMeta(entityType, id, error);
   }
 }

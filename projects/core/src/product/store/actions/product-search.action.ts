@@ -35,7 +35,10 @@ export class SearchProducts implements Action {
 
 export class SearchProductsFail implements ErrorAction {
   readonly type = SEARCH_PRODUCTS_FAIL;
-  constructor(public error: ErrorModel, public auxiliary?: boolean) {}
+  constructor(
+    public error: ErrorModel,
+    public auxiliary?: boolean
+  ) {}
 }
 
 export class SearchProductsSuccess implements Action {

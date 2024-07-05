@@ -464,7 +464,7 @@ describe('OptimizedSsrEngine', () => {
       engineRunner.request('a');
 
       tick(200);
-      expect(engineRunner.renders).toEqual(['a-0', 'a-0', 'a-0']);
+      expect(engineRunner.responses).toEqual(['a-0', 'a-0', 'a-0']);
     }));
   });
 
