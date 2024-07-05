@@ -425,29 +425,23 @@ export class ConfiguratorAttributeBaseComponent {
     value: Configurator.Value
   ): string {
     value = this.mergePriceAndValue(value);
-    let params;
+
+    let params: { value?: string; attribute?: string; price?: string } = {
+      value: value.valueDisplay,
+      attribute: attribute.label,
+    };
+
     let key;
     if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
       key = this.getAriaLabelForValueWithPrice(this.isReadOnly(attribute));
-      params = {
-        value: value.valueDisplay,
-        attribute: attribute.label,
-        price: value.valuePriceTotal.formattedValue,
-      };
+      params.price = value.valuePriceTotal.formattedValue;
     } else if (value.valuePrice && value.valuePrice?.value !== 0) {
       key = this.getAriaLabelForValueWithPrice(this.isReadOnly(attribute));
-      params = {
-        value: value.valueDisplay,
-        attribute: attribute.label,
-        price: value.valuePrice.formattedValue,
-      };
+      params.price = value.valuePrice.formattedValue;
     } else {
       key = this.getAriaLabelForValue(this.isReadOnly(attribute));
-      params = {
-        value: value.valueDisplay,
-        attribute: attribute.label,
-      };
     }
+
     let ariaLabel = '';
     this.translation
       .translate(key, params)
