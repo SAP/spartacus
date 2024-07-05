@@ -28,7 +28,7 @@ exports[`Spartacus User schematics: ng-add User Profile feature general setup sh
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { userProfileTranslationChunksConfig, userProfileTranslations } from "@spartacus/user/profile/assets";
-import { UserProfileRootModule, USER_PROFILE_FEATURE } from "@spartacus/user/profile/root";
+import { USER_PROFILE_FEATURE, UserProfileRootModule } from "@spartacus/user/profile/root";
 
 @NgModule({
   declarations: [],
@@ -59,7 +59,7 @@ exports[`Spartacus User schematics: ng-add User Profile feature general setup sh
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { userProfileTranslationChunksConfig, userProfileTranslations } from "@spartacus/user/profile/assets";
-import { UserProfileRootModule, USER_PROFILE_FEATURE } from "@spartacus/user/profile/root";
+import { USER_PROFILE_FEATURE, UserProfileRootModule } from "@spartacus/user/profile/root";
 
 @NgModule({
   declarations: [],
@@ -243,7 +243,7 @@ exports[`Spartacus User schematics: ng-add User-Account feature general setup sh
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { userAccountTranslationChunksConfig, userAccountTranslations } from "@spartacus/user/account/assets";
-import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from "@spartacus/user/account/root";
+import { USER_ACCOUNT_FEATURE, UserAccountRootModule } from "@spartacus/user/account/root";
 
 @NgModule({
   declarations: [],
