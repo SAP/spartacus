@@ -457,7 +457,7 @@ function takeOverChanges(
     },
   };
   if (result.priceSupplements) {
-    // remove any price supplements,a s they are now invalid
+    // remove any price supplements, as they are now invalid
     result.priceSupplements = undefined;
   }
   return result;
