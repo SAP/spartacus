@@ -17,8 +17,9 @@ import { GigyaRaasGuard } from '@spartacus/cdc/root';
     I18nModule,
     ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
       cmsComponents: {
-        GigyaRaasComponent: { component: GigyaRaasComponent ,
-          guards:[GigyaRaasGuard]
+        GigyaRaasComponent: {
+          component: GigyaRaasComponent,
+          guards: [GigyaRaasGuard],
         },
       },
       layoutSlots: {
