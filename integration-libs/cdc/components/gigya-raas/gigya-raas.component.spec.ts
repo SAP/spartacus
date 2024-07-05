@@ -3,13 +3,10 @@ import { By } from '@angular/platform-browser';
 import { GigyaRaasComponentData } from '@spartacus/cdc/core';
 import { CdcConfig, CdcJsService } from '@spartacus/cdc/root';
 import {
-  AuthRedirectService,
-  AuthService,
   BaseSiteService,
   CmsComponent,
   LanguageService,
   MockTranslatePipe,
-  RoutingService,
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -72,27 +69,11 @@ class LanguageServiceStub {
   }
 }
 
-class MockAuthRedirectService {
-  saveCurrentNavigationUrl() {}
-}
-class MockRoutingService {
-  go() {}
-}
-class MockAuthService {
-  isUserLoggedIn(): Observable<boolean> {
-    return of(true);
-  }
-}
-
 describe('GigyaRaasComponent', () => {
   let component: GigyaRaasComponent;
   let fixture: ComponentFixture<GigyaRaasComponent>;
   let baseSiteService: BaseSiteService;
   let cdcJsService: CdcJsService;
-  let authService: AuthService;
-  let routingService: RoutingService;
-  let authRedirectService: AuthRedirectService;
-  let langService: LanguageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -103,17 +84,10 @@ describe('GigyaRaasComponent', () => {
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
         { provide: CdcJsService, useClass: CdcJsServiceStub },
         { provide: LanguageService, useClass: LanguageServiceStub },
-        { provide: AuthService, useClass: MockAuthService },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
       ],
     });
     baseSiteService = TestBed.inject(BaseSiteService);
-    authService = TestBed.inject(AuthService);
-    routingService = TestBed.inject(RoutingService);
-    authRedirectService = TestBed.inject(AuthRedirectService);
     cdcJsService = TestBed.inject(CdcJsService);
-    langService = TestBed.inject(LanguageService);
     fixture = TestBed.createComponent(GigyaRaasComponent);
     component = fixture.componentInstance;
   });
@@ -258,84 +232,5 @@ describe('GigyaRaasComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('.js-error'))).toBeTruthy();
-  });
-
-  describe('canActivate()', () => {
-    it('should return true if showAnonymous is true and user is not logged in', (done) => {
-      const mockData: GigyaRaasComponentData = {
-        showAnonymous: 'true',
-      };
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-      spyOn(authRedirectService, 'saveCurrentNavigationUrl').and.callThrough();
-      spyOn(routingService, 'go').and.callThrough();
-      component.canActivate(mockData).subscribe((canActivate) => {
-        expect(canActivate).toEqual(true);
-        expect(routingService.go).not.toHaveBeenCalled();
-        expect(
-          authRedirectService.saveCurrentNavigationUrl
-        ).not.toHaveBeenCalled();
-        done();
-      });
-    });
-    it('should return true if showLoggedIn is true and user is logged in', (done) => {
-      const mockData: GigyaRaasComponentData = {
-        showLoggedIn: 'true',
-      };
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-      spyOn(authRedirectService, 'saveCurrentNavigationUrl').and.callThrough();
-      spyOn(routingService, 'go').and.callThrough();
-      component.canActivate(mockData).subscribe((canActivate) => {
-        expect(canActivate).toEqual(true);
-        expect(routingService.go).not.toHaveBeenCalled();
-        expect(
-          authRedirectService.saveCurrentNavigationUrl
-        ).not.toHaveBeenCalled();
-        done();
-      });
-    });
-    it('should navigate to login page if showAnonymous is false and user is not logged in', (done) => {
-      const mockData: GigyaRaasComponentData = {
-        showAnonymous: 'false',
-      };
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-      spyOn(authRedirectService, 'saveCurrentNavigationUrl').and.callThrough();
-      spyOn(routingService, 'go').and.callThrough();
-      component.canActivate(mockData).subscribe((canActivate) => {
-        expect(canActivate).toEqual(false);
-        expect(authRedirectService.saveCurrentNavigationUrl).toHaveBeenCalled();
-        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
-        done();
-      });
-    });
-    it('should navigate to home page if showLoggedIn is false and user is logged in', (done) => {
-      const mockData: GigyaRaasComponentData = {
-        showLoggedIn: 'false',
-      };
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-      spyOn(authRedirectService, 'saveCurrentNavigationUrl').and.callThrough();
-      spyOn(routingService, 'go').and.callThrough();
-
-      component.canActivate(mockData).subscribe((canActivate) => {
-        expect(canActivate).toEqual(false);
-        expect(
-          authRedirectService.saveCurrentNavigationUrl
-        ).not.toHaveBeenCalled();
-        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
-        done();
-      });
-    });
-  });
-
-  it('should not render anything if canActivate is false', () => {
-    spyOn(cdcJsService, 'didLoad').and.callThrough();
-    spyOn(cdcJsService, 'didScriptFailToLoad').and.callThrough();
-    spyOn(langService, 'getActive').and.returnValue(of('en'));
-    spyOn(component, 'canActivate').and.returnValue(of(false));
-    component.component = { uid: 'xcv', data$: of({}) };
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(cdcJsService.didLoad).not.toHaveBeenCalled();
-    expect(cdcJsService.didScriptFailToLoad).not.toHaveBeenCalled();
-    expect(langService.getActive).not.toHaveBeenCalled();
   });
 });

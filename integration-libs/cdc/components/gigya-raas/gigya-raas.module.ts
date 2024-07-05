@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { LayoutConfig } from '@spartacus/storefront';
 import { GigyaRaasComponent } from './gigya-raas.component';
+import { GigyaRaasGuard } from '@spartacus/cdc/root';
 
 @NgModule({
   imports: [
@@ -16,7 +17,9 @@ import { GigyaRaasComponent } from './gigya-raas.component';
     I18nModule,
     ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
       cmsComponents: {
-        GigyaRaasComponent: { component: GigyaRaasComponent },
+        GigyaRaasComponent: { component: GigyaRaasComponent ,
+          guards:[GigyaRaasGuard]
+        },
       },
       layoutSlots: {
         GigyaLoginPageTemplate: {

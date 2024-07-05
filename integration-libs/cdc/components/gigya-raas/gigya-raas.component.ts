@@ -10,21 +10,13 @@ import {
   NgZone,
   OnInit,
   ViewEncapsulation,
-  inject,
 } from '@angular/core';
 import { GigyaRaasComponentData } from '@spartacus/cdc/core';
 import { CdcConfig, CdcJsService } from '@spartacus/cdc/root';
-import {
-  AuthRedirectService,
-  AuthService,
-  BaseSiteService,
-  LanguageService,
-  RoutingService,
-  WindowRef,
-} from '@spartacus/core';
+import { BaseSiteService, LanguageService, WindowRef } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, map, take, tap } from 'rxjs/operators';
+import { distinctUntilChanged, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-gigya-raas',
@@ -39,10 +31,6 @@ export class GigyaRaasComponent implements OnInit {
   jsError$: Observable<boolean>;
   jsLoaded$: Observable<boolean>;
 
-  protected authService = inject(AuthService);
-  protected routingService = inject(RoutingService);
-  protected authRedirectService = inject(AuthRedirectService);
-
   public constructor(
     public component: CmsComponentData<GigyaRaasComponentData>,
     private baseSiteService: BaseSiteService,
@@ -54,19 +42,13 @@ export class GigyaRaasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.component.data$.subscribe((data) => {
-      this.canActivate(data).subscribe((canActivate) => {
-        if (canActivate) {
-          this.jsLoaded$ = this.cdcJSService.didLoad();
-          this.jsError$ = this.cdcJSService.didScriptFailToLoad();
-          this.language$ = this.languageService.getActive().pipe(
-            distinctUntilChanged(),
-            // On language change we want to rerender CDC screen with proper translations
-            tap(() => (this.renderScreenSet = true))
-          );
-        }
-      });
-    });
+    this.jsLoaded$ = this.cdcJSService.didLoad();
+    this.jsError$ = this.cdcJSService.didScriptFailToLoad();
+    this.language$ = this.languageService.getActive().pipe(
+      distinctUntilChanged(),
+      // On language change we want to rerender CDC screen with proper translations
+      tap(() => (this.renderScreenSet = true))
+    );
   }
 
   /**
@@ -150,22 +132,5 @@ export class GigyaRaasComponent implements OnInit {
       return true;
     }
     return false;
-  }
-
-  canActivate(data: GigyaRaasComponentData): Observable<boolean> {
-    return this.authService.isUserLoggedIn().pipe(
-      map((isLoggedIn) => {
-        if (!isLoggedIn && data.showAnonymous === 'false') {
-          this.authRedirectService.saveCurrentNavigationUrl();
-          this.routingService.go({ cxRoute: 'login' });
-          return false;
-        }
-        if (isLoggedIn && data.showLoggedIn === 'false') {
-          this.routingService.go({ cxRoute: 'home' });
-          return false;
-        }
-        return true;
-      })
-    );
   }
 }

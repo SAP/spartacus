@@ -5,3 +5,4 @@
  */
 
 export * from './cdc-logout.guard';
+export * from './gigya-raas.guard';
