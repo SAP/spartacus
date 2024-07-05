@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, inject } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 import { GigyaRaasComponentData } from '@spartacus/cdc/core';
