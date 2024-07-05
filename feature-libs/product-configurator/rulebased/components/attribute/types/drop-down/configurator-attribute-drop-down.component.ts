@@ -58,10 +58,12 @@ export class ConfiguratorAttributeDropDownComponent
               // Changes of attribute itself are already handled in the attribute composition directive
               filter((config) => this.firstTime || !!config.priceSupplements),
               switchMap((config) => {
-                const changed =
-                  this.extractValuePrice(config) || this.firstTime;
-                this.firstTime = false;
-                return changed ? of(true) : EMPTY;
+                if (this.firstTime) {
+                  this.firstTime = false;
+                  return of(true);
+                }
+                const pricesChanged = this.extractValuePrice(config);
+                return pricesChanged ? of(true) : EMPTY;
               })
             );
         })
