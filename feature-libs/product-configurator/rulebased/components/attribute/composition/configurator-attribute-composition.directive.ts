@@ -59,8 +59,8 @@ export class ConfiguratorAttributeCompositionDirective
   }
 
   /*
-   * Each time we update the configuration a complete new configuration state is emitted, including new attributes objects,
-   * regardless of if an attribute actually changed. Hence we compare the last rendered attribute with the the current state
+   * Each time we update the configuration a completely new configuration state is emitted, including new attribute objects,
+   * regardless of whether an attribute actually changed or not. Hence, we compare the last rendered attribute with the current state
    * and only destroy and re-create the attribute component, if there are actual changes to its data. This improves performance significantly.
    */
   ngOnChanges(): void {

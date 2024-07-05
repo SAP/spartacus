@@ -277,6 +277,14 @@ export class ConfiguratorAttributeBaseComponent {
     };
   }
 
+  /**
+   * Event handler to be called when a value price changes.
+   * @param {ConfiguratorValuePriceChanged} event event with the new value price
+   */
+  onPriceChanged(event: ConfiguratorValuePriceChanged) {
+    this.valuePrices[event.source.valueName] = event.valuePrice;
+  }
+
   protected getValuePrice(value: Configurator.Value | undefined): string {
     if (value) {
       value = this.mergePriceAndValue(value);
@@ -389,11 +397,12 @@ export class ConfiguratorAttributeBaseComponent {
     );
   }
 
-  onPriceChanged(event: ConfiguratorValuePriceChanged) {
-    this.valuePrices[event.source.valueName] = event.valuePrice;
-  }
-
-  protected mergePriceAndValue(value: Configurator.Value) {
+  /**
+   * Merges value price data received via @see {ConfiguratorValuePriceChanged} events into the given value, if available.
+   * @param {Configurator.Value} value the value
+   * @returns {Configurator.Value} the new value with pricing
+   */
+  protected mergePriceAndValue(value: Configurator.Value): Configurator.Value {
     const valueName = value.name;
     if (valueName && this.valuePrices[valueName]) {
       value = { ...value, valuePrice: this.valuePrices[valueName] };
@@ -401,7 +410,17 @@ export class ConfiguratorAttributeBaseComponent {
     return value;
   }
 
-  getAriaLabelGeneric(
+  /**
+   * Creates a text describing the current attribute that can be used as ARIA label.
+   * Includes price information. If a total price is available this price will be used,
+   * otherwise it falls back to the value price, or if no price is available,
+   * no price information will be included in the text.
+   *
+   * @param {Configurator.Attribute} attribute the attribute
+   * @param {Configurator.Value} value the value
+   * @returns {string} translated text
+   */
+  protected getAriaLabelGeneric(
     attribute: Configurator.Attribute,
     value: Configurator.Value
   ): string {
