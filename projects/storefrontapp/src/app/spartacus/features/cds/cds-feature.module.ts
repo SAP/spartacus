@@ -32,7 +32,7 @@ const cds1: CdsConfig = {
       javascriptUrl:
         'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
       configUrl:
-          'https://tag.static.stage.context.cloud.sap/config/mytenant-main-default',
+        'https://tag.static.stage.context.cloud.sap/config/mytenant-main-default',
       allowInsecureCookies: true,
     },
   },
