@@ -5,31 +5,31 @@
     </div>
     <button (click)="triggerDetails()" [attr.aria-expanded]="showMore">
       <ng-container *ngIf="!showMore">
-        <div
-          class="cx-toggle-details-link-text"
-          [attr.aria-label]="
-            'configurator.a11y.showMoreProductInfo'
-              | cxTranslate: { product: product.name }
-          "
-        >
+        <div class="cx-toggle-details-link-text">
           <span aria-hidden="true">{{
             'configurator.header.showMore' | cxTranslate
           }}</span>
         </div>
-        <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
+        <cx-icon
+          [attr.aria-label]="
+            'configurator.a11y.showMoreProductInfo'
+              | cxTranslate: { product: product.name }
+          "
+          [type]="iconTypes.CARET_DOWN"
+        ></cx-icon>
       </ng-container>
 
       <ng-container *ngIf="showMore">
-        <div
-          class="cx-toggle-details-link-text"
+        <div class="cx-toggle-details-link-text" aria-hidden="true">
+          {{ 'configurator.header.showLess' | cxTranslate }}
+        </div>
+        <cx-icon
           [attr.aria-label]="
             'configurator.a11y.showLessProductInfo'
               | cxTranslate: { product: product.name }
           "
-        >
-          {{ 'configurator.header.showLess' | cxTranslate }}
-        </div>
-        <cx-icon [type]="iconTypes.CARET_UP"></cx-icon>
+          [type]="iconTypes.CARET_UP"
+        ></cx-icon>
       </ng-container>
     </button>
     <div class="cx-details" [class.open]="showMore">

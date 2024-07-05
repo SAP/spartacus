@@ -39,21 +39,19 @@ describe('SuggestedAddressDialogComponent', () => {
 
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [FormsModule, I18nTestingModule],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        ],
-        declarations: [
-          SuggestedAddressDialogComponent,
-          MockCxIconComponent,
-          FocusDirective,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [FormsModule, I18nTestingModule],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+      ],
+      declarations: [
+        SuggestedAddressDialogComponent,
+        MockCxIconComponent,
+        FocusDirective,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SuggestedAddressDialogComponent);

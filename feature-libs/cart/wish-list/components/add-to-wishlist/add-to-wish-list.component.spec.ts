@@ -14,6 +14,7 @@ import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import { AuthService, I18nTestingModule, Product } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 import createSpy = jasmine.createSpy;
@@ -105,31 +106,30 @@ describe('AddToWishListComponent', () => {
   let wishListFacade: WishListFacade;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [
-          AddToWishListComponent,
-          MockIconComponent,
-          MockUrlPipe,
-          MockAtMessageDirective,
-        ],
-        providers: [
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: WishListFacade, useClass: MockWishListService },
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-        ],
-      })
-        .overrideComponent(AddToWishListComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [
+        AddToWishListComponent,
+        MockIconComponent,
+        MockUrlPipe,
+        MockAtMessageDirective,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: WishListFacade, useClass: MockWishListService },
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+      ],
     })
-  );
+      .overrideComponent(AddToWishListComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddToWishListComponent);

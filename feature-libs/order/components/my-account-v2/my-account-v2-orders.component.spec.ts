@@ -94,25 +94,23 @@ describe(' MyAccountV2OrdersComponent', () => {
   let fixture: ComponentFixture<MyAccountV2OrdersComponent>;
   let service: MyAccountV2OrderHistoryService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          MyAccountV2OrdersComponent,
-          MockUrlPipe,
-          MockMediaComponent,
-          MockSpinnerComponent,
-        ],
-        providers: [
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: MyAccountV2OrderHistoryService, useClass: MockService },
-          { provide: TranslationService, useClass: MockTranslationService },
-        ],
-      }).compileComponents();
-      service = TestBed.inject(MyAccountV2OrderHistoryService);
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        MyAccountV2OrdersComponent,
+        MockUrlPipe,
+        MockMediaComponent,
+        MockSpinnerComponent,
+      ],
+      providers: [
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: MyAccountV2OrderHistoryService, useClass: MockService },
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    }).compileComponents();
+    service = TestBed.inject(MyAccountV2OrderHistoryService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2OrdersComponent);

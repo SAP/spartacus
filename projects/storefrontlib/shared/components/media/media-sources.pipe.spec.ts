@@ -49,7 +49,6 @@ describe('MediaSourcesPipe', () => {
     const srcset = `96w, ${mockImgUrl} 284w`;
 
     const result = pipe.transform(srcset);
-    console.log(result);
 
     expect(result.length).toBe(1);
     expect(result[0].srcset).toBe(mockImgUrl);

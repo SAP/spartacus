@@ -37,26 +37,24 @@ describe('PersistFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: PersistFocusService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent, CustomFocusDirective],
-        providers: [
-          {
-            provide: PersistFocusService,
-            useClass: MockPersistFocusService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent, CustomFocusDirective],
+      providers: [
+        {
+          provide: PersistFocusService,
+          useClass: MockPersistFocusService,
+        },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MockComponent);
-      component = fixture.componentInstance;
-      service = TestBed.inject(PersistFocusService);
+    fixture = TestBed.createComponent(MockComponent);
+    component = fixture.componentInstance;
+    service = TestBed.inject(PersistFocusService);
 
-      spyOn(service, 'get').and.callThrough();
-      spyOn(service, 'set').and.callThrough();
-    })
-  );
+    spyOn(service, 'get').and.callThrough();
+    spyOn(service, 'set').and.callThrough();
+  }));
 
   it('should create component', () => {
     expect(component).toBeTruthy();

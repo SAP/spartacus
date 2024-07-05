@@ -43,7 +43,7 @@ export class LoadCmsComponentFail extends StateUtils.EntityFailAction {
 }
 
 export class LoadCmsComponentSuccess<
-  T extends CmsComponent
+  T extends CmsComponent,
 > extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_CMS_COMPONENT_SUCCESS;
 
@@ -59,7 +59,7 @@ export class LoadCmsComponentSuccess<
 }
 
 export class CmsGetComponentFromPage<
-  T extends CmsComponent
+  T extends CmsComponent,
 > extends StateUtils.EntitySuccessAction {
   readonly type = CMS_GET_COMPONENT_FROM_PAGE;
 

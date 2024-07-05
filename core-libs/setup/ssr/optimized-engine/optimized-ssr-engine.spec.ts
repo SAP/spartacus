@@ -149,6 +149,7 @@ describe('OptimizedSsrEngine', () => {
       });
     });
   });
+
   describe('logOptions', () => {
     let dateSpy: jest.SpyInstance;
 
@@ -161,6 +162,10 @@ describe('OptimizedSsrEngine', () => {
 
     afterEach(() => {
       dateSpy.mockReset();
+    });
+
+    afterAll(() => {
+      dateSpy.mockRestore();
     });
 
     it('should log the provided options', () => {
@@ -190,6 +195,30 @@ describe('OptimizedSsrEngine', () => {
         }",
         ]
       `);
+    });
+  });
+
+  describe('rendering cache', () => {
+    it('should be initialized with default optimization options none of the custom options are provided', () => {
+      const engineRunner = new TestEngineRunner({});
+      expect(
+        engineRunner.optimizedSsrEngine['renderingCache']['options']
+      ).toEqual(defaultSsrOptimizationOptions);
+    });
+
+    it('should be initialized with the provided custom options', () => {
+      const engineRunner = new TestEngineRunner({
+        cacheSize: 100,
+        ttl: 200,
+      });
+      expect(engineRunner.optimizedSsrEngine['renderingCache']).toBeDefined();
+      expect(
+        engineRunner.optimizedSsrEngine['renderingCache']['options']
+      ).toEqual({
+        ...defaultSsrOptimizationOptions,
+        cacheSize: 100,
+        ttl: 200,
+      });
     });
   });
 
@@ -412,6 +441,27 @@ describe('OptimizedSsrEngine', () => {
 
       tick(200);
       expect(engineRunner.responses).toEqual(['a-0', 'a-0', 'a-1']);
+    }));
+
+    it('should not invalidate renders if ttl is not defined', fakeAsync(() => {
+      let currentDate = 100;
+      jest.spyOn(Date, 'now').mockImplementation(() => currentDate);
+
+      const engineRunner = new TestEngineRunner({
+        cache: true,
+        timeout: 200,
+      }).request('a');
+
+      tick(200);
+      currentDate += 200;
+      engineRunner.request('a');
+
+      tick(200);
+      currentDate += 200;
+      engineRunner.request('a');
+
+      tick(200);
+      expect(engineRunner.renders).toEqual(['a-0', 'a-0', 'a-0']);
     }));
   });
 
@@ -1394,8 +1444,8 @@ describe('OptimizedSsrEngine', () => {
         .mockImplementationOnce(() => mockDate);
     });
 
-    afterEach(() => {
-      dateSpy.mockReset();
+    afterAll(() => {
+      dateSpy.mockRestore();
     });
 
     it('should use the default server logger, if custom logger is not specified', () => {

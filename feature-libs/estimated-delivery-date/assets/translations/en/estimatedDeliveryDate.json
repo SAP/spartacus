@@ -1,0 +1,7 @@
+{
+  "estimatedDeliveryDate": {
+    "quantity": "Qty-",
+    "ETA": "Estimated delivery date:",
+    "estimatedDeliveryDateEntryInfo": "{{ quantity }} quantity will be delivered by {{ date }}"
+  }
+}

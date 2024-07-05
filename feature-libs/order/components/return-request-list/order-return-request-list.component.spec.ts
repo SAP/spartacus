@@ -61,26 +61,24 @@ describe('OrderReturnRequestListComponent', () => {
   let fixture: ComponentFixture<OrderReturnRequestListComponent>;
   let returnService: OrderReturnRequestFacade;
   let el: DebugElement;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, ListNavigationModule, I18nTestingModule],
-        declarations: [OrderReturnRequestListComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: OrderReturnRequestFacade,
-            useClass: MockOrderReturnRequestService,
-          },
-          {
-            provide: TranslationService,
-            useClass: MockTranslationService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, ListNavigationModule, I18nTestingModule],
+      declarations: [OrderReturnRequestListComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: OrderReturnRequestFacade,
+          useClass: MockOrderReturnRequestService,
+        },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
+      ],
+    }).compileComponents();
 
-      returnService = TestBed.inject(OrderReturnRequestFacade);
-    })
-  );
+    returnService = TestBed.inject(OrderReturnRequestFacade);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderReturnRequestListComponent);

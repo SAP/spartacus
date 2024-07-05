@@ -24,23 +24,21 @@ describe('CheckoutOrderSummaryComponent', () => {
   let component: CheckoutOrderSummaryComponent;
   let fixture: ComponentFixture<CheckoutOrderSummaryComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          CheckoutOrderSummaryComponent,
-          OrderSummaryComponent,
-          PromotionsComponent,
-          AppliedCouponsComponent,
-          MockFeatureLevelDirective,
-        ],
-        providers: [
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        CheckoutOrderSummaryComponent,
+        OrderSummaryComponent,
+        PromotionsComponent,
+        AppliedCouponsComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutOrderSummaryComponent);

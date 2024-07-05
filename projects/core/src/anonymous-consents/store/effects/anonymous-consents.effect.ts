@@ -15,6 +15,7 @@ import {
   map,
   mergeMap,
   switchMap,
+  take,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -205,6 +206,7 @@ export class AnonymousConsentsEffects {
       ),
       concatMap(() =>
         this.userConsentService.getConsentsResultSuccess().pipe(
+          take(1),
           withLatestFrom(
             this.userIdService.getUserId(),
             this.userConsentService.getConsents(),

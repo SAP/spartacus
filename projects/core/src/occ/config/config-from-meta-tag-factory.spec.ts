@@ -21,20 +21,20 @@ describe('config from MetaTag Factory', () => {
     });
 
     it('should return server config with baseUrl from meta tag', () => {
-      mockMeta.getTag = () => ({ content: 'testBaseUrl' } as HTMLMetaElement);
+      mockMeta.getTag = () => ({ content: 'testBaseUrl' }) as HTMLMetaElement;
       expect(occServerConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({
         backend: { occ: { baseUrl: 'testBaseUrl' } },
       });
     });
 
     it('should return empty object when meta tag contains empty string', () => {
-      mockMeta.getTag = () => ({ content: '' } as HTMLMetaElement);
+      mockMeta.getTag = () => ({ content: '' }) as HTMLMetaElement;
       expect(occServerConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({});
     });
 
     it('should return empty object when meta tag contains placeholder "OCC_BACKEND_BASE_URL_VALUE"', () => {
       mockMeta.getTag = () =>
-        ({ content: 'OCC_BACKEND_BASE_URL_VALUE' } as HTMLMetaElement);
+        ({ content: 'OCC_BACKEND_BASE_URL_VALUE' }) as HTMLMetaElement;
       expect(occServerConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({});
     });
 
@@ -55,20 +55,20 @@ describe('config from MetaTag Factory', () => {
 
     it('should return server config with baseUrl from meta tag', () => {
       mockMeta.getTag = () =>
-        ({ content: 'testMediaBaseUrl' } as HTMLMetaElement);
+        ({ content: 'testMediaBaseUrl' }) as HTMLMetaElement;
       expect(mediaServerConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({
         backend: { media: { baseUrl: 'testMediaBaseUrl' } },
       });
     });
 
     it('should return empty object when meta tag contains empty string', () => {
-      mockMeta.getTag = () => ({ content: '' } as HTMLMetaElement);
+      mockMeta.getTag = () => ({ content: '' }) as HTMLMetaElement;
       expect(mediaServerConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({});
     });
 
     it('should return empty object when meta tag contains placeholder "MEDIA_BACKEND_BASE_URL_VALUE"', () => {
       mockMeta.getTag = () =>
-        ({ content: 'MEDIA_BACKEND_BASE_URL_VALUE' } as HTMLMetaElement);
+        ({ content: 'MEDIA_BACKEND_BASE_URL_VALUE' }) as HTMLMetaElement;
       expect(mediaServerConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({});
     });
 

@@ -123,29 +123,27 @@ class MockCxIconComponent {
 }
 
 describe('ConfigOverviewNotificationBannerComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterModule, RouterTestingModule],
-        declarations: [
-          ConfiguratorOverviewNotificationBannerComponent,
-          MockTranslatePipe,
-          MockUrlPipe,
-          MockCxIconComponent,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfigRouterExtractorService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterModule, RouterTestingModule],
+      declarations: [
+        ConfiguratorOverviewNotificationBannerComponent,
+        MockTranslatePipe,
+        MockUrlPipe,
+        MockCxIconComponent,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfigRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   it('should create', () => {
     configurationObs = of(productConfiguration);

@@ -45,19 +45,17 @@ describe('PagedList Component', () => {
   let template: any;
   let headerTemplateFixture: ComponentFixture<MockHeaderTemplateComponent>;
   let headerTemplate: any;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
-        declarations: [
-          PagedListComponent,
-          MockCxIconComponent,
-          MockHeaderTemplateComponent,
-          MockTemplateComponent,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [
+        PagedListComponent,
+        MockCxIconComponent,
+        MockHeaderTemplateComponent,
+        MockTemplateComponent,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PagedListComponent);

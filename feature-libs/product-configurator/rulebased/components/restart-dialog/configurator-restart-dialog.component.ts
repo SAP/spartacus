@@ -61,13 +61,20 @@ export class ConfiguratorRestartDialogComponent {
     this.close();
     // In case conflict solver was open as well, it was closed by the call above.
     // By navigating again we ensure it will open again.
-    this.routingService.go({
-      cxRoute: 'configure' + product.configuratorType,
-      params: {
-        ownerType: CommonConfigurator.OwnerType.PRODUCT,
-        entityKey: product.code,
+    this.routingService.go(
+      {
+        cxRoute: 'configure' + product.configuratorType,
+        params: {
+          ownerType: CommonConfigurator.OwnerType.PRODUCT,
+          entityKey: product.code,
+        },
       },
-    });
+      {
+        queryParams: {
+          productCode: product.code,
+        },
+      }
+    );
   }
 
   /**
