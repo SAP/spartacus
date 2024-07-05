@@ -80,13 +80,21 @@ export class GigyaRaasGuard {
     }
     return this.authService.isUserLoggedIn().pipe(
       map((isLoggedIn) => {
-        if (!isLoggedIn && data.showAnonymous === 'false') {
+        if (
+          !isLoggedIn &&
+          data.showAnonymous === 'false' &&
+          data.profileEdit === 'false'
+        ) {
           this.authRedirectService.saveCurrentNavigationUrl();
           return this.router.parseUrl(
             this.semanticPathService.get('login') ?? ''
           );
         }
-        if (isLoggedIn && data.showLoggedIn === 'false') {
+        if (
+          isLoggedIn &&
+          data.showLoggedIn === 'false' &&
+          data.profileEdit === 'false'
+        ) {
           return this.router.parseUrl(
             this.semanticPathService.get('home') ?? ''
           );

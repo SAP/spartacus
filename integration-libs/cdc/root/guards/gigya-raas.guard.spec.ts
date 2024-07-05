@@ -93,13 +93,23 @@ const data1 = {
   typeCode: 'GigyaRaasComponent',
   showAnonymous: 'true',
   showLoggedIn: 'false',
+  profileEdit: 'false',
 };
 
 const data2 = {
-  uid: 'GigyaRaasComponentForLogin',
+  uid: 'GigyaRaasComponentForXYZ',
   typeCode: 'GigyaRaasComponent',
   showAnonymous: 'false',
   showLoggedIn: 'true',
+  profileEdit: 'false',
+};
+
+const data3 = {
+  uid: 'GigyaRaasComponentForXYZ',
+  typeCode: 'GigyaRaasComponent',
+  showAnonymous: 'false',
+  showLoggedIn: 'false',
+  profileEdit: 'true',
 };
 
 class MockRoutingService {
@@ -266,6 +276,23 @@ describe('GigyaRaasGuard', () => {
   it('should return true if user is not logged in and showAnonymous is true', (done) => {
     spyOn(cmsService, 'getPage').and.returnValue(of(mock3));
     spyOn(cmsService, 'getComponentData').and.returnValue(of(data1));
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+    guard.canActivate().subscribe((canActivate) => {
+      expect(canActivate).toEqual(true);
+      expect(routingService.getNextPageContext).toHaveBeenCalled();
+      expect(cmsService.getPage).toHaveBeenCalled();
+      expect(cmsService.getComponentData).toHaveBeenCalled();
+      expect(authService.isUserLoggedIn).toHaveBeenCalled();
+      expect(
+        authRedirectService.saveCurrentNavigationUrl
+      ).not.toHaveBeenCalled();
+      expect(semanticPathService.get).not.toHaveBeenCalled();
+      done();
+    });
+  });
+  it('should return true if profileEdit is set, irrespective of showAnonymous/showLoggedIn', (done) => {
+    spyOn(cmsService, 'getPage').and.returnValue(of(mock3));
+    spyOn(cmsService, 'getComponentData').and.returnValue(of(data3));
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     guard.canActivate().subscribe((canActivate) => {
       expect(canActivate).toEqual(true);
