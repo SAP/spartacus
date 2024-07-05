@@ -270,6 +270,7 @@ if (environment.estimatedDeliveryDate) {
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         formErrorsDescriptiveMessages: true,
+        showSearchingCustomerByOrderInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
         showBillingAddressInDigitalPayments: false,
