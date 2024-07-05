@@ -89,7 +89,7 @@ export interface FeatureTogglesInterface {
    * This allows for the errors to be properly handled, ensuring that a correct response is sent to the client instead of a malformed template.
    */
   propagateErrorsToServer?: boolean;
-  
+
   /**
    * In SSR, the following errors will be printed to logs (and additionally can also
    * be forwarded to ExpressJS if only the setting
@@ -398,11 +398,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
   productConfiguratorAttributeTypesV2: false,
-<<<<<<< HEAD
   propagateErrorsToServer: false,
-=======
   ssrStrictErrorHandlingForHttpAndNgrx: false,
->>>>>>> @{-1}
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
   a11yNavigationUiKeyboardControls: false,
