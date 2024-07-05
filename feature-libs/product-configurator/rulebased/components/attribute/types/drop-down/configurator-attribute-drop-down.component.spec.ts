@@ -612,7 +612,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       );
     });
 
-    xit('should render the async pricing component if async pricing is enabled', () => {
+    it('should render the async pricing component if async pricing is enabled', () => {
       component.isAsyncPricing = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
