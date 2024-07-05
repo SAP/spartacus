@@ -426,7 +426,7 @@ export class ConfiguratorAttributeBaseComponent {
   ): string {
     value = this.mergePriceAndValue(value);
 
-    let params: { value?: string; attribute?: string; price?: string } = {
+    const params: { value?: string; attribute?: string; price?: string } = {
       value: value.valueDisplay,
       attribute: attribute.label,
     };
