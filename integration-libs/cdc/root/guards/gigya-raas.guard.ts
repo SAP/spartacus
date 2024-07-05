@@ -48,7 +48,9 @@ export class GigyaRaasGuard {
   ): Observable<(string | undefined)[]> {
     return this.cmsService.getPage(pageContext).pipe(
       switchMap((page): Observable<(string | undefined)[]> => {
-        if (!page) return of([]);
+        if (!page) {
+          return of([]);
+        }
         const componentUids = Object.values(page.slots)
           .flatMap((slot) => slot.components)
           .filter((component) => component?.typeCode === componentType)
