@@ -34,23 +34,21 @@ describe('CreateComponent', () => {
   let bannerCarouselComponent: BannerCarouselComponent;
   let fixture: ComponentFixture<BannerCarouselComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
-        declarations: [
-          BannerCarouselComponent,
-          CarouselComponent,
-          ComponentWrapperDirective,
-          IconComponent,
-        ],
-        providers: [
-          { provide: CmsComponentData, useValue: MockCmsComponentData },
-          { provide: CmsService, useClass: MockCmsService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [
+        BannerCarouselComponent,
+        CarouselComponent,
+        ComponentWrapperDirective,
+        IconComponent,
+      ],
+      providers: [
+        { provide: CmsComponentData, useValue: MockCmsComponentData },
+        { provide: CmsService, useClass: MockCmsService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BannerCarouselComponent);

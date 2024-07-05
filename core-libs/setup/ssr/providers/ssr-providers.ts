@@ -12,8 +12,7 @@ import {
   SERVER_REQUEST_URL,
 } from '@spartacus/core';
 
-import { ServerRespondingErrorHandler } from '../error-handling/multi-error-handlers';
-import { provideServerErrorResponseFactories } from '../error-handling/server-error-response-factory/provide-server-error-response-factories';
+import { PropagatingToServerErrorHandler } from '../error-handling/multi-error-handlers';
 import { getRequestOrigin } from '../express-utils/express-request-origin';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import { serverLoggerServiceFactory } from '../logger';
@@ -41,10 +40,9 @@ export function provideServer(options?: ServerOptions): Provider[] {
     },
     {
       provide: MULTI_ERROR_HANDLER,
-      useExisting: ServerRespondingErrorHandler,
+      useExisting: PropagatingToServerErrorHandler,
       multi: true,
     },
-    provideServerErrorResponseFactories(),
   ];
 }
 /**

@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ErrorActionType } from '../../../model/index';
 import { PageContext } from '../../../routing/index';
 import { StateUtils } from '../../../state/utils/index';
 import { Page } from '../../model/page.model';
-import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_CMS_PAGE_DATA = '[Cms] Load Page Data';
 export const LOAD_CMS_PAGE_DATA_FAIL = '[Cms] Load Page Data Fail';

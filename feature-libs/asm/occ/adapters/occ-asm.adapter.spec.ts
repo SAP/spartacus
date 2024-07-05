@@ -329,8 +329,8 @@ describe('OccAsmAdapter', () => {
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return (
         req.url === 'asmBindCart' &&
-        req.params.get('cartId') === 'cart001' &&
-        req.params.get('customerId') === 'customer001' &&
+        req.body.get('cartId') === 'cart001' &&
+        req.body.get('customerId') === 'customer001' &&
         req.headers.get(USE_CUSTOMER_SUPPORT_AGENT_TOKEN) === 'true' &&
         req.method === 'POST'
       );

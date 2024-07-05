@@ -174,9 +174,11 @@
     "links": {
       "newCart": "New Cart",
       "quotes": "Quotes",
+      "download": "Download Proposal",
       "a11y": {
         "newCart": "Create new empty cart and navigate to it.",
-        "quotes": "Navigate to quote search result list."
+        "quotes": "Navigate to quote search result list.",
+        "download": "Start downloading a quote proposal"
       }
     },
     "list": {

@@ -50,6 +50,8 @@ export const fontawesomeIconConfig: IconConfig = {
       REPEAT: 'fas fa-retweet',
       RESET: 'fas fa-times-circle',
       SEARCH: 'fas fa-search',
+      SEARCH_PLUS: 'fas fa-search-plus',
+      SEARCH_MINUS: 'fas fa-search-minus',
       SORT_AMOUNT_DOWN: 'fas fa-sort-amount-down',
       SORT_AMOUNT_UP: 'fas fa-sort-amount-up',
       SORT_DOWN: 'fas fa-sort-down',
@@ -69,6 +71,8 @@ export const fontawesomeIconConfig: IconConfig = {
       ARROW_RIGHT: 'fas  fa-arrow-right',
       ARROW_DOWN: 'fas  fa-arrow-down',
       ARROW_UP: 'fas  fa-arrow-up',
+      C360_INVOICE: 'fas fa-file-invoice',
+      C360_CIRCLE_USER: 'fas fa-circle-user',
     },
     resources: [
       {

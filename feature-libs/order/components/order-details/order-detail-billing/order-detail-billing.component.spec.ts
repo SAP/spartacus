@@ -42,20 +42,18 @@ describe('OrderDetailBillingComponent', () => {
   let component: OrderDetailBillingComponent;
   let fixture: ComponentFixture<OrderDetailBillingComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [OrderDetailBillingComponent],
-        providers: [
-          {
-            provide: OrderDetailsService,
-            useClass: MockOrderDetailsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [OrderDetailBillingComponent],
+      providers: [
+        {
+          provide: OrderDetailsService,
+          useClass: MockOrderDetailsService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailBillingComponent);

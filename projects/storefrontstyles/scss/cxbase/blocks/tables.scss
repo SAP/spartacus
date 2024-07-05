@@ -13,6 +13,10 @@
       font-weight: $font-weight-semi;
       text-transform: uppercase;
       color: theme-color('secondary');
+
+      @include forFeature('a11yImproveContrast') {
+        @include type('6');
+      }
     }
   }
 

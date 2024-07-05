@@ -14,7 +14,18 @@
           'checkoutLogin.emailAddress.placeholder' | cxTranslate
         }}"
       />
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'checkoutLogin.emailAddress.label' | cxTranslate
+        }"
+        [control]="checkoutLoginForm.get('email')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="checkoutLoginForm.get('email')"
       ></cx-form-errors>
     </label>
@@ -35,7 +46,18 @@
           'checkoutLogin.confirmEmail.placeholder' | cxTranslate
         }}"
       />
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'checkoutLogin.confirmEmail.label' | cxTranslate
+        }"
+        [control]="checkoutLoginForm.get('emailConfirmation')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="checkoutLoginForm.get('emailConfirmation')"
       ></cx-form-errors>
     </label>

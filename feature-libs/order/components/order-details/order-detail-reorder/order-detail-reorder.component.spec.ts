@@ -35,25 +35,23 @@ describe('Order detail reorder component', () => {
   let fixture: ComponentFixture<OrderDetailReorderComponent>;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [OrderDetailReorderComponent],
-        providers: [
-          RouterTestingModule,
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-          {
-            provide: OrderDetailsService,
-            useClass: MockOrderDetailsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [OrderDetailReorderComponent],
+      providers: [
+        RouterTestingModule,
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+        {
+          provide: OrderDetailsService,
+          useClass: MockOrderDetailsService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailReorderComponent);

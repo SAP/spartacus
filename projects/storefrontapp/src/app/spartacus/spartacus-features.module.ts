@@ -76,6 +76,8 @@ import { CheckoutFeatureModule } from './features/checkout/checkout-feature.modu
 import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
+import { EstimatedDeliveryDateFeatureModule } from './features/estimated-delivery-date/estimated-delivery-date-feature.module';
+import { OppsFeatureModule } from './features/opps/opps-feature.module';
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
@@ -132,6 +134,9 @@ if (environment.epdVisualization) {
 if (environment.pdfInvoices) {
   featureModules.push(PDFInvoicesFeatureModule);
 }
+if (environment.opps) {
+  featureModules.push(OppsFeatureModule);
+}
 if (environment.s4om) {
   featureModules.push(S4OMFeatureModule);
 }
@@ -140,6 +145,9 @@ if (environment.segmentRefs) {
 }
 if (environment.requestedDeliveryDate) {
   featureModules.push(RequestedDeliveryDateFeatureModule);
+}
+if (environment.estimatedDeliveryDate) {
+  featureModules.push(EstimatedDeliveryDateFeatureModule);
 }
 
 @NgModule({
@@ -261,12 +269,19 @@ if (environment.requestedDeliveryDate) {
     // CXSPA-6793: refactor to`provideFeatureToggles` and `satisfies` keyword
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        formErrorsDescriptiveMessages: true,
+        showSearchingCustomerByOrderInASM: false,
+        shouldHideAddToCartForUnpurchasableProducts: false,
+        useExtractedBillingAddressComponent: false,
+        showBillingAddressInDigitalPayments: false,
+        showDownloadProposalButton: false,
         showPromotionsInPDP: false,
         recentSearches: false,
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
         productConfiguratorAttributeTypesV2: true,
         propagateErrorsToServer: true,
+        ssrStrictErrorHandlingForHttpAndNgrx: true,
         a11yRequiredAsterisks: true,
         a11yQuantityOrderTabbing: true,
         a11yNavigationUiKeyboardControls: true,
@@ -288,6 +303,33 @@ if (environment.requestedDeliveryDate) {
         a11yListOversizedFocus: true,
         a11yStoreFinderOverflow: true,
         a11yCartSummaryHeadingOrder: true,
+        a11ySearchBoxMobileFocus: true,
+        a11yFacetKeyboardNavigation: true,
+        a11yUnitsListKeyboardControls: true,
+        a11yCartItemsLinksStyles: true,
+        a11yHideSelectBtnForSelectedAddrOrPayment: true,
+        a11yFocusableCarouselControls: true,
+        cmsGuardsServiceUseGuardsComposer: true,
+        cartQuickOrderRemoveListeningToFailEvent: true,
+        a11yKeyboardAccessibleZoom: true,
+        a11yOrganizationLinkableCells: true,
+        a11yPreventSRFocusOnHiddenElements: true,
+        a11yVisibleFocusOverflows: true,
+        a11yTruncatedTextForResponsiveView: true,
+        a11ySemanticPaginationLabel: true,
+        a11yPreventCartItemsFormRedundantRecreation: true,
+        a11yMyAccountLinkOutline: true,
+        a11yCloseProductImageBtnFocus: true,
+        a11yNotificationPreferenceFieldset: true,
+        a11yImproveContrast: true,
+        a11yEmptyWishlistHeading: true,
+        a11yScreenReaderBloatFix: true,
+        a11yUseButtonsForBtnLinks: true,
+        a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
+          true,
+        a11yFacetsDialogFocusHandling: true,
+        a11yLinkBtnsToTertiaryBtns: true,
+        cmsBottomHeaderSlotUsingFlexStyles: true,
       };
       return appFeatureToggles;
     }),

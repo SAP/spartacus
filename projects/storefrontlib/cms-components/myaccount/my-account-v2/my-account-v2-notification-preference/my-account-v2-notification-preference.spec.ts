@@ -48,23 +48,21 @@ describe('MyAccountV2NotificationPreferenceComponent', () => {
     },
   ];
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          MyAccountV2NotificationPreferenceComponent,
-          MockCxSpinnerComponent,
-        ],
-        providers: [
-          {
-            provide: UserNotificationPreferenceService,
-            useValue: notificationPreferenceService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        MyAccountV2NotificationPreferenceComponent,
+        MockCxSpinnerComponent,
+      ],
+      providers: [
+        {
+          provide: UserNotificationPreferenceService,
+          useValue: notificationPreferenceService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

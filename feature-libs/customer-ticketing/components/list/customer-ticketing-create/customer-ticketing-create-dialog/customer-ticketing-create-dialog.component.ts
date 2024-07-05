@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   AssociatedObject,
@@ -14,7 +14,7 @@ import {
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { FormUtils } from '@spartacus/storefront';
-import { Observable, Subscription, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 import {
   GlobalMessageService,
@@ -22,7 +22,8 @@ import {
   HttpErrorModel,
   TranslationService,
 } from '@spartacus/core';
-import { catchError, first } from 'rxjs/operators';
+import { catchError, first, tap } from 'rxjs/operators';
+
 @Component({
   selector: 'cx-customer-ticketing-create-dialog',
   templateUrl: './customer-ticketing-create-dialog.component.html',
@@ -31,8 +32,12 @@ export class CustomerTicketingCreateDialogComponent
   extends CustomerTicketingDialogComponent
   implements OnInit, OnDestroy
 {
-  ticketCategories$: Observable<Category[]> =
-    this.customerTicketingFacade.getTicketCategories();
+  ticketCategories$: Observable<Category[] | undefined> =
+    this.customerTicketingFacade.getTicketCategories().pipe(
+      tap((categories: Category[] | undefined) => {
+        this.manageCategoryValidation(categories);
+      })
+    );
   ticketAssociatedObjects$: Observable<AssociatedObject[]> =
     this.customerTicketingFacade.getTicketAssociatedObjects().pipe(
       catchError((error: any) => {
@@ -153,6 +158,20 @@ export class CustomerTicketingCreateDialogComponent
         });
     }
     this.onError();
+  }
+
+  protected manageCategoryValidation(categories: Category[] | undefined): void {
+    const categoryControl = this.form.get('ticketCategory');
+    if (!categoryControl) {
+      return;
+    }
+    if (categories?.length) {
+      categoryControl.setValidators(Validators.required);
+      categoryControl.updateValueAndValidity();
+    } else {
+      categoryControl.clearValidators();
+      categoryControl.updateValueAndValidity();
+    }
   }
 
   protected onComplete(): void {

@@ -1,26 +1,36 @@
-<picture *ngIf="media?.srcset && !isLegacy; else tmpImg">
-  <source
-    *ngFor="
-      let source of media!.srcset! | cxMediaSources;
-      trackBy: trackByMedia
-    "
-    [srcset]="source.srcset"
-    [media]="source.media"
-  />
+<ng-container *ngIf="!!media">
+  <picture *ngIf="media.srcset && !isLegacy; else legacyImgTmp">
+    <source
+      *ngFor="
+        let source of media!.srcset! | cxMediaSources;
+        trackBy: trackByMedia
+      "
+      [srcset]="source.srcset"
+      [media]="source.media"
+    />
 
-  <ng-container [ngTemplateOutlet]="tmpImg"></ng-container>
-</picture>
+    <img
+      [loading]="loading"
+      [alt]="media.alt"
+      [title]="media.alt"
+      [src]="media.src"
+      [attr.role]="media.role"
+      (load)="loadHandler()"
+      (error)="errorHandler()"
+    />
+  </picture>
 
-<ng-template #tmpImg>
-  <img
-    *ngIf="media && media.src"
-    [alt]="media.alt"
-    [title]="media.alt"
-    [src]="media.src"
-    [srcset]="media.srcset || media.src"
-    [attr.role]="media.role"
-    [loading]="loading"
-    (load)="loadHandler()"
-    (error)="errorHandler()"
-  />
-</ng-template>
+  <ng-template #legacyImgTmp>
+    <img
+      *ngIf="media.src"
+      [loading]="loading"
+      [alt]="media.alt"
+      [title]="media.alt"
+      [src]="media.src"
+      [srcset]="media?.srcset || media.src"
+      [attr.role]="media.role"
+      (load)="loadHandler()"
+      (error)="errorHandler()"
+    />
+  </ng-template>
+</ng-container>

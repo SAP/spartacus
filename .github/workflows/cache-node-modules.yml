@@ -27,7 +27,7 @@ jobs:
         run: npm ci
       - name: Cache node_modules
         id: cache-node-modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: | 
             node_modules

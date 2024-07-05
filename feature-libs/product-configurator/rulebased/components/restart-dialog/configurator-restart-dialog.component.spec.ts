@@ -81,34 +81,32 @@ describe('ConfiguratorRestartDialogComponent', () => {
     return <jasmine.Spy>f;
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      initializeMocks();
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorRestartDialogComponent,
-          MockCxIconComponent,
-          MockKeyboadFocusDirective,
-        ],
-        imports: [I18nTestingModule],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: ConfiguratorCommonsService,
-            useValue: mockConfigCommonsService,
-          },
-          {
-            provide: RoutingService,
-            useValue: mockRoutingService,
-          },
-          {
-            provide: ProductService,
-            useValue: mockProductService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    initializeMocks();
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorRestartDialogComponent,
+        MockCxIconComponent,
+        MockKeyboadFocusDirective,
+      ],
+      imports: [I18nTestingModule],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: ConfiguratorCommonsService,
+          useValue: mockConfigCommonsService,
+        },
+        {
+          provide: RoutingService,
+          useValue: mockRoutingService,
+        },
+        {
+          provide: ProductService,
+          useValue: mockProductService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     initialize();
@@ -171,13 +169,20 @@ describe('ConfiguratorRestartDialogComponent', () => {
     expect(
       mockConfigCommonsService.forceNewConfiguration
     ).not.toHaveBeenCalled();
-    expect(mockRoutingService.go).toHaveBeenCalledWith({
-      cxRoute: 'configure' + product.configuratorType,
-      params: {
-        ownerType: CommonConfigurator.OwnerType.PRODUCT,
-        entityKey: product.code,
+    expect(mockRoutingService.go).toHaveBeenCalledWith(
+      {
+        cxRoute: 'configure' + product.configuratorType,
+        params: {
+          ownerType: CommonConfigurator.OwnerType.PRODUCT,
+          entityKey: product.code,
+        },
       },
-    });
+      {
+        queryParams: {
+          productCode: product.code,
+        },
+      }
+    );
   });
 
   it('should create a new default config on restart', () => {

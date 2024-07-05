@@ -5,6 +5,7 @@
       "complete": "Complete",
       "configId": "Configuration ID",
       "toconfig": "Configure",
+      "toConfigReadOnly": "Show details",
       "editConfiguration": "Edit Configuration",
       "displayConfiguration": "Display Configuration",
       "resolveIssues": "Resolve Issues",
@@ -88,11 +89,13 @@
     "addToCart": {
       "button": "Add to Cart",
       "buttonAfterAddToCart": "Continue to Cart",
+      "buttonForQuote": "Continue to Quote",
       "buttonUpdateCart": "Done",
       "buttonDisplayOnly": "Done",
       "buttonClose": "Close",
       "confirmation": "Configuration has been added to the cart",
       "confirmationUpdate": "Cart has been updated with configuration",
+      "confirmationQuoteUpdate": "Quote has been updated with configuration",
       "quantity": "Qty"
     },
     "overviewForm": {
@@ -114,7 +117,8 @@
       "removeAllFilters": "Remove All Filters",
       "removeByPrice": "Remove Price-Relevant Filter",
       "removeMySelections": "Remove My Selections Filter",
-      "removeByGroup": "Remove Group Filter for group {{group}}"
+      "removeByGroup": "Remove Group Filter for group {{group}}",
+      "noFiltersAvailable": "No filters available"
     },
     "group": {
       "general": "General",
@@ -134,8 +138,12 @@
       "restartButton": "Start New",
       "resumeButton": "Resume"
     },
+    "httpHandlers": {
+      "makeToStockBaseProductIssue": "This product is a base product and cannot be added to the cart; choose a product variant instead"
+    },
     "a11y": {
       "configureProduct": "Configure product",
+      "showDetailsProduct": "Show details of the product",
       "cartEntryBundleInfo": "There is an item ",
       "cartEntryBundleInfo_other": "There are {{items}} items ",
       "cartEntryBundleName": "Item {{ name }}",

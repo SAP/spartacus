@@ -69,31 +69,29 @@ describe('PaymentMethodsComponent', () => {
   let userService: UserPaymentService;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          PaymentMethodsComponent,
-          MockCxSpinnerComponent,
-          CardComponent,
-          MockCxIconComponent,
-          MockAtMessageDirective,
-          FocusDirective,
-        ],
-        providers: [
-          { provide: UserPaymentService, useClass: MockUserPaymentService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        PaymentMethodsComponent,
+        MockCxSpinnerComponent,
+        CardComponent,
+        MockCxIconComponent,
+        MockAtMessageDirective,
+        FocusDirective,
+      ],
+      providers: [
+        { provide: UserPaymentService, useClass: MockUserPaymentService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
           },
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentMethodsComponent);

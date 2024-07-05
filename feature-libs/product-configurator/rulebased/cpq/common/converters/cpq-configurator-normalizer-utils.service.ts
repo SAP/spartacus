@@ -258,8 +258,8 @@ export class CpqConfiguratorNormalizerUtilsService {
     return attribute.label
       ? attribute.label
       : attribute.name
-      ? attribute.name
-      : '';
+        ? attribute.name
+        : '';
   }
 
   /**

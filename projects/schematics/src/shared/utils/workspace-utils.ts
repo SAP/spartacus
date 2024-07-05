@@ -82,7 +82,7 @@ export function getAngularJsonFile(
 }
 
 export function getProjectFromWorkspace<
-  TProjectType extends ProjectType.Application
+  TProjectType extends ProjectType.Application,
 >(
   tree: Tree,
   options: SpartacusOptions,
@@ -151,7 +151,7 @@ export function buildDefaultPath(project: WorkspaceProject): string {
 }
 
 export function getProject<
-  TProjectType extends ProjectType = ProjectType.Application
+  TProjectType extends ProjectType = ProjectType.Application,
 >(
   workspaceOrHost: WorkspaceSchema | Tree,
   projectName: string
@@ -186,10 +186,7 @@ export function scaffoldStructure(options: SpartacusOptions): Rule {
   const APP_PATH = 'app/spartacus';
   return (_tree: Tree, _context: SchematicContext) => {
     return chain([
-      debugLogRule(
-        `⌛️ Scaffolding Spartacus file structure...`,
-        options.debug
-      ),
+      debugLogRule(`⌛️ Scaffolding Spartacus file structure...`, options.debug),
 
       ensureModuleExists({
         name: SPARTACUS_MODULE,

@@ -122,6 +122,12 @@ function add_cdc {
     fi
 }
 
+function add_opps {
+  if [ "$ADD_OPPS" = true ] ; then
+        ng add @spartacus/opps@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+    fi
+}
+
 function add_epd_visualization {
     if [ "$ADD_EPD_VISUALIZATION" = true ] ; then
         ng add @spartacus/epd-visualization@${SPARTACUS_VERSION} --base-url ${EPD_VISUALIZATION_BASE_URL} --skip-confirmation --no-interactive
@@ -152,6 +158,12 @@ function add_s4om {
 function add_requested_delivery_date {
   if [ "$ADD_REQUESTED_DELIVERY_DATE" = true ] ; then
         ng add --skip-confirmation @spartacus/requested-delivery-date@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
+function add_estimated_delivery_date {
+  if [ "$ADD_ESTIMATED_DELIVERY_DATE" = true ] ; then
+        ng add --skip-confirmation @spartacus/estimated-delivery-date@${SPARTACUS_VERSION} --interactive false
     fi
 }
 
@@ -190,6 +202,7 @@ function add_spartacus_csr {
     add_quote
     add_s4om
     add_requested_delivery_date
+    add_estimated_delivery_date
     add_pdf_invoices
     remove_npmrc
     )
@@ -215,6 +228,7 @@ function add_spartacus_ssr {
     add_quote
     add_s4om
     add_requested_delivery_date
+    add_estimated_delivery_date
     add_pdf_invoices
     remove_npmrc
     )
@@ -238,6 +252,7 @@ function add_spartacus_ssr_pwa {
     add_product_configurator
     add_s4om
     add_requested_delivery_date
+    add_estimated_delivery_date
     add_pdf_invoices
     remove_npmrc
     )
@@ -762,6 +777,11 @@ function parseInstallArgs {
                 echo "➖ Added EPD"
                 shift
                 ;;
+            opps)
+                ADD_OPPS=true
+                echo "➖ Added OPPS"
+                shift
+                ;;                
             s4om)
                 ADD_S4OM=true
                 echo "➖ Added S4OM"
@@ -770,6 +790,11 @@ function parseInstallArgs {
             rdd)
                 ADD_REQUESTED_DELIVERY_DATE=true
                 echo "➖ Added Requested Delivery Date"
+                shift
+                ;;
+            edd)
+                ADD_ESTIMATED_DELIVERY_DATE=true
+                echo "➖ Added Estimated Delivery Date"
                 shift
                 ;;
             invoices)

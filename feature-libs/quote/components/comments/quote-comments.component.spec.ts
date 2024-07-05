@@ -60,38 +60,36 @@ describe('QuoteCommentsComponent', () => {
 
   let quote: Quote;
 
-  beforeEach(
-    waitForAsync(() => {
-      initTestData();
-      initMocks();
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          QuoteCommentsComponent,
-          MockCxMessagingComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          {
-            provide: QuoteFacade,
-            useValue: quoteFacade,
-          },
-          {
-            provide: EventService,
-            useValue: eventService,
-          },
-          {
-            provide: QuoteUIConfig,
-            useValue: quoteUIConfig,
-          },
-          {
-            provide: QuoteItemsComponentService,
-            useValue: mockQuoteItemsComponentService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    initTestData();
+    initMocks();
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        QuoteCommentsComponent,
+        MockCxMessagingComponent,
+        MockCxIconComponent,
+      ],
+      providers: [
+        {
+          provide: QuoteFacade,
+          useValue: quoteFacade,
+        },
+        {
+          provide: EventService,
+          useValue: eventService,
+        },
+        {
+          provide: QuoteUIConfig,
+          useValue: quoteUIConfig,
+        },
+        {
+          provide: QuoteItemsComponentService,
+          useValue: mockQuoteItemsComponentService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteCommentsComponent);

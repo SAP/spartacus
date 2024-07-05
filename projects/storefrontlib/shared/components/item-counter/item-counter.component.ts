@@ -16,7 +16,7 @@ import {
   inject,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureConfigService, useFeatureStyles } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
@@ -83,6 +83,10 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
     optional: true,
   });
 
+  constructor() {
+    useFeatureStyles('a11yVisibleFocusOverflows');
+  }
+
   // TODO: (CXSPA-6034) Remove HostListener next major release
   @HostListener('click') handleClick() {
     if (!this.featureConfigService?.isEnabled('a11yQuantityOrderTabbing')) {
@@ -109,7 +113,8 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
    * It is used to improve keyboard controls of the component.
    */
   updateValue(): void {
-    this.control.setValue(this.input.nativeElement.value);
+    // Convert string value to number(prevents us from having '1' + 1 = '11' on increment)
+    this.control.setValue(+this.input.nativeElement.value);
     this.control.markAsDirty();
   }
 

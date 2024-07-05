@@ -82,45 +82,43 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
     data$: of(mockComponentData),
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [BrowserAnimationsModule],
-        declarations: [
-          LanguageCurrencyComponent,
-          SiteContextSelectorComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          { provide: CmsService, useValue: MockCmsService },
-          {
-            provide: LanguageService,
-            useValue: MockLanguageService,
-          },
-          {
-            provide: CurrencyService,
-            useValue: MockCurrencyService,
-          },
-          {
-            provide: CmsComponentData,
-            useValue: MockCmsComponentData,
-          },
-          contextServiceMapProvider,
-        ],
-      })
-        .overrideComponent(SiteContextSelectorComponent, {
-          set: {
-            providers: [
-              {
-                provide: SiteContextComponentService,
-                useClass: SiteContextComponentService,
-              },
-            ],
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [BrowserAnimationsModule],
+      declarations: [
+        LanguageCurrencyComponent,
+        SiteContextSelectorComponent,
+        MockCxIconComponent,
+      ],
+      providers: [
+        { provide: CmsService, useValue: MockCmsService },
+        {
+          provide: LanguageService,
+          useValue: MockLanguageService,
+        },
+        {
+          provide: CurrencyService,
+          useValue: MockCurrencyService,
+        },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData,
+        },
+        contextServiceMapProvider,
+      ],
     })
-  );
+      .overrideComponent(SiteContextSelectorComponent, {
+        set: {
+          providers: [
+            {
+              provide: SiteContextComponentService,
+              useClass: SiteContextComponentService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LanguageCurrencyComponent);
