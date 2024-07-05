@@ -56,7 +56,7 @@ export class OccConfiguratorVariantNormalizer
       immediateConflictResolution: source.immediateConflictResolution ?? false,
       newConfiguration: source.newConfiguration, // we need a trinary state true, false, undefined!
       isAsyncPricing: this.featureConfig.isEnabled(
-        'productConfigurationDeltaRendering'
+        'productConfiguratorDeltaRendering'
       ),
     };
     const flatGroups: Configurator.Group[] = [];

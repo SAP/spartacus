@@ -91,7 +91,7 @@ export interface FeatureTogglesInterface {
    *
    * Hence, it is advised to do full regression testing after activation of this flag and before rolling this out to production.
    */
-  productConfigurationDeltaRendering?: boolean;
+  productConfiguratorDeltaRendering?: boolean;
 
   /**
    * Adds asterisks to required form fields in all components existing before v2211.20
@@ -385,7 +385,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
   productConfiguratorAttributeTypesV2: false,
-  productConfigurationDeltaRendering: false,
+  productConfiguratorDeltaRendering: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
   a11yNavigationUiKeyboardControls: false,

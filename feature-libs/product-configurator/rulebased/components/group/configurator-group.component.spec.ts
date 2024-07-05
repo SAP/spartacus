@@ -286,11 +286,11 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
     },
   };
 
-let productConfigurationDeltaRenderingEnabled = false;
+let productConfiguratorDeltaRenderingEnabled = false;
 class MockFeatureConfigService {
   isEnabled(name: string): boolean {
-    if (name === 'productConfigurationDeltaRendering') {
-      return productConfigurationDeltaRenderingEnabled;
+    if (name === 'productConfiguratorDeltaRendering') {
+      return productConfiguratorDeltaRenderingEnabled;
     }
     return false;
   }
@@ -800,12 +800,12 @@ describe('ConfiguratorGroupComponent', () => {
   describe('trackByFn', () => {
     const attr = ConfigurationTestData.attributeDropDown;
     it('should return attribute itself, if performance optimization is not active', () => {
-      productConfigurationDeltaRenderingEnabled = false;
+      productConfiguratorDeltaRenderingEnabled = false;
       expect(component.trackByFn(0, attr)).toBe(attr);
     });
 
     it('should return attribute key, if performance optimization is active', () => {
-      productConfigurationDeltaRenderingEnabled = true;
+      productConfiguratorDeltaRenderingEnabled = true;
       expect(component.trackByFn(0, attr)).toBe(attr.key);
     });
   });

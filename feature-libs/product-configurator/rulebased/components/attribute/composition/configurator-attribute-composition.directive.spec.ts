@@ -16,11 +16,11 @@ class MockViewContainerRef {
   createComponent = createSpy('vcr.createComponent');
 }
 
-let productConfigurationDeltaRenderingEnabled = false;
+let productConfiguratorDeltaRenderingEnabled = false;
 class MockFeatureConfigService {
   isEnabled(name: string): boolean {
-    if (name === 'productConfigurationDeltaRendering') {
-      return productConfigurationDeltaRenderingEnabled;
+    if (name === 'productConfiguratorDeltaRendering') {
+      return productConfiguratorDeltaRenderingEnabled;
     }
     return false;
   }
@@ -67,20 +67,20 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
 
   describe('ngOnInit', () => {
     it('should render view when performance feature toggle is off', () => {
-      productConfigurationDeltaRenderingEnabled = false;
+      productConfiguratorDeltaRenderingEnabled = false;
       classUnderTest.ngOnInit();
       expectComponentRendered(1);
     });
 
     it('should log when performance feature toggle is off but no component found', () => {
-      productConfigurationDeltaRenderingEnabled = false;
+      productConfiguratorDeltaRenderingEnabled = false;
       classUnderTest['context'].componentKey = 'not.existing';
       classUnderTest.ngOnInit();
       expectLogOnly();
     });
 
     it('should do nothing when performance feature toggle is on', () => {
-      productConfigurationDeltaRenderingEnabled = true;
+      productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest.ngOnInit();
       expectNoInteraction();
     });
@@ -88,13 +88,13 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
 
   describe('ngOnChanges', () => {
     it('should render view when performance feature toggle is on', () => {
-      productConfigurationDeltaRenderingEnabled = true;
+      productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest.ngOnChanges();
       expectComponentRendered(1);
     });
 
     it('should render the attribute only once if it did not change', () => {
-      productConfigurationDeltaRenderingEnabled = true;
+      productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest.ngOnChanges();
       // re-create another context with the same attribute
       classUnderTest['context'] = ConfiguratorTestUtils.getAttributeContext();
@@ -103,7 +103,7 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
     });
 
     it('should re-render the attribute if it did change', () => {
-      productConfigurationDeltaRenderingEnabled = true;
+      productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest.ngOnChanges();
       // re-create another context with the different attribute
       classUnderTest['context'] = ConfiguratorTestUtils.getAttributeContext();
@@ -113,14 +113,14 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
     });
 
     it('should log when performance feature toggle is on but no component found', () => {
-      productConfigurationDeltaRenderingEnabled = true;
+      productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest['context'].componentKey = 'not.existing';
       classUnderTest.ngOnChanges();
       expectLogOnly();
     });
 
     it('should do nothing when performance feature toggle is off', () => {
-      productConfigurationDeltaRenderingEnabled = false;
+      productConfiguratorDeltaRenderingEnabled = false;
       classUnderTest.ngOnChanges();
       expectNoInteraction();
     });

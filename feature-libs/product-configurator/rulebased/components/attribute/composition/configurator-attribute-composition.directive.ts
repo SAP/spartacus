@@ -26,7 +26,7 @@ import {
 import { ConfiguratorAttributeCompositionContext } from './configurator-attribute-composition.model';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 
-const FEATURE_TOGGLE_PERF = 'productConfigurationDeltaRendering';
+const FEATURE_TOGGLE_PERF = 'productConfiguratorDeltaRendering';
 
 @Directive({
   selector: '[cxConfiguratorAttributeComponent]',
@@ -52,7 +52,7 @@ export class ConfiguratorAttributeCompositionDirective
   ) {}
 
   ngOnInit(): void {
-    if (!this.featureConfig.isEnabled('productConfigurationDeltaRendering')) {
+    if (!this.featureConfig.isEnabled('productConfiguratorDeltaRendering')) {
       const componentKey = this.context.componentKey;
       this.renderComponent(this.attrCompAssignment[componentKey], componentKey);
     }

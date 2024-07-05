@@ -322,11 +322,11 @@ const MockConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig = {
   },
 };
 
-let productConfigurationDeltaRenderingEnabled = false;
+let productConfiguratorDeltaRenderingEnabled = false;
 class MockFeatureConfigService {
   isEnabled(name: string): boolean {
-    if (name === 'productConfigurationDeltaRendering') {
-      return productConfigurationDeltaRenderingEnabled;
+    if (name === 'productConfiguratorDeltaRendering') {
+      return productConfiguratorDeltaRenderingEnabled;
     }
     return false;
   }
@@ -1769,13 +1769,13 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   it('should set async pricing flag to true when performance optimization is active', () => {
-    productConfigurationDeltaRenderingEnabled = true;
+    productConfiguratorDeltaRenderingEnabled = true;
     const result = occConfiguratorVariantNormalizer.convert(configuration);
     expect(result.isAsyncPricing).toBe(true);
   });
 
   it('should set async pricing flag to false when performance optimization is NOT active', () => {
-    productConfigurationDeltaRenderingEnabled = false;
+    productConfiguratorDeltaRenderingEnabled = false;
     const result = occConfiguratorVariantNormalizer.convert(configuration);
     expect(result.isAsyncPricing).toBe(false);
   });

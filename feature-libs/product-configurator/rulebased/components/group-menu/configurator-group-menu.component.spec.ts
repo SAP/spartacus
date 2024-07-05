@@ -129,11 +129,11 @@ const mockRouterStateIssueNavigation: any = {
   },
 };
 
-let productConfigurationDeltaRenderingEnabled = false;
+let productConfiguratorDeltaRenderingEnabled = false;
 class MockFeatureConfigService {
   isEnabled(name: string): boolean {
-    if (name === 'productConfigurationDeltaRendering') {
-      return productConfigurationDeltaRenderingEnabled;
+    if (name === 'productConfiguratorDeltaRendering') {
+      return productConfiguratorDeltaRenderingEnabled;
     }
     return false;
   }
@@ -1820,14 +1820,14 @@ describe('ConfiguratorGroupMenuComponent', () => {
 
   describe('trackByFn', () => {
     it('should return group itself, if performance optimization is not active', () => {
-      productConfigurationDeltaRenderingEnabled = false;
+      productConfiguratorDeltaRenderingEnabled = false;
       expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(
         simpleConfig.groups[0]
       );
     });
 
     it('should return group ID, if performance optimization is active', () => {
-      productConfigurationDeltaRenderingEnabled = true;
+      productConfiguratorDeltaRenderingEnabled = true;
       expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(GROUP_ID_1);
     });
   });

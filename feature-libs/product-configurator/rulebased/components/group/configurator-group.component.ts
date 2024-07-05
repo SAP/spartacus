@@ -115,10 +115,10 @@ export class ConfiguratorGroupComponent {
    * track-by function for the ngFor generating the attribute list of the current group.
    * @param _index
    * @param group
-   * @returns attribute key if feature 'productConfigurationDeltaRendering' is active, the attribute itself otherwise (same as if there were not track-by function)
+   * @returns attribute key if feature 'productConfiguratorDeltaRendering' is active, the attribute itself otherwise (same as if there were not track-by function)
    */
   trackByFn = (_index: number, attribute: Configurator.Attribute) => {
-    return this.featureConfig.isEnabled('productConfigurationDeltaRendering')
+    return this.featureConfig.isEnabled('productConfiguratorDeltaRendering')
       ? attribute.key
       : attribute;
   };
