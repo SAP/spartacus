@@ -9,13 +9,19 @@ import {
   SPARTACUS_S4_SERVICE,
   SPARTACUS_S4_SERVICE_ROOT,
   SPARTACUS_S4_SERVICE_ASSETS,
+  CHECKOUT_B2B_FEATURE_NAME,
+  ORDER_FEATURE_NAME,
+  SPARTACUS_S4_SERVICE_CHECKOUT,
 } from '../../libs-constants';
 import { SchematicConfig } from '../../utils';
+import { CHECKOUT_B2B_MODULE } from '../checkout-schematics-config';
 
 export const S4_SERVICE_FOLDER_NAME = 's4-service';
 export const S4_SERVICE_MODULE_NAME = 'S4Service';
+export const S4_SERVICE_SCSS_FILE_NAME = 's4-service.scss';
 
 export const S4_SERVICE_MODULE = 'S4ServiceModule';
+export const S4_SERVICE_CHECKOUT_MODULE = 'S4ServiceCheckoutModule';
 export const S4_SERVICE_ROOT_MODULE = 'S4ServiceRootModule';
 export const S4_SERVICE_FEATURE_NAME_CONSTANT = 'S4_SERVICE_FEATURE';
 export const S4_SERVICE_TRANSLATIONS = 's4ServiceTranslations';
@@ -26,13 +32,20 @@ export const S4_SERVICE_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: S4_SERVICE_FEATURE_NAME,
     mainScope: SPARTACUS_S4_SERVICE,
+    b2b: true,
   },
   folderName: S4_SERVICE_FOLDER_NAME,
   moduleName: S4_SERVICE_MODULE_NAME,
-  featureModule: {
-    name: S4_SERVICE_MODULE,
-    importPath: SPARTACUS_S4_SERVICE,
-  },
+  featureModule: [
+    {
+      name: S4_SERVICE_MODULE,
+      importPath: SPARTACUS_S4_SERVICE,
+    },
+    {
+      name: S4_SERVICE_CHECKOUT_MODULE,
+      importPath: SPARTACUS_S4_SERVICE_CHECKOUT,
+    },
+  ],
   rootModule: {
     name: S4_SERVICE_ROOT_MODULE,
     importPath: SPARTACUS_S4_SERVICE_ROOT,
@@ -46,5 +59,15 @@ export const S4_SERVICE_SCHEMATICS_CONFIG: SchematicConfig = {
     chunks: S4_SERVICE_TRANSLATION_CHUNKS_CONFIG,
     importPath: SPARTACUS_S4_SERVICE_ASSETS,
   },
-  dependencyFeatures: [],
+  dependencyFeatures: [CHECKOUT_B2B_FEATURE_NAME, ORDER_FEATURE_NAME],
+  styles: {
+    scssFileName: S4_SERVICE_SCSS_FILE_NAME,
+    importStyle: SPARTACUS_S4_SERVICE,
+  },
+  importAfter: [
+    {
+      markerModuleName: CHECKOUT_B2B_MODULE,
+      featureModuleName: S4_SERVICE_CHECKOUT_MODULE,
+    },
+  ],
 };
