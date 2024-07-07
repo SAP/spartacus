@@ -5,6 +5,7 @@
  */
 
 import { CheckoutEvent } from '@spartacus/checkout/base/root';
+import { ServiceTime } from '../model/checkout-service-details.model';
 
 /**
  * An abstract event for all the service details related events.
@@ -23,5 +24,5 @@ export class CheckoutServiceDetailsSetEvent extends CheckoutServiceDetailsEvent 
   /**
    * scheduled time and date
    */
-  scheduledAt?: string;
+  scheduledAt?: ServiceTime;
 }

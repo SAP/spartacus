@@ -4,6 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import './augmented-core.model';
-import './augmented-types';
+import './augmented-types.model';
 export * from './checkout-service-details.model';

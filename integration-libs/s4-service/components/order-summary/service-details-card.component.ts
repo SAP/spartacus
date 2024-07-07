@@ -7,6 +7,7 @@
 import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
+import { ServiceTime } from '@spartacus/s4-service/root';
 import { Card, OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest, map } from 'rxjs';
 
@@ -29,7 +30,7 @@ export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  getServiceDetailsCard(servicedAt: string | undefined): Observable<Card> {
+  getServiceDetailsCard(servicedAt: ServiceTime | undefined): Observable<Card> {
     if (servicedAt && servicedAt !== undefined) {
       return combineLatest([
         this.translationService.translate(
@@ -38,11 +39,13 @@ export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
         this.translationService.translate('serviceOrderCheckout.cardLabel'),
       ]).pipe(
         map(([textTitle, textLabel]) => {
-          servicedAt = this.convertDateTimeToReadableString(servicedAt ?? '');
+          const text = this.convertDateTimeToReadableString(
+            (servicedAt as string) ?? ''
+          );
           return {
             title: textTitle,
             textBold: textLabel,
-            text: [servicedAt],
+            text: [text],
           };
         })
       );

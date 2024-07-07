@@ -22,8 +22,10 @@ import { TranslationService, UserCostCenterService } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { CheckoutServiceDetailsFacade } from '../../../root/facade/checkout-service-details.facade';
-import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
+import {
+  CheckoutServiceDetailsFacade,
+  CheckoutServiceSchedulePickerService,
+} from '@spartacus/s4-service/root';
 
 @Component({
   selector: 'cx-review-submit',

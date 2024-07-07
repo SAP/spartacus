@@ -22,6 +22,7 @@ import {
   CheckoutServiceDetailsSetEvent,
 } from '@spartacus/s4-service/root';
 import { CheckoutServiceDetailsConnector } from '../connector/checkout-service-details.connector';
+import { ServiceTime } from '@spartacus/s4-service/root';
 
 @Injectable()
 export class CheckoutServiceDetailsService
@@ -82,7 +83,7 @@ export class CheckoutServiceDetailsService
     );
   }
 
-  setServiceScheduleSlot(scheduledAt: string): Observable<unknown> {
+  setServiceScheduleSlot(scheduledAt: ServiceTime): Observable<unknown> {
     return this.setServiceScheduleSlotCommand.execute(scheduledAt);
   }
 

@@ -7,13 +7,21 @@
 import '@spartacus/checkout/base/root';
 import '@spartacus/core';
 import { OccEndpoint } from '@spartacus/core';
+import '@spartacus/order/root';
+import { ServiceTime } from './checkout-service-details.model';
+
+declare module '@spartacus/order/root' {
+  interface Order {
+    servicedAt?: ServiceTime;
+  }
+}
 
 declare module '@spartacus/checkout/base/root' {
   const enum CheckoutStepType {
     SERVICE_DETAILS = 'serviceDetails',
   }
   interface CheckoutState {
-    servicedAt?: string; //response property name
+    servicedAt?: ServiceTime; //response property name
   }
 }
 export abstract class serviceOrderConfiguration {

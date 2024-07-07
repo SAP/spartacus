@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { CHECKOUT_CORE_FEATURE } from '@spartacus/checkout/base/root';
 import { QueryState, facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { ServiceTime } from '../model/checkout-service-details.model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +27,9 @@ export abstract class CheckoutServiceDetailsFacade {
   /**
    * Set service schedule DateTime for the cart
    */
-  abstract setServiceScheduleSlot(scheduledAt: string): Observable<unknown>;
+  abstract setServiceScheduleSlot(
+    scheduledAt: ServiceTime
+  ): Observable<unknown>;
 
   /**
    * Get the selected scheduled DateTime

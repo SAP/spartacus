@@ -8,8 +8,8 @@ import { Injectable, inject } from '@angular/core';
 import { UrlTree } from '@angular/router';
 import { CheckoutB2BStepsSetGuard } from '@spartacus/checkout/b2b/components';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
+import { CheckoutServiceDetailsFacade } from '@spartacus/s4-service/root';
 import { Observable, filter, map, of, switchMap } from 'rxjs';
-import { CheckoutServiceDetailsFacade } from '../../../root/facade/checkout-service-details.facade';
 
 @Injectable({
   providedIn: 'root',

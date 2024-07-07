@@ -24,9 +24,10 @@ import {
   Subscription,
   filter,
 } from 'rxjs';
-
-import { CheckoutServiceDetailsFacade } from '../../../root/facade/checkout-service-details.facade';
-import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
+import {
+  CheckoutServiceDetailsFacade,
+  CheckoutServiceSchedulePickerService,
+} from '@spartacus/s4-service/root';
 
 @Component({
   selector: 'cx-service-details',
