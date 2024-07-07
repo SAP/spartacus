@@ -10,8 +10,10 @@ import {
   s4ServiceTranslationChunksConfig,
   s4ServiceTranslations,
 } from '@spartacus/s4-service/assets';
-import { S4ServiceRootModule } from '@spartacus/s4-service/root';
-import { S4_SERVICE_FEATURE } from 'integration-libs/s4-service/root/feature-name';
+import {
+  S4ServiceRootModule,
+  S4_SERVICE_FEATURE,
+} from '@spartacus/s4-service/root';
 
 @NgModule({
   imports: [S4ServiceRootModule],

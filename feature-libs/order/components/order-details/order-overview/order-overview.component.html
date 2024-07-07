@@ -105,6 +105,12 @@
             [content]="getDeliveryModeCardContent(order?.deliveryMode) | async"
           ></cx-card>
         </ng-container>
+
+        <ng-template
+          [cxOutlet]="cartOutlets.SERVICE_DETAILS"
+          [cxOutletContext]="{ item: order, readonly: true }"
+        >
+        </ng-template>
       </div>
 
       <ng-container *ngIf="order.paymentInfo">
