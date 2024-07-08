@@ -29,12 +29,7 @@ export class EffectsErrorHandlerService {
       !(error instanceof HttpErrorModel) &&
       !(error instanceof HttpErrorResponse);
 
-    // We avoid sending unpredictable errors to the browser's console, to prevent
-    // possibly exposing there potentially confidential user's data.
-    // This isn't an issue in SSR, where pages are rendered anonymously.
-    // Moreover, in SSR we want to capture all app's errors, so we can potentially send
-    // a HTTP error response (e.g. 500 error page) from SSR to a client.
-    if (isNotHttpError && this.shouldHandleError()) {
+    if (isNotHttpError && this.shouldHandleError(error)) {
       this.errorHandler.handleError(error);
     }
   }
@@ -54,7 +49,7 @@ export class EffectsErrorHandlerService {
    * Moreover, in SSR we want to capture all app's errors, so we can potentially send
    * a HTTP error response (e.g. 500 error page) from SSR to a client.
    */
-  protected shouldHandleError(): boolean {
+  protected shouldHandleError(_error: unknown): boolean {
     return !this.windowRef.isBrowser();
   }
 }

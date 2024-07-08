@@ -48,7 +48,7 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
             this.featureService.isEnabled(
               'ssrStrictErrorHandlingForHttpAndNgrx'
             ) &&
-            this.shouldHandleError()
+            this.shouldHandleError(error)
           ) {
             this.handleError(error);
           }
@@ -66,7 +66,7 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
    * Moreover, in SSR we want to capture all app's errors, so we can potentially send
    * a HTTP error response (e.g. 500 error page) from SSR to a client.
    */
-  protected shouldHandleError(): boolean {
+  protected shouldHandleError(_error: unknown): boolean {
     return !this.windowRef.isBrowser();
   }
 
