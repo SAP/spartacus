@@ -70,25 +70,23 @@ class MockCxIconComponent {
 
 describe('ConfiguratorOverviewFilterBarComponent', () => {
   describe('in a component test environment', () => {
-    beforeEach(
-      waitForAsync(() => {
-        initTestData();
-        initMocks();
-        TestBed.configureTestingModule({
-          imports: [I18nTestingModule],
-          declarations: [
-            ConfiguratorOverviewFilterBarComponent,
-            MockCxIconComponent,
-          ],
-          providers: [
-            {
-              provide: ConfiguratorCommonsService,
-              useValue: mockConfigCommonsService,
-            },
-          ],
-        }).compileComponents();
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      initTestData();
+      initMocks();
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          ConfiguratorOverviewFilterBarComponent,
+          MockCxIconComponent,
+        ],
+        providers: [
+          {
+            provide: ConfiguratorCommonsService,
+            useValue: mockConfigCommonsService,
+          },
+        ],
+      }).compileComponents();
+    }));
 
     it('should create component', () => {
       initTestComponent();

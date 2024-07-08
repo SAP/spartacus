@@ -19,23 +19,21 @@ describe('BreadcrumbComponent', () => {
   let component: BreadcrumbComponent;
   let fixture: ComponentFixture<BreadcrumbComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [BreadcrumbComponent, MockFeatureDirective],
-        providers: [
-          { provide: PageMetaService, useClass: MockPageMetaService },
-          {
-            provide: CmsComponentData,
-            useValue: {
-              data$: of({}),
-            },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [BreadcrumbComponent, MockFeatureDirective],
+      providers: [
+        { provide: PageMetaService, useClass: MockPageMetaService },
+        {
+          provide: CmsComponentData,
+          useValue: {
+            data$: of({}),
           },
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BreadcrumbComponent);

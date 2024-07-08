@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "author": "SAP, Spartacus team",
   "engines": {
-    "node": "^18.13.0 || ^20.10.0"
+    "node": "^18.20.0 || ^20.12.0"
   },
   "scripts": {
     "build:analyze": "npm run build -- --stats-json && npx --yes webpack-bundle-analyzer dist/storefrontapp/stats.json",
@@ -217,7 +217,7 @@
     "parse5": "^7.1.2",
     "postcss": "^8.4.31",
     "postcss-scss": "^4.0.6",
-    "prettier": "~2.4.1",
+    "prettier": "~3.2.5",
     "rimraf": "^5.0.0",
     "sass-true": "^8.0.0",
     "semver": "^7.5.2",
@@ -226,7 +226,7 @@
     "stylelint-config-standard-scss": "^13.1.0",
     "stylelint-scss": "^6.2.1",
     "ts-jest": "^29.1.1",
-    "ts-morph": "^9.1.0",
+    "ts-morph": "^23.0.0",
     "ts-node": "^10.6.0",
     "typescript": "^5.2.2",
     "webpack": "~5.91.0",

@@ -29,6 +29,14 @@
           >
           </ng-select>
           <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            [translationParams]="{
+              label: 'addressForm.country' | cxTranslate
+            }"
+            [control]="addressForm.get('country.isocode')"
+          ></cx-form-errors>
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="addressForm.get('country.isocode')"
           ></cx-form-errors>
         </label>
@@ -73,7 +81,17 @@
         placeholder="{{ 'addressForm.firstName.placeholder' | cxTranslate }}"
         formControlName="firstName"
       />
-      <cx-form-errors [control]="addressForm.get('firstName')"></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'addressForm.firstName.label' | cxTranslate
+        }"
+        [control]="addressForm.get('firstName')"
+      ></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="addressForm.get('firstName')"
+      ></cx-form-errors>
     </label>
   </div>
   <div class="form-group">
@@ -89,7 +107,17 @@
         placeholder="{{ 'addressForm.lastName.placeholder' | cxTranslate }}"
         formControlName="lastName"
       />
-      <cx-form-errors [control]="addressForm.get('lastName')"></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'addressForm.lastName.label' | cxTranslate
+        }"
+        [control]="addressForm.get('lastName')"
+      ></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="addressForm.get('lastName')"
+      ></cx-form-errors>
     </label>
   </div>
   <div class="form-group">
@@ -105,7 +133,17 @@
         placeholder="{{ 'addressForm.streetAddress' | cxTranslate }}"
         formControlName="line1"
       />
-      <cx-form-errors [control]="addressForm.get('line1')"></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'addressForm.address1' | cxTranslate
+        }"
+        [control]="addressForm.get('line1')"
+      ></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="addressForm.get('line1')"
+      ></cx-form-errors>
     </label>
   </div>
   <div class="form-group">
@@ -135,7 +173,17 @@
           placeholder="{{ 'addressForm.city.placeholder' | cxTranslate }}"
           formControlName="town"
         />
-        <cx-form-errors [control]="addressForm.get('town')"></cx-form-errors>
+        <cx-form-errors
+          *cxFeature="'formErrorsDescriptiveMessages'"
+          [translationParams]="{
+            label: 'addressForm.city.label' | cxTranslate
+          }"
+          [control]="addressForm.get('town')"
+        ></cx-form-errors>
+        <cx-form-errors
+          *cxFeature="'!formErrorsDescriptiveMessages'"
+          [control]="addressForm.get('town')"
+        ></cx-form-errors>
       </label>
     </div>
     <div class="form-group col-sm-6">
@@ -152,6 +200,14 @@
           formControlName="postalCode"
         />
         <cx-form-errors
+          *cxFeature="'formErrorsDescriptiveMessages'"
+          [translationParams]="{
+            label: 'addressForm.zipCode.label' | cxTranslate
+          }"
+          [control]="addressForm.get('postalCode')"
+        ></cx-form-errors>
+        <cx-form-errors
+          *cxFeature="'!formErrorsDescriptiveMessages'"
           [control]="addressForm.get('postalCode')"
         ></cx-form-errors>
       </label>

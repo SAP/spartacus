@@ -135,50 +135,48 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     return component;
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeDropDownComponent,
-          ConfiguratorAttributeInputFieldComponent,
-          ConfiguratorAttributeNumericInputFieldComponent,
-          MockFocusDirective,
-          MockConfiguratorAttributeQuantityComponent,
-          MockConfiguratorPriceComponent,
-          MockFeatureLevelDirective,
-          MockConfiguratorShowMoreComponent,
-        ],
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          I18nTestingModule,
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
-        providers: [
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-          { provide: Config, useClass: MockConfig },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeDropDownComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeDropDownComponent,
+        ConfiguratorAttributeInputFieldComponent,
+        ConfiguratorAttributeNumericInputFieldComponent,
+        MockFocusDirective,
+        MockConfiguratorAttributeQuantityComponent,
+        MockConfiguratorPriceComponent,
+        MockFeatureLevelDirective,
+        MockConfiguratorShowMoreComponent,
+      ],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
+      providers: [
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+        { provide: Config, useClass: MockConfig },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeDropDownComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   afterEach(() => {
     document.body.removeChild(htmlElem);

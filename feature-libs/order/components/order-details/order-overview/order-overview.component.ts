@@ -205,7 +205,7 @@ export class OrderOverviewComponent {
                 ? deliveryMode.deliveryCost?.formattedValue
                 : '',
             ],
-          } as Card)
+          }) as Card
       )
     );
   }
@@ -243,7 +243,7 @@ export class OrderOverviewComponent {
               billingAddress.formattedAddress,
               billingAddress.country?.name,
             ],
-          } as Card)
+          }) as Card
       )
     );
   }

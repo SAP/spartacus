@@ -7,7 +7,11 @@
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
 import '@spartacus/product-configurator/common';
-
+/**
+ * @deprecated since 2211.25. Not needed for commerce based CPQ orchestration (which is the default communication flavour).
+ * Refer to configuration setting ConfiguratorCoreConfig.productConfigurator.cpqOverOcc = true.
+ * The other flavour (performing direct calls from composable storefront to CPQ) is technically no longer supported.
+ */
 export interface ProductConfiguratorCpqAuthConfig {
   cpq?: {
     authentication: {

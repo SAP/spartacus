@@ -393,7 +393,13 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive = createSpy().and.returnValue(of(cart));
 }
 
-describe('ConfigAddToCartButtonComponent', () => {
+class MockConfiguratorStorefrontUtilsService {
+  focusFirstActiveElement(): void {}
+  getElement(): void {}
+  changeStyling(): void {}
+}
+
+describe('ConfiguratorAddToCartButtonComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let configuratorCommonsService: ConfiguratorCommonsService;
@@ -404,76 +410,75 @@ describe('ConfigAddToCartButtonComponent', () => {
   let configuratorQuantityService: ConfiguratorQuantityService;
   let keyboardFocusService: KeyboardFocusService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          ConfiguratorAddToCartButtonComponent,
-          MockItemCounterComponent,
-          MockCxIconComponent,
-          MockFeatureLevelDirective,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorQuantityService,
-            useClass: MockConfiguratorQuantityService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorCartService,
-            useClass: MockConfiguratorCartService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
-          },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: OrderHistoryFacade,
-            useClass: MockOrderHistoryFacade,
-          },
-          {
-            provide: CommonConfiguratorUtilsService,
-            useClass: MockCommonConfiguratorUtilsService,
-          },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorService,
-          },
-          {
-            provide: ConfiguratorAddToCartButtonComponent,
-            useClass: MockConfiguratorAddToCartButtonComponent,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-          },
-          {
-            provide: IntersectionService,
-            useClass: MockIntersectionService,
-          },
-          {
-            provide: MultiCartFacade,
-            useClass: MockMultiCartFacade,
-          },
-          { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
-        ],
-      })
-        .overrideComponent(ConfiguratorAddToCartButtonComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        ConfiguratorAddToCartButtonComponent,
+        MockItemCounterComponent,
+        MockCxIconComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorQuantityService,
+          useClass: MockConfiguratorQuantityService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorCartService,
+          useClass: MockConfiguratorCartService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: OrderHistoryFacade,
+          useClass: MockOrderHistoryFacade,
+        },
+        {
+          provide: CommonConfiguratorUtilsService,
+          useClass: MockCommonConfiguratorUtilsService,
+        },
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorAddToCartButtonComponent,
+          useClass: MockConfiguratorAddToCartButtonComponent,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+        {
+          provide: IntersectionService,
+          useClass: MockIntersectionService,
+        },
+        {
+          provide: MultiCartFacade,
+          useClass: MockMultiCartFacade,
+        },
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAddToCartButtonComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     elementMock = {

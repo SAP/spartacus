@@ -135,33 +135,31 @@ class MockConfiguratorPriceComponent {
 }
 
 describe('ConfigurationOverviewFormComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          ConfiguratorOverviewFormComponent,
-          ConfiguratorOverviewAttributeComponent,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [
+        ConfiguratorOverviewFormComponent,
+        ConfiguratorOverviewAttributeComponent,
 
-          MockConfiguratorPriceComponent,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+        MockConfiguratorPriceComponent,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     routerStateObservable = null;
     configurationObservable = null;

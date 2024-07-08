@@ -68,30 +68,28 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     isLightedUp: myValues[0].selected,
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeReadOnlyComponent,
-          MockConfiguratorPriceComponent,
-          MockConfiguratorShowMoreComponent,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-        ],
-        imports: [ReactiveFormsModule, I18nTestingModule],
-      })
-        .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeReadOnlyComponent,
+        MockConfiguratorPriceComponent,
+        MockConfiguratorShowMoreComponent,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+      ],
+      imports: [ReactiveFormsModule, I18nTestingModule],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeReadOnlyComponent);

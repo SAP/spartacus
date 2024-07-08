@@ -33,10 +33,10 @@ export class ConfigureProductComponent {
   product$: Observable<Product> = (this.productListItemContext
     ? this.productListItemContext.product$
     : this.currentProductService
-    ? this.currentProductService.getProduct(
-        ConfiguratorProductScope.CONFIGURATOR
-      )
-    : of(null)
+      ? this.currentProductService.getProduct(
+          ConfiguratorProductScope.CONFIGURATOR
+        )
+      : of(null)
   ).pipe(
     //needed because also currentProductService might return null
     map((product) => (product ? product : this.nonConfigurable))

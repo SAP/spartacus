@@ -5,7 +5,7 @@
   align-content: center;
   align-items: stretch;
 
-  @include forFeature('santoriniV2') {
+  @include forFeature('a11yImproveContrast') {
     align-items: center;
   }
 
@@ -20,9 +20,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s, color 0.3s;
+    transition:
+      background-color 0.3s,
+      color 0.3s;
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       @include type('7');
       border: solid 1px var(--cx-color-medium);
     }
@@ -31,7 +33,7 @@
       border-top-left-radius: 0.25rem;
       border-bottom-left-radius: 0.25rem;
 
-      @include forFeature('santoriniV2') {
+      @include forFeature('a11yImproveContrast') {
         color: var(--cx-color-secondary);
         font-size: var(--cx-font-size, 2rem);
         line-height: 0;
@@ -43,7 +45,7 @@
       border-top-right-radius: 0.25rem;
       border-bottom-right-radius: 0.25rem;
 
-      @include forFeature('santoriniV2') {
+      @include forFeature('a11yImproveContrast') {
         border-inline-end: solid 1px var(--cx-color-medium);
         color: var(--cx-color-secondary);
         font-size: var(--cx-font-size, 2rem);

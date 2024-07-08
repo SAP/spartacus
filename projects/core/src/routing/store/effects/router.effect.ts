@@ -36,5 +36,8 @@ export class RouterEffects {
     { dispatch: false }
   );
 
-  constructor(private actions$: Actions, private router: Router) {}
+  constructor(
+    private actions$: Actions,
+    private router: Router
+  ) {}
 }

@@ -12,7 +12,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, useFeatureStyles } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -251,5 +251,7 @@ export class ConfiguratorTabBarComponent {
   constructor(
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {}
+  ) {
+    useFeatureStyles('a11yMobileVisibleFocus');
+  }
 }

@@ -30,7 +30,7 @@
     border: solid 1px var(--cx-color-light);
     display: inline-flex;
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       border: solid 1px var(--cx-color-dark);
     }
 
@@ -45,7 +45,7 @@
         background: var(--cx-color-background);
       }
 
-      @include forFeature('santoriniV2') {
+      @include forFeature('a11yImproveContrast') {
         border-color: var(--cx-color-dark);
         &:focus {
           background-color: var(--cx-color-transparent);
@@ -81,10 +81,12 @@
       color: var(--cx-color-light);
     }
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       font-size: var(--cx-font-size, 2rem);
       line-height: 0;
       color: var(--cx-color-text);
+      padding-inline-start: 0;
+      padding-inline-end: 0;
       &:focus {
         box-shadow: 0 0 0 0;
       }

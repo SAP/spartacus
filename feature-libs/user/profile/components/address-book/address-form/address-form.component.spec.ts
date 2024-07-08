@@ -18,12 +18,13 @@ import {
   Title,
   UserAddressService,
 } from '@spartacus/core';
+import { FormErrorsModule, LaunchDialogService } from '@spartacus/storefront';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddressFormComponent } from './address-form.component';
 import createSpy = jasmine.createSpy;
-import { FormErrorsModule, LaunchDialogService } from '@spartacus/storefront';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
 
 const mockTitles: Title[] = [
   {
@@ -133,37 +134,39 @@ describe('AddressFormComponent', () => {
   const defaultAddressCheckbox = (): DebugElement =>
     fixture.debugElement.query(By.css('[formcontrolname=defaultAddress]'));
 
-  beforeEach(
-    waitForAsync(() => {
-      mockGlobalMessageService = {
-        add: createSpy(),
-      };
+  beforeEach(waitForAsync(() => {
+    mockGlobalMessageService = {
+      add: createSpy(),
+    };
 
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        declarations: [AddressFormComponent, MockNgSelectA11yDirective],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          { provide: UserAddressService, useClass: MockUserAddressService },
-          { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-          { provide: UserProfileFacade, useClass: MockUserProfileFacade },
-        ],
-      })
-        .overrideComponent(AddressFormComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
-
-      userProfileFacade = TestBed.inject(UserProfileFacade);
-      userAddressService = TestBed.inject(UserAddressService);
-      launchDialogService = TestBed.inject(LaunchDialogService);
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      declarations: [
+        AddressFormComponent,
+        MockNgSelectA11yDirective,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        { provide: UserProfileFacade, useClass: MockUserProfileFacade },
+      ],
     })
-  );
+      .overrideComponent(AddressFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+
+    userProfileFacade = TestBed.inject(UserProfileFacade);
+    userAddressService = TestBed.inject(UserAddressService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressFormComponent);
