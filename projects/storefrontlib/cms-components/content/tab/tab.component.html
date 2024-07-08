@@ -2,7 +2,7 @@
   <!-- Tab List is the list of buttons to open tabs -->
   <div
     role="tablist"
-    [attr.aria-label]="config.label |cxTranslate"
+    [attr.aria-label]="config.label | cxTranslate"
     [class]="mode.toLowerCase()"
   >
     <ng-container *ngFor="let tab of tabs; let i = index">
