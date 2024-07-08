@@ -155,6 +155,12 @@ function add_s4om {
     fi
 }
 
+function add_S4_SERVICE {
+  if [ "$ADD_S4_SERVICE" = true ] ; then
+        ng add --skip-confirmation @spartacus/s4-service@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
 function add_requested_delivery_date {
   if [ "$ADD_REQUESTED_DELIVERY_DATE" = true ] ; then
         ng add --skip-confirmation @spartacus/requested-delivery-date@${SPARTACUS_VERSION} --interactive false
@@ -201,6 +207,7 @@ function add_spartacus_csr {
     add_product_configurator
     add_quote
     add_s4om
+    add_S4_SERVICE
     add_requested_delivery_date
     add_estimated_delivery_date
     add_pdf_invoices
@@ -227,6 +234,7 @@ function add_spartacus_ssr {
     add_product_configurator
     add_quote
     add_s4om
+    add_S4_SERVICE
     add_requested_delivery_date
     add_estimated_delivery_date
     add_pdf_invoices
@@ -251,6 +259,7 @@ function add_spartacus_ssr_pwa {
     add_epd_visualization
     add_product_configurator
     add_s4om
+    add_S4_SERVICE
     add_requested_delivery_date
     add_estimated_delivery_date
     add_pdf_invoices
@@ -787,6 +796,11 @@ function parseInstallArgs {
                 echo "➖ Added S4OM"
                 shift
                 ;;
+            s4Service)
+                ADD_S4_SERVICE=true
+                echo "➖ Added S/4HANA Service Integration"
+                shift
+                ;;                
             rdd)
                 ADD_REQUESTED_DELIVERY_DATE=true
                 echo "➖ Added Requested Delivery Date"

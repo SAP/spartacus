@@ -576,6 +576,25 @@
       ],
       "@spartacus/opps": ["../../integration-libs/opps/public_api"],
       "@spartacus/opps/root": ["../../integration-libs/opps/root/public_api"],
+      "@spartacus/s4-service/assets": [
+        "../../integration-libs/s4-service/assets/public_api"
+      ],
+      "@spartacus/s4-service/checkout": [
+        "../../integration-libs/s4-service/checkout/public_api"
+      ],
+      "@spartacus/s4-service/core": [
+        "../../integration-libs/s4-service/core/public_api"
+      ],
+      "@spartacus/s4-service": ["../../integration-libs/s4-service/public_api"],
+      "@spartacus/s4-service/occ": [
+        "../../integration-libs/s4-service/occ/public_api"
+      ],
+      "@spartacus/s4-service/order": [
+        "../../integration-libs/s4-service/order/public_api"
+      ],
+      "@spartacus/s4-service/root": [
+        "../../integration-libs/s4-service/root/public_api"
+      ],
       "@spartacus/s4om/assets": [
         "../../integration-libs/s4om/assets/public_api"
       ],

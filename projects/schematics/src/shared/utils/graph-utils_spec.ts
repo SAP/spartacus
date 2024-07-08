@@ -195,6 +195,7 @@ describe('Graph utils', () => {
           "ASM-Customer-360",
           "Segment-Refs",
           "S4HANA-Order-Management",
+          "s4-service",
           "OPPS",
           "EPD-Visualization",
           "Digital-Payments",

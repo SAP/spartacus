@@ -1,0 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { NgModule } from '@angular/core';
+import { S4ServiceCoreModule } from './core/s4-service-core.module';
+import { S4ServiceOccModule } from './occ/s4-service-occ.module';
+
+@NgModule({
+  imports: [S4ServiceCoreModule, S4ServiceOccModule],
+})
+export class S4ServiceModule {}
