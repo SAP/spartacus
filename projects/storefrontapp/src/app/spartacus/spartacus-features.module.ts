@@ -327,6 +327,7 @@ if (environment.estimatedDeliveryDate) {
           true,
         a11yFacetsDialogFocusHandling: true,
         a11yLinkBtnsToTertiaryBtns: true,
+        cmsBottomHeaderSlotUsingFlexStyles: true,
       };
       return appFeatureToggles;
     }),
