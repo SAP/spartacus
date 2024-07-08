@@ -48,18 +48,26 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
             this.featureService.isEnabled(
               'ssrStrictErrorHandlingForHttpAndNgrx'
             ) &&
-            // We avoid sending unpredictable errors to the browser's console, to prevent
-            // possibly exposing there potentially confidential user's data.
-            // This isn't an issue in SSR, where pages are rendered anonymously.
-            // Moreover, in SSR we want to capture all app's errors, so we can potentially send
-            // a HTTP error response (e.g. 500 error page) from SSR to a client.
-            !this.windowRef.isBrowser()
+            this.shouldHandleError()
           ) {
             this.handleError(error);
           }
         },
       })
     );
+  }
+
+  /**
+   * Determine if the error should be handled by the `ErrorHandler`.
+   *
+   * Be default, we avoid sending unpredictable errors to the browser's console, to prevent
+   * possibly exposing there potentially confidential user's data.
+   * This isn't an issue in SSR, where pages are rendered anonymously.
+   * Moreover, in SSR we want to capture all app's errors, so we can potentially send
+   * a HTTP error response (e.g. 500 error page) from SSR to a client.
+   */
+  protected shouldHandleError(): boolean {
+    return !this.windowRef.isBrowser();
   }
 
   protected handleError(error: unknown): void {
