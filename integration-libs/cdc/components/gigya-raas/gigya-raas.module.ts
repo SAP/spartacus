@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { LayoutConfig } from '@spartacus/storefront';
 import { GigyaRaasComponent } from './gigya-raas.component';
-import { GigyaRaasGuard } from '@spartacus/cdc/root';
+import { GigyaRaasGuard } from './gigya-raas.guard';
 
 @NgModule({
   imports: [

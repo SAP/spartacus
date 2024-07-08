@@ -53,7 +53,7 @@ export class GigyaRaasGuard implements CanActivate {
         if (!page) {
           return of([]);
         }
-        const componentUids = Object.values(page.slots)
+        const componentUids = Object.values(page.slots || {})
           .flatMap((slot) => slot.components)
           .filter((component) => component?.typeCode === componentType)
           .map((component) => component?.uid);
