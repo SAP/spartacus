@@ -16,4 +16,4 @@ export * from './src/profiletag/index';
 /**
  * @deprecated Use @spartacus/cds/assets instead.
  */
-export * from './assets/index';
+export * from './src/assets/index';
