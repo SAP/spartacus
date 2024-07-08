@@ -5,39 +5,41 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
+import { CanActivate, UrlTree } from '@angular/router';
 import { GigyaRaasComponentData } from '@spartacus/cdc/core';
 import {
-  AuthRedirectService,
-  AuthService,
+  AuthGuard,
   CmsService,
+  NotAuthGuard,
   PageContext,
   RoutingService,
-  SemanticPathService,
   isNotUndefined,
 } from '@spartacus/core';
-import { Observable, catchError, filter, map, of, switchMap, take } from 'rxjs';
+import { Observable, catchError, filter, of, switchMap, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class GigyaRaasGuard {
+export class GigyaRaasGuard implements CanActivate {
   protected routingService = inject(RoutingService);
   protected cmsService = inject(CmsService);
-  protected authService = inject(AuthService);
-  protected authRedirectService = inject(AuthRedirectService);
-  protected router = inject(Router);
-  protected semanticPathService = inject(SemanticPathService);
+  protected authGuard = inject(AuthGuard);
+  protected notAuthGuard = inject(NotAuthGuard);
 
   canActivate(): Observable<boolean | UrlTree> {
-    return this.routingService.getNextPageContext().pipe(
-      filter(isNotUndefined),
-      take(1),
-      switchMap((pageContext) =>
-        this.getComponentsByType(pageContext, 'GigyaRaasComponent')
-      ),
-      switchMap((components) => this.getComponentData(components)),
-      switchMap((componentData) => this.redirectionCheck(componentData)),
+    return this.getComponentData().pipe(
+      switchMap((componentData) => {
+        if (Object.keys(componentData).length === 0) {
+          return of(false);
+        }
+        if (componentData.showAnonymous === 'false') {
+          return this.authGuard.canActivate();
+        }
+        if (componentData.showLoggedIn === 'false') {
+          return this.notAuthGuard.canActivate();
+        }
+        return of(true);
+      }),
       catchError(() => of(false))
     );
   }
@@ -61,45 +63,20 @@ export class GigyaRaasGuard {
     );
   }
 
-  private getComponentData(
-    components: (string | undefined)[]
-  ): Observable<GigyaRaasComponentData> {
-    if (components.length === 1 && components[0]) {
-      return this.cmsService.getComponentData<GigyaRaasComponentData>(
-        components[0]
-      );
-    }
-    return of({} as GigyaRaasComponentData);
-  }
-
-  private redirectionCheck(
-    data: GigyaRaasComponentData
-  ): Observable<boolean | UrlTree> {
-    if (Object.keys(data).length === 0) {
-      return of(false);
-    }
-    return this.authService.isUserLoggedIn().pipe(
-      map((isLoggedIn) => {
-        if (
-          !isLoggedIn &&
-          data.showAnonymous === 'false' &&
-          data.profileEdit === 'false'
-        ) {
-          this.authRedirectService.saveCurrentNavigationUrl();
-          return this.router.parseUrl(
-            this.semanticPathService.get('login') ?? ''
+  private getComponentData(): Observable<GigyaRaasComponentData> {
+    return this.routingService.getNextPageContext().pipe(
+      filter(isNotUndefined),
+      take(1),
+      switchMap((pageContext) =>
+        this.getComponentsByType(pageContext, 'GigyaRaasComponent')
+      ),
+      switchMap((components) => {
+        if (components.length === 1 && components[0]) {
+          return this.cmsService.getComponentData<GigyaRaasComponentData>(
+            components[0]
           );
         }
-        if (
-          isLoggedIn &&
-          data.showLoggedIn === 'false' &&
-          data.profileEdit === 'false'
-        ) {
-          return this.router.parseUrl(
-            this.semanticPathService.get('home') ?? ''
-          );
-        }
-        return true;
+        return of({} as GigyaRaasComponentData);
       })
     );
   }
