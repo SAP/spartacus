@@ -16,11 +16,11 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
 import createSpy = jasmine.createSpy;
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-spinner',
@@ -63,40 +63,38 @@ describe('UpdateProfileComponent', () => {
 
   let service: UpdateProfileComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          CommonModule,
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          RouterTestingModule,
-          UrlTestingModule,
-          NgSelectModule,
-        ],
-        declarations: [
-          UpdateProfileComponent,
-          MockCxSpinnerComponent,
-          MockNgSelectA11yDirective,
-          MockFeatureDirective,
-        ],
-        providers: [
-          {
-            provide: UpdateProfileComponentService,
-            useClass: MockUpdateProfileService,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        NgSelectModule,
+      ],
+      declarations: [
+        UpdateProfileComponent,
+        MockCxSpinnerComponent,
+        MockNgSelectA11yDirective,
+        MockFeatureDirective,
+      ],
+      providers: [
+        {
+          provide: UpdateProfileComponentService,
+          useClass: MockUpdateProfileService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.2' },
           },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.2' },
-            },
-          },
-          { provide: RoutingService, useClass: MockRoutingService },
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateProfileComponent);

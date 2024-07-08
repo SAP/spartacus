@@ -15,7 +15,7 @@ $useAccordionOnly: false !default;
     height: 63px;
     position: relative;
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       @include type('3');
       border-top: 1px solid var(--cx-color-medium);
 

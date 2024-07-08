@@ -1,0 +1,46 @@
+<div
+  class="cx-modal-container"
+  [cxFocus]="focusConfig"
+  (esc)="dismissDialog('Escape clicked')"
+  role="dialog"
+  aria-modal="true"
+>
+  <div class="cx-modal-content">
+    <!-- Modal Header -->
+    <div class="cx-dialog-header modal-header">
+      <div class="cx-dialog-title modal-title">
+        {{ 'dpPaymentForm.confirmation.heading' | cxTranslate }}
+      </div>
+      <button
+        type="button"
+        class="close"
+        [attr.aria-label]="'common.close' | cxTranslate"
+        (click)="dismissDialog('Cross click')"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <div class="cx-dialog-row">
+        {{ 'dpPaymentForm.confirmation.text' | cxTranslate }}
+      </div>
+    </div>
+    <div class="cx-dialog-actions col-sm-12 col-md-6">
+      <div class="cx-dialog-buttons">
+        <button (click)="continue()" class="btn btn-primary" autofocus>
+          {{ 'common.continue' | cxTranslate }}
+        </button>
+        <button
+          class="link cx-action-link"
+          (click)="dismissDialog('cancel clicked')"
+          autofocus
+        >
+          {{ 'common.cancel' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

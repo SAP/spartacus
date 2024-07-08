@@ -2411,6 +2411,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'searchTerm',
     },
     {
+      type: TabbingOrderTypes.FORM_FIELD,
+      value: 'searchOrder',
+    },
+    {
       type: TabbingOrderTypes.BUTTON,
       value: 'Start Session',
     },
@@ -2433,6 +2437,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.FORM_FIELD,
       value: 'searchTerm',
+    },
+    {
+      type: TabbingOrderTypes.FORM_FIELD,
+      value: 'searchOrder',
     },
     {
       type: TabbingOrderTypes.BUTTON,

@@ -151,31 +151,29 @@ describe('OrderHistoryComponent', () => {
   let orderHistoryFacade: OrderHistoryFacade;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          OrderHistoryComponent,
-          MockUrlPipe,
-          MockPaginationComponent,
-          MockSortingComponent,
-        ],
-        providers: [
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
-          { provide: TranslationService, useClass: MockTranslationService },
-          {
-            provide: ReplenishmentOrderHistoryFacade,
-            useClass: MockReplenishmentOrderHistoryFacade,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        OrderHistoryComponent,
+        MockUrlPipe,
+        MockPaginationComponent,
+        MockSortingComponent,
+      ],
+      providers: [
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
+        { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: ReplenishmentOrderHistoryFacade,
+          useClass: MockReplenishmentOrderHistoryFacade,
+        },
+      ],
+    }).compileComponents();
 
-      orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
-      routingService = TestBed.inject(RoutingService);
-    })
-  );
+    orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
+    routingService = TestBed.inject(RoutingService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderHistoryComponent);

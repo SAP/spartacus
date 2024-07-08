@@ -14,6 +14,7 @@ cx-page-layout {
     flex-wrap: wrap;
     justify-content: center;
     flex: 1 1 var(--cx-flex-basis, 100%);
+
     > * {
       flex: 1 1 var(--cx-flex-basis, 100%);
     }
@@ -21,7 +22,7 @@ cx-page-layout {
 
   &.footer {
     background-color: var(--cx-color-dark);
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       background-color: var(--cx-color-secondary);
     }
 
@@ -41,4 +42,14 @@ cx-paragraph {
 
 cx-category-navigation {
   display: block;
+}
+
+cx-page-slot.cx-bottom-header-slot {
+  @include forFeature('cmsBottomHeaderSlotUsingFlexStyles') {
+    display: flex;
+
+    > * {
+      flex: 1 1 var(--cx-flex-basis, 100%);
+    }
+  }
 }

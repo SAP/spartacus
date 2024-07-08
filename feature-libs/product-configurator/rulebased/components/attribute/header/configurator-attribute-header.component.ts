@@ -171,8 +171,8 @@ export class ConfiguratorAttributeHeaderComponent
     return this.groupType === Configurator.GroupType.CONFLICT_GROUP
       ? 'configurator.conflict.viewConfigurationDetails'
       : this.isNavigationToConflictEnabled()
-      ? 'configurator.conflict.viewConflictDetails'
-      : 'configurator.conflict.conflictDetected';
+        ? 'configurator.conflict.viewConflictDetails'
+        : 'configurator.conflict.conflictDetected';
   }
 
   /**

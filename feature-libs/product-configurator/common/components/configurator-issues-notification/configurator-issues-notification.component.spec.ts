@@ -74,21 +74,19 @@ describe('ConfigureIssuesNotificationComponent', () => {
     mockCartItemContext.quantityControl$?.next(new UntypedFormControl());
   }
   describe('with cart item context', () => {
-    beforeEach(
-      waitForAsync(() => {
-        TestBed.configureTestingModule({
-          declarations: [
-            ConfiguratorIssuesNotificationComponent,
-            MockTranslatePipe,
-            MockCxIconComponent,
-            MockConfigureCartEntryComponent,
-          ],
-          providers: [
-            { provide: CartItemContext, useClass: MockCartItemContext },
-          ],
-        }).compileComponents();
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorIssuesNotificationComponent,
+          MockTranslatePipe,
+          MockCxIconComponent,
+          MockConfigureCartEntryComponent,
+        ],
+        providers: [
+          { provide: CartItemContext, useClass: MockCartItemContext },
+        ],
+      }).compileComponents();
+    }));
 
     beforeEach(() => {
       fixture = TestBed.createComponent(
@@ -295,19 +293,17 @@ describe('ConfigureIssuesNotificationComponent', () => {
     });
   });
   describe('without cart item context', () => {
-    beforeEach(
-      waitForAsync(() => {
-        TestBed.configureTestingModule({
-          declarations: [
-            ConfiguratorIssuesNotificationComponent,
-            MockTranslatePipe,
-            MockCxIconComponent,
-            MockConfigureCartEntryComponent,
-          ],
-          providers: [{ provide: CartItemContext, useValue: null }],
-        }).compileComponents();
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorIssuesNotificationComponent,
+          MockTranslatePipe,
+          MockCxIconComponent,
+          MockConfigureCartEntryComponent,
+        ],
+        providers: [{ provide: CartItemContext, useValue: null }],
+      }).compileComponents();
+    }));
 
     beforeEach(() => {
       fixture = TestBed.createComponent(

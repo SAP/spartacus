@@ -60,33 +60,31 @@ describe('LoginComponent', () => {
 
   let authService: AuthService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [LoginComponent, MockDynamicSlotComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: ActivatedRoute,
-            useValue: {
-              snapshot: {
-                firstChild: {
-                  routeConfig: {
-                    canActivate: [{ GUARD_NAME: 'AuthGuard' }],
-                  },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [LoginComponent, MockDynamicSlotComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              firstChild: {
+                routeConfig: {
+                  canActivate: [{ GUARD_NAME: 'AuthGuard' }],
                 },
               },
             },
           },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: UserAccountFacade, useClass: MockUserAccountFacade },
-          { provide: AuthService, useClass: MockAuthService },
-        ],
-      }).compileComponents();
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: UserAccountFacade, useClass: MockUserAccountFacade },
+        { provide: AuthService, useClass: MockAuthService },
+      ],
+    }).compileComponents();
 
-      authService = TestBed.inject(AuthService);
-    })
-  );
+    authService = TestBed.inject(AuthService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);

@@ -9,7 +9,7 @@
     border-radius: 4px;
     border: 1px solid var(--cx-color-light);
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       border: 1px solid var(--cx-color-dark);
     }
 

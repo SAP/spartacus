@@ -1,6 +1,5 @@
 %cx-customer-selection {
   position: relative;
-
   form {
     display: flex;
     width: 100%;
@@ -79,19 +78,20 @@
   }
 
   .asm-results {
-    border: solid 1px #89919a;
     position: absolute;
+    border: solid 1px #89919a;
     line-height: 1.5rem;
-    left: 2rem;
     z-index: 11;
-    box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
+    box-shadow:
+      0 5px 20px 0 #d9d9d9,
+      0 2px 8px 0 #ededed;
     background-color: #fff;
     border-radius: 4px;
     max-width: 50vw;
     max-height: 70vh;
     overflow-y: auto;
     top: 3.3rem;
-    width: 33%;
+    width: 25rem;
 
     @media (max-width: 1200px) {
       max-width: calc(100% - 4rem);
@@ -156,6 +156,149 @@
         font-weight: 600;
         font-size: 13px;
         color: #0064d9;
+      }
+    }
+  }
+
+  @include forFeature('showSearchingCustomerByOrderInASM') {
+    form {
+      display: flex;
+      width: 100%;
+
+      @media (max-width: 41rem) {
+        flex-direction: column;
+      }
+      .searchLabel {
+        margin-top: 0.5rem;
+        margin-inline-end: 1rem;
+      }
+
+      label {
+        margin-inline-end: 2rem;
+        min-width: auto;
+
+        .selection-message-info {
+          z-index: 11;
+          width: 25rem;
+          position: absolute;
+        }
+
+        @media (min-width: 41rem) {
+          margin-bottom: 0;
+          min-width: 25rem;
+        }
+
+        .linkStyleLabel {
+          @include type('7');
+          font-weight: var(--cx-font-weight-bold);
+          margin-inline-start: 0.2rem;
+          color: var(--cx-color-primary);
+        }
+
+        .asm-results {
+          position: absolute;
+          top: auto;
+          border: solid 0.0714rem #89919a;
+          line-height: 1.5rem;
+          z-index: 11;
+          box-shadow:
+            0 5px 20px 0 #d9d9d9,
+            0 2px 8px 0 #ededed;
+          background-color: #fff;
+          border-radius: 0.25rem;
+          max-width: 50vw;
+          max-height: 70vh;
+          overflow-y: auto;
+          width: 25rem;
+
+          @media (max-width: 1200px) {
+            max-width: calc(100% - 4rem);
+          }
+
+          cx-dot-spinner {
+            height: 3rem;
+            color: #0a6ed1;
+          }
+
+          button {
+            margin: 0;
+            appearance: none;
+            outline: 0;
+            border: 0;
+            text-decoration: none;
+            cursor: pointer;
+            user-select: none;
+            vertical-align: middle;
+            white-space: nowrap;
+            background-color: transparent;
+            color: #51555a;
+            display: flex;
+            flex-direction: column;
+            padding: 0.5rem;
+            width: 100%;
+            align-items: flex-start;
+            justify-content: flex-start;
+
+            &.active {
+              color: #32363a;
+              background-color: #d3d6db;
+            }
+
+            &:hover {
+              color: #32363a;
+              background-color: #d3d6db;
+            }
+
+            .result-id {
+              width: 100%;
+              display: flex;
+              justify-content: space-between;
+            }
+
+            span {
+              margin-inline-end: 1rem;
+              margin-top: 0;
+              margin-bottom: 0;
+              margin-inline-start: 0;
+              word-break: break-all;
+              white-space: normal;
+              text-align: start;
+
+              @media (min-width: 41rem) {
+                &:last-of-type {
+                  margin: 0;
+                }
+              }
+            }
+          }
+        }
+
+        input {
+          width: 100%;
+          &:focus {
+            outline: none;
+          }
+          &.ng-invalid {
+            &.ng-dirty,
+            &.ng-touched {
+              border-color: initial;
+            }
+          }
+        }
+      }
+
+      button[type='submit'] {
+        background-color: var(--cx-color-success-accent);
+        opacity: 0.4;
+        border: 0.0714rem solid var(--cx-color-success-accent);
+        border-radius: 0.5rem;
+        color: var(--cx-color-success);
+        font-weight: var(--cx-font-weight-bold);
+        transition: opacity 0.3s;
+
+        &.active {
+          opacity: 1;
+        }
       }
     }
   }

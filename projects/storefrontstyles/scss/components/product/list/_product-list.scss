@@ -10,7 +10,7 @@
     border-color: var(--cx-color-light);
     margin: 0 0 25px 0;
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       border-color: var(--cx-color-medium);
     }
 
@@ -27,7 +27,7 @@
     border-style: solid;
     border-color: var(--cx-color-light);
 
-    @include forFeature('santoriniV2') {
+    @include forFeature('a11yImproveContrast') {
       border-color: var(--cx-color-medium);
     }
 

@@ -20,13 +20,12 @@
     }
     .cx-find-a-store-button {
       flex-basis: 100%;
-      margin-top: 1rem;
-      margin-bottom: 1rem;
+      margin-top: 0;
+      margin-bottom: 0;
+
       @media screen and (min-width: 927px) {
         flex-basis: 40%;
       }
-      margin-top: 0;
-      margin-bottom: 0;
     }
     .cx-find-a-store-link-container {
       @include media-breakpoint-down(sm) {

@@ -109,7 +109,7 @@ export class BudgetService {
         (budget) =>
           ({
             values: budget.costCenters ?? [],
-          } as EntitiesModel<CostCenter>)
+          }) as EntitiesModel<CostCenter>
       )
     );
   }
