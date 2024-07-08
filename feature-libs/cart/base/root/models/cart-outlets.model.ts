@@ -21,5 +21,4 @@ export enum CartOutlets {
   ADD_TO_CART_PICKUP_OPTION = 'cx-add-to-cart-pickup-option',
   DELIVERY_MODE = 'cx-delivery-mode',
   ORDER_OVERVIEW = 'cx-order-overview',
-  SERVICE_DETAILS = 'cx-card-service-details',
 }

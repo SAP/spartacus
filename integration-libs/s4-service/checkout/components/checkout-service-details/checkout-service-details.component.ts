@@ -84,9 +84,11 @@ export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  setScheduleTime(selectedTime: string): void {
+  setScheduleTime(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const value = target.value;
     this.form.patchValue({
-      scheduleTime: selectedTime,
+      scheduleTime: value,
     });
   }
   get backBtnText(): string {

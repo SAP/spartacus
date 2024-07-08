@@ -12,9 +12,11 @@ import {
   CHECKOUT_B2B_FEATURE_NAME,
   ORDER_FEATURE_NAME,
   SPARTACUS_S4_SERVICE_CHECKOUT,
+  SPARTACUS_S4_SERVICE_ORDER,
 } from '../../libs-constants';
 import { SchematicConfig } from '../../utils';
 import { CHECKOUT_B2B_MODULE } from '../checkout-schematics-config';
+import { ORDER_MODULE } from '../order-schematics-config';
 
 export const S4_SERVICE_FOLDER_NAME = 's4-service';
 export const S4_SERVICE_MODULE_NAME = 'S4Service';
@@ -22,6 +24,7 @@ export const S4_SERVICE_SCSS_FILE_NAME = 's4-service.scss';
 
 export const S4_SERVICE_MODULE = 'S4ServiceModule';
 export const S4_SERVICE_CHECKOUT_MODULE = 'S4ServiceCheckoutModule';
+export const S4_SERVICE_ORDER_MODULE = 'S4ServiceOrderModule';
 export const S4_SERVICE_ROOT_MODULE = 'S4ServiceRootModule';
 export const S4_SERVICE_FEATURE_NAME_CONSTANT = 'S4_SERVICE_FEATURE';
 export const S4_SERVICE_TRANSLATIONS = 's4ServiceTranslations';
@@ -44,6 +47,10 @@ export const S4_SERVICE_SCHEMATICS_CONFIG: SchematicConfig = {
     {
       name: S4_SERVICE_CHECKOUT_MODULE,
       importPath: SPARTACUS_S4_SERVICE_CHECKOUT,
+    },
+    {
+      name: S4_SERVICE_ORDER_MODULE,
+      importPath: SPARTACUS_S4_SERVICE_ORDER,
     },
   ],
   rootModule: {
@@ -68,6 +75,10 @@ export const S4_SERVICE_SCHEMATICS_CONFIG: SchematicConfig = {
     {
       markerModuleName: CHECKOUT_B2B_MODULE,
       featureModuleName: S4_SERVICE_CHECKOUT_MODULE,
+    },
+    {
+      markerModuleName: ORDER_MODULE,
+      featureModuleName: S4_SERVICE_ORDER_MODULE,
     },
   ],
 };

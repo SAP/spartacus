@@ -5,9 +5,6 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CartOutlets } from '@spartacus/cart/base/root';
-import { provideOutlet, OutletPosition } from '@spartacus/storefront';
-import { ServiceDetailsCardComponent } from '../components/order-summary/service-details-card.component';
 import { CHECKOUT_B2B_CMS_COMPONENTS } from '@spartacus/checkout/b2b/root';
 import {
   CmsConfig,
@@ -47,11 +44,6 @@ export function defaultS4ServiceComponentsConfig() {
     { provide: CheckoutConfig, useValue: defaultServiceDetailsCheckoutConfig },
     provideDefaultConfig(defaultCheckoutServiceDetailsRoutingConfig),
     provideDefaultConfigFactory(defaultS4ServiceComponentsConfig),
-    provideOutlet({
-      id: CartOutlets.SERVICE_DETAILS,
-      position: OutletPosition.REPLACE,
-      component: ServiceDetailsCardComponent,
-    }),
     CxDatePipe,
     CheckoutServiceSchedulePickerService,
   ],

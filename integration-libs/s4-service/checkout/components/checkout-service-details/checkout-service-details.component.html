@@ -57,9 +57,13 @@
         <select
           class="form-control"
           formControlName="scheduleTime"
-          (change)="setScheduleTime($event.target.value)"
+          (change)="setScheduleTime($event)"
         >
-          <option *ngFor="let time of this.scheduleTimes" [value]="time">
+          <option
+            *ngFor="let time of this.scheduleTimes"
+            [value]="time"
+            [selected]="form.get('scheduleTime')?.value === time"
+          >
             {{ time }}
           </option>
         </select>

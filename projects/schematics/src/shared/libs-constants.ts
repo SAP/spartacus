@@ -233,7 +233,7 @@ export const SPARTACUS_S4_SERVICE_ROOT = `@spartacus/s4-service/root`;
 export const SPARTACUS_S4_SERVICE_CORE = `@spartacus/s4-service/core`;
 export const SPARTACUS_S4_SERVICE_OCC = `@spartacus/s4-service/occ`;
 export const SPARTACUS_S4_SERVICE_CHECKOUT = `@spartacus/s4-service/checkout`;
-export const SPARTACUS_S4_SERVICE_COMPONENTS = `@spartacus/s4-service/components`;
+export const SPARTACUS_S4_SERVICE_ORDER = `@spartacus/s4-service/order`;
 
 export const SPARTACUS_CUSTOMER_TICKETING_ROOT = `@spartacus/customer-ticketing/root`;
 export const SPARTACUS_CUSTOMER_TICKETING_ASSETS = `@spartacus/customer-ticketing/assets`;
