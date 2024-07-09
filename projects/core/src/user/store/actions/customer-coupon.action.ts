@@ -9,7 +9,6 @@ import {
   CustomerCouponNotification,
   CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
-import { ErrorAction } from '../../../model/index';
 import { PROCESS_FEATURE } from '../../../process/store';
 import {
   EntityFailAction,
@@ -79,10 +78,7 @@ export class LoadCustomerCoupons extends LoaderLoadAction {
   }
 }
 
-export class LoadCustomerCouponsFail
-  extends LoaderFailAction
-  implements ErrorAction
-{
+export class LoadCustomerCouponsFail extends LoaderFailAction {
   readonly type = LOAD_CUSTOMER_COUPONS_FAIL;
   constructor(public payload: any) {
     super(CUSTOMER_COUPONS, payload);
