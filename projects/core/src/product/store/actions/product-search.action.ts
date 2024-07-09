@@ -57,8 +57,11 @@ export class GetProductSuggestionsSuccess implements Action {
 }
 
 export class GetProductSuggestionsFail implements ErrorAction {
+  public error: any;
   readonly type = GET_PRODUCT_SUGGESTIONS_FAIL;
-  constructor(public error: any) {}
+  constructor(public payload: any) {
+    this.error = payload;
+  }
 }
 
 export class ClearProductSearchResult implements Action {
