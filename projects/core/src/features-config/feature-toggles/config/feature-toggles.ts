@@ -365,6 +365,12 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
+   * Aria-live inside the 'BreadcrumbComponent' will be toggled based on the active element.
+   * This removes the repeated announcement of the page title.
+   */
+  a11yReapeatedPageTitleFix?: boolean;
+
+  /**
    * When enabled, styles for the `cx-bottom-header-slot` class will be applied. These styles are necessary to display
    * customization buttons in the BottomHeaderSlot in SmartEdit.
    */
@@ -429,5 +435,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
   a11yLinkBtnsToTertiaryBtns: false,
+  a11yReapeatedPageTitleFix: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
 };

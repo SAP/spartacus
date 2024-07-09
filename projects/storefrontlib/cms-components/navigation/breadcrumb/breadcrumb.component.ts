@@ -4,15 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import {
   CmsBreadcrumbsComponent,
+  FeatureConfigService,
   PageMetaService,
   TranslationService,
   useFeatureStyles,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { PageTitleComponent } from '../page-header/page-title.component';
 
@@ -21,8 +29,17 @@ import { PageTitleComponent } from '../page-header/page-title.component';
   templateUrl: './breadcrumb.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
+export class BreadcrumbComponent
+  extends PageTitleComponent
+  implements OnInit, OnDestroy
+{
   crumbs$: Observable<any[]>;
+  protected subscription = new Subscription();
+
+  private router = inject(Router);
+  private featureConfigService = inject(FeatureConfigService);
+
+  ariaLiveEnabled = true;
 
   constructor(
     public component: CmsComponentData<CmsBreadcrumbsComponent>,
@@ -36,6 +53,19 @@ export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   ngOnInit(): void {
     super.ngOnInit();
     this.setCrumbs();
+    if (this.featureConfigService.isEnabled('a11yReapeatedPageTitleFix')) {
+      this.subscription.add(
+        this.router.events
+          .pipe(filter((e) => e instanceof NavigationEnd))
+          .subscribe(() => {
+            if (document.activeElement === document.body) {
+              this.ariaLiveEnabled = false;
+              return;
+            }
+            this.ariaLiveEnabled = true;
+          })
+      );
+    }
   }
 
   private setCrumbs(): void {
@@ -47,5 +77,9 @@ export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
         meta?.breadcrumbs ? meta.breadcrumbs : [{ label: textHome, link: '/' }]
       )
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
