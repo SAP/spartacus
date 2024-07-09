@@ -40,7 +40,7 @@ export class CreateWishListSuccess extends StateUtils.EntitySuccessAction {
 export class CreateWishListFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_WISH_LIST_FAIL;
 
-  constructor(public payload: { cartId: string; error: any }) {
+  constructor(public payload: { cartId: string; error?: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
   }
 }
