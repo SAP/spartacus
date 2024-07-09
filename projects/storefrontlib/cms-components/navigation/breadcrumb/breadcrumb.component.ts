@@ -53,7 +53,7 @@ export class BreadcrumbComponent
   ngOnInit(): void {
     super.ngOnInit();
     this.setCrumbs();
-    if (this.featureConfigService.isEnabled('a11yReapeatedPageTitleFix')) {
+    if (this.featureConfigService.isEnabled('a11yRepeatedPageTitleFix')) {
       this.subscription.add(
         this.router.events
           .pipe(filter((e) => e instanceof NavigationEnd))

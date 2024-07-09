@@ -368,7 +368,7 @@ export interface FeatureTogglesInterface {
    * Aria-live inside the 'BreadcrumbComponent' will be toggled based on the active element.
    * This removes the repeated announcement of the page title.
    */
-  a11yReapeatedPageTitleFix?: boolean;
+  a11yRepeatedPageTitleFix?: boolean;
 
   /**
    * When enabled, styles for the `cx-bottom-header-slot` class will be applied. These styles are necessary to display
@@ -435,6 +435,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
   a11yLinkBtnsToTertiaryBtns: false,
-  a11yReapeatedPageTitleFix: false,
+  a11yRepeatedPageTitleFix: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
 };
