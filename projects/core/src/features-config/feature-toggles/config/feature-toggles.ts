@@ -51,6 +51,11 @@ export interface FeatureTogglesInterface {
   showPromotionsInPDP?: boolean;
 
   /**
+   * In `ASM` it shows searching customer by order ID.
+   */
+  showSearchingCustomerByOrderInASM?: boolean;
+
+  /**
    * In `SearchBoxComponent` it shows the recent searches.
    */
   recentSearches?: boolean;
@@ -363,10 +368,17 @@ export interface FeatureTogglesInterface {
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
   a11yLinkBtnsToTertiaryBtns?: boolean;
+
+  /**
+   * When enabled, styles for the `cx-bottom-header-slot` class will be applied. These styles are necessary to display
+   * customization buttons in the BottomHeaderSlot in SmartEdit.
+   */
+  cmsBottomHeaderSlotUsingFlexStyles?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   formErrorsDescriptiveMessages: true,
+  showSearchingCustomerByOrderInASM: false,
   shouldHideAddToCartForUnpurchasableProducts: false,
   useExtractedBillingAddressComponent: false,
   showBillingAddressInDigitalPayments: false,
@@ -423,4 +435,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetsDialogFocusHandling: false,
   a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
+  cmsBottomHeaderSlotUsingFlexStyles: false,
 };
