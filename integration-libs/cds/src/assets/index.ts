@@ -6,12 +6,12 @@
 
 import { TranslationChunksConfig, TranslationResources } from '@spartacus/core';
 import {
-  cdsTranslations as originaCdsTranslations,
+  cdsTranslations as originalCdsTranslations,
   cdsTranslationChunksConfig as originalCdsTranslationChunksConfig,
 } from '@spartacus/cds/assets';
 
 /** @deprecated  Use @spartacus/cds/assets instead */
-export const cdsTranslations: TranslationResources = originaCdsTranslations;
+export const cdsTranslations: TranslationResources = originalCdsTranslations;
 
 /** @deprecated  Use @spartacus/cds/assets instead */
 export const cdsTranslationChunksConfig: TranslationChunksConfig =
