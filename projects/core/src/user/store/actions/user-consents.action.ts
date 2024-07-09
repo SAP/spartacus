@@ -81,7 +81,7 @@ export class GiveUserConsent extends StateUtils.EntityLoadAction {
 export class GiveUserConsentFail extends StateUtils.EntityFailAction {
   readonly type = GIVE_USER_CONSENT_FAIL;
 
-  constructor(public payload: any) {
+  constructor(payload: any) {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID, payload);
   }
 }
@@ -131,7 +131,7 @@ export class WithdrawUserConsent extends StateUtils.EntityLoadAction {
 export class WithdrawUserConsentFail extends StateUtils.EntityFailAction {
   readonly type = WITHDRAW_USER_CONSENT_FAIL;
 
-  constructor(public payload: any) {
+  constructor(payload: any) {
     super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID, payload);
   }
 }

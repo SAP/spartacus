@@ -44,6 +44,7 @@ describe('Product Search Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromProductSearch.SEARCH_PRODUCTS_FAIL,
+          payload: error,
           error,
           auxiliary: undefined,
         });
@@ -99,6 +100,7 @@ describe('Product Search Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromProductSearch.GET_PRODUCT_SUGGESTIONS_FAIL,
+          payload: error,
           error,
         });
       });

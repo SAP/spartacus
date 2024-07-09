@@ -21,6 +21,7 @@ describe('Product Review Actions', () => {
         const action = new ProductActions.LoadProductReviewsFail(error);
         expect({ ...action }).toEqual({
           type: ProductActions.LOAD_PRODUCT_REVIEWS_FAIL,
+          payload: error,
           error,
         });
       });

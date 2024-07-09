@@ -28,6 +28,7 @@ describe('User Addresses Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_USER_ADDRESSES_FAIL,
+        payload: error,
         error,
         meta: StateUtils.failMeta(USER_ADDRESSES, error),
       });
@@ -74,6 +75,7 @@ describe('User Addresses Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.ADD_USER_ADDRESS_FAIL,
+        payload: error,
         error,
         meta: StateUtils.failMeta(USER_ADDRESSES, error),
       });
@@ -120,6 +122,7 @@ describe('User Addresses Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.UPDATE_USER_ADDRESS_FAIL,
+        payload: error,
         error,
         meta: StateUtils.failMeta(USER_ADDRESSES, error),
       });

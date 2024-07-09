@@ -1,12 +1,12 @@
-import { UserActions } from './index';
 import { NotificationPreference } from '../../../model/notification-preference.model';
-import { StateUtils } from '../../../state/utils/index';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import {
-  UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
-  NOTIFICATION_PREFERENCES,
-} from '../user-state';
+import { StateUtils } from '../../../state/utils/index';
 import { resetMeta } from '../../../state/utils/loader/loader.action';
+import {
+  NOTIFICATION_PREFERENCES,
+  UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
+} from '../user-state';
+import { UserActions } from './index';
 
 const userId = 'testUser';
 const mockNotificationPreference: NotificationPreference[] = [
@@ -36,6 +36,7 @@ describe('Notification Preference Actions', () => {
       const action = new UserActions.LoadNotificationPreferencesFail(error);
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_NOTIFICATION_PREFERENCES_FAIL,
+        payload: error,
         error,
         meta: StateUtils.failMeta(NOTIFICATION_PREFERENCES, error),
       });
@@ -80,6 +81,7 @@ describe('Notification Preference Actions', () => {
       const action = new UserActions.UpdateNotificationPreferencesFail(error);
       expect({ ...action }).toEqual({
         type: UserActions.UPDATE_NOTIFICATION_PREFERENCES_FAIL,
+        payload: error,
         error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,

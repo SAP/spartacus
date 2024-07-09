@@ -19,6 +19,7 @@ describe('Languages Actions', () => {
 
         expect({ ...action }).toEqual({
           type: SiteContextActions.LOAD_LANGUAGES_FAIL,
+          payload: error,
           error,
         });
       });

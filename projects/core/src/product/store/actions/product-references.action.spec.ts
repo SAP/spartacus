@@ -28,6 +28,7 @@ describe('Product References Actions', () => {
         const action = new ProductActions.LoadProductReferencesFail(error);
         expect({ ...action }).toEqual({
           type: ProductActions.LOAD_PRODUCT_REFERENCES_FAIL,
+          payload: error,
           error,
         });
       });

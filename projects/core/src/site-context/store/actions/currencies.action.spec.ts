@@ -19,6 +19,7 @@ describe('Currencies Actions', () => {
 
         expect({ ...action }).toEqual({
           type: SiteContextActions.LOAD_CURRENCIES_FAIL,
+          payload: error,
           error,
         });
       });
