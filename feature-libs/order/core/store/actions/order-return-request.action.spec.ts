@@ -61,6 +61,7 @@ describe('Order Return Request actions', () => {
 
       expect({ ...action }).toEqual({
         type: OrderActions.CREATE_ORDER_RETURN_REQUEST_FAIL,
+        payload: error,
         error,
         meta: StateUtils.failMeta(RETURN_REQUEST_DETAILS, error),
       });
@@ -106,6 +107,7 @@ describe('Order Return Request actions', () => {
 
       expect({ ...action }).toEqual({
         type: OrderActions.LOAD_ORDER_RETURN_REQUEST_FAIL,
+        payload: error,
         error,
         meta: StateUtils.failMeta(RETURN_REQUEST_DETAILS, error),
       });
@@ -156,6 +158,7 @@ describe('Order Return Request actions', () => {
 
       expect({ ...action }).toEqual({
         type: OrderActions.CANCEL_ORDER_RETURN_REQUEST_FAIL,
+        payload: error,
         error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
@@ -202,6 +205,7 @@ describe('Order Return Request actions', () => {
 
       expect({ ...action }).toEqual({
         type: OrderActions.LOAD_ORDER_RETURN_REQUEST_LIST_FAIL,
+        payload: error,
         error,
         meta: StateUtils.failMeta(RETURN_REQUESTS, error),
       });

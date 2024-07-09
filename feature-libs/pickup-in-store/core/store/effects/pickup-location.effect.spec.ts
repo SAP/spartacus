@@ -91,7 +91,7 @@ describe('PickupLocationEffect with Error', () => {
     const error = new HttpErrorResponse({ error: 'error' });
 
     const actionFailure = SetStoreDetailsFailure({
-      error: tryNormalizeHttpError(error, new MockLoggerService()),
+      payload: tryNormalizeHttpError(error, new MockLoggerService()),
     });
     actions$ = hot('-a', { a: action });
     const expected = cold('-(b)', { b: actionFailure });
