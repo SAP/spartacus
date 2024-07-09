@@ -93,7 +93,7 @@ export class CartRemoveVoucherFail
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
-    this.error = payload;
+    this.error = payload.error;
   }
 }
 

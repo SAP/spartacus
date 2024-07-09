@@ -74,7 +74,7 @@ export class CartAddEntryFail
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
-    this.error = payload;
+    this.error = payload.error;
   }
 }
 
@@ -114,7 +114,7 @@ export class CartRemoveEntryFail
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
-    this.error = payload;
+    this.error = payload.error;
   }
 }
 
@@ -171,7 +171,7 @@ export class CartUpdateEntryFail
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
-    this.error = payload;
+    this.error = payload.error;
   }
 }
 

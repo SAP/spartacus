@@ -101,7 +101,7 @@ export class AddEmailToCartFail
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
-    this.error = payload;
+    this.error = payload.error;
   }
 }
 
@@ -229,7 +229,7 @@ export class DeleteCartFail implements ErrorAction {
   public error: any;
   readonly type = DELETE_CART_FAIL;
   constructor(public payload: { userId: string; cartId: string; error: any }) {
-    this.error = payload;
+    this.error = payload.error;
   }
 }
 
