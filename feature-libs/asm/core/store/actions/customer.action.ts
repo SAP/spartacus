@@ -5,7 +5,7 @@
  */
 
 import { CustomerSearchOptions, CustomerSearchPage } from '@spartacus/asm/root';
-import { ErrorActionType, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
 import {
   CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA,
   CUSTOMER_SEARCH_DATA,
@@ -62,7 +62,7 @@ export class CustomerListCustomersSearch extends StateUtils.LoaderLoadAction {
 
 export class CustomerListCustomersSearchFail extends StateUtils.LoaderFailAction {
   readonly type = CUSTOMER_LIST_CUSTOMERS_SEARCH_FAIL;
-  constructor(public payload: ErrorActionType) {
+  constructor(public payload: any) {
     super(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA, payload);
   }
 }
