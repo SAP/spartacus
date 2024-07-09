@@ -3,4 +3,5 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 export * from './occ-checkout-service-details.adapter';
