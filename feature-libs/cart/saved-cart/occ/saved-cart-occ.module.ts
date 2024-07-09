@@ -4,34 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
-import { inject, NgModule } from '@angular/core';
-import { SavedCartAdapter } from '@spartacus/cart/saved-cart/core';
-import {
-  FeatureToggles,
-  OccConfig,
-  provideDefaultConfigFactory,
-} from '@spartacus/core';
-import { OccSavedCartAdapter } from './adapters/occ-saved-cart.adapter';
-import { defaultOccSavedCartConfig } from './config/default-occ-saved-cart-config';
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {SavedCartAdapter} from '@spartacus/cart/saved-cart/core';
+import {provideDefaultConfigFactory,} from '@spartacus/core';
+import {OccSavedCartAdapter} from './adapters/occ-saved-cart.adapter';
+import {defaultOccSavedCartConfigFactory} from "./config/default-occ-saved-cart-config-factory";
 
-export function defaultOccSavedCartConfigFactory(): OccConfig {
-  const featureToggles = inject(FeatureToggles);
-
-  return {
-    backend: {
-      occ: {
-        endpoints: {
-          ...defaultOccSavedCartConfig?.backend?.occ?.endpoints,
-          cloneSavedCart:
-            featureToggles.occCartNameAndDescriptionInHttpRequestBody
-              ? '/users/${userId}/carts/${cartId}/clonesavedcart'
-              : '/users/${userId}/carts/${cartId}/clonesavedcart?name=${saveCartName}',
-        },
-      },
-    },
-  };
-}
 
 @NgModule({
   imports: [CommonModule],
@@ -43,4 +22,5 @@ export function defaultOccSavedCartConfigFactory(): OccConfig {
     },
   ],
 })
-export class SavedCartOccModule {}
+export class SavedCartOccModule {
+}
