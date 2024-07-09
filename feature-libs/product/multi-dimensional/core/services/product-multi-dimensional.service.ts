@@ -4,18 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { BaseOption, Product, VariantOptionQualifier } from 'projects/core/src/model';
+import { inject, Injectable } from '@angular/core';
+import { BaseOption, Product, VariantMatrixElement, VariantOption, VariantOptionQualifier } from '@spartacus/core';
 import { p } from './p';
-
-export type GroupedOption = {
-  name: string;
-  variantOptions: { value: string; code: string }[];
-};
+import { ProductMultiDimensionalImagesService } from './product-multi-dimensional-images.service';
+import { VariantCategory } from '../model/augmented-core.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductMultiDimensionalService {
-  getVariants(product: Product): GroupedOption[] {
+  imagesService = inject(ProductMultiDimensionalImagesService);
+
+  getVariants(product: Product): VariantCategory[] {
     // @ts-ignore
     product = p;
     console.log(this.groupBaseOptions(product));
@@ -23,8 +22,9 @@ export class ProductMultiDimensionalService {
     return this.groupBaseOptions(product);
   }
 
-  groupBaseOptions(product: Product): GroupedOption[] {
-    const groupedOptions: GroupedOption[] = [];
+  groupBaseOptions(product: Product): VariantCategory[] {
+    const variantMatrix = product.variantMatrix ?? [];
+    const variantCategories: VariantCategory[] = [];
     const baseOptions: BaseOption = product.baseOptions?.[0] ?? {};
     let selectedQualifiers: VariantOptionQualifier[] = baseOptions.selected?.variantOptionQualifiers ?? [];
     const temp: any[] = [
@@ -47,34 +47,68 @@ export class ProductMultiDimensionalService {
     selectedQualifiers = temp;
 
     // Blue M Cotton
-    baseOptions.options?.forEach((option) => {
 
-      option.variantOptionQualifiers?.forEach((qualifier) => {
+    baseOptions.options?.forEach((option: VariantOption) => {
+      option.variantOptionQualifiers?.forEach((qualifier: VariantOptionQualifier) => {
         if (qualifier.name) {
-          let group = groupedOptions.find(g => g.name === qualifier.name);
-          if (!group) {
-            group = { name: qualifier.name, variantOptions: [] };
-            groupedOptions.push(group);
+
+          let variantCategory = variantCategories.find(v => v.name === qualifier.name);
+
+          if (!variantCategory) {
+            variantCategory = { name: qualifier.name, variantOptions: [], hasImages: false };
+            variantCategories.push(variantCategory);
           }
-          if (this.shouldAdd(group.name, selectedQualifiers, option.variantOptionQualifiers ?? [])) {
-            group.variantOptions.push({ value: qualifier.value ?? '', code: option.code ?? '' });
+
+          if (this.shouldAdd(variantCategory.name, selectedQualifiers, option.variantOptionQualifiers ?? [])) {
+
+            const images = this.imagesService.getImagesFromVariantMatrix(qualifier, product);
+            variantCategory.variantOptions.push({
+              value: qualifier.value ?? '',
+              code: option.code ?? '',
+              images,
+              order: this.getOrderFromVariantMatrix(qualifier, variantMatrix)
+            });
+
           }
         }
       });
     });
 
-    return groupedOptions;
+    return variantCategories.map((variantCategory: VariantCategory) => {
+      const hasImages = !!variantCategory.variantOptions.find((option) => option.images.length);
+      return {
+        ...variantCategory,
+        variantOptions: variantCategory.variantOptions.sort((a, b) => a.order - b.order),
+        hasImages
+      };
+    });
   }
 
   shouldAdd(groupName: string, selectedQualifiers: VariantOptionQualifier[], optionQualifiers: VariantOptionQualifier[]): boolean {
-     return optionQualifiers.every((q) => {
-      if (q.name === groupName) {
+    return optionQualifiers.every((optionQualifier: VariantOptionQualifier) => {
+      if (optionQualifier.name === groupName) {
         return true;
       }
 
-      return selectedQualifiers.find(((x) => {
-        return q.value === x.value;
+      return selectedQualifiers.find(((selectedOptionQualifier: VariantOptionQualifier) => {
+        return optionQualifier.value === selectedOptionQualifier.value;
       }));
     });
   }
+
+  getOrderFromVariantMatrix(qualifier: VariantOptionQualifier, variantMatrix: VariantMatrixElement[]): number {
+    let order = 0;
+    const traversMatrix = (matrix: VariantMatrixElement[]) => {
+      for (const matrixElement of matrix) {
+        const isMatch = matrixElement.variantValueCategory.name === qualifier.value && matrixElement.parentVariantCategory.name === qualifier.name;
+        if (isMatch) {
+          order = matrixElement.variantValueCategory.sequence;
+          break;
+        }
+      }
+    };
+    traversMatrix(variantMatrix);
+    return order;
+  }
+
 }

@@ -5,11 +5,14 @@
  */
 
 import '@spartacus/core';
-import { VariantMatrixElement } from 'projects/core/src/model';
+import { Image } from 'projects/core/src/model';
 
-export type VariantsCategories = {
+export type VariantCategoryOption = { value: string; code: string; images: Image[]; order: number };
+
+export type VariantCategory = {
   name: string;
-  categoryVariants: VariantMatrixElement[];
+  variantOptions: VariantCategoryOption[];
+  hasImages: boolean;
 };
 
 declare module '@spartacus/core' {

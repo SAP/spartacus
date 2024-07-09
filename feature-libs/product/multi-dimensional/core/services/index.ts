@@ -5,3 +5,4 @@
  */
 
 export * from './product-multi-dimensional.service';
+export * from './product-multi-dimensional-images.service';

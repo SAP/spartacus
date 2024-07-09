@@ -341,81 +341,81 @@ export const p = {
   summary: "DSC-H20, Blue, 10.1 Megapixels, 10x Optical Zoom, 3.0\"\" LCD",
   url: "/Open-Catalogue/Cameras/Digital-Cameras/Digital-Compacts/DSC-H20-MD/p/1978440_md_blue_m_cotton",
   variantMatrix: [
-    // {
-    //   elements: [
-    //     {
-    //       elements: [
-    //         {
-    //           elements: [],
-    //           isLeaf: true,
-    //           parentVariantCategory: {
-    //             hasImage: true,
-    //             name: "Color",
-    //             priority: 0
-    //           },
-    //           variantOption: {
-    //             code: "1978440_md_red_l_cotton",
-    //             priceData: {
-    //               value: 0
-    //             },
-    //             stock: {
-    //               isValueRounded: false,
-    //               stockLevel: 87
-    //             },
-    //             url: "/Open-Catalogue/Cameras/Digital-Cameras/Digital-Compacts/DSC-H20-MD/p/1978440_md_red_l_cotton",
-    //             variantOptionQualifiers: [
-    //               {
-    //                 image: {}
-    //               }
-    //             ]
-    //           },
-    //           variantValueCategory: {
-    //             name: "Red",
-    //             sequence: 1
-    //           }
-    //         }
-    //       ],
-    //       isLeaf: false,
-    //       parentVariantCategory: {
-    //         hasImage: false,
-    //         name: "Size",
-    //         priority: 0
-    //       },
-    //       variantOption: {
-    //         code: "1978440_md_red_l_cotton",
-    //         url: "/Open-Catalogue/Cameras/Digital-Cameras/Digital-Compacts/DSC-H20-MD/p/1978440_md_red_l_cotton",
-    //         variantOptionQualifiers: [
-    //           {
-    //             image: {}
-    //           }
-    //         ]
-    //       },
-    //       variantValueCategory: {
-    //         name: "L",
-    //         sequence: 1
-    //       }
-    //     }
-    //   ],
-    //   isLeaf: false,
-    //   parentVariantCategory: {
-    //     hasImage: false,
-    //     name: "Material",
-    //     priority: 0
-    //   },
-    //   variantOption: {
-    //     code: "1978440_md_red_l_cotton",
-    //     url: "/Open-Catalogue/Cameras/Digital-Cameras/Digital-Compacts/DSC-H20-MD/p/1978440_md_red_l_cotton",
-    //     variantOptionQualifiers: [
-    //       {
-    //         image: {}
-    //       }
-    //     ]
-    //   },
-    //   variantValueCategory: {
-    //     name: "Cotton",
-    //     sequence: 1
-    //   }
-    // },
+    {
+      elements: [
+        {
+          elements: [
+            {
+              elements: [],
+              isLeaf: true,
+              parentVariantCategory: {
+                hasImage: true,
+                name: "Color",
+                priority: 0
+              },
+              variantOption: {
+                code: "1978440_md_red_l_cotton",
+                priceData: {
+                  value: 0
+                },
+                stock: {
+                  isValueRounded: false,
+                  stockLevel: 87
+                },
+                url: "/Open-Catalogue/Cameras/Digital-Cameras/Digital-Compacts/DSC-H20-MD/p/1978440_md_red_l_cotton",
+                variantOptionQualifiers: [
+                  {
+                    image: {}
+                  }
+                ]
+              },
+              variantValueCategory: {
+                name: "Red",
+                sequence: 1
+              }
+            }
+          ],
+          isLeaf: false,
+          parentVariantCategory: {
+            hasImage: false,
+            name: "Size",
+            priority: 0
+          },
+          variantOption: {
+            code: "1978440_md_red_l_cotton",
+            url: "/Open-Catalogue/Cameras/Digital-Cameras/Digital-Compacts/DSC-H20-MD/p/1978440_md_red_l_cotton",
+            variantOptionQualifiers: [
+              {
+                image: {}
+              }
+            ]
+          },
+          variantValueCategory: {
+            name: "L",
+            sequence: 1
+          }
+        }
+      ],
+      isLeaf: false,
+      parentVariantCategory: {
+        hasImage: false,
+        name: "Material",
+        priority: 0
+      },
+      variantOption: {
+        code: "1978440_md_red_l_cotton",
+        url: "/Open-Catalogue/Cameras/Digital-Cameras/Digital-Compacts/DSC-H20-MD/p/1978440_md_red_l_cotton",
+        variantOptionQualifiers: [
+          {
+            image: {}
+          }
+        ]
+      },
+      variantValueCategory: {
+        name: "Cotton",
+        sequence: 1
+      }
+    },
     {
       elements: [
         {
