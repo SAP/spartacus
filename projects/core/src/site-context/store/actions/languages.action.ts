@@ -19,9 +19,12 @@ export class LoadLanguages implements Action {
 }
 
 export class LoadLanguagesFail implements ErrorAction {
+  public error: any;
   readonly type = LOAD_LANGUAGES_FAIL;
 
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    this.error = payload;
+  }
 }
 
 export class LoadLanguagesSuccess implements Action {

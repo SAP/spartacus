@@ -24,9 +24,12 @@ export class LoadBaseSite implements Action {
 }
 
 export class LoadBaseSiteFail implements ErrorAction {
+  public error: any;
   readonly type = LOAD_BASE_SITE_FAIL;
 
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    this.error = payload;
+  }
 }
 
 export class LoadBaseSiteSuccess implements Action {
@@ -40,9 +43,12 @@ export class LoadBaseSites implements Action {
 }
 
 export class LoadBaseSitesFail implements ErrorAction {
+  public error: any;
   readonly type = LOAD_BASE_SITES_FAIL;
 
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    this.error = payload;
+  }
 }
 
 export class LoadBaseSitesSuccess implements Action {

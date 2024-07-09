@@ -19,8 +19,11 @@ export class LoadCurrencies implements Action {
 }
 
 export class LoadCurrenciesFail implements ErrorAction {
+  public error: any;
   readonly type = LOAD_CURRENCIES_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    this.error = payload;
+  }
 }
 
 export class LoadCurrenciesSuccess implements Action {
