@@ -518,6 +518,40 @@ export function startCustomerEmulation(customer, b2b = false): void {
   cy.get('cx-customer-emulation').should('be.visible');
 }
 
+export function startCustomerEmulationWithOrderID(
+  order,
+  customer,
+  b2b = false
+): void {
+  const customerSearchRequestAlias = listenForCustomerSearchRequest();
+  const userDetailsRequestAlias = listenForUserDetailsRequest(b2b);
+
+  cy.get('cx-csagent-login-form').should('not.exist');
+  cy.get('cx-customer-selection').should('exist');
+  cy.get('cx-customer-selection form').within(() => {
+    cy.get('[formcontrolname="searchOrder"]')
+      .should('not.be.disabled')
+      .type(order);
+    cy.get('[formcontrolname="searchOrder"]').should('have.value', `${order}`);
+  });
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-customer-selection div.asm-results button').click();
+  cy.get('cx-customer-selection button[type="submit"]').click();
+
+  cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
+  cy.get('cx-customer-emulation .cx-asm-customerInfo label.cx-asm-name').should(
+    'contain',
+    customer.fullName
+  );
+  cy.get('cx-csagent-login-form').should('not.exist');
+  cy.get('cx-customer-selection').should('not.exist');
+  cy.get('cx-customer-emulation').should('be.visible');
+  cy.get('cx-breadcrumb').contains('Order Details');
+}
+
 export function loginCustomerInStorefront(customer) {
   const authRequest = listenForAuthenticationRequest();
 
@@ -739,8 +773,8 @@ export function asmOpenCreateCustomerDialogOnCustomerSelectionDropdown(): void {
     .its('response.statusCode')
     .should('eq', 200);
 
-  cy.get('cx-customer-selection div.asm-results button').should('exist');
-  cy.get('cx-customer-selection div.asm-results button').click();
+  cy.get('cx-customer-selection span.linkStyleLabel').should('exist');
+  cy.get('cx-customer-selection span.linkStyleLabel').click();
   cy.get('cx-asm-create-customer-form').should('exist');
   cy.get('cx-asm-create-customer-form form').should('exist');
 }
