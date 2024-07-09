@@ -44,7 +44,7 @@ export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailA
     public payload: any,
     scope = ''
   ) {
-    super(PRODUCT_DETAIL_ENTITY, productCode, payload, scope);
+    super(PRODUCT_DETAIL_ENTITY, productCode, scope, payload);
   }
 }
 
