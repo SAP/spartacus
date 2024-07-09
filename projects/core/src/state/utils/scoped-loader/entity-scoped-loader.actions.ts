@@ -132,6 +132,7 @@ export namespace EntityScopedLoaderActions {
     constructor(
       entityType: string,
       id: string | string[],
+      // eslint-disable-next-line @typescript-eslint/unified-signatures
       scope: string | undefined
     );
     /**
