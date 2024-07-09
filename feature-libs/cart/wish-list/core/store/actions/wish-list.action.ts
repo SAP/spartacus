@@ -39,7 +39,16 @@ export class CreateWishListSuccess extends StateUtils.EntitySuccessAction {
 
 export class CreateWishListFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_WISH_LIST_FAIL;
-
+  constructor(payload: { cartId: string; error: any });
+  /**
+   * @deprecated Please pass the argument `error`.
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    payload: { cartId: string }
+  );
   constructor(public payload: { cartId: string; error?: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
   }

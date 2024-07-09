@@ -42,6 +42,33 @@ export namespace EntityScopedLoaderActions {
   export function entityScopedFailMeta(
     entityType: string,
     id: string | string[],
+    scope: string,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    error: any
+  ): EntityScopedLoaderMeta;
+  /**
+   * @deprecated Please pass the argument `error`.
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  export function entityScopedFailMeta(
+    entityType: string,
+    id: string | string[],
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    scope: string
+  ): EntityScopedLoaderMeta;
+  /**
+   * @deprecated Please pass the argument `scope` and `error`
+   *             They will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  export function entityScopedFailMeta(
+    entityType: string,
+    id: string | string[]
+  ): EntityScopedLoaderMeta;
+  export function entityScopedFailMeta(
+    entityType: string,
+    id: string | string[],
     scope?: string,
     error?: any
   ): EntityScopedLoaderMeta {
@@ -97,15 +124,15 @@ export namespace EntityScopedLoaderActions {
       error: any
     );
     /**
-     * @deprecated Please pass the constructor argument `error`.
+     * @deprecated Please pass the argument `error`.
      *             It will become mandatory along with removing
      *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
      */
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     constructor(entityType: string, id: string | string[], scope: string);
     /**
-     * @deprecated Please pass the constructor argument `error`.
-     *             It will become mandatory along with removing
+     * @deprecated Please pass the argument `scope` and `error`.
+     *             They will become mandatory along with removing
      *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
      */
     constructor(entityType: string, id: string | string[]);

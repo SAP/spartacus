@@ -30,10 +30,23 @@ export class LoadCmsComponent extends StateUtils.EntityLoadAction {
 export class LoadCmsComponentFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_COMPONENT_FAIL;
 
+  constructor(payload: { uid: string; error: any; pageContext: PageContext });
+  /**
+   * @deprecated Please pass the argument `error`.
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    payload: {
+      uid: string;
+      pageContext: PageContext;
+    }
+  );
   constructor(
     public payload: {
       uid: string;
-      error: any;
+      error?: any;
       pageContext: PageContext;
     }
   ) {
