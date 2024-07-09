@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { EventService, FeatureConfigService } from '@spartacus/core';
+import { EventService, FeatureConfigService, GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import {
   CartUtilsService,
   QuoteDetailsReloadQueryEvent,
@@ -25,6 +25,7 @@ export class QuoteLinksComponent {
   protected eventService = inject(EventService);
   protected fileDownloadService = inject(FileDownloadService);
   private featureConfig = inject(FeatureConfigService);
+  protected globalMessageService = inject(GlobalMessageService);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
 
@@ -49,10 +50,18 @@ export class QuoteLinksComponent {
     const filename = attachments[0].filename || attachmentId;
     this.quoteFacade
       .downloadAttachment(quoteCode, attachmentId)
-      .subscribe((res) => {
-        const url = URL.createObjectURL(new Blob([res], { type: res.type }));
-        this.fileDownloadService.download(url, `${filename}.pdf`);
-      });
+      .subscribe({
+        next: (res) => {
+          const url = URL.createObjectURL(new Blob([res], { type: res.type }));
+          this.fileDownloadService.download(url, `${filename}.pdf`);
+        },
+        error: () => {
+          this.globalMessageService.add(
+            { key: 'quote.httpHandlers.downloadError' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        },
+    });
   }
 
   /**
