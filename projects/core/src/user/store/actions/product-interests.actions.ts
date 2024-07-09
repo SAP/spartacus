@@ -67,7 +67,7 @@ export class LoadProductInterestsFail extends LoaderFailAction {
   readonly type = LOAD_PRODUCT_INTERESTS_FAIL;
 
   constructor(public payload: any) {
-    super(PRODUCT_INTERESTS, error);
+    super(PRODUCT_INTERESTS, payload);
   }
 }
 
@@ -105,7 +105,7 @@ export class RemoveProductInterestFail extends EntityFailAction {
   readonly type = REMOVE_PRODUCT_INTEREST_FAIL;
 
   constructor(public payload: any) {
-    super(PROCESS_FEATURE, REMOVE_PRODUCT_INTERESTS_PROCESS_ID, error);
+    super(PROCESS_FEATURE, REMOVE_PRODUCT_INTERESTS_PROCESS_ID, payload);
   }
 }
 
@@ -135,7 +135,7 @@ export class AddProductInterestFail extends EntityFailAction {
   readonly type = ADD_PRODUCT_INTEREST_FAIL;
 
   constructor(public payload: any) {
-    super(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID, error);
+    super(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID, payload);
   }
 }
 

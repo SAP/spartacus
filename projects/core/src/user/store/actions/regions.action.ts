@@ -26,7 +26,7 @@ export class LoadRegionsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_REGIONS_FAIL;
 
   constructor(public payload: any) {
-    super(REGIONS, error);
+    super(REGIONS, payload);
   }
 }
 

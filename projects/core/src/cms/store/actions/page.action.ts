@@ -26,7 +26,7 @@ export class LoadCmsPageDataFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_PAGE_DATA_FAIL;
 
   constructor(pageContext: PageContext, public payload: any) {
-    super(pageContext.type ?? '', pageContext.id, error);
+    super(pageContext.type ?? '', pageContext.id, payload);
   }
 }
 

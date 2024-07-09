@@ -24,7 +24,7 @@ export class LoadActiveCostCenters extends StateUtils.LoaderLoadAction {
 export class LoadActiveCostCentersFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ACTIVE_COST_CENTERS_FAIL;
   constructor(public payload: any) {
-    super(USER_COST_CENTERS, error);
+    super(USER_COST_CENTERS, payload);
   }
 }
 

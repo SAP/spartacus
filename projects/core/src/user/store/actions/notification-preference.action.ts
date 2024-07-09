@@ -47,7 +47,7 @@ export class LoadNotificationPreferencesFail extends StateUtils.LoaderFailAction
   readonly type = LOAD_NOTIFICATION_PREFERENCES_FAIL;
 
   constructor(public payload: any) {
-    super(NOTIFICATION_PREFERENCES, error);
+    super(NOTIFICATION_PREFERENCES, payload);
   }
 }
 
@@ -73,7 +73,7 @@ export class UpdateNotificationPreferencesFail extends EntityFailAction {
   readonly type = UPDATE_NOTIFICATION_PREFERENCES_FAIL;
 
   constructor(public payload: any) {
-    super(PROCESS_FEATURE, UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID, error);
+    super(PROCESS_FEATURE, UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID, payload);
   }
 }
 
