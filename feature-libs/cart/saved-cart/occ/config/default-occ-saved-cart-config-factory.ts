@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {FeatureToggles, OccConfig} from '@spartacus/core';
-import {inject} from "@angular/core";
+import { FeatureToggles, OccConfig } from '@spartacus/core';
+import { inject } from '@angular/core';
 
 export function defaultOccSavedCartConfigFactory(): OccConfig {
   const featureToggles = inject(FeatureToggles);

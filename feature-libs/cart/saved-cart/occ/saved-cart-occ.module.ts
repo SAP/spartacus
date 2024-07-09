@@ -4,13 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {CommonModule} from '@angular/common';
-import {NgModule} from '@angular/core';
-import {SavedCartAdapter} from '@spartacus/cart/saved-cart/core';
-import {provideDefaultConfigFactory,} from '@spartacus/core';
-import {OccSavedCartAdapter} from './adapters/occ-saved-cart.adapter';
-import {defaultOccSavedCartConfigFactory} from "./config/default-occ-saved-cart-config-factory";
-
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { SavedCartAdapter } from '@spartacus/cart/saved-cart/core';
+import { provideDefaultConfigFactory } from '@spartacus/core';
+import { OccSavedCartAdapter } from './adapters/occ-saved-cart.adapter';
+import { defaultOccSavedCartConfigFactory } from './config/default-occ-saved-cart-config-factory';
 
 @NgModule({
   imports: [CommonModule],
@@ -22,5 +21,4 @@ import {defaultOccSavedCartConfigFactory} from "./config/default-occ-saved-cart-
     },
   ],
 })
-export class SavedCartOccModule {
-}
+export class SavedCartOccModule {}
