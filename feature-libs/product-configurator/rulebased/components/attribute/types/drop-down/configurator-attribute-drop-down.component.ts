@@ -45,29 +45,30 @@ export class ConfiguratorAttributeDropDownComponent
   );
   protected config = inject(Config);
 
-  protected initialRenderingOfOptions: boolean = true;
+  protected isInitialRenderingOfDomainValues: boolean = true;
   protected lastAttrSupplement: Configurator.AttributeSupplement | undefined;
 
-  renderOptions$: Observable<boolean> = this.isAsyncPricing
+  renderDomainValues$: Observable<boolean> = this.isAsyncPricing
     ? this.configRouterExtractorService.extractRouterData().pipe(
         switchMap((routerData) => {
           return this.configuratorCommonsService
             .getConfiguration(routerData.owner)
             .pipe(
-              // First time render without prices, so UI is not blocked, otherwise only re-ender if prices change.
-              // Changes of attribute itself are already handled in the attribute composition directive
+              // Initially render domain values (DDLB options) without prices, so UI is not blocked, otherwise only re-ender if prices changed.
+              // Changes of attribute itself are already handled in the attribute composition directive.
               filter(
                 (config) =>
-                  this.initialRenderingOfOptions || !!config.priceSupplements
+                  this.isInitialRenderingOfDomainValues ||
+                  !!config.priceSupplements
               ),
               switchMap((config) => {
-                if (this.initialRenderingOfOptions) {
+                if (this.isInitialRenderingOfDomainValues) {
                   return of(true);
                 }
                 const pricesChanged = this.checkedForValuePriceChanges(config);
                 return pricesChanged ? of(true) : EMPTY;
               }),
-              tap(() => (this.initialRenderingOfOptions = false))
+              tap(() => (this.isInitialRenderingOfDomainValues = false))
             );
         })
       )

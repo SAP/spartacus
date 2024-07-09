@@ -17,7 +17,7 @@
   <ng-container
     *ngIf="
       !config.features?.productConfiguratorAttributeTypesV2 &&
-      (renderOptions$ | async)
+      (renderDomainValues$ | async)
     "
   >
     <select
@@ -46,7 +46,7 @@
   <ng-container
     *ngIf="
       config.features?.productConfiguratorAttributeTypesV2 &&
-      (renderOptions$ | async)
+      (renderDomainValues$ | async)
     "
   >
     <div class="cx-value-label-pair">
