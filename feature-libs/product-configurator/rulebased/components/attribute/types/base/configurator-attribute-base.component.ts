@@ -268,12 +268,12 @@ export class ConfiguratorAttributeBaseComponent {
    */
   extractValuePriceAsyncOptions(
     attribute: Configurator.Attribute,
-    value: Configurator.Value
+    value?: Configurator.Value
   ): ConfiguratorPriceAsyncComponentOptions {
     return {
       attributeKey: attribute.key ?? '',
-      valueName: value.name ?? '',
-      isLightedUp: value.selected ?? false,
+      valueName: value?.name ?? '',
+      isLightedUp: value?.selected ?? false,
     };
   }
 

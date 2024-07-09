@@ -256,8 +256,8 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
 
   it('should not update prices if there is no change', () => {
     createComponentWithData();
-    expect(component['extractValuePrice'](mockConfig)).toBeTruthy();
-    expect(component['extractValuePrice'](mockConfig)).toBeFalsy();
+    expect(component['checkedForValuePriceChanges'](mockConfig)).toBeTruthy();
+    expect(component['checkedForValuePriceChanges'](mockConfig)).toBeFalsy();
   });
 
   it('should render an empty component because showRequiredErrorMessage$ is `false`', () => {

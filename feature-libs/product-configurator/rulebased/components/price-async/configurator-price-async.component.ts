@@ -96,7 +96,7 @@ export class ConfiguratorPriceAsyncComponent {
     return this.findValuePrice(configuration);
   }
 
-  private findValuePrice(configuration: Configurator.Configuration) {
+  protected findValuePrice(configuration: Configurator.Configuration) {
     const priceSupplement = configuration.priceSupplements
       ?.find(
         (attrSupplement) =>
@@ -125,7 +125,7 @@ export class ConfiguratorPriceAsyncComponent {
    *
    * @return {boolean} - 'true' if price should be lighted up, otherwise 'false'
    */
-  isPriceLightedUp(): boolean {
+  protected isPriceLightedUp(): boolean {
     return this.options.isLightedUp ?? false;
   }
 

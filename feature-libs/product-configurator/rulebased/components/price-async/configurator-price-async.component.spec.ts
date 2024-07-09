@@ -166,7 +166,7 @@ describe('ConfiguratorPriceAsyncComponent', () => {
     );
   });
 
-  it('should display formatted value price when it is greater than zero', () => {
+  it('should display formatted value price if it is greater than zero', () => {
     initComponent({
       attributeKey: 'group1@attribute_1_2',
       valueName: 'value_2_3',
@@ -180,7 +180,7 @@ describe('ConfiguratorPriceAsyncComponent', () => {
     );
   });
 
-  it('should display formatted value price when it is smaller than zero', () => {
+  it('should display formatted value price if it is smaller than zero', () => {
     initComponent({
       attributeKey: 'group1@attribute_1_1',
       valueName: 'value_1_1',
@@ -194,7 +194,7 @@ describe('ConfiguratorPriceAsyncComponent', () => {
     );
   });
 
-  it('should display formatted value price when it is greater than zero with RTL direction', () => {
+  it('should display formatted value price if it is greater than zero with RTL direction', () => {
     direction = DirectionMode.RTL;
     initComponent({
       attributeKey: 'group1@attribute_1_2',
@@ -209,7 +209,7 @@ describe('ConfiguratorPriceAsyncComponent', () => {
     );
   });
 
-  it('should display formatted value price when it is smaller than zero with RTL direction', () => {
+  it('should display formatted value price if it is smaller than zero with RTL direction', () => {
     direction = DirectionMode.RTL;
     initComponent({
       attributeKey: 'group1@attribute_1_1',
@@ -288,24 +288,24 @@ describe('ConfiguratorPriceAsyncComponent', () => {
   });
 
   describe('valuePriceChanged in unit test environment', () => {
-    it('shall return false for objects with same content', () => {
+    it('should return false for objects with same content', () => {
       const price2 = structuredClone(price1);
       expect(component['valuePriceChanged'](price1, price2)).toBeFalsy();
     });
 
-    it('shall return true if value differs', () => {
+    it('should return true if value differs', () => {
       const price2 = structuredClone(price1);
       price2.value = 100;
       expect(component['valuePriceChanged'](price1, price2)).toBeTruthy();
     });
 
-    it('shall return true if formatted value differs', () => {
+    it('should return true if formatted value differs', () => {
       const price2 = structuredClone(price1);
       price2.formattedValue = '$100.00';
       expect(component['valuePriceChanged'](price1, price2)).toBeTruthy();
     });
 
-    it('shall return true if currency  differs', () => {
+    it('should return true if currency  differs', () => {
       const price2 = structuredClone(price1);
       price2.currencyIso = 'EUR';
       expect(component['valuePriceChanged'](price1, price2)).toBeTruthy();

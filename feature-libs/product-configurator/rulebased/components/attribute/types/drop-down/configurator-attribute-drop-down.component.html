@@ -16,8 +16,8 @@
   </label>
   <ng-container
     *ngIf="
-      !config.features?.productConfiguratorAttributeTypesV2 && renderOptions$
-        | async
+      !config.features?.productConfiguratorAttributeTypesV2 &&
+      (renderOptions$ | async)
     "
   >
     <select
@@ -45,8 +45,8 @@
 
   <ng-container
     *ngIf="
-      config.features?.productConfiguratorAttributeTypesV2 && renderOptions$
-        | async
+      config.features?.productConfiguratorAttributeTypesV2 &&
+      (renderOptions$ | async)
     "
   >
     <div class="cx-value-label-pair">

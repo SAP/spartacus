@@ -66,20 +66,20 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should render view when performance feature toggle is off', () => {
+    it('should render view if performance feature toggle is off', () => {
       productConfiguratorDeltaRenderingEnabled = false;
       classUnderTest.ngOnInit();
       expectComponentRendered(1);
     });
 
-    it('should log when performance feature toggle is off but no component found', () => {
+    it('should log if performance feature toggle is off but no component found', () => {
       productConfiguratorDeltaRenderingEnabled = false;
       classUnderTest['context'].componentKey = 'not.existing';
       classUnderTest.ngOnInit();
       expectLogOnly();
     });
 
-    it('should do nothing when performance feature toggle is on', () => {
+    it('should do nothing if performance feature toggle is on', () => {
       productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest.ngOnInit();
       expectNoInteraction();
@@ -87,7 +87,7 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
   });
 
   describe('ngOnChanges', () => {
-    it('should render view when performance feature toggle is on', () => {
+    it('should render view if performance feature toggle is on', () => {
       productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest.ngOnChanges();
       expectComponentRendered(1);
@@ -112,14 +112,14 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
       expectComponentRendered(2);
     });
 
-    it('should log when performance feature toggle is on but no component found', () => {
+    it('should log if performance feature toggle is on but no component found', () => {
       productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest['context'].componentKey = 'not.existing';
       classUnderTest.ngOnChanges();
       expectLogOnly();
     });
 
-    it('should do nothing when performance feature toggle is off', () => {
+    it('should do nothing if performance feature toggle is off', () => {
       productConfiguratorDeltaRenderingEnabled = false;
       classUnderTest.ngOnChanges();
       expectNoInteraction();

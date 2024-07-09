@@ -23,7 +23,7 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { EMPTY, filter, Observable, of, switchMap } from 'rxjs';
+import { EMPTY, filter, Observable, of, switchMap, tap } from 'rxjs';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
@@ -45,8 +45,8 @@ export class ConfiguratorAttributeDropDownComponent
   );
   protected config = inject(Config);
 
-  private firstTime: boolean = true;
-  private lastAttrSupplement: Configurator.AttributeSupplement | undefined;
+  protected initialRenderingOfOptions: boolean = true;
+  protected lastAttrSupplement: Configurator.AttributeSupplement | undefined;
 
   renderOptions$: Observable<boolean> = this.isAsyncPricing
     ? this.configRouterExtractorService.extractRouterData().pipe(
@@ -56,15 +56,18 @@ export class ConfiguratorAttributeDropDownComponent
             .pipe(
               // First time render without prices, so UI is not blocked, otherwise only re-ender if prices change.
               // Changes of attribute itself are already handled in the attribute composition directive
-              filter((config) => this.firstTime || !!config.priceSupplements),
+              filter(
+                (config) =>
+                  this.initialRenderingOfOptions || !!config.priceSupplements
+              ),
               switchMap((config) => {
-                if (this.firstTime) {
-                  this.firstTime = false;
+                if (this.initialRenderingOfOptions) {
                   return of(true);
                 }
-                const pricesChanged = this.extractValuePrice(config);
+                const pricesChanged = this.checkedForValuePriceChanges(config);
                 return pricesChanged ? of(true) : EMPTY;
-              })
+              }),
+              tap(() => (this.initialRenderingOfOptions = false))
             );
         })
       )
@@ -89,7 +92,16 @@ export class ConfiguratorAttributeDropDownComponent
     useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
 
-  extractValuePrice(config: Configurator.Configuration): boolean {
+  /**
+   * Extracts the relevant value prices from the price supplements
+   * and stores them within the component. Returns a boolean indicating
+   * whether there were any changes.
+   * @param config current config
+   * @returns {true}, only if at least one value price changed
+   */
+  protected checkedForValuePriceChanges(
+    config: Configurator.Configuration
+  ): boolean {
     const attrKey = this.attribute.key ?? '';
     const attrSupplement = config.priceSupplements?.find(
       (supplement) => supplement.attributeUiKey === attrKey

@@ -24,9 +24,7 @@ import {
   ConfiguratorAttributeCompositionConfig,
 } from './configurator-attribute-composition.config';
 import { ConfiguratorAttributeCompositionContext } from './configurator-attribute-composition.model';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
-
-const FEATURE_TOGGLE_PERF = 'productConfiguratorDeltaRendering';
+import { Configurator } from '../../../core/model/configurator.model';
 
 @Directive({
   selector: '[cxConfiguratorAttributeComponent]',
@@ -42,7 +40,7 @@ export class ConfiguratorAttributeCompositionDirective
   protected logger = inject(LoggerService);
   protected featureConfig = inject(FeatureConfigService);
 
-  private readonly attrCompAssignment: AttributeComponentAssignment =
+  protected readonly attrCompAssignment: AttributeComponentAssignment =
     this.configuratorAttributeCompositionConfig.productConfigurator
       ?.assignment ?? [];
 
@@ -65,7 +63,7 @@ export class ConfiguratorAttributeCompositionDirective
    */
   ngOnChanges(): void {
     if (
-      this.featureConfig.isEnabled(FEATURE_TOGGLE_PERF) &&
+      this.featureConfig.isEnabled('productConfiguratorDeltaRendering') &&
       !ObjectComparisonUtils.deepEqualObjects(
         this.lastRenderedAttribute,
         this.context.attribute
