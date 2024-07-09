@@ -5,7 +5,6 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorActionType } from '../../../model/index';
 import { Product } from '../../../model/product.model';
 import { EntityLoaderMeta } from '../../../state/utils/entity-loader/entity-loader.action';
 import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';

@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorAction, ErrorActionType } from '../../../model/index';
+import { ErrorAction } from '../../../model/index';
 
 export const LOADER_LOAD_ACTION = '[LOADER] LOAD';
 export const LOADER_FAIL_ACTION = '[LOADER] FAIL';
@@ -73,10 +73,10 @@ export class LoaderLoadAction implements LoaderAction {
 
 export class LoaderFailAction implements LoaderAction, ErrorAction {
   type = LOADER_FAIL_ACTION;
-  error: ErrorActionType;
+  public error: any;
   readonly meta: LoaderMeta;
 
-  constructor(entityType: string, error: ErrorActionType) {
+  constructor(entityType: string, error: any) {
     this.meta = failMeta(entityType, error);
     this.error = error;
   }

@@ -5,18 +5,18 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction } from '../../../model/index';
 import {
   ENTITY_FAIL_ACTION,
   ENTITY_LOAD_ACTION,
   ENTITY_RESET_ACTION,
   ENTITY_SUCCESS_ACTION,
-  entityFailMeta,
   EntityLoaderMeta,
+  entityFailMeta,
   entityLoadMeta,
   entityResetMeta,
   entitySuccessMeta,
 } from '../entity-loader/entity-loader.action';
-import { ErrorAction, ErrorActionType } from '../../../model/index';
 
 export namespace EntityScopedLoaderActions {
   export interface EntityScopedLoaderMeta extends EntityLoaderMeta {
@@ -86,13 +86,13 @@ export namespace EntityScopedLoaderActions {
     implements EntityScopedLoaderAction, ErrorAction
   {
     type = ENTITY_FAIL_ACTION;
-    error: ErrorActionType;
+    public error: any;
     readonly meta: EntityScopedLoaderMeta;
 
     constructor(
       entityType: string,
       id: string | string[],
-      error: ErrorActionType,
+      error: any,
       scope?: string
     ) {
       this.meta = entityScopedFailMeta(entityType, id, scope, error);
