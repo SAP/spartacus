@@ -1,24 +1,24 @@
 <ng-container *ngIf="product">
   <div class="variant-generic-selector">
-    <ng-container *ngFor="let variant of variants">
+    <ng-container *ngFor="let category of categoryOptions">
       <label>{{
-        'productMultiDimensional.' + variant.name | cxTranslate
+        'productMultiDimensional.' + category.name | cxTranslate
       }}</label>
 
       <div
-        *ngIf="variantHasImages(variant.categoryVariants); else noImages"
+        *ngIf="variantHasImages(category.variantOptions); else noImages"
         class="image-variant-container"
       >
         <cx-media
-          *ngFor="let category of variant.categoryVariants"
-          (click)="changeVariant(category.variantOption?.code)"
+          *ngFor="let option of category.variantOptions"
+          (click)="changeVariant(option.code)"
           [container]="
             getVariantOptionImages(
-              category.variantOption?.variantOptionQualifiers
+              option.variantOptionQualifiers ?? []
             )
           "
-          [ngClass]="{ active: category.variantOption?.code === product.code }"
-          [title]="category.variantValueCategory?.name"
+          [ngClass]="{ active: option?.code === product.code }"
+          [title]="option.value"
           class="image-variant"
         >
         </cx-media>
@@ -31,11 +31,11 @@
             class="form-control"
           >
             <option
-              *ngFor="let cat of variant.categoryVariants"
-              [value]="cat.variantOption?.code"
-              [selected]="isSelected(cat)"
+              *ngFor="let option of category.variantOptions"
+              [value]="option.code"
+              [selected]="isSelected(option.code)"
             >
-              {{ cat.variantValueCategory?.name }}
+              {{ option.value }}
             </option>
           </select>
         </div>

@@ -2,6 +2,7 @@
   "productMultiDimensional": {
     "Style": "Style",
     "Size": "Size",
-    "Color": "Color"
+    "Color": "Color",
+    "Material": "Material"
   }
 }

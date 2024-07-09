@@ -23,9 +23,8 @@ import {
   VariantOptionQualifier,
   VariantQualifier,
 } from '@spartacus/core';
-import { ProductMultiDimensionalService } from '../../../core/services/product-multi-dimensional.service';
+import { GroupedOption, ProductMultiDimensionalService } from '../../../core/services/product-multi-dimensional.service';
 import { ActivatedRoute } from '@angular/router';
-import { VariantsCategories } from '../../../core/model/augmented-core.model';
 import { filter, take } from 'rxjs/operators';
 
 @Component({
@@ -45,15 +44,16 @@ export class ProductMultiDimensionalSelectorComponent implements OnChanges {
   @Input()
   product: Product;
 
-  variants: VariantsCategories[] = [];
+  categoryOptions: GroupedOption[] = [];
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.product) {
-      this.variants = this.multiDimensionalService.getVariants(this.product);
+      this.categoryOptions = this.multiDimensionalService.getVariants(this.product);
     }
   }
 
-  variantHasImages(variants: VariantMatrixElement[]): boolean {
+  variantHasImages(variants: any): boolean {
+    return false
     return variants.every((variant: VariantMatrixElement) => {
       if (variant.variantOption?.variantOptionQualifiers) {
         return variant.variantOption.variantOptionQualifiers.every(
