@@ -1,6 +1,6 @@
 import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
@@ -79,7 +79,9 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   get(): Observable<GlobalMessageEntities> {
     return of({});
   }
+
   add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
+
   remove(_: GlobalMessageType, __?: number): void {}
 }
 
@@ -260,5 +262,18 @@ describe('CustomerTicketingCreateDialogComponent', () => {
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });
+  });
+
+  it('should add Validators.required to ticketCategory if categories are present', () => {
+    const ticketCategoryControl = component.form.get('ticketCategory');
+    expect(ticketCategoryControl?.hasValidator(Validators.required)).toBe(true);
+  });
+
+  it('should remove Validators.required from ticketCategory if no categories are present', () => {
+    component['manageCategoryValidation']([]);
+    const ticketCategoryControl = component.form.get('ticketCategory');
+    expect(ticketCategoryControl?.hasValidator(Validators.required)).toBe(
+      false
+    );
   });
 });

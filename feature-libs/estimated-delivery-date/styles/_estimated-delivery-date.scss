@@ -1,0 +1,23 @@
+cx-estimated-delivery-date {
+  .cx-code {
+    padding-top: 0px;
+  }
+}
+
+.cx-estimated-delivery-date-info {
+  .cx-label {
+    font-weight: var(--cx-font-weight-normal);
+    font-size: var(--cx-font-size, 1rem);
+    padding-inline-end: 0.3rem;
+  }
+
+  .cx-value {
+    padding-inline-end: 5px;
+    padding-inline-start: 0em;
+  }
+
+  @include media-breakpoint-down(sm) {
+    justify-content: flex-start;
+    padding: 0 0 0.625rem 0;
+  }
+}

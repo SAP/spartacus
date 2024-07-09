@@ -185,6 +185,30 @@ describe('AuthService', () => {
     });
   });
 
+  describe('otpLoginWithCredentials()', () => {
+    it('should login user', async () => {
+      spyOn(
+        oAuthLibWrapperService,
+        'authorizeWithPasswordFlow'
+      ).and.callThrough();
+      spyOn(userIdService, 'setUserId').and.callThrough();
+      spyOn(authRedirectService, 'redirect').and.callThrough();
+      spyOn(store, 'dispatch').and.callThrough();
+
+      const tokenId = '<LGN[OZ8Ijx92S7pf3KcqtuUxOvM0l2XmZQX+4TUEzXcJyjI=]>';
+      const tokenCode = 'XD2iuP';
+
+      await service.otpLoginWithCredentials(tokenId, tokenCode);
+
+      expect(
+        oAuthLibWrapperService.authorizeWithPasswordFlow
+      ).toHaveBeenCalledWith(tokenId, tokenCode);
+      expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
+      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+      expect(authRedirectService.redirect).toHaveBeenCalled();
+    });
+  });
+
   describe('coreLogout()', () => {
     it('should revoke tokens and logout', fakeAsync(() => {
       spyOn(userIdService, 'clearUserId').and.callThrough();

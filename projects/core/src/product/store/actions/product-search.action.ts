@@ -36,14 +36,20 @@ export class SearchProductsFail implements ErrorAction {
   readonly type = SEARCH_PRODUCTS_FAIL;
   public error: any;
 
-  constructor(public payload: any, public auxiliary?: boolean) {
+  constructor(
+    public payload: any,
+    public auxiliary?: boolean
+  ) {
     this.error = payload;
   }
 }
 
 export class SearchProductsSuccess implements Action {
   readonly type = SEARCH_PRODUCTS_SUCCESS;
-  constructor(public payload: ProductSearchPage, public auxiliary?: boolean) {}
+  constructor(
+    public payload: ProductSearchPage,
+    public auxiliary?: boolean
+  ) {}
 }
 
 export class GetProductSuggestions implements Action {

@@ -106,8 +106,8 @@ function createFeatureTogglesProvider(): string {
  * For more, see the script `copy-feature-toggles` in the schematics's `package.json`.
  */
 function getDefaultFeatureToggles(): Record<string, boolean> {
-  const {
-    defaultFeatureToggles,
-  } = require(FEATURE_TOGGLES_COPIED_FROM_CORE_LIB_PATH);
+  const { defaultFeatureToggles } = require(
+    FEATURE_TOGGLES_COPIED_FROM_CORE_LIB_PATH
+  );
   return defaultFeatureToggles;
 }

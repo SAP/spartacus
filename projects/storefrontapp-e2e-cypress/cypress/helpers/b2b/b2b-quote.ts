@@ -291,6 +291,16 @@ export function prepareSellerQuote(
 }
 
 /**
+ * Navigates to the quotes list.
+ */
+export function navigateToQuotesList() {
+  cy.visit(QUOTE_LIST_PATH).then(() => {
+    cy.location('pathname').should('contain', QUOTE_LIST_PATH);
+    checkQuoteListDisplayed();
+  });
+}
+
+/**
  * Verifies if the most recent created quote of the buyer is available for the seller.
  */
 function checkQuoteAvailableForSeller() {
@@ -348,6 +358,18 @@ function waitUntilQuoteExists(
           }
         }
       });
+  });
+}
+
+/**
+ * Defines a quote ID alias.
+ */
+export function defineQuoteIdAlias(): void {
+  cy.url().then((url) => {
+    const currentURL = url.split('/');
+    const quoteId = currentURL[currentURL.length - 1];
+    cy.log('quote ID: ' + quoteId);
+    cy.wrap(quoteId).as('quoteId');
   });
 }
 

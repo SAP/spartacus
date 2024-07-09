@@ -58,18 +58,16 @@ describe(`OccPickupLocationAdapter`, () => {
   let httpMock: HttpTestingController;
   let occEndpointService: OccEndpointsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        providers: [
-          OccPickupLocationAdapter,
-          { provide: OccEndpointsService, useClass: MockOccEndpointsService },
-          { provide: LoggerService, useClass: MockLoggerService },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        OccPickupLocationAdapter,
+        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        { provide: LoggerService, useClass: MockLoggerService },
+      ],
+    });
+  }));
   beforeEach(() => {
     occAdapter = TestBed.inject(OccPickupLocationAdapter);
     httpMock = TestBed.inject(HttpTestingController);

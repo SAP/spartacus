@@ -67,31 +67,29 @@ describe('MyAccountV2CustomerTicketingComponent', () => {
   let component: MyAccountV2CustomerTicketingComponent;
   let fixture: ComponentFixture<MyAccountV2CustomerTicketingComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          MyAccountV2CustomerTicketingComponent,
-          MockTranslatePipe,
-          MockUrlPipe,
-        ],
-        providers: [
-          {
-            provide: 'CustomerTicketingFacade',
-            useClass: MockcustomerTicketingFacade,
-          },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: TranslationService, useClass: MockTranslationService },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        MyAccountV2CustomerTicketingComponent,
+        MockTranslatePipe,
+        MockUrlPipe,
+      ],
+      providers: [
+        {
+          provide: 'CustomerTicketingFacade',
+          useClass: MockcustomerTicketingFacade,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MyAccountV2CustomerTicketingComponent);
-      component = fixture.componentInstance;
-      component.tickets$ = of(mockTicketList);
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(MyAccountV2CustomerTicketingComponent);
+    component = fixture.componentInstance;
+    component.tickets$ = of(mockTicketList);
+    fixture.detectChanges();
+  }));
 
   it('should be created', () => {
     expect(component).toBeTruthy();

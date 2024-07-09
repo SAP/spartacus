@@ -12,7 +12,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, useFeatureStyles } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -96,13 +96,16 @@ export class ConfiguratorTabBarComponent {
    */
   navigateToOverview(routerData: ConfiguratorRouter.Data) {
     this.routingService
-      .go({
-        cxRoute: 'configureOverview' + routerData.owner.configuratorType,
-        params: {
-          entityKey: routerData.owner.id,
-          ownerType: routerData.owner.type,
+      .go(
+        {
+          cxRoute: 'configureOverview' + routerData.owner.configuratorType,
+          params: {
+            entityKey: routerData.owner.id,
+            ownerType: routerData.owner.type,
+          },
         },
-      })
+        { queryParams: { productCode: routerData.productCode } }
+      )
       .then(() => {
         this.focusOverviewInTabBar();
       });
@@ -115,13 +118,16 @@ export class ConfiguratorTabBarComponent {
    */
   navigateToConfiguration(routerData: ConfiguratorRouter.Data) {
     this.routingService
-      .go({
-        cxRoute: 'configure' + routerData.owner.configuratorType,
-        params: {
-          entityKey: routerData.owner.id,
-          ownerType: routerData.owner.type,
+      .go(
+        {
+          cxRoute: 'configure' + routerData.owner.configuratorType,
+          params: {
+            entityKey: routerData.owner.id,
+            ownerType: routerData.owner.type,
+          },
         },
-      })
+        { queryParams: { productCode: routerData.productCode } }
+      )
       .then(() => {
         this.focusConfigurationInTabBar();
       });
@@ -245,5 +251,7 @@ export class ConfiguratorTabBarComponent {
   constructor(
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {}
+  ) {
+    useFeatureStyles('a11yMobileVisibleFocus');
+  }
 }

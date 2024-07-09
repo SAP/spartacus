@@ -8,6 +8,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
+  Optional,
   inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -18,6 +19,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   TranslationService,
@@ -48,6 +50,9 @@ export interface CardWithAddress {
 })
 export class CheckoutDeliveryAddressComponent implements OnInit {
   protected checkoutConfigService = inject(CheckoutConfigService);
+  @Optional() protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
   protected busy$ = new BehaviorSubject<boolean>(false);
 
   cards$: Observable<CardWithAddress[]>;
@@ -101,12 +106,17 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     textPhone: string,
     textMobile: string
   ): Card {
+    // TODO: (CXSPA-6956) - Remove feature flag in next major release
+    const hideSelectActionForSelected = this.featureConfigService?.isEnabled(
+      'a11yHideSelectBtnForSelectedAddrOrPayment'
+    );
     let region = '';
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
     }
 
     const numbers = getAddressNumbers(address, textPhone, textMobile);
+    const isSelected: boolean = selected && selected.id === address.id;
 
     return {
       role: 'region',
@@ -119,8 +129,11 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         address.postalCode,
         numbers,
       ],
-      actions: [{ name: textShipToThisAddress, event: 'send' }],
-      header: selected && selected.id === address.id ? textSelected : '',
+      actions:
+        hideSelectActionForSelected && isSelected
+          ? []
+          : [{ name: textShipToThisAddress, event: 'send' }],
+      header: isSelected ? textSelected : '',
       label: address.defaultAddress
         ? 'addressBook.defaultDeliveryAddress'
         : 'addressBook.additionalDeliveryAddress',

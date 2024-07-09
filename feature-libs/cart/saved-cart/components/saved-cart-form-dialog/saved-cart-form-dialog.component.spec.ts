@@ -21,6 +21,7 @@ import {
   KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import {
   SavedCartFormDialogComponent,
@@ -132,7 +133,7 @@ describe('SavedCartFormDialogComponent', () => {
         KeyboardFocusTestingModule,
         IconTestingModule,
       ],
-      declarations: [SavedCartFormDialogComponent],
+      declarations: [SavedCartFormDialogComponent, MockFeatureDirective],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },

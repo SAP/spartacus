@@ -26,10 +26,10 @@ import {
 import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ConfiguratorStorefrontUtilsService } from '../service';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
@@ -103,41 +103,39 @@ describe('ConfigTabBarComponent', () => {
   let routingService: RoutingService;
   let keyboardFocusService: KeyboardFocusService;
 
-  beforeEach(
-    waitForAsync(() => {
-      mockRouterState.state.params.displayOnly = false;
+  beforeEach(waitForAsync(() => {
+    mockRouterState.state.params.displayOnly = false;
 
-      routerStateObservable = of(mockRouterState);
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterModule, RouterTestingModule],
-        declarations: [ConfiguratorTabBarComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorTabBarComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+    routerStateObservable = of(mockRouterState);
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterModule, RouterTestingModule],
+      declarations: [ConfiguratorTabBarComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorTabBarComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
     component = fixture.componentInstance;
@@ -565,13 +563,16 @@ describe('ConfigTabBarComponent', () => {
       spyOn(routingService, 'go').and.callThrough();
       component['navigateToOverview'](mockRouterData);
       tick(1); // needed because of delay(0) in focusOverviewInTabBar
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'configureOverview' + mockRouterData.owner.configuratorType,
-        params: {
-          entityKey: mockRouterData.owner.id,
-          ownerType: mockRouterData.owner.type,
+      expect(routingService.go).toHaveBeenCalledWith(
+        {
+          cxRoute: 'configureOverview' + mockRouterData.owner.configuratorType,
+          params: {
+            entityKey: mockRouterData.owner.id,
+            ownerType: mockRouterData.owner.type,
+          },
         },
-      });
+        { queryParams: { productCode: mockRouterData.productCode } }
+      );
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
@@ -581,13 +582,16 @@ describe('ConfigTabBarComponent', () => {
       spyOn(routingService, 'go').and.callThrough();
       component['navigateToConfiguration'](mockRouterData);
       tick(1); // needed because of delay(0) in focusConfigurationInTabBar
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'configure' + mockRouterData.owner.configuratorType,
-        params: {
-          entityKey: mockRouterData.owner.id,
-          ownerType: mockRouterData.owner.type,
+      expect(routingService.go).toHaveBeenCalledWith(
+        {
+          cxRoute: 'configure' + mockRouterData.owner.configuratorType,
+          params: {
+            entityKey: mockRouterData.owner.id,
+            ownerType: mockRouterData.owner.type,
+          },
         },
-      });
+        { queryParams: { productCode: mockRouterData.productCode } }
+      );
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
