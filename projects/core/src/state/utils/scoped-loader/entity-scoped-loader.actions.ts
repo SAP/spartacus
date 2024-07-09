@@ -42,7 +42,7 @@ export namespace EntityScopedLoaderActions {
   export function entityScopedFailMeta(
     entityType: string,
     id: string | string[],
-    scope: string,
+    scope: string | undefined,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     error: any
   ): EntityScopedLoaderMeta;
@@ -55,7 +55,7 @@ export namespace EntityScopedLoaderActions {
     entityType: string,
     id: string | string[],
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    scope: string
+    scope: string | undefined
   ): EntityScopedLoaderMeta;
   /**
    * @deprecated Please pass the argument `scope` and `error`
@@ -119,7 +119,7 @@ export namespace EntityScopedLoaderActions {
     constructor(
       entityType: string,
       id: string | string[],
-      scope: string,
+      scope: string | undefined,
       // eslint-disable-next-line @typescript-eslint/unified-signatures
       error: any
     );
@@ -129,7 +129,11 @@ export namespace EntityScopedLoaderActions {
      *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
      */
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    constructor(entityType: string, id: string | string[], scope: string);
+    constructor(
+      entityType: string,
+      id: string | string[],
+      scope: string | undefined
+    );
     /**
      * @deprecated Please pass the argument `scope` and `error`.
      *             They will become mandatory along with removing
