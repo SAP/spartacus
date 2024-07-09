@@ -31,7 +31,15 @@ export class LoadProductReferencesFail implements ErrorAction {
   readonly type = LOAD_PRODUCT_REFERENCES_FAIL;
   public error: any;
 
-  constructor(public payload: any) {
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(payload: any);
+  /**
+   * @deprecated Please pass the argument `payload` (i.e. the error object).
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor();
+  constructor(public payload?: any) {
     this.error = payload;
   }
 }
