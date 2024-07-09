@@ -78,6 +78,15 @@ export class EntityLoadAction implements EntityLoaderAction {
 export class EntityFailAction implements EntityLoaderAction {
   type = ENTITY_FAIL_ACTION;
   readonly meta: EntityLoaderMeta;
+
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(entityType: string, id: EntityId, error: any);
+  /**
+   * @deprecated Please pass the constructor argument `error`.
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor(entityType: string, id: EntityId);
   constructor(
     entityType: string,
     id: EntityId,

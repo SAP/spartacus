@@ -76,7 +76,15 @@ export class LoaderFailAction implements LoaderAction, ErrorAction {
   public error: any;
   readonly meta: LoaderMeta;
 
-  constructor(entityType: string, error: any) {
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(entityType: string, error: any);
+  /**
+   * @deprecated Please pass the constructor argument `error`.
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor(entityType: string);
+  constructor(entityType: string, error?: any) {
     this.meta = failMeta(entityType, error);
     this.error = error;
   }

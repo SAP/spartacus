@@ -92,8 +92,28 @@ export namespace EntityScopedLoaderActions {
     constructor(
       entityType: string,
       id: string | string[],
-      error: any,
-      scope?: string
+      scope: string,
+      // eslint-disable-next-line @typescript-eslint/unified-signatures
+      error: any
+    );
+    /**
+     * @deprecated Please pass the constructor argument `error`.
+     *             It will become mandatory along with removing
+     *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+     */
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    constructor(entityType: string, id: string | string[], scope: string);
+    /**
+     * @deprecated Please pass the constructor argument `error`.
+     *             It will become mandatory along with removing
+     *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+     */
+    constructor(entityType: string, id: string | string[]);
+    constructor(
+      entityType: string,
+      id: string | string[],
+      scope?: string,
+      error?: any
     ) {
       this.meta = entityScopedFailMeta(entityType, id, scope, error);
       this.error = error;
