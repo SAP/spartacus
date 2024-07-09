@@ -7,11 +7,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { Action } from '@ngrx/store';
-import {
-  ErrorAction,
-  ErrorActionType,
-  HttpErrorModel,
-} from '../../model/index';
+import { ErrorAction, HttpErrorModel } from '../../model/index';
 import { WindowRef } from '../../window';
 
 @Injectable()
@@ -20,7 +16,7 @@ export class EffectsErrorHandlerService {
   protected windowRef = inject(WindowRef);
 
   handleError(action: ErrorAction): void {
-    const error: ErrorActionType = action.error;
+    const error: unknown = action.error;
 
     // Http errors are already handled in HttpErrorHandlerInterceptor.
     // To avoid duplicate errors we want to check if the error is not of type
