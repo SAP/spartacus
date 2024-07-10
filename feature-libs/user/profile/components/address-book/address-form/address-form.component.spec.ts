@@ -406,6 +406,12 @@ describe('AddressFormComponent', () => {
       getContinueBtn().nativeElement.click();
       expect(component.verifyAddress).toHaveBeenCalledTimes(2);
     });
+
+    it('should show assitive message when form is submitted with errors', () => {
+      component.addressForm.setErrors({ required: true });
+      component.verifyAddress();
+      expect(mockGlobalMessageService.add).toHaveBeenCalled();
+    });
   });
 
   describe('UI cancel button', () => {
