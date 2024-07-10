@@ -5,7 +5,13 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { BaseOption, Product, VariantMatrixElement, VariantOption, VariantOptionQualifier } from '@spartacus/core';
+import {
+  BaseOption,
+  Product,
+  VariantMatrixElement,
+  VariantOption,
+  VariantOptionQualifier,
+} from '@spartacus/core';
 
 import { ProductMultiDimensionalImagesService } from './product-multi-dimensional-images.service';
 import { VariantCategory } from '../model/augmented-core.model';
@@ -26,49 +32,70 @@ export class ProductMultiDimensionalService {
     const variantMatrix = product.variantMatrix ?? [];
     const variantCategories: VariantCategory[] = [];
     const baseOptions: BaseOption = product.baseOptions?.[0] ?? {};
-    const selectedQualifiers: VariantOptionQualifier[] = baseOptions.selected?.variantOptionQualifiers ?? [];
+    const selectedQualifiers: VariantOptionQualifier[] =
+      baseOptions.selected?.variantOptionQualifiers ?? [];
 
     baseOptions.options?.forEach((option: VariantOption) => {
-      option.variantOptionQualifiers?.forEach((qualifier: VariantOptionQualifier) => {
-        if (qualifier.name) {
-          /**
-           * Check if the variant category already exists e.g [{name: Color, variantOptions: [...], ...}]
-           */
-          let variantCategory = variantCategories.find(v => v.name === qualifier.name);
-
-          if (!variantCategory) {
+      option.variantOptionQualifiers?.forEach(
+        (qualifier: VariantOptionQualifier) => {
+          if (qualifier.name) {
             /**
-             * Create a new variant category if it doesn't exist
+             * Check if the variant category already exists e.g [{name: Color, variantOptions: [...], ...}]
              */
-            variantCategory = { name: qualifier.name, variantOptions: [], hasImages: false };
-            variantCategories.push(variantCategory);
-          }
+            let variantCategory = variantCategories.find(
+              (v) => v.name === qualifier.name
+            );
 
-          /**
-           * Determines whether an option should be added to the category based on the selected variant.
-           * For example, if "red medium" is selected from:
-           *   - colors: [red, blue]
-           *   - sizes: [medium, large]
-           *
-           * Since only one attribute can be changed at a time:
-           *  The valid selections are:
-           *     - red large
-           *     - blue medium
-           */
-          if (this.shouldAdd(variantCategory.name, selectedQualifiers, option.variantOptionQualifiers ?? [])) {
+            if (!variantCategory) {
+              /**
+               * Create a new variant category if it doesn't exist
+               */
+              variantCategory = {
+                name: qualifier.name,
+                variantOptions: [],
+                hasImages: false,
+              };
+              variantCategories.push(variantCategory);
+            }
 
-            const images = this.imagesService.getImagesFromVariantMatrix(qualifier, product);
+            /**
+             * Determines whether an option should be added to the category based on the selected variant.
+             * For example, if "red medium" is selected from:
+             *   - colors: [red, blue]
+             *   - sizes: [medium, large]
+             *
+             * Since only one attribute can be changed at a time:
+             *  The valid selections are:
+             *     - red large
+             *     - blue medium
+             */
+            if (
+              this.shouldAdd(
+                variantCategory.name,
+                selectedQualifiers,
+                option.variantOptionQualifiers ?? []
+              )
+            ) {
+              const images = this.imagesService.getImagesFromVariantMatrix(
+                qualifier,
+                product
+              );
 
-            variantCategory.variantOptions.push({
-              value: qualifier.value ?? '',
-              code: option.code ?? '',
-              images,
-              order: this.getOrderFromVariantMatrix(qualifier, variantMatrix)
-            });
+              const order = this.getOrderFromVariantMatrix(
+                qualifier,
+                variantMatrix
+              );
 
+              variantCategory.variantOptions.push({
+                order,
+                images,
+                value: qualifier.value ?? '',
+                code: option.code ?? '',
+              });
+            }
           }
         }
-      });
+      );
     });
 
     return this.sortAndCheckIfEveryOptionHasImages(variantCategories);
@@ -77,15 +104,21 @@ export class ProductMultiDimensionalService {
   /**
    * Determines if a variant option should be included based on selected qualifiers
    */
-  protected shouldAdd(groupName: string, selectedQualifiers: VariantOptionQualifier[], optionQualifiers: VariantOptionQualifier[]): boolean {
+  protected shouldAdd(
+    groupName: string,
+    selectedQualifiers: VariantOptionQualifier[],
+    optionQualifiers: VariantOptionQualifier[]
+  ): boolean {
     return optionQualifiers.every((optionQualifier: VariantOptionQualifier) => {
       if (optionQualifier.name === groupName) {
         return true;
       }
 
-      return selectedQualifiers.find(((selectedOptionQualifier: VariantOptionQualifier) => {
-        return optionQualifier.value === selectedOptionQualifier.value;
-      }));
+      return selectedQualifiers.find(
+        (selectedOptionQualifier: VariantOptionQualifier) => {
+          return optionQualifier.value === selectedOptionQualifier.value;
+        }
+      );
     });
   }
 
@@ -99,19 +132,24 @@ export class ProductMultiDimensionalService {
    *
    * and returns the corresponding order.
    */
-  protected getOrderFromVariantMatrix(qualifier: VariantOptionQualifier, variantMatrix: VariantMatrixElement[]): number {
-    let order = 0;
+  protected getOrderFromVariantMatrix(
+    qualifier: VariantOptionQualifier,
+    variantMatrix: VariantMatrixElement[]
+  ): number {
+    let order;
     const traversMatrix = (matrix: VariantMatrixElement[]) => {
       for (const matrixElement of matrix) {
-        const isMatch = matrixElement.variantValueCategory.name === qualifier.value && matrixElement.parentVariantCategory.name === qualifier.name;
+        const isMatch =
+          matrixElement.variantValueCategory?.name === qualifier.value &&
+          matrixElement.parentVariantCategory?.name === qualifier.name;
         if (isMatch) {
-          order = matrixElement.variantValueCategory.sequence;
+          order = matrixElement.variantValueCategory?.sequence;
           break;
         }
       }
     };
     traversMatrix(variantMatrix);
-    return order;
+    return order ?? 0;
   }
 
   /**
@@ -134,14 +172,19 @@ export class ProductMultiDimensionalService {
    *   ]
    * }
    */
-  protected sortAndCheckIfEveryOptionHasImages(variantCategories: VariantCategory[]): VariantCategory[] {
+  protected sortAndCheckIfEveryOptionHasImages(
+    variantCategories: VariantCategory[]
+  ): VariantCategory[] {
     return variantCategories.map((variantCategory: VariantCategory) => {
       const variantOptions = variantCategory.variantOptions;
       const hasImages = variantOptions.every((option) => option.images.length);
+      const sortedVariantOptions = variantOptions.sort(
+        (a, b) => a.order - b.order
+      );
       return {
         ...variantCategory,
-        variantOptions: variantOptions.sort((a, b) => a.order - b.order),
-        hasImages
+        variantOptions: sortedVariantOptions,
+        hasImages,
       };
     });
   }

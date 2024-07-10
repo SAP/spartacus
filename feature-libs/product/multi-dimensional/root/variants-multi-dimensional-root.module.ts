@@ -9,23 +9,21 @@ import { provideDefaultConfigFactory } from '@spartacus/core';
 import { PRODUCT_MULTIDIMENSIONAL_FEATURE } from './feature-name';
 
 export function defaultProductMultiDimensionalComponentsConfig() {
-  const config = {
+  return {
     featureModules: {
       [PRODUCT_MULTIDIMENSIONAL_FEATURE]: {
         cmsComponents: [
-          'ProductVariantSelectorComponent', // mock trigger
-          'ProductVariantMultiDimensionalSelectorComponent'
-        ]
-      }
-    }
+          'ProductVariantSelectorComponent', // TBD trigger
+          'ProductVariantMultiDimensionalSelectorComponent',
+        ],
+      },
+    },
   };
-  return config;
 }
 
 @NgModule({
   providers: [
-    provideDefaultConfigFactory(defaultProductMultiDimensionalComponentsConfig)
-  ]
+    provideDefaultConfigFactory(defaultProductMultiDimensionalComponentsConfig),
+  ],
 })
-export class VariantsMultiDimensionalRootModule {
-}
+export class VariantsMultiDimensionalRootModule {}

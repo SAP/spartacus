@@ -12,7 +12,7 @@ export const defaultOccProductVariantsConfig: OccConfig = {
       endpoints: {
         product: {
           variants:
-            'products/${productCode}?fields=name,purchasable,baseOptions(DEFAULT),baseProduct,variantType',
+            'products/${productCode}?fields=name,purchasable,baseOptions(DEFAULT),baseProduct,variantOptions(DEFAULT),variantType',
         },
       },
     },

@@ -39,9 +39,14 @@ export class ProductMultiDimensionalGuard {
       .get(productCode, ProductScope.MULTIDIMENSIONAL)
       .pipe(
         filter(isNotUndefined),
-        switchMap((product: Product) => {
-          if (!product.purchasable && product.variantMatrix?.length) {
-            const purchasableCode = this.findPurchasableProductCode(product);
+        switchMap((multiDimensionalProduct: Product) => {
+          if (
+            !multiDimensionalProduct.purchasable &&
+            multiDimensionalProduct.variantMatrix?.length
+          ) {
+            const purchasableCode = this.findPurchasableProductCode(
+              multiDimensionalProduct
+            );
             if (purchasableCode) {
               return this.productService
                 .get(purchasableCode, ProductScope.LIST)

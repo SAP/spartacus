@@ -4,8 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
-import {  Product, ProductScope, ProductService, RoutingService, VariantCategory, VariantMatrixElement } from '@spartacus/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
+import {
+  Product,
+  ProductScope,
+  ProductService,
+  RoutingService,
+  VariantCategory,
+  VariantMatrixElement,
+} from '@spartacus/core';
 import { ProductMultiDimensionalService } from '../../../core/services/product-multi-dimensional.service';
 import { ActivatedRoute } from '@angular/router';
 import { filter, take } from 'rxjs/operators';
@@ -13,7 +27,7 @@ import { filter, take } from 'rxjs/operators';
 @Component({
   selector: 'cx-variants-multi-dimensional-selector',
   templateUrl: './product-multi-dimensional-selector.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductMultiDimensionalSelectorComponent implements OnChanges {
   protected multiDimensionalService: ProductMultiDimensionalService = inject(
@@ -37,19 +51,18 @@ export class ProductMultiDimensionalSelectorComponent implements OnChanges {
   changeVariant(code: string | undefined): void {
     if (code) {
       this.productService
-          .get(code, ProductScope.MULTIDIMENSIONAL)
-          .pipe(filter(Boolean), take(1))
-          .subscribe((product: Product) => {
-            this.routingService.go({
-              cxRoute: 'product',
-              params: product
-            });
+        .get(code, ProductScope.MULTIDIMENSIONAL)
+        .pipe(filter(Boolean), take(1))
+        .subscribe((product: Product) => {
+          this.routingService.go({
+            cxRoute: 'product',
+            params: product,
           });
+        });
     }
   }
 
   isSelected(category: VariantMatrixElement) {
     return category.variantOption?.code === this.product.code;
   }
-
 }

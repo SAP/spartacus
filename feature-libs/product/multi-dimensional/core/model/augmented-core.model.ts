@@ -4,10 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import '@spartacus/core';
-import { Image } from 'projects/core/src/model';
+import { Image } from '@spartacus/core';
 
-export type VariantCategoryOption = { value: string; code: string; images: Image[]; order: number };
+export type VariantCategoryOption = {
+  value: string;
+  code: string;
+  images: Image[];
+  order: number;
+};
 
 export type VariantCategory = {
   name: string;

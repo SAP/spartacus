@@ -411,6 +411,24 @@
       "@spartacus/product/image-zoom/root": [
         "../../feature-libs/product/image-zoom/root/public_api"
       ],
+      "@spartacus/product/multi-dimensional/assets": [
+        "../../feature-libs/product/multi-dimensional/assets/public_api"
+      ],
+      "@spartacus/product/multi-dimensional/components": [
+        "../../feature-libs/product/multi-dimensional/components/public_api"
+      ],
+      "@spartacus/product/multi-dimensional/core": [
+        "../../feature-libs/product/multi-dimensional/core/public_api"
+      ],
+      "@spartacus/product/multi-dimensional": [
+        "../../feature-libs/product/multi-dimensional/public_api"
+      ],
+      "@spartacus/product/multi-dimensional/occ": [
+        "../../feature-libs/product/multi-dimensional/occ/public_api"
+      ],
+      "@spartacus/product/multi-dimensional/root": [
+        "../../feature-libs/product/multi-dimensional/root/public_api"
+      ],
       "@spartacus/product": ["../../feature-libs/product/public_api"],
       "@spartacus/product/variants/assets": [
         "../../feature-libs/product/variants/assets/public_api"
