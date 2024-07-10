@@ -2,36 +2,28 @@
   {{ 'serviceOrderCheckout.heading' | cxTranslate }}
 </h2>
 
-<ng-container *ngIf="!(isUpdating$ | async); else loading">
-  <ng-container *ngIf="serviceProducts$ | async as products">
-    <ng-container *ngIf="products.length === 0; else showScheduler">
-      {{ 'serviceOrderCheckout.clickContinue' | cxTranslate }}
-    </ng-container>
+<ng-container *ngIf="serviceProducts$ | async as products">
+  <ng-container *ngIf="products.length === 0; else showScheduler">
+    {{ 'serviceOrderCheckout.clickContinue' | cxTranslate }}
   </ng-container>
-
-  <div class="row cx-checkout-btns">
-    <div class="col-md-12 col-lg-6">
-      <button class="btn btn-block btn-secondary" (click)="back()">
-        {{ backBtnText | cxTranslate }}
-      </button>
-    </div>
-    <div class="col-md-12 col-lg-6">
-      <button
-        class="btn btn-block btn-primary"
-        [disabled]="isSetServiceDetailsHttpError$ | async"
-        (click)="next()"
-      >
-        {{ 'common.continue' | cxTranslate }}
-      </button>
-    </div>
-  </div>
 </ng-container>
 
-<ng-template #loading>
-  <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
+<div class="row cx-checkout-btns">
+  <div class="col-md-12 col-lg-6">
+    <button class="btn btn-block btn-secondary" (click)="back()">
+      {{ backBtnText | cxTranslate }}
+    </button>
   </div>
-</ng-template>
+  <div class="col-md-12 col-lg-6">
+    <button
+      class="btn btn-block btn-primary"
+      [disabled]="isSetServiceDetailsHttpError$ | async"
+      (click)="next()"
+    >
+      {{ 'common.continue' | cxTranslate }}
+    </button>
+  </div>
+</div>
 
 <ng-template #showScheduler>
   <form [formGroup]="this.form">

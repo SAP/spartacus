@@ -1,29 +1,16 @@
-/*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import {
-  ChangeDetectionStrategy,
   Component,
-  OnDestroy,
   OnInit,
+  OnDestroy,
   inject,
+  ChangeDetectionStrategy,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import {
-  BehaviorSubject,
-  map,
-  Observable,
-  combineLatest,
-  distinctUntilChanged,
-  Subscription,
-  filter,
-} from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Subscription, BehaviorSubject } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import {
   CheckoutServiceDetailsFacade,
   CheckoutServiceSchedulePickerService,
@@ -39,16 +26,16 @@ export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
   protected checkoutStepService = inject(CheckoutStepService);
   protected globalMessageService = inject(GlobalMessageService);
   protected checkoutServiceDetailsFacade = inject(CheckoutServiceDetailsFacade);
-  protected fb = inject(UntypedFormBuilder);
+  protected fb = inject(FormBuilder);
   protected checkoutServiceSchedulePickerService = inject(
     CheckoutServiceSchedulePickerService
   );
+
   minServiceDate: string =
     this.checkoutServiceSchedulePickerService.getMinDateForService();
-
   scheduleTimes: string[] =
     this.checkoutServiceSchedulePickerService.getScheduledServiceTimes();
-  form: UntypedFormGroup = this.fb.group({
+  form: FormGroup = this.fb.group({
     scheduleDate: [this.minServiceDate],
     scheduleTime: [this.scheduleTimes[0]],
   });
@@ -91,6 +78,7 @@ export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
       scheduleTime: value,
     });
   }
+
   get backBtnText(): string {
     return this.checkoutStepService.getBackBntText(this.activatedRoute);
   }
@@ -98,16 +86,8 @@ export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
   protected readonly isSetServiceDetailsHttpErrorSub = new BehaviorSubject(
     false
   );
-
   isSetServiceDetailsHttpError$ =
     this.isSetServiceDetailsHttpErrorSub.asObservable();
-
-  protected busy$ = new BehaviorSubject(false);
-
-  isUpdating$: Observable<boolean> = combineLatest([this.busy$]).pipe(
-    map(([busy]) => busy),
-    distinctUntilChanged()
-  );
 
   next(): void {
     this.subscription.add(
@@ -145,7 +125,6 @@ export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
 
   protected onSuccess(): void {
     this.isSetServiceDetailsHttpErrorSub.next(false);
-    this.busy$.next(false);
   }
 
   protected onError(): void {
@@ -155,7 +134,6 @@ export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
     );
 
     this.isSetServiceDetailsHttpErrorSub.next(true);
-    this.busy$.next(false);
   }
 
   ngOnDestroy(): void {

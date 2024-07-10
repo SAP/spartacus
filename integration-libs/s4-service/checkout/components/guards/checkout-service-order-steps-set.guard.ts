@@ -23,20 +23,22 @@ export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard 
       .getSelectedServiceDetailsState()
       .pipe(
         filter((state) => !state.loading),
-        map((state) => state.data),
-        switchMap((servicedAt) => {
-          return this.checkoutServiceDetailsFacade.getServiceProducts().pipe(
-            map((products) => {
-              return (products.length > 0 && servicedAt) ||
+        switchMap((selectedServiceDetails) =>
+          this.checkoutServiceDetailsFacade
+            .getServiceProducts()
+            .pipe(
+              map((products) =>
+                (products.length > 0 && selectedServiceDetails.data) ||
                 products.length === 0
-                ? true
-                : this.getUrl(step.routeName);
-            })
-          );
-        })
+                  ? true
+                  : this.getUrl(step.routeName)
+              )
+            )
+        )
       );
   }
-  protected isB2BStepSet(
+
+  protected override isB2BStepSet(
     step: CheckoutStep,
     isAccountPayment: boolean
   ): Observable<boolean | UrlTree> {

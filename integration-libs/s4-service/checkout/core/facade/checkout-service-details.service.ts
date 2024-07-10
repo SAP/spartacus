@@ -20,9 +20,9 @@ import { Observable, combineLatest, take, map, switchMap, tap } from 'rxjs';
 import {
   CheckoutServiceDetailsFacade,
   CheckoutServiceDetailsSetEvent,
+  ServiceDateTime,
 } from '@spartacus/s4-service/root';
 import { CheckoutServiceDetailsConnector } from '../connector/checkout-service-details.connector';
-import { ServiceTime } from '@spartacus/s4-service/root';
 
 @Injectable()
 export class CheckoutServiceDetailsService
@@ -35,8 +35,8 @@ export class CheckoutServiceDetailsService
   protected eventService = inject(EventService);
   protected checkoutQueryFacade = inject(CheckoutQueryFacade);
 
-  protected setServiceScheduleSlotCommand: Command<string, unknown> =
-    this.commandService.create<string>(
+  protected setServiceScheduleSlotCommand: Command<ServiceDateTime, unknown> =
+    this.commandService.create<ServiceDateTime>(
       (scheduledAt) =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) =>
@@ -83,11 +83,13 @@ export class CheckoutServiceDetailsService
     );
   }
 
-  setServiceScheduleSlot(scheduledAt: ServiceTime): Observable<unknown> {
+  setServiceScheduleSlot(scheduledAt: ServiceDateTime): Observable<unknown> {
     return this.setServiceScheduleSlotCommand.execute(scheduledAt);
   }
 
-  getSelectedServiceDetailsState(): Observable<QueryState<string | undefined>> {
+  getSelectedServiceDetailsState(): Observable<
+    QueryState<ServiceDateTime | undefined>
+  > {
     return this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
       switchMap((state) => {
         return this.getServiceProducts().pipe(

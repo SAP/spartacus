@@ -7,9 +7,10 @@
 import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { ServiceTime } from '@spartacus/s4-service/root';
+import { ServiceDateTime } from '@spartacus/s4-service/root';
 import { Card, OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest, map } from 'rxjs';
+import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
 
 @Component({
   selector: 'cx-card-service-details',
@@ -17,6 +18,9 @@ import { Observable, Subscription, combineLatest, map } from 'rxjs';
 })
 export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);
+  protected checkoutServiceSchedulePickerService = inject(
+    CheckoutServiceSchedulePickerService
+  );
   @Optional() protected orderOutlet = inject(OutletContextData);
   protected subscription = new Subscription();
   order: Order;
@@ -30,18 +34,22 @@ export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  getServiceDetailsCard(servicedAt: ServiceTime | undefined): Observable<Card> {
-    if (servicedAt && servicedAt !== undefined) {
-      return combineLatest([
-        this.translationService.translate(
-          'serviceOrderCheckout.serviceDetails'
-        ),
-        this.translationService.translate('serviceOrderCheckout.cardLabel'),
-      ]).pipe(
+  getServiceDetailsCard(
+    servicedAt: ServiceDateTime | undefined
+  ): Observable<Card> {
+    const titleTranslation$ = this.translationService.translate(
+      'serviceOrderCheckout.serviceDetails'
+    );
+    if (servicedAt) {
+      const labelTranslation$ = this.translationService.translate(
+        'serviceOrderCheckout.cardLabel'
+      );
+      return combineLatest([titleTranslation$, labelTranslation$]).pipe(
         map(([textTitle, textLabel]) => {
-          const text = this.convertDateTimeToReadableString(
-            (servicedAt as string) ?? ''
-          );
+          const text =
+            this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
+              servicedAt ?? ''
+            );
           return {
             title: textTitle,
             textBold: textLabel,
@@ -50,14 +58,10 @@ export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
         })
       );
     } else {
-      return combineLatest([
-        this.translationService.translate(
-          'serviceOrderCheckout.serviceDetails'
-        ),
-        this.translationService.translate(
-          'serviceOrderCheckout.emptyServiceDetailsCard'
-        ),
-      ]).pipe(
+      const emptyTextTranslation$ = this.translationService.translate(
+        'serviceOrderCheckout.emptyServiceDetailsCard'
+      );
+      return combineLatest([titleTranslation$, emptyTextTranslation$]).pipe(
         map(([textTitle, text]) => {
           return {
             title: textTitle,
@@ -67,11 +71,7 @@ export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
       );
     }
   }
-  // duplicated code from CheckoutServiceSchedulePickerService
-  convertDateTimeToReadableString(dateTime: string): string {
-    const date = new Date(dateTime);
-    return date.toLocaleString();
-  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

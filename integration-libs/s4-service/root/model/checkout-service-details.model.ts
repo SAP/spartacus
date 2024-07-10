@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export type ServiceTime = string;
+export type ServiceDateTime = string;
 
 export interface ServiceDetails {
-  scheduledAt?: ServiceTime; //name in request
+  scheduledAt?: ServiceDateTime; //name in request
 }
 
 export interface ServiceOrderConfig {

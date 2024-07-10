@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-//import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { CheckoutServiceDetailsAdapter } from '../core/connector';
@@ -12,7 +11,6 @@ import { OccCheckoutServiceDetailsAdapter } from './adapter';
 import { defaultOccCheckoutServiceOrderConfig } from './config/default-occ-checkout-s4-service-config';
 
 @NgModule({
-  //imports: [CommonModule],
   providers: [
     provideDefaultConfig(defaultOccCheckoutServiceOrderConfig),
     {

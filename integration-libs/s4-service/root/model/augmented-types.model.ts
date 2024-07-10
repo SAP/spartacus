@@ -5,34 +5,15 @@
  */
 
 import '@spartacus/checkout/base/root';
-import '@spartacus/core';
 import { OccEndpoint } from '@spartacus/core';
 import '@spartacus/order/root';
-import { ServiceTime } from './checkout-service-details.model';
+import { ServiceDateTime } from './checkout-service-details.model';
 
-declare module '@spartacus/order/root' {
-  interface Order {
-    servicedAt?: ServiceTime;
-  }
-}
-
-declare module '@spartacus/checkout/base/root' {
-  const enum CheckoutStepType {
-    SERVICE_DETAILS = 'serviceDetails',
-  }
-  interface CheckoutState {
-    servicedAt?: ServiceTime; //response property name
-  }
-}
-export abstract class serviceOrderConfiguration {
+export abstract class ServiceOrderConfiguration {
   serviceOrderConfiguration?: {
     leadDays?: number;
     serviceScheduleTimes?: string[];
   };
-}
-
-declare module '@spartacus/core' {
-  interface BaseStore extends serviceOrderConfiguration {}
 }
 
 export interface CheckoutServiceOrderOccEndpoints {
@@ -42,11 +23,24 @@ export interface CheckoutServiceOrderOccEndpoints {
   setServiceScheduleSlot?: string | OccEndpoint;
 }
 
-declare module '@spartacus/core' {
-  interface OccEndpoints extends CheckoutServiceOrderOccEndpoints {}
+declare module '@spartacus/order/root' {
+  interface Order {
+    servicedAt?: ServiceDateTime;
+  }
+}
+
+declare module '@spartacus/checkout/base/root' {
+  const enum CheckoutStepType {
+    SERVICE_DETAILS = 'serviceDetails',
+  }
+  interface CheckoutState {
+    servicedAt?: ServiceDateTime; //response property name
+  }
 }
 
 declare module '@spartacus/core' {
+  interface OccEndpoints extends CheckoutServiceOrderOccEndpoints {}
+  interface BaseStore extends ServiceOrderConfiguration {}
   interface Product {
     productTypes?: string;
   }
