@@ -65,6 +65,16 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
     expect(classUnderTest).toBeDefined();
   });
 
+  it('should handle missing assignment config', () => {
+    (
+      configuratorAttributeCompositionTestConfig.productConfigurator ?? {}
+    ).assignment = undefined;
+    classUnderTest = TestBed.inject(
+      ConfiguratorAttributeCompositionDirective as Type<ConfiguratorAttributeCompositionDirective>
+    );
+    expect(classUnderTest['attrCompAssignment']).toBeDefined();
+  });
+
   describe('ngOnInit', () => {
     it('should render view if performance feature toggle is off', () => {
       productConfiguratorDeltaRenderingEnabled = false;
