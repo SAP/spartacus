@@ -76,7 +76,7 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { epdVisualizationTranslationChunksConfig, epdVisualizationTranslations } from "@spartacus/epd-visualization/assets";
-import { EpdVisualizationConfig, EpdVisualizationRootModule, EPD_VISUALIZATION_FEATURE } from "@spartacus/epd-visualization/root";
+import { EPD_VISUALIZATION_FEATURE, EpdVisualizationConfig, EpdVisualizationRootModule } from "@spartacus/epd-visualization/root";
 
 @NgModule({
   declarations: [],
