@@ -4,7 +4,7 @@ exports[`Feature utils addFeatures should generate feature modules for the given
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { userAccountTranslationChunksConfig, userAccountTranslations } from "@spartacus/user/account/assets";
-import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from "@spartacus/user/account/root";
+import { USER_ACCOUNT_FEATURE, UserAccountRootModule } from "@spartacus/user/account/root";
 
 @NgModule({
   declarations: [],
@@ -76,7 +76,7 @@ export class CheckoutWrapperModule {
 exports[`Feature utils analyzeApplication dependent features check when the dependent feature is lazily configured should succeed 2`] = `
 "import { NgModule } from '@angular/core';
 import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
+import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
     declarations: [],
