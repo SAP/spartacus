@@ -36,7 +36,7 @@ export class ProductMultiDimensionalImagesService {
     const traverMatrix = (matrix: VariantMatrixElement[]) => {
       for (const matrixElement of matrix) {
         const elements = matrixElement.elements ?? [];
-        const hasImages = matrixElement.parentVariantCategory.hasImage;
+        const hasImages = matrixElement.parentVariantCategory?.hasImage;
         /**
          * Checks if the searched variant option matches the matrix node values.
          *
@@ -47,12 +47,12 @@ export class ProductMultiDimensionalImagesService {
          *   - variantValueCategory.name: Red
          */
         const isMatch =
-          categoryName === matrixElement.parentVariantCategory.name &&
-          qualifier.value === matrixElement.variantValueCategory.name;
+          categoryName === matrixElement.parentVariantCategory?.name &&
+          qualifier.value === matrixElement.variantValueCategory?.name;
 
         if (isMatch && hasImages) {
           images = this.getVariantOptionImages(
-            matrixElement.variantOption?.variantOptionQualifiers,
+            matrixElement.variantOption?.variantOptionQualifiers ?? [],
             qualifier
           );
           break;

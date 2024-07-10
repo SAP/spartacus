@@ -178,9 +178,9 @@ export class ProductMultiDimensionalService {
     return variantCategories.map((variantCategory: VariantCategory) => {
       const variantOptions = variantCategory.variantOptions;
       const hasImages = variantOptions.every((option) => option.images.length);
-      const sortedVariantOptions = variantOptions.sort(
-        (a, b) => a.order - b.order
-      );
+      const sortedVariantOptions = [...variantOptions];
+      sortedVariantOptions.sort((a, b) => a.order - b.order);
+
       return {
         ...variantCategory,
         variantOptions: sortedVariantOptions,
