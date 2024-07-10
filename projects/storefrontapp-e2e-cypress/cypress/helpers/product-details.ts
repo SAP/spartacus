@@ -54,7 +54,7 @@ export function verifyCorrectTabs() {
 }
 
 export function verifyShowReviewsLink() {
-  cy.get(`${infoContainer} .cx-action-link`)
+  cy.get(`${infoContainer}`)
     .contains(/show reviews/i)
     .click();
   cy.get(`${tabsHeaderList}`)
