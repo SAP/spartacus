@@ -359,6 +359,11 @@ export interface FeatureTogglesInterface {
   a11yFacetsDialogFocusHandling?: boolean;
 
   /**
+   * `MessageComponent` gets focused after a message with an action is rendered.
+   */
+  a11yCxMessageFocus?: boolean;
+
+  /**
    * Replaces buttons resembling links with tetriary buttons in the following components:
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
@@ -433,6 +438,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUseButtonsForBtnLinks: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
+  a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yStoreFinderSearchboxBloat: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,

@@ -114,7 +114,8 @@ export function removeManyRows(quantity: number = 1) {
 }
 
 export function restoreDeletedEntry() {
-  cy.get('.quick-order-deletions-message .cx-message-text button')
+  cy.get('.quick-order-deletions-message button')
+    .contains('UNDO')
     .should('exist')
     .click();
 }
