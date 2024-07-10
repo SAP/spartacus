@@ -1,9 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 1`] = `
-"import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
-import { NgModule } from '@angular/core';
+"import { NgModule } from '@angular/core';
 import { BrowserModule,  } from '@angular/platform-browser';
+
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { AppRoutingModule } from "@spartacus/storefront";
@@ -60,11 +61,11 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
     "@ngrx/effects": "^17.0.1",
     "@ngrx/router-store": "^17.0.1",
     "@ngrx/store": "^17.0.1",
-    "@spartacus/assets": "~2211.25.0-3",
-    "@spartacus/core": "~2211.25.0-3",
-    "@spartacus/setup": "~2211.25.0-3",
-    "@spartacus/storefront": "~2211.25.0-3",
-    "@spartacus/styles": "~2211.25.0-3",
+    "@spartacus/assets": "~2211.25.1",
+    "@spartacus/core": "~2211.25.1",
+    "@spartacus/setup": "~2211.25.1",
+    "@spartacus/storefront": "~2211.25.1",
+    "@spartacus/styles": "~2211.25.1",
     "angular-oauth2-oidc": "^17.0.1",
     "bootstrap": "^4.6.2",
     "express": "^4.18.2",

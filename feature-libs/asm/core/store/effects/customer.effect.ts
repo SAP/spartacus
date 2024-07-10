@@ -26,13 +26,19 @@ export class CustomerEffects {
           map((customerSearchResults: CustomerSearchPage) => {
             return new AsmActions.CustomerSearchSuccess(customerSearchResults);
           }),
-          catchError((error) =>
-            of(
+          catchError((error) => {
+            if (
+              error.status === 400 &&
+              error.details?.[0]?.message?.indexOf('Wrong orderId') > -1
+            ) {
+              return of(new AsmActions.CustomerSearchSuccess({ entries: [] }));
+            }
+            return of(
               new AsmActions.CustomerSearchFail(
                 normalizeHttpError(error, this.logger)
               )
-            )
-          )
+            );
+          })
         )
       )
     )
