@@ -354,6 +354,12 @@ export interface FeatureTogglesInterface {
   a11yFacetsDialogFocusHandling?: boolean;
 
   /**
+   * Enables radio group fieldset for 'CheckoutDeliveryModeComponent' form
+   * and further improves its screen reader readout.
+   */
+  a11yDeliveryModeRadiogroup?: boolean;
+
+  /**
    * Replaces buttons resembling links with tetriary buttons in the following components:
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
@@ -417,4 +423,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
   a11yLinkBtnsToTertiaryBtns: false,
+  a11yDeliveryModeRadiogroup: false,
 };

@@ -1,4 +1,4 @@
-<fieldset role="radiogroup">
+<fieldset *cxFeature="'a11yDeliveryModeRadiogroup'" role="radiogroup">
   <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'checkoutMode.deliveryMethod' | cxTranslate }}
   </legend>
@@ -57,6 +57,61 @@
     </div>
   </ng-container>
 </fieldset>
+
+<ng-container *cxFeature="'!a11yDeliveryModeRadiogroup'">
+  <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
+    {{ 'checkoutMode.deliveryMethod' | cxTranslate }}
+  </h2>
+
+  <ng-container
+    *ngIf="
+      !(isUpdating$ | async) &&
+        (supportedDeliveryModes$ | async) as supportedDeliveryModes;
+      else loading
+    "
+  >
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <div [formGroup]="mode" class="cx-delivery-mode-wrapper">
+      <div role="radiogroup">
+        <div class="form-check" *ngFor="let mode of supportedDeliveryModes">
+          <input
+            [attr.aria-checked]="getAriaChecked(mode.code)"
+            class="form-check-input"
+            role="radio"
+            type="radio"
+            id="deliveryMode-{{ mode.code }}"
+            (change)="changeMode(mode.code, $event)"
+            (click)="changeMode(mode.code, $event)"
+            [value]="mode.code"
+            formControlName="deliveryModeId"
+          />
+          <label
+            class="cx-delivery-label form-check-label form-radio-label"
+            for="deliveryMode-{{ mode.code }}"
+          >
+            <div class="cx-delivery-mode">
+              {{ mode.name }}
+              <span class="cx-delivery-mode-description"
+                >({{ mode.description }})</span
+              >
+            </div>
+            <div class="cx-delivery-price">
+              {{ mode.deliveryCost?.formattedValue }}
+            </div>
+            <div class="cx-delivery-details"></div>
+          </label>
+        </div>
+      </div>
+      <ng-template
+        [cxOutlet]="CartOutlets.DELIVERY_MODE"
+        [cxOutletContext]="{
+          item: activeCartFacade.getActive() | async
+        }"
+      >
+      </ng-template>
+    </div>
+  </ng-container>
+</ng-container>
 
 <ng-container *ngIf="activeCartFacade.hasPickupItems() | async">
   <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">

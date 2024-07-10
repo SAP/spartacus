@@ -326,6 +326,7 @@ if (environment.estimatedDeliveryDate) {
           true,
         a11yFacetsDialogFocusHandling: true,
         a11yLinkBtnsToTertiaryBtns: true,
+        a11yDeliveryModeRadiogroup: true,
       };
       return appFeatureToggles;
     }),
