@@ -1,5 +1,5 @@
 <ng-container *ngIf="configuration$ | async as configuration">
-  <ng-container *ngIf="getPriceDetails(configuration) as priceDetails">
+  <ng-container *ngIf="findValuePrice(configuration) as priceDetails">
     <div
       *ngIf="displayPrice(priceDetails)"
       [ngClass]="styleClass"

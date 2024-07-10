@@ -31,7 +31,7 @@
         [attr.aria-checked]="
           attributeRadioButtonForm.value === value.valueCode ? 'true' : 'false'
         "
-        [attr.aria-label]="getAriaLabel(attribute, value)"
+        [attr.aria-label]="getAriaLabelGeneric(attribute, value)"
         [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
         (click)="onClick(value.valueCode)"
         [cxFocus]="{ key: attribute.name + '-' + value.name }"
@@ -100,7 +100,7 @@
               ? 'true'
               : 'false'
           "
-          [attr.aria-label]="getAriaLabel(attribute, value)"
+          [attr.aria-label]="getAriaLabelGeneric(attribute, value)"
           [attr.aria-describedby]="
             createAttributeUiKey('label', attribute.name)
           "

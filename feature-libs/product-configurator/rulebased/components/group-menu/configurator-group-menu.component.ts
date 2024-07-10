@@ -43,7 +43,7 @@ export class ConfiguratorGroupMenuComponent {
   @ViewChildren('groupItem') groups: QueryList<ElementRef<HTMLElement>>;
 
   protected breakpointService = inject(BreakpointService);
-  protected featureConfig = inject(FeatureConfigService);
+  protected featureConfigService = inject(FeatureConfigService);
 
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
@@ -686,13 +686,17 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * track-by function for the ngFor generating the group menu.
+   * track-by function for the *ngFor generating the group menu,
+   * returning the group id if the 'productConfiguratorDeltaRendering' toggle is active.
+   *
    * @param _index
    * @param group
    * @returns groupId if feature 'productConfiguratorDeltaRendering' is active, the group itself otherwise (same as if there were not track-by function)
    */
   trackByFn = (_index: number, group: Configurator.Group) => {
-    return this.featureConfig.isEnabled('productConfiguratorDeltaRendering')
+    return this.featureConfigService.isEnabled(
+      'productConfiguratorDeltaRendering'
+    )
       ? group.id
       : group;
   };

@@ -79,8 +79,4 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
       isLightedUp: value ? value.selected : false,
     };
   }
-
-  getAriaLabel(attribute: Configurator.Attribute, value: Configurator.Value) {
-    return this.getAriaLabelGeneric(attribute, value);
-  }
 }

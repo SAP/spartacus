@@ -19,8 +19,8 @@ const attributeWithValuePrice: Configurator.Attribute = {
   name: 'attribute with value price',
   label: 'attribute with value price',
 };
-const valueWithValuePrice = createValue('1', 'value with value price', true);
-valueWithValuePrice.valuePrice = {
+const valueWithPrice = createValue('1', 'value with value price', true);
+valueWithPrice.valuePrice = {
   currencyIso: '$',
   formattedValue: '$100.00',
   value: 100,
@@ -569,12 +569,12 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       component.attribute.validationType = Configurator.ValidationType.NONE;
       fixture.detectChanges();
       expect(
-        component.getAriaLabel(valueWithValuePrice, attributeWithValuePrice)
+        component.getAriaLabel(valueWithPrice, attributeWithValuePrice)
       ).toEqual(
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           attributeWithValuePrice.label +
           ' price:$100.00 value:' +
-          valueWithValuePrice.valueDisplay +
+          valueWithPrice.valueDisplay +
           ' configurator.a11y.additionalValue'
       );
     });
@@ -588,18 +588,18 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       component.onPriceChanged({
         source: {
           attributeKey: 'attrKey',
-          valueName: valueWithValuePrice.name ?? '',
+          valueName: valueWithPrice.name ?? '',
         },
         valuePrice: { currencyIso: '$', formattedValue: '$200.00', value: 200 },
       });
       fixture.detectChanges();
       expect(
-        component.getAriaLabel(valueWithValuePrice, attributeWithValuePrice)
+        component.getAriaLabel(valueWithPrice, attributeWithValuePrice)
       ).toEqual(
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           attributeWithValuePrice.label +
           ' price:$200.00 value:' +
-          valueWithValuePrice.valueDisplay +
+          valueWithPrice.valueDisplay +
           ' configurator.a11y.additionalValue'
       );
     });

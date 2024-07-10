@@ -15,6 +15,13 @@ export class ConfiguratorPriceService {
     return this.directionService.getDirection() === DirectionMode.RTL;
   }
 
+  /**
+   * Removes any sign (+/-) from the formatted price value
+   *
+   * @param value formatted value
+   * @param sign the sign, typically '+' or '-'
+   * @returns formatted value without sign
+   */
   removeSign(value: string | undefined, sign: string): string {
     if (value) {
       return value.replace(sign, '');
@@ -22,6 +29,13 @@ export class ConfiguratorPriceService {
     return '';
   }
 
+  /**
+   * Adds a sign (+/-) to the formatted price value
+   *
+   * @param value formatted value
+   * @param sign the sign, typically '+' or '-'
+   * @returns formatted value with sign
+   */
   addSign(value: string | undefined, sign: string): string {
     if (value) {
       return this.isRTLDirection() ? value + sign : sign + value;
@@ -29,6 +43,13 @@ export class ConfiguratorPriceService {
     return '';
   }
 
+  /**
+   * Formats the value for display on the UI
+   *
+   * @param priceValue price value
+   * @param formattedValue pre-formatted value
+   * @returns formatted value
+   */
   compileFormattedValue(
     priceValue: number,
     formattedValue: string | undefined

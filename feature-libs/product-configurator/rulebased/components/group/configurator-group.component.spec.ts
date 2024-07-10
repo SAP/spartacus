@@ -798,15 +798,15 @@ describe('ConfiguratorGroupComponent', () => {
   });
 
   describe('trackByFn', () => {
-    const attr = ConfigurationTestData.attributeDropDown;
+    const attribute = ConfigurationTestData.attributeDropDown;
     it('should return attribute itself, if performance optimization is not active', () => {
       productConfiguratorDeltaRenderingEnabled = false;
-      expect(component.trackByFn(0, attr)).toBe(attr);
+      expect(component.trackByFn(0, attribute)).toBe(attribute);
     });
 
     it('should return attribute key, if performance optimization is active', () => {
       productConfiguratorDeltaRenderingEnabled = true;
-      expect(component.trackByFn(0, attr)).toBe(attr.key);
+      expect(component.trackByFn(0, attribute)).toBe(attribute.key);
     });
   });
 });

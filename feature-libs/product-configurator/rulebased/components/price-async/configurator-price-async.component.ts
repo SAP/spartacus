@@ -46,15 +46,15 @@ export class ConfiguratorPriceAsyncComponent {
   @Output() priceChanged = new EventEmitter<ConfiguratorValuePriceChanged>();
 
   protected configuratorCommonsService = inject(ConfiguratorCommonsService);
-  protected configRouterExtractorService = inject(
+  protected configuratorRouterExtractorService = inject(
     ConfiguratorRouterExtractorService
   );
-  protected priceService = inject(ConfiguratorPriceService);
+  protected configuratorPriceService = inject(ConfiguratorPriceService);
 
   protected lastValuePrice = NO_PRICE;
 
   configuration$: Observable<Configurator.Configuration> =
-    this.configRouterExtractorService.extractRouterData().pipe(
+    this.configuratorRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
         return this.configuratorCommonsService
           .getConfiguration(routerData.owner)
@@ -63,7 +63,7 @@ export class ConfiguratorPriceAsyncComponent {
             tap((config) => {
               const valuePrice = this.findValuePrice(config);
               const lastValuePrice = this.lastValuePrice;
-              if (this.valuePriceChanged(lastValuePrice, valuePrice)) {
+              if (this.isValuePriceChanged(lastValuePrice, valuePrice)) {
                 this.priceChanged.emit({
                   source: this.options,
                   valuePrice: valuePrice,
@@ -79,10 +79,10 @@ export class ConfiguratorPriceAsyncComponent {
     useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
 
-  protected valuePriceChanged(
+  protected isValuePriceChanged(
     lastValuePrice: Configurator.PriceDetails,
     valuePrice: Configurator.PriceDetails
-  ) {
+  ): boolean {
     return (
       lastValuePrice.value !== valuePrice.value ||
       lastValuePrice.currencyIso !== valuePrice.currencyIso ||
@@ -90,13 +90,16 @@ export class ConfiguratorPriceAsyncComponent {
     );
   }
 
-  getPriceDetails(
+  /**
+   * Searches the configuration for a value price supplement matching the attribute key
+   * and value name bound as input data to this component.
+   *
+   * @param configuration configuration containing price supplements
+   * @returns price details
+   */
+  findValuePrice(
     configuration: Configurator.Configuration
   ): Configurator.PriceDetails {
-    return this.findValuePrice(configuration);
-  }
-
-  protected findValuePrice(configuration: Configurator.Configuration) {
     const priceSupplement = configuration.priceSupplements
       ?.find(
         (attrSupplement) =>
@@ -109,13 +112,25 @@ export class ConfiguratorPriceAsyncComponent {
     return priceSupplement?.priceValue ?? NO_PRICE;
   }
 
+  /**
+   * returns a formatted price string to be displayed on the UI
+   *
+   * @param priceDetails price details
+   * @returns formatted price
+   */
   getDisplayPrice(priceDetails: Configurator.PriceDetails): string {
-    return this.priceService.compileFormattedValue(
+    return this.configuratorPriceService.compileFormattedValue(
       priceDetails.value,
       priceDetails.formattedValue
     );
   }
 
+  /**
+   * Checks if the price should be displayed on the UI.
+   *
+   * @param priceDetails price details
+   * @returns {true}, only if the price shall be displayed
+   */
   displayPrice(priceDetails: Configurator.PriceDetails): boolean {
     return priceDetails.value !== 0;
   }

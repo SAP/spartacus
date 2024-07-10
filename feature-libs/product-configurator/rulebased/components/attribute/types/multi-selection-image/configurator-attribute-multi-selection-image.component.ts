@@ -104,8 +104,4 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
       isLightedUp: value.selected,
     };
   }
-
-  getAriaLabel(attribute: Configurator.Attribute, value: Configurator.Value) {
-    return this.getAriaLabelGeneric(attribute, value);
-  }
 }

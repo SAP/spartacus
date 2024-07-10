@@ -290,25 +290,25 @@ describe('ConfiguratorPriceAsyncComponent', () => {
   describe('valuePriceChanged in unit test environment', () => {
     it('should return false for objects with same content', () => {
       const price2 = structuredClone(price1);
-      expect(component['valuePriceChanged'](price1, price2)).toBeFalsy();
+      expect(component['isValuePriceChanged'](price1, price2)).toBeFalsy();
     });
 
     it('should return true if value differs', () => {
       const price2 = structuredClone(price1);
       price2.value = 100;
-      expect(component['valuePriceChanged'](price1, price2)).toBeTruthy();
+      expect(component['isValuePriceChanged'](price1, price2)).toBeTruthy();
     });
 
     it('should return true if formatted value differs', () => {
       const price2 = structuredClone(price1);
       price2.formattedValue = '$100.00';
-      expect(component['valuePriceChanged'](price1, price2)).toBeTruthy();
+      expect(component['isValuePriceChanged'](price1, price2)).toBeTruthy();
     });
 
     it('should return true if currency  differs', () => {
       const price2 = structuredClone(price1);
       price2.currencyIso = 'EUR';
-      expect(component['valuePriceChanged'](price1, price2)).toBeTruthy();
+      expect(component['isValuePriceChanged'](price1, price2)).toBeTruthy();
     });
   });
 });

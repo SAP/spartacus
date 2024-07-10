@@ -73,7 +73,7 @@ export class ConfiguratorAttributeDropDownComponent
                 if (this.isInitialRenderingOfDomainValues) {
                   return of(true);
                 }
-                const pricesChanged = this.checkedForValuePriceChanges(config);
+                const pricesChanged = this.checkForValuePriceChanges(config);
                 return pricesChanged ? of(true) : EMPTY;
               }),
               tap(() => (this.isInitialRenderingOfDomainValues = false))
@@ -104,12 +104,12 @@ export class ConfiguratorAttributeDropDownComponent
   /**
    * Extracts the relevant value prices from the price supplements
    * and stores them within the component. Returns a boolean indicating
-   * whether there were any changes.
+   * whether there were any value price changes.
    *
    * @param config current config
    * @returns {true}, only if at least one value price changed
    */
-  protected checkedForValuePriceChanges(
+  protected checkForValuePriceChanges(
     config: Configurator.Configuration
   ): boolean {
     const attrKey = this.attribute.key ?? '';
