@@ -7,8 +7,8 @@ import {
   SiteAdapter,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { MockCaptchaService } from './mockCaptcha/mock-captcha.service';
-import { MockCaptchaApiConfig } from './mockCaptcha/config/mock-captcha-api-config';
+import { MockCaptchaService } from './mock-captcha/mock-captcha.service';
+import { MockCaptchaApiConfig } from './mock-captcha/config/mock-captcha-api-config';
 
 const mockLang = 'mock-lang';
 const mockKey = 'mock-key';
