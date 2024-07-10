@@ -27,7 +27,7 @@ export class OccConfiguratorVariantNormalizer
    */
   static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
 
-  protected featureConfig = inject(FeatureConfigService);
+  protected featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected config: OccConfig,
@@ -55,7 +55,7 @@ export class OccConfiguratorVariantNormalizer
       hideBasePriceAndSelectedOptions: source.hideBasePriceAndSelectedOptions,
       immediateConflictResolution: source.immediateConflictResolution ?? false,
       newConfiguration: source.newConfiguration, // we need a trinary state true, false, undefined!
-      isAsyncPricing: this.featureConfig.isEnabled(
+      isAsyncPricing: this.featureConfigService.isEnabled(
         'productConfiguratorDeltaRendering'
       ),
     };

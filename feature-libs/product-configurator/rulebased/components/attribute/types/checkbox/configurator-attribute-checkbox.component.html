@@ -20,7 +20,7 @@
             (change)="onSelect()"
             [formControl]="attributeCheckBoxForm"
             name="{{ createAttributeIdForConfigurator(attribute) }}"
-            [attr.aria-label]="getAriaLabel(attribute, attributeValue)"
+            [attr.aria-label]="getAriaLabelGeneric(attribute, attributeValue)"
             [attr.aria-describedby]="
               createAttributeUiKey('label', attribute.name)
             "

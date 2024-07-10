@@ -440,7 +440,7 @@ describe('Configurator reducer', () => {
       expect(price).toEqual(PRICE_DETAILS);
     });
 
-    it('should NOT merge supplement data into existing groups if in async pricing mode', () => {
+    it('should NOT merge supplement data into existing groups in async pricing mode', () => {
       const actionProvidingState =
         new ConfiguratorActions.CreateConfigurationSuccess(CONFIGURATION);
       const firstState = StateReduce.configuratorReducer(

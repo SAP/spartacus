@@ -259,12 +259,12 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   /**
-   * Creates control options for cx-configurator-price-async component,
+   * Creates @see {ConfiguratorPriceAsyncComponentOptions} as required by the cx-configurator-price-async component,
    * so it can render the price for the given value of the given attribute.
    *
-   * @param {Configurator.Attribute} attribute Configurator Attribute
-   * @param {Configurator.Value} value Configurator Attribute Value
-   * @returns {ConfiguratorPriceAsyncComponentOptions} control options
+   * @param attribute Configurator Attribute
+   * @param value Configurator Attribute Value
+   * @returns control options
    */
   extractValuePriceAsyncOptions(
     attribute: Configurator.Attribute,
@@ -279,7 +279,8 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Event handler to be called when a value price changes.
-   * @param {ConfiguratorValuePriceChanged} event event with the new value price
+   *
+   * @param event event with the new value price
    */
   onPriceChanged(event: ConfiguratorValuePriceChanged) {
     this.valuePrices[event.source.valueName] = event.valuePrice;
@@ -287,7 +288,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   protected getValuePrice(value: Configurator.Value | undefined): string {
     if (value) {
-      value = this.mergePriceAndValue(value);
+      value = this.mergePriceIntoValue(value);
     }
     if (value?.valuePrice?.value && !value.selected) {
       if (value.valuePrice.value < 0) {
@@ -399,10 +400,12 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Merges value price data received via @see {ConfiguratorValuePriceChanged} events into the given value, if available.
-   * @param {Configurator.Value} value the value
-   * @returns {Configurator.Value} the new value with pricing
+   * As the value might be read-only a new object will be returned combining price and value.
+   *
+   * @param value the value
+   * @returns the new value with price
    */
-  protected mergePriceAndValue(value: Configurator.Value): Configurator.Value {
+  protected mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
     const valueName = value.name;
     if (valueName && this.valuePrices[valueName]) {
       value = { ...value, valuePrice: this.valuePrices[valueName] };
@@ -416,15 +419,15 @@ export class ConfiguratorAttributeBaseComponent {
    * otherwise it falls back to the value price, or if no price is available,
    * no price information will be included in the text.
    *
-   * @param {Configurator.Attribute} attribute the attribute
-   * @param {Configurator.Value} value the value
-   * @returns {string} translated text
+   * @param attribute the attribute
+   * @param value the value
+   * @returns translated text
    */
   protected getAriaLabelGeneric(
     attribute: Configurator.Attribute,
     value: Configurator.Value
   ): string {
-    value = this.mergePriceAndValue(value);
+    value = this.mergePriceIntoValue(value);
 
     const params: { value?: string; attribute?: string; price?: string } = {
       value: value.valueDisplay,

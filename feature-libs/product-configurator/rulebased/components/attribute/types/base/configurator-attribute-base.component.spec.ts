@@ -397,7 +397,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
 
     it('should react onPriceChanged events', () => {
-      const valueWOPrice = ConfiguratorTestUtils.createValue(
+      const valueWithoutPrice = ConfiguratorTestUtils.createValue(
         'valueCode',
         undefined
       );
@@ -413,7 +413,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         valuePrice: valueWithPrice.valuePrice,
         source: { attributeKey: 'attrKey', valueName: 'valueCode' },
       });
-      expect(classUnderTest['getValuePrice'](valueWOPrice)).toEqual(
+      expect(classUnderTest['getValuePrice'](valueWithoutPrice)).toEqual(
         ' [+' + valueWithPrice.valuePrice?.formattedValue + ']'
       );
     });
@@ -558,7 +558,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
   });
 
   describe('extractValuePriceAsyncOptions', () => {
-    it('should return empty keys if none defined', () => {
+    it('should return empty keys if no attribute key and no value name is defined defined', () => {
       expect(
         classUnderTest.extractValuePriceAsyncOptions(
           { attrCode: 123, name: 'attrName' },
@@ -571,7 +571,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       });
     });
 
-    it('should return attr key and value name', () => {
+    it('should return attribute key and value name', () => {
       expect(
         classUnderTest.extractValuePriceAsyncOptions(
           { key: 'attrKey', attrCode: 123, name: 'attrName' },
@@ -676,7 +676,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
   });
 
-  describe('mergePriceAndValue', () => {
+  describe('mergePriceIntoValue', () => {
     it('should create a new object combining value and price if onPriceChanged was called for this value before', () => {
       const valuePrice = { value: 100, currencyIso: 'USD' };
       classUnderTest.onPriceChanged({
@@ -684,7 +684,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         valuePrice: valuePrice,
       });
       expect(
-        classUnderTest['mergePriceAndValue']({
+        classUnderTest['mergePriceIntoValue']({
           valueCode: '1223',
           name: 'valueKey',
         })
@@ -702,7 +702,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         valuePrice: valuePrice,
       });
       expect(
-        classUnderTest['mergePriceAndValue']({
+        classUnderTest['mergePriceIntoValue']({
           valueCode: '1223',
           name: 'valueKey',
         })

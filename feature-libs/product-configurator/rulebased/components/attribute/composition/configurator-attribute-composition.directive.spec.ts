@@ -76,13 +76,13 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
       productConfiguratorDeltaRenderingEnabled = false;
       classUnderTest['context'].componentKey = 'not.existing';
       classUnderTest.ngOnInit();
-      expectLogOnly();
+      expectComponentNotRendered(true);
     });
 
     it('should do nothing if performance feature toggle is on', () => {
       productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest.ngOnInit();
-      expectNoInteraction();
+      expectComponentNotRendered(false);
     });
   });
 
@@ -102,7 +102,7 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
       expectComponentRendered(1);
     });
 
-    it('should re-render the attribute if it did change', () => {
+    it('should re-render the attribute if it changed', () => {
       productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest.ngOnChanges();
       // re-create another context with the different attribute
@@ -116,13 +116,13 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
       productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest['context'].componentKey = 'not.existing';
       classUnderTest.ngOnChanges();
-      expectLogOnly();
+      expectComponentNotRendered(true);
     });
 
     it('should do nothing if performance feature toggle is off', () => {
       productConfiguratorDeltaRenderingEnabled = false;
       classUnderTest.ngOnChanges();
-      expectNoInteraction();
+      expectComponentNotRendered(false);
     });
   });
 
@@ -132,14 +132,13 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
     expect(loggerService.warn).not.toHaveBeenCalled();
   }
 
-  function expectNoInteraction() {
+  function expectComponentNotRendered(expectLog: boolean) {
     expect(viewContainerRef.clear).not.toHaveBeenCalled();
     expect(viewContainerRef.createComponent).not.toHaveBeenCalled();
-    expect(loggerService.warn).not.toHaveBeenCalled();
-  }
-  function expectLogOnly() {
-    expect(viewContainerRef.clear).not.toHaveBeenCalled();
-    expect(viewContainerRef.createComponent).not.toHaveBeenCalled();
-    expect(loggerService.warn).toHaveBeenCalled();
+    if (expectLog) {
+      expect(loggerService.warn).toHaveBeenCalled();
+    } else {
+      expect(loggerService.warn).not.toHaveBeenCalled();
+    }
   }
 });

@@ -136,11 +136,4 @@ export class ConfiguratorAttributeCheckBoxListComponent
       this.onHandleAttributeQuantity(eventObject);
     }
   }
-
-  getAriaLabel(
-    attribute: Configurator.Attribute,
-    value: Configurator.Value
-  ): string {
-    return this.getAriaLabelGeneric(attribute, value);
-  }
 }

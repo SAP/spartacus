@@ -40,16 +40,24 @@ export class ConfiguratorAttributeDropDownComponent
   attributeDropDownForm = new UntypedFormControl('');
   group: string;
 
-  protected configRouterExtractorService = inject(
+  protected configuratorRouterExtractorService = inject(
     ConfiguratorRouterExtractorService
   );
   protected config = inject(Config);
 
   protected isInitialRenderingOfDomainValues: boolean = true;
-  protected lastAttrSupplement: Configurator.AttributeSupplement | undefined;
+
+  /**
+   * The attribute supplement (containing value prices) that was used to render
+   * the current DDLB-options with prices. Only if the next attribute supplement differs from this one content wise,
+   * there is the need to refresh the DDLB-options and re-render the UI.
+   */
+  protected lastAttributeSupplement:
+    | Configurator.AttributeSupplement
+    | undefined;
 
   renderDomainValues$: Observable<boolean> = this.isAsyncPricing
-    ? this.configRouterExtractorService.extractRouterData().pipe(
+    ? this.configuratorRouterExtractorService.extractRouterData().pipe(
         switchMap((routerData) => {
           return this.configuratorCommonsService
             .getConfiguration(routerData.owner)
@@ -97,6 +105,7 @@ export class ConfiguratorAttributeDropDownComponent
    * Extracts the relevant value prices from the price supplements
    * and stores them within the component. Returns a boolean indicating
    * whether there were any changes.
+   *
    * @param config current config
    * @returns {true}, only if at least one value price changed
    */
@@ -104,16 +113,16 @@ export class ConfiguratorAttributeDropDownComponent
     config: Configurator.Configuration
   ): boolean {
     const attrKey = this.attribute.key ?? '';
-    const attrSupplement = config.priceSupplements?.find(
+    const attributeSupplement = config.priceSupplements?.find(
       (supplement) => supplement.attributeUiKey === attrKey
     );
     const changed = !ObjectComparisonUtils.deepEqualObjects(
-      this.lastAttrSupplement ?? {},
-      attrSupplement ?? {}
+      this.lastAttributeSupplement ?? {},
+      attributeSupplement ?? {}
     );
     if (changed) {
-      this.lastAttrSupplement = attrSupplement;
-      attrSupplement?.valueSupplements.forEach((valueSupplement) =>
+      this.lastAttributeSupplement = attributeSupplement;
+      attributeSupplement?.valueSupplements.forEach((valueSupplement) =>
         this.onPriceChanged({
           source: {
             attributeKey: attrKey,

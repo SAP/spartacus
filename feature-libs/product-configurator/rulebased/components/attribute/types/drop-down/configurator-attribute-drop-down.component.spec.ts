@@ -247,7 +247,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     );
   });
 
-  it('should track value prices for the given attribute', () => {
+  it('should record value price changes for the given attribute', () => {
     createComponentWithData();
     expect(component['valuePrices'][value1.name ?? '']).toBeUndefined();
     expect(component['valuePrices'][value2.name ?? '']).toBe(value2.valuePrice);
