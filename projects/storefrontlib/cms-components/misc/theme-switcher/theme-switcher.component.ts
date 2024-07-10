@@ -11,6 +11,7 @@ import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { Observable, map, take } from 'rxjs';
 import { ThemeSwitcherConfig } from './config';
 import { ThemeService } from '../../../layout/theme/theme.service';
+import { SiteThemeService } from 'projects/core/src/site-theme/facade/site-theme.service';
 
 /**
  * Component for switching themes.
@@ -31,15 +32,27 @@ export class ThemeSwitcherComponent implements OnInit {
 
   selectedTheme: Theme;
 
+  /*
+  TODO create component service and move handlers
+  1. create theme-switcher.service.ts
+  2. from the new service connect to site-theme/facade/site-theme.service.ts
+  */
+
   constructor(
     protected themeSwitcherConfig: ThemeSwitcherConfig,
     protected themeService: ThemeService,
     protected baseSiteService: BaseSiteService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected siteThemeService: SiteThemeService
   ) {
     this.themes = this.themeSwitcherConfig.themeSwitcher?.themes || [];
   }
   ngOnInit(): void {
+    // just testing
+    this.siteThemeService.getAll().subscribe((themes) => {
+      console.log(themes);
+    });
+
     this.getCustomSiteTheme().subscribe((siteTheme) => {
       this.addThemeIfNotExist(siteTheme);
       if (this.themes.length > 0) {

@@ -129,3 +129,9 @@ export interface BaseSite {
   requiresAuthentication?: boolean;
   isolated?: boolean;
 }
+
+export interface Theme {
+  active?: boolean;
+  i18nNameKey?: string;
+  className: string;
+}
