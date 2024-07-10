@@ -370,6 +370,11 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
+   * Modifies the template of `StoreFinderComponent` to exclude storefinder searchbox from aria-live area.
+   */
+  a11yStoreFinderSearchboxBloat?: boolean;
+
+  /**
    * When enabled, styles for the `cx-bottom-header-slot` class will be applied. These styles are necessary to display
    * customization buttons in the BottomHeaderSlot in SmartEdit.
    */
@@ -435,5 +440,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetsDialogFocusHandling: false,
   a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
+  a11yStoreFinderSearchboxBloat: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
 };
