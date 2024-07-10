@@ -558,6 +558,43 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
       );
     });
 
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute for value with total price that defines an accessible name to label the current element", () => {
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      const formattedValue = '$200.00';
+      if (value) {
+        value.valuePrice = {
+          currencyIso: '$',
+          formattedValue: '$100.00',
+          value: 100,
+        };
+        value.valuePriceTotal = {
+          currencyIso: '$',
+          formattedValue: formattedValue,
+          value: 200,
+        };
+      } else {
+        fail('Value not available');
+      }
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        0,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
+          component.attribute.label +
+          ' price:' +
+          formattedValue +
+          ' value:' +
+          VALUE_1
+      );
+    });
+
     it("should contain input element with class name 'form-check-input' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
