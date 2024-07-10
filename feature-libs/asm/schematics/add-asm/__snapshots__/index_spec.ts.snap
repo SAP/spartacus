@@ -27,7 +27,7 @@ export class AsmFeatureModule { }
 exports[`Spartacus Asm schematics: ng-add Asm feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { asmTranslationChunksConfig, asmTranslations } from "@spartacus/asm/assets";
-import { AsmRootModule, ASM_FEATURE } from "@spartacus/asm/root";
+import { ASM_FEATURE, AsmRootModule } from "@spartacus/asm/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
