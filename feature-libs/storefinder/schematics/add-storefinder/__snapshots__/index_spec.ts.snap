@@ -28,7 +28,7 @@ exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general se
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { storeFinderTranslationChunksConfig, storeFinderTranslations } from "@spartacus/storefinder/assets";
-import { StoreFinderRootModule, STORE_FINDER_FEATURE } from "@spartacus/storefinder/root";
+import { STORE_FINDER_FEATURE, StoreFinderRootModule } from "@spartacus/storefinder/root";
 
 @NgModule({
   declarations: [],
