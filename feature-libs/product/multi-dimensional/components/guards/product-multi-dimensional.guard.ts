@@ -48,11 +48,11 @@ export class ProductMultiDimensionalGuard {
                 .pipe(
                   filter(isNotUndefined),
                   take(1),
-                  map((_product: Product) => {
+                  map((product: Product) => {
                     return this.router.createUrlTree(
                       this.semanticPathService.transform({
                         cxRoute: 'product',
-                        params: _product,
+                        params: product,
                       })
                     );
                   })
