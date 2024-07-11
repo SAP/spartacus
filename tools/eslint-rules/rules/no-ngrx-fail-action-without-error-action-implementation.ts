@@ -43,7 +43,7 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
     },
     schema: [], // no options
     messages: {
-      missingErrorAction:
+      missingImplementsErrorAction:
         '[Spartacus] Class name contains "fail" but does not implement ErrorAction interface.',
     },
     fixable: 'code',
@@ -52,28 +52,37 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
   create(context) {
     return {
       'ClassDeclaration[id.name=/Fail/]'(node: TSESTree.ClassDeclaration) {
-        const ERROR_ACTION_NAME = 'ErrorAction';
-        const SPARTACUS_CORE_NAME = '@spartacus/core';
+        const Constants = {
+          ErrorAction: 'ErrorAction',
+          SpartacusCore: '@spartacus/core',
+        };
 
-        if (!isClassImplementingInterface(node, ERROR_ACTION_NAME)) {
+        if (!isClassImplementingInterface(node, Constants.ErrorAction)) {
           context.report({
             node,
-            messageId: 'missingErrorAction',
+            messageId: 'missingImplementsErrorAction',
             fix(fixer) {
               const sourceCode = context.sourceCode;
-              const implementsText = getImplementsText(node, sourceCode);
               const fixes = createFixesForImplementsClause(
+                sourceCode,
                 node,
                 fixer,
-                implementsText
+                Constants.ErrorAction
               );
 
-              if (!isErrorActionImported(sourceCode, SPARTACUS_CORE_NAME)) {
+              if (
+                !isIdentifierImported(
+                  sourceCode,
+                  Constants.ErrorAction,
+                  Constants.SpartacusCore
+                )
+              ) {
                 fixes.push(
                   ...createFixesForImportStatement(
                     sourceCode,
                     fixer,
-                    SPARTACUS_CORE_NAME
+                    Constants.ErrorAction,
+                    Constants.SpartacusCore
                   )
                 );
               }
@@ -100,26 +109,18 @@ function isClassImplementingInterface(
   );
 }
 
-function getImplementsText(
-  node: TSESTree.ClassDeclaration,
-  sourceCode: SourceCode
-): string {
-  let otherImplements = node.implements
-    ? node.implements.map((impl) => sourceCode.getText(impl)).join(', ')
-    : '';
-  const optionalComma = otherImplements ? ', ' : '';
-  return ` implements ${otherImplements}${optionalComma}ErrorAction`;
-}
-
 function createFixesForImplementsClause(
+  sourceCode: SourceCode,
   node: TSESTree.ClassDeclaration,
   fixer: RuleFixer,
-  implementsText: string
+  interfaceName: string
 ): RuleFix[] {
+  const implementsText = createImplementsText(node, interfaceName, sourceCode);
+
   const fixes = [];
   if (node.implements?.length > 0) {
     const lastImplementsNode = node.implements[node.implements.length - 1];
-    fixes.push(fixer.insertTextAfter(lastImplementsNode, `, ErrorAction`));
+    fixes.push(fixer.insertTextAfter(lastImplementsNode, `, ${interfaceName}`));
   } else if (node.superClass) {
     fixes.push(fixer.insertTextAfter(node.superClass, implementsText));
   } else if (node.id) {
@@ -128,9 +129,25 @@ function createFixesForImplementsClause(
   return fixes;
 }
 
-function isErrorActionImported(
+function createImplementsText(
+  node: TSESTree.ClassDeclaration,
+  interfaceName: string,
+  sourceCode: SourceCode
+): string {
+  let otherImplements = node.implements
+    ? node.implements.map((impl) => sourceCode.getText(impl)).join(', ')
+    : '';
+  const optionalComma = otherImplements ? ', ' : '';
+  return ` implements ${otherImplements}${optionalComma}${interfaceName}`;
+}
+
+/**
+ * Tells whether the `importedIdentifier` is imported from `importPath` in the file of `sourceCode`.
+ */
+function isIdentifierImported(
   sourceCode: SourceCode,
-  spartacusCoreName: string
+  importedIdentifier: string,
+  importPath: string
 ): boolean {
   const importDeclarations = sourceCode.ast.body.filter(
     (statement) => statement.type === AST_NODE_TYPES.ImportDeclaration
@@ -138,31 +155,38 @@ function isErrorActionImported(
   return importDeclarations.some(
     (declaration) =>
       declaration.type === AST_NODE_TYPES.ImportDeclaration &&
-      declaration.source.value === spartacusCoreName &&
+      declaration.source.value === importPath &&
       declaration.specifiers.some(
         (specifier) =>
           specifier.type === AST_NODE_TYPES.ImportSpecifier &&
-          specifier.imported.name === 'ErrorAction'
+          specifier.imported.name === importedIdentifier
       )
   );
 }
 
+/**
+ * Adds an import in the file for `importedIdentifier` from `importPath`,
+ * if it's missing in the file `sourceCode`.
+ */
 function createFixesForImportStatement(
   sourceCode: SourceCode,
   fixer: RuleFixer,
-  spartacusCoreName: string
+  importedIdentifier: string,
+  importPath: string
 ): RuleFix[] {
   const fixes = [];
-  const importStatement = `import { ErrorAction } from '${spartacusCoreName}';\n`;
+  const importStatementText = `import { ${importedIdentifier} } from '${importPath}';\n`;
   const importDeclarations = sourceCode.ast.body.filter(
     (statement) => statement.type === AST_NODE_TYPES.ImportDeclaration
   );
 
   if (importDeclarations.length > 0) {
     const lastImport = importDeclarations[importDeclarations.length - 1];
-    fixes.push(fixer.insertTextAfter(lastImport, `\n${importStatement}`));
+    fixes.push(fixer.insertTextAfter(lastImport, `\n${importStatementText}`));
   } else {
-    fixes.push(fixer.insertTextBefore(sourceCode.ast.body[0], importStatement));
+    fixes.push(
+      fixer.insertTextBefore(sourceCode.ast.body[0], importStatementText)
+    );
   }
 
   return fixes;
