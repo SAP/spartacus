@@ -33,14 +33,13 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
   meta: {
     type: 'problem',
     docs: {
-      description:
-        '[Spartacus] Disallow class names containing "fail" that do not implement ErrorAction interface',
+      description: ``,
       recommended: 'recommended',
     },
     schema: [], // no options
     messages: {
       missingImplementsErrorAction:
-        '[Spartacus] Class name contains "fail" but does not implement ErrorAction interface.',
+        '[Spartacus] NgRx Failure Action class should have `implements ErrorAction`. Otherwise it might be not handled properly by `EffectsErrorHandlerService`',
     },
     fixable: 'code',
   },

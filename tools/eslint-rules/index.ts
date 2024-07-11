@@ -24,7 +24,6 @@ import {
   RULE_NAME as useProvideDefaultFeatureTogglesFactoryName,
 } from './rules/use-provide-default-feature-toggles-factory';
 
-// now for nx/workspace/no-ngrx-fail-action-without-error-action-implementation
 import {
   rule as noNgrxFailActionWithoutErrorActionImplementation,
   RULE_NAME as noNgrxFailActionWithoutErrorActionImplementationName,
