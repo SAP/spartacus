@@ -645,6 +645,9 @@
       "@spartacus/cds": [
         "integration-libs/cds/public_api"
       ],
+      "@spartacus/cds/assets": [
+        "integration-libs/cds/assets/public_api"
+      ],
       "@spartacus/digital-payments/assets": [
         "integration-libs/digital-payments/assets/public_api"
       ],
