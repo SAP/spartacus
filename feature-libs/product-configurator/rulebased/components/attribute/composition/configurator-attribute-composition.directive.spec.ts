@@ -8,9 +8,6 @@ import createSpy = jasmine.createSpy;
 
 class TestComponent {}
 
-let configuratorAttributeCompositionTestConfig: ConfiguratorAttributeCompositionConfig =
-  { productConfigurator: { assignment: { testComponent: TestComponent } } };
-
 class MockViewContainerRef {
   clear = createSpy('vcr.clear');
   createComponent = createSpy('vcr.createComponent');
@@ -27,11 +24,15 @@ class MockFeatureConfigService {
 }
 
 describe('ConfiguratorAttributeCompositionDirective', () => {
+  let configuratorAttributeCompositionTestConfig: ConfiguratorAttributeCompositionConfig;
   let classUnderTest: ConfiguratorAttributeCompositionDirective;
   let viewContainerRef: ViewContainerRef;
   let loggerService: LoggerService;
 
   beforeEach(() => {
+    configuratorAttributeCompositionTestConfig = {
+      productConfigurator: { assignment: { testComponent: TestComponent } },
+    };
     TestBed.configureTestingModule({
       providers: [
         ConfiguratorAttributeCompositionDirective,
