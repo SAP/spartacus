@@ -8,8 +8,8 @@ import { SiteThemeConfig } from './site-theme-config';
 
 export const defaultSiteThemeConfig: SiteThemeConfig = {
   siteTheme: {
+    defaultThemei18nNameKey: 'themeSwitcher.themes.default',
     themes: [
-      { i18nNameKey: 'themeSwitcher.themes.default', className: 'santorini' },
       {
         i18nNameKey: 'themeSwitcher.themes.highContrastDark',
         className: 'high-contrast-dark',

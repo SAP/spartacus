@@ -32,10 +32,14 @@ export class SiteThemeService {
     }
     return this.getCustomSiteTheme().pipe(
       map((siteTheme) => {
-        this.themes = this.config.siteTheme?.themes || [];
-        if (siteTheme && !this.doesThemeExist(siteTheme)) {
-          this.themes.push({ className: siteTheme });
-        }
+        this.themes = [
+          {
+            i18nNameKey:
+              this.config.siteTheme?.defaultThemei18nNameKey ?? siteTheme,
+            className: siteTheme ?? '',
+          },
+          ...(this.config.siteTheme?.themes || []),
+        ];
         return this.themes;
       })
     );

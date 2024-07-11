@@ -14,6 +14,7 @@ import { Theme } from '../../model/misc.model';
 })
 export abstract class SiteThemeConfig {
   siteTheme?: {
+    defaultThemei18nNameKey?: string;
     themes?: Array<Theme>;
   };
 }
