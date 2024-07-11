@@ -17,16 +17,12 @@
  *
  */
 
+import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
 import {
-  AST_NODE_TYPES,
-  ESLintUtils,
-  TSESTree,
-} from '@typescript-eslint/utils';
-import {
-  RuleFix,
-  RuleFixer,
-  SourceCode,
-} from '@typescript-eslint/utils/ts-eslint';
+  fixMissingImplementsInterface,
+  hasImplementsInterface,
+} from './utils/implements-intrerface-utils';
+import { fixPossiblyMissingImport } from './utils/import-utils';
 
 // NOTE: The rule will be available in ESLint configs as "@nrwl/nx/workspace/no-ngrx-fail-action-without-error-action-implementation"
 export const RULE_NAME =
@@ -85,139 +81,3 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
     };
   },
 });
-
-// utils functions
-
-function hasImplementsInterface(
-  node: TSESTree.ClassDeclaration,
-  interfaceName: string
-): boolean {
-  return node.implements?.some(
-    (impl) =>
-      impl.expression.type === AST_NODE_TYPES.Identifier &&
-      impl.expression.name === interfaceName
-  );
-}
-
-/**
- * Adds missing `implements` clause for the class declaration.
- *
- * - if there are already implemented interfaces, it adds the new one at the end
- * - if there is a superclass, it adds the new interface after it
- * - if there is no superclass, it adds the new interface after the class name
- */
-function fixMissingImplementsInterface({
-  interfaceName,
-  node,
-  sourceCode,
-  fixer,
-}: {
-  node: TSESTree.ClassDeclaration;
-  interfaceName: string;
-  sourceCode: SourceCode;
-  fixer: RuleFixer;
-}): RuleFix[] {
-  const implementsText = createImplementsText({
-    node,
-    interfaceName,
-    sourceCode,
-  });
-
-  const fixes = [];
-  if (node.implements?.length > 0) {
-    const lastImplementsNode = node.implements[node.implements.length - 1];
-    fixes.push(fixer.insertTextAfter(lastImplementsNode, `, ${interfaceName}`));
-  } else if (node.superClass) {
-    fixes.push(fixer.insertTextAfter(node.superClass, implementsText));
-  } else if (node.id) {
-    fixes.push(fixer.insertTextAfter(node.id, implementsText));
-  }
-  return fixes;
-}
-
-/**
- * Returns a string with the `implements` clause for the class declaration.
- *
- * - if there are already implemented interfaces, it adds the new one at the end
- * - if there is a superclass, it adds the new interface after it
- * - if there is no superclass, it adds the new interface after the class name
- */
-function createImplementsText({
-  node,
-  interfaceName,
-  sourceCode,
-}: {
-  node: TSESTree.ClassDeclaration;
-  interfaceName: string;
-  sourceCode: SourceCode;
-}): string {
-  let otherImplements = node.implements
-    ? node.implements.map((impl) => sourceCode.getText(impl)).join(', ')
-    : '';
-  const optionalComma = otherImplements ? ', ' : '';
-  return ` implements ${otherImplements}${optionalComma}${interfaceName}`;
-}
-
-/**
- * Tells whether the `importedIdentifier` is imported from `importPath` in the file of `sourceCode`.
- */
-function isIdentifierImported({
-  importedIdentifier,
-  importPath,
-  sourceCode,
-}: {
-  importedIdentifier: string;
-  importPath: string;
-  sourceCode: SourceCode;
-}): boolean {
-  const importDeclarations = sourceCode.ast.body.filter(
-    (statement) => statement.type === AST_NODE_TYPES.ImportDeclaration
-  );
-  return importDeclarations.some(
-    (declaration) =>
-      declaration.type === AST_NODE_TYPES.ImportDeclaration &&
-      declaration.source.value === importPath &&
-      declaration.specifiers.some(
-        (specifier) =>
-          specifier.type === AST_NODE_TYPES.ImportSpecifier &&
-          specifier.imported.name === importedIdentifier
-      )
-  );
-}
-
-/**
- * Adds an import in the file for `importedIdentifier` from `importPath`,
- * if it's missing in the file `sourceCode`.
- */
-function fixPossiblyMissingImport({
-  importedIdentifier,
-  importPath,
-  sourceCode,
-  fixer,
-}: {
-  importedIdentifier: string;
-  importPath: string;
-  sourceCode: SourceCode;
-  fixer: RuleFixer;
-}): RuleFix[] {
-  if (isIdentifierImported({ sourceCode, importedIdentifier, importPath })) {
-    return [];
-  }
-
-  const fixes = [];
-  const importStatementText = `import { ${importedIdentifier} } from '${importPath}';\n`;
-  const importDeclarations = sourceCode.ast.body.filter(
-    (statement) => statement.type === AST_NODE_TYPES.ImportDeclaration
-  );
-
-  if (importDeclarations.length > 0) {
-    const lastImport = importDeclarations[importDeclarations.length - 1];
-    fixes.push(fixer.insertTextAfter(lastImport, `\n${importStatementText}`));
-  } else {
-    fixes.push(
-      fixer.insertTextBefore(sourceCode.ast.body[0], importStatementText)
-    );
-  }
-
-  return fixes;
-}
