@@ -57,37 +57,27 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
           SpartacusCore: '@spartacus/core',
         };
 
-        if (!isClassImplementingInterface(node, Constants.ErrorAction)) {
+        if (!hasImplementsInterface(node, Constants.ErrorAction)) {
           context.report({
             node,
             messageId: 'missingImplementsErrorAction',
             fix(fixer) {
               const sourceCode = context.sourceCode;
-              const fixes = createFixesForImplementsClause(
-                sourceCode,
-                node,
-                fixer,
-                Constants.ErrorAction
-              );
-
-              if (
-                !isIdentifierImported(
+              return [
+                ...fixMissingImplementsInterface({
+                  node,
+                  interfaceName: Constants.ErrorAction,
                   sourceCode,
-                  Constants.ErrorAction,
-                  Constants.SpartacusCore
-                )
-              ) {
-                fixes.push(
-                  ...createFixesForImportStatement(
-                    sourceCode,
-                    fixer,
-                    Constants.ErrorAction,
-                    Constants.SpartacusCore
-                  )
-                );
-              }
+                  fixer,
+                }),
 
-              return fixes;
+                ...fixPossiblyMissingImport({
+                  importedIdentifier: Constants.ErrorAction,
+                  importPath: Constants.SpartacusCore,
+                  sourceCode,
+                  fixer,
+                }),
+              ];
             },
           });
         }
@@ -98,7 +88,7 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
 
 // utils functions
 
-function isClassImplementingInterface(
+function hasImplementsInterface(
   node: TSESTree.ClassDeclaration,
   interfaceName: string
 ): boolean {
@@ -109,13 +99,29 @@ function isClassImplementingInterface(
   );
 }
 
-function createFixesForImplementsClause(
-  sourceCode: SourceCode,
-  node: TSESTree.ClassDeclaration,
-  fixer: RuleFixer,
-  interfaceName: string
-): RuleFix[] {
-  const implementsText = createImplementsText(node, interfaceName, sourceCode);
+/**
+ * Adds missing `implements` clause for the class declaration.
+ *
+ * - if there are already implemented interfaces, it adds the new one at the end
+ * - if there is a superclass, it adds the new interface after it
+ * - if there is no superclass, it adds the new interface after the class name
+ */
+function fixMissingImplementsInterface({
+  interfaceName,
+  node,
+  sourceCode,
+  fixer,
+}: {
+  node: TSESTree.ClassDeclaration;
+  interfaceName: string;
+  sourceCode: SourceCode;
+  fixer: RuleFixer;
+}): RuleFix[] {
+  const implementsText = createImplementsText({
+    node,
+    interfaceName,
+    sourceCode,
+  });
 
   const fixes = [];
   if (node.implements?.length > 0) {
@@ -129,11 +135,22 @@ function createFixesForImplementsClause(
   return fixes;
 }
 
-function createImplementsText(
-  node: TSESTree.ClassDeclaration,
-  interfaceName: string,
-  sourceCode: SourceCode
-): string {
+/**
+ * Returns a string with the `implements` clause for the class declaration.
+ *
+ * - if there are already implemented interfaces, it adds the new one at the end
+ * - if there is a superclass, it adds the new interface after it
+ * - if there is no superclass, it adds the new interface after the class name
+ */
+function createImplementsText({
+  node,
+  interfaceName,
+  sourceCode,
+}: {
+  node: TSESTree.ClassDeclaration;
+  interfaceName: string;
+  sourceCode: SourceCode;
+}): string {
   let otherImplements = node.implements
     ? node.implements.map((impl) => sourceCode.getText(impl)).join(', ')
     : '';
@@ -144,11 +161,15 @@ function createImplementsText(
 /**
  * Tells whether the `importedIdentifier` is imported from `importPath` in the file of `sourceCode`.
  */
-function isIdentifierImported(
-  sourceCode: SourceCode,
-  importedIdentifier: string,
-  importPath: string
-): boolean {
+function isIdentifierImported({
+  importedIdentifier,
+  importPath,
+  sourceCode,
+}: {
+  importedIdentifier: string;
+  importPath: string;
+  sourceCode: SourceCode;
+}): boolean {
   const importDeclarations = sourceCode.ast.body.filter(
     (statement) => statement.type === AST_NODE_TYPES.ImportDeclaration
   );
@@ -168,12 +189,21 @@ function isIdentifierImported(
  * Adds an import in the file for `importedIdentifier` from `importPath`,
  * if it's missing in the file `sourceCode`.
  */
-function createFixesForImportStatement(
-  sourceCode: SourceCode,
-  fixer: RuleFixer,
-  importedIdentifier: string,
-  importPath: string
-): RuleFix[] {
+function fixPossiblyMissingImport({
+  importedIdentifier,
+  importPath,
+  sourceCode,
+  fixer,
+}: {
+  importedIdentifier: string;
+  importPath: string;
+  sourceCode: SourceCode;
+  fixer: RuleFixer;
+}): RuleFix[] {
+  if (isIdentifierImported({ sourceCode, importedIdentifier, importPath })) {
+    return [];
+  }
+
   const fixes = [];
   const importStatementText = `import { ${importedIdentifier} } from '${importPath}';\n`;
   const importDeclarations = sourceCode.ast.body.filter(
