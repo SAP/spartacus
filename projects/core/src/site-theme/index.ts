@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './site-theme.module';
 export * from './config/site-theme-config';
 export * from './config/default-site-theme-config';
 export * from './facade/index';
+export { SiteThemeModule } from './site-theme.module';
