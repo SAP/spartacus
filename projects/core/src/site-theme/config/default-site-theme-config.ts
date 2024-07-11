@@ -12,11 +12,11 @@ export const defaultSiteThemeConfig: SiteThemeConfig = {
     themes: [
       {
         i18nNameKey: 'themeSwitcher.themes.highContrastDark',
-        className: 'high-contrast-dark',
+        className: 'cx-theme-high-contrast-dark',
       },
       {
         i18nNameKey: 'themeSwitcher.themes.highContrastLight',
-        className: 'high-contrast-light',
+        className: 'cx-theme-high-contrast-light',
       },
     ],
   },
