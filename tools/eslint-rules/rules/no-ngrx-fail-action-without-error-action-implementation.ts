@@ -34,7 +34,7 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
     docs: {
       description:
         '[Spartacus] Disallow class names containing "fail" that do not implement ErrorAction interface',
-      recommended: 'strict',
+      recommended: 'recommended',
     },
     schema: [], // no options
     messages: {
