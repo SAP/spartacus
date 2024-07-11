@@ -120,39 +120,37 @@ describe('MyAccountV2ConsentManagementComponent', () => {
   let anonymousConsentsConfig: AnonymousConsentsConfig;
   let anonymousConsentsService: AnonymousConsentsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      const mockAnonymousConsentsConfig = {
-        anonymousConsents: {},
-      };
+  beforeEach(waitForAsync(() => {
+    const mockAnonymousConsentsConfig = {
+      anonymousConsents: {},
+    };
 
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          MockCxSpinnerComponent,
-          MockConsentManagementFormComponent,
-          MyAccountV2ConsentManagementComponent,
-        ],
-        providers: [
-          ConsentManagementComponentService,
-          { provide: UserConsentService, useClass: UserConsentServiceMock },
-          { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
-          {
-            provide: AnonymousConsentsService,
-            useClass: AnonymousConsentsServiceMock,
-          },
-          {
-            provide: AuthService,
-            useClass: AuthServiceMock,
-          },
-          {
-            provide: AnonymousConsentsConfig,
-            useValue: mockAnonymousConsentsConfig,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        MockCxSpinnerComponent,
+        MockConsentManagementFormComponent,
+        MyAccountV2ConsentManagementComponent,
+      ],
+      providers: [
+        ConsentManagementComponentService,
+        { provide: UserConsentService, useClass: UserConsentServiceMock },
+        { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
+        {
+          provide: AnonymousConsentsService,
+          useClass: AnonymousConsentsServiceMock,
+        },
+        {
+          provide: AuthService,
+          useClass: AuthServiceMock,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyAccountV2ConsentManagementComponent);

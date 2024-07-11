@@ -56,21 +56,19 @@ describe('CheckoutProgressComponent', () => {
   let component: CheckoutProgressComponent;
   let fixture: ComponentFixture<CheckoutProgressComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          CheckoutProgressComponent,
-          MockTranslateUrlPipe,
-          MockMultiLinePipe,
-        ],
-        providers: [
-          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        CheckoutProgressComponent,
+        MockTranslateUrlPipe,
+        MockMultiLinePipe,
+      ],
+      providers: [
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutProgressComponent);
@@ -147,6 +145,24 @@ describe('CheckoutProgressComponent', () => {
       expect(component.isActive(2)).toBe(false);
       expect(component.isDisabled(2)).toBe(true);
       expect(component.getTabIndex(2)).toBe(-1);
+    });
+  });
+
+  describe('getStepState()', () => {
+    beforeEach(() => {
+      component.activeStepIndex = 1;
+    });
+
+    it('should return first step as completed', () => {
+      expect(component.getStepState(0)).toBe('completed');
+    });
+
+    it('should return second step as selected', () => {
+      expect(component.getStepState(1)).toBe('selected');
+    });
+
+    it('should return third step as disabled', () => {
+      expect(component.getStepState(2)).toBe('disabled');
     });
   });
 });

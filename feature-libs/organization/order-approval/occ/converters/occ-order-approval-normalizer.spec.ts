@@ -57,7 +57,7 @@ describe('OrderApprovalNormalizer', () => {
         ({
           ...order,
           code: (order as Occ.Order).code + '-converted',
-        } as any)
+        }) as any
     );
   });
 

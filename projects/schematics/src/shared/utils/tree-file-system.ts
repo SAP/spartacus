@@ -7,10 +7,13 @@
 import { normalize, resolve } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
 import * as path from 'path';
-import { FileSystemHost, ts } from 'ts-morph';
+import { FileSystemHost, RuntimeDirEntry, ts } from 'ts-morph';
 
 export class TreeFileSystem implements FileSystemHost {
-  constructor(private readonly tree: Tree, private readonly rootDir: string) {}
+  constructor(
+    private readonly tree: Tree,
+    private readonly rootDir: string
+  ) {}
 
   private resolvePath(filePath: string) {
     return normalize(resolve(normalize(this.rootDir), normalize(filePath)));
@@ -28,17 +31,30 @@ export class TreeFileSystem implements FileSystemHost {
     return this.tree.delete(filePath);
   }
 
-  readDirSync(dirPath: string): string[] {
-    const paths: string[] = [];
-    this.tree
-      .getDir(dirPath)
-      .subfiles.forEach((file) =>
-        paths.push(path.join(dirPath, file.toString()))
-      );
-    this.tree
-      .getDir(dirPath)
-      .subdirs.forEach((dir) => paths.push(path.join(dirPath, dir.toString())));
-    return paths;
+  readDirSync(dirPath: string): RuntimeDirEntry[] {
+    const entries: RuntimeDirEntry[] = [];
+
+    const dir = this.tree.getDir(dirPath);
+
+    dir.subfiles.forEach((file) => {
+      entries.push({
+        isDirectory: false,
+        isSymlink: false,
+        name: path.join(dirPath, file.toString()),
+        isFile: true,
+      });
+    });
+
+    dir.subdirs.forEach((subDir) => {
+      entries.push({
+        isDirectory: true,
+        isSymlink: false,
+        name: path.join(dirPath, subDir.toString()),
+        isFile: false,
+      });
+    });
+
+    return entries;
   }
 
   async readFile(

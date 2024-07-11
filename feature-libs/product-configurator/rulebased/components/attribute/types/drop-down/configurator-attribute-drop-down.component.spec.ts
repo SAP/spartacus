@@ -135,50 +135,48 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     return component;
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeDropDownComponent,
-          ConfiguratorAttributeInputFieldComponent,
-          ConfiguratorAttributeNumericInputFieldComponent,
-          MockFocusDirective,
-          MockConfiguratorAttributeQuantityComponent,
-          MockConfiguratorPriceComponent,
-          MockFeatureLevelDirective,
-          MockConfiguratorShowMoreComponent,
-        ],
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          I18nTestingModule,
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
-        providers: [
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-          { provide: Config, useClass: MockConfig },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeDropDownComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeDropDownComponent,
+        ConfiguratorAttributeInputFieldComponent,
+        ConfiguratorAttributeNumericInputFieldComponent,
+        MockFocusDirective,
+        MockConfiguratorAttributeQuantityComponent,
+        MockConfiguratorPriceComponent,
+        MockFeatureLevelDirective,
+        MockConfiguratorShowMoreComponent,
+      ],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
+      providers: [
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+        { provide: Config, useClass: MockConfig },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeDropDownComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   afterEach(() => {
     document.body.removeChild(htmlElem);
@@ -443,6 +441,9 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     });
 
     it("should contain option elements with 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
+      value1.selected = false;
+      value2.selected = true;
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -460,7 +461,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
 
     it("should contain option elements with 'aria-label' attribute for value with price that defines an accessible name to label the current element", () => {
       let value = component.attribute.values
-        ? component.attribute.values[0]
+        ? component.attribute.values[1]
         : undefined;
       if (value) {
         value.valuePrice = {
@@ -478,21 +479,21 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         htmlElem,
         'option',
         undefined,
-        0,
+        1,
         'aria-label',
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           component.attribute.label +
           ' price:' +
-          value1.valuePrice?.formattedValue +
+          value2.valuePrice?.formattedValue +
           ' value:' +
-          value1.valueDisplay,
-        value1.valueDisplay
+          value2.valueDisplay,
+        value2.valueDisplay
       );
     });
 
     it("should contain option elements with 'aria-label' attribute for value with total price that defines an accessible name to label the current element", () => {
       let value = component.attribute.values
-        ? component.attribute.values[0]
+        ? component.attribute.values[1]
         : undefined;
       if (value) {
         value.valuePriceTotal = {
@@ -510,15 +511,15 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         htmlElem,
         'option',
         undefined,
-        0,
+        1,
         'aria-label',
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           component.attribute.label +
           ' price:' +
-          value1.valuePrice?.formattedValue +
+          value2.valuePrice?.formattedValue +
           ' value:' +
-          value1.valueDisplay,
-        value1.valueDisplay
+          value2.valueDisplay,
+        value2.valueDisplay
       );
     });
   });

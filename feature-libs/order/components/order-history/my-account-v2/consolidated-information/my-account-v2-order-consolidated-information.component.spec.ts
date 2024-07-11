@@ -66,26 +66,24 @@ describe('MyAccountV2OrderConsolidatedInformationComponent', () => {
   let fixture: ComponentFixture<MyAccountV2OrderConsolidatedInformationComponent>;
   let service: MyAccountV2OrderConsignmentsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          MyAccountV2OrderConsolidatedInformationComponent,
-          MockUrlPipe,
-          MockMediaComponent,
-        ],
-        providers: [
-          {
-            provide: MyAccountV2OrderConsignmentsService,
-            useClass: MockMyAccountV2OrderConsignmentsService,
-          },
-          { provide: TranslationService, useClass: MockTranslationService },
-        ],
-      }).compileComponents();
-      service = TestBed.inject(MyAccountV2OrderConsignmentsService);
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        MyAccountV2OrderConsolidatedInformationComponent,
+        MockUrlPipe,
+        MockMediaComponent,
+      ],
+      providers: [
+        {
+          provide: MyAccountV2OrderConsignmentsService,
+          useClass: MockMyAccountV2OrderConsignmentsService,
+        },
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    }).compileComponents();
+    service = TestBed.inject(MyAccountV2OrderConsignmentsService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

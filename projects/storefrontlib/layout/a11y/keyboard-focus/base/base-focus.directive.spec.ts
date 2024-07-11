@@ -36,23 +36,21 @@ class MockBaseFocusService {}
 describe('BaseFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [CustomFocusDirective, MockComponent],
-        providers: [
-          {
-            provide: BaseFocusService,
-            useClass: MockBaseFocusService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [CustomFocusDirective, MockComponent],
+      providers: [
+        {
+          provide: BaseFocusService,
+          useClass: MockBaseFocusService,
+        },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MockComponent);
+    fixture = TestBed.createComponent(MockComponent);
 
-      fixture.detectChanges();
-    })
-  );
+    fixture.detectChanges();
+  }));
 
   it('should default tabindex to -1', () => {
     const el: HTMLElement = fixture.debugElement.query(

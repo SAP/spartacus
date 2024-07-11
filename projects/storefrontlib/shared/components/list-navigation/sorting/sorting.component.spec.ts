@@ -16,14 +16,12 @@ describe('SortingComponent', () => {
   let component: SortingComponent;
   let fixture: ComponentFixture<SortingComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [NgSelectModule, FormsModule, I18nTestingModule],
-        declarations: [SortingComponent, MockNgSelectA11yDirective],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [NgSelectModule, FormsModule, I18nTestingModule],
+      declarations: [SortingComponent, MockNgSelectA11yDirective],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SortingComponent);

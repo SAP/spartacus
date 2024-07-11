@@ -4,8 +4,12 @@ TAG_NAME="sampledata"
 SAMPLE_DATA_ASSETS_FOLDER="sample-data-assets"
 STOREFRONT_FILE_NAME="spartacussampledata"
 
-SAMPLE_DATA_UNRELEASED_BRANCH="release/6.x"
-UNRELEASED_SPARTACUS_VERSION_NAME="$STOREFRONT_FILE_NAME-version-6-x"
+
+SAMPLE_DATA_UNRELEASED_BRANCH="release/2211.x"
+UNRELEASED_SPARTACUS_VERSION_NAME="$STOREFRONT_FILE_NAME-version-2211-x"
+
+SAMPLE_DATA_UNRELEASED_BRANCH6="release/6.x"
+UNRELEASED_SPARTACUS_VERSION_NAME6="$STOREFRONT_FILE_NAME-version-6-x"
 
 SAMPLE_DATA_CURRENT_BRANCH="release/5.x"
 CURRENT_SPARTACUS_VERSION_NAME="$STOREFRONT_FILE_NAME-version-5-x"
@@ -23,12 +27,17 @@ function download_sample_data_from_spartacussample_repo {
 }
 
 echo "-----"
-echo "Downloading UNRELEASED sample data for 6.x"
+echo "Downloading PREVIOUS sample data for 6.x"
 
 download_sample_data_from_spartacussample_repo $SAMPLE_DATA_UNRELEASED_BRANCH $UNRELEASED_SPARTACUS_VERSION_NAME
 
 echo "-----"
-echo "Downloading CURRENT sample data for 5.x"
+echo "Downloading PREVIOUS sample data for 6.x"
+
+download_sample_data_from_spartacussample_repo $SAMPLE_DATA_UNRELEASED_BRANCH6 $UNRELEASED_SPARTACUS_VERSION_NAME6
+
+echo "-----"
+echo "Downloading PREVIOUS sample data for 5.x"
 
 download_sample_data_from_spartacussample_repo $SAMPLE_DATA_CURRENT_BRANCH $CURRENT_SPARTACUS_VERSION_NAME
 
@@ -55,7 +64,8 @@ echo "-----"
 echo "Create a release with created tag"
 
 gh release create $TAG_NAME ./$SAMPLE_DATA_ASSETS_FOLDER/** --repo "https://$GH_TOKEN@github.com/SAP-samples/cloud-commerce-sample-setup.git" --title "Spartacus Sample Data"  --notes "Spartacus sample data releases: 
-6-x: unreleased 
-5-x: current release
+2211-x: current release 
+6-x: previous release 
+5-x: previous release
 4-x: previous release
 3-x: old release"

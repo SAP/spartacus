@@ -60,21 +60,16 @@ describe('CheckoutProgressMobileTopComponent', () => {
   let component: CheckoutProgressMobileTopComponent;
   let fixture: ComponentFixture<CheckoutProgressMobileTopComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          CheckoutProgressMobileTopComponent,
-          MockTranslateUrlPipe,
-        ],
-        providers: [
-          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [CheckoutProgressMobileTopComponent, MockTranslateUrlPipe],
+      providers: [
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutProgressMobileTopComponent);

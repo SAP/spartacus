@@ -94,49 +94,47 @@ describe('ConfigAttributeRadioButtonComponent', () => {
 
   const values: Configurator.Value[] = [value1, value2, value3];
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeRadioButtonComponent,
-          ConfiguratorAttributeInputFieldComponent,
-          ConfiguratorAttributeNumericInputFieldComponent,
-          ItemCounterComponent,
-          MockFocusDirective,
-          MockConfiguratorAttributeQuantityComponent,
-          MockConfiguratorPriceComponent,
-          MockConfiguratorShowMoreComponent,
-        ],
-        imports: [
-          I18nTestingModule,
-          ReactiveFormsModule,
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
-        providers: [
-          ConfiguratorStorefrontUtilsService,
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockGroupService,
-          },
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeRadioButtonComponent,
+        ConfiguratorAttributeInputFieldComponent,
+        ConfiguratorAttributeNumericInputFieldComponent,
+        ItemCounterComponent,
+        MockFocusDirective,
+        MockConfiguratorAttributeQuantityComponent,
+        MockConfiguratorPriceComponent,
+        MockConfiguratorShowMoreComponent,
+      ],
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
+      providers: [
+        ConfiguratorStorefrontUtilsService,
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockGroupService,
+        },
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -277,7 +275,25 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that defines an accessible name to label the current unselected element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        1,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          VALUE_NAME_2
+      );
+    });
+
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that defines an accessible name to label the current selected element", () => {
+      value1.selected = false;
+      value2.selected = true;
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
