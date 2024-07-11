@@ -9,11 +9,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { IconModule, AtMessageModule } from '@spartacus/storefront';
+import { AtMessageModule, IconModule } from '@spartacus/storefront';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 
 @NgModule({
@@ -24,6 +25,7 @@ import { AddToWishListComponent } from './add-to-wish-list.component';
     RouterModule,
     UrlModule,
     AtMessageModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
