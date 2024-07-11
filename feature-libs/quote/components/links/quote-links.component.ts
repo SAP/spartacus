@@ -60,7 +60,7 @@ export class QuoteLinksComponent {
       },
       error: () => {
         this.globalMessageService.add(
-          { key: 'quote.httpHandlers.downloadError' },
+          { key: 'quote.httpHandlers.downloadPDFError' },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       },
