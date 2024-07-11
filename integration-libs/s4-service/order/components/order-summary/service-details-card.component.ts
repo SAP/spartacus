@@ -7,10 +7,12 @@
 import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { ServiceDateTime } from '@spartacus/s4-service/root';
+import {
+  ServiceDateTime,
+  CheckoutServiceSchedulePickerService,
+} from '@spartacus/s4-service/root';
 import { Card, OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest, map } from 'rxjs';
-import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
 
 @Component({
   selector: 'cx-card-service-details',

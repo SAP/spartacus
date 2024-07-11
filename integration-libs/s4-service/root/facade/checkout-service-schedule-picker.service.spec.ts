@@ -58,27 +58,26 @@ describe('CheckoutServiceSchedulePickerService', () => {
     pipe = TestBed.inject(CxDatePipe);
   });
 
-  it('should return minimum date for service scheduling', () => {
+  it('should return minimum date for service scheduling', (done) => {
     spyOn(service, 'getServiceOrderConfiguration').and.callThrough();
     spyOn(pipe, 'transform').and.callThrough();
-    let expectedDate = new Date();
-    expectedDate.setDate(
-      expectedDate.getDate() +
-        (mockBaseSite.baseStore.serviceOrderConfiguration.leadDays + 1)
-    );
-    const result2 = service.getMinDateForService();
-    expect(service.getServiceOrderConfiguration).toHaveBeenCalled();
-    expect(pipe.transform).toHaveBeenCalled();
-    expect(result2).toEqual('2024-07-11');
+    service.getMinDateForService().subscribe((result) => {
+      expect(service.getServiceOrderConfiguration).toHaveBeenCalled();
+      expect(pipe.transform).toHaveBeenCalled();
+      expect(result).toEqual('2024-07-11');
+      done();
+    });
   });
 
-  it('should return the scheduled service times from the configuration', () => {
+  it('should return the scheduled service times from the configuration', (done) => {
     spyOn(service, 'getServiceOrderConfiguration').and.callThrough();
-    const result = service.getScheduledServiceTimes();
-    expect(service.getServiceOrderConfiguration).toHaveBeenCalled();
-    expect(result).toEqual(
-      mockBaseSite.baseStore.serviceOrderConfiguration.serviceScheduleTimes
-    );
+    service.getScheduledServiceTimes().subscribe((result) => {
+      expect(service.getServiceOrderConfiguration).toHaveBeenCalled();
+      expect(result).toEqual(
+        mockBaseSite.baseStore.serviceOrderConfiguration.serviceScheduleTimes
+      );
+      done();
+    });
   });
 
   it('should convert date and time to a DateTime string with timezone offset', () => {
@@ -99,8 +98,10 @@ describe('CheckoutServiceSchedulePickerService', () => {
     const result = service.getServiceDetailsFromDateTime('11/07/2024, 14:30');
     expect(result).toEqual({ date: '2024-07-11', time: '14:30' });
   });
-  it('should return service order configuration', () => {
-    const result = service.getServiceOrderConfiguration();
-    expect(result).toEqual(mockBaseSite.baseStore.serviceOrderConfiguration);
+  it('should return service order configuration', (done) => {
+    service.getServiceOrderConfiguration().subscribe((result) => {
+      expect(result).toEqual(mockBaseSite.baseStore.serviceOrderConfiguration);
+      done();
+    });
   });
 });

@@ -14,8 +14,8 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Subscription, BehaviorSubject } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription, BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import {
   CheckoutServiceDetailsFacade,
@@ -37,13 +37,13 @@ export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
     CheckoutServiceSchedulePickerService
   );
 
-  minServiceDate: string =
+  minServiceDate$: Observable<string> =
     this.checkoutServiceSchedulePickerService.getMinDateForService();
-  scheduleTimes: string[] =
+  scheduleTimes$: Observable<string[]> =
     this.checkoutServiceSchedulePickerService.getScheduledServiceTimes();
   form: FormGroup = this.fb.group({
-    scheduleDate: [this.minServiceDate],
-    scheduleTime: [this.scheduleTimes[0]],
+    scheduleDate: [null, Validators.required],
+    scheduleTime: [null, Validators.required],
   });
 
   protected subscription = new Subscription();
@@ -56,25 +56,33 @@ export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
     );
 
   ngOnInit(): void {
-    this.selectedServiceDetails$.subscribe((selectedServiceDetails) => {
-      if (
-        selectedServiceDetails !== undefined &&
-        selectedServiceDetails !== ''
-      ) {
-        const scheduledAt =
-          this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
-            selectedServiceDetails
+    this.subscription.add(
+      this.selectedServiceDetails$.subscribe((selectedServiceDetails) => {
+        if (selectedServiceDetails && selectedServiceDetails !== '') {
+          const scheduledAt =
+            this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
+              selectedServiceDetails
+            );
+          const info =
+            this.checkoutServiceSchedulePickerService.getServiceDetailsFromDateTime(
+              scheduledAt
+            );
+          this.form.patchValue({
+            scheduleDate: info.date,
+            scheduleTime: info.time,
+          });
+        } else {
+          combineLatest([this.minServiceDate$, this.scheduleTimes$]).subscribe(
+            ([minDate, scheduleTime]) => {
+              this.form.patchValue({
+                scheduleDate: minDate,
+                scheduleTime: scheduleTime[0],
+              });
+            }
           );
-        const info =
-          this.checkoutServiceSchedulePickerService.getServiceDetailsFromDateTime(
-            scheduledAt
-          );
-        this.form.patchValue({
-          scheduleDate: info.date,
-          scheduleTime: info.time,
-        });
-      }
-    });
+        }
+      })
+    );
   }
 
   setScheduleTime(event: Event): void {

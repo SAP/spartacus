@@ -42,12 +42,12 @@ class MockCheckoutServiceDetailsFacade {
 }
 class MockCheckoutServiceSchedulePickerService {
   // implements Partial<CheckoutServiceSchedulePickerService>
-  getMinDateForService = createSpy().and.returnValue('2024-06-25');
-  getScheduledServiceTimes = createSpy().and.returnValue([
+  getMinDateForService = createSpy().and.returnValue(of('2024-06-25'));
+  getScheduledServiceTimes = createSpy().and.returnValue(of([
     '8:30',
     '9:30',
     '10:30',
-  ]);
+  ]));
   convertDateTimeToReadableString =
     createSpy().and.returnValue('27/06/2024, 9:30');
   getServiceDetailsFromDateTime = createSpy().and.returnValue({

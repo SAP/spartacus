@@ -6,8 +6,9 @@
 
 import { Injectable, inject } from '@angular/core';
 import { BaseSiteService, CxDatePipe, TimeUtils } from '@spartacus/core';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { ServiceOrderConfig } from '../model/checkout-service-details.model';
+import { Observable } from 'rxjs';
 
 const dateFormat = 'yyyy-MM-dd';
 
@@ -20,38 +21,43 @@ export class CheckoutServiceSchedulePickerService {
    * Returns the minimum date for scheduling a service.
    * It is the current date + lead days from the base site configuration.
    */
-  getMinDateForService(): string {
-    const config = this.getServiceOrderConfiguration();
-    const minDate = new Date();
-    minDate.setDate(minDate.getDate() + (config?.leadDays ?? 0) + 1);
-    return this.datePipe.transform(minDate, dateFormat) ?? '';
+  getMinDateForService(): Observable<string> {
+    return this.getServiceOrderConfiguration().pipe(
+      map((config) => {
+        const minDate = new Date();
+        minDate.setDate(minDate.getDate() + (config?.leadDays ?? 0) + 1);
+        return this.datePipe.transform(minDate, dateFormat) ?? '';
+      })
+    );
   }
 
   /**
    * Returns an array of service schedule times in HH:MM format (24-hour clock).
    * Example: ['08:00', '12:00', '16:00']
    */
-  getScheduledServiceTimes(): string[] {
-    return this.getServiceOrderConfiguration()?.serviceScheduleTimes ?? [];
+  getScheduledServiceTimes(): Observable<string[]> {
+    return this.getServiceOrderConfiguration().pipe(
+      map((config) => config?.serviceScheduleTimes ?? [])
+    );
   }
 
   /**
    * Retrieves the Service Order Configuration object with lead days and service schedule times.
    * This method returns an observable since it depends on asynchronous data.
    */
-  getServiceOrderConfiguration(): ServiceOrderConfig | undefined {
-    const config = { leadDays: 0, serviceScheduleTimes: [] as string[] };
-    this.baseSiteService
-      .get()
-      .pipe(take(1))
-      .subscribe((baseSite) => {
+  getServiceOrderConfiguration(): Observable<ServiceOrderConfig | undefined> {
+    return this.baseSiteService.get().pipe(
+      take(1),
+      map((baseSite) => {
+        let config = { leadDays: 0, serviceScheduleTimes: [] as string[] };
         config.leadDays =
           baseSite?.baseStore?.serviceOrderConfiguration?.leadDays ?? 0;
         config.serviceScheduleTimes =
           baseSite?.baseStore?.serviceOrderConfiguration
             ?.serviceScheduleTimes ?? ([] as string[]);
-      });
-    return config;
+        return config;
+      })
+    );
   }
 
   /**
@@ -75,7 +81,8 @@ export class CheckoutServiceSchedulePickerService {
    */
   convertDateTimeToReadableString(dateTime: string): string {
     const date = new Date(dateTime);
-    return date.toLocaleString().slice(0, -3);
+    const secondsDigits = -3;
+    return date.toLocaleString().slice(0, secondsDigits);
   }
 
   /**
