@@ -22,6 +22,11 @@ import {
   ESLintUtils,
   TSESTree,
 } from '@typescript-eslint/utils';
+import {
+  RuleFix,
+  RuleFixer,
+  SourceCode,
+} from '@typescript-eslint/utils/ts-eslint';
 
 // NOTE: The rule will be available in ESLint configs as "@nrwl/nx/workspace/no-ngrx-fail-action-without-error-action-implementation"
 export const RULE_NAME =
@@ -47,21 +52,8 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
   create(context) {
     return {
       'ClassDeclaration[id.name=/Fail/]'(node: TSESTree.ClassDeclaration) {
-        // utils functions
-
-        function isClassImplementingInterface(
-          node: TSESTree.ClassDeclaration,
-          interfaceName: string
-        ): boolean {
-          return node.implements?.some(
-            (impl) =>
-              impl.expression.type === AST_NODE_TYPES.Identifier &&
-              impl.expression.name === interfaceName
-          );
-        }
-
         const ERROR_ACTION_NAME = 'ErrorAction';
-        // const SPARTACUS_CORE_NAME = '@spartacus/core';
+        const SPARTACUS_CORE_NAME = '@spartacus/core';
 
         if (!isClassImplementingInterface(node, ERROR_ACTION_NAME)) {
           context.report({
@@ -69,68 +61,21 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
             messageId: 'missingErrorAction',
             fix(fixer) {
               const sourceCode = context.sourceCode;
-              let otherImplements = node.implements
-                ? node.implements
-                    .map((impl) => sourceCode.getText(impl))
-                    .join(', ')
-                : '';
-              const optionalComma = otherImplements ? ', ' : '';
-              const errorActionText = `ErrorAction`;
-              const implementsText = ` implements ${otherImplements}${optionalComma}${errorActionText}`;
-              const fixes = [];
-
-              // Add the implements clause
-              if (node.implements?.length > 0) {
-                const lastImplementsNode =
-                  node.implements[node.implements.length - 1];
-                fixes.push(
-                  fixer.insertTextAfter(
-                    lastImplementsNode,
-                    `, ${errorActionText}`
-                  )
-                );
-              } else if (node.superClass) {
-                const superClassNode = node.superClass;
-                fixes.push(
-                  fixer.insertTextAfter(superClassNode, implementsText)
-                );
-              } else if (node.id) {
-                fixes.push(fixer.insertTextAfter(node.id, implementsText));
-              }
-
-              // Check if ErrorAction is already imported
-              const importDeclarations = sourceCode.ast.body.filter(
-                (statement) =>
-                  statement.type === AST_NODE_TYPES.ImportDeclaration
-              );
-              const isErrorActionImported = importDeclarations.some(
-                (declaration) =>
-                  declaration.type === AST_NODE_TYPES.ImportDeclaration &&
-                  declaration.source.value === '@spartacus/core' &&
-                  declaration.specifiers.some(
-                    (specifier) =>
-                      specifier.type === AST_NODE_TYPES.ImportSpecifier &&
-                      specifier.imported.name === 'ErrorAction'
-                  )
+              const implementsText = getImplementsText(node, sourceCode);
+              const fixes = createFixesForImplementsClause(
+                node,
+                fixer,
+                implementsText
               );
 
-              // Add import statement if ErrorAction is not imported
-              if (!isErrorActionImported) {
-                const importStatement = `import { ErrorAction } from '@spartacus/core';\n`;
-                if (importDeclarations.length > 0) {
-                  const lastImport =
-                    importDeclarations[importDeclarations.length - 1];
-                  fixes.push(
-                    fixer.insertTextAfter(lastImport, `\n${importStatement}`)
-                  );
-                } else {
-                  fixes.push(
-                    fixer.insertTextBefore(
-                      sourceCode.ast.body[0],
-                      importStatement
-                    )
-                  );
-                }
+              if (!isErrorActionImported(sourceCode, SPARTACUS_CORE_NAME)) {
+                fixes.push(
+                  ...createFixesForImportStatement(
+                    sourceCode,
+                    fixer,
+                    SPARTACUS_CORE_NAME
+                  )
+                );
               }
 
               return fixes;
@@ -138,149 +83,87 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
           });
         }
       },
-
-      // ClassDeclaration(node: TSESTree.ClassDeclaration) {
-      //   if (node.id && node.id.name.toLowerCase().includes('fail')) {
-      //     const implementsErrorAction = node.implements?.some(
-      //       (impl) =>
-      //         impl.expression.type === 'Identifier' &&
-      //         impl.expression.name === 'ErrorAction'
-      //     );
-
-      //     if (!implementsErrorAction) {
-      //       context.report({
-      //         node,
-      //         messageId: 'missingErrorAction',
-      //         fix(fixer) {
-      //           const sourceCode = context.sourceCode;
-      //           let otherImplements = node.implements
-      //             ? node.implements
-      //                 .map((impl) => sourceCode.getText(impl))
-      //                 .join(', ')
-      //             : '';
-      //           const optionalComma = otherImplements ? ', ' : '';
-      //           const errorActionText = `ErrorAction`;
-      //           const implementsText = ` implements ${otherImplements}${optionalComma}${errorActionText}`;
-      //           const fixes = [];
-
-      //           // Add the implements clause
-      //           if (node.implements?.length > 0) {
-      //             const lastImplementsNode =
-      //               node.implements[node.implements.length - 1];
-      //             fixes.push(
-      //               fixer.insertTextAfter(
-      //                 lastImplementsNode,
-      //                 `, ${errorActionText}`
-      //               )
-      //             );
-      //           } else if (node.superClass) {
-      //             const superClassNode = node.superClass;
-      //             fixes.push(
-      //               fixer.insertTextAfter(superClassNode, implementsText)
-      //             );
-      //           } else if (node.id) {
-      //             fixes.push(fixer.insertTextAfter(node.id, implementsText));
-      //           }
-
-      //           // Check if ErrorAction is already imported
-      //           const importDeclarations = sourceCode.ast.body.filter(
-      //             (statement) => statement.type === 'ImportDeclaration'
-      //           );
-      //           const isErrorActionImported = importDeclarations.some(
-      //             (declaration) =>
-      //               declaration.type === 'ImportDeclaration' &&
-      //               declaration.source.value === '@spartacus/core' &&
-      //               declaration.specifiers.some(
-      //                 (specifier) =>
-      //                   specifier.type === 'ImportSpecifier' &&
-      //                   specifier.imported.name === 'ErrorAction'
-      //               )
-      //           );
-
-      //           // Add import statement if ErrorAction is not imported
-      //           if (!isErrorActionImported) {
-      //             const importStatement = `import { ErrorAction } from '@spartacus/core';\n`;
-      //             if (importDeclarations.length > 0) {
-      //               const lastImport =
-      //                 importDeclarations[importDeclarations.length - 1];
-      //               fixes.push(
-      //                 fixer.insertTextAfter(lastImport, `\n${importStatement}`)
-      //               );
-      //             } else {
-      //               fixes.push(
-      //                 fixer.insertTextBefore(
-      //                   sourceCode.ast.body[0],
-      //                   importStatement
-      //                 )
-      //               );
-      //             }
-      //           }
-
-      //           return fixes;
-      //         },
-      //       });
-      //     }
-      //   }
-      // },
     };
   },
-
-  // meta: {
-  //   type: 'problem',
-  //   docs: {
-  //     description:
-  //       'Ensure NgRx Action Classes with the word "Fail" in their name implement the `ErrorAction` interface',
-  //     recommended: 'recommended',
-  //   },
-  //   schema: [],
-  //   messages: {
-  //     missingImplementsErrorAction:
-  //       '[Spartacus] NgRx Action Class `{{ className }}` should implement `ErrorAction` interface. Otherwise the `CxErrorHandlerEffect` will not recognize it as Failure/Error action.',
-  //   },
-  //   fixable: 'code',
-  // },
-  // defaultOptions: [],
-  // create(context) {
-  //   return {
-  //     ClassDeclaration(node) {
-  //       const className = node.id?.name;
-
-  //       if (className && /Fail/.test(className)) {
-  //         const implementsErrorAction = node.implements?.some(
-  //           (implementNode) =>
-  //             implementNode.expression.type === 'Identifier' &&
-  //             implementNode.expression.name === 'ErrorAction'
-  //         );
-
-  //         if (!implementsErrorAction) {
-  //           context.report({
-  //             node,
-  //             messageId: 'missingImplementsErrorAction',
-  //             data: { className },
-  //             fix(fixer) {
-  //               const sourceCode = context.getSourceCode();
-  //               const implementsText = ' implements ErrorAction';
-
-  //               if (node.implements && node.implements.length > 0) {
-  //                 // If there are existing implements, append ErrorAction
-  //                 const lastImplementNode =
-  //                   node.implements[node.implements.length - 1];
-  //                 return fixer.insertTextAfter(
-  //                   lastImplementNode,
-  //                   `, ErrorAction`
-  //                 );
-  //               } else if (node.superClass) {
-  //                 // If there is an extends clause but no implements clause
-  //                 return fixer.insertTextAfter(node.superClass, implementsText);
-  //               } else {
-  //                 // If there is no extends clause and no implements clause
-  //                 return fixer.insertTextAfter(node.id, implementsText);
-  //               }
-  //             },
-  //           });
-  //         }
-  //       }
-  //     },
-  //   };
-  // },
 });
+
+// utils functions
+
+function isClassImplementingInterface(
+  node: TSESTree.ClassDeclaration,
+  interfaceName: string
+): boolean {
+  return node.implements?.some(
+    (impl) =>
+      impl.expression.type === AST_NODE_TYPES.Identifier &&
+      impl.expression.name === interfaceName
+  );
+}
+
+function getImplementsText(
+  node: TSESTree.ClassDeclaration,
+  sourceCode: SourceCode
+): string {
+  let otherImplements = node.implements
+    ? node.implements.map((impl) => sourceCode.getText(impl)).join(', ')
+    : '';
+  const optionalComma = otherImplements ? ', ' : '';
+  return ` implements ${otherImplements}${optionalComma}ErrorAction`;
+}
+
+function createFixesForImplementsClause(
+  node: TSESTree.ClassDeclaration,
+  fixer: RuleFixer,
+  implementsText: string
+): RuleFix[] {
+  const fixes = [];
+  if (node.implements?.length > 0) {
+    const lastImplementsNode = node.implements[node.implements.length - 1];
+    fixes.push(fixer.insertTextAfter(lastImplementsNode, `, ErrorAction`));
+  } else if (node.superClass) {
+    fixes.push(fixer.insertTextAfter(node.superClass, implementsText));
+  } else if (node.id) {
+    fixes.push(fixer.insertTextAfter(node.id, implementsText));
+  }
+  return fixes;
+}
+
+function isErrorActionImported(
+  sourceCode: SourceCode,
+  spartacusCoreName: string
+): boolean {
+  const importDeclarations = sourceCode.ast.body.filter(
+    (statement) => statement.type === AST_NODE_TYPES.ImportDeclaration
+  );
+  return importDeclarations.some(
+    (declaration) =>
+      declaration.type === AST_NODE_TYPES.ImportDeclaration &&
+      declaration.source.value === spartacusCoreName &&
+      declaration.specifiers.some(
+        (specifier) =>
+          specifier.type === AST_NODE_TYPES.ImportSpecifier &&
+          specifier.imported.name === 'ErrorAction'
+      )
+  );
+}
+
+function createFixesForImportStatement(
+  sourceCode: SourceCode,
+  fixer: RuleFixer,
+  spartacusCoreName: string
+): RuleFix[] {
+  const fixes = [];
+  const importStatement = `import { ErrorAction } from '${spartacusCoreName}';\n`;
+  const importDeclarations = sourceCode.ast.body.filter(
+    (statement) => statement.type === AST_NODE_TYPES.ImportDeclaration
+  );
+
+  if (importDeclarations.length > 0) {
+    const lastImport = importDeclarations[importDeclarations.length - 1];
+    fixes.push(fixer.insertTextAfter(lastImport, `\n${importStatement}`));
+  } else {
+    fixes.push(fixer.insertTextBefore(sourceCode.ast.body[0], importStatement));
+  }
+
+  return fixes;
+}
