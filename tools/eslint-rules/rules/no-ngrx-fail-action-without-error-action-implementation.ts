@@ -29,13 +29,13 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
     type: 'problem',
     docs: {
       description:
-        'Disallow class names containing "fail" that do not implement ErrorAction interface',
+        '[Spartacus] Disallow class names containing "fail" that do not implement ErrorAction interface',
       recommended: 'strict',
     },
     schema: [], // no options
     messages: {
       missingErrorAction:
-        'Class name contains "fail" but does not implement ErrorAction interface.',
+        '[Spartacus] Class name contains "fail" but does not implement ErrorAction interface.',
     },
     fixable: 'code',
   },
