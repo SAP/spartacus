@@ -270,6 +270,7 @@ if (environment.estimatedDeliveryDate) {
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         formErrorsDescriptiveMessages: true,
+        showSearchingCustomerByOrderInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
         showBillingAddressInDigitalPayments: false,
@@ -308,11 +309,13 @@ if (environment.estimatedDeliveryDate) {
         a11yFocusableCarouselControls: true,
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
+        a11yKeyboardAccessibleZoom: true,
         a11yOrganizationLinkableCells: true,
         a11yPreventSRFocusOnHiddenElements: true,
         a11yVisibleFocusOverflows: true,
         a11yTruncatedTextForResponsiveView: true,
         a11ySemanticPaginationLabel: true,
+        a11yPreventCartItemsFormRedundantRecreation: true,
         a11yMyAccountLinkOutline: true,
         a11yCloseProductImageBtnFocus: true,
         a11yNotificationPreferenceFieldset: true,
@@ -324,6 +327,11 @@ if (environment.estimatedDeliveryDate) {
           true,
         a11yFacetsDialogFocusHandling: true,
         a11yStoreFinderAlerts: true,
+        a11yCxMessageFocus: true,
+        occCartNameAndDescriptionInHttpRequestBody: true,
+        a11yLinkBtnsToTertiaryBtns: true,
+        cmsBottomHeaderSlotUsingFlexStyles: true,
+        a11yStoreFinderSearchboxBloat: true,
       };
       return appFeatureToggles;
     }),

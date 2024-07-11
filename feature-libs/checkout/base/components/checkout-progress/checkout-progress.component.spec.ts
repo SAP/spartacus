@@ -147,4 +147,22 @@ describe('CheckoutProgressComponent', () => {
       expect(component.getTabIndex(2)).toBe(-1);
     });
   });
+
+  describe('getStepState()', () => {
+    beforeEach(() => {
+      component.activeStepIndex = 1;
+    });
+
+    it('should return first step as completed', () => {
+      expect(component.getStepState(0)).toBe('completed');
+    });
+
+    it('should return second step as selected', () => {
+      expect(component.getStepState(1)).toBe('selected');
+    });
+
+    it('should return third step as disabled', () => {
+      expect(component.getStepState(2)).toBe('disabled');
+    });
+  });
 });

@@ -51,6 +51,11 @@ export interface FeatureTogglesInterface {
   showPromotionsInPDP?: boolean;
 
   /**
+   * In `ASM` it shows searching customer by order ID.
+   */
+  showSearchingCustomerByOrderInASM?: boolean;
+
+  /**
    * In `SearchBoxComponent` it shows the recent searches.
    */
   recentSearches?: boolean;
@@ -243,6 +248,11 @@ export interface FeatureTogglesInterface {
   cartQuickOrderRemoveListeningToFailEvent?: boolean;
 
   /**
+   * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
+   */
+  a11yKeyboardAccessibleZoom?: boolean;
+
+  /**
    * Sets 'linkable' property in 'CellComponent' to be false by default.
    * Modifies all table configs to acomodate this change.
    * This stops unnecessary anchor tags from being rendered in the table cells.
@@ -269,6 +279,12 @@ export interface FeatureTogglesInterface {
    * Modifies getAriaLabel method in 'PaginationComponent' to return a sematic label.
    */
   a11ySemanticPaginationLabel?: boolean;
+
+  /**
+   * When using CartItemListComponent as an outlet ([cxOutlet]="CartOutlets.CART_ITEM_LIST"):
+   * prevents the form from being recreated when neither the items nor other dependent properties (e.g., readonly) have changed.
+   */
+  a11yPreventCartItemsFormRedundantRecreation?: boolean;
 
   /**
    * Prevents screen reader from stopping on invisible elements when being in read mode for `BreadcrumbComponent`, `QuickOrderFormComponent`
@@ -346,10 +362,40 @@ export interface FeatureTogglesInterface {
    * Removes 'aria-live' from 'StoreFinderComponent' and adds 'alert' role to child components elements.
    */
   a11yStoreFinderAlerts?: boolean;
+
+  /**
+   * `MessageComponent` gets focused after a message with an action is rendered.
+   */
+  a11yCxMessageFocus?: boolean;
+
+  /**
+   * Replaces buttons resembling links with tetriary buttons in the following components:
+   * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
+   */
+  a11yLinkBtnsToTertiaryBtns?: boolean;
+
+  /**
+   * Modifies the template of `StoreFinderComponent` to exclude storefinder searchbox from aria-live area.
+   */
+  a11yStoreFinderSearchboxBloat?: boolean;
+
+  /**
+   * In OCC cart requests, it puts parameters of a cart name and cart description
+   * into a request body, instead of query params.
+   * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
+   */
+  occCartNameAndDescriptionInHttpRequestBody?: boolean;
+
+  /**
+   * When enabled, styles for the `cx-bottom-header-slot` class will be applied. These styles are necessary to display
+   * customization buttons in the BottomHeaderSlot in SmartEdit.
+   */
+  cmsBottomHeaderSlotUsingFlexStyles?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   formErrorsDescriptiveMessages: true,
+  showSearchingCustomerByOrderInASM: false,
   shouldHideAddToCartForUnpurchasableProducts: false,
   useExtractedBillingAddressComponent: false,
   showBillingAddressInDigitalPayments: false,
@@ -388,10 +434,12 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusableCarouselControls: false,
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yKeyboardAccessibleZoom: false,
   a11yOrganizationLinkableCells: false,
   a11yVisibleFocusOverflows: false,
   a11yTruncatedTextForResponsiveView: false,
   a11ySemanticPaginationLabel: false,
+  a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPreventSRFocusOnHiddenElements: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
@@ -403,4 +451,9 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
   a11yStoreFinderAlerts: false,
+  a11yCxMessageFocus: false,
+  a11yLinkBtnsToTertiaryBtns: false,
+  a11yStoreFinderSearchboxBloat: false,
+  occCartNameAndDescriptionInHttpRequestBody: false,
+  cmsBottomHeaderSlotUsingFlexStyles: false,
 };

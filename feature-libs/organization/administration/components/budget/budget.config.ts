@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AuthGuard, CmsConfig, FeatureConfigService } from '@spartacus/core';
+import { inject } from '@angular/core';
+import { AuthGuard, CmsConfig, FeatureToggles } from '@spartacus/core';
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { TableConfig } from '@spartacus/storefront';
@@ -80,11 +81,10 @@ export const budgetCmsConfig: CmsConfig = {
   },
 };
 
-// TODO: (CXSPA-7155) - Remove feature flag and legacy config next major release
-export function budgetTableConfigFactory(
-  featureConfigService?: FeatureConfigService
-): TableConfig {
-  if (featureConfigService?.isEnabled('a11yOrganizationLinkableCells')) {
+export function budgetTableConfigFactory(): TableConfig {
+  // TODO: (CXSPA-7155) - Remove feature flag and legacy config next major release
+  const featureToggles = inject(FeatureToggles);
+  if (featureToggles.a11yOrganizationLinkableCells) {
     return newBudgetTableConfig;
   }
   return budgetTableConfig;
