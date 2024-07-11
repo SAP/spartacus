@@ -8,7 +8,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
@@ -19,7 +18,7 @@ import {
   TranslationService,
   useFeatureStyles,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { PageTitleComponent } from '../page-header/page-title.component';
@@ -29,17 +28,12 @@ import { PageTitleComponent } from '../page-header/page-title.component';
   templateUrl: './breadcrumb.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BreadcrumbComponent
-  extends PageTitleComponent
-  implements OnInit, OnDestroy
-{
+export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   crumbs$: Observable<any[]>;
-  protected subscription = new Subscription();
+  ariaLiveDisabled$: Observable<boolean> = of(false);
 
-  private router = inject(Router);
+  protected router = inject(Router);
   private featureConfigService = inject(FeatureConfigService);
-
-  ariaLiveEnabled = true;
 
   constructor(
     public component: CmsComponentData<CmsBreadcrumbsComponent>,
@@ -54,16 +48,11 @@ export class BreadcrumbComponent
     super.ngOnInit();
     this.setCrumbs();
     if (this.featureConfigService.isEnabled('a11yRepeatedPageTitleFix')) {
-      this.subscription.add(
-        this.router.events
-          .pipe(filter((e) => e instanceof NavigationEnd))
-          .subscribe(() => {
-            if (document.activeElement === document.body) {
-              this.ariaLiveEnabled = false;
-              return;
-            }
-            this.ariaLiveEnabled = true;
-          })
+      this.ariaLiveDisabled$ = this.router.events.pipe(
+        filter((e) => e instanceof NavigationEnd),
+        map(() => {
+          return document.activeElement === document.body;
+        })
       );
     }
   }
@@ -77,9 +66,5 @@ export class BreadcrumbComponent
         meta?.breadcrumbs ? meta.breadcrumbs : [{ label: textHome, link: '/' }]
       )
     );
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }
