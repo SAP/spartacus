@@ -5,7 +5,7 @@
   },
   "targetDefaults": {
     "build": {
-      "cache": false
+      "cache": true
     },
     "lint": {
       "cache": true
