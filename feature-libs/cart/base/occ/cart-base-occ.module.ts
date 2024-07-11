@@ -16,19 +16,19 @@ import {
   CART_NORMALIZER,
   ORDER_ENTRY_PROMOTIONS_NORMALIZER,
 } from '@spartacus/cart/base/root';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfigFactory } from '@spartacus/core';
 import { OccCartNormalizer } from './adapters/converters/occ-cart-normalizer';
 import { OrderEntryPromotionsNormalizer } from './adapters/converters/order-entry-promotions-normalizer';
-import { defaultOccCartConfig } from './adapters/default-occ-cart-config';
 import { OccCartEntryAdapter } from './adapters/occ-cart-entry.adapter';
 import { OccCartValidationAdapter } from './adapters/occ-cart-validation.adapter';
 import { OccCartVoucherAdapter } from './adapters/occ-cart-voucher.adapter';
 import { OccCartAdapter } from './adapters/occ-cart.adapter';
+import { defaultOccCartConfigFactory } from './config/default-occ-cart-config-factory';
 
 @NgModule({
   imports: [CommonModule],
   providers: [
-    provideDefaultConfig(defaultOccCartConfig),
+    provideDefaultConfigFactory(defaultOccCartConfigFactory),
     {
       provide: CartAdapter,
       useClass: OccCartAdapter,

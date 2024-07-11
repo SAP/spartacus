@@ -326,9 +326,12 @@ if (environment.estimatedDeliveryDate) {
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
         a11yFacetsDialogFocusHandling: true,
+        a11yCxMessageFocus: true,
+        occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yRepeatedPageTitleFix: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
+        a11yStoreFinderSearchboxBloat: true,
       };
       return appFeatureToggles;
     }),

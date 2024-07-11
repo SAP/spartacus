@@ -359,6 +359,11 @@ export interface FeatureTogglesInterface {
   a11yFacetsDialogFocusHandling?: boolean;
 
   /**
+   * `MessageComponent` gets focused after a message with an action is rendered.
+   */
+  a11yCxMessageFocus?: boolean;
+
+  /**
    * Replaces buttons resembling links with tetriary buttons in the following components:
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
@@ -369,6 +374,18 @@ export interface FeatureTogglesInterface {
    * This removes the repeated announcement of the page title.
    */
   a11yRepeatedPageTitleFix?: boolean;
+
+  /**
+   * Modifies the template of `StoreFinderComponent` to exclude storefinder searchbox from aria-live area.
+   */
+  a11yStoreFinderSearchboxBloat?: boolean;
+
+  /**
+   * In OCC cart requests, it puts parameters of a cart name and cart description
+   * into a request body, instead of query params.
+   * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
+   */
+  occCartNameAndDescriptionInHttpRequestBody?: boolean;
 
   /**
    * When enabled, styles for the `cx-bottom-header-slot` class will be applied. These styles are necessary to display
@@ -434,7 +451,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUseButtonsForBtnLinks: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
+  a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yRepeatedPageTitleFix: false,
+  a11yStoreFinderSearchboxBloat: false,
+  occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
 };
