@@ -375,11 +375,6 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
-   * Modifies the template of `StoreFinderComponent` to exclude storefinder searchbox from aria-live area.
-   */
-  a11yStoreFinderSearchboxBloat?: boolean;
-
-  /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
    * into a request body, instead of query params.
    * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
@@ -453,7 +448,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderAlerts: false,
   a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
-  a11yStoreFinderSearchboxBloat: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
 };
