@@ -21,7 +21,7 @@ interface ExtendedOrderEntry extends OrderEntry {
 export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
   quoteDiscountData: ExtendedOrderEntry | null;
   private subscription: Subscription;
-  readonly orderEntry$: Observable<ExtendedOrderEntry> = // Use ExtendedOrderEntry here
+  readonly orderEntry$: Observable<ExtendedOrderEntry> =
     this.cartItemContext?.item$;
   isFlagQuote = true;
   constructor(

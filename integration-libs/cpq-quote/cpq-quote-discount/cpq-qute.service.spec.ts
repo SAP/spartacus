@@ -22,7 +22,7 @@ describe('CpqQuoteService', () => {
   });
 
   it('should allow setting isFlag$', () => {
-    service.setIsFlag(false);
+    service.setFlag(false);
     let isFlagValue: boolean | undefined;
     service.isFlag$.subscribe((value) => (isFlagValue = value));
     expect(isFlagValue).toBeFalsy();
@@ -30,7 +30,7 @@ describe('CpqQuoteService', () => {
 
   it('should return the current value of isFlag$', () => {
     expect(service.getFlag$()).toBeTruthy();
-    service.setIsFlag(false);
+    service.setFlag(false);
     expect(service.getFlag$()).toBeFalsy();
   });
 });

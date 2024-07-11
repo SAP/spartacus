@@ -58,7 +58,7 @@ export class CpqQuoteHeadingComponent implements OnInit, OnDestroy {
             (item: any) => item.cpqDiscounts && item.cpqDiscounts.length > 0
           );
           // Set flag based on the existence of cpqDiscounts in any item
-          this.cpqQuoteService.setIsFlag(!hasDiscounts);
+          this.cpqQuoteService.setFlag(!hasDiscounts);
           if (context && context.length > 0) {
             this.dataAvailable = context.some(
               (item: { cpqDiscounts: string | any[] }) =>
