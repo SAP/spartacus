@@ -18,6 +18,8 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorValuePriceChanged } from '../../../price-async/configurator-price-async.component';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-image',
@@ -37,6 +39,9 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
 
   iconTypes = ICON_TYPE;
   protected config = inject(Config);
+  protected configuratorDeltaRenderingService = inject(
+    ConfiguratorDeltaRenderingService
+  );
 
   constructor(
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
@@ -78,5 +83,20 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
       price: value?.valuePrice,
       isLightedUp: value ? value.selected : false,
     };
+  }
+
+  onPriceChanged(event: ConfiguratorValuePriceChanged) {
+    this.configuratorDeltaRenderingService.storeValuePrice(
+      event.source.valueName,
+      event.valuePrice
+    );
+  }
+
+  getAriaLabelGeneric(
+    attribute: Configurator.Attribute,
+    value: Configurator.Value
+  ): string {
+    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    return super.getAriaLabelGeneric(attribute, value);
   }
 }

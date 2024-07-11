@@ -19,6 +19,8 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorValuePriceChanged } from '../../../price-async';
 
 @Component({
   selector: 'cx-configurator-attribute-multi-selection-image',
@@ -32,10 +34,13 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
   attribute: Configurator.Attribute;
   ownerKey: string;
   expMode: boolean;
+  isAsyncPricing: boolean;
 
   iconTypes = ICON_TYPE;
   protected config = inject(Config);
-  isAsyncPricing: boolean;
+  protected configuratorDeltaRenderingService = inject(
+    ConfiguratorDeltaRenderingService
+  );
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
@@ -103,5 +108,12 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
       priceTotal: value.valuePriceTotal,
       isLightedUp: value.selected,
     };
+  }
+
+  onPriceChanged(event: ConfiguratorValuePriceChanged) {
+    this.configuratorDeltaRenderingService.storeValuePrice(
+      event.source.valueName,
+      event.valuePrice
+    );
   }
 }

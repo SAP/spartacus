@@ -4,13 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorValuePriceChanged } from '../../../price-async';
 
 @Component({
   selector: 'cx-configurator-attribute-read-only',
@@ -22,6 +24,10 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
   group: string;
   expMode: boolean;
   isAsyncPricing: boolean;
+
+  protected configuratorDeltaRenderingService = inject(
+    ConfiguratorDeltaRenderingService
+  );
 
   constructor(
     protected translationService: TranslationService,
@@ -55,7 +61,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
   ): string {
     let ariaLabel = '';
     if (value) {
-      value = this.mergePriceIntoValue(value);
+      value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
       const valueName = this.getCurrentValueName(attribute, value);
       if (value.valuePrice && value.valuePrice?.value !== 0) {
         if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
@@ -134,5 +140,20 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
       priceTotal: value.valuePriceTotal,
       isLightedUp: value.selected,
     };
+  }
+
+  onPriceChanged(event: ConfiguratorValuePriceChanged) {
+    this.configuratorDeltaRenderingService.storeValuePrice(
+      event.source.valueName,
+      event.valuePrice
+    );
+  }
+
+  protected getAriaLabelGeneric(
+    attribute: Configurator.Attribute,
+    value: Configurator.Value
+  ): string {
+    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    return super.getAriaLabelGeneric(attribute, value);
   }
 }

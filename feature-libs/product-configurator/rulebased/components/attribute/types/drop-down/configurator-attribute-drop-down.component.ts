@@ -12,19 +12,13 @@ import {
 } from '@angular/core';
 
 import { UntypedFormControl } from '@angular/forms';
-import {
-  Config,
-  ObjectComparisonUtils,
-  TranslationService,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { Config, TranslationService, useFeatureStyles } from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 
-import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { EMPTY, filter, Observable, of, switchMap, tap } from 'rxjs';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 
@@ -32,6 +26,7 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
   selector: 'cx-configurator-attribute-drop-down',
   templateUrl: './configurator-attribute-drop-down.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorDeltaRenderingService],
 })
 export class ConfiguratorAttributeDropDownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
@@ -40,47 +35,7 @@ export class ConfiguratorAttributeDropDownComponent
   attributeDropDownForm = new UntypedFormControl('');
   group: string;
 
-  protected configuratorRouterExtractorService = inject(
-    ConfiguratorRouterExtractorService
-  );
   protected config = inject(Config);
-
-  protected isInitialRenderingOfDomainValues: boolean = true;
-
-  /**
-   * The attribute supplement (containing value prices) that was used to render
-   * the current DDLB-options with prices. Only if the next attribute supplement differs from this one content wise,
-   * there is the need to refresh the DDLB-options and re-render the UI.
-   */
-  protected lastAttributeSupplement:
-    | Configurator.AttributeSupplement
-    | undefined;
-
-  renderDomainValues$: Observable<boolean> = this.isAsyncPricing
-    ? this.configuratorRouterExtractorService.extractRouterData().pipe(
-        switchMap((routerData) => {
-          return this.configuratorCommonsService
-            .getConfiguration(routerData.owner)
-            .pipe(
-              // Initially render domain values (DDLB options) without prices, so UI is not blocked, otherwise only re-ender if prices changed.
-              // Changes of attribute itself are already handled in the attribute composition directive.
-              filter(
-                (config) =>
-                  this.isInitialRenderingOfDomainValues ||
-                  !!config.priceSupplements
-              ),
-              switchMap((config) => {
-                if (this.isInitialRenderingOfDomainValues) {
-                  return of(true);
-                }
-                const pricesChanged = this.checkForValuePriceChanges(config);
-                return pricesChanged ? of(true) : EMPTY;
-              }),
-              tap(() => (this.isInitialRenderingOfDomainValues = false))
-            );
-        })
-      )
-    : of(true); // no async pricing -> we can render directly with prices
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
@@ -101,40 +56,6 @@ export class ConfiguratorAttributeDropDownComponent
     useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
 
-  /**
-   * Extracts the relevant value prices from the price supplements
-   * and stores them within the component. Returns a boolean indicating
-   * whether there were any value price changes.
-   *
-   * @param config current config
-   * @returns {true}, only if at least one value price changed
-   */
-  protected checkForValuePriceChanges(
-    config: Configurator.Configuration
-  ): boolean {
-    const attrKey = this.attribute.key ?? '';
-    const attributeSupplement = config.priceSupplements?.find(
-      (supplement) => supplement.attributeUiKey === attrKey
-    );
-    const changed = !ObjectComparisonUtils.deepEqualObjects(
-      this.lastAttributeSupplement ?? {},
-      attributeSupplement ?? {}
-    );
-    if (changed) {
-      this.lastAttributeSupplement = attributeSupplement;
-      attributeSupplement?.valueSupplements.forEach((valueSupplement) =>
-        this.onPriceChanged({
-          source: {
-            attributeKey: attrKey,
-            valueName: valueSupplement.attributeValueKey,
-          },
-          valuePrice: valueSupplement.priceValue,
-        })
-      );
-    }
-    return changed;
-  }
-
   ngOnInit() {
     this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
   }
@@ -150,5 +71,12 @@ export class ConfiguratorAttributeDropDownComponent
    */
   getSelectedValueDescription(): string {
     return this.getSelectedValue()?.description ?? '';
+  }
+
+  protected getValuePrice(value: Configurator.Value | undefined): string {
+    if (value) {
+      value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    }
+    return super.getValuePrice(value);
   }
 }

@@ -1,6 +1,9 @@
 <fieldset>
   <legend style="display: none">{{ attribute.label }}</legend>
-  <div id="{{ createAttributeIdForConfigurator(attribute) }}">
+  <div
+    *ngIf="reRender$ | async"
+    id="{{ createAttributeIdForConfigurator(attribute) }}"
+  >
     <div
       *ngIf="withQuantityOnAttributeLevel"
       class="cx-attribute-level-quantity-price"
@@ -57,14 +60,8 @@
         </div>
         <div class="cx-value-price">
           <cx-configurator-price
-            *ngIf="!isAsyncPricing"
             [formula]="extractValuePriceFormulaParameters(value)"
           ></cx-configurator-price>
-          <cx-configurator-price-async
-            *ngIf="isAsyncPricing"
-            [options]="extractValuePriceAsyncOptions(attribute, value)"
-            (priceChanged)="onPriceChanged($event)"
-          ></cx-configurator-price-async>
         </div>
       </div>
       <cx-configurator-attribute-quantity
