@@ -6,6 +6,7 @@
 
 import { Request } from 'express';
 import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
+import { RenderingEntry } from './rendering-cache.model';
 import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
 import { defaultRenderingStrategyResolverOptions } from './rendering-strategy-resolver-options';
 
@@ -137,10 +138,7 @@ export interface SsrOptimizationOptions {
    */
   cacheStrategyResolver?: (
     config: SsrOptimizationOptions,
-    entry: {
-      error?: Error | unknown;
-      html?: string;
-    }
+    entry: Pick<RenderingEntry, 'err' | 'html'>
   ) => boolean;
 
   /**
@@ -171,6 +169,6 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   ),
   logger: new DefaultExpressServerLogger(),
   cacheStrategyResolver: (options, entry) =>
-    !(options.avoidCachingErrors === true && Boolean(entry.error)),
+    !(options.avoidCachingErrors === true && Boolean(entry.err)),
   avoidCachingErrors: false,
 };

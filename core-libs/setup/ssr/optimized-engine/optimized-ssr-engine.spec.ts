@@ -20,6 +20,7 @@ jest.mock('fs', () => ({
   readFileSync: () => '',
 }));
 const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
+const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
 
 class MockExpressServerLogger implements Partial<ExpressServerLogger> {
   log(message: string, context: ExpressServerLoggerContext): void {
@@ -39,7 +40,7 @@ class MockExpressServerLogger implements Partial<ExpressServerLogger> {
  */
 class TestEngineRunner {
   /** Accumulates html output for engine runs */
-  renders: string[] = [];
+  renders: (string | Error)[] = [];
 
   /** Accumulates response parameters for engine runs */
   responseParams: object[] = [];
@@ -48,7 +49,11 @@ class TestEngineRunner {
   optimizedSsrEngine: OptimizedSsrEngine;
   engineInstance: NgExpressEngineInstance;
 
-  constructor(options: SsrOptimizationOptions, renderTime?: number) {
+  constructor(
+    options: SsrOptimizationOptions,
+    renderTime?: number,
+    params?: { withError?: boolean }
+  ) {
     // mocked engine instance that will render test output in 100 milliseconds
     const engineInstanceMock = (
       filePath: string,
@@ -56,7 +61,14 @@ class TestEngineRunner {
       callback: SsrCallbackFn
     ) => {
       setTimeout(() => {
-        callback(undefined, `${filePath}-${this.renderCount++}`);
+        const result = `${filePath}-${this.renderCount++}`;
+
+        if (params?.withError) {
+          const err = new Error(result);
+          callback(err, undefined);
+        } else {
+          callback(undefined, result);
+        }
       }, renderTime ?? defaultRenderTime);
     };
 
@@ -66,6 +78,14 @@ class TestEngineRunner {
       ...options,
     });
     this.engineInstance = this.optimizedSsrEngine.engineInstance;
+  }
+
+  /** Create engine that results with error during render */
+  static withError(
+    options: SsrOptimizationOptions,
+    renderTime = defaultRenderTime
+  ): TestEngineRunner {
+    return new TestEngineRunner(options, renderTime, { withError: true });
   }
 
   /** Run request against the engine. The result will be stored in rendering property. */
@@ -103,8 +123,8 @@ class TestEngineRunner {
       },
     };
 
-    this.engineInstance(url, optionsMock, (_, html): void => {
-      this.renders.push(html ?? '');
+    this.engineInstance(url, optionsMock, (error, html): void => {
+      this.renders.push(html ?? error ?? '');
       this.responseParams.push(response);
     });
 
@@ -179,7 +199,7 @@ describe('OptimizedSsrEngine', () => {
               "debug": false,
               "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR",
               "logger": "DefaultExpressServerLogger",
-              "cacheStrategyResolver": "(options, entry) => !(options.avoidCachingErrors === true && Boolean(entry.error))",
+              "cacheStrategyResolver": "(options, entry) => !(options.avoidCachingErrors === true && Boolean(entry.err))",
               "avoidCachingErrors": false
             }
           }
@@ -187,6 +207,34 @@ describe('OptimizedSsrEngine', () => {
         ]
       `);
     });
+  });
+
+  describe('rendering', () => {
+    it('should return rendered output if no errors', fakeAsync(() => {
+      const originalUrl = 'a';
+      const engineRunner = new TestEngineRunner({}).request('a');
+
+      tick(200);
+      expect(engineRunner.renders).toEqual(['a-0']);
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        expect.stringContaining(
+          `Request is resolved with the SSR rendering result (${originalUrl})`
+        )
+      );
+    }));
+
+    it('should return error if rendering fails', fakeAsync(() => {
+      const originalUrl = 'a';
+      const engineRunner = TestEngineRunner.withError({}).request('a');
+
+      tick(200);
+      expect(engineRunner.renders).toEqual([new Error('a-0')]);
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        expect.stringContaining(
+          `Request is resolved with the SSR rendering error (${originalUrl})`
+        )
+      );
+    }));
   });
 
   describe('rendering cache', () => {
@@ -308,7 +356,6 @@ describe('OptimizedSsrEngine', () => {
       tick(200);
       expect(engineRunner.renders).toEqual(['a-0', 'a-1', 'a-2']);
     }));
-
     it('should cache requests if enabled', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({
         cache: true,
@@ -335,6 +382,68 @@ describe('OptimizedSsrEngine', () => {
       tick(200);
 
       expect(engineRunner.renders).toEqual(['a-0', 'a-0', 'a-0']);
+    }));
+  });
+
+  describe('avoidCachingErrors option', () => {
+    describe('when using default cacheStrategyResolver', () => {
+      it('should not cache errors if `avoidCachingErrors` is set to true', fakeAsync(() => {
+        const engineRunner = TestEngineRunner.withError({
+          cache: true,
+          avoidCachingErrors: true,
+        }).request('a');
+
+        tick(200);
+        engineRunner.request('a');
+        tick(200);
+        engineRunner.request('a');
+        tick(200);
+        expect(engineRunner.renders).toMatchSnapshot();
+      }));
+
+      it('should cache errors if `avoidCachingErrors` is set to false', fakeAsync(() => {
+        const engineRunner = TestEngineRunner.withError({
+          cache: true,
+          avoidCachingErrors: false,
+        }).request('a');
+
+        tick(200);
+        engineRunner.request('a');
+        tick(200);
+        engineRunner.request('a');
+        tick(200);
+        expect(engineRunner.renders).toMatchSnapshot();
+      }));
+    });
+  });
+
+  describe('cacheStrategyResolver option', () => {
+    it('should not cache errors if `cacheStrategyResolver` returns false', fakeAsync(() => {
+      const engineRunner = TestEngineRunner.withError({
+        cache: true,
+        cacheStrategyResolver: () => false,
+      }).request('a');
+
+      tick(200);
+      engineRunner.request('a');
+      tick(200);
+      engineRunner.request('a');
+      tick(200);
+      expect(engineRunner.renders).toMatchSnapshot();
+    }));
+
+    it('should cache errors if `cacheStrategyResolver` returns true', fakeAsync(() => {
+      const engineRunner = TestEngineRunner.withError({
+        cache: true,
+        cacheStrategyResolver: () => true,
+      }).request('a');
+
+      tick(200);
+      engineRunner.request('a');
+      tick(200);
+      engineRunner.request('a');
+      tick(200);
+      expect(engineRunner.renders).toMatchSnapshot();
     }));
   });
 
@@ -1278,7 +1387,7 @@ describe('OptimizedSsrEngine', () => {
             "options": {
               "avoidCachingErrors": false,
               "cacheSize": 3000,
-              "cacheStrategyResolver": "(options, entry) => !(options.avoidCachingErrors === true && Boolean(entry.error))",
+              "cacheStrategyResolver": "(options, entry) => !(options.avoidCachingErrors === true && Boolean(entry.err))",
               "concurrency": 10,
               "debug": false,
               "forcedSsrTimeout": 60000,

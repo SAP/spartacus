@@ -4,14 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { RenderingEntry } from './rendering-cache.model';
 import { SsrOptimizationOptions } from './ssr-optimization-options';
-
-export interface RenderingEntry {
-  html?: any;
-  err?: any;
-  time?: number;
-  rendering?: boolean;
-}
 
 export class RenderingCache {
   protected renders = new Map<string, RenderingEntry>();

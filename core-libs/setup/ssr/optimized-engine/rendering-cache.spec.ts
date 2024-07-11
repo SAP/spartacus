@@ -160,4 +160,46 @@ describe('RenderingCache with cacheSize', () => {
       expect(renderingCache.get('c')).toBeTruthy();
     });
   });
+
+  describe('RenderingCache and cacheStrategyResolver', () => {
+    let renderingCache: RenderingCache;
+
+    describe('if default cacheStrategyResolver', () => {
+      it('should cache if avoidCachingErrors is false', () => {
+        renderingCache = new RenderingCache({
+          ...options,
+          avoidCachingErrors: false,
+        });
+        renderingCache.store('a', new Error('err'), 'a');
+        expect(renderingCache.get('a')).toMatchSnapshot();
+      });
+
+      it('should not cache if avoidCachingErrors is true', () => {
+        renderingCache = new RenderingCache({
+          ...options,
+          avoidCachingErrors: true,
+        });
+        renderingCache.store('a', new Error('err'), 'a');
+        expect(renderingCache.get('a')).toBeFalsy();
+      });
+    });
+
+    describe('if cacheStrategyResolver is not defined', () => {
+      beforeEach(() => {
+        renderingCache = new RenderingCache({
+          ...options,
+          cacheStrategyResolver: undefined,
+        });
+      });
+      it('should not cache a html', () => {
+        renderingCache.store('a', undefined, 'a');
+        expect(renderingCache.get('a')).toBeFalsy();
+      });
+
+      it('should not cache an error', () => {
+        renderingCache.store('a', new Error('err'), 'a');
+        expect(renderingCache.get('a')).toBeFalsy();
+      });
+    });
+  });
 });

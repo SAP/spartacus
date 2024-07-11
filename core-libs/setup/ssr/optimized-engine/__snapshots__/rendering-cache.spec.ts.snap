@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RenderingCache with cacheSize RenderingCache and cacheStrategyResolver if default cacheStrategyResolver should cache if avoidCachingErrors is false 1`] = `
+{
+  "err": [Error: err],
+  "html": "a",
+}
+`;
