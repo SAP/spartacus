@@ -38,12 +38,12 @@ import {
 } from '@spartacus/core';
 import {
   Card,
-  getAddressNumbers,
   ICON_TYPE,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
+  getAddressNumbers,
 } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, EMPTY, Observable } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, combineLatest } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutBillingAddressFormService } from '../../checkout-billing-address';
 
@@ -370,6 +370,10 @@ export class CheckoutPaymentFormComponent implements OnInit {
       }
     } else {
       this.paymentForm.markAllAsTouched();
+      this.globalMessageService.add(
+        { key: 'formErrors.globalMessage' },
+        GlobalMessageType.MSG_TYPE_ASSISTIVE
+      );
 
       if (!sameAsDeliveryAddress) {
         this.useExtractedBillingAddressComponent
