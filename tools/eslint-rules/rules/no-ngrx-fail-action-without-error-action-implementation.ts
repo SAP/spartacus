@@ -55,7 +55,7 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
 
         if (!hasImplementsInterface(node, Constants.ErrorAction)) {
           context.report({
-            node,
+            node: node.id ?? node,
             messageId: 'missingImplementsErrorAction',
             fix(fixer) {
               const sourceCode = context.sourceCode;
