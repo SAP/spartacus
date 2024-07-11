@@ -6,14 +6,19 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  CmsConfig,
+  I18nModule,
+  provideDefaultConfig,
+  SiteThemeModule,
+} from '@spartacus/core';
 
 import { ThemeSwitcherComponent } from './theme-switcher.component';
-import { defaultThemeSwitcherConfig } from './config';
 import { IconModule } from '../icon/index';
+import { ThemeSwitcherComponentService } from './theme-switcher.component.service';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule],
+  imports: [CommonModule, I18nModule, IconModule, SiteThemeModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -22,7 +27,7 @@ import { IconModule } from '../icon/index';
         },
       },
     }),
-    provideDefaultConfig(defaultThemeSwitcherConfig),
+    ThemeSwitcherComponentService,
   ],
   declarations: [ThemeSwitcherComponent],
   exports: [ThemeSwitcherComponent],

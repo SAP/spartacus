@@ -5,7 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config, Theme } from '@spartacus/core';
+import { Config } from '../../config/config-tokens';
+import { Theme } from '../../model/misc.model';
 
 @Injectable({
   providedIn: 'root',

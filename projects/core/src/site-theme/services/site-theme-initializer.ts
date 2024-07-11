@@ -53,10 +53,9 @@ export class SiteThemeInitializer implements OnDestroy {
    * unless the active theme has been already initialized.
    */
   protected setDefaultFromConfig(config: SiteThemeConfig): void {
-    const contextParam = config.siteTheme?.themes?.[0].className || '';
-
-    if (!this.siteThemeService.isInitialized() && contextParam) {
-      this.siteThemeService.setActive(contextParam);
+    const defaultTheme = config.siteTheme?.themes?.[0].className || '';
+    if (!this.siteThemeService.isInitialized() && defaultTheme) {
+      this.siteThemeService.setActive(defaultTheme);
     }
   }
 

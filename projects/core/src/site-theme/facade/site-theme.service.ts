@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Theme } from '../../model/misc.model';
 import { SiteThemeConfig } from '../config/site-theme-config';
@@ -16,32 +16,33 @@ export class SiteThemeService {
   private themeSubject = new BehaviorSubject<string>('');
   private theme$ = this.themeSubject.asObservable();
   private activeHasSet = false;
+  private themes: Theme[] = [];
 
   constructor(
     protected config: SiteThemeConfig,
     protected baseSiteService: BaseSiteService
   ) {}
 
-  /*
-  TODO:  ngrx ??
-  */
+  /**
+   * Retrieves all available themes.
+   */
   getAll(): Observable<Theme[]> {
+    if (this.themes.length) {
+      return of(this.themes);
+    }
     return this.getCustomSiteTheme().pipe(
       map((siteTheme) => {
-        const themes = this.config.siteTheme?.themes || [];
-        const siteThemeExist = themes.some(
-          (theme) => theme.className === siteTheme
-        );
-        if (siteTheme && !siteThemeExist) {
-          themes.push({ className: siteTheme });
+        this.themes = this.config.siteTheme?.themes || [];
+        if (siteTheme && !this.doesThemeExist(siteTheme)) {
+          this.themes.push({ className: siteTheme });
         }
-        return themes;
+        return this.themes;
       })
     );
   }
 
   /**
-   * Represents the className of the active theme.
+   * Gets the className of the active theme.
    */
   getActive(): Observable<string> {
     return this.theme$;
@@ -52,18 +53,34 @@ export class SiteThemeService {
    */
   setActive(className: string): void {
     this.activeHasSet = true;
-    this.themeSubject.next(className);
+    this.getAll().subscribe(() => {
+      if (this.isValid(className)) {
+        this.themeSubject.next(className);
+      }
+    });
   }
 
   isInitialized(): boolean {
-    // let valueInitialized = false;
-    // this.getActive()
-    //   .subscribe(() => (valueInitialized = true))
-    //   .unsubscribe();
-
     return this.activeHasSet;
   }
 
+  /**
+   * Validates if the provided theme className exists.
+   */
+  isValid(className: string): boolean {
+    return !!className && this.doesThemeExist(className);
+  }
+
+  /**
+   * Checks if the theme exists in the themes array.
+   */
+  private doesThemeExist(themeClassName: string): boolean {
+    return this.themes.some((theme) => theme.className === themeClassName);
+  }
+
+  /**
+   * Retrieves the custom site theme from the base site service.
+   */
   private getCustomSiteTheme(): Observable<string | undefined> {
     return this.baseSiteService.get().pipe(
       take(1),
