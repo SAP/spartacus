@@ -12,7 +12,7 @@
         {{ discount.isoCode
         }}{{
           getDiscountedPrice(quoteDiscountData.basePrice?.value, discount.value)
-            | number: '1.2-2':'en-US'
+            | number: '1.2-2' : 'en-US'
         }}
       </span>
     </ng-container>

@@ -34,25 +34,23 @@ describe('CpqQuoteOfferComponent', () => {
   let mockCartItemContext: MockCartItemContext;
   let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          CpqQuoteOfferComponent,
-          MockConfigureCpqDiscountsComponent,
-        ],
-        providers: [
-          { provide: CartItemContext, useClass: MockCartItemContext },
-          {
-            provide: TranslationService,
-            useClass: MockTranslationService,
-          },
-          { provide: LanguageService, useClass: MockLanguageService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        CpqQuoteOfferComponent,
+        MockConfigureCpqDiscountsComponent,
+      ],
+      providers: [
+        { provide: CartItemContext, useClass: MockCartItemContext },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
+        { provide: LanguageService, useClass: MockLanguageService },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     fixture = TestBed.createComponent(CpqQuoteOfferComponent);
     component = fixture.componentInstance;
