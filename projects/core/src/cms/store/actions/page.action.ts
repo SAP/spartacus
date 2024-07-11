@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ErrorActionType } from '../../../model/index';
 import { PageContext } from '../../../routing/index';
 import { StateUtils } from '../../../state/utils/index';
 import { Page } from '../../model/page.model';
@@ -26,10 +25,7 @@ export class LoadCmsPageData extends StateUtils.EntityLoadAction {
 export class LoadCmsPageDataFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_PAGE_DATA_FAIL;
 
-  constructor(
-    pageContext: PageContext,
-    public error: ErrorActionType
-  ) {
+  constructor(pageContext: PageContext, error: any) {
     super(pageContext.type ?? '', pageContext.id, error);
   }
 }

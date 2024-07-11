@@ -24,6 +24,7 @@ describe('user consent actions', () => {
         const action = new UserActions.LoadUserConsentsFail(error);
         expect({ ...action }).toEqual({
           type: UserActions.LOAD_USER_CONSENTS_FAIL,
+          payload: error,
           error,
           meta: StateUtils.failMeta(USER_CONSENTS, error),
         });

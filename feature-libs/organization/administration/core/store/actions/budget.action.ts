@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ErrorActionType,
-  ListModel,
-  SearchConfig,
-  StateUtils,
-} from '@spartacus/core';
+import { ListModel, SearchConfig, StateUtils } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
 import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
 
@@ -40,7 +35,7 @@ export class LoadBudget extends StateUtils.EntityLoadAction {
 export class LoadBudgetFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_BUDGET_FAIL;
 
-  constructor(public payload: { budgetCode: string; error: ErrorActionType }) {
+  constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }
@@ -74,9 +69,7 @@ export class LoadBudgets extends StateUtils.EntityLoadAction {
 export class LoadBudgetsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_BUDGETS_FAIL;
 
-  constructor(
-    public payload: { params: SearchConfig; error: ErrorActionType }
-  ) {
+  constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       BUDGET_LIST,
       StateUtils.serializeSearchConfig(payload.params),
@@ -109,7 +102,7 @@ export class CreateBudget extends StateUtils.EntityLoadAction {
 export class CreateBudgetFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_BUDGET_FAIL;
 
-  constructor(public payload: { budgetCode: string; error: ErrorActionType }) {
+  constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }
@@ -135,7 +128,7 @@ export class UpdateBudget extends StateUtils.EntityLoadAction {
 export class UpdateBudgetFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_BUDGET_FAIL;
 
-  constructor(public payload: { budgetCode: string; error: ErrorActionType }) {
+  constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }

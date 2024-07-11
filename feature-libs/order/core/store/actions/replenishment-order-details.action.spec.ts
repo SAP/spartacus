@@ -61,6 +61,7 @@ describe('ReplenishmentOrderActions', () => {
 
         expect({ ...action }).toEqual({
           type: OrderActions.LOAD_REPLENISHMENT_ORDER_DETAILS_FAIL,
+          payload: error,
           error,
           meta: StateUtils.failMeta(REPLENISHMENT_ORDER_DETAILS, error),
         });
@@ -126,6 +127,7 @@ describe('ReplenishmentOrderActions', () => {
 
         expect({ ...action }).toEqual({
           type: OrderActions.CANCEL_REPLENISHMENT_ORDER_FAIL,
+          payload: error,
           error,
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,

@@ -7,7 +7,6 @@
 import { StateUtils } from '../../../../state/utils/index';
 import { ClientToken } from '../../models/client-token.model';
 import { CLIENT_TOKEN_DATA } from '../client-auth-state';
-import { ErrorActionType } from '../../../../model/index';
 
 export const LOAD_CLIENT_TOKEN = '[Token] Load Client Token';
 export const LOAD_CLIENT_TOKEN_FAIL = '[Token] Load Client Token Fail';
@@ -24,8 +23,8 @@ export class LoadClientToken extends StateUtils.LoaderLoadAction {
 export class LoadClientTokenFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_CLIENT_TOKEN_FAIL;
 
-  constructor(public error: ErrorActionType) {
-    super(CLIENT_TOKEN_DATA, error);
+  constructor(public payload: any) {
+    super(CLIENT_TOKEN_DATA, payload);
   }
 }
 

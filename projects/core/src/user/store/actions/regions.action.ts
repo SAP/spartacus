@@ -8,7 +8,6 @@ import { Action } from '@ngrx/store';
 import { Region } from '../../../model/address.model';
 import { StateUtils } from '../../../state/utils/index';
 import { REGIONS } from '../user-state';
-import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_REGIONS = '[User] Load Regions';
 export const LOAD_REGIONS_SUCCESS = '[User] Load Regions Success';
@@ -26,8 +25,8 @@ export class LoadRegions extends StateUtils.LoaderLoadAction {
 export class LoadRegionsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_REGIONS_FAIL;
 
-  constructor(public error: ErrorActionType) {
-    super(REGIONS, error);
+  constructor(public payload: any) {
+    super(REGIONS, payload);
   }
 }
 

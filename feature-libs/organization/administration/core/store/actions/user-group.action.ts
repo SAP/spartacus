@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ErrorActionType,
-  ListModel,
-  SearchConfig,
-  StateUtils,
-} from '@spartacus/core';
+import { ListModel, SearchConfig, StateUtils } from '@spartacus/core';
 import { UserGroup } from '../../model/user-group.model';
 import {
   B2B_USER_ENTITIES,
@@ -94,7 +89,7 @@ export class LoadUserGroup extends StateUtils.EntityLoadAction {
 export class LoadUserGroupFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_USER_GROUP_FAIL;
 
-  constructor(public payload: { userGroupId: string; error: ErrorActionType }) {
+  constructor(public payload: { userGroupId: string; error: any }) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
 }
@@ -128,9 +123,7 @@ export class LoadUserGroups extends StateUtils.EntityLoadAction {
 export class LoadUserGroupsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_USER_GROUPS_FAIL;
 
-  constructor(
-    public payload: { params: SearchConfig; error: ErrorActionType }
-  ) {
+  constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       USER_GROUP_LIST,
       StateUtils.serializeSearchConfig(payload.params),
@@ -176,7 +169,7 @@ export class LoadPermissionsFail extends StateUtils.EntityFailAction {
     public payload: {
       userGroupId: string;
       params: SearchConfig;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(
@@ -228,7 +221,7 @@ export class LoadAvailableOrgCustomersFail extends StateUtils.EntityFailAction {
     public payload: {
       userGroupId: string;
       params: SearchConfig;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(
@@ -267,7 +260,7 @@ export class CreateUserGroup extends StateUtils.EntityLoadAction {
 export class CreateUserGroupFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_USER_GROUP_FAIL;
 
-  constructor(public payload: { userGroupId: string; error: ErrorActionType }) {
+  constructor(public payload: { userGroupId: string; error: any }) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
 }
@@ -301,7 +294,7 @@ export class AssignMemberFail extends StateUtils.EntityFailAction {
     public payload: {
       userGroupId: string;
       customerId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(B2B_USER_ENTITIES, payload.customerId, payload.error);
@@ -337,7 +330,7 @@ export class AssignPermissionFail extends StateUtils.EntityFailAction {
     public payload: {
       userGroupId: string;
       permissionUid: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PERMISSION_ENTITIES, payload.permissionUid, payload.error);
@@ -369,7 +362,7 @@ export class UpdateUserGroup extends StateUtils.EntityLoadAction {
 export class UpdateUserGroupFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_USER_GROUP_FAIL;
 
-  constructor(public payload: { userGroupId: string; error: ErrorActionType }) {
+  constructor(public payload: { userGroupId: string; error: any }) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
 }
@@ -398,7 +391,7 @@ export class DeleteUserGroup extends StateUtils.EntityLoadAction {
 export class DeleteUserGroupFail extends StateUtils.EntityFailAction {
   readonly type = DELETE_USER_GROUP_FAIL;
 
-  constructor(public payload: { userGroupId: string; error: ErrorActionType }) {
+  constructor(public payload: { userGroupId: string; error: any }) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
 }
@@ -432,7 +425,7 @@ export class UnassignMemberFail extends StateUtils.EntityFailAction {
     public payload: {
       userGroupId: string;
       customerId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(B2B_USER_ENTITIES, payload.customerId, payload.error);
@@ -463,7 +456,7 @@ export class UnassignAllMembers extends StateUtils.EntityLoadAction {
 export class UnassignAllMembersFail extends StateUtils.EntityFailAction {
   readonly type = USER_GROUP_UNASSIGN_ALL_MEMBERS_FAIL;
 
-  constructor(public payload: { userGroupId: string; error: ErrorActionType }) {
+  constructor(public payload: { userGroupId: string; error: any }) {
     super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
 }
@@ -497,7 +490,7 @@ export class UnassignPermissionFail extends StateUtils.EntityFailAction {
     public payload: {
       userGroupId: string;
       permissionUid: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PERMISSION_ENTITIES, payload.permissionUid, payload.error);

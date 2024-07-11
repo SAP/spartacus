@@ -140,6 +140,7 @@ describe('B2BUser Actions', () => {
           error,
           type: B2BUserActions.LOAD_B2B_USERS_FAIL,
           payload: { params, error },
+
           meta: StateUtils.entityFailMeta(USER_LIST, query, error),
         });
       });

@@ -5,9 +5,8 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorModel } from '../../../model/misc.model';
-import { Review } from '../../../model/product.model';
 import { ErrorAction } from '../../../model/index';
+import { Review } from '../../../model/product.model';
 
 export const LOAD_PRODUCT_REVIEWS = '[Product] Load Product Reviews Data';
 export const LOAD_PRODUCT_REVIEWS_FAIL =
@@ -27,8 +26,19 @@ export class LoadProductReviews implements Action {
 
 export class LoadProductReviewsFail implements ErrorAction {
   readonly type = LOAD_PRODUCT_REVIEWS_FAIL;
+  public error: any;
 
-  constructor(public error: ErrorModel) {}
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(payload: any);
+  /**
+   * @deprecated Please pass the argument `payload` (i.e. the error object).
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor();
+  constructor(public payload?: any) {
+    this.error = payload;
+  }
 }
 
 export class LoadProductReviewsSuccess implements Action {
@@ -45,8 +55,19 @@ export class PostProductReview implements Action {
 
 export class PostProductReviewFail implements ErrorAction {
   readonly type = POST_PRODUCT_REVIEW_FAIL;
+  public error: any;
 
-  constructor(public error: ErrorModel) {}
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(payload: any);
+  /**
+   * @deprecated Please pass the argument `payload` (i.e. the error object).
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor();
+  constructor(public payload?: any) {
+    this.error = payload;
+  }
 }
 
 export class PostProductReviewSuccess implements Action {

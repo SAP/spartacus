@@ -12,7 +12,6 @@ import {
   USER_CONSENTS,
   WITHDRAW_CONSENT_PROCESS_ID,
 } from '../user-state';
-import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_USER_CONSENTS = '[User] Load User Consents';
 export const LOAD_USER_CONSENTS_SUCCESS = '[User] Load User Consents Success';
@@ -44,8 +43,8 @@ export class LoadUserConsents extends StateUtils.LoaderLoadAction {
 export class LoadUserConsentsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_USER_CONSENTS_FAIL;
 
-  constructor(public error: ErrorActionType) {
-    super(USER_CONSENTS, error);
+  constructor(public payload: any) {
+    super(USER_CONSENTS, payload);
   }
 }
 
@@ -82,8 +81,8 @@ export class GiveUserConsent extends StateUtils.EntityLoadAction {
 export class GiveUserConsentFail extends StateUtils.EntityFailAction {
   readonly type = GIVE_USER_CONSENT_FAIL;
 
-  constructor(public error: ErrorActionType) {
-    super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID, error);
+  constructor(payload: any) {
+    super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID, payload);
   }
 }
 
@@ -132,8 +131,8 @@ export class WithdrawUserConsent extends StateUtils.EntityLoadAction {
 export class WithdrawUserConsentFail extends StateUtils.EntityFailAction {
   readonly type = WITHDRAW_USER_CONSENT_FAIL;
 
-  constructor(public error: ErrorActionType) {
-    super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID, error);
+  constructor(payload: any) {
+    super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID, payload);
   }
 }
 

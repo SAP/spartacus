@@ -38,6 +38,7 @@ describe('Customer Actions', () => {
       expect({ ...action }).toEqual({
         type: AsmActions.CUSTOMER_SEARCH_FAIL,
         meta: StateUtils.failMeta(CUSTOMER_SEARCH_DATA, error),
+        payload: error,
         error,
       });
     });

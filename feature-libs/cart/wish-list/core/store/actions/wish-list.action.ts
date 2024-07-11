@@ -7,7 +7,7 @@
 import { Action } from '@ngrx/store';
 import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
 import { Cart } from '@spartacus/cart/base/root';
-import { ErrorActionType, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
 
 export const CREATE_WISH_LIST = '[Wish List] Create Wish List';
 export const CREATE_WISH_LIST_FAIL = '[Wish List] Create Wish List Fail';
@@ -39,8 +39,17 @@ export class CreateWishListSuccess extends StateUtils.EntitySuccessAction {
 
 export class CreateWishListFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_WISH_LIST_FAIL;
-
-  constructor(public payload: { cartId: string; error: ErrorActionType }) {
+  constructor(payload: { cartId: string; error: any });
+  /**
+   * @deprecated Please pass the argument `error`.
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    payload: { cartId: string }
+  );
+  constructor(public payload: { cartId: string; error?: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
   }
 }
@@ -79,7 +88,7 @@ interface LoadWishListFailPayload {
    * temporary cart used to track loading/error state or to normal wish list entity.
    */
   cartId: string;
-  error: ErrorActionType;
+  error: any;
 }
 
 export class LoadWishListFail extends StateUtils.EntityFailAction {

@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ErrorAction,
-  ErrorActionType,
-  PROCESS_FEATURE,
-  StateUtils,
-} from '@spartacus/core';
+import { ErrorAction, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import { ADD_VOUCHER_PROCESS_ID, MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CART_ADD_VOUCHER = '[Cart-voucher] Add Cart Vouchers';
@@ -43,7 +38,7 @@ export class CartAddVoucherFail extends StateUtils.EntityFailAction {
       userId: string;
       cartId: string;
       voucherId: string;
-      error: ErrorActionType;
+      error: any;
     }
   ) {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, payload.error);
@@ -86,18 +81,19 @@ export class CartRemoveVoucherFail
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
-  error: ErrorActionType = this.payload.error;
+  public error: any;
   readonly type = CART_REMOVE_VOUCHER_FAIL;
 
   constructor(
     public payload: {
-      error: ErrorActionType;
+      error: any;
       cartId: string;
       userId: string;
       voucherId: string;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
+    this.error = payload.error;
   }
 }
 

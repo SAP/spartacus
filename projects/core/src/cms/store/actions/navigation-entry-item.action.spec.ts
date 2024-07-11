@@ -32,6 +32,7 @@ describe('Navigation Entry Item Actions', () => {
 
         expect({ ...action }).toEqual({
           type: CmsActions.LOAD_CMS_NAVIGATION_ITEMS_FAIL,
+          payload: error,
           error,
           meta: StateUtils.entityFailMeta(
             NAVIGATION_DETAIL_ENTITY,

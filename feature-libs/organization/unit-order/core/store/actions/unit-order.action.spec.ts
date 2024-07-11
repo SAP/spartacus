@@ -35,6 +35,7 @@ describe('OrdersActions', () => {
 
       expect({ ...action }).toEqual({
         type: UnitOrderActions.LOAD_UNIT_ORDERS_FAIL,
+        payload: error,
         error,
         meta: StateUtils.failMeta(UNIT_ORDERS, error),
       });
@@ -102,6 +103,7 @@ describe('Order Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UnitOrderActions.LOAD_ORDER_DETAILS_FAIL,
+        payload: error,
         error,
         meta: StateUtils.failMeta(UNIT_ORDER_DETAILS, error),
       });

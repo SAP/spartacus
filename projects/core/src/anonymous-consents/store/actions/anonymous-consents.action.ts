@@ -10,7 +10,6 @@ import {
 } from '../../../model/consent.model';
 import { StateUtils } from '../../../state/utils/index';
 import { ANONYMOUS_CONSENTS } from '../anonymous-consents-state';
-import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_ANONYMOUS_CONSENT_TEMPLATES =
   '[Anonymous Consents] Load Anonymous Consent Templates';
@@ -58,8 +57,8 @@ export class LoadAnonymousConsentTemplatesSuccess extends StateUtils.LoaderSucce
 export class LoadAnonymousConsentTemplatesFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ANONYMOUS_CONSENT_TEMPLATES_FAIL;
 
-  constructor(public error: ErrorActionType) {
-    super(ANONYMOUS_CONSENTS, error);
+  constructor(payload: any) {
+    super(ANONYMOUS_CONSENTS, payload);
   }
 }
 

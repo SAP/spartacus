@@ -5,7 +5,6 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorActionType } from '../../../model/index';
 import { Product } from '../../../model/product.model';
 import { EntityLoaderMeta } from '../../../state/utils/entity-loader/entity-loader.action';
 import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
@@ -42,10 +41,10 @@ export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailA
 
   constructor(
     productCode: string,
-    public payload: ErrorActionType,
+    public payload: any,
     scope = ''
   ) {
-    super(PRODUCT_DETAIL_ENTITY, productCode, payload, scope);
+    super(PRODUCT_DETAIL_ENTITY, productCode, scope, payload);
   }
 }
 

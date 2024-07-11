@@ -5,18 +5,18 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction } from '../../../model/index';
 import {
   ENTITY_FAIL_ACTION,
   ENTITY_LOAD_ACTION,
   ENTITY_RESET_ACTION,
   ENTITY_SUCCESS_ACTION,
-  entityFailMeta,
   EntityLoaderMeta,
+  entityFailMeta,
   entityLoadMeta,
   entityResetMeta,
   entitySuccessMeta,
 } from '../entity-loader/entity-loader.action';
-import { ErrorAction, ErrorActionType } from '../../../model/index';
 
 export namespace EntityScopedLoaderActions {
   export interface EntityScopedLoaderMeta extends EntityLoaderMeta {
@@ -39,6 +39,33 @@ export namespace EntityScopedLoaderActions {
     };
   }
 
+  export function entityScopedFailMeta(
+    entityType: string,
+    id: string | string[],
+    scope: string | undefined,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    error: any
+  ): EntityScopedLoaderMeta;
+  /**
+   * @deprecated Please pass the argument `error`.
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  export function entityScopedFailMeta(
+    entityType: string,
+    id: string | string[],
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    scope: string | undefined
+  ): EntityScopedLoaderMeta;
+  /**
+   * @deprecated Please pass the argument `scope` and `error`
+   *             They will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  export function entityScopedFailMeta(
+    entityType: string,
+    id: string | string[]
+  ): EntityScopedLoaderMeta;
   export function entityScopedFailMeta(
     entityType: string,
     id: string | string[],
@@ -86,14 +113,39 @@ export namespace EntityScopedLoaderActions {
     implements EntityScopedLoaderAction, ErrorAction
   {
     type = ENTITY_FAIL_ACTION;
-    error: ErrorActionType;
+    public error: any;
     readonly meta: EntityScopedLoaderMeta;
 
     constructor(
       entityType: string,
       id: string | string[],
-      error: ErrorActionType,
-      scope?: string
+      scope: string | undefined,
+      // eslint-disable-next-line @typescript-eslint/unified-signatures
+      error: any
+    );
+    /**
+     * @deprecated Please pass the argument `error`.
+     *             It will become mandatory along with removing
+     *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+     */
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    constructor(
+      entityType: string,
+      id: string | string[],
+      // eslint-disable-next-line @typescript-eslint/unified-signatures
+      scope: string | undefined
+    );
+    /**
+     * @deprecated Please pass the argument `scope` and `error`.
+     *             They will become mandatory along with removing
+     *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+     */
+    constructor(entityType: string, id: string | string[]);
+    constructor(
+      entityType: string,
+      id: string | string[],
+      scope?: string,
+      error?: any
     ) {
       this.meta = entityScopedFailMeta(entityType, id, scope, error);
       this.error = error;

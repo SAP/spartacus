@@ -19,6 +19,7 @@ describe('Billing Countries Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_BILLING_COUNTRIES_FAIL,
+        payload: error,
         error,
       });
     });

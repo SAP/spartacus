@@ -1,6 +1,6 @@
+import { StateUtils } from '@spartacus/core';
 import { STORE_FINDER_DATA } from '../store-finder-state';
 import { StoreFinderActions } from './index';
-import { StateUtils } from '@spartacus/core';
 
 describe('View All Stores Actions', () => {
   describe('ViewAllStores', () => {
@@ -21,6 +21,7 @@ describe('View All Stores Actions', () => {
 
       expect({ ...action }).toEqual({
         type: StoreFinderActions.VIEW_ALL_STORES_FAIL,
+        payload: error,
         error,
         meta: StateUtils.failMeta(STORE_FINDER_DATA, error),
       });

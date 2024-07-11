@@ -30,6 +30,7 @@ describe('Order Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: OrderActions.LOAD_ORDER_DETAILS_FAIL,
+        payload: error,
         error,
         meta: StateUtils.failMeta(ORDER_DETAILS, error),
       });
@@ -86,6 +87,7 @@ describe('Order Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: OrderActions.CANCEL_ORDER_FAIL,
+        payload: error,
         error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,

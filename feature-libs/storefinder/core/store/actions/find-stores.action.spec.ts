@@ -1,6 +1,6 @@
+import { GeoPoint, SearchConfig, StateUtils } from '@spartacus/core';
 import { STORE_FINDER_DATA } from '../store-finder-state';
 import { StoreFinderActions } from './index';
-import { GeoPoint, SearchConfig, StateUtils } from '@spartacus/core';
 
 describe('Find Stores Actions', () => {
   describe('OnHold', () => {
@@ -55,6 +55,7 @@ describe('Find Stores Actions', () => {
 
       expect({ ...action }).toEqual({
         type: StoreFinderActions.FIND_STORES_FAIL,
+        payload: error,
         error,
         meta: StateUtils.failMeta(STORE_FINDER_DATA, error),
       });
@@ -99,6 +100,7 @@ describe('Find Stores Actions', () => {
         ...action,
       }).toEqual({
         type: StoreFinderActions.FIND_STORE_BY_ID_FAIL,
+        payload: error,
         error,
         meta: StateUtils.failMeta(STORE_FINDER_DATA, error),
       });

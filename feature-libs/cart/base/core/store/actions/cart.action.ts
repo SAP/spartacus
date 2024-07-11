@@ -6,7 +6,7 @@
 
 import { Action } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
-import { StateUtils, ErrorAction, ErrorActionType } from '@spartacus/core';
+import { ErrorAction, StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';
@@ -55,7 +55,7 @@ export class CreateCart extends StateUtils.EntityLoadAction {
 }
 
 interface CreateCartFailPayload extends CreateCartPayload {
-  error: ErrorActionType;
+  error: any;
 }
 
 export class CreateCartFail extends StateUtils.EntityFailAction {
@@ -90,17 +90,18 @@ export class AddEmailToCartFail
   extends StateUtils.EntityProcessesDecrementAction
   implements ErrorAction
 {
-  error: ErrorActionType = this.payload.error;
+  public error: any;
   readonly type = ADD_EMAIL_TO_CART_FAIL;
   constructor(
     public payload: {
       userId: string;
       cartId: string;
-      error: ErrorActionType;
+      error: any;
       email: string;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
+    this.error = payload.error;
   }
 }
 
@@ -129,7 +130,7 @@ export class LoadCart extends StateUtils.EntityLoadAction {
 }
 
 interface LoadCartFailPayload extends LoadCartPayload {
-  error: ErrorActionType;
+  error: any;
 }
 
 export class LoadCartFail extends StateUtils.EntityFailAction {
@@ -225,11 +226,11 @@ export class DeleteCartSuccess extends StateUtils.EntityRemoveAction {
 }
 
 export class DeleteCartFail implements ErrorAction {
-  error: ErrorActionType = this.payload.error;
+  public error: any;
   readonly type = DELETE_CART_FAIL;
-  constructor(
-    public payload: { userId: string; cartId: string; error: ErrorActionType }
-  ) {}
+  constructor(public payload: { userId: string; cartId: string; error: any }) {
+    this.error = payload.error;
+  }
 }
 
 export type CartAction =

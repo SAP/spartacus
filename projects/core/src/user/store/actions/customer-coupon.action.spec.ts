@@ -1,23 +1,23 @@
 import {
-  CUSTOMER_COUPONS,
-  SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
-  UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
-  CLAIM_CUSTOMER_COUPON_PROCESS_ID,
-  DISCLAIM_CUSTOMER_COUPON_PROCESS_ID,
-} from '../user-state';
-import {
-  loadMeta,
-  failMeta,
-  successMeta,
-  resetMeta,
-} from '../../../state/utils/loader/loader.action';
+  CustomerCoupon,
+  CustomerCoupon2Customer,
+  CustomerCouponNotification,
+  CustomerCouponSearchResult,
+} from '../../../model/customer-coupon.model';
 import { StateUtils } from '../../../state/utils/index';
 import {
-  CustomerCoupon,
-  CustomerCouponSearchResult,
-  CustomerCouponNotification,
-  CustomerCoupon2Customer,
-} from '../../../model/customer-coupon.model';
+  failMeta,
+  loadMeta,
+  resetMeta,
+  successMeta,
+} from '../../../state/utils/loader/loader.action';
+import {
+  CLAIM_CUSTOMER_COUPON_PROCESS_ID,
+  CUSTOMER_COUPONS,
+  DISCLAIM_CUSTOMER_COUPON_PROCESS_ID,
+  SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+  UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+} from '../user-state';
 
 import { PROCESS_FEATURE } from '../../../process/store';
 
@@ -95,6 +95,7 @@ describe('Customer Coupon Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_CUSTOMER_COUPONS_FAIL,
+        payload: error,
         error,
         meta: failMeta(CUSTOMER_COUPONS, error),
       });
@@ -150,6 +151,7 @@ describe('Customer Coupon Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.SUBSCRIBE_CUSTOMER_COUPON_FAIL,
+        payload: error,
         error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
@@ -215,6 +217,7 @@ describe('Customer Coupon Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.UNSUBSCRIBE_CUSTOMER_COUPON_FAIL,
+        payload: error,
         error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
@@ -279,6 +282,7 @@ describe('Customer Coupon Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.CLAIM_CUSTOMER_COUPON_FAIL,
+        payload: error,
         error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,

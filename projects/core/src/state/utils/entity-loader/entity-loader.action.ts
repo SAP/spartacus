@@ -39,6 +39,21 @@ export function entityLoadMeta(
 export function entityFailMeta(
   entityType: string,
   id: EntityId,
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  error: any
+): EntityLoaderMeta;
+/**
+ * @deprecated Please pass the argument `error`.
+ *             It will become mandatory along with removing
+ *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+ */
+export function entityFailMeta(
+  entityType: string,
+  id: EntityId
+): EntityLoaderMeta;
+export function entityFailMeta(
+  entityType: string,
+  id: EntityId,
   error?: any
 ): EntityLoaderMeta {
   return {
@@ -78,6 +93,15 @@ export class EntityLoadAction implements EntityLoaderAction {
 export class EntityFailAction implements EntityLoaderAction {
   type = ENTITY_FAIL_ACTION;
   readonly meta: EntityLoaderMeta;
+
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(entityType: string, id: EntityId, error: any);
+  /**
+   * @deprecated Please pass the argument `error`.
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor(entityType: string, id: EntityId);
   constructor(
     entityType: string,
     id: EntityId,

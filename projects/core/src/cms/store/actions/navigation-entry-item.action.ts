@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ErrorActionType } from '../../../model/index';
 import { StateUtils } from '../../../state/utils/index';
 import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
 
@@ -27,9 +26,9 @@ export class LoadCmsNavigationItemsFail extends StateUtils.EntityFailAction {
 
   constructor(
     nodeId: string,
-    public error: ErrorActionType
+    public payload: any
   ) {
-    super(NAVIGATION_DETAIL_ENTITY, nodeId, error);
+    super(NAVIGATION_DETAIL_ENTITY, nodeId, payload);
   }
 }
 

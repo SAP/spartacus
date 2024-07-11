@@ -29,7 +29,6 @@ import {
   SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
   UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
 } from '../user-state';
-import { ErrorAction, ErrorActionType } from '../../../model/index';
 
 export const LOAD_CUSTOMER_COUPONS = '[User] Load Customer Coupons';
 export const LOAD_CUSTOMER_COUPONS_FAIL = '[User] Load Customer Coupons Fail';
@@ -79,13 +78,10 @@ export class LoadCustomerCoupons extends LoaderLoadAction {
   }
 }
 
-export class LoadCustomerCouponsFail
-  extends LoaderFailAction
-  implements ErrorAction
-{
+export class LoadCustomerCouponsFail extends LoaderFailAction {
   readonly type = LOAD_CUSTOMER_COUPONS_FAIL;
-  constructor(public error: any) {
-    super(CUSTOMER_COUPONS, error);
+  constructor(public payload: any) {
+    super(CUSTOMER_COUPONS, payload);
   }
 }
 
@@ -118,8 +114,8 @@ export class SubscribeCustomerCoupon extends EntityLoadAction {
 
 export class SubscribeCustomerCouponFail extends EntityFailAction {
   readonly type = SUBSCRIBE_CUSTOMER_COUPON_FAIL;
-  constructor(public error: ErrorActionType) {
-    super(PROCESS_FEATURE, SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID, error);
+  constructor(public payload: any) {
+    super(PROCESS_FEATURE, SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID, payload);
   }
 }
 
@@ -151,8 +147,8 @@ export class UnsubscribeCustomerCoupon extends EntityLoadAction {
 
 export class UnsubscribeCustomerCouponFail extends EntityFailAction {
   readonly type = UNSUBSCRIBE_CUSTOMER_COUPON_FAIL;
-  constructor(public error: ErrorActionType) {
-    super(PROCESS_FEATURE, UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID, error);
+  constructor(public payload: any) {
+    super(PROCESS_FEATURE, UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID, payload);
   }
 }
 
@@ -217,8 +213,8 @@ export class DisclaimCustomerCouponSuccess extends EntitySuccessAction {
 
 export class ClaimCustomerCouponFail extends EntityFailAction {
   readonly type = CLAIM_CUSTOMER_COUPON_FAIL;
-  constructor(public error: ErrorActionType) {
-    super(PROCESS_FEATURE, CLAIM_CUSTOMER_COUPON_PROCESS_ID, error);
+  constructor(public payload: any) {
+    super(PROCESS_FEATURE, CLAIM_CUSTOMER_COUPON_PROCESS_ID, payload);
   }
 }
 

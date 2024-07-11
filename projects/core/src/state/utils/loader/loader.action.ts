@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorAction, ErrorActionType } from '../../../model/index';
+import { ErrorAction } from '../../../model/index';
 
 export const LOADER_LOAD_ACTION = '[LOADER] LOAD';
 export const LOADER_FAIL_ACTION = '[LOADER] FAIL';
@@ -37,6 +37,17 @@ export function loadMeta(entityType: string): LoaderMeta {
   };
 }
 
+export function failMeta(
+  entityType: string,
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  error: any
+): LoaderMeta;
+/**
+ * @deprecated Please pass the argument `error`.
+ *             It will become mandatory along with removing
+ *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+ */
+export function failMeta(entityType: string): LoaderMeta;
 export function failMeta(entityType: string, error?: any): LoaderMeta {
   return {
     entityType: entityType,
@@ -73,10 +84,18 @@ export class LoaderLoadAction implements LoaderAction {
 
 export class LoaderFailAction implements LoaderAction, ErrorAction {
   type = LOADER_FAIL_ACTION;
-  error: ErrorActionType;
+  public error: any;
   readonly meta: LoaderMeta;
 
-  constructor(entityType: string, error: ErrorActionType) {
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(entityType: string, error: any);
+  /**
+   * @deprecated Please pass the argument `error`.
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor(entityType: string);
+  constructor(entityType: string, error?: any) {
     this.meta = failMeta(entityType, error);
     this.error = error;
   }

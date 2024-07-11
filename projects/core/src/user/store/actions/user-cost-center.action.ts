@@ -7,7 +7,6 @@
 import { CostCenter } from '../../../model/org-unit.model';
 import { StateUtils } from '../../../state/utils/index';
 import { USER_COST_CENTERS } from '../user-state';
-import { ErrorActionType } from '../../../model/index';
 
 export const LOAD_ACTIVE_COST_CENTERS = '[User] Load Active CostCenters';
 export const LOAD_ACTIVE_COST_CENTERS_FAIL =
@@ -24,8 +23,8 @@ export class LoadActiveCostCenters extends StateUtils.LoaderLoadAction {
 
 export class LoadActiveCostCentersFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ACTIVE_COST_CENTERS_FAIL;
-  constructor(public error: ErrorActionType) {
-    super(USER_COST_CENTERS, error);
+  constructor(public payload: any) {
+    super(USER_COST_CENTERS, payload);
   }
 }
 

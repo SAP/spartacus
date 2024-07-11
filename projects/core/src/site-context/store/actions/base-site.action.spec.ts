@@ -19,6 +19,7 @@ describe('BaseSite Actions', () => {
 
         expect({ ...action }).toEqual({
           type: SiteContextActions.LOAD_BASE_SITE_FAIL,
+          payload: error,
           error,
         });
       });
@@ -58,6 +59,7 @@ describe('BaseSite Actions', () => {
 
         expect({ ...action }).toEqual({
           type: SiteContextActions.LOAD_BASE_SITES_FAIL,
+          payload: error,
           error,
         });
       });

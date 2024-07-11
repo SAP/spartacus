@@ -5,8 +5,8 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction } from '../../../model/index';
 import { Currency } from '../../../model/misc.model';
-import { ErrorAction, ErrorActionType } from '../../../model/index';
 
 export const LOAD_CURRENCIES = '[Site-context] Load Currencies';
 export const LOAD_CURRENCIES_FAIL = '[Site-context] Load Currencies Fail';
@@ -19,8 +19,11 @@ export class LoadCurrencies implements Action {
 }
 
 export class LoadCurrenciesFail implements ErrorAction {
+  public error: any;
   readonly type = LOAD_CURRENCIES_FAIL;
-  constructor(public error: ErrorActionType) {}
+  constructor(public payload: any) {
+    this.error = payload;
+  }
 }
 
 export class LoadCurrenciesSuccess implements Action {
