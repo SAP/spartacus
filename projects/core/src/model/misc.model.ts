@@ -131,7 +131,6 @@ export interface BaseSite {
 }
 
 export interface Theme {
-  active?: boolean;
   i18nNameKey?: string;
   className: string;
 }
