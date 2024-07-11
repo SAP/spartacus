@@ -402,6 +402,7 @@
         "../../dist/cdp/customer-ticketing"
       ],
       "@spartacus/cdp": ["../../dist/cdp"],
+      "@spartacus/cds/assets": ["../../dist/cds/assets"],
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/cpq-quote/assets": ["../../dist/cpq-quote/assets"],
       "@spartacus/cpq-quote/cpq-quote-discount": [

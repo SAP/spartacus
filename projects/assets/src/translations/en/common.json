@@ -27,6 +27,8 @@
     "results": "Results",
     "of": "of",
     "required": "required",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
     "selected": "Selected"
   },
   "pageMetaResolver": {

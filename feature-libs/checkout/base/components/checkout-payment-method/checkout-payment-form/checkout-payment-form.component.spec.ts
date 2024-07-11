@@ -27,9 +27,9 @@ import {
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
+import { CheckoutBillingAddressFormService } from '../../checkout-billing-address';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 import createSpy = jasmine.createSpy;
-import { CheckoutBillingAddressFormService } from '../../checkout-billing-address';
 
 @Component({
   selector: 'cx-spinner',
@@ -192,55 +192,53 @@ describe('CheckoutPaymentFormComponent', () => {
     billingAddress: UntypedFormGroup['controls'];
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      mockCheckoutDeliveryService = new MockCheckoutDeliveryService();
-      mockCheckoutPaymentService = new MockCheckoutPaymentService();
-      mockUserPaymentService = new MockUserPaymentService();
-      mockGlobalMessageService = new MockGlobalMessageService();
+  beforeEach(waitForAsync(() => {
+    mockCheckoutDeliveryService = new MockCheckoutDeliveryService();
+    mockCheckoutPaymentService = new MockCheckoutPaymentService();
+    mockUserPaymentService = new MockUserPaymentService();
+    mockGlobalMessageService = new MockGlobalMessageService();
 
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          NgSelectA11yModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        declarations: [
-          CheckoutPaymentFormComponent,
-          MockCardComponent,
-          MockBillingAddressFormComponent,
-          MockCxIconComponent,
-          MockSpinnerComponent,
-          MockFeatureDirective,
-        ],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: CheckoutPaymentFacade,
-            useValue: mockCheckoutPaymentService,
-          },
-          {
-            provide: CheckoutDeliveryAddressFacade,
-            useValue: mockCheckoutDeliveryService,
-          },
-          { provide: UserPaymentService, useValue: mockUserPaymentService },
-          { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-          { provide: UserAddressService, useClass: MockUserAddressService },
-          {
-            provide: CheckoutBillingAddressFormService,
-            useClass: MockCheckoutBillingAddressFormService,
-          },
-          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-        ],
-      })
-        .overrideComponent(CheckoutPaymentFormComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        NgSelectA11yModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      declarations: [
+        CheckoutPaymentFormComponent,
+        MockCardComponent,
+        MockBillingAddressFormComponent,
+        MockCxIconComponent,
+        MockSpinnerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: CheckoutPaymentFacade,
+          useValue: mockCheckoutPaymentService,
+        },
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useValue: mockCheckoutDeliveryService,
+        },
+        { provide: UserPaymentService, useValue: mockUserPaymentService },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        {
+          provide: CheckoutBillingAddressFormService,
+          useClass: MockCheckoutBillingAddressFormService,
+        },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      ],
     })
-  );
+      .overrideComponent(CheckoutPaymentFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPaymentFormComponent);
@@ -532,6 +530,12 @@ describe('CheckoutPaymentFormComponent', () => {
       expect(
         fixture.debugElement.queryAll(By.css('.form-check-input')).length
       ).toEqual(1);
+    });
+
+    it('should show assitive message when form is submitted with errors', () => {
+      component.paymentForm.setErrors({ required: true });
+      component.next();
+      expect(mockGlobalMessageService.add).toHaveBeenCalled();
     });
   });
 

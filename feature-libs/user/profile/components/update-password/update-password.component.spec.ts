@@ -54,36 +54,34 @@ describe('UpdatePasswordComponent', () => {
   let routingService: RoutingService;
   let service: UpdatePasswordComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          RouterTestingModule,
-          UrlTestingModule,
-          PasswordVisibilityToggleModule,
-        ],
-        declarations: [
-          UpdatePasswordComponent,
-          MockCxSpinnerComponent,
-          MockFeatureDirective,
-        ],
-        providers: [
-          {
-            provide: UpdatePasswordComponentService,
-            useClass: MockUpdatePasswordService,
-          },
-          { provide: RoutingService, useClass: MockRoutingService },
-        ],
-      })
-        .overrideComponent(UpdatePasswordComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        PasswordVisibilityToggleModule,
+      ],
+      declarations: [
+        UpdatePasswordComponent,
+        MockCxSpinnerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        {
+          provide: UpdatePasswordComponentService,
+          useClass: MockUpdatePasswordService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
     })
-  );
+      .overrideComponent(UpdatePasswordComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdatePasswordComponent);

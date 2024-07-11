@@ -47,27 +47,25 @@ describe('ConfiguratorGroupsService', () => {
   let configGroupStatusService: ConfiguratorGroupStatusService;
   let configFacadeUtilsService: ConfiguratorUtilsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [StoreModule.forRoot({})],
-        providers: [
-          ConfiguratorGroupsService,
-          ConfiguratorCommonsService,
-          ConfiguratorGroupStatusService,
-          ConfiguratorUtilsService,
-          {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartService,
-          },
-          {
-            provide: ConfiguratorCartService,
-            useClass: MockConfiguratorCartService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [StoreModule.forRoot({})],
+      providers: [
+        ConfiguratorGroupsService,
+        ConfiguratorCommonsService,
+        ConfiguratorGroupStatusService,
+        ConfiguratorUtilsService,
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
+        },
+        {
+          provide: ConfiguratorCartService,
+          useClass: MockConfiguratorCartService,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     classUnderTest = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>

@@ -6,7 +6,6 @@
 
 import { NgModule } from '@angular/core';
 import {
-  FeatureConfigService,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -30,9 +29,7 @@ import { CostCenterFormModule } from './form/cost-center-form.module';
   ],
   providers: [
     provideDefaultConfig(costCenterCmsConfig),
-    provideDefaultConfigFactory(costCenterTableConfigFactory, [
-      FeatureConfigService,
-    ]),
+    provideDefaultConfigFactory(costCenterTableConfigFactory),
   ],
 })
 export class CostCenterComponentsModule {}

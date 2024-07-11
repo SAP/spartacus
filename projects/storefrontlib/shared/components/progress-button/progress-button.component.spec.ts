@@ -14,14 +14,12 @@ describe('ProgressButtonComponent', () => {
   let fixture: ComponentFixture<ProgressButtonComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [ProgressButtonComponent, TestHostComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [ProgressButtonComponent, TestHostComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProgressButtonComponent);

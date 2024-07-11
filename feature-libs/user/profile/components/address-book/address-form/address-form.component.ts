@@ -38,7 +38,7 @@ import {
   sortTitles,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -239,6 +239,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       }
     } else {
       this.addressForm.markAllAsTouched();
+      this.globalMessageService.add(
+        { key: 'formErrors.globalMessage' },
+        GlobalMessageType.MSG_TYPE_ASSISTIVE
+      );
     }
   }
 
