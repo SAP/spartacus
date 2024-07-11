@@ -17,7 +17,11 @@
  *
  */
 
-import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
+import {
+  AST_NODE_TYPES,
+  ESLintUtils,
+  TSESTree,
+} from '@typescript-eslint/utils';
 
 // NOTE: The rule will be available in ESLint configs as "@nrwl/nx/workspace/no-ngrx-fail-action-without-error-action-implementation"
 export const RULE_NAME =
@@ -43,13 +47,23 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
   create(context) {
     return {
       'ClassDeclaration[id.name=/Fail/]'(node: TSESTree.ClassDeclaration) {
-        const implementsErrorAction = node.implements?.some(
-          (impl) =>
-            impl.expression.type === 'Identifier' &&
-            impl.expression.name === 'ErrorAction'
-        );
+        // utils functions
 
-        if (!implementsErrorAction) {
+        function isClassImplementingInterface(
+          node: TSESTree.ClassDeclaration,
+          interfaceName: string
+        ): boolean {
+          return node.implements?.some(
+            (impl) =>
+              impl.expression.type === AST_NODE_TYPES.Identifier &&
+              impl.expression.name === interfaceName
+          );
+        }
+
+        const ERROR_ACTION_NAME = 'ErrorAction';
+        // const SPARTACUS_CORE_NAME = '@spartacus/core';
+
+        if (!isClassImplementingInterface(node, ERROR_ACTION_NAME)) {
           context.report({
             node,
             messageId: 'missingErrorAction',
@@ -86,15 +100,16 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
 
               // Check if ErrorAction is already imported
               const importDeclarations = sourceCode.ast.body.filter(
-                (statement) => statement.type === 'ImportDeclaration'
+                (statement) =>
+                  statement.type === AST_NODE_TYPES.ImportDeclaration
               );
               const isErrorActionImported = importDeclarations.some(
                 (declaration) =>
-                  declaration.type === 'ImportDeclaration' &&
+                  declaration.type === AST_NODE_TYPES.ImportDeclaration &&
                   declaration.source.value === '@spartacus/core' &&
                   declaration.specifiers.some(
                     (specifier) =>
-                      specifier.type === 'ImportSpecifier' &&
+                      specifier.type === AST_NODE_TYPES.ImportSpecifier &&
                       specifier.imported.name === 'ErrorAction'
                   )
               );
