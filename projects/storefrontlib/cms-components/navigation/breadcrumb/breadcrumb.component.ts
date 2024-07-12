@@ -30,7 +30,7 @@ import { PageTitleComponent } from '../page-header/page-title.component';
 })
 export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   crumbs$: Observable<any[]>;
-  ariaLiveDisabled$: Observable<boolean> = of(false);
+  ariaLive$: Observable<boolean> = of(true);
 
   protected router = inject(Router);
   private featureConfigService = inject(FeatureConfigService);
@@ -48,10 +48,10 @@ export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
     super.ngOnInit();
     this.setCrumbs();
     if (this.featureConfigService.isEnabled('a11yRepeatedPageTitleFix')) {
-      this.ariaLiveDisabled$ = this.router.events.pipe(
+      this.ariaLive$ = this.router.events.pipe(
         filter((e) => e instanceof NavigationEnd),
         map(() => {
-          return document.activeElement === document.body;
+          return document.activeElement !== document.body;
         })
       );
     }

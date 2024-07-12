@@ -8,7 +8,7 @@
 
 <!-- TODO: Remove feature flag next major release -->
 <ng-container *cxFeature="'a11yPreventSRFocusOnHiddenElements'">
-  <h1 [attr.aria-live]="(ariaLiveDisabled$ | async) ? null : 'polite'">
+  <h1 [attr.aria-live]="(ariaLive$ | async) ? 'polite' : null">
     {{ title$ | async }}
   </h1>
 </ng-container>
