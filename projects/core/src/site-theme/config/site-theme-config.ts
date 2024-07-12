@@ -18,6 +18,6 @@ export abstract class SiteThemeConfig {
   };
 }
 
-declare module '@spartacus/core' {
+declare module '../../config/config-tokens' {
   interface Config extends SiteThemeConfig {}
 }
