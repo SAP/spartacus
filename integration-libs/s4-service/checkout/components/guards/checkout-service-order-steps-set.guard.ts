@@ -22,7 +22,7 @@ export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard 
     return this.checkoutServiceDetailsFacade
       .getSelectedServiceDetailsState()
       .pipe(
-        filter((state) => !state.loading),
+        filter((state) => !state.loading && !state.error),
         switchMap((selectedServiceDetails) =>
           this.checkoutServiceDetailsFacade
             .getServiceProducts()
@@ -44,24 +44,18 @@ export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard 
   ): Observable<boolean | UrlTree> {
     if (step && !step.disabled) {
       switch (step.type[0]) {
-        case CheckoutStepType.PAYMENT_TYPE: {
+        case CheckoutStepType.PAYMENT_TYPE:
           return this.isPaymentTypeSet(step);
-        }
-        case CheckoutStepType.DELIVERY_ADDRESS: {
+        case CheckoutStepType.DELIVERY_ADDRESS:
           return this.isDeliveryAddressAndCostCenterSet(step, isAccountPayment);
-        }
-        case CheckoutStepType.DELIVERY_MODE: {
+        case CheckoutStepType.DELIVERY_MODE:
           return this.isDeliveryModeSet(step);
-        }
-        case CheckoutStepType.SERVICE_DETAILS: {
+        case CheckoutStepType.SERVICE_DETAILS:
           return this.isServiceDetailsSet(step);
-        }
-        case CheckoutStepType.PAYMENT_DETAILS: {
+        case CheckoutStepType.PAYMENT_DETAILS:
           return this.isPaymentDetailsSet(step);
-        }
-        case CheckoutStepType.REVIEW_ORDER: {
+        case CheckoutStepType.REVIEW_ORDER:
           break;
-        }
       }
     }
     return of(true);

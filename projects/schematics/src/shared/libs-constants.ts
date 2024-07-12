@@ -232,8 +232,6 @@ export const SPARTACUS_SEGMENT_REFS_ROOT = `@spartacus/segment-refs/root`;
 export const SPARTACUS_S4_SERVICE = '@spartacus/s4-service';
 export const SPARTACUS_S4_SERVICE_ASSETS = `@spartacus/s4-service/assets`;
 export const SPARTACUS_S4_SERVICE_ROOT = `@spartacus/s4-service/root`;
-export const SPARTACUS_S4_SERVICE_CORE = `@spartacus/s4-service/core`;
-export const SPARTACUS_S4_SERVICE_OCC = `@spartacus/s4-service/occ`;
 export const SPARTACUS_S4_SERVICE_CHECKOUT = `@spartacus/s4-service/checkout`;
 export const SPARTACUS_S4_SERVICE_ORDER = `@spartacus/s4-service/order`;
 

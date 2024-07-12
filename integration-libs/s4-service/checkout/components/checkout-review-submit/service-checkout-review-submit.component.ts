@@ -81,36 +81,26 @@ export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmi
     ];
   }
 
-  getServiceDetailsCard(scheduledAt: string): Observable<Card> {
+  getServiceDetailsCard(scheduledAt: string | null| undefined): Observable<Card> {
     return combineLatest([
       this.translationService.translate('serviceOrderCheckout.serviceDetails'),
       this.translationService.translate('serviceOrderCheckout.cardLabel'),
-    ]).pipe(
-      map(([textTitle, textLabel]) => {
-        scheduledAt =
-          this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
-            scheduledAt
-          );
-        return {
-          title: textTitle,
-          textBold: textLabel,
-          text: [scheduledAt],
-        };
-      })
-    );
-  }
-
-  getEmptyServiceDetailsCard(): Observable<Card> {
-    return combineLatest([
-      this.translationService.translate('serviceOrderCheckout.serviceDetails'),
       this.translationService.translate(
         'serviceOrderCheckout.emptyServiceDetailsCard'
       ),
     ]).pipe(
-      map(([textTitle, text]) => {
+      map(([textTitle, textLabel, emptyTextLabel]) => {
+        if (scheduledAt) {
+          scheduledAt =
+            this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
+              scheduledAt
+            );
+        }
+
         return {
           title: textTitle,
-          text: [text],
+          textBold: scheduledAt ? textLabel : emptyTextLabel,
+          text: scheduledAt ? [scheduledAt] : undefined,
         };
       })
     );

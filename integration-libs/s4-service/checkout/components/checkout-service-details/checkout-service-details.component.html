@@ -16,7 +16,7 @@
 </ng-container>
 
 <div class="row cx-checkout-btns">
-  <div class="col-md-12 col-lg-6">
+  <section class="col-md-12 col-lg-6">
     <button
       class="btn btn-block btn-secondary"
       [attr.aria-label]="backBtnText | cxTranslate"
@@ -24,8 +24,8 @@
     >
       {{ backBtnText | cxTranslate }}
     </button>
-  </div>
-  <div class="col-md-12 col-lg-6">
+  </section>
+  <section class="col-md-12 col-lg-6">
     <button
       class="btn btn-block btn-primary"
       [attr.aria-label]="'common.continue' | cxTranslate"
@@ -34,7 +34,7 @@
     >
       {{ 'common.continue' | cxTranslate }}
     </button>
-  </div>
+  </section>
 </div>
 
 <ng-template #showScheduler>

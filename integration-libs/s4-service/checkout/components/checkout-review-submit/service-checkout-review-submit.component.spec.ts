@@ -476,7 +476,7 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
       expect(card.textBold).toEqual('paymentTypes.paymentType_test-account');
     });
   });
-  it('should call getServiceDetailsCard(scheduledAt) to get service details', (done) => {
+  it('should call getServiceDetailsCard() to get service details', (done) => {
     component.getServiceDetailsCard(mockScheduledAt).subscribe((card) => {
       expect(card.title).toEqual('serviceOrderCheckout.serviceDetails');
       expect(card.textBold).toEqual('serviceOrderCheckout.cardLabel');
@@ -486,11 +486,11 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
   });
 
   it('should call getEmptyServiceDetailsCard() to get empty card', (done) => {
-    component.getEmptyServiceDetailsCard().subscribe((card) => {
+    component.getServiceDetailsCard(null).subscribe((card) => {
       expect(card.title).toEqual('serviceOrderCheckout.serviceDetails');
-      expect(card.text).toEqual([
-        'serviceOrderCheckout.emptyServiceDetailsCard',
-      ]);
+      expect(card.textBold).toEqual(
+        'serviceOrderCheckout.emptyServiceDetailsCard'
+      );
       done();
     });
   });
