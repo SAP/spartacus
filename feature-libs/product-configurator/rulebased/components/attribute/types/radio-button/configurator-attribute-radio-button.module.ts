@@ -9,13 +9,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
-import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
-import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
+import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeInputFieldModule } from '../input-field/configurator-attribute-input-field.module';
 import { ConfiguratorAttributeNumericInputFieldModule } from '../numeric-input-field/configurator-attribute-numeric-input-field.module';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
+import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 @NgModule({
   imports: [
     CommonModule,
