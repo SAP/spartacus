@@ -102,6 +102,7 @@ import { StorefinderFeatureModule } from './features/storefinder/storefinder-fea
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
 import { S4ServiceFeatureModule } from './features/s4-service/s4-service-feature.module';
+import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
 
 const featureModules = [];
 
@@ -153,6 +154,9 @@ if (environment.estimatedDeliveryDate) {
   featureModules.push(EstimatedDeliveryDateFeatureModule);
 }
 
+if (environment.cpq) {
+  featureModules.push(CpqQuoteFeatureModule);
+}
 @NgModule({
   imports: [
     // Auth Core
