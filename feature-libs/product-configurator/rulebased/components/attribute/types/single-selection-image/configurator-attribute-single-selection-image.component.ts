@@ -17,9 +17,8 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
-import { ConfiguratorValuePriceChanged } from '../../../price-async/configurator-price-async.component';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-image',
@@ -79,17 +78,13 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   extractValuePriceFormulaParameters(
     value?: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
+    if (value) {
+      value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    }
     return {
       price: value?.valuePrice,
       isLightedUp: value ? value.selected : false,
     };
-  }
-
-  onPriceChanged(event: ConfiguratorValuePriceChanged) {
-    this.configuratorDeltaRenderingService.storeValuePrice(
-      event.source.valueName,
-      event.valuePrice
-    );
   }
 
   getAriaLabelGeneric(

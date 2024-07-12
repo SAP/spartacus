@@ -13,10 +13,9 @@ import {
   KeyboardFocusModule,
   PopoverModule,
 } from '@spartacus/storefront';
-import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
-import { ConfiguratorPriceAsyncModule } from '../../../price-async/configurator-price-async.module';
+import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
 
 @NgModule({
   imports: [
@@ -27,7 +26,6 @@ import { ConfiguratorPriceAsyncModule } from '../../../price-async/configurator-
     I18nModule,
     IconModule,
     ConfiguratorPriceModule,
-    ConfiguratorPriceAsyncModule,
     PopoverModule,
   ],
   providers: [

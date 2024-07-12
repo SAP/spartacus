@@ -13,7 +13,6 @@ import {
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { LoggerService } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
@@ -21,7 +20,6 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox-list',
@@ -38,15 +36,6 @@ export class ConfiguratorAttributeCheckBoxListComponent
   group: string;
 
   protected logger = inject(LoggerService);
-  protected configuratorDeltaRenderingService = inject(
-    ConfiguratorDeltaRenderingService
-  );
-
-  reRender$: Observable<boolean> =
-    this.configuratorDeltaRenderingService.reRender(
-      this.isAsyncPricing,
-      this.attribute.key ?? ''
-    );
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
@@ -148,21 +137,5 @@ export class ConfiguratorAttributeCheckBoxListComponent
     } else {
       this.onHandleAttributeQuantity(eventObject);
     }
-  }
-
-  getAriaLabelGeneric(
-    attribute: Configurator.Attribute,
-    value: Configurator.Value
-  ): string {
-    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
-    return super.getAriaLabelGeneric(attribute, value);
-  }
-
-  extractValuePriceFormulaParameters(
-    value: Configurator.Value
-  ): ConfiguratorPriceComponentOptions {
-    return super.extractValuePriceFormulaParameters(
-      this.configuratorDeltaRenderingService.mergePriceIntoValue(value)
-    );
   }
 }

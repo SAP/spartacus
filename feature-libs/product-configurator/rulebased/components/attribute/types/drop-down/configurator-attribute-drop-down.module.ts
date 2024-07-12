@@ -15,13 +15,12 @@ import {
 } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
+import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeInputFieldModule } from '../input-field/configurator-attribute-input-field.module';
-import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 import { ConfiguratorAttributeNumericInputFieldModule } from '../numeric-input-field/configurator-attribute-numeric-input-field.module';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
-import { ConfiguratorPriceAsyncModule } from '../../../price-async/configurator-price-async.module';
 
 @NgModule({
   imports: [
@@ -33,7 +32,6 @@ import { ConfiguratorPriceAsyncModule } from '../../../price-async/configurator-
     NgSelectModule,
     ReactiveFormsModule,
     ConfiguratorPriceModule,
-    ConfiguratorPriceAsyncModule,
     ConfiguratorAttributeNumericInputFieldModule,
     ConfiguratorAttributeInputFieldModule,
     ConfiguratorShowMoreModule,

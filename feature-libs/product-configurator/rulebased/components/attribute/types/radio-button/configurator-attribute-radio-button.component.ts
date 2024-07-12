@@ -16,13 +16,9 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
-import {
-  Configurator,
-  ConfiguratorValuePriceChanged,
-} from '@spartacus/product-configurator/rulebased';
 
 @Component({
   selector: 'cx-configurator-attribute-radio-button',
@@ -58,20 +54,5 @@ export class ConfiguratorAttributeRadioButtonComponent
 
   ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
-  }
-
-  onPriceChanged(event: ConfiguratorValuePriceChanged) {
-    this.configuratorDeltaRenderingService.storeValuePrice(
-      event.source.valueName,
-      event.valuePrice
-    );
-  }
-
-  getAriaLabel(
-    value: Configurator.Value,
-    attribute: Configurator.Attribute
-  ): string {
-    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
-    return super.getAriaLabel(value, attribute);
   }
 }

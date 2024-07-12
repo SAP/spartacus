@@ -16,7 +16,6 @@ import {
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
-import { ConfiguratorPriceAsyncModule } from '../../../price-async/configurator-price-async.module';
 
 @NgModule({
   imports: [
@@ -27,7 +26,6 @@ import { ConfiguratorPriceAsyncModule } from '../../../price-async/configurator-
     I18nModule,
     IconModule,
     ConfiguratorPriceModule,
-    ConfiguratorPriceAsyncModule,
     PopoverModule,
   ],
   providers: [

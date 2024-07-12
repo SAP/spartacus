@@ -7,7 +7,7 @@
       "
     >
       <ng-container *ngFor="let value of attribute.values">
-        <div *ngIf="value.selected" class="form-check">
+        <div *ngIf="value.selected && (reRender$ | async)" class="form-check">
           <span
             id="{{
               createValueUiKey('aria-label', attribute.name, value.valueCode)
@@ -41,14 +41,8 @@
           </div>
           <div class="cx-value-price">
             <cx-configurator-price
-              *ngIf="!isAsyncPricing"
               [formula]="extractValuePriceFormulaParameters(value)"
             ></cx-configurator-price>
-            <cx-configurator-price-async
-              *ngIf="isAsyncPricing"
-              [options]="extractValuePriceAsyncOptions(attribute, value)"
-              (priceChanged)="onPriceChanged($event)"
-            ></cx-configurator-price-async>
           </div>
         </div>
       </ng-container>

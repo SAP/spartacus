@@ -9,7 +9,6 @@ import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-import { ConfiguratorPriceAsyncComponentOptions } from '../../../price-async/configurator-price-async.component';
 
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator
@@ -252,25 +251,6 @@ export class ConfiguratorAttributeBaseComponent {
       }
     }
     return styleClass;
-  }
-
-  /**
-   * Creates @see {ConfiguratorPriceAsyncComponentOptions} as required by the cx-configurator-price-async component,
-   * so it can render the price for the given value of the given attribute.
-   *
-   * @param attribute Configurator Attribute
-   * @param value Configurator Attribute Value
-   * @returns control options
-   */
-  extractValuePriceAsyncOptions(
-    attribute: Configurator.Attribute,
-    value?: Configurator.Value
-  ): ConfiguratorPriceAsyncComponentOptions {
-    return {
-      attributeKey: attribute.key ?? '',
-      valueName: value?.name ?? '',
-      isLightedUp: value?.selected ?? false,
-    };
   }
 
   protected getValuePrice(value: Configurator.Value | undefined): string {

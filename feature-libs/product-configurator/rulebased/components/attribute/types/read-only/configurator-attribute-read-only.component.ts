@@ -5,14 +5,13 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions } from '../../../price';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
+import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
-import { ConfiguratorValuePriceChanged } from '../../../price-async';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-read-only',
@@ -134,26 +133,12 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
   extractValuePriceFormulaParameters(
     value: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
+    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
     return {
       quantity: value.quantity,
       price: value.valuePrice,
       priceTotal: value.valuePriceTotal,
       isLightedUp: value.selected,
     };
-  }
-
-  onPriceChanged(event: ConfiguratorValuePriceChanged) {
-    this.configuratorDeltaRenderingService.storeValuePrice(
-      event.source.valueName,
-      event.valuePrice
-    );
-  }
-
-  protected getAriaLabelGeneric(
-    attribute: Configurator.Attribute,
-    value: Configurator.Value
-  ): string {
-    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
-    return super.getAriaLabelGeneric(attribute, value);
   }
 }

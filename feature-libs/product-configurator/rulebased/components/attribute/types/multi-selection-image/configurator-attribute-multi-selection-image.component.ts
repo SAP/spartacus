@@ -15,12 +15,12 @@ import { Config, useFeatureStyles } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
-import { ConfiguratorValuePriceChanged } from '../../../price-async';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { Observable } from 'rxjs';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 
 @Component({
   selector: 'cx-configurator-attribute-multi-selection-image',
@@ -34,13 +34,14 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
   attribute: Configurator.Attribute;
   ownerKey: string;
   expMode: boolean;
-  isAsyncPricing: boolean;
 
   iconTypes = ICON_TYPE;
   protected config = inject(Config);
   protected configuratorDeltaRenderingService = inject(
     ConfiguratorDeltaRenderingService
   );
+
+  reRender$: Observable<boolean>;
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
@@ -52,7 +53,10 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.isAsyncPricing = attributeComponentContext.isAsyncPricing ?? false;
+    this.reRender$ = this.configuratorDeltaRenderingService.reRender(
+      attributeComponentContext.isAsyncPricing ?? false,
+      this.attribute.key ?? ''
+    );
 
     useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
@@ -99,9 +103,17 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     );
   }
 
+  /**
+   * Extract corresponding value price formula parameters.
+   * For the multi-selection attribute types the complete price formula should be displayed at the value level.
+   *
+   * @param {Configurator.Value} value - Configurator value
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
   extractValuePriceFormulaParameters(
     value: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
+    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
     return {
       quantity: value.quantity,
       price: value.valuePrice,
@@ -110,10 +122,11 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     };
   }
 
-  onPriceChanged(event: ConfiguratorValuePriceChanged) {
-    this.configuratorDeltaRenderingService.storeValuePrice(
-      event.source.valueName,
-      event.valuePrice
-    );
+  protected getAriaLabelGeneric(
+    attribute: Configurator.Attribute,
+    value: Configurator.Value
+  ): string {
+    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    return super.getAriaLabelGeneric(attribute, value);
   }
 }

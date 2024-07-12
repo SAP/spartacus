@@ -53,7 +53,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     this.ownerType = attributeComponentContext.owner.type;
     this.language = attributeComponentContext.language;
     this.expMode = attributeComponentContext.expMode;
-    this.isAsyncPricing = attributeComponentContext.isAsyncPricing ?? false;
 
     this.showRequiredErrorMessage$ = this.configuratorStorefrontUtilsService
       .isCartEntryOrGroupVisited(
@@ -72,7 +71,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
       );
 
     this.reRender$ = this.configuratorDeltaRenderingService.reRender(
-      this.isAsyncPricing,
+      attributeComponentContext.isAsyncPricing ?? false,
       this.attribute.key ?? ''
     );
   }
@@ -239,6 +238,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     value: Configurator.Value,
     attribute: Configurator.Attribute
   ): string {
+    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
     const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
     if (this.isWithAdditionalValues(this.attribute)) {
       const ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();

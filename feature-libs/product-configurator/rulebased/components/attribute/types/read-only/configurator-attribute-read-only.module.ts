@@ -13,7 +13,6 @@ import { ConfiguratorPriceModule } from '../../../price/configurator-price.modul
 import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
-import { ConfiguratorPriceAsyncModule } from '../../../price-async/configurator-price-async.module';
 
 @NgModule({
   imports: [
@@ -21,7 +20,6 @@ import { ConfiguratorPriceAsyncModule } from '../../../price-async/configurator-
     FormsModule,
     ReactiveFormsModule,
     ConfiguratorPriceModule,
-    ConfiguratorPriceAsyncModule,
     ConfiguratorShowMoreModule,
     CommonModule,
     I18nModule,

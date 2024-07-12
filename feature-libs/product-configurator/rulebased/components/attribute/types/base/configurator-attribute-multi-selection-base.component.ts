@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Directive, inject } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -15,6 +15,7 @@ import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/co
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -26,6 +27,12 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   expMode: boolean;
   isAsyncPricing: boolean;
 
+  protected configuratorDeltaRenderingService = inject(
+    ConfiguratorDeltaRenderingService
+  );
+
+  reRender$: Observable<boolean>;
+
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
@@ -35,7 +42,10 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.isAsyncPricing = attributeComponentContext.isAsyncPricing ?? false;
+    this.reRender$ = this.configuratorDeltaRenderingService.reRender(
+      attributeComponentContext.isAsyncPricing ?? false,
+      this.attribute.key ?? ''
+    );
   }
 
   /**
@@ -137,11 +147,20 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   extractValuePriceFormulaParameters(
     value: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
+    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
     return {
       quantity: value.quantity,
       price: value.valuePrice,
       priceTotal: value.valuePriceTotal,
       isLightedUp: value.selected,
     };
+  }
+
+  protected getAriaLabelGeneric(
+    attribute: Configurator.Attribute,
+    value: Configurator.Value
+  ): string {
+    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    return super.getAriaLabelGeneric(attribute, value);
   }
 }
