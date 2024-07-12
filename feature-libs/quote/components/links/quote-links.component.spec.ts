@@ -11,6 +11,10 @@ import {
   I18nTestingModule,
   Price,
   FeatureConfigService,
+  GlobalMessageService,
+  HttpErrorModel,
+  Translatable,
+  GlobalMessageType,
 } from '@spartacus/core';
 import {
   CartUtilsService,
@@ -24,7 +28,7 @@ import {
 } from '@spartacus/quote/root';
 import { FileDownloadService } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
+import { BehaviorSubject, NEVER, Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteLinksComponent } from './quote-links.component';
@@ -59,6 +63,11 @@ const mockQuoteAttachment = (): File => {
   return blob as File;
 };
 
+const errorResponse: HttpErrorModel = {
+  message: 'Bad request',
+  status: 400,
+};
+
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
 
 class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
@@ -84,6 +93,10 @@ class MockFeatureConfigService {
   }
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
+}
+
 describe('QuoteLinksComponent', () => {
   let fixture: ComponentFixture<QuoteLinksComponent>;
   let htmlElem: HTMLElement;
@@ -93,6 +106,7 @@ describe('QuoteLinksComponent', () => {
   let eventService: EventService;
   let quoteFacade: QuoteFacade;
   let fileDownloadService: FileDownloadService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -119,6 +133,10 @@ describe('QuoteLinksComponent', () => {
           provide: FeatureConfigService,
           useClass: MockFeatureConfigService,
         },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
     }).compileComponents();
   });
@@ -131,6 +149,7 @@ describe('QuoteLinksComponent', () => {
     router = TestBed.inject(Router);
     quoteFacade = TestBed.inject(QuoteFacade);
     fileDownloadService = TestBed.inject(FileDownloadService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
     component = fixture.componentInstance;
     mockQuoteDetails$.next(mockQuote);
     fixture.detectChanges();
@@ -274,6 +293,30 @@ describe('QuoteLinksComponent', () => {
       fixture.whenStable().then(() => {
         fixture.detectChanges();
         expect(spyDownload).toHaveBeenCalled();
+      });
+    });
+
+    it('should display error message when download fails', () => {
+      const spyDownloadAttachment = spyOn(
+        quoteFacade,
+        'downloadAttachment'
+      ).and.returnValue(throwError(() => new Error(errorResponse.message)));
+      const spyMessage = spyOn(globalMessageService, 'add');
+      mockQuoteDetails$.next(vendorQuote);
+      fixture.detectChanges();
+      const downloadBtn = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        'button'
+      );
+      downloadBtn.click();
+      fixture.detectChanges();
+      expect(spyDownloadAttachment).toHaveBeenCalledWith(
+        vendorQuote.code,
+        vendorQuote.code
+      );
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(spyMessage).toHaveBeenCalled();
       });
     });
   });
