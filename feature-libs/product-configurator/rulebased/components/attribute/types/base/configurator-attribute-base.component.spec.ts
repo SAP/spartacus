@@ -395,28 +395,6 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         ' [+' + value.valuePrice?.formattedValue + ']'
       );
     });
-
-    it('should react onPriceChanged events', () => {
-      const valueWithoutPrice = ConfiguratorTestUtils.createValue(
-        'valueCode',
-        undefined
-      );
-      const valueWithPrice = {
-        name: 'valueCode',
-        valuePrice: {
-          value: 10,
-          currencyIso: 'USD',
-          formattedValue: '$10.00',
-        },
-      };
-      classUnderTest.onPriceChanged({
-        valuePrice: valueWithPrice.valuePrice,
-        source: { attributeKey: 'attrKey', valueName: 'valueCode' },
-      });
-      expect(classUnderTest['getValuePrice'](valueWithoutPrice)).toEqual(
-        ' [+' + valueWithPrice.valuePrice?.formattedValue + ']'
-      );
-    });
   });
 
   describe('isRequiredErrorMsg', () => {
@@ -557,34 +535,6 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
   });
 
-  describe('extractValuePriceAsyncOptions', () => {
-    it('should return empty keys if no attribute key and no value name is defined defined', () => {
-      expect(
-        classUnderTest.extractValuePriceAsyncOptions(
-          { attrCode: 123, name: 'attrName' },
-          { valueCode: '234' }
-        )
-      ).toEqual({
-        attributeKey: '',
-        valueName: '',
-        isLightedUp: false,
-      });
-    });
-
-    it('should return attribute key and value name', () => {
-      expect(
-        classUnderTest.extractValuePriceAsyncOptions(
-          { key: 'attrKey', attrCode: 123, name: 'attrName' },
-          { valueCode: '234', name: 'name', selected: true }
-        )
-      ).toEqual({
-        attributeKey: 'attrKey',
-        valueName: 'name',
-        isLightedUp: true,
-      });
-    });
-  });
-
   describe('getValueDescriptionLength', () => {
     it('should return default value if productConfigurator setting is not provided', () => {
       configuratorUISettingsConfig.productConfigurator = undefined;
@@ -672,43 +622,6 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         expect(
           classUnderTest['isValueDisplayed'](currentAttribute, value)
         ).toBe(true);
-      });
-    });
-  });
-
-  describe('mergePriceIntoValue', () => {
-    it('should create a new object combining value and price if onPriceChanged was called for this value before', () => {
-      const valuePrice = { value: 100, currencyIso: 'USD' };
-      classUnderTest.onPriceChanged({
-        source: { attributeKey: 'attrKey', valueName: 'valueKey' },
-        valuePrice: valuePrice,
-      });
-      expect(
-        classUnderTest['mergePriceIntoValue']({
-          valueCode: '1223',
-          name: 'valueKey',
-        })
-      ).toEqual({
-        valueCode: '1223',
-        name: 'valueKey',
-        valuePrice: valuePrice,
-      });
-    });
-
-    it('should return just the value if onPriceChanged was NOT called for this value before', () => {
-      const valuePrice = { value: 100, currencyIso: 'USD' };
-      classUnderTest.onPriceChanged({
-        source: { attributeKey: 'attrKey', valueName: 'anotherValueKey' },
-        valuePrice: valuePrice,
-      });
-      expect(
-        classUnderTest['mergePriceIntoValue']({
-          valueCode: '1223',
-          name: 'valueKey',
-        })
-      ).toEqual({
-        valueCode: '1223',
-        name: 'valueKey',
       });
     });
   });

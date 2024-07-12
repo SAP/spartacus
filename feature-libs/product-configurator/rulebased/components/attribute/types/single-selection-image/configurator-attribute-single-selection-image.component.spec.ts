@@ -20,7 +20,6 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
-import { ConfiguratorPriceAsyncComponentOptions } from '../../../price-async/configurator-price-async.component';
 
 const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
@@ -38,14 +37,6 @@ export class MockFocusDirective {
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-@Component({
-  selector: 'cx-configurator-price-async',
-  template: '',
-})
-class MockConfiguratorPriceAsyncComponent {
-  @Input() options: ConfiguratorPriceAsyncComponentOptions;
 }
 
 class MockConfiguratorCommonsService {
@@ -71,7 +62,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         ConfiguratorAttributeSingleSelectionImageComponent,
         MockFocusDirective,
         MockConfiguratorPriceComponent,
-        MockConfiguratorPriceAsyncComponent,
       ],
       imports: [
         ReactiveFormsModule,
@@ -280,38 +270,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         '#cx-configurator--label--attributeName--' + value1.valueCode;
       const styles = fixture.debugElement.query(By.css(labelId)).styles;
       expect(styles['cursor']).toEqual('default');
-    });
-  });
-
-  describe('Rendering of pricing component', () => {
-    it('should render the sync pricing component if async pricing is disabled', () => {
-      component.isDeltaRendering = false;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-label-container cx-configurator-price'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-label-container cx-configurator-price-async'
-      );
-    });
-
-    it('should render the async pricing component if async pricing is enabled', () => {
-      component.isDeltaRendering = true;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-label-container cx-configurator-price-async'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-label-container cx-configurator-price'
-      );
     });
   });
 

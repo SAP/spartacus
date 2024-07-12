@@ -585,13 +585,10 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
         Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
       component.attribute.validationType = Configurator.ValidationType.NONE;
 
-      component.onPriceChanged({
-        source: {
-          attributeKey: 'attrKey',
-          valueName: valueWithPrice.name ?? '',
-        },
-        valuePrice: { currencyIso: '$', formattedValue: '$200.00', value: 200 },
-      });
+      component['configuratorDeltaRenderingService'].storeValuePrice(
+        valueWithPrice.name ?? '',
+        { currencyIso: '$', formattedValue: '$200.00', value: 200 }
+      );
       fixture.detectChanges();
       expect(
         component.getAriaLabel(valueWithPrice, attributeWithValuePrice)
