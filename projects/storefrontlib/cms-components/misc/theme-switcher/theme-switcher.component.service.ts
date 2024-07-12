@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { SiteThemeService, Theme } from '@spartacus/core';
-import { ThemeService } from '@spartacus/storefront';
+import { ThemeService } from '../../../layout/theme/theme.service';
 import { Observable, tap } from 'rxjs';
 
 @Injectable()
