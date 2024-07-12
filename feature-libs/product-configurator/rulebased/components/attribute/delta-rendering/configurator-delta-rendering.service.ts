@@ -20,10 +20,10 @@ export class ConfiguratorDeltaRenderingService {
   protected valuePrices: { [key: string]: Configurator.PriceDetails } = {};
 
   public reRender(
-    isAsyncPricing: boolean,
+    isDeltaRendering: boolean,
     attributeKey: string
   ): Observable<boolean> {
-    return isAsyncPricing
+    return isDeltaRendering
       ? this.configuratorRouterExtractorService.extractRouterData().pipe(
           switchMap((routerData) => {
             return this.configuratorCommonsService

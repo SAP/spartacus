@@ -598,7 +598,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     });
 
     it('should render the sync pricing component if async pricing is disabled', () => {
-      component.isAsyncPricing = false;
+      component.isDeltaRendering = false;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -613,7 +613,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     });
 
     it('should render the async pricing component if async pricing is enabled', () => {
-      component.isAsyncPricing = true;
+      component.isDeltaRendering = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,

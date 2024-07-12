@@ -280,7 +280,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
 
   describe('Rendering of pricing component', () => {
     it('should render the sync pricing component if async pricing is disabled', () => {
-      component.isAsyncPricing = false;
+      component.isDeltaRendering = false;
       myValues[0].selected = true;
       component.attribute.values = myValues;
       fixture.detectChanges();
@@ -297,7 +297,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     });
 
     it('should render the async pricing component if async pricing is enabled', () => {
-      component.isAsyncPricing = true;
+      component.isDeltaRendering = true;
       myValues[0].selected = true;
       component.attribute.values = myValues;
       fixture.detectChanges();

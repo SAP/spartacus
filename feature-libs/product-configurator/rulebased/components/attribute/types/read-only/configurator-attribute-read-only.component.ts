@@ -40,7 +40,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     this.group = attributeComponentContext.group.id;
     this.expMode = attributeComponentContext.expMode;
     this.reRender$ = this.configuratorDeltaRenderingService.reRender(
-      attributeComponentContext.isAsyncPricing ?? false,
+      attributeComponentContext.isDeltaRendering ?? false,
       this.attribute.key ?? ''
     );
   }

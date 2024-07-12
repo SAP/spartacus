@@ -25,7 +25,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   attribute: Configurator.Attribute;
   ownerKey: string;
   expMode: boolean;
-  isAsyncPricing: boolean;
+  isDeltaRendering: boolean;
 
   protected configuratorDeltaRenderingService = inject(
     ConfiguratorDeltaRenderingService
@@ -43,7 +43,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
     this.reRender$ = this.configuratorDeltaRenderingService.reRender(
-      attributeComponentContext.isAsyncPricing ?? false,
+      attributeComponentContext.isDeltaRendering ?? false,
       this.attribute.key ?? ''
     );
   }

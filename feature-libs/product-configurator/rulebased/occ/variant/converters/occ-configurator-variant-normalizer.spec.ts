@@ -1771,12 +1771,12 @@ describe('OccConfiguratorVariantNormalizer', () => {
   it('should set async pricing flag to true when performance optimization is active', () => {
     productConfiguratorDeltaRenderingEnabled = true;
     const result = occConfiguratorVariantNormalizer.convert(configuration);
-    expect(result.isAsyncPricing).toBe(true);
+    expect(result.isDeltaRendering).toBe(true);
   });
 
   it('should set async pricing flag to false when performance optimization is NOT active', () => {
     productConfiguratorDeltaRenderingEnabled = false;
     const result = occConfiguratorVariantNormalizer.convert(configuration);
-    expect(result.isAsyncPricing).toBe(false);
+    expect(result.isDeltaRendering).toBe(false);
   });
 });

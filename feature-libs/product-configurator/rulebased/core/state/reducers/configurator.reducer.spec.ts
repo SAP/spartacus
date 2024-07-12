@@ -429,7 +429,7 @@ describe('Configurator reducer', () => {
           'A',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        isAsyncPricing: false,
+        isDeltaRendering: false,
         priceSupplements: priceSupplements,
       };
       const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
@@ -452,7 +452,7 @@ describe('Configurator reducer', () => {
           'A',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        isAsyncPricing: true,
+        isDeltaRendering: true,
         priceSupplements: priceSupplements,
       };
       const action = new ConfiguratorActions.UpdatePriceSummarySuccess(

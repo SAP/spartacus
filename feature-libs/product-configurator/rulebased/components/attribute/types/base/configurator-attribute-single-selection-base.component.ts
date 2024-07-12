@@ -30,7 +30,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   ownerType: string;
   language: string;
   expMode: boolean;
-  isAsyncPricing: boolean;
+  isDeltaRendering: boolean;
 
   protected configuratorDeltaRenderingService = inject(
     ConfiguratorDeltaRenderingService
@@ -71,7 +71,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
       );
 
     this.reRender$ = this.configuratorDeltaRenderingService.reRender(
-      attributeComponentContext.isAsyncPricing ?? false,
+      attributeComponentContext.isDeltaRendering ?? false,
       this.attribute.key ?? ''
     );
   }

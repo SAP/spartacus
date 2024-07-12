@@ -55,7 +55,7 @@ export class OccConfiguratorVariantNormalizer
       hideBasePriceAndSelectedOptions: source.hideBasePriceAndSelectedOptions,
       immediateConflictResolution: source.immediateConflictResolution ?? false,
       newConfiguration: source.newConfiguration, // we need a trinary state true, false, undefined!
-      isAsyncPricing: this.featureConfigService.isEnabled(
+      isDeltaRendering: this.featureConfigService.isEnabled(
         'productConfiguratorDeltaRendering'
       ),
     };
