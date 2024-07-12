@@ -35,7 +35,7 @@ export class CheckoutServiceDetailsService
   protected eventService = inject(EventService);
   protected checkoutQueryFacade = inject(CheckoutQueryFacade);
 
-  protected setServiceScheduleSlotCommand: Command<ServiceDateTime, unknown> =
+  protected setServiceScheduleSlotCommand: Command<ServiceDateTime> =
     this.commandService.create<ServiceDateTime>(
       (scheduledAt) =>
         this.checkoutPreconditions().pipe(
@@ -111,7 +111,7 @@ export class CheckoutServiceDetailsService
         return entries
           .map((entry: OrderEntry) => {
             if (entry.product?.productTypes === 'SERVICE') {
-              return entry?.product?.name;
+              return entry.product?.code;
             } else {
               return '';
             }

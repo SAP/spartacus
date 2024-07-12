@@ -49,7 +49,7 @@ export class CheckoutServiceSchedulePickerService {
     return this.baseSiteService.get().pipe(
       take(1),
       map((baseSite) => {
-        let config = { leadDays: 0, serviceScheduleTimes: [] as string[] };
+        const config = { leadDays: 0, serviceScheduleTimes: [] as string[] };
         config.leadDays =
           baseSite?.baseStore?.serviceOrderConfiguration?.leadDays ?? 0;
         config.serviceScheduleTimes =

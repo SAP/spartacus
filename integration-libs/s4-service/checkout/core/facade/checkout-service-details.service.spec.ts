@@ -33,18 +33,21 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
         product: {
           productTypes: 'NON-SERVICE',
           name: 'non-service 1',
+          code: 'non-service 1',
         },
       },
       {
         product: {
           productTypes: 'NON-SERVICE',
           name: 'non-service 2',
+          code: 'non-service 2',
         },
       },
       {
         product: {
           productTypes: 'SERVICE',
           name: 'service 1',
+          code: 'service 1',
         },
       },
     ]);
