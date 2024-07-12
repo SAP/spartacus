@@ -190,6 +190,8 @@ export const SPARTACUS_USER_PROFILE_ROOT = `@spartacus/user/profile/root`;
 
 export const SPARTACUS_CDS = `@spartacus/cds`;
 
+export const SPARTACUS_CDS_ASSETS = `@spartacus/cds/assets`;
+
 export const SPARTACUS_CDP = `@spartacus/cdp`;
 export const SPARTACUS_CDP_CUSTOMER_TICKETING =
   '@spartacus/cdp/customer-ticketing';
@@ -324,3 +326,8 @@ export const PICKUP_IN_STORE_FEATURE = 'Pickup-In-Store';
 export const PICKUP_IN_STORE_MODULE = 'PickupInStoreModule';
 export const PICKUP_IN_STORE_ROOT_MODULE = 'PickupInStoreRootModule';
 /***** Feature name end *****/
+
+export const CPQ_QUOTE_FEATURE_NAME = 'Cpq-Quote';
+export const SPARTACUS_CPQ_QUOTE = `@spartacus/cpq-quote`;
+export const SPARTACUS_CPQ_QUOTE_ROOT = `@spartacus/cpq-quote/root`;
+export const SPARTACUS_CPQ_QUOTE_ASSETS = `@spartacus/cpq-quote/assets`;
