@@ -7,14 +7,13 @@
 
 import { Injectable, OnDestroy } from '@angular/core';
 import {
-  BaseSite,
   BaseSiteService,
   CaptchaConfig,
   LanguageService,
   ScriptLoader,
   SiteAdapter,
 } from '@spartacus/core';
-import { forkJoin, Observable, ReplaySubject, Subscription } from 'rxjs';
+import { forkJoin, map, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
 import { CaptchaProvider, RenderParams } from './captcha.model';
 import { CaptchaApiConfig } from './captcha-api-config';
@@ -54,23 +53,29 @@ export abstract class CaptchaService implements CaptchaProvider, OnDestroy {
    */
   initialize(): void {
     this.subscription.add(
-      forkJoin([
-        this.languageService.getActive().pipe(take(1)),
-        this.baseSiteService.getActive().pipe(
-          concatMap((value) => this.adapter.loadBaseSite(value)),
-          take(1)
-        ),
-      ]).subscribe((result) => {
-        const baseSite = result[1] as BaseSite;
-
-        if (baseSite?.captchaConfig?.enabled) {
-          this.captchaConfig = baseSite.captchaConfig;
-          this.loadResource();
-        } else {
-          this.captchaConfigSubject$.next({ enabled: false });
-        }
+      this.fetchRemoteInfo().subscribe((config) => {
+        this.processCaptchaConfig(config);
       })
     );
+  }
+
+  fetchRemoteInfo(): Observable<CaptchaConfig> {
+    return forkJoin([
+      this.languageService.getActive().pipe(take(1)),
+      this.baseSiteService.getActive().pipe(
+        concatMap((value) => this.adapter.loadBaseSite(value)),
+        take(1)
+      ),
+    ]).pipe(map((result) => result[1].captchaConfig as CaptchaConfig));
+  }
+
+  processCaptchaConfig(captchaConfig: CaptchaConfig): void {
+    if (captchaConfig?.enabled) {
+      this.captchaConfig = captchaConfig;
+      this.loadResource();
+    } else {
+      this.captchaConfigSubject$.next({ enabled: false });
+    }
   }
 
   getCaptchaConfig(): Observable<CaptchaConfig> {
