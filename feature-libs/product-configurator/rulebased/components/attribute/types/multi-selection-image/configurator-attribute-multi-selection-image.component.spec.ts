@@ -19,6 +19,8 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { Observable, of } from 'rxjs';
 
 class MockGroupService {}
 
@@ -51,6 +53,16 @@ class MockConfiguratorStorefrontUtilsService {
   assembleValuesForMultiSelectAttributes(): void {}
 }
 
+class MockConfiguratorDeltaRenderingService {
+  reRender(): Observable<boolean> {
+    return of(true);
+  }
+  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
+    return value;
+  }
+  storeValuePrice(): void {}
+}
+
 describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionImageComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeMultiSelectionImageComponent>;
@@ -58,6 +70,19 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   let config: Config;
 
   beforeEach(waitForAsync(() => {
+    TestBed.overrideComponent(
+      ConfiguratorAttributeMultiSelectionImageComponent,
+      {
+        set: {
+          providers: [
+            {
+              provide: ConfiguratorDeltaRenderingService,
+              useClass: MockConfiguratorDeltaRenderingService,
+            },
+          ],
+        },
+      }
+    );
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeMultiSelectionImageComponent,

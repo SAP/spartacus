@@ -20,6 +20,8 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { Observable, of } from 'rxjs';
 
 const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
@@ -43,6 +45,16 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
+class MockConfiguratorDeltaRenderingService {
+  reRender(): Observable<boolean> {
+    return of(true);
+  }
+  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
+    return value;
+  }
+  storeValuePrice(): void {}
+}
+
 class MockConfig {
   features = [{ productConfiguratorAttributeTypesV2: false }];
 }
@@ -57,6 +69,19 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   let config: Config;
 
   beforeEach(waitForAsync(() => {
+    TestBed.overrideComponent(
+      ConfiguratorAttributeSingleSelectionImageComponent,
+      {
+        set: {
+          providers: [
+            {
+              provide: ConfiguratorDeltaRenderingService,
+              useClass: MockConfiguratorDeltaRenderingService,
+            },
+          ],
+        },
+      }
+    );
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeSingleSelectionImageComponent,

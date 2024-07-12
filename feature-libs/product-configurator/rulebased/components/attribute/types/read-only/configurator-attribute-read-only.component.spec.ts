@@ -8,6 +8,8 @@ import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-uti
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
+import { Observable, of } from 'rxjs';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 
 @Component({
   selector: 'cx-configurator-price',
@@ -57,6 +59,16 @@ const myValues: Configurator.Value[] = [
   },
 ];
 
+class MockConfiguratorDeltaRenderingService {
+  reRender(): Observable<boolean> {
+    return of(true);
+  }
+  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
+    return value;
+  }
+  storeValuePrice(): void {}
+}
+
 describe('ConfigAttributeReadOnlyComponent', () => {
   let component: ConfiguratorAttributeReadOnlyComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeReadOnlyComponent>;
@@ -69,6 +81,16 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   };
 
   beforeEach(waitForAsync(() => {
+    TestBed.overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
+      set: {
+        providers: [
+          {
+            provide: ConfiguratorDeltaRenderingService,
+            useClass: MockConfiguratorDeltaRenderingService,
+          },
+        ],
+      },
+    });
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeReadOnlyComponent,

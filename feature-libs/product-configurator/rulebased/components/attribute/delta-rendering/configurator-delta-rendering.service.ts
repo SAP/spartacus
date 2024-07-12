@@ -45,14 +45,6 @@ export class ConfiguratorDeltaRenderingService {
                   );
                   return pricesChanged ? of(true) : EMPTY;
                 }),
-                tap(() =>
-                  console.log(
-                    attributeKey +
-                      (this.isInitialRendering
-                        ? ' initial rendering'
-                        : ' re-rendering')
-                  )
-                ),
                 tap(() => (this.isInitialRendering = false))
               );
           })

@@ -5,7 +5,7 @@
  */
 
 import { Directive, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -28,7 +28,8 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   isDeltaRendering: boolean;
 
   protected configuratorDeltaRenderingService = inject(
-    ConfiguratorDeltaRenderingService
+    ConfiguratorDeltaRenderingService,
+    { optional: true }
   );
 
   reRender$: Observable<boolean>;
@@ -42,10 +43,11 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.reRender$ = this.configuratorDeltaRenderingService.reRender(
-      attributeComponentContext.isDeltaRendering ?? false,
-      this.attribute.key ?? ''
-    );
+    this.reRender$ =
+      this.configuratorDeltaRenderingService?.reRender(
+        attributeComponentContext.isDeltaRendering ?? false,
+        this.attribute.key ?? ''
+      ) ?? of(true);
   }
 
   /**
@@ -147,7 +149,9 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   extractValuePriceFormulaParameters(
     value: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
-    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    value =
+      this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
+      value;
     return {
       quantity: value.quantity,
       price: value.valuePrice,
@@ -160,7 +164,9 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     attribute: Configurator.Attribute,
     value: Configurator.Value
   ): string {
-    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    value =
+      this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
+      value;
     return super.getAriaLabelGeneric(attribute, value);
   }
 }

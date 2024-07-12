@@ -33,7 +33,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   isDeltaRendering: boolean;
 
   protected configuratorDeltaRenderingService = inject(
-    ConfiguratorDeltaRenderingService
+    ConfiguratorDeltaRenderingService,
+    { optional: true }
   );
 
   showRequiredErrorMessage$: Observable<boolean> = of(false);
@@ -70,10 +71,11 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
         )
       );
 
-    this.reRender$ = this.configuratorDeltaRenderingService.reRender(
-      attributeComponentContext.isDeltaRendering ?? false,
-      this.attribute.key ?? ''
-    );
+    this.reRender$ =
+      this.configuratorDeltaRenderingService?.reRender(
+        attributeComponentContext.isDeltaRendering ?? false,
+        this.attribute.key ?? ''
+      ) ?? of(true);
   }
 
   /**
@@ -207,7 +209,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   extractValuePriceFormulaParameters(
     value?: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
-    if (value) {
+    if (value && this.configuratorDeltaRenderingService) {
       value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
     }
     return {
@@ -238,7 +240,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     value: Configurator.Value,
     attribute: Configurator.Attribute
   ): string {
-    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    value =
+      this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
+      value;
     const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
     if (this.isWithAdditionalValues(this.attribute)) {
       const ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
