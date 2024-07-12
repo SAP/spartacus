@@ -9,12 +9,11 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Theme } from '../../model/misc.model';
 import { SiteThemeConfig } from '../config/site-theme-config';
-import { BaseSiteService } from '@spartacus/core';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
 
 @Injectable()
 export class SiteThemeService {
-  private themeSubject = new BehaviorSubject<string>('');
-  private theme$ = this.themeSubject.asObservable();
+  private theme$ = new BehaviorSubject<string>('');
   private activeHasSet = false;
   private themes: Theme[] = [];
 
@@ -47,7 +46,7 @@ export class SiteThemeService {
    * Gets the className of the active theme.
    */
   getActive(): Observable<string> {
-    return this.theme$;
+    return this.theme$.asObservable();
   }
 
   /**
@@ -57,7 +56,7 @@ export class SiteThemeService {
     this.activeHasSet = true;
     this.getAll().subscribe(() => {
       if (this.isValid(className)) {
-        this.themeSubject.next(className);
+        this.theme$.next(className);
       }
     });
   }
