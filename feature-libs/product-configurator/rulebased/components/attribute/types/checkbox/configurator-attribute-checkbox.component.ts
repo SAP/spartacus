@@ -23,6 +23,7 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   selector: 'cx-configurator-attribute-checkbox',
   templateUrl: './configurator-attribute-checkbox.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorDeltaRenderingService],
 })
 export class ConfiguratorAttributeCheckBoxComponent
   extends ConfiguratorAttributeBaseComponent

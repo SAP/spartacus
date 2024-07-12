@@ -18,6 +18,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-configurator-attribute-read-only',
   templateUrl: './configurator-attribute-read-only.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorDeltaRenderingService],
 })
 export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttributeBaseComponent {
   attribute: Configurator.Attribute;
