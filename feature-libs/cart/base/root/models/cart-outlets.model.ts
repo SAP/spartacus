@@ -21,4 +21,7 @@ export enum CartOutlets {
   ADD_TO_CART_PICKUP_OPTION = 'cx-add-to-cart-pickup-option',
   DELIVERY_MODE = 'cx-delivery-mode',
   ORDER_OVERVIEW = 'cx-order-overview',
+  CPQ_QUOTE_MODULE = 'cx-cpq-quote',
+  CPQ_QUOTE_HEADING = 'cx-cpq-quote-heading',
+  CPQ_QUOTE = 'cx-cpq-quote-offer',
 }
