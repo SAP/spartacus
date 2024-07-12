@@ -7,6 +7,7 @@
 
 import { Injectable, OnDestroy } from '@angular/core';
 import {
+  BaseSite,
   BaseSiteService,
   CaptchaConfig,
   LanguageService,
@@ -71,7 +72,7 @@ export abstract class CaptchaService implements CaptchaProvider, OnDestroy {
         concatMap((value) => this.adapter.loadBaseSite(value)),
         take(1)
       ),
-    ]).pipe(map((result) => result[1].captchaConfig as CaptchaConfig));
+    ]).pipe(map((result: BaseSite) => result[1].captchaConfig as CaptchaConfig));
   }
 
   getCaptchaConfig(): Observable<CaptchaConfig> {
