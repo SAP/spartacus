@@ -398,7 +398,11 @@ describe('OptimizedSsrEngine', () => {
         tick(200);
         engineRunner.request('a');
         tick(200);
-        expect(engineRunner.renders).toMatchSnapshot();
+        expect(engineRunner.renders).toEqual([
+          new Error('a-0'),
+          new Error('a-1'),
+          new Error('a-2'),
+        ]);
       }));
 
       it('should cache errors if `avoidCachingErrors` is set to false', fakeAsync(() => {
@@ -412,7 +416,39 @@ describe('OptimizedSsrEngine', () => {
         tick(200);
         engineRunner.request('a');
         tick(200);
-        expect(engineRunner.renders).toMatchSnapshot();
+        expect(engineRunner.renders).toEqual([
+          new Error('a-0'),
+          new Error('a-0'),
+          new Error('a-0'),
+        ]);
+      }));
+
+      it('should cache HTML if `avoidCachingErrors` is set to true', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({
+          cache: true,
+          avoidCachingErrors: true,
+        }).request('a');
+
+        tick(200);
+        engineRunner.request('a');
+        tick(200);
+        engineRunner.request('a');
+        tick(200);
+        expect(engineRunner.renders).toEqual(['a-0', 'a-0', 'a-0']);
+      }));
+
+      it('should cache HTML if `avoidCachingErrors` is set to false', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({
+          cache: true,
+          avoidCachingErrors: true,
+        }).request('a');
+
+        tick(200);
+        engineRunner.request('a');
+        tick(200);
+        engineRunner.request('a');
+        tick(200);
+        expect(engineRunner.renders).toEqual(['a-0', 'a-0', 'a-0']);
       }));
     });
   });
@@ -429,7 +465,11 @@ describe('OptimizedSsrEngine', () => {
       tick(200);
       engineRunner.request('a');
       tick(200);
-      expect(engineRunner.renders).toMatchSnapshot();
+      expect(engineRunner.renders).toEqual([
+        new Error('a-0'),
+        new Error('a-1'),
+        new Error('a-2'),
+      ]);
     }));
 
     it('should cache errors if `cacheStrategyResolver` returns true', fakeAsync(() => {
@@ -443,7 +483,39 @@ describe('OptimizedSsrEngine', () => {
       tick(200);
       engineRunner.request('a');
       tick(200);
-      expect(engineRunner.renders).toMatchSnapshot();
+      expect(engineRunner.renders).toEqual([
+        new Error('a-0'),
+        new Error('a-0'),
+        new Error('a-0'),
+      ]);
+    }));
+
+    it('should not cache HTML if `cacheStrategyResolver` returns false', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner({
+        cache: true,
+        cacheStrategyResolver: () => false,
+      }).request('a');
+
+      tick(200);
+      engineRunner.request('a');
+      tick(200);
+      engineRunner.request('a');
+      tick(200);
+      expect(engineRunner.renders).toEqual(['a-0', 'a-1', 'a-2']);
+    }));
+
+    it('should cache HTML if `cacheStrategyResolver` returns true', fakeAsync(() => {
+      const engineRunner = new TestEngineRunner({
+        cache: true,
+        cacheStrategyResolver: () => true,
+      }).request('a');
+
+      tick(200);
+      engineRunner.request('a');
+      tick(200);
+      engineRunner.request('a');
+      tick(200);
+      expect(engineRunner.renders).toEqual(['a-0', 'a-0', 'a-0']);
     }));
   });
 

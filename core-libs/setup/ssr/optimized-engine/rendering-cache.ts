@@ -32,10 +32,7 @@ export class RenderingCache {
       }
     }
     // cache only if cachingStrategyResolver return true
-    if (
-      this.options?.cacheStrategyResolver &&
-      this.options?.cacheStrategyResolver(this.options, entry)
-    ) {
+    if (this.options?.cacheStrategyResolver?.(this.options, entry)) {
       this.renders.set(key, entry);
     }
   }

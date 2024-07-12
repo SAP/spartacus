@@ -133,8 +133,11 @@ export interface SsrOptimizationOptions {
   logger?: ExpressServerLogger;
 
   /**
-   * Caching strategy resolver that determines the behavior of caching in RenderingCache.
-   * By default, the caching strategy is based on the presence of an error.
+   * When caching is enabled, this function tell whether the given rendering result
+   * (html or error) should be cached.
+   *
+   * By default, all html rendering results are cached. By default, also all errors are cached
+   * unless the separate option `avoidCachingErrors` is enabled.
    */
   cacheStrategyResolver?: (
     config: SsrOptimizationOptions,
@@ -142,10 +145,15 @@ export interface SsrOptimizationOptions {
   ) => boolean;
 
   /**
-   * Avoid caching of errors. By default, this value is false.
-   * Caching errors is not recommended because it can lead to serving stale content.
+   * Determines if rendering errors should be skipped from caching.
    *
-   * NOTE: Treat this option as a feature toggle. In a future, such an option is going to be true by default.
+   * NOTE: It's a temporary feature toggle, to be removed in the future.
+   *
+   * It's recommended to set to `true` (i.e. errors are skipped from caching),
+   * which will become the default behavior, when this feature toggle is removed.
+   *
+   * It only affects the default `cacheStrategyResolver`.
+   * Custom implementations of `cacheStrategyResolver` may ignore this setting.
    */
   avoidCachingErrors?: boolean;
 }

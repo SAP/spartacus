@@ -85,8 +85,12 @@ export interface FeatureTogglesInterface {
   productConfiguratorAttributeTypesV2?: boolean;
 
   /**
-   * Enables the propagation of errors that occur during server-side rendering (SSR) to the server.
-   * This allows for the errors to be properly handled, ensuring that a correct response is sent to the client instead of a malformed template.
+   * In a server environment (SSR or Prerendering) it propagates all errors caught in Angular app
+   * (in the Angular's `ErrorHandler` class) to the server layer.
+   *
+   * In SSR, such a propagation allows the server layer (e.g. ExpressJS) for handling those errors,
+   * e.g. sending a proper Error Page in response to the client,
+   * instead of a rendered HTML that is possibly malformed due to the occurred error.
    */
   propagateErrorsToServer?: boolean;
 
