@@ -2,7 +2,7 @@
   <fieldset>
     <legend style="display: none">{{ attribute.label }}</legend>
     <div id="{{ createAttributeIdForConfigurator(attribute) }}">
-      <div class="form-check">
+      <div class="form-check" *ngIf="reRender$ | async">
         <div class="cx-value-label-pair">
           <input
             id="{{
@@ -65,14 +65,8 @@
         </div>
         <div class="cx-value-price">
           <cx-configurator-price
-            *ngIf="!isAsyncPricing"
             [formula]="extractValuePriceFormulaParameters(attributeValue)"
           ></cx-configurator-price>
-          <cx-configurator-price-async
-            *ngIf="isAsyncPricing"
-            [options]="extractValuePriceAsyncOptions(attribute, attributeValue)"
-            (priceChanged)="onPriceChanged($event)"
-          ></cx-configurator-price-async>
         </div>
       </div>
     </div>

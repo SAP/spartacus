@@ -21,7 +21,6 @@ import { ConfiguratorAttributeInputFieldModule } from '../input-field/configurat
 import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 import { ConfiguratorAttributeNumericInputFieldModule } from '../numeric-input-field/configurator-attribute-numeric-input-field.module';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
-import { ConfiguratorPriceAsyncModule } from '../../../price-async/configurator-price-async.module';
 
 @NgModule({
   imports: [
@@ -33,7 +32,6 @@ import { ConfiguratorPriceAsyncModule } from '../../../price-async/configurator-
     NgSelectModule,
     ReactiveFormsModule,
     ConfiguratorPriceModule,
-    ConfiguratorPriceAsyncModule,
     ConfiguratorAttributeNumericInputFieldModule,
     ConfiguratorAttributeInputFieldModule,
     ConfiguratorShowMoreModule,

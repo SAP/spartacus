@@ -17,12 +17,15 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-image',
   templateUrl: './configurator-attribute-single-selection-image.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorDeltaRenderingService],
 })
 export class ConfiguratorAttributeSingleSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent
@@ -33,10 +36,13 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   attribute: Configurator.Attribute;
   ownerKey: string;
   expMode: boolean;
-  isAsyncPricing: boolean;
 
   iconTypes = ICON_TYPE;
   protected config = inject(Config);
+  protected configuratorDeltaRenderingService = inject(
+    ConfiguratorDeltaRenderingService
+  );
+  reRender$: Observable<boolean>;
 
   constructor(
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
@@ -46,8 +52,10 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.isAsyncPricing = attributeComponentContext.isAsyncPricing ?? false;
-
+    this.reRender$ = this.configuratorDeltaRenderingService.reRender(
+      attributeComponentContext.isDeltaRendering ?? false,
+      this.attribute.key ?? ''
+    );
     useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
 
@@ -74,9 +82,20 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   extractValuePriceFormulaParameters(
     value?: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
+    if (value) {
+      value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    }
     return {
       price: value?.valuePrice,
       isLightedUp: value ? value.selected : false,
     };
+  }
+
+  getAriaLabelGeneric(
+    attribute: Configurator.Attribute,
+    value: Configurator.Value
+  ): string {
+    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    return super.getAriaLabelGeneric(attribute, value);
   }
 }

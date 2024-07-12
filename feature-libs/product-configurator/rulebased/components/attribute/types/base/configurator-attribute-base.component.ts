@@ -5,14 +5,10 @@
  */
 
 import { inject } from '@angular/core';
-import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-import {
-  ConfiguratorPriceAsyncComponentOptions,
-  ConfiguratorValuePriceChanged,
-} from '../../../price-async/configurator-price-async.component';
 import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs';
+import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator
@@ -29,7 +25,6 @@ export class ConfiguratorAttributeBaseComponent {
   private static PREFIX_DDLB_OPTION_PRICE_VALUE = 'option--price';
   protected static MAX_IMAGE_LABEL_CHARACTERS = 16;
 
-  protected valuePrices: { [key: string]: Configurator.PriceDetails } = {};
   /**
    * Creates unique key for config value on the UI
    * @param prefix for key depending on usage (e.g. uiType, label)
@@ -258,38 +253,7 @@ export class ConfiguratorAttributeBaseComponent {
     return styleClass;
   }
 
-  /**
-   * Creates @see {ConfiguratorPriceAsyncComponentOptions} as required by the cx-configurator-price-async component,
-   * so it can render the price for the given value of the given attribute.
-   *
-   * @param attribute Configurator Attribute
-   * @param value Configurator Attribute Value
-   * @returns control options
-   */
-  extractValuePriceAsyncOptions(
-    attribute: Configurator.Attribute,
-    value?: Configurator.Value
-  ): ConfiguratorPriceAsyncComponentOptions {
-    return {
-      attributeKey: attribute.key ?? '',
-      valueName: value?.name ?? '',
-      isLightedUp: value?.selected ?? false,
-    };
-  }
-
-  /**
-   * Event handler to be called when a value price changes.
-   *
-   * @param event event with the new value price
-   */
-  onPriceChanged(event: ConfiguratorValuePriceChanged) {
-    this.valuePrices[event.source.valueName] = event.valuePrice;
-  }
-
   protected getValuePrice(value: Configurator.Value | undefined): string {
-    if (value) {
-      value = this.mergePriceIntoValue(value);
-    }
     if (value?.valuePrice?.value && !value.selected) {
       if (value.valuePrice.value < 0) {
         return ` [${value.valuePrice?.formattedValue}]`;
@@ -399,21 +363,6 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   /**
-   * Merges value price data received via @see {ConfiguratorValuePriceChanged} events into the given value, if available.
-   * As the value might be read-only a new object will be returned combining price and value.
-   *
-   * @param value the value
-   * @returns the new value with price
-   */
-  protected mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
-    const valueName = value.name;
-    if (valueName && this.valuePrices[valueName]) {
-      value = { ...value, valuePrice: this.valuePrices[valueName] };
-    }
-    return value;
-  }
-
-  /**
    * Creates a text describing the current attribute that can be used as ARIA label.
    * Includes price information. If a total price is available this price will be used,
    * otherwise it falls back to the value price, or if no price is available,
@@ -427,8 +376,6 @@ export class ConfiguratorAttributeBaseComponent {
     attribute: Configurator.Attribute,
     value: Configurator.Value
   ): string {
-    value = this.mergePriceIntoValue(value);
-
     const params: { value?: string; attribute?: string; price?: string } = {
       value: value.valueDisplay,
       attribute: attribute.label,

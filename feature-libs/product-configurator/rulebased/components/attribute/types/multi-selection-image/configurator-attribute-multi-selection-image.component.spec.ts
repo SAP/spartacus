@@ -19,7 +19,8 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
-import { ConfiguratorPriceAsyncComponentOptions } from '../../../price-async/configurator-price-async.component';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { Observable, of } from 'rxjs';
 
 class MockGroupService {}
 
@@ -40,14 +41,6 @@ class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
-@Component({
-  selector: 'cx-configurator-price-async',
-  template: '',
-})
-class MockConfiguratorPriceAsyncComponent {
-  @Input() options: ConfiguratorPriceAsyncComponentOptions;
-}
-
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
@@ -60,6 +53,16 @@ class MockConfiguratorStorefrontUtilsService {
   assembleValuesForMultiSelectAttributes(): void {}
 }
 
+class MockConfiguratorDeltaRenderingService {
+  reRender(): Observable<boolean> {
+    return of(true);
+  }
+  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
+    return value;
+  }
+  storeValuePrice(): void {}
+}
+
 describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionImageComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeMultiSelectionImageComponent>;
@@ -67,12 +70,24 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   let config: Config;
 
   beforeEach(waitForAsync(() => {
+    TestBed.overrideComponent(
+      ConfiguratorAttributeMultiSelectionImageComponent,
+      {
+        set: {
+          providers: [
+            {
+              provide: ConfiguratorDeltaRenderingService,
+              useClass: MockConfiguratorDeltaRenderingService,
+            },
+          ],
+        },
+      }
+    );
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeMultiSelectionImageComponent,
         MockFocusDirective,
         MockConfiguratorPriceComponent,
-        MockConfiguratorPriceAsyncComponent,
       ],
       imports: [
         ReactiveFormsModule,
@@ -282,38 +297,6 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
       expect(
         component['configuratorCommonsService'].updateConfiguration
       ).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('Rendering of pricing component', () => {
-    it('should render the sync pricing component if async pricing is disabled', () => {
-      component.isAsyncPricing = false;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-label-container cx-configurator-price'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-label-container cx-configurator-price-async'
-      );
-    });
-
-    it('should render the async pricing component if async pricing is enabled', () => {
-      component.isAsyncPricing = true;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-label-container cx-configurator-price-async'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-label-container cx-configurator-price'
-      );
     });
   });
 

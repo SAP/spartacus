@@ -17,6 +17,7 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
 
@@ -24,6 +25,7 @@ import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/config
   selector: 'cx-configurator-attribute-checkbox-list',
   templateUrl: './configurator-attribute-checkbox-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorDeltaRenderingService],
 })
 export class ConfiguratorAttributeCheckBoxListComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent

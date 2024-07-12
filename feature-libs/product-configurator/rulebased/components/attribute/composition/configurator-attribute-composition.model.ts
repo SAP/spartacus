@@ -17,5 +17,5 @@ export class ConfiguratorAttributeCompositionContext {
   language: string;
   expMode: boolean;
   isNavigationToGroupEnabled?: boolean;
-  isAsyncPricing?: boolean;
+  isDeltaRendering?: boolean;
 }

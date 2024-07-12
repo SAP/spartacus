@@ -22,7 +22,8 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
-import { ConfiguratorPriceAsyncComponentOptions } from '../../../price-async/configurator-price-async.component';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { Observable, of } from 'rxjs';
 
 class MockGroupService {}
 
@@ -71,12 +72,14 @@ class MockConfiguratorStorefrontUtilsService {
   assembleValuesForMultiSelectAttributes(): void {}
 }
 
-@Component({
-  selector: 'cx-configurator-price-async',
-  template: '',
-})
-class MockConfiguratorPriceAsyncComponent {
-  @Input() options: ConfiguratorPriceAsyncComponentOptions;
+class MockConfiguratorDeltaRenderingService {
+  reRender(): Observable<boolean> {
+    return of(true);
+  }
+  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
+    return value;
+  }
+  storeValuePrice(): void {}
 }
 
 describe('ConfiguratorAttributeCheckBoxListComponent', () => {
@@ -86,13 +89,22 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
   beforeEach(waitForAsync(() => {
+    TestBed.overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {
+      set: {
+        providers: [
+          {
+            provide: ConfiguratorDeltaRenderingService,
+            useClass: MockConfiguratorDeltaRenderingService,
+          },
+        ],
+      },
+    });
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeCheckBoxListComponent,
         MockFocusDirective,
         MockConfiguratorAttributeQuantityComponent,
         MockConfiguratorPriceComponent,
-        MockConfiguratorPriceAsyncComponent,
         MockConfiguratorShowMoreComponent,
       ],
       imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
@@ -474,38 +486,6 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-show-more'
-      );
-    });
-  });
-
-  describe('Rendering of pricing component', () => {
-    it('should render the sync pricing component if async pricing is disabled', () => {
-      component.isAsyncPricing = false;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price-async'
-      );
-    });
-
-    it('should render the async pricing component if async pricing is enabled', () => {
-      component.isAsyncPricing = true;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price-async'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price'
       );
     });
   });

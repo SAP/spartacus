@@ -14,7 +14,6 @@ import { ConfiguratorPriceModule } from '../../../price/configurator-price.modul
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
-import { ConfiguratorPriceAsyncModule } from '../../../price-async/configurator-price-async.module';
 
 @NgModule({
   imports: [
@@ -25,7 +24,6 @@ import { ConfiguratorPriceAsyncModule } from '../../../price-async/configurator-
     I18nModule,
     ConfiguratorAttributeQuantityModule,
     ConfiguratorPriceModule,
-    ConfiguratorPriceAsyncModule,
     ConfiguratorShowMoreModule,
   ],
   providers: [

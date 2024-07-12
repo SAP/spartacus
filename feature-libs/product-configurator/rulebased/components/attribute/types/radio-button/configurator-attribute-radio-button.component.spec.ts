@@ -24,7 +24,7 @@ import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/co
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
-import { ConfiguratorPriceAsyncComponentOptions } from '../../../price-async';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 
 const VALUE_NAME_2 = 'val2';
 
@@ -64,14 +64,6 @@ class MockConfiguratorPriceComponent {
 }
 
 @Component({
-  selector: 'cx-configurator-price-async',
-  template: '',
-})
-class MockConfiguratorPriceAsyncComponent {
-  @Input() options: ConfiguratorPriceAsyncComponentOptions;
-}
-
-@Component({
   selector: 'cx-configurator-show-more',
   template: '',
 })
@@ -86,6 +78,16 @@ class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
     return of(isCartEntryOrGroupVisited);
   }
+}
+
+class MockConfiguratorDeltaRenderingService {
+  reRender(): Observable<boolean> {
+    return of(true);
+  }
+  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
+    return value;
+  }
+  storeValuePrice(): void {}
 }
 
 describe('ConfigAttributeRadioButtonComponent', () => {
@@ -104,6 +106,16 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   const values: Configurator.Value[] = [value1, value2, value3];
 
   beforeEach(waitForAsync(() => {
+    TestBed.overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
+      set: {
+        providers: [
+          {
+            provide: ConfiguratorDeltaRenderingService,
+            useClass: MockConfiguratorDeltaRenderingService,
+          },
+        ],
+      },
+    });
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeRadioButtonComponent,
@@ -113,7 +125,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         MockFocusDirective,
         MockConfiguratorAttributeQuantityComponent,
         MockConfiguratorPriceComponent,
-        MockConfiguratorPriceAsyncComponent,
         MockConfiguratorShowMoreComponent,
       ],
       imports: [
@@ -350,38 +361,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-attribute-numeric-input-field'
-      );
-    });
-  });
-
-  describe('Rendering of pricing component', () => {
-    it('should render the sync pricing component if async pricing is disabled', () => {
-      component.isAsyncPricing = false;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price-async'
-      );
-    });
-
-    it('should render the async pricing component if async pricing is enabled', () => {
-      component.isAsyncPricing = true;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price-async'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price'
       );
     });
   });

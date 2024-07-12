@@ -1,19 +1,20 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfigFormUpdateEvent } from '../../../form';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { ConfiguratorAttributeSingleSelectionBaseComponent } from './configurator-attribute-single-selection-base.component';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { StoreModule } from '@ngrx/store';
+import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfigFormUpdateEvent } from '../../../form';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorAttributeSingleSelectionBaseComponent } from './configurator-attribute-single-selection-base.component';
 
 const attributeWithValuePrice: Configurator.Attribute = {
   name: 'attribute with value price',
@@ -65,6 +66,7 @@ class MockConfiguratorCommonsService {
 @Component({
   selector: 'cx-configurator-attribute-single-selection',
   template: 'test-configurator-attribute-single-selection',
+  providers: [ConfiguratorDeltaRenderingService],
 })
 class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
   constructor(
@@ -585,13 +587,10 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
         Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
       component.attribute.validationType = Configurator.ValidationType.NONE;
 
-      component.onPriceChanged({
-        source: {
-          attributeKey: 'attrKey',
-          valueName: valueWithPrice.name ?? '',
-        },
-        valuePrice: { currencyIso: '$', formattedValue: '$200.00', value: 200 },
-      });
+      component['configuratorDeltaRenderingService']?.storeValuePrice(
+        valueWithPrice.name ?? '',
+        { currencyIso: '$', formattedValue: '$200.00', value: 200 }
+      );
       fixture.detectChanges();
       expect(
         component.getAriaLabel(valueWithPrice, attributeWithValuePrice)

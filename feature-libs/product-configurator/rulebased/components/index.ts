@@ -29,7 +29,6 @@ export * from './overview-sidebar/index';
 export * from './previous-next-buttons/index';
 export * from './price-summary/index';
 export * from './price/index';
-export * from './price-async/index';
 export * from './product-title/index';
 export * from './rulebased-configurator-components.module';
 export * from './restart-dialog/index';

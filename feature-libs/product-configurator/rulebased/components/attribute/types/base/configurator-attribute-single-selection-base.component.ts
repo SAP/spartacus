@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive } from '@angular/core';
+import { Directive, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -12,12 +12,13 @@ import { map, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -29,9 +30,15 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   ownerType: string;
   language: string;
   expMode: boolean;
-  isAsyncPricing: boolean;
+  isDeltaRendering: boolean;
+
+  protected configuratorDeltaRenderingService = inject(
+    ConfiguratorDeltaRenderingService,
+    { optional: true }
+  );
 
   showRequiredErrorMessage$: Observable<boolean> = of(false);
+  reRender$: Observable<boolean>;
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
@@ -47,7 +54,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     this.ownerType = attributeComponentContext.owner.type;
     this.language = attributeComponentContext.language;
     this.expMode = attributeComponentContext.expMode;
-    this.isAsyncPricing = attributeComponentContext.isAsyncPricing ?? false;
 
     this.showRequiredErrorMessage$ = this.configuratorStorefrontUtilsService
       .isCartEntryOrGroupVisited(
@@ -64,6 +70,12 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
             false
         )
       );
+
+    this.reRender$ =
+      this.configuratorDeltaRenderingService?.reRender(
+        attributeComponentContext.isDeltaRendering ?? false,
+        this.attribute.key ?? ''
+      ) ?? of(true);
   }
 
   /**
@@ -197,6 +209,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   extractValuePriceFormulaParameters(
     value?: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
+    if (value && this.configuratorDeltaRenderingService) {
+      value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    }
     return {
       price: value?.valuePrice,
       isLightedUp: value ? value.selected : false,
@@ -225,7 +240,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     value: Configurator.Value,
     attribute: Configurator.Attribute
   ): string {
-    value = this.mergePriceIntoValue(value);
+    value =
+      this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
+      value;
     const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
     if (this.isWithAdditionalValues(this.attribute)) {
       const ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();

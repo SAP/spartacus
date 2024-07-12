@@ -8,7 +8,8 @@ import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-uti
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
-import { ConfiguratorPriceAsyncComponentOptions } from '../../../price-async/configurator-price-async.component';
+import { Observable, of } from 'rxjs';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 
 @Component({
   selector: 'cx-configurator-price',
@@ -34,14 +35,6 @@ const priceDetails: Configurator.PriceDetails = {
   value: 3,
 };
 
-@Component({
-  selector: 'cx-configurator-price-async',
-  template: '',
-})
-class MockConfiguratorPriceAsyncComponent {
-  @Input() options: ConfiguratorPriceAsyncComponentOptions;
-}
-
 const myValues: Configurator.Value[] = [
   {
     valueCode: 'val1',
@@ -66,6 +59,16 @@ const myValues: Configurator.Value[] = [
   },
 ];
 
+class MockConfiguratorDeltaRenderingService {
+  reRender(): Observable<boolean> {
+    return of(true);
+  }
+  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
+    return value;
+  }
+  storeValuePrice(): void {}
+}
+
 describe('ConfigAttributeReadOnlyComponent', () => {
   let component: ConfiguratorAttributeReadOnlyComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeReadOnlyComponent>;
@@ -78,11 +81,20 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   };
 
   beforeEach(waitForAsync(() => {
+    TestBed.overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
+      set: {
+        providers: [
+          {
+            provide: ConfiguratorDeltaRenderingService,
+            useClass: MockConfiguratorDeltaRenderingService,
+          },
+        ],
+      },
+    });
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeReadOnlyComponent,
         MockConfiguratorPriceComponent,
-        MockConfiguratorPriceAsyncComponent,
         MockConfiguratorShowMoreComponent,
       ],
       providers: [
@@ -274,42 +286,6 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-show-more'
-      );
-    });
-  });
-
-  describe('Rendering of pricing component', () => {
-    it('should render the sync pricing component if async pricing is disabled', () => {
-      component.isAsyncPricing = false;
-      myValues[0].selected = true;
-      component.attribute.values = myValues;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price-async'
-      );
-    });
-
-    it('should render the async pricing component if async pricing is enabled', () => {
-      component.isAsyncPricing = true;
-      myValues[0].selected = true;
-      component.attribute.values = myValues;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price-async'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price'
       );
     });
   });

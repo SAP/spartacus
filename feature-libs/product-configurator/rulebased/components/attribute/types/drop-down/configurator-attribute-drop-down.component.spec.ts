@@ -12,25 +12,21 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
 import { Config, I18nTestingModule } from '@spartacus/core';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
-import { EMPTY, Observable, Subject, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceAsyncComponentOptions } from '../../../price-async/configurator-price-async.component';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
-import {
-  CommonConfigurator,
-  ConfiguratorRouterExtractorService,
-} from '@spartacus/product-configurator/common';
 
 function createValue(
   code: string,
@@ -52,18 +48,6 @@ function createValue(
   };
   return value;
 }
-
-const mockConfigTemplate: Configurator.Configuration = {
-  ...ConfiguratorTestUtils.createConfiguration('c123'),
-  pricingEnabled: true,
-  priceSupplements: ConfiguratorTestUtils.createListOfAttributeSupplements(
-    false,
-    1,
-    0,
-    2,
-    3
-  ),
-};
 
 @Directive({
   selector: '[cxFocus]',
@@ -99,28 +83,8 @@ class MockConfiguratorShowMoreComponent {
   @Input() productName: string;
 }
 
-@Component({
-  selector: 'cx-configurator-price-async',
-  template: '',
-})
-class MockConfiguratorPriceAsyncComponent {
-  @Input() options: ConfiguratorPriceAsyncComponentOptions;
-}
-
-const configSubject = new Subject<Configurator.Configuration>();
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
-  getConfiguration(
-    owner: CommonConfigurator.Owner
-  ): Observable<Configurator.Configuration> {
-    return owner === mockConfigTemplate.owner ? configSubject : EMPTY;
-  }
-}
-
-class MockConfiguratorRouterExtractorService {
-  extractRouterData() {
-    return of({ owner: mockConfigTemplate.owner });
-  }
 }
 
 let showRequiredErrorMessage: boolean;
@@ -134,12 +98,21 @@ class MockConfig {
   features = [{ productConfiguratorAttributeTypesV2: false }];
 }
 
+class MockConfiguratorDeltaRenderingService {
+  reRender(): Observable<boolean> {
+    return of(true);
+  }
+  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
+    return value;
+  }
+  storeValuePrice(): void {}
+}
+
 describe('ConfiguratorAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorAttributeDropDownComponent>;
   let config: Config;
-  let mockConfig: Configurator.Configuration;
 
   const ownerKey = 'theOwnerKey';
   const name = 'group1@attribute_1_1';
@@ -180,8 +153,6 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       values,
     };
     fixture.detectChanges();
-    mockConfig = structuredClone(mockConfigTemplate);
-    configSubject.next(mockConfig);
 
     config = TestBed.inject(Config);
     (config.features ?? {}).productConfiguratorAttributeTypesV2 = false;
@@ -190,6 +161,16 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
   }
 
   beforeEach(waitForAsync(() => {
+    TestBed.overrideComponent(ConfiguratorAttributeDropDownComponent, {
+      set: {
+        providers: [
+          {
+            provide: ConfiguratorDeltaRenderingService,
+            useClass: MockConfiguratorDeltaRenderingService,
+          },
+        ],
+      },
+    });
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeDropDownComponent,
@@ -198,7 +179,6 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         MockFocusDirective,
         MockConfiguratorAttributeQuantityComponent,
         MockConfiguratorPriceComponent,
-        MockConfiguratorPriceAsyncComponent,
         MockFeatureLevelDirective,
         MockConfiguratorShowMoreComponent,
       ],
@@ -217,10 +197,6 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
@@ -245,19 +221,6 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       htmlElem,
       'select.cx-required-error-msg'
     );
-  });
-
-  it('should record value price changes for the given attribute', () => {
-    createComponentWithData();
-    expect(component['valuePrices'][value1.name ?? '']).toBeUndefined();
-    expect(component['valuePrices'][value2.name ?? '']).toBe(value2.valuePrice);
-    expect(component['valuePrices'][value3.name ?? '']).toBe(value3.valuePrice);
-  });
-
-  it('should not update prices if there is no change', () => {
-    createComponentWithData();
-    expect(component['checkForValuePriceChanges'](mockConfig)).toBeTruthy();
-    expect(component['checkForValuePriceChanges'](mockConfig)).toBeFalsy();
   });
 
   it('should render an empty component because showRequiredErrorMessage$ is `false`', () => {
@@ -586,44 +549,6 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
           ' value:' +
           value1.valueDisplay,
         value1.valueDisplay
-      );
-    });
-  });
-
-  describe('Rendering of pricing component', () => {
-    beforeEach(() => {
-      createComponentWithData();
-      component.attribute.dataType =
-        Configurator.DataType.USER_SELECTION_NO_QTY;
-    });
-
-    it('should render the sync pricing component if async pricing is disabled', () => {
-      component.isAsyncPricing = false;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price-async'
-      );
-    });
-
-    it('should render the async pricing component if async pricing is enabled', () => {
-      component.isAsyncPricing = true;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price-async'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-value-price cx-configurator-price'
       );
     });
   });

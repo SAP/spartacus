@@ -13,11 +13,13 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 
 @Component({
   selector: 'cx-configurator-attribute-radio-button',
   templateUrl: './configurator-attribute-radio-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorDeltaRenderingService],
 })
 export class ConfiguratorAttributeRadioButtonComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
