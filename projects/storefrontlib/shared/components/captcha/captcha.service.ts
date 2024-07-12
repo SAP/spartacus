@@ -53,13 +53,18 @@ export abstract class CaptchaService implements CaptchaProvider, OnDestroy {
    */
   initialize(): void {
     this.subscription.add(
-      this.fetchRemoteInfo().subscribe((config) => {
-        this.processCaptchaConfig(config);
+      this.fetchRemoteConfig().subscribe((config) => {
+        if (config?.enabled) {
+          this.captchaConfig = config;
+          this.loadResource();
+        } else {
+          this.captchaConfigSubject$.next({ enabled: false });
+        }
       })
     );
   }
 
-  fetchRemoteInfo(): Observable<CaptchaConfig> {
+  fetchRemoteConfig(): Observable<CaptchaConfig> {
     return forkJoin([
       this.languageService.getActive().pipe(take(1)),
       this.baseSiteService.getActive().pipe(
@@ -67,15 +72,6 @@ export abstract class CaptchaService implements CaptchaProvider, OnDestroy {
         take(1)
       ),
     ]).pipe(map((result) => result[1].captchaConfig as CaptchaConfig));
-  }
-
-  processCaptchaConfig(captchaConfig: CaptchaConfig): void {
-    if (captchaConfig?.enabled) {
-      this.captchaConfig = captchaConfig;
-      this.loadResource();
-    } else {
-      this.captchaConfigSubject$.next({ enabled: false });
-    }
   }
 
   getCaptchaConfig(): Observable<CaptchaConfig> {
