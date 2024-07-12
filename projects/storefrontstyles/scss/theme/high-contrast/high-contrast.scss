@@ -256,3 +256,34 @@
     }
   }
 }
+
+.high-contrast-light {
+  cx-footer-navigation {
+    border-top: 1px solid var(--cx-color-dark);
+  }
+
+  cx-carousel button {
+    color: var(--cx-color-light);
+    background-color: var(--cx-color-background);
+  }
+
+  cx-navigation-ui.flyout cx-generic-link:hover,
+  cx-navigation-ui.flyout a:hover,
+  cx-navigation-ui.flyout button:hover {
+    color: var(--cx-color-text);
+  }
+  cx-footer-navigation cx-navigation-ui span,
+  cx-footer-navigation a,
+  cx-footer-navigation
+    cx-navigation-ui
+    nav
+    ul.childs
+    > li
+    > cx-generic-link
+    > a:hover {
+    color: var(--cx-color-text);
+  }
+  cx-anonymous-consent-open-dialog .btn-link {
+    color: var(--cx-color-primary);
+  }
+}
