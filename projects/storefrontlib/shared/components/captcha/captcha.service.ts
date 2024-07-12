@@ -53,7 +53,7 @@ export abstract class CaptchaService implements CaptchaProvider, OnDestroy {
    */
   initialize(): void {
     this.subscription.add(
-      this.fetchRemoteConfig().subscribe((config) => {
+      this.fetchCaptchaConfigFromServer().subscribe((config) => {
         if (config?.enabled) {
           this.captchaConfig = config;
           this.loadResource();
@@ -64,7 +64,7 @@ export abstract class CaptchaService implements CaptchaProvider, OnDestroy {
     );
   }
 
-  fetchRemoteConfig(): Observable<CaptchaConfig> {
+  fetchCaptchaConfigFromServer(): Observable<CaptchaConfig> {
     return forkJoin([
       this.languageService.getActive().pipe(take(1)),
       this.baseSiteService.getActive().pipe(
