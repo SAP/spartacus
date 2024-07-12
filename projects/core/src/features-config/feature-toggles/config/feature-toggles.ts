@@ -359,6 +359,11 @@ export interface FeatureTogglesInterface {
   a11yFacetsDialogFocusHandling?: boolean;
 
   /**
+   * Stops the icon inside 'FormErrorsComponent' from being read out by screen readers.
+   */
+  a11yFormErrorMuteIcon?: boolean;
+
+  /**
    * `MessageComponent` gets focused after a message with an action is rendered.
    */
   a11yCxMessageFocus?: boolean;
@@ -445,6 +450,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUseButtonsForBtnLinks: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
+  a11yFormErrorMuteIcon: false,
   a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yStoreFinderSearchboxBloat: false,
