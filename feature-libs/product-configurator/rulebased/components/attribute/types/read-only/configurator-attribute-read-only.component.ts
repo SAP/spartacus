@@ -12,6 +12,7 @@ import { ConfiguratorPriceComponentOptions } from '../../../price';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-configurator-attribute-read-only',
@@ -22,11 +23,12 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
   attribute: Configurator.Attribute;
   group: string;
   expMode: boolean;
-  isAsyncPricing: boolean;
 
   protected configuratorDeltaRenderingService = inject(
     ConfiguratorDeltaRenderingService
   );
+
+  reRender$: Observable<boolean>;
 
   constructor(
     protected translationService: TranslationService,
@@ -36,7 +38,10 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
     this.expMode = attributeComponentContext.expMode;
-    this.isAsyncPricing = attributeComponentContext.isAsyncPricing ?? false;
+    this.reRender$ = this.configuratorDeltaRenderingService.reRender(
+      attributeComponentContext.isAsyncPricing ?? false,
+      this.attribute.key ?? ''
+    );
   }
 
   protected getCurrentValueName(

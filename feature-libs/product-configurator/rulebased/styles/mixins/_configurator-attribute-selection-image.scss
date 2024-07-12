@@ -99,8 +99,7 @@
           }
         }
 
-        cx-configurator-price,
-        cx-configurator-price-async {
+        cx-configurator-price {
           @include forFeature('productConfiguratorAttributeTypesV2') {
             min-height: 27px;
             max-width: 100%;
