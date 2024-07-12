@@ -6,7 +6,7 @@ import {
   SiteAdapter,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CaptchaService } from './captcha.service'
+import { CaptchaService } from './captcha.service';
 
 const mockLang = 'mock-lang';
 const mockKey = 'mock-key';
@@ -37,7 +37,7 @@ class MockSiteAdapter {
 
 class MyCaptchaService extends CaptchaService {
   renderCaptcha() {
-    return of("false");
+    return of('false');
   }
 }
 
