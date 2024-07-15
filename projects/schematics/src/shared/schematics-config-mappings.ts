@@ -35,6 +35,8 @@ import { CDS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cds-schema
 import { DIGITAL_PAYMENTS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/digital-payments-schematics-config';
 import { EPD_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/epd-schematics-config';
 import { S4OM_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/s4om-schematics-config';
+import { CPQ_QUOTE_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cpq-quote-schematics-config';
+
 import { SEGMENT_REFS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/segment-refs-schematics-config';
 import { ORDER_SCHEMATICS_CONFIG } from './lib-configs/order-schematics-config';
 import {
@@ -151,6 +153,7 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   S4OM_SCHEMATICS_CONFIG,
 
   SEGMENT_REFS_SCHEMATICS_CONFIG,
+  CPQ_QUOTE_SCHEMATICS_CONFIG,
 ];
 
 /**
