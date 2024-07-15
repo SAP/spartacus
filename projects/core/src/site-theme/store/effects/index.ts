@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ThemesEffects } from './themes.effect';
+import { SiteThemesEffects } from './site-themes.effect';
 
-export const effects: any[] = [ThemesEffects];
+export const effects: any[] = [SiteThemesEffects];
 
-export * from './themes.effect';
+export * from './site-themes.effect';

@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './themes.selectors';
+export * from './site-themes.selectors';
 export * from './feature.selector';

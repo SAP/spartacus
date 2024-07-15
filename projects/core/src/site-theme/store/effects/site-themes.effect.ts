@@ -20,12 +20,12 @@ import { LoggerService } from '../../../logger';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { SiteThemeActions } from '../actions/index';
 import { StateWithSiteTheme } from '../state';
-import { getActiveTheme } from '../selectors/themes.selectors';
+import { getActiveTheme } from '../selectors/site-themes.selectors';
 import { SiteThemeConfig } from '../../config/site-theme-config';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 
 @Injectable()
-export class ThemesEffects {
+export class SiteThemesEffects {
   protected logger = inject(LoggerService);
 
   loadThemes$: Observable<

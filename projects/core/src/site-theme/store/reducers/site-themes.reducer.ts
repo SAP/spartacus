@@ -6,17 +6,17 @@
 
 import { Theme } from '../../../model/misc.model';
 import { SiteThemeActions } from '../actions/index';
-import { ThemesState } from '../state';
+import { SiteThemesState } from '../state';
 
-export const initialState: ThemesState = {
+export const initialState: SiteThemesState = {
   entities: null,
   activeTheme: null,
 };
 
 export function reducer(
   state = initialState,
-  action: SiteThemeActions.ThemesAction
-): ThemesState {
+  action: SiteThemeActions.SiteThemesAction
+): SiteThemesState {
   switch (action.type) {
     case SiteThemeActions.LOAD_THEMES_SUCCESS: {
       const themes: Theme[] = action.payload;

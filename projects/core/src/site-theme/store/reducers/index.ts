@@ -8,7 +8,7 @@ import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
 import { SiteThemeState } from '../state';
 
-import * as fromThemes from './themes.reducer';
+import * as fromThemes from './site-themes.reducer';
 
 export function getReducers(): ActionReducerMap<SiteThemeState, any> {
   return {

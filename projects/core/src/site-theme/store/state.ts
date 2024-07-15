@@ -13,14 +13,14 @@ export interface StateWithSiteTheme {
 }
 
 export interface SiteThemeState {
-  themes: ThemesState;
+  themes: SiteThemesState;
 }
 
 export interface SiteThemeEntities {
   [className: string]: Theme;
 }
 
-export interface ThemesState {
+export interface SiteThemesState {
   entities: SiteThemeEntities | null;
   activeTheme: string | null;
 }

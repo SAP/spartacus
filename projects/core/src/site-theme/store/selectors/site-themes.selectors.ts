@@ -10,25 +10,27 @@ import {
   SiteThemeState,
   SiteThemeEntities,
   StateWithSiteTheme,
-  ThemesState,
+  SiteThemesState,
 } from '../state';
 import { getSiteThemeState } from './feature.selector';
 
-const activeThemeSelector = (state: ThemesState) => state.activeTheme;
-const themeEntitiesSelector = (state: ThemesState) => state.entities;
+const activeThemeSelector = (state: SiteThemesState) => state.activeTheme;
+const themeEntitiesSelector = (state: SiteThemesState) => state.entities;
 
-export const getThemesState: MemoizedSelector<StateWithSiteTheme, ThemesState> =
-  createSelector(getSiteThemeState, (state: SiteThemeState) => state.themes);
+export const getSiteSiteThemesState: MemoizedSelector<
+  StateWithSiteTheme,
+  SiteThemesState
+> = createSelector(getSiteThemeState, (state: SiteThemeState) => state.themes);
 
 export const getSiteThemeEntities: MemoizedSelector<
   StateWithSiteTheme,
   SiteThemeEntities | null
-> = createSelector(getThemesState, themeEntitiesSelector);
+> = createSelector(getSiteSiteThemesState, themeEntitiesSelector);
 
 export const getActiveTheme: MemoizedSelector<
   StateWithSiteTheme,
   string | null
-> = createSelector(getThemesState, activeThemeSelector);
+> = createSelector(getSiteSiteThemesState, activeThemeSelector);
 
 export const getAllThemes: MemoizedSelector<
   StateWithSiteTheme,

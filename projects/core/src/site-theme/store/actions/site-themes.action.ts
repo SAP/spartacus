@@ -40,7 +40,7 @@ export class ThemeChange implements Action {
 }
 
 // action types
-export type ThemesAction =
+export type SiteThemesAction =
   | LoadThemes
   | LoadThemesFail
   | LoadThemesSuccess
