@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as quoteHelper from '../../../helpers/b2b/b2b-quote';
-import * as quote from '../../../helpers/vendor/cpq/quote-download';
+import * as quoteHelper from '../../../../helpers/b2b/b2b-quote';
+import * as quote from '../../../../helpers/vendor/cpq/cpq-quote-download';
 
 const BUYER_EMAIL = 'james.weber@harvestlive.inc';
 const BUYER_PASSWORD = 'welcome';
 const BUYER_USER = 'James Weber';
 const MSG_TYPE_WARNING = '[GlobalMessage] Warning';
 
-context('Download proposal document', () => {
+context('CPQ download proposal document', () => {
   let globalMessageSettings: any;
   beforeEach(() => {
     globalMessageSettings = {
