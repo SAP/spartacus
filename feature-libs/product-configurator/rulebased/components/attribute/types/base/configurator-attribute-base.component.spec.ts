@@ -1,10 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConfiguratorUISettingsConfig } from '@spartacus/product-configurator/rulebased';
+import { I18nTestingModule } from '@spartacus/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
-import { I18nTestingModule } from '@spartacus/core';
 
 const attributeCode = 1;
 const currentAttribute: Configurator.Attribute = {

@@ -74,7 +74,7 @@ export class ConfiguratorAttributeDropDownComponent
   }
 
   protected getValuePrice(value: Configurator.Value | undefined): string {
-    if (value) {
+    if (value && this.configuratorDeltaRenderingService) {
       value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
     }
     return super.getValuePrice(value);

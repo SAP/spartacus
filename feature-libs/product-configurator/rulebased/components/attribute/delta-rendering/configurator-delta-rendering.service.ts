@@ -1,11 +1,9 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ObjectComparisonUtils } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import {
-  Configurator,
-  ConfiguratorCommonsService,
-} from '@spartacus/product-configurator/rulebased';
-import { EMPTY, Observable, filter, of, switchMap, tap } from 'rxjs';
+import { EMPTY, filter, Observable, of, switchMap, tap } from 'rxjs';
+import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { Configurator } from '../../../core/model/configurator.model';
 
 @Injectable()
 export class ConfiguratorDeltaRenderingService {

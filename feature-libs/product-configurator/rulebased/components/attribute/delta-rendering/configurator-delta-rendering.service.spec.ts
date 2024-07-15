@@ -1,16 +1,15 @@
-import { TestBed } from '@angular/core/testing';
-import { ConfiguratorDeltaRenderingService } from './configurator-delta-rendering.service';
 import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { EMPTY, Observable, Subject, of } from 'rxjs';
-import {
-  Configurator,
-  ConfiguratorCommonsService,
-} from '@spartacus/product-configurator/rulebased';
-import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
+import { ConfiguratorDeltaRenderingService } from './configurator-delta-rendering.service';
+
 import {
   CommonConfigurator,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
+import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 
 const mockConfigTemplate: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration('c123'),

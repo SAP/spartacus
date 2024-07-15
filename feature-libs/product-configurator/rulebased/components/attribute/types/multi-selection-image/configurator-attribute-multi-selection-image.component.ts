@@ -104,13 +104,6 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     );
   }
 
-  /**
-   * Extract corresponding value price formula parameters.
-   * For the multi-selection attribute types the complete price formula should be displayed at the value level.
-   *
-   * @param {Configurator.Value} value - Configurator value
-   * @return {ConfiguratorPriceComponentOptions} - New price formula
-   */
   extractValuePriceFormulaParameters(
     value: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
