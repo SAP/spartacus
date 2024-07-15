@@ -132,6 +132,42 @@ export function verifyQuantityInCart() {
   cy.get(headerCartButton).should('contain', '5');
 }
 
+/**
+ * Verify arrow keys, HOME/END keys and SPACE key.
+ */
+export function verifyTabKeyboardNavigation(accordian = false) {
+  it('should navigate tab component with keyboard', () => {
+    cy.get('cx-tab button').eq(0).click();
+    cy.focused().contains('Product Details').type('{downArrow}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Specs').type('{rightArrow}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Reviews').type('{leftArrow}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Specs').type('{upArrow}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Product Details').type('{upArrow}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Shipping').type('{downArrow}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Product Details').type('{end}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Shipping').type('{home}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Product Details');
+
+    function verifySpaceBarKeyForAccordian() {
+      if (accordian) {
+        cy.get('cx-tab-panel').should('not.exist');
+        cy.focused().type(' ');
+        cy.get('cx-tab-panel').should('exist');
+        cy.focused().type(' ');
+        cy.get('cx-tab-panel').should('not.exist');
+      }
+    }
+  });
+}
+
 export function selectProductStyleVariant() {
   cy.get(`${variantStyleList} li img[alt="glacier"]`).first().click();
 
