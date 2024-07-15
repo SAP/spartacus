@@ -132,6 +132,6 @@ export interface BaseSite {
 
 export interface Theme {
   i18nNameKey?: string;
-  className: string;
+  className?: string;
   default?: boolean;
 }

@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './theme-switcher.module';
-export * from './theme-switcher.component';
+import * as SiteThemeActions from './site-theme-group.actions';
+export { SiteThemeActions };

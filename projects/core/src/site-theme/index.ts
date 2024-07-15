@@ -8,3 +8,6 @@ export * from './config/site-theme-config';
 export * from './config/default-site-theme-config';
 export * from './facade/index';
 export { SiteThemeModule } from './site-theme.module';
+export * from './store/actions/index';
+export * from './store/selectors/index';
+export * from './store/state';

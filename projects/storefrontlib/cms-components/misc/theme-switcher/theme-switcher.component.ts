@@ -6,9 +6,9 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ICON_TYPE } from '../icon/icon.model';
-import { Theme } from './theme-switcher.model';
 import { Observable } from 'rxjs';
 import { ThemeSwitcherComponentService } from './theme-switcher.component.service';
+import { Theme } from '@spartacus/core';
 
 /**
  * Component for switching themes.

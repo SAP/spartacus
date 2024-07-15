@@ -2,8 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ThemeSwitcherComponent } from './theme-switcher.component';
 import { ThemeSwitcherComponentService } from './theme-switcher.component.service';
-import { Theme } from './theme-switcher.model';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, Theme } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 
 describe('ThemeSwitcherComponent', () => {

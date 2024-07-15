@@ -5,40 +5,35 @@
  */
 
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+
+import { select, Store } from '@ngrx/store';
+import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
+
+import { Observable } from 'rxjs';
+
 import { Theme } from '../../model/misc.model';
 import { SiteThemeConfig } from '../config/site-theme-config';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
+import { isNotNullable } from '../../util/type-guards';
+import { StateWithSiteTheme } from '../store/state';
+import { SiteThemeSelectors } from '../store/selectors';
+import { SiteThemeActions } from '../store/actions';
 
 @Injectable()
 export class SiteThemeService {
-  private theme$ = new BehaviorSubject<string>('');
-  private activeHasSet = false;
-  private themes: Theme[] = [];
-
   constructor(
-    protected config: SiteThemeConfig,
-    protected baseSiteService: BaseSiteService
+    protected store: Store<StateWithSiteTheme>,
+    protected config: SiteThemeConfig
   ) {}
 
-  /**
-   * Retrieves all available themes.
-   */
   getAll(): Observable<Theme[]> {
-    if (this.themes.length) {
-      return of(this.themes);
-    }
-    return this.getCustomSiteTheme().pipe(
-      map((siteTheme) => {
-        this.themes = (this.config.siteTheme?.themes || []).map((theme) => {
-          if (theme.default) {
-            return { ...theme, className: siteTheme ?? '' };
-          }
-          return theme;
-        });
-        return this.themes;
-      })
+    return this.store.pipe(
+      select(SiteThemeSelectors.getAllThemes),
+      tap((themes) => {
+        if (!themes) {
+          this.store.dispatch(new SiteThemeActions.LoadThemes());
+        }
+      }),
+      filter(isNotNullable)
     );
   }
 
@@ -46,46 +41,48 @@ export class SiteThemeService {
    * Gets the className of the active theme.
    */
   getActive(): Observable<string> {
-    return this.theme$.asObservable();
+    return this.store.pipe(
+      select(SiteThemeSelectors.getActiveTheme),
+      filter(isNotNullable)
+    );
   }
 
   /**
-   * Sets the active theme.
+   * Sets the active theme className.
    */
   setActive(className: string): void {
-    this.activeHasSet = true;
-    this.getAll().subscribe(() => {
-      if (this.isValid(className)) {
-        this.theme$.next(className);
-      }
-    });
+    this.isValidTheme(className)
+      .pipe(
+        filter((isValid) => isValid),
+        mergeMap(() => {
+          return this.store.pipe(
+            select(SiteThemeSelectors.getActiveTheme),
+            take(1)
+          );
+        })
+      )
+      .subscribe((activeTheme) => {
+        if (activeTheme !== className) {
+          this.store.dispatch(new SiteThemeActions.SetActiveTheme(className));
+        }
+      });
+  }
+
+  isValidTheme(className: string): Observable<boolean> {
+    return this.getAll().pipe(
+      take(1),
+      map((themes) => {
+        return themes.some((theme) => theme.className === className);
+      })
+    );
   }
 
   isInitialized(): boolean {
-    return this.activeHasSet;
-  }
+    let valueInitialized = false;
+    this.getActive()
+      .subscribe(() => (valueInitialized = true))
+      .unsubscribe();
 
-  /**
-   * Validates if the provided theme className exists.
-   */
-  isValid(className: string): boolean {
-    return !!className && this.doesThemeExist(className);
-  }
-
-  /**
-   * Checks if the theme exists in the themes array.
-   */
-  private doesThemeExist(themeClassName: string): boolean {
-    return this.themes.some((theme) => theme.className === themeClassName);
-  }
-
-  /**
-   * Retrieves the custom site theme from the base site service.
-   */
-  private getCustomSiteTheme(): Observable<string | undefined> {
-    return this.baseSiteService.get().pipe(
-      take(1),
-      map((baseSite) => baseSite?.theme)
-    );
+    return valueInitialized;
   }
 }
