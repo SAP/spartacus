@@ -30,10 +30,20 @@ import { PageTitleComponent } from '../page-header/page-title.component';
 })
 export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   crumbs$: Observable<any[]>;
-  ariaLive$: Observable<boolean> = of(true);
 
   protected router = inject(Router);
   private featureConfigService = inject(FeatureConfigService);
+
+  ariaLive$: Observable<boolean> = this.featureConfigService.isEnabled(
+    'a11yRepeatedPageTitleFix'
+  )
+    ? this.router.events.pipe(
+        filter((e) => e instanceof NavigationEnd),
+        map(() => {
+          return document.activeElement !== document.body;
+        })
+      )
+    : of(true);
 
   constructor(
     public component: CmsComponentData<CmsBreadcrumbsComponent>,
