@@ -30,12 +30,15 @@ export class ConfiguratorAttributeBaseComponent {
   private static PREFIX_DDLB_OPTION_PRICE_VALUE = 'option--price';
   protected static MAX_IMAGE_LABEL_CHARACTERS = 16;
 
-  rerender$: Observable<boolean>;
-  initDeltaRendering(isDeltaRendering?: boolean, attributeKey?: string) {
-    this.rerender$ =
-      isDeltaRendering && this.configuratorDeltaRenderingService
-        ? this.configuratorDeltaRenderingService.rerender(attributeKey)
-        : of(true); // no delta rendering - always render directly only once
+  rerender$: Observable<boolean> = of(true); // no delta rendering - always render directly only once
+  protected initDeltaRendering(
+    isDeltaRendering?: boolean,
+    attributeKey?: string
+  ) {
+    if (isDeltaRendering && this.configuratorDeltaRenderingService) {
+      this.rerender$ =
+        this.configuratorDeltaRenderingService.rerender(attributeKey);
+    }
   }
 
   /**
