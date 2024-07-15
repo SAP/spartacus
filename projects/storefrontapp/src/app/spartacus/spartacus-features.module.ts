@@ -280,6 +280,7 @@ if (environment.estimatedDeliveryDate) {
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
         productConfiguratorAttributeTypesV2: true,
+        propagateErrorsToServer: true,
         ssrStrictErrorHandlingForHttpAndNgrx: true,
         a11yRequiredAsterisks: true,
         a11yQuantityOrderTabbing: true,

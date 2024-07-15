@@ -6,6 +6,7 @@
 
 import { Request } from 'express';
 import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
+import { RenderingEntry } from './rendering-cache.model';
 import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
 import { defaultRenderingStrategyResolverOptions } from './rendering-strategy-resolver-options';
 
@@ -130,6 +131,34 @@ export interface SsrOptimizationOptions {
    * By default, the DefaultExpressServerLogger is used.
    */
   logger?: ExpressServerLogger;
+
+  /**
+   * When caching is enabled, this function tell whether the given rendering result
+   * (html or error) should be cached.
+   *
+   * By default, all html rendering results are cached. By default, also all errors are cached
+   * unless the separate option `avoidCachingErrors` is enabled.
+   */
+  shouldCacheRenderingResult?: ({
+    options,
+    entry,
+  }: {
+    options: SsrOptimizationOptions;
+    entry: Pick<RenderingEntry, 'err' | 'html'>;
+  }) => boolean;
+
+  /**
+   * Determines if rendering errors should be skipped from caching.
+   *
+   * NOTE: It's a temporary feature toggle, to be removed in the future.
+   *
+   * It's recommended to set to `true` (i.e. errors are skipped from caching),
+   * which will become the default behavior, when this feature toggle is removed.
+   *
+   * It only affects the default `shouldCacheRenderingResult`.
+   * Custom implementations of `shouldCacheRenderingResult` may ignore this setting.
+   */
+  avoidCachingErrors?: boolean;
 }
 
 export enum RenderingStrategy {
@@ -150,4 +179,7 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
     defaultRenderingStrategyResolverOptions
   ),
   logger: new DefaultExpressServerLogger(),
+  shouldCacheRenderingResult: ({ options, entry }) =>
+    !(options.avoidCachingErrors === true && Boolean(entry.err)),
+  avoidCachingErrors: false,
 };

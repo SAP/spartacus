@@ -85,6 +85,16 @@ export interface FeatureTogglesInterface {
   productConfiguratorAttributeTypesV2?: boolean;
 
   /**
+   * In a server environment (SSR or Prerendering) it propagates all errors caught in Angular app
+   * (in the Angular's `ErrorHandler` class) to the server layer.
+   *
+   * In SSR, such a propagation allows the server layer (e.g. ExpressJS) for handling those errors,
+   * e.g. sending a proper Error Page in response to the client,
+   * instead of a rendered HTML that is possibly malformed due to the occurred error.
+   */
+  propagateErrorsToServer?: boolean;
+
+  /**
    * In SSR, the following errors will be printed to logs (and additionally can also
    * be forwarded to ExpressJS if only the setting
    * `SsrOptimizationOptions.ssrErrorHandling`  is enabled):
@@ -392,6 +402,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
   productConfiguratorAttributeTypesV2: false,
+  propagateErrorsToServer: false,
   ssrStrictErrorHandlingForHttpAndNgrx: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
