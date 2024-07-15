@@ -42,7 +42,7 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   protected configuratorDeltaRenderingService = inject(
     ConfiguratorDeltaRenderingService
   );
-  reRender$: Observable<boolean>;
+  rerender$: Observable<boolean>;
 
   constructor(
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
@@ -52,7 +52,7 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.reRender$ = this.configuratorDeltaRenderingService.reRender(
+    this.rerender$ = this.configuratorDeltaRenderingService.rerender(
       attributeComponentContext.isDeltaRendering ?? false,
       this.attribute.key ?? ''
     );

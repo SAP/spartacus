@@ -29,7 +29,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     ConfiguratorDeltaRenderingService
   );
 
-  reRender$: Observable<boolean>;
+  rerender$: Observable<boolean>;
 
   constructor(
     protected translationService: TranslationService,
@@ -39,7 +39,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
     this.expMode = attributeComponentContext.expMode;
-    this.reRender$ = this.configuratorDeltaRenderingService.reRender(
+    this.rerender$ = this.configuratorDeltaRenderingService.rerender(
       attributeComponentContext.isDeltaRendering ?? false,
       this.attribute.key ?? ''
     );

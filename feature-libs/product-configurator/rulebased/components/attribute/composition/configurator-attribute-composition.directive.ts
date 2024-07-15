@@ -37,8 +37,8 @@ export class ConfiguratorAttributeCompositionDirective
 
   protected lastRenderedAttribute: Configurator.Attribute;
 
-  protected logger = inject(LoggerService);
-  protected featureConfig = inject(FeatureConfigService);
+  protected loggerService = inject(LoggerService);
+  protected featureConfigService = inject(FeatureConfigService);
 
   protected readonly attrCompAssignment: AttributeComponentAssignment =
     this.configuratorAttributeCompositionConfig.productConfigurator
@@ -50,7 +50,9 @@ export class ConfiguratorAttributeCompositionDirective
   ) {}
 
   ngOnInit(): void {
-    if (!this.featureConfig.isEnabled('productConfiguratorDeltaRendering')) {
+    if (
+      !this.featureConfigService.isEnabled('productConfiguratorDeltaRendering')
+    ) {
       const componentKey = this.context.componentKey;
       this.renderComponent(this.attrCompAssignment[componentKey], componentKey);
     }
@@ -63,7 +65,9 @@ export class ConfiguratorAttributeCompositionDirective
    */
   ngOnChanges(): void {
     if (
-      this.featureConfig.isEnabled('productConfiguratorDeltaRendering') &&
+      this.featureConfigService.isEnabled(
+        'productConfiguratorDeltaRendering'
+      ) &&
       !ObjectComparisonUtils.deepEqualObjects(
         this.lastRenderedAttribute,
         this.context.attribute
@@ -83,7 +87,7 @@ export class ConfiguratorAttributeCompositionDirective
       });
     } else {
       if (isDevMode()) {
-        this.logger.warn(
+        this.loggerService.warn(
           'No attribute type component available for: ' + componentKey
         );
       }

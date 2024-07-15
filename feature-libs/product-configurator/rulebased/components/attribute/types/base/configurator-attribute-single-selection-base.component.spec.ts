@@ -587,7 +587,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
         Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
       component.attribute.validationType = Configurator.ValidationType.NONE;
 
-      component['configuratorDeltaRenderingService']?.storeValuePrice(
+      component['configuratorDeltaRenderingService']?.['storeValuePrice'](
         valueWithPrice.name ?? '',
         { currencyIso: '$', formattedValue: '$200.00', value: 200 }
       );

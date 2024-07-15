@@ -2,7 +2,7 @@
   <ng-container
     *ngIf="
       !config.features?.productConfiguratorAttributeTypesV2 &&
-      (reRender$ | async)
+      (rerender$ | async)
     "
   >
     <div
@@ -56,7 +56,7 @@
   <ng-container
     *ngIf="
       config.features?.productConfiguratorAttributeTypesV2 &&
-      (reRender$ | async)
+      (rerender$ | async)
     "
   >
     <ng-container *ngFor="let value of attribute.values; let i = index">

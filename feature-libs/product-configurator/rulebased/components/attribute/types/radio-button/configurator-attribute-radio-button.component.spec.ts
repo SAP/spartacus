@@ -81,7 +81,7 @@ class MockConfigUtilsService {
 }
 
 class MockConfiguratorDeltaRenderingService {
-  reRender(): Observable<boolean> {
+  rerender(): Observable<boolean> {
     return of(true);
   }
   mergePriceIntoValue(value: Configurator.Value): Configurator.Value {

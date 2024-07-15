@@ -32,7 +32,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     { optional: true }
   );
 
-  reRender$: Observable<boolean>;
+  rerender$: Observable<boolean>;
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
@@ -43,8 +43,8 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.reRender$ =
-      this.configuratorDeltaRenderingService?.reRender(
+    this.rerender$ =
+      this.configuratorDeltaRenderingService?.rerender(
         attributeComponentContext.isDeltaRendering ?? false,
         this.attribute.key ?? ''
       ) ?? of(true);

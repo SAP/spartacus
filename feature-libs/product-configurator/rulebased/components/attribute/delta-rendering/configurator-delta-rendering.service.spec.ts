@@ -72,7 +72,7 @@ describe('ConfiguratorDeltaRenderingService', () => {
   describe('mergePriceIntoValue', () => {
     it('should create a new object combining value and price if onPriceChanged was called for this value before', () => {
       const valuePrice = { value: 100, currencyIso: 'USD' };
-      classUnderTest.storeValuePrice('valueKey', valuePrice);
+      classUnderTest['storeValuePrice']('valueKey', valuePrice);
       expect(
         classUnderTest['mergePriceIntoValue']({
           valueCode: '1223',
@@ -87,7 +87,7 @@ describe('ConfiguratorDeltaRenderingService', () => {
 
     it('should return just the value if onPriceChanged was NOT called for this value before', () => {
       const valuePrice = { value: 100, currencyIso: 'USD' };
-      classUnderTest.storeValuePrice('anotherValueKey', valuePrice);
+      classUnderTest['storeValuePrice']('anotherValueKey', valuePrice);
       expect(
         classUnderTest['mergePriceIntoValue']({
           valueCode: '1223',

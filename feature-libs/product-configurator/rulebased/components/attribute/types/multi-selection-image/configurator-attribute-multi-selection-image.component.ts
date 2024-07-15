@@ -42,7 +42,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     ConfiguratorDeltaRenderingService
   );
 
-  reRender$: Observable<boolean>;
+  rerender$: Observable<boolean>;
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
@@ -54,7 +54,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.reRender$ = this.configuratorDeltaRenderingService.reRender(
+    this.rerender$ = this.configuratorDeltaRenderingService.rerender(
       attributeComponentContext.isDeltaRendering ?? false,
       this.attribute.key ?? ''
     );

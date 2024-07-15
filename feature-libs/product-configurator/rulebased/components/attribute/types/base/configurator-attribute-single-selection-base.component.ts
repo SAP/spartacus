@@ -38,7 +38,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   );
 
   showRequiredErrorMessage$: Observable<boolean> = of(false);
-  reRender$: Observable<boolean>;
+  rerender$: Observable<boolean>;
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
@@ -71,8 +71,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
         )
       );
 
-    this.reRender$ =
-      this.configuratorDeltaRenderingService?.reRender(
+    this.rerender$ =
+      this.configuratorDeltaRenderingService?.rerender(
         attributeComponentContext.isDeltaRendering ?? false,
         this.attribute.key ?? ''
       ) ?? of(true);

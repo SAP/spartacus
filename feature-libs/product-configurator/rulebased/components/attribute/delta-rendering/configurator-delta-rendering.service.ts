@@ -19,7 +19,20 @@ export class ConfiguratorDeltaRenderingService {
     | undefined;
   protected valuePrices: { [key: string]: Configurator.PriceDetails } = {};
 
-  public reRender(
+  /**
+   * Returns an observable that shall be used by all components supporting delta rendering mode.
+   * It will monitor the price supplements of configuration observable and emit true if price supplements
+   * matching the given attribute key have changed.
+   * Additionally it returns always true for the first emission of the underlying configuration observable.
+   * This ensures that a enclosing UI component will initially render, even if the async pricing request ist still running,
+   * so that the UI is not blocked. Afterwards a rerender shall only occur if prices change.
+   * This all assumes that the enclosing UI component itself gets recreated or rerendered (triggered elsewhere) whenever the attribute itself changes content wise.
+   *
+   * @param isDeltaRendering flag indicating whether delta rendering is activated in the current context
+   * @param attributeKey key of the attribute for which the prices should be checked for changes
+   * @returns observable that emits 'true' each time there is the need to rerender the enclosing component due to an price change
+   */
+  public rerender(
     isDeltaRendering: boolean,
     attributeKey: string
   ): Observable<boolean> {
@@ -53,11 +66,27 @@ export class ConfiguratorDeltaRenderingService {
   }
 
   /**
+   * Merges value price data received via @see {ConfiguratorValuePriceChanged} events into the given value, if available.
+   * As the value might be read-only a new object will be returned combining price and value.
+   *
+   * @param value the value
+   * @returns the new value with price
+   */
+  public mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
+    const valueName = value.name;
+    if (valueName && this.valuePrices[valueName]) {
+      value = { ...value, valuePrice: this.valuePrices[valueName] };
+    }
+    return value;
+  }
+
+  /**
    * Extracts the relevant value prices from the price supplements
    * and stores them within the component. Returns a boolean indicating
    * whether there were any value price changes.
    *
    * @param config current config
+   * @param attributeKey key of the attribute for which the prices should be checked for changes
    * @returns {true}, only if at least one value price changed
    */
   protected checkForValuePriceChanges(
@@ -83,30 +112,10 @@ export class ConfiguratorDeltaRenderingService {
     return changed;
   }
 
-  /**
-   * Event handler to be called when a value price changes.
-   *
-   * @param event event with the new value price
-   */
-  public storeValuePrice(
+  protected storeValuePrice(
     valueName: string,
     valuePrice: Configurator.PriceDetails
   ) {
     this.valuePrices[valueName] = valuePrice;
-  }
-
-  /**
-   * Merges value price data received via @see {ConfiguratorValuePriceChanged} events into the given value, if available.
-   * As the value might be read-only a new object will be returned combining price and value.
-   *
-   * @param value the value
-   * @returns the new value with price
-   */
-  public mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
-    const valueName = value.name;
-    if (valueName && this.valuePrices[valueName]) {
-      value = { ...value, valuePrice: this.valuePrices[valueName] };
-    }
-    return value;
   }
 }

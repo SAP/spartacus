@@ -40,7 +40,7 @@ export class ConfiguratorAttributeCheckBoxComponent
   protected configuratorDeltaRenderingService = inject(
     ConfiguratorDeltaRenderingService
   );
-  reRender$: Observable<boolean>;
+  rerender$: Observable<boolean>;
 
   constructor(
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
@@ -51,7 +51,7 @@ export class ConfiguratorAttributeCheckBoxComponent
     this.group = attributeComponentContext.group.id;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.reRender$ = this.configuratorDeltaRenderingService.reRender(
+    this.rerender$ = this.configuratorDeltaRenderingService.rerender(
       attributeComponentContext.isDeltaRendering ?? false,
       this.attribute.key ?? ''
     );
