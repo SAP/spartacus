@@ -9,6 +9,7 @@ import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator
@@ -17,6 +18,10 @@ import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-se
 export class ConfiguratorAttributeBaseComponent {
   protected configuratorUISettingsConfig = inject(ConfiguratorUISettingsConfig);
   protected translation = inject(TranslationService);
+  protected configuratorDeltaRenderingService = inject(
+    ConfiguratorDeltaRenderingService,
+    { optional: true }
+  );
 
   private static SEPERATOR = '--';
   private static PREFIX = 'cx-configurator';
@@ -376,6 +381,9 @@ export class ConfiguratorAttributeBaseComponent {
     attribute: Configurator.Attribute,
     value: Configurator.Value
   ): string {
+    value =
+      this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
+      value;
     const params: { value?: string; attribute?: string; price?: string } = {
       value: value.valueDisplay,
       attribute: attribute.label,

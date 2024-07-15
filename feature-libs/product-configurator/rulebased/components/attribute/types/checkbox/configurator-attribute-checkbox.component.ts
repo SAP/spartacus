@@ -4,14 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price';
@@ -37,9 +32,6 @@ export class ConfiguratorAttributeCheckBoxComponent
 
   attributeCheckBoxForm = new UntypedFormControl('');
 
-  protected configuratorDeltaRenderingService = inject(
-    ConfiguratorDeltaRenderingService
-  );
   rerender$: Observable<boolean>;
 
   constructor(
@@ -51,10 +43,11 @@ export class ConfiguratorAttributeCheckBoxComponent
     this.group = attributeComponentContext.group.id;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.rerender$ = this.configuratorDeltaRenderingService.rerender(
-      attributeComponentContext.isDeltaRendering ?? false,
-      this.attribute.key ?? ''
-    );
+    this.rerender$ =
+      this.configuratorDeltaRenderingService?.rerender(
+        attributeComponentContext.isDeltaRendering ?? false,
+        this.attribute.key ?? ''
+      ) ?? of(true);
   }
 
   ngOnInit() {
@@ -110,20 +103,14 @@ export class ConfiguratorAttributeCheckBoxComponent
   extractValuePriceFormulaParameters(
     value: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
-    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    value =
+      this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
+      value;
     return {
       quantity: value.quantity,
       price: value.valuePrice,
       priceTotal: value.valuePriceTotal,
       isLightedUp: value.selected,
     };
-  }
-
-  protected getAriaLabelGeneric(
-    attribute: Configurator.Attribute,
-    value: Configurator.Value
-  ): string {
-    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
-    return super.getAriaLabelGeneric(attribute, value);
   }
 }

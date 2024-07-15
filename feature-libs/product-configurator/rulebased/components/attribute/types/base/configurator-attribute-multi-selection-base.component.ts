@@ -4,18 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, inject } from '@angular/core';
+import { Directive } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -26,11 +25,6 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   ownerKey: string;
   expMode: boolean;
   isDeltaRendering: boolean;
-
-  protected configuratorDeltaRenderingService = inject(
-    ConfiguratorDeltaRenderingService,
-    { optional: true }
-  );
 
   rerender$: Observable<boolean>;
 
@@ -158,15 +152,5 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
       priceTotal: value.valuePriceTotal,
       isLightedUp: value.selected,
     };
-  }
-
-  protected getAriaLabelGeneric(
-    attribute: Configurator.Attribute,
-    value: Configurator.Value
-  ): string {
-    value =
-      this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
-      value;
-    return super.getAriaLabelGeneric(attribute, value);
   }
 }

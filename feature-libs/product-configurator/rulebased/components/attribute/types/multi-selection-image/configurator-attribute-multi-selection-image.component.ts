@@ -19,7 +19,7 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 
 @Component({
@@ -38,9 +38,6 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
 
   iconTypes = ICON_TYPE;
   protected config = inject(Config);
-  protected configuratorDeltaRenderingService = inject(
-    ConfiguratorDeltaRenderingService
-  );
 
   rerender$: Observable<boolean>;
 
@@ -54,10 +51,11 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.rerender$ = this.configuratorDeltaRenderingService.rerender(
-      attributeComponentContext.isDeltaRendering ?? false,
-      this.attribute.key ?? ''
-    );
+    this.rerender$ =
+      this.configuratorDeltaRenderingService?.rerender(
+        attributeComponentContext.isDeltaRendering ?? false,
+        this.attribute.key ?? ''
+      ) ?? of(true);
 
     useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
@@ -107,20 +105,14 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
   extractValuePriceFormulaParameters(
     value: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
-    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    value =
+      this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
+      value;
     return {
       quantity: value.quantity,
       price: value.valuePrice,
       priceTotal: value.valuePriceTotal,
       isLightedUp: value.selected,
     };
-  }
-
-  protected getAriaLabelGeneric(
-    attribute: Configurator.Attribute,
-    value: Configurator.Value
-  ): string {
-    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
-    return super.getAriaLabelGeneric(attribute, value);
   }
 }

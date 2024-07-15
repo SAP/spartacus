@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-configurator-attribute-read-only',
@@ -25,10 +25,6 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
   group: string;
   expMode: boolean;
 
-  protected configuratorDeltaRenderingService = inject(
-    ConfiguratorDeltaRenderingService
-  );
-
   rerender$: Observable<boolean>;
 
   constructor(
@@ -39,10 +35,11 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
     this.expMode = attributeComponentContext.expMode;
-    this.rerender$ = this.configuratorDeltaRenderingService.rerender(
-      attributeComponentContext.isDeltaRendering ?? false,
-      this.attribute.key ?? ''
-    );
+    this.rerender$ =
+      this.configuratorDeltaRenderingService?.rerender(
+        attributeComponentContext.isDeltaRendering ?? false,
+        this.attribute.key ?? ''
+      ) ?? of(true);
   }
 
   protected getCurrentValueName(
@@ -66,7 +63,9 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
   ): string {
     let ariaLabel = '';
     if (value) {
-      value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+      value =
+        this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
+        value;
       const valueName = this.getCurrentValueName(attribute, value);
       if (value.valuePrice && value.valuePrice?.value !== 0) {
         if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
@@ -139,7 +138,9 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
   extractValuePriceFormulaParameters(
     value: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
-    value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    value =
+      this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
+      value;
     return {
       quantity: value.quantity,
       price: value.valuePrice,

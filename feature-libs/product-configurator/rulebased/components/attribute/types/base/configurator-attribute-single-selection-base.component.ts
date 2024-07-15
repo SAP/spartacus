@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, inject } from '@angular/core';
+import { Directive } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -15,7 +15,6 @@ import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
@@ -31,11 +30,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   language: string;
   expMode: boolean;
   isDeltaRendering: boolean;
-
-  protected configuratorDeltaRenderingService = inject(
-    ConfiguratorDeltaRenderingService,
-    { optional: true }
-  );
 
   showRequiredErrorMessage$: Observable<boolean> = of(false);
   rerender$: Observable<boolean>;
