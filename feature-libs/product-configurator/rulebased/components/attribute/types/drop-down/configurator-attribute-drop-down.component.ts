@@ -72,11 +72,4 @@ export class ConfiguratorAttributeDropDownComponent
   getSelectedValueDescription(): string {
     return this.getSelectedValue()?.description ?? '';
   }
-
-  protected getValuePrice(value: Configurator.Value | undefined): string {
-    if (value && this.configuratorDeltaRenderingService) {
-      value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
-    }
-    return super.getValuePrice(value);
-  }
 }
