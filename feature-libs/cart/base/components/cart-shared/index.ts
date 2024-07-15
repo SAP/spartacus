@@ -5,6 +5,7 @@
  */
 
 export * from './cart-item-list-row/cart-item-list-row.component';
+export * from './cart-item-list-row/cart-item-list-row.component.service';
 export * from './cart-item-list/cart-item-list.component';
 export * from './cart-item/index';
 export * from './cart-shared.module';
