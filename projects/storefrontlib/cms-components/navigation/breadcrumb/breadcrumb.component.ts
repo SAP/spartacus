@@ -57,14 +57,6 @@ export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   ngOnInit(): void {
     super.ngOnInit();
     this.setCrumbs();
-    if (this.featureConfigService.isEnabled('a11yRepeatedPageTitleFix')) {
-      this.ariaLive$ = this.router.events.pipe(
-        filter((e) => e instanceof NavigationEnd),
-        map(() => {
-          return document.activeElement !== document.body;
-        })
-      );
-    }
   }
 
   private setCrumbs(): void {
