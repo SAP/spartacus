@@ -7,7 +7,8 @@ import {
 } from './ssr-optimization-options';
 
 const options: SsrOptimizationOptions = {
-  cacheStrategyResolver: defaultSsrOptimizationOptions.cacheStrategyResolver,
+  shouldCacheRenderingResult:
+    defaultSsrOptimizationOptions.shouldCacheRenderingResult,
   avoidCachingErrors: defaultSsrOptimizationOptions.avoidCachingErrors,
 };
 
@@ -161,10 +162,10 @@ describe('RenderingCache with cacheSize', () => {
     });
   });
 
-  describe('RenderingCache and cacheStrategyResolver', () => {
+  describe('RenderingCache and shouldCacheRenderingResult', () => {
     let renderingCache: RenderingCache;
 
-    describe('if default cacheStrategyResolver', () => {
+    describe('if default shouldCacheRenderingResult', () => {
       it('should cache HTML if avoidCachingErrors is false', () => {
         renderingCache = new RenderingCache({
           ...options,
@@ -205,11 +206,11 @@ describe('RenderingCache with cacheSize', () => {
       });
     });
 
-    describe('if cacheStrategyResolver is not defined', () => {
+    describe('if shouldCacheRenderingResult is not defined', () => {
       beforeEach(() => {
         renderingCache = new RenderingCache({
           ...options,
-          cacheStrategyResolver: undefined,
+          shouldCacheRenderingResult: undefined,
         });
       });
       it('should not cache a html', () => {

@@ -73,8 +73,8 @@ class TestEngineRunner {
     };
 
     this.optimizedSsrEngine = new OptimizedSsrEngine(engineInstanceMock, {
-      cacheStrategyResolver:
-        defaultSsrOptimizationOptions.cacheStrategyResolver,
+      shouldCacheRenderingResult:
+        defaultSsrOptimizationOptions.shouldCacheRenderingResult,
       ...options,
     });
     this.engineInstance = this.optimizedSsrEngine.engineInstance;
@@ -199,7 +199,7 @@ describe('OptimizedSsrEngine', () => {
               "debug": false,
               "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR",
               "logger": "DefaultExpressServerLogger",
-              "cacheStrategyResolver": "(options, entry) => !(options.avoidCachingErrors === true && Boolean(entry.err))",
+              "shouldCacheRenderingResult": "({ options, entry }) => !(options.avoidCachingErrors === true && Boolean(entry.err))",
               "avoidCachingErrors": false
             }
           }
@@ -386,7 +386,7 @@ describe('OptimizedSsrEngine', () => {
   });
 
   describe('avoidCachingErrors option', () => {
-    describe('when using default cacheStrategyResolver', () => {
+    describe('when using default shouldCacheRenderingResult', () => {
       it('should not cache errors if `avoidCachingErrors` is set to true', fakeAsync(() => {
         const engineRunner = TestEngineRunner.withError({
           cache: true,
@@ -453,11 +453,11 @@ describe('OptimizedSsrEngine', () => {
     });
   });
 
-  describe('cacheStrategyResolver option', () => {
-    it('should not cache errors if `cacheStrategyResolver` returns false', fakeAsync(() => {
+  describe('shouldCacheRenderingResult option', () => {
+    it('should not cache errors if `shouldCacheRenderingResult` returns false', fakeAsync(() => {
       const engineRunner = TestEngineRunner.withError({
         cache: true,
-        cacheStrategyResolver: () => false,
+        shouldCacheRenderingResult: () => false,
       }).request('a');
 
       tick(200);
@@ -472,10 +472,10 @@ describe('OptimizedSsrEngine', () => {
       ]);
     }));
 
-    it('should cache errors if `cacheStrategyResolver` returns true', fakeAsync(() => {
+    it('should cache errors if `shouldCacheRenderingResult` returns true', fakeAsync(() => {
       const engineRunner = TestEngineRunner.withError({
         cache: true,
-        cacheStrategyResolver: () => true,
+        shouldCacheRenderingResult: () => true,
       }).request('a');
 
       tick(200);
@@ -490,10 +490,10 @@ describe('OptimizedSsrEngine', () => {
       ]);
     }));
 
-    it('should not cache HTML if `cacheStrategyResolver` returns false', fakeAsync(() => {
+    it('should not cache HTML if `shouldCacheRenderingResult` returns false', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({
         cache: true,
-        cacheStrategyResolver: () => false,
+        shouldCacheRenderingResult: () => false,
       }).request('a');
 
       tick(200);
@@ -504,10 +504,10 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.renders).toEqual(['a-0', 'a-1', 'a-2']);
     }));
 
-    it('should cache HTML if `cacheStrategyResolver` returns true', fakeAsync(() => {
+    it('should cache HTML if `shouldCacheRenderingResult` returns true', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({
         cache: true,
-        cacheStrategyResolver: () => true,
+        shouldCacheRenderingResult: () => true,
       }).request('a');
 
       tick(200);
@@ -1459,7 +1459,6 @@ describe('OptimizedSsrEngine', () => {
             "options": {
               "avoidCachingErrors": false,
               "cacheSize": 3000,
-              "cacheStrategyResolver": "(options, entry) => !(options.avoidCachingErrors === true && Boolean(entry.err))",
               "concurrency": 10,
               "debug": false,
               "forcedSsrTimeout": 60000,
@@ -1474,6 +1473,7 @@ describe('OptimizedSsrEngine', () => {
                 : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
         }",
               "reuseCurrentRendering": true,
+              "shouldCacheRenderingResult": "({ options, entry }) => !(options.avoidCachingErrors === true && Boolean(entry.err))",
               "timeout": 3000,
             },
           },

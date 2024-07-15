@@ -31,8 +31,13 @@ export class RenderingCache {
         this.renders.delete(this.renders.keys().next().value);
       }
     }
-    // cache only if cachingStrategyResolver return true
-    if (this.options?.cacheStrategyResolver?.(this.options, entry)) {
+    // cache only if shouldCacheRenderingResult return true
+    if (
+      this.options?.shouldCacheRenderingResult?.({
+        options: this.options,
+        entry,
+      })
+    ) {
       this.renders.set(key, entry);
     }
   }

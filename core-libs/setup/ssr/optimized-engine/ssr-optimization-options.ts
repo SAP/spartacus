@@ -139,10 +139,13 @@ export interface SsrOptimizationOptions {
    * By default, all html rendering results are cached. By default, also all errors are cached
    * unless the separate option `avoidCachingErrors` is enabled.
    */
-  cacheStrategyResolver?: (
-    config: SsrOptimizationOptions,
-    entry: Pick<RenderingEntry, 'err' | 'html'>
-  ) => boolean;
+  shouldCacheRenderingResult?: ({
+    options,
+    entry,
+  }: {
+    options: SsrOptimizationOptions;
+    entry: Pick<RenderingEntry, 'err' | 'html'>;
+  }) => boolean;
 
   /**
    * Determines if rendering errors should be skipped from caching.
@@ -152,8 +155,8 @@ export interface SsrOptimizationOptions {
    * It's recommended to set to `true` (i.e. errors are skipped from caching),
    * which will become the default behavior, when this feature toggle is removed.
    *
-   * It only affects the default `cacheStrategyResolver`.
-   * Custom implementations of `cacheStrategyResolver` may ignore this setting.
+   * It only affects the default `shouldCacheRenderingResult`.
+   * Custom implementations of `shouldCacheRenderingResult` may ignore this setting.
    */
   avoidCachingErrors?: boolean;
 }
@@ -176,7 +179,7 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
     defaultRenderingStrategyResolverOptions
   ),
   logger: new DefaultExpressServerLogger(),
-  cacheStrategyResolver: (options, entry) =>
+  shouldCacheRenderingResult: ({ options, entry }) =>
     !(options.avoidCachingErrors === true && Boolean(entry.err)),
   avoidCachingErrors: false,
 };
