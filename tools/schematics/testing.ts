@@ -9,7 +9,7 @@ import { prompt } from 'enquirer';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
-import {chalk} from "../chalk";
+import { chalk } from '../chalk';
 
 const featureLibsFolders: string[] = [
   'asm',
@@ -39,7 +39,8 @@ const integrationLibsFolders: string[] = [
   'epd-visualization',
   's4om',
   'segment-refs',
-  'opps'
+  'opps',
+  'cpq-quote',
 ];
 
 const commands = [
@@ -70,6 +71,7 @@ const commands = [
   'build tracking/schematics',
   'build user/schematics',
   'build customer-ticketing/schematics',
+  'build cpq-quote/schematics',
   'build all libs',
   'test all schematics',
   'exit',
@@ -203,6 +205,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build order/schematics':
     case 'build checkout/schematics':
     case 'build quote/schematics':
+    case 'build cpq-quote/schematics':
     case 'build cdc/schematics':
     case 'build cds/schematics':
     case 'build digital-payments/schematics':
