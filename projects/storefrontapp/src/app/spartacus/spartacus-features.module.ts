@@ -333,12 +333,12 @@ if (environment.cpq) {
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
         a11yFacetsDialogFocusHandling: true,
+        a11yStoreFinderAlerts: true,
         a11yFormErrorMuteIcon: true,
         a11yCxMessageFocus: true,
         occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
-        a11yStoreFinderSearchboxBloat: true,
       };
       return appFeatureToggles;
     }),
