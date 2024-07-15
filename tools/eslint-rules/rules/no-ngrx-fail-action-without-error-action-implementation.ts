@@ -21,7 +21,7 @@ import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
 import {
   fixMissingImplementsInterface,
   hasImplementsInterface,
-} from './utils/implements-intrerface-utils';
+} from './utils/implements-interface-utils';
 import { fixPossiblyMissingImport } from './utils/import-utils';
 
 // NOTE: The rule will be available in ESLint configs as "@nrwl/nx/workspace/no-ngrx-fail-action-without-error-action-implementation"

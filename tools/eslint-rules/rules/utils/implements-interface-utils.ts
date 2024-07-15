@@ -52,12 +52,14 @@ export function fixMissingImplementsInterface({
   const fixes = [];
   if (node.implements?.length > 0) {
     const lastImplementsNode = node.implements[node.implements.length - 1];
+    console.log(lastImplementsNode);
     fixes.push(fixer.insertTextAfter(lastImplementsNode, `, ${interfaceName}`));
   } else if (node.superClass) {
     fixes.push(fixer.insertTextAfter(node.superClass, implementsText));
   } else if (node.id) {
     fixes.push(fixer.insertTextAfter(node.id, implementsText));
   }
+  // console.log(fixes);
   return fixes;
 }
 
