@@ -40,6 +40,7 @@ const integrationLibsFolders: string[] = [
   's4om',
   'segment-refs',
   'opps',
+  's4-service',
   'cpq-quote',
 ];
 
@@ -52,6 +53,7 @@ const commands = [
   'build checkout/schematics',
   'build quote/schematics',
   'build cdc/schematics',
+  'build s4-service/schematics',
   'build cds/schematics',
   'build digital-payments/schematics',
   'build epd-visualization/schematics',
@@ -207,6 +209,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build quote/schematics':
     case 'build cpq-quote/schematics':
     case 'build cdc/schematics':
+    case 'build s4-service/schematics':
     case 'build cds/schematics':
     case 'build digital-payments/schematics':
     case 'build epd-visualization/schematics':
