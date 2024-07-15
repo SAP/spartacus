@@ -6,7 +6,6 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price';
@@ -32,8 +31,6 @@ export class ConfiguratorAttributeCheckBoxComponent
 
   attributeCheckBoxForm = new UntypedFormControl('');
 
-  rerender$: Observable<boolean>;
-
   constructor(
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService
@@ -43,11 +40,10 @@ export class ConfiguratorAttributeCheckBoxComponent
     this.group = attributeComponentContext.group.id;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.rerender$ =
-      this.configuratorDeltaRenderingService?.rerender(
-        attributeComponentContext.isDeltaRendering ?? false,
-        this.attribute.key ?? ''
-      ) ?? of(true);
+    this.initDeltaRendering(
+      attributeComponentContext.isDeltaRendering,
+      attributeComponentContext.attribute.key
+    );
   }
 
   ngOnInit() {

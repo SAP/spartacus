@@ -26,41 +26,34 @@ export class ConfiguratorDeltaRenderingService {
    * so that the UI is not blocked. Afterwards a rerender shall only occur if prices change.
    * This all assumes that the enclosing UI component itself gets recreated or rerendered (triggered elsewhere) whenever the attribute itself changes content wise.
    *
-   * @param isDeltaRendering flag indicating whether delta rendering is activated in the current context
    * @param attributeKey key of the attribute for which the prices should be checked for changes
    * @returns observable that emits 'true' each time there is the need to rerender the enclosing component due to an price change
    */
-  public rerender(
-    isDeltaRendering: boolean,
-    attributeKey: string
-  ): Observable<boolean> {
-    return isDeltaRendering
-      ? this.configuratorRouterExtractorService.extractRouterData().pipe(
-          switchMap((routerData) => {
-            return this.configuratorCommonsService
-              .getConfiguration(routerData.owner)
-              .pipe(
-                // Initially render domain values (DDLB options) without prices, so UI is not blocked, otherwise only re-ender if prices changed.
-                // Changes of attribute itself are already handled in the attribute composition directive.
-                filter(
-                  (config) =>
-                    this.isInitialRendering || !!config.priceSupplements
-                ),
-                switchMap((config) => {
-                  if (this.isInitialRendering) {
-                    return of(true);
-                  }
-                  const pricesChanged = this.checkForValuePriceChanges(
-                    config,
-                    attributeKey
-                  );
-                  return pricesChanged ? of(true) : EMPTY;
-                }),
-                tap(() => (this.isInitialRendering = false))
+  public rerender(attributeKey: string | undefined): Observable<boolean> {
+    return this.configuratorRouterExtractorService.extractRouterData().pipe(
+      switchMap((routerData) => {
+        return this.configuratorCommonsService
+          .getConfiguration(routerData.owner)
+          .pipe(
+            // Initially render attribute without prices, so UI is not blocked, otherwise only re-ender if prices changed.
+            // Changes of attribute itself are already handled in the attribute composition directive.
+            filter(
+              (config) => this.isInitialRendering || !!config.priceSupplements
+            ),
+            switchMap((config) => {
+              if (this.isInitialRendering) {
+                return of(true);
+              }
+              const pricesChanged = this.checkForValuePriceChanges(
+                config,
+                attributeKey
               );
-          })
-        )
-      : of(true); // no async pricing -> we can render directly with prices
+              return pricesChanged ? of(true) : EMPTY;
+            }),
+            tap(() => (this.isInitialRendering = false))
+          );
+      })
+    );
   }
 
   /**
@@ -89,7 +82,7 @@ export class ConfiguratorDeltaRenderingService {
    */
   protected checkForValuePriceChanges(
     config: Configurator.Configuration,
-    attributeKey: string
+    attributeKey: string | undefined
   ): boolean {
     const attributeSupplement = config.priceSupplements?.find(
       (supplement) => supplement.attributeUiKey === attributeKey

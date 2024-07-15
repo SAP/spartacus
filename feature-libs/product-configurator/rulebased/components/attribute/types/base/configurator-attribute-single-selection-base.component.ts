@@ -29,10 +29,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   ownerType: string;
   language: string;
   expMode: boolean;
-  isDeltaRendering: boolean;
 
   showRequiredErrorMessage$: Observable<boolean> = of(false);
-  rerender$: Observable<boolean>;
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
@@ -64,12 +62,10 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
             false
         )
       );
-
-    this.rerender$ =
-      this.configuratorDeltaRenderingService?.rerender(
-        attributeComponentContext.isDeltaRendering ?? false,
-        this.attribute.key ?? ''
-      ) ?? of(true);
+    this.initDeltaRendering(
+      attributeComponentContext.isDeltaRendering,
+      attributeComponentContext.attribute.key
+    );
   }
 
   /**

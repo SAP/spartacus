@@ -6,7 +6,6 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price';
@@ -25,8 +24,6 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
   group: string;
   expMode: boolean;
 
-  rerender$: Observable<boolean>;
-
   constructor(
     protected translationService: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext
@@ -35,11 +32,10 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
     this.expMode = attributeComponentContext.expMode;
-    this.rerender$ =
-      this.configuratorDeltaRenderingService?.rerender(
-        attributeComponentContext.isDeltaRendering ?? false,
-        this.attribute.key ?? ''
-      ) ?? of(true);
+    this.initDeltaRendering(
+      attributeComponentContext.isDeltaRendering,
+      attributeComponentContext.attribute.key
+    );
   }
 
   protected getCurrentValueName(

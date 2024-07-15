@@ -19,7 +19,6 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
-import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-image',
@@ -40,8 +39,6 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   iconTypes = ICON_TYPE;
   protected config = inject(Config);
 
-  rerender$: Observable<boolean>;
-
   constructor(
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService
@@ -50,12 +47,11 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.rerender$ =
-      this.configuratorDeltaRenderingService?.rerender(
-        attributeComponentContext.isDeltaRendering ?? false,
-        this.attribute.key ?? ''
-      ) ?? of(true);
     useFeatureStyles('productConfiguratorAttributeTypesV2');
+    this.initDeltaRendering(
+      attributeComponentContext.isDeltaRendering,
+      attributeComponentContext.attribute.key
+    );
   }
 
   ngOnInit(): void {

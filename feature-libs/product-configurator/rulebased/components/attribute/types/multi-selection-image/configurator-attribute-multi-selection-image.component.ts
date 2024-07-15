@@ -15,12 +15,11 @@ import { Config, useFeatureStyles } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
-import { Observable, of } from 'rxjs';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 
 @Component({
   selector: 'cx-configurator-attribute-multi-selection-image',
@@ -39,8 +38,6 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
   iconTypes = ICON_TYPE;
   protected config = inject(Config);
 
-  rerender$: Observable<boolean>;
-
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
@@ -51,11 +48,10 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.rerender$ =
-      this.configuratorDeltaRenderingService?.rerender(
-        attributeComponentContext.isDeltaRendering ?? false,
-        this.attribute.key ?? ''
-      ) ?? of(true);
+    this.initDeltaRendering(
+      attributeComponentContext.isDeltaRendering,
+      attributeComponentContext.attribute.key
+    );
 
     useFeatureStyles('productConfiguratorAttributeTypesV2');
   }

@@ -5,7 +5,7 @@
  */
 
 import { Directive } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -24,9 +24,6 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   attribute: Configurator.Attribute;
   ownerKey: string;
   expMode: boolean;
-  isDeltaRendering: boolean;
-
-  rerender$: Observable<boolean>;
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
@@ -37,11 +34,10 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.rerender$ =
-      this.configuratorDeltaRenderingService?.rerender(
-        attributeComponentContext.isDeltaRendering ?? false,
-        this.attribute.key ?? ''
-      ) ?? of(true);
+    this.initDeltaRendering(
+      attributeComponentContext.isDeltaRendering,
+      attributeComponentContext.attribute.key
+    );
   }
 
   /**

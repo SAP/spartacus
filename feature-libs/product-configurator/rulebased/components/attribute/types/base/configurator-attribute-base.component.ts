@@ -6,7 +6,7 @@
 
 import { inject } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
-import { take } from 'rxjs';
+import { Observable, of, take } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
@@ -29,6 +29,14 @@ export class ConfiguratorAttributeBaseComponent {
   private static PREFIX_OPTION_PRICE_VALUE = 'price--optionsPriceValue';
   private static PREFIX_DDLB_OPTION_PRICE_VALUE = 'option--price';
   protected static MAX_IMAGE_LABEL_CHARACTERS = 16;
+
+  rerender$: Observable<boolean>;
+  initDeltaRendering(isDeltaRendering?: boolean, attributeKey?: string) {
+    this.rerender$ =
+      isDeltaRendering && this.configuratorDeltaRenderingService
+        ? this.configuratorDeltaRenderingService.rerender(attributeKey)
+        : of(true); // no delta rendering - always render directly only once
+  }
 
   /**
    * Creates unique key for config value on the UI
