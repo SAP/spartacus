@@ -18,7 +18,6 @@ import {
   ProductService,
   RoutingService,
   VariantCategory,
-  VariantMatrixElement,
 } from '@spartacus/core';
 import { ProductMultiDimensionalService } from '../../../core/services/product-multi-dimensional.service';
 import { ActivatedRoute } from '@angular/router';
@@ -62,7 +61,7 @@ export class ProductMultiDimensionalSelectorComponent implements OnChanges {
     }
   }
 
-  isSelected(category: VariantMatrixElement) {
-    return category.variantOption?.code === this.product.code;
+  isSelected(code: string) {
+    return code === this.product.code;
   }
 }

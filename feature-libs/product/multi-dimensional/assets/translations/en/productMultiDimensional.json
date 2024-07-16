@@ -3,6 +3,7 @@
     "Style": "Style",
     "Size": "Size",
     "Color": "Color",
-    "Material": "Material"
+    "Material": "Material",
+    "Fit": "Fit"
   }
 }

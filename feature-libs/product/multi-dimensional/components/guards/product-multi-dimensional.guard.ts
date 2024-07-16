@@ -12,7 +12,6 @@ import {
   ProductScope,
   ProductService,
   SemanticPathService,
-  VariantMatrixElement,
   VariantOption,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -70,14 +69,10 @@ export class ProductMultiDimensionalGuard {
   }
 
   protected findPurchasableProductCode(product: Product): string | undefined {
-    if (product.variantMatrix?.length) {
-      const results: VariantOption[] = product.variantMatrix
-        .map((variantMatrixElement: VariantMatrixElement) => {
-          return variantMatrixElement.variantOption;
-        })
-        .filter(
-          (variant: VariantOption) => variant.stock && variant.stock.stockLevel
-        );
+    if (product.variantOptions?.length) {
+      const results: VariantOption[] = product.variantOptions.filter(
+        (variant: VariantOption) => variant.stock && variant.stock.stockLevel
+      );
       return results.length ? results[0]?.code : undefined;
     }
     return undefined;

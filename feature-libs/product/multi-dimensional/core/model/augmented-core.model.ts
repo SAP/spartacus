@@ -17,6 +17,7 @@ export type VariantCategory = {
   name: string;
   variantOptions: VariantCategoryOption[];
   hasImages: boolean;
+  order: number;
 };
 
 declare module '@spartacus/core' {
