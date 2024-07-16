@@ -338,6 +338,7 @@ if (environment.cpq) {
         a11yCxMessageFocus: true,
         occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
+        a11yDeliveryModeRadiogroup: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
       };
       return appFeatureToggles;
