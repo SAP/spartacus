@@ -5,19 +5,20 @@
  */
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { CartAdapter } from '@spartacus/cart/base/core';
 import {
-  CART_NORMALIZER,
   Cart,
+  CART_NORMALIZER,
   SaveCartResult,
 } from '@spartacus/cart/base/root';
 import {
   ConverterService,
+  FeatureConfigService,
   InterceptorUtil,
+  Occ,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
-  Occ,
   OccEndpointsService,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
@@ -26,6 +27,8 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OccCartAdapter implements CartAdapter {
+  private featureConfigService = inject(FeatureConfigService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
@@ -113,7 +116,20 @@ export class OccCartAdapter implements CartAdapter {
         saveCartDescription,
       },
     });
-    return this.http.patch<Occ.Cart>(endpoint, cartId).pipe(
+
+    let httpParams: HttpParams = new HttpParams();
+
+    if (
+      this.featureConfigService?.isEnabled(
+        'occCartNameAndDescriptionInHttpRequestBody'
+      )
+    ) {
+      httpParams = httpParams
+        .set('saveCartName', saveCartName)
+        .set('saveCartDescription', saveCartDescription);
+    }
+
+    return this.http.patch<Occ.Cart>(endpoint, httpParams).pipe(
       map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
       this.converterService.pipeable(CART_NORMALIZER)
     );

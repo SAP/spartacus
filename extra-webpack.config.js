@@ -71,6 +71,7 @@ module.exports = {
         'feature-libs/pickup-in-store'
       ),
       '@spartacus/s4om': path.join(__dirname, 'integration-libs/s4om'),
+      '@spartacus/s4-service': path.join(__dirname, 'integration-libs/s4-service'),
     },
   },
 };

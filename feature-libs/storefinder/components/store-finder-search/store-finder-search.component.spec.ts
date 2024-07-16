@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 
 const query = {
@@ -55,6 +56,7 @@ describe('StoreFinderSearchComponent', () => {
         StoreFinderSearchComponent,
         MockUrlPipe,
         MockCxIconComponent,
+        MockFeatureDirective,
       ],
       providers: [
         {

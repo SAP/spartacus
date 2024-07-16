@@ -14,6 +14,7 @@ export interface CustomerSearchPage {
 
 export interface CustomerSearchOptions {
   query?: string;
+  orderId?: string;
   pageSize?: number;
   customerListId?: string;
   currentPage?: number;

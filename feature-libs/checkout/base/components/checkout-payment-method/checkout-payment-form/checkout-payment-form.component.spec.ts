@@ -27,9 +27,9 @@ import {
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
+import { CheckoutBillingAddressFormService } from '../../checkout-billing-address';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 import createSpy = jasmine.createSpy;
-import { CheckoutBillingAddressFormService } from '../../checkout-billing-address';
 
 @Component({
   selector: 'cx-spinner',
@@ -530,6 +530,12 @@ describe('CheckoutPaymentFormComponent', () => {
       expect(
         fixture.debugElement.queryAll(By.css('.form-check-input')).length
       ).toEqual(1);
+    });
+
+    it('should show assitive message when form is submitted with errors', () => {
+      component.paymentForm.setErrors({ required: true });
+      component.next();
+      expect(mockGlobalMessageService.add).toHaveBeenCalled();
     });
   });
 

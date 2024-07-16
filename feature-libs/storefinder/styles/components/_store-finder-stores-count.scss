@@ -88,4 +88,11 @@
   .cx-count-spinner {
     padding: 30px 0;
   }
+  // TODO: (CXSPA-7581) - Remove feature flag next major release
+  @include forFeature('a11yStoreFinderAlerts') {
+    .cx-counter {
+      text-align: start;
+      margin: 0 0.75rem 0rem 0.75rem;
+    }
+  }
 }
