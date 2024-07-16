@@ -8,7 +8,8 @@ import { AuthConfig } from './auth-config';
 
 export const defaultAuthConfig: AuthConfig = {
   authentication: {
-    client_id: 'mobile_android',
+    // client_id: 'mobile_android',
+    client_id: 'short_token_life',
     client_secret: 'secret',
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
@@ -21,6 +22,10 @@ export const defaultAuthConfig: AuthConfig = {
       disablePKCE: true,
       oidc: false,
       clearHashAfterLogin: false,
+    },
+    sessionExpirationWarning: {
+      enabled: true,
+      interval: 20,
     },
   },
 };

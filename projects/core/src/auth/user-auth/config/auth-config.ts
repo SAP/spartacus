@@ -29,6 +29,17 @@ export type AuthLibConfig = Omit<
   | 'userinfoEndpoint'
 >;
 
+export type SessionExpirationWarningConfig = {
+  /**
+   * Enable session expiration warning.
+   */
+  enabled?: boolean;
+  /**
+   * Interval in seconds before session expires for showing the warning.
+   */
+  interval?: number;
+};
+
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
@@ -71,6 +82,10 @@ export abstract class AuthConfig {
      * Config for angular-oauth-oidc library.
      */
     OAuthLibConfig?: AuthLibConfig;
+    /**
+     * Expire session warning configuration.
+     */
+    sessionExpirationWarning?: SessionExpirationWarningConfig;
   };
 }
 

@@ -9,7 +9,8 @@ $selectors: cx-address-book, cx-address-form, cx-suggested-addresses-dialog,
   cx-login, cx-login-form, cx-register, cx-reset-password, cx-close-account,
   cx-close-account-modal, cx-my-account-v2-profile, cx-my-account-v2-email,
   cx-my-account-v2-password, cx-otp-login-form, cx-verification-token-form,
-  cx-verification-token-dialog !default;
+  cx-verification-token-dialog, cx-my-account-v2-password,
+  cx-extend-session-dialog !default;
 
 @each $selector in $selectors {
   #{$selector} {

@@ -1,0 +1,46 @@
+<div
+  class="cx-modal-container"
+  [cxFocus]="focusConfig"
+  (esc)="dismissModal('Escape pressed')"
+  role="dialog"
+>
+  <div class="cx-modal-content">
+    <!-- Modal Header -->
+    <div class="cx-dialog-header modal-header">
+      <h2 class="title modal-title">
+        {{ 'extendSessionDialog.title' | cxTranslate }}
+      </h2>
+      <button
+        type="button"
+        class="close"
+        [attr.aria-label]="'Extend session close modal'"
+        (click)="dismissModal('Cross click')"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      {{ 'extendSessionDialog.description' | cxTranslate }}
+      <br />
+      <b *ngIf="timeLeft$ | async as timeLeft">{{
+        'extendSessionDialog.timeLeft' | cxTranslate: { time: timeLeft }
+      }}</b>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="cx-dialog-footer modal-footer">
+      <div class="cx-dialog-buttons">
+        <button (click)="continueSession()" class="btn btn-primary" autofocus>
+          {{ 'extendSessionDialog.continueSession' | cxTranslate }}
+        </button>
+        <button (click)="logout()" class="btn btn-secondary">
+          {{ 'extendSessionDialog.logoutNow' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

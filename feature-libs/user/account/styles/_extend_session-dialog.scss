@@ -1,0 +1,24 @@
+%cx-extend-session-dialog {
+  .cx-dialog-header {
+    .title {
+      font-size: 1.25rem;
+      font-weight: var(--cx-font-weight-bold);
+    }
+
+    border-bottom: none;
+  }
+
+  .cx-dialog-footer {
+    border-top: none;
+
+    .cx-dialog-buttons {
+      display: flex;
+      gap: 1rem;
+
+      .btn {
+        font-size: 1rem;
+        font-weight: var(--cx-font-weight-normal);
+      }
+    }
+  }
+}

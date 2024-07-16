@@ -11,6 +11,7 @@ import { LoginModule } from './login/login.module';
 import { MyAccountV2UserModule } from './my-account-v2-user';
 import { OneTimePasswordLoginFormModeule } from './otp-login-form/otp-login-form.module';
 import { VerificationTokenFormModule } from './verification-token-form/verification-token-form.module';
+import { ExtendSessionDialogModule } from './extend-session';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { VerificationTokenFormModule } from './verification-token-form/verificat
     LoginRegisterModule,
     MyAccountV2UserModule,
     OneTimePasswordLoginFormModeule,
+    ExtendSessionDialogModule,
   ],
 })
 export class UserAccountComponentsModule {}

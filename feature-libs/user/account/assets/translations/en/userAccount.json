@@ -37,6 +37,13 @@
     "contentLine3": "3. Either the email address or the password you entered is incorrect.",
     "close": "Close"
   },
+  "extendSessionDialog": {
+    "title": "You will be logged out soon",
+    "description": "For your security, we log you out automatically after a certain period of time.",
+    "timeLeft": "Time left: {{time}}",
+    "continueSession": "Continue Session",
+    "logoutNow": "Log Out Now"
+  },
   "miniLogin": {
     "userGreeting": "Hi, {{name}}",
     "signInRegister": "Sign In / Register"
