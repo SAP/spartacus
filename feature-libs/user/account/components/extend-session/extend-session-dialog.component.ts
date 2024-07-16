@@ -36,7 +36,6 @@ export class ExtendSessionDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('ON INIT');
     this.timeLeft$ = this.launchDialogService.data$.pipe(
       filter((data) => !!data.timeLeft),
       switchMap(({ timeLeft }) =>

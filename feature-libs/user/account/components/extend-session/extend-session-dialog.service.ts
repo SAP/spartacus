@@ -107,11 +107,12 @@ export class ExtendSessionDialogService implements OnDestroy {
           const tokenExpiresIn = Math.floor(
             (new Date(Number(token.expires_at)).getTime() - Date.now()) / 1000
           );
+          // If token expires sooner than `{interval}` seconds, adjust the interval
+          const adjustedInterval = Math.min(interval, tokenExpiresIn);
 
-          // If token expires sooner than the interval invoke the modal immediately
-          const delayTimeMs = Math.max(tokenExpiresIn - interval, 0) * 1000;
+          const delayTimeMs = (tokenExpiresIn - adjustedInterval) * 1000;
           return timer(delayTimeMs).pipe(
-            tap(() => this.openModal(Math.min(interval, tokenExpiresIn)))
+            tap(() => this.openModal(adjustedInterval))
           );
         })
       )
