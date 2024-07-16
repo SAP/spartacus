@@ -4,7 +4,9 @@ import { I18nTestingModule } from '@spartacus/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
+import { of } from 'rxjs';
 
 const attributeCode = 1;
 const currentAttribute: Configurator.Attribute = {
@@ -22,8 +24,18 @@ let configuratorUISettingsConfig: ConfiguratorUISettingsConfig = {
   },
 };
 
+class MockConfiguratorDeltaRenderingService {
+  rerender() {
+    return of(false);
+  }
+  mergePriceIntoValue(value: Configurator.Value) {
+    return value;
+  }
+}
+
 describe('ConfiguratorAttributeBaseComponent', () => {
   let classUnderTest: ConfiguratorAttributeBaseComponent;
+  let configuratorDeltaRenderingService: ConfiguratorDeltaRenderingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,12 +46,20 @@ describe('ConfiguratorAttributeBaseComponent', () => {
           provide: ConfiguratorUISettingsConfig,
           useValue: configuratorUISettingsConfig,
         },
+        {
+          provide: ConfiguratorDeltaRenderingService,
+          useClass: MockConfiguratorDeltaRenderingService,
+        },
       ],
     });
 
     classUnderTest = TestBed.inject(
       ConfiguratorAttributeBaseComponent as Type<ConfiguratorAttributeBaseComponent>
     );
+    configuratorDeltaRenderingService = TestBed.inject(
+      ConfiguratorDeltaRenderingService as Type<ConfiguratorDeltaRenderingService>
+    );
+    spyOn(configuratorDeltaRenderingService, 'rerender').and.callThrough();
   });
 
   it('should generate value key', () => {
@@ -482,6 +502,60 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     it('should return true in case uiType is DROPDOWN_PRODUCT', () => {
       currentAttribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
       expect(classUnderTest['isDropDown'](currentAttribute)).toBe(true);
+    });
+  });
+
+  describe('$rerender', () => {
+    it('should emit true immediately, if delta rendering is not initialized', () => {
+      let emitted = false;
+      classUnderTest.rerender$
+        .subscribe((rerender) => {
+          expect(rerender).toBe(true);
+          emitted = true;
+        })
+        .unsubscribe();
+      expect(emitted).toBe(true);
+      expect(configuratorDeltaRenderingService.rerender).not.toHaveBeenCalled();
+    });
+
+    it('should emit true immediately, if delta rendering is initialized but deactivated', () => {
+      classUnderTest['initDeltaRendering'](false, 'attrKey');
+      let emitted = false;
+      classUnderTest.rerender$
+        .subscribe((rerender) => {
+          expect(rerender).toBe(true);
+          emitted = true;
+        })
+        .unsubscribe();
+      expect(emitted).toBe(true);
+      expect(configuratorDeltaRenderingService.rerender).not.toHaveBeenCalled();
+    });
+
+    it('should emit true immediately, if delta rendering is initialized but no service injected', () => {
+      classUnderTest['configuratorDeltaRenderingService'] = null;
+      classUnderTest['initDeltaRendering'](true, 'attrKey');
+      let emitted = false;
+      classUnderTest.rerender$
+        .subscribe((rerender) => {
+          expect(rerender).toBe(true);
+          emitted = true;
+        })
+        .unsubscribe();
+      expect(emitted).toBe(true);
+      expect(configuratorDeltaRenderingService.rerender).not.toHaveBeenCalled();
+    });
+
+    it('should emit false immediately, if delta rendering is initialized proper', () => {
+      classUnderTest['initDeltaRendering'](true, 'attrKey');
+      let emitted = false;
+      classUnderTest.rerender$
+        .subscribe((rerender) => {
+          expect(rerender).toBe(false);
+          emitted = true;
+        })
+        .unsubscribe();
+      expect(emitted).toBe(true);
+      expect(configuratorDeltaRenderingService.rerender).toHaveBeenCalled();
     });
   });
 
