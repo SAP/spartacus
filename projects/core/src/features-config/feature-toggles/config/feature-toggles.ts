@@ -51,6 +51,11 @@ export interface FeatureTogglesInterface {
   showPromotionsInPDP?: boolean;
 
   /**
+   * In `ASM` it shows searching customer by order ID.
+   */
+  showSearchingCustomerByOrderInASM?: boolean;
+
+  /**
    * In `SearchBoxComponent` it shows the recent searches.
    */
   recentSearches?: boolean;
@@ -276,6 +281,12 @@ export interface FeatureTogglesInterface {
   a11ySemanticPaginationLabel?: boolean;
 
   /**
+   * When using CartItemListComponent as an outlet ([cxOutlet]="CartOutlets.CART_ITEM_LIST"):
+   * prevents the form from being recreated when neither the items nor other dependent properties (e.g., readonly) have changed.
+   */
+  a11yPreventCartItemsFormRedundantRecreation?: boolean;
+
+  /**
    * Prevents screen reader from stopping on invisible elements when being in read mode for `BreadcrumbComponent`, `QuickOrderFormComponent`
    */
   a11yPreventSRFocusOnHiddenElements?: boolean;
@@ -348,14 +359,43 @@ export interface FeatureTogglesInterface {
   a11yFacetsDialogFocusHandling?: boolean;
 
   /**
+   * Removes 'aria-live' from 'StoreFinderComponent' and adds 'alert' role to child components elements.
+   */
+  a11yStoreFinderAlerts?: boolean;
+
+  /**
+   * Stops the icon inside 'FormErrorsComponent' from being read out by screen readers.
+   */
+  a11yFormErrorMuteIcon?: boolean;
+
+  /**
+   * `MessageComponent` gets focused after a message with an action is rendered.
+   */
+  a11yCxMessageFocus?: boolean;
+
+  /**
    * Replaces buttons resembling links with tetriary buttons in the following components:
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
   a11yLinkBtnsToTertiaryBtns?: boolean;
+
+  /**
+   * In OCC cart requests, it puts parameters of a cart name and cart description
+   * into a request body, instead of query params.
+   * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
+   */
+  occCartNameAndDescriptionInHttpRequestBody?: boolean;
+
+  /**
+   * When enabled, styles for the `cx-bottom-header-slot` class will be applied. These styles are necessary to display
+   * customization buttons in the BottomHeaderSlot in SmartEdit.
+   */
+  cmsBottomHeaderSlotUsingFlexStyles?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   formErrorsDescriptiveMessages: true,
+  showSearchingCustomerByOrderInASM: false,
   shouldHideAddToCartForUnpurchasableProducts: false,
   useExtractedBillingAddressComponent: false,
   showBillingAddressInDigitalPayments: false,
@@ -399,6 +439,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yVisibleFocusOverflows: false,
   a11yTruncatedTextForResponsiveView: false,
   a11ySemanticPaginationLabel: false,
+  a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPreventSRFocusOnHiddenElements: false,
   a11yMyAccountLinkOutline: false,
   a11yCloseProductImageBtnFocus: false,
@@ -409,5 +450,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUseButtonsForBtnLinks: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
+  a11yStoreFinderAlerts: false,
+  a11yFormErrorMuteIcon: false,
+  a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
+  occCartNameAndDescriptionInHttpRequestBody: false,
+  cmsBottomHeaderSlotUsingFlexStyles: false,
 };

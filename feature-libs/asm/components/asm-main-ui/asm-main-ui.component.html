@@ -97,7 +97,7 @@
     <ng-template #showCustomerSelection>
       <cx-customer-selection
         *ngIf="notCollapsed"
-        (submitEvent)="startCustomerEmulationSession($event)"
+        (submitEvent)="startCustomerEmulationSession($event, $event.parameters)"
       ></cx-customer-selection>
     </ng-template>
   </ng-container>

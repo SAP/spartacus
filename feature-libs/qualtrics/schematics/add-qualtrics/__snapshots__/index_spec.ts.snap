@@ -19,7 +19,7 @@ export class QualtricsFeatureModule { }
 exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, provideConfig } from "@spartacus/core";
-import { QualtricsRootModule, QUALTRICS_FEATURE } from "@spartacus/qualtrics/root";
+import { QUALTRICS_FEATURE, QualtricsRootModule } from "@spartacus/qualtrics/root";
 
 @NgModule({
   declarations: [],

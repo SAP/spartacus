@@ -7,7 +7,12 @@
     "deliveryAddress": "Shipping Address",
     "deliveryMode": "Delivery Mode",
     "paymentDetails": "Payment",
-    "reviewOrder": "Review"
+    "reviewOrder": "Review",
+    "state": {
+      "completed": "{{step}}, Completed",
+      "selected": "{{step}}, Selected",
+      "disabled": "{{step}}, Disabled"
+    }
   },
   "checkoutAddress": {
     "shippingAddress": "Shipping Address",
