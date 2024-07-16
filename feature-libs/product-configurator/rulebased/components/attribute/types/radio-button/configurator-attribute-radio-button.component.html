@@ -21,7 +21,7 @@
           type="radio"
           formcontrolname="attributeRadioButtonForm"
           [formControl]="attributeRadioButtonForm"
-          [attr.required]="attribute.required"
+          [attr.required]="attribute.required === true ? 'required' : null"
           [value]="value.valueCode"
           name="{{ createAttributeIdForConfigurator(attribute) }}"
           attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
