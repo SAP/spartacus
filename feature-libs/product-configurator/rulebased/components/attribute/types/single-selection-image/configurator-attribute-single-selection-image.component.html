@@ -29,7 +29,7 @@
         [value]="value.valueCode"
         name="{{ createAttributeIdForConfigurator(attribute) }}"
         attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
-        [attr.required]="attribute.required"
+        [attr.required]="attribute.required === true ? 'required' : null"
         [attr.checked]="
           attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
         "
@@ -94,7 +94,7 @@
           [value]="value.valueCode"
           name="{{ createAttributeIdForConfigurator(attribute) }}"
           attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
-          [attr.required]="attribute.required"
+          [attr.required]="attribute.required === true ? 'required' : null"
           [attr.checked]="
             attributeRadioButtonForm.value === value.valueCode
               ? 'checked'

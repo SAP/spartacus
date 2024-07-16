@@ -472,6 +472,8 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
 
     it("should contain option elements with 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
       value2.valuePrice = undefined;
+      value1.selected = false;
+      value2.selected = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -490,7 +492,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
 
     it("should contain option elements with 'aria-label' attribute for value with price that defines an accessible name to label the current element", () => {
       let value = component.attribute.values
-        ? component.attribute.values[0]
+        ? component.attribute.values[1]
         : undefined;
       if (value) {
         value.valuePrice = {
@@ -508,21 +510,21 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         htmlElem,
         'option',
         undefined,
-        0,
+        1,
         'aria-label',
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           component.attribute.label +
           ' price:' +
-          value1.valuePrice?.formattedValue +
+          value2.valuePrice?.formattedValue +
           ' value:' +
-          value1.valueDisplay,
-        value1.valueDisplay
+          value2.valueDisplay,
+        value2.valueDisplay
       );
     });
 
     it("should contain option elements with 'aria-label' attribute for value with total price that defines an accessible name to label the current element", () => {
       let value = component.attribute.values
-        ? component.attribute.values[0]
+        ? component.attribute.values[1]
         : undefined;
       if (value) {
         value.valuePriceTotal = {
@@ -540,15 +542,15 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         htmlElem,
         'option',
         undefined,
-        0,
+        1,
         'aria-label',
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           component.attribute.label +
           ' price:' +
-          value1.valuePrice?.formattedValue +
+          value2.valuePrice?.formattedValue +
           ' value:' +
-          value1.valueDisplay,
-        value1.valueDisplay
+          value2.valueDisplay,
+        value2.valueDisplay
       );
     });
   });

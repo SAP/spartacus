@@ -9,7 +9,7 @@ import * as authentication from '../auth-forms';
 import * as cart from '../cart';
 import * as common from '../common';
 import * as productConfigurator from '../product-configurator';
-
+export const READ_VENDOR_QUOTE = '@READ_VENDOR_QUOTE';
 export const READ_QUOTE = '@READ_QUOTE';
 export const UPDATE_QUOTE_ITEM = '@UPDATE_QUOTE_ITEM';
 export const UPDATE_CART_ITEM = '@UPDATE_CART_ITEM';

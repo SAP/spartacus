@@ -5,18 +5,17 @@
  */
 
 import { NgModule } from '@angular/core';
-import {
-  CdsConfig,
-  CdsModule,
-  cdsTranslationChunksConfig,
-  cdsTranslations,
-} from '@spartacus/cds';
+import { CdsConfig, CdsModule } from '@spartacus/cds';
 import {
   I18nConfig,
   provideConfig,
   provideConfigFactory,
   WindowRef,
 } from '@spartacus/core';
+import {
+  cdsTranslationChunksConfig,
+  cdsTranslations,
+} from '@spartacus/cds/assets';
 
 const cds1: CdsConfig = {
   cds: {
