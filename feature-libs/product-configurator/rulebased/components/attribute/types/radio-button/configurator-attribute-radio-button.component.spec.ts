@@ -182,6 +182,38 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       );
     });
 
+    it('should display quantity and no price', () => {
+      component.attribute.quantity = 5;
+      component.attribute.attributePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '500.00$',
+        value: 500,
+      };
+
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      if (value) {
+        value.valuePrice = undefined;
+      } else {
+        fail('Value not available');
+      }
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-attribute-level-quantity-price cx-configurator-price'
+      );
+    });
+
     it('should display quantity and price', () => {
       component.attribute.quantity = 5;
       component.attribute.attributePriceTotal = {

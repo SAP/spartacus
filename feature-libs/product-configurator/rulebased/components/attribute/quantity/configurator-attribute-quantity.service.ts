@@ -11,6 +11,8 @@ import { Configurator } from '../../../core/model/configurator.model';
   providedIn: 'root',
 })
 export class ConfiguratorAttributeQuantityService {
+  readonly RETRACT_VALUE_CODE = Configurator.RetractValueCode;
+
   /**
    * Checks if the interaction with the quantity control needs
    * to be disabled
@@ -18,7 +20,7 @@ export class ConfiguratorAttributeQuantityService {
    * @returns {boolean} Quantity actions disabled?
    */
   disableQuantityActions(value: any): boolean {
-    return !value || value === '0';
+    return !value || value === '0' || value === this.RETRACT_VALUE_CODE;
   }
 
   /**
