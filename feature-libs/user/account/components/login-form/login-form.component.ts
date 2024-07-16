@@ -6,8 +6,10 @@
 
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, filter } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { authCodeFlowConfig } from './auth.config';
 
 declare var gigya: any;
 
@@ -17,7 +19,16 @@ declare var gigya: any;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginFormComponent {
-  constructor(protected service: LoginFormComponentService) {
+  constructor(protected service: LoginFormComponentService, private oauthService: OAuthService) {
+    this.oauthService.configure(authCodeFlowConfig);
+    this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    this.oauthService.events
+      .pipe(filter((e) => e.type === 'token_received'))
+      .subscribe(() => {
+        this.oauthService.loadUserProfile();
+        this.service.updateToken(this.oauthService.getAccessToken());
+      });
+      
     gigya.accounts.addEventHandlers({
       onLogin: (account: any) => {
         this.service.onCDCLoginSuccess(account);
@@ -41,5 +52,9 @@ export class LoginFormComponent {
         console.log('onBeforeSubmit', event);
       }
     });
+  }
+
+  startPKCEFlow(): void {
+    this.oauthService.initCodeFlow();
   }
 }

@@ -76,6 +76,10 @@ export class LoginFormComponentService {
     this.auth.syncCdcToken(account.id_token);
   }
 
+  updateToken(token: string): void {
+    this.auth.syncCdcToken(token);
+  }
+
   protected onSuccess(isLoggedIn: boolean): void {
     if (isLoggedIn) {
       // We want to remove error messages on successful login (primary the bad

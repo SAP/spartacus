@@ -50,11 +50,14 @@
   </button>
 </form>
 
-<a class="btn-link" (click)="showCDCLoginForm()">
+<!-- <a class="btn-link" (click)="showCDCLoginForm()">
   CDC ScreenSet Login
-</a>
+</a> -->
 <a class="btn-link" href="https://localhost:9002/oauth2client/oauth2/authorization/cdc">
-  CDC Host Page Login
+  CDC OIDC Login
+</a>
+<a class="btn-link" (click)="startPKCEFlow()">
+  CDC PKCE Login
 </a>
 
 <ng-template #requiredAsterisk>
