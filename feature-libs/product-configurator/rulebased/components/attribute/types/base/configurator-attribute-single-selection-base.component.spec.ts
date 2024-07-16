@@ -498,7 +498,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       valueWithValuePriceTotal.valuePrice = price;
 
       expect(
-        component.getAriaLabelWithoutAdditionalValue(
+        component.getAriaLabel(
           valueWithValuePriceTotal,
           attributeWithTotalPrice
         )
@@ -536,7 +536,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       valueWithValuePriceTotal.valuePrice = price;
 
       expect(
-        component.getAriaLabelWithoutAdditionalValue(
+        component.getAriaLabel(
           valueWithValuePriceTotal,
           attributeWithTotalPrice
         )
@@ -568,10 +568,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       valueWithValuePrice.valuePrice = price;
 
       expect(
-        component.getAriaLabelWithoutAdditionalValue(
-          valueWithValuePrice,
-          attributeWithValuePrice
-        )
+        component.getAriaLabel(valueWithValuePrice, attributeWithValuePrice)
       ).toEqual(
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           attributeWithValuePrice.label +
@@ -600,10 +597,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       valueWithValuePrice.valuePrice = price;
 
       expect(
-        component.getAriaLabelWithoutAdditionalValue(
-          valueWithValuePrice,
-          attributeWithValuePrice
-        )
+        component.getAriaLabel(valueWithValuePrice, attributeWithValuePrice)
       ).toEqual(
         'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
           attributeWithValuePrice.label +
@@ -622,10 +616,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       const valueWithOutPrice = createValue('1', 'value without price', true);
 
       expect(
-        component.getAriaLabelWithoutAdditionalValue(
-          valueWithOutPrice,
-          attributeWithOutPrice
-        )
+        component.getAriaLabel(valueWithOutPrice, attributeWithOutPrice)
       ).toEqual(
         'configurator.a11y.selectedValueOfAttributeFull attribute:' +
           attributeWithOutPrice.label +
@@ -642,10 +633,24 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       const valueWithOutPrice = createValue('1', 'value without price', false);
 
       expect(
-        component.getAriaLabelWithoutAdditionalValue(
-          valueWithOutPrice,
-          attributeWithOutPrice
-        )
+        component.getAriaLabel(valueWithOutPrice, attributeWithOutPrice)
+      ).toEqual(
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          attributeWithOutPrice.label +
+          ' value:' +
+          valueWithOutPrice.valueDisplay
+      );
+    });
+
+    it('should return aria label for value without price without delta rendering service', () => {
+      let attributeWithOutPrice: Configurator.Attribute = {
+        name: 'attribute without price',
+        label: 'attribute without value price',
+      };
+      const valueWithOutPrice = createValue('1', 'value without price', false);
+      component['configuratorDeltaRenderingService'] = null;
+      expect(
+        component.getAriaLabel(valueWithOutPrice, attributeWithOutPrice)
       ).toEqual(
         'configurator.a11y.valueOfAttributeFull attribute:' +
           attributeWithOutPrice.label +

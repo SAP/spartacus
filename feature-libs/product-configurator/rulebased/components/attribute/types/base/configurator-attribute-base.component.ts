@@ -389,11 +389,15 @@ export class ConfiguratorAttributeBaseComponent {
    *
    * @param attribute the attribute
    * @param value the value
+   * @param considerSelectionState = false
+ - optional, depending on the underlying UI control the screen
+   * might announce the selection state on its own, so it is not always desired to include it here.
    * @returns translated text
    */
   protected getAriaLabelGeneric(
     attribute: Configurator.Attribute,
-    value: Configurator.Value
+    value: Configurator.Value,
+    considerSelectionState = false
   ): string {
     value =
       this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
@@ -403,15 +407,18 @@ export class ConfiguratorAttributeBaseComponent {
       attribute: attribute.label,
     };
 
-    let key;
+    const includedSelected = considerSelectionState && value.selected;
+    let key = includedSelected
+      ? 'configurator.a11y.selectedValueOfAttributeFullWithPrice'
+      : this.getAriaLabelForValueWithPrice(this.isReadOnly(attribute));
     if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
-      key = this.getAriaLabelForValueWithPrice(this.isReadOnly(attribute));
       params.price = value.valuePriceTotal.formattedValue;
     } else if (value.valuePrice && value.valuePrice?.value !== 0) {
-      key = this.getAriaLabelForValueWithPrice(this.isReadOnly(attribute));
       params.price = value.valuePrice.formattedValue;
     } else {
-      key = this.getAriaLabelForValue(this.isReadOnly(attribute));
+      key = includedSelected
+        ? 'configurator.a11y.selectedValueOfAttributeFull'
+        : this.getAriaLabelForValue(this.isReadOnly(attribute));
     }
 
     let ariaLabel = '';
