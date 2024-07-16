@@ -48,6 +48,8 @@ export const quoteFeatureModulePath =
   'src/app/spartacus/features/quote/quote-feature.module.ts';
 export const orderFeatureModulePath =
   'src/app/spartacus/features/order/order-feature.module.ts';
+export const orderWrapperModulePath =
+  'src/app/spartacus/features/order/order-wrapper.module.ts';
 export const organizationAdministrationFeatureModulePath =
   'src/app/spartacus/features/organization/organization-administration-feature.module.ts';
 export const pickupInStoreFeatureModulePath =
@@ -111,6 +113,8 @@ export const segmentRefsFeatureModulePath =
   'src/app/spartacus/features/segment-refs/segment-refs-feature.module.ts';
 export const oppsFeatureModulePath =
   'src/app/spartacus/features/opps/opps-feature.module.ts';
+export const s4ServiceFeatureModulePath =
+  'src/app/spartacus/features/s4-service/s4-service-feature.module.ts';
 
 export function writeFile(
   host: TempScopedNodeJsSyncHost,
