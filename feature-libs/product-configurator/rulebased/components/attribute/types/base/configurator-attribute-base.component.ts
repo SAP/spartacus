@@ -33,7 +33,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   rerender$: Observable<boolean> = of(true); // no delta rendering - always render directly only once
   protected initDeltaRendering(
-    isDeltaRendering?: boolean,
+    isDeltaRendering = false,
     attributeKey?: string
   ) {
     if (isDeltaRendering && this.configuratorDeltaRenderingService) {
