@@ -5,11 +5,14 @@
  */
 
 import { createAction, props } from '@ngrx/store';
-import { StateUtils, Stock, StoreFinderStockSearchPage } from '@spartacus/core';
+import {
+  ErrorAction,
+  StateUtils,
+  Stock,
+  StoreFinderStockSearchPage,
+} from '@spartacus/core';
 import { StockLocationSearchParams } from '@spartacus/pickup-in-store/root';
 import { STOCK_DATA } from '../stock-state';
-import { ErrorAction } from '@spartacus/core';
-
 
 export const STOCK_LEVEL = '[Stock] Get Stock Level';
 export const STOCK_LEVEL_ON_HOLD = '[Stock] On Hold';
@@ -37,7 +40,10 @@ export class StockLevelOnHold extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class StockLevelFail extends StateUtils.LoaderFailAction implements ErrorAction {
+export class StockLevelFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = STOCK_LEVEL_FAIL;
 
   constructor(public payload: any) {

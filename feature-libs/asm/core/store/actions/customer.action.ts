@@ -5,13 +5,11 @@
  */
 
 import { CustomerSearchOptions, CustomerSearchPage } from '@spartacus/asm/root';
-import { StateUtils } from '@spartacus/core';
+import { ErrorAction, StateUtils } from '@spartacus/core';
 import {
   CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA,
   CUSTOMER_SEARCH_DATA,
 } from '../asm-state';
-import { ErrorAction } from '@spartacus/core';
-
 
 export const CUSTOMER_SEARCH = '[Asm] Customer Search';
 export const CUSTOMER_SEARCH_FAIL = '[Asm] Customer Search Fail';
@@ -34,7 +32,10 @@ export class CustomerSearch extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class CustomerSearchFail extends StateUtils.LoaderFailAction implements ErrorAction {
+export class CustomerSearchFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = CUSTOMER_SEARCH_FAIL;
   constructor(public payload: any) {
     super(CUSTOMER_SEARCH_DATA, payload);
@@ -62,7 +63,10 @@ export class CustomerListCustomersSearch extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class CustomerListCustomersSearchFail extends StateUtils.LoaderFailAction implements ErrorAction {
+export class CustomerListCustomersSearchFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = CUSTOMER_LIST_CUSTOMERS_SEARCH_FAIL;
   constructor(public payload: any) {
     super(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA, payload);

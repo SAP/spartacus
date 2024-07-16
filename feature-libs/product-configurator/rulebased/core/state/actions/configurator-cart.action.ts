@@ -6,12 +6,10 @@
 
 import { Action } from '@ngrx/store';
 import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
-import { StateUtils } from '@spartacus/core';
+import { ErrorAction, StateUtils } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
-import { ErrorAction } from '@spartacus/core';
-
 
 export const READ_CART_ENTRY_CONFIGURATION =
   '[Configurator] Read Cart Entry Configuration';
@@ -54,7 +52,10 @@ export class ReadCartEntryConfigurationSuccess extends StateUtils.EntitySuccessA
   }
 }
 
-export class ReadCartEntryConfigurationFail extends StateUtils.EntityFailAction implements ErrorAction {
+export class ReadCartEntryConfigurationFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = READ_CART_ENTRY_CONFIGURATION_FAIL;
   constructor(public payload: { ownerKey: string; error: any }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
@@ -77,7 +78,10 @@ export class ReadOrderEntryConfigurationSuccess extends StateUtils.EntitySuccess
   }
 }
 
-export class ReadOrderEntryConfigurationFail extends StateUtils.EntityFailAction implements ErrorAction {
+export class ReadOrderEntryConfigurationFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_FAIL;
   constructor(public payload: { ownerKey: string; error: any }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);

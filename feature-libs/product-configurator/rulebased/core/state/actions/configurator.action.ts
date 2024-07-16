@@ -185,6 +185,7 @@ export class UpdateConfigurationFinalizeSuccess extends StateUtils.EntitySuccess
   }
 }
 
+// eslint-disable-next-line @nx/workspace/no-ngrx-fail-action-without-error-action-implementation
 export class UpdateConfigurationFinalizeFail extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_CONFIGURATION_FINALIZE_FAIL;
 

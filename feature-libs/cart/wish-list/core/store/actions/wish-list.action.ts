@@ -7,9 +7,7 @@
 import { Action } from '@ngrx/store';
 import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
 import { Cart } from '@spartacus/cart/base/root';
-import { StateUtils } from '@spartacus/core';
-import { ErrorAction } from '@spartacus/core';
-
+import { ErrorAction, StateUtils } from '@spartacus/core';
 
 export const CREATE_WISH_LIST = '[Wish List] Create Wish List';
 export const CREATE_WISH_LIST_FAIL = '[Wish List] Create Wish List Fail';
@@ -39,7 +37,10 @@ export class CreateWishListSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class CreateWishListFail extends StateUtils.EntityFailAction implements ErrorAction {
+export class CreateWishListFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = CREATE_WISH_LIST_FAIL;
   constructor(payload: { cartId: string; error: any });
   /**
@@ -93,7 +94,10 @@ interface LoadWishListFailPayload {
   error: any;
 }
 
-export class LoadWishListFail extends StateUtils.EntityFailAction implements ErrorAction {
+export class LoadWishListFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_WISH_LIST_FAIL;
 
   constructor(public payload: LoadWishListFailPayload) {

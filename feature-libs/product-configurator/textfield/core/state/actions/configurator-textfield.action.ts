@@ -4,12 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '@spartacus/core';
+import { ErrorAction, StateUtils } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import { CONFIGURATION_TEXTFIELD_DATA } from '../configuration-textfield-state';
-import { ErrorAction } from '@spartacus/core';
-
 
 export const CREATE_CONFIGURATION =
   '[Configurator] Create Configuration Textfield';
@@ -51,7 +49,10 @@ export class CreateConfiguration extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class CreateConfigurationFail extends StateUtils.LoaderFailAction implements ErrorAction {
+export class CreateConfigurationFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = CREATE_CONFIGURATION_FAIL;
 
   constructor(public payload: any) {
@@ -83,7 +84,10 @@ export class AddToCart extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class AddToCartFail extends StateUtils.LoaderFailAction implements ErrorAction {
+export class AddToCartFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = ADD_TO_CART_FAIL;
 
   constructor(public payload: any) {
@@ -99,7 +103,10 @@ export class UpdateCartEntryConfiguration extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class UpdateCartEntryConfigurationFail extends StateUtils.LoaderFailAction implements ErrorAction {
+export class UpdateCartEntryConfigurationFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = UPDATE_CART_ENTRY_CONFIGURATION_FAIL;
 
   constructor(public payload: any) {
@@ -125,7 +132,10 @@ export class ReadCartEntryConfigurationSuccess extends StateUtils.LoaderSuccessA
   }
 }
 
-export class ReadCartEntryConfigurationFail extends StateUtils.LoaderFailAction implements ErrorAction {
+export class ReadCartEntryConfigurationFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = READ_CART_ENTRY_CONFIGURATION_FAIL;
 
   constructor(public payload: any) {
@@ -151,7 +161,10 @@ export class ReadOrderEntryConfigurationSuccess extends StateUtils.LoaderSuccess
   }
 }
 
-export class ReadOrderEntryConfigurationFail extends StateUtils.LoaderFailAction implements ErrorAction {
+export class ReadOrderEntryConfigurationFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_FAIL;
 
   constructor(public payload: any) {
