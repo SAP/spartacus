@@ -328,7 +328,28 @@ describe('Navigation UI Component', () => {
       expect(navigationComponent.reinitializeMenu).toHaveBeenCalledWith();
       expect(hamburgerMenuService.toggle).toHaveBeenCalledWith();
     });
+
+    it('should remove topmost semantic list roles for non-flyout navigation', () => {
+      navigationComponent.flyout = false;
+      fixture.detectChanges();
+      const firstListElement: HTMLElement = element.query(
+        By.css('ul')
+      ).nativeElement;
+      const secondListElement: HTMLElement = element.query(
+        By.css('[depth="1"]')
+      ).nativeElement;
+
+      expect(firstListElement.getAttribute('role')).toBe('presentation');
+      Array.from(firstListElement.children).forEach((child) => {
+        expect(child.getAttribute('role')).toBe('presentation');
+      });
+
+      Array.from(secondListElement.children).forEach((child) => {
+        expect(child.getAttribute('role')).toBe('listitem');
+      });
+    });
   });
+
   describe('Keyboard navigation', () => {
     beforeEach(() => {
       fixture.detectChanges();
