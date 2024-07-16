@@ -470,7 +470,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
         'configurator.a11y.additionalValue'
       );
     });
-    it('should return aria label of value with total price', () => {
+    it('should return aria label of selected value with total price', () => {
       let attributeWithTotalPrice: Configurator.Attribute = {
         name: 'attribute with total price',
         label: 'attribute with total price',
@@ -508,7 +508,45 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       );
     });
 
-    it('should return aria label for value with price', () => {
+    it('should return aria label of value with total price', () => {
+      let attributeWithTotalPrice: Configurator.Attribute = {
+        name: 'attribute with total price',
+        label: 'attribute with total price',
+      };
+      let price: Configurator.PriceDetails = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+      let priceTotal: Configurator.PriceDetails = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+      const valueWithValuePriceTotal = createValue(
+        '1',
+        'value with total price',
+        false
+      );
+      valueWithValuePriceTotal.valuePriceTotal = priceTotal;
+      valueWithValuePriceTotal.valuePrice = price;
+
+      expect(
+        component.getAriaLabelWithoutAdditionalValue(
+          valueWithValuePriceTotal,
+          attributeWithTotalPrice
+        )
+      ).toEqual(
+        'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
+          attributeWithTotalPrice.label +
+          ' price:' +
+          valueWithValuePriceTotal.valuePrice?.formattedValue +
+          ' value:' +
+          valueWithValuePriceTotal.valueDisplay
+      );
+    });
+
+    it('should return aria label for selected value with price', () => {
       let attributeWithValuePrice: Configurator.Attribute = {
         name: 'attribute with value price',
         label: 'attribute with value price',
@@ -540,7 +578,39 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       );
     });
 
-    it('should return aria label for value without price', () => {
+    it('should return aria label for value with price', () => {
+      let attributeWithValuePrice: Configurator.Attribute = {
+        name: 'attribute with value price',
+        label: 'attribute with value price',
+      };
+      let price: Configurator.PriceDetails = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+      const valueWithValuePrice = createValue(
+        '1',
+        'value with value price',
+        false
+      );
+      valueWithValuePrice.valuePrice = price;
+
+      expect(
+        component.getAriaLabelWithoutAdditionalValue(
+          valueWithValuePrice,
+          attributeWithValuePrice
+        )
+      ).toEqual(
+        'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
+          attributeWithValuePrice.label +
+          ' price:' +
+          valueWithValuePrice.valuePrice?.formattedValue +
+          ' value:' +
+          valueWithValuePrice.valueDisplay
+      );
+    });
+
+    it('should return aria label for selected value without price', () => {
       let attributeWithOutPrice: Configurator.Attribute = {
         name: 'attribute without price',
         label: 'attribute without value price',
@@ -560,7 +630,27 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       );
     });
 
-    it('should return aria label for value with price and attribute additional value', () => {
+    it('should return aria label for value without price', () => {
+      let attributeWithOutPrice: Configurator.Attribute = {
+        name: 'attribute without price',
+        label: 'attribute without value price',
+      };
+      const valueWithOutPrice = createValue('1', 'value without price', false);
+
+      expect(
+        component.getAriaLabelWithoutAdditionalValue(
+          valueWithOutPrice,
+          attributeWithOutPrice
+        )
+      ).toEqual(
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          attributeWithOutPrice.label +
+          ' value:' +
+          valueWithOutPrice.valueDisplay
+      );
+    });
+
+    it('should return aria label for selected value with price and attribute additional value', () => {
       let attributeWithValuePrice: Configurator.Attribute = {
         name: 'attribute with value price',
         label: 'attribute with value price',
@@ -585,6 +675,40 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
         component.getAriaLabel(valueWithValuePrice, attributeWithValuePrice)
       ).toEqual(
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
+          attributeWithValuePrice.label +
+          ' price:' +
+          valueWithValuePrice.valuePrice?.formattedValue +
+          ' value:' +
+          valueWithValuePrice.valueDisplay +
+          ' ' +
+          'configurator.a11y.additionalValue'
+      );
+    });
+    it('should return aria label for value with price and attribute additional value', () => {
+      let attributeWithValuePrice: Configurator.Attribute = {
+        name: 'attribute with value price',
+        label: 'attribute with value price',
+      };
+      let price: Configurator.PriceDetails = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+      const valueWithValuePrice = createValue(
+        '1',
+        'value with value price',
+        false
+      );
+      valueWithValuePrice.valuePrice = price;
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT ||
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NONE;
+      fixture.detectChanges();
+      expect(
+        component.getAriaLabel(valueWithValuePrice, attributeWithValuePrice)
+      ).toEqual(
+        'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
           attributeWithValuePrice.label +
           ' price:' +
           valueWithValuePrice.valuePrice?.formattedValue +

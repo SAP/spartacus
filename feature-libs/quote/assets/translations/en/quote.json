@@ -166,7 +166,8 @@
       "threshold": {
         "underThresholdError": "Total price of requested quote does not meet the minimum threshold"
       },
-      "expired": "This quote has expired. You must resubmit your quote request to receive another vendor quote."
+      "expired": "This quote has expired. You must resubmit your quote request to receive another vendor quote.",
+      "downloadPDFError": "Something went wrong. Unable to obtain the proposal document PDF."
     },
     "items": {
       "regionTitle": "Cart items"
