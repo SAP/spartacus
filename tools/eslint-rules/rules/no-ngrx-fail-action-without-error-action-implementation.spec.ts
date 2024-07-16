@@ -10,8 +10,28 @@ const ruleTester = new TSESLint.RuleTester({
 });
 
 ruleTester.run(RULE_NAME, rule, {
-  // SPIKE TODO: ADD VALID ONES
-  valid: [],
+  valid: [
+    `        
+    import { ErrorAction } from '@spartacus/core';
+export class LoadProductFail implements ErrorAction {}
+    `,
+    `
+    import { ErrorAction } from '@spartacus/core';
+export class LoadProductFail implements Action, ErrorAction {}
+    `,
+    `
+    import { ErrorAction } from '@spartacus/core';
+export class LoadProductFail implements Action, SomeOtherInterface, ErrorAction {}
+    `,
+    `
+    import { ErrorAction } from '@spartacus/core';
+export class LoadProductFail extends SuperClass implements ErrorAction {}
+    `,
+    `
+    import { ErrorAction } from '@spartacus/core';
+export class LoadProductFail extends SuperClass implements SomeOtherInterface, ErrorAction {}
+    `,
+  ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
       description:
