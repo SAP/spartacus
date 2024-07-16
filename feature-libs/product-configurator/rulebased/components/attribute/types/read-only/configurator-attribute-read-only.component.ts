@@ -8,7 +8,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions } from '../../../price';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
@@ -122,26 +121,5 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
       .subscribe((text) => (ariaLabel = text));
 
     return ariaLabel;
-  }
-
-  /**
-   * Extract corresponding value price formula parameters.
-   * For the read-only attribute types the complete price formula should be displayed at the value level.
-   *
-   * @param {Configurator.Value} value - Configurator value
-   * @return {ConfiguratorPriceComponentOptions} - New price formula
-   */
-  extractValuePriceFormulaParameters(
-    value: Configurator.Value
-  ): ConfiguratorPriceComponentOptions {
-    value =
-      this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
-      value;
-    return {
-      quantity: value.quantity,
-      price: value.valuePrice,
-      priceTotal: value.valuePriceTotal,
-      isLightedUp: value.selected,
-    };
   }
 }

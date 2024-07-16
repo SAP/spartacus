@@ -128,25 +128,4 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
       isLightedUp: true,
     };
   }
-
-  /**
-   * Extract corresponding value price formula parameters.
-   * For the multi-selection attribute types the complete price formula should be displayed at the value level.
-   *
-   * @param {Configurator.Value} value - Configurator value
-   * @return {ConfiguratorPriceComponentOptions} - New price formula
-   */
-  extractValuePriceFormulaParameters(
-    value: Configurator.Value
-  ): ConfiguratorPriceComponentOptions {
-    value =
-      this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
-      value;
-    return {
-      quantity: value.quantity,
-      price: value.valuePrice,
-      priceTotal: value.valuePriceTotal,
-      isLightedUp: value.selected,
-    };
-  }
 }

@@ -15,7 +15,6 @@ import { Config, useFeatureStyles } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
@@ -96,19 +95,5 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
       },
       Configurator.UpdateType.ATTRIBUTE
     );
-  }
-
-  extractValuePriceFormulaParameters(
-    value: Configurator.Value
-  ): ConfiguratorPriceComponentOptions {
-    value =
-      this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
-      value;
-    return {
-      quantity: value.quantity,
-      price: value.valuePrice,
-      priceTotal: value.valuePriceTotal,
-      isLightedUp: value.selected,
-    };
   }
 }

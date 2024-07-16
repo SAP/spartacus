@@ -317,6 +317,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       });
 
       it('should return aria label for only valuePrice', () => {
+        component['configuratorDeltaRenderingService'] = null;
         myValues[0].selected = false;
         myValues[1].selected = false;
         myValues[2].selected = true;
