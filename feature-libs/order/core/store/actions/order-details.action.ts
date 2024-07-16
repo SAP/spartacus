@@ -10,6 +10,8 @@ import {
   Order,
 } from '@spartacus/order/root';
 import { CANCEL_ORDER_PROCESS_ID, ORDER_DETAILS } from '../order-state';
+import { ErrorAction } from '@spartacus/core';
+
 
 export const LOAD_ORDER_DETAILS = '[Order] Load Order Details';
 export const LOAD_ORDER_DETAILS_FAIL = '[Order] Load Order Details Fail';
@@ -33,7 +35,7 @@ export class LoadOrderDetails extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadOrderDetailsFail extends StateUtils.LoaderFailAction {
+export class LoadOrderDetailsFail extends StateUtils.LoaderFailAction implements ErrorAction {
   readonly type = LOAD_ORDER_DETAILS_FAIL;
   constructor(public payload: any) {
     super(ORDER_DETAILS, payload);
@@ -67,7 +69,7 @@ export class CancelOrder extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CancelOrderFail extends StateUtils.EntityFailAction {
+export class CancelOrderFail extends StateUtils.EntityFailAction implements ErrorAction {
   readonly type = CANCEL_ORDER_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, CANCEL_ORDER_PROCESS_ID, payload);

@@ -17,6 +17,8 @@ import {
   PERMISSION_TYPES,
   PERMISSION_TYPES_LIST,
 } from '../organization-state';
+import { ErrorAction } from '@spartacus/core';
+
 
 export const LOAD_PERMISSION = '[Permission] Load Permission Data';
 export const LOAD_PERMISSION_FAIL = '[Permission] Load Permission Data Fail';
@@ -51,7 +53,7 @@ export class LoadPermission extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadPermissionFail extends StateUtils.EntityFailAction {
+export class LoadPermissionFail extends StateUtils.EntityFailAction implements ErrorAction {
   readonly type = LOAD_PERMISSION_FAIL;
 
   constructor(public payload: { permissionCode: string; error: any }) {
@@ -85,7 +87,7 @@ export class LoadPermissions extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadPermissionsFail extends StateUtils.EntityFailAction {
+export class LoadPermissionsFail extends StateUtils.EntityFailAction implements ErrorAction {
   readonly type = LOAD_PERMISSIONS_FAIL;
 
   constructor(public payload: { params: SearchConfig; error: any }) {
@@ -118,7 +120,7 @@ export class CreatePermission extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CreatePermissionFail extends StateUtils.EntityFailAction {
+export class CreatePermissionFail extends StateUtils.EntityFailAction implements ErrorAction {
   readonly type = CREATE_PERMISSION_FAIL;
 
   constructor(public payload: { permissionCode: string; error: any }) {
@@ -148,7 +150,7 @@ export class UpdatePermission extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UpdatePermissionFail extends StateUtils.EntityFailAction {
+export class UpdatePermissionFail extends StateUtils.EntityFailAction implements ErrorAction {
   readonly type = UPDATE_PERMISSION_FAIL;
 
   constructor(public payload: { permissionCode: string; error: any }) {
@@ -172,7 +174,7 @@ export class LoadPermissionTypes extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadPermissionTypesFail extends StateUtils.EntityFailAction {
+export class LoadPermissionTypesFail extends StateUtils.EntityFailAction implements ErrorAction {
   readonly type = LOAD_PERMISSION_TYPES_FAIL;
 
   constructor(public payload: any) {

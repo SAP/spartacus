@@ -7,6 +7,8 @@
 import { StateUtils } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { ORDER_BY_ID_ENTITIES } from '../order-state';
+import { ErrorAction } from '@spartacus/core';
+
 
 export const LOAD_ORDER_BY_ID = '[Order] Load Order By ID Data';
 export const LOAD_ORDER_BY_ID_FAIL = '[Order] Load Order By ID Data Fail';
@@ -18,7 +20,7 @@ export class LoadOrderById extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadOrderByIdFail extends StateUtils.EntityFailAction {
+export class LoadOrderByIdFail extends StateUtils.EntityFailAction implements ErrorAction {
   readonly type = LOAD_ORDER_BY_ID_FAIL;
   constructor(public payload: { code: string; error: any }) {
     super(ORDER_BY_ID_ENTITIES, payload.code, payload.error);

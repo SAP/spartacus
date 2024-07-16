@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ErrorAction } from '../../../model';
 import {
   AnonymousConsent,
   ConsentTemplate,
@@ -54,7 +55,10 @@ export class LoadAnonymousConsentTemplatesSuccess extends StateUtils.LoaderSucce
   }
 }
 
-export class LoadAnonymousConsentTemplatesFail extends StateUtils.LoaderFailAction {
+export class LoadAnonymousConsentTemplatesFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_ANONYMOUS_CONSENT_TEMPLATES_FAIL;
 
   constructor(payload: any) {

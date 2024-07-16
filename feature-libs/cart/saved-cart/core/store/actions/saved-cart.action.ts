@@ -5,7 +5,7 @@
  */
 
 import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
-import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { ErrorAction, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   SAVED_CART_CLONE_CART_PROCESS_ID,
   SAVED_CART_LIST_PROCESS_ID,
@@ -68,11 +68,16 @@ export class LoadSavedCartSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class LoadSavedCartFail extends StateUtils.EntityFailAction {
+export class LoadSavedCartFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_SAVED_CART_FAIL;
+  error: any;
 
   constructor(public payload: { userId: string; cartId: string; error: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload?.error);
+    this.error = payload.error;
   }
 }
 
@@ -100,8 +105,12 @@ export class LoadSavedCartsSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class LoadSavedCartsFail extends StateUtils.EntityFailAction {
+export class LoadSavedCartsFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_SAVED_CARTS_FAIL;
+  error: any;
 
   constructor(
     public payload: {
@@ -110,6 +119,7 @@ export class LoadSavedCartsFail extends StateUtils.EntityFailAction {
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_LIST_PROCESS_ID, payload.error);
+    this.error = payload.error;
   }
 }
 
@@ -147,8 +157,12 @@ export class RestoreSavedCartSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class RestoreSavedCartFail extends StateUtils.EntityFailAction {
+export class RestoreSavedCartFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = RESTORE_SAVED_CART_FAIL;
+  error: any;
 
   constructor(
     public payload: {
@@ -158,6 +172,7 @@ export class RestoreSavedCartFail extends StateUtils.EntityFailAction {
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_RESTORE_CART_PROCESS_ID, payload.error);
+    this.error = payload.error;
   }
 }
 
@@ -199,8 +214,12 @@ export class SaveCartSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class SaveCartFail extends StateUtils.EntityFailAction {
+export class SaveCartFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = SAVE_CART_FAIL;
+  error: any;
 
   constructor(
     public payload: {
@@ -212,6 +231,7 @@ export class SaveCartFail extends StateUtils.EntityFailAction {
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID, payload.error);
+    this.error = payload.error;
   }
 }
 
@@ -253,8 +273,12 @@ export class EditSavedCartSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class EditSavedCartFail extends StateUtils.EntityFailAction {
+export class EditSavedCartFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = EDIT_SAVED_CART_FAIL;
+  error: any;
 
   constructor(
     public payload: {
@@ -266,6 +290,7 @@ export class EditSavedCartFail extends StateUtils.EntityFailAction {
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID, payload.error);
+    this.error = payload.error;
   }
 }
 
@@ -297,8 +322,12 @@ export class CloneSavedCartSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class CloneSavedCartFail extends StateUtils.EntityFailAction {
+export class CloneSavedCartFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = CLONE_SAVED_CART_FAIL;
+  error: any;
 
   constructor(
     public payload: {
@@ -309,6 +338,7 @@ export class CloneSavedCartFail extends StateUtils.EntityFailAction {
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID, payload.error);
+    this.error = payload.error;
   }
 }
 

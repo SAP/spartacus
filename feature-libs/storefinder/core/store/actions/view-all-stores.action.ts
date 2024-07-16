@@ -7,6 +7,8 @@
 import { Action } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
 import { STORE_FINDER_DATA } from '../store-finder-state';
+import { ErrorAction } from '@spartacus/core';
+
 
 export const VIEW_ALL_STORES = '[StoreFinder] View All Stores';
 export const VIEW_ALL_STORES_FAIL = '[StoreFinder] View All Stores Fail';
@@ -21,7 +23,7 @@ export class ViewAllStores extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class ViewAllStoresFail extends StateUtils.LoaderFailAction {
+export class ViewAllStoresFail extends StateUtils.LoaderFailAction implements ErrorAction {
   readonly type = VIEW_ALL_STORES_FAIL;
 
   constructor(public payload: any) {

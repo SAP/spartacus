@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ErrorAction } from '../../../model';
 import { Address } from '../../../model/address.model';
 import { StateUtils } from '../../../state/utils/index';
 import { USER_ADDRESSES } from '../user-state';
@@ -32,7 +33,10 @@ export class LoadUserAddresses extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadUserAddressesFail extends StateUtils.LoaderFailAction {
+export class LoadUserAddressesFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_USER_ADDRESSES_FAIL;
 
   constructor(public payload: any) {
@@ -57,7 +61,10 @@ export class AddUserAddress extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class AddUserAddressFail extends StateUtils.LoaderFailAction {
+export class AddUserAddressFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = ADD_USER_ADDRESS_FAIL;
 
   constructor(public payload: any) {
@@ -84,7 +91,10 @@ export class UpdateUserAddress extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class UpdateUserAddressFail extends StateUtils.LoaderFailAction {
+export class UpdateUserAddressFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = UPDATE_USER_ADDRESS_FAIL;
 
   constructor(public payload: any) {
@@ -109,7 +119,10 @@ export class DeleteUserAddress extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class DeleteUserAddressFail extends StateUtils.LoaderFailAction {
+export class DeleteUserAddressFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = DELETE_USER_ADDRESS_FAIL;
 
   constructor(public payload: any) {

@@ -7,6 +7,8 @@
 import { StateUtils } from '@spartacus/core';
 import { OrderHistoryList } from '@spartacus/order/root';
 import { ORDERS } from '../order-state';
+import { ErrorAction } from '@spartacus/core';
+
 
 export const LOAD_USER_ORDERS = '[Order] Load User Orders';
 export const LOAD_USER_ORDERS_FAIL = '[Order] Load User Orders Fail';
@@ -29,7 +31,7 @@ export class LoadUserOrders extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadUserOrdersFail extends StateUtils.LoaderFailAction {
+export class LoadUserOrdersFail extends StateUtils.LoaderFailAction implements ErrorAction {
   readonly type = LOAD_USER_ORDERS_FAIL;
 
   constructor(public payload: any) {

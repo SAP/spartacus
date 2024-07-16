@@ -5,6 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction } from '../../../model';
 import { Region } from '../../../model/address.model';
 import { StateUtils } from '../../../state/utils/index';
 import { REGIONS } from '../user-state';
@@ -22,7 +23,10 @@ export class LoadRegions extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadRegionsFail extends StateUtils.LoaderFailAction {
+export class LoadRegionsFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_REGIONS_FAIL;
 
   constructor(public payload: any) {

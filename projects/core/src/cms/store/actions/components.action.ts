@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ErrorAction } from '../../../model';
 import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { StateUtils } from '../../../state/utils/index';
@@ -27,7 +28,10 @@ export class LoadCmsComponent extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadCmsComponentFail extends StateUtils.EntityFailAction {
+export class LoadCmsComponentFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_CMS_COMPONENT_FAIL;
 
   constructor(payload: { uid: string; error: any; pageContext: PageContext });

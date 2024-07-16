@@ -10,6 +10,8 @@ import {
   CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
   getConsignmentTrackingByIdEntityKey,
 } from '../order-state';
+import { ErrorAction } from '@spartacus/core';
+
 
 export const LOAD_CONSIGNMENT_TRACKING_BY_ID =
   '[Order] Load Consignment Tracking By ID Data';
@@ -37,7 +39,7 @@ export class LoadConsignmentTrackingById extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadConsignmentTrackingByIdFail extends StateUtils.EntityFailAction {
+export class LoadConsignmentTrackingByIdFail extends StateUtils.EntityFailAction implements ErrorAction {
   readonly type = LOAD_CONSIGNMENT_TRACKING_BY_ID_FAIL;
   constructor(
     public payload: { orderCode: string; consignmentCode: string; error: any }
