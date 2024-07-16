@@ -6,3 +6,4 @@
 
 export * from './default-checkout-service-details-routing-config';
 export * from './default-service-details-checkout-config';
+export * from './default-reschedule-service-details-routing-config';

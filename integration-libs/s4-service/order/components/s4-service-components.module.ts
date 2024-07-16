@@ -6,7 +6,9 @@
 
 import { NgModule } from '@angular/core';
 import { ServiceDetailsCardModule } from './order-summary/service-details-card.module';
+import { RescheduleServiceOrderModule } from './reschedule-service-order/reschedule-service-order.module';
+import { RescheduleServiceOrderHeadlineModule } from './reschedule-service-order-headline/reschedule-service-order-headline.module';
 @NgModule({
-  imports: [ServiceDetailsCardModule],
+  imports: [ServiceDetailsCardModule, RescheduleServiceOrderModule, RescheduleServiceOrderHeadlineModule],
 })
 export class S4ServiceComponentsModule {}

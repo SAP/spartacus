@@ -19,9 +19,13 @@ import {
 import {
   defaultServiceDetailsCheckoutConfig,
   defaultCheckoutServiceDetailsRoutingConfig,
+  defaultRescheduleServiceDetailsRoutingConfig,
 } from './config/index';
 import { CheckoutServiceDetailsEventModule } from './events/index';
 import { CheckoutServiceSchedulePickerService } from './facade/index';
+import { ORDER_FEATURE } from '@spartacus/order/root';
+import { RouterModule } from '@angular/router';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 
 export const S4_SERVICE_CMS_COMPONENTS: string[] = [
   ...CHECKOUT_B2B_CMS_COMPONENTS,
@@ -34,16 +38,69 @@ export function defaultS4ServiceComponentsConfig() {
       [CHECKOUT_FEATURE]: {
         cmsComponents: S4_SERVICE_CMS_COMPONENTS,
       },
+      [ORDER_FEATURE]: {
+        cmsComponents: [
+          'CancelOrderComponent',
+          'CancelOrderConfirmationComponent',
+          'ReturnOrderComponent',
+          'ReturnOrderConfirmationComponent',
+          'AccountOrderDetailsActionsComponent',
+          'AccountOrderDetailsItemsComponent',
+          'AccountOrderDetailsTotalsComponent',
+          'AccountOrderDetailsOverviewComponent',
+          'AccountOrderDetailsBillingComponent',
+          'AccountOrderDetailsGroupedItemsComponent',
+          'AccountOrderDetailsSimpleOverviewComponent',
+          'AccountOrderHistoryComponent',
+          'ReplenishmentDetailItemsComponent',
+          'AccountOrderDetailsReorderComponent',
+          'ReplenishmentDetailTotalsComponent',
+          'ReplenishmentDetailShippingComponent',
+          'ReplenishmentDetailActionsComponent',
+          'ReplenishmentDetailOrderHistoryComponent',
+          'AccountReplenishmentHistoryComponent',
+          'ReturnRequestOverviewComponent',
+          'ReturnRequestItemsComponent',
+          'ReturnRequestTotalsComponent',
+          'OrderReturnRequestListComponent',
+          'OrderConfirmationThankMessageComponent',
+          'OrderConfirmationItemsComponent',
+          'OrderConfirmationTotalsComponent',
+          'OrderConfirmationOverviewComponent',
+          'OrderConfirmationShippingComponent',
+          'OrderConfirmationBillingComponent',
+          'OrderConfirmationContinueButtonComponent',
+          'ReplenishmentConfirmationMessageComponent',
+          'ReplenishmentConfirmationOverviewComponent',
+          'ReplenishmentConfirmationItemsComponent',
+          'ReplenishmentConfirmationTotalsComponent',
+          'MyAccountViewOrderComponent',
+          'RescheduleServiceOrder',
+          'RescheduleServiceOrderHeadline'
+        ]
+      },
     },
   };
   return config;
 }
 @NgModule({
-  imports: [CheckoutServiceDetailsEventModule],
+  imports: [
+    CheckoutServiceDetailsEventModule,
+    RouterModule.forChild([
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'rescheduleServiceDetails' },
+      },
+    ]),
+  ],
   providers: [
     { provide: CheckoutConfig, useValue: defaultServiceDetailsCheckoutConfig },
     provideDefaultConfig(defaultCheckoutServiceDetailsRoutingConfig),
     provideDefaultConfigFactory(defaultS4ServiceComponentsConfig),
+    provideDefaultConfig(defaultRescheduleServiceDetailsRoutingConfig),
     CxDatePipe,
     CheckoutServiceSchedulePickerService,
   ],
