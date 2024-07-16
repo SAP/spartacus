@@ -193,6 +193,99 @@ export class ConfiguratorTestUtils {
     };
   }
 
+  /**
+   * example:
+   *[
+   * {
+   *   "attributeUiKey": "group1@attribute_1_1",
+   *   "valueSupplements": [
+   *     {
+   *       "attributeValueKey": "value_1_1",
+   *       "priceValue": {
+   *         "currencyIso": "USD",
+   *         "formattedValue": "-$100",
+   *         "value": -100
+   *       },
+   *       "obsoletePriceValue": {
+   *         "currencyIso": "USD",
+   *         "formattedValue": "-$100",
+   *         "value": -100
+   *       }
+   *     },
+   *     {
+   *       "attributeValueKey": "value_1_2",
+   *       "priceValue": {
+   *         "currencyIso": "USD",
+   *         "formattedValue": "$0",
+   *         "value": 0
+   *       },
+   *       "obsoletePriceValue": {
+   *         "currencyIso": "USD",
+   *         "formattedValue": "$0",
+   *         "value": 0
+   *       }
+   *     },
+   *     {
+   *       "attributeValueKey": "value_1_3",
+   *       "priceValue": {
+   *         "currencyIso": "USD",
+   *         "formattedValue": "$100",
+   *         "value": 100
+   *       },
+   *       "obsoletePriceValue": {
+   *         "currencyIso": "USD",
+   *         "formattedValue": "$100",
+   *         "value": 100
+   *       }
+   *     }
+   *   ]
+   * },
+   * {
+   *   "attributeUiKey": "group1@attribute_1_2",
+   *   "valueSupplements": [
+   *     {
+   *       "attributeValueKey": "value_2_1",
+   *       "priceValue": {
+   *         "currencyIso": "USD",
+   *         "formattedValue": "-$100",
+   *         "value": -100
+   *       },
+   *       "obsoletePriceValue": {
+   *         "currencyIso": "USD",
+   *         "formattedValue": "-$100",
+   *         "value": -100
+   *       }
+   *     },
+   *     {
+   *       "attributeValueKey": "value_2_2",
+   *       "priceValue": {
+   *         "currencyIso": "USD",
+   *         "formattedValue": "$100",
+   *         "value": 100
+   *       },
+   *       "obsoletePriceValue": {
+   *         "currencyIso": "USD",
+   *         "formattedValue": "$100",
+   *         "value": 100
+   *       }
+   *     },
+   *     {
+   *       "attributeValueKey": "value_2_3",
+   *       "priceValue": {
+   *         "currencyIso": "USD",
+   *         "formattedValue": "$300",
+   *         "value": 300
+   *       },
+   *       "obsoletePriceValue": {
+   *         "currencyIso": "USD",
+   *         "formattedValue": "$300",
+   *         "value": 300
+   *       }
+   *     }
+   *   ]
+   * }
+   *]
+   */
   static createListOfAttributeSupplements(
     isMultiLevel: boolean,
     numberOfGroups: number,

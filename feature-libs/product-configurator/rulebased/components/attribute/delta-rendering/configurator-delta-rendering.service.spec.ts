@@ -40,7 +40,7 @@ class MockConfiguratorCommonsService {
 
 describe('ConfiguratorDeltaRenderingService', () => {
   let classUnderTest: ConfiguratorDeltaRenderingService;
-  // let mockConfig: Configurator.Configuration;
+  let mockConfig: Configurator.Configuration;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -61,11 +61,71 @@ describe('ConfiguratorDeltaRenderingService', () => {
       ConfiguratorDeltaRenderingService as Type<ConfiguratorDeltaRenderingService>
     );
 
-    //mockConfig = mockConfigTemplate;
+    mockConfig = structuredClone(mockConfigTemplate);
   });
 
   it('should create', () => {
     expect(classUnderTest).toBeTruthy();
+  });
+
+  describe('rerender', () => {
+    it('should emit always true for the initial rendering/call', () => {
+      let emitCounter = 0;
+      classUnderTest.rerender(undefined).subscribe((rerender) => {
+        expect(rerender).toBe(true);
+        emitCounter++;
+      });
+      mockConfig.priceSupplements = undefined;
+      configSubject.next(mockConfig);
+      expect(emitCounter).toBe(1);
+      expect(classUnderTest['isInitialRendering']).toBe(false);
+    });
+
+    describe('after initial rendering/call', () => {
+      beforeEach(() => {
+        classUnderTest['isInitialRendering'] = false;
+      });
+
+      it('should not emit, if config has no price supplements', () => {
+        classUnderTest.rerender(undefined).subscribe(() => {
+          fail('rerender observable should not emit!');
+        });
+        mockConfig.priceSupplements = undefined;
+        configSubject.next(mockConfig);
+      });
+
+      it('should not emit, if config has no matching price supplements', () => {
+        classUnderTest.rerender('otherAttrKey').subscribe(() => {
+          fail('rerender observable should not emit!');
+        });
+        configSubject.next(mockConfig);
+      });
+
+      it('should emit true and store matching value prices, if config has matching price supplements', () => {
+        let emitCounter = 0;
+        classUnderTest
+          .rerender('group1@attribute_1_1')
+          .subscribe((rerender) => {
+            expect(rerender).toBe(true);
+            emitCounter++;
+          });
+        configSubject.next(mockConfig);
+        expect(emitCounter).toBe(1);
+        expect(classUnderTest['valuePrices']['value_1_1']).toBeDefined();
+        expect(classUnderTest['valuePrices']['value_1_2']).toBeDefined();
+        expect(classUnderTest['valuePrices']['value_1_3']).toBeDefined();
+      });
+
+      it('should not emit again if prices are not changed', () => {
+        classUnderTest['isInitialRendering'] = false;
+        classUnderTest['lastAttributeSupplement'] =
+          mockConfig.priceSupplements?.[0];
+        classUnderTest.rerender('group1@attribute_1_1').subscribe(() => {
+          fail('rerender observable should not emit!');
+        });
+        configSubject.next(mockConfig);
+      });
+    });
   });
 
   describe('mergePriceIntoValue', () => {
