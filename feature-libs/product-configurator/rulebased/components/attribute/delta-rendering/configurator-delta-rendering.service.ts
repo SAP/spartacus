@@ -69,7 +69,7 @@ export class ConfiguratorDeltaRenderingService {
    * @param value the value
    * @returns the new value with price
    */
-  public mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
+  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
     const valueName = value.name;
     if (valueName && this.valuePrices[valueName]) {
       value = { ...value, valuePrice: this.valuePrices[valueName] };
