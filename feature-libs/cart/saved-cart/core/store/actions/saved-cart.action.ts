@@ -73,11 +73,9 @@ export class LoadSavedCartFail
   implements ErrorAction
 {
   readonly type = LOAD_SAVED_CART_FAIL;
-  error: any;
 
   constructor(public payload: { userId: string; cartId: string; error: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload?.error);
-    this.error = payload.error;
   }
 }
 
@@ -110,7 +108,6 @@ export class LoadSavedCartsFail
   implements ErrorAction
 {
   readonly type = LOAD_SAVED_CARTS_FAIL;
-  error: any;
 
   constructor(
     public payload: {
@@ -119,7 +116,6 @@ export class LoadSavedCartsFail
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_LIST_PROCESS_ID, payload.error);
-    this.error = payload.error;
   }
 }
 
@@ -162,7 +158,6 @@ export class RestoreSavedCartFail
   implements ErrorAction
 {
   readonly type = RESTORE_SAVED_CART_FAIL;
-  error: any;
 
   constructor(
     public payload: {
@@ -172,7 +167,6 @@ export class RestoreSavedCartFail
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_RESTORE_CART_PROCESS_ID, payload.error);
-    this.error = payload.error;
   }
 }
 
@@ -219,7 +213,6 @@ export class SaveCartFail
   implements ErrorAction
 {
   readonly type = SAVE_CART_FAIL;
-  error: any;
 
   constructor(
     public payload: {
@@ -231,7 +224,6 @@ export class SaveCartFail
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID, payload.error);
-    this.error = payload.error;
   }
 }
 
@@ -278,7 +270,6 @@ export class EditSavedCartFail
   implements ErrorAction
 {
   readonly type = EDIT_SAVED_CART_FAIL;
-  error: any;
 
   constructor(
     public payload: {
@@ -290,7 +281,6 @@ export class EditSavedCartFail
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID, payload.error);
-    this.error = payload.error;
   }
 }
 
@@ -327,7 +317,6 @@ export class CloneSavedCartFail
   implements ErrorAction
 {
   readonly type = CLONE_SAVED_CART_FAIL;
-  error: any;
 
   constructor(
     public payload: {
@@ -338,7 +327,6 @@ export class CloneSavedCartFail
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID, payload.error);
-    this.error = payload.error;
   }
 }
 

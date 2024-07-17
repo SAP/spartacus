@@ -63,10 +63,8 @@ export class CreateCartFail
   implements ErrorAction
 {
   readonly type = CREATE_CART_FAIL;
-  error: any;
   constructor(public payload: CreateCartFailPayload) {
     super(MULTI_CART_DATA, payload.tempCartId, payload.error);
-    this.error = payload.error;
   }
 }
 
@@ -143,10 +141,8 @@ export class LoadCartFail
   implements ErrorAction
 {
   readonly type = LOAD_CART_FAIL;
-  error: any;
   constructor(public payload: LoadCartFailPayload) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
-    this.error = payload.error;
   }
 }
 
