@@ -170,7 +170,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   });
 
   describe('attribute level', () => {
-    it('should not display quantity and no price', () => {
+    it('should not display quantity and price', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_NO_QTY;
       fixture.detectChanges();
@@ -182,22 +182,13 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       );
     });
 
-    it('should display quantity and no price', () => {
+    it('should display quantity and no price in case value price not present', () => {
       component.attribute.quantity = 5;
       component.attribute.attributePriceTotal = {
         currencyIso: '$',
         formattedValue: '500.00$',
         value: 500,
       };
-
-      let value = component.attribute.values
-        ? component.attribute.values[0]
-        : undefined;
-      if (value) {
-        value.valuePrice = undefined;
-      } else {
-        fail('Value not available');
-      }
 
       fixture.detectChanges();
 
@@ -222,18 +213,11 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         value: 500,
       };
 
-      let value = component.attribute.values
-        ? component.attribute.values[0]
-        : undefined;
-      if (value) {
-        value.valuePrice = {
-          currencyIso: '$',
-          formattedValue: '$100.00',
-          value: 100,
-        };
-      } else {
-        fail('Value not available');
-      }
+      value1.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
 
       fixture.detectChanges();
 
@@ -246,7 +230,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        '.cx-attribute-level-quantity-price cx-configurator-price'
       );
     });
   });
@@ -264,18 +248,11 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     });
 
     it('should display price formula', () => {
-      let value = component.attribute.values
-        ? component.attribute.values[0]
-        : undefined;
-      if (value) {
-        value.valuePrice = {
-          currencyIso: '$',
-          formattedValue: '$100.00',
-          value: 100,
-        };
-      } else {
-        fail('Value not available');
-      }
+      value1.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
 
       fixture.detectChanges();
 

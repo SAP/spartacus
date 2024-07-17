@@ -76,6 +76,7 @@ class MockConfiguratorCommonsService {
 }
 
 let showRequiredErrorMessage: boolean;
+
 class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
     return of(showRequiredErrorMessage);
@@ -280,7 +281,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       createComponentWithData();
     });
 
-    it('should not display quantity and no price', () => {
+    it('should not display quantity and price', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_NO_QTY;
       fixture.detectChanges();
@@ -292,23 +293,15 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       );
     });
 
-    it('should display quantity and no price', () => {
+    it('should display quantity and no price in case value price not present', () => {
       component.attribute.quantity = 5;
       component.attribute.attributePriceTotal = {
         currencyIso: '$',
         formattedValue: '500.00$',
         value: 500,
       };
-
-      let value = component.attribute.values
-        ? component.attribute.values[0]
-        : undefined;
-      if (value) {
-        value.valuePrice = undefined;
-      } else {
-        fail('Value not available');
-      }
-
+      value1.selected = false;
+      value2.selected = true;
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -332,18 +325,12 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         value: 500,
       };
 
-      let value = component.attribute.values
-        ? component.attribute.values[0]
-        : undefined;
-      if (value) {
-        value.valuePrice = {
-          currencyIso: '$',
-          formattedValue: '$100.00',
-          value: 100,
-        };
-      } else {
-        fail('Value not available');
-      }
+      value2.selected = true;
+      value2.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
 
       fixture.detectChanges();
 
@@ -356,7 +343,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        '.cx-attribute-level-quantity-price cx-configurator-price'
       );
     });
   });
@@ -378,18 +365,11 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     });
 
     it('should display price formula', () => {
-      let value = component.attribute.values
-        ? component.attribute.values[0]
-        : undefined;
-      if (value) {
-        value.valuePrice = {
-          currencyIso: '$',
-          formattedValue: '$100.00',
-          value: 100,
-        };
-      } else {
-        fail('Value not available');
-      }
+      value1.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
 
       fixture.detectChanges();
 
@@ -475,6 +455,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     it("should contain option elements with 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
       value1.selected = false;
       value2.selected = true;
+      value2.valuePrice = undefined;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -492,18 +473,12 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     });
 
     it("should contain option elements with 'aria-label' attribute for value with price that defines an accessible name to label the current element", () => {
-      let value = component.attribute.values
-        ? component.attribute.values[1]
-        : undefined;
-      if (value) {
-        value.valuePrice = {
-          currencyIso: '$',
-          formattedValue: '$100.00',
-          value: 100,
-        };
-      } else {
-        fail('Value not available');
-      }
+      value2.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -524,18 +499,11 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     });
 
     it("should contain option elements with 'aria-label' attribute for value with total price that defines an accessible name to label the current element", () => {
-      let value = component.attribute.values
-        ? component.attribute.values[1]
-        : undefined;
-      if (value) {
-        value.valuePriceTotal = {
-          currencyIso: '$',
-          formattedValue: '$100.00',
-          value: 100,
-        };
-      } else {
-        fail('Value not available');
-      }
+      value2.valuePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(

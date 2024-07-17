@@ -32,9 +32,9 @@ describe('ConfiguratorAttributeQuantityService', () => {
       expect(service.disableQuantityActions('0')).toBe(true);
     });
     it('should return true if string value is "###RETRACT_VALUE_CODE###"', () => {
-      expect(service.disableQuantityActions(service.RETRACT_VALUE_CODE)).toBe(
-        true
-      );
+      expect(
+        service.disableQuantityActions(Configurator.RetractValueCode)
+      ).toBe(true);
     });
   });
 
