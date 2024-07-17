@@ -35,7 +35,7 @@ export class ConfiguratorDeltaRenderingService {
    * @param attributeKey key of the attribute for which the prices should be checked for changes
    * @returns observable that emits 'true' each time there is the need to rerender the enclosing component due to an price change
    */
-  public rerender(attributeKey: string | undefined): Observable<boolean> {
+  rerender(attributeKey: string | undefined): Observable<boolean> {
     return this.configuratorRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
         return this.configuratorCommonsService
@@ -63,7 +63,7 @@ export class ConfiguratorDeltaRenderingService {
   }
 
   /**
-   * Merges value price data received via @see {ConfiguratorValuePriceChanged} events into the given value, if available.
+   * Merges the stored value price data into the given value, if available.
    * As the value might be read-only a new object will be returned combining price and value.
    *
    * @param value the value
