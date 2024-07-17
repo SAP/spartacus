@@ -26,6 +26,7 @@ export class ConfiguratorAttributeRadioButtonComponent
   implements OnInit
 {
   attributeRadioButtonForm = new UntypedFormControl('');
+  isDeltaRendering: boolean;
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
@@ -41,6 +42,7 @@ export class ConfiguratorAttributeRadioButtonComponent
       configuratorCommonsService,
       configuratorStorefrontUtilsService
     );
+    this.isDeltaRendering = attributeComponentContext.isDeltaRendering ?? false;
   }
 
   ngOnInit(): void {

@@ -97,15 +97,19 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   const ownerKey = 'theOwnerKey';
   const name = 'attributeName';
   const groupId = 'theGroupId';
-  const initialSelectedValue = 'initialSelectedValue';
+  const initialSelectedValue = '1';
 
-  const value1 = createValue('1', 'val1', true);
-  const value2 = createValue('2', VALUE_NAME_2, false);
-  const value3 = createValue('3', 'val3', false);
-
-  const values: Configurator.Value[] = [value1, value2, value3];
+  let value1: Configurator.Value;
+  let value2: Configurator.Value;
+  let value3: Configurator.Value;
+  let values: Configurator.Value[];
 
   beforeEach(waitForAsync(() => {
+    value1 = createValue('1', 'val1', true);
+    value2 = createValue('2', VALUE_NAME_2, false);
+    value3 = createValue('3', 'val3', false);
+    values = [value1, value2, value3];
+
     TestBed.overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
       set: {
         providers: [
@@ -351,6 +355,32 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         'aria-hidden',
         'true',
         VALUE_NAME_2
+      );
+    });
+
+    it('selected value should have aria-live tag if delta Rendering is active', () => {
+      component.isDeltaRendering = true;
+      fixture.detectChanges();
+      console.log(htmlElem.innerHTML);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        0,
+        'aria-live',
+        'polite'
+      );
+    });
+
+    it('selected value should not have aria-live tag if delta Rendering is not active', () => {
+      component.isDeltaRendering = false;
+      fixture.detectChanges();
+      console.log(htmlElem.innerHTML);
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'input[aria-live]'
       );
     });
   });
