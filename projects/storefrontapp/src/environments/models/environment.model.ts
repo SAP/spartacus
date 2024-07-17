@@ -23,4 +23,5 @@ export interface Environment {
   pdfInvoices: boolean;
   myAccountV2: boolean;
   estimatedDeliveryDate: boolean;
+  s4Service: boolean;
 }

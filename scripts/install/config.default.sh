@@ -81,10 +81,10 @@ ADD_OPPS=false
 ADD_EPD_VISUALIZATION=false
 ADD_S4OM=false
 ADD_OPF=false
-
 # The base URL and public key values are required for connection to Cloud Commerce Adapter (OPF)
 OPF_BASE_URL=
 OPF_CLIENT_PUBLIC_KEY=
+ADD_S4_SERVICE=false
 
 # The base URL (origin) of the SAP EPD Visualization Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=
