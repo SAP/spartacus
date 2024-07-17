@@ -45,7 +45,6 @@ export class CartAddVoucherFail
     }
   ) {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, payload.error);
-    this.error = payload.error;
   }
 }
 

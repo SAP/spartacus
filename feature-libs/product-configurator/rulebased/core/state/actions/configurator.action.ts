@@ -185,6 +185,12 @@ export class UpdateConfigurationFinalizeSuccess extends StateUtils.EntitySuccess
   }
 }
 
+/*
+ * UpdateConfigurationFinalFail contains `Fail` word in its name, but the purpose ot this action is not clear
+ * due to extending `EntitySuccessAction` instead of `EntitySuccessAction`
+ * That said, it's not know whether this action should implement `ErrorAction` or not.
+ * Follow-up ticket: CXSPA-7091
+ */
 // eslint-disable-next-line @nx/workspace/no-ngrx-fail-action-without-error-action-implementation
 export class UpdateConfigurationFinalizeFail extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_CONFIGURATION_FINALIZE_FAIL;

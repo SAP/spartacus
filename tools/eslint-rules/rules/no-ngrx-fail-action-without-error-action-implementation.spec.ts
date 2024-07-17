@@ -11,25 +11,65 @@ const ruleTester = new TSESLint.RuleTester({
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
+    // actions with `Fail` in name, that implement `ErrorAction`
     `        
     import { ErrorAction } from '@spartacus/core';
-export class LoadProductFail implements ErrorAction {}
+    export class LoadProductFail implements ErrorAction {}
     `,
     `
     import { ErrorAction } from '@spartacus/core';
-export class LoadProductFail implements Action, ErrorAction {}
+    export class LoadProductFail implements Action, ErrorAction {}
     `,
     `
     import { ErrorAction } from '@spartacus/core';
-export class LoadProductFail implements Action, SomeOtherInterface, ErrorAction {}
+    export class LoadProductFail implements Action, SomeOtherInterface, ErrorAction {}
     `,
     `
     import { ErrorAction } from '@spartacus/core';
-export class LoadProductFail extends SuperClass implements ErrorAction {}
+    export class LoadProductFail extends SuperClass implements ErrorAction {}
     `,
     `
     import { ErrorAction } from '@spartacus/core';
-export class LoadProductFail extends SuperClass implements SomeOtherInterface, ErrorAction {}
+    export class LoadProductFail extends SuperClass implements SomeOtherInterface, ErrorAction {}
+    `,
+
+    // actions without `Fail` in name, that implement `ErrorAction`
+    `        
+    import { ErrorAction } from '@spartacus/core';
+    export class LoadProduct implements ErrorAction {}
+    `,
+    `
+    import { ErrorAction } from '@spartacus/core';
+    export class LoadProduct implements Action, ErrorAction {}
+    `,
+    `
+    import { ErrorAction } from '@spartacus/core';
+    export class LoadProduct implements Action, SomeOtherInterface, ErrorAction {}
+    `,
+    `
+    import { ErrorAction } from '@spartacus/core';
+    export class LoadProduct extends SuperClass implements ErrorAction {}
+    `,
+    `
+    import { ErrorAction } from '@spartacus/core';
+    export class LoadProduct extends SuperClass implements SomeOtherInterface, ErrorAction {}
+    `,
+
+    // actions without `Fail` in name, that don't implement `ErrorAction`
+    `        
+    export class LoadProduct {}
+    `,
+    `
+    export class LoadProduct implements Action {}
+    `,
+    `
+    export class LoadProduct implements Action, SomeOtherInterface {}
+    `,
+    `
+    export class LoadProduct extends SuperClass {}
+    `,
+    `
+    export class LoadProduct extends SuperClass implements SomeOtherInterface {}
     `,
   ],
   invalid: [

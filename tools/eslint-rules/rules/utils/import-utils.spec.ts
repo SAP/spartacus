@@ -49,7 +49,6 @@ describe('import-utils', () => {
     },
   });
 
-  // Instantiate RuleTester with TypeScript parser
   const ruleTester = new TSESLint.RuleTester({
     parser: require.resolve('@typescript-eslint/parser'),
     parserOptions: {
@@ -58,8 +57,7 @@ describe('import-utils', () => {
     },
   });
 
-  // Define tests
-  ruleTester.run('has-implements-interface', rule, {
+  ruleTester.run('isIdentifierImported', rule, {
     valid: [
       // This class does not implement 'MyInterface', so it's considered valid under our rule
       `import { MySuperClass } from 'my-superclass';

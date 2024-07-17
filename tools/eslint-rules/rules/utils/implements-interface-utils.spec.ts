@@ -57,7 +57,7 @@ describe('implements-interface-utils', () => {
     },
   });
 
-  ruleTester.run('has-implements-interface', rule, {
+  ruleTester.run('hasImplementsInterface', rule, {
     valid: [
       `class MyClass implements MyInterface {}`,
       `class MyClass implements AnotherInterface, MyInterface {}`,
