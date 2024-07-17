@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ErrorAction } from '../../../model';
 import {
   NotificationType,
   ProductInterestEntryRelation,
@@ -63,7 +64,10 @@ export class LoadProductInterests extends LoaderLoadAction {
   }
 }
 
-export class LoadProductInterestsFail extends LoaderFailAction {
+export class LoadProductInterestsFail
+  extends LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_PRODUCT_INTERESTS_FAIL;
 
   constructor(public payload: any) {
@@ -101,7 +105,10 @@ export class RemoveProductInterestSuccess extends EntitySuccessAction {
   }
 }
 
-export class RemoveProductInterestFail extends EntityFailAction {
+export class RemoveProductInterestFail
+  extends EntityFailAction
+  implements ErrorAction
+{
   readonly type = REMOVE_PRODUCT_INTEREST_FAIL;
 
   constructor(public payload: any) {
@@ -131,7 +138,10 @@ export class AddProductInterestSuccess extends EntitySuccessAction {
   }
 }
 
-export class AddProductInterestFail extends EntityFailAction {
+export class AddProductInterestFail
+  extends EntityFailAction
+  implements ErrorAction
+{
   readonly type = ADD_PRODUCT_INTEREST_FAIL;
 
   constructor(public payload: any) {

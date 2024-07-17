@@ -5,6 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction } from '../../../model';
 import { Product } from '../../../model/product.model';
 import { EntityLoaderMeta } from '../../../state/utils/entity-loader/entity-loader.action';
 import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
@@ -36,7 +37,10 @@ export class LoadProduct extends EntityScopedLoaderActions.EntityScopedLoadActio
   }
 }
 
-export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailAction {
+export class LoadProductFail
+  extends EntityScopedLoaderActions.EntityScopedFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_PRODUCT_FAIL;
 
   constructor(

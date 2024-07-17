@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ErrorAction } from '../../../model';
 import { PaymentDetails } from '../../../model/payment.model';
 import { StateUtils } from '../../../state/utils/index';
 import { USER_PAYMENT_METHODS } from '../user-state';
@@ -35,7 +36,10 @@ export class LoadUserPaymentMethods extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadUserPaymentMethodsFail extends StateUtils.LoaderFailAction {
+export class LoadUserPaymentMethodsFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_USER_PAYMENT_METHODS_FAIL;
 
   constructor(public payload: any) {
@@ -59,7 +63,10 @@ export class SetDefaultUserPaymentMethod extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class SetDefaultUserPaymentMethodFail extends StateUtils.LoaderFailAction {
+export class SetDefaultUserPaymentMethodFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = SET_DEFAULT_USER_PAYMENT_METHOD_FAIL;
 
   constructor(public payload: any) {
@@ -83,7 +90,10 @@ export class DeleteUserPaymentMethod extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class DeleteUserPaymentMethodFail extends StateUtils.LoaderFailAction {
+export class DeleteUserPaymentMethodFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = DELETE_USER_PAYMENT_METHOD_FAIL;
 
   constructor(public payload: any) {

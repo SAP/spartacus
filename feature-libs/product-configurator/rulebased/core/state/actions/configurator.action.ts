@@ -84,7 +84,10 @@ export class CreateConfiguration extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CreateConfigurationFail extends StateUtils.EntityFailAction {
+export class CreateConfigurationFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = CREATE_CONFIGURATION_FAIL;
 
   constructor(
@@ -118,7 +121,10 @@ export class ReadConfiguration extends StateUtils.EntityLoadAction {
   }
 }
 
-export class ReadConfigurationFail extends StateUtils.EntityFailAction {
+export class ReadConfigurationFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = READ_CONFIGURATION_FAIL;
 
   constructor(public payload: { ownerKey: string; error: any }) {
@@ -179,6 +185,7 @@ export class UpdateConfigurationFinalizeSuccess extends StateUtils.EntitySuccess
   }
 }
 
+// eslint-disable-next-line @nx/workspace/no-ngrx-fail-action-without-error-action-implementation -- CXSPA-7091: `UpdateConfigurationFinalFail` contains `Fail` word in its name, but the purpose ot this action is not clear due to extending `EntitySuccessAction` instead of `EntitySuccessAction` That said, it's not know whether this action should implement `ErrorAction` or not.
 export class UpdateConfigurationFinalizeFail extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_CONFIGURATION_FINALIZE_FAIL;
 
@@ -195,7 +202,10 @@ export class UpdatePriceSummary extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UpdatePriceSummaryFail extends StateUtils.EntityFailAction {
+export class UpdatePriceSummaryFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = UPDATE_PRICE_SUMMARY_FAIL;
 
   constructor(public payload: { ownerKey: string; error: any }) {
@@ -253,7 +263,10 @@ export class GetConfigurationOverview extends StateUtils.EntityLoadAction {
   }
 }
 
-export class GetConfigurationOverviewFail extends StateUtils.EntityFailAction {
+export class GetConfigurationOverviewFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = GET_CONFIGURATION_OVERVIEW_FAIL;
 
   constructor(public payload: { ownerKey: string; error: any }) {
@@ -279,7 +292,10 @@ export class UpdateConfigurationOverview extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UpdateConfigurationOverviewFail extends StateUtils.EntityFailAction {
+export class UpdateConfigurationOverviewFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = UPDATE_CONFIGURATION_OVERVIEW_FAIL;
 
   constructor(public payload: { ownerKey: string; error: any }) {

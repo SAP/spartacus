@@ -30,7 +30,10 @@ export class CartAddVoucher extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CartAddVoucherFail extends StateUtils.EntityFailAction {
+export class CartAddVoucherFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = CART_ADD_VOUCHER_FAIL;
 
   constructor(

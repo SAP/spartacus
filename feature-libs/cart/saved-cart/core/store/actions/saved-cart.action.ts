@@ -5,7 +5,7 @@
  */
 
 import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
-import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { ErrorAction, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   SAVED_CART_CLONE_CART_PROCESS_ID,
   SAVED_CART_LIST_PROCESS_ID,
@@ -68,7 +68,10 @@ export class LoadSavedCartSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class LoadSavedCartFail extends StateUtils.EntityFailAction {
+export class LoadSavedCartFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_SAVED_CART_FAIL;
 
   constructor(public payload: { userId: string; cartId: string; error: any }) {
@@ -100,7 +103,10 @@ export class LoadSavedCartsSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class LoadSavedCartsFail extends StateUtils.EntityFailAction {
+export class LoadSavedCartsFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_SAVED_CARTS_FAIL;
 
   constructor(
@@ -147,7 +153,10 @@ export class RestoreSavedCartSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class RestoreSavedCartFail extends StateUtils.EntityFailAction {
+export class RestoreSavedCartFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = RESTORE_SAVED_CART_FAIL;
 
   constructor(
@@ -199,7 +208,10 @@ export class SaveCartSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class SaveCartFail extends StateUtils.EntityFailAction {
+export class SaveCartFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = SAVE_CART_FAIL;
 
   constructor(
@@ -253,7 +265,10 @@ export class EditSavedCartSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class EditSavedCartFail extends StateUtils.EntityFailAction {
+export class EditSavedCartFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = EDIT_SAVED_CART_FAIL;
 
   constructor(
@@ -297,7 +312,10 @@ export class CloneSavedCartSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class CloneSavedCartFail extends StateUtils.EntityFailAction {
+export class CloneSavedCartFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = CLONE_SAVED_CART_FAIL;
 
   constructor(

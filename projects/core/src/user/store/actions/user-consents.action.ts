@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ErrorAction } from '../../../model';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import { StateUtils } from '../../../state/utils/index';
@@ -40,7 +41,10 @@ export class LoadUserConsents extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadUserConsentsFail extends StateUtils.LoaderFailAction {
+export class LoadUserConsentsFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_USER_CONSENTS_FAIL;
 
   constructor(public payload: any) {
@@ -78,7 +82,10 @@ export class GiveUserConsent extends StateUtils.EntityLoadAction {
   }
 }
 
-export class GiveUserConsentFail extends StateUtils.EntityFailAction {
+export class GiveUserConsentFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = GIVE_USER_CONSENT_FAIL;
 
   constructor(payload: any) {
@@ -128,7 +135,10 @@ export class WithdrawUserConsent extends StateUtils.EntityLoadAction {
   }
 }
 
-export class WithdrawUserConsentFail extends StateUtils.EntityFailAction {
+export class WithdrawUserConsentFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = WITHDRAW_USER_CONSENT_FAIL;
 
   constructor(payload: any) {

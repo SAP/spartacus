@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ErrorAction } from '../../../model';
 import { NotificationPreference } from '../../../model/notification-preference.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
@@ -43,7 +44,10 @@ export class LoadNotificationPreferences extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadNotificationPreferencesFail extends StateUtils.LoaderFailAction {
+export class LoadNotificationPreferencesFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_NOTIFICATION_PREFERENCES_FAIL;
 
   constructor(public payload: any) {
@@ -69,7 +73,10 @@ export class UpdateNotificationPreferences extends EntityLoadAction {
   }
 }
 
-export class UpdateNotificationPreferencesFail extends EntityFailAction {
+export class UpdateNotificationPreferencesFail
+  extends EntityFailAction
+  implements ErrorAction
+{
   readonly type = UPDATE_NOTIFICATION_PREFERENCES_FAIL;
 
   constructor(public payload: any) {

@@ -6,6 +6,7 @@
 
 import {
   CostCenter,
+  ErrorAction,
   ListModel,
   SearchConfig,
   StateUtils,
@@ -58,7 +59,10 @@ export class LoadCostCenter extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadCostCenterFail extends StateUtils.EntityFailAction {
+export class LoadCostCenterFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_COST_CENTER_FAIL;
 
   constructor(public payload: { costCenterCode: string; error: any }) {
@@ -92,7 +96,10 @@ export class LoadCostCenters extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadCostCentersFail extends StateUtils.EntityFailAction {
+export class LoadCostCentersFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_COST_CENTERS_FAIL;
 
   constructor(public payload: { params: SearchConfig; error: any }) {
@@ -125,7 +132,10 @@ export class CreateCostCenter extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CreateCostCenterFail extends StateUtils.EntityFailAction {
+export class CreateCostCenterFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = CREATE_COST_CENTER_FAIL;
 
   constructor(public payload: { costCenterCode: string; error: any }) {
@@ -155,7 +165,10 @@ export class UpdateCostCenter extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UpdateCostCenterFail extends StateUtils.EntityFailAction {
+export class UpdateCostCenterFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = UPDATE_COST_CENTER_FAIL;
 
   constructor(public payload: { costCenterCode: string; error: any }) {
@@ -188,7 +201,10 @@ export class LoadAssignedBudgets extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadAssignedBudgetsFail extends StateUtils.EntityFailAction {
+export class LoadAssignedBudgetsFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_ASSIGNED_BUDGETS_FAIL;
 
   constructor(
@@ -237,7 +253,10 @@ export class AssignBudget extends StateUtils.EntityLoadAction {
   }
 }
 
-export class AssignBudgetFail extends StateUtils.EntityFailAction {
+export class AssignBudgetFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = ASSIGN_BUDGET_FAIL;
 
   constructor(public payload: { budgetCode: string; error: any }) {
@@ -267,7 +286,10 @@ export class UnassignBudget extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UnassignBudgetFail extends StateUtils.EntityFailAction {
+export class UnassignBudgetFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = UNASSIGN_BUDGET_FAIL;
 
   constructor(public payload: { budgetCode: string; error: any }) {

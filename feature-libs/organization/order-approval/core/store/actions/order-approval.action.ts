@@ -5,6 +5,7 @@
  */
 
 import {
+  ErrorAction,
   ListModel,
   PROCESS_FEATURE,
   SearchConfig,
@@ -48,7 +49,10 @@ export class LoadOrderApproval extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadOrderApprovalFail extends StateUtils.EntityFailAction {
+export class LoadOrderApprovalFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_ORDER_APPROVAL_FAIL;
 
   constructor(public payload: { orderApprovalCode: string; error: any }) {
@@ -85,7 +89,10 @@ export class LoadOrderApprovals extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadOrderApprovalsFail extends StateUtils.EntityFailAction {
+export class LoadOrderApprovalsFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_ORDER_APPROVALS_FAIL;
 
   constructor(public payload: { params: SearchConfig; error: any }) {
@@ -127,7 +134,10 @@ export class MakeDecision extends StateUtils.EntityLoadAction {
   }
 }
 
-export class MakeDecisionFail extends StateUtils.EntityFailAction {
+export class MakeDecisionFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = MAKE_DECISION_FAIL;
 
   constructor(public payload: { orderApprovalCode: string; error: any }) {
