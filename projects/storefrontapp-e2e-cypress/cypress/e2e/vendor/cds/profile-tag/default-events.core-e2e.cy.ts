@@ -253,7 +253,7 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it.only('should send an OrderConfirmation event when viewing the order confirmation page', () => {
+  it('should send an OrderConfirmation event when viewing the order confirmation page', () => {
     profileTagHelper.triggerLoaded();
     profileTagHelper.triggerConsentReferenceLoaded();
     loginHelper.loginAsDefaultUser();
