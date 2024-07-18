@@ -319,7 +319,7 @@ export class OptimizedSsrEngine {
   }
 
   /**
-   * @deprecated since v2211.26 - This method will be private in the future.
+   * @deprecated since v2211.27 - This method will be private in the future.
    */
   protected log(
     message: string,
