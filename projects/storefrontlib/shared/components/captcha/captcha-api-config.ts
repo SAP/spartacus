@@ -13,6 +13,9 @@ import { CaptchaProvider } from './captcha.model';
   providedIn: 'root',
   useExisting: Config,
 })
+/*
+ * configuration for frontend: How to render the captcha component and get proper token
+ */
 export abstract class CaptchaApiConfig {
   captchaProvider?: Type<CaptchaProvider>;
   apiUrl?: string;

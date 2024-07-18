@@ -37,13 +37,13 @@ const CONTENT_TYPE_URLENCODED_HEADER = {
 @Injectable()
 export class OccUserProfileAdapter implements UserProfileAdapter {
   protected logger = inject(LoggerService);
+  protected captchaConfig = inject(CaptchaApiConfig, { optional: true });
+  protected injector = inject(Injector, { optional: true });
 
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService,
-    protected captchaConfig?: CaptchaApiConfig,
-    protected injector?: Injector
+    protected converter: ConverterService
   ) {}
 
   update(userId: string, user: User): Observable<unknown> {
