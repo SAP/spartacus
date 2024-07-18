@@ -263,14 +263,13 @@ describe('Profile-tag events', () => {
         option: 'Consent Management',
       });
       verifyConsentManagementPage();
-      cy.get('input[type="checkbox"]')
-        .each(($elem, index) => {
-          if (index === 1) {
-            cy.wrap($elem).uncheck();
-            cy.wrap($elem).should('not.be.checked');
-            cy.wrap($elem).check();
-          }
-        });
+      cy.get('input[type="checkbox"]').each(($elem, index) => {
+        if (index === 1) {
+          cy.wrap($elem).uncheck();
+          cy.wrap($elem).should('not.be.checked');
+          cy.wrap($elem).check();
+        }
+      });
     });
 
     cy.visit('/');
