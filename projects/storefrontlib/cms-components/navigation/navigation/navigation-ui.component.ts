@@ -11,6 +11,7 @@ import {
   EventEmitter,
   HostBinding,
   HostListener,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -19,6 +20,7 @@ import {
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { FeatureConfigService, WindowRef } from '@spartacus/core';
+import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Subject, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -82,6 +84,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   onArrow(e: KeyboardEvent) {
     this.arrowControls.next(e);
   }
+
+  protected breakpointService = inject(BreakpointService);
+  isDesktop$ = this.breakpointService.isUp(BREAKPOINT.lg);
 
   constructor(
     private router: Router,
