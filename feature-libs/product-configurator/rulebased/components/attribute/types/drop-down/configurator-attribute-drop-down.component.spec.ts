@@ -281,7 +281,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       createComponentWithData();
     });
 
-    it('should not display quantity and price', () => {
+    it('should not display quantity and price in case attribute does not carry quantity', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_NO_QTY;
       fixture.detectChanges();
@@ -317,7 +317,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       );
     });
 
-    it('should display quantity and price', () => {
+    it('should display quantity and price in case attribute carries quantity and selected value has price', () => {
       component.attribute.quantity = 5;
       component.attribute.attributePriceTotal = {
         currencyIso: '$',

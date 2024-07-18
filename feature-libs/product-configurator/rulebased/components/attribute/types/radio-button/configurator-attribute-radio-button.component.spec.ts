@@ -170,7 +170,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   });
 
   describe('attribute level', () => {
-    it('should not display quantity and price', () => {
+    it('should not display quantity and price in case attribute does not carry quantity', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_NO_QTY;
       fixture.detectChanges();
@@ -205,7 +205,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       );
     });
 
-    it('should display quantity and price', () => {
+    it('should display quantity and price in case attribute carries quantity and selected value has price', () => {
       component.attribute.quantity = 5;
       component.attribute.attributePriceTotal = {
         currencyIso: '$',
