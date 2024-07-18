@@ -37,7 +37,7 @@ export class ConfiguratorAttributeCompositionDirective
 
   protected lastRenderedAttribute: Configurator.Attribute;
 
-  protected loggerService = inject(LoggerService);
+  protected logger = inject(LoggerService);
   protected featureConfigService = inject(FeatureConfigService);
 
   protected readonly attrCompAssignment: AttributeComponentAssignment =
@@ -87,7 +87,7 @@ export class ConfiguratorAttributeCompositionDirective
       });
     } else {
       if (isDevMode()) {
-        this.loggerService.warn(
+        this.logger.warn(
           'No attribute type component available for: ' + componentKey
         );
       }

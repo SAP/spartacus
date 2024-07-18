@@ -1,12 +1,12 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { of } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering';
+import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
-import { of } from 'rxjs';
 
 const attributeCode = 1;
 const currentAttribute: Configurator.Attribute = {

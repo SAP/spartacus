@@ -28,7 +28,7 @@ export class ConfiguratorDeltaRenderingService {
    * It will monitor the price supplements of configuration observable and emit true if price supplements
    * matching the given attribute key have changed.
    * Additionally it returns always true for the first emission of the underlying configuration observable.
-   * This ensures that a enclosing UI component will initially render, even if the async pricing request ist still running,
+   * This ensures that an enclosing UI component will initially render, even if the async pricing request ist still running,
    * so that the UI is not blocked. Afterwards a rerender shall only occur if prices change.
    * This all assumes that the enclosing UI component itself gets recreated or rerendered (triggered elsewhere) whenever the attribute itself changes content wise.
    *

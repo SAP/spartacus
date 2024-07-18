@@ -92,7 +92,7 @@ export interface FeatureTogglesInterface {
    *
    * Please note, this will influence how the pricing requests are processed and rendered.
    * Instead of merging the prices into the configuration model, which effectively triggers re-rendering the whole UI-Component tree,
-   * the price supplements are kept in a separate subtree of the model, so that the new `cx-configurator-async-pricing` component can subscribe directly to this subtree independently.
+   * the price supplements are kept in a separate subtree of the model, so that attribute components can react independently on pricing changes using the `ConfiguratorDeltaRenderingService`.
    *
    * Hence, it is advised to do full regression testing after activation of this flag and before rolling this out to production.
    */

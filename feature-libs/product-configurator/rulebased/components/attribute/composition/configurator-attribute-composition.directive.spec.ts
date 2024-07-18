@@ -60,6 +60,7 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
     spyOn(loggerService, 'warn').and.callThrough();
 
     classUnderTest['context'] = ConfiguratorTestUtils.getAttributeContext();
+    productConfiguratorDeltaRenderingEnabled = false;
   });
 
   it('should create', () => {
@@ -78,13 +79,11 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
 
   describe('ngOnInit', () => {
     it('should render view if performance feature toggle is off', () => {
-      productConfiguratorDeltaRenderingEnabled = false;
       classUnderTest.ngOnInit();
       expectComponentRendered(1);
     });
 
     it('should log if performance feature toggle is off but no component found', () => {
-      productConfiguratorDeltaRenderingEnabled = false;
       classUnderTest['context'].componentKey = 'not.existing';
       classUnderTest.ngOnInit();
       expectComponentNotRendered(true);
