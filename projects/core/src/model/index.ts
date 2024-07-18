@@ -18,3 +18,4 @@ export * from './product-interest.model';
 export * from './product-search.model';
 export * from './product.model';
 export * from './scoped-data';
+export * from './error-action';

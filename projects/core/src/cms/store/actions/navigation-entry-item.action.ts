@@ -15,6 +15,7 @@ export const LOAD_CMS_NAVIGATION_ITEMS_SUCCESS =
 
 export class LoadCmsNavigationItems extends StateUtils.EntityLoadAction {
   readonly type = LOAD_CMS_NAVIGATION_ITEMS;
+
   constructor(public payload: { nodeId: string; items: any[] }) {
     super(NAVIGATION_DETAIL_ENTITY, payload.nodeId);
   }
@@ -22,6 +23,7 @@ export class LoadCmsNavigationItems extends StateUtils.EntityLoadAction {
 
 export class LoadCmsNavigationItemsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_NAVIGATION_ITEMS_FAIL;
+
   constructor(
     nodeId: string,
     public payload: any
@@ -32,6 +34,7 @@ export class LoadCmsNavigationItemsFail extends StateUtils.EntityFailAction {
 
 export class LoadCmsNavigationItemsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_CMS_NAVIGATION_ITEMS_SUCCESS;
+
   constructor(public payload: { nodeId: string; components: any[] }) {
     super(NAVIGATION_DETAIL_ENTITY, payload.nodeId);
   }

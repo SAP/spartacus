@@ -102,6 +102,7 @@ export const CLEAR_ASSIGNED_USERS = '[B2BUnit] Clear Assigned Users';
 
 export class LoadOrgUnit extends StateUtils.EntityLoadAction {
   readonly type = LOAD_ORG_UNIT;
+
   constructor(public payload: { userId: string; orgUnitId: string }) {
     super(ORG_UNIT_ENTITIES, payload.orgUnitId);
   }
@@ -109,6 +110,7 @@ export class LoadOrgUnit extends StateUtils.EntityLoadAction {
 
 export class LoadOrgUnitFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ORG_UNIT_FAIL;
+
   constructor(public payload: { orgUnitId: string; error: any }) {
     super(ORG_UNIT_ENTITIES, payload.orgUnitId, payload.error);
   }
@@ -129,6 +131,7 @@ export class LoadOrgUnitSuccess extends StateUtils.EntitySuccessAction {
 
 export class LoadOrgUnitNodes extends StateUtils.EntityLoadAction {
   readonly type = LOAD_UNIT_NODES;
+
   constructor(
     public payload: {
       userId: string;
@@ -140,6 +143,7 @@ export class LoadOrgUnitNodes extends StateUtils.EntityLoadAction {
 
 export class LoadOrgUnitNodesFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_UNIT_NODES_FAIL;
+
   constructor(public payload: any) {
     super(ORG_UNIT_NODE_LIST, ORG_UNIT_NODES, payload.error);
   }
@@ -147,6 +151,7 @@ export class LoadOrgUnitNodesFail extends StateUtils.EntityFailAction {
 
 export class LoadOrgUnitNodesSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_UNIT_NODES_SUCCESS;
+
   constructor(public payload: B2BUnitNode[]) {
     super(ORG_UNIT_NODE_LIST, ORG_UNIT_NODES);
   }
@@ -154,6 +159,7 @@ export class LoadOrgUnitNodesSuccess extends StateUtils.EntitySuccessAction {
 
 export class CreateUnit extends StateUtils.EntityLoadAction {
   readonly type = CREATE_ORG_UNIT;
+
   constructor(public payload: { userId: string; unit: B2BUnit }) {
     super(ORG_UNIT_ENTITIES, payload.unit.uid ?? null);
   }
@@ -161,6 +167,7 @@ export class CreateUnit extends StateUtils.EntityLoadAction {
 
 export class CreateUnitFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_ORG_UNIT_FAIL;
+
   constructor(public payload: { unitCode: string; error: any }) {
     super(ORG_UNIT_ENTITIES, payload.unitCode, payload.error);
   }
@@ -168,6 +175,7 @@ export class CreateUnitFail extends StateUtils.EntityFailAction {
 
 export class CreateUnitSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_ORG_UNIT_SUCCESS;
+
   constructor(public payload: B2BUnit) {
     super(ORG_UNIT_ENTITIES, payload.uid ?? null, payload);
   }
@@ -175,6 +183,7 @@ export class CreateUnitSuccess extends StateUtils.EntitySuccessAction {
 
 export class UpdateUnit extends StateUtils.EntityLoadAction {
   readonly type = UPDATE_ORG_UNIT;
+
   constructor(
     public payload: { userId: string; unitCode: string; unit: B2BUnit }
   ) {
@@ -184,6 +193,7 @@ export class UpdateUnit extends StateUtils.EntityLoadAction {
 
 export class UpdateUnitFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_ORG_UNIT_FAIL;
+
   constructor(public payload: { unitCode: string; error: any }) {
     super(ORG_UNIT_ENTITIES, payload.unitCode, payload.error);
   }
@@ -191,6 +201,7 @@ export class UpdateUnitFail extends StateUtils.EntityFailAction {
 
 export class UpdateUnitSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_ORG_UNIT_SUCCESS;
+
   constructor(public payload: B2BUnit) {
     super(ORG_UNIT_ENTITIES, payload.uid ?? '', payload);
   }
@@ -198,6 +209,7 @@ export class UpdateUnitSuccess extends StateUtils.EntitySuccessAction {
 
 export class LoadTree extends StateUtils.EntityLoadAction {
   readonly type = LOAD_UNIT_TREE;
+
   constructor(public payload: { userId: string }) {
     super(ORG_UNIT_TREE_ENTITY, ORG_UNIT_TREE);
   }
@@ -205,6 +217,7 @@ export class LoadTree extends StateUtils.EntityLoadAction {
 
 export class LoadTreeFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_UNIT_TREE_FAIL;
+
   constructor(public payload: { error: any }) {
     super(ORG_UNIT_TREE_ENTITY, ORG_UNIT_TREE, payload.error);
   }
@@ -220,6 +233,7 @@ export class LoadTreeSuccess extends StateUtils.EntitySuccessAction {
 
 export class LoadApprovalProcesses extends StateUtils.EntityLoadAction {
   readonly type = LOAD_APPROVAL_PROCESSES;
+
   constructor(public payload: { userId: string }) {
     super(ORG_UNIT_APPROVAL_PROCESSES_ENTITIES, ORG_UNIT_APPROVAL_PROCESSES);
   }
@@ -227,6 +241,7 @@ export class LoadApprovalProcesses extends StateUtils.EntityLoadAction {
 
 export class LoadApprovalProcessesFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_APPROVAL_PROCESSES_FAIL;
+
   constructor(public payload: { error: any }) {
     super(
       ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
@@ -246,6 +261,7 @@ export class LoadApprovalProcessesSuccess extends StateUtils.EntitySuccessAction
 
 export class LoadAssignedUsers extends StateUtils.EntityLoadAction {
   readonly type = LOAD_ASSIGNED_USERS;
+
   constructor(
     public payload: {
       userId: string;
@@ -266,6 +282,7 @@ export class LoadAssignedUsers extends StateUtils.EntityLoadAction {
 
 export class ClearAssignedUsers extends StateUtils.EntityRemoveAction {
   readonly type = CLEAR_ASSIGNED_USERS;
+
   constructor(
     public payload: {
       orgUnitId: string;
@@ -285,6 +302,7 @@ export class ClearAssignedUsers extends StateUtils.EntityRemoveAction {
 
 export class LoadAssignedUsersFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ASSIGNED_USERS_FAIL;
+
   constructor(
     public payload: {
       orgUnitId: string;
@@ -306,6 +324,7 @@ export class LoadAssignedUsersFail extends StateUtils.EntityFailAction {
 
 export class LoadAssignedUsersSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_ASSIGNED_USERS_SUCCESS;
+
   constructor(
     public payload: {
       orgUnitId: string;
@@ -326,6 +345,7 @@ export class LoadAssignedUsersSuccess extends StateUtils.EntitySuccessAction {
 
 export class AssignRole extends StateUtils.EntityLoadAction {
   readonly type = ASSIGN_ROLE;
+
   constructor(
     public payload: {
       userId: string;
@@ -339,6 +359,7 @@ export class AssignRole extends StateUtils.EntityLoadAction {
 
 export class AssignRoleFail extends StateUtils.EntityFailAction {
   readonly type = ASSIGN_ROLE_FAIL;
+
   constructor(
     public payload: {
       orgCustomerId: string;
@@ -351,6 +372,7 @@ export class AssignRoleFail extends StateUtils.EntityFailAction {
 
 export class AssignRoleSuccess extends StateUtils.EntitySuccessAction {
   readonly type = ASSIGN_ROLE_SUCCESS;
+
   constructor(
     public payload: { uid: string; roleId: string; selected: boolean }
   ) {
@@ -360,6 +382,7 @@ export class AssignRoleSuccess extends StateUtils.EntitySuccessAction {
 
 export class UnassignRole extends StateUtils.EntityLoadAction {
   readonly type = UNASSIGN_ROLE;
+
   constructor(
     public payload: {
       userId: string;
@@ -373,6 +396,7 @@ export class UnassignRole extends StateUtils.EntityLoadAction {
 
 export class UnassignRoleFail extends StateUtils.EntityFailAction {
   readonly type = UNASSIGN_ROLE_FAIL;
+
   constructor(
     public payload: {
       orgCustomerId: string;
@@ -385,6 +409,7 @@ export class UnassignRoleFail extends StateUtils.EntityFailAction {
 
 export class UnassignRoleSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UNASSIGN_ROLE_SUCCESS;
+
   constructor(
     public payload: { uid: string; roleId: string; selected: boolean }
   ) {
@@ -394,6 +419,7 @@ export class UnassignRoleSuccess extends StateUtils.EntitySuccessAction {
 
 export class AssignApprover extends StateUtils.EntityLoadAction {
   readonly type = ASSIGN_APPROVER;
+
   constructor(
     public payload: {
       userId: string;
@@ -408,6 +434,7 @@ export class AssignApprover extends StateUtils.EntityLoadAction {
 
 export class AssignApproverFail extends StateUtils.EntityFailAction {
   readonly type = ASSIGN_APPROVER_FAIL;
+
   constructor(
     public payload: {
       orgCustomerId: string;
@@ -420,6 +447,7 @@ export class AssignApproverFail extends StateUtils.EntityFailAction {
 
 export class AssignApproverSuccess extends StateUtils.EntitySuccessAction {
   readonly type = ASSIGN_APPROVER_SUCCESS;
+
   constructor(
     public payload: { uid: string; roleId: string; selected: boolean }
   ) {
@@ -429,6 +457,7 @@ export class AssignApproverSuccess extends StateUtils.EntitySuccessAction {
 
 export class UnassignApprover extends StateUtils.EntityLoadAction {
   readonly type = UNASSIGN_APPROVER;
+
   constructor(
     public payload: {
       userId: string;
@@ -443,6 +472,7 @@ export class UnassignApprover extends StateUtils.EntityLoadAction {
 
 export class UnassignApproverFail extends StateUtils.EntityFailAction {
   readonly type = UNASSIGN_APPROVER_FAIL;
+
   constructor(
     public payload: {
       orgCustomerId: string;
@@ -455,6 +485,7 @@ export class UnassignApproverFail extends StateUtils.EntityFailAction {
 
 export class UnassignApproverSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UNASSIGN_APPROVER_SUCCESS;
+
   constructor(
     public payload: { uid: string; roleId: string; selected: boolean }
   ) {
@@ -464,6 +495,7 @@ export class UnassignApproverSuccess extends StateUtils.EntitySuccessAction {
 
 export class CreateAddress extends StateUtils.EntityLoadAction {
   readonly type = CREATE_ADDRESS;
+
   constructor(
     public payload: { userId: string; orgUnitId: string; address: Address }
   ) {
@@ -473,6 +505,7 @@ export class CreateAddress extends StateUtils.EntityLoadAction {
 
 export class CreateAddressFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_ADDRESS_FAIL;
+
   constructor(public payload: { addressId: string; error: any }) {
     super(ADDRESS_ENTITIES, payload.addressId, payload.error);
   }
@@ -480,6 +513,7 @@ export class CreateAddressFail extends StateUtils.EntityFailAction {
 
 export class CreateAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_ADDRESS_SUCCESS;
+
   constructor(public payload: Address) {
     super(ADDRESS_ENTITIES, payload.id ?? null, payload);
   }
@@ -487,6 +521,7 @@ export class CreateAddressSuccess extends StateUtils.EntitySuccessAction {
 
 export class UpdateAddress extends StateUtils.EntityLoadAction {
   readonly type = UPDATE_ADDRESS;
+
   constructor(
     public payload: {
       userId: string;
@@ -501,6 +536,7 @@ export class UpdateAddress extends StateUtils.EntityLoadAction {
 
 export class UpdateAddressFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_ADDRESS_FAIL;
+
   constructor(public payload: { addressId: string; error: any }) {
     super(ADDRESS_ENTITIES, payload.addressId, payload.error);
   }
@@ -508,6 +544,7 @@ export class UpdateAddressFail extends StateUtils.EntityFailAction {
 
 export class UpdateAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_ADDRESS_SUCCESS;
+
   constructor(public payload: Address) {
     super(ADDRESS_ENTITIES, payload.id ?? '', payload);
   }
@@ -515,6 +552,7 @@ export class UpdateAddressSuccess extends StateUtils.EntitySuccessAction {
 
 export class DeleteAddress extends StateUtils.EntityLoadAction {
   readonly type = DELETE_ADDRESS;
+
   constructor(
     public payload: {
       userId: string;
@@ -528,6 +566,7 @@ export class DeleteAddress extends StateUtils.EntityLoadAction {
 
 export class DeleteAddressFail extends StateUtils.EntityFailAction {
   readonly type = DELETE_ADDRESS_FAIL;
+
   constructor(public payload: { addressId: string; error: any }) {
     super(ADDRESS_ENTITIES, payload.addressId, payload.error);
   }
@@ -535,6 +574,7 @@ export class DeleteAddressFail extends StateUtils.EntityFailAction {
 
 export class DeleteAddressSuccess extends StateUtils.EntityRemoveAction {
   readonly type = DELETE_ADDRESS_SUCCESS;
+
   constructor(public payload: Address) {
     super(ADDRESS_ENTITIES, payload.id ?? '');
   }
@@ -542,6 +582,7 @@ export class DeleteAddressSuccess extends StateUtils.EntityRemoveAction {
 
 export class LoadAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_ADDRESS_SUCCESS;
+
   constructor(public payload: Address | Address[]) {
     super(
       ADDRESS_ENTITIES,
@@ -554,6 +595,7 @@ export class LoadAddressSuccess extends StateUtils.EntitySuccessAction {
 
 export class LoadAddresses extends StateUtils.EntityLoadAction {
   readonly type = LOAD_ADDRESSES;
+
   constructor(public payload: { userId: string; orgUnitId: string }) {
     super(ADDRESS_LIST, payload.orgUnitId);
   }
@@ -561,6 +603,7 @@ export class LoadAddresses extends StateUtils.EntityLoadAction {
 
 export class LoadAddressesFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ADDRESSES_FAIL;
+
   constructor(public payload: { orgUnitId: string; error: any }) {
     super(ADDRESS_LIST, payload.orgUnitId, payload.error);
   }
@@ -568,6 +611,7 @@ export class LoadAddressesFail extends StateUtils.EntityFailAction {
 
 export class LoadAddressesSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_ADDRESSES_SUCCESS;
+
   constructor(
     public payload: {
       page: ListModel;

@@ -26,6 +26,7 @@ export const DELETE_USER_ADDRESS_SUCCESS = '[User] Delete User Address Success';
 
 export class LoadUserAddresses extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_USER_ADDRESSES;
+
   constructor(public payload: string) {
     super(USER_ADDRESSES);
   }
@@ -33,6 +34,7 @@ export class LoadUserAddresses extends StateUtils.LoaderLoadAction {
 
 export class LoadUserAddressesFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_USER_ADDRESSES_FAIL;
+
   constructor(public payload: any) {
     super(USER_ADDRESSES, payload);
   }
@@ -40,6 +42,7 @@ export class LoadUserAddressesFail extends StateUtils.LoaderFailAction {
 
 export class LoadUserAddressesSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_USER_ADDRESSES_SUCCESS;
+
   constructor(public payload: Address[]) {
     super(USER_ADDRESSES);
   }
@@ -48,6 +51,7 @@ export class LoadUserAddressesSuccess extends StateUtils.LoaderSuccessAction {
 // Adding address actions
 export class AddUserAddress extends StateUtils.LoaderLoadAction {
   readonly type = ADD_USER_ADDRESS;
+
   constructor(public payload: { userId: string; address: Address }) {
     super(USER_ADDRESSES);
   }
@@ -55,6 +59,7 @@ export class AddUserAddress extends StateUtils.LoaderLoadAction {
 
 export class AddUserAddressFail extends StateUtils.LoaderFailAction {
   readonly type = ADD_USER_ADDRESS_FAIL;
+
   constructor(public payload: any) {
     super(USER_ADDRESSES, payload);
   }
@@ -62,6 +67,7 @@ export class AddUserAddressFail extends StateUtils.LoaderFailAction {
 
 export class AddUserAddressSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = ADD_USER_ADDRESS_SUCCESS;
+
   constructor(public payload: any) {
     super(USER_ADDRESSES);
   }
@@ -70,6 +76,7 @@ export class AddUserAddressSuccess extends StateUtils.LoaderSuccessAction {
 // Updating address actions
 export class UpdateUserAddress extends StateUtils.LoaderLoadAction {
   readonly type = UPDATE_USER_ADDRESS;
+
   constructor(
     public payload: { userId: string; addressId: string; address: Address }
   ) {
@@ -79,6 +86,7 @@ export class UpdateUserAddress extends StateUtils.LoaderLoadAction {
 
 export class UpdateUserAddressFail extends StateUtils.LoaderFailAction {
   readonly type = UPDATE_USER_ADDRESS_FAIL;
+
   constructor(public payload: any) {
     super(USER_ADDRESSES, payload);
   }
@@ -86,6 +94,7 @@ export class UpdateUserAddressFail extends StateUtils.LoaderFailAction {
 
 export class UpdateUserAddressSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = UPDATE_USER_ADDRESS_SUCCESS;
+
   constructor(public payload: any) {
     super(USER_ADDRESSES);
   }
@@ -94,6 +103,7 @@ export class UpdateUserAddressSuccess extends StateUtils.LoaderSuccessAction {
 // Deleting address actions
 export class DeleteUserAddress extends StateUtils.LoaderLoadAction {
   readonly type = DELETE_USER_ADDRESS;
+
   constructor(public payload: any) {
     super(USER_ADDRESSES);
   }
@@ -101,6 +111,7 @@ export class DeleteUserAddress extends StateUtils.LoaderLoadAction {
 
 export class DeleteUserAddressFail extends StateUtils.LoaderFailAction {
   readonly type = DELETE_USER_ADDRESS_FAIL;
+
   constructor(public payload: any) {
     super(USER_ADDRESSES, payload);
   }
@@ -108,6 +119,7 @@ export class DeleteUserAddressFail extends StateUtils.LoaderFailAction {
 
 export class DeleteUserAddressSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = DELETE_USER_ADDRESS_SUCCESS;
+
   constructor(public payload: any) {
     super(USER_ADDRESSES);
   }

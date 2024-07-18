@@ -16,6 +16,7 @@ export const CMS_GET_COMPONENT_FROM_PAGE = '[Cms] Get Component from Page';
 
 export class LoadCmsComponent extends StateUtils.EntityLoadAction {
   readonly type = LOAD_CMS_COMPONENT;
+
   constructor(
     public payload: {
       uid: string;
@@ -28,8 +29,26 @@ export class LoadCmsComponent extends StateUtils.EntityLoadAction {
 
 export class LoadCmsComponentFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_CMS_COMPONENT_FAIL;
+
+  constructor(payload: { uid: string; error: any; pageContext: PageContext });
+  /**
+   * @deprecated Please pass the argument `error`.
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
   constructor(
-    public payload: { uid: string; error?: any; pageContext: PageContext }
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    payload: {
+      uid: string;
+      pageContext: PageContext;
+    }
+  );
+  constructor(
+    public payload: {
+      uid: string;
+      error?: any;
+      pageContext: PageContext;
+    }
   ) {
     super(COMPONENT_ENTITY, payload.uid, payload.error);
   }
@@ -39,6 +58,7 @@ export class LoadCmsComponentSuccess<
   T extends CmsComponent,
 > extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_CMS_COMPONENT_SUCCESS;
+
   constructor(
     public payload: {
       component: T;
@@ -54,6 +74,7 @@ export class CmsGetComponentFromPage<
   T extends CmsComponent,
 > extends StateUtils.EntitySuccessAction {
   readonly type = CMS_GET_COMPONENT_FROM_PAGE;
+
   constructor(
     public payload:
       | { component: T; pageContext: PageContext }

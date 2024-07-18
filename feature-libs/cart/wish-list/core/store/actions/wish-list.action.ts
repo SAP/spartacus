@@ -19,6 +19,7 @@ export const LOAD_WISH_LIST_FAIL = '[Wish List] Load Wish List Fail';
 
 export class CreateWishList implements Action {
   readonly type = CREATE_WISH_LIST;
+
   constructor(
     public payload: {
       userId: string;
@@ -30,6 +31,7 @@ export class CreateWishList implements Action {
 
 export class CreateWishListSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_WISH_LIST_SUCCESS;
+
   constructor(public payload: { cart: Cart; cartId: string }) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -37,6 +39,16 @@ export class CreateWishListSuccess extends StateUtils.EntitySuccessAction {
 
 export class CreateWishListFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_WISH_LIST_FAIL;
+  constructor(payload: { cartId: string; error: any });
+  /**
+   * @deprecated Please pass the argument `error`.
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    payload: { cartId: string }
+  );
   constructor(public payload: { cartId: string; error?: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
   }
@@ -56,12 +68,15 @@ interface LoadWishListPayload {
  */
 export class LoadWishList extends StateUtils.EntityLoadAction {
   readonly type = LOAD_WISH_LIST;
+
   constructor(public payload: LoadWishListPayload) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
+
 export class LoadWishListSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_WISH_LIST_SUCCESS;
+
   constructor(public payload: { cart: Cart; cartId: string }) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -78,6 +93,7 @@ interface LoadWishListFailPayload {
 
 export class LoadWishListFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_WISH_LIST_FAIL;
+
   constructor(public payload: LoadWishListFailPayload) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
   }

@@ -6,7 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import { ReplenishmentOrderList } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -41,7 +41,7 @@ export class ReplenishmentOrdersEffect {
               catchError((error) =>
                 of(
                   new OrderActions.LoadUserReplenishmentOrdersFail(
-                    normalizeHttpError(error, this.logger)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )

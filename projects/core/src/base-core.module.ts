@@ -9,7 +9,8 @@ import { CmsModule } from './cms/cms.module';
 import { ConfigInitializerModule } from './config/config-initializer/config-initializer.module';
 import { ConfigValidatorModule } from './config/config-validator/config-validator.module';
 import { ConfigModule } from './config/config.module';
-import { ErrorHandlingModule } from './error-handling';
+import { ErrorHandlingModule, HttpErrorHandlerModule } from './error-handling';
+import { EffectsErrorHandlerModule } from './error-handling/effects-error-handler/effects-error-handler.module';
 import { FeaturesConfigModule } from './features-config/features-config.module';
 import { GlobalMessageModule } from './global-message/global-message.module';
 import { HttpModule } from './http/http.module';
@@ -23,6 +24,7 @@ import { StateModule } from './state/state.module';
 
 @NgModule({
   imports: [
+    HttpErrorHandlerModule.forRoot(), // Import this module before any other interceptor to handle HTTP errors efficiently
     StateModule.forRoot(),
     ConfigModule.forRoot(),
     ConfigInitializerModule.forRoot(),
@@ -38,6 +40,7 @@ import { StateModule } from './state/state.module';
     LazyLoadingModule.forRoot(),
     HttpModule.forRoot(),
     ErrorHandlingModule.forRoot(),
+    EffectsErrorHandlerModule.forRoot(),
   ],
 })
 export class BaseCoreModule {

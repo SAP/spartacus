@@ -26,6 +26,7 @@ export const UPDATE_BUDGET_SUCCESS = '[Budget] Update Budget Success';
 
 export class LoadBudget extends StateUtils.EntityLoadAction {
   readonly type = LOAD_BUDGET;
+
   constructor(public payload: { userId: string; budgetCode: string }) {
     super(BUDGET_ENTITIES, payload.budgetCode);
   }
@@ -33,6 +34,7 @@ export class LoadBudget extends StateUtils.EntityLoadAction {
 
 export class LoadBudgetFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_BUDGET_FAIL;
+
   constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
@@ -40,6 +42,7 @@ export class LoadBudgetFail extends StateUtils.EntityFailAction {
 
 export class LoadBudgetSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_BUDGET_SUCCESS;
+
   constructor(public payload: Budget | Budget[]) {
     super(
       BUDGET_ENTITIES,
@@ -52,6 +55,7 @@ export class LoadBudgetSuccess extends StateUtils.EntitySuccessAction {
 
 export class LoadBudgets extends StateUtils.EntityLoadAction {
   readonly type = LOAD_BUDGETS;
+
   constructor(
     public payload: {
       userId: string;
@@ -64,6 +68,7 @@ export class LoadBudgets extends StateUtils.EntityLoadAction {
 
 export class LoadBudgetsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_BUDGETS_FAIL;
+
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       BUDGET_LIST,
@@ -75,6 +80,7 @@ export class LoadBudgetsFail extends StateUtils.EntityFailAction {
 
 export class LoadBudgetsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_BUDGETS_SUCCESS;
+
   constructor(
     public payload: {
       page: ListModel;
@@ -87,6 +93,7 @@ export class LoadBudgetsSuccess extends StateUtils.EntitySuccessAction {
 
 export class CreateBudget extends StateUtils.EntityLoadAction {
   readonly type = CREATE_BUDGET;
+
   constructor(public payload: { userId: string; budget: Budget }) {
     super(BUDGET_ENTITIES, payload.budget.code ?? null);
   }
@@ -94,6 +101,7 @@ export class CreateBudget extends StateUtils.EntityLoadAction {
 
 export class CreateBudgetFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_BUDGET_FAIL;
+
   constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
@@ -101,6 +109,7 @@ export class CreateBudgetFail extends StateUtils.EntityFailAction {
 
 export class CreateBudgetSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_BUDGET_SUCCESS;
+
   constructor(public payload: Budget) {
     super(BUDGET_ENTITIES, payload.code ?? null, payload);
   }
@@ -108,6 +117,7 @@ export class CreateBudgetSuccess extends StateUtils.EntitySuccessAction {
 
 export class UpdateBudget extends StateUtils.EntityLoadAction {
   readonly type = UPDATE_BUDGET;
+
   constructor(
     public payload: { userId: string; budgetCode: string; budget: Budget }
   ) {
@@ -117,6 +127,7 @@ export class UpdateBudget extends StateUtils.EntityLoadAction {
 
 export class UpdateBudgetFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_BUDGET_FAIL;
+
   constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
@@ -124,6 +135,7 @@ export class UpdateBudgetFail extends StateUtils.EntityFailAction {
 
 export class UpdateBudgetSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_BUDGET_SUCCESS;
+
   constructor(public payload: Budget) {
     super(BUDGET_ENTITIES, payload.code ?? '', payload);
   }

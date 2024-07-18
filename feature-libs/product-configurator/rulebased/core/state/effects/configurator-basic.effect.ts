@@ -7,7 +7,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -81,7 +81,7 @@ export class ConfiguratorBasicEffects {
             catchError((error) => [
               new ConfiguratorActions.CreateConfigurationFail({
                 ownerKey: action.payload.owner.key,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               }),
             ])
           );
@@ -110,7 +110,7 @@ export class ConfiguratorBasicEffects {
             catchError((error) => [
               new ConfiguratorActions.ReadConfigurationFail({
                 ownerKey: action.payload.configuration.owner.key,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               }),
             ])
           );
@@ -142,7 +142,7 @@ export class ConfiguratorBasicEffects {
               });
             }),
             catchError((error) => {
-              const errorPayload = normalizeHttpError(error, this.logger);
+              const errorPayload = tryNormalizeHttpError(error, this.logger);
               return [
                 new ConfiguratorActions.UpdateConfigurationFail({
                   configuration: payload,
@@ -174,7 +174,7 @@ export class ConfiguratorBasicEffects {
             );
           }),
           catchError((error) => {
-            const errorPayload = normalizeHttpError(error, this.logger);
+            const errorPayload = tryNormalizeHttpError(error, this.logger);
             return [
               new ConfiguratorActions.UpdatePriceSummaryFail({
                 ownerKey: payload.owner.key,
@@ -207,7 +207,7 @@ export class ConfiguratorBasicEffects {
               });
             }),
             catchError((error) => {
-              const errorPayload = normalizeHttpError(error, this.logger);
+              const errorPayload = tryNormalizeHttpError(error, this.logger);
               return [
                 new ConfiguratorActions.GetConfigurationOverviewFail({
                   ownerKey: payload.owner.key,
@@ -243,7 +243,7 @@ export class ConfiguratorBasicEffects {
               );
             }),
             catchError((error) => {
-              const errorPayload = normalizeHttpError(error, this.logger);
+              const errorPayload = tryNormalizeHttpError(error, this.logger);
               return [
                 new ConfiguratorActions.UpdateConfigurationOverviewFail({
                   ownerKey: payload.owner.key,
@@ -437,7 +437,7 @@ export class ConfiguratorBasicEffects {
                 catchError((error) => [
                   new ConfiguratorActions.ReadConfigurationFail({
                     ownerKey: action.payload.configuration.owner.key,
-                    error: normalizeHttpError(error, this.logger),
+                    error: tryNormalizeHttpError(error, this.logger),
                   }),
                 ])
               );

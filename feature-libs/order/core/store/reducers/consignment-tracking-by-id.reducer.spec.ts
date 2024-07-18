@@ -32,10 +32,11 @@ describe('Consignment Tracking By Id Reducer', () => {
 
   describe('for LOAD_CONSIGNMENT_TRACKING_BY_ID_FAIL action', () => {
     it('should return the default state', () => {
+      const error = new Error('error');
       const action = new OrderActions.LoadConsignmentTrackingByIdFail({
         orderCode: 'order1',
         consignmentCode: 'cons1',
-        error: 'there is error',
+        error,
       });
       const state = fromTrackingReducer.reducer(
         initialStateOfConsignmentTrackingById,

@@ -85,6 +85,15 @@ export interface FeatureTogglesInterface {
   productConfiguratorAttributeTypesV2?: boolean;
 
   /**
+   * In SSR, the following errors will be printed to logs (and additionally can also
+   * be forwarded to ExpressJS if only the setting
+   * `SsrOptimizationOptions.ssrErrorHandling`  is enabled):
+   * 1. any outgoing HTTP request error (4xx-5xx status)
+   * 2. any NgRx action with the `error` property
+   */
+  ssrStrictErrorHandlingForHttpAndNgrx?: boolean;
+
+  /**
    * Adds asterisks to required form fields in all components existing before v2211.20
    */
   a11yRequiredAsterisks?: boolean;
@@ -411,6 +420,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
   productConfiguratorAttributeTypesV2: false,
+  ssrStrictErrorHandlingForHttpAndNgrx: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
   a11yNavigationUiKeyboardControls: false,

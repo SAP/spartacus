@@ -14,6 +14,7 @@ export const LOAD_CLIENT_TOKEN_SUCCESS = '[Token] Load Client Token Success';
 
 export class LoadClientToken extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_CLIENT_TOKEN;
+
   constructor() {
     super(CLIENT_TOKEN_DATA);
   }
@@ -21,6 +22,7 @@ export class LoadClientToken extends StateUtils.LoaderLoadAction {
 
 export class LoadClientTokenFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_CLIENT_TOKEN_FAIL;
+
   constructor(public payload: any) {
     super(CLIENT_TOKEN_DATA, payload);
   }
@@ -28,6 +30,7 @@ export class LoadClientTokenFail extends StateUtils.LoaderFailAction {
 
 export class LoadClientTokenSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_CLIENT_TOKEN_SUCCESS;
+
   constructor(public payload: ClientToken) {
     super(CLIENT_TOKEN_DATA);
   }

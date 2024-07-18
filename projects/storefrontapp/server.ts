@@ -8,12 +8,13 @@ import { APP_BASE_HREF } from '@angular/common';
 import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
+  defaultExpressErrorHandlers,
   defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
 } from '@spartacus/setup/ssr';
 
 import express from 'express';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'path';
 import 'zone.js/node';
 import AppServerModule from './src/main.server';
@@ -33,6 +34,7 @@ export function app(): express.Express {
   const indexHtml = existsSync(join(distFolder, 'index.original.html'))
     ? join(distFolder, 'index.original.html')
     : join(distFolder, 'index.html');
+  const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
 
   server.set('trust proxy', 'loopback');
 
@@ -62,6 +64,8 @@ export function app(): express.Express {
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
     });
   });
+
+  server.use(defaultExpressErrorHandlers(indexHtmlContent));
 
   return server;
 }

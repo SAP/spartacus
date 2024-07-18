@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '../../../state/utils/index';
+import { NotificationPreference } from '../../../model/notification-preference.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
@@ -12,11 +12,11 @@ import {
   EntityLoaderResetAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
+import { StateUtils } from '../../../state/utils/index';
 import {
-  UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
   NOTIFICATION_PREFERENCES,
+  UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
 } from '../user-state';
-import { NotificationPreference } from '../../../model/notification-preference.model';
 
 export const LOAD_NOTIFICATION_PREFERENCES =
   '[User] Load Notification Preferences';
@@ -37,6 +37,7 @@ export const CLEAR_NOTIFICATION_PREFERENCES =
 
 export class LoadNotificationPreferences extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_NOTIFICATION_PREFERENCES;
+
   constructor(public payload: string) {
     super(NOTIFICATION_PREFERENCES);
   }
@@ -44,6 +45,7 @@ export class LoadNotificationPreferences extends StateUtils.LoaderLoadAction {
 
 export class LoadNotificationPreferencesFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_NOTIFICATION_PREFERENCES_FAIL;
+
   constructor(public payload: any) {
     super(NOTIFICATION_PREFERENCES, payload);
   }
@@ -51,6 +53,7 @@ export class LoadNotificationPreferencesFail extends StateUtils.LoaderFailAction
 
 export class LoadNotificationPreferencesSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_NOTIFICATION_PREFERENCES_SUCCESS;
+
   constructor(public payload: NotificationPreference[]) {
     super(NOTIFICATION_PREFERENCES);
   }
@@ -58,6 +61,7 @@ export class LoadNotificationPreferencesSuccess extends StateUtils.LoaderSuccess
 
 export class UpdateNotificationPreferences extends EntityLoadAction {
   readonly type = UPDATE_NOTIFICATION_PREFERENCES;
+
   constructor(
     public payload: { userId: string; preferences: NotificationPreference[] }
   ) {
@@ -67,6 +71,7 @@ export class UpdateNotificationPreferences extends EntityLoadAction {
 
 export class UpdateNotificationPreferencesFail extends EntityFailAction {
   readonly type = UPDATE_NOTIFICATION_PREFERENCES_FAIL;
+
   constructor(public payload: any) {
     super(PROCESS_FEATURE, UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID, payload);
   }
@@ -74,6 +79,7 @@ export class UpdateNotificationPreferencesFail extends EntityFailAction {
 
 export class UpdateNotificationPreferencesSuccess extends EntitySuccessAction {
   readonly type = UPDATE_NOTIFICATION_PREFERENCES_SUCCESS;
+
   constructor(public payload: NotificationPreference[]) {
     super(PROCESS_FEATURE, UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID);
   }
@@ -81,6 +87,7 @@ export class UpdateNotificationPreferencesSuccess extends EntitySuccessAction {
 
 export class ResetNotificationPreferences extends EntityLoaderResetAction {
   readonly type = RESET_NOTIFICATION_PREFERENCES;
+
   constructor() {
     super(PROCESS_FEATURE, UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID);
   }
@@ -88,6 +95,7 @@ export class ResetNotificationPreferences extends EntityLoaderResetAction {
 
 export class ClearNotificationPreferences extends StateUtils.LoaderResetAction {
   readonly type = CLEAR_NOTIFICATION_PREFERENCES;
+
   constructor() {
     super(NOTIFICATION_PREFERENCES);
   }

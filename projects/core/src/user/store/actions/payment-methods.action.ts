@@ -29,6 +29,7 @@ export const DELETE_USER_PAYMENT_METHOD_SUCCESS =
 
 export class LoadUserPaymentMethods extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_USER_PAYMENT_METHODS;
+
   constructor(public payload: string) {
     super(USER_PAYMENT_METHODS);
   }
@@ -36,6 +37,7 @@ export class LoadUserPaymentMethods extends StateUtils.LoaderLoadAction {
 
 export class LoadUserPaymentMethodsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_USER_PAYMENT_METHODS_FAIL;
+
   constructor(public payload: any) {
     super(USER_PAYMENT_METHODS, payload);
   }
@@ -43,6 +45,7 @@ export class LoadUserPaymentMethodsFail extends StateUtils.LoaderFailAction {
 
 export class LoadUserPaymentMethodsSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_USER_PAYMENT_METHODS_SUCCESS;
+
   constructor(public payload: PaymentDetails[]) {
     super(USER_PAYMENT_METHODS);
   }
@@ -50,6 +53,7 @@ export class LoadUserPaymentMethodsSuccess extends StateUtils.LoaderSuccessActio
 
 export class SetDefaultUserPaymentMethod extends StateUtils.LoaderLoadAction {
   readonly type = SET_DEFAULT_USER_PAYMENT_METHOD;
+
   constructor(public payload: any) {
     super(USER_PAYMENT_METHODS);
   }
@@ -57,6 +61,7 @@ export class SetDefaultUserPaymentMethod extends StateUtils.LoaderLoadAction {
 
 export class SetDefaultUserPaymentMethodFail extends StateUtils.LoaderFailAction {
   readonly type = SET_DEFAULT_USER_PAYMENT_METHOD_FAIL;
+
   constructor(public payload: any) {
     super(USER_PAYMENT_METHODS, payload);
   }
@@ -64,6 +69,7 @@ export class SetDefaultUserPaymentMethodFail extends StateUtils.LoaderFailAction
 
 export class SetDefaultUserPaymentMethodSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = SET_DEFAULT_USER_PAYMENT_METHOD_SUCCESS;
+
   constructor(public payload: any) {
     super(USER_PAYMENT_METHODS);
   }
@@ -71,6 +77,7 @@ export class SetDefaultUserPaymentMethodSuccess extends StateUtils.LoaderSuccess
 
 export class DeleteUserPaymentMethod extends StateUtils.LoaderLoadAction {
   readonly type = DELETE_USER_PAYMENT_METHOD;
+
   constructor(public payload: any) {
     super(USER_PAYMENT_METHODS);
   }
@@ -78,6 +85,7 @@ export class DeleteUserPaymentMethod extends StateUtils.LoaderLoadAction {
 
 export class DeleteUserPaymentMethodFail extends StateUtils.LoaderFailAction {
   readonly type = DELETE_USER_PAYMENT_METHOD_FAIL;
+
   constructor(public payload: any) {
     super(USER_PAYMENT_METHODS, payload);
   }
@@ -85,6 +93,7 @@ export class DeleteUserPaymentMethodFail extends StateUtils.LoaderFailAction {
 
 export class DeleteUserPaymentMethodSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = DELETE_USER_PAYMENT_METHOD_SUCCESS;
+
   constructor(public payload: any) {
     super(USER_PAYMENT_METHODS);
   }
