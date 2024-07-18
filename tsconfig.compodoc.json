@@ -449,9 +449,6 @@
       "@spartacus/product/image-zoom/root": [
         "feature-libs/product/image-zoom/root/public_api"
       ],
-      "@spartacus/product/multi-dimensional/assets": [
-        "feature-libs/product/multi-dimensional/assets/public_api"
-      ],
       "@spartacus/product/multi-dimensional/components": [
         "feature-libs/product/multi-dimensional/components/public_api"
       ],

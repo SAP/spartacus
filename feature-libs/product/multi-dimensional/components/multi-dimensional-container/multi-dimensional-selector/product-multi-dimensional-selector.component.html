@@ -1,9 +1,7 @@
 <ng-container *ngIf="product">
   <div class="variant-generic-selector">
     <ng-container *ngFor="let category of categories">
-      <label>{{
-        'productMultiDimensional.' + category.name | cxTranslate
-      }}</label>
+      <label>{{ category.name }}</label>
 
       <div
         *ngIf="category.hasImages; else noImages"

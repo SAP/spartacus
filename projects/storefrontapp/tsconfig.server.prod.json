@@ -303,9 +303,6 @@
       "@spartacus/product/image-zoom/root": [
         "../../dist/product/image-zoom/root"
       ],
-      "@spartacus/product/multi-dimensional/assets": [
-        "../../dist/product/multi-dimensional/assets"
-      ],
       "@spartacus/product/multi-dimensional/components": [
         "../../dist/product/multi-dimensional/components"
       ],
