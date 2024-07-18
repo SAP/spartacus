@@ -342,7 +342,6 @@ if (environment.cpq) {
         a11yLinkBtnsToTertiaryBtns: true,
         a11yDeliveryModeRadiogroup: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
-        a11yStoreFinderSearchboxBloat: true,
       };
       return appFeatureToggles;
     }),
