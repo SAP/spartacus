@@ -6,7 +6,6 @@
 
 import { normalize, resolve } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
-import * as path from 'path';
 import { FileSystemHost, RuntimeDirEntry, ts } from 'ts-morph';
 
 export class TreeFileSystem implements FileSystemHost {
@@ -32,29 +31,23 @@ export class TreeFileSystem implements FileSystemHost {
   }
 
   readDirSync(dirPath: string): RuntimeDirEntry[] {
-    const entries: RuntimeDirEntry[] = [];
-
     const dir = this.tree.getDir(dirPath);
 
-    dir.subfiles.forEach((file) => {
-      entries.push({
-        isDirectory: false,
-        isSymlink: false,
-        name: path.join(dirPath, file.toString()),
-        isFile: true,
-      });
-    });
+    const fileEntries = dir.subfiles.map((file) => ({
+      isDirectory: false,
+      isSymlink: false,
+      name: `${dirPath}/${file}`, // Assuming dirPath and file are already normalized strings
+      isFile: true,
+    }));
 
-    dir.subdirs.forEach((subDir) => {
-      entries.push({
-        isDirectory: true,
-        isSymlink: false,
-        name: path.join(dirPath, subDir.toString()),
-        isFile: false,
-      });
-    });
+    const dirEntries = dir.subdirs.map((subDir) => ({
+      isDirectory: true,
+      isSymlink: false,
+      name: `${dirPath}/${subDir}`, // Assuming dirPath and subDir are already normalized strings
+      isFile: false,
+    }));
 
-    return entries;
+    return [...fileEntries, ...dirEntries];
   }
 
   async readFile(
