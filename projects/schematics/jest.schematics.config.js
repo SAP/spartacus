@@ -23,6 +23,7 @@ module.exports = {
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
   coverageDirectory: '<rootDir>/../../coverage/schematics',
+  updateSnapshot: true,
   coverageThreshold: {
     global: {
       statements: 90,
