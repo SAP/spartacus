@@ -4,18 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
-import { Product, VariantMatrixElement } from '@spartacus/core';
-import { VariantCategory } from '../model/augmented-core.model';
-import { ProductMultiDimensionalImagesService } from './product-multi-dimensional-images.service';
+import {inject, Injectable} from '@angular/core';
+import {Product, VariantMatrixElement} from '@spartacus/core';
+import {VariantCategory} from '../model/augmented-core.model';
+import {ProductMultiDimensionalImagesService} from './product-multi-dimensional-images.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class ProductMultiDimensionalService {
   protected imagesService = inject(ProductMultiDimensionalImagesService);
 
   getVariants(product: Product): VariantCategory[] {
     let variantMatrix = product.variantMatrix ?? [];
-    const levels = product.categories;
+    const levels = product.categories ?? [];
     const code = product.code ?? '';
 
     const variantCategories: VariantCategory[] = [];
@@ -34,32 +34,32 @@ export class ProductMultiDimensionalService {
      *
      */
 
-    levels.forEach((_, i: number) => {
+    levels.forEach((_) => {
       const parentVariantCategory = variantMatrix[0].parentVariantCategory;
 
       const variantCategory: VariantCategory = {
-        name: parentVariantCategory.name,
+        name: parentVariantCategory?.name ?? '',
         variantOptions: [],
-        hasImages: parentVariantCategory.hasImage,
-        order: parentVariantCategory.priority ?? i,
+        hasImages: !!parentVariantCategory?.hasImage,
       };
 
-      variantMatrix.forEach((element: VariantMatrixElement, j: number) => {
+      variantMatrix.forEach((element: VariantMatrixElement) => {
+        const variantCategoryName = element.variantValueCategory?.name ?? '';
+        const variantOptionQualifiers = element.variantOption?.variantOptionQualifiers ?? [];
         const images = this.imagesService.getVariantOptionImages(
-          element.variantOption.variantOptionQualifiers,
-          element.variantValueCategory.name
+          variantOptionQualifiers,
+          variantCategoryName
         );
 
         const variantOptionCategory = {
           images,
-          value: element.variantValueCategory.name,
-          code: element.variantOption.code,
-          order: element.variantValueCategory.sequence ?? j,
+          value: variantCategoryName,
+          code: element.variantOption?.code ?? '',
         };
 
         variantCategory.variantOptions.push(variantOptionCategory);
 
-        if (element.variantOption.code === code && element.elements.length) {
+        if (element.variantOption?.code === code && element.elements?.length) {
           /**
            * Update the variantMatrix to reflect the currently selected elements.
            * For example, when navigating through the Color category,
@@ -76,30 +76,13 @@ export class ProductMultiDimensionalService {
       variantCategories.push(variantCategory);
     });
 
-    return this.sortAndCheckIfEveryOptionHasImages(variantCategories);
+    return this.checkIfEveryOptionHasImages(variantCategories);
   }
 
   /**
-   * Sorts the variant options and checks if every variant option in the category
-   * has images.
-   *
-   * Example:
-   *
-   * {
-   *   name: "Color",
-   *   variantOptions: [
-   *     {
-   *       value: Blue
-   *       images: [...]
-   *     },
-   *     {
-   *       value: Red
-   *       images: [...]
-   *     }
-   *   ]
-   * }
+   * Checks if every variant option in the category has images.
    */
-  protected sortAndCheckIfEveryOptionHasImages(
+  protected checkIfEveryOptionHasImages(
     variantCategories: VariantCategory[]
   ): VariantCategory[] {
     return variantCategories
@@ -108,15 +91,12 @@ export class ProductMultiDimensionalService {
         const hasImages =
           variantCategory.hasImages ??
           variantOptions.every((option) => option.images.length);
-        const sortedVariantOptions = [...variantOptions];
-        sortedVariantOptions.sort((a, b) => a.order - b.order);
 
         return {
           ...variantCategory,
-          variantOptions: sortedVariantOptions,
+          variantOptions,
           hasImages,
         };
-      })
-      .sort((a, b) => a.order - b.order);
+      });
   }
 }

@@ -10,14 +10,12 @@ export type VariantCategoryOption = {
   value: string;
   code: string;
   images: Image[];
-  order: number;
 };
 
 export type VariantCategory = {
   name: string;
   variantOptions: VariantCategoryOption[];
   hasImages: boolean;
-  order: number;
 };
 
 declare module '@spartacus/core' {
