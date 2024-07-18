@@ -4,7 +4,7 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { opfBaseTranslationChunksConfig, opfBaseTranslations } from "@spartacus/opf/base/assets";
-import { OpfBaseRootModule, OpfConfig, OPF_BASE_FEATURE } from "@spartacus/opf/base/root";
+import { OPF_BASE_FEATURE, OpfBaseRootModule, OpfConfig } from "@spartacus/opf/base/root";
 
 @NgModule({
   declarations: [],
@@ -41,7 +41,7 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { opfBaseTranslationChunksConfig, opfBaseTranslations } from "@spartacus/opf/base/assets";
-import { OpfBaseRootModule, OpfConfig, OPF_BASE_FEATURE } from "@spartacus/opf/base/root";
+import { OPF_BASE_FEATURE, OpfBaseRootModule, OpfConfig } from "@spartacus/opf/base/root";
 
 @NgModule({
   declarations: [],
