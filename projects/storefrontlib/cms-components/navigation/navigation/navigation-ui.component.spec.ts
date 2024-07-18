@@ -12,7 +12,7 @@ import {
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
-import { BreakpointService } from '@spartacus/storefront';
+import { BreakpointService } from 'projects/storefrontlib/layout';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
