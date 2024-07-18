@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
+import {inject, Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, Router, UrlTree} from '@angular/router';
 import {
   isNotUndefined,
   Product,
@@ -14,8 +14,8 @@ import {
   SemanticPathService,
   VariantOption,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {filter, map, switchMap, take} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +31,7 @@ export class ProductMultiDimensionalGuard {
   ): Observable<boolean | UrlTree> {
     const productCode = activatedRoute.params?.productCode;
     if (!productCode) {
-      return of(true);
+      return of(false);
     }
 
     return this.productService
@@ -39,42 +39,39 @@ export class ProductMultiDimensionalGuard {
       .pipe(
         filter(isNotUndefined),
         switchMap((multiDimensionalProduct: Product) => {
-          if (
-            !multiDimensionalProduct.purchasable &&
-            multiDimensionalProduct.variantMatrix?.length
-          ) {
-            const purchasableCode = this.findPurchasableProductCode(
+          const isPurchasableAndHasVariantOptions = !multiDimensionalProduct.purchasable &&
+            !!multiDimensionalProduct.variantOptions?.length;
+          return isPurchasableAndHasVariantOptions ?
+            this.findPValidProductCodeAndReturnUrlTree(
               multiDimensionalProduct
-            );
-            if (purchasableCode) {
-              return this.productService
-                .get(purchasableCode, ProductScope.LIST)
-                .pipe(
-                  filter(isNotUndefined),
-                  take(1),
-                  map((product: Product) => {
-                    return this.router.createUrlTree(
-                      this.semanticPathService.transform({
-                        cxRoute: 'product',
-                        params: product,
-                      })
-                    );
-                  })
-                );
-            }
-          }
-          return of(true);
+            )
+            : of(true);
         })
       );
   }
 
-  protected findPurchasableProductCode(product: Product): string | undefined {
-    if (product.variantOptions?.length) {
-      const results: VariantOption[] = product.variantOptions.filter(
-        (variant: VariantOption) => variant.stock && variant.stock.stockLevel
-      );
-      return results.length ? results[0]?.code : undefined;
-    }
-    return undefined;
+  protected findPValidProductCodeAndReturnUrlTree(product: Product): Observable<boolean | UrlTree> {
+    const variantOptions = product.variantOptions ?? [];
+    const results: VariantOption | undefined = variantOptions.find(
+      (variant: VariantOption) => variant.stock && variant.stock.stockLevel
+    );
+    const productCode = results ? results.code : variantOptions[0].code;
+    return productCode ?
+      this.productService
+        .get(productCode, ProductScope.LIST)
+        .pipe(
+          filter(isNotUndefined),
+          take(1),
+          map((product: Product) => {
+            return this.router.createUrlTree(
+              this.semanticPathService.transform({
+                cxRoute: 'product',
+                params: product,
+              })
+            );
+          })
+        )
+      :
+      of(false);
   }
 }
