@@ -4,6 +4,7 @@ import { RescheduleServiceOrderComponent } from './reschedule-service-order.comp
 import { AuthGuard, CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SpinnerModule, DatePickerModule } from '@spartacus/storefront';
+import { ServiceOrderGuard } from '../guards';
 
 
 
@@ -23,7 +24,7 @@ import { SpinnerModule, DatePickerModule } from '@spartacus/storefront';
       cmsComponents: {
         RescheduleServiceOrder: {
           component: RescheduleServiceOrderComponent,
-          guards: [AuthGuard],
+          guards: [AuthGuard, ServiceOrderGuard],
         },
       },
     }),

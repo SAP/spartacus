@@ -13,5 +13,9 @@ export class RescheduleServiceOrderComponent implements OnInit {
       .subscribe(orderCode => {
         console.log('Order Number: ', orderCode);
       });
+    this.orderDetailsService.getOrderDetails()
+      .subscribe(orderDetails => {
+        console.log('Order details: ', orderDetails);
+      });
   }
 }
