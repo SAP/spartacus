@@ -45,7 +45,7 @@ import {
   GlobalMessageService,
   OAuthLibWrapperService,
   OccEndpointsService,
-  RoutingService, AuthRedirectService,
+  RoutingService, AuthRedirectService
 } from '@spartacus/core';
 
 @Injectable({
