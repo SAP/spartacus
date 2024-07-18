@@ -102,6 +102,8 @@ import { StorefinderFeatureModule } from './features/storefinder/storefinder-fea
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
 import { ProductMultiDimensionalFeatureModule } from './features/product/product-multi-dimensional-feature.module';
+import { S4ServiceFeatureModule } from './features/s4-service/s4-service-feature.module';
+import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
 
 const featureModules = [];
 
@@ -122,7 +124,9 @@ if (environment.b2b) {
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
 }
-
+if (environment.s4Service) {
+  featureModules.push(S4ServiceFeatureModule);
+}
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }
@@ -151,6 +155,9 @@ if (environment.estimatedDeliveryDate) {
   featureModules.push(EstimatedDeliveryDateFeatureModule);
 }
 
+if (environment.cpq) {
+  featureModules.push(CpqQuoteFeatureModule);
+}
 @NgModule({
   imports: [
     // Auth Core
@@ -328,8 +335,12 @@ if (environment.estimatedDeliveryDate) {
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
         a11yFacetsDialogFocusHandling: true,
+        a11yStoreFinderAlerts: true,
+        a11yFormErrorMuteIcon: true,
         a11yCxMessageFocus: true,
+        occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
+        a11yDeliveryModeRadiogroup: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         a11yStoreFinderSearchboxBloat: true,
       };
