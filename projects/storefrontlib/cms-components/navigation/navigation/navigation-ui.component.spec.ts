@@ -360,7 +360,7 @@ describe('Navigation UI Component', () => {
       });
     });
 
-    fit('should apply role="heading" to nested dropdown trigger button while on desktop', () => {
+    it('should apply role="heading" to nested dropdown trigger button while on desktop', () => {
       fixture.detectChanges();
       const nestedTriggerButton = fixture.debugElement.query(
         By.css('button[aria-label="Child 1"]')
