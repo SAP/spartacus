@@ -319,11 +319,11 @@ export class OptimizedSsrEngine {
   }
 
   /**
-   * @deprecated This method will be private in the future.
+   * @deprecated since v2211.26 - This method will be private in the future.
    */
   protected log(
     message: string,
-    _ignoredLegacyParameter = true,
+    _ignoredLegacyDebugParameter = true,
     context: ExpressServerLoggerContext
   ): void {
     this.logger.log(message, context || {});
