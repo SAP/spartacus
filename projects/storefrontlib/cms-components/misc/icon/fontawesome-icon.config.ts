@@ -73,6 +73,7 @@ export const fontawesomeIconConfig: IconConfig = {
       ARROW_UP: 'fas  fa-arrow-up',
       C360_INVOICE: 'fas fa-file-invoice',
       C360_CIRCLE_USER: 'fas fa-circle-user',
+      HELP: 'far fa-circle-question',
     },
     resources: [
       {

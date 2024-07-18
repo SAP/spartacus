@@ -154,6 +154,13 @@ function add_s4om {
         ng add --skip-confirmation @spartacus/s4om@${SPARTACUS_VERSION} --interactive false
     fi
 }
+
+function add_S4_SERVICE {
+  if [ "$ADD_S4_SERVICE" = true ] ; then
+        ng add --skip-confirmation @spartacus/s4-service@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
 function add_cpq-quote {
   if [ "$ADD_CPQ_QUOTE" = true ] ; then
         ng add --skip-confirmation @spartacus/cpq-quote@${SPARTACUS_VERSION} --interactive false
@@ -205,6 +212,7 @@ function add_spartacus_csr {
     add_product_configurator
     add_quote
     add_s4om
+    add_S4_SERVICE
     add_requested_delivery_date
     add_estimated_delivery_date
     add_cpq-quote
@@ -232,6 +240,7 @@ function add_spartacus_ssr {
     add_product_configurator
     add_quote
     add_s4om
+    add_S4_SERVICE
     add_requested_delivery_date
     add_estimated_delivery_date
     add_cpq-quote
@@ -257,6 +266,7 @@ function add_spartacus_ssr_pwa {
     add_epd_visualization
     add_product_configurator
     add_s4om
+    add_S4_SERVICE
     add_requested_delivery_date
     add_estimated_delivery_date
     add_cpq-quote
@@ -794,6 +804,11 @@ function parseInstallArgs {
                 echo "➖ Added S4OM"
                 shift
                 ;;
+            s4Service)
+                ADD_S4_SERVICE=true
+                echo "➖ Added S/4HANA Service Integration"
+                shift
+                ;;                
             cpq-quote)
                 ADD_CPQ_QUOTE=true
                 echo "➖ Added CPQ_QUOTE"
