@@ -20,7 +20,7 @@
     "@angular/pwa": "^17.0.5",
     "@angular/ssr": "^17.0.5",
     "semver": "^7.5.2",
-    "ts-morph": "^9.1.0",
+    "ts-morph": "^18.0.0",
     "tslib": "^2.6.2"
   },
   "peerDependencies": {
