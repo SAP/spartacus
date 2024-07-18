@@ -93,6 +93,7 @@
     [quantityOptions]="extractQuantityParameters(attributeDropDownForm)"
   ></cx-configurator-attribute-quantity>
   <cx-configurator-price
+    *ngIf="getSelectedValuePrice()"
     [formula]="extractPriceFormulaParameters()"
   ></cx-configurator-price>
 </div>
