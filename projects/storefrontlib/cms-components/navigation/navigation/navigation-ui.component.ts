@@ -20,7 +20,6 @@ import {
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { FeatureConfigService, WindowRef } from '@spartacus/core';
-import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Subject, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -28,6 +27,7 @@ import {
   filter,
   take,
 } from 'rxjs/operators';
+import { BREAKPOINT, BreakpointService } from '../../../layout';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
