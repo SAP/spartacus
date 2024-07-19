@@ -5,6 +5,7 @@
  */
 
 /* webpackIgnore: true */
+import { deepMerge } from '@spartacus/core';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
@@ -72,8 +73,14 @@ export class OptimizedSsrEngine {
     this.ssrOptions = ssrOptions
       ? {
           ...defaultSsrOptimizationOptions,
+
           // overrides the default options
           ...ssrOptions,
+          // deep merge the feature toggles
+          featureToggles: deepMerge(
+            { ...defaultSsrOptimizationOptions.featureToggles },
+            ssrOptions.featureToggles
+          ),
         }
       : undefined;
 

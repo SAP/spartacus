@@ -148,17 +148,22 @@ export interface SsrOptimizationOptions {
   }) => boolean;
 
   /**
-   * Determines if rendering errors should be skipped from caching.
-   *
-   * NOTE: It's a temporary feature toggle, to be removed in the future.
-   *
-   * It's recommended to set to `true` (i.e. errors are skipped from caching),
-   * which will become the default behavior, when this feature toggle is removed.
-   *
-   * It only affects the default `shouldCacheRenderingResult`.
-   * Custom implementations of `shouldCacheRenderingResult` may ignore this setting.
+   * Toggles providing granular adaptation to breaking changes in OptimizedSsrEngine.
+   * They are temporary and will be removed in the future.
+   * Each toggle has its own lifespan.
    */
-  avoidCachingErrors?: boolean;
+  featureToggles?: {
+    /**
+     * Determines if rendering errors should be skipped from caching.
+     *
+     * It's recommended to set to `true` (i.e. errors are skipped from caching),
+     * which will become the default behavior, when this feature toggle is removed.
+     *
+     * It only affects the default `shouldCacheRenderingResult`.
+     * Custom implementations of `shouldCacheRenderingResult` may ignore this setting.
+     */
+    avoidCachingErrors: boolean;
+  };
 }
 
 export enum RenderingStrategy {
@@ -180,6 +185,10 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   ),
   logger: new DefaultExpressServerLogger(),
   shouldCacheRenderingResult: ({ options, entry }) =>
-    !(options.avoidCachingErrors === true && Boolean(entry.err)),
-  avoidCachingErrors: false,
+    !(
+      options.featureToggles?.avoidCachingErrors === true && Boolean(entry.err)
+    ),
+  featureToggles: {
+    avoidCachingErrors: false,
+  },
 };

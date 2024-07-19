@@ -9,7 +9,6 @@ import {
 const options: SsrOptimizationOptions = {
   shouldCacheRenderingResult:
     defaultSsrOptimizationOptions.shouldCacheRenderingResult,
-  avoidCachingErrors: defaultSsrOptimizationOptions.avoidCachingErrors,
 };
 
 describe('RenderingCache', () => {
@@ -169,7 +168,9 @@ describe('RenderingCache with cacheSize', () => {
       it('should cache HTML if avoidCachingErrors is false', () => {
         renderingCache = new RenderingCache({
           ...options,
-          avoidCachingErrors: false,
+          featureToggles: {
+            avoidCachingErrors: false,
+          },
         });
         renderingCache.store('a', undefined, 'a');
         expect(renderingCache.get('a')).toEqual({ html: 'a', err: undefined });
@@ -178,7 +179,9 @@ describe('RenderingCache with cacheSize', () => {
       it('should cache HTML if avoidCachingErrors is true', () => {
         renderingCache = new RenderingCache({
           ...options,
-          avoidCachingErrors: false,
+          featureToggles: {
+            avoidCachingErrors: false,
+          },
         });
         renderingCache.store('a', undefined, 'a');
         expect(renderingCache.get('a')).toEqual({ html: 'a', err: undefined });
@@ -187,7 +190,9 @@ describe('RenderingCache with cacheSize', () => {
       it('should cache errors if avoidCachingErrors is false', () => {
         renderingCache = new RenderingCache({
           ...options,
-          avoidCachingErrors: false,
+          featureToggles: {
+            avoidCachingErrors: false,
+          },
         });
         renderingCache.store('a', new Error('err'), 'a');
         expect(renderingCache.get('a')).toEqual({
@@ -199,7 +204,9 @@ describe('RenderingCache with cacheSize', () => {
       it('should not cache errors if avoidCachingErrors is true', () => {
         renderingCache = new RenderingCache({
           ...options,
-          avoidCachingErrors: true,
+          featureToggles: {
+            avoidCachingErrors: true,
+          },
         });
         renderingCache.store('a', new Error('err'), 'a');
         expect(renderingCache.get('a')).toBeFalsy();
