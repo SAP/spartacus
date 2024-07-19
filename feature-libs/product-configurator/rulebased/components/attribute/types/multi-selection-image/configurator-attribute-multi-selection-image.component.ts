@@ -33,6 +33,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
   attribute: Configurator.Attribute;
   ownerKey: string;
   expMode: boolean;
+  isDeltaRendering: boolean;
 
   iconTypes = ICON_TYPE;
   protected config = inject(Config);
@@ -51,6 +52,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
       attributeComponentContext.isDeltaRendering,
       attributeComponentContext.attribute.key
     );
+    this.isDeltaRendering = attributeComponentContext.isDeltaRendering ?? false;
 
     useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
@@ -86,10 +88,12 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
         this.attributeCheckBoxForms,
         this.attribute
       );
-    this.configUtilsService.setLastSelected(
-      this.attribute.name,
-      selectedValues[index].valueCode
-    );
+    if (this.isDeltaRendering) {
+      this.configUtilsService.setLastSelected(
+        this.attribute.name,
+        selectedValues[index].valueCode
+      );
+    }
     this.configuratorCommonsService.updateConfiguration(
       this.ownerKey,
       {

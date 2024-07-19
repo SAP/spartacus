@@ -24,6 +24,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   attribute: Configurator.Attribute;
   ownerKey: string;
   expMode: boolean;
+  isDeltaRendering: boolean;
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
@@ -38,6 +39,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
       attributeComponentContext.isDeltaRendering,
       attributeComponentContext.attribute.key
     );
+    this.isDeltaRendering = attributeComponentContext.isDeltaRendering ?? false;
   }
 
   /**

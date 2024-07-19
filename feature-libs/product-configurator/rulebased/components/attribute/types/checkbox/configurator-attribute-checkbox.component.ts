@@ -33,6 +33,7 @@ export class ConfiguratorAttributeCheckBoxComponent
   ownerKey: string;
   expMode: boolean;
   attributeValue: Configurator.Value;
+  isDeltaRendering: boolean;
 
   attributeCheckBoxForm = new UntypedFormControl('');
 
@@ -51,6 +52,7 @@ export class ConfiguratorAttributeCheckBoxComponent
       attributeComponentContext.isDeltaRendering,
       attributeComponentContext.attribute.key
     );
+    this.isDeltaRendering = attributeComponentContext.isDeltaRendering ?? false;
   }
 
   ngOnInit() {
@@ -61,9 +63,9 @@ export class ConfiguratorAttributeCheckBoxComponent
   /**
    * Fired when a check box has been selected i.e. when a value has been set
    */
-  onSelect(valueCode: string | undefined): void {
+  onSelect(valueCode?: string): void {
     const selectedValues = this.assembleSingleValue();
-    if (valueCode) {
+    if (valueCode && this.isDeltaRendering) {
       this.configUtilsService.setLastSelected(this.attribute.name, valueCode);
     }
     this.configuratorCommonsService.updateConfiguration(

@@ -44,9 +44,7 @@ export class ConfiguratorStorefrontUtilsService {
    * Last selected attribute and value.
    * Needed for accessibility of checkboxes in delta rendering mode
    */
-  protected lastSelected: { attributeName: string; valueCode: string } | null =
-    null;
-
+  protected lastSelected?: { attributeName: string; valueCode: string };
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected windowRef: WindowRef,
@@ -523,8 +521,8 @@ export class ConfiguratorStorefrontUtilsService {
    * Set the last selected attribute and value.
    * Needed for accessibility of checkboxes in delta rendering mode
    *
-   * @param {string} attributeName - Attribute name
-   * @param {string} valueCode - Value code
+   * @param attributeName - Attribute name
+   * @param valueCode - Value code
    */
   setLastSelected(attributeName: string, valueCode: string): void {
     this.lastSelected = { attributeName, valueCode };
@@ -533,13 +531,13 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Check if the attribute and value are the last selected.
    *
-   * @param {string} attributeName - Attribute name
-   * @param {string} valueCode - Value code
-   * @returns {boolean} - 'True', if the attribute and value are the last selected, otherwise 'false'
+   * @param attributeName - Attribute name
+   * @param valueCode - Value code
+   * @returns 'True', if the attribute and value are the last selected, otherwise 'false'
    */
   isLastSelected(attributeName: string, valueCode: string): boolean {
     return (
-      this.lastSelected !== null &&
+      !!this.lastSelected &&
       this.lastSelected.attributeName === attributeName &&
       this.lastSelected.valueCode === valueCode
     );

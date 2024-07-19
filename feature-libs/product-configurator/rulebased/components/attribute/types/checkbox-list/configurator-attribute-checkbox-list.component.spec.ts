@@ -69,11 +69,19 @@ class MockConfiguratorCommonsService {
 }
 
 class MockConfiguratorStorefrontUtilsService {
-  protected lastSelected: { attributeName: string; valueCode: string } | null =
-    null;
   assembleValuesForMultiSelectAttributes(): void {}
-  isLastSelected(): void {}
-  setLastSelected(): void {}
+
+  lastSelected?: { attributeName: string; valueCode: string };
+  setLastSelected(attributeName: string, valueCode: string): void {
+    this.lastSelected = { attributeName, valueCode };
+  }
+  isLastSelected(attributeName: string, valueCode: string): boolean {
+    return (
+      !!this.lastSelected &&
+      this.lastSelected.attributeName === attributeName &&
+      this.lastSelected.valueCode === valueCode
+    );
+  }
 }
 
 class MockConfiguratorDeltaRenderingService {
@@ -605,13 +613,8 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
     });
 
     it('should create input element for last selected value with aria-live', () => {
-      spyOn(configuratorStorefrontUtilsService, 'isLastSelected')
-        .withArgs('attributeName', '1')
-        .and.returnValue(true)
-        .withArgs('attributeName', '2')
-        .and.returnValue(false)
-        .withArgs('attributeName', '3')
-        .and.returnValue(false);
+      component.isDeltaRendering = true;
+      component.onSelect('1');
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -625,13 +628,8 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
     });
 
     it('should create input element for not last selected value without aria-live', () => {
-      spyOn(configuratorStorefrontUtilsService, 'isLastSelected')
-        .withArgs('attributeName', '1')
-        .and.returnValue(true)
-        .withArgs('attributeName', '2')
-        .and.returnValue(false)
-        .withArgs('attributeName', '3')
-        .and.returnValue(false);
+      component.isDeltaRendering = true;
+      component.onSelect('1');
       fixture.detectChanges();
       const item = CommonConfiguratorTestUtilsService.getHTMLElement(
         htmlElem,

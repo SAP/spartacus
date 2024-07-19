@@ -50,9 +50,17 @@ class MockConfiguratorCommonsService {
 }
 
 class MockConfiguratorStorefrontUtilsService {
-  assembleValuesForMultiSelectAttributes(): void {}
-  isLastSelected(): void {}
-  setLastSelected(): void {}
+  lastSelected?: { attributeName: string; valueCode: string };
+  setLastSelected(attributeName: string, valueCode: string): void {
+    this.lastSelected = { attributeName, valueCode };
+  }
+  isLastSelected(attributeName: string, valueCode: string): boolean {
+    return (
+      !!this.lastSelected &&
+      this.lastSelected.attributeName === attributeName &&
+      this.lastSelected.valueCode === valueCode
+    );
+  }
 }
 
 class MockConfiguratorDeltaRenderingService {
@@ -69,7 +77,6 @@ describe('ConfigAttributeCheckBoxComponent', () => {
   let component: ConfiguratorAttributeCheckBoxComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxComponent>;
   let htmlElem: HTMLElement;
-  let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
   beforeEach(waitForAsync(() => {
     TestBed.overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
@@ -139,9 +146,6 @@ describe('ConfigAttributeCheckBoxComponent', () => {
       values: values,
     };
     fixture.detectChanges();
-    configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService
-    );
   });
 
   it('should create', () => {
@@ -181,6 +185,17 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     valueToSelect.click();
     fixture.detectChanges();
     expect(valueToSelect.checked).toBeFalsy();
+  });
+
+  it('should set last selected value code on select if delta rendering is activated', () => {
+    component.isDeltaRendering = true;
+    component.onSelect('123');
+    expect(component.isLastSelected('123')).toBe(true);
+  });
+
+  it('should not set last selected value code on select if delta rendering is not activated', () => {
+    component.onSelect('123');
+    expect(component.isLastSelected('123')).toBe(false);
   });
 
   describe('rendering description at value level', () => {
@@ -246,9 +261,8 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     });
 
     it('should create input element for last selected value with aria-live', () => {
-      spyOn(configuratorStorefrontUtilsService, 'isLastSelected')
-        .withArgs('attributeName', '1')
-        .and.returnValue(true);
+      component.isDeltaRendering = true;
+      component.onSelect('1');
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -262,9 +276,6 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     });
 
     it('should create input element for not last selected value without aria-live', () => {
-      spyOn(configuratorStorefrontUtilsService, 'isLastSelected')
-        .withArgs('attributeName', '1')
-        .and.returnValue(false);
       fixture.detectChanges();
       const item = CommonConfiguratorTestUtilsService.getHTMLElement(
         htmlElem,

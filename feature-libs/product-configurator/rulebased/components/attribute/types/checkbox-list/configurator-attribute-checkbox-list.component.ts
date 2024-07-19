@@ -73,13 +73,13 @@ export class ConfiguratorAttributeCheckBoxListComponent
     return this.quantityService.allowZeroValueQuantity(this.attribute);
   }
 
-  onSelect(valueCode: string | undefined): void {
+  onSelect(valueCode?: string): void {
     const selectedValues =
       this.configUtilsService.assembleValuesForMultiSelectAttributes(
         this.attributeCheckBoxForms,
         this.attribute
       );
-    if (valueCode) {
+    if (valueCode && this.isDeltaRendering) {
       this.configUtilsService.setLastSelected(this.attribute.name, valueCode);
     }
     this.configuratorCommonsService.updateConfiguration(
