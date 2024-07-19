@@ -24,7 +24,7 @@ import { wrapIntoBounds } from './tab.utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabComponent implements OnInit {
-  @Input() tabs: Tab[];
+  @Input() tabs: Tab[] | any;
   @Input() config: TabConfig | any;
 
   TAB_MODE = TAB_MODE;
