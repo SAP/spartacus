@@ -145,6 +145,7 @@ function verifyMerchandisingCarouselRendersProducts(): void {
      * Limit our tests to the first carousel on the page by using first() and then within()
      */
     .first()
+    .scrollIntoView()
     .should('be.visible')
     .within(($merchandisingCarousel) => {
       verifyCarouselLevelMetadata($merchandisingCarousel);

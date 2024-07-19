@@ -18,7 +18,7 @@ export class ConfiguratorAttributeQuantityService {
    * @returns {boolean} Quantity actions disabled?
    */
   disableQuantityActions(value: any): boolean {
-    return !value || value === '0';
+    return !value || value === '0' || value === Configurator.RetractValueCode;
   }
 
   /**
