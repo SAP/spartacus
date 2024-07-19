@@ -138,7 +138,7 @@ export function verifyQuantityInCart() {
  */
 export function verifyTabKeyboardNavigation(accordian = false) {
   it('should navigate tab component with keyboard', () => {
-    cy.reload()
+    cy.reload();
     cy.get('cx-tab button').eq(0).click();
     cy.focused().contains('Product Details').type('{downArrow}');
     verifySpaceBarKeyForAccordian();
