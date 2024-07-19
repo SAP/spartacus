@@ -31,6 +31,7 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   implements OnInit
 {
   attributeRadioButtonForm = new UntypedFormControl('');
+  isDeltaRendering: boolean;
 
   attribute: Configurator.Attribute;
   ownerKey: string;
@@ -52,6 +53,7 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
       attributeComponentContext.isDeltaRendering,
       attributeComponentContext.attribute.key
     );
+    this.isDeltaRendering = attributeComponentContext.isDeltaRendering ?? false;
   }
 
   ngOnInit(): void {

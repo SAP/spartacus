@@ -363,5 +363,32 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         'configurator.a11y.description'
       );
     });
+
+    it('should create input element for selected value with aria-live', () => {
+      component.isDeltaRendering = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-input',
+        2,
+        'aria-live',
+        'polite'
+      );
+    });
+
+    it('should create input element for not selected value without aria-live', () => {
+      component.isDeltaRendering = true;
+      fixture.detectChanges();
+      const item = CommonConfiguratorTestUtilsService.getHTMLElement(
+        htmlElem,
+        'input',
+        'form-input',
+        0
+      );
+      const attributes = item?.attributes;
+      expect(attributes?.hasOwnProperty('aria-live')).toBe(false);
+    });
   });
 });

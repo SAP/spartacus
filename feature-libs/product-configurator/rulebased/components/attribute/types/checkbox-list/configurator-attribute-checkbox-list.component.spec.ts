@@ -69,7 +69,11 @@ class MockConfiguratorCommonsService {
 }
 
 class MockConfiguratorStorefrontUtilsService {
+  protected lastSelected: { attributeName: string; valueCode: string } | null =
+    null;
   assembleValuesForMultiSelectAttributes(): void {}
+  isLastSelected(): void {}
+  setLastSelected(): void {}
 }
 
 class MockConfiguratorDeltaRenderingService {
@@ -598,6 +602,45 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
         'true',
         VALUE_2
       );
+    });
+
+    it('should create input element for last selected value with aria-live', () => {
+      spyOn(configuratorStorefrontUtilsService, 'isLastSelected')
+        .withArgs('attributeName', '1')
+        .and.returnValue(true)
+        .withArgs('attributeName', '2')
+        .and.returnValue(false)
+        .withArgs('attributeName', '3')
+        .and.returnValue(false);
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        0,
+        'aria-live',
+        'polite'
+      );
+    });
+
+    it('should create input element for not last selected value without aria-live', () => {
+      spyOn(configuratorStorefrontUtilsService, 'isLastSelected')
+        .withArgs('attributeName', '1')
+        .and.returnValue(true)
+        .withArgs('attributeName', '2')
+        .and.returnValue(false)
+        .withArgs('attributeName', '3')
+        .and.returnValue(false);
+      fixture.detectChanges();
+      const item = CommonConfiguratorTestUtilsService.getHTMLElement(
+        htmlElem,
+        'input',
+        'form-check-input',
+        1
+      );
+      const attributes = item?.attributes;
+      expect(attributes?.hasOwnProperty('aria-live')).toBe(false);
     });
   });
 });

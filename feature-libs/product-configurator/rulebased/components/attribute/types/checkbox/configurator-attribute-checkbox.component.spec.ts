@@ -15,6 +15,7 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
@@ -48,6 +49,12 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
+class MockConfiguratorStorefrontUtilsService {
+  assembleValuesForMultiSelectAttributes(): void {}
+  isLastSelected(): void {}
+  setLastSelected(): void {}
+}
+
 class MockConfiguratorDeltaRenderingService {
   rerender(): Observable<boolean> {
     return of(true);
@@ -62,6 +69,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
   let component: ConfiguratorAttributeCheckBoxComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxComponent>;
   let htmlElem: HTMLElement;
+  let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
   beforeEach(waitForAsync(() => {
     TestBed.overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
@@ -90,6 +98,10 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
       ],
     })
@@ -127,6 +139,9 @@ describe('ConfigAttributeCheckBoxComponent', () => {
       values: values,
     };
     fixture.detectChanges();
+    configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService
+    );
   });
 
   it('should create', () => {
@@ -228,6 +243,37 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         'true',
         value1.valueDisplay
       );
+    });
+
+    it('should create input element for last selected value with aria-live', () => {
+      spyOn(configuratorStorefrontUtilsService, 'isLastSelected')
+        .withArgs('attributeName', '1')
+        .and.returnValue(true);
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        0,
+        'aria-live',
+        'polite'
+      );
+    });
+
+    it('should create input element for not last selected value without aria-live', () => {
+      spyOn(configuratorStorefrontUtilsService, 'isLastSelected')
+        .withArgs('attributeName', '1')
+        .and.returnValue(false);
+      fixture.detectChanges();
+      const item = CommonConfiguratorTestUtilsService.getHTMLElement(
+        htmlElem,
+        'input',
+        'form-check-input',
+        0
+      );
+      const attributes = item?.attributes;
+      expect(attributes?.hasOwnProperty('aria-live')).toBe(false);
     });
   });
 });

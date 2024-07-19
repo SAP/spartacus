@@ -51,6 +51,8 @@ class MockConfig {
 
 class MockConfiguratorStorefrontUtilsService {
   assembleValuesForMultiSelectAttributes(): void {}
+  isLastSelected(): void {}
+  setLastSelected(): void {}
 }
 
 class MockConfiguratorDeltaRenderingService {
@@ -68,6 +70,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   let fixture: ComponentFixture<ConfiguratorAttributeMultiSelectionImageComponent>;
   let htmlElem: HTMLElement;
   let config: Config;
+  let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
   beforeEach(waitForAsync(() => {
     TestBed.overrideComponent(
@@ -191,6 +194,9 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     config = TestBed.inject(Config);
     (config.features ?? {}).productConfiguratorAttributeTypesV2 = false;
     fixture.detectChanges();
+    configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService
+    );
   });
 
   it('should create a component', () => {
@@ -248,6 +254,10 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     const valueToSelect = fixture.debugElement.query(
       By.css(singleSelectionImageId)
     ).nativeElement;
+    spyOn(
+      configuratorStorefrontUtilsService,
+      'assembleValuesForMultiSelectAttributes'
+    ).and.returnValue(component.attribute.values);
     expect(valueToSelect.checked).toBe(false);
     valueToSelect.click();
     fixture.detectChanges();
@@ -265,6 +275,10 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
         component['configuratorCommonsService'],
         'updateConfiguration'
       ).and.callThrough();
+      spyOn(
+        configuratorStorefrontUtilsService,
+        'assembleValuesForMultiSelectAttributes'
+      ).and.returnValue(component.attribute.values);
       component.onSelect(0);
       expect(
         component['configuratorCommonsService'].updateConfiguration
@@ -380,6 +394,49 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
         'aria-label',
         'configurator.a11y.description'
       );
+    });
+
+    it('should create input element for last selected value with aria-live', () => {
+      spyOn(configuratorStorefrontUtilsService, 'isLastSelected')
+        .withArgs('attributeName', '1')
+        .and.returnValue(true)
+        .withArgs('attributeName', '2')
+        .and.returnValue(false)
+        .withArgs('attributeName', '3')
+        .and.returnValue(false)
+        .withArgs('attributeName', '4')
+        .and.returnValue(false);
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-input',
+        0,
+        'aria-live',
+        'polite'
+      );
+    });
+
+    it('should create input element for not last selected value without aria-live', () => {
+      spyOn(configuratorStorefrontUtilsService, 'isLastSelected')
+        .withArgs('attributeName', '1')
+        .and.returnValue(true)
+        .withArgs('attributeName', '2')
+        .and.returnValue(false)
+        .withArgs('attributeName', '3')
+        .and.returnValue(false)
+        .withArgs('attributeName', '4')
+        .and.returnValue(false);
+      fixture.detectChanges();
+      const item = CommonConfiguratorTestUtilsService.getHTMLElement(
+        htmlElem,
+        'input',
+        'form-input',
+        1
+      );
+      const attributes = item?.attributes;
+      expect(attributes?.hasOwnProperty('aria-live')).toBe(false);
     });
   });
 });

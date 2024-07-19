@@ -244,6 +244,9 @@ class MockConfiguratorStorefrontUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
     return of(isCartEntryOrGroupVisited);
   }
+  isLastSelected(): boolean {
+    return false;
+  }
 }
 
 const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositionConfig =

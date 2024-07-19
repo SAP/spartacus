@@ -86,7 +86,10 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
         this.attributeCheckBoxForms,
         this.attribute
       );
-
+    this.configUtilsService.setLastSelected(
+      this.attribute.name,
+      selectedValues[index].valueCode
+    );
     this.configuratorCommonsService.updateConfiguration(
       this.ownerKey,
       {
@@ -94,6 +97,18 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
         values: selectedValues,
       },
       Configurator.UpdateType.ATTRIBUTE
+    );
+  }
+
+  /**
+   * Checks if the value is the last selected value set bei onSelect method.
+   * @param valueCode
+   * @returns boolean
+   */
+  isLastSelected(valueCode: string): boolean {
+    return this.configUtilsService.isLastSelected(
+      this.attribute.name,
+      valueCode
     );
   }
 }

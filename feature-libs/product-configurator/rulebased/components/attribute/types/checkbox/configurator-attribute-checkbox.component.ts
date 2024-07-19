@@ -4,13 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox',
@@ -29,6 +35,8 @@ export class ConfiguratorAttributeCheckBoxComponent
   attributeValue: Configurator.Value;
 
   attributeCheckBoxForm = new UntypedFormControl('');
+
+  protected configUtilsService = inject(ConfiguratorStorefrontUtilsService);
 
   constructor(
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
@@ -53,9 +61,11 @@ export class ConfiguratorAttributeCheckBoxComponent
   /**
    * Fired when a check box has been selected i.e. when a value has been set
    */
-  onSelect(): void {
+  onSelect(valueCode: string | undefined): void {
     const selectedValues = this.assembleSingleValue();
-
+    if (valueCode) {
+      this.configUtilsService.setLastSelected(this.attribute.name, valueCode);
+    }
     this.configuratorCommonsService.updateConfiguration(
       this.ownerKey,
       {
@@ -86,5 +96,17 @@ export class ConfiguratorAttributeCheckBoxComponent
     localAssembledValues.push(localAttributeValue);
 
     return localAssembledValues;
+  }
+
+  /**
+   * Checks if the value is the last selected value set bei onSelect method.
+   * @param valueCode
+   * @returns boolean
+   */
+  isLastSelected(valueCode: string): boolean {
+    return this.configUtilsService.isLastSelected(
+      this.attribute.name,
+      valueCode
+    );
   }
 }

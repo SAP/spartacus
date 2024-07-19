@@ -73,13 +73,15 @@ export class ConfiguratorAttributeCheckBoxListComponent
     return this.quantityService.allowZeroValueQuantity(this.attribute);
   }
 
-  onSelect(): void {
+  onSelect(valueCode: string | undefined): void {
     const selectedValues =
       this.configUtilsService.assembleValuesForMultiSelectAttributes(
         this.attributeCheckBoxForms,
         this.attribute
       );
-
+    if (valueCode) {
+      this.configUtilsService.setLastSelected(this.attribute.name, valueCode);
+    }
     this.configuratorCommonsService.updateConfiguration(
       this.ownerKey,
       {
@@ -97,7 +99,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
   ): void {
     if (eventObject === 0) {
       this.attributeCheckBoxForms[formIndex].setValue(false);
-      this.onSelect();
+      this.onSelect(valueCode);
       return;
     }
 
@@ -133,9 +135,21 @@ export class ConfiguratorAttributeCheckBoxListComponent
       this.attributeCheckBoxForms.forEach((_, index) =>
         this.attributeCheckBoxForms[index].setValue(false)
       );
-      this.onSelect();
+      this.onSelect(undefined);
     } else {
       this.onHandleAttributeQuantity(eventObject);
     }
+  }
+
+  /**
+   * Checks if the value is the last selected value set bei onSelect method.
+   * @param valueCode
+   * @returns boolean
+   */
+  isLastSelected(valueCode: string): boolean {
+    return this.configUtilsService.isLastSelected(
+      this.attribute.name,
+      valueCode
+    );
   }
 }

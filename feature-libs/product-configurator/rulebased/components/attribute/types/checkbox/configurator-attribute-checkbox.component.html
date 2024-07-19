@@ -17,10 +17,13 @@
             [cxFocus]="{
               key: attribute.name + '-' + attributeValue.name
             }"
-            (change)="onSelect()"
+            (change)="onSelect(attributeValue.valueCode)"
             [formControl]="attributeCheckBoxForm"
             name="{{ createAttributeIdForConfigurator(attribute) }}"
             [attr.aria-label]="getAriaLabelGeneric(attribute, attributeValue)"
+            [attr.aria-live]="
+              isLastSelected(attributeValue.valueCode) ? 'polite' : null
+            "
             [attr.aria-describedby]="
               createAttributeUiKey('label', attribute.name)
             "
