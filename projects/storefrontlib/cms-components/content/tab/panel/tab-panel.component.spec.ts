@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Tab } from '../tab.model';
 import { TabPanelComponent } from './tab-panel.component';
 
-const mockTab: Tab = {
+const mockTab: Tab | any = {
   id: 1,
 };
 

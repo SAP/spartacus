@@ -8,7 +8,7 @@ import { addProductToCart as addToCart } from './applied-promotions';
 
 export const summaryContainer = `cx-product-summary`;
 export const infoContainer = `cx-product-intro`;
-export const tabsContainer = 'cx-tab-paragraph-container';
+export const tabsContainer = 'cx-tab';
 export const tabsHeaderList = `${tabsContainer} > div > button`;
 export const activeTabContainer = `${tabsContainer} .active .container`;
 export const shippingTabActive = `${tabsContainer} .active cx-paragraph`;
@@ -86,7 +86,8 @@ export function verifyTextInTabs() {
 }
 
 export function verifyContentInReviewTab() {
-  cy.get(tabsHeaderList).eq(2).click();
+  // Double click to close and open on accordian view.
+  cy.get(tabsHeaderList).eq(2).click().click();
   cy.get(reviewList).should('have.length', 5);
   cy.get(writeAReviewButton).should('be.visible');
 }
@@ -137,6 +138,7 @@ export function verifyQuantityInCart() {
  */
 export function verifyTabKeyboardNavigation(accordian = false) {
   it('should navigate tab component with keyboard', () => {
+    cy.reload()
     cy.get('cx-tab button').eq(0).click();
     cy.focused().contains('Product Details').type('{downArrow}');
     verifySpaceBarKeyForAccordian();

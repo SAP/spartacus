@@ -30,6 +30,10 @@ export class ProductIntroComponent {
 
   /**
    * Observable that checks the reviews component availability on the page.
+   *
+   * @deprecated This observable controlled whether we should show reviews based
+   * on the review component's existence. Instead, we are now using the "product.averageRating"
+   * to check whether reviews should exist. This observable with therefore be removed.
    */
   areReviewsAvailable$: Observable<boolean> = merge(
     // Check if reviews component is already defined:
