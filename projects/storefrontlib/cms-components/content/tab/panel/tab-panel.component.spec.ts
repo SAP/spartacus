@@ -20,13 +20,11 @@ describe('TabPanelComponent', () => {
   let component: TabPanelComponent;
   let fixture: ComponentFixture<TabPanelComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [TabPanelComponent, MockComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [TabPanelComponent, MockComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TabPanelComponent);
