@@ -51,8 +51,18 @@ class MockConfig {
 
 class MockConfiguratorStorefrontUtilsService {
   assembleValuesForMultiSelectAttributes(): void {}
-  isLastSelected(): void {}
-  setLastSelected(): void {}
+
+  lastSelected?: { attributeName: string; valueCode: string };
+  setLastSelected(attributeName: string, valueCode: string): void {
+    this.lastSelected = { attributeName, valueCode };
+  }
+  isLastSelected(attributeName: string, valueCode: string): boolean {
+    return (
+      !!this.lastSelected &&
+      this.lastSelected.attributeName === attributeName &&
+      this.lastSelected.valueCode === valueCode
+    );
+  }
 }
 
 class MockConfiguratorDeltaRenderingService {
@@ -397,15 +407,12 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     });
 
     it('should create input element for last selected value with aria-live', () => {
-      spyOn(configuratorStorefrontUtilsService, 'isLastSelected')
-        .withArgs('attributeName', '1')
-        .and.returnValue(true)
-        .withArgs('attributeName', '2')
-        .and.returnValue(false)
-        .withArgs('attributeName', '3')
-        .and.returnValue(false)
-        .withArgs('attributeName', '4')
-        .and.returnValue(false);
+      spyOn(
+        configuratorStorefrontUtilsService,
+        'assembleValuesForMultiSelectAttributes'
+      ).and.returnValue(component.attribute.values);
+      component.isDeltaRendering = true;
+      component.onSelect(0);
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -419,15 +426,6 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     });
 
     it('should create input element for not last selected value without aria-live', () => {
-      spyOn(configuratorStorefrontUtilsService, 'isLastSelected')
-        .withArgs('attributeName', '1')
-        .and.returnValue(true)
-        .withArgs('attributeName', '2')
-        .and.returnValue(false)
-        .withArgs('attributeName', '3')
-        .and.returnValue(false)
-        .withArgs('attributeName', '4')
-        .and.returnValue(false);
       fixture.detectChanges();
       const item = CommonConfiguratorTestUtilsService.getHTMLElement(
         htmlElem,

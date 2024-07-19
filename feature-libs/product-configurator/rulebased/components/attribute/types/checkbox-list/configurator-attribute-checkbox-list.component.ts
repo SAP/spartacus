@@ -135,7 +135,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
       this.attributeCheckBoxForms.forEach((_, index) =>
         this.attributeCheckBoxForms[index].setValue(false)
       );
-      this.onSelect(undefined);
+      this.onSelect();
     } else {
       this.onHandleAttributeQuantity(eventObject);
     }
