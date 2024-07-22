@@ -11,6 +11,7 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator
@@ -22,6 +23,9 @@ export class ConfiguratorAttributeBaseComponent {
   protected configuratorDeltaRenderingService = inject(
     ConfiguratorDeltaRenderingService,
     { optional: true }
+  );
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
   );
 
   private static SEPERATOR = '--';
@@ -435,8 +439,8 @@ export class ConfiguratorAttributeBaseComponent {
    * Extract corresponding value price formula parameters.
    * For all non-single selection types types the complete price formula should be displayed at the value level.
    *
-   * @param {Configurator.Value} value - Configurator value
-   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   * @param value - Configurator value
+   * @return new price formula
    */
   extractValuePriceFormulaParameters(
     value: Configurator.Value
@@ -450,5 +454,18 @@ export class ConfiguratorAttributeBaseComponent {
       priceTotal: value.valuePriceTotal,
       isLightedUp: value.selected,
     };
+  }
+
+  /**
+   * Checks if the value is the last selected value.
+   *
+   * @param valueCode code of the value
+   * @returns true, only if this value is the last selected value
+   */
+  isLastSelected(attributeName: string, valueCode: string): boolean {
+    return this.configuratorStorefrontUtilsService.isLastSelected(
+      attributeName,
+      valueCode
+    );
   }
 }

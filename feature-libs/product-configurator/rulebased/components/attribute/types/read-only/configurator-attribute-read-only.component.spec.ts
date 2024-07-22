@@ -10,6 +10,7 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-price',
@@ -101,6 +102,10 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useValue: {},
         },
       ],
       imports: [ReactiveFormsModule, I18nTestingModule],

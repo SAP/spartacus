@@ -190,12 +190,16 @@ describe('ConfigAttributeCheckBoxComponent', () => {
   it('should set last selected value code on select if delta rendering is activated', () => {
     component.isDeltaRendering = true;
     component.onSelect('123');
-    expect(component.isLastSelected('123')).toBe(true);
+    expect(component.isLastSelected(component.attribute.name, '123')).toBe(
+      true
+    );
   });
 
   it('should not set last selected value code on select if delta rendering is not activated', () => {
     component.onSelect('123');
-    expect(component.isLastSelected('123')).toBe(false);
+    expect(component.isLastSelected(component.attribute.name, '123')).toBe(
+      false
+    );
   });
 
   describe('rendering description at value level', () => {

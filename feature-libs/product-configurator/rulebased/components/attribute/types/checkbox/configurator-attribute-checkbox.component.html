@@ -22,7 +22,9 @@
             name="{{ createAttributeIdForConfigurator(attribute) }}"
             [attr.aria-label]="getAriaLabelGeneric(attribute, attributeValue)"
             [attr.aria-live]="
-              isLastSelected(attributeValue.valueCode) ? 'polite' : null
+              isLastSelected(attribute.name, attributeValue.valueCode)
+                ? 'polite'
+                : null
             "
             [attr.aria-describedby]="
               createAttributeUiKey('label', attribute.name)

@@ -8,6 +8,7 @@ import { ConfiguratorAttributeMultiSelectionBaseComponent } from './configurator
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { I18nTestingModule } from '@spartacus/core';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 const createTestValue = (
   price: number | undefined,
@@ -65,6 +66,10 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useValue: {},
         },
       ],
     }).compileComponents();

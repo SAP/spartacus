@@ -103,17 +103,4 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
       Configurator.UpdateType.ATTRIBUTE
     );
   }
-
-  /**
-   * Checks if the value is the last selected value.
-   *
-   * @param valueCode code of the value
-   * @returns true, only if this value is the last selected value
-   */
-  isLastSelected(valueCode: string): boolean {
-    return this.configUtilsService.isLastSelected(
-      this.attribute.name,
-      valueCode
-    );
-  }
 }

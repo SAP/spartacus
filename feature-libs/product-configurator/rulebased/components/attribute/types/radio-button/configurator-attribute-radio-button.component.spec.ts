@@ -370,7 +370,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     it('selected value should have aria-live tag if delta rendering is active', () => {
       component.isDeltaRendering = true;
       fixture.detectChanges();
-      console.log(htmlElem.innerHTML);
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -385,7 +384,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     it('selected value should not have aria-live tag if delta rendering is not active', () => {
       component.isDeltaRendering = false;
       fixture.detectChanges();
-      console.log(htmlElem.innerHTML);
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,

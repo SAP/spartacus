@@ -110,6 +110,10 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
         { provide: Config, useClass: MockConfig },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useValue: {},
+        },
       ],
     })
       .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {

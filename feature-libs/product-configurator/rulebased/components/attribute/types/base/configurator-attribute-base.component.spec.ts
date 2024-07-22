@@ -7,6 +7,7 @@ import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-uti
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 const attributeCode = 1;
 const currentAttribute: Configurator.Attribute = {
@@ -49,6 +50,10 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         {
           provide: ConfiguratorDeltaRenderingService,
           useClass: MockConfiguratorDeltaRenderingService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useValue: {},
         },
       ],
     });

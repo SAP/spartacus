@@ -36,7 +36,9 @@
             [attr.aria-describedby]="
               createAttributeUiKey('label', attribute.name)
             "
-            [attr.aria-live]="isLastSelected(value.valueCode) ? 'polite' : null"
+            [attr.aria-live]="
+              isLastSelected(attribute.name, value.valueCode) ? 'polite' : null
+            "
           />
           <label
             id="{{
