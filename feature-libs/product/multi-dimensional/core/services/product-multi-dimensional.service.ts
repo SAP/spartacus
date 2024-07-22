@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {inject, Injectable} from '@angular/core';
-import {Product, VariantMatrixElement} from '@spartacus/core';
-import {VariantCategory} from '../model/augmented-core.model';
-import {ProductMultiDimensionalImagesService} from './product-multi-dimensional-images.service';
+import { inject, Injectable } from '@angular/core';
+import { Product, VariantMatrixElement } from '@spartacus/core';
+import { VariantCategory } from '../model/augmented-core.model';
+import { ProductMultiDimensionalImagesService } from './product-multi-dimensional-images.service';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class ProductMultiDimensionalService {
   protected imagesService = inject(ProductMultiDimensionalImagesService);
 
@@ -45,7 +45,8 @@ export class ProductMultiDimensionalService {
 
       variantMatrix.forEach((element: VariantMatrixElement) => {
         const variantCategoryName = element.variantValueCategory?.name ?? '';
-        const variantOptionQualifiers = element.variantOption?.variantOptionQualifiers ?? [];
+        const variantOptionQualifiers =
+          element.variantOption?.variantOptionQualifiers ?? [];
         const images = this.imagesService.getVariantOptionImages(
           variantOptionQualifiers,
           variantCategoryName
@@ -85,18 +86,17 @@ export class ProductMultiDimensionalService {
   protected checkIfEveryOptionHasImages(
     variantCategories: VariantCategory[]
   ): VariantCategory[] {
-    return variantCategories
-      .map((variantCategory: VariantCategory) => {
-        const variantOptions = variantCategory.variantOptions;
-        const hasImages =
-          variantCategory.hasImages ??
-          variantOptions.every((option) => option.images.length);
+    return variantCategories.map((variantCategory: VariantCategory) => {
+      const variantOptions = variantCategory.variantOptions;
+      const hasImages =
+        variantCategory.hasImages ??
+        variantOptions.every((option) => option.images.length);
 
-        return {
-          ...variantCategory,
-          variantOptions,
-          hasImages,
-        };
-      });
+      return {
+        ...variantCategory,
+        variantOptions,
+        hasImages,
+      };
+    });
   }
 }
