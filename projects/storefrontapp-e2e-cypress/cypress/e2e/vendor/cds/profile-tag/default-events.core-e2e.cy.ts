@@ -8,6 +8,7 @@ import * as anonymousConsents from '../../../../helpers/anonymous-consents';
 import { goToCart } from '../../../../helpers/cart';
 import * as checkoutFlowPersistentUser from '../../../../helpers/checkout-as-persistent-user';
 import * as checkoutFlow from '../../../../helpers/checkout-flow';
+import { verifyConsentManagementPage } from '../../../../helpers/consent-management';
 import * as loginHelper from '../../../../helpers/login';
 import { navigation } from '../../../../helpers/navigation';
 import * as productSearch from '../../../../helpers/product-search';
@@ -253,7 +254,25 @@ describe('Profile-tag events', () => {
   });
 
   it('should send an OrderConfirmation event when viewing the order confirmation page', () => {
+    profileTagHelper.triggerLoaded();
+    profileTagHelper.triggerConsentReferenceLoaded();
     loginHelper.loginAsDefaultUser();
+
+    cy.wait(0).then(() => {
+      cy.selectUserMenuOption({
+        option: 'Consent Management',
+      });
+      verifyConsentManagementPage();
+      cy.get('input[type="checkbox"]').each(($elem, index) => {
+        if (index === 1) {
+          cy.wrap($elem).uncheck();
+          cy.wrap($elem).should('not.be.checked');
+          cy.wrap($elem).check();
+        }
+      });
+    });
+
+    cy.visit('/');
     checkoutFlowPersistentUser.goToProductPageFromCategory();
     checkoutFlowPersistentUser.addProductToCart();
     checkoutFlowPersistentUser.addPaymentMethod();

@@ -4,6 +4,7 @@
     "mainTitle": "Assisted Service Mode",
     "logout": "Sign Out",
     "hideUi": "Close ASM",
+    "helpPortalUrl": "Help",
     "customers": "Customers",
     "asmCustomer360Button": "Customer 360 View",
     "createCustomerSuccessfullyAlert": "The customer account has been created and the customer session has started.",

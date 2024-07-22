@@ -117,10 +117,7 @@ export class RoutingService {
    * The absolute url uses the origin of the current location.
    */
   getFullUrl(commands: UrlCommands, extras?: NavigationExtras) {
-    return `${this.winRef.document.location.origin}${this.getUrl(
-      commands,
-      extras
-    )}`;
+    return `${this.winRef.location.origin}${this.getUrl(commands, extras)}`;
   }
 
   /**

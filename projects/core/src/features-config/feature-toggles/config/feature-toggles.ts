@@ -359,6 +359,17 @@ export interface FeatureTogglesInterface {
   a11yFacetsDialogFocusHandling?: boolean;
 
   /**
+   * Enables radio group fieldset for 'CheckoutDeliveryModeComponent' form
+   * and further improves its screen reader readout.
+   */
+  a11yDeliveryModeRadiogroup?: boolean;
+
+  /**
+   * Removes 'aria-live' from 'StoreFinderComponent' and adds 'alert' role to child components elements.
+   */
+  a11yStoreFinderAlerts?: boolean;
+
+  /**
    * Stops the icon inside 'FormErrorsComponent' from being read out by screen readers.
    */
   a11yFormErrorMuteIcon?: boolean;
@@ -373,11 +384,6 @@ export interface FeatureTogglesInterface {
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
   a11yLinkBtnsToTertiaryBtns?: boolean;
-
-  /**
-   * Modifies the template of `StoreFinderComponent` to exclude storefinder searchbox from aria-live area.
-   */
-  a11yStoreFinderSearchboxBloat?: boolean;
 
   /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
@@ -450,10 +456,11 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUseButtonsForBtnLinks: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
+  a11yStoreFinderAlerts: false,
   a11yFormErrorMuteIcon: false,
   a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
-  a11yStoreFinderSearchboxBloat: false,
+  a11yDeliveryModeRadiogroup: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
 };
