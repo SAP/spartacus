@@ -19,6 +19,13 @@ on:
   schedule:
     - cron: '45 2 * * *'
 
+paths-ignore: 
+  # ignore e2e tests
+  - "projects/storefrontapp-e2e-cypress/**"
+  # ignore all unit tests
+  - "**/*.spec.ts"
+
+
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
