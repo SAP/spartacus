@@ -47,7 +47,7 @@ export class ConfiguratorDeltaRenderingService {
               (config) => this.isInitialRendering || !!config.priceSupplements
             ),
             switchMap((config) => {
-              if (this.isInitialRendering) {
+              if (!config.priceSupplements) {
                 return of(true);
               }
               const pricesChanged = this.checkForValuePriceChanges(

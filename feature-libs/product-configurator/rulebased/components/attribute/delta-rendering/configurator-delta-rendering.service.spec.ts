@@ -81,6 +81,20 @@ describe('ConfiguratorDeltaRenderingService', () => {
       expect(classUnderTest['isInitialRendering']).toBe(false);
     });
 
+    // happens when navigating from overview back to config page
+    it('should detect price changes during initial rendering/call if supplements are present', () => {
+      let emitCounter = 0;
+      classUnderTest.rerender('group1@attribute_1_1').subscribe((rerender) => {
+        expect(rerender).toBe(true);
+        emitCounter++;
+      });
+      configSubject.next(mockConfig);
+      expect(emitCounter).toBe(1);
+      expect(classUnderTest['valuePrices']['value_1_1']).toBeDefined();
+      expect(classUnderTest['valuePrices']['value_1_2']).toBeDefined();
+      expect(classUnderTest['valuePrices']['value_1_3']).toBeDefined();
+    });
+
     describe('after initial rendering/call', () => {
       beforeEach(() => {
         classUnderTest['isInitialRendering'] = false;
