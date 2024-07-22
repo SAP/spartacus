@@ -136,7 +136,7 @@ describe('RoutingService', () => {
         cxRoute: 'product',
         params: { code: '123' },
       });
-      expect(url).toEqual(`${winRef.document.location.origin}/product/123`);
+      expect(url).toEqual(`${winRef.location.origin}/product/123`);
     });
   });
 
