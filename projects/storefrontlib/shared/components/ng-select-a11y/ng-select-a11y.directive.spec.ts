@@ -28,8 +28,7 @@ class MockFeatureConfigService {
     return true;
   }
 }
-
-fdescribe('NgSelectA11yDirective', () => {
+describe('NgSelectA11yDirective', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
 
