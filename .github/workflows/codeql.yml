@@ -64,11 +64,11 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
-        paths-ignore: 
-          # ignore e2e tests
-          - "projects/storefrontapp-e2e-cypress/**"
-          # ignore all unit tests
-          - "**/*.spec.ts"
+        config: >
+          name: Disable scan for tests
+          paths-ignore:
+            - "projects/storefrontapp-e2e-cypress/**"
+            - "**/*.spec.ts"
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
         # If you wish to specify custom queries, you can do so here or in a config file.
