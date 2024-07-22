@@ -69,6 +69,7 @@ jobs:
           paths-ignore:
             - "projects/storefrontapp-e2e-cypress/**"
             - "**/*.spec.ts"
+            - "**/*.spec.js"
             - "**/*_spec.ts"
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
