@@ -6,16 +6,34 @@
 
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, filter } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { authCodeFlowConfig } from './auth.config';
 
+declare var gigya: any;
 @Component({
   selector: 'cx-login-form',
   templateUrl: './login-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginFormComponent {
-  constructor(protected service: LoginFormComponentService) {}
+  constructor(protected service: LoginFormComponentService, private oauthService: OAuthService) {
+    this.oauthService.configure(authCodeFlowConfig);
+    this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    this.oauthService.events
+      .pipe(filter((e) => e.type === 'token_received'))
+      .subscribe(() => {
+        this.oauthService.loadUserProfile();
+        this.service.updateToken(this.oauthService.getAccessToken());
+      });
+
+    gigya.accounts.addEventHandlers({
+      onLogin: (account: any) => {
+        this.service.onCDCLoginSuccess(account);
+      },
+    });
+  }
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
@@ -24,5 +42,18 @@ export class LoginFormComponent {
 
   onSubmit(): void {
     this.service.login();
+  }
+  // showCDCLoginForm(): void {
+  //   gigya.accounts.showScreenSet({
+  //     screenSet: 'Default-RegistrationLogin',
+  //     containerId: 'login-container',
+  //     onBeforeSubmit: (event: any) => {
+  //       console.log('onBeforeSubmit', event);
+  //     }
+  //   });
+  // }
+
+  startPKCEflow(): void {
+    this.oauthService.initCodeFlow();
   }
 }

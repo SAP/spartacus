@@ -81,4 +81,13 @@ export class LoginFormComponentService {
 
     this.busy$.next(false);
   }
+
+  onCDCLoginSuccess(account: any): void {
+    console.log(account);
+    this.auth.syncCdcToken(account.id_token);
+  }
+
+  updateToken(token: string): void {
+    this.auth.syncCdcToken(token);
+  }
 }

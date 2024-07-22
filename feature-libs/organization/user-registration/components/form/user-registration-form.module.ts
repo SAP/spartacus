@@ -39,7 +39,7 @@ import { UserRegistrationFormService } from './user-registration-form.service';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         OrganizationUserRegistrationComponent: {
-          component: UserRegistrationFormComponent,
+          // component: UserRegistrationFormComponent,
           guards: [NotAuthGuard],
         },
       },
