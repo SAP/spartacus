@@ -1,1 +1,44 @@
-<p>reschedule-service-order works!</p>
+<form [formGroup]="form" (submit)="rescheduleServiceOrder()">
+    <label
+      class="row"
+      [attr.aria-label]="'serviceOrderCheckout.datePickerLabel' | cxTranslate"
+    >
+      <div class="pl-4 col-8">
+        {{ 'serviceOrderCheckout.datePickerLabel' | cxTranslate }}
+      </div>
+      <div class="col-4">
+        <cx-date-picker
+          [control]="$any(form.get('scheduleDate'))"
+          [min]="(minServiceDate$ | async) ?? undefined"
+          label="serviceOrderCheckout.datePickerLabel"
+        >
+        </cx-date-picker>
+      </div>
+    </label>
+
+    <label
+      class="row"
+      [attr.aria-label]="'serviceOrderCheckout.timePickerLabel' | cxTranslate"
+    >
+      <div class="pl-4 col-8">
+        {{ 'serviceOrderCheckout.timePickerLabel' | cxTranslate }}
+      </div>
+      <div class="col-4">
+        <select
+          *ngIf="scheduleTimes$ | async as scheduleTimes"
+          class="form-control"
+          formControlName="scheduleTime"
+          (change)="setScheduleTime($event)"
+        >
+          <option
+            *ngFor="let time of scheduleTimes"
+            [value]="time"
+            [selected]="form.get('scheduleTime')?.value === time"
+          >
+            {{ time }}
+          </option>
+        </select>
+      </div>
+    </label>
+    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+  </form>
