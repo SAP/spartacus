@@ -68,7 +68,8 @@ jobs:
           name: Disable scan for tests
           paths-ignore:
             - "projects/storefrontapp-e2e-cypress/**"
-            - "**/*{.spec,_spec}.ts"
+            - "**/*.spec.ts"
+            - "**/*_spec.ts"
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
         # If you wish to specify custom queries, you can do so here or in a config file.
