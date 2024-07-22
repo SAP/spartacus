@@ -1,6 +1,6 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Tab } from '../tab.model';
+import { Tab, TAB_MODE } from '../tab.model';
 import { TabPanelComponent } from './tab-panel.component';
 
 const mockTab: Tab | any = {
@@ -37,10 +37,23 @@ describe('TabPanelComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have correct attribues when is open', () => {
+  it('should have correct attribues when is open in TAB mode', () => {
     const tabPanel = document.querySelector('div[role="tabpanel"]');
     expect(tabPanel?.getAttribute('id')).toEqual('section-1');
     expect(tabPanel?.getAttribute('tabindex')).toEqual('0');
+    expect(tabPanel?.getAttribute('role')).toEqual('tabpanel');
+    expect(tabPanel?.getAttribute('class')).toEqual('active');
+    expect(tabPanel?.getAttribute('aria-labelledby')).toEqual('1');
+  });
+
+  it('should have correct attribues when is open in ACCORDIAN mode', () => {
+    component.mode = TAB_MODE.ACCORDIAN;
+    fixture.detectChanges();
+
+    const tabPanel = document.querySelector('div[role="region"]');
+    expect(tabPanel?.getAttribute('id')).toEqual('section-1');
+    expect(tabPanel?.getAttribute('tabindex')).toEqual('0');
+    expect(tabPanel?.getAttribute('role')).toEqual('region');
     expect(tabPanel?.getAttribute('class')).toEqual('active');
     expect(tabPanel?.getAttribute('aria-labelledby')).toEqual('1');
   });

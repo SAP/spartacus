@@ -54,7 +54,9 @@ describe('TabComponent', () => {
     });
 
     it('should display menu buttons for tabs', () => {
-      const tabEl = document.querySelector('div[role="tablist"]');
+      const tabEl = document.querySelector('div[class="tab"]');
+      expect(tabEl?.role).toEqual('tablist');
+
       const buttonEls = document.querySelectorAll('button[role="tab"]');
       expect(buttonEls.length).toEqual(4);
 
@@ -73,7 +75,6 @@ describe('TabComponent', () => {
       expect(secondButton.getAttribute('aria-expanded')).toEqual('false');
       expect(secondButton.getAttribute('aria-controls')).toEqual('section-1');
       expect(secondButton.getAttribute('tabindex')).toEqual('-1');
-      console.log(document, tabEl, buttonEls);
     });
 
     it('should navigate menu buttons with arrow keys', () => {
@@ -246,8 +247,9 @@ describe('TabComponent', () => {
     });
 
     it('should display menu buttons for tabs', () => {
-      // const tabEl = document.querySelector('div[role="tablist"]');
-      const buttonEls = document.querySelectorAll('button[role="tab"]');
+      const accordianEl = document.querySelector('div[class="accordian"]');
+      expect(accordianEl?.role).toEqual('presentation');
+      const buttonEls = document.querySelectorAll('button[role="button"]');
       expect(buttonEls.length).toEqual(4);
 
       const firstButton = buttonEls[0];

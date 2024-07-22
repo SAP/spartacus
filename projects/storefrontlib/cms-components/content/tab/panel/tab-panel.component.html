@@ -1,5 +1,5 @@
 <div
-  role="tabpanel"
+  [attr.role]="mode === TAB_MODE.ACCORDIAN ? 'region' : 'tabpanel'"
   [tabindex]="0"
   [attr.aria-labelledby]="tab?.id"
   [attr.id]="'section-' + tab?.id"

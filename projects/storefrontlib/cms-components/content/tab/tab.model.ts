@@ -32,7 +32,6 @@ export interface TabConfig {
    * Translatable key to set aria-label of tablist.
    */
   label?: Translatable | string;
-  attributes?: TabAttributes;
   /**
    * Use this to set the tab mode. Defaults to 'TAB' when not set.
    */
@@ -47,18 +46,6 @@ export interface TabConfig {
    * The indexes of tabs to have open initially.
    */
   openTabs?: number[];
-}
-
-export interface TabAttributes {
-  ariaSelected?: boolean;
-  ariaExpanded?: boolean;
-  ariaControls?: string;
-  ariaLabelledBy?: string;
-  ariaLabel?: string;
-  tabIndex?: number;
-  id?: string;
-  active?: boolean;
-  role?: string;
 }
 
 export enum TAB_MODE {
