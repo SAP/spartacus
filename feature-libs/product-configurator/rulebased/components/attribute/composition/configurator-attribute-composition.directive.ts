@@ -72,7 +72,7 @@ export class ConfiguratorAttributeCompositionDirective
         this.lastRenderedAttribute,
         this.context.attribute
       );
-      const groupChanged = this.lastRenderedGroupId != this.context.group.id;
+      const groupChanged = this.lastRenderedGroupId !== this.context.group.id;
       // attribute can occur with same content twice in different groups
       // for example this happens for conflicts. An attribute is rendered differently (link from/to conflict) based on
       // if it is part of conflict group or of ordinary group
