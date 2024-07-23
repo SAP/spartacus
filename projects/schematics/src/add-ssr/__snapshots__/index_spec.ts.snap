@@ -213,7 +213,11 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import AppServerModule from './src/main.server';
 
-const ngExpressEngine = NgExpressEngineDecorator.get(engine);
+const ngExpressEngine = NgExpressEngineDecorator.get(engine, {
+  featureToggles: {
+    avoidCachingErrors: true,
+  },
+});
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {

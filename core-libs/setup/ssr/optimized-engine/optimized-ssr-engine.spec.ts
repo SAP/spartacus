@@ -199,8 +199,10 @@ describe('OptimizedSsrEngine', () => {
               "debug": false,
               "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR",
               "logger": "DefaultExpressServerLogger",
-              "shouldCacheRenderingResult": "({ options, entry }) => !(options.avoidCachingErrors === true && Boolean(entry.err))",
-              "avoidCachingErrors": false
+              "shouldCacheRenderingResult": "({ options, entry }) => !(options.featureToggles?.avoidCachingErrors === true && Boolean(entry.err))",
+              "featureToggles": {
+                "avoidCachingErrors": false
+              }
             }
           }
         }",
@@ -390,7 +392,9 @@ describe('OptimizedSsrEngine', () => {
       it('should not cache errors if `avoidCachingErrors` is set to true', fakeAsync(() => {
         const engineRunner = TestEngineRunner.withError({
           cache: true,
-          avoidCachingErrors: true,
+          featureToggles: {
+            avoidCachingErrors: true,
+          },
         }).request('a');
 
         tick(200);
@@ -408,7 +412,9 @@ describe('OptimizedSsrEngine', () => {
       it('should cache errors if `avoidCachingErrors` is set to false', fakeAsync(() => {
         const engineRunner = TestEngineRunner.withError({
           cache: true,
-          avoidCachingErrors: false,
+          featureToggles: {
+            avoidCachingErrors: false,
+          },
         }).request('a');
 
         tick(200);
@@ -426,7 +432,9 @@ describe('OptimizedSsrEngine', () => {
       it('should cache HTML if `avoidCachingErrors` is set to true', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           cache: true,
-          avoidCachingErrors: true,
+          featureToggles: {
+            avoidCachingErrors: true,
+          },
         }).request('a');
 
         tick(200);
@@ -440,7 +448,9 @@ describe('OptimizedSsrEngine', () => {
       it('should cache HTML if `avoidCachingErrors` is set to false', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           cache: true,
-          avoidCachingErrors: true,
+          featureToggles: {
+            avoidCachingErrors: true,
+          },
         }).request('a');
 
         tick(200);
@@ -1457,10 +1467,12 @@ describe('OptimizedSsrEngine', () => {
           "[spartacus] SSR optimization engine initialized",
           {
             "options": {
-              "avoidCachingErrors": false,
               "cacheSize": 3000,
               "concurrency": 10,
               "debug": false,
+              "featureToggles": {
+                "avoidCachingErrors": false,
+              },
               "forcedSsrTimeout": 60000,
               "logger": "MockExpressServerLogger",
               "maxRenderTime": 300000,
@@ -1473,7 +1485,7 @@ describe('OptimizedSsrEngine', () => {
                 : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
         }",
               "reuseCurrentRendering": true,
-              "shouldCacheRenderingResult": "({ options, entry }) => !(options.avoidCachingErrors === true && Boolean(entry.err))",
+              "shouldCacheRenderingResult": "({ options, entry }) => !(options.featureToggles?.avoidCachingErrors === true && Boolean(entry.err))",
               "timeout": 3000,
             },
           },
