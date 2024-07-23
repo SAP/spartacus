@@ -6,66 +6,67 @@
 
 import { inject, Injectable } from '@angular/core';
 import { Product, VariantMatrixElement } from '@spartacus/core';
-import { VariantCategory } from '../model/augmented-core.model';
 import { ProductMultiDimensionalImagesService } from './product-multi-dimensional-images.service';
+import {
+  VariantCategoryGroup,
+  VariantCategoryOption,
+} from '@spartacus/product/multi-dimensional/root';
 
 @Injectable({ providedIn: 'root' })
 export class ProductMultiDimensionalService {
   protected imagesService = inject(ProductMultiDimensionalImagesService);
 
-  getVariants(product: Product): VariantCategory[] {
+  /**
+   * Retrieves variant categories for a given product, extracting options recursively
+   * from the variant matrix and adjusting for currently selected elements.
+   *
+   * @param {Product} product - The product object containing variant data.
+   * @returns {VariantCategoryGroup[]} - An array of variant categories with their options.
+   *
+   * @description
+   * This method processes a product's variant matrix to create an array of variant categories,
+   * each containing its respective options. It handles model conversions to ensure that the
+   * returned data is structured appropriately for the UI. Without these conversions, the UI
+   * would not be able to display the variant options correctly, and some attributes required
+   * for navigation would be missing.
+   *
+   * @example
+   * Given initially selected option "Blue 2 L":
+   * Color:        Red             (Blue)
+   * Size:      1     2         1      (2)
+   * Fit:     M  L  M   L     M   L   M   (L)
+   *
+   * The method extracts all available colors (e.g., Red and Blue) and recursively
+   * retrieves options until all variant options are exhausted.
+   *
+   * @see checkIfEveryOptionHasImages
+   * @see imagesService.getVariantOptionImages
+   */
+  getVariants(product: Product): VariantCategoryGroup[] {
     let variantMatrix = product.variantMatrix ?? [];
+    /** Levels determines the depth of the variantMatrix  */
     const levels = product.categories ?? [];
     const code = product.code ?? '';
 
-    const variantCategories: VariantCategory[] = [];
-
-    /**
-     * Example
-     * Given at the beginning we have selected "Blue 2 L",
-     *
-     * Color:        Red             (Blue)
-     * Size:      1     2         1      (2)
-     * Fit:     M  L  M   L     M   L   M   (L)
-     *
-     * At the first level "Color", all available colors such as Red and Blue are extracted, but also
-     * elements from the Blue node are used to extract another set of options.
-     * This recursive process continues until all Variant Options have been exhaustively retrieved
-     *
-     */
+    const variantCategories: VariantCategoryGroup[] = [];
 
     levels.forEach((_) => {
-      const parentVariantCategory = variantMatrix[0].parentVariantCategory;
-
-      const variantCategory: VariantCategory = {
-        name: parentVariantCategory?.name ?? '',
-        variantOptions: [],
-        hasImages: !!parentVariantCategory?.hasImage,
-      };
+      const VariantCategoryGroup: VariantCategoryGroup =
+        this.createVariantCategoryGroup(variantMatrix);
 
       variantMatrix.forEach((element: VariantMatrixElement) => {
-        const variantCategoryName = element.variantValueCategory?.name ?? '';
-        const variantOptionQualifiers =
-          element.variantOption?.variantOptionQualifiers ?? [];
-        const images = this.imagesService.getVariantOptionImages(
-          variantOptionQualifiers,
-          variantCategoryName
-        );
+        const variantOptionCategory = this.createVariantOptionCategory(element);
 
-        const variantOptionCategory = {
-          images,
-          value: variantCategoryName,
-          code: element.variantOption?.code ?? '',
-        };
+        VariantCategoryGroup.variantOptions.push(variantOptionCategory);
 
-        variantCategory.variantOptions.push(variantOptionCategory);
-
+        /** Check if the current element has child elements and is in the currently selected branch */
         if (element.variantOption?.code === code && element.elements?.length) {
           /**
            * Update the variantMatrix to reflect the currently selected elements.
            * For example, when navigating through the Color category,
            * adjust the matrix to represent the Size options
-           * available within the Blue branch
+           * available within the Blue branch. The left branch (Red) is discarded as
+           * it does not contain the currently selected product.
            *
            * Color:        Red             (Blue)
            * Size:      _1_     _2_      1      (2)
@@ -74,7 +75,7 @@ export class ProductMultiDimensionalService {
         }
       });
 
-      variantCategories.push(variantCategory);
+      variantCategories.push(VariantCategoryGroup);
     });
 
     return this.checkIfEveryOptionHasImages(variantCategories);
@@ -82,21 +83,80 @@ export class ProductMultiDimensionalService {
 
   /**
    * Checks if every variant option in the category has images.
+   *
+   * @param {VariantCategoryGroup[]} variantCategories - An array of variant categories.
+   * @returns {VariantCategoryGroup[]} - An array of variant categories with updated image information.
    */
   protected checkIfEveryOptionHasImages(
-    variantCategories: VariantCategory[]
-  ): VariantCategory[] {
-    return variantCategories.map((variantCategory: VariantCategory) => {
-      const variantOptions = variantCategory.variantOptions;
-      const hasImages =
-        variantCategory.hasImages ??
-        variantOptions.every((option) => option.images.length);
+    variantCategories: VariantCategoryGroup[]
+  ): VariantCategoryGroup[] {
+    return variantCategories.map(
+      (VariantCategoryGroup: VariantCategoryGroup) => {
+        const variantOptions = VariantCategoryGroup.variantOptions;
+        const hasImages =
+          VariantCategoryGroup.hasImages ??
+          variantOptions.every((option) => option.images.length);
 
-      return {
-        ...variantCategory,
-        variantOptions,
-        hasImages,
-      };
-    });
+        return {
+          ...VariantCategoryGroup,
+          variantOptions,
+          hasImages,
+        };
+      }
+    );
+  }
+
+  /**
+   * Creates a variant option category from a variant matrix element.
+   *
+   * @param {VariantMatrixElement} element - The variant matrix element.
+   * @returns {VariantCategoryOption} - The variant category option.
+   *
+   * @description
+   * This method converts a variant matrix element into a variant category option.
+   * It extracts the variant category name, option qualifiers, and images to create
+   * the appropriate data structure for the UI.
+   *
+   * @see imagesService.getVariantOptionImages
+   */
+  protected createVariantOptionCategory(
+    element: VariantMatrixElement
+  ): VariantCategoryOption {
+    const variantCategoryName = element.variantValueCategory?.name ?? '';
+    const variantOptionQualifiers =
+      element.variantOption?.variantOptionQualifiers ?? [];
+    const images = this.imagesService.getVariantOptionImages(
+      variantOptionQualifiers,
+      variantCategoryName
+    );
+
+    return {
+      images,
+      value: variantCategoryName,
+      code: element.variantOption?.code ?? '',
+    };
+  }
+
+  /**
+   * Creates a variant category group from a variant matrix.
+   *
+   * @param {VariantMatrixElement[]} variantMatrix - The variant matrix.
+   * @returns {VariantCategoryGroup} - The variant category.
+   *
+   * @description
+   * This method creates a variant category from the first element of a variant matrix.
+   * The category name and image presence status (`hasImages`) are consistent for each
+   * element in the array. It initializes the category's name, option list, and image presence status.
+   */
+  protected createVariantCategoryGroup(
+    variantMatrix: VariantMatrixElement[]
+  ): VariantCategoryGroup {
+    const parentVariantCategory = variantMatrix[0].parentVariantCategory;
+
+    return {
+      name: parentVariantCategory?.name ?? '',
+      variantOptions: [],
+      hasImages: !!parentVariantCategory?.hasImage,
+    };
   }
 }

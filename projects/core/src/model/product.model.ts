@@ -209,7 +209,7 @@ export enum VariantQualifier {
   COLOR = 'color',
   THUMBNAIL = 'thumbnail',
   PRODUCT = 'product',
-  SWATCH = 'styleSwatch',
+  STYLE_SWATCH = 'styleSwatch',
   ROLLUP_PROPERTY = 'rollupProperty',
 }
 

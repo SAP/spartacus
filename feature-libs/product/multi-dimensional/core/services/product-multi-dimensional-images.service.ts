@@ -8,7 +8,6 @@ import { inject, Injectable } from '@angular/core';
 import {
   Config,
   Image,
-  OccConfig,
   VariantOptionQualifier,
   VariantQualifier,
 } from '@spartacus/core';
@@ -24,7 +23,7 @@ export class ProductMultiDimensionalImagesService {
     variantOptionQualifiers: VariantOptionQualifier[],
     variantOptionValue: string
   ): Image[] {
-    const format = VariantQualifier.SWATCH;
+    const format = VariantQualifier.STYLE_SWATCH;
     return variantOptionQualifiers
       .filter((optionQualifier) => optionQualifier.image?.format === format)
       .map((optionQualifier) => {
@@ -39,8 +38,8 @@ export class ProductMultiDimensionalImagesService {
 
   protected getBaseUrl(): string {
     return (
-      (this.config as OccConfig).backend?.media?.baseUrl ??
-      (this.config as OccConfig).backend?.occ?.baseUrl ??
+      this.config.backend?.media?.baseUrl ??
+      this.config.backend?.occ?.baseUrl ??
       ''
     );
   }

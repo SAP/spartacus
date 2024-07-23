@@ -17,6 +17,16 @@ import {
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 
+/**
+ * Guard that ensures a product is valid and navigable within a multi-dimensional context.
+ *
+ * This service manages navigation and access control for products in a multi-dimensional product catalog.
+ * It verifies that the product specified in the route is valid and has the necessary attributes for display.
+ * If the product is not purchasable and has variant options, the guard attempts to find a valid product code
+ * from the available variants and redirects to the appropriate variant product URL.
+ *
+ * Without this guard, users could access a product detail page (PDP) for products that are not available for purchase.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -39,10 +49,10 @@ export class ProductMultiDimensionalGuard {
       .pipe(
         filter(isNotUndefined),
         switchMap((multiDimensionalProduct: Product) => {
-          const isPurchasableAndHasVariantOptions =
+          const isNotPurchasableAndHasVariantOptions =
             !multiDimensionalProduct.purchasable &&
             !!multiDimensionalProduct.variantOptions?.length;
-          return isPurchasableAndHasVariantOptions
+          return isNotPurchasableAndHasVariantOptions
             ? this.findPValidProductCodeAndReturnUrlTree(
                 multiDimensionalProduct
               )
@@ -51,6 +61,18 @@ export class ProductMultiDimensionalGuard {
       );
   }
 
+  /**
+   * Finds a valid product code from variant options and returns a URL tree for redirection.
+   *
+   * @param {Product} product - The product with variant options.
+   * @returns {Observable<boolean | UrlTree>} - An observable that resolves to a `UrlTree` for
+   * redirection if a valid product code is found, or `false` if no valid code is available.
+   *
+   * @description
+   * This method examines the product's variant options to find one with available stock. If a valid
+   * variant is found, it fetches the corresponding product and generates a URL for redirection. If
+   * no valid variant code is found, it resolves to `false`.
+   */
   protected findPValidProductCodeAndReturnUrlTree(
     product: Product
   ): Observable<boolean | UrlTree> {

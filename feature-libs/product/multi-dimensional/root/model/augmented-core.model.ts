@@ -12,7 +12,7 @@ export type VariantCategoryOption = {
   images: Image[];
 };
 
-export type VariantCategory = {
+export type VariantCategoryGroup = {
   name: string;
   variantOptions: VariantCategoryOption[];
   hasImages: boolean;
