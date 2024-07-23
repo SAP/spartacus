@@ -17,11 +17,11 @@ import {
   ProductScope,
   ProductService,
   RoutingService,
-  VariantCategory,
 } from '@spartacus/core';
 import { ProductMultiDimensionalService } from '../../../core/services/product-multi-dimensional.service';
 import { ActivatedRoute } from '@angular/router';
 import { filter, take } from 'rxjs/operators';
+import { VariantCategoryGroup } from '@spartacus/product/multi-dimensional/root';
 
 @Component({
   selector: 'cx-variants-multi-dimensional-selector',
@@ -39,7 +39,7 @@ export class ProductMultiDimensionalSelectorComponent implements OnChanges {
   @Input()
   product: Product;
 
-  categories: VariantCategory[] = [];
+  categories: VariantCategoryGroup[] = [];
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.product) {

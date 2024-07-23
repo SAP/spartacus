@@ -51,13 +51,13 @@ export class ProductMultiDimensionalService {
     const variantCategories: VariantCategoryGroup[] = [];
 
     levels.forEach((_) => {
-      const VariantCategoryGroup: VariantCategoryGroup =
+      const variantCategoryGroup: VariantCategoryGroup =
         this.createVariantCategoryGroup(variantMatrix);
 
       variantMatrix.forEach((element: VariantMatrixElement) => {
         const variantOptionCategory = this.createVariantOptionCategory(element);
 
-        VariantCategoryGroup.variantOptions.push(variantOptionCategory);
+        variantCategoryGroup.variantOptions.push(variantOptionCategory);
 
         /** Check if the current element has child elements and is in the currently selected branch */
         if (element.variantOption?.code === code && element.elements?.length) {
@@ -75,7 +75,7 @@ export class ProductMultiDimensionalService {
         }
       });
 
-      variantCategories.push(VariantCategoryGroup);
+      variantCategories.push(variantCategoryGroup);
     });
 
     return this.checkIfEveryOptionHasImages(variantCategories);
