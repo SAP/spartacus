@@ -36,11 +36,12 @@ export class ConfiguratorAttributeCompositionDirective
   context: ConfiguratorAttributeCompositionContext;
 
   protected lastRenderedAttribute: Configurator.Attribute;
+  protected lastRenderedGroupId: string;
 
   protected logger = inject(LoggerService);
   protected featureConfigService = inject(FeatureConfigService);
 
-  protected readonly attrCompAssignment: AttributeComponentAssignment =
+  protected readonly attrComponentAssignment: AttributeComponentAssignment =
     this.configuratorAttributeCompositionConfig.productConfigurator
       ?.assignment ?? [];
 
@@ -53,8 +54,8 @@ export class ConfiguratorAttributeCompositionDirective
     if (
       !this.featureConfigService.isEnabled('productConfiguratorDeltaRendering')
     ) {
-      const componentKey = this.context.componentKey;
-      this.renderComponent(this.attrCompAssignment[componentKey], componentKey);
+      const key = this.context.componentKey;
+      this.renderComponent(this.attrComponentAssignment[key], key);
     }
   }
 
@@ -65,22 +66,27 @@ export class ConfiguratorAttributeCompositionDirective
    */
   ngOnChanges(): void {
     if (
-      this.featureConfigService.isEnabled(
-        'productConfiguratorDeltaRendering'
-      ) &&
-      !ObjectComparisonUtils.deepEqualObjects(
+      this.featureConfigService.isEnabled('productConfiguratorDeltaRendering')
+    ) {
+      const attributeChanged = !ObjectComparisonUtils.deepEqualObjects(
         this.lastRenderedAttribute,
         this.context.attribute
-      )
-    ) {
-      const componentKey = this.context.componentKey;
-      this.renderComponent(this.attrCompAssignment[componentKey], componentKey);
+      );
+      const groupChanged = this.lastRenderedGroupId != this.context.group.id;
+      // attribute can occur with same content twice in different groups
+      // for example this happens for conflicts. An attributes is rendered differently (link from/to conflict) based on
+      // if it is part of conflict group or of ordinary group
+      if (attributeChanged || groupChanged) {
+        const key = this.context.componentKey;
+        this.renderComponent(this.attrComponentAssignment[key], key);
+      }
     }
   }
 
   protected renderComponent(component: any, componentKey: string) {
     if (component) {
       this.lastRenderedAttribute = this.context.attribute;
+      this.lastRenderedGroupId = this.context.group.id;
       this.vcr.clear();
       this.vcr.createComponent(component, {
         injector: this.getComponentInjector(),

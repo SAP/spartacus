@@ -24,32 +24,11 @@ class MockFeatureConfigService {
 }
 
 describe('ConfiguratorAttributeCompositionDirective', () => {
-  let configuratorAttributeCompositionTestConfig: ConfiguratorAttributeCompositionConfig;
   let classUnderTest: ConfiguratorAttributeCompositionDirective;
   let viewContainerRef: ViewContainerRef;
   let loggerService: LoggerService;
 
-  beforeEach(() => {
-    configuratorAttributeCompositionTestConfig = {
-      productConfigurator: { assignment: { testComponent: TestComponent } },
-    };
-    TestBed.configureTestingModule({
-      providers: [
-        ConfiguratorAttributeCompositionDirective,
-        {
-          provide: ConfiguratorAttributeCompositionConfig,
-          useValue: configuratorAttributeCompositionTestConfig,
-        },
-        {
-          provide: ViewContainerRef,
-          useClass: MockViewContainerRef,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
-      ],
-    });
+  function init() {
     classUnderTest = TestBed.inject(
       ConfiguratorAttributeCompositionDirective as Type<ConfiguratorAttributeCompositionDirective>
     );
@@ -61,23 +40,52 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
 
     classUnderTest['context'] = ConfiguratorTestUtils.getAttributeContext();
     productConfiguratorDeltaRenderingEnabled = false;
+  }
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        ConfiguratorAttributeCompositionDirective,
+        {
+          provide: ConfiguratorAttributeCompositionConfig,
+          useValue: {
+            productConfigurator: {
+              assignment: { testComponent: TestComponent },
+            },
+          },
+        },
+        {
+          provide: ViewContainerRef,
+          useClass: MockViewContainerRef,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
+    });
   });
 
   it('should create', () => {
+    init();
     expect(classUnderTest).toBeDefined();
   });
 
   it('should handle missing assignment config', () => {
-    (
-      configuratorAttributeCompositionTestConfig.productConfigurator ?? {}
-    ).assignment = undefined;
-    classUnderTest = TestBed.inject(
-      ConfiguratorAttributeCompositionDirective as Type<ConfiguratorAttributeCompositionDirective>
-    );
-    expect(classUnderTest['attrCompAssignment']).toBeDefined();
+    TestBed.overrideProvider(ConfiguratorAttributeCompositionConfig, {
+      useValue: {
+        productConfigurator: { assignment: undefined },
+      },
+    });
+    init();
+    expect(classUnderTest['attrComponentAssignment']).toBeDefined();
   });
 
   describe('ngOnInit', () => {
+    beforeEach(() => {
+      init();
+    });
+
     it('should render view if performance feature toggle is off', () => {
       classUnderTest.ngOnInit();
       expectComponentRendered(1);
@@ -97,6 +105,10 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
   });
 
   describe('ngOnChanges', () => {
+    beforeEach(() => {
+      init();
+    });
+
     it('should render view if performance feature toggle is on', () => {
       productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest.ngOnChanges();
@@ -118,6 +130,16 @@ describe('ConfiguratorAttributeCompositionDirective', () => {
       // re-create another context with the different attribute
       classUnderTest['context'] = ConfiguratorTestUtils.getAttributeContext();
       classUnderTest['context'].attribute.selectedSingleValue = 'changed';
+      classUnderTest.ngOnChanges();
+      expectComponentRendered(2);
+    });
+
+    it('should re-render the attribute if group changes', () => {
+      productConfiguratorDeltaRenderingEnabled = true;
+      classUnderTest.ngOnChanges();
+      // re-create another context with the different attribute
+      classUnderTest['context'] = ConfiguratorTestUtils.getAttributeContext();
+      classUnderTest['context'].group.id = 'changed';
       classUnderTest.ngOnChanges();
       expectComponentRendered(2);
     });
