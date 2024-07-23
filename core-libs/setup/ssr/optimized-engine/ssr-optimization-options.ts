@@ -172,11 +172,16 @@ export enum RenderingStrategy {
   ALWAYS_SSR = 1,
 }
 
-// To enforce default values for `featureToggles`
-export const defaultSsrOptimizationOptions: Required<
-  Pick<SsrOptimizationOptions, 'featureToggles'>
-> &
-  SsrOptimizationOptions = {
+/**
+ * Deeply required type for `featureToggles` property.
+ */
+type DeepRequired<T> = {
+  [P in keyof T]-?: DeepRequired<T[P]>;
+};
+
+export const defaultSsrOptimizationOptions: SsrOptimizationOptions &
+  // To not forget adding default values, when adding new feature toggles in the type in the future
+  DeepRequired<Pick<SsrOptimizationOptions, 'featureToggles'>> = {
   cacheSize: 3000,
   concurrency: 10,
   timeout: 3_000,
