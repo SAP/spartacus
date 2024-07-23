@@ -108,9 +108,6 @@ export class MediaComponent implements OnChanges {
     this.create();
   }
 
-  log(log) {
-    console.log(log);
-  }
   /**
    * Creates the `Media` object
    */

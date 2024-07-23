@@ -43,4 +43,5 @@ export const mediaConfig: MediaConfig = {
       minDevicePixelRatio: 2,
     },
   },
+  pictureFormatsOrder: ['widescreen', 'mobile', 'tablet'],
 };
