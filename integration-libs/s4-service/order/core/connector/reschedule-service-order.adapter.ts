@@ -12,12 +12,12 @@ export abstract class RescheduleServiceOrderAdapter {
    * Abstract method used to reschedule a service order
    *
    * @param userId
-   * @param cartId
+   * @param code : service order code
    * @param scheduledAt : date and time of the service
    */
   abstract rescheduleServiceOrder(
     userId: string,
-    cartId: string,
+    code: string,
     scheduledAt: ServiceDetails
   ): Observable<unknown>;
 }

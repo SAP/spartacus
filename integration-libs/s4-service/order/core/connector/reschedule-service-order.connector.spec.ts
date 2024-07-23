@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ReschedleServiceOrderConnector } from './reschedule-service-order.connector';
+import { RescheduleServiceOrderConnector } from './reschedule-service-order.connector';
 
 describe('ReschedleServiceOrderConnectorService', () => {
-  let service: ReschedleServiceOrderConnector;
+  let service: RescheduleServiceOrderConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ReschedleServiceOrderConnector);
+    service = TestBed.inject(RescheduleServiceOrderConnector);
   });
 
   it('should be created', () => {

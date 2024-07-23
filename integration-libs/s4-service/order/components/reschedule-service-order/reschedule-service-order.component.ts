@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderDetailsService } from '@spartacus/order/components';
-import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
-import { Observable } from 'rxjs';
+import { CheckoutServiceSchedulePickerService, RescheduleServiceOrderFacade, ServiceDateTime } from '@spartacus/s4-service/root';
+import { mergeMap, Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-reschedule-service-order',
@@ -10,10 +10,12 @@ import { Observable } from 'rxjs';
 })
 export class RescheduleServiceOrderComponent implements OnInit {
   protected orderDetailsService = inject(OrderDetailsService);
+  protected rescheduleServiceOrdeFacade = inject(RescheduleServiceOrderFacade);
   protected fb = inject(FormBuilder);
   protected checkoutServiceSchedulePickerService = inject(
     CheckoutServiceSchedulePickerService
   );
+  dateTime: ServiceDateTime;
 
   minServiceDate$: Observable<string> =
     this.checkoutServiceSchedulePickerService.getMinDateForService();
@@ -25,10 +27,6 @@ export class RescheduleServiceOrderComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.orderDetailsService.orderCode$
-      .subscribe(orderCode => {
-        console.log('Order Number: ', orderCode);
-      });
     this.orderDetailsService.getOrderDetails()
       .subscribe(orderDetails => {
         console.log('Order details: ', orderDetails);
@@ -46,11 +44,18 @@ export class RescheduleServiceOrderComponent implements OnInit {
   rescheduleServiceOrder(): void {
     const scheduleDate = this.form?.get('scheduleDate')?.value || '';
     const scheduleTime = this.form?.get('scheduleTime')?.value || '';
-    const scheduleDateTime =
+    this.dateTime =
     this.checkoutServiceSchedulePickerService.convertToDateTime(
       scheduleDate,
       scheduleTime
     );
-    console.log('Rescheduling service order...', scheduleDateTime);
+    console.log('Component level ', this.dateTime);
+    this.orderDetailsService.orderCode$
+      .pipe(
+        mergeMap(orderCode => this.rescheduleServiceOrdeFacade.rescheduleService(orderCode, this.dateTime))
+      )
+      .subscribe(() => {
+        console.log('Service order rescheduled');
+      });
   }
 }
