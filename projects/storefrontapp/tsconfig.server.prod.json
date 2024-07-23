@@ -121,6 +121,18 @@
       "@spartacus/customer-ticketing/root": [
         "../../dist/customer-ticketing/root"
       ],
+      "@spartacus/estimated-delivery-date/assets": [
+        "../../dist/estimated-delivery-date/assets"
+      ],
+      "@spartacus/estimated-delivery-date": [
+        "../../dist/estimated-delivery-date"
+      ],
+      "@spartacus/estimated-delivery-date/root": [
+        "../../dist/estimated-delivery-date/root"
+      ],
+      "@spartacus/estimated-delivery-date/show-estimated-delivery-date": [
+        "../../dist/estimated-delivery-date/show-estimated-delivery-date"
+      ],
       "@spartacus/order/assets": ["../../dist/order/assets"],
       "@spartacus/order/components": ["../../dist/order/components"],
       "@spartacus/order/core": ["../../dist/order/core"],
@@ -390,7 +402,14 @@
         "../../dist/cdp/customer-ticketing"
       ],
       "@spartacus/cdp": ["../../dist/cdp"],
+      "@spartacus/cds/assets": ["../../dist/cds/assets"],
       "@spartacus/cds": ["../../dist/cds"],
+      "@spartacus/cpq-quote/assets": ["../../dist/cpq-quote/assets"],
+      "@spartacus/cpq-quote/cpq-quote-discount": [
+        "../../dist/cpq-quote/cpq-quote-discount"
+      ],
+      "@spartacus/cpq-quote": ["../../dist/cpq-quote"],
+      "@spartacus/cpq-quote/root": ["../../dist/cpq-quote/root"],
       "@spartacus/digital-payments/assets": [
         "../../dist/digital-payments/assets"
       ],
@@ -411,6 +430,13 @@
       "@spartacus/epd-visualization/root": [
         "../../dist/epd-visualization/root"
       ],
+      "@spartacus/opps": ["../../dist/opps"],
+      "@spartacus/opps/root": ["../../dist/opps/root"],
+      "@spartacus/s4-service/assets": ["../../dist/s4-service/assets"],
+      "@spartacus/s4-service/checkout": ["../../dist/s4-service/checkout"],
+      "@spartacus/s4-service": ["../../dist/s4-service"],
+      "@spartacus/s4-service/order": ["../../dist/s4-service/order"],
+      "@spartacus/s4-service/root": ["../../dist/s4-service/root"],
       "@spartacus/s4om/assets": ["../../dist/s4om/assets"],
       "@spartacus/s4om": ["../../dist/s4om"],
       "@spartacus/s4om/root": ["../../dist/s4om/root"],

@@ -8,57 +8,164 @@
         <span class="cx-cart-quick-order-form-productID">
           <label class="cx-cart-quick-order-form-label">
             {{ 'quickOrderCartForm.productCodeLabel' | cxTranslate }}
-            <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-            <abbr
-              *cxFeature="'a11yRequiredAsterisks'"
-              class="text-decoration-none"
-              title="{{ 'common.required' | cxTranslate }}"
-              >*</abbr
+            <!-- TODO: (CXSPA-7479) Remove feature flags next major -->
+            <ng-container
+              *cxFeature="
+                '!a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
+              "
             >
+              <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
+              <abbr
+                *cxFeature="'a11yRequiredAsterisks'"
+                class="text-decoration-none"
+                title="{{ 'common.required' | cxTranslate }}"
+                >*</abbr
+              >
+            </ng-container>
           </label>
-          <input
-            [attr.aria-label]="
-              'quickOrderCartForm.entryProductCode' | cxTranslate
+
+          <!-- TODO: (CXSPA-7479) Remove feature flags next major -->
+          <ng-container
+            *cxFeature="
+              'a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
             "
-            aria-required="true"
-            class="form-control input-product-code"
-            formControlName="productCode"
-            required="true"
-            placeholder="{{
-              'quickOrderCartForm.productCodePlaceholder' | cxTranslate
-            }}"
-            type="text"
-          />
+          >
+            <input
+              [attr.aria-label]="
+                'quickOrderCartForm.entryProductCode' | cxTranslate
+              "
+              class="form-control input-product-code"
+              formControlName="productCode"
+              placeholder="{{
+                'quickOrderCartForm.productCodePlaceholder' | cxTranslate
+              }}"
+              type="text"
+            />
+          </ng-container>
+
+          <!-- TODO: (CXSPA-7479) Remove feature flags next major -->
+          <ng-container
+            *cxFeature="
+              '!a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
+            "
+          >
+            <input
+              [attr.aria-label]="
+                'quickOrderCartForm.entryProductCode' | cxTranslate
+              "
+              aria-required="true"
+              class="form-control input-product-code"
+              formControlName="productCode"
+              required="true"
+              placeholder="{{
+                'quickOrderCartForm.productCodePlaceholder' | cxTranslate
+              }}"
+              type="text"
+            />
+          </ng-container>
         </span>
 
         <span class="cx-cart-quick-order-form-qty">
           <label class="cx-cart-quick-order-form-label">
             {{ 'quickOrderCartForm.quantityLabel' | cxTranslate }}
           </label>
-          <input
-            [attr.aria-label]="'quickOrderCartForm.quantity' | cxTranslate"
-            aria-required="true"
-            class="form-control input-quantity"
-            formControlName="quantity"
-            required="true"
-            type="number"
-          />
+
+          <!-- TODO: (CXSPA-7479) Remove feature flags next major -->
+          <ng-container
+            *cxFeature="
+              'a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
+            "
+          >
+            <input
+              [attr.aria-label]="'quickOrderCartForm.quantity' | cxTranslate"
+              class="form-control input-quantity"
+              formControlName="quantity"
+              type="number"
+            />
+          </ng-container>
+
+          <!-- TODO: (CXSPA-7479) Remove feature flags next major -->
+          <ng-container
+            *cxFeature="
+              '!a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
+            "
+          >
+            <input
+              [attr.aria-label]="'quickOrderCartForm.quantity' | cxTranslate"
+              aria-required="true"
+              class="form-control input-quantity"
+              formControlName="quantity"
+              required="true"
+              type="number"
+            />
+          </ng-container>
         </span>
-        <button
-          [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
-          [class.disabled]="cartIsLoading$ | async"
-          [disabled]="cartIsLoading$ | async"
-          class="btn btn-block btn-secondary apply-quick-order-button"
-          type="submit"
+
+        <!-- TODO: (CXSPA-7479) Remove feature flags next major -->
+        <ng-container
+          *cxFeature="
+            'a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
+          "
         >
-          {{ 'quickOrderCartForm.add' | cxTranslate }}
-        </button>
-        <cx-form-errors
-          [control]="quickOrderForm.get('productCode')"
-        ></cx-form-errors>
-        <cx-form-errors
-          [control]="quickOrderForm.get('quantity')"
-        ></cx-form-errors>
+          <button
+            [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
+            [class.disabled]="cartIsLoading$ | async"
+            [disabled]="
+              (cartIsLoading$ | async) ||
+              !quickOrderForm?.get('productCode')?.value ||
+              !quickOrderForm?.get('quantity')?.value
+            "
+            class="btn btn-block btn-secondary apply-quick-order-button"
+            type="submit"
+          >
+            {{ 'quickOrderCartForm.add' | cxTranslate }}
+          </button>
+        </ng-container>
+
+        <!-- TODO: (CXSPA-7479) Remove feature flags next major -->
+        <ng-container
+          *cxFeature="
+            '!a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
+          "
+        >
+          <button
+            [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
+            [class.disabled]="cartIsLoading$ | async"
+            [disabled]="cartIsLoading$ | async"
+            class="btn btn-block btn-secondary apply-quick-order-button"
+            type="submit"
+          >
+            {{ 'quickOrderCartForm.add' | cxTranslate }}
+          </button>
+
+          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+          <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            [translationParams]="{
+              label: 'quickOrderCartForm.productCodeLabel' | cxTranslate
+            }"
+            [control]="quickOrderForm.get('productCode')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
+            [control]="quickOrderForm.get('productCode')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            [translationParams]="{
+              label: 'quickOrderCartForm.quantityLabel' | cxTranslate
+            }"
+            [control]="quickOrderForm.get('quantity')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
+            [control]="quickOrderForm.get('quantity')"
+          ></cx-form-errors>
+        </ng-container>
       </div>
-    </form></div
-></ng-container>
+    </form>
+  </div>
+</ng-container>

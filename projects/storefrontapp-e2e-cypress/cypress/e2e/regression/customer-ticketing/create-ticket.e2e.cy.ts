@@ -53,7 +53,7 @@ describe('ticketing', () => {
       customerTicketing.visitElectronicTicketListingPage();
       customerTicketing.openCreateTicketPopup();
       customerTicketing.fillTicketDetails(testTicketDetails);
-      customerTicketing.addFile(testTicketDetails.filename);
+      customerTicketing.addFileSelect(testTicketDetails.filename);
       customerTicketing.clickSubmit();
       customerTicketing.verifyGlobalMessage();
       customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
@@ -74,7 +74,7 @@ describe('ticketing', () => {
       customerTicketing.visitElectronicTicketListingPage();
       customerTicketing.openCreateTicketPopup();
       customerTicketing.fillTicketDetails(testTicketDetails);
-      customerTicketing.addFile(testTicketDetails.filename);
+      customerTicketing.addFileSelect(testTicketDetails.filename);
       customerTicketing.clickSubmit();
       customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
     });
@@ -93,7 +93,7 @@ describe('ticketing', () => {
       customerTicketing.visitElectronicTicketListingPage();
       customerTicketing.openCreateTicketPopup();
       customerTicketing.fillTicketDetails(testTicketDetails);
-      customerTicketing.addFile(testTicketDetails.filename);
+      customerTicketing.addFileSelect(testTicketDetails.filename);
       customerTicketing.clickSubmit();
       customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
     });
@@ -112,7 +112,7 @@ describe('ticketing', () => {
       customerTicketing.visitElectronicTicketListingPage();
       customerTicketing.openCreateTicketPopup();
       customerTicketing.fillTicketDetails(testTicketDetails);
-      customerTicketing.addFile(testTicketDetails.filename);
+      customerTicketing.addFileSelect(testTicketDetails.filename);
       customerTicketing.clickSubmit();
       customerTicketing.verifyGlobalMessage();
       customerTicketing.verifyCreatedTicketDetails(testTicketDetails);

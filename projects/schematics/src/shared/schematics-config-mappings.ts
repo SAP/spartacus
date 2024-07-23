@@ -9,7 +9,12 @@ import {
   ASM_SCHEMATICS_CONFIG,
   ASM_CUSTOMER_360_SCHEMATICS_CONFIG,
 } from './lib-configs/asm-schematics-config';
-import { CDP_SCHEMATICS_CONFIG, QUOTE_SCHEMATICS_CONFIG } from './lib-configs';
+import {
+  CDP_SCHEMATICS_CONFIG,
+  QUOTE_SCHEMATICS_CONFIG,
+  OPPS_SCHEMATICS_CONFIG,
+  S4_SERVICE_SCHEMATICS_CONFIG,
+} from './lib-configs';
 import {
   CART_BASE_SCHEMATICS_CONFIG,
   CART_IMPORT_EXPORT_SCHEMATICS_CONFIG,
@@ -31,6 +36,8 @@ import { CDS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cds-schema
 import { DIGITAL_PAYMENTS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/digital-payments-schematics-config';
 import { EPD_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/epd-schematics-config';
 import { S4OM_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/s4om-schematics-config';
+import { CPQ_QUOTE_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cpq-quote-schematics-config';
+
 import { SEGMENT_REFS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/segment-refs-schematics-config';
 import { ORDER_SCHEMATICS_CONFIG } from './lib-configs/order-schematics-config';
 import {
@@ -55,6 +62,7 @@ import {
 } from './lib-configs/product-schematics-config';
 import { QUALTRICS_SCHEMATICS_CONFIG } from './lib-configs/qualtrics-schematics-config';
 import { REQUESTED_DELIVERY_DATE_SCHEMATICS_CONFIG } from './lib-configs/requested-delivery-date-schematics-config';
+import { ESTIMATED_DELIVERY_DATE_SCHEMATICS_CONFIG } from './lib-configs/estimated-delivery-date-schematics-config';
 import { SMARTEDIT_SCHEMATICS_CONFIG } from './lib-configs/smartedit-schematics-config';
 import { STOREFINDER_SCHEMATICS_CONFIG } from './lib-configs/storefinder-schematics-config';
 import {
@@ -114,6 +122,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
 
   REQUESTED_DELIVERY_DATE_SCHEMATICS_CONFIG,
 
+  ESTIMATED_DELIVERY_DATE_SCHEMATICS_CONFIG,
+
   SMARTEDIT_SCHEMATICS_CONFIG,
 
   STOREFINDER_SCHEMATICS_CONFIG,
@@ -139,9 +149,14 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
 
   EPD_SCHEMATICS_CONFIG,
 
+  OPPS_SCHEMATICS_CONFIG,
+
   S4OM_SCHEMATICS_CONFIG,
 
+  S4_SERVICE_SCHEMATICS_CONFIG,
+
   SEGMENT_REFS_SCHEMATICS_CONFIG,
+  CPQ_QUOTE_SCHEMATICS_CONFIG,
 ];
 
 /**

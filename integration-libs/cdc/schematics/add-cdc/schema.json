@@ -24,6 +24,10 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
+      "items": {
+        "enum": ["CDC", "CDC-B2B"],
+        "type": "string"
+      },
       "x-prompt": {
         "message": "Which feature would you like to set up from the CDC library?",
         "type": "list",

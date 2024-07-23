@@ -16,10 +16,10 @@ export function clickOnAddToCartBtnOnPD(): void {
     .then(() => {
       cy.get(addToCartDialog).should('be.visible');
       cy.get('div.cx-dialog-body').should('be.visible');
-      cy.get('div.cx-dialog-buttons a.btn-primary')
+      cy.get('div.cx-dialog-buttons button.btn-primary')
         .contains('view cart')
         .should('be.visible');
-      cy.get('div.cx-dialog-buttons a.btn-secondary')
+      cy.get('div.cx-dialog-buttons button.btn-secondary')
         .contains('proceed to checkout')
         .should('be.visible');
     });
@@ -29,7 +29,7 @@ export function clickOnAddToCartBtnOnPD(): void {
  * Clicks on 'View Cart' on the product details page.
  */
 export function clickOnViewCartBtnOnPD(): void {
-  cy.get('div.cx-dialog-buttons a.btn-primary')
+  cy.get('div.cx-dialog-buttons button.btn-primary')
     .contains('view cart')
     .click()
     .then(() => {

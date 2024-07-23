@@ -22,12 +22,16 @@ export const asmFeatureModulePath =
   'src/app/spartacus/features/asm/asm-feature.module.ts';
 export const cartBaseFeatureModulePath =
   'src/app/spartacus/features/cart/cart-base-feature.module.ts';
-export const cartWrapperModulePath =
+export const cartBaseWrapperModulePath =
   'src/app/spartacus/features/cart/cart-base-wrapper.module.ts';
 export const customerTicketingFeatureModulePath =
   'src/app/spartacus/features/customer-ticketing/customer-ticketing-feature.module.ts';
 export const customerTicketingWrapperModulePath =
   'src/app/spartacus/features/customer-ticketing/customer-ticketing-wrapper.module.ts';
+export const cpqQuoteFeatureModulePath =
+  'src/app/spartacus/features/cpq-quote/cpq-quote-feature.module.ts';
+export const estimatedDeliveryDateFeatureModulePath =
+  'src/app/spartacus/features/estimated-delivery-date/estimated-delivery-date-feature.module.ts';
 export const importExportFeatureModulePath =
   'src/app/spartacus/features/cart/cart-import-export-feature.module.ts';
 export const quickOrderFeatureModulePath =
@@ -44,6 +48,8 @@ export const quoteFeatureModulePath =
   'src/app/spartacus/features/quote/quote-feature.module.ts';
 export const orderFeatureModulePath =
   'src/app/spartacus/features/order/order-feature.module.ts';
+export const orderWrapperModulePath =
+  'src/app/spartacus/features/order/order-wrapper.module.ts';
 export const organizationAdministrationFeatureModulePath =
   'src/app/spartacus/features/organization/organization-administration-feature.module.ts';
 export const pickupInStoreFeatureModulePath =
@@ -105,6 +111,10 @@ export const epdFeatureModulePath =
   'src/app/spartacus/features/epd-visualization/epd-visualization-feature.module.ts';
 export const segmentRefsFeatureModulePath =
   'src/app/spartacus/features/segment-refs/segment-refs-feature.module.ts';
+export const oppsFeatureModulePath =
+  'src/app/spartacus/features/opps/opps-feature.module.ts';
+export const s4ServiceFeatureModulePath =
+  'src/app/spartacus/features/s4-service/s4-service-feature.module.ts';
 
 export function writeFile(
   host: TempScopedNodeJsSyncHost,

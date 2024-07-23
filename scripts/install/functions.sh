@@ -122,6 +122,12 @@ function add_cdc {
     fi
 }
 
+function add_opps {
+  if [ "$ADD_OPPS" = true ] ; then
+        ng add @spartacus/opps@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+    fi
+}
+
 function add_epd_visualization {
     if [ "$ADD_EPD_VISUALIZATION" = true ] ; then
         ng add @spartacus/epd-visualization@${SPARTACUS_VERSION} --base-url ${EPD_VISUALIZATION_BASE_URL} --skip-confirmation --no-interactive
@@ -149,9 +155,26 @@ function add_s4om {
     fi
 }
 
+function add_S4_SERVICE {
+  if [ "$ADD_S4_SERVICE" = true ] ; then
+        ng add --skip-confirmation @spartacus/s4-service@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
+function add_cpq-quote {
+  if [ "$ADD_CPQ_QUOTE" = true ] ; then
+        ng add --skip-confirmation @spartacus/cpq-quote@${SPARTACUS_VERSION} --interactive false
+    fi
+}
 function add_requested_delivery_date {
   if [ "$ADD_REQUESTED_DELIVERY_DATE" = true ] ; then
         ng add --skip-confirmation @spartacus/requested-delivery-date@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
+function add_estimated_delivery_date {
+  if [ "$ADD_ESTIMATED_DELIVERY_DATE" = true ] ; then
+        ng add --skip-confirmation @spartacus/estimated-delivery-date@${SPARTACUS_VERSION} --interactive false
     fi
 }
 
@@ -189,7 +212,10 @@ function add_spartacus_csr {
     add_product_configurator
     add_quote
     add_s4om
+    add_S4_SERVICE
     add_requested_delivery_date
+    add_estimated_delivery_date
+    add_cpq-quote
     add_pdf_invoices
     remove_npmrc
     )
@@ -214,7 +240,10 @@ function add_spartacus_ssr {
     add_product_configurator
     add_quote
     add_s4om
+    add_S4_SERVICE
     add_requested_delivery_date
+    add_estimated_delivery_date
+    add_cpq-quote
     add_pdf_invoices
     remove_npmrc
     )
@@ -237,7 +266,10 @@ function add_spartacus_ssr_pwa {
     add_epd_visualization
     add_product_configurator
     add_s4om
+    add_S4_SERVICE
     add_requested_delivery_date
+    add_estimated_delivery_date
+    add_cpq-quote
     add_pdf_invoices
     remove_npmrc
     )
@@ -762,14 +794,34 @@ function parseInstallArgs {
                 echo "➖ Added EPD"
                 shift
                 ;;
+            opps)
+                ADD_OPPS=true
+                echo "➖ Added OPPS"
+                shift
+                ;;
             s4om)
                 ADD_S4OM=true
                 echo "➖ Added S4OM"
                 shift
                 ;;
+            s4Service)
+                ADD_S4_SERVICE=true
+                echo "➖ Added S/4HANA Service Integration"
+                shift
+                ;;                
+            cpq-quote)
+                ADD_CPQ_QUOTE=true
+                echo "➖ Added CPQ_QUOTE"
+                shift
+                ;;
             rdd)
                 ADD_REQUESTED_DELIVERY_DATE=true
                 echo "➖ Added Requested Delivery Date"
+                shift
+                ;;
+            edd)
+                ADD_ESTIMATED_DELIVERY_DATE=true
+                echo "➖ Added Estimated Delivery Date"
                 shift
                 ;;
             invoices)

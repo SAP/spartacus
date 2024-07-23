@@ -1,6 +1,7 @@
 <button
   #button
   [attr.aria-label]="'navigation.scrollToTop' | cxTranslate"
+  [title]="'navigation.scrollToTop' | cxTranslate"
   class="cx-scroll-to-top-btn"
   (click)="scrollToTop($event)"
   (focusout)="onFocusOut()"

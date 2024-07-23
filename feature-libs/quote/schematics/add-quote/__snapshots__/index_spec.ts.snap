@@ -55,7 +55,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.21'
+      level: '2211.27'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -67,7 +67,7 @@ exports[`Spartacus Quote schematics: ng-add Quote feature general setup should a
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { quoteTranslationChunksConfig, quoteTranslations } from "@spartacus/quote/assets";
-import { QuoteRootModule, QUOTE_CART_GUARD_FEATURE, QUOTE_FEATURE, QUOTE_REQUEST_FEATURE } from "@spartacus/quote/root";
+import { QUOTE_CART_GUARD_FEATURE, QUOTE_FEATURE, QUOTE_REQUEST_FEATURE, QuoteRootModule } from "@spartacus/quote/root";
 
 @NgModule({
   declarations: [],

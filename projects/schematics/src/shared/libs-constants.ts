@@ -156,6 +156,10 @@ export const SPARTACUS_REQUESTED_DELIVERY_DATE = `@spartacus/requested-delivery-
 export const SPARTACUS_REQUESTED_DELIVERY_DATE_ROOT = `@spartacus/requested-delivery-date/root`;
 export const SPARTACUS_REQUESTED_DELIVERY_DATE_ASSETS = `@spartacus/requested-delivery-date/assets`;
 
+export const SPARTACUS_ESTIMATED_DELIVERY_DATE = `@spartacus/estimated-delivery-date`;
+export const SPARTACUS_ESTIMATED_DELIVERY_DATE_ROOT = `@spartacus/estimated-delivery-date/root`;
+export const SPARTACUS_ESTIMATED_DELIVERY_DATE_ASSETS = `@spartacus/estimated-delivery-date/assets`;
+
 export const SPARTACUS_SMARTEDIT = `@spartacus/smartedit`;
 export const SPARTACUS_SMARTEDIT_ROOT = `@spartacus/smartedit/root`;
 
@@ -185,6 +189,8 @@ export const SPARTACUS_USER_PROFILE_ASSETS = `@spartacus/user/profile/assets`;
 export const SPARTACUS_USER_PROFILE_ROOT = `@spartacus/user/profile/root`;
 
 export const SPARTACUS_CDS = `@spartacus/cds`;
+
+export const SPARTACUS_CDS_ASSETS = `@spartacus/cds/assets`;
 
 export const SPARTACUS_CDP = `@spartacus/cdp`;
 export const SPARTACUS_CDP_CUSTOMER_TICKETING =
@@ -217,8 +223,17 @@ export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
+export const SPARTACUS_OPPS = '@spartacus/opps';
+export const SPARTACUS_OPPS_ROOT = '@spartacus/opps/root';
+
 export const SPARTACUS_SEGMENT_REFS = '@spartacus/segment-refs';
 export const SPARTACUS_SEGMENT_REFS_ROOT = `@spartacus/segment-refs/root`;
+
+export const SPARTACUS_S4_SERVICE = '@spartacus/s4-service';
+export const SPARTACUS_S4_SERVICE_ASSETS = `@spartacus/s4-service/assets`;
+export const SPARTACUS_S4_SERVICE_ROOT = `@spartacus/s4-service/root`;
+export const SPARTACUS_S4_SERVICE_CHECKOUT = `@spartacus/s4-service/checkout`;
+export const SPARTACUS_S4_SERVICE_ORDER = `@spartacus/s4-service/order`;
 
 export const SPARTACUS_CUSTOMER_TICKETING_ROOT = `@spartacus/customer-ticketing/root`;
 export const SPARTACUS_CUSTOMER_TICKETING_ASSETS = `@spartacus/customer-ticketing/assets`;
@@ -274,6 +289,8 @@ export const QUALTRICS_FEATURE_NAME = 'Qualtrics';
 
 export const REQUESTED_DELIVERY_DATE_FEATURE_NAME = 'Requested-Delivery-Date';
 
+export const ESTIMATED_DELIVERY_DATE_FEATURE_NAME = 'Estimated-Delivery-Date';
+
 export const SMARTEDIT_FEATURE_NAME = 'SmartEdit';
 
 export const STOREFINDER_FEATURE_NAME = 'Store-Finder';
@@ -304,6 +321,10 @@ export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 
 export const SEGMENT_REFS_FEATURE_NAME = 'Segment-Refs';
 
+export const S4_SERVICE_FEATURE_NAME = 's4-service';
+
+export const OPPS_FEATURE_NAME = 'OPPS';
+
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 /***** Feature name end *****/
 
@@ -313,3 +334,8 @@ export const PICKUP_IN_STORE_FEATURE = 'Pickup-In-Store';
 export const PICKUP_IN_STORE_MODULE = 'PickupInStoreModule';
 export const PICKUP_IN_STORE_ROOT_MODULE = 'PickupInStoreRootModule';
 /***** Feature name end *****/
+
+export const CPQ_QUOTE_FEATURE_NAME = 'Cpq-Quote';
+export const SPARTACUS_CPQ_QUOTE = `@spartacus/cpq-quote`;
+export const SPARTACUS_CPQ_QUOTE_ROOT = `@spartacus/cpq-quote/root`;
+export const SPARTACUS_CPQ_QUOTE_ASSETS = `@spartacus/cpq-quote/assets`;

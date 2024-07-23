@@ -20,7 +20,6 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
-  FeaturesConfig,
   I18nConfig,
   OccConfig,
   RoutingConfig,
@@ -88,31 +87,7 @@ if (!environment.production) {
         fallbackLang: 'en',
       },
     }),
-    provideConfig(<FeaturesConfig>{
-      // For the development environment and CI, feature level is always the highest.
-      features: {
-        level: '*',
-        a11yRequiredAsterisks: true,
-        a11yQuantityOrderTabbing: true,
-        a11yNavigationUiKeyboardControls: true,
-        a11yOrderConfirmationHeadingOrder: true,
-        a11yStarRating: true,
-        a11yPopoverFocus: true,
-        a11yScheduleReplenishment: true,
-        a11yScrollToTop: true,
-        a11ySavedCartsZoom: true,
-        a11ySortingOptionsTruncation: true,
-        a11yExpandedFocusIndicator: true,
-        a11yCheckoutDeliveryFocus: true,
-        a11yMobileVisibleFocus: true,
-        a11yOrganizationsBanner: true,
-        a11yOrganizationListHeadingOrder: true,
-        a11yReplenishmentOrderFieldset: true,
-        a11yListOversizedFocus: true,
-        a11yStoreFinderOverflow: true,
-        a11yCartSummaryHeadingOrder: true,
-      },
-    }),
+    provideConfig({ features: { level: '*' } }), // For the development environment and CI, feature level is always the highest.
     provideConfig(<StoreFinderConfig>{
       // For security compliance, by default, google maps does not display.
       // Using special key value 'cx-development' allows google maps to display

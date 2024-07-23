@@ -1,5 +1,10 @@
 import { Component, DebugElement, ElementRef, Input } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -323,7 +328,28 @@ describe('Navigation UI Component', () => {
       expect(navigationComponent.reinitializeMenu).toHaveBeenCalledWith();
       expect(hamburgerMenuService.toggle).toHaveBeenCalledWith();
     });
+
+    it('should remove topmost semantic list roles for non-flyout navigation', () => {
+      navigationComponent.flyout = false;
+      fixture.detectChanges();
+      const firstListElement: HTMLElement = element.query(
+        By.css('ul')
+      ).nativeElement;
+      const secondListElement: HTMLElement = element.query(
+        By.css('[depth="1"]')
+      ).nativeElement;
+
+      expect(firstListElement.getAttribute('role')).toBe('presentation');
+      Array.from(firstListElement.children).forEach((child) => {
+        expect(child.getAttribute('role')).toBe('presentation');
+      });
+
+      Array.from(secondListElement.children).forEach((child) => {
+        expect(child.getAttribute('role')).toBe('listitem');
+      });
+    });
   });
+
   describe('Keyboard navigation', () => {
     beforeEach(() => {
       fixture.detectChanges();
@@ -385,5 +411,43 @@ describe('Navigation UI Component', () => {
       navigationComponent['arrowControls'].next(arrowUpEvent);
       expect(document.activeElement).toEqual(firstChild.nativeElement);
     });
+
+    it('should restore default tabbing order for non flyout navigation', () => {
+      const childNode = {
+        title: 'Child',
+        url: '/child',
+      };
+      navigationComponent.flyout = true;
+      expect(navigationComponent.getTabIndex(childNode, 1)).toEqual(-1);
+
+      navigationComponent.flyout = false;
+      expect(navigationComponent.getTabIndex(childNode, 1)).toEqual(0);
+    });
+
+    it('should focus on the first focusable element when the hamburger menu is expanded', fakeAsync(() => {
+      const firstFocusableElement =
+        element.nativeElement.querySelector('[tabindex="0"]');
+      spyOn(firstFocusableElement, 'focus');
+      navigationComponent.navAriaLabel = 'menu';
+
+      navigationComponent.focusOnMenuExpansion();
+      tick();
+
+      expect(firstFocusableElement.focus).toHaveBeenCalled();
+    }));
+
+    it('return focus to node header after navigating back', fakeAsync(() => {
+      const mockNode = document.createElement('li');
+      const mockHeader = document.createElement('a');
+      mockHeader.setAttribute('tabindex', '0');
+      mockNode.appendChild(mockHeader);
+      navigationComponent['openNodes'] = [mockNode];
+      spyOn(mockHeader, 'focus');
+
+      navigationComponent.back();
+      tick();
+
+      expect(mockHeader.focus).toHaveBeenCalled();
+    }));
   });
 });

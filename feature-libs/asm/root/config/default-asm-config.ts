@@ -46,20 +46,30 @@ export const defaultAsmConfig: AsmConfig = {
           },
         },
         {
-          headerLocalizationKey: 'asm.customerList.tableHeader.cart',
+          headerLocalizationKey: 'asm.customerList.tableHeader.activeCart',
           icon: {
             symbol: ICON_TYPE.CART,
-            captionLocalizationKey: 'asm.customerList.tableHeader.cart',
+            captionLocalizationKey:
+              'asm.customerList.tableHeader.viewActiveCart',
           },
           actionType: CustomerListColumnActionType.ACTIVE_CART,
         },
         {
-          headerLocalizationKey: 'asm.customerList.tableHeader.order',
+          headerLocalizationKey: 'asm.customerList.tableHeader.orders',
           icon: {
-            symbol: ICON_TYPE.ORDER,
-            captionLocalizationKey: 'asm.customerList.tableHeader.order',
+            symbol: ICON_TYPE.C360_INVOICE,
+            captionLocalizationKey: 'asm.customerList.tableHeader.viewOrders',
           },
           actionType: CustomerListColumnActionType.ORDER_HISTORY,
+        },
+        {
+          headerLocalizationKey: 'asm.customerList.tableHeader.customer360',
+          icon: {
+            symbol: ICON_TYPE.C360_CIRCLE_USER,
+            captionLocalizationKey:
+              'asm.customerList.tableHeader.viewCustomer360',
+          },
+          actionType: CustomerListColumnActionType.CUSTOMER_360,
         },
       ],
     },

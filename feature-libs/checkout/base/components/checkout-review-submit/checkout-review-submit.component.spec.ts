@@ -145,43 +145,41 @@ describe('CheckoutReviewSubmitComponent', () => {
   let component: CheckoutReviewSubmitComponent;
   let fixture: ComponentFixture<CheckoutReviewSubmitComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          PromotionsModule,
-          RouterTestingModule,
-          IconTestingModule,
-          OutletModule,
-        ],
-        declarations: [
-          CheckoutReviewSubmitComponent,
-          MockCardComponent,
-          MockUrlPipe,
-        ],
-        providers: [
-          {
-            provide: CheckoutDeliveryAddressFacade,
-            useClass: MockCheckoutDeliveryAddressService,
-          },
-          {
-            provide: CheckoutDeliveryModesFacade,
-            useClass: MockCheckoutDeliveryModesService,
-          },
-          {
-            provide: CheckoutPaymentFacade,
-            useClass: MockCheckoutPaymentService,
-          },
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          {
-            provide: CheckoutStepService,
-            useClass: MockCheckoutStepService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        PromotionsModule,
+        RouterTestingModule,
+        IconTestingModule,
+        OutletModule,
+      ],
+      declarations: [
+        CheckoutReviewSubmitComponent,
+        MockCardComponent,
+        MockUrlPipe,
+      ],
+      providers: [
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useClass: MockCheckoutDeliveryAddressService,
+        },
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesService,
+        },
+        {
+          provide: CheckoutPaymentFacade,
+          useClass: MockCheckoutPaymentService,
+        },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutReviewSubmitComponent);

@@ -16,7 +16,7 @@
       "label": "New Password",
       "placeholder": "New Password"
     },
-    "passwordMinRequirements": "Password must be six characters minimum, with one uppercase letter, one number, one symbol",
+    "passwordMinRequirements": "Here's a quick guide for a secure password: Use at least 8 characters with a mix of upper and lowercase letters, numbers, and symbols.",
     "confirmPassword": {
       "label": "Confirm New Password",
       "placeholder": "Confirm Password"

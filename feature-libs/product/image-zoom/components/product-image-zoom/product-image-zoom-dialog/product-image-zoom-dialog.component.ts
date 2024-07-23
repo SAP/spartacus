@@ -11,6 +11,7 @@ import {
   HostListener,
   Input,
 } from '@angular/core';
+import { useFeatureStyles } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -45,7 +46,9 @@ export class ProductImageZoomDialogComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef
-  ) {}
+  ) {
+    useFeatureStyles('a11yCloseProductImageBtnFocus');
+  }
 
   close(reason = ''): void {
     this.launchDialogService.closeDialog(reason);

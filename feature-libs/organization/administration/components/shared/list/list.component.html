@@ -98,7 +98,7 @@
         [i18nRoot]="domainType"
         [currentItem]="{ property: key, value: currentKey$ | async }"
         (launch)="launchItem($event)"
-        [cxFocus]="{ trap: trapFocus.both }"
+        role="tree"
       >
       </cx-table>
 

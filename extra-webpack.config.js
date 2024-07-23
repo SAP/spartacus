@@ -50,6 +50,10 @@ module.exports = {
         __dirname,
         'feature-libs/requested-delivery-date'
       ),
+      '@spartacus/estimated-delivery-date': path.join(
+        __dirname,
+        'feature-libs/estimated-delivery-date'
+      ),
       '@spartacus/tracking': path.join(__dirname, 'feature-libs/tracking'),
       '@spartacus/cart': path.join(__dirname, 'feature-libs/cart'),
       '@spartacus/order': path.join(__dirname, 'feature-libs/order'),
@@ -67,6 +71,7 @@ module.exports = {
         'feature-libs/pickup-in-store'
       ),
       '@spartacus/s4om': path.join(__dirname, 'integration-libs/s4om'),
+      '@spartacus/s4-service': path.join(__dirname, 'integration-libs/s4-service'),
     },
   },
 };

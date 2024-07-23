@@ -4,13 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { AuthService, RoutingService } from '@spartacus/core';
+import {
+  AuthService,
+  FeatureConfigService,
+  RoutingService,
+} from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { Subscription } from 'rxjs';
@@ -20,16 +24,22 @@ import { Subscription } from 'rxjs';
   templateUrl: './order-guest-register-form.component.html',
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {
+  // TODO: (CXSPA-7315) Remove feature toggle in the next major
+  private featureConfigService = inject(FeatureConfigService);
+
+  protected passwordValidators = this.featureConfigService?.isEnabled(
+    'formErrorsDescriptiveMessages'
+  )
+    ? [CustomFormValidators.passwordValidator]
+    : CustomFormValidators.passwordValidators;
+
   @Input() guid: string;
   @Input() email: string;
 
   subscription: Subscription;
   guestRegisterForm: UntypedFormGroup = this.fb.group(
     {
-      password: [
-        '',
-        [Validators.required, CustomFormValidators.passwordValidator],
-      ],
+      password: ['', [Validators.required, ...this.passwordValidators]],
       passwordconf: ['', Validators.required],
     },
     {

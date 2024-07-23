@@ -78,6 +78,10 @@ $space: 0.5rem;
       flex: none;
     }
     justify-content: flex-start;
+
+    @include forFeature('a11yImproveContrast') {
+      @include type('8');
+    }
   }
 
   .SiteLinks {
@@ -130,6 +134,14 @@ $space: 0.5rem;
 
   .cx-hamburger {
     display: block;
+
+    &.is-active {
+      .hamburger-inner,
+      .hamburger-inner::before,
+      .hamburger-inner::after {
+        background-color: var(--cx-color-primary);
+      }
+    }
   }
 
   @include media-breakpoint-only(xs) {
@@ -195,16 +207,6 @@ $space: 0.5rem;
 
     .SiteLogin {
       padding: $space $space * 2;
-    }
-  }
-
-  .cx-hamburger {
-    &.is-active {
-      .hamburger-inner,
-      .hamburger-inner::before,
-      .hamburger-inner::after {
-        background-color: var(--cx-color-primary);
-      }
     }
   }
 

@@ -45,7 +45,7 @@ export type SsrCallbackFn = (
  */
 export class OptimizedSsrEngine {
   protected currentConcurrency = 0;
-  protected renderingCache = new RenderingCache(this.ssrOptions);
+  protected renderingCache: RenderingCache;
   private logger: ExpressServerLogger;
   private templateCache = new Map<string, string>();
 
@@ -81,6 +81,7 @@ export class OptimizedSsrEngine {
       throw new Error('`SsrOptimizationOptions.logger` is not defined');
     }
     this.logger = this.ssrOptions?.logger;
+    this.renderingCache = new RenderingCache(this.ssrOptions);
     this.logOptions();
   }
 
@@ -317,14 +318,15 @@ export class OptimizedSsrEngine {
     });
   }
 
+  /**
+   * @deprecated since v2211.27 - This method will be private in the future.
+   */
   protected log(
     message: string,
-    debug = true,
+    _ignoredLegacyDebugParameter = true,
     context: ExpressServerLoggerContext
   ): void {
-    if (debug || this.ssrOptions?.debug) {
-      this.logger.log(message, context || {});
-    }
+    this.logger.log(message, context || {});
   }
 
   /** Retrieve the document from the cache or the filesystem */

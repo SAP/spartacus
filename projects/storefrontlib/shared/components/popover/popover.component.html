@@ -5,6 +5,7 @@
       *ngIf="displayCloseButton"
       type="button"
       class="close"
+      attr.aria-label="{{ 'common.close' | cxTranslate }}"
       (keydown.enter)="close($event)"
       (keydown.space)="close($event)"
       (click)="close($event)"

@@ -83,4 +83,20 @@ export class BannerComponent {
       }
     }
   }
+
+  getImageAltText(data: CmsBannerComponent): string | undefined {
+    const img = this.getImage(data);
+    if (!img) {
+      return;
+    }
+
+    // assuming all media formats share the same alt text
+    return 'url' in img ? img.altText : Object.values(img)[0]?.altText;
+  }
+
+  getLinkAriaLabel(data: CmsBannerComponent): string | undefined {
+    const imgAltText = this.getImageAltText(data);
+
+    return data.headline ?? imgAltText;
+  }
 }

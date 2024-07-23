@@ -108,36 +108,34 @@ describe('ConfiguratorExitButton', () => {
   let routingService: RoutingService;
   let breakpointService: BreakpointService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [ConfiguratorExitButtonComponent],
-        providers: [
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: BreakpointService,
-            useClass: MockBreakpointService,
-          },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [ConfiguratorExitButtonComponent],
+      providers: [
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorExitButtonComponent);

@@ -26,4 +26,14 @@
       padding-inline-start: 0;
     }
   }
+  // TODO: (CXSPA-7208) Remove feature flag next major
+  @include forFeature('a11yVisibleFocusOverflows') {
+    .button-add-link {
+      padding-block-end: 0;
+      padding-block-start: 0;
+      margin-block-end: 1rem;
+      margin-block-start: 1rem;
+      min-height: auto;
+    }
+  }
 }

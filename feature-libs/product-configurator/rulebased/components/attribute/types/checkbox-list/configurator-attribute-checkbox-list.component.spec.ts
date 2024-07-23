@@ -66,47 +66,53 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
-describe('ConfigAttributeCheckBoxListComponent', () => {
+class MockConfiguratorStorefrontUtilsService {
+  assembleValuesForMultiSelectAttributes(): void {}
+}
+
+describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxListComponent>;
   let htmlElem: HTMLElement;
+  let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeCheckBoxListComponent,
-          MockFocusDirective,
-          MockConfiguratorAttributeQuantityComponent,
-          MockConfiguratorPriceComponent,
-          MockConfiguratorShowMoreComponent,
-        ],
-        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
-        providers: [
-          ConfiguratorStorefrontUtilsService,
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockGroupService,
-          },
-          ConfiguratorAttributeQuantityService,
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeCheckBoxListComponent,
+        MockFocusDirective,
+        MockConfiguratorAttributeQuantityComponent,
+        MockConfiguratorPriceComponent,
+        MockConfiguratorShowMoreComponent,
+      ],
+      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+      providers: [
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockGroupService,
+        },
+        ConfiguratorAttributeQuantityService,
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {
@@ -117,6 +123,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     };
     return value;
   }
+
   let values: Configurator.Value[];
   beforeEach(() => {
     const value1 = createValue('1', VALUE_1, true);
@@ -142,6 +149,10 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       required: true,
     };
     fixture.detectChanges();
+
+    configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService
+    );
   });
 
   it('should create', () => {
@@ -188,6 +199,30 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       'updateConfiguration'
     ).and.callThrough();
 
+    spyOn(
+      configuratorStorefrontUtilsService,
+      'assembleValuesForMultiSelectAttributes'
+    ).and.returnValue([
+      {
+        name: VALUE_1,
+        quantity: undefined,
+        selected: false,
+        valueCode: '1',
+      },
+      {
+        name: VALUE_2,
+        quantity: undefined,
+        selected: false,
+        valueCode: '2',
+      },
+      {
+        name: 'val3',
+        quantity: undefined,
+        selected: true,
+        valueCode: '3',
+      },
+    ]);
+
     component.onChangeValueQuantity(0, '1', 0);
 
     expect(
@@ -226,6 +261,17 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       component['configuratorCommonsService'],
       'updateConfiguration'
     ).and.callThrough();
+    spyOn(
+      configuratorStorefrontUtilsService,
+      'assembleValuesForMultiSelectAttributes'
+    ).and.returnValue([
+      {
+        name: VALUE_1,
+        quantity: 1,
+        selected: true,
+        valueCode: '1',
+      },
+    ]);
 
     component.onChangeValueQuantity(1, '1', 0);
 
@@ -253,6 +299,17 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       component['configuratorCommonsService'],
       'updateConfiguration'
     ).and.callThrough();
+    spyOn(
+      configuratorStorefrontUtilsService,
+      'assembleValuesForMultiSelectAttributes'
+    ).and.returnValue([
+      {
+        name: VALUE_1,
+        quantity: undefined,
+        selected: false,
+        valueCode: '1',
+      },
+    ]);
 
     component.onChangeValueQuantity(1, 'NOT_EXISTING', 0);
 

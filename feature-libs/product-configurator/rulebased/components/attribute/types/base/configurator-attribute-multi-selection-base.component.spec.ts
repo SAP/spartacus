@@ -51,24 +51,22 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionBaseComponent;
   let fixture: ComponentFixture<ExampleConfiguratorAttributeMultiSelectionComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ExampleConfiguratorAttributeMultiSelectionComponent],
-        providers: [
-          ConfiguratorAttributeQuantityService,
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ExampleConfiguratorAttributeMultiSelectionComponent],
+      providers: [
+        ConfiguratorAttributeQuantityService,
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {

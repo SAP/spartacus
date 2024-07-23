@@ -17,7 +17,7 @@ import { Card, CmsComponentData } from '@spartacus/storefront';
 import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
-import { paymentMethodCard } from '@spartacus/order/root';
+import { OrderOutlets, paymentMethodCard } from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-order-overview',
@@ -26,6 +26,7 @@ import { paymentMethodCard } from '@spartacus/order/root';
 })
 export class OrderOverviewComponent {
   readonly cartOutlets = CartOutlets;
+  readonly orderOutlets = OrderOutlets;
 
   order$: Observable<any> = this.orderDetailsService.getOrderDetails();
   isOrderLoading$: Observable<boolean> =
@@ -205,7 +206,7 @@ export class OrderOverviewComponent {
                 ? deliveryMode.deliveryCost?.formattedValue
                 : '',
             ],
-          } as Card)
+          }) as Card
       )
     );
   }
@@ -243,7 +244,7 @@ export class OrderOverviewComponent {
               billingAddress.formattedAddress,
               billingAddress.country?.name,
             ],
-          } as Card)
+          }) as Card
       )
     );
   }
