@@ -91,14 +91,14 @@ export class ProductMultiDimensionalService {
     variantCategories: VariantCategoryGroup[]
   ): VariantCategoryGroup[] {
     return variantCategories.map(
-      (VariantCategoryGroup: VariantCategoryGroup) => {
-        const variantOptions = VariantCategoryGroup.variantOptions;
+      (variantCategoryGroup: VariantCategoryGroup) => {
+        const variantOptions = variantCategoryGroup.variantOptions;
         const hasImages =
-          VariantCategoryGroup.hasImages ??
+          variantCategoryGroup.hasImages ??
           variantOptions.every((option) => option.images.length);
 
         return {
-          ...VariantCategoryGroup,
+          ...variantCategoryGroup,
           variantOptions,
           hasImages,
         };
