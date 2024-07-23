@@ -29,6 +29,8 @@ export interface Media {
    * readers or magnifiers
    */
   role?: string;
+
+  sources?: any[];
 }
 
 /**
@@ -49,6 +51,49 @@ export interface MediaFormatSize {
    * different media's can be used in a responsive layout.
    */
   width?: number;
+}
+
+/**
+ * Specifies media queries that can be used to generate information for the
+ * browser to resolve the right media for the right layout or device.
+ */
+export interface PictureElementQueries {
+  /**
+   * The minimum viewport width.
+   */
+  minWidth?: string;
+  /**
+   * The maximum viewport width.
+   */
+  maxWidth?: string;
+  /**
+   * The minimum viewport height.
+   */
+  minHeight?: string;
+  /**
+   * The maximum viewport height.
+   */
+  maxHeight?: string;
+  /**
+   * The minimum device pixel ratio
+   */
+  minDevicePixelRatio?: number;
+  /**
+   * The maximum device pixel ratio
+   */
+  maxDevicePixelRatio?: number;
+  /**
+   * The orientation of the viewport (portrait or landscape)
+   */
+  orientation?: string;
+  /**
+   * The minimum aspect ratio of the viewport
+   */
+  minAspectRatio?: string;
+  /**
+   * The maximum aspect ratio of the viewport
+   */
+  maxAspectRatio?: string;
 }
 
 /**

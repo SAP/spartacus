@@ -18,4 +18,29 @@ export const mediaConfig: MediaConfig = {
     product: { width: 284 },
     zoom: { width: 515 },
   },
+  useLegacyMediaComponent: false,
+  pictureElementFormats: {
+    mobile: {
+      maxWidth: '767px',
+    },
+    tablet: {
+      minWidth: '768px',
+      maxWidth: '1024px',
+    },
+    desktop: {
+      minWidth: '1025px',
+      maxWidth: '1439px',
+    },
+    widescreen: {
+      minWidth: '1440px',
+    },
+    retina_mobile: {
+      maxWidth: '786px',
+      minDevicePixelRatio: 3,
+    },
+    retina_desktop: {
+      minWidth: '1440px',
+      minDevicePixelRatio: 2,
+    },
+  },
 };

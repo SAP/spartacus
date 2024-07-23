@@ -61,6 +61,8 @@ export class MediaComponent implements OnChanges {
    */
   @Input() loading: ImageLoadingStrategy | null = this.loadingStrategy;
 
+  @Input() usePictureElement: boolean = false;
+
   /**
    * Once the media is loaded, we emit an event.
    */
@@ -96,7 +98,7 @@ export class MediaComponent implements OnChanges {
     item.media;
 
   protected isLegacy =
-    inject(USE_LEGACY_MEDIA_COMPONENT, { optional: true }) ||
+    inject(USE_LEGACY_MEDIA_COMPONENT) ||
     (inject(Config) as any)['useLegacyMediaComponent'] ||
     false;
 
@@ -106,6 +108,9 @@ export class MediaComponent implements OnChanges {
     this.create();
   }
 
+  log(log) {
+    console.log(log);
+  }
   /**
    * Creates the `Media` object
    */
@@ -114,7 +119,8 @@ export class MediaComponent implements OnChanges {
       this.container instanceof Array ? this.container[0] : this.container,
       this.format,
       this.alt,
-      this.role
+      this.role,
+      this.usePictureElement
     );
     if (!this.media?.src) {
       this.handleMissing();

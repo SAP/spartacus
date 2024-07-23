@@ -12,6 +12,7 @@ import {
   Media,
   MediaContainer,
   MediaFormatSize,
+  PictureElementQueries,
 } from './media.model';
 
 /**
@@ -47,7 +48,8 @@ export class MediaService {
     mediaContainer?: MediaContainer | Image,
     format?: string,
     alt?: string,
-    role?: string
+    role?: string,
+    usePictureElement?: boolean
   ): Media | undefined {
     if (!mediaContainer) {
       return;
@@ -56,13 +58,21 @@ export class MediaService {
     const mainMedia: Image = mediaContainer.url
       ? mediaContainer
       : this.resolveMedia(mediaContainer as MediaContainer, format);
+    // console.log('*********', format);
 
-    return {
-      src: this.resolveAbsoluteUrl(mainMedia?.url ?? ''),
-      alt: alt ?? mainMedia?.altText,
-      role: role ?? mainMedia?.role,
-      srcset: this.resolveSrcSet(mediaContainer, format),
-    };
+    return usePictureElement
+      ? {
+          src: this.resolveAbsoluteUrl(mainMedia?.url ?? ''),
+          alt: alt ?? mainMedia?.altText,
+          role: role ?? mainMedia?.role,
+          sources: this.resolveSources(mediaContainer, format),
+        }
+      : {
+          src: this.resolveAbsoluteUrl(mainMedia?.url ?? ''),
+          alt: alt ?? mainMedia?.altText,
+          role: role ?? mainMedia?.role,
+          srcset: this.resolveSrcSet(mediaContainer, format),
+        };
   }
 
   /**
@@ -84,6 +94,7 @@ export class MediaService {
    */
   protected get sortedFormats(): { code: string; size: MediaFormatSize }[] {
     const mediaFormats = this.config?.mediaFormats;
+
     if (!this._sortedFormats && mediaFormats) {
       this._sortedFormats = Object.keys(mediaFormats)
         .map((key) => ({
@@ -94,7 +105,65 @@ export class MediaService {
           a.size.width && b.size.width && a.size.width > b.size.width ? 1 : -1
         );
     }
+
     return this._sortedFormats ?? [];
+  }
+
+  protected get sortedPictureFormats(): {
+    code: string;
+    mediaQuery: string;
+  }[] {
+    const pictureElementMediaFormats = this.config?.pictureElementFormats;
+    const pictureFormatsOrder = this.config?.pictureFormatsOrder;
+
+    if (!pictureElementMediaFormats) {
+      return [];
+    }
+
+    const mediaFormatsArray = Object.keys(pictureElementMediaFormats).map(
+      (key) => ({
+        code: key,
+        mediaQuery: this.generateMediaQuery(pictureElementMediaFormats[key]),
+      })
+    );
+
+    if (pictureFormatsOrder) {
+      mediaFormatsArray.sort((a, b) => {
+        const orderA = pictureFormatsOrder.indexOf(a.code);
+        const orderB = pictureFormatsOrder.indexOf(b.code);
+
+        return (
+          (orderA !== -1 ? orderA : Infinity) -
+          (orderB !== -1 ? orderB : Infinity)
+        );
+      });
+    }
+
+    return mediaFormatsArray;
+  }
+
+  private generateMediaQuery(queries: PictureElementQueries): string {
+    const queryMap: { [key in keyof PictureElementQueries]: string } = {
+      minWidth: 'min-width',
+      maxWidth: 'max-width',
+      minHeight: 'min-height',
+      maxHeight: 'max-height',
+      minDevicePixelRatio: 'min-device-pixel-ratio',
+      maxDevicePixelRatio: 'max-device-pixel-ratio',
+      orientation: 'orientation',
+      minAspectRatio: 'min-aspect-ratio',
+      maxAspectRatio: 'max-aspect-ratio',
+    };
+
+    const queryParts = Object.keys(queries)
+      .map((key) => {
+        const cssProperty = queryMap[key as keyof PictureElementQueries];
+        const value = (queries as any)[key];
+        return value !== undefined ? `(${cssProperty}: ${value})` : null;
+      })
+      .filter((part) => part !== null);
+
+    return queryParts.join(' and ');
   }
 
   /**
@@ -178,6 +247,44 @@ export class MediaService {
     }, '');
 
     return srcset === '' ? undefined : srcset;
+  }
+
+  protected resolveSources(
+    media: MediaContainer | Image,
+    maxFormat?: string
+  ): any[] | undefined {
+    if (!media) {
+      return undefined;
+    }
+
+    // maxFormat = 'widescreen';
+    // Only create srcset images that are smaller than the given `maxFormat` (if any)
+
+    let pictureFormats = this.sortedPictureFormats;
+    const max: number = pictureFormats.findIndex((f) => f.code === maxFormat);
+    if (max > -1) {
+      pictureFormats = pictureFormats.slice(0, max + 1);
+    }
+
+    // console.log(pictureFormats, maxFormat);
+
+    const sourceArray = pictureFormats.reduce((sources: any[], format) => {
+      const image = (media as MediaContainer)[format.code];
+
+      console.log(format);
+
+      if (!!image) {
+        sources.push({
+          srcset: this.resolveAbsoluteUrl(image.url ?? ''),
+          media: format.mediaQuery,
+        });
+      }
+      return sources;
+    }, []);
+
+    // console.log({ pictureFormats });
+
+    return sourceArray;
   }
 
   /**
