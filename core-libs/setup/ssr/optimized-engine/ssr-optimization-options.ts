@@ -162,7 +162,7 @@ export interface SsrOptimizationOptions {
      * It only affects the default `shouldCacheRenderingResult`.
      * Custom implementations of `shouldCacheRenderingResult` may ignore this setting.
      */
-    avoidCachingErrors: boolean;
+    avoidCachingErrors?: boolean;
   };
 }
 
@@ -172,7 +172,11 @@ export enum RenderingStrategy {
   ALWAYS_SSR = 1,
 }
 
-export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
+// To enforce default values for `featureToggles`
+export const defaultSsrOptimizationOptions: Required<
+  Pick<SsrOptimizationOptions, 'featureToggles'>
+> &
+  SsrOptimizationOptions = {
   cacheSize: 3000,
   concurrency: 10,
   timeout: 3_000,
