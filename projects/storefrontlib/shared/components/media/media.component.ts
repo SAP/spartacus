@@ -112,13 +112,17 @@ export class MediaComponent implements OnChanges {
    * Creates the `Media` object
    */
   protected create(): void {
-    this.media = this.mediaService.getMedia(
+    const getMedia = this.usePictureElement
+      ? this.mediaService.getMediaForPictureElement.bind(this.mediaService)
+      : this.mediaService.getMedia.bind(this.mediaService);
+
+    this.media = getMedia(
       this.container instanceof Array ? this.container[0] : this.container,
       this.format,
       this.alt,
-      this.role,
-      this.usePictureElement
+      this.role
     );
+
     if (!this.media?.src) {
       this.handleMissing();
     }

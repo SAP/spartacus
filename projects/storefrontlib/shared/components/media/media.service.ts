@@ -49,8 +49,72 @@ export class MediaService {
     mediaContainer?: MediaContainer | Image,
     format?: string,
     alt?: string,
-    role?: string,
-    usePictureElement?: boolean
+    role?: string
+  ): Media | undefined {
+    if (!mediaContainer) {
+      return;
+    }
+
+    const commonMediaProperties = this.getCommonMediaObject(
+      mediaContainer,
+      format,
+      alt,
+      role
+    );
+
+    if (!commonMediaProperties) {
+      return;
+    }
+
+    const media = {
+      ...commonMediaProperties,
+      srcset: this.resolveSrcSet(mediaContainer, format),
+    };
+
+    return media;
+  }
+
+  /**
+   * Returns a `Media` object with the main media (`src`) and various sources
+   * for specific formats for HTML `<picture>` element.
+   */
+  getMediaForPictureElement(
+    mediaContainer?: MediaContainer | Image,
+    format?: string,
+    alt?: string,
+    role?: string
+  ): Media | undefined {
+    if (!mediaContainer) {
+      return;
+    }
+
+    const commonMediaProperties = this.getCommonMediaObject(
+      mediaContainer,
+      format,
+      alt,
+      role
+    );
+
+    if (!commonMediaProperties) {
+      return;
+    }
+
+    const media = {
+      ...commonMediaProperties,
+      sources: this.resolveSources(mediaContainer, format),
+    };
+
+    return media;
+  }
+
+  /**
+   * Generates attributes common for `<img>` ang `<picture>`.
+   */
+  protected getCommonMediaObject(
+    mediaContainer?: MediaContainer | Image,
+    format?: string,
+    alt?: string,
+    role?: string
   ): Media | undefined {
     if (!mediaContainer) {
       return;
@@ -60,23 +124,11 @@ export class MediaService {
       ? mediaContainer
       : this.resolveMedia(mediaContainer as MediaContainer, format);
 
-    const commonMediaProperties = {
+    return {
       src: this.resolveAbsoluteUrl(mainMedia?.url ?? ''),
       alt: alt ?? mainMedia?.altText,
       role: role ?? mainMedia?.role,
     };
-
-    const media = usePictureElement
-      ? {
-          ...commonMediaProperties,
-          sources: this.resolveSources(mediaContainer, format),
-        }
-      : {
-          ...commonMediaProperties,
-          srcset: this.resolveSrcSet(mediaContainer, format),
-        };
-
-    return media;
   }
 
   /**
