@@ -191,11 +191,9 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  private onConsentGivenSuccess(): void {
+  protected onConsentGivenSuccess(): void {
     if (
-      this.featureConfigService.isEnabled(
-        'a11yNotificationsOnAnonymousConsentChange'
-      )
+      this.featureConfigService.isEnabled('a11yNotificationsOnConsentChange')
     ) {
       this.globalMessageService?.add(
         { key: 'consentManagementForm.message.success.given' },
@@ -204,11 +202,9 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  private onConsentWithdrawnSuccess(): void {
+  protected onConsentWithdrawnSuccess(): void {
     if (
-      this.featureConfigService.isEnabled(
-        'a11yNotificationsOnAnonymousConsentChange'
-      )
+      this.featureConfigService.isEnabled('a11yNotificationsOnConsentChange')
     ) {
       this.globalMessageService?.add(
         { key: 'consentManagementForm.message.success.withdrawn' },

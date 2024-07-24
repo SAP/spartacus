@@ -347,8 +347,10 @@ export interface FeatureTogglesInterface {
   /**
    * `AnonymousConsentDialogComponent` - after consent was given/withdrawn the notification
    * will be displayed
+   * `ConsentManagementComponent` - improve stability of notifications announcements by VoiceOver
+   * `ConsentManagementFormComponent` - only pronounce the title of the consent by default
    */
-  a11yNotificationsOnAnonymousConsentChange?: boolean;
+  a11yNotificationsOnConsentChange?: boolean;
 
   /**
    * When enabled disable "Apply" button in promo code component in cart for empty input,
@@ -460,7 +462,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yEmptyWishlistHeading: false,
   a11yScreenReaderBloatFix: false,
   a11yUseButtonsForBtnLinks: false,
-  a11yNotificationsOnAnonymousConsentChange: false,
+  a11yNotificationsOnConsentChange: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
   a11yStoreFinderAlerts: false,
