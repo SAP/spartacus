@@ -8,5 +8,15 @@
     "clickContinue": "No Service details required. Click Continue",
     "emptyServiceDetailsCard": "None",
     "unknownError": "An unknown error occurred. Please contact support."
+  },
+  "rescheduleService": {
+    "heading": "Reschedule Service",
+    "datePickerLabel": "Reschedule Service Date",
+    "timePickerLabel": "Reschedule Service Time",
+    "cardLabel": "Rescheduled At",
+    "clickContinue": "No Service details required. Click Continue",
+    "emptyServiceDetailsCard": "None",
+    "unknownError": "An unknown error occurred. Please contact support.",
+    "buttonLabel": "Reschedule Service"
   }
 }

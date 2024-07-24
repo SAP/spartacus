@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { GlobalMessageService, GlobalMessageType, RoutingService } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { CheckoutServiceSchedulePickerService, RescheduleServiceOrderFacade, ServiceDateTime } from '@spartacus/s4-service/root';
 import { mergeMap, Observable } from 'rxjs';
@@ -11,6 +12,8 @@ import { mergeMap, Observable } from 'rxjs';
 export class RescheduleServiceOrderComponent implements OnInit {
   protected orderDetailsService = inject(OrderDetailsService);
   protected rescheduleServiceOrdeFacade = inject(RescheduleServiceOrderFacade);
+  protected routingService = inject(RoutingService);
+  protected globalMessageService = inject(GlobalMessageService);
   protected fb = inject(FormBuilder);
   protected checkoutServiceSchedulePickerService = inject(
     CheckoutServiceSchedulePickerService
@@ -54,8 +57,21 @@ export class RescheduleServiceOrderComponent implements OnInit {
       .pipe(
         mergeMap(orderCode => this.rescheduleServiceOrdeFacade.rescheduleService(orderCode, this.dateTime))
       )
-      .subscribe(() => {
-        console.log('Service order rescheduled');
-      });
+      .subscribe({
+        next: () => {
+        console.log('Service order rescheduled ');
+        this.routingService.go({ cxRoute: 'orders' });
+        this.globalMessageService.add(
+          'Service order rescheduled successfully', GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      },
+      error: () => {
+        console.log('Service order reschedule failed');
+        this.routingService.go({ cxRoute: 'orders' });
+        this.globalMessageService.add(
+          'Service order reschedule failed', GlobalMessageType.MSG_TYPE_ERROR
+        );
+      }
+    });
   }
 }

@@ -16,7 +16,7 @@ export class OccRescheduleServiceOrderAdapter implements RescheduleServiceOrderA
     code: string,
     scheduledAt: ServiceDetails
   ): Observable<unknown> {
-    const url = this.occEndpoints.buildUrl('setServiceScheduleSlot', {
+    const url = this.occEndpoints.buildUrl('rescheduleService', {
       urlParams: { userId, code },
     });
     const headers = new HttpHeaders({

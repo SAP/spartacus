@@ -14,3 +14,6 @@ export * from './reschedule-service-order/reschedule-service-order.module';
 
 export * from './reschedule-service-order-headline/reschedule-service-order-headline.component';
 export * from './reschedule-service-order-headline/reschedule-service-order-headline.module';
+
+export * from './s4-service-order-detail-actions/s4-service-order-detail-actions.component';
+export * from './s4-service-order-detail-actions/s4-service-order-detail-actions.module';
