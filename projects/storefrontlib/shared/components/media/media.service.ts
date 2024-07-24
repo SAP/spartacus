@@ -12,7 +12,6 @@ import {
   Media,
   MediaContainer,
   MediaFormatSize,
-  PictureElementAttributes,
   PictureElementQueries,
 } from './media.model';
 
@@ -274,7 +273,12 @@ export class MediaService {
   protected resolveSources(
     media: MediaContainer | Image,
     maxFormat?: string
-  ): PictureElementAttributes[] | undefined {
+  ):
+    | {
+        srcset: string;
+        media: string;
+      }[]
+    | undefined {
     if (!media) {
       return undefined;
     }
@@ -284,20 +288,22 @@ export class MediaService {
       maxFormat
     );
 
-    return pictureFormats.reduce<PictureElementAttributes[]>(
-      (sources, format) => {
-        const image = (media as MediaContainer)[format.code];
+    return pictureFormats.reduce<
+      {
+        srcset: string;
+        media: string;
+      }[]
+    >((sources, format) => {
+      const image = (media as MediaContainer)[format.code];
 
-        if (image?.url) {
-          sources.push({
-            srcset: this.resolveAbsoluteUrl(image.url),
-            media: format.mediaQuery,
-          });
-        }
-        return sources;
-      },
-      []
-    );
+      if (image?.url) {
+        sources.push({
+          srcset: this.resolveAbsoluteUrl(image.url),
+          media: format.mediaQuery,
+        });
+      }
+      return sources;
+    }, []);
   }
 
   /**

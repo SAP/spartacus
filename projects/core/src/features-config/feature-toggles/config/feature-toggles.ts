@@ -398,7 +398,12 @@ export interface FeatureTogglesInterface {
    */
   cmsBottomHeaderSlotUsingFlexStyles?: boolean;
 
-  useAdvancedMediaComponent?: boolean;
+  /**
+   * When enabled, allows to provide extended formats and media queries for <picture> element.
+   *
+   * For proper work requires `pictureElementFormats` and `mediaQueryMap` provided in media config.
+   */
+  useMediaComponentWithConfigurableMediaQueries?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -465,5 +470,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDeliveryModeRadiogroup: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
-  useAdvancedMediaComponent: false,
+  useMediaComponentWithConfigurableMediaQueries: false,
 };

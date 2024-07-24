@@ -33,11 +33,6 @@ export interface Media {
   sources?: any[];
 }
 
-export interface PictureElementAttributes {
-  srcset: string;
-  media: string;
-}
-
 /**
  * Contains multiple media for different formats
  */

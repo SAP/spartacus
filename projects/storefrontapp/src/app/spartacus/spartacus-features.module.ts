@@ -340,7 +340,7 @@ if (environment.cpq) {
         a11yLinkBtnsToTertiaryBtns: true,
         a11yDeliveryModeRadiogroup: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
-        useAdvancedMediaComponent: true,
+        useMediaComponentWithConfigurableMediaQueries: true,
       };
       return appFeatureToggles;
     }),
