@@ -30,15 +30,7 @@ import { ConfiguratorProductScope } from '../../core/model/configurator-product-
 })
 export class ConfigureProductComponent {
   nonConfigurable: Product = { configurable: false };
-  product$: Observable<Product> = (this.productListItemContext
-    ? this.productListItemContext.product$
-    : this.currentProductService
-      ? this.currentProductService.getProduct([
-          ProductScope.DETAILS,
-          ConfiguratorProductScope.CONFIGURATOR,
-        ])
-      : of(null)
-  ).pipe(
+  product$: Observable<Product> = this.getProduct().pipe(
     //needed because also currentProductService might return null
     map((product) => (product ? product : this.nonConfigurable))
   );
@@ -48,6 +40,19 @@ export class ConfigureProductComponent {
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
+
+  protected getProduct(): Observable<Product | null> {
+    if (this.productListItemContext) {
+      return this.productListItemContext.product$;
+    }
+
+    return this.currentProductService
+      ? this.currentProductService.getProduct([
+          ProductScope.DETAILS,
+          ConfiguratorProductScope.CONFIGURATOR,
+        ])
+      : of(null);
+  }
 
   /**
    * Retrieves a translation key for aria-label depending on the condition.

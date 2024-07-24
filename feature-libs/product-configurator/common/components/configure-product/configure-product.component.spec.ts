@@ -52,6 +52,12 @@ class MockCurrentProductServiceReturnsNull
   }
 }
 
+class MockProductListItemContextReturnsNull
+  implements Partial<ProductListItemContext>
+{
+  product$ = of(null);
+}
+
 class MockProductListItemContext implements Partial<ProductListItemContext> {
   product$ = of(mockProduct);
 }
@@ -75,9 +81,14 @@ let htmlElem: HTMLElement;
 
 function setupWithCurrentProductService(
   useCurrentProductServiceOnly: boolean,
-  currenProductServiceReturnsNull: boolean = false
+  currenProductServiceReturnsNull: boolean = false,
+  productListItemContextReturnsNull: boolean = false
 ) {
-  if (useCurrentProductServiceOnly && currenProductServiceReturnsNull) {
+  if (
+    useCurrentProductServiceOnly &&
+    currenProductServiceReturnsNull &&
+    productListItemContextReturnsNull
+  ) {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterModule],
       declarations: [
@@ -86,6 +97,10 @@ function setupWithCurrentProductService(
         MockFeatureDirective,
       ],
       providers: [
+        {
+          provide: ProductListItemContext,
+          useClass: MockProductListItemContextReturnsNull,
+        },
         {
           provide: CurrentProductService,
           useClass: MockCurrentProductServiceReturnsNull,
@@ -204,7 +219,10 @@ describe('ConfigureProductComponent', () => {
   });
 
   it('should emit non-configurable dummy in case it was launched with product service which emits null', (done) => {
-    setupWithCurrentProductService(true, true);
+    setupWithCurrentProductService(true, true, true);
+    component['productListItemContext'] = null;
+    component['currentProductService'] = null;
+    fixture.detectChanges();
     component.product$.subscribe((product) => {
       expect(product).toEqual(mockProductNotConfigurable);
       done();
@@ -226,6 +244,44 @@ describe('ConfigureProductComponent', () => {
     component.product$.subscribe((product) => {
       expect(product).toBe(mockProduct);
       done();
+    });
+  });
+
+  describe('getProduct', () => {
+    it('should emit null in case both productListItemContext and currentProductService return null', (done) => {
+      setupWithCurrentProductService(true, true, true);
+      component['getProduct']().subscribe((product) => {
+        expect(product).toBe(null);
+        done();
+      });
+    });
+
+    it('should emit product in case it was launched with defined product item context', (done) => {
+      setupWithCurrentProductService(false);
+      component['getProduct']().subscribe((product) => {
+        expect(product).toBe(mockProduct);
+        done();
+      });
+    });
+
+    it('should emit product in case it was launched with defined currentProductService', (done) => {
+      setupWithCurrentProductService(true);
+      component['getProduct']().subscribe((product) => {
+        expect(product).toBe(mockProduct);
+        done();
+      });
+    });
+
+    it('should emit null in case both productListItemContext and currentProductService are undefined', (done) => {
+      setupWithCurrentProductService(true);
+      component['productListItemContext'] = null;
+      component['currentProductService'] = null;
+      fixture.detectChanges();
+
+      component['getProduct']().subscribe((product) => {
+        expect(product).toBe(null);
+        done();
+      });
     });
   });
 
