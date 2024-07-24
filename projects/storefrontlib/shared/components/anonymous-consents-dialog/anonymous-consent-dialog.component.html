@@ -3,6 +3,7 @@
   role="dialog"
   [cxFocus]="focusConfig"
   (esc)="close('Escape clicked')"
+  aria-labelledby="dialogTitle"
 >
   <div class="cx-dialog-content">
     <div *ngIf="loading$ | async; else dialogBody">
@@ -14,7 +15,7 @@
         [attr.aria-label]="'common.loaded' | cxTranslate"
       ></div>
       <div class="cx-dialog-header">
-        <h3>
+        <h3 id="dialogTitle">
           {{ 'anonymousConsents.dialog.title' | cxTranslate }}
         </h3>
         <button

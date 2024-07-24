@@ -3,12 +3,13 @@
   role="dialog"
   [cxFocus]="focusConfig"
   (esc)="dismissModal('Escape pressed')"
+  aria-labelledby="dialogTitle"
 >
   <div class="cx-modal-content">
     <!-- Modal Header -->
     <ng-container *ngIf="loaded$ | async; else loading">
       <div class="cx-dialog-header modal-header">
-        <div class="cx-dialog-title modal-title">
+        <div id="dialogTitle" class="cx-dialog-title modal-title">
           {{
             (addedEntryWasMerged$ | async)
               ? ('addToCart.itemsIncrementedInYourCart' | cxTranslate)

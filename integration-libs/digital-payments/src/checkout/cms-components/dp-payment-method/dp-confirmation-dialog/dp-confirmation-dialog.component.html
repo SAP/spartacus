@@ -4,11 +4,12 @@
   (esc)="dismissDialog('Escape clicked')"
   role="dialog"
   aria-modal="true"
+  aria-labelledby="dialogTitle"
 >
   <div class="cx-modal-content">
     <!-- Modal Header -->
     <div class="cx-dialog-header modal-header">
-      <div class="cx-dialog-title modal-title">
+      <div id="dialogTitle" class="cx-dialog-title modal-title">
         {{ 'dpPaymentForm.confirmation.heading' | cxTranslate }}
       </div>
       <button
