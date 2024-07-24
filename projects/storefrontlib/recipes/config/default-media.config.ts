@@ -43,7 +43,14 @@ export const mediaConfig: MediaConfig = {
       minDevicePixelRatio: 2,
     },
   },
-  pictureFormatsOrder: ['widescreen', 'tablet', 'mobile', 'desktop'],
+  pictureFormatsOrder: [
+    'retina_desktop',
+    'retina_mobile',
+    'widescreen',
+    'desktop',
+    'tablet',
+    'mobile',
+  ],
   mediaQueryMap: {
     minWidth: 'min-width',
     maxWidth: 'max-width',
