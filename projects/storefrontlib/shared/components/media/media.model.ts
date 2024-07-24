@@ -94,6 +94,14 @@ export interface PictureElementQueries {
    * The maximum aspect ratio of the viewport
    */
   maxAspectRatio?: string;
+  /**
+   * The minimum device resolution
+   */
+  minResolution?: string;
+  /**
+   * The maximum device resolution
+   */
+  maxResolution?: string;
 }
 
 /**
