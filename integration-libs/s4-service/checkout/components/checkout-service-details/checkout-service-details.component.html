@@ -39,7 +39,10 @@
   >
     {{ 'serviceOrderCheckout.serviceLocationHeading' | cxTranslate }}
   </h2>
-  <div class="cx-service-location-text">
+  <div
+    class="cx-service-location-text"
+    [attr.aria-label]="'serviceOrderCheckout.address' | cxTranslate"
+  >
     {{ 'serviceOrderCheckout.address' | cxTranslate }}
   </div>
   <h2
