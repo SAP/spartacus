@@ -44,4 +44,15 @@ export const mediaConfig: MediaConfig = {
     },
   },
   pictureFormatsOrder: ['widescreen', 'mobile', 'tablet'],
+  mediaQueryMap: {
+    minWidth: 'min-width',
+    maxWidth: 'max-width',
+    minHeight: 'min-height',
+    maxHeight: 'max-height',
+    minDevicePixelRatio: 'min-device-pixel-ratio',
+    maxDevicePixelRatio: 'max-device-pixel-ratio',
+    orientation: 'orientation',
+    minAspectRatio: 'min-aspect-ratio',
+    maxAspectRatio: 'max-aspect-ratio',
+  },
 };
