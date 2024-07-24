@@ -66,12 +66,10 @@ export class MediaService {
       return;
     }
 
-    const media = {
+    return {
       ...commonMediaProperties,
       srcset: this.resolveSrcSet(mediaContainer, format),
     };
-
-    return media;
   }
 
   /**
@@ -99,12 +97,10 @@ export class MediaService {
       return;
     }
 
-    const media = {
+    return {
       ...commonMediaProperties,
       sources: this.resolveSources(mediaContainer, format),
     };
-
-    return media;
   }
 
   /**
@@ -227,10 +223,12 @@ export class MediaService {
           key in queryMap &&
           queries[key as keyof PictureElementQueries] !== undefined
       )
-      .map(
-        (key) =>
-          `(${queryMap[key as keyof PictureElementQueries]}: ${queries[key as keyof PictureElementQueries]})`
-      )
+      .map((key) => {
+        const mediaFeature = queryMap[key];
+        const value = queries[key];
+
+        return `(${mediaFeature}: ${value})`;
+      })
       .join(' and ');
   }
 
