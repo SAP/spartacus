@@ -83,7 +83,7 @@ export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmi
   }
 
   getServiceDetailsCard(
-    scheduledAt: ServiceDateTime | undefined
+    scheduledAt: ServiceDateTime | undefined | null
   ): Observable<Card> {
     return combineLatest([
       this.translationService.translate('serviceOrderCheckout.serviceDetails'),
