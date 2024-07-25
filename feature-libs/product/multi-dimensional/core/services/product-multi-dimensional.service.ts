@@ -36,8 +36,15 @@ export class ProductMultiDimensionalService {
    * Size:      1     2         1      (2)
    * Fit:     M  L  M   L     M   L   M   (L)
    *
-   * The method extracts all available colors (e.g., Red and Blue) and recursively
-   * retrieves options until all variant options are exhausted.
+   * The method extracts all available colors (e.g., Red and Blue) and recursively retrieves options
+   * until all variant options are exhausted, based on the currently selected options. For example the second row
+   * contains multiple sizes of the same value, representing different products. Since the user can change
+   * only one variant at a time, we need to identify only the products that reflect the current selections,
+   * as shown in the tree with rows like (Blue), (2), (L).
+   *
+   * Color:        Red             (Blue)
+   * Size:                       1      (2)
+   * Fit:                              M   (L)
    *
    * @see checkIfEveryOptionHasImages
    * @see imagesService.getVariantOptionImages
@@ -94,7 +101,7 @@ export class ProductMultiDimensionalService {
       (variantCategoryGroup: VariantCategoryGroup) => {
         const variantOptions = variantCategoryGroup.variantOptions;
         const hasImages =
-          variantCategoryGroup.hasImages ??
+          variantCategoryGroup.hasImages &&
           variantOptions.every((option) => option.images.length);
 
         return {

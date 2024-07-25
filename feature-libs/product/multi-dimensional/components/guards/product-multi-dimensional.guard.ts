@@ -53,9 +53,7 @@ export class ProductMultiDimensionalGuard {
             !multiDimensionalProduct.purchasable &&
             !!multiDimensionalProduct.variantOptions?.length;
           return isNotPurchasableAndHasVariantOptions
-            ? this.findPValidProductCodeAndReturnUrlTree(
-                multiDimensionalProduct
-              )
+            ? this.findValidProductCodeAndReturnUrlTree(multiDimensionalProduct)
             : of(true);
         })
       );
@@ -73,7 +71,7 @@ export class ProductMultiDimensionalGuard {
    * variant is found, it fetches the corresponding product and generates a URL for redirection. If
    * no valid variant code is found, it resolves to `false`.
    */
-  protected findPValidProductCodeAndReturnUrlTree(
+  protected findValidProductCodeAndReturnUrlTree(
     product: Product
   ): Observable<boolean | UrlTree> {
     const variantOptions = product.variantOptions ?? [];

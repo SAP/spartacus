@@ -50,7 +50,7 @@ export class ProductMultiDimensionalSelectorComponent implements OnChanges {
   changeVariant(code: string | undefined): void {
     if (code) {
       this.productService
-        .get(code, ProductScope.MULTIDIMENSIONAL)
+        .get(code, ProductScope.LIST)
         .pipe(filter(Boolean), take(1))
         .subscribe((product: Product) => {
           this.routingService.go({
