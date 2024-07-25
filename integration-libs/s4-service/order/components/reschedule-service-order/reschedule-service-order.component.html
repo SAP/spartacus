@@ -1,44 +1,90 @@
 <form [formGroup]="form" (submit)="rescheduleServiceOrder()">
-    <label
-      class="row"
-      [attr.aria-label]="'serviceOrderCheckout.datePickerLabel' | cxTranslate"
-    >
-      <div class="pl-4 col-8">
-        {{ 'serviceOrderCheckout.datePickerLabel' | cxTranslate }}
-      </div>
-      <div class="col-4">
-        <cx-date-picker
-          [control]="$any(form.get('scheduleDate'))"
-          [min]="(minServiceDate$ | async) ?? undefined"
-          label="serviceOrderCheckout.datePickerLabel"
-        >
-        </cx-date-picker>
-      </div>
-    </label>
+  <div class="cx-reschedule-service-form-fields">
+    <div class="cx-section-header d-none d-lg-block d-xl-block">
+      <h2>{{ 'rescheduleService.headerLabel' | cxTranslate }}</h2>
+    </div>
 
-    <label
-      class="row"
-      [attr.aria-label]="'serviceOrderCheckout.timePickerLabel' | cxTranslate"
-    >
-      <div class="pl-4 col-8">
-        {{ 'serviceOrderCheckout.timePickerLabel' | cxTranslate }}
-      </div>
-      <div class="col-4">
-        <select
-          *ngIf="scheduleTimes$ | async as scheduleTimes"
-          class="form-control"
-          formControlName="scheduleTime"
-          (change)="setScheduleTime($event)"
+    <div class="cx-section-content">
+      <p>{{ 'rescheduleService.contentLabel' | cxTranslate }}</p>
+      <div class="row">
+        <label
+          class="col-md-6"
+          [attr.aria-label]="'rescheduleService.datePickerLabel' | cxTranslate"
         >
-          <option
-            *ngFor="let time of scheduleTimes"
-            [value]="time"
-            [selected]="form.get('scheduleTime')?.value === time"
-          >
-            {{ time }}
-          </option>
-        </select>
+          <span class="label-content">
+            {{ 'rescheduleService.datePickerLabel' | cxTranslate }}
+          </span>
+            <cx-date-picker
+              [control]="$any(form.get('scheduleDate'))"
+              [min]="(minServiceDate$ | async) ?? undefined"
+              label="rescheduleService.datePickerLabel"
+            >
+            </cx-date-picker>
+        </label>
+
+        <label
+          class="col-md-6"
+          [attr.aria-label]="'rescheduleService.timePickerLabel' | cxTranslate"
+        >
+          <span class="label-content">
+            {{ 'rescheduleService.timePickerLabel' | cxTranslate }}
+          </span>
+            <select
+              *ngIf="scheduleTimes$ | async as scheduleTimes"
+              class="form-control"
+              formControlName="scheduleTime"
+              (change)="setScheduleTime($event)"
+            >
+              <option
+                *ngFor="let time of scheduleTimes"
+                [value]="time"
+                [selected]="form.get('scheduleTime')?.value === time"
+              >
+                {{ time }}
+              </option>
+            </select>
+        </label>
       </div>
-    </label>
-    <button type="submit" class="btn btn-primary btn-block">Submit</button>
-  </form>
+    </div>
+  </div>
+
+  <div class="cx-reschedule-service-details">
+        <ng-template
+          *ngIf="order$ | async as order"
+          [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+          [cxOutletContext]="{
+            items: order.entries,
+            readonly: true
+          }"
+        >
+        </ng-template>
+  </div>
+
+  <div class="cx-reschedule-service-actions">
+    <div class="row">
+      <div class="col-sm-12 col-xl-6">
+        <button
+          type="button"
+          class="btn btn-secondary btn-block"
+          *ngIf="order$ | async as order"
+          [routerLink]="
+            {
+              cxRoute: 'orderDetails',
+              params: order
+            } | cxUrl
+          "
+        >
+          {{ 'rescheduleService.backButtonLabel' | cxTranslate }}
+        </button>
+      </div>
+      <div class="col-sm-12 col-xl-6">
+        <button type="submit" class="btn btn-primary btn-block">
+          {{ 'rescheduleService.submitButtonLabel' | cxTranslate }}
+        </button>
+      </div>
+      <div class="col-12">
+        <p class="text-center">{{ 'rescheduleService.note' | cxTranslate }}</p>
+      </div>
+    </div>
+  </div>
+</form>

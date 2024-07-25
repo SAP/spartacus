@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RescheduleServiceOrderComponent } from './reschedule-service-order.component';
-import { AuthGuard, CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { AuthGuard, CmsConfig, I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SpinnerModule, DatePickerModule } from '@spartacus/storefront';
+import { SpinnerModule, DatePickerModule, OutletModule, CardModule } from '@spartacus/storefront';
 import { ServiceOrderGuard } from '../guards';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -14,7 +15,11 @@ import { ServiceOrderGuard } from '../guards';
   ],
   imports: [
     CommonModule,
+    CardModule,
     I18nModule,
+    OutletModule,
+    UrlModule,
+    RouterModule,
     SpinnerModule,
     DatePickerModule,
     ReactiveFormsModule,

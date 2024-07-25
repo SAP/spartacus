@@ -11,13 +11,14 @@
     "unknownError": "An unknown error occurred. Please contact support."
   },
   "rescheduleService": {
-    "heading": "Reschedule Service",
-    "datePickerLabel": "Reschedule Service Date",
-    "timePickerLabel": "Reschedule Service Time",
-    "cardLabel": "Rescheduled At",
-    "clickContinue": "No Service details required. Click Continue",
-    "emptyServiceDetailsCard": "None",
-    "unknownError": "An unknown error occurred. Please contact support.",
-    "buttonLabel": "Reschedule Service"
+    "actionButtonLabel": "Reschedule Service",
+    "headerLabel": "Services",
+    "contentLabel": "Service Reschedule - Choose New Date and Time",
+    "datePickerLabel": "Service Date",
+    "timePickerLabel": "Service Time",
+    "backButtonLabel": "Back",
+    "submitButtonLabel": "Submit Request",
+    "note": "Please note that it may take a few moments for your order to reflect the request.",
+    "unknownError": "An unknown error occurred. Please contact support."
   }
 }

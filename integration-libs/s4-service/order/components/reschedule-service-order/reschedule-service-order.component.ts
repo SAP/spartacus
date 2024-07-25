@@ -1,7 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CartOutlets, } from '@spartacus/cart/base/root';
 import { GlobalMessageService, GlobalMessageType, RoutingService } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
+import { Order } from '@spartacus/order/root';
 import { CheckoutServiceSchedulePickerService, RescheduleServiceOrderFacade, ServiceDateTime } from '@spartacus/s4-service/root';
 import { mergeMap, Observable } from 'rxjs';
 
@@ -18,7 +20,9 @@ export class RescheduleServiceOrderComponent implements OnInit {
   protected checkoutServiceSchedulePickerService = inject(
     CheckoutServiceSchedulePickerService
   );
+  readonly CartOutlets = CartOutlets;
   dateTime: ServiceDateTime;
+  order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
 
   minServiceDate$: Observable<string> =
     this.checkoutServiceSchedulePickerService.getMinDateForService();
@@ -30,7 +34,7 @@ export class RescheduleServiceOrderComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.orderDetailsService.getOrderDetails()
+    this.order$
       .subscribe(orderDetails => {
         console.log('Order details: ', orderDetails);
       });
