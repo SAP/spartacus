@@ -232,6 +232,9 @@
       "@spartacus/product-configurator/textfield/root": [
         "dist/product-configurator/textfield/root"
       ],
+      "@spartacus/product-multi-dimensional": [
+        "dist/product-multi-dimensional"
+      ],
       "@spartacus/product/bulk-pricing/assets": [
         "dist/product/bulk-pricing/assets"
       ],

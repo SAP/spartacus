@@ -363,6 +363,9 @@
       "@spartacus/product-configurator/textfield/root": [
         "../../feature-libs/product-configurator/textfield/root/public_api"
       ],
+      "@spartacus/product-multi-dimensional": [
+        "../../feature-libs/product-multi-dimensional/public_api"
+      ],
       "@spartacus/product/bulk-pricing/assets": [
         "../../feature-libs/product/bulk-pricing/assets/public_api"
       ],

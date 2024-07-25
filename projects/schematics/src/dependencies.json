@@ -231,6 +231,7 @@
     "@spartacus/styles": "2211.27.0-2",
     "rxjs": "^7.8.0"
   },
+  "@spartacus/product-multi-dimensional": {},
   "@spartacus/qualtrics": {
     "@angular-devkit/schematics": "^17.0.5",
     "@angular/common": "^17.0.5",
