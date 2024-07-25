@@ -233,10 +233,10 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
   cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
-export function verifyDeliveryMethod() {
-  cy.log('🛒 Selecting delivery method');
+export function verifyDeliveryOptions() {
+  cy.log('🛒 Selecting delivery options');
 
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Options');
 
   cy.get('cx-delivery-mode input').first().should('be.checked');
 
@@ -283,7 +283,7 @@ export function placeOrder() {
       cy.findByText(user.address.line2);
     });
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Delivery Method')
+    .contains('cx-card', 'Delivery Options')
     .find('.cx-card-container')
     .within(() => {
       cy.findByText('Standard Delivery');
@@ -537,7 +537,7 @@ export function placeOrderWithCheapProduct(
       cy.findByText(sampleUser.address.line2);
     });
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Delivery Method')
+    .contains('cx-card', 'Delivery Options')
     .find('.cx-card-container')
     .within(() => {
       cy.findByText('Standard Delivery');

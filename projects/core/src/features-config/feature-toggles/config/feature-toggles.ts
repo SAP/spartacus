@@ -154,7 +154,7 @@ export interface FeatureTogglesInterface {
   a11yExpandedFocusIndicator?: boolean;
 
   /**
-   * Fixes 'CheckoutDeliveryModeComponent' losing focus after delivery methods update.
+   * Fixes 'CheckoutDeliveryModeComponent' losing focus after delivery options update.
    */
   a11yCheckoutDeliveryFocus?: boolean;
 

@@ -56,7 +56,7 @@
     "pickUpInStoreAddress": "Pick Up Store Address",
     "itemsToBeShipped": "Items To Be Shipped",
     "shippingAddress": "Shipping Address",
-    "deliveryMethod": "Delivery Method",
+    "deliveryMethod": "Delivery Options",
     "statusDisplay_cancelled": "Cancelled",
     "statusDisplay_cancelling": "Cancel Pending",
     "statusDisplay_completed": "Completed",

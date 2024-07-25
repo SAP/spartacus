@@ -282,7 +282,7 @@ export function selectAccountDeliveryMode() {
   );
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
 
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Options');
 
   cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('cx-delivery-mode input').eq(1).click();
@@ -361,14 +361,14 @@ export function reviewB2bReviewOrderPage(
 
   if (isAccount) {
     cy.get('.cx-review-summary-card')
-      .contains('cx-card', 'Delivery Method')
+      .contains('cx-card', 'Delivery Options')
       .find('.cx-card-container')
       .within(() => {
         cy.findByText('Premium Delivery');
       });
   } else {
     cy.get('.cx-review-summary-card')
-      .contains('cx-card', 'Delivery Method')
+      .contains('cx-card', 'Delivery Options')
       .find('.cx-card-container')
       .within(() => {
         cy.findByText('Standard Delivery');
