@@ -13,7 +13,7 @@ import {
 import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -22,9 +22,12 @@ import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
   I18nConfig,
   OccConfig,
+  provideConfig,
+  provideConfigFactory,
+  provideFeatureTogglesFactory,
   RoutingConfig,
   TestConfigModule,
-  provideConfig,
+  TestQueryParamsService,
 } from '@spartacus/core';
 import { StoreFinderConfig } from '@spartacus/storefinder/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
@@ -98,6 +101,33 @@ if (!environment.production) {
       provide: USE_LEGACY_MEDIA_COMPONENT,
       useValue: false,
     },
+    provideFeatureTogglesFactory(() => {
+      const {
+        enablePropagateErrorsToServer,
+        enableSsrStrictErrorHandlingForHttpAndNgrx,
+      } = inject(TestQueryParamsService).queryParams;
+      return {
+        ssrStrictErrorHandlingForHttpAndNgrx:
+          enableSsrStrictErrorHandlingForHttpAndNgrx,
+        propagateErrorsToServer: enablePropagateErrorsToServer,
+      };
+    }),
+
+    provideConfigFactory(() => {
+      const { pageNotFoundError, serverError } = inject(
+        TestQueryParamsService
+      ).queryParams;
+      return {
+        backend: {
+          occ: {
+            endpoints: {
+              pages: pageNotFoundError ? '/cms/pages2' : '/cms/pages',
+              components: serverError ? '/cms/components2' : '/cms/components',
+            },
+          },
+        },
+      };
+    }),
   ],
   bootstrap: [StorefrontComponent],
 })
