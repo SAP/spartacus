@@ -23,7 +23,7 @@
     "deliveryAddressSelected": "Delivery address selected"
   },
   "checkoutMode": {
-    "deliveryMethod": "Delivery Method",
+    "deliveryMethod": "Delivery Options",
     "standardDelivery": "Standard Delivery",
     "premiumDelivery": "Premium Delivery",
     "deliveryEntries": "Items to be Shipped"
