@@ -1,10 +1,11 @@
 {
   "serviceOrderCheckout": {
     "serviceDetails": "Service Details",
-    "heading": "Service Schedule - Date and Time",
+    "serviceScheduleHeading": "Service Schedule - Date and Time",
+    "address": "Same as Shipping Address",
+    "serviceLocationHeading": "Service Location",
     "datePickerLabel": "Schedule Service Date",
     "timePickerLabel": "Schedule Service Time",
-    "cardLabel": "Scheduled At",
     "clickContinue": "No Service details required. Click Continue",
     "emptyServiceDetailsCard": "None",
     "unknownError": "An unknown error occurred. Please contact support."
