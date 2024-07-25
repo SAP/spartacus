@@ -6,10 +6,9 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  CmsProductCarouselComponent as model,
   Product,
-  ProductScope,
   ProductService,
+  CmsProductCarouselComponent as model,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -21,9 +20,9 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCarouselComponent {
-  protected readonly PRODUCT_SCOPE = [ProductScope.LIST, ProductScope.STOCK];
+  protected readonly PRODUCT_SCOPE = ['carouselSearchByCodes']; // SPIKE // [ProductScope.LIST, ProductScope.STOCK];
 
-  protected readonly PRODUCT_SCOPE_ITEM = [ProductScope.LIST_ITEM];
+  protected readonly PRODUCT_SCOPE_ITEM = this.PRODUCT_SCOPE; // SPIKE // [ProductScope.LIST_ITEM];
 
   private componentData$: Observable<model> = this.componentData.data$.pipe(
     filter((data) => Boolean(data))

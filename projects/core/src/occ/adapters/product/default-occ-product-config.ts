@@ -24,6 +24,9 @@ export const defaultOccProductConfig: OccConfig = {
           stock: 'products/${productCode}?fields=stock(DEFAULT)',
           list_item:
             'products/${productCode}?fields=code,name,price(formattedValue),images(DEFAULT),baseProduct',
+          // SPIKE NEW:
+          carouselSearchByCodes:
+            'products/search?filter=code:${productCodes}&fields=products(code,purchasable,name,summary,price(formattedValue),images(DEFAULT,galleryIndex),baseProduct)',
         },
 
         productReviews: 'products/${productCode}/reviews',
