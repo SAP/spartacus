@@ -101,9 +101,9 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-import { ProductMultiDimensionalFeatureModule } from './features/product/product-multi-dimensional-feature.module';
 import { S4ServiceFeatureModule } from './features/s4-service/s4-service-feature.module';
 import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
+import { ProductMultiDimensionalFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-feature.module';
 
 const featureModules = [];
 

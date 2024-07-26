@@ -21,7 +21,7 @@ import {
 import { ProductMultiDimensionalService } from '../../../core/services/product-multi-dimensional.service';
 import { ActivatedRoute } from '@angular/router';
 import { filter, take } from 'rxjs/operators';
-import { VariantCategoryGroup } from '@spartacus/product/multi-dimensional/root';
+import { VariantCategoryGroup } from '@spartacus/product-multi-dimensional/root';
 
 @Component({
   selector: 'cx-variants-multi-dimensional-selector',

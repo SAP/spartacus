@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './variants-multi-dimensional-root.module';
+export * from './product-multi-dimensional-root.module';
 export * from './feature-name';
 export * from './model/augmented-core.model';

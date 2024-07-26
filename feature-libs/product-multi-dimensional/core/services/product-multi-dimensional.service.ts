@@ -10,7 +10,7 @@ import { ProductMultiDimensionalImagesService } from './product-multi-dimensiona
 import {
   VariantCategoryGroup,
   VariantCategoryOption,
-} from '@spartacus/product/multi-dimensional/root';
+} from '@spartacus/product-multi-dimensional/root';
 
 @Injectable({ providedIn: 'root' })
 export class ProductMultiDimensionalService {

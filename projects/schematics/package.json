@@ -26,11 +26,16 @@
   "peerDependencies": {
     "@angular-devkit/core": "^17.0.5",
     "@angular-devkit/schematics": "^17.0.5",
+    "@angular/common": "^17.0.5",
     "@angular/compiler": "^17.0.5",
+    "@angular/core": "^17.0.5",
     "@schematics/angular": "^17.0.5",
+    "jest-preset-angular": "13.1.6",
     "jsonc-parser": "^3.2.0",
     "parse5": "^7.1.2",
-    "typescript": "^5.2.2"
+    "rxjs": "^7.8.0",
+    "typescript": "^5.2.2",
+    "zone.js": "0.14.2"
   },
   "peerDependenciesMeta": {
     "canvas": {

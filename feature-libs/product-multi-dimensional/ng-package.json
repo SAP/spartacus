@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/spartacus/product-multi-dimensional",
+  "dest": "../../dist/product-multi-dimensional",
   "lib": {
     "entryFile": "./public_api.ts"
   },

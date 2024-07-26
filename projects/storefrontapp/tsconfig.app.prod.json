@@ -283,21 +283,6 @@
       ],
       "@spartacus/product/image-zoom": ["dist/product/image-zoom"],
       "@spartacus/product/image-zoom/root": ["dist/product/image-zoom/root"],
-      "@spartacus/product/multi-dimensional/components": [
-        "dist/product/multi-dimensional/components"
-      ],
-      "@spartacus/product/multi-dimensional/core": [
-        "dist/product/multi-dimensional/core"
-      ],
-      "@spartacus/product/multi-dimensional": [
-        "dist/product/multi-dimensional"
-      ],
-      "@spartacus/product/multi-dimensional/occ": [
-        "dist/product/multi-dimensional/occ"
-      ],
-      "@spartacus/product/multi-dimensional/root": [
-        "dist/product/multi-dimensional/root"
-      ],
       "@spartacus/product": ["dist/product"],
       "@spartacus/product/variants/assets": ["dist/product/variants/assets"],
       "@spartacus/product/variants/components": [

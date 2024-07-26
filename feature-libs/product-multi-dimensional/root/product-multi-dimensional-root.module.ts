@@ -26,4 +26,4 @@ export function defaultProductMultiDimensionalComponentsConfig() {
     provideDefaultConfigFactory(defaultProductMultiDimensionalComponentsConfig),
   ],
 })
-export class VariantsMultiDimensionalRootModule {}
+export class ProductMultiDimensionalRootModule {}

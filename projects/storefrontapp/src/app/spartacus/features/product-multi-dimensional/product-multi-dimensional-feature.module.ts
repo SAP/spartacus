@@ -8,17 +8,17 @@ import { NgModule } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
 import {
   PRODUCT_MULTIDIMENSIONAL_FEATURE,
-  VariantsMultiDimensionalRootModule,
-} from '@spartacus/product/multi-dimensional/root';
+  ProductMultiDimensionalRootModule,
+} from '@spartacus/product-multi-dimensional/root';
 
 @NgModule({
-  imports: [VariantsMultiDimensionalRootModule],
+  imports: [ProductMultiDimensionalRootModule],
   providers: [
     provideConfig({
       featureModules: {
         [PRODUCT_MULTIDIMENSIONAL_FEATURE]: {
           module: () =>
-            import('@spartacus/product/multi-dimensional').then(
+            import('@spartacus/product-multi-dimensional').then(
               (m) => m.ProductMultiDimensionalModule
             ),
         },
