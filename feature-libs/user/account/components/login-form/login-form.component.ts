@@ -5,10 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { filter } from 'rxjs';
+import { filter, map } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authCodeFlowConfig } from './auth.config';
+import { AuthService, RoutingService } from '@spartacus/core';
 
 declare var gigya: any;
 @Component({
@@ -16,8 +17,13 @@ declare var gigya: any;
   templateUrl: './login-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginFormComponent implements OnInit{
-  constructor(protected service: LoginFormComponentService, private oauthService: OAuthService) {
+export class LoginFormComponent implements OnInit {
+  constructor(
+    protected authService: AuthService,
+    protected routingService: RoutingService,
+    protected service: LoginFormComponentService,
+    private oauthService: OAuthService
+  ) {
     this.oauthService.configure(authCodeFlowConfig);
     this.oauthService.loadDiscoveryDocumentAndTryLogin();
     this.oauthService.events
@@ -35,7 +41,19 @@ export class LoginFormComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.startPKCEflow();
+    this.authService
+      .isUserLoggedIn()
+      .pipe(
+        map((isLoggedIn) => {
+          if (isLoggedIn) {
+            this.routingService.go({ cxRoute: 'home' });
+          } else {
+            this.startPKCEflow();
+          }
+        })
+      )
+      .subscribe();
+    // this.startPKCEflow();
   }
 
   startPKCEflow(): void {

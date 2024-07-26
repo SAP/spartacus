@@ -184,10 +184,10 @@ export class AuthService {
     try {
       this.authStorageService.setToken({
         access_token: token,
-        access_token_stored_at: Date.now() + "",
-        expires_at: Date.now() + 3600000 + "",
-        granted_scopes: ["basic", "openid"],
-        token_type:"bearer"
+        access_token_stored_at: Date.now() + '',
+        expires_at: Date.now() + 3600000 + '',
+        granted_scopes: ['basic', 'openid'],
+        token_type: 'bearer',
       });
 
       // OCC specific user id handling. Customize when implementing different backend
