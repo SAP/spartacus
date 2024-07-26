@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { Product } from '../../model';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
 import { ProductActions } from '../store/actions/index';
@@ -39,6 +40,30 @@ export class ProductSearchService {
       new ProductActions.ClearProductSearchResult({
         clearPageResults: true,
       })
+    );
+  }
+
+  searchByCodes(payload: { codes: string[]; scope?: string }): void {
+    const codes = payload.codes.join(','); // SPIKE it's a format needed by backend
+
+    this.store.dispatch(
+      new ProductActions.SearchProductsByCodes({
+        codes,
+        scope: payload.scope ?? '',
+      })
+    );
+  }
+  getSearchByCodesResults(payload: {
+    codes: string[];
+    scope?: string;
+  }): Observable<Product[]> {
+    return this.store.pipe(
+      select(
+        ProductSelectors.getSelectedProductSearchByCodesFactory({
+          codes: payload.codes.join(','),
+          scope: payload.scope ?? '',
+        })
+      )
     );
   }
 }
