@@ -89,35 +89,35 @@
     }
 
     input {
-      border: 1px solid #f1f1f1;
-      border-bottom-color: #556b81;
+      border: 0.0625rem solid $sapFiori_Button_Standard_Background;
+      border-bottom-color: $sapFiori_Button_border_bottom_color;
       width: 100%;
-      border-radius: 4px;
-      padding: 0 12px;
-      height: 36px;
+      border-radius: 0.25rem;
+      padding: 0 0.75rem;
+      height: 2.25rem;
       display: flex;
       align-items: center;
       &.ng-invalid {
         &.ng-dirty,
         &.ng-touched {
-          border-color: #f1f1f1;
-          border-bottom-color: #556b81;
+          border-color: $sapFiori_Button_Standard_Background;
+          border-bottom-color: $sapFiori_Button_border_bottom_color;
           &:focus {
-            border: 2px solid rgba(0, 100, 217, 1);
-            box-shadow: 0px 0px 1px rgba(120, 143, 166, 0.72);
+            border: 0.125rem solid rgba(0, 100, 217, 1);
+            box-shadow: 0rem 0rem 0.0625rem rgba(120, 143, 166, 0.72);
             outline: none;
-            background-color: #ffffff;
+            background-color: $sapFiori_Button_Standard_Hover_Background;
           }
         }
       }
       &:focus {
-        border: 2px solid rgba(0, 100, 217, 1);
-        box-shadow: 0px 0px 1px rgba(120, 143, 166, 0.72);
+        border: 0.125rem solid rgba(0, 100, 217, 1);
+        box-shadow: 0rem 0rem 0.0625rem rgba(120, 143, 166, 0.72);
         outline: none;
-        background-color: #ffffff;
+        background-color: $sapFiori_Button_Standard_Hover_Background;
       }
       &:hover {
-        box-shadow: 0px 0px 0px 1px rgba(104, 174, 255, 0.5) inset;
+        box-shadow: 0rem 0rem 0rem 0.0625rem rgba(104, 174, 255, 0.5) inset;
       }
     }
 
