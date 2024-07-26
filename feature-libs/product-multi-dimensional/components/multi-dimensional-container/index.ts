@@ -5,5 +5,5 @@
  */
 
 export * from './multi-dimensional-selector/product-multi-dimensional-selector.component';
-export * from './variants-multi-dimensional.component';
-export * from './variants-multi-dimensional.module';
+export * from './product-multi-dimensional-container.component';
+export * from './product-multi-dimensional-container.module';

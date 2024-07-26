@@ -8,7 +8,7 @@
     "build": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
       "options": {
-        "project": "feature-libs/product-multi-dimensional/tsconfig.lib.json",
+        "tsConfig": "feature-libs/product-multi-dimensional/tsconfig.lib.json",
         "project": "feature-libs/product-multi-dimensional/ng-package.json"
       },
       "configurations": {

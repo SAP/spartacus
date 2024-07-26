@@ -18,7 +18,7 @@ import {
   ProductService,
   RoutingService,
 } from '@spartacus/core';
-import { ProductMultiDimensionalService } from '../../../core/services/product-multi-dimensional.service';
+import { ProductMultiDimensionalService } from '@spartacus/product-multi-dimensional/core';
 import { ActivatedRoute } from '@angular/router';
 import { filter, take } from 'rxjs/operators';
 import { VariantCategoryGroup } from '@spartacus/product-multi-dimensional/root';
