@@ -31,7 +31,8 @@ import { LoginRegisterComponent } from './login-register.component';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ReturningCustomerRegisterComponent: {
-          // component: LoginResgisterComponent,
+          // for b2c, to hide register button and hint message on login page
+          // component: LoginRegisterComponent,
           guards: [NotAuthGuard],
         },
       },

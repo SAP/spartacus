@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { Observable, filter } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { filter } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authCodeFlowConfig } from './auth.config';
@@ -17,7 +16,7 @@ declare var gigya: any;
   templateUrl: './login-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements OnInit{
   constructor(protected service: LoginFormComponentService, private oauthService: OAuthService) {
     this.oauthService.configure(authCodeFlowConfig);
     this.oauthService.loadDiscoveryDocumentAndTryLogin();
@@ -35,23 +34,9 @@ export class LoginFormComponent {
     });
   }
 
-  form: UntypedFormGroup = this.service.form;
-  isUpdating$: Observable<boolean> = this.service.isUpdating$;
-
-  @HostBinding('class.user-form') style = true;
-
-  onSubmit(): void {
-    this.service.login();
+  ngOnInit(): void {
+    this.startPKCEflow();
   }
-  // showCDCLoginForm(): void {
-  //   gigya.accounts.showScreenSet({
-  //     screenSet: 'Default-RegistrationLogin',
-  //     containerId: 'login-container',
-  //     onBeforeSubmit: (event: any) => {
-  //       console.log('onBeforeSubmit', event);
-  //     }
-  //   });
-  // }
 
   startPKCEflow(): void {
     this.oauthService.initCodeFlow();
