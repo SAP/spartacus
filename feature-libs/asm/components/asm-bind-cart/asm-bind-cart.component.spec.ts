@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import { AsmBindCartFacade, CsAgentAuthService } from '@spartacus/asm/root';
 import {
   ActiveCartFacade,
