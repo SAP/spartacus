@@ -184,11 +184,6 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     this.afterCloseASMSaveCartDialog();
   }
 
-  clearText() {
-    this.cartId.setValue('');
-    this.resetDeeplinkCart();
-  }
-
   protected resetDeeplinkCart(): void {
     this.deepLinkCartId = '';
     this.displayBindCartBtn$.next(true);
