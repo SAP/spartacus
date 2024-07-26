@@ -221,15 +221,6 @@ describe('AsmBindCartComponent', () => {
     expect(component.cartId.value).toEqual('');
   });
 
-  it('should clear field when clear input is clicked', () => {
-    fixture.detectChanges();
-    let button = fixture.debugElement.query(By.css('.cx-asm-reset'));
-
-    button.triggerEventHandler('click');
-
-    expect(component.cartId.value).toEqual('');
-  });
-
   describe('assign cart to customer', () => {
     beforeEach(() => {
       fixture.detectChanges();
