@@ -18,13 +18,12 @@ import {
       cdc: [
         {
           baseSite: 'electronics-spa',
-          // javascriptUrl:'https://cdns.au1.gigya.com/JS/gigya.js?apikey=3_ddYSoRG-98j45BH7buBOZSvyZl38LSQglikVcjRjLnpnc6i1cfV5EiY5hZp_1AT-',
-          javascriptUrl:'https://cdns.eu1.gigya.com/JS/gigya.js?apikey=3_k_wG-sllOhu2rjDEWHjG9-ncnnGAMHfkIcUKzl94weJU1Y18hITRgnTDp1LP8QdC',
+          javascriptUrl: 'JS_SDK_URL_PLACEHOLDER',
           sessionExpiration: 3600,
         },
         {
           baseSite: 'powertools-spa',
-          javascriptUrl: 'https://cdns.eu1.gigya.com/JS/gigya.js?apikey=3__pAj9UsaNXJAaDi-d8xvhzNBvGXDYx0GlTg1R9YQWVgTIQbdBZzR98_y-nFZWUNl',
+          javascriptUrl: 'JS_SDK_URL_PLACEHOLDER',
           sessionExpiration: 3600,
         },
       ],
