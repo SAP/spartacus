@@ -218,7 +218,7 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 
   /**
-   * Delivery mode PUT intercept is not in verifyDeliveryMethod()
+   * Delivery mode PUT intercept is not in verifyDeliveryOptions()
    * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
    */
   cy.intercept({
@@ -435,7 +435,7 @@ export function fillAddressFormWithCheapProduct(
   cy.log('🛒 Filling shipping address form');
 
   /**
-   * Delivery mode PUT intercept is not in verifyDeliveryMethod()
+   * Delivery mode PUT intercept is not in verifyDeliveryOptions()
    * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
    */
   const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
@@ -691,7 +691,7 @@ export function checkoutFirstDisplayedProduct(user: SampleUser) {
 
     cy.wait('@userCart').its('response.statusCode').should('eq', 200);
 
-    verifyDeliveryMethod();
+    verifyDeliveryOptions();
     fillPaymentFormWithCheapProduct(user as PaymentDetails);
 
     cy.get('@userCart').then((xhr: any) => {
