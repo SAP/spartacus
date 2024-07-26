@@ -1,0 +1,10 @@
+cx-variants-multi-dimensional {
+  .variants-section {
+    @include media-breakpoint-up(lg) {
+      padding-top: 20px;
+      padding-inline-end: 20px;
+      padding-bottom: 0px;
+      padding-inline-start: 20px;
+    }
+  }
+}

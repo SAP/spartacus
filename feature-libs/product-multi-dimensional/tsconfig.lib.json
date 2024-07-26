@@ -15,7 +15,69 @@
     "importHelpers": true,
     "types": [],
     "lib": ["dom", "esnext"],
-    "paths": {}
+    "paths": {
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/product/bulk-pricing/assets": [
+        "dist/product/bulk-pricing/assets"
+      ],
+      "@spartacus/product/bulk-pricing/components": [
+        "dist/product/bulk-pricing/components"
+      ],
+      "@spartacus/product/bulk-pricing/core": [
+        "dist/product/bulk-pricing/core"
+      ],
+      "@spartacus/product/bulk-pricing": ["dist/product/bulk-pricing"],
+      "@spartacus/product/bulk-pricing/occ": ["dist/product/bulk-pricing/occ"],
+      "@spartacus/product/bulk-pricing/root": [
+        "dist/product/bulk-pricing/root"
+      ],
+      "@spartacus/product/future-stock/assets": [
+        "dist/product/future-stock/assets"
+      ],
+      "@spartacus/product/future-stock/components": [
+        "dist/product/future-stock/components"
+      ],
+      "@spartacus/product/future-stock/core": [
+        "dist/product/future-stock/core"
+      ],
+      "@spartacus/product/future-stock": ["dist/product/future-stock"],
+      "@spartacus/product/future-stock/occ": ["dist/product/future-stock/occ"],
+      "@spartacus/product/future-stock/root": [
+        "dist/product/future-stock/root"
+      ],
+      "@spartacus/product/image-zoom/assets": [
+        "dist/product/image-zoom/assets"
+      ],
+      "@spartacus/product/image-zoom/components": [
+        "dist/product/image-zoom/components"
+      ],
+      "@spartacus/product/image-zoom": ["dist/product/image-zoom"],
+      "@spartacus/product/image-zoom/root": ["dist/product/image-zoom/root"],
+      "@spartacus/product/multi-dimensional/components": [
+        "dist/product/multi-dimensional/components"
+      ],
+      "@spartacus/product/multi-dimensional/core": [
+        "dist/product/multi-dimensional/core"
+      ],
+      "@spartacus/product/multi-dimensional": [
+        "dist/product/multi-dimensional"
+      ],
+      "@spartacus/product/multi-dimensional/occ": [
+        "dist/product/multi-dimensional/occ"
+      ],
+      "@spartacus/product/multi-dimensional/root": [
+        "dist/product/multi-dimensional/root"
+      ],
+      "@spartacus/product": ["dist/product"],
+      "@spartacus/product/variants/assets": ["dist/product/variants/assets"],
+      "@spartacus/product/variants/components": [
+        "dist/product/variants/components"
+      ],
+      "@spartacus/product/variants": ["dist/product/variants"],
+      "@spartacus/product/variants/occ": ["dist/product/variants/occ"],
+      "@spartacus/product/variants/root": ["dist/product/variants/root"],
+      "@spartacus/storefront": ["dist/storefrontlib"]
+    }
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,

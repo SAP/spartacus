@@ -232,8 +232,20 @@
       "@spartacus/product-configurator/textfield/root": [
         "dist/product-configurator/textfield/root"
       ],
+      "@spartacus/product-multi-dimensional/components": [
+        "dist/product-multi-dimensional/components"
+      ],
+      "@spartacus/product-multi-dimensional/core": [
+        "dist/product-multi-dimensional/core"
+      ],
       "@spartacus/product-multi-dimensional": [
         "dist/product-multi-dimensional"
+      ],
+      "@spartacus/product-multi-dimensional/occ": [
+        "dist/product-multi-dimensional/occ"
+      ],
+      "@spartacus/product-multi-dimensional/root": [
+        "dist/product-multi-dimensional/root"
       ],
       "@spartacus/product/bulk-pricing/assets": [
         "dist/product/bulk-pricing/assets"
