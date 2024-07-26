@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
 import {
   UntypedFormArray,
   UntypedFormBuilder,
@@ -17,6 +17,8 @@ import {
   AnonymousConsentsConfig,
   AnonymousConsentsService,
   AuthConfigService,
+  BaseSite,
+  BaseSiteService,
   ConsentTemplate,
   FeatureConfigService,
   GlobalMessageEntities,
@@ -28,7 +30,7 @@ import {
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { RegisterComponentService } from './register-component.service';
 
 @Component({
@@ -38,6 +40,14 @@ import { RegisterComponentService } from './register-component.service';
 export class RegisterComponent implements OnInit, OnDestroy {
   // TODO: (CXSPA-7315) Remove feature toggle in the next major
   private featureConfigService = inject(FeatureConfigService);
+
+  @Optional() protected baseSiteService = inject(BaseSiteService, {
+    optional: true,
+  });
+
+  @Optional() protected routingService = inject(RoutingService, {
+    optional: true,
+  });
 
   protected passwordValidators = this.featureConfigService?.isEnabled(
     'formErrorsDescriptiveMessages'
@@ -166,6 +176,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.toggleAnonymousConsent();
       })
     );
+
+    this.baseSiteService?.get().pipe(
+      filter((site: any) => Boolean(site)),
+      take(1)
+    ).subscribe((baseSite: BaseSite) => {
+      if (baseSite?.registrationEnabled === false) {
+        this.routingService?.go('/not-supported');
+      }
+    });
   }
 
   submitForm(): void {

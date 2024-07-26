@@ -39,7 +39,8 @@
   },
   "miniLogin": {
     "userGreeting": "Hi, {{name}}",
-    "signInRegister": "Sign In / Register"
+    "signInRegister": "Sign In / Register",
+    "signOnly": "Sign In"
   },
   "myAccountV2User": {
     "signOut": "Sign Out"

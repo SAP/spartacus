@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthService,
+  BaseSiteService,
   I18nTestingModule,
   RoutingService,
   User,
@@ -47,6 +48,14 @@ class MockDynamicSlotComponent {
   position: string;
 }
 
+class MockBaseSiteService {
+  get() {
+    return of({
+      registrationEnabled: true,
+    });
+  }
+}
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -59,6 +68,7 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
 
   let authService: AuthService;
+  let baseSiteService: BaseSiteService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -80,10 +90,12 @@ describe('LoginComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         { provide: AuthService, useClass: MockAuthService },
+        { provide: BaseSiteService, useClass: MockBaseSiteService},
       ],
     }).compileComponents();
 
     authService = TestBed.inject(AuthService);
+    baseSiteService = TestBed.inject(BaseSiteService);
   }));
 
   beforeEach(() => {
@@ -139,5 +151,18 @@ describe('LoginComponent', () => {
         'miniLogin.signInRegister'
       );
     });
+
+    it('should display the register message when the user is not logged in', () => {
+      // spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+      spyOn(baseSiteService, 'get').and.returnValue(of({
+        registrationEnabled: false
+      }));
+      expect(component).toBeTruthy();
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      expect(component.loginText).toEqual('miniLogin.signInOnly');
+    });
+
   });
 });

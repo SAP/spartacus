@@ -6,7 +6,8 @@
 
 import { Component, OnInit, Optional, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RoutingService } from '@spartacus/core';
+import { BaseSite, BaseSiteService, RoutingService } from '@spartacus/core';
+import { filter, map, Observable, take } from 'rxjs';
 
 @Component({
   selector: 'cx-login-register',
@@ -14,15 +15,24 @@ import { RoutingService } from '@spartacus/core';
 })
 export class LoginRegisterComponent implements OnInit {
   loginAsGuest = false;
+  registerEnabled$: Observable<boolean> | undefined;
 
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
 
+  @Optional() protected baseSiteService = inject(BaseSiteService, {
+    optional: true,
+  });
   constructor(protected activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
+    this.registerEnabled$ = this.baseSiteService?.get().pipe(
+      filter((site) => site != null),
+      take(1),
+      map((baseSite: BaseSite) => Boolean(baseSite?.registrationEnabled))
+    );
   }
 
   navigateTo(cxRoute: string): void {

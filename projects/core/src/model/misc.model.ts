@@ -128,4 +128,5 @@ export interface BaseSite {
   baseStore?: BaseStore;
   requiresAuthentication?: boolean;
   isolated?: boolean;
+  registrationEnabled?: boolean;
 }

@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy, Optional } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Country, Region } from '@spartacus/core';
+import { BaseSite, BaseSiteService, Country, Region, RoutingService } from '@spartacus/core';
 import { Title } from '@spartacus/user/profile/root';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, Subscription, take } from 'rxjs';
 import { UserRegistrationFormService } from './user-registration-form.service';
 
 @Component({
@@ -31,9 +31,29 @@ export class UserRegistrationFormComponent implements OnDestroy {
 
   protected subscriptions = new Subscription();
 
+  @Optional() protected baseSiteService = inject(BaseSiteService, {
+    optional: true,
+  });
+
+  @Optional() protected routingService = inject(RoutingService, {
+    optional: true,
+  });
+
   constructor(
     protected userRegistrationFormService: UserRegistrationFormService
-  ) {}
+  ) {
+    this.baseSiteService?.get().pipe(
+      filter((site) => site != null),
+      take(1),
+      map((baseSite: BaseSite) => {
+        if (baseSite?.registrationEnabled === false) {
+          {
+            this.routingService?.go('/');
+          }
+        }
+      })
+    );
+  }
 
   submit(): void {
     if (this.registerForm.valid) {

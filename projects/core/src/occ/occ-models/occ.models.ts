@@ -2998,6 +2998,7 @@ export namespace Occ {
     urlPatterns?: string[];
     urlEncodingAttributes?: string[];
     requiresAuthentication?: boolean;
+    registrationEnabled?: boolean;
   }
 
   export interface BaseStore {

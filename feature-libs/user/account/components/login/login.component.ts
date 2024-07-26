@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
-import { AuthService, useFeatureStyles } from '@spartacus/core';
+import { Component, inject, OnInit, Optional } from '@angular/core';
+import { AuthService, BaseSite, BaseSiteService, useFeatureStyles } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-login',
@@ -16,6 +16,10 @@ import { switchMap } from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit {
   user$: Observable<User | undefined>;
+  @Optional() protected baseSiteService = inject(BaseSiteService, {
+    optional: true,
+  });
+  loginText: string = 'miniLogin.signInRegister';
 
   constructor(
     private auth: AuthService,
@@ -34,5 +38,17 @@ export class LoginComponent implements OnInit {
         }
       })
     );
+
+    this.baseSiteService
+      ?.get()
+      .pipe(
+        filter((site: any) => Boolean(site)),
+        take(1)
+      )
+      .subscribe((baseSite: BaseSite) => {
+        if (baseSite?.registrationEnabled === false) {
+          this.loginText = 'miniLogin.signInOnly';
+        }
+      });
   }
 }

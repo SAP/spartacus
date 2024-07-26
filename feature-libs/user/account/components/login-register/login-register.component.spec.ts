@@ -3,9 +3,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { BaseSite, BaseSiteService, I18nTestingModule, RoutingService } from '@spartacus/core';
 import { LoginRegisterComponent } from './login-register.component';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { Observable, of } from 'rxjs';
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
@@ -14,6 +15,7 @@ describe('LoginRegisterComponent', () => {
   let component: LoginRegisterComponent;
   let fixture: ComponentFixture<LoginRegisterComponent>;
   let routingService: RoutingService;
+  let baseSiteService: BaseSiteService;
 
   @Pipe({
     name: 'cxUrl',
@@ -30,12 +32,21 @@ describe('LoginRegisterComponent', () => {
     };
   }
 
+  class MockBaseSiteService {
+    get(): Observable<BaseSite | undefined> {
+      return of({
+        registrationEnabled: true
+      });
+    }
+  }
+
   const testBedDefaults = {
     imports: [RouterTestingModule, I18nTestingModule],
     declarations: [LoginRegisterComponent, MockUrlPipe, MockFeatureDirective],
     providers: [
       { provide: ActivatedRoute, useClass: MockActivatedRoute },
       { provide: RoutingService, useClass: MockRoutingService },
+      { provide: BaseSiteService, useClass: MockBaseSiteService},
     ],
   };
 
@@ -43,6 +54,7 @@ describe('LoginRegisterComponent', () => {
     fixture = TestBed.createComponent(LoginRegisterComponent);
     component = fixture.componentInstance;
     routingService = TestBed.inject(RoutingService);
+    baseSiteService = TestBed.inject(BaseSiteService);
   }
 
   function callNgInit() {
@@ -69,6 +81,28 @@ describe('LoginRegisterComponent', () => {
 
   it('should create component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should show component', () => {
+    expect(component).toBeTruthy();
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.nativeElement.innerText).toContain(
+      'loginForm.dontHaveAccount'
+    );
+  });
+
+  it('should not show component when register disabled', () => {
+    spyOn(baseSiteService, 'get').and.returnValue(of({
+      registrationEnabled: false
+    }));
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.nativeElement.innerText).not.toContain(
+      'loginForm.dontHaveAccount'
+    );
   });
 
   describe('Register/Guest checkout', () => {

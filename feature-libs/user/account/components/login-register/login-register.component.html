@@ -1,4 +1,4 @@
-<div class="register">
+<div class="register" *ngIf="registerEnabled$ | async">
   <p class="cx-section-title">
     {{ 'loginForm.dontHaveAccount' | cxTranslate }}
   </p>
