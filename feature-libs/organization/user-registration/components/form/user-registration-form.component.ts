@@ -48,7 +48,7 @@ export class UserRegistrationFormComponent implements OnDestroy {
       ((baseSite: BaseSite) => {
         if (baseSite?.registrationEnabled === false) {
           {
-            this.routingService?.go('/');
+            this.routingService?.go('/not-supported');
           }
         }
       });

@@ -185,7 +185,7 @@ describe('UserRegistrationFormComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
-    expect(routingService.go).toHaveBeenCalledWith('/');
+    expect(routingService.go).toHaveBeenCalledWith('/not-supported');
   });
 
   it('should initialize registerForm', () => {
