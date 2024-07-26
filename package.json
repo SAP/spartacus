@@ -31,7 +31,7 @@
     "build:pickup-in-store": "npm --prefix feature-libs/pickup-in-store run build:schematics && nx build pickup-in-store --configuration production",
     "build:product": "npm --prefix feature-libs/product run build:schematics && nx build product --configuration production",
     "build:product-configurator": "npm --prefix feature-libs/product-configurator run build:schematics && nx build product-configurator --configuration production",
-    "build:product-multi-dimensional": "npm --prefix feature-libs/product-multi-dimensional run build:schematics && npx nx build asm --configuration production",
+    "build:product-multi-dimensional": "npm --prefix feature-libs/product-multi-dimensional run build:schematics && npx nx build product-multi-dimensional --configuration production",
     "build:s4om": "npm --prefix integration-libs/s4om run build:schematics && nx build s4om --configuration production",
     "build:cpq-quote": "npm --prefix integration-libs/cpq-quote run build:schematics && npx nx build cpq-quote --configuration production",
     "build:segment-refs": "npm --prefix integration-libs/segment-refs run build:schematics && nx build segment-refs --configuration production",
