@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Country, I18nTestingModule, Region, Title } from '@spartacus/core';
+import { BaseSite, BaseSiteService, Country, I18nTestingModule, Region, RoutingService, Title } from '@spartacus/core';
 import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import {
   FormErrorsModule,
@@ -109,10 +109,22 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
+class MockBaseSiteService {
+  get(): Observable<BaseSite|null> {
+    return of(null);
+  }
+}
+
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
+}
+
 describe('UserRegistrationFormComponent', () => {
   let component: UserRegistrationFormComponent;
   let fixture: ComponentFixture<UserRegistrationFormComponent>;
   let el: DebugElement;
+  let baseSiteService: BaseSiteService;
+  let routingService: RoutingService;
 
   let userRegistrationFormService: UserRegistrationFormService;
 
@@ -137,10 +149,20 @@ describe('UserRegistrationFormComponent', () => {
           provide: UserRegistrationFormService,
           useClass: MockUserRegistrationFormService,
         },
+        {
+          provide: BaseSiteService,
+          useClass: MockBaseSiteService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
       ],
     });
 
     userRegistrationFormService = TestBed.inject(UserRegistrationFormService);
+    baseSiteService = TestBed.inject(BaseSiteService);
+    routingService = TestBed.inject(RoutingService);
   }));
 
   beforeEach(() => {
@@ -152,6 +174,18 @@ describe('UserRegistrationFormComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should navigate to non-exist url if registration is disabled', () => {
+    spyOn(baseSiteService, 'get').and.returnValue(of({
+      registrationEnabled: false,
+    }));
+    spyOn(routingService, 'go');
+    fixture = TestBed.createComponent(UserRegistrationFormComponent);
+    component = fixture.componentInstance;
+    el = fixture.debugElement;
+    fixture.detectChanges();
+    expect(routingService.go).toHaveBeenCalledWith('/');
   });
 
   it('should initialize registerForm', () => {

@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component, inject, OnDestroy, Optional } from 
 import { FormGroup } from '@angular/forms';
 import { BaseSite, BaseSiteService, Country, Region, RoutingService } from '@spartacus/core';
 import { Title } from '@spartacus/user/profile/root';
-import { BehaviorSubject, filter, map, Observable, Subscription, take } from 'rxjs';
+import { BehaviorSubject, filter, Observable, Subscription, take } from 'rxjs';
 import { UserRegistrationFormService } from './user-registration-form.service';
 
 @Component({
@@ -44,15 +44,14 @@ export class UserRegistrationFormComponent implements OnDestroy {
   ) {
     this.baseSiteService?.get().pipe(
       filter((site) => site != null),
-      take(1),
-      map((baseSite: BaseSite) => {
+      take(1)).subscribe
+      ((baseSite: BaseSite) => {
         if (baseSite?.registrationEnabled === false) {
           {
             this.routingService?.go('/');
           }
         }
-      })
-    );
+      });
   }
 
   submit(): void {
