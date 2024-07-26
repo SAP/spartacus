@@ -1,24 +1,21 @@
 {
-  "name": "@spartacus/product-multi-dimensional",
+  "name": "product-multi-dimensional",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "spartacus/product-multi-dimensional/src",
+  "sourceRoot": "feature-libs/product-multi-dimensional",
   "prefix": "cx",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
       "options": {
-        "project": "spartacus/product-multi-dimensional/ng-package.json"
+        "project": "feature-libs/product-multi-dimensional/tsconfig.lib.json",
+        "project": "feature-libs/product-multi-dimensional/ng-package.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "spartacus/product-multi-dimensional/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "spartacus/product-multi-dimensional/tsconfig.lib.json"
+          "tsConfig": "feature-libs/product-multi-dimensional/tsconfig.lib.prod.json"
         }
-      },
-      "defaultConfiguration": "production"
+      }
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
