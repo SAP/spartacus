@@ -14,10 +14,6 @@
     }
   }
 
-  cx-page-layout {
-    background-color: var(--cx-color-background) !important;
-  }
-
   header {
     background-image: linear-gradient(
       var(--cx-color-background) $header-height,
@@ -71,12 +67,11 @@
 
   cx-navigation-ui {
     background-color: var(--cx-color-background);
-    nav {
-      ul {
-        .wrapper {
-          background-color: var(--cx-color-background) !important;
-        }
-      }
+  }
+
+  @media (min-width: 992px) {
+    cx-navigation-ui.flyout > nav > ul > li > .wrapper {
+      background: var(--cx-color-background);
     }
   }
 
@@ -102,15 +97,9 @@
 
   cx-login-form {
     input {
-      border-color: var(--cx-color-text) !important;
-      background-color: var(--cx-color-background) !important;
+      border-color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
       color: var(--cx-color-text);
-    }
-    input:-webkit-autofill,
-    input:-webkit-autofill:focus {
-      transition:
-        background-color 0s 600000s,
-        color 0s 600000s !important;
     }
   }
 
@@ -145,17 +134,8 @@
     }
   }
 
-  cx-card {
-    .cx-card {
-      padding: 2px;
-    }
-    .card-body {
-      background-color: var(--cx-color-background);
-    }
-  }
-
   cx-item-counter {
-    background-color: var(--cx-color-background) !important;
+    background-color: var(--cx-color-background);
     input {
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
@@ -169,6 +149,10 @@
   cx-quick-order .quick-order-form-body {
     background-color: var(--cx-color-background);
     border: 1px solid var(--cx-color-text);
+  }
+
+  cx-anonymous-consent-management-banner .anonymous-consent-banner {
+    background-color: var(--cx-color-background);
   }
 
   cx-configurator-overview-notification-banner:not(:empty),
@@ -188,11 +172,24 @@
   .cx-customer-ticket-form-container,
   .cx-saved-cart-form-container {
     color: var(--cx-color-text);
-    background-color: var(--cx-color-background) !important;
-    border: 1px solid var(--cx-color-text) !important;
+    background-color: var(--cx-color-background);
+    border: 1px solid var(--cx-color-text);
     .close {
       color: var(--cx-color-text);
     }
+  }
+  .modal-content,
+  cx-customer-ticketing-create-dialog
+    .cx-customer-ticket-form-dialog
+    .cx-customer-ticket-form-container,
+  cx-customer-ticketing-reopen-dialog
+    .cx-customer-ticket-form-dialog
+    .cx-customer-ticket-form-container,
+  cx-customer-ticketing-close-dialog
+    .cx-customer-ticket-form-dialog
+    .cx-customer-ticket-form-container {
+    background-color: var(--cx-color-background);
+    border: 1px solid var(--cx-color-text);
   }
   cx-import-entries-dialog {
     .cx-import-entries-container {
@@ -209,29 +206,44 @@
   .cx-dialog-header,
   .cx-dialog-body,
   .modal-header {
-    background-color: var(--cx-color-background) !important;
+    background-color: var(--cx-color-background);
   }
 
   .form-control {
     border-color: var(--cx-color-text);
-    background-color: var(--cx-color-background) !important;
+    background-color: var(--cx-color-background);
+    color: var(--cx-color-text);
+    &:focus {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+  }
+
+  .form-control[type='text']:focus {
+    background-color: var(--cx-color-background);
     color: var(--cx-color-text);
   }
 
-  form {
-    input:-webkit-autofill,
-    input:-webkit-autofill:focus {
-      transition:
-        background-color 0s 600000s,
-        color 0s 600000s !important;
-    }
+  /* Change Autocomplete styles in Chrome*/
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--cx-color-text);
+    -webkit-box-shadow: 0 0 0px 1000px var(--cx-color-background) inset;
+    transition: background-color 5000s ease-in-out 0s;
   }
 
   .ng-select {
     .ng-select-container {
       color: var(--cx-color-text);
       background-color: var(--cx-color-background);
-      border-color: var(--cx-color-text) !important;
+      border-color: var(--cx-color-text);
     }
   }
 
