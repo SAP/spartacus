@@ -1,1 +1,1 @@
-export * from './product-multi-dimensional.module';
+export * from './selector/product-multi-dimensional-selector.module';

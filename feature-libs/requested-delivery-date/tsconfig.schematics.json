@@ -360,20 +360,23 @@
       "@spartacus/product-configurator/textfield/root": [
         "../../feature-libs/product-configurator/textfield/root/public_api"
       ],
-      "@spartacus/product-multi-dimensional/components": [
-        "../../feature-libs/product-multi-dimensional/components/public_api"
-      ],
-      "@spartacus/product-multi-dimensional/core": [
-        "../../feature-libs/product-multi-dimensional/core/public_api"
-      ],
       "@spartacus/product-multi-dimensional": [
         "../../feature-libs/product-multi-dimensional/public_api"
       ],
-      "@spartacus/product-multi-dimensional/occ": [
-        "../../feature-libs/product-multi-dimensional/occ/public_api"
+      "@spartacus/product-multi-dimensional/selector/components": [
+        "../../feature-libs/product-multi-dimensional/selector/components/public_api"
       ],
-      "@spartacus/product-multi-dimensional/root": [
-        "../../feature-libs/product-multi-dimensional/root/public_api"
+      "@spartacus/product-multi-dimensional/selector/core": [
+        "../../feature-libs/product-multi-dimensional/selector/core/public_api"
+      ],
+      "@spartacus/product-multi-dimensional/selector": [
+        "../../feature-libs/product-multi-dimensional/selector/public_api"
+      ],
+      "@spartacus/product-multi-dimensional/selector/occ": [
+        "../../feature-libs/product-multi-dimensional/selector/occ/public_api"
+      ],
+      "@spartacus/product-multi-dimensional/selector/root": [
+        "../../feature-libs/product-multi-dimensional/selector/root/public_api"
       ],
       "@spartacus/product/bulk-pricing/assets": [
         "../../feature-libs/product/bulk-pricing/assets/public_api"
