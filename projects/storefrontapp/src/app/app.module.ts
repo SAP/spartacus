@@ -19,7 +19,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import {
+import { 
+  CmsConfig,
   I18nConfig,
   OccConfig,
   RoutingConfig,
@@ -94,6 +95,15 @@ if (!environment.production) {
       // without a key, for development or demo purposes.
       googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
     }),
+    provideConfig(<CmsConfig>{
+            cmsComponents: {
+                ProductAddToCartComponent: {
+                    data: {
+                        inventoryDisplay: true,
+                    },
+                },
+            },
+        }),
     {
       provide: USE_LEGACY_MEDIA_COMPONENT,
       useValue: false,
