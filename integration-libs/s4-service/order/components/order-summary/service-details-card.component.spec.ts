@@ -55,8 +55,8 @@ describe('ServiceDetailsCardComponent', () => {
     component.getServiceDetailsCard('2023/12/12TY12:00').subscribe((card) => {
       expect(card).toEqual({
         title: 'card title',
-        textBold: 'card bold text',
-        text: ['2023/12/12, 12:00'],
+        textBold: '2023/12/12',
+        text: ['12:00'],
       });
     });
   });
@@ -64,7 +64,8 @@ describe('ServiceDetailsCardComponent', () => {
     component.getServiceDetailsCard(undefined).subscribe((card) => {
       expect(card).toEqual({
         title: 'card title',
-        text: ['card empty'],
+        textBold: 'card empty',
+        text: undefined,
       });
     });
   });
