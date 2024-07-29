@@ -5,7 +5,8 @@
  */
 
 import { HttpClient, HttpContext } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import {
@@ -22,7 +23,6 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OCC_HTTP_TOKEN } from '../../utils';
-import { Router } from '@angular/router';
 @Injectable()
 export class OccProductSearchAdapter implements ProductSearchAdapter {
   protected router = inject(Router, {
@@ -41,14 +41,25 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
 
   search(
     query: string,
-    searchConfig: SearchConfig = this.DEFAULT_SEARCH_CONFIG
+    searchConfig: SearchConfig = this.DEFAULT_SEARCH_CONFIG,
+    scope?: string
   ): Observable<ProductSearchPage> {
     const context = new HttpContext().set(OCC_HTTP_TOKEN, {
       sendUserIdAsHeader: true,
     });
 
+    // SPIKE TODO: if no pageSize - load all, interatively, in chunks per 100 items
+
+    // SPIKE FOR NOW LET's LAOD HARDCODED 100
+    if (scope) {
+      searchConfig = {
+        ...searchConfig,
+        pageSize: 100,
+      };
+    }
+
     return this.http
-      .get(this.getSearchEndpoint(query, searchConfig), { context })
+      .get(this.getSearchEndpoint(query, searchConfig, scope), { context })
       .pipe(
         this.converter.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER),
         tap(
@@ -75,10 +86,12 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
 
   protected getSearchEndpoint(
     query: string,
-    searchConfig: SearchConfig
+    searchConfig: SearchConfig,
+    scope?: string
   ): string {
     return this.occEndpoints.buildUrl('productSearch', {
       queryParams: { query, ...searchConfig },
+      scope,
     });
   }
 
