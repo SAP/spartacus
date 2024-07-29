@@ -32,7 +32,7 @@ export class ThemeSwitcherComponent {
   get activeItem$(): Observable<string> {
     return this.themeSwitcherComponentService.getActiveItem();
   }
-  set active(value: string) {
+  set activeItem(value: string) {
     this.themeSwitcherComponentService.setActive(value);
   }
 }

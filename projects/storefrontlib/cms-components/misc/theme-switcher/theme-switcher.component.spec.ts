@@ -71,7 +71,7 @@ describe('ThemeSwitcherComponent', () => {
 
   it('should set active item using the service', () => {
     const newActiveItem = 'theme2';
-    component.active = newActiveItem;
+    component.activeItem = newActiveItem;
     expect(themeSwitcherComponentService.setActive).toHaveBeenCalledWith(
       newActiveItem
     );
