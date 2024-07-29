@@ -4,5 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './theme-switcher-config';
-export * from './default-theme-switcher-config';
+export * from './site-themes.action';

@@ -5,19 +5,19 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
-import { Theme } from '../theme-switcher.model';
+import { Config } from '../../config/config-tokens';
+import { Theme } from '../../model/misc.model';
 
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class ThemeSwitcherConfig {
-  themeSwitcher?: {
+export abstract class SiteThemeConfig {
+  siteTheme?: {
     themes?: Array<Theme>;
   };
 }
 
-declare module '@spartacus/core' {
-  interface Config extends ThemeSwitcherConfig {}
+declare module '../../config/config-tokens' {
+  interface Config extends SiteThemeConfig {}
 }

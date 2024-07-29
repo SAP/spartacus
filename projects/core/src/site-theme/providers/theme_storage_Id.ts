@@ -4,5 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './theme-switcher.module';
-export * from './theme-switcher.component';
+export const THEME_STORAGE_ID = 'theme';

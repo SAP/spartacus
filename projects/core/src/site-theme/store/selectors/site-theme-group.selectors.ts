@@ -4,7 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export interface Theme {
-  i18nNameKey?: string;
-  className: string;
-}
+export * from './site-themes.selectors';
+export * from './feature.selector';
