@@ -143,4 +143,5 @@ export interface Order {
   returnable?: boolean;
   cancellable?: boolean;
   serviceReschedulable?: boolean;
+  servicedAt?: string;
 }

@@ -15,4 +15,9 @@ export class S4ServiceOrderDetailActionsComponent extends OrderDetailActionsComp
       console.log('Order details: ', order);
     });
   }
+
+  isOrderRescheduleable(): boolean {
+    // return this.order?.status === 'COMPLETED';
+    return true;
+  }
 }

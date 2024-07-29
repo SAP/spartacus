@@ -80,25 +80,27 @@ export class CheckoutServiceSchedulePickerService {
    * @returns Readable string format. Example: 11/07/2024, 14:30
    */
   convertDateTimeToReadableString(dateTime: string): string {
-    const date = new Date(dateTime);
+    const date = new Date(dateTime);console.log('Date: ', date);
     const secondsDigits = -3;
     return date.toLocaleString().slice(0, secondsDigits);
   }
 
   /**
    * Converts a string containing both date and time into an object with separate properties - date and time.
-   * @param input Date and time in format `DD/MM/YYYY, HH:mm:ss`
+   * @param input Date and time in format `MM/DD/YYYY, HH:mm:ss`
    * @returns Object with date and time separately as { date: 'YYYY-MM-DD', time: 'HH:mm' }
    */
   getServiceDetailsFromDateTime(input: string): { date: string; time: string } {
+    console.log('Input: ', input);
     const [datePart, timePart] = input.split(', ');
-    const [day, month, year] = datePart.split('/');
+    const [month, day, year] = datePart.split('/');
     const date = new Date(
       parseInt(year, 10),
       parseInt(month, 10) - 1,
       parseInt(day, 10)
     );
     const [hours, minutes] = timePart.split(':');
+    console.log('Date: ', hours, minutes);
     return {
       date: this.datePipe.transform(date, dateFormat) ?? '',
       time: `${hours}:${minutes}`,

@@ -1,15 +1,23 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CartOutlets, } from '@spartacus/cart/base/root';
-import { GlobalMessageService, GlobalMessageType, RoutingService } from '@spartacus/core';
+import { CartOutlets } from '@spartacus/cart/base/root';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+} from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
-import { CheckoutServiceSchedulePickerService, RescheduleServiceOrderFacade, ServiceDateTime } from '@spartacus/s4-service/root';
-import { mergeMap, Observable } from 'rxjs';
+import {
+  CheckoutServiceSchedulePickerService,
+  RescheduleServiceOrderFacade,
+  ServiceDateTime,
+} from '@spartacus/s4-service/root';
+import { combineLatest, mergeMap, Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-reschedule-service-order',
-  templateUrl: './reschedule-service-order.component.html'
+  templateUrl: './reschedule-service-order.component.html',
 })
 export class RescheduleServiceOrderComponent implements OnInit {
   protected orderDetailsService = inject(OrderDetailsService);
@@ -34,10 +42,37 @@ export class RescheduleServiceOrderComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.order$
-      .subscribe(orderDetails => {
-        console.log('Order details: ', orderDetails);
-      });
+    this.order$.subscribe((orderDetails) => {
+      console.log('Order details: ', orderDetails);
+      const servicedAt = orderDetails.servicedAt;
+      if (servicedAt && servicedAt !== '') {
+        console.log('Serviced at: ', servicedAt);
+        const scheduledAt =
+          this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
+            servicedAt
+          );
+        console.log('Scheduled at: ', scheduledAt);
+        const info =
+          this.checkoutServiceSchedulePickerService.getServiceDetailsFromDateTime(
+            scheduledAt
+          );
+          console.log('Service details: ', info);
+        this.form.patchValue({
+          scheduleDate: info.date,
+          scheduleTime: info.time,
+        });
+      } else {
+        combineLatest([this.minServiceDate$, this.scheduleTimes$]).subscribe(
+          ([minDate, scheduleTime]) => {
+            console.log('Min date: ', minDate, 'Schedule time: ', scheduleTime);
+            this.form.patchValue({
+              scheduleDate: minDate,
+              scheduleTime: scheduleTime[0],
+            });
+          }
+        );
+      }
+    });
   }
 
   setScheduleTime(event: Event): void {
@@ -51,31 +86,37 @@ export class RescheduleServiceOrderComponent implements OnInit {
   rescheduleServiceOrder(): void {
     const scheduleDate = this.form?.get('scheduleDate')?.value || '';
     const scheduleTime = this.form?.get('scheduleTime')?.value || '';
-    this.dateTime =
-    this.checkoutServiceSchedulePickerService.convertToDateTime(
+    this.dateTime = this.checkoutServiceSchedulePickerService.convertToDateTime(
       scheduleDate,
       scheduleTime
     );
     console.log('Component level ', this.dateTime);
     this.orderDetailsService.orderCode$
       .pipe(
-        mergeMap(orderCode => this.rescheduleServiceOrdeFacade.rescheduleService(orderCode, this.dateTime))
+        mergeMap((orderCode) =>
+          this.rescheduleServiceOrdeFacade.rescheduleService(
+            orderCode,
+            this.dateTime
+          )
+        )
       )
       .subscribe({
         next: () => {
-        console.log('Service order rescheduled ');
-        this.routingService.go({ cxRoute: 'orders' });
-        this.globalMessageService.add(
-          'Service order rescheduled successfully', GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-      },
-      error: () => {
-        console.log('Service order reschedule failed');
-        this.routingService.go({ cxRoute: 'orders' });
-        this.globalMessageService.add(
-          'Service order reschedule failed', GlobalMessageType.MSG_TYPE_ERROR
-        );
-      }
-    });
+          console.log('Service order rescheduled ');
+          this.routingService.go({ cxRoute: 'orders' });
+          this.globalMessageService.add(
+            'Service order rescheduled successfully',
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        },
+        error: () => {
+          console.log('Service order reschedule failed');
+          this.routingService.go({ cxRoute: 'orders' });
+          this.globalMessageService.add(
+            'Service order reschedule failed',
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        },
+      });
   }
 }
