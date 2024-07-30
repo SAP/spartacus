@@ -11,7 +11,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { Config, useFeatureStyles } from '@spartacus/core';
+import {
+  Config,
+  useFeatureStyles,
+  FeatureConfigService,
+} from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -39,6 +43,7 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
 
   iconTypes = ICON_TYPE;
   protected config = inject(Config);
+  protected featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
@@ -86,5 +91,13 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
       price: value?.valuePrice,
       isLightedUp: value ? value.selected : false,
     };
+  }
+
+  getValueDescriptionStyleClasses(): string {
+    if (this.featureConfigService?.isEnabled('a11yImproveContrast')) {
+      return 'cx-value-description santorini-updated';
+    } else {
+      return 'cx-value-description';
+    }
   }
 }
