@@ -7,6 +7,7 @@
         [quantityOptions]="extractQuantityParameters()"
       ></cx-configurator-attribute-quantity>
       <cx-configurator-price
+        *ngIf="getSelectedValuePrice()"
         [formula]="extractPriceFormulaParameters()"
       ></cx-configurator-price>
     </div>
@@ -21,7 +22,7 @@
           type="radio"
           formcontrolname="attributeRadioButtonForm"
           [formControl]="attributeRadioButtonForm"
-          [attr.required]="attribute.required"
+          [attr.required]="attribute.required === true ? 'required' : null"
           [value]="value.valueCode"
           name="{{ createAttributeIdForConfigurator(attribute) }}"
           attr.name="{{ createAttributeIdForConfigurator(attribute) }}"

@@ -7,7 +7,8 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { ProductImageZoomTriggerComponent } from './product-image-zoom-trigger.component';
 
@@ -42,7 +43,11 @@ describe('ProductImageZoomTriggerComponent', () => {
           useClass: MockLaunchDialogService,
         },
       ],
-      declarations: [ProductImageZoomTriggerComponent, TestDialogComponent],
+      declarations: [
+        ProductImageZoomTriggerComponent,
+        TestDialogComponent,
+        MockFeatureDirective,
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 

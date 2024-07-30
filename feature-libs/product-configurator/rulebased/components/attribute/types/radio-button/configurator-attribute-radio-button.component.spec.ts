@@ -170,7 +170,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   });
 
   describe('attribute level', () => {
-    it('should not display quantity and no price', () => {
+    it('should not display quantity and price in case attribute does not carry quantity', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_NO_QTY;
       fixture.detectChanges();
@@ -182,7 +182,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       );
     });
 
-    it('should display quantity and price', () => {
+    it('should display quantity and no price in case value price not present', () => {
       component.attribute.quantity = 5;
       component.attribute.attributePriceTotal = {
         currencyIso: '$',
@@ -190,18 +190,34 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         value: 500,
       };
 
-      let value = component.attribute.values
-        ? component.attribute.values[0]
-        : undefined;
-      if (value) {
-        value.valuePrice = {
-          currencyIso: '$',
-          formattedValue: '$100.00',
-          value: 100,
-        };
-      } else {
-        fail('Value not available');
-      }
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-attribute-level-quantity-price cx-configurator-price'
+      );
+    });
+
+    it('should display quantity and price in case attribute carries quantity and selected value has price', () => {
+      component.attribute.quantity = 5;
+      component.attribute.attributePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '500.00$',
+        value: 500,
+      };
+
+      value1.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
 
       fixture.detectChanges();
 
@@ -214,7 +230,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        '.cx-attribute-level-quantity-price cx-configurator-price'
       );
     });
   });
@@ -232,18 +248,11 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     });
 
     it('should display price formula', () => {
-      let value = component.attribute.values
-        ? component.attribute.values[0]
-        : undefined;
-      if (value) {
-        value.valuePrice = {
-          currencyIso: '$',
-          formattedValue: '$100.00',
-          value: 100,
-        };
-      } else {
-        fail('Value not available');
-      }
+      value1.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
 
       fixture.detectChanges();
 
@@ -275,7 +284,25 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that defines an accessible name to label the current unselected element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        1,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          VALUE_NAME_2
+      );
+    });
+
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that defines an accessible name to label the current selected element", () => {
+      value1.selected = false;
+      value2.selected = true;
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

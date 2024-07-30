@@ -9,6 +9,12 @@
       <th role="columnheader" class="cx-item-list-desc">
         {{ 'cartItems.item' | cxTranslate }}
       </th>
+
+      <ng-template
+        role="columnheader"
+        [cxOutlet]="CartOutlets.CPQ_QUOTE_HEADING"
+        [cxOutletContext]="items"
+      ></ng-template>
       <th role="columnheader" class="cx-item-list-qty">
         {{ 'cartItems.quantity' | cxTranslate }}
       </th>

@@ -5,3 +5,4 @@
  */
 
 export * from './cart-item-list-row.component';
+export * from './cart-item-list-row.component.service';

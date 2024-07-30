@@ -101,6 +101,8 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { S4ServiceFeatureModule } from './features/s4-service/s4-service-feature.module';
+import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
 
 const featureModules = [];
 
@@ -121,7 +123,9 @@ if (environment.b2b) {
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
 }
-
+if (environment.s4Service) {
+  featureModules.push(S4ServiceFeatureModule);
+}
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }
@@ -150,6 +154,9 @@ if (environment.estimatedDeliveryDate) {
   featureModules.push(EstimatedDeliveryDateFeatureModule);
 }
 
+if (environment.cpq) {
+  featureModules.push(CpqQuoteFeatureModule);
+}
 @NgModule({
   imports: [
     // Auth Core
@@ -270,6 +277,7 @@ if (environment.estimatedDeliveryDate) {
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         formErrorsDescriptiveMessages: true,
+        showSearchingCustomerByOrderInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
         showBillingAddressInDigitalPayments: false,
@@ -308,20 +316,30 @@ if (environment.estimatedDeliveryDate) {
         a11yFocusableCarouselControls: true,
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
+        a11yKeyboardAccessibleZoom: true,
         a11yOrganizationLinkableCells: true,
         a11yPreventSRFocusOnHiddenElements: true,
         a11yVisibleFocusOverflows: true,
         a11yTruncatedTextForResponsiveView: true,
         a11ySemanticPaginationLabel: true,
+        a11yPreventCartItemsFormRedundantRecreation: true,
         a11yMyAccountLinkOutline: true,
         a11yCloseProductImageBtnFocus: true,
         a11yNotificationPreferenceFieldset: true,
         a11yImproveContrast: true,
         a11yEmptyWishlistHeading: true,
+        a11yScreenReaderBloatFix: true,
         a11yUseButtonsForBtnLinks: true,
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
         a11yFacetsDialogFocusHandling: true,
+        a11yStoreFinderAlerts: true,
+        a11yFormErrorMuteIcon: true,
+        a11yCxMessageFocus: true,
+        occCartNameAndDescriptionInHttpRequestBody: true,
+        a11yLinkBtnsToTertiaryBtns: true,
+        a11yDeliveryModeRadiogroup: true,
+        cmsBottomHeaderSlotUsingFlexStyles: true,
       };
       return appFeatureToggles;
     }),

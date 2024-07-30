@@ -4,20 +4,27 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import {
   Cart,
   CART_NORMALIZER,
   SaveCartResult,
 } from '@spartacus/cart/base/root';
 import { SavedCartAdapter } from '@spartacus/cart/saved-cart/core';
-import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
+import {
+  ConverterService,
+  FeatureConfigService,
+  Occ,
+  OccEndpointsService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OccSavedCartAdapter implements SavedCartAdapter {
+  private featureConfigService = inject(FeatureConfigService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -56,15 +63,24 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     cartId: string,
     saveCartName: string
   ): Observable<Cart> {
-    return this.http
-      .post<Occ.Cart>(
-        this.getCloneSavedCartEndpoint(userId, cartId, saveCartName),
-        cartId
+    let httpParams: HttpParams = new HttpParams();
+    if (
+      this.featureConfigService?.isEnabled(
+        'occCartNameAndDescriptionInHttpRequestBody'
       )
-      .pipe(
-        map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
-        this.converter.pipeable(CART_NORMALIZER)
-      );
+    ) {
+      httpParams = httpParams.set('name', saveCartName);
+    }
+    const endpoint = this.getCloneSavedCartEndpoint(
+      userId,
+      cartId,
+      saveCartName
+    );
+
+    return this.http.post<Occ.Cart>(endpoint, httpParams).pipe(
+      map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
+      this.converter.pipeable(CART_NORMALIZER)
+    );
   }
 
   protected getSavedCartEndpoint(userId: string, cartId: string): string {
