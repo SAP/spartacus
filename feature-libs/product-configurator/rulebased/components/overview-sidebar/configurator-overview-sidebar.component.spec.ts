@@ -171,6 +171,34 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     );
   });
 
+  it('should render overview filter component when filter tab is selected by enter-key', () => {
+    initTestComponent();
+    // keypress on filter button
+    fixture.debugElement
+      .queryAll(By.css('.cx-menu-bar button'))[1]
+      .triggerEventHandler('keydown.enter');
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-overview-filter'
+    );
+  });
+
+  it('should render overview filter component when filter tab is selected by space-key', () => {
+    initTestComponent();
+    // keypress on filter button
+    fixture.debugElement
+      .queryAll(By.css('.cx-menu-bar button'))[1]
+      .triggerEventHandler('keydown.space');
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-overview-filter'
+    );
+  });
+
   it('should render overview menu component when menu tab is selected', () => {
     initTestComponent();
     component.onFilter();
@@ -179,6 +207,38 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[0]
       .triggerEventHandler('click');
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-overview-menu'
+    );
+  });
+
+  it('should render overview menu component when menu tab is selected by enter-key', () => {
+    initTestComponent();
+    component.onFilter();
+    fixture.detectChanges();
+    // keypress on menu button
+    fixture.debugElement
+      .queryAll(By.css('.cx-menu-bar button'))[0]
+      .triggerEventHandler('keydown.enter');
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-overview-menu'
+    );
+  });
+
+  it('should render overview menu component when menu tab is selected by space-key', () => {
+    initTestComponent();
+    component.onFilter();
+    fixture.detectChanges();
+    // keypress on menu button
+    fixture.debugElement
+      .queryAll(By.css('.cx-menu-bar button'))[0]
+      .triggerEventHandler('keydown.space');
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -196,5 +256,119 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     component.showFilter = true;
     component.onMenu();
     expect(component.showFilter).toBe(false);
+  });
+
+  describe('getTabIndexForMenuTab', () => {
+    it('should return tabindex 0 if menu tab content is displayed', () => {
+      component.showFilter = false;
+      expect(component.getTabIndexForMenuTab()).toBe(0);
+    });
+
+    it('should return tabindex -1 if filter content is displayed', () => {
+      component.showFilter = true;
+      expect(component.getTabIndexForMenuTab()).toBe(-1);
+    });
+  });
+
+  describe('getTabIndexForFilterTab', () => {
+    it('should return tabindex 0 if filter tab content is displayed', () => {
+      component.showFilter = true;
+      expect(component.getTabIndexForFilterTab()).toBe(0);
+    });
+
+    it('should return tabindex -1 if menu tab  content is displayed', () => {
+      component.showFilter = false;
+      expect(component.getTabIndexForFilterTab()).toBe(-1);
+    });
+  });
+
+  describe('switchTabOnArrowPress', () => {
+    it('should focus filter tab if right arrow pressed and if current tab is menu tab', () => {
+      fixture.detectChanges();
+      const event = new KeyboardEvent('keydown', {
+        code: 'ArrowRight',
+      });
+      component.switchTabOnArrowPress(event, '#menuTab');
+      let focusedElement = document.activeElement;
+      expect(focusedElement?.innerHTML).toBe(
+        ' configurator.overviewSidebar.filter '
+      );
+    });
+
+    it('should focus filter tab if left arrow pressed and if current tab is menu tab', () => {
+      fixture.detectChanges();
+      const event = new KeyboardEvent('keydown', {
+        code: 'ArrowLeft',
+      });
+      component.switchTabOnArrowPress(event, '#menuTab');
+      let focusedElement = document.activeElement;
+      expect(focusedElement?.innerHTML).toBe(
+        ' configurator.overviewSidebar.filter '
+      );
+    });
+
+    it('should not change focus if up arrow pressed', () => {
+      fixture.detectChanges();
+      const leftEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowLeft',
+      });
+      component.switchTabOnArrowPress(leftEvent, '#menuTab');
+      let focusedElement = document.activeElement;
+      expect(focusedElement?.innerHTML).toBe(
+        ' configurator.overviewSidebar.filter '
+      );
+      const upEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowUp',
+      });
+      component.switchTabOnArrowPress(upEvent, '#menuTab');
+      document.activeElement;
+      expect(focusedElement?.innerHTML).toBe(
+        ' configurator.overviewSidebar.filter '
+      );
+    });
+
+    it('should not change focus if down arrow pressed', () => {
+      fixture.detectChanges();
+      const leftEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowLeft',
+      });
+      component.switchTabOnArrowPress(leftEvent, '#menuTab');
+      let focusedElement = document.activeElement;
+      expect(focusedElement?.innerHTML).toBe(
+        ' configurator.overviewSidebar.filter '
+      );
+      const downEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowDown',
+      });
+      component.switchTabOnArrowPress(downEvent, '#menuTab');
+      document.activeElement;
+      expect(focusedElement?.innerHTML).toBe(
+        ' configurator.overviewSidebar.filter '
+      );
+    });
+
+    it('should focus menu tab if right arrow pressed and if current tab is filter tab', () => {
+      fixture.detectChanges();
+      const event = new KeyboardEvent('keydown', {
+        code: 'ArrowRight',
+      });
+      component.switchTabOnArrowPress(event, '#filterTab');
+      let focusedElement = document.activeElement;
+      expect(focusedElement?.innerHTML).toBe(
+        ' configurator.overviewSidebar.menu '
+      );
+    });
+
+    it('should focus menu tab if left arrow pressed and if current tab is filter tab', () => {
+      fixture.detectChanges();
+      const event = new KeyboardEvent('keydown', {
+        code: 'ArrowLeft',
+      });
+      component.switchTabOnArrowPress(event, '#filterTab');
+      let focusedElement = document.activeElement;
+      expect(focusedElement?.innerHTML).toBe(
+        ' configurator.overviewSidebar.menu '
+      );
+    });
   });
 });
