@@ -171,6 +171,34 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     );
   });
 
+  it('should render overview filter component when filter tab is selected by enter-key', () => {
+    initTestComponent();
+    // keypress on filter button
+    fixture.debugElement
+      .queryAll(By.css('.cx-menu-bar button'))[1]
+      .triggerEventHandler('keydown.enter');
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-overview-filter'
+    );
+  });
+
+  it('should render overview filter component when filter tab is selected by space-key', () => {
+    initTestComponent();
+    // keypress on filter button
+    fixture.debugElement
+      .queryAll(By.css('.cx-menu-bar button'))[1]
+      .triggerEventHandler('keydown.space');
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-overview-filter'
+    );
+  });
+
   it('should render overview menu component when menu tab is selected', () => {
     initTestComponent();
     component.onFilter();
@@ -179,6 +207,38 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[0]
       .triggerEventHandler('click');
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-overview-menu'
+    );
+  });
+
+  it('should render overview menu component when menu tab is selected by enter-key', () => {
+    initTestComponent();
+    component.onFilter();
+    fixture.detectChanges();
+    // keypress on menu button
+    fixture.debugElement
+      .queryAll(By.css('.cx-menu-bar button'))[0]
+      .triggerEventHandler('keydown.enter');
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-overview-menu'
+    );
+  });
+
+  it('should render overview menu component when menu tab is selected by space-key', () => {
+    initTestComponent();
+    component.onFilter();
+    fixture.detectChanges();
+    // keypress on menu button
+    fixture.debugElement
+      .queryAll(By.css('.cx-menu-bar button'))[0]
+      .triggerEventHandler('keydown.space');
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
