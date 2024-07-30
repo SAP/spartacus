@@ -221,7 +221,7 @@ describe('UserRegistrationFormComponent', () => {
     );
   });
 
-  it('should show error message', () => {
+  it('should show error message if backend response failed ', () => {
     spyOn(userRegistrationFormService, 'registerUser').and.returnValue(
       throwError(() => new Error('Simulated error'))
     );
