@@ -57,8 +57,7 @@ export class UserRegistrationFormComponent implements OnDestroy {
           .registerUser(this.registerForm)
           .subscribe({
             complete: () => this.isLoading$.next(false),
-            error: (event) => {
-              console.error(event);
+            error: () => {
               this.isLoading$.next(false);
               this.globalMessageService?.add(
                 { key: 'userRegistrationForm.messageToFailedToRegister' },
