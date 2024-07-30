@@ -51,7 +51,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.24'
+      level: '2211.27'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -270,7 +270,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.24'
+      level: '2211.27'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -466,7 +466,7 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup sh
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { productImageZoomTranslationChunksConfig, productImageZoomTranslations } from "@spartacus/product/image-zoom/assets";
-import { ProductImageZoomRootModule, PRODUCT_IMAGE_ZOOM_FEATURE } from "@spartacus/product/image-zoom/root";
+import { PRODUCT_IMAGE_ZOOM_FEATURE, ProductImageZoomRootModule } from "@spartacus/product/image-zoom/root";
 
 @NgModule({
   declarations: [],
@@ -650,7 +650,7 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sho
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { productVariantsTranslationChunksConfig, productVariantsTranslations } from "@spartacus/product/variants/assets";
-import { ProductVariantsRootModule, PRODUCT_VARIANTS_FEATURE } from "@spartacus/product/variants/root";
+import { PRODUCT_VARIANTS_FEATURE, ProductVariantsRootModule } from "@spartacus/product/variants/root";
 
 @NgModule({
   declarations: [],

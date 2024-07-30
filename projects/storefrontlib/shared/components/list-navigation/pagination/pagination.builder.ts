@@ -135,8 +135,8 @@ export class PaginationBuilder {
       const type = isGap
         ? PaginationItemType.GAP
         : isSubstituted
-        ? PaginationItemType.FIRST
-        : PaginationItemType.PAGE;
+          ? PaginationItemType.FIRST
+          : PaginationItemType.PAGE;
       return [
         Object.assign(
           {
@@ -172,8 +172,8 @@ export class PaginationBuilder {
       const type = isGap
         ? PaginationItemType.GAP
         : isSubstituted
-        ? PaginationItemType.LAST
-        : PaginationItemType.PAGE;
+          ? PaginationItemType.LAST
+          : PaginationItemType.PAGE;
       return [
         Object.assign(
           {

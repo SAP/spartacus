@@ -48,25 +48,23 @@ describe('SkipLinkService', () => {
   let keyboardFocusService: KeyboardFocusService;
   let skipLinks: SkipLink[];
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [TestContainerComponent],
-        providers: [
-          SkipLinkService,
-          {
-            provide: SkipLinkConfig,
-            useValue: MockSkipLinkConfig,
-          },
-          {
-            provide: KeyboardFocusService,
-            useClass: MockKeyboadFocusService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [TestContainerComponent],
+      providers: [
+        SkipLinkService,
+        {
+          provide: SkipLinkConfig,
+          useValue: MockSkipLinkConfig,
+        },
+        {
+          provide: KeyboardFocusService,
+          useClass: MockKeyboadFocusService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestContainerComponent);

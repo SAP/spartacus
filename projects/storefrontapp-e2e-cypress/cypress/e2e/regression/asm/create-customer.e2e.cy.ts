@@ -10,8 +10,6 @@ import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
-const user = getSampleUser();
-
 context('Assisted Service Module', () => {
   beforeEach(() => {
     clearAllStorage();

@@ -161,31 +161,29 @@ describe('ConfiguratorCommonsService', () => {
   const cart: Cart = {};
   cartObs = of(cart);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
-        providers: [
-          ConfiguratorCommonsService,
-          {
-            provide: ConfiguratorCartService,
-            useClass: MockConfiguratorCartService,
-          },
-          {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartService,
-          },
-          {
-            provide: ConfiguratorUtilsService,
-            useClass: MockconfiguratorUtilsService,
-          },
-        ],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
+      providers: [
+        ConfiguratorCommonsService,
+        {
+          provide: ConfiguratorCartService,
+          useClass: MockConfiguratorCartService,
+        },
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
+        },
+        {
+          provide: ConfiguratorUtilsService,
+          useClass: MockconfiguratorUtilsService,
+        },
+      ],
+    });
+  }));
   beforeEach(() => {
     configOrderObservable = of(productConfiguration);
     configCartObservable = of(productConfiguration);

@@ -48,7 +48,7 @@ export class OccRequestsOptimizerService {
         string,
         {
           [scope: string]: OccFieldsModel;
-        }
+        },
       ]) => {
         const groupedModels = Object.values(groupedModelsSet);
 

@@ -96,35 +96,33 @@ describe('QuoteHeaderOverviewComponent', () => {
   let eventService: EventService;
   let quoteUIConfig: QuoteUIConfig;
 
-  beforeEach(
-    waitForAsync(() => {
-      initMocks();
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, CardModule, RouterTestingModule],
-        declarations: [
-          QuoteHeaderOverviewComponent,
-          MockCxIconComponent,
-          MockQuoteActionsLinkComponent,
-          MockQuoteHeaderBuyerEditComponent,
-        ],
-        providers: [
-          {
-            provide: QuoteFacade,
-            useClass: MockCommerceQuotesFacade,
-          },
-          {
-            provide: EventService,
-            useValue: eventService,
-          },
-          { provide: TranslationService, useClass: MockTranslationService },
-          {
-            provide: QuoteUIConfig,
-            useValue: quoteUIConfig,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    initMocks();
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, CardModule, RouterTestingModule],
+      declarations: [
+        QuoteHeaderOverviewComponent,
+        MockCxIconComponent,
+        MockQuoteActionsLinkComponent,
+        MockQuoteHeaderBuyerEditComponent,
+      ],
+      providers: [
+        {
+          provide: QuoteFacade,
+          useClass: MockCommerceQuotesFacade,
+        },
+        {
+          provide: EventService,
+          useValue: eventService,
+        },
+        { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: QuoteUIConfig,
+          useValue: quoteUIConfig,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteHeaderOverviewComponent);

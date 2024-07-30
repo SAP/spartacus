@@ -26,20 +26,18 @@ class MockBaseFocusService {}
 
 describe('BlockFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent, CustomFocusDirective],
-        providers: [
-          {
-            provide: BaseFocusService,
-            useClass: MockBaseFocusService,
-          },
-        ],
-      }).compileComponents();
-      fixture = TestBed.createComponent(MockComponent);
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent, CustomFocusDirective],
+      providers: [
+        {
+          provide: BaseFocusService,
+          useClass: MockBaseFocusService,
+        },
+      ],
+    }).compileComponents();
+    fixture = TestBed.createComponent(MockComponent);
+  }));
 
   beforeEach(() => {
     fixture.detectChanges();

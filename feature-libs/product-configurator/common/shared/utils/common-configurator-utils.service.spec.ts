@@ -76,19 +76,17 @@ describe('CommonConfiguratorUtilsService', () => {
   let classUnderTest: CommonConfiguratorUtilsService;
   let mockCartItemContext: CartItemContextSource;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: UserIdService,
-            useClass: MockUserIdService,
-          },
-          { provide: CartItemContext, useClass: MockCartItemContext },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: UserIdService,
+          useClass: MockUserIdService,
+        },
+        { provide: CartItemContext, useClass: MockCartItemContext },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     classUnderTest = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>

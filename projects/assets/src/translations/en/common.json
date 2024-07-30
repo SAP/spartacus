@@ -26,7 +26,10 @@
     "loaded": "Loaded",
     "results": "Results",
     "of": "of",
-    "required": "required"
+    "required": "required",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "selected": "Selected"
   },
   "pageMetaResolver": {
     "category": {
@@ -55,6 +58,7 @@
   "navigation": {
     "categoryNavLabel": "Category menu",
     "footerNavLabel": "Footer links",
+    "goTo": "Go to {{location}}",
     "navigateTo": "Navigate to {{nav}}",
     "scrollToTop": "Scroll back to the top of the page"
   },
@@ -165,6 +169,23 @@
     "carouselForProduct": "Carousel, Images for {{product}}"
   },
   "formErrors": {
+    "labeled": {
+      "required": "Field {{label}} is required",
+      "cxInvalidEmail": "Field {{label}} has not a valid email format. Match pattern: example@yourdomain.com",
+      "cxInvalidPassword": "Field {{label}} has not a valid password format",
+      "cxMinOneUpperCaseCharacter": "Password must contain at least one uppercase character",
+      "cxMinOneDigit": "Password must contain at least one digit",
+      "cxMinOneSpecialCharacter": "Password must contain at least one special character",
+      "cxMinSixCharactersLength": "Password must contain at least 6 characters",
+      "cxContainsSpecialCharacters": "Password cannot contain special characters",
+      "date": {
+        "required": "Field {{label}} is required",
+        "min": "Field {{label}} cannot be before {{min}}",
+        "max": "Field {{label}} cannot be after {{max}}",
+        "pattern": "Use dateformat yyyy-mm-dd in field {{label}}",
+        "invalid": "Use a valid date in field {{label}}"
+      }
+    },
     "globalMessage": "The form you are trying to submit contains errors.",
     "required": "This field is required",
     "cxInvalidEmail": "This is not a valid email format",

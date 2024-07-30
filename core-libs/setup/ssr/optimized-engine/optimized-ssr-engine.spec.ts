@@ -137,6 +137,7 @@ describe('OptimizedSsrEngine', () => {
       });
     });
   });
+
   describe('logOptions', () => {
     let dateSpy: jest.SpyInstance;
 
@@ -149,6 +150,10 @@ describe('OptimizedSsrEngine', () => {
 
     afterEach(() => {
       dateSpy.mockReset();
+    });
+
+    afterAll(() => {
+      dateSpy.mockRestore();
     });
 
     it('should log the provided options', () => {
@@ -170,7 +175,6 @@ describe('OptimizedSsrEngine', () => {
               "forcedSsrTimeout": 60000,
               "maxRenderTime": 300000,
               "reuseCurrentRendering": true,
-              "debug": false,
               "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR",
               "logger": "DefaultExpressServerLogger"
             }
@@ -178,6 +182,30 @@ describe('OptimizedSsrEngine', () => {
         }",
         ]
       `);
+    });
+  });
+
+  describe('rendering cache', () => {
+    it('should be initialized with default optimization options none of the custom options are provided', () => {
+      const engineRunner = new TestEngineRunner({});
+      expect(
+        engineRunner.optimizedSsrEngine['renderingCache']['options']
+      ).toEqual(defaultSsrOptimizationOptions);
+    });
+
+    it('should be initialized with the provided custom options', () => {
+      const engineRunner = new TestEngineRunner({
+        cacheSize: 100,
+        ttl: 200,
+      });
+      expect(engineRunner.optimizedSsrEngine['renderingCache']).toBeDefined();
+      expect(
+        engineRunner.optimizedSsrEngine['renderingCache']['options']
+      ).toEqual({
+        ...defaultSsrOptimizationOptions,
+        cacheSize: 100,
+        ttl: 200,
+      });
     });
   });
 
@@ -375,6 +403,27 @@ describe('OptimizedSsrEngine', () => {
 
       tick(200);
       expect(engineRunner.renders).toEqual(['a-0', 'a-0', 'a-1']);
+    }));
+
+    it('should not invalidate renders if ttl is not defined', fakeAsync(() => {
+      let currentDate = 100;
+      jest.spyOn(Date, 'now').mockImplementation(() => currentDate);
+
+      const engineRunner = new TestEngineRunner({
+        cache: true,
+        timeout: 200,
+      }).request('a');
+
+      tick(200);
+      currentDate += 200;
+      engineRunner.request('a');
+
+      tick(200);
+      currentDate += 200;
+      engineRunner.request('a');
+
+      tick(200);
+      expect(engineRunner.renders).toEqual(['a-0', 'a-0', 'a-0']);
     }));
   });
 
@@ -1206,8 +1255,8 @@ describe('OptimizedSsrEngine', () => {
         .mockImplementationOnce(() => mockDate);
     });
 
-    afterEach(() => {
-      dateSpy.mockReset();
+    afterAll(() => {
+      dateSpy.mockRestore();
     });
 
     it('should use the default server logger, if custom logger is not specified', () => {
@@ -1225,7 +1274,6 @@ describe('OptimizedSsrEngine', () => {
               "forcedSsrTimeout": 60000,
               "maxRenderTime": 300000,
               "reuseCurrentRendering": true,
-              "debug": false,
               "renderingStrategyResolver": "(request) => {\\n    if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {\\n        return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;\\n    }\\n    return shouldFallbackToCsr(request, options)\\n        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR\\n        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;\\n}",
               "logger": "DefaultExpressServerLogger"
             }
@@ -1246,7 +1294,6 @@ describe('OptimizedSsrEngine', () => {
                 "options": {
                   "cacheSize": 3000,
                   "concurrency": 10,
-                  "debug": false,
                   "forcedSsrTimeout": 60000,
                   "logger": "MockExpressServerLogger",
                   "maxRenderTime": 300000,

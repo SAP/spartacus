@@ -215,43 +215,41 @@ describe('CustomerListComponent', () => {
   let config: AsmConfig;
   let asmCustomerListFacade: AsmCustomerListFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          CustomerListComponent,
-          MockCxIconComponent,
-          MockKeyboadFocusDirective,
-        ],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: BreakpointService,
-            useClass: MockBreakpointService,
-          },
-          { provide: AsmConfig, useClass: MockAsmConfig },
-          {
-            provide: AsmCustomerListFacade,
-            useClass: MockAsmCustomerListFacade,
-          },
-        ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-      }).compileComponents();
-      launchDialogService = TestBed.inject(LaunchDialogService);
-      config = TestBed.inject(AsmConfig);
-      breakpointService = TestBed.inject(BreakpointService);
-      asmCustomerListFacade = TestBed.inject(AsmCustomerListFacade);
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        CustomerListComponent,
+        MockCxIconComponent,
+        MockKeyboadFocusDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
+        { provide: AsmConfig, useClass: MockAsmConfig },
+        {
+          provide: AsmCustomerListFacade,
+          useClass: MockAsmCustomerListFacade,
+        },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    }).compileComponents();
+    launchDialogService = TestBed.inject(LaunchDialogService);
+    config = TestBed.inject(AsmConfig);
+    breakpointService = TestBed.inject(BreakpointService);
+    asmCustomerListFacade = TestBed.inject(AsmCustomerListFacade);
 
-      spyOn(
-        asmCustomerListFacade,
-        'getCustomerListCustomersSearchResultsLoading'
-      ).and.returnValue(of(true));
-      spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-        new BehaviorSubject(BREAKPOINT.md)
-      );
-    })
-  );
+    spyOn(
+      asmCustomerListFacade,
+      'getCustomerListCustomersSearchResultsLoading'
+    ).and.returnValue(of(true));
+    spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+      new BehaviorSubject(BREAKPOINT.md)
+    );
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerListComponent);

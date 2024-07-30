@@ -24,6 +24,7 @@ import {
   QueryState,
 } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
@@ -128,36 +129,38 @@ describe('CheckoutDeliveryModeComponent', () => {
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
-        declarations: [CheckoutDeliveryModeComponent, MockSpinnerComponent],
-        providers: [
-          {
-            provide: CheckoutDeliveryModesFacade,
-            useClass: MockCheckoutDeliveryModeService,
-          },
-          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-          {
-            provide: CheckoutConfigService,
-            useClass: MockCheckoutConfigService,
-          },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          { provide: ActiveCartFacade, useClass: MockCartService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
+      declarations: [
+        CheckoutDeliveryModeComponent,
+        MockSpinnerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModeService,
+        },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+        {
+          provide: CheckoutConfigService,
+          useClass: MockCheckoutConfigService,
+        },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: ActiveCartFacade, useClass: MockCartService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      ],
+    }).compileComponents();
 
-      checkoutConfigService = TestBed.inject(CheckoutConfigService);
-      checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
-      globalMessageService = TestBed.inject(GlobalMessageService);
-      checkoutStepService = TestBed.inject(
-        CheckoutStepService as Type<CheckoutStepService>
-      );
-    })
-  );
+    checkoutConfigService = TestBed.inject(CheckoutConfigService);
+    checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    checkoutStepService = TestBed.inject(
+      CheckoutStepService as Type<CheckoutStepService>
+    );
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutDeliveryModeComponent);

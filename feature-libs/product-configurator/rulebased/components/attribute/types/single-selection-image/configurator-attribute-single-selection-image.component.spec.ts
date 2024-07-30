@@ -9,7 +9,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { Config, I18nTestingModule } from '@spartacus/core';
+import {
+  Config,
+  I18nTestingModule,
+  FeatureConfigService,
+} from '@spartacus/core';
 import { IconTestingModule, PopoverModule } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -55,47 +59,46 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   const groupId = 'testGroup';
   const attributeName = 'attributeName';
   let config: Config;
+  let featureConfigService: FeatureConfigService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeSingleSelectionImageComponent,
-          MockFocusDirective,
-          MockConfiguratorPriceComponent,
-        ],
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          I18nTestingModule,
-          IconTestingModule,
-          PopoverModule,
-        ],
-        providers: [
-          ConfiguratorStorefrontUtilsService,
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockGroupService,
-          },
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          { provide: Config, useClass: MockConfig },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeSingleSelectionImageComponent,
+        MockFocusDirective,
+        MockConfiguratorPriceComponent,
+      ],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        IconTestingModule,
+        PopoverModule,
+      ],
+      providers: [
+        ConfiguratorStorefrontUtilsService,
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockGroupService,
+        },
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        { provide: Config, useClass: MockConfig },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   function createImage(url: string, altText: string): Configurator.Image {
     const configImage: Configurator.Image = {
@@ -155,6 +158,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     component.ownerKey = ownerKey;
     config = TestBed.inject(Config);
     (config.features ?? {}).productConfiguratorAttributeTypesV2 = false;
+    featureConfigService = TestBed.inject(FeatureConfigService);
     fixture.detectChanges();
   });
 
@@ -272,6 +276,21 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         '#cx-configurator--label--attributeName--' + value1.valueCode;
       const styles = fixture.debugElement.query(By.css(labelId)).styles;
       expect(styles['cursor']).toEqual('default');
+    });
+  });
+
+  describe('value description styling', () => {
+    it('should return default style class if a11yImproveContrast feature flag is disabled', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+      expect(component.getValueDescriptionStyleClasses()).toEqual(
+        'cx-value-description'
+      );
+    });
+    it('should return additional style class if a11yImproveContrast feature flag is enabled', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      expect(component.getValueDescriptionStyleClasses()).toEqual(
+        'cx-value-description santorini-updated'
+      );
     });
   });
 

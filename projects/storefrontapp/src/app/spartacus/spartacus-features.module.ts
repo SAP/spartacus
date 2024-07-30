@@ -76,6 +76,7 @@ import { CheckoutFeatureModule } from './features/checkout/checkout-feature.modu
 import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
+import { EstimatedDeliveryDateFeatureModule } from './features/estimated-delivery-date/estimated-delivery-date-feature.module';
 import { OppsFeatureModule } from './features/opps/opps-feature.module';
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
@@ -94,13 +95,14 @@ import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.m
 import { QuoteFeatureModule } from './features/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
 import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
-import { EstimatedDeliveryDateFeatureModule } from './features/estimated-delivery-date/estimated-delivery-date-feature.module';
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { S4ServiceFeatureModule } from './features/s4-service/s4-service-feature.module';
+import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
 
 const featureModules = [];
 
@@ -121,7 +123,9 @@ if (environment.b2b) {
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
 }
-
+if (environment.s4Service) {
+  featureModules.push(S4ServiceFeatureModule);
+}
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }
@@ -150,6 +154,9 @@ if (environment.estimatedDeliveryDate) {
   featureModules.push(EstimatedDeliveryDateFeatureModule);
 }
 
+if (environment.cpq) {
+  featureModules.push(CpqQuoteFeatureModule);
+}
 @NgModule({
   imports: [
     // Auth Core
@@ -269,6 +276,11 @@ if (environment.estimatedDeliveryDate) {
     // CXSPA-6793: refactor to`provideFeatureToggles` and `satisfies` keyword
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        formErrorsDescriptiveMessages: true,
+        showSearchingCustomerByOrderInASM: false,
+        shouldHideAddToCartForUnpurchasableProducts: false,
+        useExtractedBillingAddressComponent: false,
+        showBillingAddressInDigitalPayments: false,
         showDownloadProposalButton: false,
         showPromotionsInPDP: false,
         recentSearches: false,
@@ -304,12 +316,30 @@ if (environment.estimatedDeliveryDate) {
         a11yFocusableCarouselControls: true,
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
+        a11yKeyboardAccessibleZoom: true,
+        a11yOrganizationLinkableCells: true,
+        a11yPreventSRFocusOnHiddenElements: true,
         a11yVisibleFocusOverflows: true,
         a11yTruncatedTextForResponsiveView: true,
+        a11ySemanticPaginationLabel: true,
+        a11yPreventCartItemsFormRedundantRecreation: true,
         a11yMyAccountLinkOutline: true,
         a11yCloseProductImageBtnFocus: true,
+        a11yNotificationPreferenceFieldset: true,
+        a11yImproveContrast: true,
         a11yEmptyWishlistHeading: true,
+        a11yScreenReaderBloatFix: true,
         a11yUseButtonsForBtnLinks: true,
+        a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
+          true,
+        a11yFacetsDialogFocusHandling: true,
+        a11yStoreFinderAlerts: true,
+        a11yFormErrorMuteIcon: true,
+        a11yCxMessageFocus: true,
+        occCartNameAndDescriptionInHttpRequestBody: true,
+        a11yLinkBtnsToTertiaryBtns: true,
+        a11yDeliveryModeRadiogroup: true,
+        cmsBottomHeaderSlotUsingFlexStyles: true,
       };
       return appFeatureToggles;
     }),
