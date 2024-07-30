@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { EMPTY, Observable, of, Subscription, throwError } from 'rxjs';
+import { EMPTY, Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import {
@@ -110,9 +110,6 @@ const gigya = {
     logout: () => {},
     resetPassword: () => {},
     setAccountInfo: () => {},
-    session: {
-      verify: () => {},
-    },
     b2b: b2b,
   },
 };
@@ -1383,35 +1380,6 @@ describe('CdcJsService', () => {
           });
           done();
         });
-    });
-  });
-
-  describe('verifySession()', () => {
-    it('should return if the user session session is not valid', () => {
-      const invalidSession = {
-        errorCode: 403005,
-        errorMessage: 'Unauthorized user',
-      };
-      spyOn(service as any, 'invokeAPI').and.returnValue(
-        throwError(() => invalidSession)
-      );
-      service.verifySession().subscribe((response) => {
-        expect(response.errorCode).toEqual(invalidSession.errorCode);
-        expect(service['invokeAPI']).toHaveBeenCalled();
-        expect(service.verifySession).toBeTruthy();
-      });
-    });
-    it('should return if the user session session is valid', () => {
-      const validSession = {
-        errorCode: 0,
-        errorMessage: '',
-      };
-      spyOn(service as any, 'invokeAPI').and.returnValue(of(validSession));
-      service.verifySession().subscribe((response) => {
-        expect(response.errorCode).toEqual(validSession.errorCode);
-        expect(service['invokeAPI']).toHaveBeenCalled();
-        expect(service.verifySession).toBeTruthy();
-      });
     });
   });
 });

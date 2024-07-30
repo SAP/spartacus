@@ -12,7 +12,6 @@ import {
   NgZone,
   OnDestroy,
   PLATFORM_ID,
-  inject,
 } from '@angular/core';
 import {
   AuthService,
@@ -35,7 +34,7 @@ import {
   Subscription,
   throwError,
 } from 'rxjs';
-import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcConsentsLocalStorageService } from '../consent-management';
 import { CdcSiteConsentTemplate } from '../consent-management/model/index';
@@ -852,22 +851,5 @@ export class CdcJsService implements OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-  }
-
-  protected authService = inject(AuthService);
-  verifySession(): Observable<{ errorCode: number; errorDetails: string }> {
-    return this.authService.isUserLoggedIn().pipe(
-      switchMap((loggedIn) => {
-        if (loggedIn) {
-          return this.invokeAPI('accounts.session.verify', {}).pipe(
-            catchError((error) => {
-              return of(error);
-            })
-          );
-        } else {
-          return of({ errorCode: 0, errorDetails: '' });
-        }
-      })
-    );
   }
 }
