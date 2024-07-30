@@ -18,7 +18,6 @@ export const mediaConfig: MediaConfig = {
     product: { width: 284 },
     zoom: { width: 515 },
   },
-  useLegacyMediaComponent: false,
   pictureElementFormats: {
     mobile: {
       maxWidth: '767px',

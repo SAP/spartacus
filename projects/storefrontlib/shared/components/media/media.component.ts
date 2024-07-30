@@ -98,7 +98,7 @@ export class MediaComponent implements OnChanges {
     item.media;
 
   protected isLegacy =
-    inject(USE_LEGACY_MEDIA_COMPONENT) ||
+    inject(USE_LEGACY_MEDIA_COMPONENT, { optional: true }) ||
     (inject(Config) as any)['useLegacyMediaComponent'] ||
     false;
 

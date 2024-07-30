@@ -218,11 +218,7 @@ export class MediaService {
     }
 
     return Object.keys(queries)
-      .filter(
-        (key): key is keyof PictureElementQueries =>
-          key in queryMap &&
-          queries[key as keyof PictureElementQueries] !== undefined
-      )
+      .filter((key) => key in queryMap && queries[key] !== undefined)
       .map((key) => {
         const mediaFeature = queryMap[key];
         const value = queries[key];

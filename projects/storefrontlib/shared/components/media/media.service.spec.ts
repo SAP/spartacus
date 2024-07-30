@@ -24,6 +24,37 @@ const MockStorefrontConfig: Config = {
       width: 1,
     },
   },
+  pictureElementFormats: {
+    format400: {
+      maxWidth: '786px',
+      minDevicePixelRatio: 3,
+    },
+    format200: {
+      minWidth: '768px',
+      maxWidth: '1024px',
+    },
+    format600: {
+      minWidth: '1025px',
+      maxWidth: '1439px',
+    },
+    format1: {
+      minWidth: '1440px',
+    },
+  },
+  pictureFormatsOrder: ['format1', 'format200', 'format400', 'format600'],
+  mediaQueryMap: {
+    minWidth: 'min-width',
+    maxWidth: 'max-width',
+    minHeight: 'min-height',
+    maxHeight: 'max-height',
+    minDevicePixelRatio: '-webkit-min-device-pixel-ratio',
+    maxDevicePixelRatio: '-webkit-max-device-pixel-ratio',
+    orientation: 'orientation',
+    minAspectRatio: 'min-aspect-ratio',
+    maxAspectRatio: 'max-aspect-ratio',
+    minResolution: 'min-resolution',
+    maxResolution: 'max-resolution',
+  },
 };
 
 const mockUnknownMediaContainer = {
@@ -105,11 +136,10 @@ describe('MediaService', () => {
       expect(mediaService).toBeTruthy();
     });
 
-    describe('getMedia', () => {
+    describe('get media methods', () => {
       it('should return undefined if no mediaContainer', () => {
-        const result = mediaService.getMedia();
-
-        expect(result).toBeUndefined();
+        expect(mediaService.getMedia()).toBeUndefined();
+        expect(mediaService.getMediaForPictureElement()).toBeUndefined();
       });
 
       describe('without format', () => {
@@ -117,25 +147,40 @@ describe('MediaService', () => {
           expect(mediaService.getMedia(mockBestFormatMediaContainer)?.src).toBe(
             'base:format-600.url'
           );
+          expect(
+            mediaService.getMediaForPictureElement(mockBestFormatMediaContainer)
+              ?.src
+          ).toBe('base:format-600.url');
         });
 
         it('should return the first media if there is no configured format', () => {
           expect(mediaService.getMedia(mockUnknownMediaContainer)?.src).toBe(
             'base:random1.url'
           );
+          expect(
+            mediaService.getMediaForPictureElement(mockUnknownMediaContainer)
+              ?.src
+          ).toBe('base:random1.url');
         });
 
         it('should return media', () => {
           expect(mediaService.getMedia(mockMedia)?.src).toBe('base:media.url');
+          expect(mediaService.getMediaForPictureElement(mockMedia)?.src).toBe(
+            'base:media.url'
+          );
         });
 
         it('should not return src if there are no medias in the container', () => {
           expect(mediaService.getMedia({})?.src).toBeFalsy();
+          expect(mediaService.getMediaForPictureElement({})?.src).toBeFalsy();
         });
 
         it('should not return src if there is no media url', () => {
           expect(
             mediaService.getMedia({ altText: 'whatever' })?.src
+          ).toBeFalsy();
+          expect(
+            mediaService.getMediaForPictureElement({ altText: 'whatever' })?.src
           ).toBeFalsy();
         });
       });
@@ -145,6 +190,9 @@ describe('MediaService', () => {
           expect(mediaService.getMedia(mockMedia, 'any')?.src).toBe(
             'base:media.url'
           );
+          expect(
+            mediaService.getMediaForPictureElement(mockMedia, 'any')?.src
+          ).toBe('base:media.url');
         });
 
         it('should return media for format', () => {
@@ -152,11 +200,23 @@ describe('MediaService', () => {
             mediaService.getMedia(mockBestFormatMediaContainer, 'format400')
               ?.src
           ).toBe('base:format-400.url');
+          expect(
+            mediaService.getMediaForPictureElement(
+              mockBestFormatMediaContainer,
+              'format400'
+            )?.src
+          ).toBe('base:format-400.url');
         });
 
         it('should return best media for unknown format', () => {
           expect(
             mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')?.src
+          ).toBe('base:format-600.url');
+          expect(
+            mediaService.getMediaForPictureElement(
+              mockBestFormatMediaContainer,
+              'unknown'
+            )?.src
           ).toBe('base:format-600.url');
         });
 
@@ -164,11 +224,23 @@ describe('MediaService', () => {
           expect(
             mediaService.getMedia(mockUnknownMediaContainer, 'unknown')?.src
           ).toBe('base:random1.url');
+          expect(
+            mediaService.getMediaForPictureElement(
+              mockUnknownMediaContainer,
+              'unknown'
+            )?.src
+          ).toBe('base:random1.url');
         });
 
         it('should not return src if the media container does not contain a url', () => {
           expect(
             mediaService.getMedia({ cont: { format: 'xyz' } }, 'xyz')?.src
+          ).toBeFalsy();
+          expect(
+            mediaService.getMediaForPictureElement(
+              { cont: { format: 'xyz' } },
+              'xyz'
+            )?.src
           ).toBeFalsy();
         });
       });
@@ -178,12 +250,19 @@ describe('MediaService', () => {
           expect(mediaService.getMedia(mockMedia)?.alt).toBe(
             'alt text for media'
           );
+          expect(mediaService.getMediaForPictureElement(mockMedia)?.alt).toBe(
+            'alt text for media'
+          );
         });
 
         it('should return alt text for best media', () => {
           expect(mediaService.getMedia(mockBestFormatMediaContainer)?.alt).toBe(
             'alt text for format-600'
           );
+          expect(
+            mediaService.getMediaForPictureElement(mockBestFormatMediaContainer)
+              ?.alt
+          ).toBe('alt text for format-600');
         });
 
         it('should return alt text for specific format', () => {
@@ -191,17 +270,35 @@ describe('MediaService', () => {
             mediaService.getMedia(mockBestFormatMediaContainer, 'format400')
               ?.alt
           ).toBe('alt text for format-400');
+          expect(
+            mediaService.getMediaForPictureElement(
+              mockBestFormatMediaContainer,
+              'format400'
+            )?.alt
+          ).toBe('alt text for format-400');
         });
 
         it('should return alt text for best format', () => {
           expect(
             mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')?.alt
           ).toBe('alt text for format-600');
+          expect(
+            mediaService.getMediaForPictureElement(
+              mockBestFormatMediaContainer,
+              'unknown'
+            )?.alt
+          ).toBe('alt text for format-600');
         });
 
         it('should return alt text for random format', () => {
           expect(
             mediaService.getMedia(mockUnknownMediaContainer, 'unknown')?.alt
+          ).toBe('alt text for unknown-1');
+          expect(
+            mediaService.getMediaForPictureElement(
+              mockUnknownMediaContainer,
+              'unknown'
+            )?.alt
           ).toBe('alt text for unknown-1');
         });
 
@@ -213,17 +310,31 @@ describe('MediaService', () => {
               'custom alt'
             )?.alt
           ).toEqual('custom alt');
+          expect(
+            mediaService.getMediaForPictureElement(
+              mockBestFormatMediaContainer,
+              'format400',
+              'custom alt'
+            )?.alt
+          ).toEqual('custom alt');
         });
       });
 
       describe('role', () => {
         it('should return role for media', () => {
           expect(mediaService.getMedia(mockMedia)?.role).toBe('presentation');
+          expect(mediaService.getMediaForPictureElement(mockMedia)?.role).toBe(
+            'presentation'
+          );
         });
 
         it('should return role for best media', () => {
           expect(
             mediaService.getMedia(mockBestFormatMediaContainer)?.role
+          ).toBe('presentation');
+          expect(
+            mediaService.getMediaForPictureElement(mockBestFormatMediaContainer)
+              ?.role
           ).toBe('presentation');
         });
 
@@ -232,11 +343,23 @@ describe('MediaService', () => {
             mediaService.getMedia(mockBestFormatMediaContainer, 'format400')
               ?.role
           ).toBe('presentation');
+          expect(
+            mediaService.getMediaForPictureElement(
+              mockBestFormatMediaContainer,
+              'format400'
+            )?.role
+          ).toBe('presentation');
         });
 
         it('should return role for best format', () => {
           expect(
             mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')?.role
+          ).toBe('presentation');
+          expect(
+            mediaService.getMediaForPictureElement(
+              mockBestFormatMediaContainer,
+              'unknown'
+            )?.role
           ).toBe('presentation');
         });
 
@@ -244,11 +367,25 @@ describe('MediaService', () => {
           expect(
             mediaService.getMedia(mockUnknownMediaContainer, 'unknown')?.role
           ).toBe('presentation');
+          expect(
+            mediaService.getMediaForPictureElement(
+              mockUnknownMediaContainer,
+              'unknown'
+            )?.role
+          ).toBe('presentation');
         });
 
         it('should return given role', () => {
           expect(
             mediaService.getMedia(
+              mockBestFormatMediaContainer,
+              'format400',
+              'custom alt',
+              'custom role'
+            )?.role
+          ).toEqual('custom role');
+          expect(
+            mediaService.getMediaForPictureElement(
               mockBestFormatMediaContainer,
               'format400',
               'custom alt',
@@ -297,16 +434,98 @@ describe('MediaService', () => {
       });
     });
 
+    describe('sources', () => {
+      it('should return undefined if not media', () => {
+        const result = mediaService['resolveSources'](
+          null as unknown as MediaContainer
+        );
+
+        expect(result).toBeUndefined();
+      });
+
+      it('should return all images in sources', () => {
+        const expectedResult = [
+          { srcset: 'base:format-1.url', media: '(min-width: 1440px)' },
+          {
+            srcset: 'base:format-400.url',
+            media: '(max-width: 786px) and (-webkit-min-device-pixel-ratio: 3)',
+          },
+          {
+            srcset: 'base:format-600.url',
+            media: '(min-width: 1025px) and (max-width: 1439px)',
+          },
+        ];
+
+        const result = mediaService.getMediaForPictureElement(
+          mockBestFormatMediaContainer
+        )?.sources;
+
+        expect(result).toEqual(expectedResult);
+      });
+
+      it('should return only relevant images in sources for the given max format', () => {
+        expect(
+          mediaService.getMediaForPictureElement(
+            mockBestFormatMediaContainer,
+            'format400'
+          )?.sources
+        ).toEqual([
+          { srcset: 'base:format-1.url', media: '(min-width: 1440px)' },
+          {
+            srcset: 'base:format-400.url',
+            media: '(max-width: 786px) and (-webkit-min-device-pixel-ratio: 3)',
+          },
+        ]);
+      });
+
+      it('should return all formats for unknown format', () => {
+        const expectedResult = [
+          { srcset: 'base:format-1.url', media: '(min-width: 1440px)' },
+          {
+            srcset: 'base:format-400.url',
+            media: '(max-width: 786px) and (-webkit-min-device-pixel-ratio: 3)',
+          },
+          {
+            srcset: 'base:format-600.url',
+            media: '(min-width: 1025px) and (max-width: 1439px)',
+          },
+        ];
+
+        expect(
+          mediaService.getMediaForPictureElement(
+            mockBestFormatMediaContainer,
+            'unknown'
+          )?.sources
+        ).toEqual(expectedResult);
+      });
+
+      it('should return empty array for media without any formats', () => {
+        expect(
+          mediaService.getMediaForPictureElement(mockMedia)?.sources?.length
+        ).toBe(0);
+      });
+    });
+
     describe('absolute URL', () => {
       it('should avoid baseUrl if absolute image is provided', () => {
         expect(mediaService.getMedia(mockUrlContainer, 'absolute')?.src).toBe(
           'http://absolute.jpg'
         );
+        expect(
+          mediaService.getMediaForPictureElement(mockUrlContainer, 'absolute')
+            ?.src
+        ).toBe('http://absolute.jpg');
       });
 
       it('should threat image url start with double slash as absolute URL', () => {
         expect(
           mediaService.getMedia(mockUrlContainer, 'doubleSlash')?.src
+        ).toBe('//absolute.jpg');
+        expect(
+          mediaService.getMediaForPictureElement(
+            mockUrlContainer,
+            'doubleSlash'
+          )?.src
         ).toBe('//absolute.jpg');
       });
 
@@ -314,6 +533,10 @@ describe('MediaService', () => {
         expect(mediaService.getMedia(mockUrlContainer, 'relative')?.src).toBe(
           'base:relative.jpg'
         );
+        expect(
+          mediaService.getMediaForPictureElement(mockUrlContainer, 'relative')
+            ?.src
+        ).toBe('base:relative.jpg');
       });
     });
 
@@ -375,11 +598,21 @@ describe('MediaService', () => {
       expect(mediaService.getMedia(mockBestFormatMediaContainer)?.src).toBe(
         'format-1.url'
       );
+      expect(
+        mediaService.getMediaForPictureElement(mockBestFormatMediaContainer)
+          ?.src
+      ).toBe('format-1.url');
     });
 
     it('should return first available media for unknown format', () => {
       expect(
         mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')?.src
+      ).toBe('format-1.url');
+      expect(
+        mediaService.getMediaForPictureElement(
+          mockBestFormatMediaContainer,
+          'unknown'
+        )?.src
       ).toBe('format-1.url');
     });
 
@@ -387,17 +620,35 @@ describe('MediaService', () => {
       expect(
         mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')?.srcset
       ).toBeFalsy();
+      expect(
+        mediaService.getMediaForPictureElement(
+          mockBestFormatMediaContainer,
+          'unknown'
+        )?.srcset
+      ).toBeFalsy();
     });
 
     it('should return specific media for given format', () => {
       expect(
         mediaService.getMedia(mockBestFormatMediaContainer, 'format600')?.src
       ).toBe('format-600.url');
+      expect(
+        mediaService.getMediaForPictureElement(
+          mockBestFormatMediaContainer,
+          'format600'
+        )?.src
+      ).toBe('format-600.url');
     });
 
     it('should not return srcset for given format', () => {
       expect(
         mediaService.getMedia(mockBestFormatMediaContainer, 'format600')?.srcset
+      ).toBeFalsy();
+      expect(
+        mediaService.getMediaForPictureElement(
+          mockBestFormatMediaContainer,
+          'format600'
+        )?.srcset
       ).toBeFalsy();
     });
   });

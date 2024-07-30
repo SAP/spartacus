@@ -58,50 +58,7 @@ export interface MediaFormatSize {
  * browser to resolve the right media for the right layout or device.
  */
 export interface PictureElementQueries {
-  /**
-   * The minimum viewport width.
-   */
-  minWidth?: string;
-  /**
-   * The maximum viewport width.
-   */
-  maxWidth?: string;
-  /**
-   * The minimum viewport height.
-   */
-  minHeight?: string;
-  /**
-   * The maximum viewport height.
-   */
-  maxHeight?: string;
-  /**
-   * The minimum device pixel ratio
-   */
-  minDevicePixelRatio?: number;
-  /**
-   * The maximum device pixel ratio
-   */
-  maxDevicePixelRatio?: number;
-  /**
-   * The orientation of the viewport (portrait or landscape)
-   */
-  orientation?: string;
-  /**
-   * The minimum aspect ratio of the viewport
-   */
-  minAspectRatio?: string;
-  /**
-   * The maximum aspect ratio of the viewport
-   */
-  maxAspectRatio?: string;
-  /**
-   * The minimum device resolution
-   */
-  minResolution?: string;
-  /**
-   * The maximum device resolution
-   */
-  maxResolution?: string;
+  [query: string]: string | number;
 }
 
 /**
