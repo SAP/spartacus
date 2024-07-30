@@ -1,7 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Config, Image } from '@spartacus/core';
 import { LayoutConfig } from '../../../layout/config/layout-config';
-import { ImageLoadingStrategy, MediaContainer } from './media.model';
+import {
+  ImageLoadingStrategy,
+  MediaContainer,
+  PictureElementQueries,
+} from './media.model';
 import { MediaService } from './media.service';
 
 const MockStorefrontConfig: Config = {
@@ -122,13 +126,7 @@ describe('MediaService', () => {
     let mediaService: MediaService;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          MediaService,
-          { provide: Config, useValue: MockStorefrontConfig },
-          { provide: LayoutConfig, useValue: {} },
-        ],
-      });
+      configureTestingModule(MockStorefrontConfig);
       mediaService = TestBed.inject(MediaService);
     });
 
@@ -553,19 +551,10 @@ describe('MediaService', () => {
     let mediaService: MediaService;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          MediaService,
-          {
-            provide: Config,
-            useValue: {
-              ...MockStorefrontConfig,
-              mediaLoadingStrategy: ImageLoadingStrategy.LAZY,
-            },
-          },
-          { provide: LayoutConfig, useValue: {} },
-        ],
-      });
+      configureTestingModule({
+        ...MockStorefrontConfig,
+        mediaLoadingStrategy: ImageLoadingStrategy.LAZY,
+      } as any);
       mediaService = TestBed.inject(MediaService);
     });
     describe('loadingStrategy', () => {
@@ -577,20 +566,124 @@ describe('MediaService', () => {
     });
   });
 
+  describe('sources order', () => {
+    it('should be sorted based on provided config', () => {
+      const config = {
+        ...MockStorefrontConfig,
+        pictureFormatsOrder: ['format600', 'format1', 'format400'],
+      };
+      configureTestingModule(config);
+      const mediaService = TestBed.inject(MediaService);
+
+      const result = mediaService.getMediaForPictureElement(
+        mockBestFormatMediaContainer
+      )?.sources;
+
+      if (result && result[0]?.srcset) {
+        expect(result[0].srcset).toBe('base:format-600.url');
+        expect(result[1].srcset).toBe('base:format-1.url');
+        expect(result[2].srcset).toBe('base:format-400.url');
+      } else {
+        fail('Sources is undefined');
+      }
+    });
+
+    it('should be sorted in natural order if the order was not provided in config', () => {
+      const config = {
+        ...MockStorefrontConfig,
+        pictureFormatsOrder: [],
+      };
+      configureTestingModule(config);
+      const mediaService = TestBed.inject(MediaService);
+
+      const result = mediaService.getMediaForPictureElement(
+        mockBestFormatMediaContainer
+      )?.sources;
+
+      if (result && result[0]?.srcset) {
+        expect(result[0].srcset).toBe('base:format-400.url');
+        expect(result[1].srcset).toBe('base:format-600.url');
+        expect(result[2].srcset).toBe('base:format-1.url');
+      } else {
+        fail('Sources is undefined');
+      }
+    });
+  });
+
+  describe('generateMediaQuery()', () => {
+    it('should return an empty string if config is not defined', () => {
+      configureTestingModule({});
+      const service = TestBed.inject(MediaService);
+
+      const queries: PictureElementQueries = {
+        minWidth: 768,
+      };
+      expect(service['generateMediaQuery'](queries)).toBe('');
+    });
+
+    it('should return an empty string if queries are empty', () => {
+      configureTestingModule({});
+      const service = TestBed.inject(MediaService);
+
+      const queries: PictureElementQueries = {};
+      expect(service['generateMediaQuery'](queries)).toBe('');
+    });
+
+    it('should return correct media query for given queries', () => {
+      configureTestingModule(MockStorefrontConfig);
+      const service = TestBed.inject(MediaService);
+
+      const queries: PictureElementQueries = {
+        minWidth: 768,
+        maxWidth: 1024,
+      };
+      expect(service['generateMediaQuery'](queries)).toBe(
+        '(min-width: 768) and (max-width: 1024)'
+      );
+    });
+
+    it('should ignore queries that are not in the query map', () => {
+      configureTestingModule(MockStorefrontConfig);
+      const service = TestBed.inject(MediaService);
+
+      const queries: PictureElementQueries = {
+        minWidth: 768,
+        unknownQuery: 100,
+      };
+      expect(service['generateMediaQuery'](queries)).toBe('(min-width: 768)');
+    });
+
+    it('should ignore undefined query values', () => {
+      configureTestingModule(MockStorefrontConfig);
+      const service = TestBed.inject(MediaService);
+
+      const queries: PictureElementQueries = {
+        minWidth: 768,
+        maxWidth: undefined as unknown as any,
+      };
+      expect(service['generateMediaQuery'](queries)).toBe('(min-width: 768)');
+    });
+
+    it('should return correct media query for mixed queries', () => {
+      configureTestingModule(MockStorefrontConfig);
+      const service = TestBed.inject(MediaService);
+
+      const queries: PictureElementQueries = {
+        minWidth: 768,
+        maxWidth: 1024,
+        orientation: 'landscape',
+      };
+      expect(service['generateMediaQuery'](queries)).toBe(
+        '(min-width: 768) and (max-width: 1024) and (orientation: landscape)'
+      );
+    });
+  });
+
   describe('without media config', () => {
     let mediaService: MediaService;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          MediaService,
-          {
-            provide: Config,
-            useValue: {},
-          },
-          { provide: LayoutConfig, useValue: {} },
-        ],
-      });
+      configureTestingModule({});
       mediaService = TestBed.inject(MediaService);
     });
 
@@ -653,3 +746,16 @@ describe('MediaService', () => {
     });
   });
 });
+
+function configureTestingModule(config: Config): void {
+  TestBed.configureTestingModule({
+    providers: [
+      MediaService,
+      {
+        provide: Config,
+        useValue: config,
+      },
+      { provide: LayoutConfig, useValue: {} },
+    ],
+  });
+}

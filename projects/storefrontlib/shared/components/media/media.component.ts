@@ -15,7 +15,12 @@ import {
   Output,
   TrackByFunction,
 } from '@angular/core';
-import { Config, Image, ImageGroup } from '@spartacus/core';
+import {
+  Config,
+  FeatureConfigService,
+  Image,
+  ImageGroup,
+} from '@spartacus/core';
 import { ImageLoadingStrategy, Media, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
@@ -102,6 +107,8 @@ export class MediaComponent implements OnChanges {
     (inject(Config) as any)['useLegacyMediaComponent'] ||
     false;
 
+  protected readonly featureConfigService = inject(FeatureConfigService);
+
   constructor(protected mediaService: MediaService) {}
 
   ngOnChanges(): void {
@@ -112,7 +119,12 @@ export class MediaComponent implements OnChanges {
    * Creates the `Media` object
    */
   protected create(): void {
-    const getMedia = this.usePictureElement
+    const shouldGetMediaForPictureElement =
+      this.usePictureElement &&
+      this.featureConfigService.isEnabled(
+        'useMediaComponentWithConfigurableMediaQueries'
+      );
+    const getMedia = shouldGetMediaForPictureElement
       ? this.mediaService.getMediaForPictureElement.bind(this.mediaService)
       : this.mediaService.getMedia.bind(this.mediaService);
 
