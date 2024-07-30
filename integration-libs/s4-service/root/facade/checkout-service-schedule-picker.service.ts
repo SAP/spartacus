@@ -80,7 +80,8 @@ export class CheckoutServiceSchedulePickerService {
    * @returns Readable string format. Example: 11/07/2024, 14:30
    */
   convertDateTimeToReadableString(dateTime: string): string {
-    const date = new Date(dateTime);console.log('Date: ', date);
+    const date = new Date(dateTime);
+    console.log('Date: ', date);
     const secondsDigits = -3;
     return date.toLocaleString().slice(0, secondsDigits);
   }
@@ -105,5 +106,19 @@ export class CheckoutServiceSchedulePickerService {
       date: this.datePipe.transform(date, dateFormat) ?? '',
       time: `${hours}:${minutes}`,
     };
+  }
+
+  /**
+   * Calculates the difference in hours between a shceduled date of a service and the current date.
+   * @param dateTime The datetime to check in string format.
+   * @returns Number representing the difference in hours.
+   */
+  getHoursFromServiceSchedule(dateTime: string): number {
+    const now = new Date();
+    const targetDateTime = new Date(dateTime);
+    const differenceInMilliseconds = targetDateTime.getTime() - now.getTime();
+    const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
+    console.log('Difference in hours: ', differenceInHours);
+    return differenceInHours;
   }
 }

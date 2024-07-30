@@ -19,6 +19,9 @@
     "backButtonLabel": "Back",
     "submitButtonLabel": "Submit Request",
     "note": "Please note that it may take a few moments for your order to reflect the request.",
-    "unknownError": "An unknown error occurred. Please contact support."
+    "unknownError": "An unknown error occurred. Please contact support.",
+    "serviceNotReschedulable": "The service cannot be rescheduled.",
+    "serviceNotAmendable": "The service cannot be cancelled or rescheduled less than 24 hours before the scheduled date.",
+    "rescheduleSuccess": "The service date and time has been changed successfully."
   }
 }
