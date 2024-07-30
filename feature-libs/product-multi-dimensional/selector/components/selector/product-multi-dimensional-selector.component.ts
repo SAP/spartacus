@@ -12,7 +12,10 @@ import {
   ProductService,
   RoutingService,
 } from '@spartacus/core';
-import { ProductMultiDimensionalSelectorService } from '@spartacus/product-multi-dimensional/selector/core';
+import {
+  ProductMultiDimensionalSelectorService,
+  VariantCategoryGroup,
+} from '@spartacus/product-multi-dimensional/selector/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   distinctUntilChanged,
@@ -23,7 +26,6 @@ import {
 } from 'rxjs/operators';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { VariantCategoryGroup } from '../../root/model/augmented-core.model';
 
 @Component({
   selector: 'cx-product-multi-dimensional-selector',

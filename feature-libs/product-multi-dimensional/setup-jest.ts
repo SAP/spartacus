@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const PRODUCT_MULTI_DIMENSIONAL_FEATURE = 'productMultiDimensional';
+import 'jest-preset-angular/setup-jest';
+import 'zone.js';

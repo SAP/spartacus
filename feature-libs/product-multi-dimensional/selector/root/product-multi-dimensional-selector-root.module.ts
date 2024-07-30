@@ -6,12 +6,12 @@
 
 import { NgModule } from '@angular/core';
 import { provideDefaultConfigFactory } from '@spartacus/core';
-import { PRODUCT_MULTIDIMENSIONAL_FEATURE } from './feature-name';
+import { PRODUCT_MULTI_DIMENSIONAL_FEATURE } from './feature-name';
 
-export function defaultProductMultiDimensionalComponentsConfig() {
+export function defaultProductMultiDimensionalSelectorComponentsConfig() {
   return {
     featureModules: {
-      [PRODUCT_MULTIDIMENSIONAL_FEATURE]: {
+      [PRODUCT_MULTI_DIMENSIONAL_FEATURE]: {
         cmsComponents: [
           'ProductVariantSelectorComponent', // TBD trigger
           'ProductVariantMultiDimensionalSelectorComponent',
@@ -23,7 +23,9 @@ export function defaultProductMultiDimensionalComponentsConfig() {
 
 @NgModule({
   providers: [
-    provideDefaultConfigFactory(defaultProductMultiDimensionalComponentsConfig),
+    provideDefaultConfigFactory(
+      defaultProductMultiDimensionalSelectorComponentsConfig
+    ),
   ],
 })
 export class ProductMultiDimensionalSelectorRootModule {}

@@ -22,7 +22,9 @@ import {
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 
-export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
+export function addSpartacusProductMultiDimensional(
+  options: SpartacusProductOptions
+): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);

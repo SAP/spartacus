@@ -3,12 +3,10 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "forceConsistentCasingInFileNames": true,
-    "target": "es2022",
     "module": "es2022",
     "moduleResolution": "node",
     "declaration": true,
     "declarationMap": true,
-    "strict": true,
     "sourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
@@ -26,8 +24,7 @@
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
     "enableResourceInlining": true,
-    "strictTemplates": false,
-    "strictInputAccessModifiers": true
+    "strictTemplates": false
   },
-  "exclude": ["test.ts", "**/*.spec.ts"]
+  "exclude": ["test.ts", "setup-jest.ts", "**/*.spec.ts"]
 }

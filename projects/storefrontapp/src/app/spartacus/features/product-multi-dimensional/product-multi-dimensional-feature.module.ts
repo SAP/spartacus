@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
 import {
-  PRODUCT_MULTIDIMENSIONAL_FEATURE,
+  PRODUCT_MULTI_DIMENSIONAL_FEATURE,
   ProductMultiDimensionalSelectorRootModule,
 } from '@spartacus/product-multi-dimensional/selector/root';
 
@@ -16,9 +16,9 @@ import {
   providers: [
     provideConfig({
       featureModules: {
-        [PRODUCT_MULTIDIMENSIONAL_FEATURE]: {
+        [PRODUCT_MULTI_DIMENSIONAL_FEATURE]: {
           module: () =>
-            import('@spartacus/product-multi-dimensional').then(
+            import('@spartacus/product-multi-dimensional/selector').then(
               (m) => m.ProductMultiDimensionalSelectorModule
             ),
         },

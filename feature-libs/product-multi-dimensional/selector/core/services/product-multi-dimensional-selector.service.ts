@@ -7,10 +7,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Product, VariantMatrixElement } from '@spartacus/core';
 import { ProductMultiDimensionalSelectorImagesService } from './product-multi-dimensional-selector-images.service';
-import {
-  VariantCategoryGroup,
-  VariantCategoryOption,
-} from '@spartacus/product-multi-dimensional/selector/root';
+import { VariantCategoryGroup, VariantCategoryOption } from '../model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductMultiDimensionalSelectorService {
