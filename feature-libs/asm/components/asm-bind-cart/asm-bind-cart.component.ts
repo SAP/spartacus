@@ -11,6 +11,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { AsmBindCartFacade } from '@spartacus/asm/root';
@@ -49,6 +50,7 @@ import {
 import { BIND_CART_DIALOG_ACTION } from '../asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 import { SAVE_CART_DIALOG_ACTION } from '../asm-save-cart-dialog/asm-save-cart-dialog.component';
 import { AsmComponentService } from '../services/asm-component.service';
+import { FeatureConfigService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-asm-bind-cart',
@@ -91,6 +93,11 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   saveInactiveCartElemRef: ElementRef<HTMLButtonElement>;
 
   protected subscription = new Subscription();
+
+  protected featureConfig = inject(FeatureConfigService);
+  isShowStyleChangesInASM = this.featureConfig.isEnabled(
+    'showStyleChangesInASM'
+  );
 
   constructor(
     protected globalMessageService: GlobalMessageService,
@@ -182,6 +189,13 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
       });
 
     this.afterCloseASMSaveCartDialog();
+  }
+
+  clearText(): void {
+    if (!this.isShowStyleChangesInASM) {
+      this.cartId.setValue('');
+      this.resetDeeplinkCart();
+    }
   }
 
   protected resetDeeplinkCart(): void {

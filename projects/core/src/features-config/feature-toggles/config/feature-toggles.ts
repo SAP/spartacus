@@ -56,6 +56,11 @@ export interface FeatureTogglesInterface {
   showSearchingCustomerByOrderInASM?: boolean;
 
   /**
+   * Some Changes for input of cart Number and text of Customer360View in ASM view
+   */
+  showStyleChangesInASM?: boolean;
+
+  /**
    * In `SearchBoxComponent` it shows the recent searches.
    */
   recentSearches?: boolean;
@@ -402,6 +407,7 @@ export interface FeatureTogglesInterface {
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   formErrorsDescriptiveMessages: true,
   showSearchingCustomerByOrderInASM: false,
+  showStyleChangesInASM: false,
   shouldHideAddToCartForUnpurchasableProducts: false,
   useExtractedBillingAddressComponent: false,
   showBillingAddressInDigitalPayments: false,

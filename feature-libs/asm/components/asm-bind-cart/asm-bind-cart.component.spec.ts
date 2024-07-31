@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FeaturesConfig } from '@spartacus/core';
+import { By } from '@angular/platform-browser';
 import { AsmBindCartFacade, CsAgentAuthService } from '@spartacus/asm/root';
 import {
   ActiveCartFacade,
@@ -216,6 +218,20 @@ describe('AsmBindCartComponent', () => {
     (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(of(''));
 
     fixture.detectChanges();
+
+    expect(component.cartId.value).toEqual('');
+  });
+
+  it('should clear field when clear input is clicked', () => {
+    cy.cxConfig({
+      features: {
+        showStyleChangesInASM: true,
+      },
+    } as FeaturesConfig);
+    fixture.detectChanges();
+    let button = fixture.debugElement.query(By.css('.cx-asm-reset'));
+
+    button.triggerEventHandler('click');
 
     expect(component.cartId.value).toEqual('');
   });
