@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import {
@@ -13,13 +13,13 @@ import {
   RescheduleServiceOrderFacade,
   ServiceDateTime,
 } from '@spartacus/s4-service/root';
-import { combineLatest, mergeMap, Observable } from 'rxjs';
+import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'cx-reschedule-service-order',
   templateUrl: './reschedule-service-order.component.html',
 })
-export class RescheduleServiceOrderComponent implements OnInit {
+export class RescheduleServiceOrderComponent implements OnInit, OnDestroy {
   protected orderDetailsService = inject(OrderDetailsService);
   protected rescheduleServiceOrdeFacade = inject(RescheduleServiceOrderFacade);
   protected routingService = inject(RoutingService);
@@ -30,7 +30,14 @@ export class RescheduleServiceOrderComponent implements OnInit {
   );
   readonly CartOutlets = CartOutlets;
   dateTime: ServiceDateTime;
-  order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
+  order$ = this.orderDetailsService.getOrderDetails()
+  .pipe(map(order => ({
+    ...order,
+    entries: (order.entries || []).filter(entry => entry.product && entry.product.productTypes === 'SERVICE')
+  })))
+  ;
+  orderCode: string;
+  protected subscription = new Subject<void>();
 
   minServiceDate$: Observable<string> =
     this.checkoutServiceSchedulePickerService.getMinDateForService();
@@ -42,37 +49,41 @@ export class RescheduleServiceOrderComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.order$.subscribe((orderDetails) => {
-      console.log('Order details: ', orderDetails);
-      const servicedAt = orderDetails.servicedAt;
-      if (servicedAt && servicedAt !== '') {
-        console.log('Serviced at: ', servicedAt);
-        const scheduledAt =
-          this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
-            servicedAt
-          );
-        console.log('Scheduled at: ', scheduledAt);
-        const info =
-          this.checkoutServiceSchedulePickerService.getServiceDetailsFromDateTime(
-            scheduledAt
-          );
-          console.log('Service details: ', info);
-        this.form.patchValue({
-          scheduleDate: info.date,
-          scheduleTime: info.time,
-        });
-      } else {
-        combineLatest([this.minServiceDate$, this.scheduleTimes$]).subscribe(
-          ([minDate, scheduleTime]) => {
-            console.log('Min date: ', minDate, 'Schedule time: ', scheduleTime);
-            this.form.patchValue({
-              scheduleDate: minDate,
-              scheduleTime: scheduleTime[0],
-            });
-          }
-        );
-      }
+    this.order$
+    .pipe(
+      takeUntil(this.subscription)
+    )
+    .subscribe((orderDetails) => {
+      this.orderCode = orderDetails.code || '';
+      this.initializeForm(orderDetails);
     });
+  }
+
+  initializeForm(order: Order): void {
+    const servicedAt = order.servicedAt;
+    if (servicedAt && servicedAt !== '') {
+      const scheduledAt =
+        this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
+          servicedAt
+        );
+      const info =
+        this.checkoutServiceSchedulePickerService.getServiceDetailsFromDateTime(
+          scheduledAt
+        );
+      this.form.patchValue({
+        scheduleDate: info.date,
+        scheduleTime: info.time,
+      });
+    } else {
+      combineLatest([this.minServiceDate$, this.scheduleTimes$]).subscribe(
+        ([minDate, scheduleTime]) => {
+          this.form.patchValue({
+            scheduleDate: minDate,
+            scheduleTime: scheduleTime[0],
+          });
+        }
+      );
+    }
   }
 
   setScheduleTime(event: Event): void {
@@ -90,33 +101,29 @@ export class RescheduleServiceOrderComponent implements OnInit {
       scheduleDate,
       scheduleTime
     );
-    console.log('Component level ', this.dateTime);
-    this.orderDetailsService.orderCode$
-      .pipe(
-        mergeMap((orderCode) =>
-          this.rescheduleServiceOrdeFacade.rescheduleService(
-            orderCode,
-            this.dateTime
-          )
-        )
+      this.rescheduleServiceOrdeFacade.rescheduleService(
+        this.orderCode,
+        this.dateTime
       )
       .subscribe({
         next: () => {
-          console.log('Service order rescheduled ');
-          this.routingService.go({ cxRoute: 'orders' });
+          this.routingService.go({ cxRoute: 'orderDetails', params: { code: this.orderCode } });
           this.globalMessageService.add(
-            'Service order rescheduled successfully',
+            { key: 'rescheduleService.rescheduleSuccess' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
         },
         error: () => {
-          console.log('Service order reschedule failed');
-          this.routingService.go({ cxRoute: 'orders' });
           this.globalMessageService.add(
-            'Service order reschedule failed',
+            { key: 'rescheduleService.unknownError' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
         },
       });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.next();
+    this.subscription.complete();
   }
 }

@@ -78,7 +78,7 @@
         </button>
       </div>
       <div class="col-sm-12 col-xl-6">
-        <button type="submit" class="btn btn-primary btn-block">
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="!(form.valid && form.dirty)">
           {{ 'rescheduleService.submitButtonLabel' | cxTranslate }}
         </button>
       </div>

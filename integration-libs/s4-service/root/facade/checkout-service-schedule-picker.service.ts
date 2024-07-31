@@ -81,9 +81,8 @@ export class CheckoutServiceSchedulePickerService {
    */
   convertDateTimeToReadableString(dateTime: string): string {
     const date = new Date(dateTime);
-    console.log('Date: ', date);
     const secondsDigits = -3;
-    return date.toLocaleString().slice(0, secondsDigits);
+    return date.toLocaleString(undefined, {hour12: false}).slice(0, secondsDigits);
   }
 
   /**
@@ -92,7 +91,6 @@ export class CheckoutServiceSchedulePickerService {
    * @returns Object with date and time separately as { date: 'YYYY-MM-DD', time: 'HH:mm' }
    */
   getServiceDetailsFromDateTime(input: string): { date: string; time: string } {
-    console.log('Input: ', input);
     const [datePart, timePart] = input.split(', ');
     const [month, day, year] = datePart.split('/');
     const date = new Date(
@@ -101,7 +99,6 @@ export class CheckoutServiceSchedulePickerService {
       parseInt(day, 10)
     );
     const [hours, minutes] = timePart.split(':');
-    console.log('Date: ', hours, minutes);
     return {
       date: this.datePipe.transform(date, dateFormat) ?? '',
       time: `${hours}:${minutes}`,
@@ -118,7 +115,6 @@ export class CheckoutServiceSchedulePickerService {
     const targetDateTime = new Date(dateTime);
     const differenceInMilliseconds = targetDateTime.getTime() - now.getTime();
     const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
-    console.log('Difference in hours: ', differenceInHours);
     return differenceInHours;
   }
 }

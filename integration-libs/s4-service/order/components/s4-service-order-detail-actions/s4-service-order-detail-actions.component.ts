@@ -3,7 +3,7 @@ import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { OrderDetailActionsComponent } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
 import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'cx-s4-service-order-detail-actions',
@@ -19,15 +19,15 @@ export class S4ServiceOrderDetailActionsComponent
     CheckoutServiceSchedulePickerService
   );
   protected globalMessageService = inject(GlobalMessageService);
-  protected subscription = new Subscription();
+  protected subscription = new Subject<void>();
 
   ngOnInit(): void {
-    this.subscription.add(
-    this.order$.subscribe((order) => {
+    this.order$
+    .pipe(takeUntil(this.subscription))
+    .subscribe((order) => {
       this.order = order;
       this.checkServiceStatus(order);
-    })
-  );
+    });
   }
 
   checkServiceStatus(order: Order): void {
@@ -53,6 +53,7 @@ export class S4ServiceOrderDetailActionsComponent
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription.next();
+    this.subscription.complete();
   }
 }

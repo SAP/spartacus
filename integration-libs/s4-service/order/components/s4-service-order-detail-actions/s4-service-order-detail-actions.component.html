@@ -3,7 +3,7 @@
       <span class="col-sm-12 col-md-4 col-xl-3">
         <span class="cx-action-button">
           <a
-              *ngIf="order.serviceReschedulable"
+              *ngIf="order"
               [routerLink]="
                   {
                   cxRoute: 'rescheduleServiceDetails',
