@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "CpqQuoteSchematics",
-  "title": "Cpq-Quote Schematics",
+  "title": "cpq-quote Schematics",
   "type": "object",
   "properties": {
     "project": {
@@ -18,7 +18,7 @@
     },
     "lazy": {
       "type": "boolean",
-      "description": "Lazy load the Cpq-Quote.",
+      "description": "Lazy load the cpq-quote.",
       "default": true
     },
     "features": {
