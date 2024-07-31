@@ -47,7 +47,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.initDeltaRendering(
+    this.initPriceChangedEvent(
       attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key
     );
@@ -86,7 +86,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
         this.attributeCheckBoxForms,
         this.attribute
       );
-    if (this.isDeltaRendering) {
+    if (this.listenForPriceChanges) {
       this.configUtilsService.setLastSelected(
         this.attribute.name,
         selectedValues[index].valueCode

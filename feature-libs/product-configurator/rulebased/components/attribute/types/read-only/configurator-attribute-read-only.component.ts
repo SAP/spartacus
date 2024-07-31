@@ -31,7 +31,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
     this.expMode = attributeComponentContext.expMode;
-    this.initDeltaRendering(
+    this.initPriceChangedEvent(
       attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key
     );

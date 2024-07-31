@@ -79,7 +79,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
         this.attributeCheckBoxForms,
         this.attribute
       );
-    if (valueCode && this.isDeltaRendering) {
+    if (valueCode && this.listenForPriceChanges) {
       this.configUtilsService.setLastSelected(this.attribute.name, valueCode);
     }
     this.configuratorCommonsService.updateConfiguration(

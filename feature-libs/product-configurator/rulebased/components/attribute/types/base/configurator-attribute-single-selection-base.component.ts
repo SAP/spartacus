@@ -62,7 +62,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
             false
         )
       );
-    this.initDeltaRendering(
+    this.initPriceChangedEvent(
       attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key
     );

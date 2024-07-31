@@ -39,7 +39,7 @@ export class ConfiguratorAttributeCheckBoxComponent
     this.group = attributeComponentContext.group.id;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.initDeltaRendering(
+    this.initPriceChangedEvent(
       attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key
     );
@@ -55,7 +55,7 @@ export class ConfiguratorAttributeCheckBoxComponent
    */
   onSelect(valueCode?: string): void {
     const selectedValues = this.assembleSingleValue();
-    if (valueCode && this.isDeltaRendering) {
+    if (valueCode && this.listenForPriceChanges) {
       this.configuratorStorefrontUtilsService.setLastSelected(
         this.attribute.name,
         valueCode

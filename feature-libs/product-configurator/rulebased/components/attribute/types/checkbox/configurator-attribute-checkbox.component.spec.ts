@@ -187,8 +187,8 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     expect(valueToSelect.checked).toBeFalsy();
   });
 
-  it('should set last selected value code on select if delta rendering is activated', () => {
-    component.isDeltaRendering = true;
+  it('should set last selected value code on select if listening for price changes', () => {
+    component.listenForPriceChanges = true;
     component.onSelect('123');
     expect(component.isLastSelected(component.attribute.name, '123')).toBe(
       true
@@ -265,7 +265,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     });
 
     it('should create input element for last selected value with aria-live', () => {
-      component.isDeltaRendering = true;
+      component.listenForPriceChanges = true;
       component.onSelect('1');
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(

@@ -53,7 +53,7 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
     useFeatureStyles('productConfiguratorAttributeTypesV2');
-    this.initDeltaRendering(
+    this.initPriceChangedEvent(
       attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key
     );

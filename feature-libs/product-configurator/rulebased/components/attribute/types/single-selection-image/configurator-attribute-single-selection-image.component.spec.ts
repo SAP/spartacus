@@ -390,7 +390,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     });
 
     it('should create input element for selected value with aria-live', () => {
-      component.isDeltaRendering = true;
+      component.listenForPriceChanges = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -404,7 +404,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     });
 
     it('should create input element for not selected value without aria-live', () => {
-      component.isDeltaRendering = true;
+      component.listenForPriceChanges = true;
       fixture.detectChanges();
       const item = CommonConfiguratorTestUtilsService.getHTMLElement(
         htmlElem,

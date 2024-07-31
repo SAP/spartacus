@@ -38,7 +38,8 @@
         "
         [attr.aria-label]="getAriaLabelGeneric(attribute, value)"
         [attr.aria-live]="
-          isDeltaRendering && attributeRadioButtonForm.value === value.valueCode
+          listenForPriceChanges &&
+          attributeRadioButtonForm.value === value.valueCode
             ? 'polite'
             : null
         "
@@ -112,7 +113,7 @@
           "
           [attr.aria-label]="getAriaLabelGeneric(attribute, value)"
           [attr.aria-live]="
-            isDeltaRendering &&
+            listenForPriceChanges &&
             attributeRadioButtonForm.value === value.valueCode
               ? 'polite'
               : null

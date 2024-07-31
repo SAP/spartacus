@@ -37,15 +37,18 @@ export class ConfiguratorAttributeBaseComponent {
   private static PREFIX_DDLB_OPTION_PRICE_VALUE = 'option--price';
   protected static MAX_IMAGE_LABEL_CHARACTERS = 16;
 
-  isDeltaRendering: boolean;
+  listenForPriceChanges: boolean;
   priceChangedEvent$: Observable<boolean> = of(true); // no delta rendering - always render directly only once
-  protected initDeltaRendering(isPricingAsync = false, attributeKey?: string) {
+  protected initPriceChangedEvent(
+    isPricingAsync = false,
+    attributeKey?: string
+  ) {
     if (
       isPricingAsync &&
       this.configuratorAttributePriceChangeService &&
       this._featureConfigService.isEnabled('productConfiguratorDeltaRendering')
     ) {
-      this.isDeltaRendering = true;
+      this.listenForPriceChanges = true;
       this.priceChangedEvent$ =
         this.configuratorAttributePriceChangeService.getPriceChangedEvents(
           attributeKey

@@ -411,7 +411,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
         configuratorStorefrontUtilsService,
         'assembleValuesForMultiSelectAttributes'
       ).and.returnValue(component.attribute.values);
-      component.isDeltaRendering = true;
+      component.listenForPriceChanges = true;
       component.onSelect(0);
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(

@@ -613,7 +613,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
     });
 
     it('should create input element for last selected value with aria-live', () => {
-      component.isDeltaRendering = true;
+      component.listenForPriceChanges = true;
       component.onSelect('1');
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -628,7 +628,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
     });
 
     it('should create input element for not last selected value without aria-live', () => {
-      component.isDeltaRendering = true;
+      component.listenForPriceChanges = true;
       component.onSelect('1');
       fixture.detectChanges();
       const item = CommonConfiguratorTestUtilsService.getHTMLElement(

@@ -539,9 +539,9 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       ).not.toHaveBeenCalled();
     });
 
-    it('should emit true immediately, if delta rendering is initialized but deactivated', () => {
-      productConfiguratorDeltaRenderingEnabled = false;
-      classUnderTest['initDeltaRendering'](false, 'attrKey');
+    it('should emit true immediately, if price changed event is initialized in synchronous pricing mode', () => {
+      productConfiguratorDeltaRenderingEnabled = true;
+      classUnderTest['initPriceChangedEvent'](false, 'attrKey');
       let emitted = false;
       classUnderTest.priceChangedEvent$
         .subscribe((priceChanged) => {
@@ -555,10 +555,10 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       ).not.toHaveBeenCalled();
     });
 
-    it('should emit true immediately, if delta rendering is initialized but no service injected', () => {
+    it('should emit true immediately, price changed event  is initialized but no price change service injected', () => {
       productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest['configuratorAttributePriceChangeService'] = null;
-      classUnderTest['initDeltaRendering'](true, 'attrKey');
+      classUnderTest['initPriceChangedEvent'](true, 'attrKey');
       let emitted = false;
       classUnderTest.priceChangedEvent$
         .subscribe((priceChanged) => {
@@ -572,9 +572,9 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       ).not.toHaveBeenCalled();
     });
 
-    it('should emit true immediately, if delta rendering is initialized but feature flag deactivated', () => {
+    it('should emit true immediately, if price changed event is initialized but delta rendering feature flag is deactivated', () => {
       productConfiguratorDeltaRenderingEnabled = false;
-      classUnderTest['initDeltaRendering'](true, 'attrKey');
+      classUnderTest['initPriceChangedEvent'](true, 'attrKey');
       let emitted = false;
       classUnderTest.priceChangedEvent$
         .subscribe((priceChanged) => {
@@ -588,9 +588,9 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       ).not.toHaveBeenCalled();
     });
 
-    it('should emit false immediately, if delta rendering is initialized proper', () => {
+    it('should emit false immediately, if price changed event is initialized proper', () => {
       productConfiguratorDeltaRenderingEnabled = true;
-      classUnderTest['initDeltaRendering'](true, 'attrKey');
+      classUnderTest['initPriceChangedEvent'](true, 'attrKey');
       let emitted = false;
       productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest.priceChangedEvent$
