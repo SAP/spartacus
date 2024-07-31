@@ -134,6 +134,12 @@ function add_epd_visualization {
     fi
 }
 
+function add_opf {
+    if [ "$ADD_OPF" = true ] ; then
+        ng add @spartacus/opf@${SPARTACUS_VERSION} --base-url ${OPF_BASE_URL} --commerce-cloud-public-key ${OPF_CLIENT_PUBLIC_KEY} --skip-confirmation --no-interactive
+    fi
+}
+
 function add_product_configurator {
     ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
     ng add @spartacus/product-configurator --skip-confirmation --no-interactive --features "Textfield-Configurator" --features "VC-Configurator"
@@ -188,7 +194,7 @@ function add_pdf_invoices {
 function add_feature_libs {
   ng add @spartacus/tracking@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/tracking --skip-confirmation --no-interactive --features "TMS-GTM" --features "TMS-AEPL"
-  
+
   ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/customer-ticketing@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/pickup-in-store@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
@@ -201,14 +207,15 @@ function add_spartacus_csr {
         create_npmrc ${CSR_APP_NAME}
     fi
     if [ "$BASE_SITE" = "" ] ; then
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --no-interactive
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --currency ${CURRENCY} --url-parameters ${URL_PARAMETERS} --no-interactive
     else
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --url-parameters ${URL_PARAMETERS} --no-interactive
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --skip-confirmation --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --currency ${CURRENCY} --url-parameters ${URL_PARAMETERS} --no-interactive
     fi
     add_feature_libs
     add_b2b
     add_cdc
     add_epd_visualization
+    add_opf
     add_product_configurator
     add_quote
     add_s4om
@@ -229,14 +236,15 @@ function add_spartacus_ssr {
     fi
 
     if [ "$BASE_SITE" = "" ] ; then
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --currency ${CURRENCY} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
     else
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --currency ${CURRENCY} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
     fi
     add_feature_libs
     add_b2b
     add_cdc
     add_epd_visualization
+    add_opf
     add_product_configurator
     add_quote
     add_s4om
@@ -256,14 +264,15 @@ function add_spartacus_ssr_pwa {
         create_npmrc ${SSR_PWA_APP_NAME}
     fi
     if [ "$BASE_SITE" = "" ] ; then
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --ssr --pwa --no-interactive --skip-confirmation
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --currency ${CURRENCY} --url-parameters ${URL_PARAMETERS} --ssr --pwa --no-interactive --skip-confirmation
     else
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --url-parameters ${URL_PARAMETERS} --ssr --pwa --no-interactive --skip-confirmation
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --base-site ${BASE_SITE} --currency ${CURRENCY} --url-parameters ${URL_PARAMETERS} --ssr --pwa --no-interactive --skip-confirmation
     fi
     add_feature_libs
     add_b2b
     add_cdc
     add_epd_visualization
+    add_opf
     add_product_configurator
     add_s4om
     add_S4_SERVICE
@@ -429,7 +438,7 @@ function build_ssr {
         printh "Building ssr app"
         if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
             buildCommands="npm run build"
-        else 
+        else
             buildCommands="npm run build && npm run build:ssr"
         fi
        ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && eval $buildCommands )
@@ -444,7 +453,7 @@ function build_ssr_pwa {
         printh "Building ssr app with PWA"
         if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
             buildCommands="npm run build"
-        else 
+        else
             buildCommands="npm run build && npm run build:ssr"
         fi
        ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && eval $buildCommands )
@@ -829,6 +838,11 @@ function parseInstallArgs {
                 echo "➖ Added PDF Invoices"
                 shift
                 ;;
+            opf)
+                ADD_OPF=true
+                echo "➖ Added OPF"
+                shift
+                ;;
             -*|--*)
                 echo "Unknown option $1"
                 exit 1
@@ -997,7 +1011,7 @@ function compareSemver() {
     # Remove delimiters like ~ or ^
     local version1=$(echo "$1" | tr -d '^~')
     local version2=$(echo "$2" | tr -d '^~')
-    
+
     # Split the version numbers into major, minor, and patch
     version1=(${version1//./ })
     version2=(${version2//./ })

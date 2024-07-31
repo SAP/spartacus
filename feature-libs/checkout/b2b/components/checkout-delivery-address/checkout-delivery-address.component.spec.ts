@@ -7,7 +7,10 @@ import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import {
+  CheckoutFlowOrchestratorService,
+  CheckoutStepService,
+} from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -42,6 +45,12 @@ class MockCheckoutDeliveryAddressFacade
   getDeliveryAddressState = createSpy().and.returnValue(
     of({ loading: false, error: false, data: undefined })
   );
+}
+
+class MockCheckoutFlowOrchestratorService
+  implements Partial<CheckoutFlowOrchestratorService>
+{
+  getCheckoutFlow = createSpy();
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
@@ -192,6 +201,10 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
         {
           provide: CheckoutDeliveryModesFacade,
           useClass: MockCheckoutDeliveryModesFacade,
+        },
+        {
+          provide: CheckoutFlowOrchestratorService,
+          useClass: MockCheckoutFlowOrchestratorService,
         },
       ],
     })

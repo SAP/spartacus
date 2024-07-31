@@ -223,6 +223,18 @@ export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
+export const SPARTACUS_OPF = `@spartacus/opf`;
+export const SPARTACUS_OPF_ROOT = `@spartacus/opf/root`;
+export const SPARTACUS_OPF_ASSETS = `@spartacus/opf/assets`;
+
+export const SPARTACUS_OPF_CHECKOUT = `@spartacus/opf/checkout`;
+export const SPARTACUS_OPF_CHECKOUT_ROOT = `@spartacus/opf/checkout/root`;
+export const SPARTACUS_OPF_CHECKOUT_ASSETS = `@spartacus/opf/checkout/assets`;
+
+export const SPARTACUS_OPF_BASE = `@spartacus/opf/base`;
+export const SPARTACUS_OPF_BASE_ROOT = `@spartacus/opf/base/root`;
+export const SPARTACUS_OPF_BASE_ASSETS = `@spartacus/opf/base/assets`;
+
 export const SPARTACUS_OPPS = '@spartacus/opps';
 export const SPARTACUS_OPPS_ROOT = '@spartacus/opps/root';
 
@@ -326,6 +338,9 @@ export const S4_SERVICE_FEATURE_NAME = 's4-service';
 export const OPPS_FEATURE_NAME = 'OPPS';
 
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
+export const OPF_FEATURE_NAME = 'OPF';
+export const OPF_CHECKOUT_FEATURE_NAME = 'OPF-Checkout';
+export const OPF_BASE_FEATURE_NAME = 'OPF-Base';
 /***** Feature name end *****/
 
 /***** Feature name start *****/

@@ -6,15 +6,15 @@
 
 import { SchematicsException } from '@angular-devkit/schematics';
 import {
-  ASM_SCHEMATICS_CONFIG,
-  ASM_CUSTOMER_360_SCHEMATICS_CONFIG,
-} from './lib-configs/asm-schematics-config';
-import {
   CDP_SCHEMATICS_CONFIG,
-  QUOTE_SCHEMATICS_CONFIG,
   OPPS_SCHEMATICS_CONFIG,
+  QUOTE_SCHEMATICS_CONFIG,
   S4_SERVICE_SCHEMATICS_CONFIG,
 } from './lib-configs';
+import {
+  ASM_CUSTOMER_360_SCHEMATICS_CONFIG,
+  ASM_SCHEMATICS_CONFIG,
+} from './lib-configs/asm-schematics-config';
 import {
   CART_BASE_SCHEMATICS_CONFIG,
   CART_IMPORT_EXPORT_SCHEMATICS_CONFIG,
@@ -35,6 +35,10 @@ import {
 import { CDS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cds-schematics-config';
 import { DIGITAL_PAYMENTS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/digital-payments-schematics-config';
 import { EPD_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/epd-schematics-config';
+import {
+  OPF_BASE_SCHEMATICS_CONFIG,
+  OPF_CHECKOUT_SCHEMATICS_CONFIG,
+} from './lib-configs/integration-libs/opf-schematics-config';
 import { S4OM_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/s4om-schematics-config';
 import { CPQ_QUOTE_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cpq-quote-schematics-config';
 
@@ -152,6 +156,9 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   OPPS_SCHEMATICS_CONFIG,
 
   S4OM_SCHEMATICS_CONFIG,
+
+  OPF_BASE_SCHEMATICS_CONFIG,
+  OPF_CHECKOUT_SCHEMATICS_CONFIG,
 
   S4_SERVICE_SCHEMATICS_CONFIG,
 

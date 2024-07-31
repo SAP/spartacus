@@ -56,6 +56,7 @@ scripts/install/config.sh
 /connect.lock
 /libpeerconnection.log
 /typings
+.well-known/
 
 # Logs
 npm-debug.log

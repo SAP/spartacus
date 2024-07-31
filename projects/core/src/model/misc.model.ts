@@ -110,6 +110,7 @@ export interface BaseStore {
   defaultCurrency?: Currency;
   languages?: Language[];
   defaultLanguage?: Language;
+  paymentProvider?: string;
 }
 
 export interface BaseSite {

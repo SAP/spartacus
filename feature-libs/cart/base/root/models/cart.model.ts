@@ -80,6 +80,7 @@ export interface Cart {
   orderDiscounts?: Price;
   paymentInfo?: PaymentDetails;
   paymentType?: PaymentType;
+  paymentAddress?: Address;
   pickupItemsQuantity?: number;
   pickupOrderGroups?: PickupOrderEntryGroup[];
   potentialOrderPromotions?: PromotionResult[];

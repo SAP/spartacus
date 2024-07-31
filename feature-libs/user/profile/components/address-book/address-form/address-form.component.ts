@@ -71,6 +71,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   @Input()
   showCancelBtn = true;
 
+  @Input()
+  countries: Observable<Country[]>;
+
   @Output()
   submitAddress = new EventEmitter<any>();
 
@@ -110,14 +113,16 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // Fetching countries
-    this.countries$ = this.userAddressService.getDeliveryCountries().pipe(
-      tap((countries: Country[]) => {
-        if (Object.keys(countries).length === 0) {
-          this.userAddressService.loadDeliveryCountries();
-        }
-      })
-    );
+    // Fetching countries if no data stream was provided
+    this.countries$ =
+      this.countries ||
+      this.userAddressService.getDeliveryCountries().pipe(
+        tap((countries: Country[]) => {
+          if (Object.keys(countries).length === 0) {
+            this.userAddressService.loadDeliveryCountries();
+          }
+        })
+      );
 
     // Fetching titles
     this.titles$ = this.getTitles();

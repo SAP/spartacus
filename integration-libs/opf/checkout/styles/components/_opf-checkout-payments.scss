@@ -1,0 +1,35 @@
+%cx-opf-checkout-payments {
+  .cx-payment-options-list {
+    .form-check {
+      margin-bottom: 0;
+      padding-top: 0.625rem;
+      padding-bottom: 1rem;
+      border-top: 1px solid var(--cx-color-medium);
+      text-transform: capitalize;
+
+      & ~ .form-check {
+        padding-top: 1rem;
+      }
+    }
+
+    input:disabled + .form-check-label {
+      color: var(--cx-color-medium);
+    }
+
+    input[type='radio'] {
+      border-color: var(--cx-color-text);
+    }
+
+    input[type='radio']:disabled {
+      border-color: var(--cx-color-medium);
+      background-color: var(--cx-color-light);
+    }
+
+    > cx-opf-checkout-terms-and-conditions-alert {
+      display: block;
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+    }
+  }
+}
