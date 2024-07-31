@@ -5,7 +5,7 @@
  */
 
 export * from './composition/index';
-export * from './delta-rendering/index';
+export * from './price-change/index';
 export * from './footer/index';
 export * from './header/index';
 export * from './product-card/index';
