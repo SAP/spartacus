@@ -51,7 +51,7 @@ export class SearchProductByCodeFail extends EntityScopedLoaderActions.EntitySco
 }
 
 // action types
-export type ProductSearchByCodesAction =
+export type ProductSearchByCodeAction =
   | SearchProductByCode
   | SearchProductByCodeSuccess
   | SearchProductByCodeFail;

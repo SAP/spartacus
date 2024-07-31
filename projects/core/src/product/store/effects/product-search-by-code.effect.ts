@@ -18,7 +18,7 @@ import { ProductSearchConnector } from '../../connectors/search/product-search.c
 import { ProductActions } from '../actions/index';
 
 @Injectable()
-export class ProductSearchByCodesEffects {
+export class ProductSearchByCodeEffects {
   protected logger = inject(LoggerService);
   private actions$ = inject(Actions);
   private productSearchConnector = inject(ProductSearchConnector);
