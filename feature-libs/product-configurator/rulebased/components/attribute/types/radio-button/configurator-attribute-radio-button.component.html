@@ -11,7 +11,7 @@
         [formula]="extractPriceFormulaParameters()"
       ></cx-configurator-price>
     </div>
-    <ng-container *ngIf="rerender$ | async">
+    <ng-container *ngIf="priceChangedEvent$ | async">
       <div class="form-check" *ngFor="let value of attribute.values">
         <div class="cx-value-label-pair">
           <input

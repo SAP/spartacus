@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, Observable, Subject, of } from 'rxjs';
-import { ConfiguratorDeltaRenderingService } from './configurator-delta-rendering.service';
+import { ConfiguratorAttributePriceChangeService } from './configurator-attribute-price-change.service';
 
 import {
   CommonConfigurator,
@@ -38,14 +38,14 @@ class MockConfiguratorCommonsService {
   }
 }
 
-describe('ConfiguratorDeltaRenderingService', () => {
-  let classUnderTest: ConfiguratorDeltaRenderingService;
+describe('ConfiguratorAttributePriceChangeService', () => {
+  let classUnderTest: ConfiguratorAttributePriceChangeService;
   let mockConfig: Configurator.Configuration;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ConfiguratorDeltaRenderingService,
+        ConfiguratorAttributePriceChangeService,
         {
           provide: ConfiguratorRouterExtractorService,
           useClass: MockConfiguratorRouterExtractorService,
@@ -58,7 +58,7 @@ describe('ConfiguratorDeltaRenderingService', () => {
     });
 
     classUnderTest = TestBed.inject(
-      ConfiguratorDeltaRenderingService as Type<ConfiguratorDeltaRenderingService>
+      ConfiguratorAttributePriceChangeService as Type<ConfiguratorAttributePriceChangeService>
     );
 
     mockConfig = structuredClone(mockConfigTemplate);
@@ -71,7 +71,7 @@ describe('ConfiguratorDeltaRenderingService', () => {
   describe('rerender', () => {
     it('should emit always true for the initial rendering/call', () => {
       let emitCounter = 0;
-      classUnderTest.rerender(undefined).subscribe((rerender) => {
+      classUnderTest.getPriceChangedEvents(undefined).subscribe((rerender) => {
         expect(rerender).toBe(true);
         emitCounter++;
       });
@@ -84,10 +84,12 @@ describe('ConfiguratorDeltaRenderingService', () => {
     // happens when navigating from overview back to config page
     it('should detect price changes during initial rendering/call if supplements are present', () => {
       let emitCounter = 0;
-      classUnderTest.rerender('group1@attribute_1_1').subscribe((rerender) => {
-        expect(rerender).toBe(true);
-        emitCounter++;
-      });
+      classUnderTest
+        .getPriceChangedEvents('group1@attribute_1_1')
+        .subscribe((rerender) => {
+          expect(rerender).toBe(true);
+          emitCounter++;
+        });
       configSubject.next(mockConfig);
       expect(emitCounter).toBe(1);
       expect(classUnderTest['valuePrices']['value_1_1']).toBeDefined();
@@ -101,7 +103,7 @@ describe('ConfiguratorDeltaRenderingService', () => {
       });
 
       it('should not emit, if config has no price supplements', () => {
-        classUnderTest.rerender(undefined).subscribe(() => {
+        classUnderTest.getPriceChangedEvents(undefined).subscribe(() => {
           fail('rerender observable should not emit!');
         });
         mockConfig.priceSupplements = undefined;
@@ -109,7 +111,7 @@ describe('ConfiguratorDeltaRenderingService', () => {
       });
 
       it('should not emit, if config has no matching price supplements', () => {
-        classUnderTest.rerender('otherAttrKey').subscribe(() => {
+        classUnderTest.getPriceChangedEvents('otherAttrKey').subscribe(() => {
           fail('rerender observable should not emit!');
         });
         configSubject.next(mockConfig);
@@ -118,7 +120,7 @@ describe('ConfiguratorDeltaRenderingService', () => {
       it('should emit true and store matching value prices, if config has matching price supplements', () => {
         let emitCounter = 0;
         classUnderTest
-          .rerender('group1@attribute_1_1')
+          .getPriceChangedEvents('group1@attribute_1_1')
           .subscribe((rerender) => {
             expect(rerender).toBe(true);
             emitCounter++;
@@ -134,9 +136,11 @@ describe('ConfiguratorDeltaRenderingService', () => {
         classUnderTest['isInitialRendering'] = false;
         classUnderTest['lastAttributeSupplement'] =
           mockConfig.priceSupplements?.[0];
-        classUnderTest.rerender('group1@attribute_1_1').subscribe(() => {
-          fail('rerender observable should not emit!');
-        });
+        classUnderTest
+          .getPriceChangedEvents('group1@attribute_1_1')
+          .subscribe(() => {
+            fail('rerender observable should not emit!');
+          });
         configSubject.next(mockConfig);
       });
     });

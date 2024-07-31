@@ -2,7 +2,7 @@
   <fieldset>
     <legend style="display: none">{{ attribute.label }}</legend>
     <div id="{{ createAttributeIdForConfigurator(attribute) }}">
-      <div class="form-check" *ngIf="rerender$ | async">
+      <div class="form-check" *ngIf="priceChangedEvent$ | async">
         <div class="cx-value-label-pair">
           <input
             id="{{

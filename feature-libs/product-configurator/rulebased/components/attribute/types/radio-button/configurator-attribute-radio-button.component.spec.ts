@@ -24,7 +24,7 @@ import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/co
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorAttributePriceChangeService } from '../../delta-rendering/configurator-attribute-price-change.service';
 
 const VALUE_NAME_2 = 'val2';
 
@@ -81,7 +81,7 @@ class MockConfigUtilsService {
 }
 
 class MockConfiguratorDeltaRenderingService {
-  rerender(): Observable<boolean> {
+  getPriceChangedEvents(): Observable<boolean> {
     return of(true);
   }
   mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
@@ -114,7 +114,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       set: {
         providers: [
           {
-            provide: ConfiguratorDeltaRenderingService,
+            provide: ConfiguratorAttributePriceChangeService,
             useClass: MockConfiguratorDeltaRenderingService,
           },
         ],

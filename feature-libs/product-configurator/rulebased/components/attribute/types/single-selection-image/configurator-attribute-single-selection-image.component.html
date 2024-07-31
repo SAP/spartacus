@@ -6,7 +6,7 @@
   <ng-container
     *ngIf="
       !config.features?.productConfiguratorAttributeTypesV2 &&
-      (rerender$ | async)
+      (priceChangedEvent$ | async)
     "
   >
     <div
@@ -75,7 +75,7 @@
   <ng-container
     *ngIf="
       config.features?.productConfiguratorAttributeTypesV2 &&
-      (rerender$ | async)
+      (priceChangedEvent$ | async)
     "
   >
     <ng-container *ngFor="let value of attribute.values">

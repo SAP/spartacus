@@ -17,14 +17,14 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorAttributePriceChangeService } from '../../delta-rendering/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-multi-selection-image',
   templateUrl: './configurator-attribute-multi-selection-image.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ConfiguratorDeltaRenderingService],
+  providers: [ConfiguratorAttributePriceChangeService],
 })
 export class ConfiguratorAttributeMultiSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent

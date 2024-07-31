@@ -20,13 +20,13 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorAttributePriceChangeService } from '../../delta-rendering/configurator-attribute-price-change.service';
 
 @Component({
   selector: 'cx-configurator-attribute-drop-down',
   templateUrl: './configurator-attribute-drop-down.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ConfiguratorDeltaRenderingService],
+  providers: [ConfiguratorAttributePriceChangeService],
 })
 export class ConfiguratorAttributeDropDownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent

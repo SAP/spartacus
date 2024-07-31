@@ -10,7 +10,7 @@ import { Observable, of, take } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorAttributePriceChangeService } from '../../delta-rendering/configurator-attribute-price-change.service';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 /**
@@ -21,7 +21,7 @@ export class ConfiguratorAttributeBaseComponent {
   protected configuratorUISettingsConfig = inject(ConfiguratorUISettingsConfig);
   protected translation = inject(TranslationService);
   protected configuratorDeltaRenderingService = inject(
-    ConfiguratorDeltaRenderingService,
+    ConfiguratorAttributePriceChangeService,
     { optional: true }
   );
   protected configuratorStorefrontUtilsService = inject(
@@ -35,14 +35,16 @@ export class ConfiguratorAttributeBaseComponent {
   private static PREFIX_DDLB_OPTION_PRICE_VALUE = 'option--price';
   protected static MAX_IMAGE_LABEL_CHARACTERS = 16;
 
-  rerender$: Observable<boolean> = of(true); // no delta rendering - always render directly only once
+  priceChangedEvent$: Observable<boolean> = of(true); // no delta rendering - always render directly only once
   protected initDeltaRendering(
     isDeltaRendering = false,
     attributeKey?: string
   ) {
     if (isDeltaRendering && this.configuratorDeltaRenderingService) {
-      this.rerender$ =
-        this.configuratorDeltaRenderingService.rerender(attributeKey);
+      this.priceChangedEvent$ =
+        this.configuratorDeltaRenderingService.getPriceChangedEvents(
+          attributeKey
+        );
     }
   }
 

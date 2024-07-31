@@ -12,7 +12,7 @@ import { ConfiguratorCommonsService } from '../../../core/facade/configurator-co
 import { Configurator } from '../../../core/model/configurator.model';
 
 @Injectable()
-export class ConfiguratorDeltaRenderingService {
+export class ConfiguratorAttributePriceChangeService {
   protected configuratorRouterExtractorService = inject(
     ConfiguratorRouterExtractorService
   );
@@ -33,9 +33,9 @@ export class ConfiguratorDeltaRenderingService {
    * This all assumes that the enclosing UI component itself gets recreated or rerendered (triggered elsewhere) whenever the attribute itself changes content wise.
    *
    * @param attributeKey key of the attribute for which the prices should be checked for changes
-   * @returns observable that emits 'true' each time there is the need to rerender the enclosing component due to an price change
+   * @returns observable that emits 'true' each time a price changes and hence there is the need to rerender the enclosing component
    */
-  rerender(attributeKey: string | undefined): Observable<boolean> {
+  getPriceChangedEvents(attributeKey: string | undefined): Observable<boolean> {
     return this.configuratorRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
         return this.configuratorCommonsService

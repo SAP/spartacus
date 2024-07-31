@@ -12,7 +12,7 @@ import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-uti
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorAttributePriceChangeService } from '../../delta-rendering/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from './configurator-attribute-single-selection-base.component';
 
@@ -66,7 +66,7 @@ class MockConfiguratorCommonsService {
 @Component({
   selector: 'cx-configurator-attribute-single-selection',
   template: 'test-configurator-attribute-single-selection',
-  providers: [ConfiguratorDeltaRenderingService],
+  providers: [ConfiguratorAttributePriceChangeService],
 })
 class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
   constructor(

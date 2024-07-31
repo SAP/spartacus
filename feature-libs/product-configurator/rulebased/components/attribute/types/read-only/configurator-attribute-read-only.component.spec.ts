@@ -9,7 +9,7 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 import { Observable, of } from 'rxjs';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorAttributePriceChangeService } from '../../delta-rendering/configurator-attribute-price-change.service';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Component({
@@ -61,7 +61,7 @@ const myValues: Configurator.Value[] = [
 ];
 
 class MockConfiguratorDeltaRenderingService {
-  rerender(): Observable<boolean> {
+  getPriceChangedEvents(): Observable<boolean> {
     return of(true);
   }
   mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
@@ -86,7 +86,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       set: {
         providers: [
           {
-            provide: ConfiguratorDeltaRenderingService,
+            provide: ConfiguratorAttributePriceChangeService,
             useClass: MockConfiguratorDeltaRenderingService,
           },
         ],

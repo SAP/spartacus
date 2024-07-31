@@ -22,7 +22,7 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorAttributePriceChangeService } from '../../delta-rendering/configurator-attribute-price-change.service';
 import { Observable, of } from 'rxjs';
 
 class MockGroupService {}
@@ -85,7 +85,7 @@ class MockConfiguratorStorefrontUtilsService {
 }
 
 class MockConfiguratorDeltaRenderingService {
-  rerender(): Observable<boolean> {
+  getPriceChangedEvents(): Observable<boolean> {
     return of(true);
   }
   mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
@@ -105,7 +105,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
       set: {
         providers: [
           {
-            provide: ConfiguratorDeltaRenderingService,
+            provide: ConfiguratorAttributePriceChangeService,
             useClass: MockConfiguratorDeltaRenderingService,
           },
         ],

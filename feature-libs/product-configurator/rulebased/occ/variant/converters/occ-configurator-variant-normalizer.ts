@@ -27,7 +27,7 @@ export class OccConfiguratorVariantNormalizer
    */
   static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
 
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected config: OccConfig,

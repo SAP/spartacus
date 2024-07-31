@@ -9,14 +9,14 @@ import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorAttributePriceChangeService } from '../../delta-rendering/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-read-only',
   templateUrl: './configurator-attribute-read-only.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ConfiguratorDeltaRenderingService],
+  providers: [ConfiguratorAttributePriceChangeService],
 })
 export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttributeBaseComponent {
   attribute: Configurator.Attribute;

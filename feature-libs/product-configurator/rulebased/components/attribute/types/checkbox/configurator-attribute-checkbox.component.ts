@@ -9,14 +9,14 @@ import { UntypedFormControl } from '@angular/forms';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorAttributePriceChangeService } from '../../delta-rendering/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox',
   templateUrl: './configurator-attribute-checkbox.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ConfiguratorDeltaRenderingService],
+  providers: [ConfiguratorAttributePriceChangeService],
 })
 export class ConfiguratorAttributeCheckBoxComponent
   extends ConfiguratorAttributeBaseComponent

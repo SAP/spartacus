@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './configurator-delta-rendering.service';
+export * from './configurator-attribute-price-change.service';

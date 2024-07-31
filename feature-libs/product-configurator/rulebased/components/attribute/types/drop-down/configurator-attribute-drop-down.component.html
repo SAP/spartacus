@@ -1,4 +1,4 @@
-<ng-container *ngIf="rerender$ | async">
+<ng-container *ngIf="priceChangedEvent$ | async">
   <div
     class="form-group"
     *ngIf="attribute.values && attribute.values.length !== 0"

@@ -17,7 +17,7 @@ import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-uti
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorAttributePriceChangeService } from '../../delta-rendering/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 
 @Directive({
@@ -64,7 +64,7 @@ class MockConfiguratorStorefrontUtilsService {
 }
 
 class MockConfiguratorDeltaRenderingService {
-  rerender(): Observable<boolean> {
+  getPriceChangedEvents(): Observable<boolean> {
     return of(true);
   }
   mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
@@ -83,7 +83,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
       set: {
         providers: [
           {
-            provide: ConfiguratorDeltaRenderingService,
+            provide: ConfiguratorAttributePriceChangeService,
             useClass: MockConfiguratorDeltaRenderingService,
           },
         ],

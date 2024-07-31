@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorAttributePriceChangeService } from '../../delta-rendering/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
@@ -26,7 +26,7 @@ let configuratorUISettingsConfig: ConfiguratorUISettingsConfig = {
 };
 
 class MockConfiguratorDeltaRenderingService {
-  rerender() {
+  getPriceChangedEvents() {
     return of(false);
   }
   mergePriceIntoValue(value: Configurator.Value) {
@@ -36,7 +36,7 @@ class MockConfiguratorDeltaRenderingService {
 
 describe('ConfiguratorAttributeBaseComponent', () => {
   let classUnderTest: ConfiguratorAttributeBaseComponent;
-  let configuratorDeltaRenderingService: ConfiguratorDeltaRenderingService;
+  let configuratorDeltaRenderingService: ConfiguratorAttributePriceChangeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,7 +48,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
           useValue: configuratorUISettingsConfig,
         },
         {
-          provide: ConfiguratorDeltaRenderingService,
+          provide: ConfiguratorAttributePriceChangeService,
           useClass: MockConfiguratorDeltaRenderingService,
         },
         {
@@ -62,9 +62,12 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       ConfiguratorAttributeBaseComponent as Type<ConfiguratorAttributeBaseComponent>
     );
     configuratorDeltaRenderingService = TestBed.inject(
-      ConfiguratorDeltaRenderingService as Type<ConfiguratorDeltaRenderingService>
+      ConfiguratorAttributePriceChangeService as Type<ConfiguratorAttributePriceChangeService>
     );
-    spyOn(configuratorDeltaRenderingService, 'rerender').and.callThrough();
+    spyOn(
+      configuratorDeltaRenderingService,
+      'getPriceChangedEvents'
+    ).and.callThrough();
   });
 
   it('should generate value key', () => {
@@ -513,54 +516,62 @@ describe('ConfiguratorAttributeBaseComponent', () => {
   describe('$rerender', () => {
     it('should emit true immediately, if delta rendering is not initialized', () => {
       let emitted = false;
-      classUnderTest.rerender$
+      classUnderTest.priceChangedEvent$
         .subscribe((rerender) => {
           expect(rerender).toBe(true);
           emitted = true;
         })
         .unsubscribe();
       expect(emitted).toBe(true);
-      expect(configuratorDeltaRenderingService.rerender).not.toHaveBeenCalled();
+      expect(
+        configuratorDeltaRenderingService.getPriceChangedEvents
+      ).not.toHaveBeenCalled();
     });
 
     it('should emit true immediately, if delta rendering is initialized but deactivated', () => {
       classUnderTest['initDeltaRendering'](false, 'attrKey');
       let emitted = false;
-      classUnderTest.rerender$
+      classUnderTest.priceChangedEvent$
         .subscribe((rerender) => {
           expect(rerender).toBe(true);
           emitted = true;
         })
         .unsubscribe();
       expect(emitted).toBe(true);
-      expect(configuratorDeltaRenderingService.rerender).not.toHaveBeenCalled();
+      expect(
+        configuratorDeltaRenderingService.getPriceChangedEvents
+      ).not.toHaveBeenCalled();
     });
 
     it('should emit true immediately, if delta rendering is initialized but no service injected', () => {
       classUnderTest['configuratorDeltaRenderingService'] = null;
       classUnderTest['initDeltaRendering'](true, 'attrKey');
       let emitted = false;
-      classUnderTest.rerender$
+      classUnderTest.priceChangedEvent$
         .subscribe((rerender) => {
           expect(rerender).toBe(true);
           emitted = true;
         })
         .unsubscribe();
       expect(emitted).toBe(true);
-      expect(configuratorDeltaRenderingService.rerender).not.toHaveBeenCalled();
+      expect(
+        configuratorDeltaRenderingService.getPriceChangedEvents
+      ).not.toHaveBeenCalled();
     });
 
     it('should emit false immediately, if delta rendering is initialized proper', () => {
       classUnderTest['initDeltaRendering'](true, 'attrKey');
       let emitted = false;
-      classUnderTest.rerender$
+      classUnderTest.priceChangedEvent$
         .subscribe((rerender) => {
           expect(rerender).toBe(false);
           emitted = true;
         })
         .unsubscribe();
       expect(emitted).toBe(true);
-      expect(configuratorDeltaRenderingService.rerender).toHaveBeenCalled();
+      expect(
+        configuratorDeltaRenderingService.getPriceChangedEvents
+      ).toHaveBeenCalled();
     });
   });
 

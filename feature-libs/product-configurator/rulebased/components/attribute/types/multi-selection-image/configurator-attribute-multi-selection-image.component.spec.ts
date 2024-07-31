@@ -19,7 +19,7 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
-import { ConfiguratorDeltaRenderingService } from '../../delta-rendering/configurator-delta-rendering.service';
+import { ConfiguratorAttributePriceChangeService } from '../../delta-rendering/configurator-attribute-price-change.service';
 import { Observable, of } from 'rxjs';
 
 class MockGroupService {}
@@ -66,7 +66,7 @@ class MockConfiguratorStorefrontUtilsService {
 }
 
 class MockConfiguratorDeltaRenderingService {
-  rerender(): Observable<boolean> {
+  getPriceChangedEvents(): Observable<boolean> {
     return of(true);
   }
   mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
@@ -89,7 +89,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
         set: {
           providers: [
             {
-              provide: ConfiguratorDeltaRenderingService,
+              provide: ConfiguratorAttributePriceChangeService,
               useClass: MockConfiguratorDeltaRenderingService,
             },
           ],

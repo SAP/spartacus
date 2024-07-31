@@ -1,7 +1,7 @@
 <fieldset>
   <legend style="display: none">{{ attribute.label }}</legend>
   <div
-    *ngIf="rerender$ | async"
+    *ngIf="priceChangedEvent$ | async"
     id="{{ createAttributeIdForConfigurator(attribute) }}"
   >
     <div
