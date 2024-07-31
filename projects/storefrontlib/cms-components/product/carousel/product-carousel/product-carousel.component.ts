@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   Product,
   ProductScope,
-  ProductSearchService,
+  ProductSearchByCodeService,
   ProductService,
   CmsProductCarouselComponent as model,
 } from '@spartacus/core';
@@ -22,7 +22,7 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCarouselComponent {
-  protected productSearchService = inject(ProductSearchService);
+  protected productSearchByCodeService = inject(ProductSearchByCodeService);
 
   protected readonly PRODUCT_SCOPE = [ProductScope.LIST, ProductScope.STOCK];
 
@@ -63,16 +63,11 @@ export class ProductCarouselComponent {
 
         // SPIKE NEW:
 
-        const scope = 'spike_test'; // SPIKE HARDCODED SCOPE TEST
-
-        codes.forEach((code) => {
-          this.productSearchService.searchByCode({ code, scope });
-        });
-        // SPIKE TODO - don't call searchByCode() imperatively, but rather on demand - when there are no such data yet
+        const scopes = 'spike_test'; // SPIKE HARDCODED SCOPE TEST
 
         return of(
           codes.map((code) =>
-            this.productSearchService.getSearchByCodeResult({ code, scope })
+            this.productSearchByCodeService.get({ code, scopes })
           )
         );
       })

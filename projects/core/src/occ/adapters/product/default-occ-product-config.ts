@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ProductSearchScope } from 'projects/core/src/product/model/product-search-scope';
 import { ProductScope } from '../../../product/model/product-scope';
 import { OccConfig } from '../../config/occ-config';
 
@@ -48,6 +49,11 @@ export const defaultOccProductConfig: OccConfig = {
       product: {
         details: {
           include: [ProductScope.LIST, ProductScope.VARIANTS],
+        },
+      },
+      productSearch: {
+        spike_test: {
+          include: [ProductSearchScope.spike_scope_full],
         },
       },
     },
