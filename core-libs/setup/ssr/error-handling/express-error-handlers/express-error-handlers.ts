@@ -23,7 +23,6 @@ export const defaultExpressErrorHandlers =
   (documentContent: string): ErrorRequestHandler =>
   (err, _req, res, _next) => {
     if (!res.headersSent) {
-      console.log('defaultExpressErrorHandlers');
       res.set('Cache-Control', 'no-store');
       const statusCode =
         err instanceof CmsPageNotFoundOutboundHttpError

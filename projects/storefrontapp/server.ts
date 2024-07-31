@@ -47,6 +47,17 @@ const ngExpressEngine2 = NgExpressEngineDecorator.get(engine, {
   bootstrap: AppServerModule,
 });
 
+const ngExpressEngine3 = NgExpressEngineDecorator.get(engine, {
+  ...ssrOptions,
+  cache: true,
+  shouldCacheRenderingResult: () => true,
+  featureToggles: {
+    avoidCachingErrors: true,
+  },
+})({
+  bootstrap: AppServerModule,
+});
+
 const ngExpressEngineDefault = NgExpressEngineDecorator.get(
   engine,
   ssrOptions
@@ -71,13 +82,14 @@ const ngExpressEngineWrapper = (
     case '2':
       console.log('ngExpressEngineInstance 2');
       return ngExpressEngine2(filePath, options, callback);
+    case '3':
+      console.log('ngExpressEngineInstance 3');
+      return ngExpressEngine3(filePath, options, callback);
     default:
       console.log('ngExpressEngineInstance default');
       return ngExpressEngineDefault(filePath, options, callback);
   }
 };
-
-// const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -91,13 +103,7 @@ export function app(): express.Express {
   server.set('trust proxy', 'loopback');
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
-  server.engine(
-    'html',
-    ngExpressEngineWrapper
-    // ngExpressEngine({
-    //   bootstrap: AppServerModule,
-    // })
-  );
+  server.engine('html', ngExpressEngineWrapper);
 
   server.set('view engine', 'html');
   server.set('views', distFolder);

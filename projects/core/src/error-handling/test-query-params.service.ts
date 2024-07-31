@@ -7,6 +7,8 @@ export interface TestQueryParams {
   ngrxError?: boolean;
   enableSsrStrictErrorHandlingForHttpAndNgrx?: boolean;
   enablePropagateErrorsToServer?: boolean;
+  customResponseStatus?: boolean;
+  runtimeErrorInComponent?: boolean;
 }
 
 @Injectable({
@@ -21,25 +23,18 @@ export class TestQueryParamsService {
     ngrxError: false,
     enableSsrStrictErrorHandlingForHttpAndNgrx: true,
     enablePropagateErrorsToServer: true,
+    customResponseStatus: false,
+    runtimeErrorInComponent: false,
   };
 
   get queryParams(): TestQueryParams {
     const url = new URLSearchParams(this.location.path());
-    // const result = Object.fromEntries(
-    //   Array.from(url.entries()).map(this.nomalize)
-    // );
     const result: { [key: string]: string | boolean } = {};
     url.forEach((value, key) => {
       const newKey = key.split('?')[1] ? key.split('?')[1] : key;
       result[newKey] = value === 'true' ? true : false;
     });
     this._queryParams = { ...this._queryParams, ...result };
-    console.log('[TestQueryParamsService] queryParams:', this._queryParams);
     return this._queryParams;
   }
-
-  // private nomalize([key, val]: [string, string]) {
-  //   const newKey = key.split('?')[1] ? key.split('?')[1] : key;
-  //   return [newKey, val === 'true' ? true : false];
-  // }
 }
