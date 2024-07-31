@@ -11,39 +11,39 @@ import { EntityScopedLoaderState } from '../../../state/utils/scoped-loader/scop
 import { ProductsState, StateWithProduct } from '../product-state';
 import { getProductsState } from './feature.selector';
 
-export const getProductSearchByCodesState: MemoizedSelector<
+export const getProductSearchByCodeState: MemoizedSelector<
   StateWithProduct,
-  EntityScopedLoaderState<Product[]>
+  EntityScopedLoaderState<Product>
 > = createSelector(
   getProductsState,
-  (state: ProductsState) => state.searchByCodes
+  (state: ProductsState) => state.searchByCode
 );
 
-export const getSelectedProductSearchByCodesStateFactory = (payload: {
-  codes: string;
+export const getSelectedProductSearchByCodeStateFactory = (payload: {
+  code: string;
   scope: string;
-}): MemoizedSelector<StateWithProduct, StateUtils.LoaderState<Product[]>> => {
+}): MemoizedSelector<StateWithProduct, StateUtils.LoaderState<Product>> => {
   return createSelector(
-    getProductSearchByCodesState,
-    (productSearchByCodesResults) =>
+    getProductSearchByCodeState,
+    (productSearchByCodeResults) =>
       (
         StateUtils.entityLoaderStateSelector(
-          productSearchByCodesResults,
-          payload.codes
+          productSearchByCodeResults,
+          payload.code
         ) as any
       )[payload.scope] || StateUtils.initialLoaderState
   );
 };
 
-export const getSelectedProductSearchByCodesFactory = (payload: {
-  codes: string;
+export const getSelectedProductSearchByCodeFactory = (payload: {
+  code: string;
   scope: string;
-}): MemoizedSelector<StateWithProduct, Product[]> => {
+}): MemoizedSelector<StateWithProduct, Product> => {
   return createSelector(
-    getSelectedProductSearchByCodesStateFactory(payload),
-    (getProductSearchByCodesState) =>
-      StateUtils.loaderValueSelector(getProductSearchByCodesState)
+    getSelectedProductSearchByCodeStateFactory(payload),
+    (getProductSearchByCodeState) =>
+      StateUtils.loaderValueSelector(getProductSearchByCodeState)
   );
 };
 
-// SPIKE TODO - other selectors can be added later
+// SPIKE TODO - other selectors can be added later if needed

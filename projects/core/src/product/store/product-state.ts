@@ -23,7 +23,7 @@ export interface StateWithProduct {
 export interface ProductsState {
   details: EntityScopedLoaderState<Product>;
   search: ProductsSearchState;
-  searchByCodes: EntityScopedLoaderState<Product[]>;
+  searchByCode: EntityScopedLoaderState<Product>;
   reviews: ProductReviewsState;
   references: ProductReferencesState;
 }

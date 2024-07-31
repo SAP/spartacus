@@ -43,25 +43,27 @@ export class ProductSearchService {
     );
   }
 
-  searchByCodes(payload: { codes: string[]; scope?: string }): void {
-    const codes = payload.codes.join(','); // SPIKE it's a format needed by backend
-
+  searchByCode({ code, scope }: { code: string; scope?: string }): void {
     this.store.dispatch(
-      new ProductActions.SearchProductsByCodes({
-        codes,
-        scope: payload.scope ?? '',
+      new ProductActions.SearchProductByCode({
+        code,
+        scope: scope ?? '',
       })
     );
   }
-  getSearchByCodesResults(payload: {
-    codes: string[];
+
+  getSearchByCodeResult({
+    code,
+    scope,
+  }: {
+    code: string;
     scope?: string;
-  }): Observable<Product[]> {
+  }): Observable<Product> {
     return this.store.pipe(
       select(
-        ProductSelectors.getSelectedProductSearchByCodesFactory({
-          codes: payload.codes.join(','),
-          scope: payload.scope ?? '',
+        ProductSelectors.getSelectedProductSearchByCodeFactory({
+          code,
+          scope: scope ?? '',
         })
       )
     );

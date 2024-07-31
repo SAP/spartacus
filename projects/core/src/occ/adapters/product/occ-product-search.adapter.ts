@@ -7,7 +7,8 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Product } from '@spartacus/core';
+import { Observable, forkJoin } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import {
   ProductSearchPage,
@@ -48,16 +49,6 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
       sendUserIdAsHeader: true,
     });
 
-    // SPIKE TODO: if no pageSize - load all, interatively, in chunks per 100 items
-
-    // SPIKE FOR NOW LET's LAOD HARDCODED 100
-    if (scope) {
-      searchConfig = {
-        ...searchConfig,
-        pageSize: 100,
-      };
-    }
-
     return this.http
       .get(this.getSearchEndpoint(query, searchConfig, scope), { context })
       .pipe(
@@ -68,6 +59,43 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
             this.router?.navigate([productSearchPage.keywordRedirectUrl])
         )
       );
+  }
+
+  searchByCodes(
+    codes: string[],
+    scope?: string
+  ): Observable<{ products: Product[] }> {
+    const CHUNK_SIZE = 100; // SPIKE HARDCODED 100 - max limit of OCC
+
+    //split array of codes into chunks of size max capable for OCC:
+    const codesChunks = [];
+    for (let i = 0; i < codes.length; i += CHUNK_SIZE) {
+      codesChunks.push(codes.slice(i, i + CHUNK_SIZE));
+    }
+
+    const chunksResults$: Observable<{ products: Product[] }>[] =
+      codesChunks.map((codesChunk) => {
+        const searchConfig: SearchConfig = {
+          filters: `code:${codesChunk.join(',')}`,
+          pageSize: CHUNK_SIZE,
+        };
+
+        return this.search('', searchConfig, scope).pipe(
+          map((productSearchPage) => ({
+            products: productSearchPage?.products ?? [],
+          }))
+        );
+      });
+
+    return forkJoin(chunksResults$).pipe(
+      map((chunksResults) => {
+        return {
+          products: ([] as Product[]).concat(
+            ...chunksResults.map((chunkResult) => chunkResult.products)
+          ),
+        };
+      })
+    );
   }
 
   loadSuggestions(

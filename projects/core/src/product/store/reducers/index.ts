@@ -21,7 +21,7 @@ import * as fromProductsSearch from './product-search.reducer';
 export function getReducers(): ActionReducerMap<ProductsState, any> {
   return {
     search: fromProductsSearch.reducer,
-    searchByCodes: entityScopedLoaderReducer<Product[]>(
+    searchByCode: entityScopedLoaderReducer<Product>(
       PRODUCT_SEARCH_RESULTS_BY_CODES_ENTITY
     ),
     details: entityScopedLoaderReducer<Product>(PRODUCT_DETAIL_ENTITY),

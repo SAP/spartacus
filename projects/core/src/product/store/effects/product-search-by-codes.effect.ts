@@ -8,10 +8,11 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { normalizeHttpError } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { LoggerService } from '../../../logger/logger.service';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { bufferDebounceTime } from '../../../util/rxjs/buffer-debounce-time';
 import { withdrawOn } from '../../../util/rxjs/withdraw-on';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
 import { ProductActions } from '../actions/index';
@@ -30,38 +31,76 @@ export class ProductSearchByCodesEffects {
     )
   );
 
-  searchByCodes$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ProductActions.SEARCH_PRODUCTS_BY_CODES),
-      map((action: ProductActions.SearchProductsByCodes) => action.payload),
-      mergeMap((payload) => {
-        const filters = `code:${payload.codes}`;
-        return this.productSearchConnector
-          .search(
-            '', // SPIKE we don't want to search by any phrase
-            { filters },
-            payload.scope
-          )
-          .pipe(
-            map(
-              (searchResults) =>
-                new ProductActions.SearchProductsByCodesSuccess({
-                  ...payload,
-                  products: searchResults.products ?? [],
-                })
-            ),
-            catchError((error) =>
-              of(
-                new ProductActions.SearchProductsByCodesFail({
-                  ...payload,
-                  error: normalizeHttpError(error, this.logger),
-                })
-              )
-            )
-          );
-      }),
-      withdrawOn(this.contextChange$)
-    )
+  searchByCodes$ = createEffect(
+    () =>
+      ({ scheduler, debounce = 0 } = {}): Observable<
+        | ProductActions.SearchProductByCodeSuccess
+        | ProductActions.SearchProductByCodeFail
+      > =>
+        this.actions$.pipe(
+          ofType(ProductActions.SEARCH_PRODUCT_BY_CODE),
+
+          // We split streams of actions by scope, so later we will be able
+          // to call the Connector once per scope for a group of actions having the same scope.
+          groupBy(
+            (action: ProductActions.SearchProductByCode) => action.payload.scope
+          ),
+          mergeMap((group) => {
+            const scope = group.key;
+
+            return group.pipe(
+              map(
+                (action: ProductActions.SearchProductByCode) => action.payload
+              ),
+
+              // We are grouping all load actions that happen at the same time
+              // to optimize loading and pass them all in a single call to the Connector.
+              bufferDebounceTime(debounce, scheduler),
+
+              mergeMap((payloads: { code: string; scope: string }[]) => {
+                const codes = payloads.map((payload) => payload.code);
+
+                return this.productSearchConnector
+                  .searchByCodes(codes, scope)
+                  .pipe(
+                    switchMap(
+                      (
+                        searchResults
+                      ): ProductActions.SearchProductByCodeSuccess[] => {
+                        // We got all products in a single response from the Connector,
+                        // but we need to dispatch separate success actions for each product.
+                        const actions = searchResults.products?.map(
+                          (product, index) =>
+                            new ProductActions.SearchProductByCodeSuccess({
+                              // We assume that the order of the products in the response
+                              // is the same as the order of the codes in the request! OCC implementation guarantees that.
+                              ...payloads[index],
+                              product,
+                            })
+                        );
+                        return actions;
+                      }
+                    ),
+                    catchError(
+                      (error): ProductActions.SearchProductByCodeFail[] => {
+                        // We got an error while trying to load many products from the Connector,
+                        // but we need to dispatch separate fail actions for each product.
+                        const actions = payloads.map(
+                          (payload) =>
+                            new ProductActions.SearchProductByCodeFail({
+                              ...payload,
+                              error: normalizeHttpError(error, this.logger),
+                            })
+                        );
+                        return actions;
+                      }
+                    )
+                  );
+              })
+            );
+          }),
+          withdrawOn(this.contextChange$)
+        )
   );
 
   // SPIKE TODO SHOULD WE IMPLEMENT IT ALSO FOR SEARCH RESULTS?

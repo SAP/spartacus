@@ -10,7 +10,6 @@ import {
   ProductScope,
   ProductSearchService,
   ProductService,
-  isNotNullable,
   CmsProductCarouselComponent as model,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -65,22 +64,17 @@ export class ProductCarouselComponent {
         // SPIKE NEW:
 
         const scope = 'spike_test'; // SPIKE HARDCODED SCOPE TEST
-        this.productSearchService.searchByCodes({
-          codes,
-          scope,
-        });
 
-        const result$: Observable<Observable<Product>[]> =
-          this.productSearchService
-            .getSearchByCodesResults({ codes, scope })
-            // convert Observable<Product[]> into Observable<Observable<Product>[]>
-            .pipe(
-              filter(isNotNullable),
-              map((products: Product[]): Observable<Product>[] => {
-                return (products ?? []).map((product) => of(product));
-              })
-            );
-        return result$;
+        codes.forEach((code) => {
+          this.productSearchService.searchByCode({ code, scope });
+        });
+        // SPIKE TODO - don't call searchByCode() imperatively, but rather on demand - when there are no such data yet
+
+        return of(
+          codes.map((code) =>
+            this.productSearchService.getSearchByCodeResult({ code, scope })
+          )
+        );
       })
     );
 

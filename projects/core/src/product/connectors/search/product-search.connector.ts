@@ -12,6 +12,7 @@ import {
 } from '../../../model/product-search.model';
 import { SearchConfig } from '../../model/search-config';
 import { ProductSearchAdapter } from './product-search.adapter';
+import { Product } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,13 @@ export class ProductSearchConnector {
     scope?: string
   ): Observable<ProductSearchPage> {
     return this.adapter.search(query, searchConfig, scope);
+  }
+
+  searchByCodes(
+    codes: string[],
+    scope?: string
+  ): Observable<{ products: Product[] }> {
+    return this.adapter.searchByCodes(codes, scope);
   }
 
   getSuggestions(term: string, pageSize?: number): Observable<Suggestion[]> {

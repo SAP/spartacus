@@ -11,6 +11,7 @@ import {
   ProductSearchPage,
   Suggestion,
 } from '../../../model/product-search.model';
+import { Product } from '@spartacus/core';
 
 export abstract class ProductSearchAdapter {
   abstract search(
@@ -18,6 +19,11 @@ export abstract class ProductSearchAdapter {
     searchConfig?: SearchConfig,
     scope?: string
   ): Observable<ProductSearchPage>;
+
+  abstract searchByCodes(
+    codes: string[],
+    scope?: string
+  ): Observable<{ products: Product[] }>;
 
   abstract loadSuggestions(
     term: string,
