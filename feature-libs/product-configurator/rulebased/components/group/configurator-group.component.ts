@@ -35,7 +35,7 @@ export class ConfiguratorGroupComponent {
   activeLanguage$: Observable<string> = this.languageService.getActive();
   uiType = Configurator.UiType;
 
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
