@@ -5,10 +5,10 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
-import { select, Store } from '@ngrx/store';
-import { defer, merge, Observable, of, SchedulerLike, using } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { Observable, SchedulerLike, defer, merge, of, using } from 'rxjs';
 import {
   debounceTime,
   delay,
@@ -23,16 +23,18 @@ import { deepMerge } from '../../config/utils/deep-merge';
 import { EventService } from '../../event/event.service';
 import { Product } from '../../model/product.model';
 import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
+import { LoaderState } from '../../state/utils/loader';
 import { uniteLatest } from '../../util/rxjs/unite-latest';
 import { withdrawOn } from '../../util/rxjs/withdraw-on';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
+import { ScopedItemLoadingService } from './scoped-item-loading.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductLoadingService {
+export class DeprecatedProductLoadingService {
   protected products: {
     [code: string]: { [scope: string]: Observable<Product> };
   } = {};
@@ -236,3 +238,43 @@ export class ProductLoadingService {
     return shouldReload$;
   }
 }
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ProductLoadingServiceV2 extends ScopedItemLoadingService<
+  Product,
+  StateWithProduct
+> {
+  getItemName(): string {
+    return 'product';
+  }
+  getItemState(code: string, scope: string): Observable<LoaderState<Product>> {
+    return this.store.pipe(
+      select(ProductSelectors.getSelectedProductStateFactory(code, scope))
+    );
+  }
+  dispatchLoadAction(code: string, scope: string): void {
+    this.store.dispatch(new ProductActions.LoadProduct(code, scope));
+  }
+  getLoadActionType(): string {
+    return ProductActions.LOAD_PRODUCT;
+  }
+  getLoadSuccessActionType(): string {
+    return ProductActions.LOAD_PRODUCT_SUCCESS;
+  }
+  getLoadFailActionType(): string {
+    return ProductActions.LOAD_PRODUCT_FAIL;
+  }
+}
+
+@Injectable({
+  providedIn: 'root',
+  useFactory: () => {
+    const featureToggle = true; // SPIKE TODO use real feature toggle
+    return featureToggle
+      ? inject(ProductLoadingServiceV2)
+      : inject(DeprecatedProductLoadingService);
+  },
+})
+export class ProductLoadingService extends DeprecatedProductLoadingService {}
