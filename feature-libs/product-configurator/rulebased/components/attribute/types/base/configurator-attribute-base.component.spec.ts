@@ -513,12 +513,12 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
   });
 
-  describe('$rerender', () => {
+  describe('$priceChanged', () => {
     it('should emit true immediately, if delta rendering is not initialized', () => {
       let emitted = false;
       classUnderTest.priceChangedEvent$
-        .subscribe((rerender) => {
-          expect(rerender).toBe(true);
+        .subscribe((priceChanged) => {
+          expect(priceChanged).toBe(true);
           emitted = true;
         })
         .unsubscribe();
@@ -532,8 +532,8 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       classUnderTest['initDeltaRendering'](false, 'attrKey');
       let emitted = false;
       classUnderTest.priceChangedEvent$
-        .subscribe((rerender) => {
-          expect(rerender).toBe(true);
+        .subscribe((priceChanged) => {
+          expect(priceChanged).toBe(true);
           emitted = true;
         })
         .unsubscribe();
@@ -548,8 +548,8 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       classUnderTest['initDeltaRendering'](true, 'attrKey');
       let emitted = false;
       classUnderTest.priceChangedEvent$
-        .subscribe((rerender) => {
-          expect(rerender).toBe(true);
+        .subscribe((priceChanged) => {
+          expect(priceChanged).toBe(true);
           emitted = true;
         })
         .unsubscribe();
@@ -563,8 +563,8 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       classUnderTest['initDeltaRendering'](true, 'attrKey');
       let emitted = false;
       classUnderTest.priceChangedEvent$
-        .subscribe((rerender) => {
-          expect(rerender).toBe(false);
+        .subscribe((priceChanged) => {
+          expect(priceChanged).toBe(false);
           emitted = true;
         })
         .unsubscribe();

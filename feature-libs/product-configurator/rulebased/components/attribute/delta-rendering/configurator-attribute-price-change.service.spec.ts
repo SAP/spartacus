@@ -68,13 +68,15 @@ describe('ConfiguratorAttributePriceChangeService', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
-  describe('rerender', () => {
+  describe('getPriceChangedEvents', () => {
     it('should emit always true for the initial rendering/call', () => {
       let emitCounter = 0;
-      classUnderTest.getPriceChangedEvents(undefined).subscribe((rerender) => {
-        expect(rerender).toBe(true);
-        emitCounter++;
-      });
+      classUnderTest
+        .getPriceChangedEvents(undefined)
+        .subscribe((priceChanged) => {
+          expect(priceChanged).toBe(true);
+          emitCounter++;
+        });
       mockConfig.priceSupplements = undefined;
       configSubject.next(mockConfig);
       expect(emitCounter).toBe(1);
@@ -86,8 +88,8 @@ describe('ConfiguratorAttributePriceChangeService', () => {
       let emitCounter = 0;
       classUnderTest
         .getPriceChangedEvents('group1@attribute_1_1')
-        .subscribe((rerender) => {
-          expect(rerender).toBe(true);
+        .subscribe((priceChanged) => {
+          expect(priceChanged).toBe(true);
           emitCounter++;
         });
       configSubject.next(mockConfig);
@@ -104,7 +106,7 @@ describe('ConfiguratorAttributePriceChangeService', () => {
 
       it('should not emit, if config has no price supplements', () => {
         classUnderTest.getPriceChangedEvents(undefined).subscribe(() => {
-          fail('rerender observable should not emit!');
+          fail('priceChanged observable should not emit!');
         });
         mockConfig.priceSupplements = undefined;
         configSubject.next(mockConfig);
@@ -112,7 +114,7 @@ describe('ConfiguratorAttributePriceChangeService', () => {
 
       it('should not emit, if config has no matching price supplements', () => {
         classUnderTest.getPriceChangedEvents('otherAttrKey').subscribe(() => {
-          fail('rerender observable should not emit!');
+          fail('priceChanged observable should not emit!');
         });
         configSubject.next(mockConfig);
       });
@@ -121,8 +123,8 @@ describe('ConfiguratorAttributePriceChangeService', () => {
         let emitCounter = 0;
         classUnderTest
           .getPriceChangedEvents('group1@attribute_1_1')
-          .subscribe((rerender) => {
-            expect(rerender).toBe(true);
+          .subscribe((priceChanged) => {
+            expect(priceChanged).toBe(true);
             emitCounter++;
           });
         configSubject.next(mockConfig);
@@ -139,7 +141,7 @@ describe('ConfiguratorAttributePriceChangeService', () => {
         classUnderTest
           .getPriceChangedEvents('group1@attribute_1_1')
           .subscribe(() => {
-            fail('rerender observable should not emit!');
+            fail('priceChanged observable should not emit!');
           });
         configSubject.next(mockConfig);
       });
