@@ -37,12 +37,22 @@
       </div>
       <!-- Actions -->
       <div class="cx-dialog-buttons">
-        <a tabindex="0" class="btn-link cx-action-link" (click)="rejectAll()">{{
-          'anonymousConsents.dialog.clearAll' | cxTranslate
-        }}</a>
-        <a tabindex="0" class="btn-link cx-action-link" (click)="allowAll()">{{
-          'anonymousConsents.dialog.selectAll' | cxTranslate
-        }}</a>
+        <ng-container *cxFeature="'a11yUseButtonsForBtnLinks'">
+          <button class="btn btn-link cx-action-link" (click)="rejectAll()">
+            {{ 'anonymousConsents.dialog.clearAll' | cxTranslate }}
+          </button>
+          <button class="btn btn-link cx-action-link" (click)="allowAll()">
+            {{ 'anonymousConsents.dialog.selectAll' | cxTranslate }}
+          </button>
+        </ng-container>
+        <ng-container *cxFeature="'!a11yUseButtonsForBtnLinks'">
+          <a tabindex="0" class="btn-link cx-action-link" (click)="rejectAll()">
+            {{ 'anonymousConsents.dialog.clearAll' | cxTranslate }}
+          </a>
+          <a tabindex="0" class="btn-link cx-action-link" (click)="allowAll()">
+            {{ 'anonymousConsents.dialog.selectAll' | cxTranslate }}
+          </a>
+        </ng-container>
       </div>
       <!-- Modal Body -->
       <div class="cx-dialog-body" *ngIf="templates$ | async as templates">

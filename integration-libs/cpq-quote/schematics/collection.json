@@ -3,7 +3,7 @@
   "schematics": {
     "ng-add": {
       "factory": "./add-cpq-quote/index#addCpqQuoteFeature",
-      "description": "Add Cpq-Quote",
+      "description": "Add cpq-quote",
       "schema": "./add-cpq-quote/schema.json",
       "private": true,
       "hidden": true,
@@ -11,7 +11,7 @@
     },
     "add": {
       "factory": "./add-cpq-quote/index#addCpqQuoteFeature",
-      "description": "Add and configure Cpq-Quote feature",
+      "description": "Add and configure cpq-quote feature",
       "schema": "./add-cpq-quote/schema.json"
     }
   }
