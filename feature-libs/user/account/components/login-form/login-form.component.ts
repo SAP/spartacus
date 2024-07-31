@@ -10,6 +10,7 @@ import { LoginFormComponentService } from './login-form-component.service';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authCodeFlowConfig } from './auth.config';
 import { AuthService, RoutingService } from '@spartacus/core';
+import { Location } from '@angular/common';
 
 declare var gigya: any;
 @Component({
@@ -17,11 +18,12 @@ declare var gigya: any;
   templateUrl: './login-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginFormComponent implements OnInit {
+export class LoginFormComponent implements OnInit{
   constructor(
     protected authService: AuthService,
     protected routingService: RoutingService,
     protected service: LoginFormComponentService,
+    protected location: Location,
     private oauthService: OAuthService
   ) {
     this.oauthService.configure(authCodeFlowConfig);
@@ -47,13 +49,15 @@ export class LoginFormComponent implements OnInit {
         map((isLoggedIn) => {
           if (isLoggedIn) {
             this.routingService.go({ cxRoute: 'home' });
+            // TBD
+            // this.location.back();
           } else {
             this.startPKCEflow();
+            // go back to the previous page after getting the token
+            // this.location.back();
           }
         })
-      )
-      .subscribe();
-    // this.startPKCEflow();
+      ).subscribe();
   }
 
   startPKCEflow(): void {
