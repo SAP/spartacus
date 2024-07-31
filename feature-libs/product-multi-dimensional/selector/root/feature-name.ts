@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const PRODUCT_MULTI_DIMENSIONAL_FEATURE = 'productMultiDimensional';
+export const PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE =
+  'productMultiDimensionalSelector';

@@ -10,12 +10,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  LibraryOptions as SpartacusProductOptions,
   PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE_NAME,
+  productMultiDimensionalSelectorFeatureModulePath,
   SPARTACUS_PRODUCT,
   SPARTACUS_SCHEMATICS,
   SpartacusOptions,
-  LibraryOptions as SpartacusProductOptions,
-  productMultiDimensionalSelectorFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';

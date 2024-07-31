@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "ProductMultiDimensionalSchematics",
-  "title": "Product Multi Dimensional Schematics",
+  "title": "Product Multi-Dimensional Schematics",
   "type": "object",
   "properties": {
     "project": {
@@ -24,7 +24,11 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["Selector"]
+      "items": {
+        "enum": ["Product-multi-dimensional-selector"],
+        "type": "string"
+      },
+      "default": ["Product-multi-dimensional-selector"]
     }
   },
   "required": []

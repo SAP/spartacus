@@ -3,7 +3,7 @@
   "schematics": {
     "ng-add": {
       "factory": "./add-product-multi-dimensional/index#addSpartacusProductMultiDimensional",
-      "description": "Add and configure Spartacus' Product library",
+      "description": "Add and configure Spartacus' Product Multi-Dimensional library",
       "schema": "./add-product-multi-dimensional/schema.json",
       "private": true,
       "hidden": true,

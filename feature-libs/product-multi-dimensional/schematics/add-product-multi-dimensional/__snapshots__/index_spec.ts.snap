@@ -1,8 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature eager loading should import appropriate modules 1`] = `""`;
+exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { ProductMultiDimensionalSelectorModule } from "@spartacus/product-multi-dimensional/selector";
+import { ProductMultiDimensionalSelectorRootModule } from "@spartacus/product-multi-dimensional/selector/root";
 
-exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
+@NgModule({
+  declarations: [],
+  imports: [
+    ProductMultiDimensionalSelectorRootModule,
+    ProductMultiDimensionalSelectorModule
+  ]
+})
+export class ProductMultiDimensionalSelectorFeatureModule { }
+"
+`;
+
+exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, provideConfig } from "@spartacus/core";
+import { PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE, ProductMultiDimensionalSelectorRootModule } from "@spartacus/product-multi-dimensional/selector/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    ProductMultiDimensionalSelectorRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE]: {
+        module: () =>
+          import('@spartacus/product-multi-dimensional/selector').then((m) => m.ProductMultiDimensionalSelectorModule),
+      },
+    }
+  })]
+})
+export class ProductMultiDimensionalSelectorFeatureModule { }
+"
+`;
 
 exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";

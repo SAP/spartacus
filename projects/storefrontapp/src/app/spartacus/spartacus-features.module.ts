@@ -13,9 +13,9 @@ import {
   FeatureToggles,
   ProductModule,
   ProductOccModule,
+  provideFeatureTogglesFactory,
   UserModule,
   UserOccModule,
-  provideFeatureTogglesFactory,
 } from '@spartacus/core';
 import {
   AnonymousConsentManagementBannerModule,
@@ -39,16 +39,16 @@ import {
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
-  PDFModule,
   PageTitleModule,
   PaymentMethodsModule,
+  PDFModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
   ProductFacetNavigationModule,
   ProductImagesModule,
   ProductIntroModule,
-  ProductListModule,
   ProductListingPageModule,
+  ProductListModule,
   ProductPageEventModule,
   ProductReferencesModule,
   ProductSummaryModule,
@@ -103,7 +103,7 @@ import { TrackingFeatureModule } from './features/tracking/tracking-feature.modu
 import { UserFeatureModule } from './features/user/user-feature.module';
 import { S4ServiceFeatureModule } from './features/s4-service/s4-service-feature.module';
 import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
-import { ProductMultiDimensionalFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-feature.module';
+import { ProductMultiDimensionalSelectorFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-selector-feature.module';
 
 const featureModules = [];
 
@@ -158,6 +158,7 @@ if (environment.estimatedDeliveryDate) {
 if (environment.cpq) {
   featureModules.push(CpqQuoteFeatureModule);
 }
+
 @NgModule({
   imports: [
     // Auth Core
@@ -255,7 +256,7 @@ if (environment.cpq) {
     SmartEditFeatureModule,
 
     VariantsFeatureModule,
-    ProductMultiDimensionalFeatureModule,
+    ProductMultiDimensionalSelectorFeatureModule,
     ImageZoomFeatureModule,
 
     QuoteFeatureModule,

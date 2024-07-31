@@ -75,7 +75,7 @@ export const productImageZoomFeatureModulePath =
 export const productVariantsFeatureModulePath =
   'src/app/spartacus/features/product/product-variants-feature.module.ts';
 export const productMultiDimensionalSelectorFeatureModulePath =
-  'src/app/spartacus/features/product-multi-dimensional/product-multi-dimensional-selector.module.ts';
+  'src/app/spartacus/features/product-multi-dimensional/product-multi-dimensional-selector-feature.module.ts';
 export const productFutureStockFeatureModulePath =
   'src/app/spartacus/features/product/product-future-stock-feature.module.ts';
 export const productConfiguratorFeatureModulePath =
