@@ -40,7 +40,6 @@ export class ConfiguratorAttributeBaseComponent {
   isDeltaRendering: boolean;
   priceChangedEvent$: Observable<boolean> = of(true); // no delta rendering - always render directly only once
   protected initDeltaRendering(isPricingAsync = false, attributeKey?: string) {
-    this.isDeltaRendering;
     if (
       isPricingAsync &&
       this.configuratorAttributePriceChangeService &&
