@@ -6,15 +6,15 @@
 
 import { Action } from '@ngrx/store';
 import {
-  entityFailMeta,
-  EntityLoaderMeta,
-  entityLoadMeta,
-  entityResetMeta,
-  entitySuccessMeta,
   ENTITY_FAIL_ACTION,
   ENTITY_LOAD_ACTION,
   ENTITY_RESET_ACTION,
   ENTITY_SUCCESS_ACTION,
+  EntityLoaderMeta,
+  entityFailMeta,
+  entityLoadMeta,
+  entityResetMeta,
+  entitySuccessMeta,
 } from '../entity-loader/entity-loader.action';
 
 export namespace EntityScopedLoaderActions {
