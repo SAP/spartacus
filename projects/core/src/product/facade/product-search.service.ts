@@ -7,7 +7,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Product } from '../../model';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
 import { ProductActions } from '../store/actions/index';
@@ -40,32 +39,6 @@ export class ProductSearchService {
       new ProductActions.ClearProductSearchResult({
         clearPageResults: true,
       })
-    );
-  }
-
-  searchByCode({ code, scope }: { code: string; scope?: string }): void {
-    this.store.dispatch(
-      new ProductActions.SearchProductByCode({
-        code,
-        scope: scope ?? '',
-      })
-    );
-  }
-
-  getSearchByCodeResult({
-    code,
-    scope,
-  }: {
-    code: string;
-    scope?: string;
-  }): Observable<Product> {
-    return this.store.pipe(
-      select(
-        ProductSelectors.getSelectedProductSearchByCodeFactory({
-          code,
-          scope: scope ?? '',
-        })
-      )
     );
   }
 }

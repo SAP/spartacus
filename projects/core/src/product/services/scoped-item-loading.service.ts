@@ -27,6 +27,9 @@ import { EntityScopedLoaderActions } from '../../state/utils/scoped-loader/entit
 import { uniteLatest } from '../../util/rxjs/unite-latest';
 import { withdrawOn } from '../../util/rxjs/withdraw-on';
 
+// SPIKE - it's a copy of the old (Deprecated)ProductLoadingService
+// but more generic, so can be re-used for other entities like ProductSearch
+
 @Injectable({
   providedIn: 'root',
 })
@@ -243,11 +246,3 @@ export abstract class ScopedItemLoadingService<Item, StateWithItem> {
     return shouldReload$;
   }
 }
-
-// function isEntityScopedLoadingFinishedAction(
-//   action: EntityScopedLoaderActions.EntityScopedLoaderAction
-// ): action is EntityScopedLoaderActions.EntityScopedSuccessAction | EntityScopedLoaderActions.EntityScopedFailAction {
-//   return !!(
-//     action?.meta?.entityId && action?.meta?.scope && action?.meta?.entityType
-//   );
-// }
