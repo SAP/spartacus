@@ -27,7 +27,6 @@ export class ConfiguratorAttributeCheckBoxComponent
   ownerKey: string;
   expMode: boolean;
   attributeValue: Configurator.Value;
-  isDeltaRendering: boolean;
 
   attributeCheckBoxForm = new UntypedFormControl('');
 
@@ -41,10 +40,9 @@ export class ConfiguratorAttributeCheckBoxComponent
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
     this.initDeltaRendering(
-      attributeComponentContext.isDeltaRendering,
+      attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key
     );
-    this.isDeltaRendering = attributeComponentContext.isDeltaRendering ?? false;
   }
 
   ngOnInit() {

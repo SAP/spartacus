@@ -417,7 +417,7 @@ describe('Configurator reducer', () => {
       );
     });
 
-    it('should merge supplement data into existing groups ', () => {
+    it('should merge supplement data into existing groups if delta rendering is deactivated', () => {
       const actionProvidingState =
         new ConfiguratorActions.CreateConfigurationSuccess(CONFIGURATION);
       const firstState = StateReduce.configuratorReducer(
@@ -429,18 +429,18 @@ describe('Configurator reducer', () => {
           'A',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        isDeltaRendering: false,
         priceSupplements: priceSupplements,
       };
       const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
-        configurationWithPriceSummary
+        configurationWithPriceSummary,
+        { isDeltaRendering: false }
       );
       const result = StateReduce.configuratorReducer(firstState, action);
       const price = result.groups[0]?.attributes?.[0]?.values?.[0].valuePrice;
       expect(price).toEqual(PRICE_DETAILS);
     });
 
-    it('should NOT merge supplement data into existing groups in async pricing mode', () => {
+    it('should NOT merge supplement data into existing groups if delta rendering is activated', () => {
       const actionProvidingState =
         new ConfiguratorActions.CreateConfigurationSuccess(CONFIGURATION);
       const firstState = StateReduce.configuratorReducer(
@@ -452,11 +452,11 @@ describe('Configurator reducer', () => {
           'A',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        isDeltaRendering: true,
         priceSupplements: priceSupplements,
       };
       const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
-        configurationWithPriceSummary
+        configurationWithPriceSummary,
+        { isDeltaRendering: true }
       );
       const result = StateReduce.configuratorReducer(firstState, action);
       const price = result.groups[0]?.attributes?.[0]?.values?.[0].valuePrice;

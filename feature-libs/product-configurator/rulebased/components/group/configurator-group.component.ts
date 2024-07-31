@@ -30,7 +30,7 @@ export class ConfiguratorGroupComponent {
   @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
   @Input() isNavigationToGroupEnabled: boolean;
-  @Input() isDeltaRendering?: boolean;
+  @Input() isPricingAsync?: boolean;
 
   activeLanguage$: Observable<string> = this.languageService.getActive();
   uiType = Configurator.UiType;

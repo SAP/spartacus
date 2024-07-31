@@ -105,7 +105,7 @@ export namespace Configurator {
     hideBasePriceAndSelectedOptions?: boolean;
     immediateConflictResolution?: boolean;
     newConfiguration?: boolean;
-    isDeltaRendering?: boolean;
+    isPricingAsync?: boolean;
   }
 
   export interface ConfigurationWithOverview extends Configuration {

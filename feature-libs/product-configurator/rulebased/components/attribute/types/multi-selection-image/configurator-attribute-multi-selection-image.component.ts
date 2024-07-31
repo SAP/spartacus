@@ -33,7 +33,6 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
   attribute: Configurator.Attribute;
   ownerKey: string;
   expMode: boolean;
-  isDeltaRendering: boolean;
 
   iconTypes = ICON_TYPE;
   protected config = inject(Config);
@@ -49,10 +48,9 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
     this.initDeltaRendering(
-      attributeComponentContext.isDeltaRendering,
+      attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key
     );
-    this.isDeltaRendering = attributeComponentContext.isDeltaRendering ?? false;
 
     useFeatureStyles('productConfiguratorAttributeTypesV2');
   }

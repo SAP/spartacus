@@ -32,7 +32,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     this.group = attributeComponentContext.group.id;
     this.expMode = attributeComponentContext.expMode;
     this.initDeltaRendering(
-      attributeComponentContext.isDeltaRendering,
+      attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key
     );
   }
@@ -59,8 +59,9 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     let ariaLabel = '';
     if (value) {
       value =
-        this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
-        value;
+        this.configuratorAttributePriceChangeService?.mergePriceIntoValue(
+          value
+        ) ?? value;
       const valueName = this.getCurrentValueName(attribute, value);
       if (value.valuePrice && value.valuePrice?.value !== 0) {
         if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {

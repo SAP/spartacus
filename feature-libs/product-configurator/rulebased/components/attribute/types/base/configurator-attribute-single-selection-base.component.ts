@@ -63,7 +63,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
         )
       );
     this.initDeltaRendering(
-      attributeComponentContext.isDeltaRendering,
+      attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key
     );
   }
@@ -199,8 +199,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   extractValuePriceFormulaParameters(
     value?: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
-    if (value && this.configuratorDeltaRenderingService) {
-      value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    if (value && this.configuratorAttributePriceChangeService) {
+      value =
+        this.configuratorAttributePriceChangeService.mergePriceIntoValue(value);
     }
     return {
       price: value?.valuePrice,
@@ -231,8 +232,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     attribute: Configurator.Attribute
   ): string {
     value =
-      this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
-      value;
+      this.configuratorAttributePriceChangeService?.mergePriceIntoValue(
+        value
+      ) ?? value;
     const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
     if (this.isWithAdditionalValues(this.attribute)) {
       const ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();

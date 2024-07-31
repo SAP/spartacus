@@ -40,7 +40,7 @@ class MockConfiguratorGroupComponent {
   @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
   @Input() isNavigationToGroupEnabled = true;
-  @Input() isDeltaRendering?: boolean;
+  @Input() isPricingAsync?: boolean;
 }
 
 const PRODUCT_CODE = 'CONF_LAPTOP';

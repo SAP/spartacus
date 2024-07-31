@@ -648,7 +648,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
         label: 'attribute without value price',
       };
       const valueWithoutPrice = createValue('1', 'value without price', false);
-      component['configuratorDeltaRenderingService'] = null;
+      component['configuratorAttributePriceChangeService'] = null;
       expect(
         component.getAriaLabel(valueWithoutPrice, attributeWithoutPrice)
       ).toEqual(
@@ -682,9 +682,13 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
         Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
       component.attribute.validationType = Configurator.ValidationType.NONE;
 
-      component['configuratorDeltaRenderingService']?.['storeValuePrice'](
+      component['configuratorAttributePriceChangeService']?.['storeValuePrice'](
         valueWithPrice.name ?? '',
-        { currencyIso: '$', formattedValue: '$200.00', value: 200 }
+        {
+          currencyIso: '$',
+          formattedValue: '$200.00',
+          value: 200,
+        }
       );
       fixture.detectChanges();
       expect(

@@ -35,7 +35,6 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   implements OnInit
 {
   attributeRadioButtonForm = new UntypedFormControl('');
-  isDeltaRendering: boolean;
 
   attribute: Configurator.Attribute;
   ownerKey: string;
@@ -55,10 +54,9 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
     this.expMode = attributeComponentContext.expMode;
     useFeatureStyles('productConfiguratorAttributeTypesV2');
     this.initDeltaRendering(
-      attributeComponentContext.isDeltaRendering,
+      attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key
     );
-    this.isDeltaRendering = attributeComponentContext.isDeltaRendering ?? false;
   }
 
   ngOnInit(): void {
@@ -84,8 +82,9 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   extractValuePriceFormulaParameters(
     value?: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
-    if (value && this.configuratorDeltaRenderingService) {
-      value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    if (value && this.configuratorAttributePriceChangeService) {
+      value =
+        this.configuratorAttributePriceChangeService.mergePriceIntoValue(value);
     }
     return {
       price: value?.valuePrice,

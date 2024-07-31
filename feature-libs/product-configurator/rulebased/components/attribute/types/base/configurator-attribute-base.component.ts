@@ -5,7 +5,7 @@
  */
 
 import { inject } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
+import { FeatureConfigService, TranslationService } from '@spartacus/core';
 import { Observable, of, take } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
@@ -20,13 +20,15 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 export class ConfiguratorAttributeBaseComponent {
   protected configuratorUISettingsConfig = inject(ConfiguratorUISettingsConfig);
   protected translation = inject(TranslationService);
-  protected configuratorDeltaRenderingService = inject(
+  protected configuratorAttributePriceChangeService = inject(
     ConfiguratorAttributePriceChangeService,
     { optional: true }
   );
   protected configuratorStorefrontUtilsService = inject(
     ConfiguratorStorefrontUtilsService
   );
+
+  private _featureConfigService = inject(FeatureConfigService);
 
   private static SEPERATOR = '--';
   private static PREFIX = 'cx-configurator';
@@ -35,14 +37,18 @@ export class ConfiguratorAttributeBaseComponent {
   private static PREFIX_DDLB_OPTION_PRICE_VALUE = 'option--price';
   protected static MAX_IMAGE_LABEL_CHARACTERS = 16;
 
+  isDeltaRendering: boolean;
   priceChangedEvent$: Observable<boolean> = of(true); // no delta rendering - always render directly only once
-  protected initDeltaRendering(
-    isDeltaRendering = false,
-    attributeKey?: string
-  ) {
-    if (isDeltaRendering && this.configuratorDeltaRenderingService) {
+  protected initDeltaRendering(isPricingAsync = false, attributeKey?: string) {
+    this.isDeltaRendering;
+    if (
+      isPricingAsync &&
+      this.configuratorAttributePriceChangeService &&
+      this._featureConfigService.isEnabled('productConfiguratorDeltaRendering')
+    ) {
+      this.isDeltaRendering = true;
       this.priceChangedEvent$ =
-        this.configuratorDeltaRenderingService.getPriceChangedEvents(
+        this.configuratorAttributePriceChangeService.getPriceChangedEvents(
           attributeKey
         );
     }
@@ -277,8 +283,9 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   protected getValuePrice(value: Configurator.Value | undefined): string {
-    if (value && this.configuratorDeltaRenderingService) {
-      value = this.configuratorDeltaRenderingService.mergePriceIntoValue(value);
+    if (value && this.configuratorAttributePriceChangeService) {
+      value =
+        this.configuratorAttributePriceChangeService.mergePriceIntoValue(value);
     }
     if (value?.valuePrice?.value && !value.selected) {
       if (value.valuePrice.value < 0) {
@@ -407,8 +414,9 @@ export class ConfiguratorAttributeBaseComponent {
     considerSelectionState = false
   ): string {
     value =
-      this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
-      value;
+      this.configuratorAttributePriceChangeService?.mergePriceIntoValue(
+        value
+      ) ?? value;
     const params: { value?: string; attribute?: string; price?: string } = {
       value: value.valueDisplay,
       attribute: attribute.label,
@@ -448,8 +456,9 @@ export class ConfiguratorAttributeBaseComponent {
     value: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
     value =
-      this.configuratorDeltaRenderingService?.mergePriceIntoValue(value) ??
-      value;
+      this.configuratorAttributePriceChangeService?.mergePriceIntoValue(
+        value
+      ) ?? value;
     return {
       quantity: value.quantity,
       price: value.valuePrice,
