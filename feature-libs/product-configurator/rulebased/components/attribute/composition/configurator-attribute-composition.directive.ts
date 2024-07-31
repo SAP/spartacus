@@ -39,7 +39,7 @@ export class ConfiguratorAttributeCompositionDirective
   protected lastRenderedGroupId: string;
 
   protected logger = inject(LoggerService);
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   protected readonly attrComponentAssignment: AttributeComponentAssignment =
     this.configuratorAttributeCompositionConfig.productConfigurator
