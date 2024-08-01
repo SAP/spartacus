@@ -1,4 +1,4 @@
-# Cpq-Quote
+# cpq-quote
 This library provides a discount percentage to the Spartacus UI.
 
 As an end user utilizing the SAP Commerce B2B Storefront, it's imperative for transparency and informed decision-making that users can easily access and comprehend the discount percentage displayed on the Quote Table.
