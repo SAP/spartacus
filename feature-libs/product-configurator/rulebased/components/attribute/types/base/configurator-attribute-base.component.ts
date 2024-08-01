@@ -20,6 +20,14 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 export class ConfiguratorAttributeBaseComponent {
   protected configuratorUISettingsConfig = inject(ConfiguratorUISettingsConfig);
   protected translation = inject(TranslationService);
+
+  /**
+   * as the service is stateful any using component shall provide it within the components declaration:
+   *
+   * @Component({ providers: [ConfiguratorAttributePriceChangeService] })
+   *
+   * otherwise the service will be null. Hence the service is marked as optional here.
+   */
   protected configuratorAttributePriceChangeService = inject(
     ConfiguratorAttributePriceChangeService,
     { optional: true }

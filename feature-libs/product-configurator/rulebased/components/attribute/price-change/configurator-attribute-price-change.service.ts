@@ -7,21 +7,37 @@
 import { inject, Injectable } from '@angular/core';
 import { ObjectComparisonUtils } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { EMPTY, filter, Observable, of, switchMap, tap } from 'rxjs';
+import {
+  EMPTY,
+  filter,
+  Observable,
+  of,
+  shareReplay,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../core/model/configurator.model';
 
+/**
+ * Stateful service to react on price changes of the configuration. Hence components using this service must provide it within their declaration:
+ *
+ * @Component({ providers: [ConfiguratorAttributePriceChangeService] })
+ *
+ * getPriceChangedEvents will return an observable that emits whenever the price of a monitored attribute (identified by the provided attribute key) changes,
+ * hence allowing the subscriber for example to trigger rerendering of the prices on the UI.
+ */
 @Injectable()
 export class ConfiguratorAttributePriceChangeService {
   protected configuratorRouterExtractorService = inject(
     ConfiguratorRouterExtractorService
   );
   protected configuratorCommonsService = inject(ConfiguratorCommonsService);
-  protected isInitialRendering: boolean = true;
   protected lastAttributeSupplement:
     | Configurator.AttributeSupplement
     | undefined;
-  protected valuePrices: { [key: string]: Configurator.PriceDetails } = {};
+  protected valuePrices: { [valueName: string]: Configurator.PriceDetails } =
+    {};
 
   /**
    * Returns an observable that shall be used by all components supporting delta rendering mode.
@@ -36,6 +52,7 @@ export class ConfiguratorAttributePriceChangeService {
    * @returns observable that emits 'true' each time a price changes and hence there is the need to rerender the enclosing component
    */
   getPriceChangedEvents(attributeKey: string | undefined): Observable<boolean> {
+    let isInitialConfiguration: boolean = true;
     return this.configuratorRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
         return this.configuratorCommonsService
@@ -44,7 +61,7 @@ export class ConfiguratorAttributePriceChangeService {
             // Initially render attribute without prices, so UI is not blocked, otherwise only re-ender if prices changed.
             // Changes of attribute itself are already handled in the attribute composition directive.
             filter(
-              (config) => this.isInitialRendering || !!config.priceSupplements
+              (config) => isInitialConfiguration || !!config.priceSupplements
             ),
             switchMap((config) => {
               if (!config.priceSupplements) {
@@ -56,9 +73,10 @@ export class ConfiguratorAttributePriceChangeService {
               );
               return pricesChanged ? of(true) : EMPTY;
             }),
-            tap(() => (this.isInitialRendering = false))
+            tap(() => (isInitialConfiguration = false))
           );
-      })
+      }),
+      shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 

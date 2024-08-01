@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EMPTY, Observable, Subject, of } from 'rxjs';
+import { EMPTY, Observable, Subject, of, skip } from 'rxjs';
 import { ConfiguratorAttributePriceChangeService } from './configurator-attribute-price-change.service';
 
 import {
@@ -80,7 +80,6 @@ describe('ConfiguratorAttributePriceChangeService', () => {
       mockConfig.priceSupplements = undefined;
       configSubject.next(mockConfig);
       expect(emitCounter).toBe(1);
-      expect(classUnderTest['isInitialRendering']).toBe(false);
     });
 
     // happens when navigating from overview back to config page
@@ -100,22 +99,33 @@ describe('ConfiguratorAttributePriceChangeService', () => {
     });
 
     describe('after initial rendering/call', () => {
-      beforeEach(() => {
-        classUnderTest['isInitialRendering'] = false;
-      });
+      function simulateFirstCall() {
+        // simulating initial call without price supplements
+        const configOnly = structuredClone(mockConfig);
+        configOnly.priceSupplements = undefined;
+        configSubject.next(configOnly);
+      }
 
       it('should not emit, if config has no price supplements', () => {
-        classUnderTest.getPriceChangedEvents(undefined).subscribe(() => {
-          fail('priceChanged observable should not emit!');
-        });
+        classUnderTest
+          .getPriceChangedEvents(undefined)
+          .pipe(skip(1))
+          .subscribe(() => {
+            fail('priceChanged observable should not emit!');
+          });
+        simulateFirstCall();
         mockConfig.priceSupplements = undefined;
         configSubject.next(mockConfig);
       });
 
       it('should not emit, if config has no matching price supplements', () => {
-        classUnderTest.getPriceChangedEvents('otherAttrKey').subscribe(() => {
-          fail('priceChanged observable should not emit!');
-        });
+        classUnderTest
+          .getPriceChangedEvents('otherAttrKey')
+          .pipe(skip(1))
+          .subscribe(() => {
+            fail('priceChanged observable should not emit!');
+          });
+        simulateFirstCall();
         configSubject.next(mockConfig);
       });
 
@@ -123,10 +133,12 @@ describe('ConfiguratorAttributePriceChangeService', () => {
         let emitCounter = 0;
         classUnderTest
           .getPriceChangedEvents('group1@attribute_1_1')
+          .pipe(skip(1))
           .subscribe((priceChanged) => {
             expect(priceChanged).toBe(true);
             emitCounter++;
           });
+        simulateFirstCall();
         configSubject.next(mockConfig);
         expect(emitCounter).toBe(1);
         expect(classUnderTest['valuePrices']['value_1_1']).toBeDefined();
@@ -135,14 +147,15 @@ describe('ConfiguratorAttributePriceChangeService', () => {
       });
 
       it('should not emit again if prices are not changed', () => {
-        classUnderTest['isInitialRendering'] = false;
         classUnderTest['lastAttributeSupplement'] =
           mockConfig.priceSupplements?.[0];
         classUnderTest
           .getPriceChangedEvents('group1@attribute_1_1')
+          .pipe(skip(1))
           .subscribe(() => {
             fail('priceChanged observable should not emit!');
           });
+        simulateFirstCall();
         configSubject.next(mockConfig);
       });
     });
