@@ -6,7 +6,7 @@
       (change)="onConsentChange()"
       [checked]="consentGiven"
       [name]="consentTemplate.id"
-      [disabled]="isRequired(consentTemplate?.id)"
+      [disabled]="disabled || isRequired(consentTemplate?.id)"
     />
     <span class="form-check-label cx-be-bold">
       <ng-container *ngIf="consentTemplate?.name">
@@ -14,8 +14,17 @@
         <br />
       </ng-container>
     </span>
-    <span class="form-check-label">
+    <span
+      *cxFeature="'!a11yNotificationsOnConsentChange'"
+      class="form-check-label"
+    >
       {{ consentTemplate?.description }}
     </span>
   </label>
+  <span
+    *cxFeature="'a11yNotificationsOnConsentChange'"
+    class="form-check-label"
+  >
+    {{ consentTemplate?.description }}
+  </span>
 </div>
