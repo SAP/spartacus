@@ -6,6 +6,9 @@
 
 import { InjectionToken } from '@angular/core';
 
+/**
+ * @deprecated will be removed
+ */
 export const USE_LEGACY_MEDIA_COMPONENT = new InjectionToken<boolean>(
   'USE_LEGACY_MEDIA_COMPONENT'
 );

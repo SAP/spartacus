@@ -102,6 +102,9 @@ export class MediaComponent implements OnChanges {
   protected trackByMedia: TrackByFunction<HTMLSourceElement> = (_, item) =>
     item.media;
 
+  /**
+   * @deprecated will be removed
+   */
   protected isLegacy =
     inject(USE_LEGACY_MEDIA_COMPONENT, { optional: true }) ||
     (inject(Config) as any)['useLegacyMediaComponent'] ||

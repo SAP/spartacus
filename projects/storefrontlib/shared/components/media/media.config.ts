@@ -78,12 +78,6 @@ export abstract class MediaConfig {
   mediaQueryMap?: Record<keyof PictureElementQueries, string>;
 
   /**
-   * Specify when need to use <picture> element
-   * over the <img> element
-   */
-  usePictureElement?: boolean;
-
-  /**
    * Indicates how the browser should load the image. There's only one
    * global strategy for all media cross media in Spartacus.
    *
@@ -96,7 +90,7 @@ export abstract class MediaConfig {
   imageLoadingStrategy?: ImageLoadingStrategy;
 
   /**
-   * @deprecated
+   * @deprecated will be removed
    * As of v7.0, Spartacus started using the <picture> element by default when a srcset is available.
    *
    * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture for more
