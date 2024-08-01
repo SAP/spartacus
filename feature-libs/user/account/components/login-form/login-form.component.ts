@@ -9,22 +9,28 @@ import { filter } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authCodeFlowConfig } from './auth.config';
-import { AuthService, RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login-form',
-  templateUrl: './login-form.component.html'
+  templateUrl: './login-form.component.html',
 })
-export class LoginFormComponent implements OnInit{
-  protected LoggedIn: boolean = false;
-// export class LoginFormComponent{
+export class LoginFormComponent implements OnInit {
   constructor(
-    protected authService: AuthService,
-    protected routingService: RoutingService,
     protected service: LoginFormComponentService,
-    private oauthService: OAuthService,
-    protected routing: RoutingService,
-  ) {
+    protected oauthService: OAuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.initializeOAuthFlow();
+    if (sessionStorage.getItem('isRedirected')) {
+      sessionStorage.removeItem('isRedirected');
+    } else {
+      this.startPKCEflow();
+      sessionStorage.setItem('isRedirected', 'true');
+    }
+  }
+
+  initializeOAuthFlow(): void {
     this.oauthService.configure(authCodeFlowConfig);
     this.oauthService.loadDiscoveryDocumentAndTryLogin();
     this.oauthService.events
@@ -32,18 +38,6 @@ export class LoginFormComponent implements OnInit{
       .subscribe(() => {
         this.oauthService.loadUserProfile();
         this.service.updateToken(this.oauthService.getAccessToken());
-      });
-  }
-  ngOnInit(): void {
-      this.authService.isUserLoggedIn().subscribe(isLoggedIn => {
-        if(isLoggedIn){
-          console.log('User is logged in: '+isLoggedIn);
-          // this.routing.go('/');
-        }
-        else{
-          console.log('User is logged in: '+isLoggedIn);
-          // this.startPKCEflow();
-        }
       });
   }
 
