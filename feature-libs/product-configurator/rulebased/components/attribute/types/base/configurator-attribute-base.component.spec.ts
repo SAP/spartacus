@@ -1,9 +1,13 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConfiguratorUISettingsConfig } from '@spartacus/product-configurator/rulebased';
+import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
+import { of } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 const attributeCode = 1;
 const currentAttribute: Configurator.Attribute = {
@@ -21,23 +25,60 @@ let configuratorUISettingsConfig: ConfiguratorUISettingsConfig = {
   },
 };
 
+class MockConfiguratorDeltaRenderingService {
+  getPriceChangedEvents() {
+    return of(false);
+  }
+  mergePriceIntoValue(value: Configurator.Value) {
+    return value;
+  }
+}
+
+let productConfiguratorDeltaRenderingEnabled = false;
+class MockFeatureConfigService {
+  isEnabled(name: string): boolean {
+    if (name === 'productConfiguratorDeltaRendering') {
+      return productConfiguratorDeltaRenderingEnabled;
+    }
+    return false;
+  }
+}
+
 describe('ConfiguratorAttributeBaseComponent', () => {
   let classUnderTest: ConfiguratorAttributeBaseComponent;
+  let configuratorDeltaRenderingService: ConfiguratorAttributePriceChangeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       providers: [
         ConfiguratorAttributeBaseComponent,
         {
           provide: ConfiguratorUISettingsConfig,
           useValue: configuratorUISettingsConfig,
         },
+        {
+          provide: ConfiguratorAttributePriceChangeService,
+          useClass: MockConfiguratorDeltaRenderingService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useValue: {},
+        },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
     classUnderTest = TestBed.inject(
       ConfiguratorAttributeBaseComponent as Type<ConfiguratorAttributeBaseComponent>
     );
+    configuratorDeltaRenderingService = TestBed.inject(
+      ConfiguratorAttributePriceChangeService as Type<ConfiguratorAttributePriceChangeService>
+    );
+    spyOn(
+      configuratorDeltaRenderingService,
+      'getPriceChangedEvents'
+    ).and.callThrough();
   });
 
   it('should generate value key', () => {
@@ -480,6 +521,88 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     it('should return true in case uiType is DROPDOWN_PRODUCT', () => {
       currentAttribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
       expect(classUnderTest['isDropDown'](currentAttribute)).toBe(true);
+    });
+  });
+
+  describe('$priceChanged', () => {
+    it('should emit true immediately, if delta rendering is not initialized', () => {
+      let emitted = false;
+      classUnderTest.priceChangedEvent$
+        .subscribe((priceChanged) => {
+          expect(priceChanged).toBe(true);
+          emitted = true;
+        })
+        .unsubscribe();
+      expect(emitted).toBe(true);
+      expect(
+        configuratorDeltaRenderingService.getPriceChangedEvents
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should emit true immediately, if price changed event is initialized in synchronous pricing mode', () => {
+      productConfiguratorDeltaRenderingEnabled = true;
+      classUnderTest['initPriceChangedEvent'](false, 'attrKey');
+      let emitted = false;
+      classUnderTest.priceChangedEvent$
+        .subscribe((priceChanged) => {
+          expect(priceChanged).toBe(true);
+          emitted = true;
+        })
+        .unsubscribe();
+      expect(emitted).toBe(true);
+      expect(
+        configuratorDeltaRenderingService.getPriceChangedEvents
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should emit true immediately, price changed event  is initialized but no price change service injected', () => {
+      productConfiguratorDeltaRenderingEnabled = true;
+      classUnderTest['configuratorAttributePriceChangeService'] = null;
+      classUnderTest['initPriceChangedEvent'](true, 'attrKey');
+      let emitted = false;
+      classUnderTest.priceChangedEvent$
+        .subscribe((priceChanged) => {
+          expect(priceChanged).toBe(true);
+          emitted = true;
+        })
+        .unsubscribe();
+      expect(emitted).toBe(true);
+      expect(
+        configuratorDeltaRenderingService.getPriceChangedEvents
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should emit true immediately, if price changed event is initialized but delta rendering feature flag is deactivated', () => {
+      productConfiguratorDeltaRenderingEnabled = false;
+      classUnderTest['initPriceChangedEvent'](true, 'attrKey');
+      let emitted = false;
+      classUnderTest.priceChangedEvent$
+        .subscribe((priceChanged) => {
+          expect(priceChanged).toBe(true);
+          emitted = true;
+        })
+        .unsubscribe();
+      expect(emitted).toBe(true);
+      expect(
+        configuratorDeltaRenderingService.getPriceChangedEvents
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should emit false immediately, if price changed event is initialized proper', () => {
+      productConfiguratorDeltaRenderingEnabled = true;
+      classUnderTest['initPriceChangedEvent'](true, 'attrKey');
+      let emitted = false;
+      productConfiguratorDeltaRenderingEnabled = true;
+      classUnderTest.priceChangedEvent$
+        .subscribe((priceChanged) => {
+          expect(priceChanged).toBe(false);
+          emitted = true;
+        })
+        .unsubscribe();
+      expect(emitted).toBe(true);
+      expect(
+        configuratorDeltaRenderingService.getPriceChangedEvents
+      ).toHaveBeenCalled();
     });
   });
 

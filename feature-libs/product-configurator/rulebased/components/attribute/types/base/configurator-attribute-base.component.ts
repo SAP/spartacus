@@ -5,8 +5,13 @@
  */
 
 import { inject } from '@angular/core';
+import { FeatureConfigService, TranslationService } from '@spartacus/core';
+import { Observable, of, take } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator
@@ -14,6 +19,24 @@ import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-se
 
 export class ConfiguratorAttributeBaseComponent {
   protected configuratorUISettingsConfig = inject(ConfiguratorUISettingsConfig);
+  protected translation = inject(TranslationService);
+
+  /**
+   * as the service is stateful any using component shall provide it within the components declaration:
+   *
+   * @Component({ providers: [ConfiguratorAttributePriceChangeService] })
+   *
+   * otherwise the service will be null. Hence the service is marked as optional here.
+   */
+  protected configuratorAttributePriceChangeService = inject(
+    ConfiguratorAttributePriceChangeService,
+    { optional: true }
+  );
+  protected configuratorStorefrontUtilsService = inject(
+    ConfiguratorStorefrontUtilsService
+  );
+
+  private _featureConfigService = inject(FeatureConfigService);
 
   private static SEPERATOR = '--';
   private static PREFIX = 'cx-configurator';
@@ -21,6 +44,25 @@ export class ConfiguratorAttributeBaseComponent {
   private static PREFIX_OPTION_PRICE_VALUE = 'price--optionsPriceValue';
   private static PREFIX_DDLB_OPTION_PRICE_VALUE = 'option--price';
   protected static MAX_IMAGE_LABEL_CHARACTERS = 16;
+
+  listenForPriceChanges: boolean;
+  priceChangedEvent$: Observable<boolean> = of(true); // no delta rendering - always render directly only once
+  protected initPriceChangedEvent(
+    isPricingAsync = false,
+    attributeKey?: string
+  ) {
+    if (
+      isPricingAsync &&
+      this.configuratorAttributePriceChangeService &&
+      this._featureConfigService.isEnabled('productConfiguratorDeltaRendering')
+    ) {
+      this.listenForPriceChanges = true;
+      this.priceChangedEvent$ =
+        this.configuratorAttributePriceChangeService.getPriceChangedEvents(
+          attributeKey
+        );
+    }
+  }
 
   /**
    * Creates unique key for config value on the UI
@@ -251,6 +293,10 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   protected getValuePrice(value: Configurator.Value | undefined): string {
+    if (value && this.configuratorAttributePriceChangeService) {
+      value =
+        this.configuratorAttributePriceChangeService.mergePriceIntoValue(value);
+    }
     if (value?.valuePrice?.value && !value.selected) {
       if (value.valuePrice.value < 0) {
         return ` [${value.valuePrice?.formattedValue}]`;
@@ -356,6 +402,91 @@ export class ConfiguratorAttributeBaseComponent {
     return (
       (this.isReadOnly(attribute) && value.selected) ||
       !this.isReadOnly(attribute)
+    );
+  }
+
+  /**
+   * Creates a text describing the current attribute that can be used as ARIA label.
+   * Includes price information. If a total price is available this price will be used,
+   * otherwise it falls back to the value price, or if no price is available,
+   * no price information will be included in the text.
+   *
+   * @param attribute the attribute
+   * @param value the value
+   * @param considerSelectionState = false
+ - optional, depending on the underlying UI control the screen
+   * might announce the selection state on its own, so it is not always desired to include it here.
+   * @returns translated text
+   */
+  protected getAriaLabelGeneric(
+    attribute: Configurator.Attribute,
+    value: Configurator.Value,
+    considerSelectionState = false
+  ): string {
+    value =
+      this.configuratorAttributePriceChangeService?.mergePriceIntoValue(
+        value
+      ) ?? value;
+    const params: { value?: string; attribute?: string; price?: string } = {
+      value: value.valueDisplay,
+      attribute: attribute.label,
+    };
+
+    const includedSelected = considerSelectionState && value.selected;
+    let key = includedSelected
+      ? 'configurator.a11y.selectedValueOfAttributeFullWithPrice'
+      : this.getAriaLabelForValueWithPrice(this.isReadOnly(attribute));
+    if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
+      params.price = value.valuePriceTotal.formattedValue;
+    } else if (value.valuePrice && value.valuePrice?.value !== 0) {
+      params.price = value.valuePrice.formattedValue;
+    } else {
+      key = includedSelected
+        ? 'configurator.a11y.selectedValueOfAttributeFull'
+        : this.getAriaLabelForValue(this.isReadOnly(attribute));
+    }
+
+    let ariaLabel = '';
+    this.translation
+      .translate(key, params)
+      .pipe(take(1))
+      .subscribe((text) => (ariaLabel = text));
+
+    return ariaLabel;
+  }
+
+  /**
+   * Extract corresponding value price formula parameters.
+   * For all non-single selection types types the complete price formula should be displayed at the value level.
+   *
+   * @param value - Configurator value
+   * @return new price formula
+   */
+  extractValuePriceFormulaParameters(
+    value: Configurator.Value
+  ): ConfiguratorPriceComponentOptions {
+    value =
+      this.configuratorAttributePriceChangeService?.mergePriceIntoValue(
+        value
+      ) ?? value;
+    return {
+      quantity: value.quantity,
+      price: value.valuePrice,
+      priceTotal: value.valuePriceTotal,
+      isLightedUp: value.selected,
+    };
+  }
+
+  /**
+   * Checks if the value is the last selected value.
+   *
+   * @param valueCode code of the value
+   * @returns true, only if this value is the last selected value
+   */
+  isLastSelected(attributeName: string, valueCode: string): boolean {
+    return this.configuratorStorefrontUtilsService.isLastSelected(
+      attributeName,
+      valueCode
     );
   }
 }

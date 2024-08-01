@@ -239,6 +239,7 @@ export const attributeSingleSelectionImages: Configurator.Attribute = {
 
 export const attributeDropDown: Configurator.Attribute = {
   name: 'ATTRIBUTE_2_DROPDOWN',
+  key: 'group[0].ATTRIBUTE_2_DROPDOWN',
   uiType: Configurator.UiType.DROPDOWN,
   visible: true,
   required: false,
