@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { auditTime, map, Observable, tap, using } from 'rxjs';
 import { Product } from '../../model';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
@@ -43,7 +43,7 @@ export class ProductSearchService {
     );
   }
 
-  searchByCode({ code, scope }: { code: string; scope?: string }): void {
+  loadSearchByCode({ code, scope }: { code: string; scope?: string }): void {
     this.store.dispatch(
       new ProductActions.SearchProductByCode({
         code,
@@ -52,20 +52,36 @@ export class ProductSearchService {
     );
   }
 
-  getSearchByCodeResult({
+  searchByCode({
     code,
     scope,
   }: {
     code: string;
     scope?: string;
-  }): Observable<Product> {
-    return this.store.pipe(
+  }): Observable<Product | undefined> {
+    const state$ = this.store.pipe(
       select(
-        ProductSelectors.getSelectedProductSearchByCodeFactory({
+        ProductSelectors.getSelectedProductSearchByCodeStateFactory({
           code,
           scope: scope ?? '',
         })
       )
+    );
+
+    const loading$ = state$.pipe(
+      auditTime(0),
+      tap((state) => {
+        if (!(state.loading || state.success || state.error)) {
+          this.loadSearchByCode({ code, scope });
+        }
+      })
+    );
+
+    const value$ = state$.pipe(map((state) => state.value));
+
+    return using(
+      () => loading$.subscribe(),
+      () => value$
     );
   }
 }

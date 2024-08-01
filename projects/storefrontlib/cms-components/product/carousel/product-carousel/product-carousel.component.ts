@@ -65,14 +65,9 @@ export class ProductCarouselComponent {
 
         const scope = 'spike_test'; // SPIKE HARDCODED SCOPE TEST
 
-        codes.forEach((code) => {
-          this.productSearchService.searchByCode({ code, scope });
-        });
-        // SPIKE TODO - don't call searchByCode() imperatively, but rather on demand - when there are no such data yet
-
         return of(
           codes.map((code) =>
-            this.productSearchService.getSearchByCodeResult({ code, scope })
+            this.productSearchService.searchByCode({ code, scope })
           )
         );
       })
