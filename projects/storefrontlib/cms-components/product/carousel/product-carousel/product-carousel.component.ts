@@ -69,6 +69,23 @@ export class ProductCarouselComponent {
             this.productSearchByCodeService.get({ code, scope })
           )
         );
+
+        // SPIKE ALTERNATIVE NEW (loading more scopes) - but it causes more http calls (1 call per each scope):
+        // const scopes = [
+        //   'spike_scope_image',
+        //   'spike_scope_name',
+        //   'spike_scope_price',
+        // ];
+        // console.log({ scopes });
+
+        // return of(
+        //   codes.map((code) =>
+        //     combineLatest(
+        //       scopes.map((scope) =>
+        //         this.productSearchByCodeService.get({ code, scope })
+        //       )
+        //     ).pipe(map((scopedProducts) => deepMerge({}, ...scopedProducts)))
+        //   )
       })
     );
 
