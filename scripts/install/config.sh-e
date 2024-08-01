@@ -10,7 +10,7 @@ BACKEND_URL="OCC_BACKEND_BASE_URL"
 
 # A comma separated list of base sites.
 # When empty, the base sites will not be explicitly specified in spartacus-configuration.module.ts
-BASE_SITE=
+BASE_SITE="electronics-spa"
 
 OCC_PREFIX="/occ/v2/"
 
@@ -59,14 +59,14 @@ INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
 ANGULAR_CLI_VERSION='^17.0.5'
-SPARTACUS_VERSION='latest'
+SPARTACUS_VERSION='2211.27.0-2'
 
 CSR_PORT="4200"
 SSR_PORT="4100"
 SSR_PWA_PORT=
 
 CSR_APP_NAME="csr"
-SSR_APP_NAME="ssr"
+SSR_APP_NAME="spartacusstore"
 SSR_PWA_APP_NAME="ssr-pwa"
 
 ADD_B2B_LIBS=false
@@ -86,8 +86,8 @@ EPD_VISUALIZATION_BASE_URL=
 
 #NPM connection info
 #NPM_URL must start by 'https://' and end with '/' char
-NPM_TOKEN=
-NPM_URL=
+NPM_TOKEN='c2FwLXJhZDI6dWdOYkZKTVk0dTZQamNZMm5rTmU4bkNxVnhhM2ZaY28='
+NPM_URL='https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/'
 NPM_ALWAYS_AUTH=true
 
 SKIP_SANITY=false
