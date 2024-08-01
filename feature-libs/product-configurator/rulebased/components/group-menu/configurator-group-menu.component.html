@@ -9,13 +9,7 @@
       </span>
       <ng-container *ngIf="displayedGroups$ | async as groups">
         <ng-container *ngIf="currentGroup$ | async as currentGroup">
-          <ng-container
-            *ngFor="
-              let group of groups;
-              let groupIndex = index;
-              trackBy: trackByFn
-            "
-          >
+          <ng-container *ngFor="let group of groups; let groupIndex = index">
             <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
               <button
                 *ngIf="parentGroup !== null && groupIndex === 0"

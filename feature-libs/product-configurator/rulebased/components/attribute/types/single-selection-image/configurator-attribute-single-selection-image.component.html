@@ -3,12 +3,7 @@
   class="cx-row"
   role="radiogroup"
 >
-  <ng-container
-    *ngIf="
-      !config.features?.productConfiguratorAttributeTypesV2 &&
-      (priceChangedEvent$ | async)
-    "
-  >
+  <ng-container *ngIf="!config.features?.productConfiguratorAttributeTypesV2">
     <div
       *ngFor="let value of attribute.values"
       id="{{
@@ -36,12 +31,18 @@
         [attr.aria-checked]="
           attributeRadioButtonForm.value === value.valueCode ? 'true' : 'false'
         "
-        [attr.aria-label]="getAriaLabelGeneric(attribute, value)"
-        [attr.aria-live]="
-          listenForPriceChanges &&
-          attributeRadioButtonForm.value === value.valueCode
-            ? 'polite'
-            : null
+        [attr.aria-label]="
+          value.valuePrice && value.valuePrice?.value !== 0
+            ? ('configurator.a11y.valueOfAttributeFullWithPrice'
+              | cxTranslate
+                : {
+                    value: value.valueDisplay,
+                    attribute: attribute.label,
+                    price: value.valuePrice.formattedValue
+                  })
+            : ('configurator.a11y.valueOfAttributeFull'
+              | cxTranslate
+                : { value: value.valueDisplay, attribute: attribute.label })
         "
         [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
         (click)="onClick(value.valueCode)"
@@ -73,12 +74,7 @@
       </div>
     </div>
   </ng-container>
-  <ng-container
-    *ngIf="
-      config.features?.productConfiguratorAttributeTypesV2 &&
-      (priceChangedEvent$ | async)
-    "
-  >
+  <ng-container *ngIf="config.features?.productConfiguratorAttributeTypesV2">
     <ng-container *ngFor="let value of attribute.values">
       <div
         *ngIf="isValueDisplayed(attribute, value)"
@@ -111,12 +107,18 @@
               ? 'true'
               : 'false'
           "
-          [attr.aria-label]="getAriaLabelGeneric(attribute, value)"
-          [attr.aria-live]="
-            listenForPriceChanges &&
-            attributeRadioButtonForm.value === value.valueCode
-              ? 'polite'
-              : null
+          [attr.aria-label]="
+            value.valuePrice && value.valuePrice?.value !== 0
+              ? (getAriaLabelForValueWithPrice(isReadOnly(attribute))
+                | cxTranslate
+                  : {
+                      value: value.valueDisplay,
+                      attribute: attribute.label,
+                      price: value.valuePrice.formattedValue
+                    })
+              : (getAriaLabelForValue(isReadOnly(attribute))
+                | cxTranslate
+                  : { value: value.valueDisplay, attribute: attribute.label })
           "
           [attr.aria-describedby]="
             createAttributeUiKey('label', attribute.name)

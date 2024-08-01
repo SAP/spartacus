@@ -7,11 +7,7 @@
   <div
     class="cx-group-attribute"
     [class.cx-hidden]="!attribute.visible"
-    *ngFor="
-      let attribute of group.attributes;
-      let indexOfAttribute = index;
-      trackBy: trackByFn
-    "
+    *ngFor="let attribute of group.attributes; let indexOfAttribute = index"
   >
     <ng-container *ngIf="isConflictGroupType(group.groupType)">
       <cx-configurator-conflict-suggestion
@@ -30,8 +26,7 @@
           group: group,
           language: activeLanguage,
           expMode: (expMode | async) ?? false,
-          isNavigationToGroupEnabled: isNavigationToGroupEnabled,
-          isPricingAsync: isPricingAsync
+          isNavigationToGroupEnabled: isNavigationToGroupEnabled
         }"
       ></div>
 
@@ -42,8 +37,7 @@
           owner: owner,
           group: group,
           language: activeLanguage,
-          expMode: (expMode | async) ?? false,
-          isPricingAsync: isPricingAsync
+          expMode: (expMode | async) ?? false
         }"
       ></div>
 
@@ -54,8 +48,7 @@
           owner: owner,
           group: group,
           language: activeLanguage,
-          expMode: (expMode | async) ?? false,
-          isPricingAsync: isPricingAsync
+          expMode: (expMode | async) ?? false
         }"
       ></div>
     </ng-container>

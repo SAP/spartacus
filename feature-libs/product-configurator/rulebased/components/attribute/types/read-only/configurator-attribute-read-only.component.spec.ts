@@ -8,9 +8,6 @@ import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-uti
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
-import { Observable, of } from 'rxjs';
-import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
-import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-price',
@@ -60,16 +57,6 @@ const myValues: Configurator.Value[] = [
   },
 ];
 
-class MockConfiguratorDeltaRenderingService {
-  getPriceChangedEvents(): Observable<boolean> {
-    return of(true);
-  }
-  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
-    return value;
-  }
-  storeValuePrice(): void {}
-}
-
 describe('ConfigAttributeReadOnlyComponent', () => {
   let component: ConfiguratorAttributeReadOnlyComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeReadOnlyComponent>;
@@ -82,16 +69,6 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   };
 
   beforeEach(waitForAsync(() => {
-    TestBed.overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
-      set: {
-        providers: [
-          {
-            provide: ConfiguratorAttributePriceChangeService,
-            useClass: MockConfiguratorDeltaRenderingService,
-          },
-        ],
-      },
-    });
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeReadOnlyComponent,
@@ -102,10 +79,6 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useValue: {},
         },
       ],
       imports: [ReactiveFormsModule, I18nTestingModule],
@@ -322,7 +295,6 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       });
 
       it('should return aria label for only valuePrice', () => {
-        component['configuratorAttributePriceChangeService'] = null;
         myValues[0].selected = false;
         myValues[1].selected = false;
         myValues[2].selected = true;

@@ -140,12 +140,12 @@ export class ConfiguratorTestUtils {
     return {
       attributeValueKey: valueKey,
       priceValue: {
-        currencyIso: 'USD',
+        currencyIso: '',
         formattedValue: formattedValuePrice,
         value: valuePrice,
       },
       obsoletePriceValue: {
-        currencyIso: 'USD',
+        currencyIso: '',
         formattedValue: formattedValuePrice,
         value: valuePrice,
       },
@@ -159,15 +159,10 @@ export class ConfiguratorTestUtils {
     const valueSupplements: Configurator.ValueSupplement[] = [];
     for (let index = 0; index < amountOfValues; index++) {
       const number = index + 1;
-      const factor = attributeNr * index - 1; //generate some negative and zero prices as well
+      const factor = attributeNr * number;
       const valueKey = 'value_' + attributeNr + '_' + number;
       const valuePrice = 100 * factor;
-      let formattedValuePrice: string;
-      if (valuePrice >= 0) {
-        formattedValuePrice = '$' + valuePrice.toString();
-      } else {
-        formattedValuePrice = '-$' + (valuePrice * -1).toString();
-      }
+      const formattedValuePrice = valuePrice.toString() + ' €';
       const valueSupplement = this.createValueSupplement(
         valueKey,
         formattedValuePrice,
@@ -193,99 +188,6 @@ export class ConfiguratorTestUtils {
     };
   }
 
-  /**
-   * example:
-   *[
-   * {
-   *   "attributeUiKey": "group1@attribute_1_1",
-   *   "valueSupplements": [
-   *     {
-   *       "attributeValueKey": "value_1_1",
-   *       "priceValue": {
-   *         "currencyIso": "USD",
-   *         "formattedValue": "-$100",
-   *         "value": -100
-   *       },
-   *       "obsoletePriceValue": {
-   *         "currencyIso": "USD",
-   *         "formattedValue": "-$100",
-   *         "value": -100
-   *       }
-   *     },
-   *     {
-   *       "attributeValueKey": "value_1_2",
-   *       "priceValue": {
-   *         "currencyIso": "USD",
-   *         "formattedValue": "$0",
-   *         "value": 0
-   *       },
-   *       "obsoletePriceValue": {
-   *         "currencyIso": "USD",
-   *         "formattedValue": "$0",
-   *         "value": 0
-   *       }
-   *     },
-   *     {
-   *       "attributeValueKey": "value_1_3",
-   *       "priceValue": {
-   *         "currencyIso": "USD",
-   *         "formattedValue": "$100",
-   *         "value": 100
-   *       },
-   *       "obsoletePriceValue": {
-   *         "currencyIso": "USD",
-   *         "formattedValue": "$100",
-   *         "value": 100
-   *       }
-   *     }
-   *   ]
-   * },
-   * {
-   *   "attributeUiKey": "group1@attribute_1_2",
-   *   "valueSupplements": [
-   *     {
-   *       "attributeValueKey": "value_2_1",
-   *       "priceValue": {
-   *         "currencyIso": "USD",
-   *         "formattedValue": "-$100",
-   *         "value": -100
-   *       },
-   *       "obsoletePriceValue": {
-   *         "currencyIso": "USD",
-   *         "formattedValue": "-$100",
-   *         "value": -100
-   *       }
-   *     },
-   *     {
-   *       "attributeValueKey": "value_2_2",
-   *       "priceValue": {
-   *         "currencyIso": "USD",
-   *         "formattedValue": "$100",
-   *         "value": 100
-   *       },
-   *       "obsoletePriceValue": {
-   *         "currencyIso": "USD",
-   *         "formattedValue": "$100",
-   *         "value": 100
-   *       }
-   *     },
-   *     {
-   *       "attributeValueKey": "value_2_3",
-   *       "priceValue": {
-   *         "currencyIso": "USD",
-   *         "formattedValue": "$300",
-   *         "value": 300
-   *       },
-   *       "obsoletePriceValue": {
-   *         "currencyIso": "USD",
-   *         "formattedValue": "$300",
-   *         "value": 300
-   *       }
-   *     }
-   *   ]
-   * }
-   *]
-   */
   static createListOfAttributeSupplements(
     isMultiLevel: boolean,
     numberOfGroups: number,
@@ -456,14 +358,13 @@ export class ConfiguratorTestUtils {
     isSelected = false
   ): Configurator.Value => ({
     valueCode: valueCode,
-    name: valueCode,
     valuePrice: this.createPrice(price),
     selected: isSelected,
   });
 
   static getAttributeContext(): ConfiguratorAttributeCompositionContext {
     return {
-      componentKey: 'testComponent',
+      componentKey: '',
       attribute: { name: 'attributeName' },
       owner: ConfiguratorModelUtils.createInitialOwner(),
       group: { id: 'id', subGroups: [] },
