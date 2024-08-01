@@ -39,6 +39,11 @@ export const defaultOccProductConfig: OccConfig = {
           spike_scope_1:
             'products/search?fields=products(code,name,images(DEFAULT),stock(FULL),price(FULL))',
           spike_scope_2: 'products/search?fields=products(code,name)',
+          spike_scope_image:
+            'products/search?fields=products(code,images(FULL))',
+          spike_scope_price:
+            'products/search?fields=products(code,price(FULL))',
+          spike_scope_name: 'products/search?fields=products(code,name)',
         },
         /* eslint-enable */
         productSuggestions: 'products/suggestions',
