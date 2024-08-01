@@ -53,7 +53,7 @@ export class ProductCarouselComponent {
         const codes = data.productCodes?.trim().split(' ') ?? [];
         return { componentMappingExist, codes };
       }),
-      switchMap(({ codes }) => {
+      switchMap(({ componentMappingExist, codes }) => {
         // SPIKE OLD:
 
         // const productScope = componentMappingExist
@@ -62,8 +62,7 @@ export class ProductCarouselComponent {
         // return codes.map((code) => this.productService.get(code, productScope));
 
         // SPIKE NEW:
-
-        const scope = 'spike_test'; // SPIKE HARDCODED SCOPE TEST
+        const scope = componentMappingExist ? 'spike_test_full' : 'spike_test';
 
         return of(
           codes.map((code) =>
