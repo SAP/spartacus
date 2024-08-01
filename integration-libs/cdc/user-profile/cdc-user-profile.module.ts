@@ -10,6 +10,7 @@ import { CDCRegisterModule } from './register/cdc-register.module';
 import { CDCUpdateEmailModule } from './update-email/cdc-update-email.module';
 import { CDCUpdatePasswordModule } from './update-password/cdc-update-password.module';
 import { CDCUpdateProfileModule } from './update-profile/cdc-update-profile.module';
+import { CdcResetPasswordModule } from './reset-password';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { CDCUpdateProfileModule } from './update-profile/cdc-update-profile.modu
     CDCUpdateProfileModule,
     CDCUpdatePasswordModule,
     CDCUpdateEmailModule,
+    CdcResetPasswordModule
   ],
 })
 export class CDCUserProfileModule {}

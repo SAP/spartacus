@@ -33,6 +33,7 @@ export interface SpartacusCdcOptions extends LibraryOptions {
   baseSite?: string;
   javascriptUrl?: string;
   sessionExpiration?: number;
+  httpHeaderName?: string;
 }
 
 export const CDC_FOLDER_NAME = 'cdc';
@@ -165,7 +166,8 @@ function buildCdcConfig(
             javascriptUrl: '${
               options.javascriptUrl || 'JS_SDK_URL_PLACEHOLDER'
             }',
-            sessionExpiration: ${options.sessionExpiration || 3600}
+            sessionExpiration: ${options.sessionExpiration || 3600},
+            httpHeaderName: ${options.httpHeaderName || 'apikey'},
           },
         ],
       }`,

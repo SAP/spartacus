@@ -59,6 +59,12 @@
       "description": "Session Expiration time in seconds",
       "x-prompt": "[CDC] What is the CDC Session expiration time (in seconds)?",
       "default": 3600
+    },
+    "httpHeaderName": {
+      "type": "string",
+      "description": "Name of HTTP Header key for Reset Password",
+      "x-prompt": "[CDC] What is the HTTP Header key for Reset Password?",
+      "default": "apikey"
     }
   },
   "required": []

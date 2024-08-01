@@ -16,6 +16,7 @@ export abstract class CdcConfig {
     baseSite: string;
     javascriptUrl: string;
     sessionExpiration: number;
+    httpHeaderName?: string;
   }[];
 }
 
