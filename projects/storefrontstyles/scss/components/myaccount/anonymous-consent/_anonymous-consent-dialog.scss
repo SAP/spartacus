@@ -39,6 +39,11 @@
 
       .cx-action-link {
         margin: 0 0.35rem;
+
+        @include forFeature('a11yUseButtonsForBtnLinks') {
+          padding: 0;
+          min-height: unset;
+        }
       }
 
       .cx-dialog-row {
