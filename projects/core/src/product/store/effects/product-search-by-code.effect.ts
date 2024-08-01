@@ -6,8 +6,8 @@
 
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
-import { normalizeHttpError } from '@spartacus/core';
+import { Action, Store } from '@ngrx/store';
+import { AuthActions, normalizeHttpError } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { LoggerService } from '../../../logger/logger.service';
@@ -103,12 +103,15 @@ export class ProductSearchByCodeEffects {
         )
   );
 
-  // SPIKE TODO SHOULD WE IMPLEMENT IT ALSO FOR SEARCH RESULTS?
-  // clearProductPrice$: Observable<ProductActions.ClearProductPrice> =
-  //   createEffect(() =>
-  //     this.actions$.pipe(
-  //       ofType(AuthActions.LOGOUT, AuthActions.LOGIN),
-  //       map(() => new ProductActions.ClearProductPrice())
-  //     )
-  //   );
+  clearState$: Observable<ProductActions.ClearProductSearchByCodeState> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(AuthActions.LOGOUT, AuthActions.LOGIN, 'spikeClear'), // SPIKE TODO remove `spikeClear` after spike
+        map(() => new ProductActions.ClearProductSearchByCodeState())
+      )
+    );
+
+  constructor(protected store: Store<any>) {
+    (window as any).dispatch = this.store.dispatch.bind(this.store); // SPIKE TODO remove after spike
+  }
 }

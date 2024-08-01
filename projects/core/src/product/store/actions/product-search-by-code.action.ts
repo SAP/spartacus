@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Product } from '@spartacus/core';
+import { Product } from '../../../model/product.model';
+import { StateUtils } from '../../../state/utils';
 import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
 import { PRODUCT_SEARCH_RESULTS_BY_CODES_ENTITY } from '../product-state';
 
@@ -13,6 +14,8 @@ export const SEARCH_PRODUCT_BY_CODE_SUCCESS =
   '[Product] Search Product By Code Success';
 export const SEARCH_PRODUCT_BY_CODE_FAIL =
   '[Product] Search Product By Code Fail';
+export const CLEAR_STATE_PRODUCT_SEARCH_BY_CODE =
+  '[Product] Clear State Product Search By Code';
 
 export class SearchProductByCode extends EntityScopedLoaderActions.EntityScopedLoadAction {
   readonly type = SEARCH_PRODUCT_BY_CODE;
@@ -50,8 +53,16 @@ export class SearchProductByCodeFail extends EntityScopedLoaderActions.EntitySco
   }
 }
 
+export class ClearProductSearchByCodeState extends StateUtils.EntityRemoveAllAction {
+  readonly type = CLEAR_STATE_PRODUCT_SEARCH_BY_CODE;
+  constructor() {
+    super(PRODUCT_SEARCH_RESULTS_BY_CODES_ENTITY);
+  }
+}
+
 // action types
 export type ProductSearchByCodeAction =
   | SearchProductByCode
   | SearchProductByCodeSuccess
-  | SearchProductByCodeFail;
+  | SearchProductByCodeFail
+  | ClearProductSearchByCodeState;
