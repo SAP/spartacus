@@ -36,9 +36,9 @@ export const defaultOccProductConfig: OccConfig = {
         productSearch: {
           default:
             'products/search?fields=products(code,name,summary,configurable,configuratorType,multidimensional,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery,keywordRedirectUrl',
-          spike_test:
-            'products/search?fields=products(code,name,images(DEFAULT),stock(FULL))',
-          spike_test_full: 'products/search?fields=products(FULL)',
+          spike_scope_1:
+            'products/search?fields=products(code,name,images(DEFAULT),stock(FULL),price(FULL))',
+          spike_scope_2: 'products/search?fields=products(code,name)',
         },
         /* eslint-enable */
         productSuggestions: 'products/suggestions',

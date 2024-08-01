@@ -34,23 +34,25 @@ export class ProductSearchByCodeEffects {
   searchByCodes$ = createEffect(
     () =>
       ({ scheduler, debounce = 0 } = {}): Observable<
-        | ProductActions.SearchProductByCodeSuccess
-        | ProductActions.SearchProductByCodeFail
+        | ProductActions.ProductSearchLoadByCodeSuccess
+        | ProductActions.ProductSearchLoadByCodeFail
       > =>
         this.actions$.pipe(
-          ofType(ProductActions.SEARCH_PRODUCT_BY_CODE),
+          ofType(ProductActions.PRODUCT_SEARCH_LOAD_BY_CODE),
 
           // We split streams of actions by scope, so later we will be able
           // to call the Connector once per scope for a group of actions having the same scope.
           groupBy(
-            (action: ProductActions.SearchProductByCode) => action.payload.scope
+            (action: ProductActions.ProductSearchLoadByCode) =>
+              action.payload.scope
           ),
           mergeMap((group) => {
             const scope = group.key;
 
             return group.pipe(
               map(
-                (action: ProductActions.SearchProductByCode) => action.payload
+                (action: ProductActions.ProductSearchLoadByCode) =>
+                  action.payload
               ),
 
               // We are grouping all load actions that happen at the same time
@@ -66,12 +68,12 @@ export class ProductSearchByCodeEffects {
                     switchMap(
                       (
                         searchResults
-                      ): ProductActions.SearchProductByCodeSuccess[] => {
+                      ): ProductActions.ProductSearchLoadByCodeSuccess[] => {
                         // We got all products in a single response from the Connector,
                         // but we need to dispatch separate success actions for each product.
                         const actions = searchResults.products?.map(
                           (product, index) =>
-                            new ProductActions.SearchProductByCodeSuccess({
+                            new ProductActions.ProductSearchLoadByCodeSuccess({
                               // We assume that the order of the products in the response
                               // is the same as the order of the codes in the request! OCC implementation guarantees that.
                               ...payloads[index],
@@ -82,12 +84,12 @@ export class ProductSearchByCodeEffects {
                       }
                     ),
                     catchError(
-                      (error): ProductActions.SearchProductByCodeFail[] => {
+                      (error): ProductActions.ProductSearchLoadByCodeFail[] => {
                         // We got an error while trying to load many products from the Connector,
                         // but we need to dispatch separate fail actions for each product.
                         const actions = payloads.map(
                           (payload) =>
-                            new ProductActions.SearchProductByCodeFail({
+                            new ProductActions.ProductSearchLoadByCodeFail({
                               ...payload,
                               error: normalizeHttpError(error, this.logger),
                             })
