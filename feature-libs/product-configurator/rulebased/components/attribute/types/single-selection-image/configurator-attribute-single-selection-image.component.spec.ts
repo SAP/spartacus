@@ -24,8 +24,6 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
-import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
-import { Observable, of } from 'rxjs';
 
 const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
@@ -49,16 +47,6 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
-class MockConfiguratorDeltaRenderingService {
-  getPriceChangedEvents(): Observable<boolean> {
-    return of(true);
-  }
-  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
-    return value;
-  }
-  storeValuePrice(): void {}
-}
-
 class MockConfig {
   features = [{ productConfiguratorAttributeTypesV2: false }];
 }
@@ -74,19 +62,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   let featureConfigService: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
-    TestBed.overrideComponent(
-      ConfiguratorAttributeSingleSelectionImageComponent,
-      {
-        set: {
-          providers: [
-            {
-              provide: ConfiguratorAttributePriceChangeService,
-              useClass: MockConfiguratorDeltaRenderingService,
-            },
-          ],
-        },
-      }
-    );
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeSingleSelectionImageComponent,
@@ -115,10 +90,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
         { provide: Config, useClass: MockConfig },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useValue: {},
-        },
       ],
     })
       .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
@@ -387,33 +358,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         'aria-label',
         'configurator.a11y.description'
       );
-    });
-
-    it('should create input element for selected value with aria-live', () => {
-      component.listenForPriceChanges = true;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'input',
-        'form-input',
-        2,
-        'aria-live',
-        'polite'
-      );
-    });
-
-    it('should create input element for not selected value without aria-live', () => {
-      component.listenForPriceChanges = true;
-      fixture.detectChanges();
-      const item = CommonConfiguratorTestUtilsService.getHTMLElement(
-        htmlElem,
-        'input',
-        'form-input',
-        0
-      );
-      const attributes = item?.attributes;
-      expect(attributes?.hasOwnProperty('aria-live')).toBe(false);
     });
   });
 });

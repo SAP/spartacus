@@ -17,7 +17,6 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
 
@@ -25,7 +24,6 @@ import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/config
   selector: 'cx-configurator-attribute-checkbox-list',
   templateUrl: './configurator-attribute-checkbox-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ConfiguratorAttributePriceChangeService],
 })
 export class ConfiguratorAttributeCheckBoxListComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent
@@ -73,15 +71,13 @@ export class ConfiguratorAttributeCheckBoxListComponent
     return this.quantityService.allowZeroValueQuantity(this.attribute);
   }
 
-  onSelect(valueCode?: string): void {
+  onSelect(): void {
     const selectedValues =
       this.configUtilsService.assembleValuesForMultiSelectAttributes(
         this.attributeCheckBoxForms,
         this.attribute
       );
-    if (valueCode && this.listenForPriceChanges) {
-      this.configUtilsService.setLastSelected(this.attribute.name, valueCode);
-    }
+
     this.configuratorCommonsService.updateConfiguration(
       this.ownerKey,
       {
@@ -99,7 +95,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
   ): void {
     if (eventObject === 0) {
       this.attributeCheckBoxForms[formIndex].setValue(false);
-      this.onSelect(valueCode);
+      this.onSelect();
       return;
     }
 

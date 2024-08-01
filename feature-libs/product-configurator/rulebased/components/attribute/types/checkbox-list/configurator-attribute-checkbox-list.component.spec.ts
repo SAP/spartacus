@@ -22,8 +22,6 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
-import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
-import { Observable, of } from 'rxjs';
 
 class MockGroupService {}
 
@@ -70,28 +68,6 @@ class MockConfiguratorCommonsService {
 
 class MockConfiguratorStorefrontUtilsService {
   assembleValuesForMultiSelectAttributes(): void {}
-
-  lastSelected?: { attributeName: string; valueCode: string };
-  setLastSelected(attributeName: string, valueCode: string): void {
-    this.lastSelected = { attributeName, valueCode };
-  }
-  isLastSelected(attributeName: string, valueCode: string): boolean {
-    return (
-      !!this.lastSelected &&
-      this.lastSelected.attributeName === attributeName &&
-      this.lastSelected.valueCode === valueCode
-    );
-  }
-}
-
-class MockConfiguratorDeltaRenderingService {
-  getPriceChangedEvents(): Observable<boolean> {
-    return of(true);
-  }
-  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
-    return value;
-  }
-  storeValuePrice(): void {}
 }
 
 describe('ConfiguratorAttributeCheckBoxListComponent', () => {
@@ -101,16 +77,6 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
   beforeEach(waitForAsync(() => {
-    TestBed.overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {
-      set: {
-        providers: [
-          {
-            provide: ConfiguratorAttributePriceChangeService,
-            useClass: MockConfiguratorDeltaRenderingService,
-          },
-        ],
-      },
-    });
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeCheckBoxListComponent,
@@ -550,43 +516,6 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
       );
     });
 
-    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute for value with total price that defines an accessible name to label the current element", () => {
-      let value = component.attribute.values
-        ? component.attribute.values[0]
-        : undefined;
-      const formattedValue = '$200.00';
-      if (value) {
-        value.valuePrice = {
-          currencyIso: '$',
-          formattedValue: '$100.00',
-          value: 100,
-        };
-        value.valuePriceTotal = {
-          currencyIso: '$',
-          formattedValue: formattedValue,
-          value: 200,
-        };
-      } else {
-        fail('Value not available');
-      }
-      fixture.detectChanges();
-
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'input',
-        'form-check-input',
-        0,
-        'aria-label',
-        'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
-          component.attribute.label +
-          ' price:' +
-          formattedValue +
-          ' value:' +
-          VALUE_1
-      );
-    });
-
     it("should contain input element with class name 'form-check-input' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -610,35 +539,6 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
         'true',
         VALUE_2
       );
-    });
-
-    it('should create input element for last selected value with aria-live', () => {
-      component.listenForPriceChanges = true;
-      component.onSelect('1');
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'input',
-        'form-check-input',
-        0,
-        'aria-live',
-        'polite'
-      );
-    });
-
-    it('should create input element for not last selected value without aria-live', () => {
-      component.listenForPriceChanges = true;
-      component.onSelect('1');
-      fixture.detectChanges();
-      const item = CommonConfiguratorTestUtilsService.getHTMLElement(
-        htmlElem,
-        'input',
-        'form-check-input',
-        1
-      );
-      const attributes = item?.attributes;
-      expect(attributes?.hasOwnProperty('aria-live')).toBe(false);
     });
   });
 });
