@@ -13,13 +13,16 @@ import {
   inject,
 } from '@angular/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
-import { FeatureModulesService, User } from '@spartacus/core';
+import {
+  FeatureModulesService,
+  User,
+  FeatureConfigService,
+} from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
-import { FeatureConfigService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-emulation',

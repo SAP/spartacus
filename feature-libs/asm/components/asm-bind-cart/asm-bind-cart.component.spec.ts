@@ -223,11 +223,7 @@ describe('AsmBindCartComponent', () => {
   });
 
   it('should clear field when clear input is clicked', () => {
-    cy.cxConfig({
-      features: {
-        showStyleChangesInASM: true,
-      },
-    } as FeaturesConfig);
+    component.isShowStyleChangesInASM = false;
     fixture.detectChanges();
     let button = fixture.debugElement.query(By.css('.cx-asm-reset'));
 

@@ -27,6 +27,7 @@ import {
   HttpErrorModel,
   OCC_CART_ID_CURRENT,
   RoutingService,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import {
@@ -50,7 +51,6 @@ import {
 import { BIND_CART_DIALOG_ACTION } from '../asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 import { SAVE_CART_DIALOG_ACTION } from '../asm-save-cart-dialog/asm-save-cart-dialog.component';
 import { AsmComponentService } from '../services/asm-component.service';
-import { FeatureConfigService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-asm-bind-cart',
@@ -192,10 +192,8 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   }
 
   clearText(): void {
-    if (!this.isShowStyleChangesInASM) {
-      this.cartId.setValue('');
-      this.resetDeeplinkCart();
-    }
+    this.cartId.setValue('');
+    this.resetDeeplinkCart();
   }
 
   protected resetDeeplinkCart(): void {
