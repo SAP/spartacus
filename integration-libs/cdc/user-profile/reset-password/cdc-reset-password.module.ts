@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from "@angular/core";
 import { ResetPasswordComponentService } from "@spartacus/user/profile/components";
 import { CdcResetPasswordComponentService } from "./cdc-reset-password-component.service";
