@@ -6,13 +6,15 @@
 
 import { AuthConfig } from 'angular-oauth2-oidc';
 
-export const authCodeFlowConfig: AuthConfig = {
-  issuer: 'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_haAyXsKhFEupcUCQ9UPizw',
-  redirectUri: window.location.origin + '/electronics-spa/en/USD/login',
-  clientId: 'FeWB0V0Opi2hEL-T21DlUuEO',
-  responseType: 'code',
-  scope: 'openid profile email uid',
-  showDebugInformation: true,
-  timeoutFactor: 0.01,
-  checkOrigin: false,
-};
+export function createAuthConfig(issuer: string,clientId: string, baseSite: string, scope: string): AuthConfig {
+  return {
+    issuer: issuer,
+    redirectUri: window.location.origin + '/' + baseSite +'/en/USD/login',
+    clientId: clientId,
+    responseType: 'code',
+    scope: scope,
+    showDebugInformation: true,
+    timeoutFactor: 0.01,
+    checkOrigin: false,
+  };
+}
