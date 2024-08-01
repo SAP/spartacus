@@ -46,7 +46,9 @@ export class ConfiguratorAttributeBaseComponent {
   protected static MAX_IMAGE_LABEL_CHARACTERS = 16;
 
   listenForPriceChanges: boolean;
-  priceChangedEvent$: Observable<boolean> = of(true); // no delta rendering - always render directly only once
+  changedPrices$: Observable<Record<string, Configurator.PriceDetails>> = of(
+    {}
+  ); // no delta rendering - always render directly only once with prices from configuration
   protected initPriceChangedEvent(
     isPricingAsync = false,
     attributeKey?: string
@@ -57,8 +59,8 @@ export class ConfiguratorAttributeBaseComponent {
       this._featureConfigService.isEnabled('productConfiguratorDeltaRendering')
     ) {
       this.listenForPriceChanges = true;
-      this.priceChangedEvent$ =
-        this.configuratorAttributePriceChangeService.getPriceChangedEvents(
+      this.changedPrices$ =
+        this.configuratorAttributePriceChangeService.getChangedPrices(
           attributeKey
         );
     }
@@ -293,10 +295,6 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   protected getValuePrice(value: Configurator.Value | undefined): string {
-    if (value && this.configuratorAttributePriceChangeService) {
-      value =
-        this.configuratorAttributePriceChangeService.mergePriceIntoValue(value);
-    }
     if (value?.valuePrice?.value && !value.selected) {
       if (value.valuePrice.value < 0) {
         return ` [${value.valuePrice?.formattedValue}]`;
@@ -423,10 +421,6 @@ export class ConfiguratorAttributeBaseComponent {
     value: Configurator.Value,
     considerSelectionState = false
   ): string {
-    value =
-      this.configuratorAttributePriceChangeService?.mergePriceIntoValue(
-        value
-      ) ?? value;
     const params: { value?: string; attribute?: string; price?: string } = {
       value: value.valueDisplay,
       attribute: attribute.label,
@@ -465,16 +459,29 @@ export class ConfiguratorAttributeBaseComponent {
   extractValuePriceFormulaParameters(
     value: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
-    value =
-      this.configuratorAttributePriceChangeService?.mergePriceIntoValue(
-        value
-      ) ?? value;
     return {
       quantity: value.quantity,
       price: value.valuePrice,
       priceTotal: value.valuePriceTotal,
       isLightedUp: value.selected,
     };
+  }
+
+  /**
+   * Merges the stored value price data into the given value, if available.
+   * As the value might be read-only a new object will be returned combining price and value.
+   *
+   * @param value the value
+   * @returns the new value with price
+   */
+  enrichValueWithPrice(
+    value: Configurator.Value,
+    price?: Configurator.PriceDetails
+  ): Configurator.Value {
+    if (price) {
+      value = { ...value, valuePrice: price };
+    }
+    return value;
   }
 
   /**

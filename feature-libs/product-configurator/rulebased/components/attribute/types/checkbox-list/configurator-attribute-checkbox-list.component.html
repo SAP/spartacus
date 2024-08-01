@@ -1,7 +1,7 @@
 <fieldset>
   <legend style="display: none">{{ attribute.label }}</legend>
   <div
-    *ngIf="priceChangedEvent$ | async"
+    *ngIf="changedPrices$ | async as changedPrices"
     id="{{ createAttributeIdForConfigurator(attribute) }}"
   >
     <div
@@ -32,7 +32,12 @@
             (change)="onSelect(value.valueCode)"
             [formControl]="attributeCheckBoxForms[i]"
             name="{{ createAttributeIdForConfigurator(attribute) }}"
-            [attr.aria-label]="getAriaLabelGeneric(attribute, value)"
+            [attr.aria-label]="
+              getAriaLabelGeneric(
+                attribute,
+                enrichValueWithPrice(value, changedPrices[value.name])
+              )
+            "
             [attr.aria-describedby]="
               createAttributeUiKey('label', attribute.name)
             "
@@ -63,7 +68,11 @@
         </div>
         <div class="cx-value-price">
           <cx-configurator-price
-            [formula]="extractValuePriceFormulaParameters(value)"
+            [formula]="
+              extractValuePriceFormulaParameters(
+                enrichValueWithPrice(value, changedPrices[value.name])
+              )
+            "
           ></cx-configurator-price>
         </div>
       </div>
