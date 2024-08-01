@@ -135,7 +135,7 @@
       <cx-card [content]="content | async"></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
-          [attr.aria-label]="label | cxTranslate"
+          [attr.title]="label | cxTranslate"
           [routerLink]="{ cxRoute: editRoute } | cxUrl"
         >
           <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
@@ -165,7 +165,7 @@
 
       <div class="cx-review-summary-edit-step">
         <a
-          [attr.aria-label]="'checkoutReview.editDeliveryMode' | cxTranslate"
+          [attr.title]="'checkoutReview.editDeliveryMode' | cxTranslate"
           [routerLink]="
             { cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryMode) }
               | cxUrl
