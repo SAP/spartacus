@@ -149,6 +149,17 @@ export class CdcJsService implements OnDestroy {
     return '';
   }
 
+  private getHttpHeaderNameForCurrentSite(baseSite: string): string {
+    const filteredConfigs = (this.cdcConfig.cdc ?? []).filter(
+      (conf) => conf.baseSite === baseSite
+    );
+    if (filteredConfigs && filteredConfigs.length > 0) {
+      console.log('filteredConfigs[0]:', filteredConfigs[0]);
+      return filteredConfigs[0].httpHeaderName ?? '';
+    }
+    return '';
+  }
+
   /**
    * Register login event listeners for CDC login
    *
@@ -784,11 +795,7 @@ export class CdcJsService implements OnDestroy {
 
   getHttpHeaderName(): string {
     const baseSite: string = this.getCurrentBaseSite();
-    const javascriptURL: string = this.getJavascriptUrlForCurrentSite(baseSite);
-    const queryParams = new URLSearchParams(
-      javascriptURL.substring(javascriptURL.indexOf('?'))
-    );
-    return queryParams.get('httpHeaderName') ?? '';
+    return this.getHttpHeaderNameForCurrentSite(baseSite);
   }
 
   /**

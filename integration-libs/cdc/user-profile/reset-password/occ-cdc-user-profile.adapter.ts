@@ -19,7 +19,6 @@ import { Observable, catchError } from 'rxjs';
 export class OccCdcUserProfileAdapter extends OccUserProfileAdapter {
   protected cdcJsService = inject(CdcJsService);
   resetPassword(token: string, newPassword: string): Observable<unknown> {
-    console.log('CDC resetPassword');
     const url = this.occEndpoints.buildUrl('userResetPassword');
     const apiKey = this.cdcJsService.getSiteAPIKey();
     const httpHeaderName = this.cdcJsService.getHttpHeaderName();
@@ -29,7 +28,6 @@ export class OccCdcUserProfileAdapter extends OccUserProfileAdapter {
     if (apiKey) {
       headers = headers.set(httpHeaderName, apiKey);
     }
-    console.log('headers', headers);
 
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
 

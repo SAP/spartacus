@@ -9,8 +9,8 @@ import { ResetPasswordComponentService } from "@spartacus/user/profile/component
 import { CdcResetPasswordComponentService } from "./cdc-reset-password-component.service";
 import { CmsConfig, GlobalMessageService, RoutingService, provideDefaultConfig } from "@spartacus/core";
 import { UserPasswordFacade } from "@spartacus/user/profile/root";
-import { OccUserProfileAdapter } from "@spartacus/user/profile/occ";
 import { OccCdcUserProfileAdapter } from "./occ-cdc-user-profile.adapter";
+import { UserProfileAdapter } from "@spartacus/user/profile/core";
 
 @NgModule({
     providers:[
@@ -27,10 +27,7 @@ import { OccCdcUserProfileAdapter } from "./occ-cdc-user-profile.adapter";
           },
         },
       }),
-      {
-        provide: OccUserProfileAdapter,
-        useClass: OccCdcUserProfileAdapter,
-      },
+      { provide: UserProfileAdapter, useClass: OccCdcUserProfileAdapter },
 ]
 })
 export class CdcResetPasswordModule{}
