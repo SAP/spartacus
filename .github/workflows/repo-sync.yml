@@ -23,15 +23,19 @@ jobs:
 
       - name: Run script
         run: |
+          local site_type=$1
+          local version=${{ github.event.inputs.version }}
+          local npm_token=${{ github.event.inputs.npm_token }}
+
+
           function setup_config_dir() {
             [ -d "${CONFIG_DIR}" ] || mkdir -p "${CONFIG_DIR}"
             cp "${CONFIG_DIR}/config.default.sh" "${CONFIG_DIR}/config.sh"
           }
 
           function update_config() {
-            local site_type=$1
-            local version=${{ github.event.inputs.version }}
-            local npm_token=${{ github.event.inputs.npm_token }}
+
+            echo ${site_type}
 
             if [ "${site_type}" == "b2c" ]; then
               sed -i 's/^BASE_SITE=.*/BASE_SITE="electronics-spa"/' "${CONFIG_DIR}/config.sh"
