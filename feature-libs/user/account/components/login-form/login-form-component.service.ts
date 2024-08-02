@@ -81,8 +81,4 @@ export class LoginFormComponentService {
 
     this.busy$.next(false);
   }
-
-  updateToken(token: string): void {
-    this.auth.syncCdcToken(token);
-  }
 }

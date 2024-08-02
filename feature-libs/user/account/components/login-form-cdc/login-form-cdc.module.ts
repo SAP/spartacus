@@ -12,15 +12,12 @@ import {
   CmsConfig,
   FeaturesConfigModule,
   I18nModule,
+  NotAuthGuard,
   UrlModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import {
-  FormErrorsModule,
-  PasswordVisibilityToggleModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
-import { LoginFormComponent } from './login-form.component';
+import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import { LoginFormCDCComponent } from './login-form-cdc.component';
 
 @NgModule({
   imports: [
@@ -32,26 +29,18 @@ import { LoginFormComponent } from './login-form.component';
     I18nModule,
     FormErrorsModule,
     SpinnerModule,
-    PasswordVisibilityToggleModule,
     FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        // ReturningCustomerLoginComponent: {
-        //   component: LoginFormCDCComponent,
-        //   guards: [NotAuthGuard],
-        //   providers: [
-        //     {
-        //       provide: LoginFormComponentService,
-        //       useClass: LoginFormComponentService,
-        //       deps: [AuthService, GlobalMessageService, WindowRef],
-        //     },
-        //   ],
-        // },
+        ReturningCustomerLoginComponent: {
+          component: LoginFormCDCComponent,
+          guards: [NotAuthGuard],
+        },
       },
     }),
   ],
-  declarations: [LoginFormComponent],
+  declarations: [LoginFormCDCComponent],
 })
-export class LoginFormModule {}
+export class LoginFormCDCModule {}

@@ -1,4 +1,81 @@
-<div class="cx-spinner"><cx-spinner></cx-spinner></div>
-<!-- <a class="btn-link" (click)="startPKCEflow()">
-  CDC PKCE Login
-</a> -->
+<cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
+  <label>
+    <span class="label-content">
+      {{ 'loginForm.emailAddress.label' | cxTranslate }}
+    </span>
+    <input
+      required="true"
+      type="email"
+      class="form-control"
+      formControlName="userId"
+      placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
+    />
+
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+    <cx-form-errors
+      *cxFeature="'formErrorsDescriptiveMessages'"
+      [translationParams]="{
+        label: 'loginForm.emailAddress.label' | cxTranslate
+      }"
+      [control]="form.get('userId')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!formErrorsDescriptiveMessages'"
+      [control]="form.get('userId')"
+    ></cx-form-errors>
+  </label>
+
+  <label>
+    <span class="label-content">
+      {{ 'loginForm.password.label' | cxTranslate }}
+    </span>
+    <input
+      required="true"
+      type="password"
+      class="form-control"
+      placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
+      formControlName="password"
+      [attr.aria-label]="'loginForm.password.placeholder' | cxTranslate"
+      cxPasswordVisibilitySwitch
+    />
+
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+    <cx-form-errors
+      *cxFeature="'formErrorsDescriptiveMessages'"
+      [translationParams]="{
+        label: 'loginForm.password.label' | cxTranslate
+      }"
+      [control]="form.get('password')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!formErrorsDescriptiveMessages'"
+      [control]="form.get('password')"
+    ></cx-form-errors>
+  </label>
+
+  <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">
+    {{ 'loginForm.forgotPassword' | cxTranslate }}
+  </a>
+
+  <button
+    type="submit"
+    class="btn btn-block btn-primary"
+    [disabled]="form.disabled"
+  >
+    {{ 'loginForm.signIn' | cxTranslate }}
+  </button>
+</form>
+
+<ng-template #requiredAsterisk>
+  <abbr
+    *cxFeature="'a11yRequiredAsterisks'"
+    class="text-decoration-none"
+    title="{{ 'common.required' | cxTranslate }}"
+    >*</abbr
+  >
+</ng-template>
