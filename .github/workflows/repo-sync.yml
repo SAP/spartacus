@@ -50,6 +50,8 @@ jobs:
           }
 
           function rename_spartacus_folders() {
+            local version=${{ github.event.inputs.version }}
+
             if [ "${site_type}" == "b2c" ]; then
               mv ../spartacus-${version} ../spartacus-${version}-b2c
               if [ -d "../spartacus-${version}-b2c" ]; then
@@ -69,7 +71,9 @@ jobs:
           }
 
           function modify_file_to_remove_baseurl() {
-            local file_location="../spartacus-${{ github.event.inputs.version }}-${site_type}/apps/spartacusstore/src/app/spartacus/spartacus-configuration.module.ts"
+            local version=${{ github.event.inputs.version }}
+
+            local file_location="../spartacus-${{version}}-${site_type}/apps/spartacusstore/src/app/spartacus/spartacus-configuration.module.ts"
 
             if [ -f "${file_location}" ]; then
               sed -i 's/baseUrl/\/\/baseUrl/1' "${file_location}"
