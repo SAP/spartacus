@@ -1,10 +1,6 @@
 name: Run Script
 on:
   workflow_dispatch:
-    inputs:
-      site_type:
-        description: 'Enter the type of site (b2c or b2b)'
-        required: true
       version:
         description: 'Enter the version to use'
         required: true
