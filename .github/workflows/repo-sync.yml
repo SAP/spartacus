@@ -1,6 +1,7 @@
 name: Run Script
 on:
   workflow_dispatch:
+    inputs:
       version:
         description: 'Enter the version to use'
         required: true
