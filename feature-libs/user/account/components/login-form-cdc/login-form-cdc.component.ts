@@ -38,28 +38,28 @@ export class LoginFormCDCComponent implements OnInit {
 
   initializeOAuthFlow(): void {
     const authConfig = createAuthConfig(
-      'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_l3dMCBwsQX6XopODQlWG7A',
-      'NMywTmkkLHK1KZmZwUa1P4qN',
+      'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_haAyXsKhFEupcUCQ9UPizw',
+      'FeWB0V0Opi2hEL-T21DlUuEO',
       this.baseSite,
       'openid profile email uid'
     );
-    console.log(authConfig);
-    console.log(authConfig.redirectUri);
+    // const authConfig = createAuthConfig(
+    //   'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_l3dMCBwsQX6XopODQlWG7A',
+    //   'NMywTmkkLHK1KZmZwUa1P4qN',
+    //   this.baseSite,
+    //   'openid profile email uid'
+    // );
     this.oauthService.configure(authConfig);
     this.oauthService.loadDiscoveryDocumentAndTryLogin();
     this.oauthService.events
       .pipe(filter((e) => e.type === 'token_received'))
       .subscribe(() => {
         this.oauthService.loadUserProfile();
-        this.updateToken(this.oauthService.getAccessToken());
+        this.auth.afterRedirectFromCDCLogin();
       });
   }
 
   startPKCEflow(): void {
     this.oauthService.initCodeFlow();
-  }
-
-  updateToken(token: string): void {
-    this.auth.syncCdcToken(token);
   }
 }
