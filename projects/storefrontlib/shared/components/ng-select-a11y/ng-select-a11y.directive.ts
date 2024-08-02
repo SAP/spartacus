@@ -67,17 +67,19 @@ export class NgSelectA11yDirective implements AfterViewInit {
     _changes: MutationRecord[],
     observerInstance: MutationObserver
   ) {
-    const options =
+    const options: HTMLOptionElement[] =
       this.elementRef?.nativeElement.querySelectorAll('.ng-option');
     if (options?.length) {
       this.translationService
         .translate('common.of')
         .pipe(take(1))
         .subscribe((translation) => {
-          options.forEach((option: any, index: string | number) => {
-            const ariaLabel = `${option.innerText}, ${+index + 1} ${translation} ${options.length}`;
-            this.renderer.setAttribute(option, 'aria-label', ariaLabel);
-          });
+          options.forEach(
+            (option: HTMLOptionElement, index: string | number) => {
+              const ariaLabel = `${option.innerText}, ${+index + 1} ${translation} ${options.length}`;
+              this.renderer.setAttribute(option, 'aria-label', ariaLabel);
+            }
+          );
         });
     }
     observerInstance.disconnect();
