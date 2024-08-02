@@ -62,8 +62,6 @@ jobs:
             fi
           }
 
-          
-
           setup_config_dir
           update_config
           cd "${CONFIG_DIR}" && bash "./run.sh" install_npm
@@ -77,7 +75,11 @@ jobs:
           function clone_and_setup_repo() {
             git clone $REPO_URL
             cd cloud-commerce-sample-setup
-            git checkout -b "new_branch_$(date +%Y%m%d%H%M%S)"
+            
+            # Create a new branch with a unique name
+            branch_name="new_branch_$timestamp"
+            git checkout -b $branch_name
+
             rm -rf js-storefront/spartacusstore/*
             cp -r ./../../spartacus-${{ github.event.inputs.version }}/apps/spartacusstore/* js-storefront/spartacusstore/
             git add .
@@ -86,6 +88,9 @@ jobs:
           }
 
           clone_and_setup_repo
+          
+          # Echo the branch name so it can be used in later steps
+          echo "branch_name=$branch_name" >> $GITHUB_ENV
       - name: Create Pull Request
         run: |
           curl -X POST -H "Authorization: token ${{ secrets.GH_TEMPORARY_TOKEN }}" -H "Accept: application/vnd.github.v3+json" \
