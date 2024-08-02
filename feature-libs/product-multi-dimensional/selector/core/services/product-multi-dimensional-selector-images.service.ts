@@ -5,12 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import {
-  Config,
-  Image,
-  VariantOptionQualifier,
-  VariantQualifier,
-} from '@spartacus/core';
+import { Config, Image, VariantOptionQualifier } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class ProductMultiDimensionalSelectorImagesService {
@@ -23,7 +18,7 @@ export class ProductMultiDimensionalSelectorImagesService {
     variantOptionQualifiers: VariantOptionQualifier[],
     variantOptionValue: string
   ): Image[] {
-    const format = VariantQualifier.STYLE_SWATCH;
+    const format = this.config?.multiDimensional?.imageFormat;
     return variantOptionQualifiers
       .filter((optionQualifier) => optionQualifier.image?.format === format)
       .map((optionQualifier) => {

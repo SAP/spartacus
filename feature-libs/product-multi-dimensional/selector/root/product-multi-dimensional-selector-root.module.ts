@@ -5,8 +5,12 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideDefaultConfigFactory } from '@spartacus/core';
+import {
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
 import { PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE } from './feature-name';
+import { defaultProductMultiDimensionalConfig } from './config/default-product-multi-dimensional-config';
 
 export function defaultProductMultiDimensionalSelectorComponentsConfig() {
   return {
@@ -23,6 +27,7 @@ export function defaultProductMultiDimensionalSelectorComponentsConfig() {
 
 @NgModule({
   providers: [
+    provideDefaultConfig(defaultProductMultiDimensionalConfig),
     provideDefaultConfigFactory(
       defaultProductMultiDimensionalSelectorComponentsConfig
     ),
