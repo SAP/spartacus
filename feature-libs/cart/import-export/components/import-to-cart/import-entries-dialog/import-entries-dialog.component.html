@@ -16,6 +16,7 @@
       <button
         (click)="close('Close Import Products Dialog')"
         [attr.aria-label]="'importEntriesDialog.close' | cxTranslate"
+        title="{{ 'importEntriesDialog.close' | cxTranslate }}"
         class="cx-import-entries-close close"
         type="button"
         [disabled]="(summary$ | async)?.loading"
