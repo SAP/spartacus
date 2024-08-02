@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ProductSearchScope } from 'projects/core/src/product/model/product-search-scope';
 import { ProductScope } from '../../../product/model/product-scope';
 import { OccConfig } from '../../config/occ-config';
 
@@ -33,8 +34,13 @@ export const defaultOccProductConfig: OccConfig = {
         productReferences:
           'products/${productCode}/references?fields=DEFAULT,references(target(images(FULL)))',
         /* eslint-disable max-len */
-        productSearch:
-          'products/search?fields=products(code,name,summary,configurable,configuratorType,multidimensional,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery,keywordRedirectUrl',
+        productSearch: {
+          default:
+            'products/search?fields=products(code,name,summary,configurable,configuratorType,multidimensional,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery,keywordRedirectUrl',
+          spike_test:
+            'products/search?fields=products(code,name,images(DEFAULT),stock(FULL))',
+          spike_test_full: 'products/search?fields=products(FULL)',
+        },
         /* eslint-enable */
         productSuggestions: 'products/suggestions',
       },
@@ -43,6 +49,11 @@ export const defaultOccProductConfig: OccConfig = {
       product: {
         details: {
           include: [ProductScope.LIST, ProductScope.VARIANTS],
+        },
+      },
+      productSearch: {
+        spike_test: {
+          include: [ProductSearchScope.spike_scope_full],
         },
       },
     },

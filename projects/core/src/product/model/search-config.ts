@@ -9,4 +9,10 @@ export interface SearchConfig {
   pageSize?: number;
   currentPage?: number;
   sort?: string;
+
+  /**
+   * filters in a format of `filter:value` separated also by `:`
+   * @example `allCategories:584:availableInStores:Chiba`
+   */
+  filters?: string; // SPIKE NEW
 }
