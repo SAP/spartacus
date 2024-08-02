@@ -95,8 +95,12 @@ jobs:
           # Navigate to the cloned repository
           cd cloud-commerce-sample-setup
 
-          # Create a new branch
-          git checkout -b new_branch28
+          # Get the current date and time
+          timestamp=$(date +%Y%m%d%H%M%S)
+
+          # Create a new branch with a unique name
+          branch_name="new_branch_$timestamp"
+          git checkout -b $branch_name
 
           # Replace the content inside js-storefront/spartacusstore with the content from ./../../spartacus-${{ github.event.inputs.version }}/apps/spartacusstore
           rm -rf js-storefront/spartacusstore/*
@@ -120,6 +124,6 @@ jobs:
             -d '{
               "title": "Update js-storefront/spartacusstore content",
               "body": "This PR updates the content of js-storefront/spartacusstore.",
-              "head": "new_branch28",
+              "head": "'"$BRANCH_NAME"'",
               "base": "main"
             }'
