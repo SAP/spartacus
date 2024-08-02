@@ -1,43 +1,46 @@
 <ng-container *ngIf="product">
   <div class="variant-generic-selector">
     <ng-container *ngFor="let category of categories">
-      <label for="{{category.name}}">{{ category.name }}</label>
+      <label for="{{ category.name }}">{{ category.name }}</label>
 
       <div
         *ngIf="category.hasImages; else noImages"
-        id="{{category.name}}"
+        id="{{ category.name }}"
+        role="combobox"
+        [attr.aria-label]="'multiDimensional.chooseVariantTitle' | cxTranslate"
         class="image-variant-container"
       >
-        <cx-media
+        <button
           *ngFor="let option of category.variantOptions"
-          (keyup.enter)="changeVariant(option.code)"
-          (click)="changeVariant(option.code)"
-          [container]="option.images"
+          role="option"
+          type="button"
+          class="image-variant"
           [ngClass]="{ active: option?.code === product.code }"
           [title]="option.value"
           [attr.aria-label]="option.value"
-          class="image-variant"
-          role="img"
-          tabindex="0"
+          (click)="changeVariant(option.code)"
+          [cxFocus]="{ key: option.code }"
         >
-        </cx-media>
+          <cx-media [container]="option.images" role="img"> </cx-media>
+        </button>
       </div>
 
       <ng-template #noImages>
         <div class="select-variant-container">
-          <select
+          <ng-select
+            [clearable]="false"
+            [searchable]="false"
+            [items]="category.variantOptions"
+            [(ngModel)]="selectedVariant"
             (change)="changeVariant($event.target.value)"
-            id="{{category.name}}"
-            class="form-control"
+            [id]="category.name"
+            [cxNgSelectA11y]="{
+              ariaLabel: 'multiDimensional.chooseVariantTitle' | cxTranslate
+            }"
+            bindValue="code"
+            bindLabel="value"
           >
-            <option
-              *ngFor="let option of category.variantOptions"
-              [value]="option.code"
-              [selected]="isSelected(option.code)"
-            >
-              {{ option.value }}
-            </option>
-          </select>
+          </ng-select>
         </div>
       </ng-template>
     </ng-container>

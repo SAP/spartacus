@@ -7,6 +7,10 @@
 import { NgModule } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
 import {
+  multiDimensionalTranslationChunksConfig,
+  multiDimensionalTranslations,
+} from '@spartacus/product/multi-dimensional/assets';
+import {
   PRODUCT_MULTIDIMENSIONAL_FEATURE,
   VariantsMultiDimensionalRootModule,
 } from '@spartacus/product/multi-dimensional/root';
@@ -22,6 +26,11 @@ import {
               (m) => m.ProductMultiDimensionalModule
             ),
         },
+      },
+      i18n: {
+        resources: multiDimensionalTranslations,
+        chunks: multiDimensionalTranslationChunksConfig,
+        fallbackLang: 'en',
       },
     }),
   ],

@@ -12,16 +12,16 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {
   Product,
   ProductScope,
   ProductService,
   RoutingService,
 } from '@spartacus/core';
-import { ProductMultiDimensionalService } from '../../../core/services/product-multi-dimensional.service';
-import { ActivatedRoute } from '@angular/router';
-import { filter, take } from 'rxjs/operators';
 import { VariantCategoryGroup } from '@spartacus/product/multi-dimensional/root';
+import { filter, take } from 'rxjs/operators';
+import { ProductMultiDimensionalService } from '../../../core/services/product-multi-dimensional.service';
 
 @Component({
   selector: 'cx-variants-multi-dimensional-selector',
@@ -39,11 +39,13 @@ export class ProductMultiDimensionalSelectorComponent implements OnChanges {
   @Input()
   product: Product;
 
+  selectedVariant: string;
   categories: VariantCategoryGroup[] = [];
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.product) {
       this.categories = this.multiDimensionalService.getVariants(this.product);
+      this.selectedVariant = this.product.code ?? '';
     }
   }
 
@@ -59,9 +61,5 @@ export class ProductMultiDimensionalSelectorComponent implements OnChanges {
           });
         });
     }
-  }
-
-  isSelected(code: string) {
-    return code === this.product.code;
   }
 }

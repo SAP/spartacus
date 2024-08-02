@@ -453,6 +453,9 @@
       "@spartacus/product/image-zoom/root": [
         "feature-libs/product/image-zoom/root/public_api"
       ],
+      "@spartacus/product/multi-dimensional/assets": [
+        "feature-libs/product/multi-dimensional/assets/public_api"
+      ],
       "@spartacus/product/multi-dimensional/components": [
         "feature-libs/product/multi-dimensional/components/public_api"
       ],
@@ -657,11 +660,23 @@
       "@spartacus/cdp": [
         "integration-libs/cdp/public_api"
       ],
+      "@spartacus/cds/assets": [
+        "integration-libs/cds/assets/public_api"
+      ],
       "@spartacus/cds": [
         "integration-libs/cds/public_api"
       ],
-      "@spartacus/cds/assets": [
-        "integration-libs/cds/assets/public_api"
+      "@spartacus/cpq-quote/assets": [
+        "integration-libs/cpq-quote/assets/public_api"
+      ],
+      "@spartacus/cpq-quote/cpq-quote-discount": [
+        "integration-libs/cpq-quote/cpq-quote-discount/public_api"
+      ],
+      "@spartacus/cpq-quote": [
+        "integration-libs/cpq-quote/public_api"
+      ],
+      "@spartacus/cpq-quote/root": [
+        "integration-libs/cpq-quote/root/public_api"
       ],
       "@spartacus/digital-payments/assets": [
         "integration-libs/digital-payments/assets/public_api"
@@ -716,18 +731,6 @@
       ],
       "@spartacus/s4om/root": [
         "integration-libs/s4om/root/public_api"
-      ],
-      "@spartacus/cpq-quote/assets": [
-        "integration-libs/cpq-quote/assets/public_api"
-      ],
-      "@spartacus/cpq-quote": [
-        "integration-libs/cpq-quote/public_api"
-      ],
-      "@spartacus/cpq-quote/root": [
-        "integration-libs/cpq-quote/root/public_api"
-      ],
-      "@spartacus/cpq-quote/cpq-quote-discount": [
-        "integration-libs/cpq-quote/cpq-quote-discount/public_api"
       ],
       "@spartacus/segment-refs": [
         "integration-libs/segment-refs/public_api"
