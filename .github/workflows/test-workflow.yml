@@ -68,8 +68,7 @@ jobs:
 
           # Navigate to the directory and run the script
           cd "${config_dir}" && bash "./run.sh" install_npm
-      - name: Modify Spartacus configuration
-        run: |
+
           # Define the file location
           file_location="../../../spartacus-${version}/apps/spartacusstore/src/app/spartacus/spartacus-configuration.module.ts"
 
