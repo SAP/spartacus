@@ -100,9 +100,8 @@ export class ConfiguratorAttributePriceChangeService {
       this.lastAttributeSupplement ?? {},
       attributeSupplement ?? {}
     );
-    undefined;
     if (changed) {
-      let changedPrices: Record<string, Configurator.PriceDetails> = {};
+      const changedPrices: Record<string, Configurator.PriceDetails> = {};
       this.lastAttributeSupplement = attributeSupplement;
       attributeSupplement?.valueSupplements.forEach(
         (valueSupplement) =>
