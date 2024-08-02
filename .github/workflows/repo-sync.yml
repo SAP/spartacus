@@ -33,6 +33,8 @@ jobs:
             local version=${{ github.event.inputs.version }}
             local npm_token=${{ github.event.inputs.npm_token }}
 
+            echo $version
+
             if [ "${site_type}" == "b2c" ]; then
               sed -i 's/^BASE_SITE=.*/BASE_SITE="electronics-spa"/' "${CONFIG_DIR}/config.sh"
               sed -i 's/^SSR_APP_NAME=.*/SSR_APP_NAME="spartacusstore"/' "${CONFIG_DIR}/config.sh"
