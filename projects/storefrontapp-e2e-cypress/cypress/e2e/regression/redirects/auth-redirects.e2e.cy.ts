@@ -38,13 +38,20 @@ context('Redirect after auth', () => {
   });
 
   it('should redirect back after the forced login when access token expired and http call was made', () => {
+    cy.intercept({
+      method: 'POST',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/*/consents`,
+    }).as('consentsRequest');
     cy.requireLoggedIn(user);
     cy.visit('/my-account/consents');
     cy.location('pathname').should('contain', '/my-account/consents');
 
-    cy.get('cx-consent-management-form .form-check').first().click();
+    cy.get('cx-consent-management-form .form-check input').first().click();
+    cy.wait('@consentsRequest');
     revokeAccessToken();
-    cy.get('cx-consent-management-form .form-check').first().click();
+    cy.get('cx-consent-management-form .form-check input').first().click();
 
     cy.location('pathname').should('contain', `/login`);
     cy.get('cx-global-message div').should(
