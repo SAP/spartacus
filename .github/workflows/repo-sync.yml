@@ -96,7 +96,7 @@ jobs:
           cd cloud-commerce-sample-setup
 
           # Create a new branch
-          git checkout -b new_branch26
+          git checkout -b new_branch28
 
           # Replace the content inside js-storefront/spartacusstore with the content from ./../../spartacus-${{ github.event.inputs.version }}/apps/spartacusstore
           rm -rf js-storefront/spartacusstore/*
@@ -110,13 +110,16 @@ jobs:
 
           # Push the changes to the new branch
           git push -u https://${{secrets.GH_TEMPORARY_TOKEN}}@github.com/SAP-samples/cloud-commerce-sample-setup.git
-      
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.GH_TEMPORARY_TOKEN }}
-          base: main
-          branch: new_branch26
-          title: "Update js-storefront/spartacusstore content"
-          body: "This PR updates the content of js-storefront/spartacusstore."
-          path: cloud-commerce-sample-setup
+        run: |
+          curl \
+            -X POST \
+            -H "Authorization: token ${{ secrets.GH_TEMPORARY_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/SAP-samples/cloud-commerce-sample-setup/pulls \
+            -d '{
+              "title": "Update js-storefront/spartacusstore content",
+              "body": "This PR updates the content of js-storefront/spartacusstore.",
+              "head": "new_branch28",
+              "base": "main"
+            }'
