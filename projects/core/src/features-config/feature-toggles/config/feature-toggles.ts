@@ -395,6 +395,11 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
+   * Modifies the 'NgSelectA11yDirective' to improve the sorting dropdown screen reader experience on mobile devices.
+   */
+  a11yNgSelectMobileReadout?: boolean;
+
+  /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
    * into a request body, instead of query params.
    * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
@@ -471,6 +476,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yDeliveryModeRadiogroup: false,
+  a11yNgSelectMobileReadout: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
 };
