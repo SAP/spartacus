@@ -5,7 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import {provideDefaultConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import {
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
 import { PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE } from './feature-name';
 import { defaultProductMultiDimensionalConfig } from './config/default-product-multi-dimensional-config';
 
