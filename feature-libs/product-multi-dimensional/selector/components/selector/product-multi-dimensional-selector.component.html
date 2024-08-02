@@ -1,4 +1,4 @@
-<div *ngIf="product$ | async as product" class="variants-section">
+<ng-container *ngIf="product$ | async as product">
   <div class="variant-generic-selector">
     <ng-container *ngFor="let category of categories">
       <label>{{ category.name }}</label>
@@ -36,4 +36,4 @@
       </ng-template>
     </ng-container>
   </div>
-</div>
+</ng-container>
