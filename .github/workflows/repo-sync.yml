@@ -102,9 +102,6 @@ jobs:
           branch_name="new_branch_$timestamp"
           git checkout -b $branch_name
 
-          # Echo the branch name so it can be used in later steps
-          echo "::set-output name=branch_name::$branch_name"
-
           # Replace the content inside js-storefront/spartacusstore with the content from ./../../spartacus-${{ github.event.inputs.version }}/apps/spartacusstore
           rm -rf js-storefront/spartacusstore/*
           cp -r ./../../spartacus-${{ github.event.inputs.version }}/apps/spartacusstore/* js-storefront/spartacusstore/
@@ -117,6 +114,9 @@ jobs:
 
           # Push the changes to the new branch
           git push -u https://${{secrets.GH_TEMPORARY_TOKEN}}@github.com/SAP-samples/cloud-commerce-sample-setup.git
+
+          # Echo the branch name so it can be used in later steps
+          echo "branch_name=$branch_name" >> $GITHUB_ENV
       - name: Create Pull Request
         run: |
           BRANCH_NAME=${{ steps.commit_changes.outputs.branch_name }}
