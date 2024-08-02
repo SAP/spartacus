@@ -2,7 +2,7 @@
   <fieldset>
     <legend style="display: none">{{ attribute.label }}</legend>
     <div id="{{ createAttributeIdForConfigurator(attribute) }}">
-      <div class="form-check" *ngIf="priceChangedEvent$ | async">
+      <div class="form-check" *ngIf="changedPrices$ | async as changedPrices">
         <div class="cx-value-label-pair">
           <input
             id="{{
@@ -20,7 +20,15 @@
             (change)="onSelect(attributeValue.valueCode)"
             [formControl]="attributeCheckBoxForm"
             name="{{ createAttributeIdForConfigurator(attribute) }}"
-            [attr.aria-label]="getAriaLabelGeneric(attribute, attributeValue)"
+            [attr.aria-label]="
+              getAriaLabelGeneric(
+                attribute,
+                enrichValueWithPrice(
+                  attributeValue,
+                  changedPrices[attributeValue.name]
+                )
+              )
+            "
             [attr.aria-live]="
               isLastSelected(attribute.name, attributeValue.valueCode)
                 ? 'polite'
@@ -70,7 +78,14 @@
         </div>
         <div class="cx-value-price">
           <cx-configurator-price
-            [formula]="extractValuePriceFormulaParameters(attributeValue)"
+            [formula]="
+              extractValuePriceFormulaParameters(
+                enrichValueWithPrice(
+                  attributeValue,
+                  changedPrices[attributeValue.name]
+                )
+              )
+            "
           ></cx-configurator-price>
         </div>
       </div>

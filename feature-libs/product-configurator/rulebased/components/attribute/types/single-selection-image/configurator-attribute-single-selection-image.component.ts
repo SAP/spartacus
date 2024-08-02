@@ -82,10 +82,6 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   extractValuePriceFormulaParameters(
     value?: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
-    if (value && this.configuratorAttributePriceChangeService) {
-      value =
-        this.configuratorAttributePriceChangeService.mergePriceIntoValue(value);
-    }
     return {
       price: value?.valuePrice,
       isLightedUp: value ? value.selected : false,

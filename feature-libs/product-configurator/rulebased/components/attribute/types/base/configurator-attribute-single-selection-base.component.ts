@@ -199,10 +199,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   extractValuePriceFormulaParameters(
     value?: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
-    if (value && this.configuratorAttributePriceChangeService) {
-      value =
-        this.configuratorAttributePriceChangeService.mergePriceIntoValue(value);
-    }
     return {
       price: value?.valuePrice,
       isLightedUp: value ? value.selected : false,
@@ -231,10 +227,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     value: Configurator.Value,
     attribute: Configurator.Attribute
   ): string {
-    value =
-      this.configuratorAttributePriceChangeService?.mergePriceIntoValue(
-        value
-      ) ?? value;
     const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
     if (this.isWithAdditionalValues(this.attribute)) {
       const ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();

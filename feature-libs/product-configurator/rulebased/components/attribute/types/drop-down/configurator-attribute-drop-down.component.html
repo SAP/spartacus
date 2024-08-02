@@ -1,4 +1,4 @@
-<ng-container *ngIf="priceChangedEvent$ | async">
+<ng-container *ngIf="changedPrices$ | async as changedPrices">
   <div
     class="form-group"
     *ngIf="attribute.values && attribute.values.length !== 0"
@@ -57,11 +57,25 @@
           <option
             *ngFor="let item of attribute.values"
             [selected]="item.selected"
-            [label]="getLabel(expMode, item.valueDisplay, item.valueCode, item)"
+            [label]="
+              getLabel(
+                expMode,
+                item.valueDisplay,
+                item.valueCode,
+                enrichValueWithPrice(item, changedPrices[item.name])
+              )
+            "
             [attr.aria-label]="getAriaLabel(item, attribute)"
             [value]="item.valueCode"
           >
-            {{ getLabel(expMode, item.valueDisplay, item.valueCode, item) }}
+            {{
+              getLabel(
+                expMode,
+                item.valueDisplay,
+                item.valueCode,
+                enrichValueWithPrice(item, changedPrices[item.name])
+              )
+            }}
           </option>
         </select>
         <cx-configurator-show-more
@@ -83,7 +97,14 @@
 
     <div *ngIf="!withQuantity && getSelectedValue()" class="cx-value-price">
       <cx-configurator-price
-        [formula]="extractValuePriceFormulaParameters(getSelectedValue())"
+        [formula]="
+          extractValuePriceFormulaParameters(
+            enrichValueWithPrice(
+              getSelectedValue(),
+              changedPrices[getSelectedValue().name]
+            )
+          )
+        "
       ></cx-configurator-price>
     </div>
   </div>

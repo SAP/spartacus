@@ -24,7 +24,7 @@ import { Configurator } from '../../../core/model/configurator.model';
  *
  * @Component({ providers: [ConfiguratorAttributePriceChangeService] })
  *
- * getPriceChangedEvents will return an observable that emits whenever the price of a monitored attribute (identified by the provided attribute key) changes,
+ * getChangedPrices will return an observable that emits whenever the price of a monitored attribute (identified by the provided attribute key) changes,
  * hence allowing the subscriber for example to trigger rerendering of the prices on the UI.
  */
 @Injectable()
@@ -36,8 +36,6 @@ export class ConfiguratorAttributePriceChangeService {
   protected lastAttributeSupplement:
     | Configurator.AttributeSupplement
     | undefined;
-  protected valuePrices: { [valueName: string]: Configurator.PriceDetails } =
-    {};
 
   /**
    * Returns an observable that shall be used by all components supporting delta rendering mode.
@@ -51,7 +49,9 @@ export class ConfiguratorAttributePriceChangeService {
    * @param attributeKey key of the attribute for which the prices should be checked for changes
    * @returns observable that emits 'true' each time a price changes and hence there is the need to rerender the enclosing component
    */
-  getPriceChangedEvents(attributeKey: string | undefined): Observable<boolean> {
+  getChangedPrices(
+    attributeKey: string | undefined
+  ): Observable<Record<string, Configurator.PriceDetails>> {
     let isInitialConfiguration: boolean = true;
     return this.configuratorRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
@@ -65,34 +65,19 @@ export class ConfiguratorAttributePriceChangeService {
             ),
             switchMap((config) => {
               if (!config.priceSupplements) {
-                return of(true);
+                return of({});
               }
-              const pricesChanged = this.checkForValuePriceChanges(
+              const changedPrices = this.checkForValuePriceChanges(
                 config,
                 attributeKey
               );
-              return pricesChanged ? of(true) : EMPTY;
+              return changedPrices ? of(changedPrices) : EMPTY;
             }),
             tap(() => (isInitialConfiguration = false))
           );
       }),
       shareReplay({ bufferSize: 1, refCount: true })
     );
-  }
-
-  /**
-   * Merges the stored value price data into the given value, if available.
-   * As the value might be read-only a new object will be returned combining price and value.
-   *
-   * @param value the value
-   * @returns the new value with price
-   */
-  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
-    const valueName = value.name;
-    if (valueName && this.valuePrices[valueName]) {
-      value = { ...value, valuePrice: this.valuePrices[valueName] };
-    }
-    return value;
   }
 
   /**
@@ -107,7 +92,7 @@ export class ConfiguratorAttributePriceChangeService {
   protected checkForValuePriceChanges(
     config: Configurator.Configuration,
     attributeKey: string | undefined
-  ): boolean {
+  ): Record<string, Configurator.PriceDetails> | undefined {
     const attributeSupplement = config.priceSupplements?.find(
       (supplement) => supplement.attributeUiKey === attributeKey
     );
@@ -115,22 +100,17 @@ export class ConfiguratorAttributePriceChangeService {
       this.lastAttributeSupplement ?? {},
       attributeSupplement ?? {}
     );
+    undefined;
     if (changed) {
+      let changedPrices: Record<string, Configurator.PriceDetails> = {};
       this.lastAttributeSupplement = attributeSupplement;
-      attributeSupplement?.valueSupplements.forEach((valueSupplement) =>
-        this.storeValuePrice(
-          valueSupplement.attributeValueKey,
-          valueSupplement.priceValue
-        )
+      attributeSupplement?.valueSupplements.forEach(
+        (valueSupplement) =>
+          (changedPrices[valueSupplement.attributeValueKey] =
+            valueSupplement.priceValue)
       );
+      return changedPrices;
     }
-    return changed;
-  }
-
-  protected storeValuePrice(
-    valueName: string,
-    valuePrice: Configurator.PriceDetails
-  ) {
-    this.valuePrices[valueName] = valuePrice;
+    return undefined;
   }
 }

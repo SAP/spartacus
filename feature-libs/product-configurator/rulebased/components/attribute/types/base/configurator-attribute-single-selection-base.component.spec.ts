@@ -676,31 +676,6 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       );
     });
 
-    it('should return aria label for value with price after price was changed', () => {
-      component.attribute.uiType =
-        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT ||
-        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
-      component.attribute.validationType = Configurator.ValidationType.NONE;
-
-      component['configuratorAttributePriceChangeService']?.['storeValuePrice'](
-        valueWithPrice.name ?? '',
-        {
-          currencyIso: '$',
-          formattedValue: '$200.00',
-          value: 200,
-        }
-      );
-      fixture.detectChanges();
-      expect(
-        component.getAriaLabel(valueWithPrice, attributeWithValuePrice)
-      ).toEqual(
-        'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
-          attributeWithValuePrice.label +
-          ' price:$200.00 value:' +
-          valueWithPrice.valueDisplay +
-          ' configurator.a11y.additionalValue'
-      );
-    });
     it('should return aria label for value with price and attribute additional value', () => {
       let attributeWithValuePrice: Configurator.Attribute = {
         name: 'attribute with value price',

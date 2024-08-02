@@ -11,7 +11,7 @@
         [formula]="extractPriceFormulaParameters()"
       ></cx-configurator-price>
     </div>
-    <ng-container *ngIf="priceChangedEvent$ | async">
+    <ng-container *ngIf="changedPrices$ | async as changedPrices">
       <div class="form-check" *ngFor="let value of attribute.values">
         <div class="cx-value-label-pair">
           <input
@@ -27,7 +27,12 @@
             name="{{ createAttributeIdForConfigurator(attribute) }}"
             attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
             [cxFocus]="{ key: attribute.name + '-' + value.name }"
-            [attr.aria-label]="getAriaLabel(value, attribute)"
+            [attr.aria-label]="
+              getAriaLabel(
+                enrichValueWithPrice(value, changedPrices[value.name]),
+                attribute
+              )
+            "
             [attr.aria-live]="
               listenForPriceChanges &&
               attributeRadioButtonForm.value === value.valueCode
@@ -68,7 +73,11 @@
 
         <div class="cx-value-price">
           <cx-configurator-price
-            [formula]="extractValuePriceFormulaParameters(value)"
+            [formula]="
+              extractValuePriceFormulaParameters(
+                enrichValueWithPrice(value, changedPrices[value.name])
+              )
+            "
           ></cx-configurator-price>
         </div>
       </div>
