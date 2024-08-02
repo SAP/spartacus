@@ -45,6 +45,7 @@
           "Future-Stock",
           "PDF-Invoices",
           "Product-Variants",
+          "Product-multi-dimensional-selector",
           "VC-Configurator",
           "Textfield-Configurator",
           "CPQ-Configurator",
@@ -183,6 +184,10 @@
           {
             "value": "Product-Variants",
             "label": "Product - Variants"
+          },
+          {
+            "value": "Product-multi-dimensional-selector",
+            "label": "Product Multi-Dimensional - Selector"
           },
           {
             "value": "Image-Zoom",

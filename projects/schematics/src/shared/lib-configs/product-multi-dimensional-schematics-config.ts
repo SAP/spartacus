@@ -1,0 +1,56 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE_NAME,
+  SPARTACUS_PRODUCT_MULTI_DIMENSIONAL,
+  SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR,
+  SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR_ROOT,
+} from '../libs-constants';
+import { SchematicConfig } from '../utils/lib-utils';
+
+export const PRODUCT_MULTI_DIMENSIONAL_FOLDER_NAME =
+  'product-multi-dimensional';
+export const PRODUCT_MULTI_DIMENSIONAL_SCSS_FILE_NAME =
+  'product-multi-dimensional.scss';
+
+export const PRODUCT_MULTI_DIMENSIONAL_SELECTOR_MODULE_NAME =
+  'ProductMultiDimensionalSelector';
+
+export const PRODUCT_MULTI_DIMENSIONAL_SELECTOR_MODULE =
+  'ProductMultiDimensionalSelectorModule';
+
+export const PRODUCT_MULTI_DIMENSIONAL_SELECTOR_ROOT_MODULE_NAME =
+  'ProductMultiDimensionalSelectorRootModule';
+export const PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE_NAME_CONSTANT =
+  'PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE';
+
+export const PRODUCT_MULTI_DIMENSIONAL_SELECTOR_SCHEMATICS_CONFIG: SchematicConfig =
+  {
+    library: {
+      featureName: PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE_NAME,
+      mainScope: SPARTACUS_PRODUCT_MULTI_DIMENSIONAL,
+      featureScope: SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR,
+    },
+    folderName: PRODUCT_MULTI_DIMENSIONAL_FOLDER_NAME,
+    moduleName: PRODUCT_MULTI_DIMENSIONAL_SELECTOR_MODULE_NAME,
+    featureModule: {
+      name: PRODUCT_MULTI_DIMENSIONAL_SELECTOR_MODULE,
+      importPath: SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR,
+    },
+    rootModule: {
+      name: PRODUCT_MULTI_DIMENSIONAL_SELECTOR_ROOT_MODULE_NAME,
+      importPath: SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR_ROOT,
+      namedImports: [PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE_NAME_CONSTANT],
+    },
+    styles: {
+      scssFileName: PRODUCT_MULTI_DIMENSIONAL_SCSS_FILE_NAME,
+      importStyle: SPARTACUS_PRODUCT_MULTI_DIMENSIONAL,
+    },
+  };

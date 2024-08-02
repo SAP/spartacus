@@ -231,6 +231,18 @@
     "@spartacus/styles": "2211.27.0-2",
     "rxjs": "^7.8.0"
   },
+  "@spartacus/product-multi-dimensional": {
+    "@angular-devkit/schematics": "^17.0.5",
+    "@angular/common": "^17.0.5",
+    "@angular/core": "^17.0.5",
+    "@angular/router": "^17.0.5",
+    "@spartacus/core": "2211.27.0-2",
+    "@spartacus/schematics": "2211.27.0-2",
+    "@spartacus/storefront": "2211.27.0-2",
+    "@spartacus/styles": "2211.27.0-2",
+    "bootstrap": "^4.6.2",
+    "rxjs": "^7.8.0"
+  },
   "@spartacus/qualtrics": {
     "@angular-devkit/schematics": "^17.0.5",
     "@angular/common": "^17.0.5",
