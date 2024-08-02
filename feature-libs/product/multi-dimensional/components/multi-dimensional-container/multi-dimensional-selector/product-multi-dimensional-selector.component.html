@@ -6,7 +6,6 @@
       <div
         *ngIf="category.hasImages; else noImages"
         id="{{ category.name }}"
-        role="combobox"
         [attr.aria-label]="
           'multiDimensional.chooseVariantTitle'
             | cxTranslate
@@ -14,11 +13,11 @@
                   category: category.name
                 }
         "
+        role="group"
         class="image-variant-container"
       >
         <button
           *ngFor="let option of category.variantOptions"
-          role="option"
           type="button"
           class="image-variant"
           [ngClass]="{ active: option?.code === product.code }"
