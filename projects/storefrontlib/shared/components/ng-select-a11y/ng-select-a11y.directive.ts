@@ -8,9 +8,11 @@ import {
   AfterViewInit,
   Directive,
   ElementRef,
+  inject,
   Input,
   Renderer2,
 } from '@angular/core';
+import { FeatureConfigService } from '@spartacus/core';
 
 @Directive({
   selector: '[cxNgSelectA11y]',
@@ -23,6 +25,8 @@ export class NgSelectA11yDirective implements AfterViewInit {
    */
   @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
 
+  private featureConfigService = inject(FeatureConfigService);
+
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef
@@ -31,6 +35,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
   ngAfterViewInit(): void {
     const divCombobox =
       this.elementRef.nativeElement.querySelector('[role="combobox"]');
+    const inputElement = divCombobox.querySelector('input');
 
     const ariaLabel = this.cxNgSelectA11y.ariaLabel;
     const elementId = this.elementRef.nativeElement.id;
@@ -42,6 +47,13 @@ export class NgSelectA11yDirective implements AfterViewInit {
 
     if (ariaControls) {
       this.renderer.setAttribute(divCombobox, 'aria-controls', ariaControls);
+    }
+
+    if (
+      this.featureConfigService.isEnabled('a11yNgSelectMobileReadout') &&
+      inputElement.readOnly
+    ) {
+      this.renderer.setAttribute(inputElement, 'aria-hidden', 'true');
     }
   }
 }
