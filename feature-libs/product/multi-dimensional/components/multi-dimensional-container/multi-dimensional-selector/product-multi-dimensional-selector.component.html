@@ -7,7 +7,13 @@
         *ngIf="category.hasImages; else noImages"
         id="{{ category.name }}"
         role="combobox"
-        [attr.aria-label]="'multiDimensional.chooseVariantTitle' | cxTranslate"
+        [attr.aria-label]="
+          'multiDimensional.chooseVariantTitle'
+            | cxTranslate
+              : {
+                  category: category.name
+                }
+        "
         class="image-variant-container"
       >
         <button
@@ -35,7 +41,12 @@
             (change)="changeVariant($event.target.value)"
             [id]="category.name"
             [cxNgSelectA11y]="{
-              ariaLabel: 'multiDimensional.chooseVariantTitle' | cxTranslate
+              ariaLabel:
+                'multiDimensional.chooseVariantTitle'
+                | cxTranslate
+                  : {
+                      category: category.name
+                    }
             }"
             bindValue="code"
             bindLabel="value"
