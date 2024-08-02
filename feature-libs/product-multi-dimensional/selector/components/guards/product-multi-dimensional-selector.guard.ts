@@ -45,7 +45,7 @@ export class ProductMultiDimensionalSelectorGuard {
     }
 
     return this.productService
-      .get(productCode, ProductScope.MULTIDIMENSIONAL)
+      .get(productCode, ProductScope.MULTI_DIMENSIONAL)
       .pipe(
         filter(isNotUndefined),
         switchMap((multiDimensionalProduct: Product) => {

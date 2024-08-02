@@ -157,7 +157,7 @@ export class ProductMultiDimensionalSelectorService {
   protected createVariantCategoryGroup(
     variantMatrix: VariantMatrixElement[]
   ): VariantCategoryGroup {
-    const parentVariantCategory = variantMatrix[0].parentVariantCategory;
+    const parentVariantCategory = variantMatrix[0]?.parentVariantCategory;
 
     return {
       name: parentVariantCategory?.name ?? '',
