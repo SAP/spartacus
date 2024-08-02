@@ -112,6 +112,6 @@ jobs:
         with:
           token: ${{ secrets.GH_TEMPORARY_TOKEN }}
           base: main
-          branch: new_branch
+          branch: new_branch24
           title: "Update js-storefront/spartacusstore content"
           body: "This PR updates the content of js-storefront/spartacusstore."
