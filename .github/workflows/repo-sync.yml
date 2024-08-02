@@ -109,7 +109,6 @@ jobs:
           echo "branch_name=$branch_name" >> $GITHUB_ENV
       - name: Create Pull Request
         run: |
-          BRANCH_NAME=${{ steps.commit_changes.outputs.branch_name }}
           curl \
             -X POST \
             -H "Authorization: token ${{ secrets.GH_TEMPORARY_TOKEN }}" \
@@ -118,6 +117,6 @@ jobs:
             -d '{
               "title": "Update js-storefront/spartacusstore content",
               "body": "This PR updates the content of js-storefront/spartacusstore.",
-              "head": "'"$BRANCH_NAME"'",
+              "head": "'"$branch_name"'",
               "base": "main"
             }'
