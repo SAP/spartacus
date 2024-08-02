@@ -23,19 +23,15 @@ jobs:
 
       - name: Run script
         run: |
-          local site_type=$1
-          local version=${{ github.event.inputs.version }}
-          local npm_token=${{ github.event.inputs.npm_token }}
-
-
           function setup_config_dir() {
             [ -d "${CONFIG_DIR}" ] || mkdir -p "${CONFIG_DIR}"
             cp "${CONFIG_DIR}/config.default.sh" "${CONFIG_DIR}/config.sh"
           }
 
           function update_config() {
-
-            echo ${site_type}
+            local site_type=$1
+            local version=${{ github.event.inputs.version }}
+            local npm_token=${{ github.event.inputs.npm_token }}
 
             if [ "${site_type}" == "b2c" ]; then
               sed -i 's/^BASE_SITE=.*/BASE_SITE="electronics-spa"/' "${CONFIG_DIR}/config.sh"
@@ -53,9 +49,8 @@ jobs:
             sed -i "s|^NPM_URL=.*|NPM_URL='https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/'|" "${CONFIG_DIR}/config.sh"
           }
 
-
+          function rename_spartacus_folders() {
             if [ "${site_type}" == "b2c" ]; then
-              ls -la ../
               mv ../spartacus-${version} ../spartacus-${version}-b2c
               if [ -d "../spartacus-${version}-b2c" ]; then
                   echo "Renaming to ../spartacus-${version}-b2c was successful"
@@ -70,6 +65,8 @@ jobs:
                   echo "Renaming to ../spartacus-${version}-b2b failed"
               fi
             fi
+
+          }
 
           function modify_file_to_remove_baseurl() {
             local file_location="../spartacus-${{ github.event.inputs.version }}-${site_type}/apps/spartacusstore/src/app/spartacus/spartacus-configuration.module.ts"
@@ -90,6 +87,7 @@ jobs:
             setup_config_dir
             update_config $site_type
             cd "${CONFIG_DIR}" && bash "./run.sh" install_npm
+            rename_spartacus_folders $site_type
             modify_file_to_remove_baseurl $site_type
           done
       - name: Set Git user
