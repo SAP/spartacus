@@ -53,6 +53,8 @@ jobs:
             local version=${{ github.event.inputs.version }}
 
             if [ "${site_type}" == "b2c" ]; then
+              ls -la ../
+              ls -la ../../
               mv ../../spartacus-${version} ../../spartacus-${version}-b2c
               if [ -d "../spartacus-${version}-b2c" ]; then
                   echo "Renaming to ../../spartacus-${version}-b2c was successful"
