@@ -13,6 +13,10 @@ on:
         required: true
         secret: true
 
+env:
+  CONFIG_DIR: scripts/install
+  REPO_URL: https://${{secrets.GH_TEMPORARY_TOKEN}}@github.com/SAP-samples/cloud-commerce-sample-setup.git
+
 jobs:
   run_script:
     runs-on: ubuntu-latest
@@ -22,107 +26,69 @@ jobs:
 
       - name: Run script
         run: |
-          # Define the directory
-          config_dir="scripts/install"
+          function setup_config_dir() {
+            [ -d "${CONFIG_DIR}" ] || mkdir -p "${CONFIG_DIR}"
+            cp "${CONFIG_DIR}/config.default.sh" "${CONFIG_DIR}/config.sh"
+          }
 
-          # Check if the config_dir directory exists
-          if [ ! -d "${config_dir}" ]; then
-              # If not, create it
-              mkdir -p "${config_dir}"
-          fi
+          function update_config() {
+            local site_type=${{ github.event.inputs.site_type }}
+            local version=${{ github.event.inputs.version }}
+            local npm_token=${{ github.event.inputs.npm_token }}
 
-          # Get user input from workflow dispatch
-          site_type=${{ github.event.inputs.site_type }}
-          version=${{ github.event.inputs.version }}
-          npm_token=${{ github.event.inputs.npm_token }}
-
-          # Check if config.sh already exists in the config_dir directory
-          if [ -f "${config_dir}/config.sh" ]; then
-              echo "config.sh already exists in ${config_dir}. Removing it..."
-              rm "${config_dir}/config.sh"
-          fi
-
-          # Copy the content of config.default.sh to config.sh
-          cp "${config_dir}/config.default.sh" "${config_dir}/config.sh"
-          echo "config.sh has been created in ${config_dir}."
-
-          # Set the BASE_SITE value based on user input
-          if [ "${site_type}" == "b2c" ]; then
-              sed -i 's/^BASE_SITE=.*/BASE_SITE="electronics-spa"/' "${config_dir}/config.sh"
-              sed -i 's/^SSR_APP_NAME=.*/SSR_APP_NAME="spartacusstore"/' "${config_dir}/config.sh"
-          elif [ "${site_type}" == "b2b" ]; then
-              sed -i 's/^BASE_SITE=.*/BASE_SITE="powertools-spa"/' "${config_dir}/config.sh"
-              sed -i 's/^SSR_APP_NAME=.*/SSR_APP_NAME="b2bspastore"/' "${config_dir}/config.sh"
-          else
+            if [ "${site_type}" == "b2c" ]; then
+              sed -i 's/^BASE_SITE=.*/BASE_SITE="electronics-spa"/' "${CONFIG_DIR}/config.sh"
+              sed -i 's/^SSR_APP_NAME=.*/SSR_APP_NAME="spartacusstore"/' "${CONFIG_DIR}/config.sh"
+            elif [ "${site_type}" == "b2b" ]; then
+              sed -i 's/^BASE_SITE=.*/BASE_SITE="powertools-spa"/' "${CONFIG_DIR}/config.sh"
+              sed -i 's/^SSR_APP_NAME=.*/SSR_APP_NAME="b2bspastore"/' "${CONFIG_DIR}/config.sh"
+            else
               echo "Invalid site type. BASE_SITE and SSR_APP_NAME not set."
-          fi
+            fi
 
-          # Set the SPARTACUS_VERSION value based on user input
-          sed -i "s/^SPARTACUS_VERSION=.*/SPARTACUS_VERSION='${version}'/" "${config_dir}/config.sh"
+            sed -i "s/^SPARTACUS_VERSION=.*/SPARTACUS_VERSION='${version}'/" "${CONFIG_DIR}/config.sh"
+            sed -i "s/^NPM_TOKEN=.*/NPM_TOKEN='${npm_token}'/" "${CONFIG_DIR}/config.sh"
+            sed -i "s|^NPM_URL=.*|NPM_URL='https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/'|" "${CONFIG_DIR}/config.sh"
+          }
 
-          # Set the NPM_TOKEN value based on user input
-          sed -i "s/^NPM_TOKEN=.*/NPM_TOKEN='${npm_token}'/" "${config_dir}/config.sh"
+          function modify_file_to_remove_baseurl() {
+            local file_location="../../../spartacus-${version}/apps/spartacusstore/src/app/spartacus/spartacus-configuration.module.ts"
 
-          # Set the NPM_URL value
-          sed -i "s|^NPM_URL=.*|NPM_URL='https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/'|" "${config_dir}/config.sh"
-
-          # Navigate to the directory and run the script
-          cd "${config_dir}" && bash "./run.sh" install_npm
-
-          # Define the file location
-          file_location="../../../spartacus-${version}/apps/spartacusstore/src/app/spartacus/spartacus-configuration.module.ts"
-
-          # Check if the file exists
-          if [ -f "${file_location}" ]; then
-              # Comment out baseUrl in spartacus configuration
+            if [ -f "${file_location}" ]; then
               sed -i 's/baseUrl/\/\/baseUrl/1' "${file_location}"
               echo "Modified ${file_location}."
-          else
+            else
               echo "${file_location} does not exist."
-          fi
+            fi
+          }
+
+          
+
+          setup_config_dir
+          update_config
+          cd "${CONFIG_DIR}" && bash "./run.sh" install_npm
+          modify_file_to_remove_baseurl
       - name: Set Git user
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
       - name: Commit changes
         run: |
-          git clone https://${{secrets.GH_TEMPORARY_TOKEN}}@github.com/SAP-samples/cloud-commerce-sample-setup.git
-          if [ $? -eq 0 ]; then
-              echo "Repository cloned successfully."
-          else
-              echo "Error: Failed to clone the repository."
-          fi
-          # Navigate to the cloned repository
-          cd cloud-commerce-sample-setup
+          function clone_and_setup_repo() {
+            git clone $REPO_URL
+            cd cloud-commerce-sample-setup
+            git checkout -b "new_branch_$(date +%Y%m%d%H%M%S)"
+            rm -rf js-storefront/spartacusstore/*
+            cp -r ./../../spartacus-${{ github.event.inputs.version }}/apps/spartacusstore/* js-storefront/spartacusstore/
+            git add .
+            git commit -m "Updated content of js-storefront/spartacusstore"
+            git push -u $REPO_URL
+          }
 
-          # Get the current date and time
-          timestamp=$(date +%Y%m%d%H%M%S)
-
-          # Create a new branch with a unique name
-          branch_name="new_branch_$timestamp"
-          git checkout -b $branch_name
-
-          # Replace the content inside js-storefront/spartacusstore with the content from ./../../spartacus-${{ github.event.inputs.version }}/apps/spartacusstore
-          rm -rf js-storefront/spartacusstore/*
-          cp -r ./../../spartacus-${{ github.event.inputs.version }}/apps/spartacusstore/* js-storefront/spartacusstore/
-
-          # Add the changes to the new branch
-          git add .
-
-          # Commit the changes
-          git commit -m "Updated content of js-storefront/spartacusstore"
-
-          # Push the changes to the new branch
-          git push -u https://${{secrets.GH_TEMPORARY_TOKEN}}@github.com/SAP-samples/cloud-commerce-sample-setup.git
-
-          # Echo the branch name so it can be used in later steps
-          echo "branch_name=$branch_name" >> $GITHUB_ENV
+          clone_and_setup_repo
       - name: Create Pull Request
         run: |
-          curl \
-            -X POST \
-            -H "Authorization: token ${{ secrets.GH_TEMPORARY_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
+          curl -X POST -H "Authorization: token ${{ secrets.GH_TEMPORARY_TOKEN }}" -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/SAP-samples/cloud-commerce-sample-setup/pulls \
             -d '{
               "title": "Update js-storefront/spartacusstore content",
