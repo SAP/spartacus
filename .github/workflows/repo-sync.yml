@@ -53,26 +53,25 @@ jobs:
             local version=${{ github.event.inputs.version }}
 
             if [ "${site_type}" == "b2c" ]; then
-              ls -la ../
-              mv ../spartacus-${version} ../spartacus-${version}-b2c
+              mv ../../spartacus-${version} ../../spartacus-${version}-b2c
               if [ -d "../spartacus-${version}-b2c" ]; then
-                  echo "Renaming to ../spartacus-${version}-b2c was successful"
+                  echo "Renaming to ../../spartacus-${version}-b2c was successful"
               else
-                  echo "Renaming to ../spartacus-${version}-b2c failed"
+                  echo "Renaming to ../../spartacus-${version}-b2c failed"
               fi
             elif [ "${site_type}" == "b2b" ]; then
-              mv ../spartacus-${version} ../spartacus-${version}-b2b
+              mv ../../spartacus-${version} ../../spartacus-${version}-b2b
               if [ -d "../spartacus-${version}-b2b" ]; then
-                  echo "Renaming to ../spartacus-${version}-b2b was successful"
+                  echo "Renaming to ../../spartacus-${version}-b2b was successful"
               else
-                  echo "Renaming to ../spartacus-${version}-b2b failed"
+                  echo "Renaming to ../../spartacus-${version}-b2b failed"
               fi
             fi
 
           }
 
           function modify_file_to_remove_baseurl() {
-            local file_location="../spartacus-${{ github.event.inputs.version }}-${site_type}/apps/spartacusstore/src/app/spartacus/spartacus-configuration.module.ts"
+            local file_location="../../spartacus-${{ github.event.inputs.version }}-${site_type}/apps/spartacusstore/src/app/spartacus/spartacus-configuration.module.ts"
 
             if [ -f "${file_location}" ]; then
               sed -i 's/baseUrl/\/\/baseUrl/1' "${file_location}"
