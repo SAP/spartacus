@@ -51,20 +51,20 @@ jobs:
 
 
             if [ "${site_type}" == "b2c" ]; then
-                ls -la ../
-                mv ../spartacus-${version} ../spartacus-${version}-b2c
-                if [ -d "../spartacus-${version}-b2c" ]; then
-                    echo "Renaming to ../spartacus-${version}-b2c was successful"
-                else
-                    echo "Renaming to ../spartacus-${version}-b2c failed"
-                fi
+              ls -la ../
+              mv ../spartacus-${version} ../spartacus-${version}-b2c
+              if [ -d "../spartacus-${version}-b2c" ]; then
+                  echo "Renaming to ../spartacus-${version}-b2c was successful"
+              else
+                  echo "Renaming to ../spartacus-${version}-b2c failed"
+              fi
             elif [ "${site_type}" == "b2b" ]; then
-                mv ../spartacus-${version} ../spartacus-${version}-b2b
-                if [ -d "../spartacus-${version}-b2b" ]; then
-                    echo "Renaming to ../spartacus-${version}-b2b was successful"
-                else
-                    echo "Renaming to ../spartacus-${version}-b2b failed"
-                fi
+              mv ../spartacus-${version} ../spartacus-${version}-b2b
+              if [ -d "../spartacus-${version}-b2b" ]; then
+                  echo "Renaming to ../spartacus-${version}-b2b was successful"
+              else
+                  echo "Renaming to ../spartacus-${version}-b2b failed"
+              fi
             fi
 
           function modify_file_to_remove_baseurl() {
