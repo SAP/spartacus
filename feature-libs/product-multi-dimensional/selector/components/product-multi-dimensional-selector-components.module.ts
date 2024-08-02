@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {NgModule} from '@angular/core';
-import {CmsConfig, provideDefaultConfig} from '@spartacus/core';
-import {ProductMultiDimensionalSelectorModule} from './selector/product-multi-dimensional-selector.module';
-import {ProductMultiDimensionalSelectorComponent} from "./selector/product-multi-dimensional-selector.component";
-import {ProductMultiDimensionalSelectorGuard} from "./guards";
+import { NgModule } from '@angular/core';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { ProductMultiDimensionalSelectorModule } from './selector/product-multi-dimensional-selector.module';
+import { ProductMultiDimensionalSelectorComponent } from './selector/product-multi-dimensional-selector.component';
+import { ProductMultiDimensionalSelectorGuard } from './guards';
 
 @NgModule({
   imports: [ProductMultiDimensionalSelectorModule],
@@ -23,5 +23,4 @@ import {ProductMultiDimensionalSelectorGuard} from "./guards";
     }),
   ],
 })
-export class ProductMultiDimensionalSelectorComponentsModule {
-}
+export class ProductMultiDimensionalSelectorComponentsModule {}

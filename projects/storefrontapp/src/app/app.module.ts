@@ -4,24 +4,38 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {registerLocaleData} from '@angular/common';
-import {provideHttpClient, withFetch, withInterceptorsFromDi,} from '@angular/common/http';
+import { registerLocaleData } from '@angular/common';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {EffectsModule} from '@ngrx/effects';
-import {StoreModule} from '@ngrx/store';
-import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-import {translationChunksConfig, translations} from '@spartacus/assets';
-import {I18nConfig, OccConfig, provideConfig, RoutingConfig, TestConfigModule,} from '@spartacus/core';
-import {StoreFinderConfig} from '@spartacus/storefinder/core';
-import {GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG} from '@spartacus/storefinder/root';
-import {AppRoutingModule, StorefrontComponent, USE_LEGACY_MEDIA_COMPONENT,} from '@spartacus/storefront';
-import {environment} from '../environments/environment';
-import {TestOutletModule} from '../test-outlets/test-outlet.module';
-import {SpartacusModule} from './spartacus/spartacus.module';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { translationChunksConfig, translations } from '@spartacus/assets';
+import {
+  I18nConfig,
+  OccConfig,
+  provideConfig,
+  RoutingConfig,
+  TestConfigModule,
+} from '@spartacus/core';
+import { StoreFinderConfig } from '@spartacus/storefinder/core';
+import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
+import {
+  AppRoutingModule,
+  StorefrontComponent,
+  USE_LEGACY_MEDIA_COMPONENT,
+} from '@spartacus/storefront';
+import { environment } from '../environments/environment';
+import { TestOutletModule } from '../test-outlets/test-outlet.module';
+import { SpartacusModule } from './spartacus/spartacus.module';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -40,7 +54,7 @@ if (!environment.production) {
     EffectsModule.forRoot([]),
     SpartacusModule,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
-    TestConfigModule.forRoot({cookie: 'cxConfigE2E'}), // Injects config dynamically from e2e tests. Should be imported after other config modules.
+    TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
   ],
@@ -49,26 +63,18 @@ if (!environment.production) {
     provideConfig(<OccConfig>{
       backend: {
         occ: {
-          baseUrl: 'https://spartacus-dev-asx1.eastus.cloudapp.azure.com:8443',
+          baseUrl: environment.occBaseUrl,
           prefix: environment.occApiPrefix,
         },
       },
     }),
-    // provideConfig({
-    //   context: {
-    //     currency: ['USD'],
-    //     language: ['en'],
-    //     baseSite: ['powertools-spa'],
-    //     urlParameters: ['baseSite', 'language'],
-    //   },
-    // } as SiteContextConfig),
     provideConfig(<RoutingConfig>{
       // custom routing configuration for e2e testing
       routing: {
         routes: {
           product: {
             paths: ['product/:productCode/:name', 'product/:productCode'],
-            paramsMapping: {name: 'slug'},
+            paramsMapping: { name: 'slug' },
           },
         },
       },
@@ -81,12 +87,12 @@ if (!environment.production) {
         fallbackLang: 'en',
       },
     }),
-    provideConfig({features: {level: '*'}}), // For the development environment and CI, feature level is always the highest.
+    provideConfig({ features: { level: '*' } }), // For the development environment and CI, feature level is always the highest.
     provideConfig(<StoreFinderConfig>{
       // For security compliance, by default, google maps does not display.
       // Using special key value 'cx-development' allows google maps to display
       // without a key, for development or demo purposes.
-      googleMaps: {apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG},
+      googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
     }),
     {
       provide: USE_LEGACY_MEDIA_COMPONENT,
@@ -95,5 +101,4 @@ if (!environment.production) {
   ],
   bootstrap: [StorefrontComponent],
 })
-export class AppModule {
-}
+export class AppModule {}
