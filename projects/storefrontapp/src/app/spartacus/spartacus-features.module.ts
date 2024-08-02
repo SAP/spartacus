@@ -341,6 +341,7 @@ if (environment.cpq) {
         a11yLinkBtnsToTertiaryBtns: true,
         a11yDeliveryModeRadiogroup: true,
         a11yRepeatedCancelOrderError: true,
+        a11yNgSelectMobileReadout: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
       };
       return appFeatureToggles;
