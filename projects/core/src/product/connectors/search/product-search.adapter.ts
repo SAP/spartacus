@@ -8,15 +8,22 @@ import { SearchConfig } from '../../model/search-config';
 
 import { Observable } from 'rxjs';
 import {
-  Suggestion,
   ProductSearchPage,
+  Suggestion,
 } from '../../../model/product-search.model';
+import { Product } from '@spartacus/core';
 
 export abstract class ProductSearchAdapter {
   abstract search(
     query: string,
-    searchConfig?: SearchConfig
+    searchConfig?: SearchConfig,
+    scope?: string
   ): Observable<ProductSearchPage>;
+
+  abstract searchByCodes(
+    codes: string[],
+    scope?: string
+  ): Observable<{ products: Product[] }>;
 
   abstract loadSuggestions(
     term: string,

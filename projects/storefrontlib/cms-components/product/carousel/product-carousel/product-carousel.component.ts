@@ -4,15 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
-  CmsProductCarouselComponent as model,
   Product,
   ProductScope,
+  ProductSearchByCodeService,
   ProductService,
+  CmsProductCarouselComponent as model,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 
 @Component({
@@ -21,6 +22,8 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCarouselComponent {
+  protected productSearchByCodeService = inject(ProductSearchByCodeService);
+
   protected readonly PRODUCT_SCOPE = [ProductScope.LIST, ProductScope.STOCK];
 
   protected readonly PRODUCT_SCOPE_ITEM = [ProductScope.LIST_ITEM];
@@ -50,11 +53,39 @@ export class ProductCarouselComponent {
         const codes = data.productCodes?.trim().split(' ') ?? [];
         return { componentMappingExist, codes };
       }),
-      map(({ componentMappingExist, codes }) => {
-        const productScope = componentMappingExist
-          ? [...this.PRODUCT_SCOPE]
-          : [...this.PRODUCT_SCOPE_ITEM];
-        return codes.map((code) => this.productService.get(code, productScope));
+      switchMap(({ componentMappingExist, codes }) => {
+        // SPIKE OLD:
+
+        // const productScope = componentMappingExist
+        //   ? [...this.PRODUCT_SCOPE]
+        //   : [...this.PRODUCT_SCOPE_ITEM];
+        // return codes.map((code) => this.productService.get(code, productScope));
+
+        // SPIKE NEW:
+        const scope = componentMappingExist ? 'spike_scope_2' : 'spike_scope_1';
+
+        return of(
+          codes.map((code) =>
+            this.productSearchByCodeService.get({ code, scope })
+          )
+        );
+
+        // SPIKE ALTERNATIVE NEW (loading more scopes) - but it causes more http calls (1 call per each scope):
+        // const scopes = [
+        //   'spike_scope_image',
+        //   'spike_scope_name',
+        //   'spike_scope_price',
+        // ];
+        // console.log({ scopes });
+
+        // return of(
+        //   codes.map((code) =>
+        //     combineLatest(
+        //       scopes.map((scope) =>
+        //         this.productSearchByCodeService.get({ code, scope })
+        //       )
+        //     ).pipe(map((scopedProducts) => deepMerge({}, ...scopedProducts)))
+        //   )
       })
     );
 

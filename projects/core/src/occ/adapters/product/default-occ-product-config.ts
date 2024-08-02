@@ -33,8 +33,18 @@ export const defaultOccProductConfig: OccConfig = {
         productReferences:
           'products/${productCode}/references?fields=DEFAULT,references(target(images(FULL)))',
         /* eslint-disable max-len */
-        productSearch:
-          'products/search?fields=products(code,name,summary,configurable,configuratorType,multidimensional,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery,keywordRedirectUrl',
+        productSearch: {
+          default:
+            'products/search?fields=products(code,name,summary,configurable,configuratorType,multidimensional,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery,keywordRedirectUrl',
+          spike_scope_1:
+            'products/search?fields=products(code,name,images(DEFAULT),stock(FULL),price(FULL))',
+          spike_scope_2: 'products/search?fields=products(code,name)',
+          spike_scope_image:
+            'products/search?fields=products(code,images(FULL))',
+          spike_scope_price:
+            'products/search?fields=products(code,price(FULL))',
+          spike_scope_name: 'products/search?fields=products(code,name)',
+        },
         /* eslint-enable */
         productSuggestions: 'products/suggestions',
       },
