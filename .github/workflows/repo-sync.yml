@@ -68,3 +68,16 @@ jobs:
 
           # Navigate to the directory and run the script
           cd "${config_dir}" && bash "./run.sh" install_npm
+      - name: Modify Spartacus configuration
+        run: |
+          # Define the file location
+          file_location="../../../spartacus-${version}/apps/spartacusstore/src/app/spartacus/spartacus-configuration.module.ts"
+
+          # Check if the file exists
+          if [ -f "${file_location}" ]; then
+              # Comment out baseUrl in spartacus configuration
+              sed -i 's/baseUrl/\/\/baseUrl/1' "${file_location}"
+              echo "Modified ${file_location}."
+          else
+              echo "${file_location} does not exist."
+          fi
