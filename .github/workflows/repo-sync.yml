@@ -92,7 +92,7 @@ jobs:
           cd cloud-commerce-sample-setup
 
           # Create a new branch
-          git checkout -b new_branch
+          git checkout -b new_branch24
 
           # Replace the content inside js-storefront/spartacusstore with the content from ./../../spartacus-${{ github.event.inputs.version }}/apps/spartacusstore
           rm -rf js-storefront/spartacusstore/*
