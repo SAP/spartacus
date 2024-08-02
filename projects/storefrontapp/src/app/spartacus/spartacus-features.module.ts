@@ -330,6 +330,7 @@ if (environment.cpq) {
         a11yEmptyWishlistHeading: true,
         a11yScreenReaderBloatFix: true,
         a11yUseButtonsForBtnLinks: true,
+        a11yNotificationsOnConsentChange: true,
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
         a11yFacetsDialogFocusHandling: true,
@@ -340,6 +341,7 @@ if (environment.cpq) {
         a11yLinkBtnsToTertiaryBtns: true,
         a11yDeliveryModeRadiogroup: true,
         a11yNgSelectOptionsCount: true,
+        a11yNgSelectMobileReadout: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
       };
       return appFeatureToggles;

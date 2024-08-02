@@ -186,6 +186,7 @@ export interface FeatureTogglesInterface {
 
   /**
    * Adjuststs the styles of 'StoreFinderMapComponent' to stop the Google map from overflowing on zoomed/mobile screens.
+   * Includes DOM changes to 'StoreFinderStoreDescriptionComponent' improving the screen reader experience.
    */
   a11yStoreFinderOverflow?: boolean;
 
@@ -340,9 +341,17 @@ export interface FeatureTogglesInterface {
   /**
    * When enabled the button-like UI elements will use `<button>` under the hood instead of `<a>`
    * in the following components: `AddedToCartDialogComponent`, `ForgotPasswordComponent`,
-   * `LoginRegisterComponent`, `ConfigureProductComponent`
+   * `LoginRegisterComponent`, `ConfigureProductComponent`, `AnonymousConsentDialogComponent`
    */
   a11yUseButtonsForBtnLinks?: boolean;
+
+  /**
+   * `AnonymousConsentDialogComponent` - after consent was given/withdrawn the notification
+   * will be displayed
+   * `ConsentManagementComponent` - improve stability of notifications announcements by VoiceOver
+   * `ConsentManagementFormComponent` - only pronounce the title of the consent by default
+   */
+  a11yNotificationsOnConsentChange?: boolean;
 
   /**
    * When enabled disable "Apply" button in promo code component in cart for empty input,
@@ -390,6 +399,11 @@ export interface FeatureTogglesInterface {
    * Including this count in aria-label will help screen readers to provide more context to the user.
    */
   a11yNgSelectOptionsCount?: boolean;
+
+  /**
+   * Modifies the 'NgSelectA11yDirective' to improve the sorting dropdown screen reader experience on mobile devices.
+   */
+  a11yNgSelectMobileReadout?: boolean;
 
   /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
@@ -460,6 +474,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yEmptyWishlistHeading: false,
   a11yScreenReaderBloatFix: false,
   a11yUseButtonsForBtnLinks: false,
+  a11yNotificationsOnConsentChange: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
   a11yStoreFinderAlerts: false,
@@ -468,6 +483,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yLinkBtnsToTertiaryBtns: false,
   a11yDeliveryModeRadiogroup: false,
   a11yNgSelectOptionsCount: false,
+  a11yNgSelectMobileReadout: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
 };

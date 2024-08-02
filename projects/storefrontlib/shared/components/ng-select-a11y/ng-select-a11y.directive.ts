@@ -49,6 +49,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
   ngAfterViewInit(): void {
     const divCombobox =
       this.elementRef.nativeElement.querySelector('[role="combobox"]');
+    const inputElement = divCombobox.querySelector('input');
 
     const ariaLabel = this.cxNgSelectA11y.ariaLabel;
     const elementId = this.elementRef.nativeElement.id;
@@ -60,6 +61,13 @@ export class NgSelectA11yDirective implements AfterViewInit {
 
     if (ariaControls) {
       this.renderer.setAttribute(divCombobox, 'aria-controls', ariaControls);
+    }
+
+    if (
+      this.featureConfigService.isEnabled('a11yNgSelectMobileReadout') &&
+      inputElement.readOnly
+    ) {
+      this.renderer.setAttribute(inputElement, 'aria-hidden', 'true');
     }
   }
 

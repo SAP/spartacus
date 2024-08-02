@@ -229,10 +229,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Filter',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: 'Basics',
       type: TabbingOrderTypes.LINK,
     },

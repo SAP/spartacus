@@ -10,6 +10,7 @@ import { NgSelectA11yModule } from './ng-select-a11y.module';
 @Component({
   template: `
     <ng-select
+      [searchable]="isSearchable"
       [cxNgSelectA11y]="{ ariaLabel: 'Size', ariaControls: 'size-results' }"
     >
       <ng-option *ngFor="let val of [1, 2, 3]" [value]="val">{{
@@ -19,7 +20,9 @@ import { NgSelectA11yModule } from './ng-select-a11y.module';
     <div id="size-results"></div>
   `,
 })
-class MockComponent {}
+class MockComponent {
+  isSearchable: boolean = false;
+}
 
 class MockFeatureConfigService {
   isEnabled() {
@@ -59,14 +62,15 @@ describe('NgSelectA11yDirective', () => {
   it('should create ng-select and bind aria attributes', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
-    const select = getNgSelect().nativeElement;
 
+    const select = getNgSelect().nativeElement;
     const innerDiv = select.querySelector("[role='combobox']");
+    const inputElement = select.querySelector('input');
 
     expect(innerDiv).toBeTruthy();
-
     expect(innerDiv.getAttribute('aria-controls')).toEqual('size-results');
     expect(innerDiv.getAttribute('aria-label')).toEqual('Size');
+    expect(inputElement.getAttribute('aria-hidden')).toEqual('true');
   });
 
   it('should append aria-label to options', (done) => {
