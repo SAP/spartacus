@@ -1,4 +1,4 @@
-import { Theme } from '../../../model/misc.model';
+import { SiteTheme } from '../../../model/misc.model';
 import { SiteThemeActions } from '../actions/index';
 import * as fromSiteThemes from './site-themes.reducer';
 
@@ -15,16 +15,16 @@ describe('Site Theme Reducer', () => {
 
   describe('LOAD_THEMES_SUCCESS action', () => {
     it('should populate the theme state entities', () => {
-      const themes: Theme[] = [
+      const siteThemes: SiteTheme[] = [
         { i18nNameKey: 'dark', className: 'dark', default: true },
       ];
 
-      const entities: { [key: string]: Theme } = {
-        dark: themes[0],
+      const entities: { [key: string]: SiteTheme } = {
+        dark: siteThemes[0],
       };
 
       const { initialState } = fromSiteThemes;
-      const action = new SiteThemeActions.LoadThemesSuccess(themes);
+      const action = new SiteThemeActions.LoadSiteThemesSuccess(siteThemes);
       const state = fromSiteThemes.reducer(initialState, action);
       expect(state.entities).toEqual(entities);
     });
@@ -33,10 +33,10 @@ describe('Site Theme Reducer', () => {
   describe('SET_ACTIVE_THEME action', () => {
     it('should set active theme', () => {
       const { initialState } = fromSiteThemes;
-      const action = new SiteThemeActions.SetActiveTheme('light');
+      const action = new SiteThemeActions.SetActiveSiteTheme('light');
       const state = fromSiteThemes.reducer(initialState, action);
 
-      expect(state.activeTheme).toEqual('light');
+      expect(state.activeSiteTheme).toEqual('light');
     });
   });
 });

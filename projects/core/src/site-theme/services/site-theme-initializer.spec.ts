@@ -9,7 +9,7 @@ import { SiteThemePersistenceService } from './site-theme-persistence.service';
 
 const mockSiteThemeConfig: SiteThemeConfig = {
   siteTheme: {
-    themes: [{ i18nNameKey: 'dark', className: 'dark', default: true }],
+    sitethemes: [{ i18nNameKey: 'dark', className: 'dark', default: true }],
   },
 };
 

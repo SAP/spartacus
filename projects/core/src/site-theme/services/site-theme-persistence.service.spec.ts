@@ -4,7 +4,7 @@ import { SiteThemePersistenceService } from './site-theme-persistence.service';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { SiteThemeService } from '../facade/site-theme.service';
 import { SiteThemeConfig } from '../config/site-theme-config';
-import { THEME_STORAGE_ID } from '../providers/theme_storage_Id';
+import { SITE_THEME_STORAGE_ID } from '../providers/site_theme_storage_Id';
 
 describe('SiteThemePersistenceService', () => {
   let service: SiteThemePersistenceService;
@@ -51,7 +51,7 @@ describe('SiteThemePersistenceService', () => {
     service.initSync().subscribe();
 
     expect(statePersistenceService.syncWithStorage).toHaveBeenCalledWith({
-      key: THEME_STORAGE_ID,
+      key: SITE_THEME_STORAGE_ID,
       state$: activeTheme$,
       onRead: jasmine.any(Function),
     });

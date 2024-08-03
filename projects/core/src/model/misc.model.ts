@@ -130,7 +130,7 @@ export interface BaseSite {
   isolated?: boolean;
 }
 
-export interface Theme {
+export interface SiteTheme {
   i18nNameKey?: string;
   className?: string;
   default?: boolean;

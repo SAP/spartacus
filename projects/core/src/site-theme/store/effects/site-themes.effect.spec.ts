@@ -4,19 +4,19 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { ConfigModule } from '../../../config/config.module';
-import { Theme } from '../../../model/misc.model';
+import { SiteTheme } from '../../../model/misc.model';
 import { BaseOccModule } from '../../../occ/base-occ.module';
 import { SiteThemeActions } from '../actions/index';
 import * as fromEffects from './site-themes.effect';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { SiteThemeConfig } from '../../config/site-theme-config';
 
-const themes: Theme[] = [
+const themes: SiteTheme[] = [
   { i18nNameKey: 'dark', className: 'dark', default: true },
 ];
 const mockSiteThemeConfig: SiteThemeConfig = {
   siteTheme: {
-    themes: themes,
+    sitethemes: themes,
   },
 };
 
@@ -52,12 +52,14 @@ describe('Themes Effects', () => {
     baseSiteService.get.and.returnValue(of({ theme: 'dark' }));
   });
 
-  describe('loadThemes$', () => {
-    it('should populate all themes from LoadThemesSuccess', () => {
+  describe('LoadSiteThemes$', () => {
+    it('should populate all themes from LoadSiteThemesSuccess', () => {
       const results: any[] = [];
-      effects.loadThemes$.subscribe((a) => results.push(a));
-      actions$.next(new SiteThemeActions.LoadThemes());
-      expect(results).toEqual([new SiteThemeActions.LoadThemesSuccess(themes)]);
+      effects.loadSiteThemes$.subscribe((a) => results.push(a));
+      actions$.next(new SiteThemeActions.LoadSiteThemes());
+      expect(results).toEqual([
+        new SiteThemeActions.LoadSiteThemesSuccess(themes),
+      ]);
     });
 
     it('should replace default theme', () => {
@@ -68,11 +70,11 @@ describe('Themes Effects', () => {
         ...themes.slice(1),
       ];
       const results: any[] = [];
-      effects.loadThemes$.subscribe((a) => results.push(a));
-      actions$.next(new SiteThemeActions.LoadThemes());
+      effects.loadSiteThemes$.subscribe((a) => results.push(a));
+      actions$.next(new SiteThemeActions.LoadSiteThemes());
 
       expect(results).toEqual([
-        new SiteThemeActions.LoadThemesSuccess(mockThemes),
+        new SiteThemeActions.LoadSiteThemesSuccess(mockThemes),
       ]);
     });
   });
@@ -81,7 +83,7 @@ describe('Themes Effects', () => {
     describe('when theme is set for the first time', () => {
       it('should NOT dispatch theme change action', () => {
         const results: any[] = [];
-        effects.activateTheme$.subscribe((a) => results.push(a));
+        effects.activateSiteTheme$.subscribe((a) => results.push(a));
         mockState.next('light');
         expect(results).toEqual([]);
       });
@@ -90,12 +92,12 @@ describe('Themes Effects', () => {
     describe('when theme is set for the next time', () => {
       it('should dispatch theme change action', () => {
         const results: any[] = [];
-        effects.activateTheme$.subscribe((a) => results.push(a));
+        effects.activateSiteTheme$.subscribe((a) => results.push(a));
 
         mockState.next('dark');
         mockState.next('light');
 
-        const changeAction = new SiteThemeActions.ThemeChange({
+        const changeAction = new SiteThemeActions.SiteThemeChange({
           previous: 'dark',
           current: 'light',
         });

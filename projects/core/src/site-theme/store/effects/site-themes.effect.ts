@@ -20,7 +20,7 @@ import { LoggerService } from '../../../logger';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { SiteThemeActions } from '../actions/index';
 import { StateWithSiteTheme } from '../state';
-import { getActiveTheme } from '../selectors/site-themes.selectors';
+import { getActiveSiteTheme } from '../selectors/site-themes.selectors';
 import { SiteThemeConfig } from '../../config/site-theme-config';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 
@@ -28,27 +28,27 @@ import { BaseSiteService } from '../../../site-context/facade/base-site.service'
 export class SiteThemesEffects {
   protected logger = inject(LoggerService);
 
-  loadThemes$: Observable<
-    SiteThemeActions.LoadThemesSuccess | SiteThemeActions.LoadThemesFail
+  loadSiteThemes$: Observable<
+    SiteThemeActions.LoadSiteThemesSuccess | SiteThemeActions.LoadSiteThemesFail
   > = createEffect(() =>
     this.actions$.pipe(
-      ofType(SiteThemeActions.LOAD_THEMES),
+      ofType(SiteThemeActions.LOAD_SITE_THEMES),
       exhaustMap(() => {
         return this.getCustomSiteTheme().pipe(
           map((siteTheme) => {
-            const themes = (this.config.siteTheme?.themes || []).map(
-              (theme) => {
-                if (theme.default) {
-                  return { ...theme, className: siteTheme ?? '' };
+            const sitethemes = (this.config.siteTheme?.sitethemes || []).map(
+              (sitetheme) => {
+                if (sitetheme.default) {
+                  return { ...sitetheme, className: siteTheme ?? '' };
                 }
-                return theme;
+                return sitetheme;
               }
             );
-            return new SiteThemeActions.LoadThemesSuccess(themes);
+            return new SiteThemeActions.LoadSiteThemesSuccess(sitethemes);
           }),
           catchError((error) =>
             of(
-              new SiteThemeActions.LoadThemesFail(
+              new SiteThemeActions.LoadSiteThemesFail(
                 normalizeHttpError(error, this.logger)
               )
             )
@@ -58,16 +58,17 @@ export class SiteThemesEffects {
     )
   );
 
-  activateTheme$: Observable<SiteThemeActions.ThemeChange> = createEffect(() =>
-    this.state.select(getActiveTheme).pipe(
-      bufferCount(2, 1),
-      filter(([previous]) => !!previous),
-      map(
-        ([previous, current]) =>
-          new SiteThemeActions.ThemeChange({ previous, current })
+  activateSiteTheme$: Observable<SiteThemeActions.SiteThemeChange> =
+    createEffect(() =>
+      this.state.select(getActiveSiteTheme).pipe(
+        bufferCount(2, 1),
+        filter(([previous]) => !!previous),
+        map(
+          ([previous, current]) =>
+            new SiteThemeActions.SiteThemeChange({ previous, current })
+        )
       )
-    )
-  );
+    );
 
   constructor(
     private actions$: Actions,

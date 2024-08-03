@@ -5,7 +5,7 @@
  */
 
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { Theme } from '../../../model/misc.model';
+import { SiteTheme } from '../../../model/misc.model';
 import {
   SiteThemeState,
   SiteThemeEntities,
@@ -14,10 +14,11 @@ import {
 } from '../state';
 import { getSiteThemeState } from './feature.selector';
 
-const activeThemeSelector = (state: SiteThemesState) => state.activeTheme;
-const themeEntitiesSelector = (state: SiteThemesState) => state.entities;
+const activeSiteThemeSelector = (state: SiteThemesState) =>
+  state.activeSiteTheme;
+const siteThemeEntitiesSelector = (state: SiteThemesState) => state.entities;
 
-export const getSiteSiteThemesState: MemoizedSelector<
+export const getSiteThemesState: MemoizedSelector<
   StateWithSiteTheme,
   SiteThemesState
 > = createSelector(getSiteThemeState, (state: SiteThemeState) => state.themes);
@@ -25,16 +26,16 @@ export const getSiteSiteThemesState: MemoizedSelector<
 export const getSiteThemeEntities: MemoizedSelector<
   StateWithSiteTheme,
   SiteThemeEntities | null
-> = createSelector(getSiteSiteThemesState, themeEntitiesSelector);
+> = createSelector(getSiteThemesState, siteThemeEntitiesSelector);
 
-export const getActiveTheme: MemoizedSelector<
+export const getActiveSiteTheme: MemoizedSelector<
   StateWithSiteTheme,
   string | null
-> = createSelector(getSiteSiteThemesState, activeThemeSelector);
+> = createSelector(getSiteThemesState, activeSiteThemeSelector);
 
-export const getAllThemes: MemoizedSelector<
+export const getAllSiteThemes: MemoizedSelector<
   StateWithSiteTheme,
-  Theme[] | null
+  SiteTheme[] | null
 > = createSelector(getSiteThemeEntities, (entities) => {
   return entities
     ? Object.keys(entities).map((className) => entities[className])

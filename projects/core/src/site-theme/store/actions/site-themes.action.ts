@@ -5,35 +5,35 @@
  */
 
 import { Action } from '@ngrx/store';
-import { Theme } from '../../../model/misc.model';
+import { SiteTheme } from '../../../model/misc.model';
 
-export const LOAD_THEMES = '[Site-theme] Load themes';
-export const LOAD_THEMES_FAIL = '[Site-theme] Load themes Fail';
-export const LOAD_THEMES_SUCCESS = '[Site-theme] Load themes Success';
-export const SET_ACTIVE_THEME = '[Site-theme] Set Active theme';
-export const THEME_CHANGE = '[Site-theme] theme Change';
+export const LOAD_SITE_THEMES = '[Site-theme] Load site themes';
+export const LOAD_SITE_THEMES_FAIL = '[Site-theme] Load site themes Fail';
+export const LOAD_SITE_THEMES_SUCCESS = '[Site-theme] Load site themes Success';
+export const SET_ACTIVE_SITE_THEME = '[Site-theme] Set Active site theme';
+export const SITE_THEME_CHANGE = '[Site-theme] site theme Change';
 
-export class LoadThemes implements Action {
-  readonly type = LOAD_THEMES;
+export class LoadSiteThemes implements Action {
+  readonly type = LOAD_SITE_THEMES;
 }
 
-export class LoadThemesFail implements Action {
-  readonly type = LOAD_THEMES_FAIL;
+export class LoadSiteThemesFail implements Action {
+  readonly type = LOAD_SITE_THEMES_FAIL;
   constructor(public payload: any) {}
 }
 
-export class LoadThemesSuccess implements Action {
-  readonly type = LOAD_THEMES_SUCCESS;
-  constructor(public payload: Theme[]) {}
+export class LoadSiteThemesSuccess implements Action {
+  readonly type = LOAD_SITE_THEMES_SUCCESS;
+  constructor(public payload: SiteTheme[]) {}
 }
 
-export class SetActiveTheme implements Action {
-  readonly type = SET_ACTIVE_THEME;
+export class SetActiveSiteTheme implements Action {
+  readonly type = SET_ACTIVE_SITE_THEME;
   constructor(public payload: string) {}
 }
 
-export class ThemeChange implements Action {
-  readonly type = THEME_CHANGE;
+export class SiteThemeChange implements Action {
+  readonly type = SITE_THEME_CHANGE;
   constructor(
     public payload: { previous: string | null; current: string | null }
   ) {}
@@ -41,8 +41,8 @@ export class ThemeChange implements Action {
 
 // action types
 export type SiteThemesAction =
-  | LoadThemes
-  | LoadThemesFail
-  | LoadThemesSuccess
-  | SetActiveTheme
-  | ThemeChange;
+  | LoadSiteThemes
+  | LoadSiteThemesFail
+  | LoadSiteThemesSuccess
+  | SetActiveSiteTheme
+  | SiteThemeChange;

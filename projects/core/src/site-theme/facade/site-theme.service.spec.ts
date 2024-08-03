@@ -8,14 +8,14 @@ import {
   SiteThemeActions,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { BaseSite, Theme } from '../../model/misc.model';
+import { BaseSite, SiteTheme } from '../../model/misc.model';
 
 import { SiteThemeStoreModule } from '../store/site-theme-store.module';
 import { StateWithSiteTheme } from '../store/state';
 import { SiteThemeService } from './site-theme.service';
 import createSpy = jasmine.createSpy;
 
-const mockThemes: Theme[] = [
+const mockThemes: SiteTheme[] = [
   { i18nNameKey: 'dark', className: 'dark', default: false },
 ];
 
@@ -28,7 +28,7 @@ const mockSiteThemeConfig: SiteThemeConfig = {
 };
 export abstract class SiteThemeConfig {
   siteTheme?: {
-    themes?: Array<Theme>;
+    themes?: Array<SiteTheme>;
   };
 }
 
@@ -95,7 +95,7 @@ describe('SiteThemeService', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
     service.setActive('dark_new');
     expect(store.dispatch).not.toHaveBeenCalledWith(
-      new SiteThemeActions.SetActiveTheme('dark_new')
+      new SiteThemeActions.SetActiveSiteTheme('dark_new')
     );
   });
 

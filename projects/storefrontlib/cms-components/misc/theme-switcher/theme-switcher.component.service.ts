@@ -5,25 +5,19 @@
  */
 
 import { Injectable } from '@angular/core';
-import { SiteThemeService, Theme } from '@spartacus/core';
-import { ThemeService } from '../../../layout/theme/theme.service';
-import { Observable, tap } from 'rxjs';
+import { SiteThemeService, SiteTheme } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ThemeSwitcherComponentService {
-  constructor(
-    protected themeService: ThemeService,
-    protected siteThemeService: SiteThemeService
-  ) {}
+  constructor(protected siteThemeService: SiteThemeService) {}
 
-  getItems(): Observable<Theme[]> {
+  getItems(): Observable<SiteTheme[]> {
     return this.siteThemeService.getAll();
   }
 
   getActiveItem(): Observable<string> {
-    return this.siteThemeService
-      .getActive()
-      .pipe(tap((theme) => this.themeService.setTheme(theme)));
+    return this.siteThemeService.getActive();
   }
 
   setActive(value: string): void {

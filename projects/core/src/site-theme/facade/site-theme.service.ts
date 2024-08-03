@@ -11,7 +11,7 @@ import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 
 import { Observable } from 'rxjs';
 
-import { Theme } from '../../model/misc.model';
+import { SiteTheme } from '../../model/misc.model';
 import { SiteThemeConfig } from '../config/site-theme-config';
 import { isNotNullable } from '../../util/type-guards';
 import { StateWithSiteTheme } from '../store/state';
@@ -25,12 +25,12 @@ export class SiteThemeService {
     protected config: SiteThemeConfig
   ) {}
 
-  getAll(): Observable<Theme[]> {
+  getAll(): Observable<SiteTheme[]> {
     return this.store.pipe(
-      select(SiteThemeSelectors.getAllThemes),
+      select(SiteThemeSelectors.getAllSiteThemes),
       tap((themes) => {
         if (!themes) {
-          this.store.dispatch(new SiteThemeActions.LoadThemes());
+          this.store.dispatch(new SiteThemeActions.LoadSiteThemes());
         }
       }),
       filter(isNotNullable)
@@ -42,7 +42,7 @@ export class SiteThemeService {
    */
   getActive(): Observable<string> {
     return this.store.pipe(
-      select(SiteThemeSelectors.getActiveTheme),
+      select(SiteThemeSelectors.getActiveSiteTheme),
       filter(isNotNullable)
     );
   }
@@ -56,14 +56,16 @@ export class SiteThemeService {
         filter((isValid) => isValid),
         mergeMap(() => {
           return this.store.pipe(
-            select(SiteThemeSelectors.getActiveTheme),
+            select(SiteThemeSelectors.getActiveSiteTheme),
             take(1)
           );
         })
       )
       .subscribe((activeTheme) => {
         if (activeTheme !== className) {
-          this.store.dispatch(new SiteThemeActions.SetActiveTheme(className));
+          this.store.dispatch(
+            new SiteThemeActions.SetActiveSiteTheme(className)
+          );
         }
       });
   }

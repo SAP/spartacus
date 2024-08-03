@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ICON_TYPE } from '../icon/icon.model';
 import { Observable } from 'rxjs';
 import { ThemeSwitcherComponentService } from './theme-switcher.component.service';
-import { Theme } from '@spartacus/core';
+import { SiteTheme } from '@spartacus/core';
 
 /**
  * Component for switching themes.
@@ -25,7 +25,7 @@ export class ThemeSwitcherComponent {
     protected themeSwitcherComponentService: ThemeSwitcherComponentService
   ) {}
 
-  get items$(): Observable<Array<Theme>> {
+  get items$(): Observable<Array<SiteTheme>> {
     return this.themeSwitcherComponentService.getItems();
   }
 

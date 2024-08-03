@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Theme } from '../../model/misc.model';
+import { SiteTheme } from '../../model/misc.model';
 
 export const SITE_THEME_FEATURE = 'siteTheme';
 
@@ -17,10 +17,10 @@ export interface SiteThemeState {
 }
 
 export interface SiteThemeEntities {
-  [className: string]: Theme;
+  [className: string]: SiteTheme;
 }
 
 export interface SiteThemesState {
   entities: SiteThemeEntities | null;
-  activeTheme: string | null;
+  activeSiteTheme: string | null;
 }

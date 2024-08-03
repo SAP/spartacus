@@ -342,6 +342,7 @@ if (environment.cpq) {
         a11yLinkBtnsToTertiaryBtns: true,
         a11yDeliveryModeRadiogroup: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
+        useNewSiteThemeSwitcher: true,
       };
       return appFeatureToggles;
     }),

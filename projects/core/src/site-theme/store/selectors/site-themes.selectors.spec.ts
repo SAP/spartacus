@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { Theme } from '../../../model/misc.model';
+import { SiteTheme } from '../../../model/misc.model';
 import { SiteThemeActions } from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import { SiteThemeSelectors } from '../selectors/index';
@@ -13,7 +13,7 @@ import {
 describe('Themes Selectors', () => {
   let store: Store<StateWithSiteTheme>;
 
-  const themes: Theme[] = [
+  const themes: SiteTheme[] = [
     { i18nNameKey: 'dark', className: 'dark', default: true },
   ];
 
@@ -43,23 +43,23 @@ describe('Themes Selectors', () => {
 
       expect(result).toEqual(null);
 
-      store.dispatch(new SiteThemeActions.LoadThemesSuccess(themes));
+      store.dispatch(new SiteThemeActions.LoadSiteThemesSuccess(themes));
 
       expect(result).toEqual(entities);
     });
   });
 
-  describe('getActiveTheme', () => {
+  describe('getActiveSiteTheme', () => {
     it('should return the active theme', () => {
       let result: string;
 
       store
-        .pipe(select(SiteThemeSelectors.getActiveTheme))
+        .pipe(select(SiteThemeSelectors.getActiveSiteTheme))
         .subscribe((value) => (result = value));
 
       expect(result).toEqual(null);
 
-      store.dispatch(new SiteThemeActions.SetActiveTheme('light'));
+      store.dispatch(new SiteThemeActions.SetActiveSiteTheme('light'));
 
       expect(result).toEqual('light');
     });
@@ -67,15 +67,15 @@ describe('Themes Selectors', () => {
 
   describe('getAllThemes', () => {
     it('should return all themes', () => {
-      let result: Theme[];
+      let result: SiteTheme[];
 
       store
-        .pipe(select(SiteThemeSelectors.getAllThemes))
+        .pipe(select(SiteThemeSelectors.getAllSiteThemes))
         .subscribe((value) => (result = value));
 
       expect(result).toEqual(null);
 
-      store.dispatch(new SiteThemeActions.LoadThemesSuccess(themes));
+      store.dispatch(new SiteThemeActions.LoadSiteThemesSuccess(themes));
 
       expect(result).toEqual(themes);
     });

@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Config } from '../../config/config-tokens';
-import { Theme } from '../../model/misc.model';
+import { SiteTheme } from '../../model/misc.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ import { Theme } from '../../model/misc.model';
 })
 export abstract class SiteThemeConfig {
   siteTheme?: {
-    themes?: Array<Theme>;
+    sitethemes?: Array<SiteTheme>;
   };
 }
 

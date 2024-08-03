@@ -1,16 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { ThemeService } from '@spartacus/storefront';
-import { SiteThemeService, Theme } from '@spartacus/core';
+import { SiteThemeService, SiteTheme } from '@spartacus/core';
 import { ThemeSwitcherComponentService } from './theme-switcher.component.service';
 
 describe('ThemeSwitcherComponentService', () => {
   let service: ThemeSwitcherComponentService;
-  let themeService: jasmine.SpyObj<ThemeService>;
   let siteThemeService: jasmine.SpyObj<SiteThemeService>;
 
   beforeEach(() => {
-    const themeServiceSpy = jasmine.createSpyObj('ThemeService', ['setTheme']);
     const siteThemeServiceSpy = jasmine.createSpyObj('SiteThemeService', [
       'getAll',
       'getActive',
@@ -20,13 +17,11 @@ describe('ThemeSwitcherComponentService', () => {
     TestBed.configureTestingModule({
       providers: [
         ThemeSwitcherComponentService,
-        { provide: ThemeService, useValue: themeServiceSpy },
         { provide: SiteThemeService, useValue: siteThemeServiceSpy },
       ],
     });
 
     service = TestBed.inject(ThemeSwitcherComponentService);
-    themeService = TestBed.inject(ThemeService) as jasmine.SpyObj<ThemeService>;
     siteThemeService = TestBed.inject(
       SiteThemeService
     ) as jasmine.SpyObj<SiteThemeService>;
@@ -37,7 +32,7 @@ describe('ThemeSwitcherComponentService', () => {
   });
 
   it('getItems should return all themes', (done: DoneFn) => {
-    const mockThemes: Theme[] = [
+    const mockThemes: SiteTheme[] = [
       { className: 'theme1' },
       { className: 'theme2' },
     ];
@@ -57,7 +52,6 @@ describe('ThemeSwitcherComponentService', () => {
 
     service.getActiveItem().subscribe((theme) => {
       expect(theme).toBe(activeTheme);
-      expect(themeService.setTheme).toHaveBeenCalledWith(activeTheme);
       done();
     });
 
