@@ -61,7 +61,6 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
   }
 
   protected getConfig(source: BaseSite): SiteContextConfig {
-    console.log(source);
     const result = {
       context: {
         urlParameters: this.getUrlParams(source.urlEncodingAttributes),
