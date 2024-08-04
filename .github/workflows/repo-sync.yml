@@ -102,6 +102,9 @@ jobs:
           function clone_and_setup_repo() {
             git clone $REPO_URL
             cd cloud-commerce-sample-setup
+
+            # Get the current date and time
+            timestamp=$(date +%Y%m%d%H%M%S)
             
             # Create a new branch with a unique name
             branch_name="new_branch_$timestamp"
