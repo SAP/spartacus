@@ -22,7 +22,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Run script
+      - name: Create storefronts
         run: |
           function setup_config_dir() {
             [ -d "${CONFIG_DIR}" ]
@@ -30,14 +30,15 @@ jobs:
           }
 
           function update_config() {
-            local site_type=$1
+            local storefront_type=$1
             local version=${{ github.event.inputs.version }}
             local npm_token=${{ github.event.inputs.npm_token }}
 
-            if [ "${site_type}" == "b2c" ]; then
+            # Update the config.sh file with the appropriate values
+            if [ "${storefront_type}" == "b2c" ]; then
               sed -i 's/^BASE_SITE=.*/BASE_SITE="electronics-spa"/' "${CONFIG_DIR}/config.sh"
               sed -i 's/^SSR_APP_NAME=.*/SSR_APP_NAME="spartacusstore"/' "${CONFIG_DIR}/config.sh"
-            elif [ "${site_type}" == "b2b" ]; then
+            elif [ "${storefront_type}" == "b2b" ]; then
               sed -i 's/^BASE_SITE=.*/BASE_SITE="powertools-spa"/' "${CONFIG_DIR}/config.sh"
               sed -i 's/^SSR_APP_NAME=.*/SSR_APP_NAME="b2bspastore"/' "${CONFIG_DIR}/config.sh"
               sed -i '/ADD_B2B_LIBS/c\ADD_B2B_LIBS=true' "${CONFIG_DIR}/config.sh"
@@ -50,17 +51,18 @@ jobs:
             sed -i "s|^NPM_URL=.*|NPM_URL='${NPM_REPO_URL}'|" "${CONFIG_DIR}/config.sh"
           }
 
+          # Rename the generated spartacus folders so we can have B2C and B2B folders
           function rename_spartacus_folders() {
             local version=${{ github.event.inputs.version }}
 
-            if [ "${site_type}" == "b2c" ]; then
+            if [ "${storefront_type}" == "b2c" ]; then
               mv ../spartacus-${version} ../spartacus-${version}-b2c
               if [ -d "../spartacus-${version}-b2c" ]; then
                   echo "Renaming to ../spartacus-${version}-b2c was successful"
               else
                   echo "Renaming to ../spartacus-${version}-b2c failed"
               fi
-            elif [ "${site_type}" == "b2b" ]; then
+            elif [ "${storefront_type}" == "b2b" ]; then
               mv ../spartacus-${version} ../spartacus-${version}-b2b
               if [ -d "../spartacus-${version}-b2b" ]; then
                   echo "Renaming to ../spartacus-${version}-b2b was successful"
@@ -71,8 +73,9 @@ jobs:
 
           }
 
+          # Comment out the base url in the spartacus-configuration.module.ts file
           function modify_file_to_remove_baseurl() {
-            local file_location="../spartacus-${{ github.event.inputs.version }}-${site_type}/apps/spartacusstore/src/app/spartacus/spartacus-configuration.module.ts"
+            local file_location="../spartacus-${{ github.event.inputs.version }}-${storefront_type}/apps/spartacusstore/src/app/spartacus/spartacus-configuration.module.ts"
 
             if [ -f "${file_location}" ]; then
               sed -i 's/baseUrl/\/\/baseUrl/1' "${file_location}"
@@ -83,16 +86,16 @@ jobs:
           }
 
           # Array of site types
-          site_types=("b2c" "b2b")
+          storefront_types=("b2c" "b2b")
 
           # Loop over site types
-          for site_type in "${site_types[@]}"; do
+          for storefront_type in "${storefront_types[@]}"; do
             setup_config_dir
-            update_config $site_type
+            update_config $storefront_type
             cd "${CONFIG_DIR}" && bash "./run.sh" install_npm
             cd ../../
-            rename_spartacus_folders $site_type
-            modify_file_to_remove_baseurl $site_type
+            rename_spartacus_folders $storefront_type
+            modify_file_to_remove_baseurl $storefront_type
           done
       - name: Set Git user
         run: |
@@ -108,9 +111,10 @@ jobs:
             timestamp=$(date +%Y%m%d%H%M%S)
             
             # Create a new branch with a unique name
-            branch_name="new_branch_$timestamp"
+            branch_name="update_storefronts_$timestamp"
             git checkout -b $branch_name
 
+            # Copy over the B2C and B2B content to the js-storefront folder and then commit the changes
             rm -rf js-storefront/spartacusstore/*
             cp -r ./../../spartacus-${{ github.event.inputs.version }}-b2c/apps/spartacusstore/* js-storefront/spartacusstore/
             git add .
