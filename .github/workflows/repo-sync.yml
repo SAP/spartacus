@@ -43,7 +43,7 @@ jobs:
               sed -i 's/^SSR_APP_NAME=.*/SSR_APP_NAME="b2bspastore"/' "${CONFIG_DIR}/config.sh"
               sed -i '/ADD_B2B_LIBS/c\ADD_B2B_LIBS=true' "${CONFIG_DIR}/config.sh"
             else
-              echo "Invalid site type. BASE_SITE and SSR_APP_NAME not set."
+              echo "Invalid storefront type. BASE_SITE and SSR_APP_NAME not set."
             fi
 
             sed -i "s/^SPARTACUS_VERSION=.*/SPARTACUS_VERSION='${version}'/" "${CONFIG_DIR}/config.sh"
@@ -85,10 +85,9 @@ jobs:
             fi
           }
 
-          # Array of site types
           storefront_types=("b2c" "b2b")
 
-          # Loop over site types
+          # Loop over storefront types
           for storefront_type in "${storefront_types[@]}"; do
             setup_config_dir
             update_config $storefront_type
