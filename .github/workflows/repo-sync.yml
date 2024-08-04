@@ -25,6 +25,7 @@ jobs:
         run: |
           function setup_config_dir() {
             [ -d "${CONFIG_DIR}" ] || mkdir -p "${CONFIG_DIR}"
+            rm -f "${CONFIG_DIR}/config.sh"
             cp "${CONFIG_DIR}/config.default.sh" "${CONFIG_DIR}/config.sh"
           }
 
