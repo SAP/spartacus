@@ -39,7 +39,7 @@ jobs:
             elif [ "${site_type}" == "b2b" ]; then
               sed -i 's/^BASE_SITE=.*/BASE_SITE="powertools-spa"/' "${CONFIG_DIR}/config.sh"
               sed -i 's/^SSR_APP_NAME=.*/SSR_APP_NAME="b2bspastore"/' "${CONFIG_DIR}/config.sh"
-              sed -i '/ADD_B2B_LIBS/c\ADD_B2B_LIBS=true' "${CONFIG_DIR}}/config.sh"
+              sed -i '/ADD_B2B_LIBS/c\ADD_B2B_LIBS=true' "${CONFIG_DIR}/config.sh"
             else
               echo "Invalid site type. BASE_SITE and SSR_APP_NAME not set."
             fi
