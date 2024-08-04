@@ -13,6 +13,7 @@ on:
 env:
   CONFIG_DIR: scripts/install
   REPO_URL: https://${{secrets.GH_TEMPORARY_TOKEN}}@github.com/SAP-samples/cloud-commerce-sample-setup.git
+  NPM_REPO_URL: https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/
 
 jobs:
   run_script:
@@ -24,7 +25,7 @@ jobs:
       - name: Run script
         run: |
           function setup_config_dir() {
-            [ -d "${CONFIG_DIR}" ] || mkdir -p "${CONFIG_DIR}"
+            [ -d "${CONFIG_DIR}" ]
             cp "${CONFIG_DIR}/config.default.sh" "${CONFIG_DIR}/config.sh"
           }
 
@@ -46,7 +47,7 @@ jobs:
 
             sed -i "s/^SPARTACUS_VERSION=.*/SPARTACUS_VERSION='${version}'/" "${CONFIG_DIR}/config.sh"
             sed -i "s/^NPM_TOKEN=.*/NPM_TOKEN='${npm_token}'/" "${CONFIG_DIR}/config.sh"
-            sed -i "s|^NPM_URL=.*|NPM_URL='https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/'|" "${CONFIG_DIR}/config.sh"
+            sed -i "s|^NPM_URL=.*|NPM_URL='${NPM_REPO_URL}'|" "${CONFIG_DIR}/config.sh"
           }
 
           function rename_spartacus_folders() {
