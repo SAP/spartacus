@@ -10,15 +10,15 @@ import {
   OnDestroy,
   Renderer2,
   RendererFactory2,
+  inject,
 } from '@angular/core';
 import {
   FeatureConfigService,
   SiteContextConfig,
+  SiteThemeService,
   THEME_CONTEXT_ID,
 } from '@spartacus/core';
-import { SiteThemeService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { inject } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService implements OnDestroy {
