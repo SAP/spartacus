@@ -16,6 +16,9 @@
     [attr.aria-label]="
       'productList.activeFilter' | cxTranslate: { filter: facet.facetValueName }
     "
+    [attr.title]="
+      'productList.activeFilter' | cxTranslate: { filter: facet.facetValueName }
+    "
   >
     <span>{{ facet.facetValueName }}</span>
     <cx-icon aria-hidden="true" [type]="closeIcon"></cx-icon>

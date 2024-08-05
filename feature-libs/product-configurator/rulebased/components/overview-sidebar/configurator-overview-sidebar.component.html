@@ -3,17 +3,27 @@
 >
   <div class="cx-menu-bar" role="tablist">
     <button
+      #menuTab
+      [tabindex]="getTabIndexForMenuTab()"
       role="tab"
       [attr.aria-selected]="!showFilter"
       [class.active]="!showFilter"
+      (keydown)="switchTabOnArrowPress($event, '#menuTab')"
+      (keydown.enter)="onMenu()"
+      (keydown.space)="onMenu()"
       (click)="onMenu()"
     >
       {{ 'configurator.overviewSidebar.menu' | cxTranslate }}
     </button>
     <button
+      #filterTab
+      [tabindex]="getTabIndexForFilterTab()"
       role="tab"
       [attr.aria-selected]="showFilter"
       [class.active]="showFilter"
+      (keydown)="switchTabOnArrowPress($event, '#filterTab')"
+      (keydown.enter)="onFilter()"
+      (keydown.space)="onFilter()"
       (click)="onFilter()"
     >
       {{ 'configurator.overviewSidebar.filter' | cxTranslate }}
