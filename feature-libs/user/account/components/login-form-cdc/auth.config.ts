@@ -10,13 +10,14 @@ export function createAuthConfig(
   issuer: string,
   clientId: string,
   baseSite: string,
-  scope: string
+  scope: string,
+  responseType: string
 ): AuthConfig {
   return {
     issuer: issuer,
     redirectUri: window.location.origin + '/' + baseSite + '/en/USD/login',
     clientId: clientId,
-    responseType: 'code',
     scope: scope,
+    responseType: responseType,
   };
 }

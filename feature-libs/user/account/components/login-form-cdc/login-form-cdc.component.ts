@@ -41,7 +41,8 @@ export class LoginFormCDCComponent implements OnInit {
       'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_l3dMCBwsQX6XopODQlWG7A',
       'NMywTmkkLHK1KZmZwUa1P4qN',
       this.baseSite,
-      'openid profile email uid'
+      'openid profile email uid',
+      'code',
     );
     this.oauthService.configure(authConfig);
     this.oauthService.loadDiscoveryDocumentAndTryLogin();
@@ -54,6 +55,6 @@ export class LoginFormCDCComponent implements OnInit {
   }
 
   startPKCEflow(): void {
-    this.oauthService.initCodeFlow();
+    this.oauthService.initLoginFlow();
   }
 }
