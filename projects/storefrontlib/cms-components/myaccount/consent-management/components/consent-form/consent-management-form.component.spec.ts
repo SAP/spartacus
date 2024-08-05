@@ -7,6 +7,7 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { ConsentManagementFormComponent } from './consent-management-form.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 describe('ConsentManagementFormComponent', () => {
   let component: ConsentManagementFormComponent;
@@ -16,7 +17,7 @@ describe('ConsentManagementFormComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [ConsentManagementFormComponent],
+      declarations: [ConsentManagementFormComponent, MockFeatureDirective],
     }).compileComponents();
   }));
 

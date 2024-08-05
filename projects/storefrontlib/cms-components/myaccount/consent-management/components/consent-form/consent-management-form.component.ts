@@ -27,6 +27,8 @@ export class ConsentManagementFormComponent implements OnInit {
   @Input()
   consent: AnonymousConsent | null;
 
+  @Input() disabled: boolean = false;
+
   @Output()
   consentChanged = new EventEmitter<{
     given: boolean;
