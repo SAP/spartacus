@@ -23,6 +23,7 @@ import { StateWithSiteTheme } from '../state';
 import { getActiveSiteTheme } from '../selectors/site-themes.selectors';
 import { SiteThemeConfig } from '../../config/site-theme-config';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
+import { SiteTheme } from '../../../model/misc.model';
 
 @Injectable()
 export class SiteThemesEffects {
@@ -36,14 +37,25 @@ export class SiteThemesEffects {
       exhaustMap(() => {
         return this.getCustomSiteTheme().pipe(
           map((siteTheme) => {
-            const sitethemes = (this.config.siteTheme?.sitethemes || []).map(
-              (sitetheme) => {
-                if (sitetheme.default) {
-                  return { ...sitetheme, className: siteTheme ?? '' };
+            let sitethemes = [];
+            if (this.config.siteTheme?.sitethemes?.length) {
+              const hasDefaultTheme = this.config.siteTheme.sitethemes.some(
+                (theme) => theme.default
+              );
+              sitethemes = (this.config.siteTheme?.sitethemes || []).map(
+                (sitetheme) => {
+                  if (sitetheme.default) {
+                    return { ...sitetheme, className: siteTheme ?? '' };
+                  }
+                  return sitetheme;
                 }
-                return sitetheme;
+              );
+              if (!hasDefaultTheme) {
+                sitethemes.push(this.getNewDefaultTheme(siteTheme));
               }
-            );
+            } else {
+              sitethemes.push(this.getNewDefaultTheme(siteTheme));
+            }
             return new SiteThemeActions.LoadSiteThemesSuccess(sitethemes);
           }),
           catchError((error) =>
@@ -76,10 +88,19 @@ export class SiteThemesEffects {
     protected config: SiteThemeConfig,
     protected baseSiteService: BaseSiteService
   ) {}
+
   private getCustomSiteTheme(): Observable<string | undefined> {
     return this.baseSiteService.get().pipe(
       take(1),
       map((baseSite) => baseSite?.theme)
     );
+  }
+
+  private getNewDefaultTheme(siteTheme: string | undefined): SiteTheme {
+    return {
+      i18nNameKey: 'themeSwitcher.themes.default',
+      className: siteTheme || '',
+      default: true,
+    };
   }
 }

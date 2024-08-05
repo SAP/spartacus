@@ -101,6 +101,7 @@ describe('SiteThemeService', () => {
 
   it('should return TRUE if a theme is initialized', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+    service.setActive('dark_new');
     expect(service.isInitialized()).toBeTruthy();
   });
 

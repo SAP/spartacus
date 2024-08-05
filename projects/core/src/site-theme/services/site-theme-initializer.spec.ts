@@ -6,6 +6,7 @@ import { SiteThemeConfig } from '../config/site-theme-config';
 import { SiteThemeService } from '../facade';
 import { SiteThemeInitializer } from './site-theme-initializer';
 import { SiteThemePersistenceService } from './site-theme-persistence.service';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
 
 const mockSiteThemeConfig: SiteThemeConfig = {
   siteTheme: {
@@ -36,8 +37,10 @@ describe('SiteThemeInitializer', () => {
   let initializer: SiteThemeInitializer;
   let siteThemeService: SiteThemeService;
   let siteThemePersistenceService: SiteThemePersistenceService;
+  let baseSiteService: jasmine.SpyObj<BaseSiteService>;
 
   beforeEach(() => {
+    const baseSiteServiceSpy = jasmine.createSpyObj('BaseSiteService', ['get']);
     TestBed.configureTestingModule({
       providers: [
         SiteThemeInitializer,
@@ -50,12 +53,17 @@ describe('SiteThemeInitializer', () => {
           provide: ConfigInitializerService,
           useClass: MockConfigInitializerService,
         },
+        { provide: BaseSiteService, useValue: baseSiteServiceSpy },
       ],
     });
 
     siteThemePersistenceService = TestBed.inject(SiteThemePersistenceService);
     siteThemeService = TestBed.inject(SiteThemeService);
     initializer = TestBed.inject(SiteThemeInitializer);
+    baseSiteService = TestBed.inject(
+      BaseSiteService
+    ) as jasmine.SpyObj<BaseSiteService>;
+    baseSiteService.get.and.returnValue(of({ theme: 'dark' }));
   });
 
   it('should be created', () => {
@@ -70,7 +78,7 @@ describe('SiteThemeInitializer', () => {
       expect(initializer['setFallbackValue']).toHaveBeenCalled();
     });
 
-    it('should set default from config is the theme is NOT initialized', () => {
+    it('should set default theme is the theme is NOT initialized', () => {
       initializer.initialize();
       expect(siteThemeService.setActive).toHaveBeenCalledWith('dark');
     });

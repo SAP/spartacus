@@ -20,6 +20,7 @@ import { SiteThemeActions } from '../store/actions';
 
 @Injectable()
 export class SiteThemeService {
+  private _isInitialized = false;
   constructor(
     protected store: Store<StateWithSiteTheme>,
     protected config: SiteThemeConfig
@@ -68,6 +69,7 @@ export class SiteThemeService {
           );
         }
       });
+    this._isInitialized = true;
   }
 
   isValidTheme(className: string): Observable<boolean> {
@@ -80,11 +82,6 @@ export class SiteThemeService {
   }
 
   isInitialized(): boolean {
-    let valueInitialized = false;
-    this.getActive()
-      .subscribe(() => (valueInitialized = true))
-      .unsubscribe();
-
-    return valueInitialized;
+    return this._isInitialized;
   }
 }
