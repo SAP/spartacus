@@ -42,14 +42,17 @@ export class ProductMultiDimensionalSelectorComponent {
     CurrentProductService
   );
 
-  product$: Observable<Product> = this.currentProductService.getProduct().pipe(
-    filter(isNotNullable),
-    distinctUntilChanged(),
-    shareReplay(1),
-    tap((product) => {
-      this.categories = this.getVariants(product);
-    })
-  );
+  product$: Observable<Product> = this.currentProductService
+    .getProduct(ProductScope.MULTI_DIMENSIONAL)
+    .pipe(
+      filter(isNotNullable),
+      filter((product: Product) => !!product?.multidimensional),
+      distinctUntilChanged(),
+      shareReplay(1),
+      tap((product: Product) => {
+        this.categories = this.getVariants(product);
+      })
+    );
   categories: VariantCategoryGroup[] = [];
 
   changeVariant(code: string | undefined): void {

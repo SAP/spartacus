@@ -16,10 +16,7 @@ export function defaultProductMultiDimensionalSelectorComponentsConfig() {
   return {
     featureModules: {
       [PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE]: {
-        cmsComponents: [
-          'ProductVariantSelectorComponent', // TBD trigger
-          'ProductVariantMultiDimensionalSelectorComponent',
-        ],
+        cmsComponents: ['ProductMultiDimensionalSelectorComponent'],
       },
     },
   };

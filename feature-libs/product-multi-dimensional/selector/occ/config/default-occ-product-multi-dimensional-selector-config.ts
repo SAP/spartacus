@@ -11,8 +11,8 @@ export const defaultOccProductVariantsMultidimensionalConfig: OccConfig = {
     occ: {
       endpoints: {
         product: {
-          multidimensional:
-            'products/${productCode}?fields=name,purchasable,baseOptions(DEFAULT),baseProduct,multidimensional,variantOptions(DEFAULT),variantMatrix',
+          multi_dimensional:
+            'products/${productCode}?fields=name,purchasable,baseOptions(DEFAULT),baseProduct,multidimensional,variantOptions(DEFAULT),variantMatrix(DEFAULT),categories',
         },
       },
     },
