@@ -7,6 +7,7 @@
   <div class="cx-clear-cart-container">
     <ng-container *ngIf="!isClearing; else loading">
       <div
+        *cxFeature="'!a11yRemoveStatusLoadedRole'"
         role="status"
         [attr.aria-label]="'common.loaded' | cxTranslate"
       ></div>

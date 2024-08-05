@@ -2,7 +2,11 @@
   class="cx-page-section container"
   *ngIf="!(isLoading$ | async); else loading"
 >
-  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+  <div
+    *cxFeature="'!a11yRemoveStatusLoadedRole'"
+    role="status"
+    [attr.aria-label]="'common.loaded' | cxTranslate"
+  ></div>
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="cx-section">
