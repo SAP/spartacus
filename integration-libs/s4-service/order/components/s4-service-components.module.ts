@@ -7,9 +7,8 @@
 import { NgModule } from '@angular/core';
 import { ServiceDetailsCardModule } from './order-summary/service-details-card.module';
 import { RescheduleServiceOrderModule } from './reschedule-service-order/reschedule-service-order.module';
-import { RescheduleServiceOrderHeadlineModule } from './reschedule-service-order-headline/reschedule-service-order-headline.module';
 import { S4ServiceOrderDetailActionsModule } from './s4-service-order-detail-actions/s4-service-order-detail-actions.module';
 @NgModule({
-  imports: [ServiceDetailsCardModule, RescheduleServiceOrderModule, RescheduleServiceOrderHeadlineModule, S4ServiceOrderDetailActionsModule],
+  imports: [ServiceDetailsCardModule, RescheduleServiceOrderModule, S4ServiceOrderDetailActionsModule],
 })
 export class S4ServiceComponentsModule {}

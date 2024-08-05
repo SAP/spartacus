@@ -12,7 +12,6 @@ export class RescheduleServiceOrderConnector {
     code: string,
     scheduledAt: ServiceDetails
   ): Observable<unknown> {
-    console.log('Core -> connector level ', scheduledAt);
     return this.rescheduleServiceOrderadapter.rescheduleServiceOrder(userId, code, scheduledAt);
   }
 }

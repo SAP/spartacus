@@ -1,14 +1,16 @@
 import { inject, Injectable } from '@angular/core';
 import { RescheduleServiceOrderAdapter } from '../../core/connector/reschedule-service-order.adapter';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { OccEndpointsService } from '@spartacus/core';
+import { LoggerService, normalizeHttpError, OccEndpointsService } from '@spartacus/core';
 import { ServiceDetails } from '@spartacus/s4-service/root';
-import { Observable } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
+
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 
 @Injectable()
 export class OccRescheduleServiceOrderAdapter implements RescheduleServiceOrderAdapter {
   protected http = inject(HttpClient);
+  protected logger = inject(LoggerService);
   protected occEndpoints = inject(OccEndpointsService);
 
   rescheduleServiceOrder(
@@ -22,8 +24,10 @@ export class OccRescheduleServiceOrderAdapter implements RescheduleServiceOrderA
     const headers = new HttpHeaders({
       ...CONTENT_TYPE_JSON_HEADER,
     });
-    //check if we need to add serializer and normalizer.
-    console.log('occ -> adapter level', url, scheduledAt);
-    return this.http.patch(url, scheduledAt, { headers });
+    return this.http.patch(url, scheduledAt, { headers }).pipe(
+      catchError((error: any) => {
+        throw normalizeHttpError(error, this.logger);
+      })
+    );
   }
 }
