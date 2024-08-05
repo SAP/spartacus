@@ -20,6 +20,8 @@
     <button
       class="close"
       type="button"
+      title="{{ 'common.close' | cxTranslate }}"
+      [attr.aria-label]="'common.close' | cxTranslate"
       (click)="removeMessage(cartModification)"
     >
       <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
