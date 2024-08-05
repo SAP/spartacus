@@ -154,7 +154,6 @@ export class CdcJsService implements OnDestroy {
       (conf) => conf.baseSite === baseSite
     );
     if (filteredConfigs && filteredConfigs.length > 0) {
-      console.log('filteredConfigs[0]:', filteredConfigs[0]);
       return filteredConfigs[0].httpHeaderName ?? '';
     }
     return '';

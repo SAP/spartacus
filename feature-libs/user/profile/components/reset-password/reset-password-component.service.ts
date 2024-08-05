@@ -51,7 +51,10 @@ export class ResetPasswordComponentService {
   resetToken$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(
-      map((routerState: RouterState) => routerState.state.queryParams[this.tokenName])
+      map(
+        (routerState: RouterState) =>
+          routerState.state.queryParams[this.tokenName]
+      )
     );
 
   form: UntypedFormGroup = new UntypedFormGroup(

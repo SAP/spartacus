@@ -19,7 +19,7 @@ import { CdcResetPasswordModule } from './reset-password';
     CDCUpdateProfileModule,
     CDCUpdatePasswordModule,
     CDCUpdateEmailModule,
-    CdcResetPasswordModule
+    CdcResetPasswordModule,
   ],
 })
 export class CDCUserProfileModule {}
