@@ -45,16 +45,17 @@ export class ProductMultiDimensionalSelectorGuard {
     }
 
     return this.productService
-      .get(productCode, ProductScope.MULTI_DIMENSIONAL)
+      .get(productCode, ProductScope.MULTI_DIMENSIONAL_GUARD)
       .pipe(
         filter(isNotUndefined),
         switchMap((multiDimensionalProduct: Product) => {
           const isNotPurchasableAndHasVariantOptions =
             !multiDimensionalProduct.purchasable &&
             !!multiDimensionalProduct.variantOptions?.length;
+
           return isNotPurchasableAndHasVariantOptions
             ? this.findValidProductCodeAndReturnUrlTree(multiDimensionalProduct)
-            : of(true);
+            : of(multiDimensionalProduct.purchasable);
         })
       );
   }

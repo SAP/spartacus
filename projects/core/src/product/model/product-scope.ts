@@ -15,4 +15,5 @@ export const enum ProductScope {
   PROMOTIONS = 'promotions',
   LIST_ITEM = 'list_item',
   MULTI_DIMENSIONAL = 'multi_dimensional',
+  MULTI_DIMENSIONAL_GUARD = 'multi_dimensional_guard',
 }
