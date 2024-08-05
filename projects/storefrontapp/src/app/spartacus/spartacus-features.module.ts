@@ -73,6 +73,7 @@ import { WishListFeatureModule } from './features/cart/wish-list-feature.module'
 import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
+import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
 import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
@@ -95,14 +96,13 @@ import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.m
 import { QuoteFeatureModule } from './features/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
 import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
+import { S4ServiceFeatureModule } from './features/s4-service/s4-service-feature.module';
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-import { S4ServiceFeatureModule } from './features/s4-service/s4-service-feature.module';
-import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
 
 const featureModules = [];
 
@@ -278,6 +278,7 @@ if (environment.cpq) {
       const appFeatureToggles: Required<FeatureToggles> = {
         formErrorsDescriptiveMessages: true,
         showSearchingCustomerByOrderInASM: false,
+        showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
         showBillingAddressInDigitalPayments: false,
@@ -341,6 +342,7 @@ if (environment.cpq) {
         occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yDeliveryModeRadiogroup: true,
+        a11yNgSelectMobileReadout: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
       };
       return appFeatureToggles;

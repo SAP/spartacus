@@ -56,6 +56,11 @@ export interface FeatureTogglesInterface {
   showSearchingCustomerByOrderInASM?: boolean;
 
   /**
+   * Some Changes for input of cart Number and text of Customer360View in ASM view
+   */
+  showStyleChangesInASM?: boolean;
+
+  /**
    * In `SearchBoxComponent` it shows the recent searches.
    */
   recentSearches?: boolean;
@@ -200,6 +205,7 @@ export interface FeatureTogglesInterface {
 
   /**
    * Adjuststs the styles of 'StoreFinderMapComponent' to stop the Google map from overflowing on zoomed/mobile screens.
+   * Includes DOM changes to 'StoreFinderStoreDescriptionComponent' improving the screen reader experience.
    */
   a11yStoreFinderOverflow?: boolean;
 
@@ -408,6 +414,11 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
+   * Modifies the 'NgSelectA11yDirective' to improve the sorting dropdown screen reader experience on mobile devices.
+   */
+  a11yNgSelectMobileReadout?: boolean;
+
+  /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
    * into a request body, instead of query params.
    * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
@@ -424,6 +435,7 @@ export interface FeatureTogglesInterface {
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   formErrorsDescriptiveMessages: true,
   showSearchingCustomerByOrderInASM: false,
+  showStyleChangesInASM: false,
   shouldHideAddToCartForUnpurchasableProducts: false,
   useExtractedBillingAddressComponent: false,
   showBillingAddressInDigitalPayments: false,
@@ -485,6 +497,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yDeliveryModeRadiogroup: false,
+  a11yNgSelectMobileReadout: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
 };
