@@ -28,6 +28,7 @@
       (click)="clear($event)"
       (keydown.enter)="clear($event)"
       [attr.aria-label]="'common.reset' | cxTranslate"
+      [attr.title]="'common.reset' | cxTranslate"
       class="quick-order-form-reset-icon"
     >
       <cx-icon [type]="iconTypes.RESET"></cx-icon>

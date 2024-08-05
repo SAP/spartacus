@@ -41,7 +41,7 @@
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
-          [attr.aria-label]="
+          [attr.title]="
             'checkoutReview.editDeliveryAddressDetails' | cxTranslate
           "
           [routerLink]="
@@ -76,7 +76,7 @@
 
       <div class="cx-review-summary-edit-step">
         <a
-          [attr.aria-label]="'checkoutReview.editDeliveryMode' | cxTranslate"
+          [attr.title]="'checkoutReview.editDeliveryMode' | cxTranslate"
           [routerLink]="
             { cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryMode) }
               | cxUrl
@@ -99,7 +99,7 @@
       </div>
       <div class="cx-review-summary-edit-step">
         <a
-          [attr.aria-label]="'checkoutReview.editPaymentDetails' | cxTranslate"
+          [attr.title]="'checkoutReview.editPaymentDetails' | cxTranslate"
           [routerLink]="
             { cxRoute: getCheckoutStepUrl(checkoutStepTypePaymentDetails) }
               | cxUrl

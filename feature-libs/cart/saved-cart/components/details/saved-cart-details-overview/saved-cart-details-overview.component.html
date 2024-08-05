@@ -6,6 +6,7 @@
           <cx-card [content]="getCartName(cart?.name) | async"></cx-card>
           <button
             [attr.aria-label]="'savedCartDetails.editSavedCart' | cxTranslate"
+            [attr.title]="'savedCartDetails.editSavedCart' | cxTranslate"
             class="cx-edit-cart"
             #element
             (click)="openDialog(cart)"

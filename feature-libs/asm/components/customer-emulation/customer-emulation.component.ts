@@ -10,9 +10,14 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
-import { FeatureModulesService, User } from '@spartacus/core';
+import {
+  FeatureModulesService,
+  User,
+  FeatureConfigService,
+} from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -34,6 +39,11 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   asmCustomer360LauncherElement: ElementRef;
 
   protected subscription = new Subscription();
+
+  protected featureConfig = inject(FeatureConfigService);
+  isShowStyleChangesInASM = this.featureConfig.isEnabled(
+    'showStyleChangesInASM'
+  );
 
   constructor(
     protected asmComponentService: AsmComponentService,
