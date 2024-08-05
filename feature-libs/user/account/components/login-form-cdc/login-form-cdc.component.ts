@@ -38,17 +38,11 @@ export class LoginFormCDCComponent implements OnInit {
 
   initializeOAuthFlow(): void {
     const authConfig = createAuthConfig(
-      'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_haAyXsKhFEupcUCQ9UPizw',
-      'FeWB0V0Opi2hEL-T21DlUuEO',
+      'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_l3dMCBwsQX6XopODQlWG7A',
+      'NMywTmkkLHK1KZmZwUa1P4qN',
       this.baseSite,
       'openid profile email uid'
     );
-    // const authConfig = createAuthConfig(
-    //   'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_l3dMCBwsQX6XopODQlWG7A',
-    //   'NMywTmkkLHK1KZmZwUa1P4qN',
-    //   this.baseSite,
-    //   'openid profile email uid'
-    // );
     this.oauthService.configure(authConfig);
     this.oauthService.loadDiscoveryDocumentAndTryLogin();
     this.oauthService.events
