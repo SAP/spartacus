@@ -405,6 +405,12 @@
       "@spartacus/product-configurator/textfield/root": [
         "feature-libs/product-configurator/textfield/root/public_api"
       ],
+      "@spartacus/product-multi-dimensional/base": [
+        "feature-libs/product-multi-dimensional/base/public_api"
+      ],
+      "@spartacus/product-multi-dimensional/base/occ": [
+        "feature-libs/product-multi-dimensional/base/occ/public_api"
+      ],
       "@spartacus/product-multi-dimensional": [
         "feature-libs/product-multi-dimensional/public_api"
       ],

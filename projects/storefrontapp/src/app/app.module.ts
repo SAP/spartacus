@@ -23,6 +23,7 @@ import {
   I18nConfig,
   OccConfig,
   RoutingConfig,
+  SiteContextConfig,
   TestConfigModule,
   provideConfig,
 } from '@spartacus/core';
@@ -63,11 +64,19 @@ if (!environment.production) {
     provideConfig(<OccConfig>{
       backend: {
         occ: {
-          baseUrl: environment.occBaseUrl,
+          baseUrl: 'https://spartacus-dev-asx1.eastus.cloudapp.azure.com:8443',
           prefix: environment.occApiPrefix,
         },
       },
     }),
+    provideConfig({
+      context: {
+        currency: ['USD'],
+        language: ['en'],
+        baseSite: ['powertools-spa'],
+        urlParameters: ['baseSite', 'language'],
+      },
+    } as SiteContextConfig),
     provideConfig(<RoutingConfig>{
       // custom routing configuration for e2e testing
       routing: {
