@@ -24,6 +24,7 @@ import { map, take, tap } from 'rxjs/operators';
 import { OrderActions } from '../store/actions/index';
 import { CANCEL_ORDER_PROCESS_ID, StateWithOrder } from '../store/order-state';
 import { OrderSelectors } from '../store/selectors/index';
+import { Params } from '@angular/router';
 
 @Injectable()
 export class OrderHistoryService implements OrderHistoryFacade {
@@ -33,7 +34,6 @@ export class OrderHistoryService implements OrderHistoryFacade {
     protected userIdService: UserIdService,
     protected routingService: RoutingService
   ) {}
-
   /**
    * Returns an order's detail
    */
@@ -214,5 +214,9 @@ export class OrderHistoryService implements OrderHistoryFacade {
    */
   getOrderDetailsLoading(): Observable<boolean> {
     return this.store.pipe(select(OrderSelectors.getOrderDetailsLoading));
+  }
+
+  getQueryParams(_order: Order): Params | null {
+    return null;
   }
 }

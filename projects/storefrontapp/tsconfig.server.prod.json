@@ -430,6 +430,8 @@
       "@spartacus/epd-visualization/root": [
         "../../dist/epd-visualization/root"
       ],
+      "@spartacus/omf": ["../../dist/omf"],
+      "@spartacus/omf/order": ["../../dist/omf/order"],
       "@spartacus/opps": ["../../dist/opps"],
       "@spartacus/opps/root": ["../../dist/opps/root"],
       "@spartacus/s4-service/assets": ["../../dist/s4-service/assets"],
