@@ -1755,4 +1755,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(isRetractBlocked).toBeTruthy();
     });
   });
+
+  it('should set async pricing flag to true', () => {
+    const result = occConfiguratorVariantNormalizer.convert(configuration);
+    expect(result.isPricingAsync).toBe(true);
+  });
 });

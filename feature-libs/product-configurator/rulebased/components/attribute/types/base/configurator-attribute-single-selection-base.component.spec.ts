@@ -1,21 +1,37 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfigFormUpdateEvent } from '../../../form';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { ConfiguratorAttributeSingleSelectionBaseComponent } from './configurator-attribute-single-selection-base.component';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { StoreModule } from '@ngrx/store';
+import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorAttributeSingleSelectionBaseComponent } from './configurator-attribute-single-selection-base.component';
 
-function createValue(code: string, name: string, isSelected: boolean) {
+const attributeWithValuePrice: Configurator.Attribute = {
+  name: 'attribute with value price',
+  label: 'attribute with value price',
+};
+const valueWithPrice = createValue('1', 'value with value price', true);
+valueWithPrice.valuePrice = {
+  currencyIso: '$',
+  formattedValue: '$100.00',
+  value: 100,
+};
+
+function createValue(
+  code: string,
+  name: string | undefined,
+  isSelected: boolean | undefined
+) {
   const value: Configurator.Value = {
     valueCode: code,
     valueDisplay: name,
@@ -50,6 +66,7 @@ class MockConfiguratorCommonsService {
 @Component({
   selector: 'cx-configurator-attribute-single-selection',
   template: 'test-configurator-attribute-single-selection',
+  providers: [ConfiguratorAttributePriceChangeService],
 })
 class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
   constructor(
@@ -126,6 +143,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
       selectedSingleValue: selectedValue,
       groupId: groupId,
+      key: 'attrKey',
     };
     component.ownerKey = ownerKey;
     fixture.detectChanges();
@@ -480,7 +498,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       valueWithValuePriceTotal.valuePrice = price;
 
       expect(
-        component.getAriaLabelWithoutAdditionalValue(
+        component.getAriaLabel(
           valueWithValuePriceTotal,
           attributeWithTotalPrice
         )
@@ -518,7 +536,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       valueWithValuePriceTotal.valuePrice = price;
 
       expect(
-        component.getAriaLabelWithoutAdditionalValue(
+        component.getAriaLabel(
           valueWithValuePriceTotal,
           attributeWithTotalPrice
         )
@@ -550,10 +568,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       valueWithValuePrice.valuePrice = price;
 
       expect(
-        component.getAriaLabelWithoutAdditionalValue(
-          valueWithValuePrice,
-          attributeWithValuePrice
-        )
+        component.getAriaLabel(valueWithValuePrice, attributeWithValuePrice)
       ).toEqual(
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           attributeWithValuePrice.label +
@@ -582,10 +597,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       valueWithValuePrice.valuePrice = price;
 
       expect(
-        component.getAriaLabelWithoutAdditionalValue(
-          valueWithValuePrice,
-          attributeWithValuePrice
-        )
+        component.getAriaLabel(valueWithValuePrice, attributeWithValuePrice)
       ).toEqual(
         'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
           attributeWithValuePrice.label +
@@ -597,22 +609,19 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     });
 
     it('should return aria label for selected value without price', () => {
-      let attributeWithOutPrice: Configurator.Attribute = {
+      let attributeWithoutPrice: Configurator.Attribute = {
         name: 'attribute without price',
         label: 'attribute without value price',
       };
-      const valueWithOutPrice = createValue('1', 'value without price', true);
+      const valueWithoutPrice = createValue('1', 'value without price', true);
 
       expect(
-        component.getAriaLabelWithoutAdditionalValue(
-          valueWithOutPrice,
-          attributeWithOutPrice
-        )
+        component.getAriaLabel(valueWithoutPrice, attributeWithoutPrice)
       ).toEqual(
         'configurator.a11y.selectedValueOfAttributeFull attribute:' +
-          attributeWithOutPrice.label +
+          attributeWithoutPrice.label +
           ' value:' +
-          valueWithOutPrice.valueDisplay
+          valueWithoutPrice.valueDisplay
       );
     });
 
@@ -624,10 +633,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       const valueWithOutPrice = createValue('1', 'value without price', false);
 
       expect(
-        component.getAriaLabelWithoutAdditionalValue(
-          valueWithOutPrice,
-          attributeWithOutPrice
-        )
+        component.getAriaLabel(valueWithOutPrice, attributeWithOutPrice)
       ).toEqual(
         'configurator.a11y.valueOfAttributeFull attribute:' +
           attributeWithOutPrice.label +
@@ -636,38 +642,63 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       );
     });
 
-    it('should return aria label for selected value with price and attribute additional value', () => {
-      let attributeWithValuePrice: Configurator.Attribute = {
-        name: 'attribute with value price',
-        label: 'attribute with value price',
+    it('should return aria label for value without price in case delta rendering service is not provided', () => {
+      let attributeWithoutPrice: Configurator.Attribute = {
+        name: 'attribute without price',
+        label: 'attribute without value price',
       };
-      let price: Configurator.PriceDetails = {
-        currencyIso: '$',
-        formattedValue: '$100.00',
-        value: 100,
-      };
-      const valueWithValuePrice = createValue(
-        '1',
-        'value with value price',
-        true
+      const valueWithoutPrice = createValue('1', 'value without price', false);
+      component['configuratorAttributePriceChangeService'] = null;
+      expect(
+        component.getAriaLabel(valueWithoutPrice, attributeWithoutPrice)
+      ).toEqual(
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          attributeWithoutPrice.label +
+          ' value:' +
+          valueWithoutPrice.valueDisplay
       );
-      valueWithValuePrice.valuePrice = price;
+    });
+
+    it('should return aria label for selected value with price and attribute additional value', () => {
       component.attribute.uiType =
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT ||
         Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
       component.attribute.validationType = Configurator.ValidationType.NONE;
       fixture.detectChanges();
       expect(
-        component.getAriaLabel(valueWithValuePrice, attributeWithValuePrice)
+        component.getAriaLabel(valueWithPrice, attributeWithValuePrice)
       ).toEqual(
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           attributeWithValuePrice.label +
-          ' price:' +
-          valueWithValuePrice.valuePrice?.formattedValue +
-          ' value:' +
-          valueWithValuePrice.valueDisplay +
-          ' ' +
-          'configurator.a11y.additionalValue'
+          ' price:$100.00 value:' +
+          valueWithPrice.valueDisplay +
+          ' configurator.a11y.additionalValue'
+      );
+    });
+
+    it('should return aria label for value with price after price was changed', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT ||
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NONE;
+
+      component['configuratorAttributePriceChangeService']?.['storeValuePrice'](
+        valueWithPrice.name ?? '',
+        {
+          currencyIso: '$',
+          formattedValue: '$200.00',
+          value: 200,
+        }
+      );
+      fixture.detectChanges();
+      expect(
+        component.getAriaLabel(valueWithPrice, attributeWithValuePrice)
+      ).toEqual(
+        'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
+          attributeWithValuePrice.label +
+          ' price:$200.00 value:' +
+          valueWithPrice.valueDisplay +
+          ' configurator.a11y.additionalValue'
       );
     });
     it('should return aria label for value with price and attribute additional value', () => {
