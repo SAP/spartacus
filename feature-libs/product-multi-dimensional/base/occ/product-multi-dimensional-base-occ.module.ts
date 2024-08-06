@@ -6,11 +6,11 @@
 
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { defaultOccProductMultidimensionalBaseConfig } from './config/default-occ-product-multi-dimensional-base-config';
+import { defaultOccProductMultiDimensionalBaseConfig } from './config/default-occ-product-multi-dimensional-base-config';
 
 @NgModule({
   providers: [
-    provideDefaultConfig(defaultOccProductMultidimensionalBaseConfig),
+    provideDefaultConfig(defaultOccProductMultiDimensionalBaseConfig),
   ],
 })
 export class ProductMultiDimensionalBaseOccModule {}

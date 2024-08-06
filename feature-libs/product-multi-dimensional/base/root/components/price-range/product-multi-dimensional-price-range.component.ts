@@ -29,7 +29,7 @@ export class ProductMultiDimensionalPriceRangeComponent {
     if (isMultiDimensionalAndHasPriceRange) {
       const maxPrice = priceRange.maxPrice.formattedValue;
       const minPrice = priceRange.minPrice.formattedValue;
-      return minPrice + ' - ' + maxPrice;
+      return `${minPrice} - ${maxPrice}`;
     }
 
     return product.price?.formattedValue ?? 0;
