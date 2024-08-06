@@ -5,22 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { ProductMultiDimensionalSelectorModule } from './selector/product-multi-dimensional-selector.module';
-import { ProductMultiDimensionalSelectorComponent } from './selector/product-multi-dimensional-selector.component';
-import { ProductMultiDimensionalSelectorGuard } from './guards';
+import { ProductMultiDimensionalSelectorComponentModule } from './selector/product-multi-dimensional-selector-component.module';
 
 @NgModule({
-  imports: [ProductMultiDimensionalSelectorModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ProductMultiDimensionalSelectorComponent: {
-          component: ProductMultiDimensionalSelectorComponent,
-          guards: [ProductMultiDimensionalSelectorGuard],
-        },
-      },
-    }),
-  ],
+  imports: [ProductMultiDimensionalSelectorComponentModule],
 })
 export class ProductMultiDimensionalSelectorComponentsModule {}

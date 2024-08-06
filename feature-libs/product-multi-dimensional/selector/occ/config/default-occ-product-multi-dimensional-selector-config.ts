@@ -6,9 +6,9 @@
 
 import { OccConfig } from '@spartacus/core';
 
-const matrixElement =
+const elements =
   'variantOption(code,variantOptionQualifiers(image(url,format))),variantValueCategory(name),parentVariantCategory(hasImage,name)';
-const variantMatrix = `variantMatrix(${matrixElement},elements(${matrixElement},elements(${matrixElement},elements)))`;
+const variantMatrix = `variantMatrix(${elements},elements(${elements},elements(${elements},elements)))`;
 export const defaultOccProductVariantsMultidimensionalConfig: OccConfig = {
   backend: {
     occ: {

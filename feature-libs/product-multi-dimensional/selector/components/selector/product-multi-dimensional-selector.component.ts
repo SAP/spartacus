@@ -46,10 +46,10 @@ export class ProductMultiDimensionalSelectorComponent {
     .getProduct(ProductScope.MULTI_DIMENSIONAL)
     .pipe(
       filter(isNotNullable),
-      filter((product: Product) => !!product?.multidimensional),
+      filter((product) => !!product.multidimensional),
       distinctUntilChanged(),
       shareReplay(1),
-      tap((product: Product) => {
+      tap((product) => {
         this.categories = this.getVariants(product);
       })
     );
