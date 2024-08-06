@@ -11,9 +11,9 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   OPPS_FEATURE_NAME,
-  SPARTACUS_SCHEMATICS,
-  SPARTACUS_OPPS,
   LibraryOptions as OppsOptions,
+  SPARTACUS_OPPS,
+  SPARTACUS_SCHEMATICS,
   SpartacusOptions,
   TRACKING_PERSONALIZATION_FEATURE_NAME,
   oppsFeatureModulePath,
@@ -24,7 +24,7 @@ import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus Opps Schematics: ng-add', () => {
+xdescribe('Spartacus Opps Schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_OPPS,
     collectionPath

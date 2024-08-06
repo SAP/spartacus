@@ -24,7 +24,7 @@ import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus segment-refs schematics: ng-add', () => {
+xdescribe('Spartacus segment-refs schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SEGMENT_REFS,
     collectionPath

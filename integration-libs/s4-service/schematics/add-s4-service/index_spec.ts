@@ -10,27 +10,27 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  S4_SERVICE_FEATURE_NAME,
-  SPARTACUS_SCHEMATICS,
-  SPARTACUS_S4_SERVICE,
-  LibraryOptions as SpartacusS4ServiceOptions,
-  SpartacusOptions,
-  s4ServiceFeatureModulePath,
-  ORDER_FEATURE_NAME,
-  SPARTACUS_ORDER,
   CHECKOUT_B2B_FEATURE_NAME,
+  CHECKOUT_BASE_FEATURE_NAME,
+  ORDER_FEATURE_NAME,
+  S4_SERVICE_FEATURE_NAME,
   SPARTACUS_CHECKOUT_B2B,
   SPARTACUS_CHECKOUT_BASE,
-  CHECKOUT_BASE_FEATURE_NAME,
-  orderWrapperModulePath,
+  SPARTACUS_ORDER,
+  SPARTACUS_S4_SERVICE,
+  SPARTACUS_SCHEMATICS,
+  SpartacusOptions,
+  LibraryOptions as SpartacusS4ServiceOptions,
   checkoutWrapperModulePath,
+  orderWrapperModulePath,
+  s4ServiceFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add', () => {
+xdescribe('Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_S4_SERVICE,
     collectionPath

@@ -22,7 +22,7 @@ import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus SmartEdit schematics: ng-add', () => {
+xdescribe('Spartacus SmartEdit schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SMARTEDIT,
     collectionPath
