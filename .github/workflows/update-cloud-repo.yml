@@ -1,0 +1,143 @@
+name: Update Cloud Commerce Repository
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Enter the version to use'
+        required: true
+      npm_token:
+        description: 'Enter your npm token'
+        required: true
+        secret: true
+
+env:
+  CONFIG_DIR: scripts/install
+  REPO_URL: https://${{secrets.GH_TEMPORARY_TOKEN}}@github.com/SAP-samples/cloud-commerce-sample-setup.git
+  NPM_REPO_URL: https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Create storefronts
+        run: |
+          function setup_config_dir() {
+            [ -d "${CONFIG_DIR}" ]
+            cp "${CONFIG_DIR}/config.default.sh" "${CONFIG_DIR}/config.sh"
+          }
+
+          function update_config() {
+            local storefront_type=$1
+            local version=${{ github.event.inputs.version }}
+            local npm_token=${{ github.event.inputs.npm_token }}
+
+            # Update the config.sh file with the appropriate values
+            if [ "${storefront_type}" == "b2c" ]; then
+              sed -i 's/^BASE_SITE=.*/BASE_SITE="electronics-spa"/' "${CONFIG_DIR}/config.sh"
+              sed -i 's/^SSR_APP_NAME=.*/SSR_APP_NAME="spartacusstore"/' "${CONFIG_DIR}/config.sh"
+            elif [ "${storefront_type}" == "b2b" ]; then
+              sed -i 's/^BASE_SITE=.*/BASE_SITE="powertools-spa"/' "${CONFIG_DIR}/config.sh"
+              sed -i 's/^SSR_APP_NAME=.*/SSR_APP_NAME="b2bspastore"/' "${CONFIG_DIR}/config.sh"
+              sed -i '/ADD_B2B_LIBS/c\ADD_B2B_LIBS=true' "${CONFIG_DIR}/config.sh"
+            else
+              echo "Invalid storefront type. BASE_SITE and SSR_APP_NAME not set."
+            fi
+
+            sed -i "s/^SPARTACUS_VERSION=.*/SPARTACUS_VERSION='${version}'/" "${CONFIG_DIR}/config.sh"
+            sed -i "s/^NPM_TOKEN=.*/NPM_TOKEN='${npm_token}'/" "${CONFIG_DIR}/config.sh"
+            sed -i "s|^NPM_URL=.*|NPM_URL='${NPM_REPO_URL}'|" "${CONFIG_DIR}/config.sh"
+          }
+
+          # Rename the generated spartacus folders so we can have B2C and B2B folders
+          function rename_spartacus_folders() {
+            local version=${{ github.event.inputs.version }}
+
+            if [ "${storefront_type}" == "b2c" ]; then
+              mv ../spartacus-${version} ../spartacus-${version}-b2c
+              if [ -d "../spartacus-${version}-b2c" ]; then
+                  echo "Renaming to ../spartacus-${version}-b2c was successful"
+              else
+                  echo "Renaming to ../spartacus-${version}-b2c failed"
+              fi
+            elif [ "${storefront_type}" == "b2b" ]; then
+              mv ../spartacus-${version} ../spartacus-${version}-b2b
+              if [ -d "../spartacus-${version}-b2b" ]; then
+                  echo "Renaming to ../spartacus-${version}-b2b was successful"
+              else
+                  echo "Renaming to ../spartacus-${version}-b2b failed"
+              fi
+            fi
+
+          }
+
+          # Comment out the base url in the spartacus-configuration.module.ts file
+          function modify_file_to_remove_baseurl() {
+            local file_location="../spartacus-${{ github.event.inputs.version }}-${storefront_type}/apps/spartacusstore/src/app/spartacus/spartacus-configuration.module.ts"
+
+            if [ -f "${file_location}" ]; then
+              sed -i 's/baseUrl/\/\/baseUrl/1' "${file_location}"
+              echo "Modified ${file_location}."
+            else
+              echo "${file_location} does not exist."
+            fi
+          }
+
+          storefront_types=("b2c" "b2b")
+
+          # Loop over storefront types
+          for storefront_type in "${storefront_types[@]}"; do
+            setup_config_dir
+            update_config $storefront_type
+            cd "${CONFIG_DIR}" && bash "./run.sh" install_npm
+            cd ../../
+            rename_spartacus_folders $storefront_type
+            modify_file_to_remove_baseurl $storefront_type
+          done
+      - name: Set Git user
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      - name: Commit changes
+        run: |
+          function clone_and_setup_repo() {
+            git clone $REPO_URL
+            cd cloud-commerce-sample-setup
+
+            # Get the current date and time
+            timestamp=$(date +%Y%m%d%H%M%S)
+            
+            # Create a new branch with a unique name
+            branch_name="update_storefronts_$timestamp"
+            git checkout -b $branch_name
+
+            # Copy over the B2C and B2B content to the js-storefront folder and then commit the changes
+            rm -rf js-storefront/spartacusstore/*
+            cp -r ./../../spartacus-${{ github.event.inputs.version }}-b2c/apps/spartacusstore/* js-storefront/spartacusstore/
+            git add .
+            git commit -m "Updated content of js-storefront/spartacusstore"
+
+            rm -rf js-storefront/b2bspastore/*
+            cp -r ./../../spartacus-${{ github.event.inputs.version }}-b2b/apps/b2bspastore/* js-storefront/b2bspastore/
+            git add .
+            git commit -m "Updated content of js-storefront/b2bspastore"
+
+            git push -u $REPO_URL
+          }
+
+          clone_and_setup_repo
+
+          # Echo the branch name so it can be used in later steps
+          echo "branch_name=$branch_name" >> $GITHUB_ENV
+      - name: Create Pull Request
+        run: |
+          curl -X POST -H "Authorization: token ${{ secrets.GH_TEMPORARY_TOKEN }}" -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/SAP-samples/cloud-commerce-sample-setup/pulls \
+            -d '{
+              "title": "Update js-storefronts content",
+              "body": "This PR updates the content of the js-storefronts.",
+              "head": "'"$branch_name"'",
+              "base": "main"
+            }'
