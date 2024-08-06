@@ -7,6 +7,7 @@
 export * from './composition/index';
 export * from './footer/index';
 export * from './header/index';
+export * from './price-change/index';
 export * from './product-card/index';
 export * from './quantity/index';
 export * from './types/base/index';
