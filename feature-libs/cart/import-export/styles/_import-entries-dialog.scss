@@ -72,6 +72,9 @@ cx-import-entries-dialog {
             text-align: end;
           }
         }
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
       }
 
       .cx-import-entries-footer {
