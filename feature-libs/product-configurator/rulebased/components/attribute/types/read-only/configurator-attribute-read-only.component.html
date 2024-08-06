@@ -7,7 +7,10 @@
       "
     >
       <ng-container *ngFor="let value of attribute.values">
-        <div *ngIf="value.selected" class="form-check">
+        <div
+          *ngIf="value.selected && (priceChangedEvent$ | async)"
+          class="form-check"
+        >
           <span
             id="{{
               createValueUiKey('aria-label', attribute.name, value.valueCode)
