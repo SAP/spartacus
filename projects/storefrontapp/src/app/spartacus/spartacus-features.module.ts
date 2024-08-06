@@ -276,6 +276,7 @@ if (environment.cpq) {
     // CXSPA-6793: refactor to`provideFeatureToggles` and `satisfies` keyword
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        showDeliveryOptionsTranslation: true,
         formErrorsDescriptiveMessages: true,
         showSearchingCustomerByOrderInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
