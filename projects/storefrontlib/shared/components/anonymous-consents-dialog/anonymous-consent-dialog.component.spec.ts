@@ -7,6 +7,9 @@ import {
   ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
   I18nTestingModule,
+  Translatable,
+  GlobalMessageType,
+  GlobalMessageService,
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { KeyboardFocusTestingModule } from '../../../layout/a11y/keyboard-focus/focus-testing.module';
@@ -60,6 +63,10 @@ class MockAnonymousConsentsService {
   }
 }
 
+class GlobalMessageServiceMock {
+  add(_text: string | Translatable, _type: GlobalMessageType): void {}
+}
+
 class MockLaunchDialogService {
   closeDialog() {}
 }
@@ -101,6 +108,10 @@ describe('AnonymousConsentsDialogComponent', () => {
         {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,
+        },
+        {
+          provide: GlobalMessageService,
+          useClass: GlobalMessageServiceMock,
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

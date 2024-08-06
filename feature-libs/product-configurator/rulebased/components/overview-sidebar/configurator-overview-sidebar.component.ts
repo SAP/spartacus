@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, HostBinding } from '@angular/core';
+import { Component, HostBinding, ViewChild, ElementRef } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable, OperatorFunction } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
@@ -18,6 +18,8 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 })
 export class ConfiguratorOverviewSidebarComponent {
   @HostBinding('class.ghost') ghostStyle = true;
+  @ViewChild('menuTab') menuTab: ElementRef<HTMLElement>;
+  @ViewChild('filterTab') filterTab: ElementRef<HTMLElement>;
   showFilter: boolean = false;
 
   constructor(
@@ -57,5 +59,40 @@ export class ConfiguratorOverviewSidebarComponent {
    */
   onMenu() {
     this.showFilter = false;
+  }
+
+  /**
+   * Returns the tabindex for the menu tab.
+   *
+   * The menu tab is excluded from the tab chain if currently the filter tab content is displayed.
+   * @returns tabindex of the menu tab
+   */
+  getTabIndexForMenuTab(): number {
+    return this.showFilter ? -1 : 0;
+  }
+
+  /**
+   * Returns the tabindex for the filter tab.
+   * The filter tab is excluded from the tab chain if currently the menu tab content is displayed.
+   * @returns tabindex of the fitler tab
+   */
+  getTabIndexForFilterTab(): number {
+    return this.showFilter ? 0 : -1;
+  }
+
+  /**
+   * Switches the focus of the tabs on pressing left or right arrow key.
+   * @param {KeyboardEvent} event - Keyboard event
+   * @param {string} currentTab - Current tab
+   */
+  switchTabOnArrowPress(event: KeyboardEvent, currentTab: string): void {
+    if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
+      event.preventDefault();
+      if (currentTab === '#menuTab') {
+        this.filterTab.nativeElement?.focus();
+      } else {
+        this.menuTab.nativeElement?.focus();
+      }
+    }
   }
 }

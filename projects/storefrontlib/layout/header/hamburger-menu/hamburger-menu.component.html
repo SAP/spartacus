@@ -9,6 +9,11 @@
       ? ('common.close' | cxTranslate)
       : ('common.menu' | cxTranslate)
   "
+  [attr.title]="
+    (isExpanded | async)
+      ? ('common.close' | cxTranslate)
+      : ('common.menu' | cxTranslate)
+  "
   aria-controls="cx-header"
 >
   <span class="hamburger-box">
