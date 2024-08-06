@@ -62,6 +62,10 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
             false
         )
       );
+    this.initPriceChangedEvent(
+      attributeComponentContext.isPricingAsync,
+      attributeComponentContext.attribute.key
+    );
   }
 
   /**
@@ -195,6 +199,10 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   extractValuePriceFormulaParameters(
     value?: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
+    if (value && this.configuratorAttributePriceChangeService) {
+      value =
+        this.configuratorAttributePriceChangeService.mergePriceIntoValue(value);
+    }
     return {
       price: value?.valuePrice,
       isLightedUp: value ? value.selected : false,
@@ -215,7 +223,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   get isAdditionalValueAlphaNumeric(): boolean {
     return (
       this.isWithAdditionalValues(this.attribute) &&
-      this.attribute.validationType === Configurator.ValidationType.NONE
+      this.attribute.validationType !== Configurator.ValidationType.NUMERIC
     );
   }
 
@@ -223,6 +231,10 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     value: Configurator.Value,
     attribute: Configurator.Attribute
   ): string {
+    value =
+      this.configuratorAttributePriceChangeService?.mergePriceIntoValue(
+        value
+      ) ?? value;
     const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
     if (this.isWithAdditionalValues(this.attribute)) {
       const ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
@@ -245,36 +257,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     value: Configurator.Value,
     attribute: Configurator.Attribute
   ): string {
-    let params;
-    let translationKey = value.selected
-      ? 'configurator.a11y.selectedValueOfAttributeFullWithPrice'
-      : 'configurator.a11y.valueOfAttributeFullWithPrice';
-    if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
-      params = {
-        value: value.valueDisplay,
-        attribute: attribute.label,
-        price: value.valuePriceTotal.formattedValue,
-      };
-    } else if (value.valuePrice && value.valuePrice?.value !== 0) {
-      params = {
-        value: value.valueDisplay,
-        attribute: attribute.label,
-        price: value.valuePrice.formattedValue,
-      };
-    } else {
-      translationKey = value.selected
-        ? 'configurator.a11y.selectedValueOfAttributeFull'
-        : 'configurator.a11y.valueOfAttributeFull';
-      params = {
-        value: value.valueDisplay,
-        attribute: attribute.label,
-      };
-    }
-    let ariaLabel = '';
-    this.translation
-      .translate(translationKey, params)
-      .pipe(take(1))
-      .subscribe((text) => (ariaLabel = text));
-    return ariaLabel;
+    return this.getAriaLabelGeneric(attribute, value, true);
   }
 }

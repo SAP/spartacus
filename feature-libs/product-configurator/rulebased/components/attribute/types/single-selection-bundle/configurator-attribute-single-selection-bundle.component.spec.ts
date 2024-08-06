@@ -2,23 +2,23 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
-import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
+import { getConfiguratorReducers } from '../../../../core/state/reducers';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import {
   ConfiguratorAttributeProductCardComponent,
   ConfiguratorAttributeProductCardComponentOptions,
 } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
-import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
-import { getConfiguratorReducers } from '../../../../core/state/reducers';
-import { StoreModule } from '@ngrx/store';
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
