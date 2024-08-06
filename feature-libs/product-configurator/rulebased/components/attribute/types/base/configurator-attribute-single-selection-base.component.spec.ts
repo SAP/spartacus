@@ -451,6 +451,13 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       component.attribute.validationType = Configurator.ValidationType.NUMERIC;
       expect(component.isAdditionalValueNumeric).toBe(true);
     });
+
+    it('should return false for UI type Radio button additional input and validation type sap date', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.SAP_DATE;
+      expect(component.isAdditionalValueNumeric).toBe(false);
+    });
   });
 
   describe('IsAdditionalValueAlphaNumeric', () => {
@@ -465,6 +472,13 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       component.attribute.uiType =
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
       component.attribute.validationType = Configurator.ValidationType.NONE;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(true);
+    });
+
+    it('should return true for UI type Radio button additional input and validation type sap date', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.SAP_DATE;
       expect(component.isAdditionalValueAlphaNumeric).toBe(true);
     });
   });
