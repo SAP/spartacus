@@ -159,4 +159,12 @@
       min-width: 48px;
     }
   }
+
+  @include cx-highContrastTheme {
+    .indicators {
+      .button {
+        background-color: var(--cx-color-background);
+      }
+    }
+  }
 }

@@ -58,4 +58,17 @@ cx-product-image-zoom-dialog {
       }
     }
   }
+  @include cx-highContrastTheme {
+    .cx-dialog-content {
+      color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+      border: 1px solid var(--cx-color-text);
+      .cx-dialog-body {
+        background-color: var(--cx-color-background);
+      }
+      .close {
+        color: var(--cx-color-text);
+      }
+    }
+  }
 }

@@ -13,3 +13,10 @@
 @import 'theme/high-contrast/high-contrast';
 // new theme below to uncomment on next major or with impex
 // @import 'theme/santorini-updated/variables';
+
+@mixin cx-highContrastTheme() {
+  .cx-theme-high-contrast-dark &,
+  .cx-theme-high-contrast-light & {
+    @content;
+  }
+}

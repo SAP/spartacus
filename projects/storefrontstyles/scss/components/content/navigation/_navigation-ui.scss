@@ -36,6 +36,9 @@
         padding: 15px 20px;
         background: var(--cx-color-inverse);
         box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 12px 0px;
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
       }
     }
   }
@@ -374,6 +377,10 @@
           > cx-generic-link + button {
             display: none;
           }
+
+          @include cx-highContrastTheme {
+            background-color: var(--cx-color-background);
+          }
         }
 
         li.is-opened {
@@ -466,5 +473,10 @@
         }
       }
     }
+  }
+
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+    color: var(--cx-color-text);
   }
 }

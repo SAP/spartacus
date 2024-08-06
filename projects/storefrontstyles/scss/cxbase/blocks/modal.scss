@@ -81,6 +81,14 @@ $modal-min-width-asm: 95% !important;
 .cx-modal-content {
   background-color: var(--cx-color-inverse);
   width: 100%;
+  @include cx-highContrastTheme {
+    color: var(--cx-color-text);
+    background-color: var(--cx-color-background);
+    border: 1px solid var(--cx-color-text);
+    .close {
+      color: var(--cx-color-text);
+    }
+  }
 }
 
 .cx-modal-footer {
@@ -94,5 +102,16 @@ $modal-min-width-asm: 95% !important;
   }
   .cx-modal-content {
     border-radius: 16px;
+  }
+}
+
+.modal-content {
+  @include cx-highContrastTheme {
+    color: var(--cx-color-text);
+    background-color: var(--cx-color-background);
+    border: 1px solid var(--cx-color-text);
+    .close {
+      color: var(--cx-color-text);
+    }
   }
 }
