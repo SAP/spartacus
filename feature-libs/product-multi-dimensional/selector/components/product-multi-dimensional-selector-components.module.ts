@@ -5,9 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { ProductMultiDimensionalSelectorModule } from './selector/product-multi-dimensional-selector.module';
+import { ProductMultiDimensionalSelectorComponentModule } from './selector/product-multi-dimensional-selector-component.module';
 
 @NgModule({
-  imports: [ProductMultiDimensionalSelectorModule],
+  imports: [ProductMultiDimensionalSelectorComponentModule],
 })
 export class ProductMultiDimensionalSelectorComponentsModule {}
