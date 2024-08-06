@@ -19,7 +19,6 @@ export class ServiceOrderGuard {
         if (orderDetails && orderDetails.serviceReschedulable) {
           return true;
         } else {
-          // return true;
           this.globalMessageService.add(
             { key: 'rescheduleService.serviceNotReschedulable' },
             GlobalMessageType.MSG_TYPE_ERROR

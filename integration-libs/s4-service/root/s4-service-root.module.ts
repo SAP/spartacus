@@ -23,7 +23,7 @@ import {
 } from './config/index';
 import { CheckoutServiceDetailsEventModule } from './events/index';
 import { CheckoutServiceSchedulePickerService } from './facade/index';
-import { ORDER_FEATURE } from '@spartacus/order/root';
+import { ORDER_CMS_COMPONENTS, ORDER_FEATURE } from '@spartacus/order/root';
 import { RouterModule } from '@angular/router';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 
@@ -40,43 +40,8 @@ export function defaultS4ServiceComponentsConfig() {
       },
       [ORDER_FEATURE]: {
         cmsComponents: [
-          'CancelOrderComponent',
-          'CancelOrderConfirmationComponent',
-          'ReturnOrderComponent',
-          'ReturnOrderConfirmationComponent',
-          'AccountOrderDetailsActionsComponent',
-          'AccountOrderDetailsItemsComponent',
-          'AccountOrderDetailsTotalsComponent',
-          'AccountOrderDetailsOverviewComponent',
-          'AccountOrderDetailsBillingComponent',
-          'AccountOrderDetailsGroupedItemsComponent',
-          'AccountOrderDetailsSimpleOverviewComponent',
-          'AccountOrderHistoryComponent',
-          'ReplenishmentDetailItemsComponent',
-          'AccountOrderDetailsReorderComponent',
-          'ReplenishmentDetailTotalsComponent',
-          'ReplenishmentDetailShippingComponent',
-          'ReplenishmentDetailActionsComponent',
-          'ReplenishmentDetailOrderHistoryComponent',
-          'AccountReplenishmentHistoryComponent',
-          'ReturnRequestOverviewComponent',
-          'ReturnRequestItemsComponent',
-          'ReturnRequestTotalsComponent',
-          'OrderReturnRequestListComponent',
-          'OrderConfirmationThankMessageComponent',
-          'OrderConfirmationItemsComponent',
-          'OrderConfirmationTotalsComponent',
-          'OrderConfirmationOverviewComponent',
-          'OrderConfirmationShippingComponent',
-          'OrderConfirmationBillingComponent',
-          'OrderConfirmationContinueButtonComponent',
-          'ReplenishmentConfirmationMessageComponent',
-          'ReplenishmentConfirmationOverviewComponent',
-          'ReplenishmentConfirmationItemsComponent',
-          'ReplenishmentConfirmationTotalsComponent',
-          'MyAccountViewOrderComponent',
+          ...ORDER_CMS_COMPONENTS,
           'RescheduleServiceOrder',
-          'RescheduleServiceOrderHeadline'
         ]
       },
     },
