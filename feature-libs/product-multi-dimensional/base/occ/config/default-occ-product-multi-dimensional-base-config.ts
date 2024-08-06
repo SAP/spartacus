@@ -11,7 +11,7 @@ export const defaultOccProductMultidimensionalBaseConfig: OccConfig = {
     occ: {
       endpoints: {
         productSearch:
-          'products/search?fields=products(code,name,summary,configurable,configuratorType,priceRange(FULL),multidimensional,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery,keywordRedirectUrl',
+          'products/search?fields=products(code,name,summary,configurable,configuratorType,priceRange(maxPrice(formattedValue),minPrice(formattedValue)),multidimensional,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery,keywordRedirectUrl',
       },
     },
   },
