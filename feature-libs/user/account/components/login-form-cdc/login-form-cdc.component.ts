@@ -27,13 +27,14 @@ export class LoginFormCDCComponent implements OnInit {
       .getActive()
       .pipe(take(1))
       .subscribe((data) => (this.baseSite = data));
+    this.oauthService.events
+      .pipe(filter((e) => e.type === 'token_received'))
+      .subscribe(() => {
+        // this.oauthService.loadUserProfile();
+        this.auth.afterRedirectFromCDCLogin();
+        // this.auth.checkOAuthParamsInUrl();
+      });
     this.initializeOAuthFlow();
-    if (sessionStorage.getItem('isRedirected')) {
-      sessionStorage.removeItem('isRedirected');
-    } else {
-      this.startPKCEflow();
-      sessionStorage.setItem('isRedirected', 'true');
-    }
   }
 
   initializeOAuthFlow(): void {
@@ -42,19 +43,11 @@ export class LoginFormCDCComponent implements OnInit {
       'NMywTmkkLHK1KZmZwUa1P4qN',
       this.baseSite,
       'openid profile email uid',
-      'code',
+      'code'
     );
     this.oauthService.configure(authConfig);
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
-    this.oauthService.events
-      .pipe(filter((e) => e.type === 'token_received'))
-      .subscribe(() => {
-        this.oauthService.loadUserProfile();
-        this.auth.afterRedirectFromCDCLogin();
-      });
-  }
-
-  startPKCEflow(): void {
-    this.oauthService.initLoginFlow();
+    // this.oauthService.loadDiscoveryDocument();
+    // this.auth.loginWithRedirect();
+    this.oauthService.loadDiscoveryDocumentAndLogin();
   }
 }
