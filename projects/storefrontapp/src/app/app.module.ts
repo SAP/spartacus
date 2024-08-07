@@ -63,7 +63,7 @@ if (!environment.production) {
     provideConfig(<OccConfig>{
       backend: {
         occ: {
-          baseUrl: 'https://spartacus-dev-asx1.eastus.cloudapp.azure.com:8443',
+          baseUrl: environment.occBaseUrl,
           prefix: environment.occApiPrefix,
         },
       },
