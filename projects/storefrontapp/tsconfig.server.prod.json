@@ -261,14 +261,14 @@
       "@spartacus/product-configurator/textfield/root": [
         "../../dist/product-configurator/textfield/root"
       ],
-      "@spartacus/product-multi-dimensional/base": [
-        "../../dist/product-multi-dimensional/base"
+      "@spartacus/product-multi-dimensional/list": [
+        "../../dist/product-multi-dimensional/list"
       ],
-      "@spartacus/product-multi-dimensional/base/occ": [
-        "../../dist/product-multi-dimensional/base/occ"
+      "@spartacus/product-multi-dimensional/list/occ": [
+        "../../dist/product-multi-dimensional/list/occ"
       ],
-      "@spartacus/product-multi-dimensional/base/root": [
-        "../../dist/product-multi-dimensional/base/root"
+      "@spartacus/product-multi-dimensional/list/root": [
+        "../../dist/product-multi-dimensional/list/root"
       ],
       "@spartacus/product-multi-dimensional": [
         "../../dist/product-multi-dimensional"

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
-export * from './product-multi-dimensional-base-root.module';
+export * from './feature-name';
+export * from './product-multi-dimensional-list-root.module';
 export * from './components/price-range/product-multi-dimensional-price-range.component';
 export * from './components/price-range/product-multi-dimensional-price-range.module';

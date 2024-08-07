@@ -104,6 +104,7 @@ import { UserFeatureModule } from './features/user/user-feature.module';
 import { S4ServiceFeatureModule } from './features/s4-service/s4-service-feature.module';
 import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
 import { ProductMultiDimensionalSelectorFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-selector-feature.module';
+import { ProductMultiDimensionalListFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-list-feature.module';
 
 const featureModules = [];
 
@@ -257,6 +258,7 @@ if (environment.cpq) {
 
     VariantsFeatureModule,
     ProductMultiDimensionalSelectorFeatureModule,
+    ProductMultiDimensionalListFeatureModule,
     ImageZoomFeatureModule,
 
     QuoteFeatureModule,

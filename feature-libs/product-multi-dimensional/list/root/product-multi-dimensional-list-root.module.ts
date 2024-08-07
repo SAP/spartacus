@@ -13,10 +13,27 @@ import {
   ProductListOutlets,
   provideOutlet,
 } from '@spartacus/storefront';
+import { provideDefaultConfigFactory } from '@spartacus/core';
+import { PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE } from './feature-name';
+
+export function defaultProductMultiDimensionalListConfig() {
+  return {
+    featureModules: {
+      [PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE]: {
+        cmsComponents: [
+          'CMSProductListComponent',
+          'ProductGridComponent',
+          'SearchResultsListComponent',
+        ],
+      },
+    },
+  };
+}
 
 @NgModule({
   imports: [ProductMultiDimensionalPriceRangeModule],
   providers: [
+    provideDefaultConfigFactory(defaultProductMultiDimensionalListConfig),
     provideOutlet({
       id: ProductListOutlets.ITEM_DETAILS,
       position: OutletPosition.AFTER,
@@ -24,4 +41,4 @@ import {
     }),
   ],
 })
-export class ProductMultiDimensionalBaseRootModule {}
+export class ProductMultiDimensionalListRootModule {}

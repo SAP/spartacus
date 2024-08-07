@@ -12,7 +12,9 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   LibraryOptions as SpartacusProductOptions,
   PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE_NAME,
+  PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE_NAME,
   productMultiDimensionalSelectorFeatureModulePath,
+  productMultiDimensionalListFeatureModulePath,
   SPARTACUS_PRODUCT,
   SPARTACUS_SCHEMATICS,
   SpartacusOptions,
@@ -61,6 +63,11 @@ describe('Spartacus Product Multi-Dimensional schematics: ng-add', () => {
   const multiDimensionalSelectorOptions: SpartacusProductOptions = {
     ...libraryNoFeaturesOptions,
     features: [PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE_NAME],
+  };
+
+  const multiDimensionalListOptions: SpartacusProductOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -173,6 +180,50 @@ describe('Spartacus Product Multi-Dimensional schematics: ng-add', () => {
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(
           productMultiDimensionalSelectorFeatureModulePath
+        );
+        expect(module).toMatchSnapshot();
+      });
+    });
+  });
+
+
+  describe('list feature', () => {
+    describe('general setup', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          multiDimensionalListOptions,
+          appTree
+        );
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(
+          productMultiDimensionalListFeatureModulePath
+        );
+        expect(module).toMatchSnapshot();
+      });
+
+      describe('styling', () => {
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('eager loading', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...multiDimensionalListOptions, lazy: false },
+          appTree
+        );
+      });
+
+      it('should import appropriate modules', async () => {
+        const module = appTree.readContent(
+          productMultiDimensionalListFeatureModulePath
         );
         expect(module).toMatchSnapshot();
       });
