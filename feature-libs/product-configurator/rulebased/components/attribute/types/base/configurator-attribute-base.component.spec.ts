@@ -757,9 +757,13 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         value: 10,
         currencyIso: 'USD',
       };
+      type ChangedPrices = Record<string, Configurator.PriceDetails>;
+      const changedPrices: ChangedPrices = {
+        val: price,
+      };
       const expectedValue = { ...value };
       expectedValue.valuePrice = price;
-      expect(classUnderTest.enrichValueWithPrice(value, price)).toEqual(
+      expect(classUnderTest.enrichValueWithPrice(value, changedPrices)).toEqual(
         expectedValue
       );
     });

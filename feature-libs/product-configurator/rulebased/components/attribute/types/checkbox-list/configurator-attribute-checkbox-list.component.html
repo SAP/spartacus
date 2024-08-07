@@ -35,7 +35,7 @@
             [attr.aria-label]="
               getAriaLabelGeneric(
                 attribute,
-                enrichValueWithPrice(value, changedPrices[value.name])
+                enrichValueWithPrice(value, changedPrices)
               )
             "
             [attr.aria-describedby]="
@@ -70,7 +70,7 @@
           <cx-configurator-price
             [formula]="
               extractValuePriceFormulaParameters(
-                enrichValueWithPrice(value, changedPrices[value.name])
+                enrichValueWithPrice(value, changedPrices)
               )
             "
           ></cx-configurator-price>

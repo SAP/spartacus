@@ -62,7 +62,7 @@
                 expMode,
                 item.valueDisplay,
                 item.valueCode,
-                enrichValueWithPrice(item, changedPrices[item.name])
+                enrichValueWithPrice(item, changedPrices)
               )
             "
             [attr.aria-label]="getAriaLabel(item, attribute)"
@@ -73,7 +73,7 @@
                 expMode,
                 item.valueDisplay,
                 item.valueCode,
-                enrichValueWithPrice(item, changedPrices[item.name])
+                enrichValueWithPrice(item, changedPrices)
               )
             }}
           </option>
@@ -99,10 +99,7 @@
       <cx-configurator-price
         [formula]="
           extractValuePriceFormulaParameters(
-            enrichValueWithPrice(
-              getSelectedValue(),
-              changedPrices[getSelectedValue().name]
-            )
+            enrichValueWithPrice(getSelectedValue(), changedPrices)
           )
         "
       ></cx-configurator-price>

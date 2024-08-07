@@ -29,7 +29,7 @@
             [cxFocus]="{ key: attribute.name + '-' + value.name }"
             [attr.aria-label]="
               getAriaLabel(
-                enrichValueWithPrice(value, changedPrices[value.name]),
+                enrichValueWithPrice(value, changedPrices),
                 attribute
               )
             "
@@ -75,7 +75,7 @@
           <cx-configurator-price
             [formula]="
               extractValuePriceFormulaParameters(
-                enrichValueWithPrice(value, changedPrices[value.name])
+                enrichValueWithPrice(value, changedPrices)
               )
             "
           ></cx-configurator-price>

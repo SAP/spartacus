@@ -49,6 +49,7 @@ export class ConfiguratorAttributeBaseComponent {
   changedPrices$: Observable<Record<string, Configurator.PriceDetails>> = of(
     {}
   ); // no delta rendering - always render directly only once with prices from configuration
+
   protected initPriceChangedEvent(
     isPricingAsync = false,
     attributeKey?: string
@@ -476,11 +477,17 @@ export class ConfiguratorAttributeBaseComponent {
    */
   enrichValueWithPrice(
     value: Configurator.Value,
-    price?: Configurator.PriceDetails
+    changedPrices: Record<string, Configurator.PriceDetails>
   ): Configurator.Value {
-    if (price) {
-      value = { ...value, valuePrice: price };
+    if (value.valueCode && changedPrices) {
+      if (value.valueCode in changedPrices) {
+        const price = changedPrices[value.valueCode];
+        if (price) {
+          value = { ...value, valuePrice: price };
+        }
+      }
     }
+
     return value;
   }
 

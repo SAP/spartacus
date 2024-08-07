@@ -1,8 +1,8 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}" class="cx-row">
   <ng-container
     *ngIf="
-      !config.features?.productConfiguratorAttributeTypesV2 && changedPrices$
-        | async as changedPrices
+      !config.features?.productConfiguratorAttributeTypesV2 &&
+      (changedPrices$ | async) as changedPrices
     "
   >
     <div
@@ -26,7 +26,7 @@
         [attr.aria-label]="
           getAriaLabelGeneric(
             attribute,
-            enrichValueWithPrice(value, changedPrices[value.name])
+            enrichValueWithPrice(value, changedPrices)
           )
         "
         [attr.aria-live]="
@@ -57,7 +57,7 @@
           <cx-configurator-price
             [formula]="
               extractValuePriceFormulaParameters(
-                enrichValueWithPrice(value, changedPrices[value.name])
+                enrichValueWithPrice(value, changedPrices)
               )
             "
           ></cx-configurator-price>
@@ -67,8 +67,8 @@
   </ng-container>
   <ng-container
     *ngIf="
-      config.features?.productConfiguratorAttributeTypesV2 && changedPrices$
-        | async as changedPrices
+      config.features?.productConfiguratorAttributeTypesV2 &&
+      (changedPrices$ | async) as changedPrices
     "
   >
     <ng-container *ngFor="let value of attribute.values; let i = index">
@@ -93,7 +93,7 @@
           [attr.aria-label]="
             getAriaLabelGeneric(
               attribute,
-              enrichValueWithPrice(value, changedPrices[value.name])
+              enrichValueWithPrice(value, changedPrices)
             )
           "
           [attr.aria-live]="
@@ -148,7 +148,7 @@
             <cx-configurator-price
               [formula]="
                 extractValuePriceFormulaParameters(
-                  enrichValueWithPrice(value, changedPrices[value.name])
+                  enrichValueWithPrice(value, changedPrices)
                 )
               "
             ></cx-configurator-price>
