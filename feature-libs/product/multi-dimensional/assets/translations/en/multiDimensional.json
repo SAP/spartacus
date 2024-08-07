@@ -1,5 +1,6 @@
 {
   "multiDimensional": {
-    "chooseVariantTitle": "Choose {{category}}"
+    "variantThumbnailTitle": "Select {{value}} {{category}}",
+    "selectedVariant": "Selected"
   }
 }

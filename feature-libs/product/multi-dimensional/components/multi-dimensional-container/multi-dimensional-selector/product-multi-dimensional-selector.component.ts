@@ -18,8 +18,12 @@ import {
   ProductScope,
   ProductService,
   RoutingService,
+  TranslationService,
 } from '@spartacus/core';
-import { VariantCategoryGroup } from '@spartacus/product/multi-dimensional/root';
+import {
+  VariantCategoryGroup,
+  VariantCategoryOption,
+} from '@spartacus/product/multi-dimensional/root';
 import { filter, take } from 'rxjs/operators';
 import { ProductMultiDimensionalService } from '../../../core/services/product-multi-dimensional.service';
 
@@ -35,6 +39,7 @@ export class ProductMultiDimensionalSelectorComponent implements OnChanges {
   protected productService: ProductService = inject(ProductService);
   protected routingService: RoutingService = inject(RoutingService);
   protected route: ActivatedRoute = inject(ActivatedRoute);
+  protected translationService: TranslationService = inject(TranslationService);
 
   @Input()
   product: Product;
@@ -42,7 +47,7 @@ export class ProductMultiDimensionalSelectorComponent implements OnChanges {
   selectedVariant: string;
   categories: VariantCategoryGroup[] = [];
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes.product) {
       this.categories = this.multiDimensionalService.getVariants(this.product);
       this.selectedVariant = this.product.code ?? '';
@@ -61,5 +66,52 @@ export class ProductMultiDimensionalSelectorComponent implements OnChanges {
           });
         });
     }
+  }
+
+  getSelectedValue(categoryName: string): string | null {
+    const category = this.categories.find((cat) => cat.name === categoryName);
+
+    if (category && this.selectedVariant) {
+      const selectedOption = category.variantOptions.find(
+        (option) => option.code === this.selectedVariant
+      );
+      return selectedOption ? selectedOption.value : '';
+    }
+
+    return null;
+  }
+
+  isSelected(code: string): boolean {
+    return code === this.product.code;
+  }
+
+  getAriaLabel(option: VariantCategoryOption, categoryName: string) {
+    const isSelected = this.isSelected(option.code);
+
+    if (isSelected) {
+      let selectedAriaLabel = '';
+
+      this.translationService
+        .translate('multiDimensional.selectedVariant')
+        .pipe(take(1))
+        .subscribe(
+          (text) =>
+            (selectedAriaLabel += `${text}, ${option.value} ${categoryName}`)
+        );
+
+      return selectedAriaLabel;
+    }
+
+    let ariaLabel = '';
+
+    this.translationService
+      .translate('multiDimensional.variantThumbnailTitle', {
+        value: option.value,
+        category: categoryName,
+      })
+      .pipe(take(1))
+      .subscribe((text) => (ariaLabel += `${text}`));
+
+    return ariaLabel;
   }
 }
