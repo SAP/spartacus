@@ -19,11 +19,7 @@ export class ServiceOrderGuard {
     protected globalMessageService: GlobalMessageService
   ) {}
 
-  canActivate():
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
+  canActivate(): Observable<boolean | UrlTree> {
     return this.orderDetailsService.getOrderDetails().pipe(
       map((orderDetails) => {
         if (orderDetails && orderDetails.serviceReschedulable) {

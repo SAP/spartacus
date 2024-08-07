@@ -116,7 +116,6 @@ export class CheckoutServiceSchedulePickerService {
     const now = new Date();
     const targetDateTime = new Date(dateTime);
     const differenceInMilliseconds = targetDateTime.getTime() - now.getTime();
-    const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
-    return differenceInHours;
+    return differenceInMilliseconds / (1000 * 60 * 60);
   }
 }

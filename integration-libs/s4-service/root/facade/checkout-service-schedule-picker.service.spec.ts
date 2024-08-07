@@ -109,7 +109,7 @@ describe('CheckoutServiceSchedulePickerService', () => {
   it('should return difference in hours', () => {
     jasmine.clock().install();
     jasmine.clock().mockDate(new Date('2024-07-11T14:30:00'));
-    const dateTime = '2024-07-12T14:30:00+05:30';
+    const dateTime = '2024-07-12T14:30:00';
     const diff = service.getHoursFromServiceSchedule(dateTime);
     expect(diff).toEqual(24);
     jasmine.clock().uninstall();
