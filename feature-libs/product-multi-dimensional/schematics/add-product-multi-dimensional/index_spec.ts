@@ -186,7 +186,6 @@ describe('Spartacus Product Multi-Dimensional schematics: ng-add', () => {
     });
   });
 
-
   describe('list feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
