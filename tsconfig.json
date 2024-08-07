@@ -411,6 +411,9 @@
       "@spartacus/product-multi-dimensional/base/occ": [
         "feature-libs/product-multi-dimensional/base/occ/public_api"
       ],
+      "@spartacus/product-multi-dimensional/base/root": [
+        "feature-libs/product-multi-dimensional/base/root/public_api"
+      ],
       "@spartacus/product-multi-dimensional": [
         "feature-libs/product-multi-dimensional/public_api"
       ],
