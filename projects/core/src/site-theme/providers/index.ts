@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './site_theme_storage_id';
+export * from './site_theme_id';

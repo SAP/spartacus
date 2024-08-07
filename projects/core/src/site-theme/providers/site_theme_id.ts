@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const SITE_THEME_STORAGE_ID = 'siteTheme';
+export const SITE_THEME_ID = 'siteTheme';

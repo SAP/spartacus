@@ -9,7 +9,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { SiteThemeConfig } from '../config/site-theme-config';
 import { SiteThemeService } from '../facade/site-theme.service';
-import { SITE_THEME_STORAGE_ID } from '../providers';
+import { SITE_THEME_ID } from '../providers/site_theme_id';
 
 @Injectable({ providedIn: 'root' })
 export class SiteThemePersistenceService {
@@ -25,7 +25,7 @@ export class SiteThemePersistenceService {
    */
   public initSync(): Observable<unknown> {
     this.statePersistenceService.syncWithStorage({
-      key: SITE_THEME_STORAGE_ID,
+      key: SITE_THEME_ID,
       state$: this.siteThemeService.getActive(),
       onRead: (state) => this.onRead(state),
     });
