@@ -30,8 +30,8 @@ import { LoginRegisterComponent } from './login-register.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        component: LoginRegisterComponent,
         ReturningCustomerRegisterComponent: {
+          component: LoginRegisterComponent,
           guards: [NotAuthGuard],
         },
       },
