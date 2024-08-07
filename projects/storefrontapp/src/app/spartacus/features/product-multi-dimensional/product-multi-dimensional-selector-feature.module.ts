@@ -10,9 +10,13 @@ import {
   PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE,
   ProductMultiDimensionalSelectorRootModule,
 } from '@spartacus/product-multi-dimensional/selector/root';
+import { ProductMultiDimensionalBaseOccModule } from '@spartacus/product-multi-dimensional/base/occ';
 
 @NgModule({
-  imports: [ProductMultiDimensionalSelectorRootModule],
+  imports: [
+    ProductMultiDimensionalSelectorRootModule,
+    ProductMultiDimensionalBaseOccModule,
+  ],
   providers: [
     provideConfig({
       featureModules: {

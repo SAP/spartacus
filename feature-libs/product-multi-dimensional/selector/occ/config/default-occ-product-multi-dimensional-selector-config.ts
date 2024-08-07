@@ -6,13 +6,19 @@
 
 import { OccConfig } from '@spartacus/core';
 
-export const defaultOccProductVariantsMultidimensionalConfig: OccConfig = {
+const elements =
+  'variantOption(code,variantOptionQualifiers(image(url,format))),variantValueCategory(name),parentVariantCategory(hasImage,name)';
+const variantMatrix = `variantMatrix(${elements},elements(${elements},elements(${elements},elements)))`;
+export const defaultOccProductMultiDimensionalSelectorConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
         product: {
           multi_dimensional:
-            'products/${productCode}?fields=name,purchasable,baseOptions(DEFAULT),baseProduct,multidimensional,variantOptions(DEFAULT),variantMatrix(DEFAULT),categories',
+            'products/${productCode}?fields=multidimensional,categories,' +
+            variantMatrix,
+          multi_dimensional_availability:
+            'products/${productCode}?fields=variantOptions(stock(stockLevel),code),purchasable',
         },
       },
     },

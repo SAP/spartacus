@@ -7,12 +7,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { defaultOccProductMultiDimensionalSelectorConfig } from './config/default-occ-product-multi-dimensional-selector-config';
+import { defaultOccProductMultiDimensionalBaseConfig } from './config/default-occ-product-multi-dimensional-base-config';
 
 @NgModule({
   imports: [CommonModule],
   providers: [
-    provideDefaultConfig(defaultOccProductMultiDimensionalSelectorConfig),
+    provideDefaultConfig(defaultOccProductMultiDimensionalBaseConfig),
   ],
 })
-export class ProductMultiDimensionalSelectorOccModule {}
+export class ProductMultiDimensionalBaseOccModule {}
