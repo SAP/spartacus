@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { getTestBed } from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,
