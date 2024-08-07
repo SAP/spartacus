@@ -75,18 +75,16 @@ export class ProductMultiDimensionalSelectorGuard {
   protected findValidProductCodeAndReturnUrlTree(
     product: Product
   ): Observable<boolean | UrlTree> {
-    const variantOptions = product.variantOptions ?? [];
-
-    const validVariantCode: string | undefined = variantOptions.find(
+    const validVariantCode: string | undefined = product.variantOptions?.find(
       (variant: VariantOption) => variant.stock && variant.stock.stockLevel
     )?.code;
 
-    const fallbackProductCode = variantOptions[0]?.code;
+    const fallbackProductCode = product.variantOptions?.length
+      ? product.variantOptions[0]?.code
+      : '';
 
     if (validVariantCode || fallbackProductCode) {
-      const productCode = validVariantCode
-        ? validVariantCode
-        : fallbackProductCode;
+      const productCode = validVariantCode ?? fallbackProductCode;
 
       return this.productService.get(productCode, ProductScope.LIST).pipe(
         filter(isNotUndefined),
