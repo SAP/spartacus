@@ -22,6 +22,7 @@
     "ServiceLocation": "Service Location",
     "ServiceDate": "Service Date",
     "SubmitRequest": "Submit Request",
-    "serviceNotRcancelable": "Service is not cancelable"
+    "serviceNotRcancelable": "Service is not cancelable",
+    "charactersLeft": "characters left: {{count}}"
   }
 }

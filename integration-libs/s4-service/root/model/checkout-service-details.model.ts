@@ -17,12 +17,12 @@ export interface ServiceOrderConfig {
 
 export interface CancelObj {
   cancelReason?: string; //name in request
-  cancellationRequestEntryInputs: cancellationRequestEntryInputs[];
+  cancellationRequestEntryInputs: CancellationRequestEntryInputs[];
 }
-export interface cancellationRequestEntryInputs {
+export interface CancellationRequestEntryInputs {
   orderEntryNumber?: number;
   quantity?: string[];
 }
-export interface serviceCancellable {
+export interface ServiceCancellable {
   serviceCancellable?: any;
 }

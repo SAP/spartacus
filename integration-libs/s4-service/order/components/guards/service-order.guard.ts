@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 import { SemanticPathService } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
-// import { OrderFacade } from '@spartacus/order/root';
 import { map, Observable } from 'rxjs';
 
 @Injectable({
@@ -25,7 +24,6 @@ export class ServiceOrderGuard {
         ) {
           return true;
         } else {
-          return true;
           return this.router.parseUrl(
             this.semanticPathService.get('orders') ?? ''
           );

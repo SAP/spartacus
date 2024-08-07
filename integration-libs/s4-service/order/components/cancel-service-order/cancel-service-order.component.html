@@ -10,7 +10,11 @@
       rows="5"
       (input)="updateCharacterLeft()"
     ></textarea>
-    <div class="characters-left">Characters left: {{ characterLeft }}</div>
+    <div class="characters-left">
+      <span>{{
+        'cancelService.charactersLeft' | cxTranslate: { count: characterLeft }
+      }}</span>
+    </div>
   </div>
 
   <div class="row mt-5">
