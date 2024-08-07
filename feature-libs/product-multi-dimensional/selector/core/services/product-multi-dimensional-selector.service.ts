@@ -146,7 +146,7 @@ export class ProductMultiDimensionalSelectorService {
   /**
    * Creates a variant category group from a variant matrix.
    *
-   * @param {VariantMatrixElement[]} variantMatrix - The variant matrix.
+   * @param {VariantMatrixElement[]} elements - The variant matrix elements.
    * @returns {VariantCategoryGroup} - The variant category.
    *
    * @description
@@ -155,9 +155,11 @@ export class ProductMultiDimensionalSelectorService {
    * element in the array. It initializes the category's name, option list, and image presence status.
    */
   protected createVariantCategoryGroup(
-    variantMatrix: VariantMatrixElement[]
+    elements: VariantMatrixElement[]
   ): VariantCategoryGroup {
-    const parentVariantCategory = variantMatrix[0]?.parentVariantCategory;
+    const parentVariantCategory = elements.length
+      ? elements[0]?.parentVariantCategory
+      : undefined;
 
     return {
       name: parentVariantCategory?.name ?? '',
