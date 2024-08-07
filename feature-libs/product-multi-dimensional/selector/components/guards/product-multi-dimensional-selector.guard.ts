@@ -75,30 +75,37 @@ export class ProductMultiDimensionalSelectorGuard {
   protected findValidProductCodeAndReturnUrlTree(
     product: Product
   ): Observable<boolean | UrlTree> {
-    const validVariantCode: string | undefined = product.variantOptions?.find(
-      (variant: VariantOption) => variant.stock && variant.stock.stockLevel
-    )?.code;
+    const validVariantCode = this.getValidVariantCode(product);
+    const fallbackProductCode = this.getFallbackProductCode(product);
 
-    const fallbackProductCode = product.variantOptions?.length
-      ? product.variantOptions[0]?.code
-      : '';
+    const productCode = validVariantCode ?? fallbackProductCode;
 
-    if (validVariantCode || fallbackProductCode) {
-      const productCode = validVariantCode ?? fallbackProductCode;
-
+    if (productCode) {
       return this.productService.get(productCode, ProductScope.LIST).pipe(
         filter(isNotUndefined),
         take(1),
-        map((multiDimensionalProduct: Product) => {
-          return this.router.createUrlTree(
+        map((multiDimensionalProduct: Product) =>
+          this.router.createUrlTree(
             this.semanticPathService.transform({
               cxRoute: 'product',
               params: multiDimensionalProduct,
             })
-          );
-        })
+          )
+        )
       );
     }
     return of(false);
+  }
+
+  protected getValidVariantCode(product: Product): string | undefined {
+    return product.variantOptions?.find(
+      (variant: VariantOption) => variant.stock && variant.stock.stockLevel
+    )?.code;
+  }
+
+  protected getFallbackProductCode(product: Product): string | undefined {
+    return product.variantOptions?.length
+      ? product.variantOptions[0]?.code
+      : '';
   }
 }
