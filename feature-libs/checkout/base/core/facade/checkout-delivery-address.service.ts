@@ -31,37 +31,40 @@ import { CheckoutDeliveryAddressConnector } from '../connectors/checkout-deliver
 export class CheckoutDeliveryAddressService
   implements CheckoutDeliveryAddressFacade
 {
-  protected createDeliveryAddressCommand: Command<Address, unknown> =
-    this.commandService.create<Address>(
-      (payload) =>
-        this.checkoutPreconditions().pipe(
-          switchMap(([userId, cartId]) => {
-            return this.checkoutDeliveryAddressConnector
-              .createAddress(userId, cartId, payload)
-              .pipe(
-                map((address) => {
-                  address.titleCode = payload.titleCode;
-                  if (payload.region?.isocodeShort) {
-                    address.region = {
-                      ...address.region,
-                      isocodeShort: payload.region.isocodeShort,
-                    };
-                  }
-                  return address;
-                }),
-                tap((address) =>
-                  this.eventService.dispatch(
-                    { userId, cartId, address },
-                    CheckoutDeliveryAddressCreatedEvent
-                  )
+  protected createDeliveryAddressCommand: Command<
+    { address: Address; cartId?: string },
+    unknown
+  > = this.commandService.create<{ address: Address; cartId: string }>(
+    (payload) =>
+      this.checkoutPreconditions(payload.cartId).pipe(
+        switchMap(([userId, cartId]) => {
+          const targetCartId = payload.cartId || cartId;
+          return this.checkoutDeliveryAddressConnector
+            .createAddress(userId, targetCartId, payload.address)
+            .pipe(
+              map((address) => {
+                address.titleCode = address.titleCode;
+                if (payload.address.region?.isocodeShort) {
+                  address.region = {
+                    ...address.region,
+                    isocodeShort: payload.address.region.isocodeShort,
+                  };
+                }
+                return address;
+              }),
+              tap((address) =>
+                this.eventService.dispatch(
+                  { userId, cartCode: targetCartId, address },
+                  CheckoutDeliveryAddressCreatedEvent
                 )
-              );
-          })
-        ),
-      {
-        strategy: CommandStrategy.CancelPrevious,
-      }
-    );
+              )
+            );
+        })
+      ),
+    {
+      strategy: CommandStrategy.CancelPrevious,
+    }
+  );
 
   protected setDeliveryAddressCommand: Command<Address, unknown> =
     this.commandService.create<Address>(
@@ -130,7 +133,9 @@ export class CheckoutDeliveryAddressService
   /**
    * Performs the necessary checkout preconditions.
    */
-  protected checkoutPreconditions(): Observable<[string, string]> {
+  protected checkoutPreconditions(
+    customCartId?: string
+  ): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
       this.activeCartFacade.takeActiveCartId(),
@@ -145,7 +150,7 @@ export class CheckoutDeliveryAddressService
         ) {
           throw new Error('Checkout conditions not met');
         }
-        return [userId, cartId];
+        return [userId, customCartId || cartId];
       })
     );
   }
@@ -159,8 +164,8 @@ export class CheckoutDeliveryAddressService
     );
   }
 
-  createAndSetAddress(address: Address): Observable<unknown> {
-    return this.createDeliveryAddressCommand.execute(address);
+  createAndSetAddress(address: Address, cartId?: string): Observable<unknown> {
+    return this.createDeliveryAddressCommand.execute({ address, cartId });
   }
 
   setDeliveryAddress(address: Address): Observable<unknown> {

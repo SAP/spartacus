@@ -63,7 +63,9 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
   /**
    * Performs the necessary checkout preconditions.
    */
-  protected checkoutPreconditions(): Observable<[string, string]> {
+  protected checkoutPreconditions(
+    customCartId?: string
+  ): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
       this.activeCartFacade.takeActiveCartId(),
@@ -78,7 +80,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
         ) {
           throw new Error('Checkout conditions not met');
         }
-        return [userId, cartId];
+        return [userId, customCartId || cartId];
       })
     );
   }

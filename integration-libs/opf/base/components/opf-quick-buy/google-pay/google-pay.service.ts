@@ -231,6 +231,7 @@ export class OpfGooglePayService {
     mode?: string,
     type?: OpfQuickBuyDeliveryType
   ): Observable<DeliveryMode | undefined> {
+    console.log('setting mode');
     if (type === OpfQuickBuyDeliveryType.PICKUP) {
       mode = OpfQuickBuyDeliveryType.PICKUP.toLocaleLowerCase();
     }
@@ -315,6 +316,7 @@ export class OpfGooglePayService {
   }
 
   handleActiveCartTransaction(): Observable<Cart> {
+    this.opfCartHandlerService.updateState(undefined);
     this.transactionDetails.context = OpfQuickBuyLocation.CART;
 
     return forkJoin({
@@ -332,6 +334,7 @@ export class OpfGooglePayService {
             this.opfCartHandlerService.getCurrentCart().pipe(
               take(1),
               tap((cart: Cart) => {
+                console.log('transacton for cart id: ' + cart.code);
                 this.transactionDetails.cart = cart;
                 this.updateTransactionInfo({
                   totalPrice: `${cart.totalPrice?.value}`,
@@ -405,10 +408,14 @@ export class OpfGooglePayService {
   private handlePaymentCallbacks(): google.payments.api.PaymentDataCallbacks {
     return {
       onPaymentAuthorized: (paymentDataResponse) => {
+        console.log('onPaymentAuthorized', paymentDataResponse);
         return lastValueFrom(
           this.opfCartHandlerService.getCurrentCartId().pipe(
-            switchMap((cartId) =>
-              this.setDeliveryAddress(paymentDataResponse.shippingAddress).pipe(
+            switchMap((cartId) => {
+              console.log('current cartId: ' + cartId);
+              return this.setDeliveryAddress(
+                paymentDataResponse.shippingAddress
+              ).pipe(
                 switchMap(() =>
                   this.setBillingAddress(
                     paymentDataResponse.paymentMethodData.info?.billingAddress
@@ -428,8 +435,8 @@ export class OpfGooglePayService {
                     cartId,
                   });
                 })
-              )
-            ),
+              );
+            }),
             catchError(() => {
               return of(false);
             })
@@ -441,6 +448,7 @@ export class OpfGooglePayService {
       },
 
       onPaymentDataChanged: (intermediatePaymentData) => {
+        console.log('onPaymentDataChanged', intermediatePaymentData);
         return lastValueFrom(
           this.setDeliveryAddress(intermediatePaymentData.shippingAddress).pipe(
             switchMap(() => this.getShippingOptionParameters()),

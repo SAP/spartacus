@@ -35,7 +35,10 @@ export abstract class CheckoutDeliveryAddressFacade {
   /**
    * Creates and sets the delivery address using the provided address
    */
-  abstract createAndSetAddress(address: Address): Observable<unknown>;
+  abstract createAndSetAddress(
+    address: Address,
+    cartId?: string
+  ): Observable<unknown>;
   /**
    * Sets the delivery address to the cart
    */

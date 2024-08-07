@@ -95,7 +95,7 @@ export interface QuickBuyTransactionDetails {
 }
 
 export interface CartHandlerState {
-  cartId: string;
+  cartId: string | undefined;
   userId: string;
   previousCartId: string;
 }

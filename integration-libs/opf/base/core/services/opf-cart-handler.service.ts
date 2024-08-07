@@ -8,7 +8,6 @@ import { Injectable, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
-  CartType,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
   DeliveryMode,
@@ -72,11 +71,8 @@ export class OpfCartHandlerService {
   protected addProductToNewCart(
     productCode: string,
     quantity: number,
-    originalCartId: string,
     pickupStore?: string | undefined
   ): Observable<boolean> {
-    this.cartHandlerState.previousCartId = originalCartId;
-
     return this.multiCartFacade
       .createCart({
         userId: this.cartHandlerState.userId,
@@ -91,6 +87,9 @@ export class OpfCartHandlerService {
             );
           }
           this.cartHandlerState.cartId = cart.code;
+          console.log(
+            'adding produt to cartId: ' + this.cartHandlerState.cartId
+          );
           this.multiCartFacade.addEntry(
             this.cartHandlerState.userId,
             this.cartHandlerState.cartId,
@@ -104,7 +103,7 @@ export class OpfCartHandlerService {
           this.multiCartFacade.loadCart({
             cartId: this.cartHandlerState.cartId,
             userId: this.cartHandlerState.userId,
-            extraData: { active: true },
+            extraData: { active: false },
           });
           return this.checkStableCart(this.cartHandlerState.cartId);
         })
@@ -126,6 +125,10 @@ export class OpfCartHandlerService {
     );
   }
 
+  updateState(cartId: string | undefined) {
+    this.cartHandlerState.cartId = cartId;
+  }
+
   blockMiniCartComponentUpdate(decision: boolean) {
     this.opfMiniCartComponentService.blockUpdate(decision);
   }
@@ -135,25 +138,18 @@ export class OpfCartHandlerService {
     quantity: number,
     pickupStore?: string | undefined
   ): Observable<boolean> {
+    console.log('addProductToCart called');
     this.cartHandlerState = { ...this.defaultCartHandlerState };
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.multiCartFacade.getCartIdByType(CartType.ACTIVE),
+
       this.activeCartFacade.isStable(),
     ]).pipe(
       take(1),
-      tap(() => this.blockMiniCartComponentUpdate(true)),
-      switchMap(([userId, cartId, _]) => {
+      switchMap(([userId, _]) => {
         this.cartHandlerState.userId = userId;
-        if (cartId) {
-          return this.addProductToNewCart(
-            productCode,
-            quantity,
-            cartId,
-            pickupStore
-          );
-        }
-        return this.addProductToActiveCart(
+
+        return this.addProductToNewCart(
           productCode,
           quantity,
           pickupStore
@@ -208,14 +204,16 @@ export class OpfCartHandlerService {
     this.opfGlobalMessageService.disableGlobalMessage([
       'addressForm.userAddressAddSuccess',
     ]);
-    return this.checkoutDeliveryAddressFacade.createAndSetAddress(address).pipe(
-      switchMap(() => this.checkStableCart()),
-      switchMap(() =>
-        this.getDeliveryAddress().pipe(
-          map((addr: Address | undefined) => addr?.id ?? '')
+    return this.checkoutDeliveryAddressFacade
+      .createAndSetAddress(address, this.cartHandlerState.cartId)
+      .pipe(
+        switchMap(() => this.checkStableCart()),
+        switchMap(() =>
+          this.getDeliveryAddress().pipe(
+            map((addr: Address | undefined) => addr?.id ?? '')
+          )
         )
-      )
-    );
+      );
   }
 
   setBillingAddress(address: Address): Observable<boolean> {
@@ -235,11 +233,18 @@ export class OpfCartHandlerService {
   }
 
   getCurrentCart(): Observable<Cart> {
-    return this.activeCartFacade.takeActive();
+    if (!this.cartHandlerState.cartId) {
+      return this.activeCartFacade.takeActive();
+    }
+    console.log('getting cart ', this.cartHandlerState.cartId);
+    return this.multiCartFacade.getCart(this.cartHandlerState.cartId);
   }
 
-  getCurrentCartId(): Observable<string> {
-    return this.activeCartFacade.takeActiveCartId();
+  getCurrentCartId(): Observable<string | undefined> {
+    return (
+      of(this.cartHandlerState.cartId) ||
+      this.activeCartFacade.takeActiveCartId()
+    );
   }
 
   getCurrentCartTotalPrice(): Observable<number | undefined> {
@@ -249,17 +254,19 @@ export class OpfCartHandlerService {
   }
 
   setDeliveryMode(mode: string): Observable<DeliveryMode | undefined> {
-    return this.checkoutDeliveryModesFacade.setDeliveryMode(mode).pipe(
-      switchMap(() =>
-        this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState()
-      ),
-      filter(
-        (state: QueryState<DeliveryMode | undefined>) =>
-          !state.error && !state.loading
-      ),
-      take(1),
-      map((state: QueryState<DeliveryMode | undefined>) => state.data)
-    );
+    return this.checkoutDeliveryModesFacade
+      .setDeliveryMode(mode, this.cartHandlerState.cartId)
+      .pipe(
+        switchMap(() =>
+          this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState()
+        ),
+        filter(
+          (state: QueryState<DeliveryMode | undefined>) =>
+            !state.error && !state.loading
+        ),
+        take(1),
+        map((state: QueryState<DeliveryMode | undefined>) => state.data)
+      );
   }
 
   getSelectedDeliveryMode(): Observable<DeliveryMode | undefined> {

@@ -65,27 +65,36 @@ export class CheckoutDeliveryModesService
       }
     );
 
-  protected setDeliveryModeCommand: Command<string, unknown> =
-    this.commandService.create<string>(
-      (deliveryModeCode) =>
-        this.checkoutPreconditions().pipe(
-          switchMap(([userId, cartId]) =>
-            this.checkoutDeliveryModesConnector
-              .setMode(userId, cartId, deliveryModeCode)
-              .pipe(
-                tap(() => {
-                  this.eventService.dispatch(
-                    { userId, cartId, cartCode: cartId, deliveryModeCode },
-                    CheckoutDeliveryModeSetEvent
-                  );
-                })
-              )
-          )
-        ),
-      {
-        strategy: CommandStrategy.CancelPrevious,
-      }
-    );
+  protected setDeliveryModeCommand: Command<
+    { mode: string; cartId?: string },
+    unknown
+  > = this.commandService.create<{ mode: string; cartId?: string }>(
+    (payload) =>
+      this.checkoutPreconditions(payload?.cartId).pipe(
+        switchMap(([userId, cartId]) => {
+          const targetCartId = payload.cartId || cartId;
+          return this.checkoutDeliveryModesConnector
+            .setMode(userId, targetCartId, payload.mode)
+            .pipe(
+              tap(() => {
+                console.log('Setting Delivery for cartId: ', targetCartId);
+                this.eventService.dispatch(
+                  {
+                    userId,
+                    cartId,
+                    cartCode: targetCartId,
+                    deliveryModeCode: payload.mode,
+                  },
+                  CheckoutDeliveryModeSetEvent
+                );
+              })
+            );
+        })
+      ),
+    {
+      strategy: CommandStrategy.CancelPrevious,
+    }
+  );
 
   protected clearDeliveryModeCommand: Command<void, unknown> =
     this.commandService.create<void>(
@@ -146,7 +155,10 @@ export class CheckoutDeliveryModesService
   /**
    * Performs the necessary checkout preconditions.
    */
-  protected checkoutPreconditions(): Observable<[string, string]> {
+  protected checkoutPreconditions(
+    customCartId?: string
+  ): Observable<[string, string]> {
+    console.log(customCartId);
     return combineLatest([
       this.userIdService.takeUserId(),
       this.activeCartFacade.takeActiveCartId(),
@@ -161,7 +173,7 @@ export class CheckoutDeliveryModesService
         ) {
           throw new Error('Checkout conditions not met');
         }
-        return [userId, cartId];
+        return [userId, customCartId || cartId];
       })
     );
   }
@@ -185,8 +197,8 @@ export class CheckoutDeliveryModesService
       .pipe(map((state) => ({ ...state, data: state.data?.deliveryMode })));
   }
 
-  setDeliveryMode(mode: string): Observable<unknown> {
-    return this.setDeliveryModeCommand.execute(mode);
+  setDeliveryMode(mode: string, cartId?: string): Observable<unknown> {
+    return this.setDeliveryModeCommand.execute({ mode, cartId });
   }
 
   clearCheckoutDeliveryMode(): Observable<unknown> {

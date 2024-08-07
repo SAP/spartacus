@@ -47,7 +47,7 @@ export abstract class CheckoutDeliveryModesFacade {
   /**
    * Sets the provided delivery mode to the current cart
    */
-  abstract setDeliveryMode(mode: string): Observable<unknown>;
+  abstract setDeliveryMode(mode: string, cartId?: string): Observable<unknown>;
   /**
    * Clears the selected delivery mode from the current cart
    */
