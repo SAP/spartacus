@@ -9,7 +9,7 @@ import { OccConfig } from '@spartacus/core';
 const elements =
   'variantOption(code,variantOptionQualifiers(image(url,format))),variantValueCategory(name),parentVariantCategory(hasImage,name)';
 const variantMatrix = `variantMatrix(${elements},elements(${elements},elements(${elements},elements)))`;
-export const defaultOccProductVariantsMultidimensionalConfig: OccConfig = {
+export const defaultOccProductMultiDimensionalSelectorConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
@@ -17,7 +17,7 @@ export const defaultOccProductVariantsMultidimensionalConfig: OccConfig = {
           multi_dimensional:
             'products/${productCode}?fields=multidimensional,categories,' +
             variantMatrix,
-          multi_dimensional_guard:
+          multi_dimensional_availability:
             'products/${productCode}?fields=variantOptions(stock(stockLevel),code),purchasable',
         },
       },
