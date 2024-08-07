@@ -19,6 +19,8 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import { Observable, of } from 'rxjs';
 
 class MockGroupService {}
 
@@ -49,6 +51,28 @@ class MockConfig {
 
 class MockConfiguratorStorefrontUtilsService {
   assembleValuesForMultiSelectAttributes(): void {}
+
+  lastSelected?: { attributeName: string; valueCode: string };
+  setLastSelected(attributeName: string, valueCode: string): void {
+    this.lastSelected = { attributeName, valueCode };
+  }
+  isLastSelected(attributeName: string, valueCode: string): boolean {
+    return (
+      !!this.lastSelected &&
+      this.lastSelected.attributeName === attributeName &&
+      this.lastSelected.valueCode === valueCode
+    );
+  }
+}
+
+class MockConfiguratorDeltaRenderingService {
+  getPriceChangedEvents(): Observable<boolean> {
+    return of(true);
+  }
+  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
+    return value;
+  }
+  storeValuePrice(): void {}
 }
 
 describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
@@ -56,8 +80,22 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   let fixture: ComponentFixture<ConfiguratorAttributeMultiSelectionImageComponent>;
   let htmlElem: HTMLElement;
   let config: Config;
+  let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
   beforeEach(waitForAsync(() => {
+    TestBed.overrideComponent(
+      ConfiguratorAttributeMultiSelectionImageComponent,
+      {
+        set: {
+          providers: [
+            {
+              provide: ConfiguratorAttributePriceChangeService,
+              useClass: MockConfiguratorDeltaRenderingService,
+            },
+          ],
+        },
+      }
+    );
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeMultiSelectionImageComponent,
@@ -166,6 +204,9 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     config = TestBed.inject(Config);
     (config.features ?? {}).productConfiguratorAttributeTypesV2 = false;
     fixture.detectChanges();
+    configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService
+    );
   });
 
   it('should create a component', () => {
@@ -223,6 +264,10 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     const valueToSelect = fixture.debugElement.query(
       By.css(singleSelectionImageId)
     ).nativeElement;
+    spyOn(
+      configuratorStorefrontUtilsService,
+      'assembleValuesForMultiSelectAttributes'
+    ).and.returnValue(component.attribute.values);
     expect(valueToSelect.checked).toBe(false);
     valueToSelect.click();
     fixture.detectChanges();
@@ -240,6 +285,10 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
         component['configuratorCommonsService'],
         'updateConfiguration'
       ).and.callThrough();
+      spyOn(
+        configuratorStorefrontUtilsService,
+        'assembleValuesForMultiSelectAttributes'
+      ).and.returnValue(component.attribute.values);
       component.onSelect(0);
       expect(
         component['configuratorCommonsService'].updateConfiguration
@@ -355,6 +404,37 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
         'aria-label',
         'configurator.a11y.description'
       );
+    });
+
+    it('should create input element for last selected value with aria-live', () => {
+      spyOn(
+        configuratorStorefrontUtilsService,
+        'assembleValuesForMultiSelectAttributes'
+      ).and.returnValue(component.attribute.values);
+      component.listenForPriceChanges = true;
+      component.onSelect(0);
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-input',
+        0,
+        'aria-live',
+        'polite'
+      );
+    });
+
+    it('should create input element for not last selected value without aria-live', () => {
+      fixture.detectChanges();
+      const item = CommonConfiguratorTestUtilsService.getHTMLElement(
+        htmlElem,
+        'input',
+        'form-input',
+        1
+      );
+      const attributes = item?.attributes;
+      expect(attributes?.hasOwnProperty('aria-live')).toBe(false);
     });
   });
 });

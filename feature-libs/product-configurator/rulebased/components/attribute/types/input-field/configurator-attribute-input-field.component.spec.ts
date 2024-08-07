@@ -8,9 +8,10 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
+import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -31,18 +32,19 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
-const isCartEntryOrGroupVisited = true;
+let isCartEntryOrGroupVisited = of(true);
 class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
+    return isCartEntryOrGroupVisited;
   }
 }
+const DEBOUNCE_TIME: number = 600;
+const DEBOUNCE_TIME_DATE: number = 1600;
 
 describe('ConfiguratorAttributeInputFieldComponent', () => {
   let component: ConfiguratorAttributeInputFieldComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeInputFieldComponent>;
   let htmlElem: HTMLElement;
-  let DEBOUNCE_TIME: number;
   const ownerKey = 'theOwnerKey';
   const name = 'attributeName';
   const groupId = 'theGroupId';
@@ -72,12 +74,6 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfigUtilsService,
         },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '*' },
-          },
-        },
       ],
     })
       .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
@@ -104,9 +100,14 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     component.ownerType = CommonConfigurator.OwnerType.CART_ENTRY;
     component.ownerKey = ownerKey;
     fixture.detectChanges();
-    DEBOUNCE_TIME =
-      defaultConfiguratorUISettingsConfig.productConfigurator
-        ?.updateDebounceTime?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
+
+    defaultConfiguratorUISettingsConfig.productConfigurator = {
+      updateDebounceTime: {
+        input: DEBOUNCE_TIME,
+        date: DEBOUNCE_TIME_DATE,
+      },
+    };
+
     spyOn(
       component['configuratorCommonsService'],
       'updateConfiguration'
@@ -270,6 +271,78 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     });
   });
 
+  describe('Accessibility support for attributes of type sap_date', () => {
+    beforeEach(() => {
+      component.attribute.uiType = Configurator.UiType.SAP_DATE;
+      fixture.detectChanges();
+    });
+    describe('in case value is empty', () => {
+      it('should render input element with aria-label attribute that defines an accessible name to label the current element', () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'input',
+          'form-control',
+          0,
+          'aria-label',
+          'configurator.a11y.valueOfAttributeBlank attribute:' +
+            component.attribute.label
+        );
+      });
+
+      it('should render hidden label with aria-label attribute that explains that date picker can be reached by hitting space ', () => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'label',
+          'cx-visually-hidden',
+          0,
+          'aria-label',
+          'configurator.a11y.valueOfDateAttributeBlank attribute:' +
+            component.attribute.label
+        );
+      });
+    });
+    describe('in case value is present', () => {
+      beforeEach(() => {
+        component.attribute.userInput = '2024-12-31';
+        fixture.detectChanges();
+      });
+      it("should contain input element with class name 'form-control' with an 'aria-label' attribute that also mentions the value", () => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'input',
+          'form-control',
+          0,
+          'aria-label',
+          'configurator.a11y.valueOfAttributeFull attribute:' +
+            component.attribute.label +
+            ' value:' +
+            component.attribute.userInput
+        );
+      });
+
+      it('should render hidden label with aria-label attribute that explains that date picker can be reached by hitting space ', () => {
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'label',
+          'cx-visually-hidden',
+          0,
+          'aria-label',
+          'configurator.a11y.valueOfDateAttributeFull attribute:' +
+            component.attribute.label +
+            ' value:' +
+            component.attribute.userInput
+        );
+      });
+    });
+  });
+
   describe('isRequired', () => {
     it('should tell from attribute if form input required for string and numeric attribute without domain', () => {
       expect(component.isRequired).toBe(true);
@@ -313,6 +386,91 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
     it('should return true if there is no user input', () => {
       component.attribute.userInput = undefined;
       expect(component.isUserInputEmpty).toBe(true);
+    });
+  });
+
+  describe('compileShowRequiredErrorMessage', () => {
+    it('should create observable that emits false in case configuration is in initial state', () => {
+      const falseEmittingObs = cold('a', { a: false });
+      isCartEntryOrGroupVisited = falseEmittingObs;
+      component['compileShowRequiredErrorMessage']();
+      expect(component.showRequiredErrorMessage$).toBeObservable(
+        falseEmittingObs
+      );
+    });
+  });
+
+  describe('calculateDebounceTime', () => {
+    it('should return debounce time from configuration if available', () => {
+      expect(component['calculateDebounceTime']()).toBe(DEBOUNCE_TIME);
+    });
+
+    it('should return fallback if nothing available in configuration', () => {
+      component['config'].productConfigurator = {};
+      expect(component['calculateDebounceTime']()).toBe(
+        component['FALLBACK_DEBOUNCE_TIME']
+      );
+    });
+
+    it('should return debounce time for dates in case provided', () => {
+      component['debounceForDateActive'] = true;
+      component.attribute.uiType = Configurator.UiType.SAP_DATE;
+      expect(component['calculateDebounceTime']()).toBe(DEBOUNCE_TIME_DATE);
+    });
+
+    it('should return zero if debounceForDateActive is false', () => {
+      component['debounceForDateActive'] = false;
+      component.attribute.uiType = Configurator.UiType.SAP_DATE;
+      expect(component['calculateDebounceTime']()).toBe(0);
+    });
+
+    it('should return fallback debounce time for dates in case not provided in configuration', () => {
+      component['debounceForDateActive'] = true;
+      component.attribute.uiType = Configurator.UiType.SAP_DATE;
+      component['config'].productConfigurator = {};
+      expect(component['calculateDebounceTime']()).toBe(
+        component['FALLBACK_DEBOUNCE_TIME_DATE']
+      );
+    });
+  });
+
+  describe('activateDebounceDate', () => {
+    it('should activate the debounce time for date input', () => {
+      expect(component['debounceForDateActive']).toBe(false);
+      component.activateDebounceDate();
+      expect(component['debounceForDateActive']).toBe(true);
+    });
+  });
+
+  describe('inputType', () => {
+    it('should return "text" for UI type string', () => {
+      expect(component.inputType).toBe('text');
+    });
+
+    it('should return "date" for UI type sap_date', () => {
+      component.attribute.uiType = Configurator.UiType.SAP_DATE;
+      expect(component.inputType).toBe('date');
+    });
+
+    it('should return "date" for UI type DDLB with additional value and validation type sap date', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.SAP_DATE;
+      expect(component.inputType).toBe('date');
+    });
+
+    it('should return "date" for UI type RB with additional value and validation type sap date', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.SAP_DATE;
+      expect(component.inputType).toBe('date');
+    });
+
+    it('should return "text" for UI type DDLB with additional value and validation type NONE', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NONE;
+      expect(component.inputType).toBe('text');
     });
   });
 });
