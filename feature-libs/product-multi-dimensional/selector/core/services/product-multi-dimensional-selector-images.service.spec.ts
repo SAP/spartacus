@@ -39,7 +39,7 @@ describe('ProductMultiDimensionalSelectorImagesService', () => {
 
   describe('getVariantOptionImages', () => {
     it('should return images that match the specified format', () => {
-      config.multiDimensional.imageFormat = VariantQualifier.STYLE_SWATCH;
+      config.multiDimensional = { imageFormat: VariantQualifier.STYLE_SWATCH };
       const variantOptionQualifiers: VariantOptionQualifier[] = [
         {
           image: { format: VariantQualifier.STYLE_SWATCH, url: '/image1.jpg' },
@@ -64,7 +64,7 @@ describe('ProductMultiDimensionalSelectorImagesService', () => {
     });
 
     it('should use altText from image if available', () => {
-      config.multiDimensional.imageFormat = VariantQualifier.STYLE_SWATCH;
+      config.multiDimensional = { imageFormat: VariantQualifier.STYLE_SWATCH };
       const variantOptionQualifiers: VariantOptionQualifier[] = [
         {
           image: {
@@ -107,7 +107,7 @@ describe('ProductMultiDimensionalSelectorImagesService', () => {
     });
 
     it('should handle missing image properties gracefully', () => {
-      config.multiDimensional.imageFormat = VariantQualifier.STYLE_SWATCH;
+      config.multiDimensional = { imageFormat: VariantQualifier.STYLE_SWATCH };
       const variantOptionQualifiers: VariantOptionQualifier[] = [
         {
           image: undefined,
@@ -131,15 +131,17 @@ describe('ProductMultiDimensionalSelectorImagesService', () => {
     });
 
     it('should return occ baseUrl if media baseUrl is not available', () => {
-      config.backend.media.baseUrl = undefined;
+      config.backend = { ...config.backend, media: { baseUrl: undefined } };
 
       const result = service['getBaseUrl']();
       expect(result).toBe('http://occ.base.url/');
     });
 
     it('should return empty string if no baseUrl is available', () => {
-      config.backend.media.baseUrl = undefined;
-      config.backend.occ.baseUrl = undefined;
+      config.backend = {
+        media: { baseUrl: undefined },
+        occ: { baseUrl: undefined },
+      };
 
       const result = service['getBaseUrl']();
       expect(result).toBe('');
