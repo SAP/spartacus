@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  FeatureConfigService,
   I18nTestingModule,
   LanguageService,
   Product,
@@ -21,6 +22,7 @@ import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
+  ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { ConfigFormUpdateEvent } from '../form/configurator-form.event';
 import { ConfiguratorConflictSuggestionComponent } from '../conflict-suggestion/configurator-conflict-suggestion.component';
@@ -226,6 +228,12 @@ class MockProductService {
   }
 }
 
+class MockConfiguratorRouterExtractorService {
+  extractRouterData() {
+    return EMPTY;
+  }
+}
+
 const isCartEntryOrGroupVisited = true;
 class MockConfiguratorStorefrontUtilsService {
   createGroupId(groupId?: string): string | undefined {
@@ -235,6 +243,9 @@ class MockConfiguratorStorefrontUtilsService {
   }
   isCartEntryOrGroupVisited(): Observable<boolean> {
     return of(isCartEntryOrGroupVisited);
+  }
+  isLastSelected(): boolean {
+    return false;
   }
 }
 
@@ -268,6 +279,16 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
       },
     },
   };
+
+let productConfiguratorDeltaRenderingEnabled = false;
+class MockFeatureConfigService {
+  isEnabled(name: string): boolean {
+    if (name === 'productConfiguratorDeltaRendering') {
+      return productConfiguratorDeltaRenderingEnabled;
+    }
+    return false;
+  }
+}
 
 describe('ConfiguratorGroupComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
@@ -338,6 +359,14 @@ describe('ConfiguratorGroupComponent', () => {
         {
           provide: ProductService,
           useClass: MockProductService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+        {
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
         },
       ],
     })
@@ -480,22 +509,30 @@ describe('ConfiguratorGroupComponent', () => {
       const element = htmlElem.querySelector(
         '#cx-configurator--radioGroup_add--ATTRIBUTE_2_RADIOBUTTON_NUMERIC_ADDITIONAL_INPUT'
       );
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        element,
-        'cx-configurator-attribute-numeric-input-field'
-      );
+      if (!element) {
+        fail();
+      } else {
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          element,
+          'cx-configurator-attribute-numeric-input-field'
+        );
+      }
     });
 
     it('should support radio button attribute type with additional alphanumeric value', () => {
       const element = htmlElem.querySelector(
         '#cx-configurator--radioGroup_add--ATTRIBUTE_2_RADIOBUTTON_ALPHANUMERIC_ADDITIONAL_INPUT'
       );
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        element,
-        'cx-configurator-attribute-input-field'
-      );
+      if (!element) {
+        fail();
+      } else {
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          element,
+          'cx-configurator-attribute-input-field'
+        );
+      }
     });
 
     it('should support single selection image attribute type', () => {
@@ -525,23 +562,31 @@ describe('ConfiguratorGroupComponent', () => {
     it('should support drop-down attribute type with additional numeric value', () => {
       const element = htmlElem.querySelector(
         '#cx-configurator--dropdown_add--ATTRIBUTE_2_DROPDOWN_NUMERIC_ADDITIONAL_INPUT'
-      ).parentElement.parentElement.parentElement;
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        element,
-        'cx-configurator-attribute-numeric-input-field'
-      );
+      )?.parentElement?.parentElement?.parentElement;
+      if (!element) {
+        fail();
+      } else {
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          element,
+          'cx-configurator-attribute-numeric-input-field'
+        );
+      }
     });
 
     it('should support drop-down attribute type with additional alphanumeric value', () => {
       const element = htmlElem.querySelector(
         '#cx-configurator--dropdown_add--ATTRIBUTE_2_DROPDOWN_ALPHANUMERIC_ADDITIONAL_INPUT'
-      ).parentElement.parentElement.parentElement;
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        element,
-        'cx-configurator-attribute-input-field'
-      );
+      )?.parentElement?.parentElement?.parentElement;
+      if (!element) {
+        fail();
+      } else {
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          element,
+          'cx-configurator-attribute-input-field'
+        );
+      }
     });
 
     it('should support checkbox attribute type', () => {
@@ -742,6 +787,19 @@ describe('ConfiguratorGroupComponent', () => {
       expect(component.getComponentKey(attribute)).toBe(
         component['typePrefix'] + Configurator.UiType.DROPDOWN
       );
+    });
+  });
+
+  describe('trackByFn', () => {
+    const attribute = ConfigurationTestData.attributeDropDown;
+    it('should return attribute itself, if performance optimization is not active', () => {
+      productConfiguratorDeltaRenderingEnabled = false;
+      expect(component.trackByFn(0, attribute)).toBe(attribute);
+    });
+
+    it('should return attribute key, if performance optimization is active', () => {
+      productConfiguratorDeltaRenderingEnabled = true;
+      expect(component.trackByFn(0, attribute)).toBe(attribute.key);
     });
   });
 });
