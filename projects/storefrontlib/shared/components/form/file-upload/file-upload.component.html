@@ -23,6 +23,18 @@
 >
   <ng-container *ngTemplateOutlet="customButton"> </ng-container>
 </button>
-<p *ngFor="let file of selectedFiles">
+<button
+  *ngFor="let file of selectedFiles; let i = index"
+  type="button"
+  class="btn btn-tertiary mt-2"
+  [cxFocus]="{ autofocus: true }"
+  [attr.aria-label]="
+    'File ' + file.name + ' has been selected. Click to remove'
+  "
+  (click)="handleFileClick($event, i)"
+>
   {{ file?.name }}
-</p>
+  <span aria-hidden="true">
+    <cx-icon [type]="iconType.CLOSE"></cx-icon>
+  </span>
+</button>

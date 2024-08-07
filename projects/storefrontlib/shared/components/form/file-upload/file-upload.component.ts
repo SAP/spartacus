@@ -16,6 +16,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 /**
  * Component that adds a file upload control.
@@ -57,6 +58,8 @@ export class FileUploadComponent implements ControlValueAccessor {
   @ViewChild('fileInput', { static: true })
   protected fileInput: ElementRef<HTMLInputElement>;
 
+  iconType = ICON_TYPE;
+
   selectFile($event: Event) {
     const files = ($event.target as HTMLInputElement)?.files;
     this.onChangeCallback(files);
@@ -65,6 +68,25 @@ export class FileUploadComponent implements ControlValueAccessor {
 
   removeFile(): void {
     this.fileInput.nativeElement.value = '';
+  }
+
+  unselectFile(index: number): void {
+    const files = this.fileInput.nativeElement.files;
+    if (!files) return;
+
+    const dt = new DataTransfer();
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (index !== i) {
+        dt.items.add(file);
+      }
+    }
+    this.fileInput.nativeElement.files = dt.files;
+  }
+
+  handleFileClick(event: Event, index: number) {
+    event.preventDefault();
+    this.unselectFile(index);
   }
 
   get selectedFiles(): File[] | undefined {
