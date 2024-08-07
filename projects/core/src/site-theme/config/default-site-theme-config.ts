@@ -8,7 +8,7 @@ import { SiteThemeConfig } from './site-theme-config';
 
 export const defaultSiteThemeConfig: SiteThemeConfig = {
   siteTheme: {
-    sitethemes: [
+    siteThemes: [
       {
         i18nNameKey: 'themeSwitcher.themes.default',
         className: '',

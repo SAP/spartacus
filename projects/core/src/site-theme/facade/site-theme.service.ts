@@ -4,12 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { SiteTheme } from '../../model/misc.model';
 import { SiteThemeConfig } from '../config/site-theme-config';
@@ -19,12 +18,15 @@ import { SiteThemeSelectors } from '../store/selectors';
 import { SiteThemeActions } from '../store/actions';
 
 @Injectable()
-export class SiteThemeService {
-  private _isInitialized = false;
-  constructor(
-    protected store: Store<StateWithSiteTheme>,
-    protected config: SiteThemeConfig
-  ) {}
+export class SiteThemeService implements OnDestroy {
+  protected _isInitialized = false;
+  protected store = inject(Store<StateWithSiteTheme>);
+  protected config = inject(SiteThemeConfig);
+  protected subscription = new Subscription();
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   getAll(): Observable<SiteTheme[]> {
     return this.store.pipe(
@@ -52,23 +54,25 @@ export class SiteThemeService {
    * Sets the active theme className.
    */
   setActive(className: string): void {
-    this.isValidTheme(className)
-      .pipe(
-        filter((isValid) => isValid),
-        mergeMap(() => {
-          return this.store.pipe(
-            select(SiteThemeSelectors.getActiveSiteTheme),
-            take(1)
-          );
+    this.subscription.add(
+      this.isValidTheme(className)
+        .pipe(
+          filter((isValid) => isValid),
+          mergeMap(() => {
+            return this.store.pipe(
+              select(SiteThemeSelectors.getActiveSiteTheme),
+              take(1)
+            );
+          })
+        )
+        .subscribe((activeTheme) => {
+          if (activeTheme !== className) {
+            this.store.dispatch(
+              new SiteThemeActions.SetActiveSiteTheme(className)
+            );
+          }
         })
-      )
-      .subscribe((activeTheme) => {
-        if (activeTheme !== className) {
-          this.store.dispatch(
-            new SiteThemeActions.SetActiveSiteTheme(className)
-          );
-        }
-      });
+    );
     this._isInitialized = true;
   }
 

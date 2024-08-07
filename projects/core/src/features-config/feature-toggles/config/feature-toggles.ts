@@ -432,7 +432,8 @@ export interface FeatureTogglesInterface {
   cmsBottomHeaderSlotUsingFlexStyles?: boolean;
 
   /**
-   * when enabled a new theme switcher will be used.
+   * When enabled, a new theme switcher will be used.
+   * It supports default theme together with High Contrast Dark and High Contrast Light.
    */
   useNewSiteThemeSwitcher?: boolean;
 }

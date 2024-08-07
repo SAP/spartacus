@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ICON_TYPE } from '../icon/icon.model';
 import { Observable } from 'rxjs';
 import { ThemeSwitcherComponentService } from './theme-switcher.component.service';
@@ -21,9 +21,9 @@ import { SiteTheme } from '@spartacus/core';
 export class ThemeSwitcherComponent {
   iconTypes = ICON_TYPE;
 
-  constructor(
-    protected themeSwitcherComponentService: ThemeSwitcherComponentService
-  ) {}
+  protected themeSwitcherComponentService = inject(
+    ThemeSwitcherComponentService
+  );
 
   get items$(): Observable<Array<SiteTheme>> {
     return this.themeSwitcherComponentService.getItems();

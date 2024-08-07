@@ -4,21 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { SiteThemeConfig } from '../config/site-theme-config';
-import { SITE_THEME_STORAGE_ID } from '../providers/site_theme_storage_Id';
+import { SITE_THEME_STORAGE_ID } from '../providers/site_theme_storage_id';
 import { SiteThemeService } from '../facade/site-theme.service';
 
 @Injectable({ providedIn: 'root' })
 export class SiteThemePersistenceService {
-  constructor(
-    protected statePersistenceService: StatePersistenceService,
-    protected siteThemeService: SiteThemeService,
-    protected config: SiteThemeConfig
-  ) {}
-
+  protected statePersistenceService = inject(StatePersistenceService);
+  protected siteThemeService = inject(SiteThemeService);
+  protected config = inject(SiteThemeConfig);
   protected initialized$ = new ReplaySubject<unknown>(1);
 
   /**

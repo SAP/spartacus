@@ -28,6 +28,10 @@ import { SiteTheme } from '../../../model/misc.model';
 @Injectable()
 export class SiteThemesEffects {
   protected logger = inject(LoggerService);
+  protected actions$ = inject(Actions);
+  protected state = inject(Store<StateWithSiteTheme>);
+  protected config = inject(SiteThemeConfig);
+  protected baseSiteService = inject(BaseSiteService);
 
   loadSiteThemes$: Observable<
     SiteThemeActions.LoadSiteThemesSuccess | SiteThemeActions.LoadSiteThemesFail
@@ -37,12 +41,12 @@ export class SiteThemesEffects {
       exhaustMap(() => {
         return this.getCustomSiteTheme().pipe(
           map((siteTheme) => {
-            let sitethemes = [];
-            if (this.config.siteTheme?.sitethemes?.length) {
-              const hasDefaultTheme = this.config.siteTheme.sitethemes.some(
+            let siteThemes = [];
+            if (this.config.siteTheme?.siteThemes?.length) {
+              const hasDefaultTheme = this.config.siteTheme.siteThemes.some(
                 (theme) => theme.default
               );
-              sitethemes = (this.config.siteTheme?.sitethemes || []).map(
+              siteThemes = (this.config.siteTheme?.siteThemes || []).map(
                 (sitetheme) => {
                   if (sitetheme.default) {
                     return { ...sitetheme, className: siteTheme ?? '' };
@@ -51,12 +55,12 @@ export class SiteThemesEffects {
                 }
               );
               if (!hasDefaultTheme) {
-                sitethemes.push(this.getNewDefaultTheme(siteTheme));
+                siteThemes.push(this.getNewDefaultTheme(siteTheme));
               }
             } else {
-              sitethemes.push(this.getNewDefaultTheme(siteTheme));
+              siteThemes.push(this.getNewDefaultTheme(siteTheme));
             }
-            return new SiteThemeActions.LoadSiteThemesSuccess(sitethemes);
+            return new SiteThemeActions.LoadSiteThemesSuccess(siteThemes);
           }),
           catchError((error) =>
             of(
@@ -81,13 +85,6 @@ export class SiteThemesEffects {
         )
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private state: Store<StateWithSiteTheme>,
-    protected config: SiteThemeConfig,
-    protected baseSiteService: BaseSiteService
-  ) {}
 
   private getCustomSiteTheme(): Observable<string | undefined> {
     return this.baseSiteService.get().pipe(

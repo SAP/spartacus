@@ -10,7 +10,7 @@ import { BaseSiteService } from '../../site-context/facade/base-site.service';
 
 const mockSiteThemeConfig: SiteThemeConfig = {
   siteTheme: {
-    sitethemes: [{ i18nNameKey: 'dark', className: 'dark', default: true }],
+    siteThemes: [{ i18nNameKey: 'dark', className: 'dark', default: true }],
   },
 };
 

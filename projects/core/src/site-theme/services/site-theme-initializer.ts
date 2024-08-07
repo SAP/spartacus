@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
@@ -15,13 +15,10 @@ import { BaseSiteService } from '../../site-context/facade/base-site.service';
 
 @Injectable({ providedIn: 'root' })
 export class SiteThemeInitializer implements OnDestroy {
-  constructor(
-    protected siteThemeService: SiteThemeService,
-    protected siteThemePersistenceService: SiteThemePersistenceService,
-    protected configInit: ConfigInitializerService,
-    protected baseSiteService: BaseSiteService
-  ) {}
-
+  protected siteThemeService = inject(SiteThemeService);
+  protected siteThemePersistenceService = inject(SiteThemePersistenceService);
+  protected configInit = inject(ConfigInitializerService);
+  protected baseSiteService = inject(BaseSiteService);
   protected subscription: Subscription;
 
   /**
@@ -58,8 +55,8 @@ export class SiteThemeInitializer implements OnDestroy {
 
   protected getCustomSiteTheme(): Observable<string | undefined> {
     return this.baseSiteService.get().pipe(
-      take(1),
-      map((baseSite) => baseSite?.theme)
+      map((baseSite) => baseSite?.theme),
+      take(1)
     );
   }
 
@@ -72,7 +69,7 @@ export class SiteThemeInitializer implements OnDestroy {
     config: SiteThemeConfig
   ): void {
     const defaultTheme =
-      config.siteTheme?.sitethemes?.find((theme) => theme.default)?.className ||
+      config.siteTheme?.siteThemes?.find((theme) => theme.default)?.className ||
       siteTheme;
     if (!this.siteThemeService.isInitialized() && defaultTheme) {
       this.siteThemeService.setActive(defaultTheme);

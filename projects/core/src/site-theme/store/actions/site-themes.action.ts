@@ -7,11 +7,11 @@
 import { Action } from '@ngrx/store';
 import { SiteTheme } from '../../../model/misc.model';
 
-export const LOAD_SITE_THEMES = '[Site-theme] Load site themes';
-export const LOAD_SITE_THEMES_FAIL = '[Site-theme] Load site themes Fail';
-export const LOAD_SITE_THEMES_SUCCESS = '[Site-theme] Load site themes Success';
-export const SET_ACTIVE_SITE_THEME = '[Site-theme] Set Active site theme';
-export const SITE_THEME_CHANGE = '[Site-theme] site theme Change';
+export const LOAD_SITE_THEMES = '[Site-theme] Load Site Themes';
+export const LOAD_SITE_THEMES_FAIL = '[Site-theme] Load Site Themes Fail';
+export const LOAD_SITE_THEMES_SUCCESS = '[Site-theme] Load Site Themes Success';
+export const SET_ACTIVE_SITE_THEME = '[Site-theme] Set Active Site Theme';
+export const SITE_THEME_CHANGE = '[Site-theme] Site Theme Change';
 
 export class LoadSiteThemes implements Action {
   readonly type = LOAD_SITE_THEMES;

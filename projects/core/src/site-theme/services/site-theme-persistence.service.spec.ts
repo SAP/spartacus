@@ -4,7 +4,7 @@ import { SiteThemePersistenceService } from './site-theme-persistence.service';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { SiteThemeService } from '../facade/site-theme.service';
 import { SiteThemeConfig } from '../config/site-theme-config';
-import { SITE_THEME_STORAGE_ID } from '../providers/site_theme_storage_Id';
+import { SITE_THEME_STORAGE_ID } from '../providers/site_theme_storage_id';
 
 describe('SiteThemePersistenceService', () => {
   let service: SiteThemePersistenceService;

@@ -16,7 +16,7 @@ const themes: SiteTheme[] = [
 ];
 const mockSiteThemeConfig: SiteThemeConfig = {
   siteTheme: {
-    sitethemes: themes,
+    siteThemes: themes,
   },
 };
 

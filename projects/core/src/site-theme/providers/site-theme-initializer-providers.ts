@@ -4,23 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { APP_INITIALIZER, Provider } from '@angular/core';
+import { APP_INITIALIZER, inject, Provider } from '@angular/core';
 import { SiteThemeInitializer } from '../services/site-theme-initializer';
 
-export function initializeTheme(
-  siteThemeInitializer: SiteThemeInitializer
-): () => void {
-  const result = () => {
+export function initializeTheme(): () => void {
+  const siteThemeInitializer = inject(SiteThemeInitializer);
+  return () => {
     siteThemeInitializer.initialize();
   };
-  return result;
 }
 
 export const siteThemeInitializerProviders: Provider[] = [
   {
     provide: APP_INITIALIZER,
     useFactory: initializeTheme,
-    deps: [SiteThemeInitializer],
     multi: true,
   },
 ];
