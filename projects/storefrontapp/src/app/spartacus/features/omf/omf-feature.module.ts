@@ -5,8 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
+import { OmfRootModule } from '@spartacus/omf/root';
 
 @NgModule({
-  imports: [],
+  imports: [OmfRootModule],
 })
 export class OmfFeatureModule {}

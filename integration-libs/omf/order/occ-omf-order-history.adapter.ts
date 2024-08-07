@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, isDevMode } from '@angular/core';
 import {
   OCC_USER_ID_ANONYMOUS,
   InterceptorUtil,
@@ -12,12 +12,14 @@ import { map, Observable, of, switchMap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { StateWithOrder, OrderSelectors } from '@spartacus/order/core';
+import { OmfConfig } from '../root/config/omf-config';
 @Injectable({
   providedIn: 'root',
 })
 export class OccOmfOrderHistoryAdapter extends OccOrderHistoryAdapter {
   protected route = inject(ActivatedRoute);
   protected store = inject(Store<StateWithOrder>);
+  protected config = inject(OmfConfig);
 
   getOrderGuid(orderCode: string): Observable<string | undefined> {
     return this.route.queryParams.pipe(
@@ -42,17 +44,27 @@ export class OccOmfOrderHistoryAdapter extends OccOrderHistoryAdapter {
     );
   }
 
+  getRequestHeader(guid: string | undefined): HttpHeaders {
+    let headers = new HttpHeaders();
+    if (!this.config.omf?.guidHttpHeaderName && isDevMode()) {
+      this.logger.warn(
+        `There is no guidHttpHeaderName configured in OMF configuration`
+      );
+    }
+    const guidHeader = this.config.omf?.guidHttpHeaderName?.toLowerCase?.();
+    if (guid && guidHeader) {
+      headers = headers.set(guidHeader, guid);
+    }
+    return headers;
+  }
+
   public load(userId: string, orderCode: string): Observable<Order> {
     return this.getOrderGuid(orderCode).pipe(
       switchMap((guid) => {
         const url = this.occEndpoints.buildUrl('orderDetail', {
           urlParams: { userId, orderId: orderCode },
         });
-
-        let headers = new HttpHeaders();
-        if (guid) {
-          headers = headers.set('guid', guid);
-        }
+        let headers = this.getRequestHeader(guid);
         if (userId === OCC_USER_ID_ANONYMOUS) {
           headers = InterceptorUtil.createHeader(
             USE_CLIENT_TOKEN,

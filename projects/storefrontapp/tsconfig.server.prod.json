@@ -432,6 +432,7 @@
       ],
       "@spartacus/omf": ["../../dist/omf"],
       "@spartacus/omf/order": ["../../dist/omf/order"],
+      "@spartacus/omf/root": ["../../dist/omf/root"],
       "@spartacus/opps": ["../../dist/opps"],
       "@spartacus/opps/root": ["../../dist/opps/root"],
       "@spartacus/s4-service/assets": ["../../dist/s4-service/assets"],
