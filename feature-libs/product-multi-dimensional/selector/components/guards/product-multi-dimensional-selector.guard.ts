@@ -76,23 +76,31 @@ export class ProductMultiDimensionalSelectorGuard {
     product: Product
   ): Observable<boolean | UrlTree> {
     const variantOptions = product.variantOptions ?? [];
-    const results: VariantOption | undefined = variantOptions.find(
+
+    const validVariantCode: string | undefined = variantOptions.find(
       (variant: VariantOption) => variant.stock && variant.stock.stockLevel
-    );
-    const productCode = results ? results.code : variantOptions[0].code;
-    return productCode
-      ? this.productService.get(productCode, ProductScope.LIST).pipe(
-          filter(isNotUndefined),
-          take(1),
-          map((multiDimensionalProduct: Product) => {
-            return this.router.createUrlTree(
-              this.semanticPathService.transform({
-                cxRoute: 'product',
-                params: multiDimensionalProduct,
-              })
-            );
-          })
-        )
-      : of(false);
+    )?.code;
+
+    const fallbackProductCode = variantOptions[0]?.code;
+
+    if (validVariantCode || fallbackProductCode) {
+      const productCode = validVariantCode
+        ? validVariantCode
+        : fallbackProductCode;
+
+      return this.productService.get(productCode, ProductScope.LIST).pipe(
+        filter(isNotUndefined),
+        take(1),
+        map((multiDimensionalProduct: Product) => {
+          return this.router.createUrlTree(
+            this.semanticPathService.transform({
+              cxRoute: 'product',
+              params: multiDimensionalProduct,
+            })
+          );
+        })
+      );
+    }
+    return of(false);
   }
 }
