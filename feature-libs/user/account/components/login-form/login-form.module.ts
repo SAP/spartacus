@@ -9,10 +9,14 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
+  AuthService,
   CmsConfig,
   FeaturesConfigModule,
+  GlobalMessageService,
   I18nModule,
+  NotAuthGuard,
   UrlModule,
+  WindowRef,
   provideDefaultConfig,
 } from '@spartacus/core';
 import {
@@ -20,6 +24,7 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
 
 @NgModule({
@@ -38,17 +43,17 @@ import { LoginFormComponent } from './login-form.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        // ReturningCustomerLoginComponent: {
-        //   component: LoginFormCDCComponent,
-        //   guards: [NotAuthGuard],
-        //   providers: [
-        //     {
-        //       provide: LoginFormComponentService,
-        //       useClass: LoginFormComponentService,
-        //       deps: [AuthService, GlobalMessageService, WindowRef],
-        //     },
-        //   ],
-        // },
+        ReturningCustomerLoginComponent: {
+          component: LoginFormComponent,
+          guards: [NotAuthGuard],
+          providers: [
+            {
+              provide: LoginFormComponentService,
+              useClass: LoginFormComponentService,
+              deps: [AuthService, GlobalMessageService, WindowRef],
+            },
+          ],
+        },
       },
     }),
   ],

@@ -34,7 +34,7 @@ import { LoginFormCDCComponent } from './login-form-cdc.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        ReturningCustomerLoginComponent: {
+        ReturningOIDCLoginComponent: {
           component: LoginFormCDCComponent,
           guards: [NotAuthGuard],
         },
