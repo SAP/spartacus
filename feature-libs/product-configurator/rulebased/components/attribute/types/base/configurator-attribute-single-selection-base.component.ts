@@ -224,7 +224,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   getAriaLabel(
-    value: Configurator.Value,
+    value: Configurator.Value | undefined,
     attribute: Configurator.Attribute
   ): string {
     const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
@@ -246,7 +246,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   getAriaLabelWithoutAdditionalValue(
-    value: Configurator.Value,
+    value: Configurator.Value | undefined,
     attribute: Configurator.Attribute
   ): string {
     return this.getAriaLabelGeneric(attribute, value, true);
