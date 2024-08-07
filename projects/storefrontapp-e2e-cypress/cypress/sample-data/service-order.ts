@@ -695,7 +695,7 @@ function generateServicedAt(offsetDays): string {
    const offsetHours = String(Math.floor(Math.abs(timezoneOffset) / 60)).padStart(2, '0');
    const offsetMinutes = String(Math.abs(timezoneOffset) % 60).padStart(2, '0');
  
-   return `${year}-${month}-${day}T11:30:00${sign}${offsetHours}${offsetMinutes}`;
+   return `${year}-${month}-${day}T09:00:00${sign}${offsetHours}${offsetMinutes}`;
  }
 
 function generateRescheduledDate() {
