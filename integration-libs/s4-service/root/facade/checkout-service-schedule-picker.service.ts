@@ -82,7 +82,9 @@ export class CheckoutServiceSchedulePickerService {
   convertDateTimeToReadableString(dateTime: string): string {
     const date = new Date(dateTime);
     const secondsDigits = -3;
-    return date.toLocaleString(undefined, {hour12: false}).slice(0, secondsDigits);
+    return date
+      .toLocaleString(undefined, { hour12: false })
+      .slice(0, secondsDigits);
   }
 
   /**

@@ -5,13 +5,19 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class RescheduleServiceOrderConnector {
-  protected rescheduleServiceOrderadapter = inject(RescheduleServiceOrderAdapter);
+  protected rescheduleServiceOrderadapter = inject(
+    RescheduleServiceOrderAdapter
+  );
 
   rescheduleServiceOrder(
     userId: string,
     code: string,
     scheduledAt: ServiceDetails
   ): Observable<unknown> {
-    return this.rescheduleServiceOrderadapter.rescheduleServiceOrder(userId, code, scheduledAt);
+    return this.rescheduleServiceOrderadapter.rescheduleServiceOrder(
+      userId,
+      code,
+      scheduledAt
+    );
   }
 }

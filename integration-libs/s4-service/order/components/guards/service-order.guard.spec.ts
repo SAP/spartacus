@@ -3,14 +3,18 @@ import { TestBed } from '@angular/core/testing';
 import { ServiceOrderGuard } from './service-order.guard';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
-import { GlobalMessageService, GlobalMessageType, Translatable } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  Translatable,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 
 const mockOrderReschedulable: Order = {
-  serviceReschedulable : true,
+  serviceReschedulable: true,
 };
 const mockOrderNotReschedulable: Order = {
-  serviceReschedulable : false,
+  serviceReschedulable: false,
 };
 
 class MockOrderDetailsService implements Partial<OrderDetailsService> {
@@ -53,14 +57,18 @@ describe('ServiceOrderGuard', () => {
   });
 
   it('should allow to proceed for an order which is reschedulable', () => {
-    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(of(mockOrderReschedulable));
+    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+      of(mockOrderReschedulable)
+    );
     (guard as any).canActivate().subscribe((result: boolean) => {
       expect(result).toBeTruthy();
     });
   });
 
   it('should not allow to proceed for an order which is not reschedulable', () => {
-    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(of(mockOrderNotReschedulable));
+    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+      of(mockOrderNotReschedulable)
+    );
     (guard as any).canActivate().subscribe((result: boolean) => {
       expect(result).toBeFalsy();
       expect(globalMessageService.add).toHaveBeenCalledWith(

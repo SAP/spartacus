@@ -22,9 +22,7 @@ export class S4ServiceOrderDetailActionsComponent
   protected subscription = new Subject<void>();
 
   ngOnInit(): void {
-    this.order$
-    .pipe(takeUntil(this.subscription))
-    .subscribe((order) => {
+    this.order$.pipe(takeUntil(this.subscription)).subscribe((order) => {
       this.order = order;
       this.checkServiceStatus(order);
     });

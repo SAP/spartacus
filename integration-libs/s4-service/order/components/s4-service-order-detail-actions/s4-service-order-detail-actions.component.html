@@ -1,20 +1,20 @@
 <ng-container *ngIf="order">
   <div class="cx-order-details-actions row" *ngIf="displayActions">
-      <span class="col-sm-12 col-md-4 col-xl-3">
-        <span class="cx-action-button">
-          <a
-              *ngIf="order.serviceReschedulable"
-              [routerLink]="
-                  {
-                  cxRoute: 'rescheduleServiceDetails',
-                  params: order
-                  } | cxUrl
-              "
-              class="btn btn-block btn-secondary"
-              >
-              {{ 'rescheduleService.actionButtonLabel' | cxTranslate }}
-          </a>
-        </span>
+    <span class="col-sm-12 col-md-4 col-xl-3">
+      <span class="cx-action-button">
+        <a
+          *ngIf="order.serviceReschedulable"
+          [routerLink]="
+            {
+              cxRoute: 'rescheduleServiceDetails',
+              params: order
+            } | cxUrl
+          "
+          class="btn btn-block btn-secondary"
+        >
+          {{ 'rescheduleService.actionButtonLabel' | cxTranslate }}
+        </a>
       </span>
+    </span>
   </div>
 </ng-container>

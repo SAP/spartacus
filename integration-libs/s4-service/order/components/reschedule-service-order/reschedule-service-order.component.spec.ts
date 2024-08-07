@@ -1,37 +1,46 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RescheduleServiceOrderComponent } from './reschedule-service-order.component';
-import { GlobalMessageService, GlobalMessageType, I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import { of, throwError } from 'rxjs';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { FormBuilder } from '@angular/forms';
-import { RescheduleServiceOrderFacade, CheckoutServiceSchedulePickerService, ServiceDateTime } from '@spartacus/s4-service/root';
+import {
+  RescheduleServiceOrderFacade,
+  CheckoutServiceSchedulePickerService,
+  ServiceDateTime,
+} from '@spartacus/s4-service/root';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import createSpy = jasmine.createSpy;
 
 const mockOrder = {
-  code : "0005004001",
-  entries : [
+  code: '0005004001',
+  entries: [
     {
-      product : {
-         code : "SRV_01",
-         name : "SRV_01",
-         productTypes : "SERVICE",
+      product: {
+        code: 'SRV_01',
+        name: 'SRV_01',
+        productTypes: 'SERVICE',
       },
-   }
+    },
   ],
-  serviceReschedulable : false,
-  servicedAt : "2024-08-06T11:00:00+0000",
+  serviceReschedulable: false,
+  servicedAt: '2024-08-06T11:00:00+0000',
 };
 const mockOrder2 = {
-  entries : [
+  entries: [
     {
-      product : {
-         code : "SRV_01",
-         name : "SRV_01",
-         productTypes : "SERVICE",
+      product: {
+        code: 'SRV_01',
+        name: 'SRV_01',
+        productTypes: 'SERVICE',
       },
-   }
+    },
   ],
 };
 class MockOrderDetailsService {
@@ -49,9 +58,14 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy().and.callThrough();
 }
 class MockCheckoutServiceSchedulePickerService {
-  getMinDateForService = createSpy().and.returnValue(of('2024-07-06T11:00:00+0000'));
-  getScheduledServiceTimes = createSpy().and.returnValue(of(['08:00', '14:30', '16:00']));
-  convertDateTimeToReadableString = createSpy().and.returnValue('11/07/2024, 14:30');
+  getMinDateForService = createSpy().and.returnValue(
+    of('2024-07-06T11:00:00+0000')
+  );
+  getScheduledServiceTimes = createSpy().and.returnValue(
+    of(['08:00', '14:30', '16:00'])
+  );
+  convertDateTimeToReadableString =
+    createSpy().and.returnValue('11/07/2024, 14:30');
   getServiceDetailsFromDateTime = createSpy().and.returnValue({
     date: '11/07/2024',
     time: '14:30',
@@ -72,21 +86,28 @@ describe('RescheduleServiceOrderComponent', () => {
       declarations: [RescheduleServiceOrderComponent],
       providers: [
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
-        { provide: RescheduleServiceOrderFacade, useClass: MockRescheduleServiceOrderFacade },
+        {
+          provide: RescheduleServiceOrderFacade,
+          useClass: MockRescheduleServiceOrderFacade,
+        },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: CheckoutServiceSchedulePickerService, useClass: MockCheckoutServiceSchedulePickerService },
+        {
+          provide: CheckoutServiceSchedulePickerService,
+          useClass: MockCheckoutServiceSchedulePickerService,
+        },
         FormBuilder,
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RescheduleServiceOrderComponent);
     component = fixture.componentInstance;
     rescheduleServiceOrdeFacade = TestBed.inject(RescheduleServiceOrderFacade);
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    checkoutServiceSchedulePickerService = TestBed.inject(CheckoutServiceSchedulePickerService);
+    checkoutServiceSchedulePickerService = TestBed.inject(
+      CheckoutServiceSchedulePickerService
+    );
     fixture.detectChanges();
   });
 
@@ -97,15 +118,25 @@ describe('RescheduleServiceOrderComponent', () => {
     component.ngOnInit();
     expect(component.form?.get('scheduleDate')?.value).toEqual('11/07/2024');
     expect(component.form?.get('scheduleTime')?.value).toEqual('14:30');
-    expect(checkoutServiceSchedulePickerService.convertDateTimeToReadableString).toHaveBeenCalled();
-    expect(checkoutServiceSchedulePickerService.getServiceDetailsFromDateTime).toHaveBeenCalled();
+    expect(
+      checkoutServiceSchedulePickerService.convertDateTimeToReadableString
+    ).toHaveBeenCalled();
+    expect(
+      checkoutServiceSchedulePickerService.getServiceDetailsFromDateTime
+    ).toHaveBeenCalled();
   });
-  it('should initialize the form with minimum date and time if order details are not available', async() => {
+  it('should initialize the form with minimum date and time if order details are not available', async () => {
     component.initializeForm(mockOrder2);
-    expect(component.form?.get('scheduleDate')?.value).toEqual('2024-07-06T11:00:00+0000');
+    expect(component.form?.get('scheduleDate')?.value).toEqual(
+      '2024-07-06T11:00:00+0000'
+    );
     expect(component.form?.get('scheduleTime')?.value).toEqual('08:00');
-    expect(checkoutServiceSchedulePickerService.convertDateTimeToReadableString).toHaveBeenCalled();
-    expect(checkoutServiceSchedulePickerService.getServiceDetailsFromDateTime).toHaveBeenCalled();
+    expect(
+      checkoutServiceSchedulePickerService.convertDateTimeToReadableString
+    ).toHaveBeenCalled();
+    expect(
+      checkoutServiceSchedulePickerService.getServiceDetailsFromDateTime
+    ).toHaveBeenCalled();
   });
   it('should set schedule time', () => {
     component.setScheduleTime({
@@ -114,22 +145,27 @@ describe('RescheduleServiceOrderComponent', () => {
     expect(component.form?.get('scheduleTime')?.value).toEqual('16:00');
   });
   it('should show redirect to order details page with success message when successfully rescheduled', () => {
-    spyOn(
-      rescheduleServiceOrdeFacade,
-      'rescheduleService'
-    ).and.returnValue(of(200));
+    spyOn(rescheduleServiceOrdeFacade, 'rescheduleService').and.returnValue(
+      of(200)
+    );
     component.rescheduleServiceOrder();
-    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orderDetails', params: { code: '0005004001' } });
-    expect(globalMessageService.add).toHaveBeenCalledWith({ key: 'rescheduleService.rescheduleSuccess' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION);
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'orderDetails',
+      params: { code: '0005004001' },
+    });
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      { key: 'rescheduleService.rescheduleSuccess' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   });
   it('should show error message if any error thrown', () => {
-    spyOn(
-      rescheduleServiceOrdeFacade,
-      'rescheduleService'
-    ).and.returnValue(throwError('Throwing Error message'));
+    spyOn(rescheduleServiceOrdeFacade, 'rescheduleService').and.returnValue(
+      throwError('Throwing Error message')
+    );
     component.rescheduleServiceOrder();
-    expect(globalMessageService.add).toHaveBeenCalledWith({ key: 'rescheduleService.unknownError' },
-      GlobalMessageType.MSG_TYPE_ERROR);
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      { key: 'rescheduleService.unknownError' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   });
 });

@@ -1,18 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { S4ServiceOrderDetailActionsComponent } from './s4-service-order-detail-actions.component';
-import { CmsConfig, I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  I18nModule,
+  provideDefaultConfig,
+  UrlModule,
+} from '@spartacus/core';
 import { RouterModule } from '@angular/router';
 
-
-
 @NgModule({
-  declarations: [
-    S4ServiceOrderDetailActionsComponent
-  ],
-  imports: [
-    CommonModule, I18nModule, RouterModule, UrlModule
-  ],
+  declarations: [S4ServiceOrderDetailActionsComponent],
+  imports: [CommonModule, I18nModule, RouterModule, UrlModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -23,6 +22,6 @@ import { RouterModule } from '@angular/router';
       },
     }),
   ],
-  exports: [S4ServiceOrderDetailActionsComponent]
+  exports: [S4ServiceOrderDetailActionsComponent],
 })
-export class S4ServiceOrderDetailActionsModule { }
+export class S4ServiceOrderDetailActionsModule {}

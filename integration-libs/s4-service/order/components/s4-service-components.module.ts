@@ -9,6 +9,10 @@ import { ServiceDetailsCardModule } from './order-summary/service-details-card.m
 import { RescheduleServiceOrderModule } from './reschedule-service-order/reschedule-service-order.module';
 import { S4ServiceOrderDetailActionsModule } from './s4-service-order-detail-actions/s4-service-order-detail-actions.module';
 @NgModule({
-  imports: [ServiceDetailsCardModule, RescheduleServiceOrderModule, S4ServiceOrderDetailActionsModule],
+  imports: [
+    ServiceDetailsCardModule,
+    RescheduleServiceOrderModule,
+    S4ServiceOrderDetailActionsModule,
+  ],
 })
 export class S4ServiceComponentsModule {}

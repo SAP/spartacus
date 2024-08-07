@@ -12,7 +12,15 @@ import {
   serviceUser,
 } from '../../../helpers/vendor/s4-service/s4-service';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
-import { CANCELLED_ORDER_DETAILS, CANCELLED_ORDER_LIST, ORDER_CODE, RESCHEDULED_DATE, SERVICABLE_ORDER_DETAILS, SERVICABLE_ORDER_IN_24HRS_DETAILS, SERVICABLE_ORDER_LIST } from '../../../sample-data/service-order';
+import {
+  CANCELLED_ORDER_DETAILS,
+  CANCELLED_ORDER_LIST,
+  ORDER_CODE,
+  RESCHEDULED_DATE,
+  SERVICABLE_ORDER_DETAILS,
+  SERVICABLE_ORDER_IN_24HRS_DETAILS,
+  SERVICABLE_ORDER_LIST,
+} from '../../../sample-data/service-order';
 
 const orderListAlias = 'orderList';
 const orderDetailsAlias = 'orderDetails';
@@ -34,13 +42,26 @@ describe('Reschedule Service Order Flow ', () => {
     cy.visit('/powertools-spa/en/USD/my-account/orders');
     cy.wait(`@${orderListAlias}`).its('response.statusCode').should('eq', 200);
     cy.contains(ORDER_CODE).scrollIntoView().click();
-    cy.wait(`@${orderDetailsAlias}`).its('response.statusCode').should('eq', 200);
+    cy.wait(`@${orderDetailsAlias}`)
+      .its('response.statusCode')
+      .should('eq', 200);
     cy.contains('Reschedule Service').scrollIntoView().click();
-    cy.get('button[type="submit"]').contains('Submit Request').scrollIntoView().should('be.disabled');
-    cy.get('input[type="date"]').scrollIntoView().clear().type(RESCHEDULED_DATE);
-    cy.get('button[type="submit"]').contains('Submit Request').should('be.enabled').click();
+    cy.get('button[type="submit"]')
+      .contains('Submit Request')
+      .scrollIntoView()
+      .should('be.disabled');
+    cy.get('input[type="date"]')
+      .scrollIntoView()
+      .clear()
+      .type(RESCHEDULED_DATE);
+    cy.get('button[type="submit"]')
+      .contains('Submit Request')
+      .should('be.enabled')
+      .click();
     cy.wait(`@${orderDetailsAlias}`);
-    cy.contains('The service date and time has been changed successfully.').should('exist');
+    cy.contains(
+      'The service date and time has been changed successfully.'
+    ).should('exist');
   });
 
   it('should not allow to reschedule a cancelled order', () => {
@@ -49,7 +70,9 @@ describe('Reschedule Service Order Flow ', () => {
     cy.visit('/powertools-spa/en/USD/my-account/orders');
     cy.wait(`@${orderListAlias}`).its('response.statusCode').should('eq', 200);
     cy.contains(ORDER_CODE).scrollIntoView().click();
-    cy.wait(`@${orderDetailsAlias}`).its('response.statusCode').should('eq', 200);
+    cy.wait(`@${orderDetailsAlias}`)
+      .its('response.statusCode')
+      .should('eq', 200);
     cy.contains('Reschedule Service').should('not.exist');
   });
 
@@ -59,11 +82,15 @@ describe('Reschedule Service Order Flow ', () => {
     cy.visit('/powertools-spa/en/USD/my-account/orders');
     cy.wait(`@${orderListAlias}`).its('response.statusCode').should('eq', 200);
     cy.contains(ORDER_CODE).scrollIntoView().click();
-    cy.wait(`@${orderDetailsAlias}`).its('response.statusCode').should('eq', 200);
-    cy.contains('The service cannot be cancelled or rescheduled less than 24 hours before the scheduled date.').should('exist');
+    cy.wait(`@${orderDetailsAlias}`)
+      .its('response.statusCode')
+      .should('eq', 200);
+    cy.contains(
+      'The service cannot be cancelled or rescheduled less than 24 hours before the scheduled date.'
+    ).should('exist');
     cy.contains('Reschedule Service').should('not.exist');
   });
-  
+
   afterEach(() => {
     signOutUser();
   });

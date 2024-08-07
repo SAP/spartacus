@@ -5,7 +5,6 @@ import { RescheduleServiceOrderAdapter } from './reschedule-service-order.adapte
 import createSpy = jasmine.createSpy;
 import { of, take } from 'rxjs';
 
-
 class MockRescheduleServiceOrderAdapter
   implements Partial<RescheduleServiceOrderAdapter>
 {
@@ -27,7 +26,9 @@ describe('ReschedleServiceOrderConnectorService', () => {
       ],
     });
     service = TestBed.inject(RescheduleServiceOrderConnector);
-    rescheduleServiceOrderadapter = TestBed.inject(RescheduleServiceOrderAdapter);
+    rescheduleServiceOrderadapter = TestBed.inject(
+      RescheduleServiceOrderAdapter
+    );
   });
 
   it('should be created', () => {
@@ -36,17 +37,11 @@ describe('ReschedleServiceOrderConnectorService', () => {
 
   it('rescheduleServiceOrder should call rescheduleServiceOrderadapter', () => {
     service
-      .rescheduleServiceOrder(
-        'userId',
-        'code',
-        {scheduledAt: 'dd/mm/yyyy'}
-      )
+      .rescheduleServiceOrder('userId', 'code', { scheduledAt: 'dd/mm/yyyy' })
       .pipe(take(1))
       .subscribe();
-    expect(rescheduleServiceOrderadapter.rescheduleServiceOrder).toHaveBeenCalledWith(
-      'userId',
-      'code',
-      {scheduledAt: 'dd/mm/yyyy'}
-    );
+    expect(
+      rescheduleServiceOrderadapter.rescheduleServiceOrder
+    ).toHaveBeenCalledWith('userId', 'code', { scheduledAt: 'dd/mm/yyyy' });
   });
 });

@@ -4,8 +4,6 @@ import { RescheduleServiceOrderService } from './facade';
 import { RescheduleServiceOrderFacade } from '@spartacus/s4-service/root';
 import { RescheduleServiceOrderConnector } from './connector';
 
-
-
 @NgModule({
   providers: [
     CxDatePipe,
@@ -14,7 +12,7 @@ import { RescheduleServiceOrderConnector } from './connector';
       provide: RescheduleServiceOrderFacade,
       useExisting: RescheduleServiceOrderService,
     },
-    RescheduleServiceOrderConnector
+    RescheduleServiceOrderConnector,
   ],
 })
-export class S4ServiceOrderCoreModule { }
+export class S4ServiceOrderCoreModule {}

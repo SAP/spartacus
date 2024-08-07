@@ -4,7 +4,14 @@ import { S4ServiceOrderDetailActionsComponent } from './s4-service-order-detail-
 import { RouterTestingModule } from '@angular/router/testing';
 import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { EMPTY, Observable, of } from 'rxjs';
-import { GlobalMessageService, GlobalMessageType, I18nModule, RoutingService, Translatable, TranslationService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nModule,
+  RoutingService,
+  Translatable,
+  TranslationService,
+} from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
 import { By } from '@angular/platform-browser';
@@ -71,19 +78,23 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CheckoutServiceSchedulePickerService, useClass: MockCheckoutServiceSchedulePickerService },
+        {
+          provide: CheckoutServiceSchedulePickerService,
+          useClass: MockCheckoutServiceSchedulePickerService,
+        },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
       declarations: [
         S4ServiceOrderDetailActionsComponent,
         MockUrlPipe,
         MockOrderDetailActionsComponent,
-      ]
-    })
-    .compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(S4ServiceOrderDetailActionsComponent);
-    checkoutServiceSchedulePickerService = TestBed.inject(CheckoutServiceSchedulePickerService);
+    checkoutServiceSchedulePickerService = TestBed.inject(
+      CheckoutServiceSchedulePickerService
+    );
     globalMessageService = TestBed.inject(GlobalMessageService);
     el = fixture.debugElement;
     component = fixture.componentInstance;
@@ -108,13 +119,19 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       expect(elements.length).toEqual(1);
     });
     it('should display action buttons when time to service is more than 24 hours', () => {
-      spyOn(checkoutServiceSchedulePickerService, 'getHoursFromServiceSchedule').and.returnValue(40);
+      spyOn(
+        checkoutServiceSchedulePickerService,
+        'getHoursFromServiceSchedule'
+      ).and.returnValue(40);
       component.ngOnInit();
       fixture.detectChanges();
       expect(component.displayActions).toBe(true);
     });
     it('should not display action buttons when time to service is within 24 hours', () => {
-      spyOn(checkoutServiceSchedulePickerService, 'getHoursFromServiceSchedule').and.returnValue(10);
+      spyOn(
+        checkoutServiceSchedulePickerService,
+        'getHoursFromServiceSchedule'
+      ).and.returnValue(10);
       component.ngOnInit();
       fixture.detectChanges();
       expect(component.displayActions).toBe(false);

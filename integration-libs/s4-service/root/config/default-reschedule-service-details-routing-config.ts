@@ -12,7 +12,7 @@ export const defaultRescheduleServiceDetailsRoutingConfig: RoutingConfig = {
       rescheduleServiceDetails: {
         paths: ['my-account/order/rescheduleservice/:orderCode'],
         paramsMapping: { orderCode: 'code' },
-       },
+      },
     },
   },
 };

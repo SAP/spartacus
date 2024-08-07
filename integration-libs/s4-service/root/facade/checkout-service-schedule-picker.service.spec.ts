@@ -90,7 +90,9 @@ describe('CheckoutServiceSchedulePickerService', () => {
     const dateTime = '2024-07-11T14:30:00+05:30';
     const date = new Date(dateTime);
     const result = service.convertDateTimeToReadableString(dateTime);
-    expect(result).toEqual(date.toLocaleString(undefined, {hour12: false}).slice(0, -3));
+    expect(result).toEqual(
+      date.toLocaleString(undefined, { hour12: false }).slice(0, -3)
+    );
   });
 
   it('should convert dateTime string to an object with separate date and time properties', () => {

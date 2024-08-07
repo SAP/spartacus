@@ -67,9 +67,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [ORDER_FEATURE]: {
-        cmsComponents: [
-          ...ORDER_CMS_COMPONENTS
-        ],
+        cmsComponents: [...ORDER_CMS_COMPONENTS],
         dependencies: [CART_BASE_FEATURE],
       },
       // by default core is bundled together with components

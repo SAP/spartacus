@@ -259,31 +259,31 @@ export function selectAccountShippingAddressForServiceOrder() {
 }
 
 export function interceptOrderList(alias, response) {
-      cy.intercept(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/users/current/orders?*`,
-        { statusCode: 200, body: response }
-      ).as(alias);
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orders?*`,
+    { statusCode: 200, body: response }
+  ).as(alias);
 }
 
 export function interceptOrderDetails(alias, response) {
-      cy.intercept(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/users/current/orders/${ORDER_CODE}?*`,
-        { statusCode: 200, body: response }
-      ).as(alias);
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orders/${ORDER_CODE}?*`,
+    { statusCode: 200, body: response }
+  ).as(alias);
 }
 
 export function interceptRescheduleServiceOrder(alias) {
-      cy.intercept(
-        'PATCH',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/users/current/orders/${ORDER_CODE}/serviceOrder/serviceScheduleSlot?*`,
-        { statusCode: 200 }
-      ).as(alias);
+  cy.intercept(
+    'PATCH',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orders/${ORDER_CODE}/serviceOrder/serviceScheduleSlot?*`,
+    { statusCode: 200 }
+  ).as(alias);
 }

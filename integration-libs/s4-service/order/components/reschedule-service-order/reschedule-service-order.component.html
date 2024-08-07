@@ -14,12 +14,12 @@
           <span class="label-content">
             {{ 'rescheduleService.datePickerLabel' | cxTranslate }}
           </span>
-            <cx-date-picker
-              [control]="$any(form.get('scheduleDate'))"
-              [min]="(minServiceDate$ | async) ?? undefined"
-              label="rescheduleService.datePickerLabel"
-            >
-            </cx-date-picker>
+          <cx-date-picker
+            [control]="$any(form.get('scheduleDate'))"
+            [min]="(minServiceDate$ | async) ?? undefined"
+            label="rescheduleService.datePickerLabel"
+          >
+          </cx-date-picker>
         </label>
 
         <label
@@ -29,35 +29,35 @@
           <span class="label-content">
             {{ 'rescheduleService.timePickerLabel' | cxTranslate }}
           </span>
-            <select
-              *ngIf="scheduleTimes$ | async as scheduleTimes"
-              class="form-control"
-              formControlName="scheduleTime"
-              (change)="setScheduleTime($event)"
+          <select
+            *ngIf="scheduleTimes$ | async as scheduleTimes"
+            class="form-control"
+            formControlName="scheduleTime"
+            (change)="setScheduleTime($event)"
+          >
+            <option
+              *ngFor="let time of scheduleTimes"
+              [value]="time"
+              [selected]="form.get('scheduleTime')?.value === time"
             >
-              <option
-                *ngFor="let time of scheduleTimes"
-                [value]="time"
-                [selected]="form.get('scheduleTime')?.value === time"
-              >
-                {{ time }}
-              </option>
-            </select>
+              {{ time }}
+            </option>
+          </select>
         </label>
       </div>
     </div>
   </div>
 
   <div class="cx-reschedule-service-details">
-        <ng-template
-          *ngIf="order$ | async as order"
-          [cxOutlet]="CartOutlets.CART_ITEM_LIST"
-          [cxOutletContext]="{
-            items: order.entries,
-            readonly: true
-          }"
-        >
-        </ng-template>
+    <ng-template
+      *ngIf="order$ | async as order"
+      [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+      [cxOutletContext]="{
+        items: order.entries,
+        readonly: true
+      }"
+    >
+    </ng-template>
   </div>
 
   <div class="cx-reschedule-service-actions">
@@ -78,7 +78,11 @@
         </button>
       </div>
       <div class="col-sm-12 col-xl-6">
-        <button type="submit" class="btn btn-primary btn-block" [disabled]="!(form.valid && form.dirty)">
+        <button
+          type="submit"
+          class="btn btn-primary btn-block"
+          [disabled]="!(form.valid && form.dirty)"
+        >
           {{ 'rescheduleService.submitButtonLabel' | cxTranslate }}
         </button>
       </div>

@@ -34,10 +34,12 @@ describe('RescheduleServiceOrderService', () => {
           provide: RescheduleServiceOrderConnector,
           useClass: MockRescheduleServiceOrderConnector,
         },
-      ]
+      ],
     });
     service = TestBed.inject(RescheduleServiceOrderService);
-    rescheduleServiceOrderConnector = TestBed.inject(RescheduleServiceOrderConnector);
+    rescheduleServiceOrderConnector = TestBed.inject(
+      RescheduleServiceOrderConnector
+    );
   });
 
   it('should be created', () => {
@@ -45,18 +47,16 @@ describe('RescheduleServiceOrderService', () => {
   });
 
   it(`should call rescheduleServiceOrderConnector.rescheduleServiceOrder`, (done) => {
-    service.rescheduleService(mockOrderCode, mockDatetime)
-    .pipe(take(1))
-    .subscribe(() => {
-      expect(rescheduleServiceOrderConnector.rescheduleServiceOrder).toHaveBeenCalledWith(
-        mockUserId,
-        mockOrderCode,
-        {
+    service
+      .rescheduleService(mockOrderCode, mockDatetime)
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(
+          rescheduleServiceOrderConnector.rescheduleServiceOrder
+        ).toHaveBeenCalledWith(mockUserId, mockOrderCode, {
           scheduledAt: mockDatetime,
-        }
-      );
-      done();
-    });
-
+        });
+        done();
+      });
   });
 });

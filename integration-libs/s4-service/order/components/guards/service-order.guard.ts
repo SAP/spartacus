@@ -5,7 +5,7 @@ import { OrderDetailsService } from '@spartacus/order/components';
 import { map, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ServiceOrderGuard {
   constructor(
@@ -13,7 +13,11 @@ export class ServiceOrderGuard {
     protected globalMessageService: GlobalMessageService
   ) {}
 
-  canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate():
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
     return this.orderDetailsService.getOrderDetails().pipe(
       map((orderDetails) => {
         if (orderDetails && orderDetails.serviceReschedulable) {
@@ -29,5 +33,3 @@ export class ServiceOrderGuard {
     );
   }
 }
-
-

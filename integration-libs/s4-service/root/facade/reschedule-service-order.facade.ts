@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { ServiceDateTime } from '../model/checkout-service-details.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export abstract class RescheduleServiceOrderFacade {
   /**

@@ -30,12 +30,14 @@ export class RescheduleServiceOrderComponent implements OnInit, OnDestroy {
   );
   readonly CartOutlets = CartOutlets;
   dateTime: ServiceDateTime;
-  order$ = this.orderDetailsService.getOrderDetails()
-  .pipe(map(order => ({
-    ...order,
-    entries: (order.entries || []).filter(entry => entry.product && entry.product.productTypes === 'SERVICE')
-  })))
-  ;
+  order$ = this.orderDetailsService.getOrderDetails().pipe(
+    map((order) => ({
+      ...order,
+      entries: (order.entries || []).filter(
+        (entry) => entry.product && entry.product.productTypes === 'SERVICE'
+      ),
+    }))
+  );
   orderCode: string;
   protected subscription = new Subject<void>();
 
@@ -49,11 +51,7 @@ export class RescheduleServiceOrderComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    this.order$
-    .pipe(
-      takeUntil(this.subscription)
-    )
-    .subscribe((orderDetails) => {
+    this.order$.pipe(takeUntil(this.subscription)).subscribe((orderDetails) => {
       this.orderCode = orderDetails.code || '';
       this.initializeForm(orderDetails);
     });
@@ -101,13 +99,14 @@ export class RescheduleServiceOrderComponent implements OnInit, OnDestroy {
       scheduleDate,
       scheduleTime
     );
-      this.rescheduleServiceOrdeFacade.rescheduleService(
-        this.orderCode,
-        this.dateTime
-      )
+    this.rescheduleServiceOrdeFacade
+      .rescheduleService(this.orderCode, this.dateTime)
       .subscribe({
         next: () => {
-          this.routingService.go({ cxRoute: 'orderDetails', params: { code: this.orderCode } });
+          this.routingService.go({
+            cxRoute: 'orderDetails',
+            params: { code: this.orderCode },
+          });
           this.globalMessageService.add(
             { key: 'rescheduleService.rescheduleSuccess' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION

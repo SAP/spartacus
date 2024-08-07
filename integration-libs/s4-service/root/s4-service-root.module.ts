@@ -39,10 +39,7 @@ export function defaultS4ServiceComponentsConfig() {
         cmsComponents: S4_SERVICE_CMS_COMPONENTS,
       },
       [ORDER_FEATURE]: {
-        cmsComponents: [
-          ...ORDER_CMS_COMPONENTS,
-          'RescheduleServiceOrder',
-        ]
+        cmsComponents: [...ORDER_CMS_COMPONENTS, 'RescheduleServiceOrder'],
       },
     },
   };
