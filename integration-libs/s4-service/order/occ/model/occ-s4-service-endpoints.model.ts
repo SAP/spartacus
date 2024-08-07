@@ -17,5 +17,7 @@ export interface S4ServiceOccEndpoints {
 }
 
 declare module '@spartacus/core' {
-  interface OccEndpoints extends S4ServiceOccEndpoints {}
+  interface OccEndpoints extends S4ServiceOccEndpoints {
+    rescheduleService?: string | OccEndpoint;
+  }
 }
