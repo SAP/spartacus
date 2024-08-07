@@ -1,11 +1,11 @@
 <fieldset *cxFeature="'a11yDeliveryModeRadiogroup'" role="radiogroup">
-  <ng-container !showDeliveryOptionsTranslation>
+  <ng-container *cxFeature="'!showDeliveryOptionsTranslation'">
     <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
       {{ 'checkoutMode.deliveryMethod' | cxTranslate }}
     </legend>
   </ng-container>
 
-  <ng-container showDeliveryOptionsTranslation>
+  <ng-container *cxFeature="'showDeliveryOptionsTranslation'">
     <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
       {{ 'checkoutMode.deliveryOptions' | cxTranslate }}
     </legend>
