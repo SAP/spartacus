@@ -75,24 +75,37 @@ export class ProductMultiDimensionalSelectorGuard {
   protected findValidProductCodeAndReturnUrlTree(
     product: Product
   ): Observable<boolean | UrlTree> {
-    const variantOptions = product.variantOptions ?? [];
-    const results: VariantOption | undefined = variantOptions.find(
-      (variant: VariantOption) => variant.stock && variant.stock.stockLevel
-    );
-    const productCode = results ? results.code : variantOptions[0].code;
-    return productCode
-      ? this.productService.get(productCode, ProductScope.LIST).pipe(
-          filter(isNotUndefined),
-          take(1),
-          map((multiDimensionalProduct: Product) => {
-            return this.router.createUrlTree(
-              this.semanticPathService.transform({
-                cxRoute: 'product',
-                params: multiDimensionalProduct,
-              })
-            );
-          })
+    const validVariantCode = this.getValidVariantCode(product);
+    const fallbackProductCode = this.getFallbackProductCode(product);
+
+    const productCode = validVariantCode ?? fallbackProductCode;
+
+    if (productCode) {
+      return this.productService.get(productCode, ProductScope.LIST).pipe(
+        filter(isNotUndefined),
+        take(1),
+        map((multiDimensionalProduct: Product) =>
+          this.router.createUrlTree(
+            this.semanticPathService.transform({
+              cxRoute: 'product',
+              params: multiDimensionalProduct,
+            })
+          )
         )
-      : of(false);
+      );
+    }
+    return of(false);
+  }
+
+  protected getValidVariantCode(product: Product): string | undefined {
+    return product.variantOptions?.find(
+      (variant: VariantOption) => variant.stock && variant.stock.stockLevel
+    )?.code;
+  }
+
+  protected getFallbackProductCode(product: Product): string | undefined {
+    return product.variantOptions?.length
+      ? product.variantOptions[0]?.code
+      : '';
   }
 }
