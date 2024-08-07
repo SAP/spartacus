@@ -25,7 +25,6 @@ import { filter, map } from 'rxjs/operators';
 import {
   CheckoutServiceDetailsFacade,
   CheckoutServiceSchedulePickerService,
-  ServiceDateTime,
 } from '@spartacus/s4-service/root';
 
 @Component({
@@ -83,25 +82,27 @@ export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmi
   }
 
   getServiceDetailsCard(
-    scheduledAt: ServiceDateTime | undefined | null
+    scheduledAt: string | null | undefined
   ): Observable<Card> {
     return combineLatest([
       this.translationService.translate('serviceOrderCheckout.serviceDetails'),
+      this.translationService.translate('serviceOrderCheckout.cardLabel'),
       this.translationService.translate(
         'serviceOrderCheckout.emptyServiceDetailsCard'
       ),
     ]).pipe(
-      map(([textTitle, emptyTextLabel]) => {
+      map(([textTitle, textLabel, emptyTextLabel]) => {
         if (scheduledAt) {
           scheduledAt =
             this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
               scheduledAt
             );
         }
+
         return {
           title: textTitle,
-          textBold: scheduledAt ? scheduledAt.split(',')[0] : emptyTextLabel,
-          text: scheduledAt ? [scheduledAt.split(',')[1].trim()] : undefined,
+          textBold: scheduledAt ? textLabel : emptyTextLabel,
+          text: scheduledAt ? [scheduledAt] : undefined,
         };
       })
     );

@@ -37,28 +37,41 @@ export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
   }
 
   getServiceDetailsCard(
-    scheduledAt: ServiceDateTime | undefined
+    servicedAt: ServiceDateTime | undefined
   ): Observable<Card> {
-    return combineLatest([
-      this.translationService.translate('serviceOrderCheckout.serviceDetails'),
-      this.translationService.translate(
-        'serviceOrderCheckout.emptyServiceDetailsCard'
-      ),
-    ]).pipe(
-      map(([textTitle, emptyTextLabel]) => {
-        if (scheduledAt) {
-          scheduledAt =
-            this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
-              scheduledAt
-            );
-        }
-        return {
-          title: textTitle,
-          textBold: scheduledAt ? scheduledAt.split(',')[0] : emptyTextLabel,
-          text: scheduledAt ? [scheduledAt.split(',')[1].trim()] : undefined,
-        };
-      })
+    const titleTranslation$ = this.translationService.translate(
+      'serviceOrderCheckout.serviceDetails'
     );
+    if (servicedAt) {
+      const labelTranslation$ = this.translationService.translate(
+        'serviceOrderCheckout.cardLabel'
+      );
+      return combineLatest([titleTranslation$, labelTranslation$]).pipe(
+        map(([textTitle, textLabel]) => {
+          const text =
+            this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
+              servicedAt ?? ''
+            );
+          return {
+            title: textTitle,
+            textBold: textLabel,
+            text: [text],
+          };
+        })
+      );
+    } else {
+      const emptyTextTranslation$ = this.translationService.translate(
+        'serviceOrderCheckout.emptyServiceDetailsCard'
+      );
+      return combineLatest([titleTranslation$, emptyTextTranslation$]).pipe(
+        map(([textTitle, text]) => {
+          return {
+            title: textTitle,
+            text: [text],
+          };
+        })
+      );
+    }
   }
 
   ngOnDestroy(): void {

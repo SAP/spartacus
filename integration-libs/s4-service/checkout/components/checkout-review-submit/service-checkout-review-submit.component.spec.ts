@@ -479,8 +479,8 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
   it('should call getServiceDetailsCard() to get service details', (done) => {
     component.getServiceDetailsCard(mockScheduledAt).subscribe((card) => {
       expect(card.title).toEqual('serviceOrderCheckout.serviceDetails');
-      expect(card.textBold).toEqual('27/06/2024');
-      expect(card.text).toEqual(['09:30']);
+      expect(card.textBold).toEqual('serviceOrderCheckout.cardLabel');
+      expect(card.text).toEqual(['27/06/2024, 09:30']);
       done();
     });
   });

@@ -81,6 +81,7 @@ export interface OrderOccEndpoints {
    * Endpoint to create a new cart from an existing order
    */
   reorder?: string | OccEndpoint;
+  cancelServiceOrder?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {

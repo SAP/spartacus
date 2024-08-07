@@ -1,0 +1,19 @@
+<div class="cx-order-details-actions row mt-3" *ngIf="displayActionsCancel">
+  <div class="col-12 d-flex justify-content-end">
+    <span class="cx-action-button">
+      <button
+        id="cancel-service-btn"
+        *ngIf="order"
+        [routerLink]="
+          {
+            cxRoute: 'cancelserviceDetails',
+            params: order
+          } | cxUrl
+        "
+        class="btn btn-secondary"
+      >
+        {{ 'cancelService.action' | cxTranslate }}
+      </button>
+    </span>
+  </div>
+</div>

@@ -19,31 +19,54 @@ import {
 import {
   defaultServiceDetailsCheckoutConfig,
   defaultCheckoutServiceDetailsRoutingConfig,
+  defaultCancelServiceDetailsRoutingConfig,
 } from './config/index';
 import { CheckoutServiceDetailsEventModule } from './events/index';
 import { CheckoutServiceSchedulePickerService } from './facade/index';
+import { ORDER_CMS_COMPONENTS, ORDER_FEATURE } from '@spartacus/order/root';
+import { RouterModule } from '@angular/router';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 
 export const S4_SERVICE_CMS_COMPONENTS: string[] = [
   ...CHECKOUT_B2B_CMS_COMPONENTS,
   'CheckoutServiceDetails',
 ];
-
+export const S4_SERVICE_ORDER_CMS_COMPONENTS: string[] = [
+  ...ORDER_CMS_COMPONENTS,
+  'CancelServiceOrderHeadline',
+  'CancelServiceOrder',
+];
 export function defaultS4ServiceComponentsConfig() {
   const config: CmsConfig = {
     featureModules: {
       [CHECKOUT_FEATURE]: {
         cmsComponents: S4_SERVICE_CMS_COMPONENTS,
       },
+      [ORDER_FEATURE]: {
+        cmsComponents: S4_SERVICE_ORDER_CMS_COMPONENTS,
+      },
     },
   };
   return config;
 }
 @NgModule({
-  imports: [CheckoutServiceDetailsEventModule],
+  imports: [
+    CheckoutServiceDetailsEventModule,
+    RouterModule.forChild([
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'cancelserviceDetails' },
+      },
+    ]),
+  ],
   providers: [
     { provide: CheckoutConfig, useValue: defaultServiceDetailsCheckoutConfig },
     provideDefaultConfig(defaultCheckoutServiceDetailsRoutingConfig),
     provideDefaultConfigFactory(defaultS4ServiceComponentsConfig),
+    provideDefaultConfig(defaultCancelServiceDetailsRoutingConfig),
     CxDatePipe,
     CheckoutServiceSchedulePickerService,
   ],

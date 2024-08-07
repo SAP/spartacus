@@ -19,11 +19,4 @@
     display: flex;
     flex-direction: column;
   }
-  .cx-service-location-text {
-    margin-bottom: 1.25rem;
-
-    @include media-breakpoint-down(md) {
-      padding-inline-start: 0;
-    }
-  }
 }
