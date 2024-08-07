@@ -8,8 +8,8 @@ import { inject, Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { SiteThemeConfig } from '../config/site-theme-config';
-import { SITE_THEME_STORAGE_ID } from '../providers/site_theme_storage_id';
 import { SiteThemeService } from '../facade/site-theme.service';
+import { SITE_THEME_STORAGE_ID } from '../providers';
 
 @Injectable({ providedIn: 'root' })
 export class SiteThemePersistenceService {
