@@ -65,7 +65,7 @@ class MockSemanticPathService implements Partial<SemanticPathService> {
   }
 }
 
-xdescribe('ProductMultiDimensionalGuard', () => {
+describe('ProductMultiDimensionalGuard', () => {
   let guard: ProductMultiDimensionalSelectorGuard;
   let productService: ProductService;
   let semanticPathService: MockSemanticPathService;
