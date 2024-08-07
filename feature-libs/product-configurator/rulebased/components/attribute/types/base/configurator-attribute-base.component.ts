@@ -412,7 +412,7 @@ export class ConfiguratorAttributeBaseComponent {
    * @param attribute the attribute
    * @param value the value
    * @param considerSelectionState = false
- - optional, depending on the underlying UI control the screen
+   - optional, depending on the underlying UI control the screen
    * might announce the selection state on its own, so it is not always desired to include it here.
    * @returns translated text
    */
