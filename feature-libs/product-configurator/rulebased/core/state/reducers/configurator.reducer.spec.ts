@@ -112,6 +112,19 @@ const CONFIGURATION_WITHOUT_OV: Configurator.Configuration = {
 const CURRENT_GROUP = 'currentGroupId';
 const PARENT_GROUP = 'parentGroupId';
 
+const priceSupplements: Configurator.AttributeSupplement[] = [
+  {
+    attributeUiKey: GROUP_ID_2 + '@' + ATTRIBUTE_NAME,
+    valueSupplements: [
+      {
+        attributeValueKey: VALUE_CODE,
+        priceValue: PRICE_DETAILS,
+        obsoletePriceValue: PRICE_DETAILS,
+      },
+    ],
+  },
+];
+
 describe('Configurator reducer', () => {
   describe('Undefined action', () => {
     it('should return the default state', () => {
@@ -268,6 +281,19 @@ describe('Configurator reducer', () => {
       expect(state.productCode).toEqual(CONFIGURATION.productCode);
     });
 
+    it('should clear price supplements in the state', () => {
+      const oldConfig = structuredClone(CONFIGURATION);
+      oldConfig.priceSupplements = [
+        { attributeUiKey: 'attrKey', valueSupplements: [] },
+      ];
+      const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+        CONFIGURATION
+      );
+      const state = StateReduce.configuratorReducer(oldConfig, action);
+
+      expect(state.priceSupplements).toBeUndefined();
+    });
+
     it('should set attribute that states that a cart update is required', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         CONFIGURATION
@@ -391,7 +417,7 @@ describe('Configurator reducer', () => {
       );
     });
 
-    it('should merge supplement data into existing groups ', () => {
+    it('should merge supplement data into existing groups if delta rendering is deactivated', () => {
       const actionProvidingState =
         new ConfiguratorActions.CreateConfigurationSuccess(CONFIGURATION);
       const firstState = StateReduce.configuratorReducer(
@@ -403,34 +429,38 @@ describe('Configurator reducer', () => {
           'A',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        priceSupplements: [
-          {
-            attributeUiKey: GROUP_ID_2 + '@' + ATTRIBUTE_NAME,
-            valueSupplements: [
-              {
-                attributeValueKey: VALUE_CODE,
-                priceValue: PRICE_DETAILS,
-                obsoletePriceValue: PRICE_DETAILS,
-              },
-            ],
-          },
-        ],
+        priceSupplements: priceSupplements,
       };
       const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
-        configurationWithPriceSummary
+        configurationWithPriceSummary,
+        { isDeltaRendering: false }
       );
       const result = StateReduce.configuratorReducer(firstState, action);
-      const attributes = result.groups[0].attributes;
-      if (attributes) {
-        const values = attributes[0].values;
-        if (values) {
-          expect(values[0].valuePrice).toEqual(PRICE_DETAILS);
-        } else {
-          fail();
-        }
-      } else {
-        fail();
-      }
+      const price = result.groups[0]?.attributes?.[0]?.values?.[0].valuePrice;
+      expect(price).toEqual(PRICE_DETAILS);
+    });
+
+    it('should NOT merge supplement data into existing groups if delta rendering is activated', () => {
+      const actionProvidingState =
+        new ConfiguratorActions.CreateConfigurationSuccess(CONFIGURATION);
+      const firstState = StateReduce.configuratorReducer(
+        undefined,
+        actionProvidingState
+      );
+      const configurationWithPriceSummary: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(
+          'A',
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
+        priceSupplements: priceSupplements,
+      };
+      const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
+        configurationWithPriceSummary,
+        { isDeltaRendering: true }
+      );
+      const result = StateReduce.configuratorReducer(firstState, action);
+      const price = result.groups[0]?.attributes?.[0]?.values?.[0].valuePrice;
+      expect(price).toBeUndefined();
     });
   });
 

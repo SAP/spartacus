@@ -11,6 +11,7 @@ import {
   EventEmitter,
   HostBinding,
   HostListener,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -26,6 +27,7 @@ import {
   filter,
   take,
 } from 'rxjs/operators';
+import { BREAKPOINT, BreakpointService } from '../../../layout';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
@@ -82,6 +84,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   onArrow(e: KeyboardEvent) {
     this.arrowControls.next(e);
   }
+
+  protected breakpointService = inject(BreakpointService);
+  isDesktop$ = this.breakpointService.isUp(BREAKPOINT.lg);
 
   constructor(
     private router: Router,

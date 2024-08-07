@@ -9,12 +9,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 
 @Directive({
@@ -46,12 +49,46 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
+class MockConfiguratorStorefrontUtilsService {
+  lastSelected?: { attributeName: string; valueCode: string };
+  setLastSelected(attributeName: string, valueCode: string): void {
+    this.lastSelected = { attributeName, valueCode };
+  }
+  isLastSelected(attributeName: string, valueCode: string): boolean {
+    return (
+      !!this.lastSelected &&
+      this.lastSelected.attributeName === attributeName &&
+      this.lastSelected.valueCode === valueCode
+    );
+  }
+}
+
+class MockConfiguratorDeltaRenderingService {
+  getPriceChangedEvents(): Observable<boolean> {
+    return of(true);
+  }
+  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
+    return value;
+  }
+  storeValuePrice(): void {}
+}
+
 describe('ConfigAttributeCheckBoxComponent', () => {
   let component: ConfiguratorAttributeCheckBoxComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxComponent>;
   let htmlElem: HTMLElement;
 
   beforeEach(waitForAsync(() => {
+    TestBed.overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
+      set: {
+        providers: [
+          {
+            provide: ConfiguratorAttributePriceChangeService,
+            useClass: MockConfiguratorDeltaRenderingService,
+          },
+        ],
+      },
+    });
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeCheckBoxComponent,
@@ -68,6 +105,10 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
       ],
     })
@@ -146,6 +187,21 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     expect(valueToSelect.checked).toBeFalsy();
   });
 
+  it('should set last selected value code on select if listening for price changes', () => {
+    component.listenForPriceChanges = true;
+    component.onSelect('123');
+    expect(component.isLastSelected(component.attribute.name, '123')).toBe(
+      true
+    );
+  });
+
+  it('should not set last selected value code on select if delta rendering is not activated', () => {
+    component.onSelect('123');
+    expect(component.isLastSelected(component.attribute.name, '123')).toBe(
+      false
+    );
+  });
+
   describe('rendering description at value level', () => {
     it('should not render description in case description not present on model', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -206,6 +262,33 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         'true',
         value1.valueDisplay
       );
+    });
+
+    it('should create input element for last selected value with aria-live', () => {
+      component.listenForPriceChanges = true;
+      component.onSelect('1');
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        0,
+        'aria-live',
+        'polite'
+      );
+    });
+
+    it('should create input element for not last selected value without aria-live', () => {
+      fixture.detectChanges();
+      const item = CommonConfiguratorTestUtilsService.getHTMLElement(
+        htmlElem,
+        'input',
+        'form-check-input',
+        0
+      );
+      const attributes = item?.attributes;
+      expect(attributes?.hasOwnProperty('aria-live')).toBe(false);
     });
   });
 });

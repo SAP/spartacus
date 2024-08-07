@@ -39,6 +39,11 @@
             ? ('common.zoomOut' | cxTranslate)
             : ('common.zoomIn' | cxTranslate)
         "
+        title="{{
+          isZoomed
+            ? ('common.zoomOut' | cxTranslate)
+            : ('common.zoomIn' | cxTranslate)
+        }}"
         class="btn btn-link cx-zoom-btn"
         (click)="zoom()"
       >
