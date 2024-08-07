@@ -46,7 +46,14 @@ describe('ProductMultiDimensionalSelectorService', () => {
             parentVariantCategory: { name: 'Color' },
             variantValueCategory: { name: 'Blue' },
             variantOption: { code: 'Blue', variantOptionQualifiers: [] },
-            elements: [],
+            elements: [
+              {
+                parentVariantCategory: { name: 'Size' },
+                variantValueCategory: { name: 'Large' },
+                variantOption: { code: 'Large', variantOptionQualifiers: [] },
+                elements: [],
+              },
+            ],
           },
         ],
         categories: [{ code: 'B2C_Blue' }],
@@ -92,6 +99,21 @@ describe('ProductMultiDimensionalSelectorService', () => {
 
       expect(result.value).toBe('Blue');
       expect(result.code).toBe('Blue_code');
+      expect(result.images).toEqual([]);
+    });
+
+    it('should handle elements without values', () => {
+      const element: VariantMatrixElement = {
+        variantValueCategory: undefined,
+        variantOption: { code: undefined, variantOptionQualifiers: undefined },
+        elements: [],
+      };
+      imagesService.getVariantOptionImages.and.returnValue([]);
+
+      const result = service['createVariantOptionCategory'](element);
+
+      expect(result.value).toBe('');
+      expect(result.code).toBe('');
       expect(result.images).toEqual([]);
     });
   });
