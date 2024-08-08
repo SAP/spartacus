@@ -8,7 +8,13 @@
   <div class="cx-modal-content">
     <!-- Modal Header -->
     <div class="cx-dialog-header modal-header">
-      <div class="cx-dialog-title modal-title">
+      <h3 *cxFeature="'a11yDialogsHeading'" class="cx-dialog-title modal-title">
+        {{ 'dpPaymentForm.confirmation.heading' | cxTranslate }}
+      </h3>
+      <div
+        *cxFeature="'!a11yDialogsHeading'"
+        class="cx-dialog-title modal-title"
+      >
         {{ 'dpPaymentForm.confirmation.heading' | cxTranslate }}
       </div>
       <button

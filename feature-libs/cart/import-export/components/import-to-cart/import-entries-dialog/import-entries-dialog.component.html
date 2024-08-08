@@ -8,7 +8,16 @@
     <!-- Modal Header -->
     <div class="modal-header cx-import-entries-header">
       <ng-container>
-        <div class="cx-import-entries-title modal-title">
+        <h3
+          *cxFeature="'a11yDialogsHeading'"
+          class="cx-import-entries-title modal-title"
+        >
+          {{ 'importEntriesDialog.importProducts' | cxTranslate }}
+        </h3>
+        <div
+          *cxFeature="'!a11yDialogsHeading'"
+          class="cx-import-entries-title modal-title"
+        >
           {{ 'importEntriesDialog.importProducts' | cxTranslate }}
         </div>
       </ng-container>

@@ -12,7 +12,16 @@
       ></div>
       <!-- Modal Header -->
       <div class="modal-header cx-clear-cart-header">
-        <div class="cx-clear-cart-title modal-title">
+        <h3
+          *cxFeature="'a11yDialogsHeading'"
+          class="cx-clear-cart-title modal-title"
+        >
+          {{ 'clearCart.clearCart' | cxTranslate }}
+        </h3>
+        <div
+          *cxFeature="'!a11yDialogsHeading'"
+          class="cx-clear-cart-title modal-title"
+        >
           {{ 'clearCart.clearCart' | cxTranslate }}
         </div>
 
@@ -58,7 +67,16 @@
 
 <ng-template #loading>
   <div class="modal-header cx-clear-cart-header">
-    <div class="cx-clear-cart-title modal-title">
+    <h2
+      *cxFeature="'a11yDialogsHeading'"
+      class="cx-clear-cart-title modal-title"
+    >
+      {{ 'clearCart.clearingCart' | cxTranslate }}
+    </h2>
+    <div
+      *cxFeature="'!a11yDialogsHeading'"
+      class="cx-clear-cart-title modal-title"
+    >
       {{ 'clearCart.clearingCart' | cxTranslate }}
     </div>
   </div>
