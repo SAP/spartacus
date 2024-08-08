@@ -964,4 +964,25 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         .unsubscribe();
     });
   });
+
+  describe('isLastSelected', () => {
+    it('should return false if setLastSelected was never invoked', () => {
+      expect(classUnderTest.isLastSelected('name', 'code')).toBe(false);
+    });
+
+    it('should return true if setLastSelected was invoked with same attribute name and value code before', () => {
+      classUnderTest.setLastSelected('name', 'code');
+      expect(classUnderTest.isLastSelected('name', 'code')).toBe(true);
+    });
+
+    it('should return false if attribute name does not fit', () => {
+      classUnderTest.setLastSelected('other', 'code');
+      expect(classUnderTest.isLastSelected('name', 'code')).toBe(false);
+    });
+
+    it('should return false if value code does not fit', () => {
+      classUnderTest.setLastSelected('name', 'other');
+      expect(classUnderTest.isLastSelected('name', 'code')).toBe(false);
+    });
+  });
 });
