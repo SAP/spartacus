@@ -15,6 +15,8 @@ import {
   Optional,
   ViewChild,
   inject,
+  HostBinding,
+  HostListener,
 } from '@angular/core';
 import {
   CmsSearchBoxComponent,
@@ -41,7 +43,7 @@ const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,
   displayProducts: true,
   displaySuggestions: true,
-  maxProducts: 5,
+  maxProducts: 15,
   maxSuggestions: 5,
   displayProductImages: true,
   recentSearches: true,
@@ -66,6 +68,19 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   set queryText(value: string) {
     if (value) {
       this.search(value);
+    }
+  }
+
+  @HostBinding('class.search-box-v2') get searchBoxV2() {
+    return this.isEnabledFeature(SearchBoxFeatures.SEARCH_BOX_V2);
+  }
+
+  /**
+   * Listener for clicout out of searchInput and searchPanel
+   * */@HostListener('document:click', ['$event'])
+  clickout(event: UIEvent) {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.close(event);
     }
   }
 
@@ -94,9 +109,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   // TODO: (CXSPA-6929) - Remove getter next major release.
   /** Temporary getter, not ment for public use */
   get a11ySearchBoxMobileFocusEnabled(): boolean {
-    return (
-      this.featureConfigService?.isEnabled('a11ySearchBoxMobileFocus') || false
-    );
+    return this.isEnabledFeature('a11ySearchBoxMobileFocus') || false;
   }
 
   // TODO: (CXSPA-6929) - Make dependencies no longer optional next major release
@@ -113,7 +126,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     @Optional()
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     protected winRef: WindowRef,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected elementRef: ElementRef
   ) {}
 
   /**
@@ -145,6 +159,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   results$: Observable<SearchResults> = this.config$.pipe(
     switchMap((config) => this.searchBoxComponentService.getResults(config))
+  );
+
+  items$: Observable<any> = this.results$.pipe(
+    map((result) => result.products?.map((prod) => of(prod)))
   );
 
   ngOnInit(): void {
@@ -288,7 +306,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   private getResultElements(): HTMLElement[] {
     return Array.from(
       this.winRef.document.querySelectorAll(
-        '.products > li a, .suggestions > li a, .recent-searches > li a'
+        '.products ul > li a, .suggestions ul  > li a, .recent-searches ul > li a, .products .carousel-panel .item.active a, .products .carousel-panel button:not([disabled])'
       )
     );
   }
@@ -400,6 +418,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       el.focus();
       this.ignoreCloseEvent = false;
     });
+  }
+
+  isEnabledFeature(feature: string) {
+    return this.featureConfigService?.isEnabled(feature);
   }
 
   ngOnDestroy(): void {

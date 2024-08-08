@@ -11,6 +11,7 @@ import {
   inject,
   Input,
   isDevMode,
+  OnChanges,
   OnInit,
   TemplateRef,
 } from '@angular/core';
@@ -40,7 +41,7 @@ import { CarouselService } from './carousel.service';
   templateUrl: './carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent implements OnInit, OnChanges {
   /**
    * The title is rendered as the carousel heading.
    */
@@ -101,6 +102,8 @@ export class CarouselComponent implements OnInit {
       );
       return;
     }
+  }
+  ngOnChanges() {
     this.size$ = this.service
       .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
       .pipe(tap(() => (this.activeSlide = 0)));

@@ -34,6 +34,7 @@ const MAX_RECENT_SEARCHES = 5;
 export class RecentSearchesComponent implements OnInit {
   protected recentSearchesService = inject(RecentSearchesService);
   protected searchBoxComponentService = inject(SearchBoxComponentService);
+
   result$ = this.outletContext?.context$.pipe(
     switchMap((context: SearchBoxOutlet) =>
       this.recentSearchesService.recentSearches$.pipe(
@@ -45,10 +46,13 @@ export class RecentSearchesComponent implements OnInit {
             )
             .slice(0, context.maxRecentSearches ?? MAX_RECENT_SEARCHES)
         )
+        // tap(recentSearches => recentSearches.length ? this.hasRecentSearches = true : this.hasRecentSearches = false )
       )
     )
   );
   outletContext$: Observable<SearchBoxOutlet>;
+
+  // @HostBinding('class.has-recent-searches') hasRecentSearches = false;
 
   constructor(
     @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>

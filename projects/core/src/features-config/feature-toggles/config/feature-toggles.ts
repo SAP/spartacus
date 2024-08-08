@@ -56,6 +56,11 @@ export interface FeatureTogglesInterface {
   showSearchingCustomerByOrderInASM?: boolean;
 
   /**
+   * New REDESIGNED search-box component
+   */
+  searchBoxV2?: boolean;
+
+  /**
    * In `SearchBoxComponent` it shows the recent searches.
    */
   recentSearches?: boolean;
@@ -415,6 +420,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showBillingAddressInDigitalPayments: false,
   showDownloadProposalButton: false,
   showPromotionsInPDP: false,
+  searchBoxV2: false,
   recentSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,

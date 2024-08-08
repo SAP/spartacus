@@ -5,7 +5,7 @@
     <button
       *ngIf="size < items.length"
       class="previous"
-      (click)="activeSlide = activeSlide - size"
+      (click)="$event.stopPropagation(); activeSlide = activeSlide - size"
       [disabled]="activeSlide === 0"
       [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
       [attr.title]="'carousel.previousSlide' | cxTranslate"
@@ -42,7 +42,7 @@
       <button
         *ngIf="size < items.length"
         class="next"
-        (click)="activeSlide = activeSlide + size"
+        (click)="$event.stopPropagation(); activeSlide = activeSlide + size"
         [disabled]="activeSlide > items.length - size - 1"
         [attr.aria-label]="'carousel.nextSlide' | cxTranslate"
         [attr.title]="'carousel.nextSlide' | cxTranslate"
@@ -54,7 +54,7 @@
       <button
         *ngIf="size < items.length"
         class="next"
-        (click)="activeSlide = activeSlide + size"
+        (click)="$event.stopPropagation(); activeSlide = activeSlide + size"
         tabindex="-1"
         [disabled]="activeSlide > items.length - size - 1"
         [attr.aria-label]="'carousel.nextSlide' | cxTranslate"
@@ -71,7 +71,7 @@
       <ng-container *cxFeature="'a11yFocusableCarouselControls'">
         <button
           *ngIf="i % size === 0"
-          (click)="activeSlide = i"
+          (click)="$event.stopPropagation(); activeSlide = i"
           [disabled]="i === activeSlide"
           [attr.aria-current]="i === activeSlide"
           [attr.aria-label]="

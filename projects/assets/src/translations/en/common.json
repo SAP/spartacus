@@ -83,7 +83,8 @@
       "noMatch": "We could not find any results",
       "exactMatch": "{{ term }}",
       "empty": "Ask us anything"
-    }
+    },
+    "closeSearchPanel": "Close"
   },
   "sorting": {
     "date": "Date",

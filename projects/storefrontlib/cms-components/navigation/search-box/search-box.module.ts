@@ -19,6 +19,7 @@ import { MediaModule } from '../../../shared/components/media/media.module';
 import { IconModule } from '../../misc/icon/icon.module';
 import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponent } from './search-box.component';
+import { CarouselModule } from '../../../shared';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { SearchBoxComponent } from './search-box.component';
     I18nModule,
     OutletModule,
     FeaturesConfigModule,
+    CarouselModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
