@@ -287,6 +287,7 @@ if (environment.cpq) {
         recentSearches: false,
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
+        productCarouselUseBatchApi: true,
         productConfiguratorAttributeTypesV2: true,
         productConfiguratorDeltaRendering: true,
         a11yRequiredAsterisks: true,

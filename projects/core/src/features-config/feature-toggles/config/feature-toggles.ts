@@ -78,6 +78,11 @@ export interface FeatureTogglesInterface {
   storeFrontLibCardParagraphTruncated?: boolean;
 
   /**
+   * In `ProductCarouselComponent` it uses the batch API to load products.
+   */
+  productCarouselUseBatchApi?: boolean;
+
+  /**
    * In `ConfiguratorAttributeDropDownComponent`, `ConfiguratorAttributeSingleSelectionImageComponent`
    * and in 'ConfiguratorAttributeMultiSelectionImageComponent' some HTML changes were done
    * to render read-only attribute with images and a long description at the value level accordingly.
@@ -455,6 +460,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   recentSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
+  productCarouselUseBatchApi: false,
   productConfiguratorAttributeTypesV2: false,
   productConfiguratorDeltaRendering: false,
   a11yRequiredAsterisks: false,
