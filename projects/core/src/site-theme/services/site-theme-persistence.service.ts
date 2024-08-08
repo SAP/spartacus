@@ -5,7 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { Observable, ReplaySubject, take } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { SiteThemeConfig } from '../config/site-theme-config';
 import { SiteThemeService } from '../facade/site-theme.service';
@@ -34,12 +34,9 @@ export class SiteThemePersistenceService {
 
   protected onRead(valueFromStorage: string | undefined): void {
     if (!this.siteThemeService.isInitialized() && valueFromStorage) {
-      this.siteThemeService
-        .setActive(valueFromStorage)
-        .pipe(take(1))
-        .subscribe(() => {
-          this.finalizeInitialization();
-        });
+      this.siteThemeService.setActive(valueFromStorage).subscribe(() => {
+        this.finalizeInitialization();
+      });
     } else {
       this.finalizeInitialization();
     }

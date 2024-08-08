@@ -6,7 +6,7 @@
 
 import { inject, Injectable } from '@angular/core';
 import { SiteThemeService, SiteTheme } from '@spartacus/core';
-import { Observable, take } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ThemeSwitcherComponentService {
@@ -21,6 +21,6 @@ export class ThemeSwitcherComponentService {
   }
 
   setActive(value: string): void {
-    this.siteThemeService.setActive(value).pipe(take(1)).subscribe();
+    this.siteThemeService.setActive(value).subscribe();
   }
 }

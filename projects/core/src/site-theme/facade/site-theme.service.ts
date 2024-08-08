@@ -70,7 +70,8 @@ export class SiteThemeService implements OnDestroy {
           );
         }
       }),
-      map(() => undefined)
+      map(() => undefined),
+      take(1)
     );
   }
 
