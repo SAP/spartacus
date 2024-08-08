@@ -199,10 +199,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   extractValuePriceFormulaParameters(
     value?: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
-    if (value && this.configuratorAttributePriceChangeService) {
-      value =
-        this.configuratorAttributePriceChangeService.mergePriceIntoValue(value);
-    }
     return {
       price: value?.valuePrice,
       isLightedUp: value ? value.selected : false,
@@ -223,18 +219,14 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   get isAdditionalValueAlphaNumeric(): boolean {
     return (
       this.isWithAdditionalValues(this.attribute) &&
-      this.attribute.validationType !== Configurator.ValidationType.NUMERIC
+      this.attribute.validationType === Configurator.ValidationType.NONE
     );
   }
 
   getAriaLabel(
-    value: Configurator.Value,
+    value: Configurator.Value | undefined,
     attribute: Configurator.Attribute
   ): string {
-    value =
-      this.configuratorAttributePriceChangeService?.mergePriceIntoValue(
-        value
-      ) ?? value;
     const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
     if (this.isWithAdditionalValues(this.attribute)) {
       const ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
@@ -254,7 +246,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   getAriaLabelWithoutAdditionalValue(
-    value: Configurator.Value,
+    value: Configurator.Value | undefined,
     attribute: Configurator.Attribute
   ): string {
     return this.getAriaLabelGeneric(attribute, value, true);

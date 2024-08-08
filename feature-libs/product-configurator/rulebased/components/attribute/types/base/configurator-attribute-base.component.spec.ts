@@ -1,13 +1,13 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
-import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 const attributeCode = 1;
 const currentAttribute: Configurator.Attribute = {
@@ -25,12 +25,9 @@ let configuratorUISettingsConfig: ConfiguratorUISettingsConfig = {
   },
 };
 
-class MockConfiguratorDeltaRenderingService {
-  getPriceChangedEvents() {
-    return of(false);
-  }
-  mergePriceIntoValue(value: Configurator.Value) {
-    return value;
+class MockConfiguratorAttributePriceChangeService {
+  getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>> {
+    return of({ dummy: { value: 10, currencyIso: 'USD' } });
   }
 }
 
@@ -46,7 +43,7 @@ class MockFeatureConfigService {
 
 describe('ConfiguratorAttributeBaseComponent', () => {
   let classUnderTest: ConfiguratorAttributeBaseComponent;
-  let configuratorDeltaRenderingService: ConfiguratorAttributePriceChangeService;
+  let configuratorAttributePriceChangeService: ConfiguratorAttributePriceChangeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -59,7 +56,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
         },
         {
           provide: ConfiguratorAttributePriceChangeService,
-          useClass: MockConfiguratorDeltaRenderingService,
+          useClass: MockConfiguratorAttributePriceChangeService,
         },
         {
           provide: ConfiguratorStorefrontUtilsService,
@@ -72,12 +69,12 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     classUnderTest = TestBed.inject(
       ConfiguratorAttributeBaseComponent as Type<ConfiguratorAttributeBaseComponent>
     );
-    configuratorDeltaRenderingService = TestBed.inject(
+    configuratorAttributePriceChangeService = TestBed.inject(
       ConfiguratorAttributePriceChangeService as Type<ConfiguratorAttributePriceChangeService>
     );
     spyOn(
-      configuratorDeltaRenderingService,
-      'getPriceChangedEvents'
+      configuratorAttributePriceChangeService,
+      'getChangedPrices'
     ).and.callThrough();
   });
 
@@ -527,15 +524,15 @@ describe('ConfiguratorAttributeBaseComponent', () => {
   describe('$priceChanged', () => {
     it('should emit true immediately, if delta rendering is not initialized', () => {
       let emitted = false;
-      classUnderTest.priceChangedEvent$
+      classUnderTest.changedPrices$
         .subscribe((priceChanged) => {
-          expect(priceChanged).toBe(true);
+          expect(priceChanged).toEqual({});
           emitted = true;
         })
         .unsubscribe();
       expect(emitted).toBe(true);
       expect(
-        configuratorDeltaRenderingService.getPriceChangedEvents
+        configuratorAttributePriceChangeService.getChangedPrices
       ).not.toHaveBeenCalled();
     });
 
@@ -543,15 +540,15 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest['initPriceChangedEvent'](false, 'attrKey');
       let emitted = false;
-      classUnderTest.priceChangedEvent$
+      classUnderTest.changedPrices$
         .subscribe((priceChanged) => {
-          expect(priceChanged).toBe(true);
+          expect(priceChanged).toEqual({});
           emitted = true;
         })
         .unsubscribe();
       expect(emitted).toBe(true);
       expect(
-        configuratorDeltaRenderingService.getPriceChangedEvents
+        configuratorAttributePriceChangeService.getChangedPrices
       ).not.toHaveBeenCalled();
     });
 
@@ -560,48 +557,50 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       classUnderTest['configuratorAttributePriceChangeService'] = null;
       classUnderTest['initPriceChangedEvent'](true, 'attrKey');
       let emitted = false;
-      classUnderTest.priceChangedEvent$
+      classUnderTest.changedPrices$
         .subscribe((priceChanged) => {
-          expect(priceChanged).toBe(true);
+          expect(priceChanged).toEqual({});
           emitted = true;
         })
         .unsubscribe();
       expect(emitted).toBe(true);
       expect(
-        configuratorDeltaRenderingService.getPriceChangedEvents
+        configuratorAttributePriceChangeService.getChangedPrices
       ).not.toHaveBeenCalled();
     });
 
-    it('should emit true immediately, if price changed event is initialized but delta rendering feature flag is deactivated', () => {
+    it('should emit immediately, if price changed event is initialized but delta rendering feature flag is deactivated', () => {
       productConfiguratorDeltaRenderingEnabled = false;
       classUnderTest['initPriceChangedEvent'](true, 'attrKey');
       let emitted = false;
-      classUnderTest.priceChangedEvent$
+      classUnderTest.changedPrices$
         .subscribe((priceChanged) => {
-          expect(priceChanged).toBe(true);
+          expect(priceChanged).toEqual({});
           emitted = true;
         })
         .unsubscribe();
       expect(emitted).toBe(true);
       expect(
-        configuratorDeltaRenderingService.getPriceChangedEvents
+        configuratorAttributePriceChangeService.getChangedPrices
       ).not.toHaveBeenCalled();
     });
 
-    it('should emit false immediately, if price changed event is initialized proper', () => {
+    it('should emit immediately, if price changed event is initialized proper', () => {
       productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest['initPriceChangedEvent'](true, 'attrKey');
       let emitted = false;
       productConfiguratorDeltaRenderingEnabled = true;
-      classUnderTest.priceChangedEvent$
+      classUnderTest.changedPrices$
         .subscribe((priceChanged) => {
-          expect(priceChanged).toBe(false);
+          expect(priceChanged).toEqual({
+            dummy: { value: 10, currencyIso: 'USD' },
+          });
           emitted = true;
         })
         .unsubscribe();
       expect(emitted).toBe(true);
       expect(
-        configuratorDeltaRenderingService.getPriceChangedEvents
+        configuratorAttributePriceChangeService.getChangedPrices
       ).toHaveBeenCalled();
     });
   });
@@ -744,6 +743,29 @@ describe('ConfiguratorAttributeBaseComponent', () => {
           classUnderTest['isValueDisplayed'](currentAttribute, value)
         ).toBe(true);
       });
+    });
+  });
+
+  describe('enrichValueWithPrice', () => {
+    const value: Configurator.Value = { valueCode: 'val', selected: true };
+    it('should return original value if no price is known', () => {
+      expect(classUnderTest.enrichValueWithPrice(value, undefined)).toBe(value);
+    });
+
+    it('should return new value if price is known', () => {
+      const price: Configurator.PriceDetails = {
+        value: 10,
+        currencyIso: 'USD',
+      };
+      type ChangedPrices = Record<string, Configurator.PriceDetails>;
+      const changedPrices: ChangedPrices = {
+        val: price,
+      };
+      const expectedValue = { ...value };
+      expectedValue.valuePrice = price;
+      expect(classUnderTest.enrichValueWithPrice(value, changedPrices)).toEqual(
+        expectedValue
+      );
     });
   });
 });
