@@ -37,7 +37,7 @@ import {
   kahnsAlgorithm,
 } from './graph-utils';
 
-xdescribe('Graph utils', () => {
+describe('Graph utils', () => {
   describe('library dependency graph', () => {
     it('scenario #1 - should be able to find a correct installation order', () => {
       const graph = new Graph([

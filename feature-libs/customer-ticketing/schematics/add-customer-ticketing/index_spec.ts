@@ -23,7 +23,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/customer-ticketing.scss';
 
-xdescribe('Spartacus Customer Ticketing schematics: ng-add', () => {
+describe('Spartacus Customer Ticketing schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_CUSTOMER_TICKETING,
     collectionPath

@@ -42,7 +42,7 @@ import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import { appModulePath, cartBaseFeatureModulePath } from './test-utils';
 
-xdescribe('Import utils', () => {
+describe('Import utils', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     path.join(__dirname, '../../collection.json')
