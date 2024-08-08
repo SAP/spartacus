@@ -811,6 +811,13 @@ describe('OccConfiguratorVariantNormalizer', () => {
       ).toBe(Configurator.UiType.NUMERIC);
     });
 
+    it('should convert date attribute type correctly', () => {
+      sourceAttribute.type = OccConfigurator.UiType.SAP_DATE;
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.SAP_DATE);
+    });
+
     it('should convert read-only attribute type correctly', () => {
       sourceAttribute.type = OccConfigurator.UiType.READ_ONLY;
       expect(
@@ -980,6 +987,48 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(
         occConfiguratorVariantNormalizer['determineCoreUiType'](notKnownUiType)
       ).toBe(notKnownUiType);
+    });
+  });
+
+  describe('compileUserInput', () => {
+    const value = '2025-01-01';
+    const formattedValue = '01/01/2025';
+    const sourceAttribute: OccConfigurator.Attribute = {
+      name: attributeName,
+      key: attributeName,
+      value: value,
+      formattedValue: formattedValue,
+      type: OccConfigurator.UiType.SAP_DATE,
+    };
+    it('should return attribute value in case of date UI type', () => {
+      expect(
+        occConfiguratorVariantNormalizer['compileUserInput'](sourceAttribute)
+      ).toBe(value);
+    });
+    it('should return formatted attribute value in case of readOnly UI type', () => {
+      expect(
+        occConfiguratorVariantNormalizer['compileUserInput']({
+          ...sourceAttribute,
+          type: OccConfigurator.UiType.READ_ONLY,
+        })
+      ).toBe(formattedValue);
+    });
+    it('should default to blank if no value is present for date UI type', () => {
+      expect(
+        occConfiguratorVariantNormalizer['compileUserInput']({
+          ...sourceAttribute,
+          value: undefined,
+        })
+      ).toBe('');
+    });
+    it('should default to blank if no formatted value is present for read-only UI type', () => {
+      expect(
+        occConfiguratorVariantNormalizer['compileUserInput']({
+          ...sourceAttribute,
+          formattedValue: undefined,
+          type: OccConfigurator.UiType.READ_ONLY,
+        })
+      ).toBe('');
     });
   });
 
@@ -1211,6 +1260,15 @@ describe('OccConfiguratorVariantNormalizer', () => {
         attributeDDWithValues
       );
       expect(attributeDDWithValues.incomplete).toBe(true);
+    });
+
+    it('should not touch flag in case uiType is not defined ', () => {
+      //a previous user input is always be part of the domain after a roundtrip
+      attributeDDWithValues.uiType = undefined;
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeDDWithValues
+      );
+      expect(attributeDDWithValues.incomplete).toBe(false);
     });
   });
 
@@ -1754,5 +1812,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
         occConfiguratorVariantNormalizer['isRetractBlocked'](sourceAttribute);
       expect(isRetractBlocked).toBeTruthy();
     });
+  });
+
+  it('should set async pricing flag to true', () => {
+    const result = occConfiguratorVariantNormalizer.convert(configuration);
+    expect(result.isPricingAsync).toBe(true);
   });
 });
