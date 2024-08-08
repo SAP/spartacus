@@ -1,10 +1,13 @@
 <ng-container *ngIf="product$ | async as product">
-  <div class="cx-product-price-container">
+  <div
+    *ngIf="getProductPrice(product) as price"
+    class="cx-product-price-container"
+  >
     <div
       class="cx-product-price"
       [attr.aria-label]="'productDetails.productPrice' | cxTranslate"
     >
-      {{ getProductPrice(product) }}
+      {{ price }}
     </div>
   </div>
 </ng-container>
