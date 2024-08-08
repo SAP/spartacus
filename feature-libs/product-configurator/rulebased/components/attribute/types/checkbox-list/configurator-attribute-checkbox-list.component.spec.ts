@@ -84,14 +84,10 @@ class MockConfiguratorStorefrontUtilsService {
   }
 }
 
-class MockConfiguratorDeltaRenderingService {
-  getPriceChangedEvents(): Observable<boolean> {
-    return of(true);
+class MockConfiguratorAttributePriceChangeService {
+  getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
+    return of([]);
   }
-  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
-    return value;
-  }
-  storeValuePrice(): void {}
 }
 
 describe('ConfiguratorAttributeCheckBoxListComponent', () => {
@@ -106,7 +102,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
         providers: [
           {
             provide: ConfiguratorAttributePriceChangeService,
-            useClass: MockConfiguratorDeltaRenderingService,
+            useClass: MockConfiguratorAttributePriceChangeService,
           },
         ],
       },

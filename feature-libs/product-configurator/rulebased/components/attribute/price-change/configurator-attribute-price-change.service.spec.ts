@@ -68,15 +68,13 @@ describe('ConfiguratorAttributePriceChangeService', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
-  describe('getPriceChangedEvents', () => {
+  describe('getChangedPrices', () => {
     it('should emit always true for the initial rendering/call', () => {
       let emitCounter = 0;
-      classUnderTest
-        .getPriceChangedEvents(undefined)
-        .subscribe((priceChanged) => {
-          expect(priceChanged).toBe(true);
-          emitCounter++;
-        });
+      classUnderTest.getChangedPrices(undefined).subscribe((priceChanged) => {
+        expect(priceChanged).toEqual({});
+        emitCounter++;
+      });
       mockConfig.priceSupplements = undefined;
       configSubject.next(mockConfig);
       expect(emitCounter).toBe(1);
@@ -86,16 +84,15 @@ describe('ConfiguratorAttributePriceChangeService', () => {
     it('should detect price changes during initial rendering/call if supplements are present', () => {
       let emitCounter = 0;
       classUnderTest
-        .getPriceChangedEvents('group1@attribute_1_1')
+        .getChangedPrices('group1@attribute_1_1')
         .subscribe((priceChanged) => {
-          expect(priceChanged).toBe(true);
+          expect(priceChanged['value_1_1']).toBeDefined();
+          expect(priceChanged['value_1_2']).toBeDefined();
+          expect(priceChanged['value_1_3']).toBeDefined();
           emitCounter++;
         });
       configSubject.next(mockConfig);
       expect(emitCounter).toBe(1);
-      expect(classUnderTest['valuePrices']['value_1_1']).toBeDefined();
-      expect(classUnderTest['valuePrices']['value_1_2']).toBeDefined();
-      expect(classUnderTest['valuePrices']['value_1_3']).toBeDefined();
     });
 
     describe('after initial rendering/call', () => {
@@ -108,7 +105,7 @@ describe('ConfiguratorAttributePriceChangeService', () => {
 
       it('should not emit, if config has no price supplements', () => {
         classUnderTest
-          .getPriceChangedEvents(undefined)
+          .getChangedPrices(undefined)
           .pipe(skip(1))
           .subscribe(() => {
             fail('priceChanged observable should not emit!');
@@ -120,7 +117,7 @@ describe('ConfiguratorAttributePriceChangeService', () => {
 
       it('should not emit, if config has no matching price supplements', () => {
         classUnderTest
-          .getPriceChangedEvents('otherAttrKey')
+          .getChangedPrices('otherAttrKey')
           .pipe(skip(1))
           .subscribe(() => {
             fail('priceChanged observable should not emit!');
@@ -132,62 +129,30 @@ describe('ConfiguratorAttributePriceChangeService', () => {
       it('should emit true and store matching value prices, if config has matching price supplements', () => {
         let emitCounter = 0;
         classUnderTest
-          .getPriceChangedEvents('group1@attribute_1_1')
+          .getChangedPrices('group1@attribute_1_1')
           .pipe(skip(1))
           .subscribe((priceChanged) => {
-            expect(priceChanged).toBe(true);
+            expect(priceChanged['value_1_1']).toBeDefined();
+            expect(priceChanged['value_1_2']).toBeDefined();
+            expect(priceChanged['value_1_3']).toBeDefined();
             emitCounter++;
           });
         simulateFirstCall();
         configSubject.next(mockConfig);
         expect(emitCounter).toBe(1);
-        expect(classUnderTest['valuePrices']['value_1_1']).toBeDefined();
-        expect(classUnderTest['valuePrices']['value_1_2']).toBeDefined();
-        expect(classUnderTest['valuePrices']['value_1_3']).toBeDefined();
       });
 
       it('should not emit again if prices are not changed', () => {
         classUnderTest['lastAttributeSupplement'] =
           mockConfig.priceSupplements?.[0];
         classUnderTest
-          .getPriceChangedEvents('group1@attribute_1_1')
+          .getChangedPrices('group1@attribute_1_1')
           .pipe(skip(1))
           .subscribe(() => {
             fail('priceChanged observable should not emit!');
           });
         simulateFirstCall();
         configSubject.next(mockConfig);
-      });
-    });
-  });
-
-  describe('mergePriceIntoValue', () => {
-    it('should create a new object combining value and price if onPriceChanged was called for this value before', () => {
-      const valuePrice = { value: 100, currencyIso: 'USD' };
-      classUnderTest['storeValuePrice']('valueKey', valuePrice);
-      expect(
-        classUnderTest['mergePriceIntoValue']({
-          valueCode: '1223',
-          name: 'valueKey',
-        })
-      ).toEqual({
-        valueCode: '1223',
-        name: 'valueKey',
-        valuePrice: valuePrice,
-      });
-    });
-
-    it('should return just the value if onPriceChanged was NOT called for this value before', () => {
-      const valuePrice = { value: 100, currencyIso: 'USD' };
-      classUnderTest['storeValuePrice']('anotherValueKey', valuePrice);
-      expect(
-        classUnderTest['mergePriceIntoValue']({
-          valueCode: '1223',
-          name: 'valueKey',
-        })
-      ).toEqual({
-        valueCode: '1223',
-        name: 'valueKey',
       });
     });
   });
