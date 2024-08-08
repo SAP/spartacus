@@ -124,6 +124,7 @@ describe('UserRegistrationFormComponent', () => {
         I18nTestingModule,
         FormErrorsModule,
         RouterTestingModule,
+        MockFeatureDirective,
       ],
       declarations: [
         UserRegistrationFormComponent,
