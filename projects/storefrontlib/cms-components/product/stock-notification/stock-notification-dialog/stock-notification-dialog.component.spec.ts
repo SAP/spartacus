@@ -45,13 +45,16 @@ describe('StockNotificationDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [StockNotificationDialogComponent, FocusDirective],
+      declarations: [
+        StockNotificationDialogComponent,
+        FocusDirective,
+        MockFeatureDirective,
+      ],
       imports: [
         I18nTestingModule,
         RouterTestingModule,
         SpinnerModule,
         UrlTestingModule,
-        MockFeatureDirective,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
