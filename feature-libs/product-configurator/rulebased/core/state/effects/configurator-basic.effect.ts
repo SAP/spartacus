@@ -7,7 +7,11 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  LoggerService,
+  normalizeHttpError,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -43,6 +47,7 @@ type updateConfigurationSuccessResultType =
  */
 export class ConfiguratorBasicEffects {
   protected logger = inject(LoggerService);
+  private featureConfigService = inject(FeatureConfigService);
 
   createConfiguration$: Observable<
     | ConfiguratorActions.CreateConfigurationSuccess
@@ -170,7 +175,12 @@ export class ConfiguratorBasicEffects {
         return this.configuratorCommonsConnector.readPriceSummary(payload).pipe(
           map((configuration: Configurator.Configuration) => {
             return new ConfiguratorActions.UpdatePriceSummarySuccess(
-              configuration
+              configuration,
+              {
+                isDeltaRendering: this.featureConfigService.isEnabled(
+                  'productConfiguratorDeltaRendering'
+                ),
+              }
             );
           }),
           catchError((error) => {
