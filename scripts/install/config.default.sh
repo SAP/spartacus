@@ -6,7 +6,7 @@
 # Url of the hybris backend
 # Will replace default host (https://localhost:9002) as a backend endpoint
 # Make sure you specify the full url for the backend (https://[host]:[port]
-BACKEND_URL="OCC_BACKEND_BASE_URL"
+BACKEND_URL="OCC_BACKEND_BASE_URL_VALUE"
 
 # A comma separated list of base sites.
 # When empty, the base sites will not be explicitly specified in spartacus-configuration.module.ts
