@@ -93,7 +93,7 @@ describe('SiteThemeService', () => {
 
   it('should not set active theme', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
-    service.setActive('dark_new');
+    service.setActive('dark_new').subscribe();
     expect(store.dispatch).not.toHaveBeenCalledWith(
       new SiteThemeActions.SetActiveSiteTheme('dark_new')
     );
@@ -101,8 +101,9 @@ describe('SiteThemeService', () => {
 
   it('should return TRUE if a theme is initialized', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
-    service.setActive('dark_new');
-    expect(service.isInitialized()).toBeTruthy();
+    service.setActive('dark_new').subscribe(() => {
+      expect(service.isInitialized()).toBeTruthy();
+    });
   });
 
   it('should return TRUE if the theme is valid', () => {

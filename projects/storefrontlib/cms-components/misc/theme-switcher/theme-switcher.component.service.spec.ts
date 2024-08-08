@@ -25,6 +25,7 @@ describe('ThemeSwitcherComponentService', () => {
     siteThemeService = TestBed.inject(
       SiteThemeService
     ) as jasmine.SpyObj<SiteThemeService>;
+    siteThemeService.setActive.and.returnValue(of(undefined));
   });
 
   it('should be created', () => {

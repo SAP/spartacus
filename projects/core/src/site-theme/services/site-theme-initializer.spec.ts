@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { ConfigInitializerService } from '../../config';
 import createSpy = jasmine.createSpy;
 import { SiteThemeConfig } from '../config/site-theme-config';
@@ -18,7 +18,9 @@ class MockSiteThemeService implements Partial<SiteThemeService> {
   isInitialized() {
     return false;
   }
-  setActive = createSpy().and.stub();
+  setActive(_className: string): Observable<void> {
+    return of(undefined);
+  }
 }
 
 class MockSiteThemePersistenceService
@@ -64,6 +66,7 @@ describe('SiteThemeInitializer', () => {
       BaseSiteService
     ) as jasmine.SpyObj<BaseSiteService>;
     baseSiteService.get.and.returnValue(of({ theme: 'dark' }));
+    spyOn(siteThemeService, 'setActive').and.returnValue(of(undefined));
   });
 
   it('should be created', () => {
@@ -72,6 +75,7 @@ describe('SiteThemeInitializer', () => {
 
   describe('initialize', () => {
     it('should call SiteThemePersistenceService initSync()', () => {
+      spyOn(siteThemeService, 'isInitialized').and.returnValue(false);
       spyOn<any>(initializer, 'setFallbackValue').and.returnValue(of(null));
       initializer.initialize();
       expect(siteThemePersistenceService.initSync).toHaveBeenCalled();
@@ -79,6 +83,7 @@ describe('SiteThemeInitializer', () => {
     });
 
     it('should set default theme is the theme is NOT initialized', () => {
+      spyOn(siteThemeService, 'isInitialized').and.returnValue(false);
       initializer.initialize();
       expect(siteThemeService.setActive).toHaveBeenCalledWith('dark');
     });

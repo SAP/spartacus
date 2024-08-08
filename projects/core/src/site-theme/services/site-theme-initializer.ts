@@ -72,7 +72,7 @@ export class SiteThemeInitializer implements OnDestroy {
       config.siteTheme?.siteThemes?.find((theme) => theme.default)?.className ||
       siteTheme;
     if (!this.siteThemeService.isInitialized() && defaultTheme) {
-      this.siteThemeService.setActive(defaultTheme);
+      this.siteThemeService.setActive(defaultTheme).pipe(take(1)).subscribe();
     }
   }
 

@@ -27,6 +27,9 @@ export class SiteThemeService implements OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+  // init(className: string): Observable<string> {
+
+  // }
 
   getAll(): Observable<SiteTheme[]> {
     return this.store.pipe(
@@ -53,27 +56,22 @@ export class SiteThemeService implements OnDestroy {
   /**
    * Sets the active theme className.
    */
-  setActive(className: string): void {
-    this.subscription.add(
-      this.isValidTheme(className)
-        .pipe(
-          filter((isValid) => isValid),
-          mergeMap(() => {
-            return this.store.pipe(
-              select(SiteThemeSelectors.getActiveSiteTheme),
-              take(1)
-            );
-          })
-        )
-        .subscribe((activeTheme) => {
-          if (activeTheme !== className) {
-            this.store.dispatch(
-              new SiteThemeActions.SetActiveSiteTheme(className)
-            );
-          }
-        })
+  setActive(className: string): Observable<void> {
+    return this.isValidTheme(className).pipe(
+      filter(Boolean),
+      mergeMap(() =>
+        this.store.pipe(select(SiteThemeSelectors.getActiveSiteTheme), take(1))
+      ),
+      tap((activeTheme) => {
+        if (activeTheme !== className) {
+          this._isInitialized = true;
+          this.store.dispatch(
+            new SiteThemeActions.SetActiveSiteTheme(className)
+          );
+        }
+      }),
+      map(() => undefined)
     );
-    this._isInitialized = true;
   }
 
   isValidTheme(className: string): Observable<boolean> {

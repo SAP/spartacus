@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ReplaySubject } from 'rxjs';
+import { of, ReplaySubject } from 'rxjs';
 import { SiteThemePersistenceService } from './site-theme-persistence.service';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { SiteThemeService } from '../facade/site-theme.service';
@@ -38,6 +38,7 @@ describe('SiteThemePersistenceService', () => {
     siteThemeService = TestBed.inject(
       SiteThemeService
     ) as jasmine.SpyObj<SiteThemeService>;
+    siteThemeService.setActive.and.returnValue(of(undefined));
   });
 
   it('should be created', () => {
@@ -60,7 +61,6 @@ describe('SiteThemePersistenceService', () => {
   it('should handle onRead correctly', () => {
     const valueFromStorage = 'dark-theme';
     siteThemeService.isInitialized.and.returnValue(false);
-    siteThemeService.setActive.and.callThrough();
 
     service['onRead'](valueFromStorage);
 
@@ -72,7 +72,6 @@ describe('SiteThemePersistenceService', () => {
     const initialized$ = service['initialized$'];
     const spy = spyOn(initialized$, 'next').and.callThrough();
     const spyComplete = spyOn(initialized$, 'complete').and.callThrough();
-
     service['onRead'](valueFromStorage);
 
     expect(spy).toHaveBeenCalled();
