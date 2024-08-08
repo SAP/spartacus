@@ -92,12 +92,12 @@ context('Merchandising Carousel - Product page', () => {
 
     it('should render products on a PDP page when a carousel item on a PDP page is clicked', () => {
       merchandisingCarousel.clickOnCarouselItem(
-        merchandisingCarousel.STRATEGY_RESPONSE.products[1].id
+        merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
         strategyRequestAlias,
-        merchandisingCarousel.STRATEGY_RESPONSE.products[1].id
+        merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
       );
     });
   });

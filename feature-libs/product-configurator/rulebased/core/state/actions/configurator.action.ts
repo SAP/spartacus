@@ -164,7 +164,7 @@ export class UpdateConfigurationFinalizeSuccess extends StateUtils.EntitySuccess
   }
 }
 
-export class UpdateConfigurationFinalizeFail extends StateUtils.EntitySuccessAction {
+export class UpdateConfigurationFinalizeFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_CONFIGURATION_FINALIZE_FAIL;
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATOR_DATA, payload.owner.key);
@@ -186,8 +186,26 @@ export class UpdatePriceSummaryFail extends StateUtils.EntityFailAction {
 
 export class UpdatePriceSummarySuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_PRICE_SUMMARY_SUCCESS;
-  constructor(public payload: Configurator.Configuration) {
+
+  /** @deprecated the property `isDeltaRendering` will be removed alongside with the feature toggle `productConfiguratorDeltaRendering` */
+  isDeltaRendering: boolean;
+
+  constructor(payload: Configurator.Configuration);
+  /**
+   * @deprecated the `extra` param with `isDeltaRendering` will be removed alongside with the feature toggle `productConfiguratorDeltaRendering`
+   */
+  constructor(
+    payload: Configurator.Configuration,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    extra?: { isDeltaRendering?: boolean }
+  );
+
+  constructor(
+    public payload: Configurator.Configuration,
+    extra?: { isDeltaRendering?: boolean }
+  ) {
     super(CONFIGURATOR_DATA, payload.owner.key);
+    this.isDeltaRendering = extra?.isDeltaRendering ?? false;
   }
 }
 

@@ -45,6 +45,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   requiredConsents: string[] = [];
 
+  get allConsentsLoading$() {
+    return this.allConsentsLoading.asObservable();
+  }
+
   constructor(
     protected userConsentService: UserConsentService,
     protected globalMessageService: GlobalMessageService,
