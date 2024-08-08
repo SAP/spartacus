@@ -7,13 +7,13 @@
 import * as checkout from '../../../helpers/checkout-flow';
 
 describe('Login', () => {
-  const gigyaBaseUrl = 'https://616654787756.eu1.my.gigya-ext.com';
+  const gigyaBaseUrl = 'https://166957287542.eu1.my.gigya-ext.com';
 
   it('should login successfully and redirect to spatarcus storefront home page', () => {
     cy.visit('/login');
     cy.get('.cx-spinner').should('be.visible');
     cy.origin(gigyaBaseUrl, () => {
-      cy.get('[placeholder="Email *"]').type('grace.dongcdc9@sap.com');
+      cy.get('[placeholder="Email *"]').type('grace.dongcdc90@sap.com');
       cy.get('[placeholder="Password *"]').type('Pw4all.');
       cy.get('[type="submit"][data-screenset-roles="instance"]').click();
     }).then(() => {
@@ -33,7 +33,7 @@ describe('Login', () => {
     cy.visit('/login');
     cy.get('.cx-spinner').should('be.visible');
     cy.origin(gigyaBaseUrl, () => {
-      cy.get('[placeholder="Email *"]').type('grace.dongcdc9@sap.com');
+      cy.get('[placeholder="Email *"]').type('grace.dongcdc90@sap.com');
       cy.get('[placeholder="Password *"]').type('Pw4all.');
       cy.get('[type="submit"][data-screenset-roles="instance"]').click();
     }).then(() => {

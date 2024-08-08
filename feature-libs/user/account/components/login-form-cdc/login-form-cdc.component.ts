@@ -39,10 +39,10 @@ export class LoginFormCDCComponent implements OnInit {
 
   initializeOAuthFlow(): void {
     const authConfig = createAuthConfig(
-      'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_l3dMCBwsQX6XopODQlWG7A',
-      'NMywTmkkLHK1KZmZwUa1P4qN',
+      'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_haAyXsKhFEupcUCQ9UPizw',
+      'FeWB0V0Opi2hEL-T21DlUuEO',
       this.baseSite,
-      'openid profile email uid',
+      'openid profile email uid bpId bpDisplayId isB2BCustomer',
       'code'
     );
     this.oauthService.configure(authConfig);
