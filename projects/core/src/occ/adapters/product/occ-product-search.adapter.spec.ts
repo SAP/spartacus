@@ -154,17 +154,29 @@ describe('OccProductSearchAdapter', () => {
   });
 
   describe('searchByCodes', () => {
-    const mockProductsFromCodes: Array<{ code: string }> = [{ code: '123' }, { code: '456' }];
-    const mockSearchConfigFromCodes = { filters: 'code:123,456', pageSize: 100 };
+    const mockProductsFromCodes: Array<{ code: string }> = [
+      { code: '123' },
+      { code: '456' },
+    ];
+    const mockSearchConfigFromCodes = {
+      filters: 'code:123,456',
+      pageSize: 100,
+    };
 
     it('should return products for given codes', () => {
-      spyOn(service, 'search').and.returnValue(of({ products: mockProductsFromCodes }));
+      spyOn(service, 'search').and.returnValue(
+        of({ products: mockProductsFromCodes })
+      );
 
       service.searchByCodes(['123', '456']).subscribe((result) => {
         expect(result.products).toEqual(mockProductsFromCodes);
       });
 
-      expect(service.search).toHaveBeenCalledWith('', mockSearchConfigFromCodes, undefined);
+      expect(service.search).toHaveBeenCalledWith(
+        '',
+        mockSearchConfigFromCodes,
+        undefined
+      );
     });
 
     it('should handle empty input', () => {

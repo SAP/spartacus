@@ -44,11 +44,13 @@ describe('getSelectedProductSearchByCodeStateFactory', () => {
       .select(getSelectedProductSearchByCodeStateFactory({ code, scope }))
       .subscribe((value) => (result = value));
 
-    store.dispatch(new ProductActions.ProductSearchLoadByCodeSuccess({
-      product: product,
-      code: code,
-      scope: scope
-    }));
+    store.dispatch(
+      new ProductActions.ProductSearchLoadByCodeSuccess({
+        product: product,
+        code: code,
+        scope: scope,
+      })
+    );
 
     expect(result.value).toEqual(product);
   });

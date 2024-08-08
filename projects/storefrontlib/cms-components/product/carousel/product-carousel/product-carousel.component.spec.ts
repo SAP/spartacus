@@ -15,7 +15,7 @@ import {
   Product,
   ProductScope,
   ProductService,
-  ProductSearchByCodeService
+  ProductSearchByCodeService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
@@ -146,7 +146,9 @@ class MockFeatureConfigService {
   }
 }
 
-class MockProductSearchByCodeService implements Partial<ProductSearchByCodeService> {
+class MockProductSearchByCodeService
+  implements Partial<ProductSearchByCodeService>
+{
   get({ code, scope }: { code: string; scope: string }) {
     return of(mockProductsFromSearchByCodes[code][scope]);
   }
@@ -194,8 +196,12 @@ describe('ProductCarouselComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductCarouselComponent);
     component = fixture.componentInstance;
-    featureConfigService = TestBed.inject(FeatureConfigService) as MockFeatureConfigService;
-    productSearchByCodeService = TestBed.inject(ProductSearchByCodeService) as MockProductSearchByCodeService;
+    featureConfigService = TestBed.inject(
+      FeatureConfigService
+    ) as MockFeatureConfigService;
+    productSearchByCodeService = TestBed.inject(
+      ProductSearchByCodeService
+    ) as MockProductSearchByCodeService;
     fixture.detectChanges();
   });
 
@@ -235,9 +241,17 @@ describe('ProductCarouselComponent', () => {
     spyOn(productSearchByCodeService, 'get').and.callThrough();
 
     component.items$.subscribe((items) => {
-      expect(featureConfigService.isEnabled).toHaveBeenCalledWith('productCarouselUseBatchApi');
-      expect(productSearchByCodeService.get).toHaveBeenCalledWith({ code: '1', scope: 'carouselMinimal' });
-      expect(productSearchByCodeService.get).toHaveBeenCalledWith({ code: '2', scope: 'carouselMinimal' });
+      expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+        'productCarouselUseBatchApi'
+      );
+      expect(productSearchByCodeService.get).toHaveBeenCalledWith({
+        code: '1',
+        scope: 'carouselMinimal',
+      });
+      expect(productSearchByCodeService.get).toHaveBeenCalledWith({
+        code: '2',
+        scope: 'carouselMinimal',
+      });
       expect(items?.length).toBe(2);
       done();
     });
@@ -263,8 +277,12 @@ describe('ProductCarouselComponent', () => {
       TestBed.compileComponents();
       fixture = TestBed.createComponent(ProductCarouselComponent);
       component = fixture.componentInstance;
-      featureConfigService = TestBed.inject(FeatureConfigService) as MockFeatureConfigService;
-      productSearchByCodeService = TestBed.inject(ProductSearchByCodeService) as MockProductSearchByCodeService;
+      featureConfigService = TestBed.inject(
+        FeatureConfigService
+      ) as MockFeatureConfigService;
+      productSearchByCodeService = TestBed.inject(
+        ProductSearchByCodeService
+      ) as MockProductSearchByCodeService;
       fixture.detectChanges();
     });
 
@@ -290,14 +308,20 @@ describe('ProductCarouselComponent', () => {
       spyOn(productSearchByCodeService, 'get').and.callThrough();
 
       component.items$.subscribe((items) => {
-        expect(featureConfigService.isEnabled).toHaveBeenCalledWith('productCarouselUseBatchApi');
-        expect(productSearchByCodeService.get).toHaveBeenCalledWith({ code: '1', scope: 'carousel' });
-        expect(productSearchByCodeService.get).toHaveBeenCalledWith({ code: '2', scope: 'carousel' });
+        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+          'productCarouselUseBatchApi'
+        );
+        expect(productSearchByCodeService.get).toHaveBeenCalledWith({
+          code: '1',
+          scope: 'carousel',
+        });
+        expect(productSearchByCodeService.get).toHaveBeenCalledWith({
+          code: '2',
+          scope: 'carousel',
+        });
         expect(items?.length).toBe(2);
         done();
       });
     });
-
   });
-
 });

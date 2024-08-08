@@ -8,7 +8,6 @@ import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { LoggerService } from '../../../logger/logger.service';
 import { AuthActions, normalizeHttpError } from '@spartacus/core';
 
-
 describe('ProductSearchByCodeEffects', () => {
   let actions$: Observable<any>;
   let effects: ProductSearchByCodeEffects;
@@ -16,7 +15,9 @@ describe('ProductSearchByCodeEffects', () => {
   let logger: jasmine.SpyObj<LoggerService>;
 
   beforeEach(() => {
-    productSearchConnector = jasmine.createSpyObj('ProductSearchConnector', ['searchByCodes']);
+    productSearchConnector = jasmine.createSpyObj('ProductSearchConnector', [
+      'searchByCodes',
+    ]);
     logger = jasmine.createSpyObj('LoggerService', ['error']);
 
     TestBed.configureTestingModule({
@@ -32,8 +33,15 @@ describe('ProductSearchByCodeEffects', () => {
   });
 
   it('should load products by codes successfully', () => {
-    const action = new ProductActions.ProductSearchLoadByCode({ code: '123', scope: 'test' });
-    const completion = new ProductActions.ProductSearchLoadByCodeSuccess({ code: '123', scope: 'test', product: { code: '123' } });
+    const action = new ProductActions.ProductSearchLoadByCode({
+      code: '123',
+      scope: 'test',
+    });
+    const completion = new ProductActions.ProductSearchLoadByCodeSuccess({
+      code: '123',
+      scope: 'test',
+      product: { code: '123' },
+    });
 
     actions$ = hot('-a-', { a: action });
     const response = cold('-a|', { a: { products: [{ code: '123' }] } });
@@ -41,13 +49,22 @@ describe('ProductSearchByCodeEffects', () => {
 
     const expected = cold('--b', { b: completion });
 
-    expect(effects.searchByCodes$({ scheduler: getTestScheduler() })).toBeObservable(expected);
+    expect(
+      effects.searchByCodes$({ scheduler: getTestScheduler() })
+    ).toBeObservable(expected);
   });
 
   it('should handle error when loading products by codes', () => {
-    const action = new ProductActions.ProductSearchLoadByCode({ code: '123', scope: 'test' });
+    const action = new ProductActions.ProductSearchLoadByCode({
+      code: '123',
+      scope: 'test',
+    });
     const error = normalizeHttpError('Error loading products', logger);
-    const completion = new ProductActions.ProductSearchLoadByCodeFail({code: '123', scope: 'test', error });
+    const completion = new ProductActions.ProductSearchLoadByCodeFail({
+      code: '123',
+      scope: 'test',
+      error,
+    });
 
     actions$ = hot('-a-', { a: action });
     const response = cold('-#|', {}, error);
@@ -55,7 +72,9 @@ describe('ProductSearchByCodeEffects', () => {
 
     const expected = cold('--b', { b: completion });
 
-    expect(effects.searchByCodes$({ scheduler: getTestScheduler() })).toBeObservable(expected);
+    expect(
+      effects.searchByCodes$({ scheduler: getTestScheduler() })
+    ).toBeObservable(expected);
   });
 
   it('should clear state on logout', () => {
@@ -77,6 +96,4 @@ describe('ProductSearchByCodeEffects', () => {
 
     expect(effects.clearState$).toBeObservable(expected);
   });
-
-
 });

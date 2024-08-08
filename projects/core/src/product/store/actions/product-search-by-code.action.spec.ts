@@ -1,14 +1,15 @@
-import * as fromProductSearchByCode  from './product-search-by-code.action';
+import * as fromProductSearchByCode from './product-search-by-code.action';
 import { PRODUCT_SEARCH_RESULTS_BY_CODES_ENTITY } from '../product-state';
 import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
 import { StateUtils } from '@spartacus/core';
 
 describe('ProductSearchLoadByCode Actions', () => {
-
   describe('ProductSearchLoadByCode', () => {
     it('should create an action', () => {
       const payload = { code: 'testCode', scope: 'testScope' };
-      const action = new fromProductSearchByCode.ProductSearchLoadByCode(payload);
+      const action = new fromProductSearchByCode.ProductSearchLoadByCode(
+        payload
+      );
       expect({ ...action }).toEqual({
         type: fromProductSearchByCode.PRODUCT_SEARCH_LOAD_BY_CODE,
         payload: payload,
@@ -23,8 +24,14 @@ describe('ProductSearchLoadByCode Actions', () => {
 
   describe('ProductSearchLoadByCodeSuccess', () => {
     it('should create an action', () => {
-      const payload = { product: { code: 'testCode' }, code: 'testCode', scope: 'testScope' };
-      const action = new fromProductSearchByCode.ProductSearchLoadByCodeSuccess(payload);
+      const payload = {
+        product: { code: 'testCode' },
+        code: 'testCode',
+        scope: 'testScope',
+      };
+      const action = new fromProductSearchByCode.ProductSearchLoadByCodeSuccess(
+        payload
+      );
       expect({ ...action }).toEqual({
         type: fromProductSearchByCode.PRODUCT_SEARCH_LOAD_BY_CODE_SUCCESS,
         payload: payload.product,
@@ -39,8 +46,14 @@ describe('ProductSearchLoadByCode Actions', () => {
 
   describe('ProductSearchLoadByCodeFail', () => {
     it('should create an action', () => {
-      const payload = { code: 'testCode', scope: 'testScope', error: 'someError' };
-      const action = new fromProductSearchByCode.ProductSearchLoadByCodeFail(payload);
+      const payload = {
+        code: 'testCode',
+        scope: 'testScope',
+        error: 'someError',
+      };
+      const action = new fromProductSearchByCode.ProductSearchLoadByCodeFail(
+        payload
+      );
       expect({ ...action }).toEqual({
         type: fromProductSearchByCode.PRODUCT_SEARCH_LOAD_BY_CODE_FAIL,
         meta: EntityScopedLoaderActions.entityScopedFailMeta(
@@ -55,12 +68,14 @@ describe('ProductSearchLoadByCode Actions', () => {
 
   describe('ClearProductSearchByCodeState', () => {
     it('should create an action', () => {
-      const action = new fromProductSearchByCode.ClearProductSearchByCodeState();
+      const action =
+        new fromProductSearchByCode.ClearProductSearchByCodeState();
       expect({ ...action }).toEqual({
         type: fromProductSearchByCode.CLEAR_PRODUCT_SEARCH_BY_CODE_STATE,
-        meta: StateUtils.entityRemoveAllMeta(PRODUCT_SEARCH_RESULTS_BY_CODES_ENTITY),
+        meta: StateUtils.entityRemoveAllMeta(
+          PRODUCT_SEARCH_RESULTS_BY_CODES_ENTITY
+        ),
       });
     });
   });
-
 });

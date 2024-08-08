@@ -13,27 +13,32 @@ import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductSearchByCodeService {
-  constructor(protected store: Store<StateWithProduct>) {
-  }
+  constructor(protected store: Store<StateWithProduct>) {}
 
   load({ code, scope }: { code: string; scope?: string }): void {
     this.store.dispatch(
       new ProductActions.ProductSearchLoadByCode({
         code,
-        scope: scope ?? ''
+        scope: scope ?? '',
       })
     );
   }
 
-  get({ code, scope }: { code: string; scope?: string; }): Observable<Product | undefined> {
+  get({
+    code,
+    scope,
+  }: {
+    code: string;
+    scope?: string;
+  }): Observable<Product | undefined> {
     const state$ = this.store.pipe(
       select(
         ProductSelectors.getSelectedProductSearchByCodeStateFactory({
           code,
-          scope: scope ?? ''
+          scope: scope ?? '',
         })
       )
     );

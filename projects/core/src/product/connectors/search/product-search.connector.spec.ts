@@ -13,8 +13,8 @@ class MockProductSearchAdapter implements ProductSearchAdapter {
     'ProductSearchAdapter.loadSuggestions'
   ).and.callFake((term) => of('term:' + term));
 
-  searchByCodes = createSpy('ProductSearchAdapter.searchByCodes').and.callFake((codes, scope) =>
-    of({ products: codes.map(code => ({ code, scope })) })
+  searchByCodes = createSpy('ProductSearchAdapter.searchByCodes').and.callFake(
+    (codes, scope) => of({ products: codes.map((code) => ({ code, scope })) })
   );
 }
 
@@ -40,14 +40,28 @@ describe('ProductSearchConnector', () => {
     let result;
     service.search('test query').subscribe((res) => (result = res));
     expect(result).toBe('search:test query');
-    expect(adapter.search).toHaveBeenCalledWith('test query', undefined, undefined);
+    expect(adapter.search).toHaveBeenCalledWith(
+      'test query',
+      undefined,
+      undefined
+    );
   });
 
   it('searchByCodes should call adapter', () => {
     let result;
-    service.searchByCodes(['code1', 'code2']).subscribe((res) => (result = res));
-    expect(result).toEqual({ products: [{ code: 'code1', scope: undefined }, { code: 'code2', scope: undefined }] });
-    expect(adapter.searchByCodes).toHaveBeenCalledWith(['code1', 'code2'], undefined);
+    service
+      .searchByCodes(['code1', 'code2'])
+      .subscribe((res) => (result = res));
+    expect(result).toEqual({
+      products: [
+        { code: 'code1', scope: undefined },
+        { code: 'code2', scope: undefined },
+      ],
+    });
+    expect(adapter.searchByCodes).toHaveBeenCalledWith(
+      ['code1', 'code2'],
+      undefined
+    );
   });
 
   it('getSuggestions should call adapter', () => {

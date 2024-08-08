@@ -9,7 +9,6 @@ import { lastValueFrom, of } from 'rxjs';
 import { Product } from '@spartacus/core';
 import * as ngrxStore from '@ngrx/store';
 
-
 fdescribe('ProductSearchByCodeService', () => {
   let service: ProductSearchByCodeService;
   let store: Store<StateWithProduct>;
@@ -37,9 +36,7 @@ fdescribe('ProductSearchByCodeService', () => {
           fromStoreReducers.getReducers()
         ),
       ],
-      providers: [
-        ProductSearchByCodeService,
-      ],
+      providers: [ProductSearchByCodeService],
     });
 
     service = TestBed.inject(ProductSearchByCodeService);
@@ -79,16 +76,20 @@ fdescribe('ProductSearchByCodeService', () => {
       () => () => of(mockProduct)
     );
 
-    const result: Product = await lastValueFrom(service.get({code, scope}));
+    const result: Product = await lastValueFrom(service.get({ code, scope }));
     expect(result).toEqual(mockProduct);
-
   });
 
   xit('should call load if state is not loading, success, or error', () => {
     //TODO: Need help to fix the test
     const code = 'testCode';
     const scope = 'testScope';
-    const mockState = { loading: false, success: false, error: false, value: undefined };
+    const mockState = {
+      loading: false,
+      success: false,
+      error: false,
+      value: undefined,
+    };
 
     spyOn(service, 'load');
     spyOn(store, 'pipe').and.returnValue(of(mockState));
@@ -99,5 +100,4 @@ fdescribe('ProductSearchByCodeService', () => {
     // expect(service.load).toHaveBeenCalledWith({ code, scope });
     expect(store.pipe).toHaveBeenCalled();
   });
-
 });

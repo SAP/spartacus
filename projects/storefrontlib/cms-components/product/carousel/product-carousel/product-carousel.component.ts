@@ -11,7 +11,7 @@ import {
   Product,
   ProductScope,
   ProductService,
-  ProductSearchByCodeService
+  ProductSearchByCodeService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -23,8 +23,11 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCarouselComponent {
-  private featureConfigService: FeatureConfigService = inject(FeatureConfigService);
-  protected productSearchByCodeService: ProductSearchByCodeService = inject(ProductSearchByCodeService);
+  private featureConfigService: FeatureConfigService =
+    inject(FeatureConfigService);
+  protected productSearchByCodeService: ProductSearchByCodeService = inject(
+    ProductSearchByCodeService
+  );
   protected readonly PRODUCT_SCOPE = [ProductScope.LIST, ProductScope.STOCK];
 
   protected readonly PRODUCT_SCOPE_ITEM = [ProductScope.LIST_ITEM];
@@ -56,17 +59,17 @@ export class ProductCarouselComponent {
       }),
       map(({ componentMappingExist, codes }) => {
         if (this.featureConfigService.isEnabled('productCarouselUseBatchApi')) {
-          const scope = componentMappingExist
-            ? 'carousel'
-            : 'carouselMinimal';
-          return codes.map((code:string) =>
-            this.productSearchByCodeService.get({code, scope})
+          const scope = componentMappingExist ? 'carousel' : 'carouselMinimal';
+          return codes.map((code: string) =>
+            this.productSearchByCodeService.get({ code, scope })
           );
         } else {
           const productScope = componentMappingExist
             ? [...this.PRODUCT_SCOPE]
             : [...this.PRODUCT_SCOPE_ITEM];
-          return codes.map((code:string) => this.productService.get(code, productScope));
+          return codes.map((code: string) =>
+            this.productService.get(code, productScope)
+          );
         }
       })
     );

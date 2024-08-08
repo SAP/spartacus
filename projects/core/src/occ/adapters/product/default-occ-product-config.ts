@@ -36,8 +36,10 @@ export const defaultOccProductConfig: OccConfig = {
         productSearch: {
           default:
             'products/search?fields=products(code,name,summary,configurable,configuratorType,multidimensional,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions,baseProduct),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery,keywordRedirectUrl',
-          carousel:'products/search?fields=products(code,purchasable,name,summary,price(formattedValue),stock(DEFAULT),images(DEFAULT,galleryIndex),baseProduct)',
-          carouselMinimal:'products/search?fields=products(code,name,price(formattedValue),images(DEFAULT),baseProduct)',
+          carousel:
+            'products/search?fields=products(code,purchasable,name,summary,price(formattedValue),stock(DEFAULT),images(DEFAULT,galleryIndex),baseProduct)',
+          carouselMinimal:
+            'products/search?fields=products(code,name,price(formattedValue),images(DEFAULT),baseProduct)',
         },
         /* eslint-enable */
         productSuggestions: 'products/suggestions',
