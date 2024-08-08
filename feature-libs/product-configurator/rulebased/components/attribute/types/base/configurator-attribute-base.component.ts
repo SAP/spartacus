@@ -69,6 +69,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Creates unique key for config value on the UI
+   *
    * @param prefix for key depending on usage (e.g. uiType, label)
    * @param attributeId
    * @param valueId
@@ -87,6 +88,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Creates unique key for config value to be sent to configurator
+   *
    * @param currentAttribute
    * @param value
    */
@@ -109,6 +111,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Creates unique key for config attribute on the UI
+   *
    * @param prefix for key depending on usage (e.g. uiType, label)
    * @param attributeId
    */
@@ -124,6 +127,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Creates unique key for config attribute to be sent to configurator
+   *
    * @param currentAttribute
    */
   createAttributeIdForConfigurator(
@@ -137,6 +141,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Creates unique key for attribute 'aria-labelledby'
+   *
    * @param prefix
    * @param attributeId
    * @param valueId
@@ -182,6 +187,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Creates a unique key for focus handling for the given attribute and value
+   *
    * @param attributeId
    * @param valueCode
    * @returns focus key
@@ -241,6 +247,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Fetches the first image for a given value
+   *
    * @param value Value
    * @returns Image
    */
@@ -327,6 +334,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Checks if attribute type allows additional values
+   *
    * @param attribute Attribute
    * @returns true if attribute type allows to enter additional values
    */
@@ -459,7 +467,7 @@ export class ConfiguratorAttributeBaseComponent {
    * @return new price formula
    */
   extractValuePriceFormulaParameters(
-    value?: Configurator.Value
+    value: Configurator.Value | undefined
   ): ConfiguratorPriceComponentOptions {
     return {
       quantity: value?.quantity,
