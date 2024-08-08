@@ -153,6 +153,12 @@ export class OpfGooglePayService {
   }
 
   isReadyToPay() {
+    console.log('run');
+    this.opfCartHandlerService
+      .setCartDeliveryAddress('00000000111111VB', {
+        town: 'test',
+      })
+      .subscribe();
     return this.googlePaymentClient.isReadyToPay(
       this.googlePaymentRequest
     ) as any;
@@ -200,7 +206,7 @@ export class OpfGooglePayService {
 
   private setDeliveryAddress(
     address: google.payments.api.Address | undefined
-  ): Observable<string> {
+  ): Observable<Cart | string> {
     const deliveryAddress = this.convertAddress(address);
 
     if (
@@ -208,10 +214,13 @@ export class OpfGooglePayService {
       OpfQuickBuyDeliveryType.SHIPPING
     ) {
       return this.opfCartHandlerService
-        .setDeliveryAddress(deliveryAddress)
+        .setCartDeliveryAddress(
+          this.opfCartHandlerService.getCartId(),
+          deliveryAddress
+        )
         .pipe(
-          tap((addressId) => {
-            this.associateAddressId(addressId);
+          tap((cart) => {
+            console.log(cart);
           })
         );
     } else {
@@ -228,7 +237,7 @@ export class OpfGooglePayService {
   }
 
   setDeliveryMode(
-    mode?: string,
+    mode?: string | any,
     type?: OpfQuickBuyDeliveryType
   ): Observable<DeliveryMode | undefined> {
     if (type === OpfQuickBuyDeliveryType.PICKUP) {
@@ -240,7 +249,10 @@ export class OpfGooglePayService {
     }
 
     return mode && this.verifyShippingOption(mode)
-      ? this.opfCartHandlerService.setDeliveryMode(mode)
+      ? this.opfCartHandlerService.setCartDeliveryMode(
+          this.opfCartHandlerService.getCartId(),
+          {}
+        )
       : of(undefined);
   }
 
@@ -368,14 +380,7 @@ export class OpfGooglePayService {
         })
       )
       .subscribe(() => {
-        this.googlePaymentClient
-          .loadPaymentData(this.googlePaymentRequest)
-          .catch((err) => {
-            // If err.statusCode === 'CANCELED' it means that customer closed popup
-            if (err.statusCode === 'CANCELED') {
-              this.loadInitialCartAndCleanAddresses();
-            }
-          });
+        this.googlePaymentClient.loadPaymentData(this.googlePaymentRequest);
       });
   }
 
@@ -386,20 +391,6 @@ export class OpfGooglePayService {
         buttonSizeMode: 'fill',
       })
     );
-  }
-
-  protected loadInitialCartAndCleanAddresses(orderSuccess = false): void {
-    this.opfCartHandlerService
-      .loadCartAfterSingleProductTransaction(
-        this.transactionDetails,
-        orderSuccess
-      )
-      .pipe(take(1))
-      .subscribe({
-        next: () => {
-          this.deleteAssociatedAddresses();
-        },
-      });
   }
 
   private handlePaymentCallbacks(): google.payments.api.PaymentDataCallbacks {
@@ -435,7 +426,6 @@ export class OpfGooglePayService {
             })
           )
         ).then((isSuccess) => {
-          this.loadInitialCartAndCleanAddresses(isSuccess);
           return { transactionState: isSuccess ? 'SUCCESS' : 'ERROR' };
         });
       },
@@ -445,16 +435,21 @@ export class OpfGooglePayService {
           this.setDeliveryAddress(intermediatePaymentData.shippingAddress).pipe(
             switchMap(() => this.getShippingOptionParameters()),
             switchMap((shippingOptions) => {
-              const selectedMode =
-                this.verifyShippingOption(
-                  intermediatePaymentData.shippingOptionData?.id
-                ) ?? shippingOptions?.defaultSelectedOptionId;
+              console.log(shippingOptions);
+              // const selectedMode =
+              //   this.verifyShippingOption(
+              //     intermediatePaymentData.shippingOptionData?.id
+              //   ) ?? shippingOptions?.defaultSelectedOptionId;
 
-              return this.setDeliveryMode(selectedMode).pipe(
+              return this.setDeliveryMode({}).pipe(
                 switchMap(() =>
                   forkJoin([
-                    this.opfCartHandlerService.getCurrentCart(),
-                    this.opfCartHandlerService.getSelectedDeliveryMode(),
+                    this.opfCartHandlerService.getCart(
+                      this.opfCartHandlerService.getCartId()
+                    ),
+                    this.opfCartHandlerService.getCartDeliveryMode(
+                      this.opfCartHandlerService.getCartId()
+                    ),
                   ])
                 ),
                 switchMap(([cart, mode]) => {
@@ -502,15 +497,6 @@ export class OpfGooglePayService {
 
   protected resetAssociatedAddresses(): void {
     this.transactionDetails.addressIds = [];
-  }
-
-  protected deleteAssociatedAddresses(): void {
-    if (this.transactionDetails.addressIds?.length) {
-      this.opfCartHandlerService.deleteUserAddresses(
-        this.transactionDetails.addressIds
-      );
-      this.resetAssociatedAddresses();
-    }
   }
 
   protected getFirstAndLastName(name: string) {

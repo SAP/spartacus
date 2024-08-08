@@ -9,11 +9,8 @@ import {
   ActiveCartFacade,
   Cart,
   CartType,
-  DeleteCartFailEvent,
-  DeleteCartSuccessEvent,
   DeliveryMode,
   MultiCartFacade,
-  OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
   CheckoutBillingAddressFacade,
@@ -31,18 +28,9 @@ import {
   CartHandlerState,
   OpfGlobalMessageService,
   OpfMiniCartComponentService,
-  OpfQuickBuyLocation,
-  QuickBuyTransactionDetails,
 } from '@spartacus/opf/base/root';
-import {
-  Observable,
-  combineLatest,
-  forkJoin,
-  merge,
-  of,
-  throwError,
-} from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { Observable, combineLatest, throwError } from 'rxjs';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -98,36 +86,17 @@ export class OpfCartHandlerService {
             quantity,
             pickupStore
           );
-          return this.checkStableCart(this.cartHandlerState.cartId);
+          return this.isCartStable(this.cartHandlerState.cartId);
         }),
         switchMap(() => {
           this.multiCartFacade.loadCart({
             cartId: this.cartHandlerState.cartId,
             userId: this.cartHandlerState.userId,
-            extraData: { active: true },
+            extraData: { active: false },
           });
-          return this.checkStableCart(this.cartHandlerState.cartId);
+          return this.isCartStable(this.cartHandlerState.cartId);
         })
       );
-  }
-
-  protected addProductToActiveCart(
-    productCode: string,
-    quantity: number,
-    pickupStore?: string | undefined
-  ): Observable<boolean> {
-    this.activeCartFacade.addEntry(productCode, quantity, pickupStore);
-    return this.checkStableCart().pipe(
-      switchMap(() => this.getCurrentCartId()),
-      map((cartId) => {
-        this.cartHandlerState.cartId = cartId;
-        return true;
-      })
-    );
-  }
-
-  blockMiniCartComponentUpdate(decision: boolean) {
-    this.opfMiniCartComponentService.blockUpdate(decision);
   }
 
   addProductToCart(
@@ -142,66 +111,17 @@ export class OpfCartHandlerService {
       this.activeCartFacade.isStable(),
     ]).pipe(
       take(1),
-      tap(() => this.blockMiniCartComponentUpdate(true)),
       switchMap(([userId, cartId, _]) => {
         this.cartHandlerState.userId = userId;
-        if (cartId) {
-          return this.addProductToNewCart(
-            productCode,
-            quantity,
-            cartId,
-            pickupStore
-          );
-        }
-        return this.addProductToActiveCart(
+
+        return this.addProductToNewCart(
           productCode,
           quantity,
+          cartId,
           pickupStore
-        ).pipe(take(1));
+        );
       })
     );
-  }
-
-  loadOriginalCart(): Observable<boolean> {
-    if (!this.cartHandlerState.previousCartId) {
-      this.opfMiniCartComponentService.blockUpdate(false);
-      return of(false);
-    }
-    this.multiCartFacade.loadCart({
-      cartId: this.cartHandlerState.previousCartId,
-      userId: this.cartHandlerState.userId,
-      extraData: { active: true },
-    });
-    return this.activeCartFacade.getActiveCartId().pipe(
-      filter((cartId) => cartId === this.cartHandlerState.previousCartId),
-      take(1),
-      switchMap(() => {
-        return forkJoin({
-          activeCartStable: this.checkStableCart(
-            this.cartHandlerState.previousCartId
-          ),
-          staleCartStable: this.checkStableCart(this.cartHandlerState.cartId),
-        });
-      }),
-      map(() => true),
-      tap(() => this.blockMiniCartComponentUpdate(false))
-    );
-  }
-
-  checkStableCart(cartId?: string): Observable<boolean> {
-    return cartId
-      ? this.multiCartFacade.isStable(cartId).pipe(
-          filter((isStable) => !!isStable),
-          take(1)
-        )
-      : this.activeCartFacade.isStable().pipe(
-          filter((isStable) => !!isStable),
-          take(1)
-        );
-  }
-
-  getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
-    return this.checkoutDeliveryModesFacade.getSupportedDeliveryModes();
   }
 
   setDeliveryAddress(address: Address): Observable<string> {
@@ -209,7 +129,7 @@ export class OpfCartHandlerService {
       'addressForm.userAddressAddSuccess',
     ]);
     return this.checkoutDeliveryAddressFacade.createAndSetAddress(address).pipe(
-      switchMap(() => this.checkStableCart()),
+      switchMap(() => this.isCartStable()),
       switchMap(() =>
         this.getDeliveryAddress().pipe(
           map((addr: Address | undefined) => addr?.id ?? '')
@@ -221,7 +141,7 @@ export class OpfCartHandlerService {
   setBillingAddress(address: Address): Observable<boolean> {
     return this.checkoutBillingAddressFacade
       .setBillingAddress(address)
-      .pipe(switchMap(() => this.checkStableCart()));
+      .pipe(switchMap(() => this.isCartStable()));
   }
 
   getDeliveryAddress(): Observable<Address | undefined> {
@@ -272,96 +192,63 @@ export class OpfCartHandlerService {
       map((state: QueryState<DeliveryMode | undefined>) => state.data)
     );
   }
+  deleteUserAddress(addressId: string): void {
+    this.userAddressService.deleteUserAddress(addressId);
+  }
 
-  deleteUserAddresses(addrIds: string[]): void {
-    this.opfGlobalMessageService.disableGlobalMessage([
-      'addressForm.userAddressDeleteSuccess',
-    ]);
-    addrIds.forEach((addrId) => {
-      this.userAddressService.deleteUserAddress(addrId);
+  getCart(cartId: string): Observable<Cart> {
+    return this.multiCartFacade.getCart(cartId);
+  }
+
+  getCartId(): string {
+    console.log('CarId from service: ', this.cartHandlerState.cartId);
+    return this.cartHandlerState.cartId;
+  }
+
+  isCartStable(cartId?: string): Observable<boolean> {
+    return (
+      cartId
+        ? this.multiCartFacade.isStable(cartId)
+        : this.activeCartFacade.isStable()
+    ).pipe(
+      filter((isStable) => !!isStable),
+      take(1)
+    );
+  }
+
+  getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
+    return this.checkoutDeliveryModesFacade.getSupportedDeliveryModes();
+  }
+
+  getCartDeliveryMode(cartId: string): Observable<DeliveryMode | undefined> {
+    return this.multiCartFacade.getCart(cartId).pipe(
+      filter((cart: Cart) => !!cart.deliveryMode),
+      map((cart: Cart) => cart.deliveryMode)
+    );
+  }
+
+  setCartDeliveryMode(
+    cartId: string,
+    deliveryMode: DeliveryMode
+  ): Observable<Cart> {
+    return this.multiCartFacade.updateCart(cartId, {
+      deliveryMode: deliveryMode,
     });
   }
 
-  deleteStaleCart(): Observable<boolean> {
-    if (!this.cartHandlerState.cartId || !this.cartHandlerState.userId) {
-      return of(false);
-    }
-
-    this.multiCartFacade.deleteCart(
-      this.cartHandlerState.cartId,
-      this.cartHandlerState.userId
+  getCartDeliveryAddress(cartId: string): Observable<Address | undefined> {
+    return this.multiCartFacade.getCart(cartId).pipe(
+      filter((cart: Cart) => !!cart.deliveryAddress),
+      map((cart: Cart) => cart.deliveryAddress)
     );
-
-    return merge(
-      this.eventService.get(DeleteCartSuccessEvent).pipe(map(() => true)),
-      this.eventService.get(DeleteCartFailEvent).pipe(map(() => false))
-    ).pipe(take(1));
   }
 
-  removeProductFromOriginalCart(
-    productCode: string,
-    quantity: number
-  ): Observable<boolean> {
-    if (
-      !this.cartHandlerState.previousCartId ||
-      !this.cartHandlerState.userId
-    ) {
-      return of(false);
-    }
-    return this.multiCartFacade
-      .getEntry(this.cartHandlerState.previousCartId, productCode)
-      .pipe(
-        map((entry: OrderEntry | undefined) => {
-          if (!entry || !entry?.quantity || entry?.entryNumber === undefined) {
-            return false;
-          }
-          if (entry.quantity <= quantity) {
-            this.multiCartFacade.removeEntry(
-              this.cartHandlerState.userId,
-              this.cartHandlerState.previousCartId,
-              entry.entryNumber
-            );
-            return true;
-          }
-
-          this.multiCartFacade.updateEntry(
-            this.cartHandlerState.userId,
-            this.cartHandlerState.previousCartId,
-            entry.entryNumber,
-            entry.quantity - quantity
-          );
-          return true;
-        })
-      );
-  }
-
-  loadCartAfterSingleProductTransaction(
-    transactionDetails: QuickBuyTransactionDetails,
-    orderSuccess = false
-  ): Observable<boolean> {
-    if (transactionDetails.context === OpfQuickBuyLocation.PRODUCT) {
-      return this.loadOriginalCart().pipe(
-        switchMap((cartLoaded) => {
-          // No initial cart and order placed successfully: don't delete cart as done oob
-          if (!cartLoaded && orderSuccess) {
-            return of(true);
-          }
-          if (
-            cartLoaded &&
-            orderSuccess &&
-            transactionDetails?.product?.code &&
-            transactionDetails?.quantity
-          ) {
-            return this.removeProductFromOriginalCart(
-              transactionDetails?.product?.code,
-              transactionDetails?.quantity
-            );
-          }
-          return this.deleteStaleCart();
-        }),
-        take(1)
-      );
-    }
-    return of(false);
+  setCartDeliveryAddress(
+    cartId: string,
+    deliveryAddress: Address
+  ): Observable<Cart> {
+    return this.multiCartFacade.updateCart(cartId, {
+      deliveryAddress: deliveryAddress,
+    });
   }
 }

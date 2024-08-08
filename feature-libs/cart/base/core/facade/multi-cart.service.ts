@@ -397,4 +397,21 @@ export class MultiCartService implements MultiCartFacade {
       distinctUntilChanged()
     );
   }
+
+  /**
+   * Update cart
+   *
+   * @param cartId
+   * @param cart
+   */
+  updateCart(cartId: string, cart: Cart): Observable<Cart> {
+    this.store.dispatch(
+      new CartActions.SetCartData({
+        cart,
+        cartId,
+      })
+    );
+
+    return this.getCart(cartId).pipe(filter(isNotUndefined));
+  }
 }

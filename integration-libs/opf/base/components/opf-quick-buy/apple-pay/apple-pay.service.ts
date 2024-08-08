@@ -139,25 +139,10 @@ export class ApplePayService {
         });
       }),
       take(1),
-      catchError((error) => {
-        return this.cartHandlerService
-          .loadCartAfterSingleProductTransaction(this.transactionDetails)
-          .pipe(switchMap(() => throwError(() => error)));
-      }),
       finalize(() => {
-        this.deleteUserAddresses();
         this.paymentInProgress = false;
       })
     );
-  }
-
-  protected deleteUserAddresses() {
-    if (this.transactionDetails.addressIds.length) {
-      this.cartHandlerService.deleteUserAddresses([
-        ...this.transactionDetails.addressIds,
-      ]);
-      this.transactionDetails.addressIds = [];
-    }
   }
 
   private handleValidation(
@@ -368,13 +353,6 @@ export class ApplePayService {
     };
     let orderSuccess: boolean;
     return this.placeOrderAfterPayment(event.payment).pipe(
-      switchMap((success) => {
-        orderSuccess = success;
-        return this.cartHandlerService.loadCartAfterSingleProductTransaction(
-          this.transactionDetails,
-          success
-        );
-      }),
       map(() => {
         return orderSuccess
           ? result

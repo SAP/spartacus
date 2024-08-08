@@ -36,6 +36,7 @@ import { Cart, CartType, OrderEntry } from '../models/cart.model';
         'deleteCart',
         'reloadCart',
         'getCartIdByType',
+        'updateCart',
       ],
       async: true,
     }),
@@ -252,4 +253,12 @@ export abstract class MultiCartFacade {
    * @param cartType
    */
   abstract getCartIdByType(cartType: CartType): Observable<string>;
+
+  /**
+   * Updates the cart data based on cart id
+   *
+   * @param cartId
+   * @param cart
+   */
+  abstract updateCart(cartId: string, cart: Cart): Observable<Cart>;
 }

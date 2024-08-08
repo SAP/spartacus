@@ -8,7 +8,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnDestroy,
   OnInit,
   inject,
 } from '@angular/core';
@@ -39,7 +38,7 @@ import { ApplePayService } from './apple-pay.service';
   templateUrl: './apple-pay.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ApplePayComponent implements OnInit, OnDestroy {
+export class ApplePayComponent implements OnInit {
   @Input() activeConfiguration: ActiveConfiguration;
 
   protected applePayService = inject(ApplePayService);
@@ -53,9 +52,6 @@ export class ApplePayComponent implements OnInit, OnDestroy {
   isApplePaySupported$: Observable<boolean>;
   applePayDigitalWallet?: DigitalWalletQuickBuy;
 
-  ngOnDestroy(): void {
-    this.cartHandlerService.blockMiniCartComponentUpdate(false);
-  }
   ngOnInit(): void {
     this.applePayDigitalWallet =
       this.activeConfiguration?.digitalWalletQuickBuy?.find(
@@ -76,7 +72,7 @@ export class ApplePayComponent implements OnInit, OnDestroy {
   initSingleProductTransaction(): Observable<unknown> {
     return combineLatest([
       this.currentProductService.getProduct(),
-      this.cartHandlerService.checkStableCart(),
+      this.cartHandlerService.isCartStable(),
     ]).pipe(
       take(1),
       switchMap(([product, _]) =>
