@@ -38,9 +38,15 @@ export class LoginFormCDCComponent implements OnInit {
   }
 
   initializeOAuthFlow(): void {
+    var issuer = 'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_haAyXsKhFEupcUCQ9UPizw';
+    var clientId = 'FeWB0V0Opi2hEL-T21DlUuEO';
+    if (this.baseSite === 'powertools-spa'){
+      issuer = 'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_v-Y7S02BL8ZERxyGxnVWNA';
+      clientId = 'FwmaT2tSBrGTdR0pVvSGJ6jX';
+    }
     const authConfig = createAuthConfig(
-      'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_haAyXsKhFEupcUCQ9UPizw',
-      'FeWB0V0Opi2hEL-T21DlUuEO',
+      issuer,
+      clientId,
       this.baseSite,
       'openid profile email uid bpId bpDisplayId isB2BCustomer',
       'code'
