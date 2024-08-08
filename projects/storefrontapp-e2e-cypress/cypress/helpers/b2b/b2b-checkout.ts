@@ -361,14 +361,14 @@ export function reviewB2bReviewOrderPage(
 
   if (isAccount) {
     cy.get('.cx-review-summary-card')
-      .contains('cx-card', 'Delivery Options')
+      .contains('cx-card', 'Delivery Method')
       .find('.cx-card-container')
       .within(() => {
         cy.findByText('Premium Delivery');
       });
   } else {
     cy.get('.cx-review-summary-card')
-      .contains('cx-card', 'Delivery Options')
+      .contains('cx-card', 'Delivery Method')
       .find('.cx-card-container')
       .within(() => {
         cy.findByText('Standard Delivery');
