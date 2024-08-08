@@ -19,7 +19,7 @@ import { SiteThemeActions } from '../store/actions';
 
 @Injectable()
 export class SiteThemeService implements OnDestroy {
-  protected _isInitialized = false;
+  private _isInitialized = false;
   protected store = inject(Store<StateWithSiteTheme>);
   protected config = inject(SiteThemeConfig);
   protected subscription = new Subscription();
