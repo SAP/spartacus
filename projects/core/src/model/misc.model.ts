@@ -128,6 +128,12 @@ export interface BaseSite {
   baseStore?: BaseStore;
   requiresAuthentication?: boolean;
   isolated?: boolean;
+  captchaConfig?: CaptchaConfig;
+}
+
+export interface CaptchaConfig {
+  enabled: boolean;
+  publicKey?: string;
 }
 
 export interface SiteTheme {
