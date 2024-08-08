@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { ConfigInitializerService } from '../../config';
 import createSpy = jasmine.createSpy;
 import { SiteThemeConfig } from '../config/site-theme-config';
@@ -18,9 +18,7 @@ class MockSiteThemeService implements Partial<SiteThemeService> {
   isInitialized() {
     return false;
   }
-  setActive(_className: string): Observable<void> {
-    return of(undefined);
-  }
+  setActive(_className: string) {}
 }
 
 class MockSiteThemePersistenceService
@@ -66,7 +64,7 @@ describe('SiteThemeInitializer', () => {
       BaseSiteService
     ) as jasmine.SpyObj<BaseSiteService>;
     baseSiteService.get.and.returnValue(of({ theme: 'dark' }));
-    spyOn(siteThemeService, 'setActive').and.returnValue(of(undefined));
+    spyOn(siteThemeService, 'setActive');
   });
 
   it('should be created', () => {

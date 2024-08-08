@@ -9,7 +9,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { SiteThemeConfig } from '../config/site-theme-config';
 import { SiteThemeService } from '../facade/site-theme.service';
-import { SITE_THEME_ID } from '../providers/site_theme_id';
+import { SITE_THEME_ID } from '../providers/site-theme-id';
 
 @Injectable({ providedIn: 'root' })
 export class SiteThemePersistenceService {
@@ -34,14 +34,8 @@ export class SiteThemePersistenceService {
 
   protected onRead(valueFromStorage: string | undefined): void {
     if (!this.siteThemeService.isInitialized() && valueFromStorage) {
-      this.siteThemeService.setActive(valueFromStorage).subscribe(() => {
-        this.finalizeInitialization();
-      });
-    } else {
-      this.finalizeInitialization();
+      this.siteThemeService.setActive(valueFromStorage);
     }
-  }
-  protected finalizeInitialization(): void {
     if (!this.initialized$.closed) {
       this.initialized$.next(undefined);
       this.initialized$.complete();

@@ -4,8 +4,9 @@ import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   BaseSiteService,
-  SiteContextConfig,
+  Config,
   SiteThemeActions,
+  SiteThemeConfig,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { BaseSite, SiteTheme } from '../../model/misc.model';
@@ -23,14 +24,9 @@ const mockActiveTheme = 'dark';
 
 const mockSiteThemeConfig: SiteThemeConfig = {
   siteTheme: {
-    themes: [{ i18nNameKey: 'dark', className: 'dark', default: false }],
+    siteThemes: [{ i18nNameKey: 'dark', className: 'dark', default: false }],
   },
 };
-export abstract class SiteThemeConfig {
-  siteTheme?: {
-    themes?: Array<SiteTheme>;
-  };
-}
 
 class MockBaseSiteService {
   get(_siteUid?: string): Observable<BaseSite | undefined> {
@@ -57,7 +53,7 @@ describe('SiteThemeService', () => {
       providers: [
         SiteThemeService,
         { provide: BaseSiteService, useClass: MockBaseSiteService },
-        { provide: SiteContextConfig, useValue: mockSiteThemeConfig },
+        { provide: Config, useValue: mockSiteThemeConfig },
       ],
     });
 
@@ -93,7 +89,7 @@ describe('SiteThemeService', () => {
 
   it('should not set active theme', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
-    service.setActive('dark_new').subscribe();
+    service.setActive('dark_new');
     expect(store.dispatch).not.toHaveBeenCalledWith(
       new SiteThemeActions.SetActiveSiteTheme('dark_new')
     );
@@ -101,9 +97,8 @@ describe('SiteThemeService', () => {
 
   it('should return TRUE if a theme is initialized', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
-    service.setActive('dark_new').subscribe(() => {
-      expect(service.isInitialized()).toBeTruthy();
-    });
+    service.setActive('dark_new');
+    expect(service.isInitialized()).toBeTruthy();
   });
 
   it('should return TRUE if the theme is valid', () => {

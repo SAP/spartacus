@@ -6,7 +6,7 @@
 
 import { Injectable, OnDestroy, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 
 import { Observable, Subscription } from 'rxjs';
 
@@ -27,9 +27,6 @@ export class SiteThemeService implements OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  // init(className: string): Observable<string> {
-
-  // }
 
   getAll(): Observable<SiteTheme[]> {
     return this.store.pipe(
@@ -56,23 +53,14 @@ export class SiteThemeService implements OnDestroy {
   /**
    * Sets the active theme className.
    */
-  setActive(className: string): Observable<void> {
-    return this.isValidTheme(className).pipe(
-      filter(Boolean),
-      mergeMap(() =>
-        this.store.pipe(select(SiteThemeSelectors.getActiveSiteTheme), take(1))
-      ),
-      tap((activeTheme) => {
-        if (activeTheme !== className) {
-          this._isInitialized = true;
-          this.store.dispatch(
-            new SiteThemeActions.SetActiveSiteTheme(className)
-          );
-        }
-      }),
-      map(() => undefined),
-      take(1)
-    );
+  // TODO(#8153): If we move this._isInitialized into an RxJS stream, it may create a race condition between SiteThemePersistenceService:onRead and SiteThemeInitializer:this.setFallbackValue().
+  setActive(className: string): void {
+    this.isValidTheme(className)
+      .pipe(filter(Boolean), take(1))
+      .subscribe(() => {
+        this.store.dispatch(new SiteThemeActions.SetActiveSiteTheme(className));
+      });
+    this._isInitialized = true;
   }
 
   isValidTheme(className: string): Observable<boolean> {

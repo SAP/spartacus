@@ -21,6 +21,6 @@ export class ThemeSwitcherComponentService {
   }
 
   setActive(value: string): void {
-    this.siteThemeService.setActive(value).subscribe();
+    this.siteThemeService.setActive(value);
   }
 }

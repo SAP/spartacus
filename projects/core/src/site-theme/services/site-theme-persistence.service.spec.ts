@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { of, ReplaySubject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { SiteThemePersistenceService } from './site-theme-persistence.service';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { SiteThemeService } from '../facade/site-theme.service';
 import { SiteThemeConfig } from '../config/site-theme-config';
-import { SITE_THEME_ID } from '../providers/site_theme_id';
+import { SITE_THEME_ID } from '../providers/site-theme-id';
 
 describe('SiteThemePersistenceService', () => {
   let service: SiteThemePersistenceService;
@@ -38,7 +38,6 @@ describe('SiteThemePersistenceService', () => {
     siteThemeService = TestBed.inject(
       SiteThemeService
     ) as jasmine.SpyObj<SiteThemeService>;
-    siteThemeService.setActive.and.returnValue(of(undefined));
   });
 
   it('should be created', () => {
