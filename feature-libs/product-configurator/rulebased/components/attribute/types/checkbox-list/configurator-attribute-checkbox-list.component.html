@@ -1,6 +1,9 @@
 <fieldset>
   <legend style="display: none">{{ attribute.label }}</legend>
-  <div id="{{ createAttributeIdForConfigurator(attribute) }}">
+  <div
+    *ngIf="changedPrices$ | async as changedPrices"
+    id="{{ createAttributeIdForConfigurator(attribute) }}"
+  >
     <div
       *ngIf="withQuantityOnAttributeLevel"
       class="cx-attribute-level-quantity-price"
@@ -26,32 +29,20 @@
             class="form-check-input"
             [cxFocus]="{ key: attribute.name + '-' + value.name }"
             [value]="value.valueCode"
-            (change)="onSelect()"
+            (change)="onSelect(value.valueCode)"
             [formControl]="attributeCheckBoxForms[i]"
             name="{{ createAttributeIdForConfigurator(attribute) }}"
             [attr.aria-label]="
-              value.valuePrice && value.valuePrice?.value !== 0
-                ? value.valuePriceTotal && value.valuePriceTotal?.value !== 0
-                  ? ('configurator.a11y.valueOfAttributeFullWithPrice'
-                    | cxTranslate
-                      : {
-                          value: value.valueDisplay,
-                          attribute: attribute.label,
-                          price: value.valuePriceTotal.formattedValue
-                        })
-                  : ('configurator.a11y.valueOfAttributeFullWithPrice'
-                    | cxTranslate
-                      : {
-                          value: value.valueDisplay,
-                          attribute: attribute.label,
-                          price: value.valuePrice.formattedValue
-                        })
-                : ('configurator.a11y.valueOfAttributeFull'
-                  | cxTranslate
-                    : { value: value.valueDisplay, attribute: attribute.label })
+              getAriaLabelGeneric(
+                attribute,
+                enrichValueWithPrice(value, changedPrices)
+              )
             "
             [attr.aria-describedby]="
               createAttributeUiKey('label', attribute.name)
+            "
+            [attr.aria-live]="
+              isLastSelected(attribute.name, value.valueCode) ? 'polite' : null
             "
           />
           <label
@@ -77,7 +68,11 @@
         </div>
         <div class="cx-value-price">
           <cx-configurator-price
-            [formula]="extractValuePriceFormulaParameters(value)"
+            [formula]="
+              extractValuePriceFormulaParameters(
+                enrichValueWithPrice(value, changedPrices)
+              )
+            "
           ></cx-configurator-price>
         </div>
       </div>
