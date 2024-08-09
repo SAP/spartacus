@@ -68,15 +68,15 @@ describe('LoginFormCDCComponent', () => {
     mockAuthService = TestBed.inject(AuthService);
   });
 
-  it('should create', () => {
+  it('should create and call initializeOAuthFlow', () => {
+    spyOn(component, 'initializeOAuthFlow').and.stub();
     component.ngOnInit();
     expect(component).toBeTruthy();
+    expect(component.initializeOAuthFlow).toHaveBeenCalled();
   });
 
   it('should call initializeOAuthFlow', () => {
-    spyOn(component, 'initializeOAuthFlow');
-    component.ngOnInit();
-    expect(component.initializeOAuthFlow).toHaveBeenCalled();
+    component.initializeOAuthFlow();
     expect(mockOAuthService.configure).toHaveBeenCalled();
     expect(mockOAuthService.loadDiscoveryDocumentAndLogin).toHaveBeenCalled();
   });
