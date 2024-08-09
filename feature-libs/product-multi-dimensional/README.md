@@ -6,6 +6,7 @@ Product Multi-Dimensional can be added to the existing Spartacus application by 
 
 The Spartacus Product Multi-Dimensional library contains the following packages:
 
+- `@spartacus/product-multi-dimensional/list` is a package that adds the Product Multi-Dimensional list feature.
 - `@spartacus/product-multi-dimensional/selector` is a package that adds the Product Multi-Dimensional selectors feature.
 
 For more information about Spartacus, see [Spartacus](https://github.com/SAP/spartacus).

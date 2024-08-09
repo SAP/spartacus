@@ -88,7 +88,7 @@ describe('ProductMultiDimensionalPriceRangeComponent', () => {
       expect(priceElement.textContent.trim()).toBe('$100 - $200');
     });
 
-    it('should display the single price if product is non-multidimensional', () => {
+    it('should not display the price if product is non-multidimensional', () => {
       const product: Product = {
         multidimensional: false,
         price: { formattedValue: '$150' },
@@ -98,8 +98,8 @@ describe('ProductMultiDimensionalPriceRangeComponent', () => {
 
       const priceElement = fixture.debugElement.query(
         By.css('.cx-product-price')
-      ).nativeElement;
-      expect(priceElement.textContent.trim()).toBe('$150');
+      )?.nativeElement;
+      expect(priceElement).toBe(undefined);
     });
 
     it('should not display price if product does not have a price', () => {

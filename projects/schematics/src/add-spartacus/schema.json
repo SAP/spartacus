@@ -46,6 +46,7 @@
           "PDF-Invoices",
           "Product-Variants",
           "Product-multi-dimensional-selector",
+          "Product-multi-dimensional-list",
           "VC-Configurator",
           "Textfield-Configurator",
           "CPQ-Configurator",
@@ -188,6 +189,10 @@
           {
             "value": "Product-multi-dimensional-selector",
             "label": "Product Multi-Dimensional - Selector"
+          },
+          {
+            "value": "Product-multi-dimensional-list",
+            "label": "Product Multi-Dimensional PLP - price range"
           },
           {
             "value": "Image-Zoom",

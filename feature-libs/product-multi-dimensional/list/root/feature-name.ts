@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './product-multi-dimensional-base-occ.module';
+export const PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE =
+  'productMultiDimensionalList';
