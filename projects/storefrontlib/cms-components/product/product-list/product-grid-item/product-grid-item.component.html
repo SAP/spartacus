@@ -26,7 +26,7 @@
       {{ 'productDetails.noReviews' | cxTranslate }}
     </div>
   </div>
-  <div class="cx-product-price-container">
+  <div *ngIf="!product.multidimensional" class="cx-product-price-container">
     <div
       class="cx-product-price"
       [attr.aria-label]="'productDetails.productPrice' | cxTranslate"

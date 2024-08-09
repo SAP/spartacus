@@ -1,0 +1,15 @@
+<ng-container *ngIf="product$ | async as product">
+  <ng-container *ngIf="product.multidimensional">
+    <div
+      *ngIf="getProductPrice(product) as price"
+      class="cx-product-price-container"
+    >
+      <div
+        class="cx-product-price"
+        [attr.aria-label]="'productDetails.productPrice' | cxTranslate"
+      >
+        {{ price }}
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

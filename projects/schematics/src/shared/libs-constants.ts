@@ -131,9 +131,11 @@ export const SPARTACUS_IMAGE_ZOOM_ASSETS = `@spartacus/product/image-zoom/assets
 export const SPARTACUS_VARIANTS = `@spartacus/product/variants`;
 export const SPARTACUS_VARIANTS_ROOT = `@spartacus/product/variants/root`;
 export const SPARTACUS_VARIANTS_ASSETS = `@spartacus/product/variants/assets`;
-export const SPARTACUS_VARIANTS_MULTIDIMENSIONAL = `@spartacus/product/multi-dimensional`;
-export const SPARTACUS_VARIANTS_MULTIDIMENSIONAL_ROOT = `"@spartacus/ product/multi-dimensional/root`;
-export const SPARTACUS_VARIANTS_MULTIDIMENSIONAL_ASSETS = `@spartacus/ product/multi-dimensional/assets`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL = `@spartacus/product-multi-dimensional`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_LIST = `@spartacus/product-multi-dimensional/list`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_LIST_ROOT = `@spartacus/product-multi-dimensional/list/root`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR = `@spartacus/product-multi-dimensional/selector`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR_ROOT = `@spartacus/product-multi-dimensional/selector/root`;
 export const SPARTACUS_FUTURE_STOCK = `@spartacus/product/future-stock`;
 export const SPARTACUS_FUTURE_STOCK_ROOT = `@spartacus/product/future-stock/root`;
 export const SPARTACUS_FUTURE_STOCK_ASSETS = `@spartacus/product/future-stock/assets`;
@@ -282,7 +284,10 @@ export const PRODUCT_BULK_PRICING_FEATURE_NAME = 'Bulk-Pricing';
 export const PRODUCT_IMAGE_ZOOM_FEATURE_NAME = 'Image-Zoom';
 export const PRODUCT_VARIANTS_FEATURE_NAME = 'Product-Variants';
 export const PRODUCT_FUTURE_STOCK_FEATURE_NAME = 'Future-Stock';
-
+export const PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE_NAME =
+  'Product-multi-dimensional-list';
+export const PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE_NAME =
+  'Product-multi-dimensional-selector';
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME =
   'Textfield-Configurator';
 export const PRODUCT_CONFIGURATOR_VC_FEATURE_NAME = 'VC-Configurator';
