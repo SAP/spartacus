@@ -46,7 +46,8 @@ jobs:
           cp "${config_dir}/config.default.sh" "${config_dir}/config.sh"
           echo "config.sh has been created in ${config_dir}."
 
-          # Set the BASE_SITE value based on user input
+          # Update configuration values
+          sed -i 's/^BACKEND_URL=.*/BACKEND_URL="OCC_BACKEND_BASE_URL_VALUE"' "${config_dir}/config.sh"
           if [ "${site_type}" == "b2c" ]; then
               sed -i 's/^BASE_SITE=.*/BASE_SITE="electronics-spa"/' "${config_dir}/config.sh"
               sed -i 's/^SSR_APP_NAME=.*/SSR_APP_NAME="spartacusstore"/' "${config_dir}/config.sh"
