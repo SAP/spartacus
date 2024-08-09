@@ -30,9 +30,7 @@ export class LoginFormCDCComponent implements OnInit {
     this.oauthService.events
       .pipe(filter((e) => e.type === 'token_received'))
       .subscribe(() => {
-        this.oauthService.loadUserProfile();
         this.auth.afterRedirectFromCDCLogin();
-        // this.auth.checkOAuthParamsInUrl();
       });
     this.initializeOAuthFlow();
   }

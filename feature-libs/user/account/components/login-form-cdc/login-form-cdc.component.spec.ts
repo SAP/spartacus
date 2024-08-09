@@ -3,61 +3,86 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { LoginFormCDCComponent } from './login-form-cdc.component';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { of } from 'rxjs';
-import { AuthService, BaseSiteService } from '@spartacus/core';
+import {
+  AuthService,
+  BaseSite,
+  BaseSiteService,
+  CdcSiteConfig,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { OAuthEvent, OAuthService } from 'angular-oauth2-oidc';
+
+class MockBaseSiteService implements Partial<BaseSiteService> {
+  baseSite: BaseSite = {};
+  cdcSiteConfig: CdcSiteConfig = {
+    oicdRpClientId: 'mock',
+    oidcOpIssuerURI: 'mock',
+    scopes: ['mock'],
+  };
+  getActive(): Observable<string> {
+    return of('activeBaseSite');
+  }
+  get(): Observable<BaseSite> {
+    this.baseSite.cdcSiteConfig = this.cdcSiteConfig;
+    return of(this.baseSite);
+  }
+}
+
+class MockOAuthService implements Partial<OAuthService> {
+  oAuthEvent: OAuthEvent = { type: 'token_received' };
+  events: Observable<OAuthEvent> = of(this.oAuthEvent);
+  loadDiscoveryDocumentAndLogin = jasmine.createSpy(
+    'loadDiscoveryDocumentAndLogin'
+  );
+  configure = jasmine.createSpy('configure');
+}
+
+class MockAuthService {
+  afterRedirectFromCDCLogin = jasmine.createSpy('afterRedirectFromCDCLogin');
+}
 
 describe('LoginFormCDCComponent', () => {
   let component: LoginFormCDCComponent;
   let fixture: ComponentFixture<LoginFormCDCComponent>;
-  let mockBaseSiteService: jasmine.SpyObj<BaseSiteService>;
-  let mockOAuthService: jasmine.SpyObj<OAuthService>;
-  let mockAuthService: jasmine.SpyObj<AuthService>;
+  let mockOAuthService: OAuthService;
+  let mockAuthService: AuthService;
 
-  beforeEach(async () => {
-    mockBaseSiteService = jasmine.createSpyObj('BaseSiteService', ['getActive', 'get']);
-    mockOAuthService = jasmine.createSpyObj('OAuthService', ['events', 'loadUserProfile', 'configure', 'loadDiscoveryDocumentAndLogin']);
-    mockAuthService = jasmine.createSpyObj('AuthService', ['afterRedirectFromCDCLogin']);
-
-    // Mock the observable values as needed
-    mockBaseSiteService.getActive.and.returnValue(of('mockBaseSite'));
-    mockBaseSiteService.get.and.returnValue(of({ cdcSiteConfig: { /* Mock configuration */ } }));
-    mockOAuthService.events = of({ type: 'token_received' }); // Example of mocking an observable
-
-    await TestBed.configureTestingModule({
-      declarations: [ LoginFormCDCComponent ],
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [LoginFormCDCComponent],
       providers: [
-        { provide: BaseSiteService, useValue: mockBaseSiteService },
-        { provide: OAuthService, useValue: mockOAuthService },
-        { provide: AuthService, useValue: mockAuthService }
-      ]
-    })
-    .compileComponents();
-  });
+        { provide: BaseSiteService, useClass: MockBaseSiteService },
+        { provide: OAuthService, useClass: MockOAuthService },
+        { provide: AuthService, useClass: MockAuthService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginFormCDCComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    mockOAuthService = TestBed.inject(OAuthService);
+    mockAuthService = TestBed.inject(AuthService);
   });
 
   it('should create', () => {
+    component.ngOnInit();
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should subscribe to OAuth events and load user profile when token_received', () => {
-    // Since ngOnInit is called in beforeEach, we just verify the expected calls here
-    expect(mockOAuthService.loadUserProfile).toHaveBeenCalled();
-    expect(mockAuthService.afterRedirectFromCDCLogin).toHaveBeenCalled();
-  });
-
-  it('initializeOAuthFlow should configure OAuthService with site config', () => {
-    // Call the method directly as it's not called automatically in this test setup
-    component.initializeOAuthFlow();
-    expect(mockBaseSiteService.get).toHaveBeenCalledWith('mockBaseSite');
+  it('should call initializeOAuthFlow', () => {
+    spyOn(component, 'initializeOAuthFlow');
+    component.ngOnInit();
+    expect(component.initializeOAuthFlow).toHaveBeenCalled();
     expect(mockOAuthService.configure).toHaveBeenCalled();
     expect(mockOAuthService.loadDiscoveryDocumentAndLogin).toHaveBeenCalled();
+  });
+
+  it('should login and redirect user after getting token_received', () => {
+    component.ngOnInit();
+    expect(mockAuthService.afterRedirectFromCDCLogin).toHaveBeenCalled();
   });
 });
