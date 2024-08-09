@@ -3,12 +3,13 @@
   (esc)="close('Escape clicked')"
   class="cx-import-entries-dialog"
   role="dialog"
+  aria-labelledby="dialogTitle"
 >
   <div class="cx-import-entries-container">
     <!-- Modal Header -->
     <div class="modal-header cx-import-entries-header">
       <ng-container>
-        <div class="cx-import-entries-title modal-title">
+        <div id="dialogTitle" class="cx-import-entries-title modal-title">
           {{ 'importEntriesDialog.importProducts' | cxTranslate }}
         </div>
       </ng-container>
