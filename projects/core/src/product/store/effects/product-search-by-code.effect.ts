@@ -20,6 +20,8 @@ import { ProductActions } from '../actions/index';
 @Injectable()
 export class ProductSearchByCodeEffects {
   protected logger = inject(LoggerService);
+  private actions$ = inject(Actions);
+  private productSearchConnector = inject(ProductSearchConnector);
 
   // we want to cancel all ongoing requests when currency or language changes,
   private contextChange$: Observable<Action> = this.actions$.pipe(
@@ -108,9 +110,4 @@ export class ProductSearchByCodeEffects {
         map(() => new ProductActions.ClearProductSearchByCodeState())
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private productSearchConnector: ProductSearchConnector
-  ) {}
 }

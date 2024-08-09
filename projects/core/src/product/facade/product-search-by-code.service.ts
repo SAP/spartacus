@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { auditTime, map, Observable, tap, using } from 'rxjs';
 import { Product } from '../../model';
@@ -16,7 +16,7 @@ import { ProductSelectors } from '../store/selectors/index';
   providedIn: 'root',
 })
 export class ProductSearchByCodeService {
-  constructor(protected store: Store<StateWithProduct>) {}
+  protected store = inject(Store<StateWithProduct>);
 
   load({ code, scope }: { code: string; scope?: string }): void {
     this.store.dispatch(

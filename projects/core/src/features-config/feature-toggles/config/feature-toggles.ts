@@ -78,7 +78,22 @@ export interface FeatureTogglesInterface {
   storeFrontLibCardParagraphTruncated?: boolean;
 
   /**
-   * In `ProductCarouselComponent` it uses the batch API to load products.
+   * When enabled, the batch API is used `ProductCarouselComponent` to load products. It increases the component's performance.
+   *
+   * _NOTE_: When flag is enabled, custom OCC config for the `productSearch` endpoint has to be adjusted to have an object representation:
+   * ```js
+   * backend: {
+   *    occ: {
+   *      endpoints: {
+   *         productSearch: {
+   *           default: '...',
+   *           carousel: '...',
+   *           carouselMinimal: '...',
+   *         },
+   *       },
+   *     },
+   *   }
+   * ```
    */
   productCarouselUseBatchApi?: boolean;
 
