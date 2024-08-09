@@ -14,6 +14,7 @@ env:
   CONFIG_DIR: scripts/install
   REPO_URL: https://${{secrets.GH_TEMPORARY_TOKEN}}@github.com/SAP-samples/cloud-commerce-sample-setup.git
   NPM_REPO_URL: https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/
+  OCC_BACKEND_URL: OCC_BACKEND_BASE_URL_VALUE
 
 jobs:
   run_script:
@@ -33,7 +34,7 @@ jobs:
             local version=${{ github.event.inputs.version }}
             local npm_token=${{ github.event.inputs.npm_token }}
 
-            # Update the config.sh file with the appropriate values
+            # Update configuration values
             if [ "${storefront_type}" == "b2c" ]; then
               sed -i 's/^BASE_SITE=.*/BASE_SITE="electronics-spa"/' "${CONFIG_DIR}/config.sh"
               sed -i 's/^SSR_APP_NAME=.*/SSR_APP_NAME="spartacusstore"/' "${CONFIG_DIR}/config.sh"
@@ -45,6 +46,7 @@ jobs:
               echo "Invalid storefront type. BASE_SITE and SSR_APP_NAME not set."
             fi
 
+            sed -i 's/^BACKEND_URL=.*/BACKEND_URL="'${OCC_BACKEND_URL}'"/' "${CONFIG_DIR}/config.sh"
             sed -i "s/^SPARTACUS_VERSION=.*/SPARTACUS_VERSION='${version}'/" "${CONFIG_DIR}/config.sh"
             sed -i "s/^NPM_TOKEN=.*/NPM_TOKEN='${npm_token}'/" "${CONFIG_DIR}/config.sh"
             sed -i "s|^NPM_URL=.*|NPM_URL='${NPM_REPO_URL}'|" "${CONFIG_DIR}/config.sh"
