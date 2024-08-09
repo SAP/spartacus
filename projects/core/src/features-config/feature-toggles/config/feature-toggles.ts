@@ -120,6 +120,11 @@ export interface FeatureTogglesInterface {
   a11yNavigationUiKeyboardControls?: boolean;
 
   /**
+   * Improves screen reader(VoiceOver, JAWS) narration of menu buttons inside of 'NavigationUIComponent'.
+   */
+  a11yNavMenuExpandStateReadout?: boolean;
+
+  /**
    * Fixes heading gap present in 'OrderConfirmationItemsComponent' template.
    */
   a11yOrderConfirmationHeadingOrder?: boolean;
@@ -455,6 +460,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
   a11yNavigationUiKeyboardControls: false,
+  a11yNavMenuExpandStateReadout: false,
   a11yOrderConfirmationHeadingOrder: false,
   a11yStarRating: false,
   a11yViewChangeAssistiveMessage: false,
