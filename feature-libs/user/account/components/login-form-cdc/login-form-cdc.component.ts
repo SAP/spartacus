@@ -38,24 +38,20 @@ export class LoginFormCDCComponent implements OnInit {
   }
 
   initializeOAuthFlow(): void {
-    var issuer =
-      'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_haAyXsKhFEupcUCQ9UPizw';
-    var clientId = 'FeWB0V0Opi2hEL-T21DlUuEO';
-    if (this.baseSite === 'powertools-spa') {
-      issuer =
-        'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_v-Y7S02BL8ZERxyGxnVWNA';
-      clientId = 'FwmaT2tSBrGTdR0pVvSGJ6jX';
+    if (this.baseSite) {
+      this.baseSiteService.get(this.baseSite).subscribe((site) => {
+        if (site?.cdcSiteConfig) {
+          const authConfig = createAuthConfig(
+            site?.cdcSiteConfig?.oidcOpIssuerURI,
+            site?.cdcSiteConfig?.oicdRpClientId,
+            this.baseSite,
+            site?.cdcSiteConfig?.scopes.join(' '),
+            'code'
+          );
+          this.oauthService.configure(authConfig);
+        }
+      });
     }
-    const authConfig = createAuthConfig(
-      issuer,
-      clientId,
-      this.baseSite,
-      'openid profile email uid bpId bpDisplayId isB2BCustomer',
-      'code'
-    );
-    this.oauthService.configure(authConfig);
-    // this.oauthService.loadDiscoveryDocument();
-    // this.auth.loginWithRedirect();
     this.oauthService.loadDiscoveryDocumentAndLogin();
   }
 }

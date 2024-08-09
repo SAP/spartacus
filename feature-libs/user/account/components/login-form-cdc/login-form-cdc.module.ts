@@ -6,31 +6,13 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import {
-  CmsConfig,
-  FeaturesConfigModule,
-  I18nModule,
-  NotAuthGuard,
-  UrlModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import { CmsConfig, NotAuthGuard, provideDefaultConfig } from '@spartacus/core';
+import { SpinnerModule } from '@spartacus/storefront';
 import { LoginFormCDCComponent } from './login-form-cdc.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-    FormErrorsModule,
-    SpinnerModule,
-    FeaturesConfigModule,
-  ],
+  imports: [CommonModule, RouterModule, SpinnerModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
