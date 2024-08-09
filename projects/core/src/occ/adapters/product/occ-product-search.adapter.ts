@@ -7,7 +7,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
-import { Product } from '@spartacus/core';
+import { Product } from '../../../model';
 import { map, tap } from 'rxjs/operators';
 import {
   ProductSearchPage,

@@ -11,7 +11,7 @@ import {
   Suggestion,
   ProductSearchPage,
 } from '../../../model/product-search.model';
-import { Product } from '@spartacus/core';
+import { Product } from '../../../model';
 
 export abstract class ProductSearchAdapter {
   abstract search(
