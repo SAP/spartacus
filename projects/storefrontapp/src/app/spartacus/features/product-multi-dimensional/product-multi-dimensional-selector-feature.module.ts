@@ -10,6 +10,10 @@ import {
   PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE,
   ProductMultiDimensionalSelectorRootModule,
 } from '@spartacus/product-multi-dimensional/selector/root';
+import {
+  multiDimensionalTranslationChunksConfig,
+  multiDimensionalTranslations,
+} from '@spartacus/product-multi-dimensional/selector/assets';
 
 @NgModule({
   imports: [ProductMultiDimensionalSelectorRootModule],
@@ -22,6 +26,11 @@ import {
               (m) => m.ProductMultiDimensionalSelectorModule
             ),
         },
+      },
+      i18n: {
+        resources: multiDimensionalTranslations,
+        chunks: multiDimensionalTranslationChunksConfig,
+        fallbackLang: 'en',
       },
     }),
   ],

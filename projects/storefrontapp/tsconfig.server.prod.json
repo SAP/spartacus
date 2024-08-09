@@ -273,6 +273,9 @@
       "@spartacus/product-multi-dimensional": [
         "../../dist/product-multi-dimensional"
       ],
+      "@spartacus/product-multi-dimensional/selector/assets": [
+        "../../dist/product-multi-dimensional/selector/assets"
+      ],
       "@spartacus/product-multi-dimensional/selector/components": [
         "../../dist/product-multi-dimensional/selector/components"
       ],

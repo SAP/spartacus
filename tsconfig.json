@@ -417,6 +417,9 @@
       "@spartacus/product-multi-dimensional": [
         "feature-libs/product-multi-dimensional/public_api"
       ],
+      "@spartacus/product-multi-dimensional/selector/assets": [
+        "feature-libs/product-multi-dimensional/selector/assets/public_api"
+      ],
       "@spartacus/product-multi-dimensional/selector/components": [
         "feature-libs/product-multi-dimensional/selector/components/public_api"
       ],

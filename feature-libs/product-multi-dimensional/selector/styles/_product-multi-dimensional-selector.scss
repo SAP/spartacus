@@ -5,11 +5,15 @@ cx-product-multi-dimensional-selector {
 
     .image-variant-container {
       display: flex;
+      align-items: center;
       margin-bottom: 10px;
 
       .image-variant {
+        background-color: var(--cx-color-transparent);
+        border: none;
         cursor: pointer;
         padding: 5px;
+        margin: 0 2px 0 0;
 
         &.active {
           border: 1px solid grey;
