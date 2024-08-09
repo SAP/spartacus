@@ -135,4 +135,10 @@ export interface BaseSite {
   requiresAuthentication?: boolean;
   isolated?: boolean;
   cdcSiteConfig?: CdcSiteConfig;
+  captchaConfig?: CaptchaConfig;
+}
+
+export interface CaptchaConfig {
+  enabled: boolean;
+  publicKey?: string;
 }
