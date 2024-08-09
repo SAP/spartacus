@@ -77,14 +77,11 @@ export class CheckoutServiceSchedulePickerService {
    * Converts a DateTime string with timezone offset into a readable string format.
    * @param dateTime String in DateTime format with timezone offset.
    * Example: 2024-07-11T14:30:00+05:30
-   * @returns Readable string format. Example: 11/07/2024, 14:30
+   * @returns Readable string format. Example: 11/07/2024, 02:30 PM
    */
   convertDateTimeToReadableString(dateTime: string): string {
     const date = new Date(dateTime);
-    const secondsDigits = -3;
-    return date
-      .toLocaleString(undefined, { hour12: false })
-      .slice(0, secondsDigits);
+    return date.toLocaleString();
   }
 
   /**
@@ -93,16 +90,11 @@ export class CheckoutServiceSchedulePickerService {
    * @returns Object with date and time separately as { date: 'YYYY-MM-DD', time: 'HH:mm' }
    */
   getServiceDetailsFromDateTime(input: string): { date: string; time: string } {
-    const [datePart, timePart] = input.split(', ');
-    const [month, day, year] = datePart.split('/');
-    const date = new Date(
-      parseInt(year, 10),
-      parseInt(month, 10) - 1,
-      parseInt(day, 10)
-    );
-    const [hours, minutes] = timePart.split(':');
+    const inputDate = new Date(input);
+    const hours = inputDate.getHours().toString().padStart(2, '0');
+    const minutes = inputDate.getMinutes().toString().padStart(2, '0');
     return {
-      date: this.datePipe.transform(date, dateFormat) ?? '',
+      date: this.datePipe.transform(inputDate, dateFormat) ?? '',
       time: `${hours}:${minutes}`,
     };
   }
