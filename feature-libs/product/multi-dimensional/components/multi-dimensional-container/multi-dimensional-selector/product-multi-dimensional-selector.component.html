@@ -1,50 +1,51 @@
 <ng-container *ngIf="product">
   <div class="variant-generic-selector">
     <ng-container *ngFor="let category of categories">
-      <label for="{{ category.name }}">
-        <ng-container
-          *ngIf="
-            getSelectedValue(category.name) as selectedValue;
-            else tmpWithoutLabel
-          "
-        >
-          {{ category.name }}: {{ selectedValue }}
-        </ng-container>
-        <ng-template #tmpWithoutLabel>{{ category.name }}</ng-template>
-      </label>
-
-      <div
-        *ngIf="category.hasImages; else noImages"
-        id="{{ category.name }}"
-        role="list"
-        [attr.aria-label]="category.name"
-        class="image-variant-container"
-      >
-        <button
-          *ngFor="let option of category.variantOptions"
-          role="listitem"
-          type="button"
-          class="image-variant"
-          [ngClass]="{ active: option?.code === product.code }"
-          [attr.aria-label]="getAriaLabel(option, category.name)"
-          (click)="changeVariant(option.code)"
-          [cxFocus]="{ key: option.code }"
-        >
-          <cx-media
-            [container]="option.images"
-            role="img"
-            [alt]="
-              'multiDimensional.variantThumbnailTitle'
-                | cxTranslate
-                  : {
-                      category: category.name,
-                      value: option.value
-                    }
+      <label>
+        <span>
+          <ng-container
+            *ngIf="
+              getSelectedValue(category.name) as selectedValue;
+              else tmpWithoutLabel
             "
           >
-          </cx-media>
-        </button>
-      </div>
+            {{ category.name }}: {{ selectedValue }}
+          </ng-container>
+          <ng-template #tmpWithoutLabel>{{ category.name }}</ng-template>
+        </span>
+
+        <div
+          *ngIf="category.hasImages; else noImages"
+          role="list"
+          [attr.aria-label]="category.name"
+          class="image-variant-container"
+        >
+          <button
+            *ngFor="let option of category.variantOptions"
+            role="listitem"
+            type="button"
+            class="image-variant"
+            [ngClass]="{ active: option?.code === product.code }"
+            [attr.aria-label]="getAriaLabel(option, category.name)"
+            (click)="changeVariant(option.code)"
+            [cxFocus]="{ key: option.code }"
+          >
+            <cx-media
+              [container]="option.images"
+              role="img"
+              [alt]="
+                'multiDimensional.variantThumbnailTitle'
+                  | cxTranslate
+                    : {
+                        category: category.name,
+                        value: option.value
+                      }
+              "
+            >
+            </cx-media>
+          </button>
+        </div>
+      </label>
 
       <ng-template #noImages>
         <div class="select-variant-container">
@@ -54,14 +55,13 @@
             [items]="category.variantOptions"
             [(ngModel)]="selectedVariant"
             (change)="changeVariant($event.target.value)"
-            [id]="category.name"
             [cxNgSelectA11y]="{
               ariaLabel:
-                'multiDimensional.variantThumbnailTitle'
+                ('multiDimensional.variantThumbnailTitle'
                 | cxTranslate
                   : {
                       category: category.name
-                    }
+                    })
             }"
             bindValue="code"
             bindLabel="value"
