@@ -6,7 +6,7 @@
   <ng-container
     *ngIf="
       !config.features?.productConfiguratorAttributeTypesV2 &&
-      (priceChangedEvent$ | async)
+      (changedPrices$ | async) as changedPrices
     "
   >
     <div
@@ -36,7 +36,12 @@
         [attr.aria-checked]="
           attributeRadioButtonForm.value === value.valueCode ? 'true' : 'false'
         "
-        [attr.aria-label]="getAriaLabelGeneric(attribute, value)"
+        [attr.aria-label]="
+          getAriaLabelGeneric(
+            attribute,
+            enrichValueWithPrice(value, changedPrices)
+          )
+        "
         [attr.aria-live]="
           listenForPriceChanges &&
           attributeRadioButtonForm.value === value.valueCode
@@ -67,7 +72,11 @@
           <div *ngIf="!getImage(value)" class="cx-img-dummy"></div>
           {{ getLabel(expMode, value.valueDisplay, value.valueCode) }}
           <cx-configurator-price
-            [formula]="extractValuePriceFormulaParameters(value)"
+            [formula]="
+              extractValuePriceFormulaParameters(
+                enrichValueWithPrice(value, changedPrices)
+              )
+            "
           ></cx-configurator-price>
         </label>
       </div>
@@ -76,7 +85,7 @@
   <ng-container
     *ngIf="
       config.features?.productConfiguratorAttributeTypesV2 &&
-      (priceChangedEvent$ | async)
+      (changedPrices$ | async) as changedPrices
     "
   >
     <ng-container *ngFor="let value of attribute.values">
@@ -111,7 +120,12 @@
               ? 'true'
               : 'false'
           "
-          [attr.aria-label]="getAriaLabelGeneric(attribute, value)"
+          [attr.aria-label]="
+            getAriaLabelGeneric(
+              attribute,
+              enrichValueWithPrice(value, changedPrices)
+            )
+          "
           [attr.aria-live]="
             listenForPriceChanges &&
             attributeRadioButtonForm.value === value.valueCode
@@ -166,7 +180,11 @@
               <cx-icon [type]="iconTypes.INFO"> </cx-icon>
             </button>
             <cx-configurator-price
-              [formula]="extractValuePriceFormulaParameters(value)"
+              [formula]="
+                extractValuePriceFormulaParameters(
+                  enrichValueWithPrice(value, changedPrices)
+                )
+              "
             ></cx-configurator-price>
           </label>
         </div>
