@@ -120,6 +120,11 @@ export interface FeatureTogglesInterface {
   a11yNavigationUiKeyboardControls?: boolean;
 
   /**
+   * Improves screen reader(VoiceOver, JAWS) narration of menu buttons inside of 'NavigationUIComponent'.
+   */
+  a11yNavMenuExpandStateReadout?: boolean;
+
+  /**
    * Fixes heading gap present in 'OrderConfirmationItemsComponent' template.
    */
   a11yOrderConfirmationHeadingOrder?: boolean;
@@ -414,6 +419,12 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
+   * Mofifies the template of 'AddedToCartDialogComponent' to retain the focus after the cart is updated.
+   * Improves its screen reader readout.
+   */
+  a11yAddedToCartActiveDialog?: boolean;
+
+  /**
    * Modifies the 'NgSelectA11yDirective' to improve the sorting dropdown screen reader experience on mobile devices.
    */
   a11yNgSelectMobileReadout?: boolean;
@@ -449,6 +460,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
   a11yNavigationUiKeyboardControls: false,
+  a11yNavMenuExpandStateReadout: false,
   a11yOrderConfirmationHeadingOrder: false,
   a11yStarRating: false,
   a11yViewChangeAssistiveMessage: false,
@@ -497,6 +509,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yDeliveryModeRadiogroup: false,
+  a11yAddedToCartActiveDialog: false,
   a11yNgSelectMobileReadout: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
