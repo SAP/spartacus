@@ -293,6 +293,7 @@ if (environment.cpq) {
         a11yRequiredAsterisks: true,
         a11yQuantityOrderTabbing: true,
         a11yNavigationUiKeyboardControls: true,
+        a11yNavMenuExpandStateReadout: true,
         a11yOrderConfirmationHeadingOrder: true,
         a11yStarRating: true,
         a11yViewChangeAssistiveMessage: true,
@@ -343,6 +344,7 @@ if (environment.cpq) {
         occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yDeliveryModeRadiogroup: true,
+        a11yAddedToCartActiveDialog: true,
         a11yNgSelectMobileReadout: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
       };
