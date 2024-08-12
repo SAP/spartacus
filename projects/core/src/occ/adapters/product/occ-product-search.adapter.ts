@@ -6,7 +6,7 @@
 
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import {
   ProductSearchPage,
@@ -59,6 +59,44 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
       );
   }
 
+  searchByCodes(codeList: string[]): Observable<ProductSearchPage> {
+    const MAX_CODES_PER_REQUEST = 100;
+    const requestsCount = Math.ceil(codeList.length / MAX_CODES_PER_REQUEST);
+    const requests = [];
+    const context = new HttpContext().set(OCC_HTTP_TOKEN, {
+      sendUserIdAsHeader: true,
+    });
+
+    // Split the codes into chunks and create a request for each chunk
+    for (let i = 0; i < requestsCount; i++) {
+      const codesChunk = codeList.slice(
+        i * MAX_CODES_PER_REQUEST,
+        (i + 1) * MAX_CODES_PER_REQUEST
+      );
+      const codeFilter = 'code:' + codesChunk.join(',');
+      const request = this.http
+        .get(this.getSearchByCodesEndpoint(codeFilter), { context })
+        .pipe(this.converter.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER));
+
+      requests.push(request);
+    }
+
+    return forkJoin(requests).pipe(
+      map((pages: ProductSearchPage[]) => {
+        // Combine all pages into one
+        const combinedPage: ProductSearchPage = {
+          // Initialize with the properties of the first page
+          ...pages[0],
+          // Combine the products of all pages
+          products: pages.flatMap((page) =>
+            page.products ? page.products : []
+          ),
+        };
+        return combinedPage;
+      })
+    );
+  }
+
   loadSuggestions(
     term: string,
     pageSize: number = 3
@@ -85,6 +123,15 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
   protected getSuggestionEndpoint(term: string, max: string): string {
     return this.occEndpoints.buildUrl('productSuggestions', {
       queryParams: { term, max },
+    });
+  }
+
+  protected getSearchByCodesEndpoint(
+    filters: string,
+    searchConfig: SearchConfig = { pageSize: 100 }
+  ): string {
+    return this.occEndpoints.buildUrl('productSearch', {
+      queryParams: { filters, ...searchConfig },
     });
   }
 }

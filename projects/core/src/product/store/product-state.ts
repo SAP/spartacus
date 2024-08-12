@@ -6,6 +6,7 @@
 
 import {
   ProductSearchPage,
+  ProductsListMap,
   Suggestion,
 } from '../../model/product-search.model';
 import { Product, ProductReference, Review } from '../../model/product.model';
@@ -29,6 +30,7 @@ export interface ProductsSearchState {
   results: ProductSearchPage;
   suggestions: Suggestion[];
   auxResults: ProductSearchPage;
+  productsListResults: ProductsListMap;
 }
 
 export interface ProductReviewsState {

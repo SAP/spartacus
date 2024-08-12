@@ -7,6 +7,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
   ProductSearchPage,
+  ProductsListMap,
   Suggestion,
 } from '../../../model/product-search.model';
 import {
@@ -41,4 +42,12 @@ export const getProductSuggestions: MemoizedSelector<
 > = createSelector(
   getProductsSearchState,
   fromProductSearch.getProductSuggestions
+);
+
+export const getProductsListResults: MemoizedSelector<
+  StateWithProduct,
+  ProductsListMap
+> = createSelector(
+  getProductsSearchState,
+  fromProductSearch.getProductsListResults
 );
