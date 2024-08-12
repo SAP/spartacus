@@ -142,7 +142,7 @@ class MockProductService implements Partial<ProductService> {
 }
 class MockFeatureConfigService {
   isEnabled(feature: string): boolean {
-    return feature === 'productCarouselUseBatchApi';
+    return feature === 'useProductCarouselBatchApi';
   }
 }
 
@@ -242,7 +242,7 @@ describe('ProductCarouselComponent', () => {
 
     component.items$.subscribe((items) => {
       expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-        'productCarouselUseBatchApi'
+        'useProductCarouselBatchApi'
       );
       expect(productSearchByCodeService.get).toHaveBeenCalledWith({
         code: '1',
@@ -309,7 +309,7 @@ describe('ProductCarouselComponent', () => {
 
       component.items$.subscribe((items) => {
         expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'productCarouselUseBatchApi'
+          'useProductCarouselBatchApi'
         );
         expect(productSearchByCodeService.get).toHaveBeenCalledWith({
           code: '1',

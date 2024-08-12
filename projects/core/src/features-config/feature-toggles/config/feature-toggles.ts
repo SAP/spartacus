@@ -95,7 +95,7 @@ export interface FeatureTogglesInterface {
    *   }
    * ```
    */
-  productCarouselUseBatchApi?: boolean;
+  useProductCarouselBatchApi?: boolean;
 
   /**
    * In `ConfiguratorAttributeDropDownComponent`, `ConfiguratorAttributeSingleSelectionImageComponent`
@@ -475,7 +475,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   recentSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
-  productCarouselUseBatchApi: false,
+  useProductCarouselBatchApi: false,
   productConfiguratorAttributeTypesV2: false,
   productConfiguratorDeltaRendering: false,
   a11yRequiredAsterisks: false,

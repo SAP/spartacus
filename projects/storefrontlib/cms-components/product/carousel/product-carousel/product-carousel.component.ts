@@ -58,7 +58,7 @@ export class ProductCarouselComponent {
         return { componentMappingExist, codes };
       }),
       map(({ componentMappingExist, codes }) => {
-        if (this.featureConfigService.isEnabled('productCarouselUseBatchApi')) {
+        if (this.featureConfigService.isEnabled('useProductCarouselBatchApi')) {
           const scope = componentMappingExist ? 'carousel' : 'carouselMinimal';
           return codes.map((code: string) =>
             this.productSearchByCodeService.get({ code, scope })
