@@ -66,13 +66,9 @@ export class RescheduleServiceOrderComponent implements OnInit, OnDestroy {
   initializeForm(order: Order): void {
     const servicedAt = order.servicedAt;
     if (servicedAt && servicedAt !== '') {
-      const scheduledAt =
-        this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
-          servicedAt
-        );
       const info =
         this.checkoutServiceSchedulePickerService.getServiceDetailsFromDateTime(
-          scheduledAt
+          servicedAt
         );
       this.form.patchValue({
         scheduleDate: info.date,

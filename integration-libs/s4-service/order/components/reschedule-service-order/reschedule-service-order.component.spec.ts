@@ -119,9 +119,6 @@ describe('RescheduleServiceOrderComponent', () => {
     expect(component.form?.get('scheduleDate')?.value).toEqual('11/07/2024');
     expect(component.form?.get('scheduleTime')?.value).toEqual('14:30');
     expect(
-      checkoutServiceSchedulePickerService.convertDateTimeToReadableString
-    ).toHaveBeenCalled();
-    expect(
       checkoutServiceSchedulePickerService.getServiceDetailsFromDateTime
     ).toHaveBeenCalled();
   });
@@ -131,9 +128,6 @@ describe('RescheduleServiceOrderComponent', () => {
       '2024-07-06T11:00:00+0000'
     );
     expect(component.form?.get('scheduleTime')?.value).toEqual('08:00');
-    expect(
-      checkoutServiceSchedulePickerService.convertDateTimeToReadableString
-    ).toHaveBeenCalled();
     expect(
       checkoutServiceSchedulePickerService.getServiceDetailsFromDateTime
     ).toHaveBeenCalled();
