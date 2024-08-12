@@ -73,6 +73,7 @@
               params: order
             } | cxUrl
           "
+          [attr.aria-label]="'rescheduleService.backButtonLabel' | cxTranslate"
         >
           {{ 'rescheduleService.backButtonLabel' | cxTranslate }}
         </button>
@@ -82,6 +83,9 @@
           type="submit"
           class="btn btn-primary btn-block"
           [disabled]="!(form.valid && form.dirty)"
+          [attr.aria-label]="
+            'rescheduleService.submitButtonLabel' | cxTranslate
+          "
         >
           {{ 'rescheduleService.submitButtonLabel' | cxTranslate }}
         </button>
