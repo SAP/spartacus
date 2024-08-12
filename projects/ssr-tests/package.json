@@ -1,6 +1,6 @@
 {
   "name": "ssr-tests",
-  "version": "2211.27.0-2",
+  "version": "2211.27.0",
   "private": true,
   "description": "Spartacus SSR Tests",
   "keywords": [

@@ -3,10 +3,11 @@
   (esc)="close('Escape clicked')"
   class="cx-cancel-replenishment-dialog-foreground"
   role="dialog"
+  aria-labelledby="dialogTitle"
 >
   <div class="cx-cancel-replenishment-dialog-content">
     <div class="cx-cancel-replenishment-dialog-header">
-      <h3>
+      <h3 id="dialogTitle">
         {{ 'orderDetails.cancelReplenishment.title' | cxTranslate }}
       </h3>
       <button
