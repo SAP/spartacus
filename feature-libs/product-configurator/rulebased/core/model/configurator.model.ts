@@ -105,6 +105,7 @@ export namespace Configurator {
     hideBasePriceAndSelectedOptions?: boolean;
     immediateConflictResolution?: boolean;
     newConfiguration?: boolean;
+    isPricingAsync?: boolean;
   }
 
   export interface ConfigurationWithOverview extends Configuration {
@@ -230,6 +231,7 @@ export namespace Configurator {
     READ_ONLY_MULTI_SELECTION_IMAGE = 'read_only_multi_selection_image',
     STRING = 'string',
     NUMERIC = 'numeric',
+    SAP_DATE = 'sap_date',
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
     MULTI_SELECTION_IMAGE = 'multi_selection_image',
     SINGLE_SELECTION_IMAGE = 'single_selection_image',
@@ -273,6 +275,7 @@ export namespace Configurator {
   export enum ValidationType {
     NONE = 'NONE',
     NUMERIC = 'NUMERIC',
+    SAP_DATE = 'SAP_DATE',
   }
   export enum OverviewFilter {
     VISIBLE = 'PRIMARY',
