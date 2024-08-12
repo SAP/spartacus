@@ -23,6 +23,7 @@
     "ServiceDate": "Service Date",
     "SubmitRequest": "Submit Request",
     "serviceNotRcancelable": "Service is not cancelable",
-    "charactersLeft": "characters left: {{count}}"
+    "charactersLeft": "characters left: {{count}}",
+    "Services": "Services"
   }
 }
