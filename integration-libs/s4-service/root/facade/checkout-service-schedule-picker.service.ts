@@ -93,8 +93,6 @@ export class CheckoutServiceSchedulePickerService {
     const inputDate = new Date(input);
     const hours = inputDate.getHours().toString().padStart(2, '0');
     const minutes = inputDate.getMinutes().toString().padStart(2, '0');
-    console.log(input);
-    console.log(inputDate);
     return {
       date: this.datePipe.transform(inputDate, dateFormat) ?? '',
       time: `${hours}:${minutes}`,
