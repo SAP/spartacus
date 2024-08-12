@@ -77,17 +77,18 @@ export class ProductMultiDimensionalSelectorComponent {
     }
   }
 
-  getSelectedValue(categoryName: string): string | null {
+  getSelectedValue(categoryName: string): string {
     const category = this.categories.find((cat) => cat.name === categoryName);
 
     if (category && this.selectedProductCode) {
       const selectedOption = category.variantOptions.find(
         (option) => option.code === this.selectedProductCode
       );
+
       return selectedOption ? selectedOption.value : '';
     }
 
-    return null;
+    return '';
   }
 
   onAriaLabel(
@@ -110,9 +111,10 @@ export class ProductMultiDimensionalSelectorComponent {
       .pipe(map((text) => `${text}`));
   }
 
-  getCategoryName(category): string {
+  getCategoryName(category: VariantCategoryGroup): string {
     if (category.hasImages) {
       const selectedValue = this.getSelectedValue(category.name);
+
       return `${category.name}${selectedValue ? `: ${selectedValue}` : ''}`;
     }
 
