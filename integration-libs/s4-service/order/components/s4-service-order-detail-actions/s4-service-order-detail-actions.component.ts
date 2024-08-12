@@ -21,11 +21,11 @@ export class S4ServiceOrderDetailActionsComponent
 {
   order: Order;
   displayActions: boolean;
-  protected checkoutServiceSchedulePickerService = inject(
+  private checkoutServiceSchedulePickerService = inject(
     CheckoutServiceSchedulePickerService
   );
-  protected globalMessageService = inject(GlobalMessageService);
-  protected subscription = new Subject<void>();
+  private globalMessageService = inject(GlobalMessageService);
+  private subscription = new Subject<void>();
 
   ngOnInit(): void {
     this.order$.pipe(takeUntil(this.subscription)).subscribe((order) => {

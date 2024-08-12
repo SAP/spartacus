@@ -11,16 +11,14 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class RescheduleServiceOrderConnector {
-  protected rescheduleServiceOrderadapter = inject(
-    RescheduleServiceOrderAdapter
-  );
+  private rescheduleServiceOrderAdapter = inject(RescheduleServiceOrderAdapter);
 
   rescheduleServiceOrder(
     userId: string,
     code: string,
     scheduledAt: ServiceDetails
   ): Observable<unknown> {
-    return this.rescheduleServiceOrderadapter.rescheduleServiceOrder(
+    return this.rescheduleServiceOrderAdapter.rescheduleServiceOrder(
       userId,
       code,
       scheduledAt

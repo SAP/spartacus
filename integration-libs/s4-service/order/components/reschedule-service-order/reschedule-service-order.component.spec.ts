@@ -76,7 +76,7 @@ class MockCheckoutServiceSchedulePickerService {
 describe('RescheduleServiceOrderComponent', () => {
   let component: RescheduleServiceOrderComponent;
   let fixture: ComponentFixture<RescheduleServiceOrderComponent>;
-  let rescheduleServiceOrdeFacade: RescheduleServiceOrderFacade;
+  let rescheduleServiceOrderFacade: RescheduleServiceOrderFacade;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let checkoutServiceSchedulePickerService: CheckoutServiceSchedulePickerService;
@@ -102,7 +102,7 @@ describe('RescheduleServiceOrderComponent', () => {
 
     fixture = TestBed.createComponent(RescheduleServiceOrderComponent);
     component = fixture.componentInstance;
-    rescheduleServiceOrdeFacade = TestBed.inject(RescheduleServiceOrderFacade);
+    rescheduleServiceOrderFacade = TestBed.inject(RescheduleServiceOrderFacade);
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     checkoutServiceSchedulePickerService = TestBed.inject(
@@ -139,7 +139,7 @@ describe('RescheduleServiceOrderComponent', () => {
     expect(component.form?.get('scheduleTime')?.value).toEqual('16:00');
   });
   it('should show redirect to order details page with success message when successfully rescheduled', () => {
-    spyOn(rescheduleServiceOrdeFacade, 'rescheduleService').and.returnValue(
+    spyOn(rescheduleServiceOrderFacade, 'rescheduleService').and.returnValue(
       of(200)
     );
     component.rescheduleServiceOrder();
@@ -153,7 +153,7 @@ describe('RescheduleServiceOrderComponent', () => {
     );
   });
   it('should show error message if any error thrown', () => {
-    spyOn(rescheduleServiceOrdeFacade, 'rescheduleService').and.returnValue(
+    spyOn(rescheduleServiceOrderFacade, 'rescheduleService').and.returnValue(
       throwError('Throwing Error message')
     );
     component.rescheduleServiceOrder();

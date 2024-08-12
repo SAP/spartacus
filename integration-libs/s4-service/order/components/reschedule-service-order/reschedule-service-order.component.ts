@@ -27,7 +27,7 @@ import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
 })
 export class RescheduleServiceOrderComponent implements OnInit, OnDestroy {
   protected orderDetailsService = inject(OrderDetailsService);
-  protected rescheduleServiceOrdeFacade = inject(RescheduleServiceOrderFacade);
+  protected rescheduleServiceOrderFacade = inject(RescheduleServiceOrderFacade);
   protected routingService = inject(RoutingService);
   protected globalMessageService = inject(GlobalMessageService);
   protected fb = inject(FormBuilder);
@@ -101,7 +101,7 @@ export class RescheduleServiceOrderComponent implements OnInit, OnDestroy {
       scheduleDate,
       scheduleTime
     );
-    this.rescheduleServiceOrdeFacade
+    this.rescheduleServiceOrderFacade
       .rescheduleService(this.orderCode, this.dateTime)
       .subscribe({
         next: () => {

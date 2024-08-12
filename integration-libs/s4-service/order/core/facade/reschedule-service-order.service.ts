@@ -12,6 +12,7 @@ import {
 } from '@spartacus/s4-service/root';
 import { UserIdService } from '@spartacus/core';
 import { switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +27,10 @@ export class RescheduleServiceOrderService
 
   constructor() {}
 
-  rescheduleService(orderCode: string, scheduledAt: ServiceDateTime) {
+  rescheduleService(
+    orderCode: string,
+    scheduledAt: ServiceDateTime
+  ): Observable<unknown> {
     return this.userIdService.takeUserId().pipe(
       switchMap((userId) => {
         return this.rescheduleServiceOrderConnector.rescheduleServiceOrder(
