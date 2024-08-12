@@ -24,8 +24,9 @@ import {
   VariantCategoryGroup,
   VariantCategoryOption,
 } from '@spartacus/product/multi-dimensional/root';
-import { filter, take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { ProductMultiDimensionalService } from '../../../core/services/product-multi-dimensional.service';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'cx-variants-multi-dimensional-selector',
@@ -68,50 +69,51 @@ export class ProductMultiDimensionalSelectorComponent implements OnChanges {
     }
   }
 
-  getSelectedValue(categoryName: string): string | null {
+  getCategoryName(category: VariantCategoryGroup): string {
+    if (category.hasImages) {
+      const selectedValue = this.getSelectedValue(category.name);
+
+      return `${category.name}${selectedValue ? `: ${selectedValue}` : ''}`;
+    }
+
+    return category.name;
+  }
+
+  getSelectedValue(categoryName: string): string {
     const category = this.categories.find((cat) => cat.name === categoryName);
 
     if (category && this.selectedVariant) {
       const selectedOption = category.variantOptions.find(
         (option) => option.code === this.selectedVariant
       );
+
       return selectedOption ? selectedOption.value : '';
     }
 
-    return null;
+    return '';
   }
 
   isSelected(code: string): boolean {
     return code === this.product.code;
   }
 
-  getAriaLabel(option: VariantCategoryOption, categoryName: string) {
+  onAriaLabel(
+    option: VariantCategoryOption,
+    categoryName: string
+  ): Observable<string> {
     const isSelected = this.isSelected(option.code);
 
     if (isSelected) {
-      let selectedAriaLabel = '';
-
-      this.translationService
+      return this.translationService
         .translate('multiDimensional.selectedVariant')
-        .pipe(take(1))
-        .subscribe(
-          (text) =>
-            (selectedAriaLabel += `${text}, ${option.value} ${categoryName}`)
-        );
-
-      return selectedAriaLabel;
+        .pipe(map((text) => `${text}, ${option.value} ${categoryName}`));
     }
 
-    let ariaLabel = '';
-
-    this.translationService
+    return this.translationService
       .translate('multiDimensional.variantThumbnailTitle', {
         value: option.value,
         category: categoryName,
       })
-      .pipe(take(1))
-      .subscribe((text) => (ariaLabel += `${text}`));
-
-    return ariaLabel;
+      .pipe(map((text) => `${text}`));
   }
 }
