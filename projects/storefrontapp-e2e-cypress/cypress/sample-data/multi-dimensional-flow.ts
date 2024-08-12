@@ -7,22 +7,22 @@
 import { SampleCartProduct, SampleProduct } from './checkout-flow';
 
 export const multiDBaseProduct: SampleProduct = {
-  name: 'SC-H20_MD',
-  code: '1978440_md',
+  name: 'cyber-shot-w55',
+  code: '676442_md',
 };
 export const multiDProduct: SampleProduct = {
-  name: 'SC-H20_MD Red',
-  code: '1978440_md_red',
+  name: 'Cyber-Shot W55',
+  code: '676442_md_1',
 };
 
 export const cartWithMultipleVariantProducts: SampleCartProduct = {
   estimatedShipping: '$11.99',
-  total: '$1,655.20',
-  totalAndShipping: '$1,667.19',
+  total: '$703.74',
+  totalAndShipping: '$715.73',
 };
 
 export const cartWithTotalVariantProduct: SampleCartProduct = {
   estimatedShipping: '$11.99',
-  total: '$538.40',
-  totalAndShipping: '$550.39',
+  total: '$240.87',
+  totalAndShipping: `$252.86`,
 };
