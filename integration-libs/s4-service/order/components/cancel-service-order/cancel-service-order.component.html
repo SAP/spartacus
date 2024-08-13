@@ -1,8 +1,11 @@
 <form [formGroup]="form" (ngSubmit)="cancelServiceOrder()">
   <div class="form-group">
-    <label for="reasonTextarea">{{
-      'cancelService.cancelReason' | cxTranslate
-    }}</label>
+    <label for="reasonTextarea"
+      >{{ 'cancelService.cancelReason' | cxTranslate }}
+      <span class="optional">{{
+        'cancelService.optional' | cxTranslate
+      }}</span></label
+    >
     <textarea
       id="reasonTextarea"
       class="form-control"

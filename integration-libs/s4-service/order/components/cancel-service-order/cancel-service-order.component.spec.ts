@@ -127,7 +127,7 @@ describe('CancelServiceOrderComponent', () => {
     fixture.detectChanges();
     expect(mockGlobalMessageService.add).toHaveBeenCalled();
     // expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-    //   { key: 'cancelService.cancelServiceSucess' },
+    //   { key: 'cancelService.cancelServiceSuccess' },
     //   GlobalMessageType.MSG_TYPE_CONFIRMATION
     // );
   });

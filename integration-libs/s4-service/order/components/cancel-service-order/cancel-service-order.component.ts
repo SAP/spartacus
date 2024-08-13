@@ -40,7 +40,7 @@ export class CancelServiceOrderComponent {
     const cancelReason = this.form.get('cancelReason')?.value || '';
     this.order$
       .pipe(
-        mergeMap((order) => {
+        mergeMap((order: any) => {
           if (order) {
             const cancelobj: CancelObj = {
               cancellationRequestEntryInputs: order.entries.map(
@@ -63,7 +63,7 @@ export class CancelServiceOrderComponent {
           }
         }),
         mergeMap(() => this.order$), // Re-subscribe to get order details for routing
-        mergeMap((order) =>
+        mergeMap((order: any) =>
           this.routingService.go({
             cxRoute: 'orderDetails',
             params: { code: order.code },
@@ -73,7 +73,7 @@ export class CancelServiceOrderComponent {
       .subscribe({
         next: () => {
           this.globalMessageService.add(
-            { key: 'cancelService.cancelServiceSucess' },
+            { key: 'cancelService.cancelServiceSuccess' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
         },

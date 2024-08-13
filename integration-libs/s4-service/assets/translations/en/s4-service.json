@@ -1,6 +1,7 @@
 {
   "serviceOrderCheckout": {
     "serviceDetails": "Service Details",
+    "serviceScheduleHeading": "Service Schedule - Date and Time",
     "heading": "Service Schedule - Date and Time",
     "datePickerLabel": "Schedule Service Date",
     "timePickerLabel": "Schedule Service Time",
@@ -11,12 +12,13 @@
   },
   "cancelService": {
     "heading": "The following items will be included in the cancellation request",
-    "cancelReason": "Reason for  cancelling service(optional)",
+    "cancelReason": "Reason for  cancelling service",
+    "optional": "(optional)",
     "action": "Cancel Service",
     "cancelSuccess": "Your cancellation request was submitted (original order {{orderCode}} will be updated)",
     "back": "Back",
     "Submit": "Submit Request",
-    "cancelServiceSucess": "The service has been cancelled sucessfully",
+    "cancelServiceSuccess": "The service has been cancelled sucessfully",
     "unknownError": "An unknown error occurred. Please contact support.",
     "ServiceTime": "Service Time",
     "ServiceLocation": "Service Location",
