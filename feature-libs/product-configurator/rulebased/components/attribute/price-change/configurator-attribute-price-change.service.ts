@@ -20,12 +20,12 @@ import { ConfiguratorCommonsService } from '../../../core/facade/configurator-co
 import { Configurator } from '../../../core/model/configurator.model';
 
 /**
- * Stateful service to react on price changes of the configuration. Hence components using this service must provide it within their declaration:
- *
+ * Stateful service to react on price changes of the configuration.
+ * Hence components using this service must provide it within their declaration, for instance:
  * @Component({ providers: [ConfiguratorAttributePriceChangeService] })
  *
- * getPriceChangedEvents will return an observable that emits whenever the price of a monitored attribute (identified by the provided attribute key) changes,
- * hence allowing the subscriber for example to trigger rerendering of the prices on the UI.
+ * getChangedPrices will return an observable that emits whenever the price of a monitored attribute (identified by the provided attribute key) changes.
+ * Hence allowing the subscriber to trigger rerendering of the prices on the UI.
  */
 @Injectable()
 export class ConfiguratorAttributePriceChangeService {
@@ -36,22 +36,20 @@ export class ConfiguratorAttributePriceChangeService {
   protected lastAttributeSupplement:
     | Configurator.AttributeSupplement
     | undefined;
-  protected valuePrices: { [valueName: string]: Configurator.PriceDetails } =
-    {};
 
   /**
-   * Returns an observable that shall be used by all components supporting delta rendering mode.
-   * It will monitor the price supplements of configuration observable and emit true if price supplements
-   * matching the given attribute key have changed.
-   * Additionally it returns always true for the first emission of the underlying configuration observable.
-   * This ensures that an enclosing UI component will initially render, even if the async pricing request ist still running,
+   * Retrieves an observable that emits whenever the price of a monitored attribute (identified by the provided attribute key) changes,
+   * hence allowing the subscriber to trigger rerendering of the prices on the UI.
+   * This ensures that an enclosing UI component will initially render, even if the async pricing request is still running,
    * so that the UI is not blocked. Afterwards a rerender shall only occur if prices change.
    * This all assumes that the enclosing UI component itself gets recreated or rerendered (triggered elsewhere) whenever the attribute itself changes content wise.
    *
    * @param attributeKey key of the attribute for which the prices should be checked for changes
-   * @returns observable that emits 'true' each time a price changes and hence there is the need to rerender the enclosing component
+   * @returns observable that emits price of monitored attribute changes and hence there is the need to rerender the enclosing component
    */
-  getPriceChangedEvents(attributeKey: string | undefined): Observable<boolean> {
+  getChangedPrices(
+    attributeKey: string | undefined
+  ): Observable<Record<string, Configurator.PriceDetails>> {
     let isInitialConfiguration: boolean = true;
     return this.configuratorRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
@@ -65,13 +63,13 @@ export class ConfiguratorAttributePriceChangeService {
             ),
             switchMap((config) => {
               if (!config.priceSupplements) {
-                return of(true);
+                return of({});
               }
-              const pricesChanged = this.checkForValuePriceChanges(
+              const changedPrices = this.checkForValuePriceChanges(
                 config,
                 attributeKey
               );
-              return pricesChanged ? of(true) : EMPTY;
+              return changedPrices ? of(changedPrices) : EMPTY;
             }),
             tap(() => (isInitialConfiguration = false))
           );
@@ -81,33 +79,18 @@ export class ConfiguratorAttributePriceChangeService {
   }
 
   /**
-   * Merges the stored value price data into the given value, if available.
-   * As the value might be read-only a new object will be returned combining price and value.
-   *
-   * @param value the value
-   * @returns the new value with price
-   */
-  mergePriceIntoValue(value: Configurator.Value): Configurator.Value {
-    const valueName = value.name;
-    if (valueName && this.valuePrices[valueName]) {
-      value = { ...value, valuePrice: this.valuePrices[valueName] };
-    }
-    return value;
-  }
-
-  /**
    * Extracts the relevant value prices from the price supplements
-   * and stores them within the component. Returns a boolean indicating
-   * whether there were any value price changes.
+   * and stores them within the component.
+   * Returns price of a monitored attribute changes.
    *
-   * @param config current config
+   * @param config current configuration
    * @param attributeKey key of the attribute for which the prices should be checked for changes
-   * @returns {true}, only if at least one value price changed
+   * @returns observable that emits price of a monitored attribute changes
    */
   protected checkForValuePriceChanges(
     config: Configurator.Configuration,
     attributeKey: string | undefined
-  ): boolean {
+  ): Record<string, Configurator.PriceDetails> | undefined {
     const attributeSupplement = config.priceSupplements?.find(
       (supplement) => supplement.attributeUiKey === attributeKey
     );
@@ -116,21 +99,15 @@ export class ConfiguratorAttributePriceChangeService {
       attributeSupplement ?? {}
     );
     if (changed) {
+      const changedPrices: Record<string, Configurator.PriceDetails> = {};
       this.lastAttributeSupplement = attributeSupplement;
-      attributeSupplement?.valueSupplements.forEach((valueSupplement) =>
-        this.storeValuePrice(
-          valueSupplement.attributeValueKey,
-          valueSupplement.priceValue
-        )
+      attributeSupplement?.valueSupplements.forEach(
+        (valueSupplement) =>
+          (changedPrices[valueSupplement.attributeValueKey] =
+            valueSupplement.priceValue)
       );
+      return changedPrices;
     }
-    return changed;
-  }
-
-  protected storeValuePrice(
-    valueName: string,
-    valuePrice: Configurator.PriceDetails
-  ) {
-    this.valuePrices[valueName] = valuePrice;
+    return undefined;
   }
 }

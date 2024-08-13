@@ -290,11 +290,13 @@ if (environment.cpq) {
         recentSearches: false,
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
+        useProductCarouselBatchApi: false, //TODO: CXSPA-8162
         productConfiguratorAttributeTypesV2: true,
         productConfiguratorDeltaRendering: true,
         a11yRequiredAsterisks: true,
         a11yQuantityOrderTabbing: true,
         a11yNavigationUiKeyboardControls: true,
+        a11yNavMenuExpandStateReadout: true,
         a11yOrderConfirmationHeadingOrder: true,
         a11yStarRating: true,
         a11yViewChangeAssistiveMessage: true,
@@ -345,6 +347,7 @@ if (environment.cpq) {
         occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yDeliveryModeRadiogroup: true,
+        a11yAddedToCartActiveDialog: true,
         a11yNgSelectMobileReadout: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
       };
