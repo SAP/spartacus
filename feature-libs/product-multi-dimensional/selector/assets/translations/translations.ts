@@ -7,11 +7,11 @@
 import { TranslationChunksConfig, TranslationResources } from '@spartacus/core';
 import { en } from './en/index';
 
-export const multiDimensionalTranslations: TranslationResources = {
+export const multiDimensionalSelectorTranslations: TranslationResources = {
   en,
 };
 
-export const multiDimensionalTranslationChunksConfig: TranslationChunksConfig =
+export const multiDimensionalSelectorTranslationChunksConfig: TranslationChunksConfig =
   {
-    multiDimensional: ['multiDimensional'],
+    multiDimensionalSelector: ['multiDimensionalSelector'],
   };

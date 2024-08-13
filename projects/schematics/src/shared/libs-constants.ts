@@ -136,6 +136,7 @@ export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_LIST = `@spartacus/product-mult
 export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_LIST_ROOT = `@spartacus/product-multi-dimensional/list/root`;
 export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR = `@spartacus/product-multi-dimensional/selector`;
 export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR_ROOT = `@spartacus/product-multi-dimensional/selector/root`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR_CONFIGURATOR_ASSETS = `@spartacus/product-multi-dimensional/selector/assets`;
 export const SPARTACUS_FUTURE_STOCK = `@spartacus/product/future-stock`;
 export const SPARTACUS_FUTURE_STOCK_ROOT = `@spartacus/product/future-stock/root`;
 export const SPARTACUS_FUTURE_STOCK_ASSETS = `@spartacus/product/future-stock/assets`;

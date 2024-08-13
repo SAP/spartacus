@@ -11,8 +11,8 @@ import {
   ProductMultiDimensionalSelectorRootModule,
 } from '@spartacus/product-multi-dimensional/selector/root';
 import {
-  multiDimensionalTranslationChunksConfig,
-  multiDimensionalTranslations,
+  multiDimensionalSelectorTranslationChunksConfig,
+  multiDimensionalSelectorTranslations,
 } from '@spartacus/product-multi-dimensional/selector/assets';
 
 @NgModule({
@@ -28,8 +28,8 @@ import {
         },
       },
       i18n: {
-        resources: multiDimensionalTranslations,
-        chunks: multiDimensionalTranslationChunksConfig,
+        resources: multiDimensionalSelectorTranslations,
+        chunks: multiDimensionalSelectorTranslationChunksConfig,
         fallbackLang: 'en',
       },
     }),

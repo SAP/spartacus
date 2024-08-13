@@ -36,7 +36,7 @@ export function defaultProductMultiDimensionalListConfig() {
     provideDefaultConfigFactory(defaultProductMultiDimensionalListConfig),
     provideOutlet({
       id: ProductListOutlets.ITEM_DETAILS,
-      position: OutletPosition.AFTER,
+      position: OutletPosition.REPLACE,
       component: ProductMultiDimensionalPriceRangeComponent,
     }),
   ],

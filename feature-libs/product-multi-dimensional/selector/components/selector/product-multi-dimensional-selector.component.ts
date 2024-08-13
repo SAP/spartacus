@@ -100,12 +100,12 @@ export class ProductMultiDimensionalSelectorComponent {
 
     if (isSelected) {
       return this.translationService
-        .translate('multiDimensional.selectedVariant')
+        .translate('multiDimensionalSelector.selectedVariant')
         .pipe(map((text) => `${text}, ${option.value} ${categoryName}`));
     }
 
     return this.translationService
-      .translate('multiDimensional.variantThumbnailTitle', {
+      .translate('multiDimensionalSelector.variantThumbnailTitle', {
         value: option.value,
         category: categoryName,
       })
