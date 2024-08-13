@@ -285,9 +285,9 @@ export const PRODUCT_IMAGE_ZOOM_FEATURE_NAME = 'Image-Zoom';
 export const PRODUCT_VARIANTS_FEATURE_NAME = 'Product-Variants';
 export const PRODUCT_FUTURE_STOCK_FEATURE_NAME = 'Future-Stock';
 export const PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE_NAME =
-  'Product-multi-dimensional-list';
+  'Product-Multi-Dimensional-List';
 export const PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE_NAME =
-  'Product-multi-dimensional-selector';
+  'Product-Multi-Dimensional-Selector';
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME =
   'Textfield-Configurator';
 export const PRODUCT_CONFIGURATOR_VC_FEATURE_NAME = 'VC-Configurator';

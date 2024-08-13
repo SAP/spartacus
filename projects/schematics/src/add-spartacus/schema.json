@@ -45,8 +45,8 @@
           "Future-Stock",
           "PDF-Invoices",
           "Product-Variants",
-          "Product-multi-dimensional-selector",
-          "Product-multi-dimensional-list",
+          "Product-Multi-Dimensional-Selector",
+          "Product-Multi-Dimensional-List",
           "VC-Configurator",
           "Textfield-Configurator",
           "CPQ-Configurator",
@@ -187,11 +187,11 @@
             "label": "Product - Variants"
           },
           {
-            "value": "Product-multi-dimensional-selector",
+            "value": "Product-Multi-Dimensional-Selector",
             "label": "Product Multi-Dimensional - Selector"
           },
           {
-            "value": "Product-multi-dimensional-list",
+            "value": "Product-Multi-Dimensional-List",
             "label": "Product Multi-Dimensional PLP - price range"
           },
           {

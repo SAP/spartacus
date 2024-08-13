@@ -26,25 +26,25 @@
       "uniqueItems": true,
       "items": {
         "enum": [
-          "Product-multi-dimensional-selector",
-          "Product-multi-dimensional-list"
+          "Product-Multi-Dimensional-Selector",
+          "Product-Multi-Dimensional-List"
         ],
         "type": "string"
       },
       "default": [
-        "Product-multi-dimensional-selector",
-        "Product-multi-dimensional-list"
+        "Product-Multi-Dimensional-Selector",
+        "Product-Multi-dimensional-List"
       ],
       "x-prompt": {
         "message": "Which Product Multi-Dimensional features would you like to set up?",
         "type": "list",
         "items": [
           {
-            "value": "Product-multi-dimensional-selector",
+            "value": "Product-Multi-Dimensional-Selector",
             "label": "PDP Multi-Dimensional selector"
           },
           {
-            "value": "Product-multi-dimensional-list",
+            "value": "Product-Multi-Dimensional-List",
             "label": "PLP Multi-Dimensional price range"
           }
         ]
