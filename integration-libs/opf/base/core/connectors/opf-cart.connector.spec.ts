@@ -1,31 +1,31 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { OpfCartAdapter } from './opf-cart.adapter';
+import { OpfCartConnector } from './opf-cart.connector';
 import createSpy = jasmine.createSpy;
-import { OtpConnector } from './otp.connector';
-import { OtpAdapter } from './otp.adapter';
 
-class MockOtpAdapter implements OtpAdapter {
+class MockOpfCartAdapter implements OpfCartAdapter {
   generateOtpKey = createSpy().and.returnValue(of({}));
 }
 
-describe('OtpConnector', () => {
-  let service: OtpConnector;
-  let adapter: OtpAdapter;
+describe('OpfCartConnector', () => {
+  let service: OpfCartConnector;
+  let adapter: OpfCartAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        OtpConnector,
+        OpfCartConnector,
         {
-          provide: OtpAdapter,
-          useClass: MockOtpAdapter,
+          provide: OpfCartAdapter,
+          useClass: MockOpfCartAdapter,
         },
       ],
     });
 
-    service = TestBed.inject(OtpConnector);
-    adapter = TestBed.inject(OtpAdapter);
+    service = TestBed.inject(OpfCartConnector);
+    adapter = TestBed.inject(OpfCartAdapter);
   });
 
   it('should be created', () => {

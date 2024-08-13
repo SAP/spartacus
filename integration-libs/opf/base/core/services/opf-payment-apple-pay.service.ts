@@ -10,7 +10,7 @@ import { UserIdService, backOff } from '@spartacus/core';
 import {
   ApplePaySessionVerificationRequest,
   ApplePaySessionVerificationResponse,
-  OpfOtpFacade,
+  OpfCartFacade,
 } from '@spartacus/opf/base/root';
 import { Observable, combineLatest, throwError } from 'rxjs';
 import { catchError, concatMap, filter, switchMap, take } from 'rxjs/operators';
@@ -22,7 +22,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class OpfPaymentApplePayService {
-  protected opfOtpFacade = inject(OpfOtpFacade);
+  protected opfCartFacade = inject(OpfCartFacade);
   protected activeCartFacade = inject(ActiveCartFacade);
   protected userIdService = inject(UserIdService);
   protected opfPaymentConnector = inject(OpfPaymentConnector);
@@ -38,7 +38,7 @@ export class OpfPaymentApplePayService {
         ([userId, activeCartId]: [string, string]) => !!activeCartId && !!userId
       ),
       switchMap(([userId, activeCartId]: [string, string]) => {
-        return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
+        return this.opfCartFacade.generateOtpKey(userId, activeCartId);
       }),
       filter((response) => Boolean(response?.accessCode)),
       take(1),

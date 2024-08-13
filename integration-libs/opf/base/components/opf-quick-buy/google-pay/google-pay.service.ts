@@ -12,6 +12,7 @@ import { OpfCartHandlerService } from '@spartacus/opf/base/core';
 import {
   ADDRESS_FIELD_PLACEHOLDER,
   ActiveConfiguration,
+  OpfCartFacade,
   OpfPaymentFacade,
   OpfProviderType,
   OpfQuickBuyDeliveryType,
@@ -39,6 +40,7 @@ export class OpfGooglePayService {
   protected opfCartHandlerService = inject(OpfCartHandlerService);
   protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected opfQuickBuyService = inject(OpfQuickBuyService);
+  protected opfCartFacade = inject(OpfCartFacade);
 
   protected readonly GOOGLE_PAY_JS_URL =
     'https://pay.google.com/gp/p/js/pay.js';

@@ -4,5 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './default-b2b-opf-checkout-config';
-export * from './default-opf-checkout-config';
+// TODO: Add unit tests...

@@ -6,9 +6,9 @@
 
 import { NgModule } from '@angular/core';
 import {
+  OpfCartConnector,
   OpfOrderConnector,
   OpfPaymentConnector,
-  OtpConnector,
 } from './connectors';
 import { facadeProviders } from './facade/facade-providers';
 
@@ -18,7 +18,7 @@ import { facadeProviders } from './facade/facade-providers';
     ...facadeProviders,
     OpfPaymentConnector,
     OpfOrderConnector,
-    OtpConnector,
+    OpfCartConnector,
   ],
 })
 export class OpfBaseCoreModule {}

@@ -5,8 +5,25 @@
  */
 
 import { InjectionToken } from '@angular/core';
-import { Converter } from '@spartacus/core';
+import { DeliveryMode } from '@spartacus/cart/base/root';
+import { Address, Converter } from '@spartacus/core';
 
-export const OTP_NORMALIZER = new InjectionToken<
+export const OPF_CART_ACCESS_TOKEN_NORMALIZER = new InjectionToken<
   Converter<any, string | undefined>
->('OtpNormalizer');
+>('OpfCartNormalizer');
+
+export const OPF_CART_BILLING_ADDRESS_NORMALIZER = new InjectionToken<
+  Converter<any, Address>
+>('OpfCartBillingAddressNormalizer');
+
+export const OPF_CART_DELIVERY_ADDRESS_NORMALIZER = new InjectionToken<
+  Converter<any, Address>
+>('OpfCartDeliveryAddressNormalizer');
+
+export const OPF_CART_DELIVERY_MODE_NORMALIZER = new InjectionToken<
+  Converter<any, DeliveryMode>
+>('OpfCartDeliveryModeNormalizer');
+
+export const OPF_CART_DELIVERY_MODES_NORMALIZER = new InjectionToken<
+  Converter<any, DeliveryMode[]>
+>('OpfCartDeliveryModesNormalizer');

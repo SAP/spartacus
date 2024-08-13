@@ -29,8 +29,8 @@ import {
 import {
   defaultError,
   MerchantCallback,
+  OpfCartFacade,
   OpfOrderFacade,
-  OpfOtpFacade,
   OpfPaymentError,
   PaymentErrorType,
   PaymentMethod,
@@ -55,7 +55,7 @@ export class OpfPaymentHostedFieldsService {
   constructor(
     protected opfPaymentConnector: OpfPaymentConnector,
     protected winRef: WindowRef,
-    protected opfOtpFacade: OpfOtpFacade,
+    protected opfCartFacade: OpfCartFacade,
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected routingService: RoutingService,
@@ -97,7 +97,7 @@ export class OpfPaymentHostedFieldsService {
       ),
       switchMap(([userId, activeCartId]: [string, string]) => {
         submitRequest.cartId = activeCartId;
-        return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
+        return this.opfCartFacade.generateOtpKey(userId, activeCartId);
       }),
       take(1),
       concatMap(({ accessCode: otpKey }) =>
@@ -155,7 +155,7 @@ export class OpfPaymentHostedFieldsService {
       ),
       switchMap(([userId, activeCartId]: [string, string]) => {
         submitCompleteRequest.cartId = activeCartId;
-        return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
+        return this.opfCartFacade.generateOtpKey(userId, activeCartId);
       }),
       take(1),
       concatMap(({ accessCode: otpKey }) =>

@@ -20,8 +20,8 @@ import {
   opfAuthorizationErrorRetry,
 } from '@spartacus/opf/base/core';
 import {
+  OpfCartFacade,
   OpfOrderFacade,
-  OpfOtpFacade,
   OpfResourceLoaderService,
   OpfService,
 } from '@spartacus/opf/base/root';
@@ -56,7 +56,7 @@ export class OpfCheckoutPaymentWrapperService {
 
   constructor(
     protected opfCheckoutService: OpfCheckoutFacade,
-    protected opfOtpService: OpfOtpFacade,
+    protected opfCartService: OpfCartFacade,
     protected opfResourceLoaderService: OpfResourceLoaderService,
     protected userIdService: UserIdService,
     protected activeCartService: ActiveCartService,
@@ -112,7 +112,7 @@ export class OpfCheckoutPaymentWrapperService {
       ),
       switchMap(([userId, cartId]: [string, string]) => {
         this.activeCartId = cartId;
-        return this.opfOtpService.generateOtpKey(userId, cartId);
+        return this.opfCartService.generateOtpKey(userId, cartId);
       }),
       filter((response) => Boolean(response?.accessCode)),
       map(({ accessCode: otpKey }) =>

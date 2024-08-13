@@ -6,17 +6,17 @@
 
 import { Provider } from '@angular/core';
 import {
+  OpfCartFacade,
   OpfGlobalFunctionsFacade,
   OpfOrderFacade,
-  OpfOtpFacade,
   OpfPaymentFacade,
 } from '@spartacus/opf/base/root';
 
 import { OpfPaymentApplePayService } from '../services/opf-payment-apple-pay.service';
 import { OpfPaymentHostedFieldsService } from '../services/opf-payment-hosted-fields.service';
+import { OpfCartService } from './opf-cart.service';
 import { OpfGlobalFunctionsService } from './opf-global-functions.service';
 import { OpfOrderService } from './opf-order.service';
-import { OpfOtpService } from './opf-otp.service';
 import { OpfPaymentService } from './opf-payment.service';
 
 export const facadeProviders: Provider[] = [
@@ -24,7 +24,7 @@ export const facadeProviders: Provider[] = [
   OpfPaymentHostedFieldsService,
   OpfPaymentApplePayService,
   OpfOrderService,
-  OpfOtpService,
+  OpfCartService,
   OpfGlobalFunctionsService,
   {
     provide: OpfPaymentFacade,
@@ -35,8 +35,8 @@ export const facadeProviders: Provider[] = [
     useExisting: OpfOrderService,
   },
   {
-    provide: OpfOtpFacade,
-    useExisting: OpfOtpService,
+    provide: OpfCartFacade,
+    useExisting: OpfCartService,
   },
   {
     provide: OpfGlobalFunctionsFacade,

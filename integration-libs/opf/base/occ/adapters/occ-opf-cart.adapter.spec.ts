@@ -22,7 +22,7 @@ import { take } from 'rxjs/operators';
 
 import { OTP_NORMALIZER } from '../../core/connectors';
 import { OpfConfig } from '../../root/config';
-import { OccOtpAdapter } from './occ-otp.adapter';
+import { OccOtpAdapter } from './occ-opf-cart.adapter';
 
 const mockOpfConfig: OpfConfig = {};
 
