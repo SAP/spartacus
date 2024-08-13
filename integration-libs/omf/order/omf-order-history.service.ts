@@ -14,14 +14,6 @@ export class OmfOrderHistoryService
   extends OrderHistoryService
   implements OrderHistoryFacade
 {
-  // constructor(
-  //   protected store: Store<StateWithOrder>,
-  //   protected processStateStore: Store<StateWithProcess<void>>,
-  //   protected userIdService: UserIdService,
-  //   protected routingService: RoutingService
-  // ) {
-  //   super(store, processStateStore, userIdService, routingService);
-  // }
   getQueryParams(order: Order): Params | null {
     return order.guid
       ? {

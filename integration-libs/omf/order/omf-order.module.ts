@@ -19,7 +19,7 @@ import { defaultOmfConfig } from './config/default-omf-config';
     { provide: OrderHistoryAdapter, useClass: OccOmfOrderHistoryAdapter },
     {
       provide: OrderHistoryFacade,
-      useExisting: OmfOrderHistoryService,
+      useClass: OmfOrderHistoryService,
     },
   ],
 })
