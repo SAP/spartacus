@@ -9,7 +9,7 @@ import { Image } from '@spartacus/core';
 export type VariantCategoryOption = {
   value: string;
   code: string;
-  images: Image[];
+  image?: Image;
 };
 
 export type VariantCategoryGroup = {

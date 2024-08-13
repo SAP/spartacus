@@ -13,24 +13,25 @@ export class ProductMultiDimensionalSelectorImagesService {
   protected config: Config = inject(Config);
 
   /**
-   * Retrieves the images for variant option qualifiers that match the specified format.
+   * Retrieves the image for variant option qualifiers that match the specified format.
    */
-  getVariantOptionImages(
+  getVariantOptionImage(
     variantOptionQualifiers: VariantOptionQualifier[],
     variantOptionValue: string
-  ): Image[] {
+  ): Image | undefined {
     const format = (this.config as ProductMultiDimensionalConfig)
       .multiDimensional?.imageFormat;
-    return variantOptionQualifiers
-      .filter((optionQualifier) => optionQualifier.image?.format === format)
-      .map((optionQualifier) => {
-        const altText = optionQualifier.image?.altText ?? variantOptionValue;
-        return {
+    const optionImage = variantOptionQualifiers.find(
+      (optionQualifier) => optionQualifier.image?.format === format
+    );
+
+    const altText = optionImage?.image?.altText ?? variantOptionValue;
+    return optionImage
+      ? {
           altText,
-          format: optionQualifier.image?.format,
-          url: this.getBaseUrl() + optionQualifier.image?.url,
-        };
-      });
+          url: this.getBaseUrl() + optionImage?.image?.url,
+        }
+      : undefined;
   }
 
   protected getBaseUrl(): string {

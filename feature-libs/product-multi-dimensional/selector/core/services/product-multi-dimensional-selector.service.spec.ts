@@ -11,7 +11,7 @@ describe('ProductMultiDimensionalSelectorService', () => {
   beforeEach(() => {
     const imagesServiceSpy = jasmine.createSpyObj(
       'ProductMultiDimensionalSelectorImagesService',
-      ['getVariantOptionImages']
+      ['getVariantOptionImage']
     );
 
     TestBed.configureTestingModule({
@@ -59,7 +59,7 @@ describe('ProductMultiDimensionalSelectorService', () => {
         categories: [{ code: 'B2C_Blue' }],
         code: 'Blue',
       };
-      imagesService.getVariantOptionImages.and.returnValue([]);
+      imagesService.getVariantOptionImage.and.returnValue(undefined);
 
       const result = service.getVariants(product);
 
@@ -75,7 +75,7 @@ describe('ProductMultiDimensionalSelectorService', () => {
       const variantCategories: VariantCategoryGroup[] = [
         {
           name: 'Color',
-          variantOptions: [{ images: [], value: 'Blue', code: 'blue' }],
+          variantOptions: [{ value: 'Blue', code: 'blue' }],
           hasImages: true,
         },
       ];
@@ -93,13 +93,13 @@ describe('ProductMultiDimensionalSelectorService', () => {
         variantOption: { code: 'Blue_code', variantOptionQualifiers: [] },
         elements: [],
       };
-      imagesService.getVariantOptionImages.and.returnValue([]);
+      imagesService.getVariantOptionImage.and.returnValue(undefined);
 
       const result = service['createVariantOptionCategory'](element);
 
       expect(result.value).toBe('Blue');
       expect(result.code).toBe('Blue_code');
-      expect(result.images).toEqual([]);
+      expect(result.image).toEqual(undefined);
     });
 
     it('should handle elements without values', () => {
@@ -108,13 +108,13 @@ describe('ProductMultiDimensionalSelectorService', () => {
         variantOption: { code: undefined, variantOptionQualifiers: undefined },
         elements: [],
       };
-      imagesService.getVariantOptionImages.and.returnValue([]);
+      imagesService.getVariantOptionImage.and.returnValue(undefined);
 
       const result = service['createVariantOptionCategory'](element);
 
       expect(result.value).toBe('');
       expect(result.code).toBe('');
-      expect(result.images).toEqual([]);
+      expect(result.image).toEqual(undefined);
     });
   });
 

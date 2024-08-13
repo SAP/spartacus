@@ -46,7 +46,7 @@ export class ProductMultiDimensionalSelectorService {
    * Fit:                              M   (L)
    *
    * @see checkIfEveryOptionHasImages
-   * @see imagesService.getVariantOptionImages
+   * @see imagesService.getVariantOptionImage
    */
   getVariants(product: Product): VariantCategoryGroup[] {
     let variantMatrix = product.variantMatrix ?? [];
@@ -101,7 +101,7 @@ export class ProductMultiDimensionalSelectorService {
         const variantOptions = variantCategoryGroup.variantOptions;
         const hasImages =
           variantCategoryGroup.hasImages &&
-          variantOptions.every((option) => option.images.length);
+          variantOptions.every((option) => !!option.image);
 
         return {
           ...variantCategoryGroup,
@@ -123,7 +123,7 @@ export class ProductMultiDimensionalSelectorService {
    * It extracts the variant category name, option qualifiers, and images to create
    * the appropriate data structure for the UI.
    *
-   * @see imagesService.getVariantOptionImages
+   * @see imagesService.getVariantOptionImage
    */
   protected createVariantOptionCategory(
     element: VariantMatrixElement
@@ -131,13 +131,13 @@ export class ProductMultiDimensionalSelectorService {
     const variantCategoryName = element.variantValueCategory?.name ?? '';
     const variantOptionQualifiers =
       element.variantOption?.variantOptionQualifiers ?? [];
-    const images = this.imagesService.getVariantOptionImages(
+    const image = this.imagesService.getVariantOptionImage(
       variantOptionQualifiers,
       variantCategoryName
     );
 
     return {
-      images,
+      image,
       value: variantCategoryName,
       code: element.variantOption?.code ?? '',
     };

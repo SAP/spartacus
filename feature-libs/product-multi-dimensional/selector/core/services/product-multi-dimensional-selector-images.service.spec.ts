@@ -38,11 +38,15 @@ describe('ProductMultiDimensionalSelectorImagesService', () => {
   });
 
   describe('getVariantOptionImages', () => {
-    it('should return images that match the specified format', () => {
+    it('should return image that match the specified format', () => {
       config.multiDimensional = { imageFormat: VariantQualifier.STYLE_SWATCH };
+      const styleSwatchImage = {
+        format: VariantQualifier.STYLE_SWATCH,
+        url: '/image1.jpg',
+      };
       const variantOptionQualifiers: VariantOptionQualifier[] = [
         {
-          image: { format: VariantQualifier.STYLE_SWATCH, url: '/image1.jpg' },
+          image: styleSwatchImage,
         },
         {
           image: { format: 'large', url: '/image2.jpg' },
@@ -50,43 +54,37 @@ describe('ProductMultiDimensionalSelectorImagesService', () => {
       ];
       const variantOptionValue = 'Sample Variant';
 
-      const result = service.getVariantOptionImages(
+      const result = service.getVariantOptionImage(
         variantOptionQualifiers,
         variantOptionValue
       );
 
-      expect(result.length).toBe(1);
-      expect(result[0]).toEqual({
+      expect(result).toEqual({
         altText: variantOptionValue,
-        format: VariantQualifier.STYLE_SWATCH,
         url: 'http://media.base.url//image1.jpg',
       });
     });
 
     it('should use altText from image if available', () => {
       config.multiDimensional = { imageFormat: VariantQualifier.STYLE_SWATCH };
+      const image = {
+        format: VariantQualifier.STYLE_SWATCH,
+        url: '/image1.jpg',
+        altText: 'Alt Text',
+      };
       const variantOptionQualifiers: VariantOptionQualifier[] = [
         {
-          image: {
-            format: VariantQualifier.STYLE_SWATCH,
-            url: '/image1.jpg',
-            altText: 'Alt Text',
-          },
+          image,
         },
       ];
       const variantOptionValue = 'Sample Variant';
 
-      const result = service.getVariantOptionImages(
+      const result = service.getVariantOptionImage(
         variantOptionQualifiers,
         variantOptionValue
       );
 
-      expect(result.length).toBe(1);
-      expect(result[0]).toEqual({
-        altText: 'Alt Text',
-        format: VariantQualifier.STYLE_SWATCH,
-        url: 'http://media.base.url//image1.jpg',
-      });
+      expect(result.altText).toBe(image.altText);
     });
 
     it('should handle missing config gracefully', () => {
@@ -98,12 +96,12 @@ describe('ProductMultiDimensionalSelectorImagesService', () => {
       ];
       const variantOptionValue = 'Sample Variant';
 
-      const result = service.getVariantOptionImages(
+      const result = service.getVariantOptionImage(
         variantOptionQualifiers,
         variantOptionValue
       );
 
-      expect(result.length).toBe(0);
+      expect(result).toBe(undefined);
     });
 
     it('should handle missing image properties gracefully', () => {
@@ -115,12 +113,12 @@ describe('ProductMultiDimensionalSelectorImagesService', () => {
       ];
       const variantOptionValue = 'Sample Variant';
 
-      const result = service.getVariantOptionImages(
+      const result = service.getVariantOptionImage(
         variantOptionQualifiers,
         variantOptionValue
       );
 
-      expect(result.length).toBe(0);
+      expect(result).toBe(undefined);
     });
   });
 
