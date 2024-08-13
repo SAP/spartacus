@@ -287,6 +287,7 @@ if (environment.cpq) {
         recentSearches: false,
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
+        useProductCarouselBatchApi: false, //TODO: CXSPA-8162
         productConfiguratorAttributeTypesV2: true,
         productConfiguratorDeltaRendering: true,
         a11yRequiredAsterisks: true,
