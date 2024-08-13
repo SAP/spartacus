@@ -25,8 +25,8 @@ export class LoginFormOidcComponent implements OnInit {
   ngOnInit(): void {
     this.oauthService.events
       .pipe(
-        take(1),
-        filter((e) => e.type === 'token_received')
+        filter((e) => e.type === 'token_received'),
+        take(1)
       )
       .subscribe(() => {
         this.auth.afterRedirectFromOidcLogin();
