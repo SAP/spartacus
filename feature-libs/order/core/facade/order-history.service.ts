@@ -34,6 +34,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
     protected userIdService: UserIdService,
     protected routingService: RoutingService
   ) {}
+
   /**
    * Returns an order's detail
    */
