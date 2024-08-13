@@ -8,6 +8,7 @@ import {
   OMF_FEATURE_NAME,
   ORDER_FEATURE_NAME,
   SPARTACUS_OMF,
+  SPARTACUS_OMF_ORDER,
   SPARTACUS_OMF_ROOT,
 } from '../../libs-constants';
 import { SchematicConfig } from '../../utils/lib-utils';
@@ -25,10 +26,16 @@ export const OMF_SCHEMATICS_CONFIG: SchematicConfig = {
   },
   folderName: OMF_FOLDER_NAME,
   moduleName: OMF_MODULE_NAME,
-  featureModule: {
-    name: OMF_ROOT_MODULE,
-    importPath: SPARTACUS_OMF,
-  },
+  featureModule: [
+    {
+      name: OMF_ROOT_MODULE,
+      importPath: SPARTACUS_OMF,
+    },
+    {
+      name: OMF_ORDER_MODULE,
+      importPath: SPARTACUS_OMF_ORDER,
+    },
+  ],
   rootModule: {
     importPath: SPARTACUS_OMF_ROOT,
     name: OMF_ROOT_MODULE,
