@@ -15,8 +15,6 @@ import {
 import { ServiceDetails } from '@spartacus/s4-service/root';
 import { catchError, Observable } from 'rxjs';
 
-const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
-
 @Injectable()
 export class OccRescheduleServiceOrderAdapter
   implements RescheduleServiceOrderAdapter
@@ -34,7 +32,7 @@ export class OccRescheduleServiceOrderAdapter
       urlParams: { userId, code },
     });
     const headers = new HttpHeaders({
-      ...CONTENT_TYPE_JSON_HEADER,
+      'Content-Type': 'application/json',
     });
     return this.http.patch(url, scheduledAt, { headers }).pipe(
       catchError((error: any) => {
