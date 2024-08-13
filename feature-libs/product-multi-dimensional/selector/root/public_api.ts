@@ -6,3 +6,4 @@
 
 export * from './product-multi-dimensional-selector-root.module';
 export * from './feature-name';
+export * from './config';

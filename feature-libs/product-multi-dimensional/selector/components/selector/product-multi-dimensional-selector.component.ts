@@ -63,7 +63,10 @@ export class ProductMultiDimensionalSelectorComponent {
       })
     );
 
-  changeVariant(data: { code?: string | undefined; option?: VariantCategoryOption}): void {
+  changeVariant(data: {
+    code?: string | undefined;
+    option?: VariantCategoryOption;
+  }): void {
     const productCode = data.code ?? data.option?.code;
 
     if (productCode) {
