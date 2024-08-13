@@ -739,7 +739,7 @@ export const SERVICABLE_ORDER_IN_24HRS_DETAILS =
 export const CANCELLED_ORDER_LIST = generateCancelledOrderList();
 export const CANCELLED_ORDER_DETAILS = generateCancelledOrder();
 
-function generateServicedAt(offsetDays): string {
+function generateServicedAt(offsetDays, time?): string {
   const now = new Date();
   now.setDate(now.getDate() + offsetDays);
 
@@ -752,8 +752,9 @@ function generateServicedAt(offsetDays): string {
     Math.floor(Math.abs(timezoneOffset) / 60)
   ).padStart(2, '0');
   const offsetMinutes = String(Math.abs(timezoneOffset) % 60).padStart(2, '0');
+  const timePart = time || '09:00:00';
 
-  return `${year}-${month}-${day}T09:00:00${sign}${offsetHours}${offsetMinutes}`;
+  return `${year}-${month}-${day}T${timePart}${sign}${offsetHours}${offsetMinutes}`;
 }
 
 function generateRescheduledDate() {
@@ -779,7 +780,10 @@ function generateServicableOrder() {
 
 function generateServicableOrderWithin24Hours() {
   const order = { ...orderDetails };
-  order.servicedAt = generateServicedAt(1);
+  const now = new Date();
+  const hour = String(now.getHours()).padStart(2, '0');
+  const time = `${hour}:00:00`;
+  order.servicedAt = generateServicedAt(1, time);
   order.serviceReschedulable = false;
   order.serviceCancellable = false;
   return order;
