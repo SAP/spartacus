@@ -6,14 +6,35 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig, UrlModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  I18nModule,
+  provideDefaultConfig,
+  UrlModule,
+} from '@spartacus/core';
 import { RouterModule } from '@angular/router';
-import { MediaModule } from '@spartacus/storefront';
+import {
+  KeyboardFocusModule,
+  MediaModule,
+  NgSelectA11yModule,
+} from '@spartacus/storefront';
 import { ProductMultiDimensionalSelectorComponent } from './product-multi-dimensional-selector.component';
 import { ProductMultiDimensionalSelectorGuard } from '../guards';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, MediaModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    MediaModule,
+    KeyboardFocusModule,
+    NgSelectModule,
+    FormsModule,
+    NgSelectA11yModule,
+    I18nModule,
+  ],
   declarations: [ProductMultiDimensionalSelectorComponent],
   exports: [ProductMultiDimensionalSelectorComponent],
   providers: [

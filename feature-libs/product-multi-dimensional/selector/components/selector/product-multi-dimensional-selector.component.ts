@@ -11,15 +11,18 @@ import {
   ProductScope,
   ProductService,
   RoutingService,
+  TranslationService,
 } from '@spartacus/core';
 import {
   ProductMultiDimensionalSelectorService,
   VariantCategoryGroup,
+  VariantCategoryOption,
 } from '@spartacus/product-multi-dimensional/selector/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   distinctUntilChanged,
   filter,
+  map,
   shareReplay,
   take,
   tap,
@@ -41,6 +44,11 @@ export class ProductMultiDimensionalSelectorComponent {
   protected currentProductService: CurrentProductService = inject(
     CurrentProductService
   );
+  protected translationService: TranslationService = inject(TranslationService);
+
+  selectedProductCode: string;
+
+  categories: VariantCategoryGroup[] = [];
 
   product$: Observable<Product> = this.currentProductService
     .getProduct(ProductScope.MULTI_DIMENSIONAL)
@@ -51,9 +59,9 @@ export class ProductMultiDimensionalSelectorComponent {
       shareReplay(1),
       tap((product) => {
         this.categories = this.getVariants(product);
+        this.selectedProductCode = product.code ?? '';
       })
     );
-  categories: VariantCategoryGroup[] = [];
 
   changeVariant(code: string | undefined): void {
     if (code) {
@@ -69,8 +77,52 @@ export class ProductMultiDimensionalSelectorComponent {
     }
   }
 
-  isSelected(code: string, product: Product) {
-    return code === product.code;
+  getSelectedValue(categoryName: string): string {
+    const category = this.categories.find((cat) => cat.name === categoryName);
+
+    if (category && this.selectedProductCode) {
+      const selectedOption = category.variantOptions.find(
+        (option) => option.code === this.selectedProductCode
+      );
+
+      return selectedOption ? selectedOption.value : '';
+    }
+
+    return '';
+  }
+
+  onAriaLabel(
+    option: VariantCategoryOption,
+    categoryName: string
+  ): Observable<string> {
+    const isSelected = this.isSelected(option.code);
+
+    if (isSelected) {
+      return this.translationService
+        .translate('multiDimensional.selectedVariant')
+        .pipe(map((text) => `${text}, ${option.value} ${categoryName}`));
+    }
+
+    return this.translationService
+      .translate('multiDimensional.variantThumbnailTitle', {
+        value: option.value,
+        category: categoryName,
+      })
+      .pipe(map((text) => `${text}`));
+  }
+
+  getCategoryName(category: VariantCategoryGroup): string {
+    if (category.hasImages) {
+      const selectedValue = this.getSelectedValue(category.name);
+
+      return `${category.name}${selectedValue ? `: ${selectedValue}` : ''}`;
+    }
+
+    return category.name;
+  }
+
+  protected isSelected(code: string): boolean {
+    return code === this.selectedProductCode;
   }
 
   protected getVariants(product: Product) {

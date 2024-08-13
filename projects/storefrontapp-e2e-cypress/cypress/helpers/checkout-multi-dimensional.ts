@@ -102,9 +102,9 @@ export function testCheckoutMultiDAsGuestAndVerifyCart() {
 
     goToMultiDProductFromPLP();
 
-    selectVariantAndAddToCart('Green');
-    selectVariantAndAddToCart('Blue');
-    selectVariant('Red');
+    selectVariantAndAddToCart('Pink');
+    selectVariantAndAddToCart('Black');
+    selectVariant('Blue');
 
     checkout.addCheapProductToCartAndProceedToCheckout(multiDProduct);
 
@@ -139,7 +139,7 @@ export function testCheckoutMultiDAsGuestAndVerifyCart() {
 
     goToMultiDProductFromPLP();
 
-    selectVariant('Red');
+    selectVariant('Blue');
 
     checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
       multiDProduct
@@ -192,7 +192,7 @@ export function testCheckoutRegisteredUser() {
 
     selectVariant();
 
-    checkout.addCheapProductToCartAndLogin(regMultiDUser, multiDBaseProduct);
+    checkout.addCheapProductToCartAndLogin(regMultiDUser, multiDProduct);
 
     checkout.checkSummaryAmount(cartWithTotalVariantProduct);
 
@@ -211,9 +211,9 @@ export function testCheckoutRegisteredUser() {
   });
 }
 
-function selectVariantAndAddToCart(color: string = 'Red') {
-  cy.get('cx-variants-multi-dimensional')
-    .find(`cx-media[title*="${color}"]`)
+function selectVariantAndAddToCart(color: string = 'Blue') {
+  cy.get('cx-product-multi-dimensional-selector')
+    .find(`img[title*="Select ${color} Color"]`)
     .click();
 
   cy.wait(2000);
@@ -227,9 +227,9 @@ function selectVariantAndAddToCart(color: string = 'Red') {
   cy.get('cx-added-to-cart-dialog.d-block.fade.modal.show').should('not.exist');
 }
 
-export function selectVariant(color: string = 'Red') {
-  cy.get('cx-variants-multi-dimensional')
-    .find(`img[title*="${color}"]`)
+export function selectVariant(color: string = 'Blue') {
+  cy.get('cx-product-multi-dimensional-selector')
+    .find(`img[title*="Select ${color} Color"]`)
     .click();
 
   cy.wait(2000);
@@ -237,7 +237,7 @@ export function selectVariant(color: string = 'Red') {
 
 export function goToMultiDProductFromPLP() {
   cy.get('cx-product-list-item.cx-product-search-list')
-    .find('a[href*="1978440_md"]')
+    .find(`a[href*="${multiDBaseProduct.code}"]`)
     .should('be.visible')
     .first()
     .click();
