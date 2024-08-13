@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { OrderHistoryService } from '@spartacus/order/core';
-import { Order, OrderHistoryFacade} from '@spartacus/order/root';
+import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 
 @Injectable()
 export class OmfOrderHistoryService
