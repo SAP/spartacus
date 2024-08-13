@@ -4,7 +4,15 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Country, I18nTestingModule, Region, Title } from '@spartacus/core';
+import {
+  Country,
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
+  Region,
+  Title,
+  Translatable,
+} from '@spartacus/core';
 import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import {
   FormErrorsModule,
@@ -12,7 +20,7 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { UserRegistrationFormComponent } from './user-registration-form.component';
 import { UserRegistrationFormService } from './user-registration-form.service';
 
@@ -35,6 +43,10 @@ const mockTitles: Title[] = [
     name: 'Mrs.',
   },
 ];
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
+}
 
 const mockCountries: Country[] = [
   {
@@ -113,6 +125,7 @@ describe('UserRegistrationFormComponent', () => {
   let component: UserRegistrationFormComponent;
   let fixture: ComponentFixture<UserRegistrationFormComponent>;
   let el: DebugElement;
+  let msgServcie: MockGlobalMessageService;
 
   let userRegistrationFormService: UserRegistrationFormService;
 
@@ -137,10 +150,15 @@ describe('UserRegistrationFormComponent', () => {
           provide: UserRegistrationFormService,
           useClass: MockUserRegistrationFormService,
         },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
     });
 
     userRegistrationFormService = TestBed.inject(UserRegistrationFormService);
+    msgServcie = TestBed.inject(GlobalMessageService);
   }));
 
   beforeEach(() => {
@@ -200,6 +218,27 @@ describe('UserRegistrationFormComponent', () => {
     expect(spinner).toBeNull();
     expect(userRegistrationFormService.registerUser).toHaveBeenCalledWith(
       component.registerForm
+    );
+  });
+
+  it('should show error message if service response failed ', () => {
+    spyOn(userRegistrationFormService, 'registerUser').and.returnValue(
+      throwError(() => new Error('Simulated error'))
+    );
+    component.registerForm.patchValue({
+      ...mockOrganizationUser,
+      companyName: 'New Company Inc.',
+    });
+    spyOn(msgServcie, 'add').and.callThrough();
+    component.registerForm.markAllAsTouched();
+
+    component.submit();
+
+    const spinner = fixture.debugElement.query(By.css('cx-spinner'));
+    expect(spinner).toBeNull();
+    expect(msgServcie.add).toHaveBeenCalledWith(
+      { key: 'userRegistrationForm.messageToFailedToRegister' },
+      GlobalMessageType.MSG_TYPE_ERROR
     );
   });
 

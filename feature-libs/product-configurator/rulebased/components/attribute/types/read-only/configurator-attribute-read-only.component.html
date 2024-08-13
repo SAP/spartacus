@@ -7,7 +7,10 @@
       "
     >
       <ng-container *ngFor="let value of attribute.values">
-        <div *ngIf="value.selected" class="form-check">
+        <div
+          *ngIf="value.selected && (changedPrices$ | async) as changedPrices"
+          class="form-check"
+        >
           <span
             id="{{
               createValueUiKey('aria-label', attribute.name, value.valueCode)
@@ -16,7 +19,12 @@
             tabindex="0"
             class="cx-visually-hidden"
           >
-            {{ getAriaLabel(attribute, value) }}
+            {{
+              getAriaLabel(
+                attribute,
+                enrichValueWithPrice(value, changedPrices)
+              )
+            }}
           </span>
           <div class="cx-value-label-pair">
             <label
@@ -41,7 +49,11 @@
           </div>
           <div class="cx-value-price">
             <cx-configurator-price
-              [formula]="extractValuePriceFormulaParameters(value)"
+              [formula]="
+                extractValuePriceFormulaParameters(
+                  enrichValueWithPrice(value, changedPrices)
+                )
+              "
             ></cx-configurator-price>
           </div>
         </div>

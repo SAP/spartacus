@@ -2,6 +2,7 @@
   class="cx-configurator-overview-filter-dialog cx-modal-container"
   role="dialog"
   (click)="closeFilterModal()"
+  aria-labelledby="dialogTitle"
 >
   <div
     class="cx-modal-content"
@@ -10,7 +11,7 @@
     (esc)="closeFilterModal()"
   >
     <div class="cx-dialog-header modal-header">
-      <div class="cx-dialog-title modal-title">
+      <div id="dialogTitle" class="cx-dialog-title modal-title">
         {{ 'configurator.overviewFilter.title' | cxTranslate }}
       </div>
       <button
