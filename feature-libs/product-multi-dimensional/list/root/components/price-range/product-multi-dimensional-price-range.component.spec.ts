@@ -66,7 +66,7 @@ describe('ProductMultiDimensionalPriceRangeComponent', () => {
       };
 
       const result = component.getProductPrice(product);
-      expect(result).toBe(0);
+      expect(result).toBe('0');
     });
   });
 

@@ -21,17 +21,17 @@ export class ProductMultiDimensionalPriceRangeComponent {
   readonly product$: Observable<Product> =
     this.productListItemContext?.product$ ?? EMPTY;
 
-  getProductPrice(product: Product) {
-    const priceRange = product.priceRange;
-    const isMultiDimensionalAndHasPriceRange =
-      product.multidimensional && Object.values(priceRange).length;
-
-    if (isMultiDimensionalAndHasPriceRange) {
-      const maxPrice = priceRange.maxPrice.formattedValue;
-      const minPrice = priceRange.minPrice.formattedValue;
-      return `${minPrice} - ${maxPrice}`;
+  getProductPrice(product: Product): string {
+    const defaultValue = '0';
+    if (!product.multidimensional) {
+      return product.price?.formattedValue ?? defaultValue;
     }
-
-    return product.price?.formattedValue ?? 0;
+    const priceRange = product.priceRange;
+    if (!priceRange || !priceRange.maxPrice || !priceRange.minPrice) {
+      return product.price?.formattedValue ?? defaultValue;
+    }
+    const maxPrice = priceRange.maxPrice.formattedValue;
+    const minPrice = priceRange.minPrice.formattedValue;
+    return `${minPrice} - ${maxPrice}`;
   }
 }

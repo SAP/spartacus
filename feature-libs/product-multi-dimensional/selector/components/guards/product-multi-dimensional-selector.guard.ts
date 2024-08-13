@@ -20,7 +20,7 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
 /**
  * Guard that ensures a product is valid and navigable within a multi-dimensional context.
  *
- * This service manages navigation and access control for products in a multi-dimensional product catalog.
+ * This guard manages navigation and access control for products in a multi-dimensional product catalog.
  * It verifies that the product specified in the route is valid and has the necessary attributes for display.
  * If the product is not purchasable and has variant options, the guard attempts to find a valid product code
  * from the available variants and redirects to the appropriate variant product URL.
@@ -55,7 +55,7 @@ export class ProductMultiDimensionalSelectorGuard {
 
           return isNotPurchasableAndHasVariantOptions
             ? this.findValidProductCodeAndReturnUrlTree(multiDimensionalProduct)
-            : of(multiDimensionalProduct.purchasable);
+            : of(!!multiDimensionalProduct.purchasable);
         })
       );
   }

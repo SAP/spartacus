@@ -69,6 +69,7 @@ export function testCheckoutMultiDAsGuest() {
         firstName: multiDUser.firstName,
         lastName: multiDUser.lastName,
         phone: '',
+        cellphone: '',
         address: multiDUser.address,
       },
       'US'

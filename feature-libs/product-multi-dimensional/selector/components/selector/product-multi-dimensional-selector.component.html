@@ -21,7 +21,7 @@
               (click)="changeVariant(option.code)"
               [cxFocus]="{ key: option.code }"
             >
-              <cx-media [container]="option.images" role="img"> </cx-media>
+              <cx-media [container]="option.images" role="img" />
             </button>
           </div>
         </div>
@@ -45,8 +45,7 @@
             }"
             bindValue="code"
             bindLabel="value"
-          >
-          </ng-select>
+          />
         </div>
       </ng-template>
     </ng-container>
