@@ -3,15 +3,17 @@
   role="dialog"
   [cxFocus]="focusConfig"
   (esc)="closeModal('Escape clicked')"
+  aria-labelledby="dialogTitle"
 >
   <div *ngIf="data$ | async as data" class="cx-suggested-addresses-container">
     <div class="cx-suggested-addresses-header cx-modal-header">
-      <div class="cx-suggested-addresses-title">
+      <div id="dialogTitle" class="cx-suggested-addresses-title">
         {{ 'addressSuggestion.verifyYourAddress' | cxTranslate }}
       </div>
       <button
         type="button"
         class="close"
+        title="{{ 'common.close' | cxTranslate }}"
         [attr.aria-label]="'common.close' | cxTranslate"
         (click)="closeModal('Cross click')"
       >

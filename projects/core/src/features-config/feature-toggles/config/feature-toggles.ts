@@ -56,6 +56,11 @@ export interface FeatureTogglesInterface {
   showSearchingCustomerByOrderInASM?: boolean;
 
   /**
+   * Some Changes for input of cart Number and text of Customer360View in ASM view
+   */
+  showStyleChangesInASM?: boolean;
+
+  /**
    * In `SearchBoxComponent` it shows the recent searches.
    */
   recentSearches?: boolean;
@@ -73,6 +78,26 @@ export interface FeatureTogglesInterface {
   storeFrontLibCardParagraphTruncated?: boolean;
 
   /**
+   * When enabled, the batch API is used `ProductCarouselComponent` to load products. It increases the component's performance.
+   *
+   * _NOTE_: When flag is enabled, custom OCC config for the `productSearch` endpoint has to be adjusted to have an object representation:
+   * ```js
+   * backend: {
+   *    occ: {
+   *      endpoints: {
+   *         productSearch: {
+   *           default: '...',
+   *           carousel: '...',
+   *           carouselMinimal: '...',
+   *         },
+   *       },
+   *     },
+   *   }
+   * ```
+   */
+  useProductCarouselBatchApi?: boolean;
+
+  /**
    * In `ConfiguratorAttributeDropDownComponent`, `ConfiguratorAttributeSingleSelectionImageComponent`
    * and in 'ConfiguratorAttributeMultiSelectionImageComponent' some HTML changes were done
    * to render read-only attribute with images and a long description at the value level accordingly.
@@ -83,6 +108,20 @@ export interface FeatureTogglesInterface {
    * to render read-only attribute with images and a long description at the value level accordingly.
    */
   productConfiguratorAttributeTypesV2?: boolean;
+
+  /**
+   * The product configuration UI is completely re-rendered after each UI interaction. This may lead to performance issues for large configuration models,
+   * where a lot of attributes (>50) and/or a lot of possible values per attribute (>50) are rendered on the UI.
+   *
+   * When this feature toggle is activated, only these parts of the UI are re-rendered, that actually changed, significantly (up to factor 10) improving rendering performance for large models.
+   *
+   * Please note, this will influence how the pricing requests are processed and rendered.
+   * Instead of merging the prices into the configuration model, which effectively triggers re-rendering the whole UI-Component tree,
+   * the price supplements are kept in a separate subtree of the model, so that attribute components can react independently on pricing changes using the `ConfiguratorDeltaRenderingService`.
+   *
+   * Hence, it is advised to do full regression testing after activation of this flag and before rolling this out to production.
+   */
+  productConfiguratorDeltaRendering?: boolean;
 
   /**
    * Adds asterisks to required form fields in all components existing before v2211.20
@@ -99,6 +138,11 @@ export interface FeatureTogglesInterface {
    * Improves keyboard navigation inside of 'NavigationUIComponent'.
    */
   a11yNavigationUiKeyboardControls?: boolean;
+
+  /**
+   * Improves screen reader(VoiceOver, JAWS) narration of menu buttons inside of 'NavigationUIComponent'.
+   */
+  a11yNavMenuExpandStateReadout?: boolean;
 
   /**
    * Fixes heading gap present in 'OrderConfirmationItemsComponent' template.
@@ -186,6 +230,7 @@ export interface FeatureTogglesInterface {
 
   /**
    * Adjuststs the styles of 'StoreFinderMapComponent' to stop the Google map from overflowing on zoomed/mobile screens.
+   * Includes DOM changes to 'StoreFinderStoreDescriptionComponent' improving the screen reader experience.
    */
   a11yStoreFinderOverflow?: boolean;
 
@@ -340,9 +385,17 @@ export interface FeatureTogglesInterface {
   /**
    * When enabled the button-like UI elements will use `<button>` under the hood instead of `<a>`
    * in the following components: `AddedToCartDialogComponent`, `ForgotPasswordComponent`,
-   * `LoginRegisterComponent`, `ConfigureProductComponent`
+   * `LoginRegisterComponent`, `ConfigureProductComponent`, `AnonymousConsentDialogComponent`
    */
   a11yUseButtonsForBtnLinks?: boolean;
+
+  /**
+   * `AnonymousConsentDialogComponent` - after consent was given/withdrawn the notification
+   * will be displayed
+   * `ConsentManagementComponent` - improve stability of notifications announcements by VoiceOver
+   * `ConsentManagementFormComponent` - only pronounce the title of the consent by default
+   */
+  a11yNotificationsOnConsentChange?: boolean;
 
   /**
    * When enabled disable "Apply" button in promo code component in cart for empty input,
@@ -357,6 +410,12 @@ export interface FeatureTogglesInterface {
    * New "Back To Results" button is added
    */
   a11yFacetsDialogFocusHandling?: boolean;
+
+  /**
+   * Enables radio group fieldset for 'CheckoutDeliveryModeComponent' form
+   * and further improves its screen reader readout.
+   */
+  a11yDeliveryModeRadiogroup?: boolean;
 
   /**
    * Removes 'aria-live' from 'StoreFinderComponent' and adds 'alert' role to child components elements.
@@ -386,6 +445,17 @@ export interface FeatureTogglesInterface {
   a11yRepeatedPageTitleFix?: boolean;
 
   /**
+   * Mofifies the template of 'AddedToCartDialogComponent' to retain the focus after the cart is updated.
+   * Improves its screen reader readout.
+   */
+  a11yAddedToCartActiveDialog?: boolean;
+
+  /**
+   * Modifies the 'NgSelectA11yDirective' to improve the sorting dropdown screen reader experience on mobile devices.
+   */
+  a11yNgSelectMobileReadout?: boolean;
+
+  /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
    * into a request body, instead of query params.
    * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
@@ -402,6 +472,7 @@ export interface FeatureTogglesInterface {
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   formErrorsDescriptiveMessages: true,
   showSearchingCustomerByOrderInASM: false,
+  showStyleChangesInASM: false,
   shouldHideAddToCartForUnpurchasableProducts: false,
   useExtractedBillingAddressComponent: false,
   showBillingAddressInDigitalPayments: false,
@@ -410,10 +481,13 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   recentSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
+  useProductCarouselBatchApi: false,
   productConfiguratorAttributeTypesV2: false,
+  productConfiguratorDeltaRendering: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
   a11yNavigationUiKeyboardControls: false,
+  a11yNavMenuExpandStateReadout: false,
   a11yOrderConfirmationHeadingOrder: false,
   a11yStarRating: false,
   a11yViewChangeAssistiveMessage: false,
@@ -454,6 +528,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yEmptyWishlistHeading: false,
   a11yScreenReaderBloatFix: false,
   a11yUseButtonsForBtnLinks: false,
+  a11yNotificationsOnConsentChange: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
   a11yStoreFinderAlerts: false,
@@ -461,6 +536,9 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yRepeatedPageTitleFix: false,
+  a11yDeliveryModeRadiogroup: false,
+  a11yAddedToCartActiveDialog: false,
+  a11yNgSelectMobileReadout: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
 };

@@ -24,6 +24,7 @@ import {
   QueryState,
 } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
@@ -131,7 +132,11 @@ describe('CheckoutDeliveryModeComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
-      declarations: [CheckoutDeliveryModeComponent, MockSpinnerComponent],
+      declarations: [
+        CheckoutDeliveryModeComponent,
+        MockSpinnerComponent,
+        MockFeatureDirective,
+      ],
       providers: [
         {
           provide: CheckoutDeliveryModesFacade,

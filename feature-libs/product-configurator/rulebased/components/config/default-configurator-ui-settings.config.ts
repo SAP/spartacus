@@ -12,6 +12,7 @@ export const defaultConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig =
       updateDebounceTime: {
         quantity: 750,
         input: 500,
+        date: 1500,
       },
       addRetractOption: false,
       enableNavigationToConflict: true,

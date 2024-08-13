@@ -10,7 +10,7 @@ import {
   Optional,
   inject,
 } from '@angular/core';
-import { Product, RoutingService } from '@spartacus/core';
+import { Product, ProductScope, RoutingService } from '@spartacus/core';
 import {
   CurrentProductService,
   ProductListItemContext,
@@ -30,14 +30,7 @@ import { ConfiguratorProductScope } from '../../core/model/configurator-product-
 })
 export class ConfigureProductComponent {
   nonConfigurable: Product = { configurable: false };
-  product$: Observable<Product> = (this.productListItemContext
-    ? this.productListItemContext.product$
-    : this.currentProductService
-      ? this.currentProductService.getProduct(
-          ConfiguratorProductScope.CONFIGURATOR
-        )
-      : of(null)
-  ).pipe(
+  product$: Observable<Product> = this.getProduct().pipe(
     //needed because also currentProductService might return null
     map((product) => (product ? product : this.nonConfigurable))
   );
@@ -47,6 +40,19 @@ export class ConfigureProductComponent {
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
+
+  protected getProduct(): Observable<Product | null> {
+    if (this.productListItemContext) {
+      return this.productListItemContext.product$;
+    }
+
+    return this.currentProductService
+      ? this.currentProductService.getProduct([
+          ProductScope.DETAILS,
+          ConfiguratorProductScope.CONFIGURATOR,
+        ])
+      : of(null);
+  }
 
   /**
    * Retrieves a translation key for aria-label depending on the condition.
@@ -82,6 +88,36 @@ export class ConfigureProductComponent {
    */
   isDisplayRestartDialog(configuratorType?: string): string {
     return this.isConfiguratorTypeReadOnly(configuratorType) ? 'false' : 'true';
+  }
+
+  /**
+   * Verifies whether a configurator type of a product contains a read-only postfix and
+   * a product is a base product.
+   *
+   * @param product - product
+   * @returns - If the configurator type contains a read-only postfix and
+   * a product is a base product then returns true, otherwise false.
+   */
+  isReadOnlyBaseProduct(product: Product): boolean {
+    return (
+      this.isConfiguratorTypeReadOnly(product.configuratorType) &&
+      this.isBaseProduct(product)
+    );
+  }
+
+  /**
+   * Verifies whether a product is a base product.
+   *
+   * The `baseProduct` property contains the product code of the base product.
+   * If the `baseProduct` is undefined or if the provided product code equals the code of the base product,
+   * then this product is a base product.
+   *
+   * @param product - product
+   * @returns - If a product is a base product then returns true, otherwise false.
+   * @protected
+   */
+  protected isBaseProduct(product: Product): boolean {
+    return !product.baseProduct || product.baseProduct === product.code;
   }
 
   navigateToConfigurator(product: Product): void {
