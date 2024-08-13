@@ -73,6 +73,7 @@ import { WishListFeatureModule } from './features/cart/wish-list-feature.module'
 import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
+import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
 import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
@@ -102,7 +103,6 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
 import { OmfFeatureModule } from './features/omf/omf-feature.module';
 
 const featureModules = [];
