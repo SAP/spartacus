@@ -78,6 +78,26 @@ export interface FeatureTogglesInterface {
   storeFrontLibCardParagraphTruncated?: boolean;
 
   /**
+   * When enabled, the batch API is used `ProductCarouselComponent` to load products. It increases the component's performance.
+   *
+   * _NOTE_: When flag is enabled, custom OCC config for the `productSearch` endpoint has to be adjusted to have an object representation:
+   * ```js
+   * backend: {
+   *    occ: {
+   *      endpoints: {
+   *         productSearch: {
+   *           default: '...',
+   *           carousel: '...',
+   *           carouselMinimal: '...',
+   *         },
+   *       },
+   *     },
+   *   }
+   * ```
+   */
+  useProductCarouselBatchApi?: boolean;
+
+  /**
    * In `ConfiguratorAttributeDropDownComponent`, `ConfiguratorAttributeSingleSelectionImageComponent`
    * and in 'ConfiguratorAttributeMultiSelectionImageComponent' some HTML changes were done
    * to render read-only attribute with images and a long description at the value level accordingly.
@@ -118,6 +138,11 @@ export interface FeatureTogglesInterface {
    * Improves keyboard navigation inside of 'NavigationUIComponent'.
    */
   a11yNavigationUiKeyboardControls?: boolean;
+
+  /**
+   * Improves screen reader(VoiceOver, JAWS) narration of menu buttons inside of 'NavigationUIComponent'.
+   */
+  a11yNavMenuExpandStateReadout?: boolean;
 
   /**
    * Fixes heading gap present in 'OrderConfirmationItemsComponent' template.
@@ -414,6 +439,12 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
+   * Mofifies the template of 'AddedToCartDialogComponent' to retain the focus after the cart is updated.
+   * Improves its screen reader readout.
+   */
+  a11yAddedToCartActiveDialog?: boolean;
+
+  /**
    * Modifies the 'NgSelectA11yDirective' to improve the sorting dropdown screen reader experience on mobile devices.
    */
   a11yNgSelectMobileReadout?: boolean;
@@ -444,11 +475,13 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   recentSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
+  useProductCarouselBatchApi: false,
   productConfiguratorAttributeTypesV2: false,
   productConfiguratorDeltaRendering: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
   a11yNavigationUiKeyboardControls: false,
+  a11yNavMenuExpandStateReadout: false,
   a11yOrderConfirmationHeadingOrder: false,
   a11yStarRating: false,
   a11yViewChangeAssistiveMessage: false,
@@ -497,6 +530,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yDeliveryModeRadiogroup: false,
+  a11yAddedToCartActiveDialog: false,
   a11yNgSelectMobileReadout: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,

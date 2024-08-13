@@ -58,10 +58,6 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
   ): string {
     let ariaLabel = '';
     if (value) {
-      value =
-        this.configuratorAttributePriceChangeService?.mergePriceIntoValue(
-          value
-        ) ?? value;
       const valueName = this.getCurrentValueName(attribute, value);
       if (value.valuePrice && value.valuePrice?.value !== 0) {
         if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
