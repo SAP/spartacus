@@ -116,7 +116,7 @@ export class ProductMultiDimensionalSelectorComponent {
     if (category.hasImages) {
       const selectedValue = this.getSelectedValue(category.name);
 
-      return category.name + (selectedValue ? ': ' + selectedValue : '');;
+      return category.name + (selectedValue ? ': ' + selectedValue : '');
     }
 
     return category.name;
