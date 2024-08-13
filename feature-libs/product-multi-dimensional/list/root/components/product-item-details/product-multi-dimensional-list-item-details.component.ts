@@ -10,11 +10,11 @@ import { Product } from '@spartacus/core';
 import { ProductListItemContext } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-product-multi-dimensional-price-range',
-  templateUrl: './product-multi-dimensional-price-range.component.html',
+  selector: 'cx-product-multi-dimensional-list-item-details',
+  templateUrl: './product-multi-dimensional-list-item-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductMultiDimensionalPriceRangeComponent {
+export class ProductMultiDimensionalListItemDetailsComponent {
   productListItemContext?: ProductListItemContext = inject(
     ProductListItemContext
   );

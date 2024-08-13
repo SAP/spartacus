@@ -6,5 +6,5 @@
 
 export * from './feature-name';
 export * from './product-multi-dimensional-list-root.module';
-export * from './components/price-range/product-multi-dimensional-price-range.component';
-export * from './components/price-range/product-multi-dimensional-price-range.module';
+export * from './components/product-item-details/product-multi-dimensional-list-item-details.component';
+export * from './components/product-item-details/product-multi-dimensional-list-item-details.module';

@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductMultiDimensionalPriceRangeComponent } from './product-multi-dimensional-price-range.component';
 import { ProductListItemContext } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { I18nTestingModule, Product } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { ProductMultiDimensionalListItemDetailsComponent } from './product-multi-dimensional-list-item-details.component';
 
-describe('ProductMultiDimensionalPriceRangeComponent', () => {
-  let component: ProductMultiDimensionalPriceRangeComponent;
-  let fixture: ComponentFixture<ProductMultiDimensionalPriceRangeComponent>;
+describe('ProductMultiDimensionalListItemDetailsComponent', () => {
+  let component: ProductMultiDimensionalListItemDetailsComponent;
+  let fixture: ComponentFixture<ProductMultiDimensionalListItemDetailsComponent>;
 
   beforeEach(async () => {
     const mockContext = {
@@ -17,16 +17,16 @@ describe('ProductMultiDimensionalPriceRangeComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [ProductMultiDimensionalPriceRangeComponent],
+      declarations: [ProductMultiDimensionalListItemDetailsComponent],
       providers: [{ provide: ProductListItemContext, useValue: mockContext }],
     })
-      .overrideComponent(ProductMultiDimensionalPriceRangeComponent, {
+      .overrideComponent(ProductMultiDimensionalListItemDetailsComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
 
     fixture = TestBed.createComponent(
-      ProductMultiDimensionalPriceRangeComponent
+      ProductMultiDimensionalListItemDetailsComponent
     );
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -88,7 +88,7 @@ describe('ProductMultiDimensionalPriceRangeComponent', () => {
       expect(priceElement.textContent.trim()).toBe('$100 - $200');
     });
 
-    it('should not display the price if product is non-multidimensional', () => {
+    it('should display single price if product is non-multidimensional', () => {
       const product: Product = {
         multidimensional: false,
         price: { formattedValue: '$150' },
@@ -99,10 +99,10 @@ describe('ProductMultiDimensionalPriceRangeComponent', () => {
       const priceElement = fixture.debugElement.query(
         By.css('.cx-product-price')
       )?.nativeElement;
-      expect(priceElement).toBe(undefined);
+      expect(priceElement.textContent.trim()).toBe('$150');
     });
 
-    it('should not display price if product does not have a price', () => {
+    it('should display 0 price if product does not have a price', () => {
       const product: Product = {
         multidimensional: false,
       };
@@ -111,8 +111,26 @@ describe('ProductMultiDimensionalPriceRangeComponent', () => {
 
       const priceElement = fixture.debugElement.query(
         By.css('.cx-product-price')
-      )?.nativeElement;
-      expect(priceElement).toBe(undefined);
+      ).nativeElement;
+      expect(priceElement.textContent.trim()).toBe('0');
+    });
+
+    it('should not display the price if product is multidimensional without price range', () => {
+      const product: Product = {
+        multidimensional: true,
+        price: { formattedValue: '$100' },
+        priceRange: {
+          minPrice: { formattedValue: '' },
+          maxPrice: { formattedValue: '' },
+        },
+      };
+      (component as any).product$ = of(product);
+      fixture.detectChanges();
+
+      const priceElement = fixture.debugElement.query(
+        By.css('.cx-product-price')
+      ).nativeElement;
+      expect(priceElement.textContent.trim()).toBe('');
     });
   });
 });

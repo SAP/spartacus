@@ -5,8 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { ProductMultiDimensionalPriceRangeModule } from './components/price-range/product-multi-dimensional-price-range.module';
-import { ProductMultiDimensionalPriceRangeComponent } from './components/price-range/product-multi-dimensional-price-range.component';
+import { ProductMultiDimensionalListItemDetailsModule } from './components/product-item-details/product-multi-dimensional-list-item-details.module';
 
 import {
   OutletPosition,
@@ -15,6 +14,7 @@ import {
 } from '@spartacus/storefront';
 import { provideDefaultConfigFactory } from '@spartacus/core';
 import { PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE } from './feature-name';
+import { ProductMultiDimensionalListItemDetailsComponent } from './components/product-item-details/product-multi-dimensional-list-item-details.component';
 
 export function defaultProductMultiDimensionalListConfig() {
   return {
@@ -31,13 +31,13 @@ export function defaultProductMultiDimensionalListConfig() {
 }
 
 @NgModule({
-  imports: [ProductMultiDimensionalPriceRangeModule],
+  imports: [ProductMultiDimensionalListItemDetailsModule],
   providers: [
     provideDefaultConfigFactory(defaultProductMultiDimensionalListConfig),
     provideOutlet({
       id: ProductListOutlets.ITEM_DETAILS,
       position: OutletPosition.REPLACE,
-      component: ProductMultiDimensionalPriceRangeComponent,
+      component: ProductMultiDimensionalListItemDetailsComponent,
     }),
   ],
 })
