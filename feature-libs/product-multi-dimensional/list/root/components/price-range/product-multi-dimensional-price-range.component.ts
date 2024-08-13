@@ -27,11 +27,10 @@ export class ProductMultiDimensionalPriceRangeComponent {
       return product.price?.formattedValue ?? defaultValue;
     }
     const priceRange = product.priceRange;
-    if (!priceRange || !priceRange.maxPrice || !priceRange.minPrice) {
-      return product.price?.formattedValue ?? defaultValue;
-    }
-    const maxPrice = priceRange.maxPrice.formattedValue;
-    const minPrice = priceRange.minPrice.formattedValue;
-    return `${minPrice} - ${maxPrice}`;
+
+    const maxPrice = priceRange?.maxPrice?.formattedValue;
+    const minPrice = priceRange?.minPrice?.formattedValue;
+
+    return maxPrice && minPrice ? `${minPrice} - ${maxPrice}` : '';
   }
 }

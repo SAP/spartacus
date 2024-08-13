@@ -82,7 +82,8 @@ export class ProductMultiDimensionalSelectorComponent {
 
     if (category && this.selectedProductCode) {
       const selectedOption = category.variantOptions.find(
-        (option: VariantCategoryOption) => option.code === this.selectedProductCode
+        (option: VariantCategoryOption) =>
+          option.code === this.selectedProductCode
       );
 
       return selectedOption ? selectedOption.value : '';
