@@ -63,10 +63,12 @@ export class ProductMultiDimensionalSelectorComponent {
       })
     );
 
-  changeVariant(code: string | undefined): void {
-    if (code) {
+  changeVariant(data: { code?: string | undefined; option?: VariantCategoryOption}): void {
+    const productCode = data.code ?? data.option?.code;
+
+    if (productCode) {
       this.productService
-        .get(code, ProductScope.LIST)
+        .get(productCode, ProductScope.LIST)
         .pipe(filter(Boolean), take(1))
         .subscribe((product: Product) => {
           this.routingService.go({
