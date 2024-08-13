@@ -42,7 +42,7 @@ export class LoginFormOidcComponent implements OnInit {
         if (site?.cdcSiteConfig && site?.uid) {
           const authConfig = createAuthConfig(
             site.cdcSiteConfig.oidcOpIssuerURI,
-            site.cdcSiteConfig.oicdRpClientId,
+            site.cdcSiteConfig.oidcRpClientId,
             site.uid,
             site.cdcSiteConfig.scopes.join(' '),
             'code'

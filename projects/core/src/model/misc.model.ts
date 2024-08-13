@@ -114,7 +114,7 @@ export interface BaseStore {
 
 export interface CdcSiteConfig {
   oidcOpIssuerURI: string;
-  oicdRpClientId: string;
+  oidcRpClientId: string;
   scopes: string[];
 }
 

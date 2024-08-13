@@ -68,7 +68,7 @@ describe('LoginFormOidcComponent', () => {
 
   it('should call configure and loadDiscoveryDocumentAndLogin with cdcSiteConfig', () => {
     let cdcSiteConfig: CdcSiteConfig = {
-      oicdRpClientId: 'mock',
+      oidcRpClientId: 'mock',
       oidcOpIssuerURI: 'mock',
       scopes: ['mock'],
     };
