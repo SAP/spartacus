@@ -10,8 +10,12 @@ import {
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ConverterService,
+  InterceptorUtil,
+  LoggerService,
+  OCC_USER_ID_ANONYMOUS,
   OccConfig,
   OccEndpointsService,
+  USE_CLIENT_TOKEN,
 } from '@spartacus/core';
 import { Order, ORDER_NORMALIZER } from '@spartacus/order/root';
 import {
@@ -21,9 +25,9 @@ import {
 import { OccOmfOrderHistoryAdapter } from './occ-omf-order-history.adapter';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { OmfConfig } from '../root/config/omf-config';
-
+import { OrderSelectors } from '@spartacus/order/core';
 const userId = '123';
 
 const orderData: Order = {
@@ -36,7 +40,13 @@ const mockActivatedRoute = {
   snapshot: {
     params: {},
   },
-  queryParams: of({ guid: orderData.guid }),
+  get queryParams() {
+    return of({ guid: orderData.guid });
+  },
+};
+
+const mockOrderState = {
+  value: { orders: [orderData] },
 };
 
 const mockConfig: OmfConfig = {
@@ -50,6 +60,7 @@ describe('OccOmfOrderHistoryAdapter', () => {
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
+  let store: Store;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -59,6 +70,7 @@ describe('OccOmfOrderHistoryAdapter', () => {
         StoreModule.forRoot({}),
       ],
       providers: [
+        LoggerService,
         OccOmfOrderHistoryAdapter,
         { provide: OmfConfig, useValue: mockConfig },
         { provide: OccConfig, useValue: mockOccModuleConfig },
@@ -74,6 +86,7 @@ describe('OccOmfOrderHistoryAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
+    store = TestBed.inject(Store);
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
     spyOn(occEnpointsService, 'buildUrl').and.callThrough();
@@ -83,11 +96,16 @@ describe('OccOmfOrderHistoryAdapter', () => {
     httpMock.verify();
   });
 
-  describe('getOrder', () => {
-    it('should fetch a single order with guid passed in API request header', waitForAsync(() => {
+  describe('loadOrder', () => {
+    it('should fetch a single order with guid passed in API request header for logged in user', waitForAsync(() => {
       spyOn(adapter, 'getOrderGuid').and.returnValue(of(orderData.guid));
       spyOn(adapter, 'getRequestHeader').and.returnValue(
         new HttpHeaders().set('Custom-Guid-Header', orderData.guid ?? '')
+      );
+      spyOn(InterceptorUtil, 'createHeader').withArgs(
+        USE_CLIENT_TOKEN,
+        true,
+        jasmine.anything()
       );
       adapter.load(userId, orderData.code ?? '').subscribe();
       const request = httpMock.expectOne((req: HttpRequest<any>) => {
@@ -100,6 +118,39 @@ describe('OccOmfOrderHistoryAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('orderDetail', {
         urlParams: { userId, orderId: orderData.code },
       });
+      expect(InterceptorUtil.createHeader).not.toHaveBeenCalledWith(
+        USE_CLIENT_TOKEN,
+        true,
+        jasmine.anything()
+      );
+      expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
+      request.flush(orderData);
+      httpMock.verify();
+    }));
+    it('should fetch a single order with guid passed in API request header for anonymous user', waitForAsync(() => {
+      spyOn(adapter, 'getOrderGuid').and.returnValue(of(orderData.guid));
+      spyOn(adapter, 'getRequestHeader').and.returnValue(
+        new HttpHeaders().set('Custom-Guid-Header', orderData.guid ?? '')
+      );
+      spyOn(InterceptorUtil, 'createHeader')
+        .withArgs(USE_CLIENT_TOKEN, true, jasmine.anything())
+        .and.callThrough();
+      adapter.load(OCC_USER_ID_ANONYMOUS, orderData.code ?? '').subscribe();
+      const request = httpMock.expectOne((req: HttpRequest<any>) => {
+        return req.method === 'GET';
+      }, `GET a single order`);
+      expect(request.request.headers.has('Custom-Guid-Header')).toBe(true);
+      expect(request.request.headers.get('Custom-Guid-Header')).toEqual(
+        orderData.guid
+      );
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('orderDetail', {
+        urlParams: { userId: OCC_USER_ID_ANONYMOUS, orderId: orderData.code },
+      });
+      expect(InterceptorUtil.createHeader).toHaveBeenCalledWith(
+        USE_CLIENT_TOKEN,
+        true,
+        jasmine.anything()
+      );
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
       request.flush(orderData);
       httpMock.verify();
@@ -119,12 +170,49 @@ describe('OccOmfOrderHistoryAdapter', () => {
         done();
       });
     });
-    it('should return guid from store', () => {
-      spyOn(adapter['store'], 'pipe').and.returnValue(
-        of({ value: { orders: [orderData] } })
+    it('should return guid from store', (done) => {
+      spyOnProperty(mockActivatedRoute, 'queryParams', 'get').and.returnValue(
+        of({ guid: null })
       );
+      spyOn(store, 'select').and.callFake((selector: any) => {
+        if (selector === OrderSelectors.getOrdersState) {
+          return of(mockOrderState);
+        }
+        return of(null);
+      });
       adapter.getOrderGuid(orderData.code ?? '').subscribe((guid) => {
         expect(guid).toEqual(orderData.guid);
+        done();
+      });
+    });
+    it('should return undefined from store if order is not present in store', (done) => {
+      spyOnProperty(mockActivatedRoute, 'queryParams', 'get').and.returnValue(
+        of({ guid: null })
+      );
+      spyOn(store, 'select').and.callFake((selector: any) => {
+        if (selector === OrderSelectors.getOrdersState) {
+          return of({ value: { orders: [orderData] } });
+        }
+        return of(null);
+      });
+      adapter.getOrderGuid('guid_02').subscribe((guid) => {
+        expect(guid).toEqual(undefined);
+        done();
+      });
+    });
+    it('should return undefined from store if store is empty', (done) => {
+      spyOnProperty(mockActivatedRoute, 'queryParams', 'get').and.returnValue(
+        of({ guid: null })
+      );
+      spyOn(store, 'select').and.callFake((selector: any) => {
+        if (selector === OrderSelectors.getOrdersState) {
+          return of({ value: {} });
+        }
+        return of(null);
+      });
+      adapter.getOrderGuid('guid_02').subscribe((guid) => {
+        expect(guid).toEqual(undefined);
+        done();
       });
     });
   });

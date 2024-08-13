@@ -16,7 +16,7 @@ import { Order, ORDER_NORMALIZER } from '@spartacus/order/root';
 import { HttpHeaders } from '@angular/common/http';
 import { map, Observable, of, switchMap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { StateWithOrder, OrderSelectors } from '@spartacus/order/core';
 import { OmfConfig } from '../root/config/omf-config';
 @Injectable({
@@ -27,6 +27,14 @@ export class OccOmfOrderHistoryAdapter extends OccOrderHistoryAdapter {
   protected store = inject(Store<StateWithOrder>);
   protected config = inject(OmfConfig);
 
+  protected getOrderDetailsValue(code: string): Observable<Order | undefined> {
+    return this.store.select(OrderSelectors.getOrdersState).pipe(
+      map((orderListState) => orderListState.value),
+      map((orderList) => {
+        return (orderList?.orders ?? []).find((order) => order.code === code);
+      })
+    );
+  }
   getOrderGuid(orderCode: string): Observable<string | undefined> {
     return this.route.queryParams.pipe(
       switchMap((queryParams) => {
@@ -35,15 +43,8 @@ export class OccOmfOrderHistoryAdapter extends OccOrderHistoryAdapter {
           return of(queryParams.guid);
         } else {
           // when loading Order History page in case of My-Account-V2
-          return this.store.pipe(
-            select(OrderSelectors.getOrdersState),
-            map((orderListState) => orderListState.value),
-            map((orderList) => {
-              const currentOrder = (orderList?.orders ?? []).find(
-                (order) => order.code === orderCode
-              );
-              return currentOrder?.guid;
-            })
+          return this.getOrderDetailsValue(orderCode).pipe(
+            map((order) => (order ? order.guid : undefined))
           );
         }
       })
