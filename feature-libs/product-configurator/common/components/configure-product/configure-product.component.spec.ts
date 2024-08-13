@@ -3,7 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
-import { I18nTestingModule, Product, RoutingService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  Product,
+  ProductScope,
+  RoutingService,
+} from '@spartacus/core';
 import {
   CurrentProductService,
   ProductListItemContext,
@@ -31,6 +36,8 @@ const mockProductNotConfigurable: Product = {
   configurable: false,
 };
 
+const testProduct = { ...mockProduct };
+
 class MockCurrentProductService implements Partial<CurrentProductService> {
   getProduct(): Observable<Product> {
     return of(mockProduct);
@@ -43,6 +50,12 @@ class MockCurrentProductServiceReturnsNull
   getProduct(): Observable<Product | null> {
     return of(null);
   }
+}
+
+class MockProductListItemContextReturnsNull
+  implements Partial<ProductListItemContext>
+{
+  product$ = of(null);
 }
 
 class MockProductListItemContext implements Partial<ProductListItemContext> {
@@ -68,9 +81,14 @@ let htmlElem: HTMLElement;
 
 function setupWithCurrentProductService(
   useCurrentProductServiceOnly: boolean,
-  currenProductServiceReturnsNull: boolean = false
+  currenProductServiceReturnsNull: boolean = false,
+  productListItemContextReturnsNull: boolean = false
 ) {
-  if (useCurrentProductServiceOnly && currenProductServiceReturnsNull) {
+  if (
+    useCurrentProductServiceOnly &&
+    currenProductServiceReturnsNull &&
+    productListItemContextReturnsNull
+  ) {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterModule],
       declarations: [
@@ -79,6 +97,10 @@ function setupWithCurrentProductService(
         MockFeatureDirective,
       ],
       providers: [
+        {
+          provide: ProductListItemContext,
+          useClass: MockProductListItemContextReturnsNull,
+        },
         {
           provide: CurrentProductService,
           useClass: MockCurrentProductServiceReturnsNull,
@@ -161,9 +183,10 @@ describe('ConfigureProductComponent', () => {
 
   it('should call currentProductService with configurator scope only as we do not need more scopes', () => {
     setupWithCurrentProductService(true);
-    expect(currentProductService.getProduct).toHaveBeenCalledWith(
-      ConfiguratorProductScope.CONFIGURATOR
-    );
+    expect(currentProductService.getProduct).toHaveBeenCalledWith([
+      ProductScope.DETAILS,
+      ConfiguratorProductScope.CONFIGURATOR,
+    ]);
   });
 
   it('should show button', () => {
@@ -196,7 +219,10 @@ describe('ConfigureProductComponent', () => {
   });
 
   it('should emit non-configurable dummy in case it was launched with product service which emits null', (done) => {
-    setupWithCurrentProductService(true, true);
+    setupWithCurrentProductService(true, true, true);
+    component['productListItemContext'] = null;
+    component['currentProductService'] = null;
+    fixture.detectChanges();
     component.product$.subscribe((product) => {
       expect(product).toEqual(mockProductNotConfigurable);
       done();
@@ -218,6 +244,44 @@ describe('ConfigureProductComponent', () => {
     component.product$.subscribe((product) => {
       expect(product).toBe(mockProduct);
       done();
+    });
+  });
+
+  describe('getProduct', () => {
+    it('should emit null in case both productListItemContext and currentProductService return null', (done) => {
+      setupWithCurrentProductService(true, true, true);
+      component['getProduct']().subscribe((product) => {
+        expect(product).toBe(null);
+        done();
+      });
+    });
+
+    it('should emit product in case it was launched with defined product item context', (done) => {
+      setupWithCurrentProductService(false);
+      component['getProduct']().subscribe((product) => {
+        expect(product).toBe(mockProduct);
+        done();
+      });
+    });
+
+    it('should emit product in case it was launched with defined currentProductService', (done) => {
+      setupWithCurrentProductService(true);
+      component['getProduct']().subscribe((product) => {
+        expect(product).toBe(mockProduct);
+        done();
+      });
+    });
+
+    it('should emit null in case both productListItemContext and currentProductService are undefined', (done) => {
+      setupWithCurrentProductService(true);
+      component['productListItemContext'] = null;
+      component['currentProductService'] = null;
+      fixture.detectChanges();
+
+      component['getProduct']().subscribe((product) => {
+        expect(product).toBe(null);
+        done();
+      });
     });
   });
 
@@ -288,6 +352,47 @@ describe('ConfigureProductComponent', () => {
           ConfiguratorType.VARIANT + ReadOnlyPostfix
         )
       ).toEqual('false');
+    });
+  });
+
+  describe('isReadOnlyBaseProduct', () => {
+    it('should return `false` in case configurator type is CPQCONFIGURATOR', () => {
+      expect(component.isReadOnlyBaseProduct(testProduct)).toEqual(false);
+    });
+
+    it('should return `false` in case configurator type has postfix readOnly in case ase product and product code are not equal', () => {
+      testProduct.configuratorType = ConfiguratorType.VARIANT + ReadOnlyPostfix;
+      testProduct.baseProduct = 'BASE_PRODUCT';
+      expect(component.isReadOnlyBaseProduct(testProduct)).toEqual(false);
+    });
+
+    it('should return `true` in case configurator type has postfix readOnly and base product and product code are equal', () => {
+      testProduct.configuratorType = ConfiguratorType.VARIANT + ReadOnlyPostfix;
+      testProduct.baseProduct = testProduct.code;
+      expect(component.isReadOnlyBaseProduct(testProduct)).toEqual(true);
+    });
+
+    it('should return `true` in case configurator type has postfix readOnly and a base product is defined', () => {
+      testProduct.configuratorType = ConfiguratorType.VARIANT + ReadOnlyPostfix;
+      testProduct.baseProduct = undefined;
+      expect(component.isReadOnlyBaseProduct(testProduct)).toEqual(true);
+    });
+  });
+
+  describe('isBaseProduct', () => {
+    it('should return `false` in case base product and product code are not equal', () => {
+      testProduct.baseProduct = 'BASE_PRODUCT';
+      expect(component['isBaseProduct'](testProduct)).toEqual(false);
+    });
+
+    it('should return `true` in case base product and code are equal', () => {
+      testProduct.baseProduct = testProduct.code;
+      expect(component['isBaseProduct'](testProduct)).toEqual(true);
+    });
+
+    it('should return `true` in case a base product is undefined', () => {
+      testProduct.baseProduct = undefined;
+      expect(component['isBaseProduct'](testProduct)).toEqual(true);
     });
   });
 

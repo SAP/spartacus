@@ -1,6 +1,6 @@
 import { Component, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -18,8 +18,13 @@ import {
   OAuthFlow,
   RoutingService,
   Title,
+  BaseSite,
+  SiteAdapter,
+  BaseSiteService,
+  LanguageService,
 } from '@spartacus/core';
 import {
+  CaptchaModule,
   FormErrorsModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
@@ -40,6 +45,7 @@ const mockRegisterFormData: any = {
   password: 'strongPass$!123',
   passwordconf: 'strongPass$!123',
   newsletter: true,
+  captcha: true,
 };
 
 const mockTitlesList: Title[] = [
@@ -115,6 +121,30 @@ class MockRegisterComponentService
   generateAdditionalConsentsFormControl = createSpy();
 }
 
+class MockSiteAdapter {
+  public loadBaseSite(siteUid?: string): Observable<BaseSite> {
+    return of<BaseSite>({
+      uid: siteUid,
+      captchaConfig: {
+        enabled: true,
+        publicKey: 'mock-key',
+      },
+    });
+  }
+}
+
+class MockBaseSiteService {
+  getActive(): Observable<string> {
+    return of('mock-site');
+  }
+}
+
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('mock-lang');
+  }
+}
+
 describe('RegisterComponent', () => {
   let controls: any;
   let component: RegisterComponent;
@@ -137,6 +167,7 @@ describe('RegisterComponent', () => {
         NgSelectModule,
         PasswordVisibilityToggleModule,
         NgSelectA11yModule,
+        CaptchaModule,
       ],
       declarations: [
         RegisterComponent,
@@ -168,6 +199,18 @@ describe('RegisterComponent', () => {
         {
           provide: AuthConfigService,
           useClass: MockAuthConfigService,
+        },
+        {
+          provide: SiteAdapter,
+          useClass: MockSiteAdapter,
+        },
+        {
+          provide: BaseSiteService,
+          useClass: MockBaseSiteService,
+        },
+        {
+          provide: LanguageService,
+          useClass: MockLanguageService,
         },
       ],
     }).compileComponents();
@@ -356,6 +399,44 @@ describe('RegisterComponent', () => {
       spyOn<any>(component, isConsentRequiredMethod).and.returnValue(true);
       fixture.detectChanges();
       expect(controls['newsletter'].status).toEqual('DISABLED');
+    });
+  });
+
+  describe('captcha', () => {
+    let captchaComponent;
+    beforeEach(() => {
+      captchaComponent = fixture.debugElement.query(By.css('cx-captcha'));
+      spyOn(component, 'registerUser').and.callThrough();
+      mockRegisterFormData.captcha = false;
+      component.registerForm.patchValue(mockRegisterFormData);
+    });
+
+    function getCaptchaControl(component: RegisterComponent): AbstractControl {
+      return component.registerForm.get('captcha') as AbstractControl;
+    }
+
+    it('should create captcha component', () => {
+      expect(captchaComponent).toBeTruthy();
+    });
+
+    it('should enable captcha', () => {
+      captchaComponent.triggerEventHandler('enabled', true);
+      component.submitForm();
+
+      expect(getCaptchaControl(component).valid).toEqual(false);
+      expect(component.registerUser).toHaveBeenCalledTimes(0);
+    });
+
+    it('should confirm captcha', () => {
+      spyOn(component, 'captchaConfirmed').and.callThrough();
+
+      captchaComponent.triggerEventHandler('enabled', true);
+      captchaComponent.triggerEventHandler('confirmed', true);
+      component.submitForm();
+
+      expect(getCaptchaControl(component).value).toBe(true);
+      expect(getCaptchaControl(component).valid).toEqual(true);
+      expect(component.registerUser).toHaveBeenCalledTimes(1);
     });
   });
 });

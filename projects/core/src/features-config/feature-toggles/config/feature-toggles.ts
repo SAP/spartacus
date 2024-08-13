@@ -78,6 +78,26 @@ export interface FeatureTogglesInterface {
   storeFrontLibCardParagraphTruncated?: boolean;
 
   /**
+   * When enabled, the batch API is used `ProductCarouselComponent` to load products. It increases the component's performance.
+   *
+   * _NOTE_: When flag is enabled, custom OCC config for the `productSearch` endpoint has to be adjusted to have an object representation:
+   * ```js
+   * backend: {
+   *    occ: {
+   *      endpoints: {
+   *         productSearch: {
+   *           default: '...',
+   *           carousel: '...',
+   *           carouselMinimal: '...',
+   *         },
+   *       },
+   *     },
+   *   }
+   * ```
+   */
+  useProductCarouselBatchApi?: boolean;
+
+  /**
    * In `ConfiguratorAttributeDropDownComponent`, `ConfiguratorAttributeSingleSelectionImageComponent`
    * and in 'ConfiguratorAttributeMultiSelectionImageComponent' some HTML changes were done
    * to render read-only attribute with images and a long description at the value level accordingly.
@@ -88,6 +108,20 @@ export interface FeatureTogglesInterface {
    * to render read-only attribute with images and a long description at the value level accordingly.
    */
   productConfiguratorAttributeTypesV2?: boolean;
+
+  /**
+   * The product configuration UI is completely re-rendered after each UI interaction. This may lead to performance issues for large configuration models,
+   * where a lot of attributes (>50) and/or a lot of possible values per attribute (>50) are rendered on the UI.
+   *
+   * When this feature toggle is activated, only these parts of the UI are re-rendered, that actually changed, significantly (up to factor 10) improving rendering performance for large models.
+   *
+   * Please note, this will influence how the pricing requests are processed and rendered.
+   * Instead of merging the prices into the configuration model, which effectively triggers re-rendering the whole UI-Component tree,
+   * the price supplements are kept in a separate subtree of the model, so that attribute components can react independently on pricing changes using the `ConfiguratorDeltaRenderingService`.
+   *
+   * Hence, it is advised to do full regression testing after activation of this flag and before rolling this out to production.
+   */
+  productConfiguratorDeltaRendering?: boolean;
 
   /**
    * Adds asterisks to required form fields in all components existing before v2211.20
@@ -104,6 +138,11 @@ export interface FeatureTogglesInterface {
    * Improves keyboard navigation inside of 'NavigationUIComponent'.
    */
   a11yNavigationUiKeyboardControls?: boolean;
+
+  /**
+   * Improves screen reader(VoiceOver, JAWS) narration of menu buttons inside of 'NavigationUIComponent'.
+   */
+  a11yNavMenuExpandStateReadout?: boolean;
 
   /**
    * Fixes heading gap present in 'OrderConfirmationItemsComponent' template.
@@ -400,6 +439,12 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
+   * Mofifies the template of 'AddedToCartDialogComponent' to retain the focus after the cart is updated.
+   * Improves its screen reader readout.
+   */
+  a11yAddedToCartActiveDialog?: boolean;
+
+  /**
    * Modifies the 'NgSelectA11yDirective' to improve the sorting dropdown screen reader experience on mobile devices.
    */
   a11yNgSelectMobileReadout?: boolean;
@@ -430,10 +475,13 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   recentSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: false,
+  useProductCarouselBatchApi: false,
   productConfiguratorAttributeTypesV2: false,
+  productConfiguratorDeltaRendering: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
   a11yNavigationUiKeyboardControls: false,
+  a11yNavMenuExpandStateReadout: false,
   a11yOrderConfirmationHeadingOrder: false,
   a11yStarRating: false,
   a11yViewChangeAssistiveMessage: false,
@@ -482,6 +530,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yDeliveryModeRadiogroup: false,
+  a11yAddedToCartActiveDialog: false,
   a11yNgSelectMobileReadout: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
