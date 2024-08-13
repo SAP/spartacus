@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 import { ProductMultiDimensionalSelectorComponent } from './product-multi-dimensional-selector.component';
 import {
@@ -62,7 +61,6 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
         { provide: CurrentProductService, useValue: mockCurrentProductService },
         { provide: ActivatedRoute, useValue: {} },
       ],
-      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProductMultiDimensionalSelectorComponent);
