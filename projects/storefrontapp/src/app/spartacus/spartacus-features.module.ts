@@ -13,9 +13,9 @@ import {
   FeatureToggles,
   ProductModule,
   ProductOccModule,
-  provideFeatureTogglesFactory,
   UserModule,
   UserOccModule,
+  provideFeatureTogglesFactory,
 } from '@spartacus/core';
 import {
   AnonymousConsentManagementBannerModule,
@@ -159,7 +159,6 @@ if (environment.estimatedDeliveryDate) {
 if (environment.cpq) {
   featureModules.push(CpqQuoteFeatureModule);
 }
-
 @NgModule({
   imports: [
     // Auth Core
@@ -283,6 +282,7 @@ if (environment.cpq) {
       const appFeatureToggles: Required<FeatureToggles> = {
         formErrorsDescriptiveMessages: true,
         showSearchingCustomerByOrderInASM: false,
+        showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
         showBillingAddressInDigitalPayments: false,
@@ -291,10 +291,13 @@ if (environment.cpq) {
         recentSearches: false,
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
+        useProductCarouselBatchApi: false, //TODO: CXSPA-8162
         productConfiguratorAttributeTypesV2: true,
+        productConfiguratorDeltaRendering: true,
         a11yRequiredAsterisks: true,
         a11yQuantityOrderTabbing: true,
         a11yNavigationUiKeyboardControls: true,
+        a11yNavMenuExpandStateReadout: true,
         a11yOrderConfirmationHeadingOrder: true,
         a11yStarRating: true,
         a11yViewChangeAssistiveMessage: true,
@@ -335,6 +338,7 @@ if (environment.cpq) {
         a11yEmptyWishlistHeading: true,
         a11yScreenReaderBloatFix: true,
         a11yUseButtonsForBtnLinks: true,
+        a11yNotificationsOnConsentChange: true,
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
         a11yFacetsDialogFocusHandling: true,
@@ -344,6 +348,8 @@ if (environment.cpq) {
         occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yDeliveryModeRadiogroup: true,
+        a11yAddedToCartActiveDialog: true,
+        a11yNgSelectMobileReadout: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
       };
       return appFeatureToggles;

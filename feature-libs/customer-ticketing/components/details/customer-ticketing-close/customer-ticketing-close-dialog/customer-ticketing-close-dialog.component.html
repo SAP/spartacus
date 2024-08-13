@@ -3,16 +3,18 @@
   (esc)="close('Escape clicked')"
   class="cx-customer-ticket-form-dialog"
   role="dialog"
+  aria-labelledby="dialogTitle"
 >
   <form [formGroup]="form" class="cx-customer-ticket-form-container">
     <div class="modal-header cx-customer-ticket-form-header">
-      <div class="cx-customer-ticket-form-title modal-title">
+      <div id="dialogTitle" class="cx-customer-ticket-form-title modal-title">
         {{ 'customerTicketingDetails.closeRequest' | cxTranslate }}
       </div>
       <button
         (click)="close('Close Request Dialog')"
         [attr.aria-label]="'common.close' | cxTranslate"
         class="cx-customer-ticket-form-close close"
+        title="{{ 'common.close' | cxTranslate }}"
       >
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.CLOSE"></cx-icon>

@@ -54,6 +54,7 @@
           "Requested-Delivery-Date",
           "Estimated-Delivery-Date",
           "S4HANA-Order-Management",
+          "cpq-quote",
           "s4-service",
           "SmartEdit",
           "Store-Finder",
@@ -233,6 +234,10 @@
           {
             "value": "S4HANA-Order-Management",
             "label": "S/4HANA Order Management (b2b feature)"
+          },
+          {
+            "value": "cpq-quote",
+            "label": "CPQ Quote Integration (b2b feature)"
           },
           {
             "value": "s4-service",
