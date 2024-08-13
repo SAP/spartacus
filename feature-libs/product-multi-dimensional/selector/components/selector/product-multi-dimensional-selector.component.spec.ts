@@ -12,7 +12,7 @@ import {
   Product,
   ProductService,
   RoutingService,
-  TranslationService
+  TranslationService,
 } from '@spartacus/core';
 import { ActivatedRoute } from '@angular/router';
 import { CurrentProductService } from '@spartacus/storefront';
@@ -30,14 +30,23 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
   beforeEach(async () => {
     mockProductService = jasmine.createSpyObj('ProductService', ['get']);
     mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
-    mockMultiDimensionalService = jasmine.createSpyObj('ProductMultiDimensionalSelectorService', ['getVariants']);
-    mockTranslationService = jasmine.createSpyObj('TranslationService', ['translate']);
-    mockCurrentProductService = jasmine.createSpyObj('CurrentProductService', ['getProduct']);
+    mockMultiDimensionalService = jasmine.createSpyObj(
+      'ProductMultiDimensionalSelectorService',
+      ['getVariants']
+    );
+    mockTranslationService = jasmine.createSpyObj('TranslationService', [
+      'translate',
+    ]);
+    mockCurrentProductService = jasmine.createSpyObj('CurrentProductService', [
+      'getProduct',
+    ]);
 
-    mockCurrentProductService.getProduct.and.returnValue(of({
-      code: 'productCode',
-      multidimensional: true
-    } as Product));
+    mockCurrentProductService.getProduct.and.returnValue(
+      of({
+        code: 'productCode',
+        multidimensional: true,
+      } as Product)
+    );
 
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
@@ -45,12 +54,15 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
       providers: [
         { provide: ProductService, useValue: mockProductService },
         { provide: RoutingService, useValue: mockRoutingService },
-        { provide: ProductMultiDimensionalSelectorService, useValue: mockMultiDimensionalService },
+        {
+          provide: ProductMultiDimensionalSelectorService,
+          useValue: mockMultiDimensionalService,
+        },
         { provide: TranslationService, useValue: mockTranslationService },
         { provide: CurrentProductService, useValue: mockCurrentProductService },
-        { provide: ActivatedRoute, useValue: {} }
+        { provide: ActivatedRoute, useValue: {} },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProductMultiDimensionalSelectorComponent);
@@ -65,9 +77,11 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
     it('should initialize categories and selectedProductCode from product$', () => {
       const product = {
         code: 'productCode',
-        multidimensional: true
-      } as any;
-      const variants: VariantCategoryGroup[] = [{ name: 'category1', hasImages: false, variantOptions: [] }];
+        multidimensional: true,
+      } as Product;
+      const variants: VariantCategoryGroup[] = [
+        { name: 'category1', hasImages: false, variantOptions: [] },
+      ];
       mockCurrentProductService.getProduct.and.returnValue(of(product));
       mockMultiDimensionalService.getVariants.and.returnValue(variants);
 
@@ -80,14 +94,14 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
 
   describe('changeVariant', () => {
     it('should call routingService.go with the new product', () => {
-      const newProduct = { code: 'newProductCode' } as any;
+      const newProduct = { code: 'newProductCode' } as Product;
       mockProductService.get.and.returnValue(of(newProduct));
 
       component.changeVariant('newProductCode');
 
       expect(mockRoutingService.go).toHaveBeenCalledWith({
         cxRoute: 'product',
-        params: newProduct
+        params: newProduct,
       });
     });
 
@@ -97,28 +111,14 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
     });
   });
 
-  describe('getCategoryName', () => {
-    it('should return category name with selected value if hasImages is true', () => {
-      spyOn(component, 'getSelectedValue').and.returnValue('selectedValue');
-
-      const category: VariantCategoryGroup = { name: 'CategoryName', hasImages: true, variantOptions: [] };
-      const result = component.getCategoryName(category);
-
-      expect(result).toBe('CategoryName: selectedValue');
-    });
-
-    it('should return only category name if hasImages is false', () => {
-      const category: VariantCategoryGroup  = { name: 'CategoryName', hasImages: false, variantOptions: [] };
-      const result = component.getCategoryName(category);
-
-      expect(result).toBe('CategoryName');
-    });
-  });
-
   describe('getSelectedValue', () => {
     it('should return the selected option value from the correct category', () => {
       component.categories = [
-        { name: 'category1', hasImages: false, variantOptions: [{ code: 'option1', value: 'value1' }] }
+        {
+          name: 'category1',
+          hasImages: false,
+          variantOptions: [{ code: 'option1', value: 'value1' }],
+        },
       ];
       component.selectedProductCode = 'option1';
 
@@ -126,10 +126,77 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
       expect(result).toBe('value1');
     });
 
-    it('should return null if category is not found', () => {
+    it('should return an empty string if the selected option is not found', () => {
+      component.categories = [
+        {
+          name: 'category1',
+          hasImages: false,
+          variantOptions: [{ code: 'option2', value: 'value2' }],
+        },
+      ];
+      component.selectedProductCode = 'option1';
+
+      const result = component.getSelectedValue('category1');
+      expect(result).toBe('');
+    });
+
+    it('should return an empty string if the category is not found', () => {
       component.categories = [];
       const result = component.getSelectedValue('category1');
       expect(result).toBe('');
+    });
+  });
+
+  describe('getCategoryName', () => {
+    it('should return category name with selected value if hasImages is true', () => {
+      spyOn(component, 'getSelectedValue').and.returnValue('selectedValue');
+
+      const category: VariantCategoryGroup = {
+        name: 'CategoryName',
+        hasImages: true,
+        variantOptions: [],
+      };
+      const result = component.getCategoryName(category);
+
+      expect(result).toBe('CategoryName: selectedValue');
+    });
+
+    it('should return only category name if hasImages is false', () => {
+      const category: VariantCategoryGroup = {
+        name: 'CategoryName',
+        hasImages: false,
+        variantOptions: [],
+      };
+      const result = component.getCategoryName(category);
+
+      expect(result).toBe('CategoryName');
+    });
+
+    it('should return only category name if selected value is empty', () => {
+      spyOn(component, 'getSelectedValue').and.returnValue('');
+
+      const category: VariantCategoryGroup = {
+        name: 'CategoryName',
+        hasImages: true,
+        variantOptions: [],
+      };
+      const result = component.getCategoryName(category);
+
+      expect(result).toBe('CategoryName');
+    });
+  });
+
+  describe('isSelected', () => {
+    it('should return true if the code matches selectedProductCode', () => {
+      component.selectedProductCode = 'option1';
+      const result = component['isSelected']('option1');
+      expect(result).toBeTrue();
+    });
+
+    it('should return false if the code does not match selectedProductCode', () => {
+      component.selectedProductCode = 'option1';
+      const result = component['isSelected']('option2');
+      expect(result).toBeFalse();
     });
   });
 
@@ -138,10 +205,13 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
       spyOn(component as any, 'isSelected').and.returnValue(true);
       mockTranslationService.translate.and.returnValue(of('Selected'));
 
-      const option = { code: 'option1', value: 'Value1' } as VariantCategoryOption;
+      const option = {
+        code: 'option1',
+        value: 'Value1',
+      } as VariantCategoryOption;
       const result$ = component.onAriaLabel(option, 'category1');
 
-      result$.subscribe(result => {
+      result$.subscribe((result) => {
         expect(result).toBe('Selected, Value1 category1');
       });
     });
@@ -150,10 +220,13 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
       spyOn(component as any, 'isSelected').and.returnValue(false);
       mockTranslationService.translate.and.returnValue(of('Variant'));
 
-      const option = { code: 'option1', value: 'Value1' } as VariantCategoryOption;
+      const option = {
+        code: 'option1',
+        value: 'Value1',
+      } as VariantCategoryOption;
       const result$ = component.onAriaLabel(option, 'category1');
 
-      result$.subscribe(result => {
+      result$.subscribe((result) => {
         expect(result).toBe('Variant');
       });
     });
