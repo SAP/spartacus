@@ -6,15 +6,14 @@
 
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
+import { OmfConfiguration } from '@spartacus/omf';
 
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
 })
 export abstract class OmfConfig {
-  omf?: {
-    guidHttpHeaderName: string;
-  };
+  omf?: OmfConfiguration;
 }
 
 declare module '@spartacus/core' {

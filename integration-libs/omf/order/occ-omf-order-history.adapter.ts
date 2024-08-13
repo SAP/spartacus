@@ -15,10 +15,11 @@ import { OccOrderHistoryAdapter } from '@spartacus/order/occ';
 import { Order, ORDER_NORMALIZER } from '@spartacus/order/root';
 import { HttpHeaders } from '@angular/common/http';
 import { map, Observable, of, switchMap } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { StateWithOrder, OrderSelectors } from '@spartacus/order/core';
-import { OmfConfig } from '../root/config/omf-config';
+import { OmfConfig } from './config/omf-config';
+import { ActivatedRoute } from '@angular/router';
+
 @Injectable({
   providedIn: 'root',
 })

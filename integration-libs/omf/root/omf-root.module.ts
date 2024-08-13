@@ -5,10 +5,6 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
-import { defaultOmfConfig } from './config/default-omf-config';
 
-@NgModule({
-  providers: [provideDefaultConfig(defaultOmfConfig)],
-})
+@NgModule()
 export class OmfRootModule {}

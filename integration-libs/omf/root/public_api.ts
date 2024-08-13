@@ -5,3 +5,4 @@
  */
 
 export * from './omf-root.module';
+export * from './model/index';

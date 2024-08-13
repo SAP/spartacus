@@ -26,7 +26,7 @@ import { OccOmfOrderHistoryAdapter } from './occ-omf-order-history.adapter';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
-import { OmfConfig } from '../root/config/omf-config';
+import { OmfConfig } from './config/omf-config';
 import { OrderSelectors } from '@spartacus/order/core';
 const userId = '123';
 
