@@ -11,10 +11,10 @@ import { createAuthConfig } from './auth.config';
 import { AuthService, BaseSiteService } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-login-form-cdc',
-  templateUrl: './login-form-cdc.component.html',
+  selector: 'cx-login-form-oidc',
+  templateUrl: './login-form-oidc.component.html',
 })
-export class LoginFormCDCComponent implements OnInit {
+export class LoginFormOidcComponent implements OnInit {
   protected baseSite: string = '';
   constructor(
     protected oauthService: OAuthService,
@@ -23,33 +23,33 @@ export class LoginFormCDCComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.baseSiteService
-      .getActive()
-      .pipe(take(1))
-      .subscribe((data) => (this.baseSite = data));
     this.oauthService.events
-      .pipe(filter((e) => e.type === 'token_received'))
+      .pipe(
+        take(1),
+        filter((e) => e.type === 'token_received')
+      )
       .subscribe(() => {
-        this.auth.afterRedirectFromCDCLogin();
+        this.auth.afterRedirectFromOidcLogin();
       });
     this.initializeOAuthFlow();
   }
 
   initializeOAuthFlow(): void {
-    if (this.baseSite) {
-      this.baseSiteService.get(this.baseSite).subscribe((site) => {
-        if (site?.cdcSiteConfig) {
+    this.baseSiteService
+      .get()
+      .pipe(take(1))
+      .subscribe((site) => {
+        if (site?.cdcSiteConfig && site?.uid) {
           const authConfig = createAuthConfig(
-            site?.cdcSiteConfig?.oidcOpIssuerURI,
-            site?.cdcSiteConfig?.oicdRpClientId,
-            this.baseSite,
-            site?.cdcSiteConfig?.scopes.join(' '),
+            site.cdcSiteConfig.oidcOpIssuerURI,
+            site.cdcSiteConfig.oicdRpClientId,
+            site.uid,
+            site.cdcSiteConfig.scopes.join(' '),
             'code'
           );
           this.oauthService.configure(authConfig);
+          this.oauthService.loadDiscoveryDocumentAndLogin();
         }
       });
-    }
-    this.oauthService.loadDiscoveryDocumentAndLogin();
   }
 }

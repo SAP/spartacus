@@ -11,7 +11,7 @@ import { LoginModule } from './login/login.module';
 import { MyAccountV2UserModule } from './my-account-v2-user';
 import { OneTimePasswordLoginFormModeule } from './otp-login-form/otp-login-form.module';
 import { VerificationTokenFormModule } from './verification-token-form/verification-token-form.module';
-import { LoginFormCDCModule } from './login-form-cdc';
+import { LoginFormOidcModule } from './login-form-oidc';
 
 @NgModule({
   imports: [
@@ -21,7 +21,7 @@ import { LoginFormCDCModule } from './login-form-cdc';
     LoginRegisterModule,
     MyAccountV2UserModule,
     OneTimePasswordLoginFormModeule,
-    LoginFormCDCModule,
+    LoginFormOidcModule,
   ],
 })
 export class UserAccountComponentsModule {}

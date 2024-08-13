@@ -4,35 +4,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { LoginFormCDCComponent } from './login-form-cdc.component';
+import { LoginFormOidcComponent } from './login-form-oidc.component';
 import {
   AuthService,
   BaseSite,
   BaseSiteService,
   CdcSiteConfig,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OAuthEvent, OAuthService } from 'angular-oauth2-oidc';
 
 class MockBaseSiteService implements Partial<BaseSiteService> {
-  baseSite: BaseSite = {};
-  cdcSiteConfig: CdcSiteConfig = {
-    oicdRpClientId: 'mock',
-    oidcOpIssuerURI: 'mock',
-    scopes: ['mock'],
-  };
-  getActive(): Observable<string> {
-    return of('activeBaseSite');
-  }
   get(): Observable<BaseSite> {
-    this.baseSite.cdcSiteConfig = this.cdcSiteConfig;
-    return of(this.baseSite);
+    return of();
   }
 }
 
 class MockOAuthService implements Partial<OAuthService> {
-  oAuthEvent: OAuthEvent = { type: 'token_received' };
-  events: Observable<OAuthEvent> = of(this.oAuthEvent);
+  events: Observable<OAuthEvent> = of();
   loadDiscoveryDocumentAndLogin = jasmine.createSpy(
     'loadDiscoveryDocumentAndLogin'
   );
@@ -40,18 +29,19 @@ class MockOAuthService implements Partial<OAuthService> {
 }
 
 class MockAuthService {
-  afterRedirectFromCDCLogin = jasmine.createSpy('afterRedirectFromCDCLogin');
+  afterRedirectFromOidcLogin = jasmine.createSpy('afterRedirectFromOidcLogin');
 }
 
-describe('LoginFormCDCComponent', () => {
-  let component: LoginFormCDCComponent;
-  let fixture: ComponentFixture<LoginFormCDCComponent>;
+describe('LoginFormOidcComponent', () => {
+  let component: LoginFormOidcComponent;
+  let fixture: ComponentFixture<LoginFormOidcComponent>;
   let mockOAuthService: OAuthService;
   let mockAuthService: AuthService;
+  let mockBaseSiteService: BaseSiteService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [LoginFormCDCComponent],
+      declarations: [LoginFormOidcComponent],
       providers: [
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: OAuthService, useClass: MockOAuthService },
@@ -61,11 +51,12 @@ describe('LoginFormCDCComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginFormCDCComponent);
+    fixture = TestBed.createComponent(LoginFormOidcComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     mockOAuthService = TestBed.inject(OAuthService);
     mockAuthService = TestBed.inject(AuthService);
+    mockBaseSiteService = TestBed.inject(BaseSiteService);
   });
 
   it('should create and call initializeOAuthFlow', () => {
@@ -75,14 +66,42 @@ describe('LoginFormCDCComponent', () => {
     expect(component.initializeOAuthFlow).toHaveBeenCalled();
   });
 
-  it('should call initializeOAuthFlow', () => {
+  it('should call configure and loadDiscoveryDocumentAndLogin with cdcSiteConfig', () => {
+    let cdcSiteConfig: CdcSiteConfig = {
+      oicdRpClientId: 'mock',
+      oidcOpIssuerURI: 'mock',
+      scopes: ['mock'],
+    };
+    let baseSiteWithCdcSiteConfig: BaseSite = {
+      uid: 'mock',
+      cdcSiteConfig: cdcSiteConfig,
+    };
+    spyOn(mockBaseSiteService, 'get').and.returnValue(
+      of(baseSiteWithCdcSiteConfig)
+    );
     component.initializeOAuthFlow();
     expect(mockOAuthService.configure).toHaveBeenCalled();
     expect(mockOAuthService.loadDiscoveryDocumentAndLogin).toHaveBeenCalled();
   });
 
+  it('should not call configure and loadDiscoveryDocumentAndLogin without cdcSiteConfig', () => {
+    component.initializeOAuthFlow();
+    expect(mockOAuthService.configure).not.toHaveBeenCalled();
+    expect(
+      mockOAuthService.loadDiscoveryDocumentAndLogin
+    ).not.toHaveBeenCalled();
+  });
+
   it('should login and redirect user after getting token_received', () => {
+    mockOAuthService.events = new BehaviorSubject<OAuthEvent>({
+      type: 'token_received',
+    });
     component.ngOnInit();
-    expect(mockAuthService.afterRedirectFromCDCLogin).toHaveBeenCalled();
+    expect(mockAuthService.afterRedirectFromOidcLogin).toHaveBeenCalled();
+  });
+
+  it('should not login without token_received', () => {
+    component.ngOnInit();
+    expect(mockAuthService.afterRedirectFromOidcLogin).not.toHaveBeenCalled();
   });
 });

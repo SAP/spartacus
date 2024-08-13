@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, NotAuthGuard, provideDefaultConfig } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
-import { LoginFormCDCComponent } from './login-form-cdc.component';
+import { LoginFormOidcComponent } from './login-form-oidc.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, SpinnerModule],
@@ -17,12 +17,12 @@ import { LoginFormCDCComponent } from './login-form-cdc.component';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ReturningOIDCLoginComponent: {
-          component: LoginFormCDCComponent,
+          component: LoginFormOidcComponent,
           guards: [NotAuthGuard],
         },
       },
     }),
   ],
-  declarations: [LoginFormCDCComponent],
+  declarations: [LoginFormOidcComponent],
 })
-export class LoginFormCDCModule {}
+export class LoginFormOidcModule {}
