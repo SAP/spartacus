@@ -15,7 +15,6 @@
     "cancelReason": "Reason for  cancelling service",
     "optional": "(optional)",
     "action": "Cancel Service",
-    "cancelSuccess": "Your cancellation request was submitted (original order {{orderCode}} will be updated)",
     "back": "Back",
     "Submit": "Submit Request",
     "cancelServiceSuccess": "The service has been cancelled sucessfully",
