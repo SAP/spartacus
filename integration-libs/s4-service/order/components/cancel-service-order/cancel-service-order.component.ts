@@ -62,7 +62,7 @@ export class CancelServiceOrderComponent {
             );
           }
         }),
-        mergeMap(() => this.order$), // Re-subscribe to get order details for routing
+        mergeMap(() => this.order$),
         mergeMap((order: any) =>
           this.routingService.go({
             cxRoute: 'orderDetails',

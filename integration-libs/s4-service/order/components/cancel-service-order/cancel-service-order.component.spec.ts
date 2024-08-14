@@ -126,10 +126,6 @@ describe('CancelServiceOrderComponent', () => {
     // expect(component.form.reset).toHaveBeenCalled();
     fixture.detectChanges();
     expect(mockGlobalMessageService.add).toHaveBeenCalled();
-    // expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-    //   { key: 'cancelService.cancelServiceSuccess' },
-    //   GlobalMessageType.MSG_TYPE_CONFIRMATION
-    // );
   });
 
   it('should handle error when order details are not available', () => {

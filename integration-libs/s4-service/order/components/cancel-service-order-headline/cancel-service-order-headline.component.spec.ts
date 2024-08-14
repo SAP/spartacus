@@ -8,11 +8,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 // Mock data
 const mockOrder = {
-  servicedAt: '2024-07-29T10:00:00Z', // ISO 8601 format string
+  servicedAt: '2024-07-29T10:00:00Z',
   deliveryAddress: { town: 'Test Town' },
-  entries: [
-    { product: { productTypes: 'SERVICE' } }, // Example valid entry
-  ],
+  entries: [{ product: { productTypes: 'SERVICE' } }],
 };
 @Pipe({
   name: 'cxUrl',
@@ -82,8 +80,7 @@ describe('CancelServiceOrderHeadlineComponent', () => {
       hour12: false,
     });
 
-    fixture.detectChanges(); // Ensure the view is updated
-
+    fixture.detectChanges();
     const dateCell = fixture.debugElement
       .query(By.css('.service-row td:nth-child(1)'))
       .nativeElement.textContent.trim();

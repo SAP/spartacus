@@ -4,6 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './default-checkout-service-details-routing-config';
+export * from './default-common-service-details-routing-config';
 export * from './default-service-details-checkout-config';
-export * from './default-cancel-service-details-routing-config';
