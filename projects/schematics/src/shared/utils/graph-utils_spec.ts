@@ -28,7 +28,8 @@ import {
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFINDER,
   SPARTACUS_TRACKING,
-  SPARTACUS_USER, SPARTACUS_PRODUCT_MULTI_DIMENSIONAL,
+  SPARTACUS_USER,
+  SPARTACUS_PRODUCT_MULTI_DIMENSIONAL,
 } from '../libs-constants';
 import {
   Graph,
@@ -168,7 +169,7 @@ describe('Graph utils', () => {
 
   describe('feature dependency graph', () => {
     it('should generate the correct installation order', () => {
-      expect(crossFeatureInstallationOrder).toMatchInlineSnapshot(`
+      expect(crossFeatureInstallationOrder).toMatchSnapshot(`
         [
           "User-Account",
           "User-Profile",
