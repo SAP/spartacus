@@ -62,6 +62,7 @@ jobs:
                   echo "Renaming to ../spartacus-${version}-b2c was successful"
               else
                   echo "Renaming to ../spartacus-${version}-b2c failed"
+                  exit 1
               fi
             elif [ "${storefront_type}" == "b2b" ]; then
               mv ../spartacus-${version} ../spartacus-${version}-b2b
@@ -69,6 +70,7 @@ jobs:
                   echo "Renaming to ../spartacus-${version}-b2b was successful"
               else
                   echo "Renaming to ../spartacus-${version}-b2b failed"
+                  exit 1
               fi
             fi
 
@@ -83,6 +85,7 @@ jobs:
               echo "Modified ${file_location}."
             else
               echo "${file_location} does not exist."
+              exit 1
             fi
           }
 
