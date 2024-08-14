@@ -5,16 +5,18 @@
  */
 
 import { OccConfig } from '@spartacus/core';
-import { OrderOccEndpoints } from '@spartacus/order/occ';
+import { S4ServiceOccEndpoints } from '../model';
 
-const defaultB2bOrderOccEndpoints: OrderOccEndpoints = {
+const s4ServiceOccEndpoints: S4ServiceOccEndpoints = {
   cancelServiceOrder:
     'users/${userId}/orders/${code}/serviceOrder/cancellation',
 };
 export const defaultOccServiceOrderConfig: OccConfig = {
   backend: {
     occ: {
-      endpoints: { ...defaultB2bOrderOccEndpoints },
+      endpoints: {
+        ...s4ServiceOccEndpoints,
+      },
     },
   },
 };

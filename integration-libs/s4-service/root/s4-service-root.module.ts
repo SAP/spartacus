@@ -23,16 +23,16 @@ import {
 } from './config/index';
 import { CheckoutServiceDetailsEventModule } from './events/index';
 import { CheckoutServiceSchedulePickerService } from './facade/index';
-import { ORDER_CMS_COMPONENTS, ORDER_FEATURE } from '@spartacus/order/root';
 import { RouterModule } from '@angular/router';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+// import { S4_SERVICE_FEATURE } from './feature-name';
+import { ORDER_FEATURE } from '@spartacus/order/root';
 
 export const S4_SERVICE_CMS_COMPONENTS: string[] = [
   ...CHECKOUT_B2B_CMS_COMPONENTS,
   'CheckoutServiceDetails',
 ];
 export const S4_SERVICE_ORDER_CMS_COMPONENTS: string[] = [
-  ...ORDER_CMS_COMPONENTS,
   'CancelServiceOrderHeadline',
   'CancelServiceOrder',
 ];
@@ -43,7 +43,44 @@ export function defaultS4ServiceComponentsConfig() {
         cmsComponents: S4_SERVICE_CMS_COMPONENTS,
       },
       [ORDER_FEATURE]: {
-        cmsComponents: S4_SERVICE_ORDER_CMS_COMPONENTS,
+        cmsComponents: [
+          'CancelOrderComponent',
+          'CancelOrderConfirmationComponent',
+          'ReturnOrderComponent',
+          'ReturnOrderConfirmationComponent',
+          'AccountOrderDetailsActionsComponent',
+          'AccountOrderDetailsItemsComponent',
+          'AccountOrderDetailsTotalsComponent',
+          'AccountOrderDetailsOverviewComponent',
+          'AccountOrderDetailsBillingComponent',
+          'AccountOrderDetailsGroupedItemsComponent',
+          'AccountOrderDetailsSimpleOverviewComponent',
+          'AccountOrderHistoryComponent',
+          'ReplenishmentDetailItemsComponent',
+          'AccountOrderDetailsReorderComponent',
+          'ReplenishmentDetailTotalsComponent',
+          'ReplenishmentDetailShippingComponent',
+          'ReplenishmentDetailActionsComponent',
+          'ReplenishmentDetailOrderHistoryComponent',
+          'AccountReplenishmentHistoryComponent',
+          'ReturnRequestOverviewComponent',
+          'ReturnRequestItemsComponent',
+          'ReturnRequestTotalsComponent',
+          'OrderReturnRequestListComponent',
+          'OrderConfirmationThankMessageComponent',
+          'OrderConfirmationItemsComponent',
+          'OrderConfirmationTotalsComponent',
+          'OrderConfirmationOverviewComponent',
+          'OrderConfirmationShippingComponent',
+          'OrderConfirmationBillingComponent',
+          'OrderConfirmationContinueButtonComponent',
+          'ReplenishmentConfirmationMessageComponent',
+          'ReplenishmentConfirmationOverviewComponent',
+          'ReplenishmentConfirmationItemsComponent',
+          'ReplenishmentConfirmationTotalsComponent',
+          'MyAccountViewOrderComponent',
+          ...S4_SERVICE_ORDER_CMS_COMPONENTS,
+        ],
       },
     },
   };
@@ -54,8 +91,7 @@ export function defaultS4ServiceComponentsConfig() {
     CheckoutServiceDetailsEventModule,
     RouterModule.forChild([
       {
-        // @ts-ignore
-        path: null,
+        path: '',
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'cancelserviceDetails' },

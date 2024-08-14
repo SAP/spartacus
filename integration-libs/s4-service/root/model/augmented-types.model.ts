@@ -7,7 +7,10 @@
 import '@spartacus/checkout/base/root';
 import { OccEndpoint } from '@spartacus/core';
 import '@spartacus/order/root';
-import { ServiceDateTime } from './checkout-service-details.model';
+import {
+  serviceCancellable,
+  ServiceDateTime,
+} from './checkout-service-details.model';
 
 export abstract class ServiceOrderConfiguration {
   serviceOrderConfiguration?: {
@@ -26,6 +29,7 @@ export interface CheckoutServiceOrderOccEndpoints {
 declare module '@spartacus/order/root' {
   interface Order {
     servicedAt?: ServiceDateTime;
+    serviceCancellable?: serviceCancellable;
   }
 }
 

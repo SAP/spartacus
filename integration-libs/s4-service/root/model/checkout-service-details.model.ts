@@ -23,6 +23,4 @@ export interface CancellationRequestEntryInputs {
   orderEntryNumber?: number;
   quantity?: string[];
 }
-export interface ServiceCancellable {
-  serviceCancellable?: any;
-}
+export type serviceCancellable = boolean;

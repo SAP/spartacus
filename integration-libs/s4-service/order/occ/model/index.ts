@@ -4,6 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './s4-service-order-occ.module';
-export * from './adapters/index';
-export * from './model/index';
+export * from './occ-s4-service-endpoints.model';
