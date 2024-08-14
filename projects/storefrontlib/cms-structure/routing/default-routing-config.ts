@@ -38,6 +38,9 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   logout: { paths: ['logout'], protected: false, authFlow: true },
 
+
+  mcsLogout: { paths: ['mcs/logout'], protected: false, authFlow: true },
+
   // plp routes
   search: { paths: ['search/:query'] },
   category: {
