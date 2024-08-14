@@ -18,8 +18,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   defaultServiceDetailsCheckoutConfig,
-  defaultCheckoutServiceDetailsRoutingConfig,
-  defaultRescheduleServiceDetailsRoutingConfig,
+  defaultServiceOrdersRoutingConfig,
 } from './config/index';
 import { CheckoutServiceDetailsEventModule } from './events/index';
 import { CheckoutServiceSchedulePickerService } from './facade/index';
@@ -97,9 +96,8 @@ export function defaultS4ServiceComponentsConfig() {
   ],
   providers: [
     { provide: CheckoutConfig, useValue: defaultServiceDetailsCheckoutConfig },
-    provideDefaultConfig(defaultCheckoutServiceDetailsRoutingConfig),
+    provideDefaultConfig(defaultServiceOrdersRoutingConfig),
     provideDefaultConfigFactory(defaultS4ServiceComponentsConfig),
-    provideDefaultConfig(defaultRescheduleServiceDetailsRoutingConfig),
     CxDatePipe,
     CheckoutServiceSchedulePickerService,
   ],
