@@ -214,7 +214,7 @@ export function testCheckoutRegisteredUser() {
 
 function selectVariantAndAddToCart(color: string = 'Blue') {
   cy.get('cx-product-multi-dimensional-selector')
-    .find(`img[title*="Select ${color} Color"]`)
+    .find(`img[title*="${color}"]`)
     .click();
 
   cy.wait(2000);
@@ -230,7 +230,7 @@ function selectVariantAndAddToCart(color: string = 'Blue') {
 
 export function selectVariant(color: string = 'Blue') {
   cy.get('cx-product-multi-dimensional-selector')
-    .find(`img[title*="Select ${color} Color"]`)
+    .find(`img[title*="${color}"]`)
     .click();
 
   cy.wait(2000);

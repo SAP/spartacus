@@ -6,3 +6,5 @@
 
 export * from './guards/index';
 export * from './product-multi-dimensional-selector-components.module';
+export * from './selector/product-multi-dimensional-selector-component.module';
+export * from './selector/product-multi-dimensional-selector.component';
