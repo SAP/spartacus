@@ -8,7 +8,7 @@ import { OccEndpoint } from '@spartacus/core';
 
 export interface S4ServiceOccEndpoints {
   /**
-   * Reschedule service order
+   * Cancel service order
    *
    * @member {string} [cancelServiceOrder]
    */
