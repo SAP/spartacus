@@ -28,7 +28,7 @@ import {
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFINDER,
   SPARTACUS_TRACKING,
-  SPARTACUS_USER,
+  SPARTACUS_USER, SPARTACUS_PRODUCT_MULTI_DIMENSIONAL,
 } from '../libs-constants';
 import {
   Graph,
@@ -157,6 +157,7 @@ describe('Graph utils', () => {
         SPARTACUS_SMARTEDIT,
         SPARTACUS_QUOTE,
         SPARTACUS_QUALTRICS,
+        SPARTACUS_PRODUCT_MULTI_DIMENSIONAL,
         SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
         SPARTACUS_PICKUP_IN_STORE,
@@ -211,6 +212,8 @@ describe('Graph utils', () => {
           "SmartEdit",
           "Estimated-Delivery-Date",
           "Qualtrics",
+          "Product-Multi-Dimensional-Selector",
+          "Product-Multi-Dimensional-List",
           "Future-Stock",
           "Product-Variants",
           "Image-Zoom",
