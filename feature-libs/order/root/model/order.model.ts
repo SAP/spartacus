@@ -142,6 +142,4 @@ export interface Order {
   user?: Principal;
   returnable?: boolean;
   cancellable?: boolean;
-  serviceReschedulable?: boolean;
-  servicedAt?: string;
 }
