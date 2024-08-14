@@ -1,8 +1,8 @@
-<form [formGroup]="pickupOptionsForm">
+<form [formGroup]="pickupOptionsForm" role="radiogroup">
   <div class="form-check">
     <input
       type="radio"
-      role="radio"
+      name="pickupOption"
       [attr.id]="deliveryId"
       data-pickup="delivery"
       value="delivery"
@@ -18,9 +18,9 @@
   <div class="form-check">
     <input
       type="radio"
-      role="radio"
       [attr.id]="pickupId"
       data-pickup="pickup"
+      name="pickupOption"
       value="pickup"
       (click)="onPickupOptionChange('pickup')"
       formControlName="pickupOption"
