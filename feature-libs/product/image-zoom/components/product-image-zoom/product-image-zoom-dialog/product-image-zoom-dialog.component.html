@@ -1,4 +1,34 @@
 <div
+  *cxFeature="'a11yZoomDialogCloseOnEsc'"
+  class="cx-image-zoom-dialog"
+  role="dialog"
+  (esc)="close('Escape clicked')"
+  [cxFocus]="focusConfig"
+  [attr.aria-label]="'productImageZoomDialog.zoomedInImage' | cxTranslate"
+>
+  <div class="cx-dialog-content">
+    <div class="cx-dialog-header">
+      <button
+        type="button"
+        class="close"
+        title="{{ 'productImageZoomDialog.close' | cxTranslate }}"
+        [attr.aria-label]="'productImageZoomDialog.close' | cxTranslate"
+        (click)="close('cross click')"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconType.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+    <div class="cx-dialog-body">
+      <cx-product-image-zoom-view
+        [galleryIndex]="galleryIndex"
+      ></cx-product-image-zoom-view>
+    </div>
+  </div>
+</div>
+<div
+  *cxFeature="'!a11yZoomDialogCloseOnEsc'"
   class="cx-image-zoom-dialog"
   role="dialog"
   [cxFocus]="focusConfig"
