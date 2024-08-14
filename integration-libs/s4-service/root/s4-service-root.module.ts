@@ -25,7 +25,6 @@ import { CheckoutServiceDetailsEventModule } from './events/index';
 import { CheckoutServiceSchedulePickerService } from './facade/index';
 import { RouterModule } from '@angular/router';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
-// import { S4_SERVICE_FEATURE } from './feature-name';
 import { ORDER_FEATURE } from '@spartacus/order/root';
 
 export const S4_SERVICE_CMS_COMPONENTS: string[] = [
