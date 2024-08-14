@@ -46,7 +46,10 @@ export class ConfiguratorAttributeBaseComponent {
   protected static MAX_IMAGE_LABEL_CHARACTERS = 16;
 
   listenForPriceChanges: boolean;
-  priceChangedEvent$: Observable<boolean> = of(true); // no delta rendering - always render directly only once
+  changedPrices$: Observable<Record<string, Configurator.PriceDetails>> = of(
+    {}
+  ); // no delta rendering - always render directly only once with prices from configuration
+
   protected initPriceChangedEvent(
     isPricingAsync = false,
     attributeKey?: string
@@ -57,8 +60,8 @@ export class ConfiguratorAttributeBaseComponent {
       this._featureConfigService.isEnabled('productConfiguratorDeltaRendering')
     ) {
       this.listenForPriceChanges = true;
-      this.priceChangedEvent$ =
-        this.configuratorAttributePriceChangeService.getPriceChangedEvents(
+      this.changedPrices$ =
+        this.configuratorAttributePriceChangeService.getChangedPrices(
           attributeKey
         );
     }
@@ -66,6 +69,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Creates unique key for config value on the UI
+   *
    * @param prefix for key depending on usage (e.g. uiType, label)
    * @param attributeId
    * @param valueId
@@ -84,6 +88,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Creates unique key for config value to be sent to configurator
+   *
    * @param currentAttribute
    * @param value
    */
@@ -106,6 +111,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Creates unique key for config attribute on the UI
+   *
    * @param prefix for key depending on usage (e.g. uiType, label)
    * @param attributeId
    */
@@ -121,6 +127,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Creates unique key for config attribute to be sent to configurator
+   *
    * @param currentAttribute
    */
   createAttributeIdForConfigurator(
@@ -134,6 +141,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Creates unique key for attribute 'aria-labelledby'
+   *
    * @param prefix
    * @param attributeId
    * @param valueId
@@ -179,6 +187,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Creates a unique key for focus handling for the given attribute and value
+   *
    * @param attributeId
    * @param valueCode
    * @returns focus key
@@ -238,6 +247,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Fetches the first image for a given value
+   *
    * @param value Value
    * @returns Image
    */
@@ -293,10 +303,6 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   protected getValuePrice(value: Configurator.Value | undefined): string {
-    if (value && this.configuratorAttributePriceChangeService) {
-      value =
-        this.configuratorAttributePriceChangeService.mergePriceIntoValue(value);
-    }
     if (value?.valuePrice?.value && !value.selected) {
       if (value.valuePrice.value < 0) {
         return ` [${value.valuePrice?.formattedValue}]`;
@@ -328,6 +334,7 @@ export class ConfiguratorAttributeBaseComponent {
 
   /**
    * Checks if attribute type allows additional values
+   *
    * @param attribute Attribute
    * @returns true if attribute type allows to enter additional values
    */
@@ -413,44 +420,41 @@ export class ConfiguratorAttributeBaseComponent {
    *
    * @param attribute the attribute
    * @param value the value
-   * @param considerSelectionState = false
- - optional, depending on the underlying UI control the screen
+   * @param considerSelectionState - optional, depending on the underlying UI control the screen
    * might announce the selection state on its own, so it is not always desired to include it here.
    * @returns translated text
    */
   protected getAriaLabelGeneric(
     attribute: Configurator.Attribute,
-    value: Configurator.Value,
+    value: Configurator.Value | undefined,
     considerSelectionState = false
   ): string {
-    value =
-      this.configuratorAttributePriceChangeService?.mergePriceIntoValue(
-        value
-      ) ?? value;
-    const params: { value?: string; attribute?: string; price?: string } = {
-      value: value.valueDisplay,
-      attribute: attribute.label,
-    };
-
-    const includedSelected = considerSelectionState && value.selected;
-    let key = includedSelected
-      ? 'configurator.a11y.selectedValueOfAttributeFullWithPrice'
-      : this.getAriaLabelForValueWithPrice(this.isReadOnly(attribute));
-    if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
-      params.price = value.valuePriceTotal.formattedValue;
-    } else if (value.valuePrice && value.valuePrice?.value !== 0) {
-      params.price = value.valuePrice.formattedValue;
-    } else {
-      key = includedSelected
-        ? 'configurator.a11y.selectedValueOfAttributeFull'
-        : this.getAriaLabelForValue(this.isReadOnly(attribute));
-    }
-
     let ariaLabel = '';
-    this.translation
-      .translate(key, params)
-      .pipe(take(1))
-      .subscribe((text) => (ariaLabel = text));
+    if (value) {
+      const params: { value?: string; attribute?: string; price?: string } = {
+        value: value.valueDisplay,
+        attribute: attribute.label,
+      };
+
+      const includedSelected = considerSelectionState && value.selected;
+      let key = includedSelected
+        ? 'configurator.a11y.selectedValueOfAttributeFullWithPrice'
+        : this.getAriaLabelForValueWithPrice(this.isReadOnly(attribute));
+      if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
+        params.price = value.valuePriceTotal.formattedValue;
+      } else if (value.valuePrice && value.valuePrice?.value !== 0) {
+        params.price = value.valuePrice.formattedValue;
+      } else {
+        key = includedSelected
+          ? 'configurator.a11y.selectedValueOfAttributeFull'
+          : this.getAriaLabelForValue(this.isReadOnly(attribute));
+      }
+
+      this.translation
+        .translate(key, params)
+        .pipe(take(1))
+        .subscribe((text) => (ariaLabel = text));
+    }
 
     return ariaLabel;
   }
@@ -463,18 +467,36 @@ export class ConfiguratorAttributeBaseComponent {
    * @return new price formula
    */
   extractValuePriceFormulaParameters(
-    value: Configurator.Value
+    value: Configurator.Value | undefined
   ): ConfiguratorPriceComponentOptions {
-    value =
-      this.configuratorAttributePriceChangeService?.mergePriceIntoValue(
-        value
-      ) ?? value;
     return {
-      quantity: value.quantity,
-      price: value.valuePrice,
-      priceTotal: value.valuePriceTotal,
-      isLightedUp: value.selected,
+      quantity: value?.quantity,
+      price: value?.valuePrice,
+      priceTotal: value?.valuePriceTotal,
+      isLightedUp: value?.selected,
     };
+  }
+
+  /**
+   * Merges the stored value price data into the given value, if available.
+   * As the value might be read-only a new object will be returned combining price and value.
+   *
+   * @param value the value
+   * @param changedPrices record of changed prices
+   * @returns the new value with price
+   */
+  enrichValueWithPrice(
+    value: Configurator.Value | undefined,
+    changedPrices: Record<string, Configurator.PriceDetails>
+  ): Configurator.Value | undefined {
+    if (value && changedPrices && value.valueCode in changedPrices) {
+      const price = changedPrices[value.valueCode];
+      if (price) {
+        value = { ...value, valuePrice: price };
+      }
+    }
+
+    return value;
   }
 
   /**
