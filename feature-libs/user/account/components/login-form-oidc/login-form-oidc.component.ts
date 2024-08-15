@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { filter, take } from 'rxjs';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { createAuthConfig } from './auth.config';
@@ -16,11 +16,9 @@ import { AuthService, BaseSiteService } from '@spartacus/core';
 })
 export class LoginFormOidcComponent implements OnInit {
   protected baseSite: string = '';
-  constructor(
-    protected oauthService: OAuthService,
-    protected baseSiteService: BaseSiteService,
-    protected auth: AuthService
-  ) {}
+  protected oauthService = inject(OAuthService);
+  protected baseSiteService = inject(BaseSiteService);
+  protected auth = inject(AuthService);
 
   ngOnInit(): void {
     this.oauthService.events
