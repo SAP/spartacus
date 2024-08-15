@@ -14,6 +14,7 @@ export default defineConfig({
     runMode: 2,
   },
   videoUploadOnPasses: false,
+  chromeWebSecurity: false,
   env: {
     CLIENT_ID: 'mobile_android',
     CLIENT_SECRET: 'secret',
