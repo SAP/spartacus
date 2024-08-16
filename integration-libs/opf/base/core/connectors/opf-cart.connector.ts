@@ -59,14 +59,14 @@ export class OpfCartConnector {
   public getPossibleCartDeliveryModeOptions(
     userId: string,
     cartId: string
-  ): Observable<DeliveryMode[]> {
+  ): Observable<DeliveryMode[] | undefined> {
     return this.adapter.getPossibleCartDeliveryModeOptions(userId, cartId);
   }
 
   public getCartDeliveryMode(
     userId: string,
     cartId: string
-  ): Observable<DeliveryMode> {
+  ): Observable<DeliveryMode | undefined> {
     return this.adapter.getCartDeliveryMode(userId, cartId);
   }
 

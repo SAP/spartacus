@@ -85,7 +85,7 @@ export abstract class OpfCartAdapter {
   abstract getPossibleCartDeliveryModeOptions(
     userId: string,
     cartId: string
-  ): Observable<DeliveryMode[]>;
+  ): Observable<DeliveryMode[] | undefined>;
 
   /**
    * Abstract method used to retrieve information about the delivery mode selected for the cart.
@@ -97,7 +97,7 @@ export abstract class OpfCartAdapter {
   abstract getCartDeliveryMode(
     userId: string,
     cartId: string
-  ): Observable<DeliveryMode>;
+  ): Observable<DeliveryMode | undefined>;
 
   /**
    * Abstract method used to update the delivery mode details for the cart based on the specified delivery mode identifier.

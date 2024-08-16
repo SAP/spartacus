@@ -24,7 +24,7 @@ import {
   OpfCartAdapter,
   isHttp500Error,
 } from '@spartacus/opf/base/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 
 @Injectable()
 export class OccOpfCartAdapter implements OpfCartAdapter {
@@ -45,9 +45,9 @@ export class OccOpfCartAdapter implements OpfCartAdapter {
         string | undefined
       >(this.getGenerateOtpKeyEndpoint(userId, cartId), null)
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isHttp500Error,
           maxTries: 2,
@@ -67,9 +67,9 @@ export class OccOpfCartAdapter implements OpfCartAdapter {
         billingAddress
       )
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isHttp500Error,
         }),
@@ -88,9 +88,9 @@ export class OccOpfCartAdapter implements OpfCartAdapter {
         null
       )
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isHttp500Error,
         }),
@@ -109,9 +109,9 @@ export class OccOpfCartAdapter implements OpfCartAdapter {
         deliveryAddress
       )
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isHttp500Error,
         }),
@@ -126,9 +126,9 @@ export class OccOpfCartAdapter implements OpfCartAdapter {
     return this.http
       .delete<Address>(this.getCartDeliveryAddressEndpoint(userId, cartId))
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isHttp500Error,
         }),
@@ -147,9 +147,9 @@ export class OccOpfCartAdapter implements OpfCartAdapter {
         null
       )
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isHttp500Error,
         }),
@@ -164,9 +164,9 @@ export class OccOpfCartAdapter implements OpfCartAdapter {
     return this.http
       .delete<DeliveryMode>(this.getCartDeliveryModeEndpoint(userId, cartId))
       .pipe(
-        catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
-        ),
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
         backOff({
           shouldRetry: isHttp500Error,
         }),
@@ -186,7 +186,7 @@ export class OccOpfCartAdapter implements OpfCartAdapter {
   getPossibleCartDeliveryModeOptions(
     userId: string,
     cartId: string
-  ): Observable<DeliveryMode[]> {
+  ): Observable<DeliveryMode[] | undefined> {
     return this.http
       .get<DeliveryMode[]>(this.getCartDeliveryModesEndpoint(userId, cartId))
       .pipe(this.converterService.pipeable(OPF_CART_DELIVERY_MODES_NORMALIZER));

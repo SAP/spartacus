@@ -101,8 +101,8 @@ export class OpfCartService implements OpfCartFacade {
   protected cartDeliveryModeQuery$(
     userId: string,
     cartId: string
-  ): Query<DeliveryMode> {
-    return this.queryService.create<DeliveryMode>(() =>
+  ): Query<DeliveryMode | undefined> {
+    return this.queryService.create<DeliveryMode | undefined>(() =>
       this.opfCartConnector.getCartDeliveryMode(userId, cartId)
     );
   }
@@ -110,8 +110,8 @@ export class OpfCartService implements OpfCartFacade {
   protected possibleCartDeliveryModeOptions$(
     userId: string,
     cartId: string
-  ): Query<DeliveryMode[]> {
-    return this.queryService.create<DeliveryMode[]>(() =>
+  ): Query<DeliveryMode[] | undefined> {
+    return this.queryService.create<DeliveryMode[] | undefined>(() =>
       this.opfCartConnector.getPossibleCartDeliveryModeOptions(userId, cartId)
     );
   }
@@ -178,7 +178,7 @@ export class OpfCartService implements OpfCartFacade {
   getPossibleCartDeliveryModeOptionsState(
     userId: string,
     cartId: string
-  ): Observable<QueryState<DeliveryMode[]>> {
+  ): Observable<QueryState<DeliveryMode[] | undefined>> {
     return this.possibleCartDeliveryModeOptions$(userId, cartId).getState();
   }
 
@@ -194,7 +194,7 @@ export class OpfCartService implements OpfCartFacade {
   getCartDeliveryModeState(
     userId: string,
     cartId: string
-  ): Observable<QueryState<DeliveryMode>> {
+  ): Observable<QueryState<DeliveryMode | undefined>> {
     return this.cartDeliveryModeQuery$(userId, cartId).getState();
   }
 
