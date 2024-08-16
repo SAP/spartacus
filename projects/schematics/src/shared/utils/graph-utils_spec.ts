@@ -19,22 +19,22 @@ import {
   SPARTACUS_PICKUP_IN_STORE,
   SPARTACUS_PRODUCT,
   SPARTACUS_PRODUCT_CONFIGURATOR,
+  SPARTACUS_PRODUCT_MULTI_DIMENSIONAL,
   SPARTACUS_QUALTRICS,
   SPARTACUS_QUOTE,
   SPARTACUS_REQUESTED_DELIVERY_DATE,
-  SPARTACUS_S4OM,
   SPARTACUS_S4_SERVICE,
+  SPARTACUS_S4OM,
   SPARTACUS_SEGMENT_REFS,
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFINDER,
   SPARTACUS_TRACKING,
   SPARTACUS_USER,
-  SPARTACUS_PRODUCT_MULTI_DIMENSIONAL,
 } from '../libs-constants';
 import {
-  Graph,
   crossFeatureInstallationOrder,
   crossLibraryInstallationOrder,
+  Graph,
   kahnsAlgorithm,
 } from './graph-utils';
 
@@ -169,7 +169,7 @@ describe('Graph utils', () => {
 
   describe('feature dependency graph', () => {
     it('should generate the correct installation order', () => {
-      expect(crossFeatureInstallationOrder).toMatchSnapshot(`
+      expect(crossFeatureInstallationOrder).toMatchInlineSnapshot(`
         [
           "User-Account",
           "User-Profile",
@@ -213,8 +213,8 @@ describe('Graph utils', () => {
           "SmartEdit",
           "Estimated-Delivery-Date",
           "Qualtrics",
-          "Product-Multi-Dimensional-Selector",
           "Product-Multi-Dimensional-List",
+          "Product-Multi-Dimensional-Selector",
           "Future-Stock",
           "Product-Variants",
           "Image-Zoom",
