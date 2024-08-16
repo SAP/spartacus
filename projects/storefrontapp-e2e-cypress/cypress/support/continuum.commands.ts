@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // This is a basic custom support file for using Continuum's JavaScript SDK with Cypress
 // Lots of functionality is already available to you here out of the box, but we encourage you to add your own custom commands!
 
