@@ -97,20 +97,18 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
 
   requestForgotPasswordEmail(userEmailAddress: string): Observable<unknown> {
     const url = this.occEndpoints.buildUrl('userForgotPassword');
-    const httpParams: HttpParams = new HttpParams().set(
-      'userId',
-      userEmailAddress
-    );
+    const body = { loginId: userEmailAddress };
     let headers = new HttpHeaders({
-      ...CONTENT_TYPE_URLENCODED_HEADER,
+        'Content-Type': 'application/json',
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-    return this.http.post(url, httpParams, { headers }).pipe(
-      catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
-      })
+    return this.http.post(url, body, { headers }).pipe(
+        catchError((error) => {
+            throw normalizeHttpError(error, this.logger);
+        })
     );
-  }
+}
+
 
   resetPassword(token: string, newPassword: string): Observable<unknown> {
     const url = this.occEndpoints.buildUrl('userResetPassword');
@@ -134,13 +132,14 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const url = this.occEndpoints.buildUrl('userUpdateLoginId', {
       urlParams: { userId },
     });
-    const httpParams: HttpParams = new HttpParams()
-      .set('password', currentPassword)
-      .set('newLogin', newUserId);
+    const body = {
+      newLoginId: newUserId,
+      password: currentPassword
+    };
     const headers = new HttpHeaders({
-      ...CONTENT_TYPE_URLENCODED_HEADER,
+      'Content-Type': 'application/json',
     });
-    return this.http.put(url, httpParams, { headers }).pipe(
+    return this.http.post(url, body, { headers }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       })
@@ -155,13 +154,14 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const url = this.occEndpoints.buildUrl('userUpdatePassword', {
       urlParams: { userId },
     });
-    const httpParams: HttpParams = new HttpParams()
-      .set('old', oldPassword)
-      .set('new', newPassword);
+    const body = {
+      oldPassword: oldPassword,
+      newPassword: newPassword
+    };
     const headers = new HttpHeaders({
-      ...CONTENT_TYPE_URLENCODED_HEADER,
+      'Content-Type': 'application/json',
     });
-    return this.http.put(url, httpParams, { headers }).pipe(
+    return this.http.post(url, body, { headers }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       })
