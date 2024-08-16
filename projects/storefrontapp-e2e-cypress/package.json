@@ -44,6 +44,7 @@
   "devDependencies": {
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.2",
+    "@continuum/continuum-javascript-professional": "^6.7.0",
     "@cypress/webpack-preprocessor": "^6.0.0",
     "@testing-library/cypress": "10.0.1",
     "babel-loader": "^9.0.0",

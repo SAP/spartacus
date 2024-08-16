@@ -11,6 +11,7 @@ import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
 import './a11y-tab.commands';
 import './cart.commands';
+import './continuum.commands';
 import './cx-config.commands';
 import './login.commands';
 import './ng-select.commands';
@@ -30,3 +31,4 @@ import './select-user-menu-option.commands';
 import './storage.commands';
 import './vendor/cds/merchandising-carousel.commands';
 import './viewport.commands';
+
