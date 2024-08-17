@@ -100,8 +100,8 @@ export class CheckoutServiceSchedulePickerService {
   }
 
   /**
-   * Calculates the difference in hours between a shceduled date of a service and the current date.
-   * @param dateTime The datetime to check in string format.
+   * Calculates the difference in hours between a scheduled date of a service and the current date.
+   * @param dateTime The dateTime to check in string format.
    * @returns Number representing the difference in hours.
    */
   getHoursFromServiceSchedule(dateTime: string): number {

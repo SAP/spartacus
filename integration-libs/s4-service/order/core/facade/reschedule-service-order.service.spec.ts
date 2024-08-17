@@ -7,7 +7,7 @@ import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
 import { ServiceDateTime } from '@spartacus/s4-service/root';
 import createSpy = jasmine.createSpy;
 
-const mockDatetime: ServiceDateTime = `2222-90-89T67:89:00-04:00`;
+const mockDateTime: ServiceDateTime = `2222-90-89T67:89:00-04:00`;
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockOrderCode = '12345';
 
@@ -48,13 +48,13 @@ describe('RescheduleServiceOrderService', () => {
 
   it(`should call rescheduleServiceOrderConnector.rescheduleServiceOrder`, (done) => {
     service
-      .rescheduleService(mockOrderCode, mockDatetime)
+      .rescheduleService(mockOrderCode, mockDateTime)
       .pipe(take(1))
       .subscribe(() => {
         expect(
           rescheduleServiceOrderConnector.rescheduleServiceOrder
         ).toHaveBeenCalledWith(mockUserId, mockOrderCode, {
-          scheduledAt: mockDatetime,
+          scheduledAt: mockDateTime,
         });
         done();
       });

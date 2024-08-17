@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { UrlTree } from '@angular/router';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
@@ -14,10 +14,8 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ServiceOrderGuard {
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected globalMessageService: GlobalMessageService
-  ) {}
+  protected orderDetailsService = inject(OrderDetailsService);
+  protected globalMessageService = inject(GlobalMessageService);
 
   canActivate(): Observable<boolean | UrlTree> {
     return this.orderDetailsService.getOrderDetails().pipe(

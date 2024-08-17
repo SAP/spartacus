@@ -25,8 +25,6 @@ export class RescheduleServiceOrderService
   );
   protected userIdService = inject(UserIdService);
 
-  constructor() {}
-
   rescheduleService(
     orderCode: string,
     scheduledAt: ServiceDateTime

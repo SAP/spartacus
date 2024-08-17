@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class RescheduleServiceOrderConnector {
-  private rescheduleServiceOrderAdapter = inject(RescheduleServiceOrderAdapter);
+  protected rescheduleServiceOrderAdapter = inject(RescheduleServiceOrderAdapter);
 
   rescheduleServiceOrder(
     userId: string,

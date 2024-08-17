@@ -13,7 +13,7 @@ class MockRescheduleServiceOrderAdapter
 
 describe('ReschedleServiceOrderConnectorService', () => {
   let service: RescheduleServiceOrderConnector;
-  let rescheduleServiceOrderadapter: RescheduleServiceOrderAdapter;
+  let rescheduleServiceOrderAdapter: RescheduleServiceOrderAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,7 +26,7 @@ describe('ReschedleServiceOrderConnectorService', () => {
       ],
     });
     service = TestBed.inject(RescheduleServiceOrderConnector);
-    rescheduleServiceOrderadapter = TestBed.inject(
+    rescheduleServiceOrderAdapter = TestBed.inject(
       RescheduleServiceOrderAdapter
     );
   });
@@ -35,13 +35,13 @@ describe('ReschedleServiceOrderConnectorService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('rescheduleServiceOrder should call rescheduleServiceOrderadapter', () => {
+  it('rescheduleServiceOrder should call rescheduleServiceOrderAdapter', () => {
     service
       .rescheduleServiceOrder('userId', 'code', { scheduledAt: 'dd/mm/yyyy' })
       .pipe(take(1))
       .subscribe();
     expect(
-      rescheduleServiceOrderadapter.rescheduleServiceOrder
+      rescheduleServiceOrderAdapter.rescheduleServiceOrder
     ).toHaveBeenCalledWith('userId', 'code', { scheduledAt: 'dd/mm/yyyy' });
   });
 });
