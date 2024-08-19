@@ -3,10 +3,11 @@
   (esc)="close('Escape clicked')"
   class="cx-customer-ticket-form-dialog"
   role="dialog"
+  aria-labelledby="dialogTitle"
 >
   <form [formGroup]="form" class="cx-customer-ticket-form-container">
     <div class="modal-header cx-customer-ticket-form-header">
-      <div class="cx-customer-ticket-form-title modal-title">
+      <div id="dialogTitle" class="cx-customer-ticket-form-title modal-title">
         {{ 'customerTicketingDetails.reopenRequest' | cxTranslate }}
       </div>
       <button

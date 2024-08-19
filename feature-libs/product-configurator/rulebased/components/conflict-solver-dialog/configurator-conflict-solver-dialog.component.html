@@ -1,4 +1,9 @@
-<div class="cx-modal-container" role="dialog" aria-modal="true">
+<div
+  class="cx-modal-container"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="dialogTitle"
+>
   <!-- For screen reader purposes (not visual)-->
   <div
     class="cx-visually-hidden"
@@ -14,6 +19,7 @@
     <div class="cx-dialog-header modal-header">
       <h3
         *cxFeature="'a11yDialogsHeading'"
+        id="dialogTitle"
         class="cx-dialog-title modal-title"
         tabindex="0"
       >
@@ -21,6 +27,7 @@
       </h3>
       <div
         *cxFeature="'!a11yDialogsHeading'"
+        id="dialogTitle"
         class="cx-dialog-title modal-title"
         tabindex="0"
       >

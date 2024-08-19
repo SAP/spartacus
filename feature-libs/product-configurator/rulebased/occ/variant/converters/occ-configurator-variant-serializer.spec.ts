@@ -449,6 +449,12 @@ describe('OccConfiguratorVariantSerializer', () => {
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
+        Configurator.UiType.SAP_DATE
+      )
+    ).toBe(OccConfigurator.UiType.SAP_DATE);
+
+    expect(
+      occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.RADIOBUTTON
       )
     ).toBe(OccConfigurator.UiType.RADIO_BUTTON);
@@ -506,5 +512,15 @@ describe('OccConfiguratorVariantSerializer', () => {
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT
       )
     ).toBe(OccConfigurator.UiType.DROPDOWN_ADDITIONAL_INPUT);
+  });
+
+  describe('convertCharacteristicTypeSingleValue', () => {
+    it('should default to NOT_IMPLEMENTED', () => {
+      expect(
+        occConfiguratorVariantSerializer[
+          'convertCharacteristicTypeSingleValue'
+        ](Configurator.UiType.MULTI_SELECTION_IMAGE)
+      ).toBe(OccConfigurator.UiType.NOT_IMPLEMENTED);
+    });
   });
 });

@@ -4,6 +4,7 @@
     (esc)="close('Escape clicked')"
     class="cx-saved-cart-form-dialog"
     role="dialog"
+    aria-labelledby="dialogTitle"
   >
     <form [formGroup]="form" class="cx-saved-cart-form-container">
       <!-- Modal Header -->
@@ -11,6 +12,7 @@
         <ng-container [ngSwitch]="layoutOption">
           <h3
             *cxFeature="'a11yDialogsHeading'"
+            id="dialogTitle"
             class="cx-saved-cart-form-title modal-title"
           >
             <ng-container *ngSwitchCase="savedCartFormType.EDIT">
@@ -28,6 +30,7 @@
           </h3>
           <div
             *cxFeature="'!a11yDialogsHeading'"
+            id="dialogTitle"
             class="cx-saved-cart-form-title modal-title"
           >
             <ng-container *ngSwitchCase="savedCartFormType.EDIT">

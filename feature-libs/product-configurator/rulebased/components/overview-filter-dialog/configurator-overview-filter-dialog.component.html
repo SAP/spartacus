@@ -2,6 +2,7 @@
   class="cx-configurator-overview-filter-dialog cx-modal-container"
   role="dialog"
   (click)="closeFilterModal()"
+  aria-labelledby="dialogTitle"
 >
   <div
     class="cx-modal-content"
@@ -10,11 +11,16 @@
     (esc)="closeFilterModal()"
   >
     <div class="cx-dialog-header modal-header">
-      <h3 *cxFeature="'a11yDialogsHeading'" class="cx-dialog-title modal-title">
+      <h3
+        *cxFeature="'a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+      >
         {{ 'configurator.overviewFilter.title' | cxTranslate }}
       </h3>
       <div
         *cxFeature="'!a11yDialogsHeading'"
+        id="dialogTitle"
         class="cx-dialog-title modal-title"
       >
         {{ 'configurator.overviewFilter.title' | cxTranslate }}

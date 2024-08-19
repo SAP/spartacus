@@ -3,6 +3,7 @@
   (esc)="close('Escape clicked')"
   class="cx-import-entries-dialog"
   role="dialog"
+  aria-labelledby="dialogTitle"
 >
   <div class="cx-import-entries-container">
     <!-- Modal Header -->
@@ -10,12 +11,14 @@
       <ng-container>
         <h3
           *cxFeature="'a11yDialogsHeading'"
+          id="dialogTitle"
           class="cx-import-entries-title modal-title"
         >
           {{ 'importEntriesDialog.importProducts' | cxTranslate }}
         </h3>
         <div
           *cxFeature="'!a11yDialogsHeading'"
+          id="dialogTitle"
           class="cx-import-entries-title modal-title"
         >
           {{ 'importEntriesDialog.importProducts' | cxTranslate }}

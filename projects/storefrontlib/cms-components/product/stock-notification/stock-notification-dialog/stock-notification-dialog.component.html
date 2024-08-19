@@ -3,14 +3,20 @@
   role="dialog"
   [cxFocus]="focusConfig"
   (esc)="close('Escape clicked')"
+  aria-labelledby="dialogTitle"
 >
   <div class="cx-stock-notification-container">
     <div class="cx-dialog-header cx-modal-header">
-      <h3 *cxFeature="'a11yDialogsHeading'" class="cx-dialog-title modal-title">
+      <h3
+        *cxFeature="'a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+      >
         {{ 'stockNotification.subscriptionDialog.header' | cxTranslate }}
       </h3>
       <div
         *cxFeature="'!a11yDialogsHeading'"
+        id="dialogTitle"
         class="cx-dialog-title modal-title"
       >
         {{ 'stockNotification.subscriptionDialog.header' | cxTranslate }}

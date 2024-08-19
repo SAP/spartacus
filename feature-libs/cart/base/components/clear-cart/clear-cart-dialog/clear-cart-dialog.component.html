@@ -3,6 +3,7 @@
   (esc)="close('Escape clicked')"
   class="cx-clear-cart-dialog"
   role="dialog"
+  aria-labelledby="dialogTitle"
 >
   <div class="cx-clear-cart-container">
     <ng-container *ngIf="!isClearing; else loading">
@@ -14,12 +15,14 @@
       <div class="modal-header cx-clear-cart-header">
         <h3
           *cxFeature="'a11yDialogsHeading'"
+          id="dialogTitle"
           class="cx-clear-cart-title modal-title"
         >
           {{ 'clearCart.clearCart' | cxTranslate }}
         </h3>
         <div
           *cxFeature="'!a11yDialogsHeading'"
+          id="dialogTitle"
           class="cx-clear-cart-title modal-title"
         >
           {{ 'clearCart.clearCart' | cxTranslate }}
