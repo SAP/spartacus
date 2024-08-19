@@ -10,12 +10,12 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
   inject,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { OrderDetailActionsComponent } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'cx-s4-service-order-detail-actions',
