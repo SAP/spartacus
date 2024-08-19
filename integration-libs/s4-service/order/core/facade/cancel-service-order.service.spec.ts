@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { CancelServiceOrderService } from './cancel-service-order.service';
 import { CancelServiceOrderConnector } from '../connector';
-import { CancelObj } from '@spartacus/s4-service/root';
+import { CancellationDetails } from '@spartacus/s4-service/root';
 import { OrderHistoryFacade } from '@spartacus/order/root';
 import { UserIdService } from '@spartacus/core';
 import { of, throwError } from 'rxjs';
@@ -47,7 +47,7 @@ describe('CancelServiceOrderService', () => {
   describe('cancelService', () => {
     it('should call cancelServiceOrder on the connector with the correct parameters', (done) => {
       const orderCode = 'order123';
-      const cancelObj: CancelObj = {
+      const cancellationDetails: CancellationDetails = {
         cancellationRequestEntryInputs: [],
       };
       const userId = 'user123';
@@ -56,13 +56,13 @@ describe('CancelServiceOrderService', () => {
       userIdService.takeUserId.and.returnValue(of(userId));
       connector.cancelServiceOrder.and.returnValue(expectedResponse);
 
-      service.cancelService(orderCode, cancelObj).subscribe({
+      service.cancelService(orderCode, cancellationDetails).subscribe({
         next: (response) => {
           expect(userIdService.takeUserId).toHaveBeenCalled();
           expect(connector.cancelServiceOrder).toHaveBeenCalledWith(
             userId,
             orderCode,
-            cancelObj
+            cancellationDetails
           );
           expect(response).toEqual({ success: true });
           done();
@@ -75,7 +75,7 @@ describe('CancelServiceOrderService', () => {
 
     it('should handle errors from cancelServiceOrderConnector', (done) => {
       const orderCode = 'order123';
-      const cancelObj: CancelObj = {
+      const cancellationDetails: CancellationDetails = {
         cancellationRequestEntryInputs: [],
       };
       const userId = 'user123';
@@ -83,7 +83,7 @@ describe('CancelServiceOrderService', () => {
 
       userIdService.takeUserId.and.returnValue(of(userId));
       connector.cancelServiceOrder.and.returnValue(errorResponse);
-      service.cancelService(orderCode, cancelObj).subscribe({
+      service.cancelService(orderCode, cancellationDetails).subscribe({
         next: () => {
           fail('Expected an error, but got a result');
         },

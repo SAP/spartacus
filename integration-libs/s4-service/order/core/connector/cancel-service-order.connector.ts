@@ -6,22 +6,22 @@
 
 import { inject, Injectable } from '@angular/core';
 import { CancelServiceOrderAdapter } from './cancel-service-order.adapter';
-import { CancelObj } from '@spartacus/s4-service/root';
+import { CancellationDetails } from '@spartacus/s4-service/root';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class CancelServiceOrderConnector {
-  protected cancelServiceOrderadapter = inject(CancelServiceOrderAdapter);
+  protected cancelServiceOrderAdapter = inject(CancelServiceOrderAdapter);
 
   cancelServiceOrder(
     userId: string,
     code: string,
-    cancelObj: CancelObj
+    cancellationDetails: CancellationDetails
   ): Observable<unknown> {
-    return this.cancelServiceOrderadapter.cancelServiceOrder(
+    return this.cancelServiceOrderAdapter.cancelServiceOrder(
       userId,
       code,
-      cancelObj
+      cancellationDetails
     );
   }
 }

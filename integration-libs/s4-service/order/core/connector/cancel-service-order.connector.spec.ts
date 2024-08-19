@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { CancelServiceOrderConnector } from './cancel-service-order.connector';
 import { CancelServiceOrderAdapter } from './cancel-service-order.adapter';
 import { of, throwError } from 'rxjs';
-import { CancelObj } from '@spartacus/s4-service/root';
+import { CancellationDetails } from '@spartacus/s4-service/root';
 
 describe('CancelServiceOrderConnector', () => {
   let connector: CancelServiceOrderConnector;
@@ -33,16 +33,21 @@ describe('CancelServiceOrderConnector', () => {
     it('should call cancelServiceOrder on the adapter and return the result', () => {
       const userId = 'user123';
       const code = 'codeABC';
-      const cancelObj: CancelObj = {
+
+      const cancellationDetails: CancellationDetails = {
         cancellationRequestEntryInputs: [],
       };
       const expectedResponse = of({ success: true });
       adapter.cancelServiceOrder.and.returnValue(expectedResponse);
-      const result = connector.cancelServiceOrder(userId, code, cancelObj);
+      const result = connector.cancelServiceOrder(
+        userId,
+        code,
+        cancellationDetails
+      );
       expect(adapter.cancelServiceOrder).toHaveBeenCalledWith(
         userId,
         code,
-        cancelObj
+        cancellationDetails
       );
       expect(result).toBe(expectedResponse);
     });
@@ -50,16 +55,18 @@ describe('CancelServiceOrderConnector', () => {
     it('should handle errors from the adapter', () => {
       const userId = 'user123';
       const code = 'codeABC';
-      const cancelObj: CancelObj = {
+      const cancellationDetails: CancellationDetails = {
         cancellationRequestEntryInputs: [],
       };
       const errorResponse = throwError(() => new Error('Some error'));
       adapter.cancelServiceOrder.and.returnValue(errorResponse);
-      connector.cancelServiceOrder(userId, code, cancelObj).subscribe({
-        error: (error) => {
-          expect(error).toEqual(new Error('Some error'));
-        },
-      });
+      connector
+        .cancelServiceOrder(userId, code, cancellationDetails)
+        .subscribe({
+          error: (error) => {
+            expect(error).toEqual(new Error('Some error'));
+          },
+        });
     });
   });
 });

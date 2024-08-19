@@ -15,7 +15,7 @@ export interface ServiceOrderConfig {
   serviceScheduleTimes?: string[];
 }
 
-export interface CancelObj {
+export interface CancellationDetails {
   cancelReason?: string; //name in request
   cancellationRequestEntryInputs: CancellationRequestEntryInputs[];
 }

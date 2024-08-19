@@ -7,7 +7,7 @@
 import { inject, Injectable } from '@angular/core';
 import { CancelServiceOrderConnector } from '../connector';
 import {
-  CancelObj,
+  CancellationDetails,
   CancelServiceOrderFacade,
 } from '@spartacus/s4-service/root';
 import { OrderHistoryFacade } from '@spartacus/order/root';
@@ -21,16 +21,13 @@ export class CancelServiceOrderService implements CancelServiceOrderFacade {
   protected cancelServiceOrderConnector = inject(CancelServiceOrderConnector);
   protected orderHistoryFacade = inject(OrderHistoryFacade);
   protected userIdService = inject(UserIdService);
-
-  constructor() {}
-
-  cancelService(orderCode: string, cancelObj: CancelObj) {
+  cancelService(orderCode: string, cancellationDetails: CancellationDetails) {
     return this.userIdService.takeUserId().pipe(
       switchMap((userId) => {
         return this.cancelServiceOrderConnector.cancelServiceOrder(
           userId,
           orderCode,
-          cancelObj
+          cancellationDetails
         );
       })
     );

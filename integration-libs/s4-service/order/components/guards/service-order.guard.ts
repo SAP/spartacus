@@ -1,10 +1,4 @@
-/*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 import { SemanticPathService } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
@@ -14,11 +8,9 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ServiceOrderGuard {
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected router: Router,
-    protected semanticPathService: SemanticPathService
-  ) {}
+  private orderDetailsService = inject(OrderDetailsService);
+  private router = inject(Router);
+  private semanticPathService = inject(SemanticPathService);
 
   canActivate(): Observable<boolean | UrlTree> {
     return this.orderDetailsService.getOrderDetails().pipe(

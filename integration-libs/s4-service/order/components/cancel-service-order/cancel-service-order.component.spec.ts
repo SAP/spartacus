@@ -123,7 +123,6 @@ describe('CancelServiceOrderComponent', () => {
     component.form.get('cancelReason')?.setValue('Valid reason');
     mockCancelServiceOrderFacade.cancelService.and.returnValue(of({}));
     component.cancelServiceOrder();
-    // expect(component.form.reset).toHaveBeenCalled();
     fixture.detectChanges();
     expect(mockGlobalMessageService.add).toHaveBeenCalled();
   });

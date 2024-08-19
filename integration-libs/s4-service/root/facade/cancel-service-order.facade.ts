@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CancelObj } from '../model/checkout-service-details.model';
+import { CancellationDetails } from '../model/checkout-service-details.model';
 import { Order } from '@spartacus/order/root';
 
 @Injectable({
@@ -20,7 +20,7 @@ export abstract class CancelServiceOrderFacade {
    */
   abstract cancelService(
     orderCode: string,
-    cancelobj: CancelObj
+    cancellationDetails: CancellationDetails
   ): Observable<unknown>;
 
   /**

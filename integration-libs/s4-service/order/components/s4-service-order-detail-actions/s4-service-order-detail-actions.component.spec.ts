@@ -27,7 +27,7 @@ const mockOrder2 = {
 })
 class MockUrlPipe implements PipeTransform {
   transform() {
-    return ''; // Mock implementation
+    return '';
   }
 }
 
@@ -37,13 +37,13 @@ class MockRoutingService {
 
 class MockTranslationService {
   translate(): Observable<string> {
-    return of('Cancel Service'); // Return a mock translation
+    return of('Cancel Service');
   }
 }
 
 class MockOrderDetailsService {
   getOrderDetails(): Observable<any> {
-    return of(mockOrder1); // Provide mock order details
+    return of(mockOrder1);
   }
 }
 
@@ -60,16 +60,12 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nModule,
-        RouterTestingModule,
-        StoreModule.forRoot({}), // Add StoreModule here
-      ],
+      imports: [I18nModule, RouterTestingModule, StoreModule.forRoot({})],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: Store, useValue: {} }, // Mock Store if necessary
+        { provide: Store, useValue: {} },
       ],
       declarations: [
         S4ServiceOrderDetailActionsComponent,
@@ -101,6 +97,6 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     component.order$ = of(mockOrder2);
     fixture.detectChanges();
     const elements = fixture.debugElement.queryAll(By.css('button'));
-    expect(elements.length).toEqual(0); // Adjust based on actual button count
+    expect(elements.length).toEqual(0);
   });
 });

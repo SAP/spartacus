@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
@@ -15,13 +15,14 @@ import {
 import { OrderDetailsService } from '@spartacus/order/components';
 import {
   CancelServiceOrderFacade,
-  CancelObj,
+  CancellationDetails,
 } from '@spartacus/s4-service/root';
 import { mergeMap, Observable, throwError } from 'rxjs';
 
 @Component({
   selector: 'cx-cancel-service-order',
   templateUrl: './cancel-service-order.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CancelServiceOrderComponent {
   protected orderDetailsService = inject(OrderDetailsService);
@@ -42,7 +43,7 @@ export class CancelServiceOrderComponent {
       .pipe(
         mergeMap((order: any) => {
           if (order) {
-            const cancelobj: CancelObj = {
+            const cancellationDetails: CancellationDetails = {
               cancellationRequestEntryInputs: order.entries.map(
                 (entry: OrderEntry) => ({
                   orderEntryNumber: entry.entryNumber,
@@ -54,7 +55,7 @@ export class CancelServiceOrderComponent {
 
             return this.cancelServiceOrderFacade.cancelService(
               order.code,
-              cancelobj
+              cancellationDetails
             );
           } else {
             return throwError(

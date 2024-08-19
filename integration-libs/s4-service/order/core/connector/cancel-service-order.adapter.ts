@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CancelObj } from '@spartacus/s4-service/root';
+import { CancellationDetails } from '@spartacus/s4-service/root';
 import { Observable } from 'rxjs';
 
 export abstract class CancelServiceOrderAdapter {
   abstract cancelServiceOrder(
     userId: string,
     code: string,
-    cancelObj: CancelObj
+    cancellationDetails: CancellationDetails
   ): Observable<unknown>;
 }

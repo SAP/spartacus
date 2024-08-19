@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { OccCancelServiceOrderAdapter } from './occ-cancel-service-order.adapter';
 import { OccEndpointsService } from '@spartacus/core';
-import { CancelObj } from '@spartacus/s4-service/root';
+import { CancellationDetails } from '@spartacus/s4-service/root';
 
 describe('OccCancelServiceOrderAdapter', () => {
   let adapter: OccCancelServiceOrderAdapter;
@@ -13,7 +13,7 @@ describe('OccCancelServiceOrderAdapter', () => {
   let occEndpointsService: jasmine.SpyObj<OccEndpointsService>;
   const userId = 'testUser';
   const code = 'testCode';
-  const cancelObj: CancelObj = {
+  const cancellationDetails: CancellationDetails = {
     cancellationRequestEntryInputs: [],
   };
 
@@ -49,14 +49,14 @@ describe('OccCancelServiceOrderAdapter', () => {
     const url = 'http://example.com/cancelServiceOrder';
     occEndpointsService.buildUrl.and.returnValue(url);
 
-    adapter.cancelServiceOrder(userId, code, cancelObj).subscribe();
+    adapter.cancelServiceOrder(userId, code, cancellationDetails).subscribe();
 
     const req = httpTestingController.expectOne({
       method: 'POST',
       url: url,
     });
 
-    expect(req.request.body).toEqual(cancelObj);
+    expect(req.request.body).toEqual(cancellationDetails);
     expect(req.request.headers.get('Content-Type')).toBe('application/json');
     req.flush({});
   });

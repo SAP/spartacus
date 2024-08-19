@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { Observable, map } from 'rxjs';
@@ -12,6 +12,7 @@ import { Observable, map } from 'rxjs';
 @Component({
   selector: 'cx-cancel-service-order-headline',
   templateUrl: './cancel-service-order-headline.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CancelServiceOrderHeadlineComponent {
   protected orderDetailsService = inject(OrderDetailsService);
