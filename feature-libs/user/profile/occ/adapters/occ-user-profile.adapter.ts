@@ -96,7 +96,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   requestForgotPasswordEmail(userEmailAddress: string): Observable<unknown> {
-    const url = this.occEndpoints.buildUrl('userForgotPassword');
+    const url = this.occEndpoints.buildUrl('userRestoreToken');
     const body = { loginId: userEmailAddress };
     let headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
@@ -131,7 +131,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     });
     const body = {
       newLoginId: newUserId,
-      password: currentPassword,
+      password: currentPassword
     };
     const headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
     return this.http.post(url, body, { headers }).pipe(
@@ -151,7 +151,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     });
     const body = {
       oldPassword: oldPassword,
-      newPassword: newPassword,
+      newPassword: newPassword
     };
     const headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
     return this.http.post(url, body, { headers }).pipe(

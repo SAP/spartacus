@@ -233,11 +233,11 @@ describe('OccUserProfileAdapter', () => {
         .subscribe((result) => expect(result).toEqual(''));
 
       const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'POST' && req.url === '/userForgotPassword';
+        return req.method === 'POST' && req.url === '/userRestoreToken';
       });
 
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-        'userForgotPassword'
+        'userRestoreToken'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -315,7 +315,7 @@ describe('OccUserProfileAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.body).toEqual({
         newLoginId: newUserId,
-        password: currentPassword,
+        password: currentPassword
       });
       mockReq.flush('');
     });
@@ -343,7 +343,7 @@ describe('OccUserProfileAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.body).toEqual({
         oldPassword: oldPassword,
-        newPassword: newPassword,
+        newPassword: newPassword
       });
       mockReq.flush('');
     });
