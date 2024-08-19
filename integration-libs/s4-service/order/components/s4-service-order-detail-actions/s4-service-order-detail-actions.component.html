@@ -1,5 +1,5 @@
-<ng-container *ngIf="order">
-  <div class="cx-order-details-actions row" *ngIf="displayActions">
+<ng-container *ngIf="order$ | async as order">
+  <div class="cx-order-details-actions row" *ngIf="displayActions$">
     <span class="col-sm-12 col-md-4 col-xl-3">
       <span class="cx-action-button">
         <a

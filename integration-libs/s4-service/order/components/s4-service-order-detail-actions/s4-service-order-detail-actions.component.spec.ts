@@ -46,9 +46,7 @@ class MockTranslationService {
     return EMPTY;
   }
 }
-class MockOrderDetailsService {
-  getOrderDetails() {}
-}
+
 class MockCheckoutServiceSchedulePickerService {
   getHoursFromServiceSchedule(_dateTime: string) {
     return 0;
@@ -72,6 +70,11 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
   let checkoutServiceSchedulePickerService: CheckoutServiceSchedulePickerService;
   let globalMessageService: GlobalMessageService;
   let beforeEachFn = (order: Order) => {
+    class MockOrderDetailsService {
+      getOrderDetails() {
+        return of(order);
+      }
+    }
     TestBed.configureTestingModule({
       imports: [I18nModule, RouterTestingModule],
       providers: [
@@ -112,29 +115,31 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       expect(component).toBeTruthy();
     });
     it('should show Reschedule button when service is reschedulable', () => {
-      component.displayActions = true;
+      component.displayActions$ = of(true);
       fixture.detectChanges();
       expect(el.query(By.css('.cx-order-details-actions'))).toBeTruthy();
       const elements = fixture.debugElement.queryAll(By.css('a'));
       expect(elements.length).toEqual(1);
     });
-    it('should display action buttons when time to service is more than 24 hours', () => {
+    it('should display action buttons when time to service is more than 24 hours', async () => {
       spyOn(
         checkoutServiceSchedulePickerService,
         'getHoursFromServiceSchedule'
       ).and.returnValue(40);
-      component.ngOnInit();
       fixture.detectChanges();
-      expect(component.displayActions).toBe(true);
+      component.displayActions$.subscribe((res) => {
+        expect(res).toBe(true);
+      });
     });
-    it('should not display action buttons when time to service is within 24 hours', () => {
+    it('should not display action buttons when time to service is within 24 hours', async () => {
       spyOn(
         checkoutServiceSchedulePickerService,
         'getHoursFromServiceSchedule'
       ).and.returnValue(10);
-      component.ngOnInit();
       fixture.detectChanges();
-      expect(component.displayActions).toBe(false);
+      component.displayActions$.subscribe((res) => {
+        expect(res).toBe(false);
+      });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'rescheduleService.serviceNotAmendable' },
         GlobalMessageType.MSG_TYPE_INFO
@@ -148,16 +153,17 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     });
 
     it('should not show Reschedule button when service is not reschedulable', () => {
-      component.displayActions = true;
+      component.displayActions$ = of(true);
       fixture.detectChanges();
       const elements = fixture.debugElement.queryAll(By.css('a'));
       expect(elements.length).toEqual(0);
     });
 
-    it('should not display action buttons when service is cancelled', () => {
-      component.ngOnInit();
+    it('should not display action buttons when service is cancelled', async () => {
       fixture.detectChanges();
-      expect(component.displayActions).toBe(false);
+      component.displayActions$.subscribe((res) => {
+        expect(res).toBe(false);
+      });
     });
   });
 
@@ -167,9 +173,10 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     });
 
     it('should display action buttons row as a failsafe', () => {
-      component.ngOnInit();
       fixture.detectChanges();
-      expect(component.displayActions).toBe(true);
+      component.displayActions$.subscribe((res) => {
+        expect(res).toBe(true);
+      });
     });
   });
 });
