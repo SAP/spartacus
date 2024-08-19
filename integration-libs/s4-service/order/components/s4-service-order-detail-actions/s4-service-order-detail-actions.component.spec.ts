@@ -121,7 +121,7 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       const elements = fixture.debugElement.queryAll(By.css('a'));
       expect(elements.length).toEqual(1);
     });
-    it('should display action buttons when time to service is more than 24 hours', async () => {
+    it('should display action buttons when time to service is more than 24 hours', () => {
       spyOn(
         checkoutServiceSchedulePickerService,
         'getHoursFromServiceSchedule'
@@ -131,7 +131,7 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
         expect(res).toBe(true);
       });
     });
-    it('should not display action buttons when time to service is within 24 hours', async () => {
+    it('should not display action buttons when time to service is within 24 hours', () => {
       spyOn(
         checkoutServiceSchedulePickerService,
         'getHoursFromServiceSchedule'
@@ -159,7 +159,7 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       expect(elements.length).toEqual(0);
     });
 
-    it('should not display action buttons when service is cancelled', async () => {
+    it('should not display action buttons when service is cancelled', () => {
       fixture.detectChanges();
       component.displayActions$.subscribe((res) => {
         expect(res).toBe(false);
@@ -167,7 +167,7 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     });
   });
 
-  describe('', () => {
+  describe('displayActions', () => {
     beforeEach(() => {
       beforeEachFn(mockOrder3);
     });

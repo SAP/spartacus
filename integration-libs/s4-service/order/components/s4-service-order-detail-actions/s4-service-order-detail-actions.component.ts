@@ -17,16 +17,16 @@ import { map, Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class S4ServiceOrderDetailActionsComponent extends OrderDetailActionsComponent {
-  private checkoutServiceSchedulePickerService = inject(
+  protected checkoutServiceSchedulePickerService = inject(
     CheckoutServiceSchedulePickerService
   );
-  private globalMessageService = inject(GlobalMessageService);
+  protected globalMessageService = inject(GlobalMessageService);
 
   displayActions$: Observable<boolean> = this.order$.pipe(
     map((order) => this.checkServiceStatus(order))
   );
 
-  checkServiceStatus(order: Order): boolean {
+  protected checkServiceStatus(order: Order): boolean {
     if (order && order.status === 'CANCELLED') {
       return false;
     } else if (order && order.servicedAt) {
