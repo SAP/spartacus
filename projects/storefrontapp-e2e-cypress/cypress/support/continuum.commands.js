@@ -104,7 +104,7 @@ const failIfAnyAccessibilityConcerns = () => {
   ).to.have.lengthOf(0);
 };
 
-const submitAccessibilityConcernsToAMP = () => {
+const submitAccessibilityConcernsToAMP = (reportName = "AMP Report") => {
   const accessibilityConcerns = Continuum.getAccessibilityConcerns();
   if (accessibilityConcerns.length <= 0) {
     return;
@@ -116,9 +116,11 @@ const submitAccessibilityConcernsToAMP = () => {
     cy.url({ log: false }).then({ timeout: 30000 }, async (pageUrl) => {
       const ampReportingService = Continuum.AMPReportingService;
 
-      await ampReportingService.setActiveOrganization(process.env.AMP_ORG_ID); // ID of AMP organization to submit test results to
-      await ampReportingService.setActiveAsset(process.env.AMP_ASSET_ID); // ID of AMP asset to submit test results to
-      await ampReportingService.setActiveReportByName('Example Report');
+      await ampReportingService.setActiveOrganization(
+        Cypress.env('AMP_ORG_ID')
+      ); // ID of AMP organization to submit test results to
+      await ampReportingService.setActiveAsset(Cypress.env('AMP_ASSET_ID')); // ID of AMP asset to submit test results to
+      await ampReportingService.setActiveReportByName(reportName);
       await ampReportingService.setActiveModuleByName(pageTitle, pageUrl);
       await ampReportingService.setActiveReportManagementStrategy(
         ReportManagementStrategy.APPEND

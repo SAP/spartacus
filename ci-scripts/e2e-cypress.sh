@@ -105,11 +105,11 @@ else
 
     if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
       if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
-        npm run e2e:run:ci"${SUITE}"
+        npm run e2e:run:ci"${SUITE}" --env "${AMP_API_TOKEN}"
       else 
-        npm run e2e:run:ci:core"${SUITE}"
+        npm run e2e:run:ci:core"${SUITE}" --env "${AMP_API_TOKEN}"
       fi
     else
-        npm run e2e:run:ci"${SUITE}"
+        npm run e2e:run:ci"${SUITE}" --env "${AMP_API_TOKEN}"
     fi
 fi
