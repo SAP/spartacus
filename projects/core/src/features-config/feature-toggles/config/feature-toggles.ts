@@ -439,6 +439,12 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
+   * 'NgSelectA11yDirective' will now provide a count of items for each availble option.
+   * Including this count in aria-label will help screen readers to provide more context to the user.
+   */
+  a11yNgSelectOptionsCount?: boolean;
+
+  /**
    * Removes duplicated error message from 'CancelOrderComponent'.
    */
   a11yRepeatedCancelOrderError?: boolean;
@@ -535,6 +541,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yDeliveryModeRadiogroup: false,
+  a11yNgSelectOptionsCount: false,
   a11yRepeatedCancelOrderError: false,
   a11yAddedToCartActiveDialog: false,
   a11yNgSelectMobileReadout: false,
