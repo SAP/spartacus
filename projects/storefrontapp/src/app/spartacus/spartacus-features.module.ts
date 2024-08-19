@@ -343,6 +343,7 @@ if (environment.cpq) {
         a11yCxMessageFocus: true,
         occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
+        a11yRepeatedPageTitleFix: true,
         a11yDeliveryModeRadiogroup: true,
         a11yNgSelectOptionsCount: true,
         a11yRepeatedCancelOrderError: true,
