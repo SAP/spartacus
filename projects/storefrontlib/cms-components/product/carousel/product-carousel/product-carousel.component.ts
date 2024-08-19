@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   CmsProductCarouselComponent as model,
+  FeatureConfigService,
   Product,
   ProductScope,
   ProductService,
+  ProductSearchByCodeService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -21,6 +23,11 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCarouselComponent {
+  private featureConfigService: FeatureConfigService =
+    inject(FeatureConfigService);
+  protected productSearchByCodeService: ProductSearchByCodeService = inject(
+    ProductSearchByCodeService
+  );
   protected readonly PRODUCT_SCOPE = [ProductScope.LIST, ProductScope.STOCK];
 
   protected readonly PRODUCT_SCOPE_ITEM = [ProductScope.LIST_ITEM];
@@ -51,10 +58,19 @@ export class ProductCarouselComponent {
         return { componentMappingExist, codes };
       }),
       map(({ componentMappingExist, codes }) => {
-        const productScope = componentMappingExist
-          ? [...this.PRODUCT_SCOPE]
-          : [...this.PRODUCT_SCOPE_ITEM];
-        return codes.map((code) => this.productService.get(code, productScope));
+        if (this.featureConfigService.isEnabled('useProductCarouselBatchApi')) {
+          const scope = componentMappingExist ? 'carousel' : 'carouselMinimal';
+          return codes.map((code: string) =>
+            this.productSearchByCodeService.get({ code, scope })
+          );
+        } else {
+          const productScope = componentMappingExist
+            ? [...this.PRODUCT_SCOPE]
+            : [...this.PRODUCT_SCOPE_ITEM];
+          return codes.map((code: string) =>
+            this.productService.get(code, productScope)
+          );
+        }
       })
     );
 

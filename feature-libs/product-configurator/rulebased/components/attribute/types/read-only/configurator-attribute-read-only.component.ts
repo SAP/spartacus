@@ -5,17 +5,18 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions } from '../../../price';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
+import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-read-only',
   templateUrl: './configurator-attribute-read-only.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorAttributePriceChangeService],
 })
 export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttributeBaseComponent {
   attribute: Configurator.Attribute;
@@ -30,6 +31,10 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
     this.expMode = attributeComponentContext.expMode;
+    this.initPriceChangedEvent(
+      attributeComponentContext.isPricingAsync,
+      attributeComponentContext.attribute.key
+    );
   }
 
   protected getCurrentValueName(
@@ -113,23 +118,5 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
       .subscribe((text) => (ariaLabel = text));
 
     return ariaLabel;
-  }
-
-  /**
-   * Extract corresponding value price formula parameters.
-   * For the read-only attribute types the complete price formula should be displayed at the value level.
-   *
-   * @param {Configurator.Value} value - Configurator value
-   * @return {ConfiguratorPriceComponentOptions} - New price formula
-   */
-  extractValuePriceFormulaParameters(
-    value: Configurator.Value
-  ): ConfiguratorPriceComponentOptions {
-    return {
-      quantity: value.quantity,
-      price: value.valuePrice,
-      priceTotal: value.valuePriceTotal,
-      isLightedUp: value.selected,
-    };
   }
 }

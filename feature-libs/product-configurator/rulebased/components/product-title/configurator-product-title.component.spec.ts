@@ -657,7 +657,7 @@ describe('ConfigProductTitleComponent', () => {
         undefined,
         0,
         'aria-label',
-        'configurator.a11y.showLessProductInfo product:' + mockProduct.name
+        'configurator.a11y.showLessProductInfo product:productName'
       );
     });
 
