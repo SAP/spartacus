@@ -1,4 +1,9 @@
-<div class="cx-modal-container" role="dialog" aria-modal="true">
+<div
+  class="cx-modal-container"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="dialogTitle"
+>
   <ng-container *ngIf="dialogData$ | async as dialogData">
     <ng-container *ngIf="product$ | async as product">
       <div
@@ -7,7 +12,7 @@
         (esc)="backToPDP(product)"
       >
         <div class="cx-dialog-header modal-header">
-          <div class="cx-dialog-title modal-title">
+          <div id="dialogTitle" class="cx-dialog-title modal-title">
             {{ 'configurator.restartDialog.title' | cxTranslate }}
           </div>
           <button
