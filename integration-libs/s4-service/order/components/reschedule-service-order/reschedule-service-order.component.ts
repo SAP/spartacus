@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import {
@@ -24,6 +30,7 @@ import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'cx-reschedule-service-order',
   templateUrl: './reschedule-service-order.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RescheduleServiceOrderComponent implements OnInit, OnDestroy {
   protected orderDetailsService = inject(OrderDetailsService);
