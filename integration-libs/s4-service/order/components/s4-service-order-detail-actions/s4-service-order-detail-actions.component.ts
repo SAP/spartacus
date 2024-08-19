@@ -15,16 +15,18 @@ import { Observable, map } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class S4ServiceOrderDetailActionsComponent extends OrderDetailActionsComponent {
-  displayActions$: Observable<boolean> = this.order$.pipe(
+  displayCancelActions$: Observable<boolean> = this.order$.pipe(
     map((order) => this.checkIfOrderContainsServiceProduct(order))
   );
-  private checkIfOrderContainsServiceProduct(order: Order): boolean {
-    if (!order) return false;
-
+  checkIfOrderContainsServiceProduct(order: Order): boolean {
     const entries = order.entries || [];
     const hasServiceProduct = entries.some((entry) =>
       entry.product?.productTypes?.includes('SERVICE')
     );
-    return !(order.status === 'CANCELLED' || !hasServiceProduct);
+    if ((order && order.status === 'CANCELLED') || !hasServiceProduct) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

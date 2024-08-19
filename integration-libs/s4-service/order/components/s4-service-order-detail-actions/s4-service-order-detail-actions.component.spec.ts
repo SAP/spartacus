@@ -12,6 +12,7 @@ import { Observable, of } from 'rxjs';
 import { S4ServiceOrderDetailActionsComponent } from './s4-service-order-detail-actions.component';
 import { OrderDetailsService } from '@spartacus/order/components';
 
+// Mock Order Details
 const mockOrder1 = {
   entries: [{ product: { productTypes: ['SERVICE'] } }],
   status: 'PROCESSING',
@@ -21,7 +22,7 @@ const mockOrder1 = {
 })
 class MockUrlPipe implements PipeTransform {
   transform() {
-    return '';
+    return ''; // Mock implementation
   }
 }
 
@@ -31,13 +32,13 @@ class MockRoutingService {
 
 class MockTranslationService {
   translate(): Observable<string> {
-    return of('Cancel Service');
+    return of('Cancel Service'); // Return a mock translation
   }
 }
 
 class MockOrderDetailsService {
   getOrderDetails(): Observable<any> {
-    return of(mockOrder1);
+    return of(mockOrder1); // Provide mock order details
   }
 }
 
@@ -79,19 +80,17 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show Cancel Button', () => {
-    component.displayActions$ = of(true);
+  it('should show Cancel  Button', () => {
+    component.order$ = of(mockOrder1);
     fixture.detectChanges();
-
     expect(el.query(By.css('.cx-order-details-actions'))).toBeTruthy();
     const elements = fixture.debugElement.queryAll(By.css('button'));
     expect(elements.length).toEqual(1);
   });
 
-  it('should not show Cancel Button', () => {
-    component.displayActions$ = of(false);
+  it('should not show Cancel  Button', () => {
+    component.displayCancelActions$ = of(false);
     fixture.detectChanges();
-
     const elements = fixture.debugElement.queryAll(By.css('button'));
     expect(elements.length).toEqual(0);
   });
