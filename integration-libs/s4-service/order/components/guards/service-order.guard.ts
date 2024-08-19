@@ -14,9 +14,9 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ServiceOrderGuard {
-  private orderDetailsService = inject(OrderDetailsService);
-  private router = inject(Router);
-  private semanticPathService = inject(SemanticPathService);
+  protected orderDetailsService = inject(OrderDetailsService);
+  protected router = inject(Router);
+  protected semanticPathService = inject(SemanticPathService);
 
   canActivate(): Observable<boolean | UrlTree> {
     return this.orderDetailsService.getOrderDetails().pipe(
