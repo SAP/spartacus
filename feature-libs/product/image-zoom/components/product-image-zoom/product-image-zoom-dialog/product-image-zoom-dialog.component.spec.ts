@@ -6,6 +6,7 @@ import {
   KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { ProductImageZoomDialogComponent } from './product-image-zoom-dialog.component';
 
 class MockLaunchDialogService {
@@ -46,6 +47,7 @@ describe('ProductImageZoomDialogComponent', () => {
         ProductImageZoomDialogComponent,
         MockCxIconComponent,
         MockProductImageZoomViewComponent,
+        MockFeatureDirective,
       ],
     }).compileComponents();
 
