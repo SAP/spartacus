@@ -120,7 +120,7 @@ describe('PickupOptionsComponent', () => {
       fixture.detectChanges();
 
       const selectStoreButton =
-        fixture.debugElement.nativeElement.querySelector('a[role="button"]');
+        fixture.debugElement.nativeElement.querySelector('button');
       selectStoreButton.click();
 
       expect(component.onPickupLocationChange).toHaveBeenCalled();
@@ -132,7 +132,7 @@ describe('PickupOptionsComponent', () => {
       fixture.detectChanges();
 
       const changeStoreButton =
-        fixture.debugElement.nativeElement.querySelector('a[role="button"]');
+        fixture.debugElement.nativeElement.querySelector('button');
       changeStoreButton.click();
 
       expect(component.onPickupLocationChange).toHaveBeenCalled();
