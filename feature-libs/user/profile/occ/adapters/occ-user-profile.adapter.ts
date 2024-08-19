@@ -133,7 +133,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       newLoginId: newUserId,
       password: currentPassword,
     };
-    let headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
+    const headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
     return this.http.post(url, body, { headers }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
@@ -153,7 +153,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       oldPassword: oldPassword,
       newPassword: newPassword,
     };
-    let headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
+    const headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
     return this.http.post(url, body, { headers }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
