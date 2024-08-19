@@ -3,56 +3,27 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ChangeDetectionStrategy,
-  inject,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { OrderDetailActionsComponent } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'cx-s4-service-order-detail-actions',
   templateUrl: './s4-service-order-detail-actions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class S4ServiceOrderDetailActionsComponent
-  extends OrderDetailActionsComponent
-  implements OnInit, OnDestroy
-{
-  private cdr = inject(ChangeDetectorRef);
-  private unsubscribe$ = new Subject<void>();
+export class S4ServiceOrderDetailActionsComponent extends OrderDetailActionsComponent {
+  displayActions$: Observable<boolean> = this.order$.pipe(
+    map((order) => this.checkIfOrderContainsServiceProduct(order))
+  );
+  private checkIfOrderContainsServiceProduct(order: Order): boolean {
+    if (!order) return false;
 
-  order: Order;
-  displayActionsCancel: boolean;
-
-  ngOnInit(): void {
-    this.order$.pipe(takeUntil(this.unsubscribe$)).subscribe((order) => {
-      this.order = order;
-      this.checkIfOrderContainsServiceProduct(order);
-      this.cdr.markForCheck();
-    });
-  }
-
-  checkIfOrderContainsServiceProduct(order: Order): void {
-    const entries = order?.entries || [];
+    const entries = order.entries || [];
     const hasServiceProduct = entries.some((entry) =>
       entry.product?.productTypes?.includes('SERVICE')
     );
-    this.displayActionsCancel = !(
-      order.status === 'CANCELLED' || !hasServiceProduct
-    );
-    this.cdr.markForCheck();
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    return !(order.status === 'CANCELLED' || !hasServiceProduct);
   }
 }

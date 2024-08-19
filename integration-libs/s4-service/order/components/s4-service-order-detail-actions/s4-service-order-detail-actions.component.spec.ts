@@ -12,16 +12,10 @@ import { Observable, of } from 'rxjs';
 import { S4ServiceOrderDetailActionsComponent } from './s4-service-order-detail-actions.component';
 import { OrderDetailsService } from '@spartacus/order/components';
 
-// Mock Order Details
 const mockOrder1 = {
   entries: [{ product: { productTypes: ['SERVICE'] } }],
   status: 'PROCESSING',
 };
-const mockOrder2 = {
-  entries: [],
-  status: 'CANCELLED',
-};
-
 @Pipe({
   name: 'cxUrl',
 })
@@ -85,17 +79,19 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show Cancel  Button', () => {
-    component.order$ = of(mockOrder1);
+  it('should show Cancel Button', () => {
+    component.displayActions$ = of(true);
     fixture.detectChanges();
+
     expect(el.query(By.css('.cx-order-details-actions'))).toBeTruthy();
     const elements = fixture.debugElement.queryAll(By.css('button'));
     expect(elements.length).toEqual(1);
   });
 
-  it('should not show Cancel  Button', () => {
-    component.order$ = of(mockOrder2);
+  it('should not show Cancel Button', () => {
+    component.displayActions$ = of(false);
     fixture.detectChanges();
+
     const elements = fixture.debugElement.queryAll(By.css('button'));
     expect(elements.length).toEqual(0);
   });
