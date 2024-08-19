@@ -439,6 +439,23 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
+   * Aria-live inside the 'BreadcrumbComponent' will be toggled based on the active element.
+   * This removes the repeated announcement of the page title.
+   */
+  a11yRepeatedPageTitleFix?: boolean;
+
+  /**
+   * 'NgSelectA11yDirective' will now provide a count of items for each availble option.
+   * Including this count in aria-label will help screen readers to provide more context to the user.
+   */
+  a11yNgSelectOptionsCount?: boolean;
+
+  /**
+   * Removes duplicated error message from 'CancelOrderComponent'.
+   */
+  a11yRepeatedCancelOrderError?: boolean;
+
+  /**
    * Mofifies the template of 'AddedToCartDialogComponent' to retain the focus after the cart is updated.
    * Improves its screen reader readout.
    */
@@ -529,7 +546,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFormErrorMuteIcon: false,
   a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
+  a11yRepeatedPageTitleFix: false,
   a11yDeliveryModeRadiogroup: false,
+  a11yNgSelectOptionsCount: false,
+  a11yRepeatedCancelOrderError: false,
   a11yAddedToCartActiveDialog: false,
   a11yNgSelectMobileReadout: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
