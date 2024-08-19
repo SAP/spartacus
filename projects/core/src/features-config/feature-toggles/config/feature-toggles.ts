@@ -445,6 +445,11 @@ export interface FeatureTogglesInterface {
   a11yNgSelectOptionsCount?: boolean;
 
   /**
+   * Removes duplicated error message from 'CancelOrderComponent'.
+   */
+  a11yRepeatedCancelOrderError?: boolean;
+
+  /**
    * Mofifies the template of 'AddedToCartDialogComponent' to retain the focus after the cart is updated.
    * Improves its screen reader readout.
    */
@@ -537,6 +542,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yLinkBtnsToTertiaryBtns: false,
   a11yDeliveryModeRadiogroup: false,
   a11yNgSelectOptionsCount: false,
+  a11yRepeatedCancelOrderError: false,
   a11yAddedToCartActiveDialog: false,
   a11yNgSelectMobileReadout: false,
   occCartNameAndDescriptionInHttpRequestBody: false,

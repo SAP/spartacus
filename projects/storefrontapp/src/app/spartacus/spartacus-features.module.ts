@@ -345,6 +345,7 @@ if (environment.cpq) {
         a11yLinkBtnsToTertiaryBtns: true,
         a11yDeliveryModeRadiogroup: true,
         a11yNgSelectOptionsCount: true,
+        a11yRepeatedCancelOrderError: true,
         a11yAddedToCartActiveDialog: true,
         a11yNgSelectMobileReadout: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
