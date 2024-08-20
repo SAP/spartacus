@@ -4,10 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { OrderDetailActionsComponent } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
 @Component({
@@ -15,15 +12,12 @@ import { Order } from '@spartacus/order/root';
   templateUrl: './s4-service-order-detail-actions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class S4ServiceOrderDetailActionsComponent
-  extends OrderDetailActionsComponent
-{
+export class S4ServiceOrderDetailActionsComponent extends OrderDetailActionsComponent {
   protected checkServiceStatus(order: Order): boolean {
     if (order && order.status === 'CANCELLED') {
       return false;
     } else {
-        return true;
-      }
+      return true;
     }
-
+  }
 }

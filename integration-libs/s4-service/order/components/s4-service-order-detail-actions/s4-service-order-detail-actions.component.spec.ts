@@ -66,8 +66,6 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       }
     }
 
-
-
     TestBed.configureTestingModule({
       imports: [I18nModule, RouterTestingModule],
       providers: [
@@ -107,7 +105,6 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       expect(elements.length).toEqual(1);
     });
   });
-
 
   describe('serviceNotCancellable', () => {
     beforeEach(() => {
