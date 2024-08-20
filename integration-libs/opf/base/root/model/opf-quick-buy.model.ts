@@ -97,7 +97,6 @@ export interface QuickBuyTransactionDetails {
 export interface CartHandlerState {
   cartId: string;
   userId: string;
-  previousCartId: string;
 }
 
 export interface ApplePaySessionVerificationRequest {

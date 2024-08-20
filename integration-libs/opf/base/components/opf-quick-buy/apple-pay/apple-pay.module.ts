@@ -7,11 +7,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { ApplePayComponent } from './apple-pay.component';
-
 @NgModule({
   imports: [CommonModule],
-  declarations: [ApplePayComponent],
-  exports: [ApplePayComponent],
+  // declarations: [ApplePayComponent],
+  // exports: [ApplePayComponent],
 })
 export class OpfApplePayModule {}

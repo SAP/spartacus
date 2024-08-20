@@ -47,4 +47,8 @@ export class OpfGooglePayComponent implements OnInit {
       });
     });
   }
+
+  initTest() {
+    this.opfGooglePayService.initTestService();
+  }
 }

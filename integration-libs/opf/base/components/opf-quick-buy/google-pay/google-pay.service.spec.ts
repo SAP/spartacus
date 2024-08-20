@@ -66,7 +66,7 @@ describe('OpfGooglePayService', () => {
       'deleteStaleCart',
       'deleteUserAddresses',
       'addProductToCart',
-      'checkStableCart',
+      'isCartStable',
       'getSupportedDeliveryModes',
       'setDeliveryAddress',
       'setBillingAddress',

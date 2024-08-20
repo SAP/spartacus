@@ -6,7 +6,6 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MiniCartComponentService } from '@spartacus/cart/base/components/mini-cart';
 import {
   CmsConfig,
   GlobalMessageService,
@@ -22,7 +21,6 @@ import { opfConfigValidator } from './config/opf-config-validator';
 import { OpfEventModule } from './events/opf-event.module';
 import { OPF_BASE_FEATURE } from './feature-name';
 import { OpfGlobalMessageService } from './services';
-import { OpfMiniCartComponentService } from './services/opf-mini-cart-component.service';
 import { OpfStatePersistenceService } from './services/opf-state-persistence.service';
 
 export function opfStatePersistenceFactory(
@@ -77,8 +75,6 @@ export function defaultOpfBaseCmsComponentsConfig(): CmsConfig {
       multi: true,
     },
     provideDefaultConfig(defaultOpfConfig),
-
-    // TODO OPF: uncomment once proper type and routing is set up
     provideDefaultConfig(defaultOpfRoutingConfig),
     provideConfigValidator(opfConfigValidator),
     provideDefaultConfigFactory(defaultOpfBaseCmsComponentsConfig),
@@ -86,11 +82,6 @@ export function defaultOpfBaseCmsComponentsConfig(): CmsConfig {
     {
       provide: GlobalMessageService,
       useExisting: OpfGlobalMessageService,
-    },
-    OpfMiniCartComponentService,
-    {
-      provide: MiniCartComponentService,
-      useExisting: OpfMiniCartComponentService,
     },
   ],
 })

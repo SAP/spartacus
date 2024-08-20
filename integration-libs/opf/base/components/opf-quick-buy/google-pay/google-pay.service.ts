@@ -280,6 +280,7 @@ export class OpfGooglePayService {
       merchantName: this.opfQuickBuyService.getMerchantName(),
     }).pipe(
       switchMap(({ deliveryInfo, merchantName }) => {
+        console.log('transaction started for the cart ');
         this.transactionDetails.deliveryInfo = deliveryInfo;
         this.setGooglePaymentRequestConfig(deliveryInfo.type, merchantName);
         return this.currentProductService.getProduct().pipe(
@@ -289,7 +290,7 @@ export class OpfGooglePayService {
             this.transactionDetails.product = product as Product;
             this.transactionDetails.quantity = count;
             return this.opfCartHandlerService
-              .addProductToCart(
+              .addProductToNewCart(
                 product?.code || '',
                 count,
                 this.transactionDetails.deliveryInfo?.pickupDetails?.name
@@ -370,14 +371,7 @@ export class OpfGooglePayService {
         })
       )
       .subscribe(() => {
-        this.googlePaymentClient
-          .loadPaymentData(this.googlePaymentRequest)
-          .catch((err) => {
-            // If err.statusCode === 'CANCELED' it means that customer closed popup
-            if (err.statusCode === 'CANCELED') {
-              this.loadInitialCartAndCleanAddresses();
-            }
-          });
+        this.googlePaymentClient.loadPaymentData(this.googlePaymentRequest);
       });
   }
 
@@ -388,20 +382,6 @@ export class OpfGooglePayService {
         buttonSizeMode: 'fill',
       })
     );
-  }
-
-  protected loadInitialCartAndCleanAddresses(orderSuccess = false): void {
-    this.opfCartHandlerService
-      .loadCartAfterSingleProductTransaction(
-        this.transactionDetails,
-        orderSuccess
-      )
-      .pipe(take(1))
-      .subscribe({
-        next: () => {
-          this.deleteAssociatedAddresses();
-        },
-      });
   }
 
   private handlePaymentCallbacks(): google.payments.api.PaymentDataCallbacks {
@@ -437,7 +417,6 @@ export class OpfGooglePayService {
             })
           )
         ).then((isSuccess) => {
-          this.loadInitialCartAndCleanAddresses(isSuccess);
           return { transactionState: isSuccess ? 'SUCCESS' : 'ERROR' };
         });
       },
@@ -560,5 +539,48 @@ export class OpfGooglePayService {
         type: 'CARD',
       },
     ];
+  }
+
+  initTestService() {
+    const cartId = '00000000F0000FMN';
+    const userId = 'current';
+    // const otherDeliveryAddressId = '';
+    const testAddress: Address = {
+      firstName: 'John',
+      lastName: 'Doe',
+      titleCode: 'mr',
+      line1: 'first line',
+      line2: 'second line',
+      town: 'town',
+      id: 'id',
+      region: { isocode: 'JP-27' },
+      postalCode: 'zip',
+      country: { isocode: 'JP' },
+    };
+
+    // TEST on cartId: 00000000F0000FMN
+
+    // this.opfCartHandlerService
+    //   .addProductToNewCart('280916', 1)
+    //   .pipe(take(1))
+    //   .subscribe();
+
+    // this.opfCartFacade
+    //   .createCartDeliveryAddress(userId, cartId, testAddress)
+    //   .subscribe((data) => console.log(data));
+
+    this.opfCartFacade
+      .setCartBillingAddress(userId, cartId, testAddress)
+      .subscribe((data) => console.log(data));
+
+    this.opfCartFacade
+      .getPossibleCartDeliveryModeOptions(userId, cartId)
+      .subscribe((data) => console.log(data));
+
+    this.opfCartFacade.setCartDeliveryMode(userId, cartId, 'premium-gross');
+
+    this.opfCartFacade
+      .getCartDeliveryMode(userId, cartId)
+      .subscribe((data) => console.log(data));
   }
 }

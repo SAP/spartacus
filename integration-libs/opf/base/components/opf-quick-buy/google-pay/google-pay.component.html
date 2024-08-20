@@ -1,4 +1,5 @@
 <ng-container *ngIf="isReadyToPayState$ | async as isReadyToPay">
+  <div (click)="initTest()">TEST GOOGLE button</div>
   <div
     *ngIf="isReadyToPay"
     class="cx-opf-google-pay-button"
