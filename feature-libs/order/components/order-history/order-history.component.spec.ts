@@ -15,6 +15,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import {
+  Order,
   OrderHistoryFacade,
   OrderHistoryList,
   ReplenishmentOrder,
@@ -22,6 +23,7 @@ import {
 } from '@spartacus/order/root';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
+import { Params } from '@angular/router';
 
 const mockOrders: OrderHistoryList = {
   orders: [
@@ -119,6 +121,9 @@ class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
   getOrderHistoryListLoaded(): Observable<boolean> {
     return of(true);
   }
+  getQueryParams(_order: Order): Params | null {
+    return null;
+  }
   loadOrderList(
     _pageSize: number,
     _currentPage?: number,
@@ -210,10 +215,15 @@ describe('OrderHistoryComponent', () => {
     );
     rows[1].triggerEventHandler('click', null);
 
-    expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'orderDetails',
-      params: mockOrders.orders[1],
-    });
+    expect(routingService.go).toHaveBeenCalledWith(
+      {
+        cxRoute: 'orderDetails',
+        params: mockOrders.orders[1],
+      },
+      {
+        queryParams: null,
+      }
+    );
   });
 
   it('should set correctly sort code', () => {

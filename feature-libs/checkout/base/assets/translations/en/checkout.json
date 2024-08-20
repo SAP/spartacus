@@ -24,6 +24,7 @@
   },
   "checkoutMode": {
     "deliveryMethod": "Delivery Method",
+    "deliveryOptions": "Delivery Options",
     "standardDelivery": "Standard Delivery",
     "premiumDelivery": "Premium Delivery",
     "deliveryEntries": "Items to be Shipped"
