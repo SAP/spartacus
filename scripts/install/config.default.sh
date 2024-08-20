@@ -6,7 +6,7 @@
 # Url of the hybris backend
 # Will replace default host (https://localhost:9002) as a backend endpoint
 # Make sure you specify the full url for the backend (https://[host]:[port]
-BACKEND_URL="https://api.cg79x9wuu9-eccommerc1-p4-public.model-t.myhybris.cloud"
+BACKEND_URL="https://40.76.109.9:9002"
 
 # A comma separated list of base sites.
 # When empty, the base sites will not be explicitly specified in spartacus-configuration.module.ts
@@ -17,33 +17,35 @@ OCC_PREFIX="/occ/v2/"
 URL_PARAMETERS="baseSite,language,currency"
 
 SPARTACUS_PROJECTS=(
-        "dist/core:projects/core"
-        "dist/storefrontlib:projects/storefrontlib"
-        "dist/assets:projects/assets"
-        "dist/checkout:feature-libs/checkout"
-        "dist/product:feature-libs/product"
-        "dist/setup:core-libs/setup"
-        "dist/cart:feature-libs/cart"
-        "dist/order:feature-libs/order"
-        "dist/asm:feature-libs/asm"
-        "dist/user:feature-libs/user"
-        "dist/organization:feature-libs/organization"
-        "dist/storefinder:feature-libs/storefinder"
-        "dist/tracking:feature-libs/tracking"
-        "dist/qualtrics:feature-libs/qualtrics"
-        "dist/quote:feature-libs/quote"
-        "dist/smartedit:feature-libs/smartedit"
-        "dist/customer-ticketing:feature-libs/customer-ticketing"
-        "dist/cds:integration-libs/cds"
-        "dist/cdc:integration-libs/cdc"
-        "dist/cdp:integration-libs/cdp"
-        "dist/epd-visualization:integration-libs/epd-visualization"
-        "dist/product-configurator:feature-libs/product-configurator"
-        "dist/pickup-in-store:feature-libs/pickup-in-store"
-        "dist/pdf-invoices:feature-libs/pdf-invoices"
-        "projects/storefrontstyles:projects/storefrontstyles"
-        "projects/schematics:projects/schematics"
-        )
+    "dist/core:projects/core"
+    "dist/storefrontlib:projects/storefrontlib"
+    "dist/assets:projects/assets"
+    "dist/checkout:feature-libs/checkout"
+    "dist/product:feature-libs/product"
+    "dist/setup:core-libs/setup"
+    "dist/cart:feature-libs/cart"
+    "dist/order:feature-libs/order"
+    "dist/asm:feature-libs/asm"
+    "dist/user:feature-libs/user"
+    "dist/organization:feature-libs/organization"
+    "dist/storefinder:feature-libs/storefinder"
+    "dist/tracking:feature-libs/tracking"
+    "dist/qualtrics:feature-libs/qualtrics"
+    "dist/quote:feature-libs/quote"
+    "dist/smartedit:feature-libs/smartedit"
+    "dist/customer-ticketing:feature-libs/customer-ticketing"
+    "dist/cds:integration-libs/cds"
+    "dist/cdc:integration-libs/cdc"
+    "dist/cdp:integration-libs/cdp"
+    "dist/opps:integration-libs/opps"
+    "dist/epd-visualization:integration-libs/epd-visualization"
+    "dist/product-configurator:feature-libs/product-configurator"
+    "dist/pickup-in-store:feature-libs/pickup-in-store"
+    "dist/pdf-invoices:feature-libs/pdf-invoices"
+    "dist/estimated-delivery-date:feature-libs/estimated-delivery-date"
+    "projects/storefrontstyles:projects/storefrontstyles"
+    "projects/schematics:projects/schematics"
+)
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
 BRANCH='develop-next-major'
@@ -72,9 +74,12 @@ ADD_B2B_LIBS=false
 ADD_CPQ=false
 ADD_QUOTE=false
 ADD_CDC=false
+ADD_OPPS=false
 # config.epd-visualization.sh contains default values to use in your config.sh when ADD_EPD_VISUALIZATION is true.
 ADD_EPD_VISUALIZATION=false
 ADD_S4OM=false
+ADD_CPQ_QUOTE=false
+ADD_S4_SERVICE=false
 
 # The base URL (origin) of the SAP EPD Visualization Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=
