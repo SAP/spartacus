@@ -55,7 +55,7 @@ export class SiteThemeService implements OnDestroy {
    */
   // TODO(#8153): If we move this._isInitialized into an RxJS stream, it may create a race condition between SiteThemePersistenceService:onRead and SiteThemeInitializer:this.setFallbackValue().
   setActive(className: string): void {
-    this.isValidTheme(className)
+    this.subscription = this.isValidTheme(className)
       .pipe(filter(Boolean), take(1))
       .subscribe(() => {
         this.store.dispatch(new SiteThemeActions.SetActiveSiteTheme(className));
