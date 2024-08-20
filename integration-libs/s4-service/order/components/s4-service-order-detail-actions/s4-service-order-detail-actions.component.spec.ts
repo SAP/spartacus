@@ -99,6 +99,7 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       expect(component).toBeTruthy();
     });
     it('should show Cancel button when service is serviceCancellable', () => {
+      component.displayActions$ = of(true);
       fixture.detectChanges();
       expect(el.query(By.css('.cx-order-details-actions'))).toBeTruthy();
       const elements = el.queryAll(By.css('#cancel-service-btn'));
@@ -113,8 +114,9 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
 
     it('should not  display action buttons when service is cancelled', () => {
       fixture.detectChanges();
-      const btnRow = el.query(By.css('.cx-order-details-actions.row'));
-      expect(btnRow).toBeFalsy();
+      component.displayActions$.subscribe((res) => {
+        expect(res).toBe(false);
+      });
     });
   });
 
@@ -131,9 +133,9 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
 
     it('should display action buttons row as a failsafe', () => {
       fixture.detectChanges();
-      const btnRow = el.query(By.css('.cx-order-details-actions.row'));
-
-      expect(btnRow.nativeElement).toBeTruthy();
+      component.displayActions$.subscribe((res) => {
+        expect(res).toBe(true);
+      });
     });
   });
 });

@@ -1,7 +1,7 @@
 <ng-container *ngIf="order$ | async as order">
   <div
     class="cx-order-details-actions row mt-3"
-    *ngIf="checkServiceStatus(order)"
+    *ngIf="displayActions$ | async"
   >
     <div class="col-12 d-flex justify-content-end">
       <span class="cx-action-button">
