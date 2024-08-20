@@ -6,10 +6,14 @@
 
 import { RoutingConfig } from '@spartacus/core';
 
-export const defaultCheckoutServiceDetailsRoutingConfig: RoutingConfig = {
+export const defaultServiceOrdersRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
       checkoutServiceDetails: { paths: ['checkout/service-details'] },
+      rescheduleServiceDetails: {
+        paths: ['my-account/order/rescheduleservice/:orderCode'],
+        paramsMapping: { orderCode: 'code' },
+      },
     },
   },
 };
