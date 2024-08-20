@@ -14,6 +14,7 @@ import {
   Order,
   OrderHistoryList,
 } from '../model/order.model';
+import { Params } from '@angular/router';
 
 export function orderHistoryFacadeFactory() {
   return facadeFactory({
@@ -35,6 +36,7 @@ export function orderHistoryFacadeFactory() {
       'getCancelOrderSuccess',
       'resetCancelOrderProcessState',
       'getOrderDetailsLoading',
+      'getQueryParams',
     ],
     async: true,
   });
@@ -138,4 +140,9 @@ export abstract class OrderHistoryFacade {
    * Returns an order details loading flag
    */
   abstract getOrderDetailsLoading(): Observable<boolean>;
+
+  /**
+   * Returns query parameters needed for order details route
+   */
+  abstract getQueryParams(order: Order): Params | null;
 }

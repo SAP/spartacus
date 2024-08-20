@@ -1,0 +1,23 @@
+<ng-container *ngIf="order$ | async as order">
+  <div class="cx-order-details-actions row" *ngIf="displayActions$ | async">
+    <span class="col-sm-12 col-md-4 col-xl-3">
+      <span class="cx-action-button">
+        <a
+          *ngIf="order.serviceReschedulable"
+          [routerLink]="
+            {
+              cxRoute: 'rescheduleServiceDetails',
+              params: order
+            } | cxUrl
+          "
+          [attr.aria-label]="
+            'rescheduleService.actionButtonLabel' | cxTranslate
+          "
+          class="btn btn-block btn-secondary"
+        >
+          {{ 'rescheduleService.actionButtonLabel' | cxTranslate }}
+        </a>
+      </span>
+    </span>
+  </div>
+</ng-container>

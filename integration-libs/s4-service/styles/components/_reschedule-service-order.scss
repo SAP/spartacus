@@ -1,0 +1,34 @@
+.cx-reschedule-service-form-fields {
+  border: 1px solid var(--cx-color-medium);
+  border-bottom: 0;
+  margin-bottom: -1rem;
+}
+
+.cx-section-header {
+  background-color: var(--cx-color-background);
+  border-bottom: 2px solid var(--cx-color-medium);
+  h2 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 900;
+    padding: 0 1.25rem;
+    line-height: 3.5rem;
+  }
+}
+
+.cx-section-content {
+  padding: 1.25rem;
+  p {
+    font-weight: 600;
+  }
+}
+
+.cx-reschedule-service-actions {
+  button {
+    margin: 0.5rem 0;
+  }
+  p {
+    font-weight: 600;
+    margin-top: 1rem;
+  }
+}
