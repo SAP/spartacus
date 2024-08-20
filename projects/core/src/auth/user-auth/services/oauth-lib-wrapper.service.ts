@@ -38,7 +38,8 @@ export class OAuthLibWrapperService {
     this.oAuthService.configure({
       tokenEndpoint: this.authConfigService.getTokenEndpoint(),
       loginUrl: this.authConfigService.getLoginUrl(),
-      clientId: this.authConfigService.getClientId(),
+      clientId:         this.authConfigService.getOAuthLibConfig()?.clientId ??
+      this.authConfigService.getClientId(),
       dummyClientSecret: this.authConfigService.getClientSecret(),
       revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
       logoutUrl: this.authConfigService.getLogoutUrl(),
@@ -52,6 +53,8 @@ export class OAuthLibWrapperService {
           ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             this.winRef.nativeWindow!.location.origin
           : ''),
+      scope: this.authConfigService.getOAuthLibConfig()?.scope ?? '',
+      responseType: this.authConfigService.getOAuthLibConfig()?.responseType ?? '',
       ...this.authConfigService.getOAuthLibConfig(),
     });
   }
@@ -158,5 +161,9 @@ export class OAuthLibWrapperService {
           subscription.unsubscribe();
         });
     });
+  }
+
+  loadDiscoveryDocumentAndLogin(){
+    this.oAuthService.loadDiscoveryDocumentAndLogin();
   }
 }

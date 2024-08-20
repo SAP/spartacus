@@ -4,23 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AuthConfig } from './auth-config';
+import { AuthConfig } from "@spartacus/core";
 
-export const defaultAuthConfig: AuthConfig = {
+export const defaultOidcAuthConfig: AuthConfig = {
   authentication: {
-    client_id: 'mobile_android',
-    client_secret: 'secret',
-    tokenEndpoint: '/oauth/token',
-    revokeEndpoint: '/oauth/revoke',
-    loginUrl: '/oauth/authorize',
+    // client_id: 'mobile_android',
+    client_id: "FeWB0V0Opi2hEL-T21DlUuEO",
+    baseUrl: "https://fidm.eu1.gigya.com/oidc/op/v1.0/4_haAyXsKhFEupcUCQ9UPizw",
+    // client_secret: 'secret',
+    // tokenEndpoint: '/oauth/token',
+    // revokeEndpoint: '/oauth/revoke',
+    // loginUrl: '/oauth/authorize',
     OAuthLibConfig: {
-      // scope: '',
-      customTokenParameters: ['token_type'],
-      strictDiscoveryDocumentValidation: false,
+      // customTokenParameters: ['token_type'],
+      // strictDiscoveryDocumentValidation: false,
       skipIssuerCheck: false,
-      // disablePKCE: true,
-      // oidc: false,
-      clearHashAfterLogin: false,
       disablePKCE: false,
       oidc: true,
       // clearHashAfterLogin: false,

@@ -19,7 +19,6 @@ import { Config } from '../../../config/config-tokens';
 //
 export type AuthLibConfig = Omit<
   LibConfig,
-  | 'clientId'
   | 'dummyClientSecret'
   | 'siletRefreshTimeout'
   | 'loginUrl'
