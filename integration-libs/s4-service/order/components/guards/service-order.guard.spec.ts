@@ -1,59 +1,80 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { SemanticPathService } from '@spartacus/core';
-import { OrderDetailsService } from '@spartacus/order/components';
-import { of } from 'rxjs';
-import { ServiceOrderGuard } from './service-order.guard';
 
-import createSpy = jasmine.createSpy;
-class MockOrderDetailsService {
-  getOrderDetails = createSpy().and.returnValue(of(undefined));
+import { ServiceOrderGuard } from './service-order.guard';
+import { OrderDetailsService } from '@spartacus/order/components';
+import { Order } from '@spartacus/order/root';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  Translatable,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+
+const mockOrderReschedulable: Order = {
+  serviceReschedulable: true,
+};
+const mockOrderNotReschedulable: Order = {
+  serviceReschedulable: false,
+};
+
+class MockOrderDetailsService implements Partial<OrderDetailsService> {
+  getOrderDetails(): Observable<Order> {
+    return of(mockOrderReschedulable);
+  }
 }
-class MockSemanticPathService implements Partial<SemanticPathService> {
-  get = createSpy().and.returnValue('');
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
 }
 
 describe('ServiceOrderGuard', () => {
   let guard: ServiceOrderGuard;
+  let globalMessageService: GlobalMessageService;
   let orderDetailsService: OrderDetailsService;
-  let semanticPathService: SemanticPathService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ServiceOrderGuard,
-        { provide: OrderDetailsService, useClass: MockOrderDetailsService },
-        { provide: SemanticPathService, useClass: MockSemanticPathService },
+        {
+          provide: OrderDetailsService,
+          useClass: MockOrderDetailsService,
+        },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
-      imports: [RouterTestingModule],
     });
-
     guard = TestBed.inject(ServiceOrderGuard);
     orderDetailsService = TestBed.inject(OrderDetailsService);
-    semanticPathService = TestBed.inject(SemanticPathService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+
+    spyOn(globalMessageService, 'add').and.callThrough();
   });
 
-  describe('when there is NO order details present', () => {
-    it('should return UrlTree to order history page', (done) => {
-      orderDetailsService.getOrderDetails = createSpy().and.returnValue(of({}));
-      semanticPathService.get =
-        createSpy().and.returnValue('/my-account/orders');
-      guard.canActivate().subscribe((result: any) => {
-        expect(result.toString()).toEqual('/my-account/orders');
-        done();
-      });
+  it('should be created', () => {
+    expect(guard).toBeTruthy();
+  });
+
+  it('should allow to proceed for an order which is reschedulable', () => {
+    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+      of(mockOrderReschedulable)
+    );
+    (guard as any).canActivate().subscribe((result: boolean) => {
+      expect(result).toBeTruthy();
     });
   });
-  describe('when there are order details present', () => {
-    it('should return true', (done) => {
-      (orderDetailsService.getOrderDetails as jasmine.Spy).and.returnValue(
-        of({ serviceCancellable: true })
-      );
 
-      guard.canActivate().subscribe((result) => {
-        expect(result).toEqual(true);
-        done();
-      });
+  it('should not allow to proceed for an order which is not reschedulable', () => {
+    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+      of(mockOrderNotReschedulable)
+    );
+    (guard as any).canActivate().subscribe((result: boolean) => {
+      expect(result).toBeFalsy();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'rescheduleService.serviceNotReschedulable' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
   });
 });

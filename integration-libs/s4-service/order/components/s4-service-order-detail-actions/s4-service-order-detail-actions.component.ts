@@ -5,9 +5,10 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { GlobalMessageService } from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { OrderDetailActionsComponent } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
+import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
 import { map, Observable } from 'rxjs';
 
 @Component({
@@ -16,6 +17,9 @@ import { map, Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class S4ServiceOrderDetailActionsComponent extends OrderDetailActionsComponent {
+  protected checkoutServiceSchedulePickerService = inject(
+    CheckoutServiceSchedulePickerService
+  );
   protected globalMessageService = inject(GlobalMessageService);
 
   displayActions$: Observable<boolean> = this.order$.pipe(
@@ -25,8 +29,21 @@ export class S4ServiceOrderDetailActionsComponent extends OrderDetailActionsComp
   protected checkServiceStatus(order: Order): boolean {
     if (order && order.status === 'CANCELLED') {
       return false;
-    } else {
-      return true;
+    } else if (order && order.servicedAt) {
+      const hoursFromSchedule =
+        this.checkoutServiceSchedulePickerService.getHoursFromServiceSchedule(
+          order.servicedAt
+        );
+      if (hoursFromSchedule > 0 && hoursFromSchedule <= 24) {
+        this.globalMessageService.add(
+          { key: 'rescheduleService.serviceNotAmendable' },
+          GlobalMessageType.MSG_TYPE_INFO
+        );
+        return false;
+      } else if (hoursFromSchedule > 24) {
+        return true;
+      }
     }
+    return true;
   }
 }

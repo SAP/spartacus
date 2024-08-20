@@ -30,6 +30,7 @@ declare module '@spartacus/order/root' {
   interface Order {
     servicedAt?: ServiceDateTime;
     serviceCancellable?: serviceCancellable;
+    serviceReschedulable?: boolean;
   }
 }
 

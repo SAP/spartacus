@@ -14,10 +14,19 @@ export interface S4ServiceOccEndpoints {
    */
 
   cancelServiceOrder?: string | OccEndpoint;
+
+  /**
+   * Reschedule service order
+   *
+   * @member {string} [rescheduleService]
+   */
+
+  rescheduleService?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {
   interface OccEndpoints extends S4ServiceOccEndpoints {
     cancelServiceOrder?: string | OccEndpoint;
+    rescheduleService?: string | OccEndpoint;
   }
 }

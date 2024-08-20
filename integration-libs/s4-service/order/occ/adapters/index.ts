@@ -5,3 +5,4 @@
  */
 
 export * from './occ-cancel-service-order.adapter';
+export * from './occ-reschedule-service-order.adapter';

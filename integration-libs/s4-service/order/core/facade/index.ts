@@ -5,3 +5,4 @@
  */
 
 export * from './cancel-service-order.service';
+export * from './reschedule-service-order.service';

@@ -23,6 +23,7 @@ import { RouterModule } from '@angular/router';
       cmsComponents: {
         AccountOrderDetailsActionsComponent: {
           component: S4ServiceOrderDetailActionsComponent,
+          //guards: inherited from standard config,
         },
       },
     }),
