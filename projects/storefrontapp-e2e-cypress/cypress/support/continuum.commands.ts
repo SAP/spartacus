@@ -104,7 +104,7 @@ const failIfAnyAccessibilityConcerns = () => {
   ).to.have.lengthOf(0);
 };
 
-const submitAccessibilityConcernsToAMP = (reportName = "AMP Report") => {
+const submitAccessibilityConcernsToAMP = (reportName = 'AMP Report') => {
   const accessibilityConcerns = Continuum.getAccessibilityConcerns();
   if (accessibilityConcerns.length <= 0) {
     return;
