@@ -8,3 +8,9 @@ export * from './s4-service-components.module';
 
 export * from './order-summary/service-details-card.component';
 export * from './order-summary/service-details-card.module';
+
+export * from './reschedule-service-order/reschedule-service-order.component';
+export * from './reschedule-service-order/reschedule-service-order.module';
+
+export * from './s4-service-order-detail-actions/s4-service-order-detail-actions.component';
+export * from './s4-service-order-detail-actions/s4-service-order-detail-actions.module';

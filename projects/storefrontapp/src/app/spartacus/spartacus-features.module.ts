@@ -104,6 +104,7 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { OmfFeatureModule } from './features/omf/omf-feature.module';
 
 const featureModules = [];
 
@@ -154,7 +155,9 @@ if (environment.requestedDeliveryDate) {
 if (environment.estimatedDeliveryDate) {
   featureModules.push(EstimatedDeliveryDateFeatureModule);
 }
-
+if (environment.omf) {
+  featureModules.push(OmfFeatureModule);
+}
 if (environment.cpq) {
   featureModules.push(CpqQuoteFeatureModule);
 }
