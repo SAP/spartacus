@@ -44,7 +44,7 @@ export function testCheckoutVariantAsGuest() {
 
     checkout.fillAddressFormWithCheapProduct(variantUser);
 
-    checkout.verifyDeliveryMethod();
+    checkout.verifyDeliveryOptions();
 
     checkout.fillPaymentFormWithCheapProduct(variantUser, undefined);
 
@@ -117,7 +117,7 @@ export function testCheckoutVariantAsGuestAndVerifyCart() {
 
     checkout.fillAddressFormWithCheapProduct(variantUser);
 
-    checkout.verifyDeliveryMethod();
+    checkout.verifyDeliveryOptions();
 
     checkout.fillPaymentFormWithCheapProduct(variantUser, undefined);
 
@@ -192,7 +192,7 @@ export function testCheckoutRegisteredUser() {
     checkout.addCheapProductToCartAndLogin(regVariantUser, products[0]);
     checkout.checkSummaryAmount(cartWithTotalVariantProduct);
     checkout.fillAddressFormWithCheapProduct(regVariantUser);
-    checkout.verifyDeliveryMethod();
+    checkout.verifyDeliveryOptions();
     checkout.fillPaymentFormWithCheapProduct(regVariantUser, undefined);
     checkout.placeOrderWithCheapProduct(
       regVariantUser,
