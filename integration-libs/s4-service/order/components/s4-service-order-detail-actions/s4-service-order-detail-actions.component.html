@@ -4,7 +4,7 @@
     *ngIf="displayActions$ | async"
   >
     <div class="col-12 d-flex justify-content-end">
-      <span class="cx-action-button">
+      <span class="cx-action-button ml-2">
         <a
           id="cancel-service-btn"
           *ngIf="order.serviceCancellable"
@@ -20,7 +20,7 @@
           {{ 'cancelService.action' | cxTranslate }}
         </a>
       </span>
-      <span class="cx-action-button">
+      <span class="cx-action-button ml-2">
         <a
           id="reschedule-service-btn"
           *ngIf="order.serviceReschedulable"
