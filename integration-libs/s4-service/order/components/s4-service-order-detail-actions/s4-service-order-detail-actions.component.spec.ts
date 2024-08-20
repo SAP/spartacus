@@ -1,45 +1,51 @@
-import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { S4ServiceOrderDetailActionsComponent } from './s4-service-order-detail-actions.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
+import { EMPTY, Observable, of } from 'rxjs';
 import {
+  GlobalMessageService,
+  GlobalMessageType,
   I18nModule,
   RoutingService,
+  Translatable,
   TranslationService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { S4ServiceOrderDetailActionsComponent } from './s4-service-order-detail-actions.component';
 import { OrderDetailsService } from '@spartacus/order/components';
+import { By } from '@angular/platform-browser';
+import { Order } from '@spartacus/order/root';
 
-// Mock Order Details
 const mockOrder1 = {
-  entries: [{ product: { productTypes: ['SERVICE'] } }],
-  status: 'PROCESSING',
+  serviceCancellable: true,
+  status: 'PENDING',
 };
+const mockOrder2 = {
+  serviceCancellable: false,
+  status: 'CANCELLED',
+};
+const mockOrder3 = {
+  serviceCancellable: false,
+  status: 'PENDING',
+};
+
 @Pipe({
   name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
-  transform() {
-    return ''; // Mock implementation
-  }
+  transform() {}
 }
-
 class MockRoutingService {
   go() {}
 }
-
 class MockTranslationService {
   translate(): Observable<string> {
-    return of('Cancel Service'); // Return a mock translation
+    return EMPTY;
   }
 }
 
-class MockOrderDetailsService {
-  getOrderDetails(): Observable<any> {
-    return of(mockOrder1); // Provide mock order details
-  }
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
 }
 
 @Component({
@@ -52,15 +58,23 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
   let component: S4ServiceOrderDetailActionsComponent;
   let fixture: ComponentFixture<S4ServiceOrderDetailActionsComponent>;
   let el: DebugElement;
+  let globalMessageService: GlobalMessageService;
+  let beforeEachFn = (order: Order) => {
+    class MockOrderDetailsService {
+      getOrderDetails() {
+        return of(order);
+      }
+    }
 
-  beforeEach(waitForAsync(() => {
+
+
     TestBed.configureTestingModule({
-      imports: [I18nModule, RouterTestingModule, StoreModule.forRoot({})],
+      imports: [I18nModule, RouterTestingModule],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: Store, useValue: {} },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
       declarations: [
         S4ServiceOrderDetailActionsComponent,
@@ -68,30 +82,61 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
         MockOrderDetailActionsComponent,
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(S4ServiceOrderDetailActionsComponent);
+    globalMessageService = TestBed.inject(GlobalMessageService);
     el = fixture.debugElement;
     component = fixture.componentInstance;
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should show Cancel  Button', () => {
-    component.order$ = of(mockOrder1);
+    component.order$ = of(order);
     fixture.detectChanges();
-    expect(el.query(By.css('.cx-order-details-actions'))).toBeTruthy();
-    const elements = fixture.debugElement.queryAll(By.css('button'));
-    expect(elements.length).toEqual(1);
+    spyOn(globalMessageService, 'add').and.callThrough();
+  };
+
+  describe('serviceCancellable', () => {
+    beforeEach(() => {
+      beforeEachFn(mockOrder1);
+    });
+
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+    it('should show Cancel button when service is serviceCancellable', () => {
+      fixture.detectChanges();
+      expect(el.query(By.css('.cx-order-details-actions'))).toBeTruthy();
+      const elements = el.queryAll(By.css('#cancel-service-btn'));
+      expect(elements.length).toEqual(1);
+    });
   });
 
-  it('should not show Cancel  Button', () => {
-    component.displayCancelActions$ = of(false);
-    fixture.detectChanges();
-    const elements = fixture.debugElement.queryAll(By.css('button'));
-    expect(elements.length).toEqual(0);
+
+  describe('serviceNotCancellable', () => {
+    beforeEach(() => {
+      beforeEachFn(mockOrder2);
+    });
+
+    it('should not  display action buttons when service is cancelled', () => {
+      fixture.detectChanges();
+      const btnRow = el.query(By.css('.cx-order-details-actions.row'));
+      expect(btnRow).toBeFalsy();
+    });
+  });
+
+  describe('displayActions', () => {
+    beforeEach(() => {
+      beforeEachFn(mockOrder3);
+    });
+
+    it('should not show Cancel button when service is not serviceCancellable', () => {
+      fixture.detectChanges();
+      const elements = el.queryAll(By.css('#cancel-service-btn'));
+      expect(elements.length).toEqual(0);
+    });
+
+    it('should display action buttons row as a failsafe', () => {
+      fixture.detectChanges();
+      const btnRow = el.query(By.css('.cx-order-details-actions.row'));
+
+      expect(btnRow.nativeElement).toBeTruthy();
+    });
   });
 });

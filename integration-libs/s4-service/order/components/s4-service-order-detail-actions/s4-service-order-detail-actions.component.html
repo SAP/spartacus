@@ -1,24 +1,23 @@
-<ng-container *ngIf="order$ | async as order">
-  <div
-    class="cx-order-details-actions row mt-3"
-    *ngIf="displayCancelActions$ | async"
-  >
-    <div class="col-12 d-flex justify-content-end">
-      <span class="cx-action-button">
-        <button
+  <ng-container *ngIf="order$ | async as order">
+    <div class="cx-order-details-actions row  mt-3" *ngIf="checkServiceStatus(order)">
+  <div class="col-12 d-flex justify-content-end">
+        <span class="cx-action-button">
+          <a
           id="cancel-service-btn"
-          *ngIf="order"
+          *ngIf="order.serviceCancellable"
           [routerLink]="
             {
               cxRoute: 'cancelServiceDetails',
               params: order
             } | cxUrl
-          "
+          "[attr.aria-label]="
+          'cancelService.action' | cxTranslate
+        "
           class="btn btn-secondary"
         >
           {{ 'cancelService.action' | cxTranslate }}
-        </button>
-      </span>
+          </a>
+        </span>
+      </div>
     </div>
-  </div>
-</ng-container>
+  </ng-container>
