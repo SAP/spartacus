@@ -131,7 +131,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     });
     const body = {
       newLoginId: newUserId,
-      password: currentPassword
+      password: currentPassword,
     };
     const headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
     return this.http.post(url, body, { headers }).pipe(
@@ -151,7 +151,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     });
     const body = {
       oldPassword: oldPassword,
-      newPassword: newPassword
+      newPassword: newPassword,
     };
     const headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
     return this.http.post(url, body, { headers }).pipe(
