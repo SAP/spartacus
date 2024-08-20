@@ -17,7 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SpinnerModule, DatePickerModule } from '@spartacus/storefront';
 import { RouterModule } from '@angular/router';
 import { CancelServiceOrderComponent } from './cancel-service-order.component';
-import { ServiceOrderGuard } from '../guards';
+import { CancelServiceOrderGuard } from '../guards';
 
 @NgModule({
   declarations: [CancelServiceOrderComponent],
@@ -35,7 +35,7 @@ import { ServiceOrderGuard } from '../guards';
       cmsComponents: {
         CancelServiceOrder: {
           component: CancelServiceOrderComponent,
-          guards: [AuthGuard, ServiceOrderGuard],
+          guards: [AuthGuard, CancelServiceOrderGuard],
         },
       },
     }),

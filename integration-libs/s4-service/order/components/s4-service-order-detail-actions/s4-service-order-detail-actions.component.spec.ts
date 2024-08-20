@@ -127,7 +127,7 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       component.displayActions$ = of(true);
       fixture.detectChanges();
       expect(el.query(By.css('.cx-order-details-actions'))).toBeTruthy();
-      const elements = el.queryAll(By.css('a'));
+      const elements = el.queryAll(By.css('#reschedule-service-btn'));
       expect(elements.length).toEqual(1);
     });
     it('should display action buttons when time to service is more than 24 hours', () => {
