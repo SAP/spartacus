@@ -22,6 +22,7 @@ import {
 import { combineLatest, from, lastValueFrom, Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 /**
  * Version of AuthService that is working for both user na CS agent.
@@ -39,6 +40,7 @@ export class AsmAuthService extends AuthService {
     protected authRedirectService: AuthRedirectService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
+    protected oauthService: OAuthService,
     protected authMultisiteIsolationService?: AuthMultisiteIsolationService
   ) {
     super(
@@ -48,6 +50,7 @@ export class AsmAuthService extends AuthService {
       authStorageService,
       authRedirectService,
       routingService,
+      oauthService,
       authMultisiteIsolationService
     );
   }

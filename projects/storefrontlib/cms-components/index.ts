@@ -11,3 +11,5 @@ export * from './myaccount/index';
 export * from './navigation/index';
 export * from './product/index';
 export * from './user/index';
+export * from './user/logout-mcs/logout-mcs.guard';
+export * from './user/logout-mcs/logout-mcs.module';
