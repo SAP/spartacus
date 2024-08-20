@@ -28,7 +28,7 @@ context('Checkout - Payment billing address', () => {
     cy.log('🛒 Going through checkout steps');
     checkout.clickCheckoutButton();
     checkout.fillAddressFormWithCheapProduct();
-    checkout.verifyDeliveryMethod();
+    checkout.verifyDeliveryOptions();
     checkout.fillPaymentFormWithCheapProduct();
     checkout.verifyReviewOrderPage();
 
