@@ -710,6 +710,15 @@
       "@spartacus/epd-visualization/root": [
         "integration-libs/epd-visualization/root/public_api"
       ],
+      "@spartacus/omf": [
+        "integration-libs/omf/public_api"
+      ],
+      "@spartacus/omf/order": [
+        "integration-libs/omf/order/public_api"
+      ],
+      "@spartacus/omf/root": [
+        "integration-libs/omf/root/public_api"
+      ],
       "@spartacus/opps": [
         "integration-libs/opps/public_api"
       ],

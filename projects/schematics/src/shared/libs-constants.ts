@@ -229,6 +229,10 @@ export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
+export const SPARTACUS_OMF = '@spartacus/omf';
+export const SPARTACUS_OMF_ROOT = '@spartacus/omf/root';
+export const SPARTACUS_OMF_ORDER = '@spartacus/omf/order';
+
 export const SPARTACUS_OPPS = '@spartacus/opps';
 export const SPARTACUS_OPPS_ROOT = '@spartacus/opps/root';
 
@@ -333,6 +337,8 @@ export const SEGMENT_REFS_FEATURE_NAME = 'Segment-Refs';
 export const S4_SERVICE_FEATURE_NAME = 's4-service';
 
 export const OPPS_FEATURE_NAME = 'OPPS';
+
+export const OMF_FEATURE_NAME = 'OMF';
 
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 /***** Feature name end *****/

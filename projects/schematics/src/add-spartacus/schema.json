@@ -56,6 +56,7 @@
           "S4HANA-Order-Management",
           "cpq-quote",
           "s4-service",
+          "OMF",
           "SmartEdit",
           "Store-Finder",
           "Personalization",
@@ -242,6 +243,10 @@
           {
             "value": "s4-service",
             "label": "S/4HANA Service Integration (b2b feature)"
+          },
+          {
+            "value": "OMF",
+            "label": "SAP Order Management Foundation Integration"
           },
           {
             "value": "SmartEdit",

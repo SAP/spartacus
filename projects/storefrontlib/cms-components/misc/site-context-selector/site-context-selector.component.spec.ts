@@ -15,9 +15,11 @@ import {
   contextServiceMapProvider,
   CurrencyService,
   Language,
-  LanguageService,
   LANGUAGE_CONTEXT_ID,
+  LanguageService,
+  TranslationService,
 } from '@spartacus/core';
+import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SiteContextComponentService } from './site-context-component.service';
@@ -99,6 +101,10 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
         {
           provide: CmsComponentData,
           useValue: MockCmsComponentData,
+        },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
         },
         contextServiceMapProvider,
       ],

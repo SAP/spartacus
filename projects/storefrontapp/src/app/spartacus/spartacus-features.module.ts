@@ -39,16 +39,16 @@ import {
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
+  PDFModule,
   PageTitleModule,
   PaymentMethodsModule,
-  PDFModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
   ProductFacetNavigationModule,
   ProductImagesModule,
   ProductIntroModule,
-  ProductListingPageModule,
   ProductListModule,
+  ProductListingPageModule,
   ProductPageEventModule,
   ProductReferencesModule,
   ProductSummaryModule,
@@ -73,6 +73,7 @@ import { WishListFeatureModule } from './features/cart/wish-list-feature.module'
 import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
+import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
 import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
@@ -95,14 +96,14 @@ import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.m
 import { QuoteFeatureModule } from './features/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
 import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
+import { S4ServiceFeatureModule } from './features/s4-service/s4-service-feature.module';
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-import { S4ServiceFeatureModule } from './features/s4-service/s4-service-feature.module';
-import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
+import { OmfFeatureModule } from './features/omf/omf-feature.module';
 import { ProductMultiDimensionalSelectorFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-selector-feature.module';
 import { ProductMultiDimensionalListFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-list-feature.module';
 
@@ -155,7 +156,9 @@ if (environment.requestedDeliveryDate) {
 if (environment.estimatedDeliveryDate) {
   featureModules.push(EstimatedDeliveryDateFeatureModule);
 }
-
+if (environment.omf) {
+  featureModules.push(OmfFeatureModule);
+}
 if (environment.cpq) {
   featureModules.push(CpqQuoteFeatureModule);
 }
@@ -347,7 +350,10 @@ if (environment.cpq) {
         a11yCxMessageFocus: true,
         occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
+        a11yRepeatedPageTitleFix: true,
         a11yDeliveryModeRadiogroup: true,
+        a11yNgSelectOptionsCount: true,
+        a11yRepeatedCancelOrderError: true,
         a11yAddedToCartActiveDialog: true,
         a11yNgSelectMobileReadout: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,

@@ -23,8 +23,9 @@ import {
   SPARTACUS_QUALTRICS,
   SPARTACUS_QUOTE,
   SPARTACUS_REQUESTED_DELIVERY_DATE,
-  SPARTACUS_S4_SERVICE,
   SPARTACUS_S4OM,
+  SPARTACUS_S4_SERVICE,
+  SPARTACUS_OMF,
   SPARTACUS_SEGMENT_REFS,
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFINDER,
@@ -32,9 +33,9 @@ import {
   SPARTACUS_USER,
 } from '../libs-constants';
 import {
+  Graph,
   crossFeatureInstallationOrder,
   crossLibraryInstallationOrder,
-  Graph,
   kahnsAlgorithm,
 } from './graph-utils';
 
@@ -149,6 +150,7 @@ describe('Graph utils', () => {
         SPARTACUS_S4OM,
         SPARTACUS_S4_SERVICE,
         SPARTACUS_OPPS,
+        SPARTACUS_OMF,
         SPARTACUS_EPD_VISUALIZATION,
         SPARTACUS_DIGITAL_PAYMENTS,
         SPARTACUS_CPQ_QUOTE,
@@ -203,6 +205,7 @@ describe('Graph utils', () => {
           "Segment-Refs",
           "s4-service",
           "S4HANA-Order-Management",
+          "OMF",
           "OPPS",
           "EPD-Visualization",
           "Digital-Payments",
