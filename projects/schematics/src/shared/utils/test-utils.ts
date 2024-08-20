@@ -92,6 +92,8 @@ export const trackingPersonalizationFeatureModulePath =
   'src/app/spartacus/features/tracking/personalization-feature.module.ts';
 export const trackingTagManagementFeatureModulePath =
   'src/app/spartacus/features/tracking/tag-management-feature.module.ts';
+export const omfFeatureModulePath =
+  'src/app/spartacus/features/omf/omf-feature.module.ts';
 export const userFeatureModulePath =
   'src/app/spartacus/features/user/user-feature.module.ts';
 export const userAccountWrapperModulePath =
