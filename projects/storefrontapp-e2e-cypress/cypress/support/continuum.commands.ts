@@ -110,33 +110,39 @@ const submitAccessibilityConcernsToAMP = (reportName = 'AMP Report') => {
     return;
   }
 
-  cy.log('Submitting accessibility concerns to AMP...');
+  if (Cypress.env('AMP_API_TOKEN') !== '') {
+    cy.log('Submitting accessibility concerns to AMP...');
 
-  cy.title({ log: false }).then((pageTitle) => {
-    cy.url({ log: false }).then({ timeout: 30000 }, async (pageUrl) => {
-      const ampReportingService = Continuum.AMPReportingService;
+    cy.title({ log: false }).then((pageTitle) => {
+      cy.url({ log: false }).then({ timeout: 30000 }, async (pageUrl) => {
+        const ampReportingService = Continuum.AMPReportingService;
 
-      await ampReportingService.setActiveOrganization(
-        Cypress.env('AMP_ORG_ID')
-      ); // ID of AMP organization to submit test results to
-      await ampReportingService.setActiveAsset(Cypress.env('AMP_ASSET_ID')); // ID of AMP asset to submit test results to
-      await ampReportingService.setActiveReportByName(reportName);
-      await ampReportingService.setActiveModuleByName(pageTitle, pageUrl);
-      await ampReportingService.setActiveReportManagementStrategy(
-        ReportManagementStrategy.APPEND
-      );
-      await ampReportingService.setActiveModuleManagementStrategy(
-        ModuleManagementStrategy.OVERWRITE
-      );
-      await ampReportingService.submitAccessibilityConcernsToAMP(
-        accessibilityConcerns
-      );
+        await ampReportingService.setActiveOrganization(
+          Cypress.env('AMP_ORG_ID')
+        ); // ID of AMP organization to submit test results to
+        await ampReportingService.setActiveAsset(Cypress.env('AMP_ASSET_ID')); // ID of AMP asset to submit test results to
+        await ampReportingService.setActiveReportByName(reportName);
+        await ampReportingService.setActiveModuleByName(pageTitle, pageUrl);
+        await ampReportingService.setActiveReportManagementStrategy(
+          ReportManagementStrategy.APPEND
+        );
+        await ampReportingService.setActiveModuleManagementStrategy(
+          ModuleManagementStrategy.OVERWRITE
+        );
+        await ampReportingService.submitAccessibilityConcernsToAMP(
+          accessibilityConcerns
+        );
 
-      cy.log(
-        `Accessibility concerns submitted to AMP: ${ampReportingService.activeModule.getAMPUrl()}`
-      );
+        cy.log(
+          `Accessibility concerns submitted to AMP: ${ampReportingService.activeModule.getAMPUrl()}`
+        );
+      });
     });
-  });
+  } else {
+    cy.log(
+      'Failed to submit accessibility concerns to AMP. AMP_API_TOKEN not set.'
+    );
+  }
 };
 
 Cypress.Commands.add('setUpContinuum', setUpContinuum);
