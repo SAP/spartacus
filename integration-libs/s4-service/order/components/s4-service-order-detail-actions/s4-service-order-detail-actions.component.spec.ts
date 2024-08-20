@@ -46,7 +46,11 @@ class MockTranslationService {
     return EMPTY;
   }
 }
-
+class MockCheckoutServiceSchedulePickerService {
+  getHoursFromServiceSchedule(_dateTime: string) {
+    return 0;
+  }
+}
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
 }
@@ -63,16 +67,10 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
   let el: DebugElement;
   let checkoutServiceSchedulePickerService: CheckoutServiceSchedulePickerService;
   let globalMessageService: GlobalMessageService;
-  let beforeEachFn = (order: Order, hours?: number) => {
+  let beforeEachFn = (order: Order) => {
     class MockOrderDetailsService {
       getOrderDetails() {
         return of(order);
-      }
-    }
-
-    class MockCheckoutServiceSchedulePickerService {
-      getHoursFromServiceSchedule(_dateTime: string) {
-        return hours || 0;
       }
     }
 
@@ -107,15 +105,16 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     spyOn(globalMessageService, 'add').and.callThrough();
   };
 
-  describe('serviceReschedulable after 24 hours', () => {
+  describe('serviceReschedulable', () => {
     beforeEach(() => {
-      beforeEachFn(mockOrder1, 40);
+      beforeEachFn(mockOrder1);
     });
 
     it('should create', () => {
       expect(component).toBeTruthy();
     });
     it('should show Reschedule button when service is reschedulable', () => {
+      component.displayActions$ = of(true);
       fixture.detectChanges();
       expect(el.query(By.css('.cx-order-details-actions'))).toBeTruthy();
       const elements = el.queryAll(By.css('a'));
@@ -127,20 +126,23 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
         'getHoursFromServiceSchedule'
       ).and.returnValue(40);
       fixture.detectChanges();
-      const btnRow = el.query(By.css('.cx-order-details-actions.row'));
-      expect(btnRow.nativeElement).toBeTruthy();
+      component.displayActions$.subscribe((res) => {
+        expect(res).toBe(true);
+      });
     });
-  });
-
-  describe('serviceReschedulable within 24 hours', () => {
-    beforeEach(() => {
-      beforeEachFn(mockOrder1, 10);
-    });
-
     it('should not display action buttons when time to service is within 24 hours', () => {
+      spyOn(
+        checkoutServiceSchedulePickerService,
+        'getHoursFromServiceSchedule'
+      ).and.returnValue(10);
       fixture.detectChanges();
-      const btnRow = el.query(By.css('.cx-order-details-actions.row'));
-      expect(btnRow).toBeFalsy();
+      component.displayActions$.subscribe((res) => {
+        expect(res).toBe(false);
+      });
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'rescheduleService.serviceNotAmendable' },
+        GlobalMessageType.MSG_TYPE_INFO
+      );
     });
   });
 
@@ -149,10 +151,18 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       beforeEachFn(mockOrder2);
     });
 
+    it('should not show Reschedule button when service is not reschedulable', () => {
+      component.displayActions$ = of(true);
+      fixture.detectChanges();
+      const elements = fixture.debugElement.queryAll(By.css('a'));
+      expect(elements.length).toEqual(0);
+    });
+
     it('should not display action buttons when service is cancelled', () => {
       fixture.detectChanges();
-      const btnRow = el.query(By.css('.cx-order-details-actions.row'));
-      expect(btnRow).toBeFalsy();
+      component.displayActions$.subscribe((res) => {
+        expect(res).toBe(false);
+      });
     });
   });
 
@@ -161,17 +171,11 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       beforeEachFn(mockOrder3);
     });
 
-    it('should not show Reschedule button when service is not reschedulable', () => {
-      fixture.detectChanges();
-      const elements = el.queryAll(By.css('a'));
-      expect(elements.length).toEqual(0);
-    });
-
     it('should display action buttons row as a failsafe', () => {
       fixture.detectChanges();
-      const btnRow = el.query(By.css('.cx-order-details-actions.row'));
-
-      expect(btnRow.nativeElement).toBeTruthy();
+      component.displayActions$.subscribe((res) => {
+        expect(res).toBe(true);
+      });
     });
   });
 });

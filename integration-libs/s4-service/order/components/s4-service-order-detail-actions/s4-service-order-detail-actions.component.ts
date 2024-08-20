@@ -9,6 +9,7 @@ import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { OrderDetailActionsComponent } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
 import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-s4-service-order-detail-actions',
@@ -20,6 +21,10 @@ export class S4ServiceOrderDetailActionsComponent extends OrderDetailActionsComp
     CheckoutServiceSchedulePickerService
   );
   protected globalMessageService = inject(GlobalMessageService);
+
+  displayActions$: Observable<boolean> = this.order$.pipe(
+    map((order) => this.checkServiceStatus(order))
+  );
 
   protected checkServiceStatus(order: Order): boolean {
     if (order && order.status === 'CANCELLED') {
