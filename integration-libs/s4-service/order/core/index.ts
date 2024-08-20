@@ -4,5 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './default-service-orders-routing-config';
-export * from './default-service-details-checkout-config';
+export * from './connector/index';
+export * from './facade/index';
+export * from './s4-service-order-core.module';
