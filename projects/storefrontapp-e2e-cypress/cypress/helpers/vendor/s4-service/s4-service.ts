@@ -23,6 +23,7 @@ import {
   verifyReviewOrderPage,
 } from '../../checkout-flow';
 import { tabbingOrderConfig as config } from '../../../helpers/accessibility/b2b/tabbing-order.config';
+import { ORDER_CODE } from '../../../sample-data/service-order';
 
 export const serviceUser = {
   email: 'james.weber@harvestlive.inc',
@@ -255,4 +256,34 @@ export function selectAccountShippingAddressForServiceOrder() {
   cy.get('button.btn-primary').should('be.enabled').click();
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
   cy.wait(`@${putDeliveryMode}`).its('response.statusCode').should('eq', 200);
+}
+
+export function interceptOrderList(alias, response) {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orders?*`,
+    { statusCode: 200, body: response }
+  ).as(alias);
+}
+
+export function interceptOrderDetails(alias, response) {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orders/${ORDER_CODE}?*`,
+    { statusCode: 200, body: response }
+  ).as(alias);
+}
+
+export function interceptRescheduleServiceOrder(alias) {
+  cy.intercept(
+    'PATCH',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orders/${ORDER_CODE}/serviceOrder/serviceScheduleSlot?*`,
+    { statusCode: 200 }
+  ).as(alias);
 }

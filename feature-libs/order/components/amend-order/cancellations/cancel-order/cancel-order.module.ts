@@ -9,8 +9,9 @@ import { NgModule } from '@angular/core';
 import {
   AuthGuard,
   CmsConfig,
-  provideDefaultConfig,
+  FeaturesConfigModule,
   I18nModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -30,6 +31,7 @@ import { CancelOrderComponent } from './cancel-order.component';
     AmendOrderActionsModule,
     FormErrorsModule,
     MessageComponentModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
