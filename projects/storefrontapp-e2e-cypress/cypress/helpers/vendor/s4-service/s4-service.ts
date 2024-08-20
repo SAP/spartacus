@@ -68,7 +68,7 @@ export function checkoutForServiceOrder(product: SampleProduct) {
 export function selectAccountDeliveryModeForServiceOrder() {
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint();
 
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Options');
   cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('.cx-checkout-btns button.btn-primary')
     .should('be.enabled')
