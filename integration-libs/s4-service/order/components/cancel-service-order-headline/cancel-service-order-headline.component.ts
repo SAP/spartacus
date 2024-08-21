@@ -7,7 +7,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { OrderDetailsService } from '@spartacus/order/components';
-import { Observable, map } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cancel-service-order-headline',
@@ -16,8 +16,7 @@ import { Observable, map } from 'rxjs';
 })
 export class CancelServiceOrderHeadlineComponent {
   protected orderDetailsService = inject(OrderDetailsService);
-
-  order$: Observable<any> = this.orderDetailsService.getOrderDetails().pipe(
+  order$ = this.orderDetailsService.getOrderDetails().pipe(
     map((order) => ({
       ...order,
       entries: (order.entries || []).filter(

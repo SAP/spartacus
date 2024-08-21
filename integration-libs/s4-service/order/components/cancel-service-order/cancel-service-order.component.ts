@@ -17,8 +17,8 @@ import {
   CancelServiceOrderFacade,
   CancellationDetails,
 } from '@spartacus/s4-service/root';
-import { mergeMap, Observable, throwError } from 'rxjs';
-
+import { Observable, throwError } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 @Component({
   selector: 'cx-cancel-service-order',
   templateUrl: './cancel-service-order.component.html',
