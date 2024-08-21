@@ -20,7 +20,7 @@ import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
 import { CaptchaApiConfig } from './captcha-api-config';
-import { CaptchaProvider } from './captcha.model';
+import { CaptchaRender } from './captcha.render';
 
 @Component({
   selector: 'cx-captcha',
@@ -45,17 +45,17 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
    * config.
    */
   ngAfterViewInit(): void {
-    if (this.config?.captchaProvider) {
-      const captchaProvider = this.injector.get<CaptchaProvider>(
-        this.config.captchaProvider
+    if (this.config?.captchaRender) {
+      const captchaRender = this.injector.get<CaptchaRender>(
+        this.config.captchaRender
       );
       this.subscription.add(
-        captchaProvider
+        captchaRender
           .getCaptchaConfig()
           .pipe(
             concatMap((captchaConfig) => {
               if (captchaConfig?.enabled) {
-                return captchaProvider.renderCaptcha({
+                return captchaRender.renderCaptcha({
                   element: this.captchaRef.nativeElement,
                 });
               } else {

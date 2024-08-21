@@ -27,7 +27,7 @@ import {
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { CaptchaApiConfig, CaptchaProvider } from '@spartacus/storefront';
+import { CaptchaApiConfig, CaptchaRender } from '@spartacus/storefront';
 
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 const CONTENT_TYPE_URLENCODED_HEADER = {
@@ -185,9 +185,9 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   protected appendCaptchaToken(currentHeaders: HttpHeaders): HttpHeaders {
-    if (this.injector && this.captchaConfig?.captchaProvider) {
-      const provider = this.injector.get<CaptchaProvider>(
-        this.captchaConfig.captchaProvider
+    if (this.injector && this.captchaConfig?.captchaRender) {
+      const provider = this.injector.get<CaptchaRender>(
+        this.captchaConfig.captchaRender
       );
       const isCaptchaEnabled = provider
         .getCaptchaConfig()
