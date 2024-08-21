@@ -20,6 +20,7 @@ interface Env {
   CX_DIGITAL_PAYMENTS: boolean;
   CX_EPD_VISUALIZATION: boolean;
   CX_S4OM: boolean;
+  CX_OMF: boolean;
   CX_SEGMENT_REFS: boolean;
   CX_OPPS: boolean;
   CX_REQUESTED_DELIVERY_DATE: boolean;

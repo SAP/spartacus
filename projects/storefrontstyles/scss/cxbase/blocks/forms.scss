@@ -381,9 +381,10 @@ input[type='radio'] {
   }
 }
 
-:focus {
+:focus:not(main) {
   @include visible-focus();
 }
+
 .form-control,
 input {
   &:focus {

@@ -59,13 +59,9 @@ export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.selectedServiceDetails$.subscribe((selectedServiceDetails) => {
         if (selectedServiceDetails && selectedServiceDetails !== '') {
-          const scheduledAt =
-            this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
-              selectedServiceDetails
-            );
           const info =
             this.checkoutServiceSchedulePickerService.getServiceDetailsFromDateTime(
-              scheduledAt
+              selectedServiceDetails
             );
           this.form.patchValue({
             scheduleDate: info.date,

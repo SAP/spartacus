@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { filter, map, take, tap } from 'rxjs/operators';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { SiteTheme } from '../../model/misc.model';
 import { isNotNullable } from '../../util/type-guards';
@@ -18,14 +18,9 @@ import { SiteThemeSelectors } from '../store/selectors';
 import { StateWithSiteTheme } from '../store/state';
 
 @Injectable()
-export class SiteThemeService implements OnDestroy {
+export class SiteThemeService {
   protected store = inject(Store<StateWithSiteTheme>);
   protected config = inject(SiteThemeConfig);
-  protected subscription = new Subscription();
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
 
   getAll(): Observable<SiteTheme[]> {
     return this.store.pipe(

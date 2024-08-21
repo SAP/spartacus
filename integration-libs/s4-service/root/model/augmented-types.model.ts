@@ -26,6 +26,7 @@ export interface CheckoutServiceOrderOccEndpoints {
 declare module '@spartacus/order/root' {
   interface Order {
     servicedAt?: ServiceDateTime;
+    serviceReschedulable?: boolean;
   }
 }
 
