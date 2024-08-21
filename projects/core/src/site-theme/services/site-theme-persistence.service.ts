@@ -47,14 +47,17 @@ export class SiteThemePersistenceService {
           }
           if (!this.initialized$.closed && (isInitialized || !isValid)) {
             //if theme is initialized or not valid, completes the whole observable to allow setting fallback value in `site-theme-initializer.ts`
-            this.initialized$.next(undefined);
-            this.initialized$.complete();
+            this.finalizeInitialization();
           }
         });
     } else {
       //if there is no value in storage, completes the whole observable to allow setting fallback value in `site-theme-initializer.ts`
-      this.initialized$.next(undefined);
-      this.initialized$.complete();
+      this.finalizeInitialization();
     }
+  }
+
+  protected finalizeInitialization(): void {
+    this.initialized$.next(undefined);
+    this.initialized$.complete();
   }
 }
