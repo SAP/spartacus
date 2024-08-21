@@ -14,6 +14,7 @@ export const defaultAuthConfig: AuthConfig = {
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',
     OAuthLibConfig: {
+      scope: '',
       customTokenParameters: ['token_type'],
       strictDiscoveryDocumentValidation: false,
       skipIssuerCheck: true,

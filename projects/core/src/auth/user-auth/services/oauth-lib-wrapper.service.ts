@@ -30,22 +30,24 @@ export class OAuthLibWrapperService {
     protected authConfigService: AuthConfigService,
     @Inject(PLATFORM_ID) protected platformId: Object,
     protected winRef: WindowRef,
-    protected baseSiteService: BaseSiteService
+    protected baseSiteService?: BaseSiteService
 
   ) {
     this.initialize();
-    baseSiteService
-    .get()
-    .pipe(take(1))
-    .subscribe((site) => {
-      if (site?.cdcSiteConfig && site?.uid) {
-        this.oAuthService.configure({      clientId: site.cdcSiteConfig.oidcRpClientId,
-          issuer:site.cdcSiteConfig.oidcOpIssuerURI,
-          redirectUri:window.location.origin + '/' + site.uid  + '/en/USD/login',
-          scope: site.cdcSiteConfig.scopes.join(' '),
-          responseType: 'code',});
-        }
-      });
+    if(baseSiteService){
+      baseSiteService
+      .get()
+      .pipe(take(1))
+      .subscribe((site) => {
+        if (site?.cdcSiteConfig && site?.uid) {
+          this.oAuthService.configure({      clientId: site.cdcSiteConfig.oidcRpClientId,
+            issuer:site.cdcSiteConfig.oidcOpIssuerURI,
+            redirectUri:window.location.origin + '/' + site.uid  + '/en/USD/login',
+            scope: site.cdcSiteConfig.scopes.join(' '),
+            responseType: 'code',});
+          }
+        });
+    }
   }
 
   protected initialize() {
@@ -53,9 +55,7 @@ export class OAuthLibWrapperService {
     this.oAuthService.configure({
       tokenEndpoint: this.authConfigService.getTokenEndpoint(),
       loginUrl: this.authConfigService.getLoginUrl(),
-      clientId:
-        this.authConfigService.getOAuthLibConfig()?.clientId ??
-        this.authConfigService.getClientId(),
+      clientId: this.authConfigService.getClientId(),
       dummyClientSecret: this.authConfigService.getClientSecret(),
       revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
       logoutUrl: this.authConfigService.getLogoutUrl(),
@@ -69,9 +69,7 @@ export class OAuthLibWrapperService {
           ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             this.winRef.nativeWindow!.location.origin
           : ''),
-      scope: this.authConfigService.getOAuthLibConfig()?.scope,
-      responseType: this.authConfigService.getOAuthLibConfig()?.responseType,
-      // ...this.authConfigService.getOAuthLibConfig(),
+      ...this.authConfigService.getOAuthLibConfig(),
     });
   }
 
