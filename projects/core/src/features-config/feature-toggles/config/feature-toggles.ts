@@ -450,6 +450,11 @@ export interface FeatureTogglesInterface {
   a11yNgSelectMobileReadout?: boolean;
 
   /**
+   * When enabled, the form in 'PickupOptionsComponent' will be wrapped in a fieldset and contain a legend.
+   */
+  a11yDeliveryMethodFieldset?: boolean;
+
+  /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
    * into a request body, instead of query params.
    * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
@@ -532,6 +537,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDeliveryModeRadiogroup: false,
   a11yAddedToCartActiveDialog: false,
   a11yNgSelectMobileReadout: false,
+  a11yDeliveryMethodFieldset: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
 };

@@ -9,6 +9,7 @@
     "modalHeader": "Pickup in Store"
   },
   "pickupOptions": {
+    "legend": "Delivery Method",
     "changeStore": "Change Store",
     "delivery": "Ship It (Free Return)",
     "pickup": "Free Pickup In Store",
