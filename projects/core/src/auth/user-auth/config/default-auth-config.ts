@@ -20,12 +20,6 @@ export const defaultAuthConfig: AuthConfig = {
       disablePKCE: true,
       oidc: false,
       clearHashAfterLogin: false,
-      issuer:
-        'https://fidm.eu1.gigya.com/oidc/op/v1.0/4_haAyXsKhFEupcUCQ9UPizw',
-      redirectUri: 'http://localhost:4200/electronics-spa/en/USD/login',
-      clientId: 'FeWB0V0Opi2hEL-T21DlUuEO',
-      scope: 'openid profile email uid bpId bpDisplayId isB2BCustomer',
-      responseType: 'code',
     },
   },
 };

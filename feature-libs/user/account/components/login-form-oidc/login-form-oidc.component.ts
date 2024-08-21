@@ -12,7 +12,6 @@ import { OAuthLibWrapperService } from '@spartacus/core';
 })
 export class LoginFormOidcComponent implements OnInit {
   protected oauthLibWrapper = inject(OAuthLibWrapperService);
-
   ngOnInit(): void {
     this.oauthLibWrapper.loadDiscoveryDocumentAndLogin();
   }

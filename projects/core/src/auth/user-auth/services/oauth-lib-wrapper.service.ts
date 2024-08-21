@@ -12,6 +12,7 @@ import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
 import { AuthConfigService } from './auth-config.service';
+import { BaseSiteService } from '@spartacus/core';
 
 /**
  * Wrapper service on the library OAuthService. Normalizes the lib API for services.
@@ -28,9 +29,23 @@ export class OAuthLibWrapperService {
     protected oAuthService: OAuthService,
     protected authConfigService: AuthConfigService,
     @Inject(PLATFORM_ID) protected platformId: Object,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected baseSiteService: BaseSiteService
+
   ) {
     this.initialize();
+    baseSiteService
+    .get()
+    .pipe(take(1))
+    .subscribe((site) => {
+      if (site?.cdcSiteConfig && site?.uid) {
+        this.oAuthService.configure({      clientId: site.cdcSiteConfig.oidcRpClientId,
+          issuer:site.cdcSiteConfig.oidcOpIssuerURI,
+          redirectUri:window.location.origin + '/' + site.uid  + '/en/USD/login',
+          scope: site.cdcSiteConfig.scopes.join(' '),
+          responseType: 'code',});
+        }
+      });
   }
 
   protected initialize() {
@@ -180,30 +195,4 @@ export class OAuthLibWrapperService {
   loadDiscoveryDocumentAndLogin() {
     this.oAuthService.loadDiscoveryDocumentAndLogin();
   }
-
-  // configure(){
-  //   this.oAuthService.configure({
-  //     tokenEndpoint: this.authConfigService.getTokenEndpoint(),
-  //     loginUrl: this.authConfigService.getLoginUrl(),
-  //     clientId:
-  //       this.authConfigService.getOAuthLibConfig()?.clientId ??
-  //       this.authConfigService.getClientId(),
-  //     dummyClientSecret: this.authConfigService.getClientSecret(),
-  //     revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
-  //     logoutUrl: this.authConfigService.getLogoutUrl(),
-  //     userinfoEndpoint: this.authConfigService.getUserinfoEndpoint(),
-  //     issuer:
-  //       this.authConfigService.getOAuthLibConfig()?.issuer ??
-  //       this.authConfigService.getBaseUrl(),
-  //     redirectUri:
-  //       this.authConfigService.getOAuthLibConfig()?.redirectUri ??
-  //       (!isSSR
-  //         ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  //           this.winRef.nativeWindow!.location.origin
-  //         : ''),
-  //     scope: this.authConfigService.getOAuthLibConfig()?.scope,
-  //     responseType: this.authConfigService.getOAuthLibConfig()?.responseType,
-  //     // ...this.authConfigService.getOAuthLibConfig(),
-  //   });
-  // }
 }
