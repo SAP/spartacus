@@ -2,7 +2,8 @@
 
 @import './styles/index';
 
-$s4-service-components-allowlist: cx-service-details !default;
+$s4-service-components-allowlist: cx-service-details
+  cx-cancel-service-order-headline cx-cancel-service-order !default;
 
 $skipComponentStyles: () !default;
 
