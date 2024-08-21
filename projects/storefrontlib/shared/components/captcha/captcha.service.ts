@@ -17,7 +17,7 @@ import { forkJoin, map, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
 import { RenderParams } from './captcha.model';
 import { CaptchaApiConfig } from './captcha-api-config';
-import { CaptchaRender } from './captcha.render';
+import { CaptchaRenderer } from './captcha.renderer';
 
 /**
  * Global function to be passes as "onload" url param for captcha <script>, to be
@@ -32,7 +32,7 @@ declare global {
 @Injectable({
   providedIn: 'root',
 })
-export abstract class CaptchaService implements CaptchaRender, OnDestroy {
+export abstract class CaptchaService implements CaptchaRenderer, OnDestroy {
   protected token: string;
   protected subscription = new Subscription();
   protected captchaConfigSubject$ = new ReplaySubject<CaptchaConfig>(1);

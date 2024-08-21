@@ -1,10 +1,10 @@
 import { Observable, of } from 'rxjs';
 import { CaptchaConfig } from '@spartacus/core';
-import { CaptchaComponent, CaptchaRender } from '@spartacus/storefront';
+import { CaptchaComponent, CaptchaRenderer } from '@spartacus/storefront';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CaptchaApiConfig } from './captcha-api-config';
 
-class MockCaptchaService implements CaptchaRender {
+class MockCaptchaService implements CaptchaRenderer {
   getCaptchaConfig(): Observable<CaptchaConfig> {
     return of({
       enabled: true,
@@ -24,13 +24,13 @@ class MockCaptchaService implements CaptchaRender {
 const mockCaptchaApiConfig: CaptchaApiConfig = {
   apiUrl: 'mock-url',
   fields: { 'mock-field-key': 'mock-field-value' },
-  captchaRender: MockCaptchaService,
+  captchaRenderer: MockCaptchaService,
 };
 
 describe('Captcha Component', () => {
   let component: CaptchaComponent;
   let fixture: ComponentFixture<CaptchaComponent>;
-  let service: CaptchaRender;
+  let service: CaptchaRenderer;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { RenderParams } from './captcha.model';
 import { CaptchaConfig } from '@spartacus/core';
 
-export interface CaptchaRender {
+export interface CaptchaRenderer {
   /**
    * Renders captcha widget
    *
