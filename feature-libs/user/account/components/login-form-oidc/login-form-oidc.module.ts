@@ -10,12 +10,10 @@ import { RouterModule } from '@angular/router';
 import { CmsConfig, NotAuthGuard, provideDefaultConfig } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
 import { LoginFormOidcComponent } from './login-form-oidc.component';
-// import { defaultOidcAuthConfig } from './default-oidc-auth-config';
 
 @NgModule({
   imports: [CommonModule, RouterModule, SpinnerModule],
   providers: [
-    // provideDefaultConfig(defaultOidcAuthConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ReturningOIDCLoginComponent: {

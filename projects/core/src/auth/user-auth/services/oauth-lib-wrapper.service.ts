@@ -38,8 +38,9 @@ export class OAuthLibWrapperService {
     this.oAuthService.configure({
       tokenEndpoint: this.authConfigService.getTokenEndpoint(),
       loginUrl: this.authConfigService.getLoginUrl(),
-      clientId:         this.authConfigService.getOAuthLibConfig()?.clientId ??
-      this.authConfigService.getClientId(),
+      clientId:
+        this.authConfigService.getOAuthLibConfig()?.clientId ??
+        this.authConfigService.getClientId(),
       dummyClientSecret: this.authConfigService.getClientSecret(),
       revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
       logoutUrl: this.authConfigService.getLogoutUrl(),
@@ -53,9 +54,9 @@ export class OAuthLibWrapperService {
           ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             this.winRef.nativeWindow!.location.origin
           : ''),
-      scope: this.authConfigService.getOAuthLibConfig()?.scope ?? '',
-      responseType: this.authConfigService.getOAuthLibConfig()?.responseType ?? '',
-      ...this.authConfigService.getOAuthLibConfig(),
+      scope: this.authConfigService.getOAuthLibConfig()?.scope,
+      responseType: this.authConfigService.getOAuthLibConfig()?.responseType,
+      // ...this.authConfigService.getOAuthLibConfig(),
     });
   }
 
@@ -145,25 +146,64 @@ export class OAuthLibWrapperService {
           take(1)
         )
         .subscribe((event) => (tokenReceivedEvent = event));
-
-      this.oAuthService
-        .tryLogin({
-          // We don't load discovery document, because it doesn't contain revoke endpoint information
-          disableOAuth2StateCheck: true,
-        })
-        .then((result: boolean) => {
-          resolve({
-            result: result,
-            tokenReceived: !!tokenReceivedEvent,
+      if (this.oAuthService.responseType === 'code') {
+        this.oAuthService
+          .loadDiscoveryDocumentAndTryLogin()
+          .then((result: boolean) => {
+            resolve({
+              result: result,
+              tokenReceived: !!tokenReceivedEvent,
+            });
+          })
+          .finally(() => {
+            subscription.unsubscribe();
           });
-        })
-        .finally(() => {
-          subscription.unsubscribe();
-        });
+      } else {
+        this.oAuthService
+          .tryLogin({
+            // We don't load discovery document, because it doesn't contain revoke endpoint information
+            disableOAuth2StateCheck: true,
+          })
+          .then((result: boolean) => {
+            resolve({
+              result: result,
+              tokenReceived: !!tokenReceivedEvent,
+            });
+          })
+          .finally(() => {
+            subscription.unsubscribe();
+          });
+      }
     });
   }
 
-  loadDiscoveryDocumentAndLogin(){
+  loadDiscoveryDocumentAndLogin() {
     this.oAuthService.loadDiscoveryDocumentAndLogin();
   }
+
+  // configure(){
+  //   this.oAuthService.configure({
+  //     tokenEndpoint: this.authConfigService.getTokenEndpoint(),
+  //     loginUrl: this.authConfigService.getLoginUrl(),
+  //     clientId:
+  //       this.authConfigService.getOAuthLibConfig()?.clientId ??
+  //       this.authConfigService.getClientId(),
+  //     dummyClientSecret: this.authConfigService.getClientSecret(),
+  //     revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
+  //     logoutUrl: this.authConfigService.getLogoutUrl(),
+  //     userinfoEndpoint: this.authConfigService.getUserinfoEndpoint(),
+  //     issuer:
+  //       this.authConfigService.getOAuthLibConfig()?.issuer ??
+  //       this.authConfigService.getBaseUrl(),
+  //     redirectUri:
+  //       this.authConfigService.getOAuthLibConfig()?.redirectUri ??
+  //       (!isSSR
+  //         ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  //           this.winRef.nativeWindow!.location.origin
+  //         : ''),
+  //     scope: this.authConfigService.getOAuthLibConfig()?.scope,
+  //     responseType: this.authConfigService.getOAuthLibConfig()?.responseType,
+  //     // ...this.authConfigService.getOAuthLibConfig(),
+  //   });
+  // }
 }
