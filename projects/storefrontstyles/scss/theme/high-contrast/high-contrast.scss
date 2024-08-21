@@ -3,23 +3,261 @@
   color: var(--cx-color-text);
   background-color: var(--cx-color-background);
 
-  //Change Autocomplete styles in Chrome
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:focus,
-  textarea:-webkit-autofill,
-  textarea:-webkit-autofill:hover,
-  textarea:-webkit-autofill:focus,
-  select:-webkit-autofill,
-  select:-webkit-autofill:hover,
-  select:-webkit-autofill:focus {
-    -webkit-text-fill-color: var(--cx-color-text);
-    -webkit-box-shadow: 0 0 0px 1000px var(--cx-color-background) inset;
-    transition: background-color 5000s ease-in-out 0s;
+  cx-site-context-selector,
+  cx-theme-switcher {
+    select {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    cx-icon {
+      color: var(--cx-color-text);
+    }
+  }
+
+  cx-page-layout {
+    background-color: var(--cx-color-background) !important;
+  }
+
+  header {
+    background-image: linear-gradient(
+      var(--cx-color-background) $header-height,
+      var(--cx-color-background) 0
+    );
+  }
+
+  main,
+  cx-page-slot,
+  footer cx-paragraph .cx-notice,
+  cx-login .cx-login-greet,
+  cx-carousel .indicators button,
+  cx-checkout-review-shipping,
+  cx-checkout-review-payment,
+  cx-checkout-review-overview,
+  cx-order-confirmation-shipping {
+    background-color: var(--cx-color-background);
+  }
+
+  cx-searchbox {
+    label {
+      background-color: var(--cx-color-background);
+      input {
+        background-color: var(--cx-color-background);
+        color: var(--cx-color-text);
+      }
+      input:focus {
+        outline-style: none;
+        box-shadow: none;
+      }
+    }
+    .suggestions {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    .results {
+      border: 1px solid var(--cx-color-text);
+      a {
+        &:hover,
+        &:focus {
+          background: var(--cx-color-text);
+          color: var(--cx-color-background);
+        }
+      }
+    }
+    .products {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+  }
+
+  cx-navigation-ui {
+    background-color: var(--cx-color-background);
+    nav {
+      ul {
+        .wrapper {
+          background-color: var(--cx-color-background) !important;
+        }
+      }
+    }
+  }
+
+  cx-product-list {
+    .cx-sort-dropdown {
+      color: var(--cx-color-text);
+    }
+  }
+
+  cx-tab-paragraph-container > div > button {
+    border-top-color: var(--cx-color-text);
+    color: var(--cx-color-text);
+  }
+
+  cx-tab-paragraph-container .active,
+  cx-navigation-ui.flyout {
+    color: var(--cx-color-text);
+    background-color: var(--cx-color-background);
+    nav ul li > cx-generic-link + button {
+      border-inline-start: 1px solid var(--cx-color-background);
+    }
+  }
+
+  cx-login-form {
+    input {
+      border-color: var(--cx-color-text) !important;
+      background-color: var(--cx-color-background) !important;
+      color: var(--cx-color-text);
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:focus {
+      transition:
+        background-color 0s 600000s,
+        color 0s 600000s !important;
+    }
+  }
+
+  cx-global-message {
+    .alert-danger,
+    .alert-warning,
+    .alert-info,
+    .alert-success {
+      border: 1px solid var(--cx-color-text);
+      background-color: var(--cx-color-background);
+    }
+    .close {
+      color: var(--cx-color-text);
+    }
+  }
+
+  cx-delivery-mode {
+    border: 1px solid var(--cx-color-text);
+    background-color: var(--cx-color-background);
+    .cx-delivery-mode-wrapper {
+      background-color: var(--cx-color-background);
+    }
+  }
+
+  cx-checkout-review-shipping .cx-review-summary,
+  cx-checkout-review-payment .cx-review-summary,
+  cx-checkout-review-overview .cx-review-summary,
+  cx-order-confirmation-shipping .cx-review-summary {
+    background-color: var(--cx-color-background);
+    .cx-review-summary-payment-card {
+      background-color: var(--cx-color-background);
+    }
+  }
+
+  cx-card {
+    .cx-card {
+      padding: 2px;
+    }
+    .card-body {
+      background-color: var(--cx-color-background);
+    }
+  }
+
+  cx-item-counter {
+    background-color: var(--cx-color-background) !important;
+    input {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    input:disabled {
+      color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+    }
+  }
+
+  cx-quick-order .quick-order-form-body {
+    background-color: var(--cx-color-background);
+    border: 1px solid var(--cx-color-text);
+  }
+
+  cx-configurator-overview-notification-banner:not(:empty),
+  cx-configurator-issues-notification:not(:empty),
+  cx-configurator-group-menu .cx-group-menu {
+    background-color: var(--cx-color-background);
+  }
+
+  cx-avatar .cx-avatar,
+  cx-messaging .container .cx-messages .cx-message-left-align-text {
+    color: var(--cx-color-text);
+    background-color: var(--cx-color-background);
+  }
+
+  .cx-modal-content,
+  .cx-dialog-content,
+  .cx-customer-ticket-form-container,
+  .cx-saved-cart-form-container {
+    color: var(--cx-color-text);
+    background-color: var(--cx-color-background) !important;
+    border: 1px solid var(--cx-color-text) !important;
+    .close {
+      color: var(--cx-color-text);
+    }
+  }
+  cx-import-entries-dialog {
+    .cx-import-entries-container {
+      border: 1px solid var(--cx-color-text);
+      cx-import-entries-form {
+        background-color: var(--cx-color-background);
+      }
+      .close {
+        color: var(--cx-color-text);
+      }
+    }
+  }
+
+  .cx-dialog-header,
+  .cx-dialog-body,
+  .modal-header {
+    background-color: var(--cx-color-background) !important;
+  }
+
+  .form-control {
+    border-color: var(--cx-color-text);
+    background-color: var(--cx-color-background) !important;
+    color: var(--cx-color-text);
+  }
+
+  form {
+    input:-webkit-autofill,
+    input:-webkit-autofill:focus {
+      transition:
+        background-color 0s 600000s,
+        color 0s 600000s !important;
+    }
+  }
+
+  .ng-select {
+    .ng-select-container {
+      color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+      border-color: var(--cx-color-text) !important;
+    }
+  }
+
+  .ng-select,
+  .ng-select.ng-select-single {
+    .ng-dropdown-panel {
+      .ng-dropdown-panel-items {
+        .ng-option.ng-option-marked {
+          background-color: var(--cx-color-background);
+        }
+      }
+    }
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+
+    .ng-arrow-wrapper {
+      .ng-arrow {
+        border-color: var(--cx-color-text) transparent transparent;
+      }
+    }
   }
 }
 
-.high-contrast-light {
+.cx-theme-high-contrast-light {
   cx-footer-navigation {
     border-top: 1px solid var(--cx-color-dark);
   }
