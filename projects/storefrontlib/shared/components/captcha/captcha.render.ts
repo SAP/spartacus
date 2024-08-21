@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { Observable } from 'rxjs';
 import { RenderParams } from './captcha.model';
 import { CaptchaConfig } from '@spartacus/core';
