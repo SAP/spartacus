@@ -144,7 +144,7 @@ function add_product_configurator {
 }
 
 function add_product_multi_dimensional {
-    if [ "ADD_PRODUCT_MULTI_DIMENSIONAL" = true ] ; then
+    if [ "$ADD_PRODUCT_MULTI_DIMENSIONAL" = true ] ; then
     ng add @spartacus/product-multi-dimensional@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
     ng add @spartacus/product-multi-dimensional --skip-confirmation --no-interactive --features "Product-Multi-Dimensional-Selector" --features "Product-Multi-Dimensional-List"
     fi
