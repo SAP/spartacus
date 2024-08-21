@@ -22,7 +22,7 @@ import {
 import { UserSignUp } from '@spartacus/user/profile/root';
 import { OccUserProfileAdapter } from './occ-user-profile.adapter';
 import { Observable, of } from 'rxjs';
-import { CaptchaApiConfig, CaptchaProvider } from '@spartacus/storefront';
+import { CaptchaApiConfig, CaptchaRender } from '@spartacus/storefront';
 
 export const mockOccModuleConfig: OccConfig = {
   backend: {
@@ -68,7 +68,7 @@ const user: User = {
 };
 
 const mockToken = 'mock-token';
-class MockCaptchaService implements CaptchaProvider {
+class MockCaptchaService implements CaptchaRender {
   getCaptchaConfig(): Observable<CaptchaConfig> {
     return of({
       enabled: true,
