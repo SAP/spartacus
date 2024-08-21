@@ -113,13 +113,14 @@ export class ProductMultiDimensionalSelectorComponent {
   }
 
   getCategoryName(category: VariantCategoryGroup): string {
+    const label = `${category.name}: `;
+
     if (category.hasImages) {
       const selectedValue = this.getSelectedValue(category.name);
-
-      return category.name + (selectedValue ? ': ' + selectedValue : '');
+      return `${label}${selectedValue ?? ''}`;
     }
 
-    return category.name;
+    return label;
   }
 
   protected isSelected(code: string): boolean {

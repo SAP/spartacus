@@ -167,7 +167,7 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
       };
       const result = component.getCategoryName(category);
 
-      expect(result).toBe('CategoryName');
+      expect(result).toBe('CategoryName: ');
     });
 
     it('should return only category name if selected value is empty', () => {
@@ -180,7 +180,7 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
       };
       const result = component.getCategoryName(category);
 
-      expect(result).toBe('CategoryName');
+      expect(result).toBe('CategoryName: ');
     });
   });
 
