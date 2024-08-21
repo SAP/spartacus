@@ -3,6 +3,21 @@
   color: var(--cx-color-text);
   background-color: var(--cx-color-background);
 
+  cx-carousel .indicators button[disabled] .cx-icon {
+    color: var(--cx-color-dark);
+    background-color: var(--cx-color-light);
+  }
+
+  cx-carousel .indicators button[disabled] .cx-icon {
+    color: var(--cx-color-dark);
+    background-color: var(--cx-color-light);
+    padding: 4px;
+  }
+
+  cx-carousel .indicators button .cx-icon {
+    border: 3px solid var(--cx-color-dark);
+  }
+
   cx-site-context-selector,
   cx-theme-switcher {
     select {
@@ -23,6 +38,7 @@
       var(--cx-color-background) $header-height,
       var(--cx-color-background) 0
     );
+    border-bottom: 1px solid var(--cx-color-dark);
   }
 
   main,
@@ -38,6 +54,7 @@
   }
 
   cx-searchbox {
+    border: 1px solid var(--cx-color-dark);
     label {
       background-color: var(--cx-color-background);
       input {
@@ -67,6 +84,10 @@
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
     }
+  }
+
+  cx-product-image-zoom-dialog .cx-image-zoom-dialog .cx-dialog-content .close {
+    color: var(--cx-color-dark);
   }
 
   cx-navigation-ui {
@@ -100,6 +121,10 @@
     }
   }
 
+  cx-navigation-ui.flyout button:hover {
+    outline-color: var(--cx-color-dark);
+  }
+
   cx-login-form {
     input {
       border-color: var(--cx-color-text) !important;
@@ -112,6 +137,14 @@
         background-color 0s 600000s,
         color 0s 600000s !important;
     }
+  }
+
+  input[type='radio']:checked {
+    border-color: var(--cx-color-dark) !important;
+    background-color: var(--cx-color-light);
+  }
+  input[type='radio']:checked::after {
+    background-color: var(--cx-color-dark);
   }
 
   cx-global-message {
@@ -248,20 +281,85 @@
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
     }
-
-    .ng-arrow-wrapper {
+    s .ng-arrow-wrapper {
       .ng-arrow {
         border-color: var(--cx-color-text) transparent transparent;
       }
     }
   }
-}
 
-.cx-theme-high-contrast-light {
+  cx-my-preferred-store .btn-outline-text,
+  cx-my-preferred-store .container cx-card .cx-card-actions,
+  cx-my-preferred-store
+    .container
+    cx-card
+    .cx-card-actions:not(:disabled):not(.disabled):active {
+    border-color: var(--cx-color-primary);
+    background-color: var(--cx-color-light);
+  }
+
+  cx-pagination a,
+  cx-pagination a:last-child {
+    border-color: var(--cx-color-dark);
+  }
+
+  .cx-agnostic-table tr,
+  cx-wish-list tr,
+  cx-quick-order-table tr,
+  cx-cart-item-list tr,
+  cx-wish-list .cx-item-list-items tr:last-child,
+  cx-quick-order-table .cx-item-list-items tr:last-child,
+  cx-cart-item-list .cx-item-list-items tr:last-child {
+    border-color: var(--cx-color-dark);
+  }
+
   cx-footer-navigation {
     border-top: 1px solid var(--cx-color-dark);
   }
+}
 
+//Dark Theme
+.cx-theme-high-contrast-dark {
+  cx-mini-cart a {
+    color: var(--cx-color-medium);
+  }
+  .form-check input[type='checkbox']:checked {
+    border-color: var(--cx-color-dark);
+    background-color: var(--cx-color-medium);
+  }
+  .btn-primary,
+  cx-scroll-to-top button {
+    color: var(--cx-color-medium);
+  }
+
+  .btn-primary:not(:disabled):not(.disabled):active,
+  .btn-primary:not(:disabled):not(.disabled).active,
+  .show > .btn-primary.dropdown-toggle {
+    color: var(--cx-color-medium);
+  }
+
+  .btn-secondary,
+  .btn-secondary:active {
+    color: var(--cx-color-medium);
+    border-color: var(--cx-color-medium);
+  }
+
+  .btn-secondary:not(:disabled):not(.disabled):active,
+  .btn-secondary:not(:disabled):not(.disabled).active {
+    color: var(--cx-color-medium);
+    border-color: var(--cx-color-medium);
+  }
+  cx-form-errors p::after {
+    color: var(--cx-color-medium);
+  }
+
+  cx-pagination a.current {
+    color: var(--cx-color-medium);
+  }
+}
+
+// Light Theme
+.cx-theme-high-contrast-light {
   cx-carousel button {
     color: var(--cx-color-light);
     background-color: var(--cx-color-background);
