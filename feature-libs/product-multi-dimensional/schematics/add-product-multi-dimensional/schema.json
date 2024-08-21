@@ -33,7 +33,7 @@
       },
       "default": [
         "Product-Multi-Dimensional-Selector",
-        "Product-Multi-dimensional-List"
+        "Product-Multi-Dimensional-List"
       ],
       "x-prompt": {
         "message": "Which Product Multi-Dimensional features would you like to set up?",
