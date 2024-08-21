@@ -4,22 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy, inject } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { filter, map, take, tap } from 'rxjs/operators';
 
 import { Observable, Subscription } from 'rxjs';
 
 import { SiteTheme } from '../../model/misc.model';
-import { SiteThemeConfig } from '../config/site-theme-config';
 import { isNotNullable } from '../../util/type-guards';
-import { StateWithSiteTheme } from '../store/state';
-import { SiteThemeSelectors } from '../store/selectors';
+import { SiteThemeConfig } from '../config/site-theme-config';
 import { SiteThemeActions } from '../store/actions';
+import { SiteThemeSelectors } from '../store/selectors';
+import { StateWithSiteTheme } from '../store/state';
 
 @Injectable()
 export class SiteThemeService implements OnDestroy {
-  private _isInitialized = false;
   protected store = inject(Store<StateWithSiteTheme>);
   protected config = inject(SiteThemeConfig);
   protected subscription = new Subscription();
@@ -60,7 +59,6 @@ export class SiteThemeService implements OnDestroy {
       .subscribe(() => {
         this.store.dispatch(new SiteThemeActions.SetActiveSiteTheme(className));
       });
-    this._isInitialized = true;
   }
 
   isValidTheme(className: string): Observable<boolean> {
@@ -72,7 +70,12 @@ export class SiteThemeService implements OnDestroy {
     );
   }
 
-  isInitialized(): boolean {
-    return this._isInitialized;
+  isInitialized(): Observable<boolean> {
+    return this.store.pipe(
+      // added a separate selector for clarity, we don't want to use `getActive` as it emits only non nullable values
+      // as we want to know if the value has been initialized, we need this observable to emit every value from start
+      select(SiteThemeSelectors.isActiveSiteTheme),
+      map((active) => !!active)
+    );
   }
 }

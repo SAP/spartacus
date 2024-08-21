@@ -17,13 +17,13 @@ import {
   take,
 } from 'rxjs/operators';
 import { LoggerService } from '../../../logger';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
-import { SiteThemeActions } from '../actions/index';
-import { StateWithSiteTheme } from '../state';
-import { getActiveSiteTheme } from '../selectors/site-themes.selectors';
-import { SiteThemeConfig } from '../../config/site-theme-config';
-import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { SiteTheme } from '../../../model/misc.model';
+import { BaseSiteService } from '../../../site-context/facade/base-site.service';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { SiteThemeConfig } from '../../config/site-theme-config';
+import { SiteThemeActions } from '../actions/index';
+import { getActiveSiteTheme } from '../selectors/site-themes.selectors';
+import { StateWithSiteTheme } from '../state';
 
 @Injectable()
 export class SiteThemesEffects {
@@ -40,26 +40,23 @@ export class SiteThemesEffects {
       ofType(SiteThemeActions.LOAD_SITE_THEMES),
       exhaustMap(() => {
         return this.getCustomSiteTheme().pipe(
+          // just a not related cleanup
           map((siteTheme) => {
-            let siteThemes = [];
-            if (this.config.siteTheme?.siteThemes?.length) {
-              const hasDefaultTheme = this.config.siteTheme.siteThemes.some(
-                (theme) => theme.default
-              );
-              siteThemes = (this.config.siteTheme?.siteThemes || []).map(
-                (sitetheme) => {
-                  if (sitetheme.default) {
-                    return { ...sitetheme, className: siteTheme ?? '' };
-                  }
-                  return sitetheme;
-                }
-              );
-              if (!hasDefaultTheme) {
-                siteThemes.push(this.getNewDefaultTheme(siteTheme));
+            let siteThemes = this.config.siteTheme?.siteThemes || [];
+            let hasDefaultTheme = false;
+
+            siteThemes = siteThemes.map((theme) => {
+              if (theme.default) {
+                hasDefaultTheme = true;
+                return { ...theme, className: siteTheme ?? '' };
               }
-            } else {
+              return theme;
+            });
+
+            if (!hasDefaultTheme) {
               siteThemes.push(this.getNewDefaultTheme(siteTheme));
             }
+
             return new SiteThemeActions.LoadSiteThemesSuccess(siteThemes);
           }),
           catchError((error) =>
