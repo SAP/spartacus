@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   CartOutlets,
@@ -16,7 +16,11 @@ import {
   CheckoutDeliveryModesFacade,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { Address, TranslationService } from '@spartacus/core';
+import {
+  Address,
+  FeatureConfigService,
+  TranslationService,
+} from '@spartacus/core';
 import { deliveryAddressCard, deliveryModeCard } from '@spartacus/order/root';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
@@ -29,6 +33,11 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutReviewShippingComponent {
+  protected featureConfig = inject(FeatureConfigService);
+  private showDeliveryOptionsTranslation = this.featureConfig.isEnabled(
+    'showDeliveryOptionsTranslation'
+  );
+
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
 
@@ -85,7 +94,11 @@ export class CheckoutReviewShippingComponent {
 
   getDeliveryModeCard(deliveryMode: DeliveryMode): Observable<Card> {
     return combineLatest([
-      this.translationService.translate('checkoutMode.deliveryMethod'),
+      this.translationService.translate(
+        this.showDeliveryOptionsTranslation
+          ? 'checkoutMode.deliveryOptions'
+          : 'checkoutMode.deliveryMethod'
+      ),
     ]).pipe(map(([textTitle]) => deliveryModeCard(textTitle, deliveryMode)));
   }
 }
