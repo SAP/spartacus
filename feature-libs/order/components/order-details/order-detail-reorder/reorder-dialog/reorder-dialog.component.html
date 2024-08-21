@@ -3,18 +3,20 @@
   (esc)="close('Escape clicked')"
   class="cx-modal-container"
   role="dialog"
+  aria-labelledby="dialogTitle"
   aria-modal="true"
 >
   <div class="cx-modal-content">
     <ng-container>
       <div class="cx-dialog-header modal-header">
-        <div class="cx-dialog-title modal-title">
+        <div id="dialogTitle" class="cx-dialog-title modal-title">
           {{ 'reorder.dialog.reorderProducts' | cxTranslate }}
         </div>
         <button
           type="button"
           class="close"
           attr.aria-label="{{ 'addToCart.closeModal' | cxTranslate }}"
+          title="{{ 'addToCart.closeModal' | cxTranslate }}"
           (click)="close('Close reorder result dialog')"
         >
           <span aria-hidden="true">

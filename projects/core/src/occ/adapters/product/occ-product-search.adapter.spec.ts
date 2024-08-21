@@ -9,6 +9,7 @@ import {
   PRODUCT_SEARCH_PAGE_NORMALIZER,
   PRODUCT_SUGGESTION_NORMALIZER,
 } from '@spartacus/core';
+import { of } from 'rxjs';
 import { ProductSearchPage } from '../../../model/product-search.model';
 import { SearchConfig } from '../../../product/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
@@ -34,6 +35,7 @@ const suggestionList: Occ.SuggestionList = { suggestions: [{ value: 'test' }] };
 const mockSearchConfig: SearchConfig = {
   pageSize: 5,
 };
+const scope = 'default';
 
 describe('OccProductSearchAdapter', () => {
   let service: OccProductSearchAdapter;
@@ -73,7 +75,7 @@ describe('OccProductSearchAdapter', () => {
 
   describe('query text search', () => {
     it('should return search results for given query text', () => {
-      service.search(queryText, mockSearchConfig).subscribe((result) => {
+      service.search(queryText, mockSearchConfig, scope).subscribe((result) => {
         expect(result).toEqual(searchResults);
       });
 
@@ -91,6 +93,7 @@ describe('OccProductSearchAdapter', () => {
           query: queryText,
           pageSize: mockSearchConfig.pageSize,
         },
+        scope: scope,
       });
       mockReq.flush(searchResults);
     });
@@ -147,6 +150,59 @@ describe('OccProductSearchAdapter', () => {
       expect(converter.pipeableMany).toHaveBeenCalledWith(
         PRODUCT_SUGGESTION_NORMALIZER
       );
+    });
+  });
+
+  describe('searchByCodes', () => {
+    const mockProductsFromCodes: Array<{ code: string }> = [
+      { code: '123' },
+      { code: '456' },
+    ];
+    const mockSearchConfigFromCodes = {
+      filters: 'code:123,456',
+      pageSize: 100,
+    };
+
+    it('should return products for given codes', () => {
+      spyOn(service, 'search').and.returnValue(
+        of({ products: mockProductsFromCodes })
+      );
+
+      service.searchByCodes(['123', '456']).subscribe((result) => {
+        expect(result.products).toEqual(mockProductsFromCodes);
+      });
+
+      expect(service.search).toHaveBeenCalledWith(
+        '',
+        mockSearchConfigFromCodes,
+        undefined
+      );
+    });
+
+    it('should handle empty input', () => {
+      spyOn(service, 'search');
+      service.searchByCodes([]).subscribe((result) => {
+        expect(result.products).toEqual([]);
+      });
+
+      expect(service.search).not.toHaveBeenCalled();
+    });
+
+    it('should handle chunking correctly', () => {
+      const largeArray = Array.from({ length: 250 }, (_, i) => i.toString());
+      const chunkedProducts = largeArray.map((code) => ({ code }));
+
+      spyOn(service, 'search').and.callFake((_, config) => {
+        const codes = config.filters.split(':')[1].split(',');
+        return of({ products: codes.map((code) => ({ code })) });
+      });
+
+      service.searchByCodes(largeArray).subscribe((result) => {
+        expect(result.products.length).toBe(250);
+        expect(result.products).toEqual(chunkedProducts);
+      });
+
+      expect(service.search).toHaveBeenCalledTimes(3);
     });
   });
 });

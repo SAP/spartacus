@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable, lastValueFrom } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
@@ -19,9 +19,11 @@ import {
   THEME_CONTEXT_ID,
 } from '../../providers/context-ids';
 import { SiteContextConfig } from '../site-context-config';
+import { FeatureToggles } from '../../../features-config';
 
 @Injectable({ providedIn: 'root' })
 export class SiteContextConfigInitializer implements ConfigInitializer {
+  private featureToggles = inject(FeatureToggles);
   readonly scopes = ['context'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
 
@@ -71,7 +73,9 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
           source.baseStore?.currencies,
           source.baseStore?.defaultCurrency
         ),
-        [THEME_CONTEXT_ID]: [source.theme],
+        ...(this.featureToggles.useNewSiteThemeSwitcher
+          ? {}
+          : { [THEME_CONTEXT_ID]: [source.theme] }),
       },
     } as SiteContextConfig;
 

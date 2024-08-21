@@ -27,6 +27,10 @@ cx-page-layout {
     }
 
     color: var(--cx-color, var(--cx-color-inverse));
+
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+    }
   }
 }
 

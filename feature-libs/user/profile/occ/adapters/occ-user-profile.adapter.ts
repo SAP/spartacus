@@ -5,13 +5,14 @@
  */
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import {
   ConverterService,
   InterceptorUtil,
   LoggerService,
   Occ,
   OccEndpointsService,
+  USE_CAPTCHA_TOKEN,
   USE_CLIENT_TOKEN,
   normalizeHttpError,
 } from '@spartacus/core';
@@ -26,6 +27,7 @@ import {
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { CaptchaApiConfig, CaptchaProvider } from '@spartacus/storefront';
 
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 const CONTENT_TYPE_URLENCODED_HEADER = {
@@ -35,6 +37,8 @@ const CONTENT_TYPE_URLENCODED_HEADER = {
 @Injectable()
 export class OccUserProfileAdapter implements UserProfileAdapter {
   protected logger = inject(LoggerService);
+  protected captchaConfig = inject(CaptchaApiConfig, { optional: true });
+  protected injector = inject(Injector, { optional: true });
 
   constructor(
     protected http: HttpClient,
@@ -61,6 +65,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       ...CONTENT_TYPE_JSON_HEADER,
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    headers = this.appendCaptchaToken(headers);
     user = this.converter.convert(user, USER_SIGN_UP_SERIALIZER);
 
     return this.http.post<User>(url, user, { headers }).pipe(
@@ -77,7 +82,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       ...CONTENT_TYPE_URLENCODED_HEADER,
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-
+    headers = this.appendCaptchaToken(headers);
     const httpParams: HttpParams = new HttpParams()
       .set('guid', guid)
       .set('password', password);
@@ -91,16 +96,11 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   requestForgotPasswordEmail(userEmailAddress: string): Observable<unknown> {
-    const url = this.occEndpoints.buildUrl('userForgotPassword');
-    const httpParams: HttpParams = new HttpParams().set(
-      'userId',
-      userEmailAddress
-    );
-    let headers = new HttpHeaders({
-      ...CONTENT_TYPE_URLENCODED_HEADER,
-    });
+    const url = this.occEndpoints.buildUrl('userRestoreToken');
+    const body = { loginId: userEmailAddress };
+    let headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-    return this.http.post(url, httpParams, { headers }).pipe(
+    return this.http.post(url, body, { headers }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       })
@@ -129,13 +129,12 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const url = this.occEndpoints.buildUrl('userUpdateLoginId', {
       urlParams: { userId },
     });
-    const httpParams: HttpParams = new HttpParams()
-      .set('password', currentPassword)
-      .set('newLogin', newUserId);
-    const headers = new HttpHeaders({
-      ...CONTENT_TYPE_URLENCODED_HEADER,
-    });
-    return this.http.put(url, httpParams, { headers }).pipe(
+    const body = {
+      newLoginId: newUserId,
+      password: currentPassword,
+    };
+    const headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
+    return this.http.post(url, body, { headers }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       })
@@ -150,13 +149,12 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const url = this.occEndpoints.buildUrl('userUpdatePassword', {
       urlParams: { userId },
     });
-    const httpParams: HttpParams = new HttpParams()
-      .set('old', oldPassword)
-      .set('new', newPassword);
-    const headers = new HttpHeaders({
-      ...CONTENT_TYPE_URLENCODED_HEADER,
-    });
-    return this.http.put(url, httpParams, { headers }).pipe(
+    const body = {
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+    };
+    const headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
+    return this.http.post(url, body, { headers }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       })
@@ -184,5 +182,23 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       map((titleList) => titleList.titles ?? []),
       this.converter.pipeableMany(TITLE_NORMALIZER)
     );
+  }
+
+  protected appendCaptchaToken(currentHeaders: HttpHeaders): HttpHeaders {
+    if (this.injector && this.captchaConfig?.captchaProvider) {
+      const provider = this.injector.get<CaptchaProvider>(
+        this.captchaConfig.captchaProvider
+      );
+      const isCaptchaEnabled = provider
+        .getCaptchaConfig()
+        .subscribe((config) => {
+          return config.enabled;
+        });
+
+      if (provider?.getToken() && isCaptchaEnabled) {
+        return currentHeaders.append(USE_CAPTCHA_TOKEN, provider.getToken());
+      }
+    }
+    return currentHeaders;
   }
 }

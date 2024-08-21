@@ -1,0 +1,6 @@
+@mixin cx-highContrastTheme() {
+  .cx-theme-high-contrast-dark &,
+  .cx-theme-high-contrast-light & {
+    @content;
+  }
+}

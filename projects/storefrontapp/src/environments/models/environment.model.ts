@@ -16,10 +16,12 @@ export interface Environment {
   digitalPayments: boolean;
   epdVisualization: boolean;
   s4om: boolean;
+  omf: boolean;
   segmentRefs: boolean;
   opps: boolean;
   requestedDeliveryDate: boolean;
   pdfInvoices: boolean;
   myAccountV2: boolean;
   estimatedDeliveryDate: boolean;
+  s4Service: boolean;
 }

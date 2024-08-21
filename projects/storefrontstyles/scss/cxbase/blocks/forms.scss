@@ -35,6 +35,16 @@
       color: var(--cx-color-secondary);
     }
   }
+
+  @include cx-highContrastTheme {
+    border-color: var(--cx-color-text);
+    background-color: var(--cx-color-background);
+    color: var(--cx-color-text);
+    &:focus {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+  }
 }
 
 cx-form-errors {
@@ -252,6 +262,10 @@ legend {
     }
     box-shadow: none;
     -webkit-box-shadow: none;
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
   }
 }
 
@@ -314,6 +328,9 @@ input[type='radio'] {
           margin-inline-start: 2px;
           margin-inline-end: 2px;
         }
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
       }
     }
   }
@@ -333,6 +350,11 @@ input[type='radio'] {
     @include forFeature('a11yImproveContrast') {
       border: 1px solid var(--cx-color-dark);
     }
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+      border-color: var(--cx-color-text);
+    }
 
     .ng-value-container {
       padding-inline-start: 10px;
@@ -344,11 +366,25 @@ input[type='radio'] {
   .ng-arrow-wrapper {
     padding-inline-end: 5px;
   }
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+
+    .ng-arrow-wrapper {
+      .ng-arrow {
+        border-color: var(--cx-color-text) transparent transparent;
+      }
+    }
+  }
 }
 
-:focus {
+:focus:not(main) {
   @include visible-focus();
 }
+
 .form-control,
 input {
   &:focus {
@@ -403,6 +439,10 @@ input {
 
 .ng-select .ng-select-container .ng-value-container .ng-placeholder {
   color: var(--cx-color-secondary);
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+    color: var(--cx-color-text);
+  }
 }
 
 .form-group {

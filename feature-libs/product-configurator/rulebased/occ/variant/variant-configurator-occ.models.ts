@@ -199,6 +199,7 @@ export namespace OccConfigurator {
   export enum UiType {
     STRING = 'STRING',
     NUMERIC = 'NUMERIC',
+    SAP_DATE = 'SAP_DATE',
     CHECK_BOX = 'CHECK_BOX',
     CHECK_BOX_LIST = 'CHECK_BOX_LIST',
     RADIO_BUTTON = 'RADIO_BUTTON',

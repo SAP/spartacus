@@ -1,0 +1,27 @@
+{
+  "serviceOrderCheckout": {
+    "serviceDetails": "Service Details",
+    "serviceScheduleHeading": "Service Schedule - Date and Time",
+    "address": "Same as Shipping Address",
+    "serviceLocationHeading": "Service Location",
+    "datePickerLabel": "Schedule Service Date",
+    "timePickerLabel": "Schedule Service Time",
+    "clickContinue": "No Service details required. Click Continue",
+    "emptyServiceDetailsCard": "None",
+    "unknownError": "An unknown error occurred. Please contact support."
+  },
+  "rescheduleService": {
+    "actionButtonLabel": "Reschedule Service",
+    "headerLabel": "Services",
+    "contentLabel": "Service Reschedule - Choose New Date and Time",
+    "datePickerLabel": "Service Date",
+    "timePickerLabel": "Service Time",
+    "backButtonLabel": "Back",
+    "submitButtonLabel": "Submit Request",
+    "note": "Please note that it may take a few moments for your order to reflect the request.",
+    "unknownError": "An unknown error occurred. Please contact support.",
+    "serviceNotReschedulable": "The service cannot be rescheduled.",
+    "serviceNotAmendable": "The service cannot be cancelled or rescheduled less than 24 hours before the scheduled date.",
+    "rescheduleSuccess": "The service date and time has been changed successfully."
+  }
+}
