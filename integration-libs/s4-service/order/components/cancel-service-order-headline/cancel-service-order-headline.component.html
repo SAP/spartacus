@@ -21,7 +21,7 @@
           <tr class="service-row">
             <td>{{ order.servicedAt | date: 'MM/dd/yyyy' }}</td>
             <td>{{ order.servicedAt | date: 'HH:mm' }}</td>
-            <td>{{ order.deliveryAddress.town }}</td>
+            <td>{{ order.deliveryAddress?.town }}</td>
           </tr>
         </tbody>
       </table>
