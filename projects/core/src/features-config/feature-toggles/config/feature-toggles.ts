@@ -473,6 +473,11 @@ export interface FeatureTogglesInterface {
   a11yNgSelectMobileReadout?: boolean;
 
   /**
+   * In 'ProductReviewsComponent' the 'show more/less reviews' button will no longer loose focus on activation.
+   */
+  a11yShowMoreReviewsBtnFocus?: boolean;
+
+  /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
    * into a request body, instead of query params.
    * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
@@ -559,6 +564,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRepeatedCancelOrderError: false,
   a11yAddedToCartActiveDialog: false,
   a11yNgSelectMobileReadout: false,
+  a11yShowMoreReviewsBtnFocus: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
 };
