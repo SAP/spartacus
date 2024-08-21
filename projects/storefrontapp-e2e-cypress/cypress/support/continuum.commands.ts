@@ -110,7 +110,11 @@ const submitAccessibilityConcernsToAMP = (reportName = 'AMP Report') => {
     return;
   }
 
-  if (Cypress.env('AMP_API_TOKEN') !== '') {
+  if (
+    Cypress.env('AMP_API_TOKEN') &&
+    (Cypress.env('AMP_API_TOKEN') !== '' ||
+      Cypress.env('AMP_API_TOKEN') !== 'undefined')
+  ) {
     cy.log('Submitting accessibility concerns to AMP...');
 
     cy.title({ log: false }).then((pageTitle) => {
