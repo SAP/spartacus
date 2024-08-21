@@ -41,11 +41,11 @@
         "items": [
           {
             "value": "Product-Multi-Dimensional-Selector",
-            "label": "PDP Multi-Dimensional selector"
+            "label": "Product Multi-Dimensional - Selector"
           },
           {
             "value": "Product-Multi-Dimensional-List",
-            "label": "PLP Multi-Dimensional price range"
+            "label": "Product Multi-Dimensional - PLP price range"
           }
         ]
       }
