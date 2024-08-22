@@ -12,7 +12,7 @@ import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
 import { AuthConfigService } from './auth-config.service';
-import { BaseSiteService } from '@spartacus/core';
+import { BaseSite, BaseSiteService } from '@spartacus/core';
 
 /**
  * Wrapper service on the library OAuthService. Normalizes the lib API for services.
@@ -23,6 +23,7 @@ import { BaseSiteService } from '@spartacus/core';
 })
 export class OAuthLibWrapperService {
   events$: Observable<OAuthEvent> = this.oAuthService.events;
+  currentBaseSite: BaseSite;
 
   // TODO: Remove platformId dependency in 4.0
   constructor(
@@ -31,20 +32,23 @@ export class OAuthLibWrapperService {
     @Inject(PLATFORM_ID) protected platformId: Object,
     protected winRef: WindowRef,
     protected baseSiteService?: BaseSiteService
-
   ) {
     this.initialize();
-    if(baseSiteService){
+    if (baseSiteService) {
       baseSiteService
-      .get()
-      .pipe(take(1))
-      .subscribe((site) => {
-        if (site?.cdcSiteConfig && site?.uid) {
-          this.oAuthService.configure({      clientId: site.cdcSiteConfig.oidcRpClientId,
-            issuer:site.cdcSiteConfig.oidcOpIssuerURI,
-            redirectUri:window.location.origin + '/' + site.uid  + '/en/USD/login',
-            scope: site.cdcSiteConfig.scopes.join(' '),
-            responseType: 'code',});
+        .get()
+        .pipe(take(1))
+        .subscribe((site) => {
+          if (site?.cdcSiteConfig && site?.uid) {
+            this.currentBaseSite = site;
+            this.oAuthService.configure({
+              clientId: site.cdcSiteConfig.oidcRpClientId,
+              issuer: site.cdcSiteConfig.oidcOpIssuerURI,
+              redirectUri:
+                window.location.origin + '/' + site.uid + '/en/USD/login',
+              scope: site.cdcSiteConfig.scopes.join(' '),
+              responseType: 'code',
+            });
           }
         });
     }
@@ -159,7 +163,7 @@ export class OAuthLibWrapperService {
           take(1)
         )
         .subscribe((event) => (tokenReceivedEvent = event));
-      if (this.oAuthService.responseType === 'code') {
+      if (this.currentBaseSite.cdcSiteConfig) {
         this.oAuthService
           .loadDiscoveryDocumentAndTryLogin()
           .then((result: boolean) => {
@@ -188,9 +192,5 @@ export class OAuthLibWrapperService {
           });
       }
     });
-  }
-
-  loadDiscoveryDocumentAndLogin() {
-    this.oAuthService.loadDiscoveryDocumentAndLogin();
   }
 }

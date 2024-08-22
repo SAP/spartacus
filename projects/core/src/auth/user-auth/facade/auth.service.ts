@@ -179,10 +179,4 @@ export class AuthService {
   setLogoutProgress(progress: boolean): void {
     (this.logoutInProgress$ as BehaviorSubject<boolean>).next(progress);
   }
-
-  afterRedirectFromOidcLogin(): void {
-    this.userIdService.setUserId(OCC_USER_ID_CURRENT);
-    this.store.dispatch(new AuthActions.Login());
-    this.authRedirectService.redirect();
-  }
 }
