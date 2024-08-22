@@ -177,7 +177,7 @@ export function verifyServiceOrderConfirmationPage(serviceOrder: boolean) {
       expect(text).to.match(/\d{2}\/\d{2}\/\d{4}, \d{2}:\d{2}:\d{2}/);
     });
   } else {
-    cy.get('.cx-review-summary-card')
+    cy.get('cx-card-service-details')
       .contains('cx-card', 'Service Details')
       .find('.cx-card-container')
       .should('not.exist');
