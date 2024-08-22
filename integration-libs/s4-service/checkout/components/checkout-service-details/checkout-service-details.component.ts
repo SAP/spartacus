@@ -100,38 +100,28 @@ export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
     this.isSetServiceDetailsHttpErrorSub.asObservable();
 
   next(): void {
-    this.subscription.add(
-      this.serviceProducts$.subscribe((products) => {
-        if (products.length > 0) {
-          const scheduleDate = this.form?.get('scheduleDate')?.value || '';
-          const scheduleTime = this.form?.get('scheduleTime')?.value || '';
-          const scheduleDateTime =
-            this.checkoutServiceSchedulePickerService.convertToDateTime(
-              scheduleDate,
-              scheduleTime
-            );
+    const scheduleDate = this.form?.get('scheduleDate')?.value || '';
+    const scheduleTime = this.form?.get('scheduleTime')?.value || '';
+    const scheduleDateTime =
+      this.checkoutServiceSchedulePickerService.convertToDateTime(
+        scheduleDate,
+        scheduleTime
+      );
 
-          this.checkoutServiceDetailsFacade
-            .setServiceScheduleSlot(scheduleDateTime)
-            .subscribe({
-              next: () => {
-                this.onSuccess();
-                this.checkoutStepService.next(this.activatedRoute);
-              },
-              error: () => this.onError(),
-            });
-        } else {
+    this.checkoutServiceDetailsFacade
+      .setServiceScheduleSlot(scheduleDateTime)
+      .subscribe({
+        next: () => {
+          this.onSuccess();
           this.checkoutStepService.next(this.activatedRoute);
-        }
-      })
-    );
+        },
+        error: () => this.onError(),
+      });
   }
 
   back(): void {
     this.checkoutStepService.back(this.activatedRoute);
   }
-
-  serviceProducts$ = this.checkoutServiceDetailsFacade.getServiceProducts();
 
   protected onSuccess(): void {
     this.isSetServiceDetailsHttpErrorSub.next(false);
