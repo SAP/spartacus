@@ -60,6 +60,7 @@
     "goToLoginButtonLabel": "Already registered? Go to Sign in",
     "httpHandlers": {
       "conflict": "User with this e-mail address already exists."
-    }
+    },
+    "messageToFailedToRegister": "Failed to register. Please contact your admin for further assistance."
   }
 }

@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-omf/index#addOmfFeature",
+      "description": "Add and configure Spartacus' OMF feature",
+      "schema": "./add-omf/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-omf/index#addOmfFeature",
+      "description": "Add and configure Spartacus' OMF feature",
+      "schema": "./add-omf/schema.json"
+    }
+  }
+}

@@ -223,6 +223,10 @@ export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
+export const SPARTACUS_OMF = '@spartacus/omf';
+export const SPARTACUS_OMF_ROOT = '@spartacus/omf/root';
+export const SPARTACUS_OMF_ORDER = '@spartacus/omf/order';
+
 export const SPARTACUS_OPPS = '@spartacus/opps';
 export const SPARTACUS_OPPS_ROOT = '@spartacus/opps/root';
 
@@ -325,6 +329,8 @@ export const S4_SERVICE_FEATURE_NAME = 's4-service';
 
 export const OPPS_FEATURE_NAME = 'OPPS';
 
+export const OMF_FEATURE_NAME = 'OMF';
+
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 /***** Feature name end *****/
 
@@ -335,7 +341,7 @@ export const PICKUP_IN_STORE_MODULE = 'PickupInStoreModule';
 export const PICKUP_IN_STORE_ROOT_MODULE = 'PickupInStoreRootModule';
 /***** Feature name end *****/
 
-export const CPQ_QUOTE_FEATURE_NAME = 'Cpq-Quote';
+export const CPQ_QUOTE_FEATURE_NAME = 'cpq-quote';
 export const SPARTACUS_CPQ_QUOTE = `@spartacus/cpq-quote`;
 export const SPARTACUS_CPQ_QUOTE_ROOT = `@spartacus/cpq-quote/root`;
 export const SPARTACUS_CPQ_QUOTE_ASSETS = `@spartacus/cpq-quote/assets`;

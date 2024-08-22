@@ -12,6 +12,7 @@ export const defaultOccUserProfileConfig: OccConfig = {
       endpoints: {
         userRegister: 'users',
         userForgotPassword: 'forgottenpasswordtokens',
+        userRestoreToken: 'passwordRestoreToken',
         userResetPassword: 'resetpassword',
         userUpdateLoginId: 'users/${userId}/login',
         userUpdatePassword: 'users/${userId}/password',

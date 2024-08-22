@@ -11,57 +11,77 @@
         [formula]="extractPriceFormulaParameters()"
       ></cx-configurator-price>
     </div>
+    <ng-container *ngIf="changedPrices$ | async as changedPrices">
+      <div class="form-check" *ngFor="let value of attribute.values">
+        <div class="cx-value-label-pair">
+          <input
+            id="{{
+              createAttributeValueIdForConfigurator(attribute, value.valueCode)
+            }}"
+            class="form-check-input"
+            type="radio"
+            formcontrolname="attributeRadioButtonForm"
+            [formControl]="attributeRadioButtonForm"
+            [attr.required]="attribute.required === true ? 'required' : null"
+            [value]="value.valueCode"
+            name="{{ createAttributeIdForConfigurator(attribute) }}"
+            attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
+            [cxFocus]="{ key: attribute.name + '-' + value.name }"
+            [attr.aria-label]="
+              getAriaLabel(
+                enrichValueWithPrice(value, changedPrices),
+                attribute
+              )
+            "
+            [attr.aria-live]="
+              listenForPriceChanges &&
+              attributeRadioButtonForm.value === value.valueCode
+                ? 'polite'
+                : null
+            "
+            [attr.checked]="
+              attributeRadioButtonForm.value === value.valueCode
+                ? 'checked'
+                : null
+            "
+            [attr.aria-describedby]="
+              createAttributeUiKey('label', attribute.name)
+            "
+            (change)="onSelect(value.valueCode)"
+          />
+          <label
+            id="{{
+              createValueUiKey('label', attribute.name, value.valueCode)
+            }}"
+            for="{{
+              createAttributeValueIdForConfigurator(attribute, value.valueCode)
+            }}"
+            aria-hidden="true"
+            class="form-check-label form-radio-label"
+            >{{ getLabel(expMode, value.valueDisplay, value.valueCode) }}</label
+          >
+          <cx-configurator-show-more
+            *ngIf="value.description"
+            [text]="value.description"
+            [textSize]="getValueDescriptionLength()"
+            [productName]="
+              getLabel(expMode, value.valueDisplay, value.valueCode)
+            "
+            [tabIndex]="0"
+          ></cx-configurator-show-more>
+        </div>
 
-    <div class="form-check" *ngFor="let value of attribute.values">
-      <div class="cx-value-label-pair">
-        <input
-          id="{{
-            createAttributeValueIdForConfigurator(attribute, value.valueCode)
-          }}"
-          class="form-check-input"
-          type="radio"
-          formcontrolname="attributeRadioButtonForm"
-          [formControl]="attributeRadioButtonForm"
-          [attr.required]="attribute.required === true ? 'required' : null"
-          [value]="value.valueCode"
-          name="{{ createAttributeIdForConfigurator(attribute) }}"
-          attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
-          [cxFocus]="{ key: attribute.name + '-' + value.name }"
-          [attr.aria-label]="getAriaLabel(value, attribute)"
-          [attr.checked]="
-            attributeRadioButtonForm.value === value.valueCode
-              ? 'checked'
-              : null
-          "
-          [attr.aria-describedby]="
-            createAttributeUiKey('label', attribute.name)
-          "
-          (change)="onSelect(value.valueCode)"
-        />
-        <label
-          id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
-          for="{{
-            createAttributeValueIdForConfigurator(attribute, value.valueCode)
-          }}"
-          aria-hidden="true"
-          class="form-check-label form-radio-label"
-          >{{ getLabel(expMode, value.valueDisplay, value.valueCode) }}</label
-        >
-        <cx-configurator-show-more
-          *ngIf="value.description"
-          [text]="value.description"
-          [textSize]="getValueDescriptionLength()"
-          [productName]="getLabel(expMode, value.valueDisplay, value.valueCode)"
-          [tabIndex]="0"
-        ></cx-configurator-show-more>
+        <div class="cx-value-price">
+          <cx-configurator-price
+            [formula]="
+              extractValuePriceFormulaParameters(
+                enrichValueWithPrice(value, changedPrices)
+              )
+            "
+          ></cx-configurator-price>
+        </div>
       </div>
-
-      <div class="cx-value-price">
-        <cx-configurator-price
-          [formula]="extractValuePriceFormulaParameters(value)"
-        ></cx-configurator-price>
-      </div>
-    </div>
+    </ng-container>
 
     <cx-configurator-attribute-numeric-input-field
       *ngIf="isAdditionalValueNumeric"
