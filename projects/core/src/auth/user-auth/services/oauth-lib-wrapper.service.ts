@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
@@ -22,6 +22,7 @@ import { BaseSite, BaseSiteService } from '@spartacus/core';
   providedIn: 'root',
 })
 export class OAuthLibWrapperService {
+  protected baseSiteService = inject(BaseSiteService);
   events$: Observable<OAuthEvent> = this.oAuthService.events;
   currentBaseSite: BaseSite;
 
@@ -30,12 +31,11 @@ export class OAuthLibWrapperService {
     protected oAuthService: OAuthService,
     protected authConfigService: AuthConfigService,
     @Inject(PLATFORM_ID) protected platformId: Object,
-    protected winRef: WindowRef,
-    protected baseSiteService?: BaseSiteService
+    protected winRef: WindowRef
   ) {
     this.initialize();
-    if (baseSiteService) {
-      baseSiteService
+    if (this.baseSiteService) {
+      this.baseSiteService
         .get()
         .pipe(take(1))
         .subscribe((site) => {
