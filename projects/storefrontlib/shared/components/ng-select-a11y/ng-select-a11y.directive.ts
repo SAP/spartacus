@@ -11,10 +11,12 @@ import {
   HostListener,
   inject,
   Input,
+  Optional,
   Renderer2,
 } from '@angular/core';
 import { FeatureConfigService, TranslationService } from '@spartacus/core';
-import { take } from 'rxjs';
+import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
+import { filter, take } from 'rxjs';
 
 @Directive({
   selector: '[cxNgSelectA11y]',
@@ -40,6 +42,8 @@ export class NgSelectA11yDirective implements AfterViewInit {
     );
     observer.observe(this.elementRef.nativeElement, { childList: true });
   }
+
+  @Optional() breakpointService = inject(BreakpointService, { optional: true });
 
   constructor(
     private renderer: Renderer2,
@@ -67,7 +71,32 @@ export class NgSelectA11yDirective implements AfterViewInit {
       this.featureConfigService.isEnabled('a11yNgSelectMobileReadout') &&
       inputElement.readOnly
     ) {
-      this.renderer.setAttribute(inputElement, 'aria-hidden', 'true');
+      const observer = new MutationObserver((_changes, observer) => {
+        const comboboxAriaLabel = divCombobox.getAttribute('aria-label');
+        const valueLabel =
+          this.elementRef.nativeElement.querySelector(
+            '.ng-value-label'
+          ).innerText;
+        const valueElement =
+          this.elementRef.nativeElement.querySelector('.ng-value');
+        this.renderer.setAttribute(valueElement, 'aria-hidden', 'true');
+        this.renderer.setAttribute(
+          divCombobox,
+          'aria-label',
+          comboboxAriaLabel + ', ' + valueLabel
+        );
+        observer.disconnect();
+      });
+
+      this.breakpointService
+        ?.isDown(BREAKPOINT.md)
+        .pipe(filter(Boolean), take(1))
+        .subscribe(() => {
+          observer.observe(this.elementRef.nativeElement, {
+            subtree: true,
+            characterData: true,
+          });
+        });
     }
   }
 
