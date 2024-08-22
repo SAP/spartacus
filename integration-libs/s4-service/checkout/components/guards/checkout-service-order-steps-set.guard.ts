@@ -35,17 +35,8 @@ export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard 
       .getSelectedServiceDetailsState()
       .pipe(
         filter((state) => !state.loading && !state.error),
-        switchMap((selectedServiceDetails) =>
-          this.checkoutServiceDetailsFacade
-            .getServiceProducts()
-            .pipe(
-              map((products) =>
-                (products.length > 0 && selectedServiceDetails.data) ||
-                products.length === 0
-                  ? true
-                  : this.getUrl(step.routeName)
-              )
-            )
+        map((selectedServiceDetails) =>
+          selectedServiceDetails.data ? true : this.getUrl(step.routeName)
         )
       );
   }
