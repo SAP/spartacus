@@ -117,6 +117,9 @@ const submitAccessibilityConcernsToAMP = (reportName = 'AMP Report') => {
   ) {
     cy.log('Submitting accessibility concerns to AMP...');
 
+    // Suppress AMP_API_TOKEN from being logged
+    cy.intercept('**apiToken**', { log: false });
+
     cy.title({ log: false }).then((pageTitle) => {
       cy.url({ log: false }).then({ timeout: 30000 }, async (pageUrl) => {
         const ampReportingService = Continuum.AMPReportingService;
