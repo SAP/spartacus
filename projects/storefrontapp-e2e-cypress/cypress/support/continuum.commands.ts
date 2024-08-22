@@ -19,6 +19,30 @@ const accessEngineFilePath =
     ''
   ); // versions of Cypress prior to 5 include a leading forward slash in __dirname
 
+const LEVEL_ACCESS_API = 'https://sap.levelaccess.net/api/cont/organization';
+
+/**
+ * Prevent showing xhr calls in logs and exposing api token.
+ */
+const origLog = Cypress.log;
+Cypress.log = function (opts, ...other) {
+  if (opts.displayName >= LEVEL_ACCESS_API || opts.name >= LEVEL_ACCESS_API) {
+    return;
+  }
+  return origLog(opts, ...other);
+};
+
+/**
+ *  Avoid exposing API key in case of error.
+ */
+Cypress.on('fail', (error) => {
+  if (error.message.includes(LEVEL_ACCESS_API)) {
+    error.message =
+      'There was an issue submitting accessibility concerns to AMP. Please confirm correct credentials and connection.';
+  }
+  throw error;
+});
+
 const setUpContinuum = (configFilePath) =>
   // Using the Continuum JavaScript SDK requires us to load the following files before invoking `Continuum.setUp`:
   // * the Continuum configuration file (continuum.conf.js) specified by `configFilePath`
@@ -116,9 +140,6 @@ const submitAccessibilityConcernsToAMP = (reportName = 'AMP Report') => {
       Cypress.env('AMP_API_TOKEN') !== 'undefined')
   ) {
     cy.log('Submitting accessibility concerns to AMP...');
-
-    // Suppress AMP_API_TOKEN from being logged
-    cy.intercept('**apiToken**', { log: false });
 
     cy.title({ log: false }).then((pageTitle) => {
       cy.url({ log: false }).then({ timeout: 30000 }, async (pageUrl) => {
