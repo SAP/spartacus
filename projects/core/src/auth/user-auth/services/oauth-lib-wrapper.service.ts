@@ -22,7 +22,9 @@ import { BaseSite, BaseSiteService } from '@spartacus/core';
   providedIn: 'root',
 })
 export class OAuthLibWrapperService {
-  protected baseSiteService = inject(BaseSiteService);
+  protected baseSiteService = inject(BaseSiteService, {
+    optional: true,
+  });
   events$: Observable<OAuthEvent> = this.oAuthService.events;
   currentBaseSite: BaseSite;
 
