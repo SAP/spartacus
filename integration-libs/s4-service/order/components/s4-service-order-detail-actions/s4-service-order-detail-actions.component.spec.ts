@@ -18,16 +18,19 @@ import { By } from '@angular/platform-browser';
 import { Order } from '@spartacus/order/root';
 
 const mockOrder1 = {
+  serviceCancellable: true,
   serviceReschedulable: true,
   status: 'PENDING',
   servicedAt: '2021-08-10T10:00:00Z',
 };
 const mockOrder2 = {
+  serviceCancellable: false,
   serviceReschedulable: false,
   status: 'CANCELLED',
   servicedAt: '2021-08-10T10:00:00Z',
 };
 const mockOrder3 = {
+  serviceCancellable: false,
   serviceReschedulable: false,
   status: 'PENDING',
 };
@@ -105,7 +108,7 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     spyOn(globalMessageService, 'add').and.callThrough();
   };
 
-  describe('serviceReschedulable', () => {
+  describe('order serviceable', () => {
     beforeEach(() => {
       beforeEachFn(mockOrder1);
     });
@@ -113,11 +116,18 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     it('should create', () => {
       expect(component).toBeTruthy();
     });
+    it('should show Cancel button when service is serviceCancellable', () => {
+      component.displayActions$ = of(true);
+      fixture.detectChanges();
+      expect(el.query(By.css('.cx-order-details-actions'))).toBeTruthy();
+      const elements = el.queryAll(By.css('#cancel-service-btn'));
+      expect(elements.length).toEqual(1);
+    });
     it('should show Reschedule button when service is reschedulable', () => {
       component.displayActions$ = of(true);
       fixture.detectChanges();
       expect(el.query(By.css('.cx-order-details-actions'))).toBeTruthy();
-      const elements = el.queryAll(By.css('a'));
+      const elements = el.queryAll(By.css('#reschedule-service-btn'));
       expect(elements.length).toEqual(1);
     });
     it('should display action buttons when time to service is more than 24 hours', () => {
@@ -146,7 +156,7 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     });
   });
 
-  describe('serviceNotReschedulable', () => {
+  describe('order not serviceable', () => {
     beforeEach(() => {
       beforeEachFn(mockOrder2);
     });
@@ -169,6 +179,12 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
   describe('displayActions', () => {
     beforeEach(() => {
       beforeEachFn(mockOrder3);
+    });
+
+    it('should not show Cancel button when service is not serviceCancellable', () => {
+      fixture.detectChanges();
+      const elements = el.queryAll(By.css('#cancel-service-btn'));
+      expect(elements.length).toEqual(0);
     });
 
     it('should display action buttons row as a failsafe', () => {
