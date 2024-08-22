@@ -36,10 +36,11 @@ import { ConfiguratorFormComponent } from './configurator-form.component';
   selector: 'cx-configurator-group',
   template: '',
 })
-class MockConfiguratorDefaultFormComponent {
+class MockConfiguratorGroupComponent {
   @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
   @Input() isNavigationToGroupEnabled = true;
+  @Input() isPricingAsync?: boolean;
 }
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -262,10 +263,7 @@ describe('ConfigurationFormComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [
-        MockConfiguratorDefaultFormComponent,
-        ConfiguratorFormComponent,
-      ],
+      declarations: [MockConfiguratorGroupComponent, ConfiguratorFormComponent],
       providers: [
         {
           provide: RoutingService,

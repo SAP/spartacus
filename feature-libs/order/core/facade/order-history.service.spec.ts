@@ -270,4 +270,14 @@ describe('OrderHistoryService', () => {
       .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
+  describe('getQueryParams', () => {
+    it('should always return null even if guid is present', () => {
+      const param = userOrderService.getQueryParams({ guid: '123' });
+      expect(param).toEqual(null);
+    });
+    it('should always return if no guid exists', () => {
+      const param = userOrderService.getQueryParams({ code: '123' });
+      expect(param).toEqual(null);
+    });
+  });
 });
