@@ -56,6 +56,7 @@
       "@spartacus/pdf-invoices",
       "@spartacus/product",
       "@spartacus/product-configurator",
+      "@spartacus/product-multi-dimensional",
       "@spartacus/qualtrics",
       "@spartacus/requested-delivery-date",
       "@spartacus/smartedit",

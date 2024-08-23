@@ -38,6 +38,7 @@ module.exports = {
         __dirname,
         'feature-libs/product-configurator'
       ),
+    '@spartacus/product-multi-dimensional': path.join(__dirname, 'feature-libs/product-multi-dimensional'),
       '@spartacus/storefinder': path.join(
         __dirname,
         'feature-libs/storefinder'

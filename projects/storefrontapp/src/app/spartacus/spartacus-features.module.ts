@@ -104,6 +104,8 @@ import { StorefinderFeatureModule } from './features/storefinder/storefinder-fea
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
 import { OmfFeatureModule } from './features/omf/omf-feature.module';
+import { ProductMultiDimensionalSelectorFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-selector-feature.module';
+import { ProductMultiDimensionalListFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-list-feature.module';
 
 const featureModules = [];
 
@@ -257,6 +259,8 @@ if (environment.cpq) {
     SmartEditFeatureModule,
 
     VariantsFeatureModule,
+    ProductMultiDimensionalSelectorFeatureModule,
+    ProductMultiDimensionalListFeatureModule,
     ImageZoomFeatureModule,
 
     QuoteFeatureModule,
