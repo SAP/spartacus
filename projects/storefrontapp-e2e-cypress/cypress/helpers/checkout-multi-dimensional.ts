@@ -217,11 +217,14 @@ function selectVariantAndAddToCart(color: string = 'Blue') {
     .find(`img[title*="${color}"]`)
     .click();
 
-  cy.get('cx-added-to-cart-dialog.d-block.fade.modal.show').should('be.visible');
+  cy.get('cx-product-multi-dimensional-selector')
+    .find(`button[aria-label*="Selected, ${color} Color"]`)
+    .should('be.visible');
 
   addProductToCart();
 
   cy.get('cx-added-to-cart-dialog.d-block.fade.modal.show')
+    .should('be.visible')
     .find('button.close[aria-label="Close Modal"]')
     .click();
 
@@ -233,7 +236,9 @@ export function selectVariant(color: string = 'Blue') {
     .find(`img[title*="${color}"]`)
     .click();
 
-  cy.get('cx-product-multi-dimensional-selector').should('be.visible');
+  cy.get('cx-product-multi-dimensional-selector')
+    .find(`button[aria-label*="Selected, ${color} Color"]`)
+    .should('be.visible');
 }
 
 export function goToMultiDProductFromPLP() {
