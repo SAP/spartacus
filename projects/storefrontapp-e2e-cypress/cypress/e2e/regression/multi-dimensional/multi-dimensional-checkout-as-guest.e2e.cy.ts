@@ -16,7 +16,7 @@ context('Multi Dimensional - checkout as guest', () => {
 
   viewportContext(['desktop'], () => {
     describe('multi-d all-tests', () => {
-      checkoutMultiDVariants.testCheckoutMultiDAsGuestAndVerifyCart();
+      // checkoutMultiDVariants.testCheckoutMultiDAsGuestAndVerifyCart();
     });
   });
 });

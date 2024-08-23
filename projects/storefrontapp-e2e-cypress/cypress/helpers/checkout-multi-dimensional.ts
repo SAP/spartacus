@@ -4,20 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { assertAddressForm } from './address-book';
-import { login } from './auth-forms';
+import {assertAddressForm} from './address-book';
+import {login} from './auth-forms';
 import * as guestCheckout from './checkout-as-guest';
 import * as checkout from './checkout-flow';
-import { validateUpdateProfileForm } from './update-profile';
+import {validateUpdateProfileForm} from './update-profile';
 import {
   cartWithMultipleVariantProducts,
   cartWithTotalVariantProduct,
   multiDBaseProduct,
   multiDProduct,
 } from '../sample-data/multi-dimensional-flow';
-import { getSampleUser } from '../sample-data/checkout-flow';
-import { searchForProduct } from './product-search';
-import { addProductToCart } from './applied-promotions';
+import {getSampleUser} from '../sample-data/checkout-flow';
+import {searchForProduct} from './product-search';
+import {addProductToCart} from './applied-promotions';
 
 export function testCheckoutMultiDAsGuest() {
   it('should perform checkout as guest, create an account and verify guest data', () => {
@@ -103,7 +103,7 @@ export function testCheckoutMultiDAsGuestAndVerifyCart() {
 
     goToMultiDProductFromPLP();
 
-    selectVariantAndAddToCart('Pink');
+    selectVariantAndAddToCart( 'Pink');
     selectVariantAndAddToCart('Black');
     selectVariant('Blue');
 
@@ -217,7 +217,7 @@ function selectVariantAndAddToCart(color: string = 'Blue') {
     .find(`img[title*="${color}"]`)
     .click();
 
-  cy.wait(3000);
+  cy.get('cx-added-to-cart-dialog.d-block.fade.modal.show').should('be.visible');
 
   addProductToCart();
 
@@ -233,15 +233,16 @@ export function selectVariant(color: string = 'Blue') {
     .find(`img[title*="${color}"]`)
     .click();
 
-  cy.wait(3000);
+  cy.get('cx-product-multi-dimensional-selector').should('be.visible');
 }
 
 export function goToMultiDProductFromPLP() {
+
   cy.get('cx-product-list-item.cx-product-search-list')
     .find(`a[href*="${multiDBaseProduct.code}"]`)
     .should('be.visible')
     .first()
     .click();
 
-  cy.wait(3000);
+  cy.get('cx-product-multi-dimensional-selector').should('be.visible');
 }
