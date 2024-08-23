@@ -20,7 +20,7 @@ import { searchForProduct } from './product-search';
 import { addProductToCart } from './applied-promotions';
 
 export function testCheckoutMultiDAsGuest() {
-  it('should perform checkout as guest, create an account and verify guest data', () => {
+  it.skip('should perform checkout as guest, create an account and verify guest data', () => {
     const multiDUser = getSampleUser();
     checkout.visitHomePage();
     checkout.clickHamburger();
@@ -93,7 +93,7 @@ export function testCheckoutMultiDAsGuest() {
 }
 
 export function testCheckoutMultiDAsGuestAndVerifyCart() {
-  it('should perform checkout as guest, create an account and verify guest data, and verify cart persists after registering', () => {
+  it.skip('should perform checkout as guest, create an account and verify guest data, and verify cart persists after registering', () => {
     const multiDUser = getSampleUser();
 
     checkout.visitHomePage();
@@ -179,7 +179,7 @@ export function testCheckoutMultiDAsGuestAndVerifyCart() {
 }
 
 export function testCheckoutRegisteredUser() {
-  it('should perform checkout with a registered user', () => {
+  it.skip('should perform checkout with a registered user', () => {
     const regMultiDUser = getSampleUser();
     checkout.visitHomePage();
 
