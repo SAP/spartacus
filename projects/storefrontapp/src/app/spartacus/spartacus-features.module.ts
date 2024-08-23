@@ -346,7 +346,6 @@ if (environment.cpq) {
         a11yDeliveryModeRadiogroup: true,
         a11yAddedToCartActiveDialog: true,
         a11yNgSelectMobileReadout: true,
-        a11yZoomDialogCloseOnEsc: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
       };
       return appFeatureToggles;
