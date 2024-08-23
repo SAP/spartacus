@@ -10,6 +10,10 @@ export const defaultServiceOrdersRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
       checkoutServiceDetails: { paths: ['checkout/service-details'] },
+      cancelServiceDetails: {
+        paths: ['my-account/order/cancelservice/:orderCode'],
+        paramsMapping: { orderCode: 'code' },
+      },
       rescheduleServiceDetails: {
         paths: ['my-account/order/rescheduleservice/:orderCode'],
         paramsMapping: { orderCode: 'code' },
