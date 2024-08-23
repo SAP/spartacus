@@ -217,7 +217,7 @@ function selectVariantAndAddToCart(color: string = 'Blue') {
     .find(`img[title*="${color}"]`)
     .click();
 
-  cy.wait(2000);
+  cy.wait(3000);
 
   addProductToCart();
 
@@ -233,7 +233,7 @@ export function selectVariant(color: string = 'Blue') {
     .find(`img[title*="${color}"]`)
     .click();
 
-  cy.wait(2000);
+  cy.wait(3000);
 }
 
 export function goToMultiDProductFromPLP() {
@@ -243,5 +243,5 @@ export function goToMultiDProductFromPLP() {
     .first()
     .click();
 
-  cy.wait(2000);
+  cy.wait(3000);
 }
