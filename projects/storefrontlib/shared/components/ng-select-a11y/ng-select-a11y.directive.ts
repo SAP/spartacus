@@ -15,8 +15,8 @@ import {
   Renderer2,
 } from '@angular/core';
 import { FeatureConfigService, TranslationService } from '@spartacus/core';
-import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { filter, take } from 'rxjs';
+import { BREAKPOINT, BreakpointService } from '../../../layout';
 
 @Directive({
   selector: '[cxNgSelectA11y]',
