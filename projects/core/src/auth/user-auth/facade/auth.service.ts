@@ -18,7 +18,7 @@ import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
 import { UserIdService } from './user-id.service';
-
+// dummy change
 /**
  * Auth service for normal user authentication.
  * Use to check auth status, login/logout with different OAuth flows.
