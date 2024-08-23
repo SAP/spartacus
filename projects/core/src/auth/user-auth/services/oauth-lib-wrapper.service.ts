@@ -41,13 +41,28 @@ export class OAuthLibWrapperService {
         .get()
         .pipe(take(1))
         .subscribe((site) => {
-          if (site?.cdcSiteConfig && site?.uid) {
+          if (
+            site?.cdcSiteConfig &&
+            site?.uid &&
+            site.baseStore?.defaultCurrency &&
+            site.defaultLanguage
+          ) {
+            const defaultCurrency = site.baseStore.defaultCurrency.isocode;
+            const defaultLanguage = site.defaultLanguage.isocode;
+
             this.currentBaseSite = site;
             this.oAuthService.configure({
               clientId: site.cdcSiteConfig.oidcRpClientId,
               issuer: site.cdcSiteConfig.oidcOpIssuerURI,
               redirectUri:
-                window.location.origin + '/' + site.uid + '/en/USD/login',
+                window.location.origin +
+                '/' +
+                site.uid +
+                '/' +
+                defaultLanguage +
+                '/' +
+                defaultCurrency +
+                '/login',
               scope: site.cdcSiteConfig.scopes.join(' '),
               responseType: 'code',
             });
