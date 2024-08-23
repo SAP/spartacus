@@ -45,6 +45,8 @@ export class NgSelectA11yDirective implements AfterViewInit {
 
   @Optional() breakpointService = inject(BreakpointService, { optional: true });
 
+  ariaLabelAttribute = 'aria-label';
+
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef
@@ -60,7 +62,11 @@ export class NgSelectA11yDirective implements AfterViewInit {
     const ariaControls = this.cxNgSelectA11y.ariaControls ?? elementId;
 
     if (ariaLabel) {
-      this.renderer.setAttribute(divCombobox, 'aria-label', ariaLabel);
+      this.renderer.setAttribute(
+        divCombobox,
+        this.ariaLabelAttribute,
+        ariaLabel
+      );
     }
 
     if (ariaControls) {
@@ -71,28 +77,15 @@ export class NgSelectA11yDirective implements AfterViewInit {
       this.featureConfigService.isEnabled('a11yNgSelectMobileReadout') &&
       inputElement.readOnly
     ) {
-      const observer = new MutationObserver((_changes, observer) => {
-        const comboboxAriaLabel = divCombobox.getAttribute('aria-label');
-        const valueLabel =
-          this.elementRef.nativeElement.querySelector(
-            '.ng-value-label'
-          ).innerText;
-        const valueElement =
-          this.elementRef.nativeElement.querySelector('.ng-value');
-        this.renderer.setAttribute(valueElement, 'aria-hidden', 'true');
-        this.renderer.setAttribute(
-          divCombobox,
-          'aria-label',
-          comboboxAriaLabel + ', ' + valueLabel
-        );
-        observer.disconnect();
+      const selectObserver = new MutationObserver((changes, observer) => {
+        this.appendValueToAriaLabel(changes, observer, divCombobox);
       });
 
       this.breakpointService
         ?.isDown(BREAKPOINT.md)
         .pipe(filter(Boolean), take(1))
         .subscribe(() => {
-          observer.observe(this.elementRef.nativeElement, {
+          selectObserver.observe(this.elementRef.nativeElement, {
             subtree: true,
             characterData: true,
           });
@@ -114,11 +107,36 @@ export class NgSelectA11yDirective implements AfterViewInit {
           options.forEach(
             (option: HTMLOptionElement, index: string | number) => {
               const ariaLabel = `${option.innerText}, ${+index + 1} ${translation} ${options.length}`;
-              this.renderer.setAttribute(option, 'aria-label', ariaLabel);
+              this.renderer.setAttribute(
+                option,
+                this.ariaLabelAttribute,
+                ariaLabel
+              );
             }
           );
         });
     }
     observerInstance.disconnect();
+  }
+
+  appendValueToAriaLabel(
+    _changes: any,
+    observer: MutationObserver,
+    divCombobox: HTMLElement
+  ) {
+    const valueLabel =
+      this.elementRef.nativeElement.querySelector('.ng-value-label')?.innerText;
+    if (!valueLabel) return;
+    const comboboxAriaLabel =
+      divCombobox?.getAttribute(this.ariaLabelAttribute) || '';
+    const valueElement =
+      this.elementRef.nativeElement.querySelector('.ng-value');
+    this.renderer.setAttribute(valueElement, 'aria-hidden', 'true');
+    this.renderer.setAttribute(
+      divCombobox,
+      this.ariaLabelAttribute,
+      comboboxAriaLabel + ', ' + valueLabel
+    );
+    observer.disconnect();
   }
 }

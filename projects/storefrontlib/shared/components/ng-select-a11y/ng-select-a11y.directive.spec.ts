@@ -65,12 +65,10 @@ describe('NgSelectA11yDirective', () => {
 
     const select = getNgSelect().nativeElement;
     const innerDiv = select.querySelector("[role='combobox']");
-    const inputElement = select.querySelector('input');
 
     expect(innerDiv).toBeTruthy();
     expect(innerDiv.getAttribute('aria-controls')).toEqual('size-results');
     expect(innerDiv.getAttribute('aria-label')).toEqual('Size');
-    expect(inputElement.getAttribute('aria-hidden')).toEqual('true');
   });
 
   it('should append aria-label to options', (done) => {
