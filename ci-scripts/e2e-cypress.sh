@@ -91,7 +91,7 @@ if [[ "${SSR}" = true ]]; then
     if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
       if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
         npm run e2e:run:ci:ssr
-      else 
+      else
         npm run e2e:run:ci:core:ssr
       fi
     else
@@ -103,13 +103,13 @@ else
     echo '-----'
     echo "Running Cypress end to end tests"
 
-#    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-#      if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
-#        npm run e2e:run:ci"${SUITE}"
-#      else 
-#        npm run e2e:run:ci:core"${SUITE}"
-#      fi
-#    else
+    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+      if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
         npm run e2e:run:ci"${SUITE}"
-#    fi
+      else
+        npm run e2e:run:ci:core"${SUITE}"
+      fi
+    else
+        npm run e2e:run:ci"${SUITE}"
+    fi
 fi
