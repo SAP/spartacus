@@ -45,6 +45,9 @@ cx-product-image-zoom-dialog {
             outline-offset: -4px;
           }
         }
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
       }
       .cx-dialog-body {
         @extend .modal-body;
@@ -67,7 +70,7 @@ cx-product-image-zoom-dialog {
         background-color: var(--cx-color-background);
       }
       .close {
-        color: var(--cx-color-text);
+        color: var(--cx-color-dark);
       }
     }
   }

@@ -162,9 +162,17 @@
 
   @include cx-highContrastTheme {
     .indicators {
-      .button {
+      button {
         background-color: var(--cx-color-background);
       }
+    }
+    .indicators button[disabled] .cx-icon {
+      color: var(--cx-color-dark);
+      background-color: var(--cx-color-light);
+      padding: 4px;
+    }
+    .indicators button .cx-icon {
+      border: 3px solid var(--cx-color-dark);
     }
   }
 }

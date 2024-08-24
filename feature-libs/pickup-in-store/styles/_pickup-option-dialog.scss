@@ -26,6 +26,9 @@
           @include type('3');
           margin-inline-start: var(--cx-margin-left, 0.875rem);
         }
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
       }
 
       .cx-dialog-body {

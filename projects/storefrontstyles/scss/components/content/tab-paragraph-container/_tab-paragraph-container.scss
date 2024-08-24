@@ -231,6 +231,12 @@ $useAccordionOnly: false !default;
   .active {
     background-color: var(--cx-color-inverse);
   }
+  > div > button {
+    @include cx-highContrastTheme {
+      border-top-color: var(--cx-color-text);
+      color: var(--cx-color-text);
+    }
+  }
 
   @include cx-highContrastTheme {
     .active {

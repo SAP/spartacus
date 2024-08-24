@@ -297,6 +297,7 @@
   }
 
   @include cx-highContrastTheme {
+    border: 1px solid var(--cx-color-dark);
     label {
       background-color: var(--cx-color-background);
       input {

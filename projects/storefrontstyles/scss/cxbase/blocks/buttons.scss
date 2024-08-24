@@ -98,6 +98,13 @@ button {
         box-shadow: 0 0 0 0.2rem rgba(var(--cx-color-primary), 0.5);
       }
     }
+    @include cx-highContrastTheme-dark {
+      color: var(--cx-color-medium);
+      &:not(:disabled):not(.disabled):active,
+      &:not(:disabled):not(.disabled).active {
+        color: var(--cx-color-medium);
+      }
+    }
   }
 
   &-secondary {
@@ -116,6 +123,10 @@ button {
       background-color: var(--cx-color-secondary);
       border-color: var(--cx-color-secondary);
       @include cx-darken(84);
+      @include cx-highContrastTheme-dark {
+        color: var(--cx-color-medium);
+        border-color: var(--cx-color-medium);
+      }
     }
 
     &.disabled,
@@ -148,6 +159,14 @@ button {
         //this here below will not work unles cx global colors are initially declared in rbg
         box-shadow: 0 0 0 0.2em rgba(var(--cx-color-primary), 0.5);
       }
+      @include cx-highContrastTheme-dark {
+        color: var(--cx-color-medium);
+        border-color: var(--cx-color-medium);
+      }
+    }
+    @include cx-highContrastTheme-dark {
+      color: var(--cx-color-medium);
+      border-color: var(--cx-color-medium);
     }
   }
 

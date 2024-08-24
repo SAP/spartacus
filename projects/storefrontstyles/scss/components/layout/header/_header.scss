@@ -225,5 +225,6 @@ $space: 0.5rem;
       var(--cx-color-background) $header-height,
       var(--cx-color-background) 0
     );
+    border-bottom: 1px solid var(--cx-color-dark);
   }
 }

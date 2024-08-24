@@ -252,6 +252,13 @@ legend {
       }
     }
   }
+
+  @include cx-highContrastTheme-dark {
+    input[type='checkbox']:checked {
+      border-color: var(--cx-color-dark);
+      background-color: var(--cx-color-medium);
+    }
+  }
 }
 
 .form-control[type='text'] {
@@ -360,6 +367,18 @@ input[type='radio'] {
       padding-inline-start: 10px;
     }
   }
+
+  @include cx-highContrastTheme {
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    s .ng-arrow-wrapper {
+      .ng-arrow {
+        border-color: var(--cx-color-text) transparent transparent;
+      }
+    }
+  }
 }
 
 .ng-select {
@@ -435,6 +454,15 @@ input {
     -moz-appearance: none;
     appearance: none;
   }
+  @include cx-highContrastTheme {
+    input[type='radio']:checked {
+      border-color: var(--cx-color-dark) !important;
+      background-color: var(--cx-color-light);
+    }
+    input[type='radio']:checked::after {
+      background-color: var(--cx-color-dark);
+    }
+  }
 }
 
 .ng-select .ng-select-container .ng-value-container .ng-placeholder {
@@ -464,5 +492,15 @@ input {
   input[type='text']::-ms-input-placeholder,
   input[type='tel']::-ms-input-placeholder {
     color: var(--cx-color-secondary);
+  }
+}
+form {
+  @include cx-highContrastTheme {
+    input:-webkit-autofill,
+    input:-webkit-autofill:focus {
+      transition:
+        background-color 0s 600000s,
+        color 0s 600000s !important;
+    }
   }
 }
