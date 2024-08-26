@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './login-form-oidc.component';
-export * from './login-form-oidc.module';
+export * from './login-oidc.component';
+export * from './login-oidc.module';

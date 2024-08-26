@@ -4,21 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { LoginFormOidcComponent } from './login-form-oidc.component';
+import { LoginOidcComponent } from './login-oidc.component';
 import { OAuthLibWrapperService } from '@spartacus/core';
 
 class MockOAuthService implements Partial<OAuthLibWrapperService> {
   initLoginFlow = jasmine.createSpy('initLoginFlow');
 }
 
-describe('LoginFormOidcComponent', () => {
-  let component: LoginFormOidcComponent;
-  let fixture: ComponentFixture<LoginFormOidcComponent>;
+describe('LoginOidcComponent', () => {
+  let component: LoginOidcComponent;
+  let fixture: ComponentFixture<LoginOidcComponent>;
   let mockOAuthService: OAuthLibWrapperService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [LoginFormOidcComponent],
+      declarations: [LoginOidcComponent],
       providers: [
         { provide: OAuthLibWrapperService, useClass: MockOAuthService },
       ],
@@ -26,7 +26,7 @@ describe('LoginFormOidcComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginFormOidcComponent);
+    fixture = TestBed.createComponent(LoginOidcComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     mockOAuthService = TestBed.inject(OAuthLibWrapperService);

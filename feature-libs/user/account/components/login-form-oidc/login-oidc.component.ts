@@ -7,10 +7,10 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { OAuthLibWrapperService } from '@spartacus/core';
 @Component({
-  selector: 'cx-login-form-oidc',
-  templateUrl: './login-form-oidc.component.html',
+  selector: 'cx-login-oidc',
+  templateUrl: './login-oidc.component.html',
 })
-export class LoginFormOidcComponent implements OnInit {
+export class LoginOidcComponent implements OnInit {
   protected oauthLibWrapper = inject(OAuthLibWrapperService);
   ngOnInit(): void {
     this.oauthLibWrapper.initLoginFlow();
