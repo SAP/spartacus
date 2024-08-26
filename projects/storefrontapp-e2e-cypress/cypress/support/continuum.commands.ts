@@ -21,35 +21,34 @@ const accessEngineFilePath =
 
 const LEVEL_ACCESS_API = 'https://sap.levelaccess.net/api/cont/organization';
 
-/**
- * Prevent showing xhr calls in logs and exposing api token.
- */
-const origLog = Cypress.log;
-Cypress.log = function (opts, ...other) {
-  if (opts.displayName >= LEVEL_ACCESS_API || opts.name >= LEVEL_ACCESS_API) {
-    return;
-  }
-  return origLog(opts, ...other);
-};
+// Using the Continuum JavaScript SDK requires us to load the following files before invoking `Continuum.setUp`:
+// * the Continuum configuration file (continuum.conf.js) specified by `configFilePath`
+// * Access Engine (AccessEngine.professional.js), the underlying accessibility testing engine Continuum uses
+// Normally code outside the Continuum JavaScript SDK is not required to do this, but Cypress' design essentially forces our hand
+const setUpContinuum = (configFilePath) => {
+  /**
+   * Prevent showing xhr calls in logs and exposing api token.
+   */
+  const origLog = Cypress.log;
+  Cypress.log = function (opts, ...other) {
+    if (opts.displayName >= LEVEL_ACCESS_API || opts.name >= LEVEL_ACCESS_API) {
+      return;
+    }
+    return origLog(opts, ...other);
+  };
 
-/**
- *  Avoid exposing API key in case of error.
- */
-Cypress.on('fail', (error) => {
-  if (error.message.includes(LEVEL_ACCESS_API)) {
-    error.message =
-      'There was an issue submitting accessibility concerns to AMP. Please confirm correct credentials and connection.';
-  }
-  throw error;
-});
+  /**
+   *  Avoid exposing API key in case of error.
+   */
+  Cypress.on('fail', (error) => {
+    if (error.message.includes(LEVEL_ACCESS_API)) {
+      error.message =
+        'There was an issue submitting accessibility concerns to AMP. Please confirm correct credentials and connection.';
+    }
+    throw error;
+  });
 
-const setUpContinuum = (configFilePath) =>
-  // Using the Continuum JavaScript SDK requires us to load the following files before invoking `Continuum.setUp`:
-  // * the Continuum configuration file (continuum.conf.js) specified by `configFilePath`
-  // * Access Engine (AccessEngine.professional.js), the underlying accessibility testing engine Continuum uses
-  // Normally code outside the Continuum JavaScript SDK is not required to do this, but Cypress' design essentially forces our hand
-
-  cy
+  return cy
     .readFile(configFilePath)
     .then((configFileContents) => window.eval(configFileContents))
     .window()
@@ -65,10 +64,10 @@ const setUpContinuum = (configFilePath) =>
         })
         .then(() => Continuum.setUp(null, configFilePath, windowUnderTest))
     );
+};
 
+// We verify Access Engine is loaded, loading it again only if necessary, before running our accessibility tests using `Continuum.runAllTests`
 const runAllAccessibilityTests = (includeiframe = false) =>
-  // We verify Access Engine is loaded, loading it again only if necessary, before running our accessibility tests using `Continuum.runAllTests`
-
   cy
     .window()
     .then((windowUnderTest) =>
