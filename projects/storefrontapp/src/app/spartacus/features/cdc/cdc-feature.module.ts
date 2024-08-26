@@ -22,6 +22,11 @@ import {
           sessionExpiration: 3600,
         },
         {
+          baseSite: 'automobile-spa',
+          javascriptUrl: 'JS_SDK_URL_PLACEHOLDER',
+          sessionExpiration: 3600,
+        },
+        {
           baseSite: 'powertools-spa',
           javascriptUrl: 'JS_SDK_URL_PLACEHOLDER',
           sessionExpiration: 3600,
