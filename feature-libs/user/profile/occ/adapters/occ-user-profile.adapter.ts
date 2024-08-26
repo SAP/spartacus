@@ -27,7 +27,7 @@ import {
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { CaptchaApiConfig, CaptchaProvider } from '@spartacus/storefront';
+import { CaptchaApiConfig, CaptchaRenderer } from '@spartacus/storefront';
 
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 const CONTENT_TYPE_URLENCODED_HEADER = {
@@ -96,11 +96,16 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   requestForgotPasswordEmail(userEmailAddress: string): Observable<unknown> {
-    const url = this.occEndpoints.buildUrl('userRestoreToken');
-    const body = { loginId: userEmailAddress };
-    let headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
+    const url = this.occEndpoints.buildUrl('userForgotPassword');
+    const httpParams: HttpParams = new HttpParams().set(
+      'userId',
+      userEmailAddress
+    );
+    let headers = new HttpHeaders({
+      ...CONTENT_TYPE_URLENCODED_HEADER,
+    });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-    return this.http.post(url, body, { headers }).pipe(
+    return this.http.post(url, httpParams, { headers }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       })
@@ -129,12 +134,13 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const url = this.occEndpoints.buildUrl('userUpdateLoginId', {
       urlParams: { userId },
     });
-    const body = {
-      newLoginId: newUserId,
-      password: currentPassword,
-    };
-    const headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
-    return this.http.post(url, body, { headers }).pipe(
+    const httpParams: HttpParams = new HttpParams()
+      .set('password', currentPassword)
+      .set('newLogin', newUserId);
+    const headers = new HttpHeaders({
+      ...CONTENT_TYPE_URLENCODED_HEADER,
+    });
+    return this.http.put(url, httpParams, { headers }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       })
@@ -149,12 +155,13 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const url = this.occEndpoints.buildUrl('userUpdatePassword', {
       urlParams: { userId },
     });
-    const body = {
-      oldPassword: oldPassword,
-      newPassword: newPassword,
-    };
-    const headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
-    return this.http.post(url, body, { headers }).pipe(
+    const httpParams: HttpParams = new HttpParams()
+      .set('old', oldPassword)
+      .set('new', newPassword);
+    const headers = new HttpHeaders({
+      ...CONTENT_TYPE_URLENCODED_HEADER,
+    });
+    return this.http.put(url, httpParams, { headers }).pipe(
       catchError((error) => {
         throw normalizeHttpError(error, this.logger);
       })
@@ -185,9 +192,9 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   protected appendCaptchaToken(currentHeaders: HttpHeaders): HttpHeaders {
-    if (this.injector && this.captchaConfig?.captchaProvider) {
-      const provider = this.injector.get<CaptchaProvider>(
-        this.captchaConfig.captchaProvider
+    if (this.injector && this.captchaConfig?.captchaRenderer) {
+      const provider = this.injector.get<CaptchaRenderer>(
+        this.captchaConfig.captchaRenderer
       );
       const isCaptchaEnabled = provider
         .getCaptchaConfig()

@@ -5,3 +5,4 @@
  */
 
 export * from './service-order.guard';
+export * from './cancel-service-order.guard';

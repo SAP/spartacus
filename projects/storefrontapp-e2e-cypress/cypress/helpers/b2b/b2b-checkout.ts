@@ -282,7 +282,7 @@ export function selectAccountDeliveryMode() {
   );
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
 
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Options');
 
   cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('cx-delivery-mode input').eq(1).click();
