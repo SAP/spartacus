@@ -17,6 +17,9 @@ $modal-min-width-asm: 95% !important;
   background-color: rgba(0, 0, 0, 0.5);
   &-header {
     padding: $modal-header-padding;
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+    }
   }
   &-body {
     padding: 16px 30px 30px;
@@ -49,12 +52,6 @@ $modal-min-width-asm: 95% !important;
 
   &[aria-hidden='false'] {
     display: block;
-  }
-}
-
-.modal-header {
-  @include cx-highContrastTheme {
-    background-color: var(--cx-color-background);
   }
 }
 
