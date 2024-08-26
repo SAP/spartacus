@@ -126,17 +126,18 @@ export class NgSelectA11yDirective implements AfterViewInit {
   ) {
     const valueLabel =
       this.elementRef.nativeElement.querySelector('.ng-value-label')?.innerText;
-    if (!valueLabel) return;
-    const comboboxAriaLabel =
-      divCombobox?.getAttribute(this.ariaLabelAttribute) || '';
-    const valueElement =
-      this.elementRef.nativeElement.querySelector('.ng-value');
-    this.renderer.setAttribute(valueElement, 'aria-hidden', 'true');
-    this.renderer.setAttribute(
-      divCombobox,
-      this.ariaLabelAttribute,
-      comboboxAriaLabel + ', ' + valueLabel
-    );
+    if (valueLabel) {
+      const comboboxAriaLabel =
+        divCombobox?.getAttribute(this.ariaLabelAttribute) || '';
+      const valueElement =
+        this.elementRef.nativeElement.querySelector('.ng-value');
+      this.renderer.setAttribute(valueElement, 'aria-hidden', 'true');
+      this.renderer.setAttribute(
+        divCombobox,
+        this.ariaLabelAttribute,
+        comboboxAriaLabel + ', ' + valueLabel
+      );
+    }
     observer.disconnect();
   }
 }
