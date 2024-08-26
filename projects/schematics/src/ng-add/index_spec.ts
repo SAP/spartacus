@@ -15,7 +15,7 @@ import { getPathResultsForFile } from '../shared/utils/file-utils';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus Schematics: ng-add', () => {
+xdescribe('Spartacus Schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     collectionPath

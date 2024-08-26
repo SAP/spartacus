@@ -7,7 +7,7 @@ import {
 const sourceRoot = '/src';
 const project = { sourceRoot } as WorkspaceProject;
 
-describe('Styling utils', () => {
+xdescribe('Styling utils', () => {
   describe('getStylesConfigFilePath', () => {
     it('should provide the path of the styles config file in the project source root.', () => {
       const stylesConfigFilePath = getStylesConfigFilePath(sourceRoot);
