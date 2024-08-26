@@ -24,3 +24,5 @@ export interface CancellationRequestEntryInputs {
   quantity?: string[];
 }
 export type serviceCancellable = boolean;
+
+export const SERVICE_DELIVERY_MODE = 'service-delivery';

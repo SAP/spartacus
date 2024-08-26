@@ -149,9 +149,9 @@
   <!-- DELIVERY MODE SECTION -->
   <ng-template #deliveryMode>
     <div class="cx-review-summary-card cx-review-card-shipping">
-      <div>
+      <div *ngIf="deliveryMode$ | async as deliveryMode">
         <cx-card
-          *ngIf="deliveryMode$ | async as deliveryMode"
+          *ngIf="hasActiveDeliveryMode(deliveryMode)"
           [content]="getDeliveryModeCard(deliveryMode) | async"
         >
         </cx-card>

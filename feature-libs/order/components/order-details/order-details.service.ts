@@ -5,6 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 import { RoutingService } from '@spartacus/core';
 import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
@@ -52,5 +53,8 @@ export class OrderDetailsService {
     return this.orderLoad$.pipe(
       switchMap(() => this.orderHistoryFacade.getOrderDetails())
     );
+  }
+  hasDeliveryMode(mode: DeliveryMode): Boolean {
+    return mode !== undefined;
   }
 }
