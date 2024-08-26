@@ -485,16 +485,6 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
     });
   });
 
-  it('should call getEmptyServiceDetailsCard() to get empty card', (done) => {
-    component.getServiceDetailsCard(null).subscribe((card) => {
-      expect(card.title).toEqual('serviceOrderCheckout.serviceDetails');
-      expect(card.textBold).toEqual(
-        'serviceOrderCheckout.emptyServiceDetailsCard'
-      );
-      done();
-    });
-  });
-
   it('should get checkout step url', () => {
     expect(
       component.getCheckoutStepUrl(CheckoutStepType.DELIVERY_MODE)

@@ -6,8 +6,6 @@
     "serviceLocationHeading": "Service Location",
     "datePickerLabel": "Schedule Service Date",
     "timePickerLabel": "Schedule Service Time",
-    "clickContinue": "No Service details required. Click Continue",
-    "emptyServiceDetailsCard": "None",
     "unknownError": "An unknown error occurred. Please contact support."
   },
   "cancelService": {

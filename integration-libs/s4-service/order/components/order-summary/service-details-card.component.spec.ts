@@ -39,9 +39,7 @@ describe('ServiceDetailsCardComponent', () => {
       .withArgs('serviceOrderCheckout.serviceDetails')
       .and.returnValue(of('card title'))
       .withArgs('serviceOrderCheckout.cardLabel')
-      .and.returnValue(of('card bold text'))
-      .withArgs('serviceOrderCheckout.emptyServiceDetailsCard')
-      .and.returnValue(of('card empty'));
+      .and.returnValue(of('card bold text'));
   });
 
   it('should create', () => {
@@ -57,15 +55,6 @@ describe('ServiceDetailsCardComponent', () => {
         title: 'card title',
         textBold: '2023/12/12',
         text: ['12:00'],
-      });
-    });
-  });
-  it('should return card with details', () => {
-    component.getServiceDetailsCard(undefined).subscribe((card) => {
-      expect(card).toEqual({
-        title: 'card title',
-        textBold: 'card empty',
-        text: undefined,
       });
     });
   });
