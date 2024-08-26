@@ -52,6 +52,12 @@ $modal-min-width-asm: 95% !important;
   }
 }
 
+.modal-header {
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+  }
+}
+
 .cx-modal-container {
   display: flex;
   align-items: center;

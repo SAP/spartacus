@@ -207,6 +207,19 @@
     }
   }
 
+  @include cx-highContrastTheme {
+    cx-view {
+      .header {
+        background-color: var(--cx-color-background);
+      }
+      .main {
+        .details {
+          background-color: var(--cx-color-background);
+        }
+      }
+    }
+  }
+
   .vertical-stacked {
     table {
       table-layout: auto;
@@ -265,6 +278,9 @@
 
       &:not(.current) {
         background-color: var(--cx-color-inverse);
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
       }
 
       &.disabled {
@@ -293,6 +309,14 @@
   cx-table {
     &.vertical-stacked tbody,
     &.vertical tr {
+      &:not(:last-child) {
+        @include cx-highContrastTheme {
+          border-bottom: solid 1px rgba(0, 0, 0, 0.125);
+        }
+        @include cx-highContrastTheme-dark {
+          border-bottom: solid 1px var(--cx-color-text);
+        }
+      }
       // highlight the items on hovering
       &:hover:not(.is-current) {
         background-color: var(--cx-color-background);
