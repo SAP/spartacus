@@ -6,7 +6,6 @@
 
 /**
  * This is an example to show how we can setup and use Access Continuum to test accessibility in e2e tests.
- * Reports are submitted to AMP when correct credentials are used.
  */
 context('Access Continuum', () => {
   before(() => {
