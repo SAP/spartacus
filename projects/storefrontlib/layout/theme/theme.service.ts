@@ -60,13 +60,22 @@ export class ThemeService implements OnDestroy {
   }
 
   setTheme(theme: string | undefined): void {
-    if (theme) {
-      const element = this.rootComponent.location.nativeElement;
-      // remove the old theme
-      this.renderer.removeClass(element, this.existingTheme);
-      // add the new theme
-      this.renderer.addClass(element, theme);
-      this.existingTheme = theme;
+    const element = this.rootComponent.location.nativeElement;
+
+    if (this.featureConfigService.isEnabled('useNewSiteThemeSwitcher')) {
+      if (this.existingTheme) {
+        this.renderer.removeClass(element, this.existingTheme);
+      }
+      if (theme) {
+        this.renderer.addClass(element, theme);
+        this.existingTheme = theme;
+      }
+    } else {
+      if (theme) {
+        this.renderer.removeClass(element, this.existingTheme);
+        this.renderer.addClass(element, theme);
+        this.existingTheme = theme;
+      }
     }
   }
 }
