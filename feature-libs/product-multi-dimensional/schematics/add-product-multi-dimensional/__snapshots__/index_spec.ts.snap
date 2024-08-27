@@ -2,14 +2,12 @@
 
 exports[`Spartacus Product Multi-Dimensional schematics: ng-add list feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { ProductMultiDimensionalListModule } from "@spartacus/product-multi-dimensional/list";
 import { ProductMultiDimensionalListRootModule } from "@spartacus/product-multi-dimensional/list/root";
 
 @NgModule({
   declarations: [],
   imports: [
-    ProductMultiDimensionalListRootModule,
-    ProductMultiDimensionalListModule
+    ProductMultiDimensionalListRootModule
   ]
 })
 export class ProductMultiDimensionalListFeatureModule { }
