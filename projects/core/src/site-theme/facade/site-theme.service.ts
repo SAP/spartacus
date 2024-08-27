@@ -38,7 +38,7 @@ export class SiteThemeService implements SiteContext<SiteTheme> {
     );
     const defaultTheme: SiteTheme = {
       className: defaultThemeId || '',
-      i18nNameKey: 'site.theme.default',
+      i18nNameKey: 'themeSwitcher.themes.default',
     };
 
     // SPIKE TODO: rethink the key names `siteTheme.siteThemes` vs `optionalSiteThemes
