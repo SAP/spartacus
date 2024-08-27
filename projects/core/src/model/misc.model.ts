@@ -139,5 +139,4 @@ export interface CaptchaConfig {
 export interface SiteTheme {
   i18nNameKey?: string;
   className?: string;
-  default?: boolean;
 }
