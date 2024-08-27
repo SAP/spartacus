@@ -37,6 +37,11 @@ context('Site Theme', { testIsolation: false }, () => {
       'have.class',
       'cx-theme-high-contrast-light'
     );
+
+    cy.get('cx-theme-switcher select')
+      .select('Default')
+      .should('have.value', 'santorini');
+    cy.get('cx-storefront').should('have.class', 'santorini');
   });
 
   it('should keep selected theme after reload the page', () => {
