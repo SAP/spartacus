@@ -5,25 +5,13 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
-import {
-  PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE,
-  ProductMultiDimensionalListRootModule,
-} from '@spartacus/product-multi-dimensional/list/root';
+import { ProductMultiDimensionalListRootModule } from '@spartacus/product-multi-dimensional/list/root';
+import { ProductMultiDimensionalListModule } from '@spartacus/product-multi-dimensional/list';
 
 @NgModule({
-  imports: [ProductMultiDimensionalListRootModule],
-  providers: [
-    provideConfig({
-      featureModules: {
-        [PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE]: {
-          module: () =>
-            import('@spartacus/product-multi-dimensional/list').then(
-              (m) => m.ProductMultiDimensionalListModule
-            ),
-        },
-      },
-    }),
+  imports: [
+    ProductMultiDimensionalListRootModule,
+    ProductMultiDimensionalListModule,
   ],
 })
 export class ProductMultiDimensionalListFeatureModule {}
