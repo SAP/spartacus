@@ -48,8 +48,8 @@ context('Assisted Service Module', () => {
       cy.contains('Continue').click();
       checkout.fillAddressFormWithCheapProduct();
 
-      cy.log('--> Choose delivery method');
-      checkout.verifyDeliveryMethod();
+      cy.log('--> Choose delivery options');
+      checkout.verifyDeliveryOptions();
 
       cy.log('--> Fill payment form and continue');
       checkout.fillPaymentForm();

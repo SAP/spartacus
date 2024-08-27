@@ -196,7 +196,7 @@ export function goThroughGuestCheckout() {
     registerReviewOrderRoute();
     loginAsGuest(user);
     checkout.fillAddressFormWithCheapProduct();
-    checkout.verifyDeliveryMethod();
+    checkout.verifyDeliveryOptions();
     checkout.fillPaymentFormWithCheapProduct();
   });
 }

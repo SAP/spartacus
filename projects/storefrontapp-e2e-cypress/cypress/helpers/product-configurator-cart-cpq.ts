@@ -254,7 +254,7 @@ function proceedWithDeliveryMode(): void {
       cy.get('a.cx-link.active').contains('DeliveryMode');
       cy.get('cx-delivery-mode').should('be.visible');
       cy.get('cx-delivery-mode').within(() => {
-        cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+        cy.get('.cx-checkout-title').should('contain', 'Delivery Options');
       });
     });
 }
