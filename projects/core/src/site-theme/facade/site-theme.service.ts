@@ -4,22 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+
 import { select, Store } from '@ngrx/store';
 import { filter, map, take, tap } from 'rxjs/operators';
 
 import { Observable } from 'rxjs';
 
 import { SiteTheme } from '../../model/misc.model';
-import { SiteThemeConfig } from '../config/site-theme-config';
 import { isNotNullable } from '../../util/type-guards';
-import { StateWithSiteTheme } from '../store/state';
-import { SiteThemeSelectors } from '../store/selectors';
+import { SiteThemeConfig } from '../config/site-theme-config';
 import { SiteThemeActions } from '../store/actions';
+import { SiteThemeSelectors } from '../store/selectors';
+import { StateWithSiteTheme } from '../store/state';
 
 @Injectable()
 export class SiteThemeService {
-  private _isInitialized = false;
   protected store = inject(Store<StateWithSiteTheme>);
   protected config = inject(SiteThemeConfig);
 
@@ -48,14 +48,16 @@ export class SiteThemeService {
   /**
    * Sets the active theme className.
    */
-  // TODO(#8153): If we move this._isInitialized into an RxJS stream, it may create a race condition between SiteThemePersistenceService:onRead and SiteThemeInitializer:this.setFallbackValue().
   setActive(className: string): void {
-    this.isValidTheme(className)
-      .pipe(filter(Boolean), take(1))
-      .subscribe(() => {
-        this.store.dispatch(new SiteThemeActions.SetActiveSiteTheme(className));
+    this.store
+      .pipe(select(SiteThemeSelectors.getActiveSiteTheme), take(1))
+      .subscribe((activeTheme: string | null) => {
+        if (activeTheme !== className) {
+          this.store.dispatch(
+            new SiteThemeActions.SetActiveSiteTheme(className)
+          );
+        }
       });
-    this._isInitialized = true;
   }
 
   isValidTheme(className: string): Observable<boolean> {
@@ -68,6 +70,11 @@ export class SiteThemeService {
   }
 
   isInitialized(): boolean {
-    return this._isInitialized;
+    let valueInitialized = false;
+    this.getActive()
+      .subscribe(() => (valueInitialized = true))
+      .unsubscribe();
+
+    return valueInitialized;
   }
 }
