@@ -10,7 +10,7 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 
-export const defaultB2BOPFCheckoutConfig: CheckoutConfig = {
+export const defaultOpfCheckoutB2bConfig: CheckoutConfig = {
   checkout: {
     steps: [
       {

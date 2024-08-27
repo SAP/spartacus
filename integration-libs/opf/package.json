@@ -37,7 +37,6 @@
     "@spartacus/checkout": "2211.27.0",
     "@spartacus/core": "2211.27.0",
     "@spartacus/order": "2211.27.0",
-    "@spartacus/pickup-in-store": "2211.27.0",
     "@spartacus/schematics": "2211.27.0",
     "@spartacus/storefront": "2211.27.0",
     "@spartacus/styles": "2211.27.0",

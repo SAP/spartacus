@@ -17,7 +17,6 @@ export const defaultOccOpfConfig: OccConfig = {
           'payments/${paymentSessionId}/after-redirect-scripts',
         getActiveConfigurations: 'active-configurations',
         getCtaScripts: 'payments/cta-scripts-rendering',
-        getApplePayWebSession: 'payments/apple-pay-web-sessions',
       },
     },
   },

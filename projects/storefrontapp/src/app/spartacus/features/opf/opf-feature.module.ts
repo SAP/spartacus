@@ -20,7 +20,7 @@ import {
   opfCheckoutTranslations,
 } from '@spartacus/opf/checkout/assets';
 import {
-  defaultB2BOPFCheckoutConfig,
+  defaultOpfCheckoutB2bConfig,
   defaultOpfCheckoutConfig,
 } from '@spartacus/opf/checkout/root';
 
@@ -28,7 +28,7 @@ import { environment } from '../../../../environments/environment';
 
 const extensionProviders: Provider[] = [];
 if (environment.b2b) {
-  extensionProviders.push(provideConfig(defaultB2BOPFCheckoutConfig));
+  extensionProviders.push(provideConfig(defaultOpfCheckoutB2bConfig));
 } else {
   extensionProviders.push(provideConfig(defaultOpfCheckoutConfig));
 }
