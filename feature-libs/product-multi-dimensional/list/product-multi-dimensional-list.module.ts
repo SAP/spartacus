@@ -3,4 +3,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-export * from './product-multi-dimensional-list.module';
+
+import { NgModule } from '@angular/core';
+
+@NgModule({})
+export class ProductMultiDimensionalListModule {}
