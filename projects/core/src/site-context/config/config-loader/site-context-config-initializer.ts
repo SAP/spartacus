@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
-import { Observable, lastValueFrom } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { lastValueFrom, Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { BaseSite } from '../../../model/misc.model';
@@ -19,11 +19,9 @@ import {
   THEME_CONTEXT_ID,
 } from '../../providers/context-ids';
 import { SiteContextConfig } from '../site-context-config';
-import { FeatureToggles } from '../../../features-config';
 
 @Injectable({ providedIn: 'root' })
 export class SiteContextConfigInitializer implements ConfigInitializer {
-  private featureToggles = inject(FeatureToggles);
   readonly scopes = ['context'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
 
@@ -73,9 +71,10 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
           source.baseStore?.currencies,
           source.baseStore?.defaultCurrency
         ),
-        ...(this.featureToggles.useNewSiteThemeSwitcher
-          ? {}
-          : { [THEME_CONTEXT_ID]: [source.theme] }),
+        // Note: The default Site Theme can be driven by the CMS, but additional possible
+        // selectable themes (like a11y high contrast themes) can be configured only
+        // in the separate Spartacus configuration.
+        [THEME_CONTEXT_ID]: [source.theme],
       },
     } as SiteContextConfig;
 

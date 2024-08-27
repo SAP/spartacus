@@ -9,11 +9,7 @@ import { SiteThemeConfig } from './site-theme-config';
 export const defaultSiteThemeConfig: SiteThemeConfig = {
   siteTheme: {
     siteThemes: [
-      {
-        i18nNameKey: 'themeSwitcher.themes.default',
-        className: '',
-        default: true,
-      },
+      // SPIKE TODO: rethink the key names `siteTheme.siteThemes` vs `optionalSiteThemes
       {
         i18nNameKey: 'themeSwitcher.themes.highContrastDark',
         className: 'cx-theme-high-contrast-dark',
