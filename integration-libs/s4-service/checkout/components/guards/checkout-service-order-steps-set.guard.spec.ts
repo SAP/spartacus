@@ -148,8 +148,11 @@ class MockCheckoutServiceDetailsFacade
   getSelectedServiceDetailsState(): Observable<QueryState<string | undefined>> {
     return of({ loading: false, error: false, data: mockScheduledAt });
   }
-  getServiceProducts(): Observable<any> {
-    return of(['456']);
+  hasServiceItems(): Observable<boolean> {
+    return of(true);
+  }
+  hasNonServiceItems(): Observable<boolean> {
+    return of(false);
   }
 }
 
@@ -199,7 +202,8 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
     expect(guard).toBeTruthy();
   });
   it('should disable service details tab if no service products exists', (done) => {
-    spyOn(facade, 'getServiceProducts').and.returnValue(of([]));
+    spyOn(facade, 'hasServiceItems').and.returnValue(of(false));
+    spyOn(facade, 'hasNonServiceItems').and.returnValue(of(false));
     spyOn(stepService, 'disableEnableStep').and.returnValue();
     guard.canActivate(<any>{ url: ['checkout', 'route3'] }).subscribe(() => {
       expect(stepService.disableEnableStep).toHaveBeenCalledWith(
@@ -210,9 +214,8 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
     });
   });
   it('should enable service details tab if service products exists', (done) => {
-    spyOn(facade, 'getServiceProducts').and.returnValue(
-      of(['service-1', 'service-2'])
-    );
+    spyOn(facade, 'hasServiceItems').and.returnValue(of(true));
+    spyOn(facade, 'hasNonServiceItems').and.returnValue(of(false));
     spyOn(stepService, 'disableEnableStep').and.returnValue();
     guard.canActivate(<any>{ url: ['checkout', 'route3'] }).subscribe(() => {
       expect(stepService.disableEnableStep).toHaveBeenCalledWith(
@@ -224,7 +227,9 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
   });
   it('should move to next step once service details are set', () => {
     spyOn(facade, 'getSelectedServiceDetailsState').and.callThrough();
-    spyOn(facade, 'getServiceProducts').and.callThrough();
+    spyOn(facade, 'hasServiceItems').and.callThrough();
+    spyOn(facade, 'hasNonServiceItems').and.callThrough();
+    spyOn(guard, 'setServiceDeliveryMode').and.returnValue(of(undefined));
     (guard as any)
       .isServiceDetailsSet({
         type: CheckoutStepType.SERVICE_DETAILS,
@@ -238,7 +243,9 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
     spyOn(facade, 'getSelectedServiceDetailsState').and.returnValue(
       of({ loading: false, error: false, data: undefined })
     );
-    spyOn(facade, 'getServiceProducts').and.returnValue(of(['a', 'b']));
+    spyOn(facade, 'hasServiceItems').and.callThrough();
+    spyOn(facade, 'hasNonServiceItems').and.callThrough();
+    spyOn(guard, 'setServiceDeliveryMode').and.returnValue(of(undefined));
     spyOn(guard as any, 'getUrl').and.returnValue('/');
     (guard as any)
       .isServiceDetailsSet({
@@ -352,5 +359,6 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
           done();
         });
     });
+    it('should set delivery mdoe to service-delivery', () => {});
   });
 });

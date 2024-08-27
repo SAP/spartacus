@@ -153,8 +153,11 @@ class MockCheckoutServiceDetails
   getSelectedServiceDetailsState(): Observable<QueryState<string | undefined>> {
     return of({ loading: false, error: false, data: mockScheduledAt });
   }
-  getServiceProducts(): Observable<string[]> {
-    return of([]);
+  hasServiceItems(): Observable<boolean> {
+    return of(false);
+  }
+  hasNonServiceItems(): Observable<boolean> {
+    return of(false);
   }
 }
 

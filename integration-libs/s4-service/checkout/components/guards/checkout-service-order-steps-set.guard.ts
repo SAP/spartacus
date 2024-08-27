@@ -24,19 +24,17 @@ export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard 
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
     return combineLatest(
-      this.activeCartFacade.getActive(),
-      this.checkoutServiceDetailsFacade.getServiceProducts()
+      this.checkoutServiceDetailsFacade.hasServiceItems(),
+      this.checkoutServiceDetailsFacade.hasNonServiceItems()
     ).pipe(
-      switchMap(([cart, products]) => {
+      switchMap(([hasServiceItems, hasNonServiceItems]) => {
         this.checkoutStepService.disableEnableStep(
           CheckoutStepType.SERVICE_DETAILS,
-          products && products.length === 0
+          !hasServiceItems
         );
-        const physicalProductCount =
-          (cart.deliveryItemsQuantity ?? 0) - products.length;
         this.checkoutStepService.disableEnableStep(
           CheckoutStepType.DELIVERY_MODE,
-          physicalProductCount < 1
+          !hasNonServiceItems
         );
         return super.canActivate(route);
       })
@@ -51,21 +49,31 @@ export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard 
       .pipe(
         filter((state) => !state.loading && !state.error),
         switchMap((selectedServiceDetails) => {
-          if (
-            selectedServiceDetails.data &&
-            this.checkoutStepService.getCheckoutStep(
-              CheckoutStepType.DELIVERY_MODE
-            )?.disabled === true
-          ) {
-            return this.checkoutDeliveryModesFacade
-              .setDeliveryMode(SERVICE_DELIVERY_MODE)
-              .pipe(map(() => true));
-          }
-          return selectedServiceDetails.data
-            ? of(true)
-            : of(this.getUrl(step.routeName));
+          return this.setServiceDeliveryMode().pipe(
+            map(() => {
+              return selectedServiceDetails.data
+                ? true
+                : this.getUrl(step.routeName);
+            })
+          );
         })
       );
+  }
+
+  setServiceDeliveryMode(): Observable<unknown> {
+    return combineLatest([
+      this.checkoutServiceDetailsFacade.hasServiceItems(),
+      this.checkoutServiceDetailsFacade.hasNonServiceItems(),
+    ]).pipe(
+      switchMap(([hasServiceItems, hasNonServiceItems]) => {
+        if (!hasNonServiceItems && hasServiceItems) {
+          return this.checkoutDeliveryModesFacade.setDeliveryMode(
+            SERVICE_DELIVERY_MODE
+          );
+        }
+        return of(undefined);
+      })
+    );
   }
 
   protected override isB2BStepSet(

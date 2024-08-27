@@ -14,9 +14,8 @@ import { Observable, map } from 'rxjs';
 export class ServiceCheckoutDeliveryModeComponent extends CheckoutDeliveryModeComponent {
   protected checkoutServiceDetailsFacade = inject(CheckoutServiceDetailsFacade);
 
-  hasServiceProducts$: Observable<boolean> = this.checkoutServiceDetailsFacade
-    .getServiceProducts()
-    .pipe(map((products) => products.length > 0));
+  hasServiceProducts$: Observable<boolean> =
+    this.checkoutServiceDetailsFacade.hasServiceItems();
 
   deliveryModesToExclude: String[] = ['pickup', SERVICE_DELIVERY_MODE];
 
