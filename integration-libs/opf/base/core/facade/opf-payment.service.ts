@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Command,
   CommandService,
@@ -32,6 +32,14 @@ import { OpfPaymentHostedFieldsService } from '../services/opf-payment-hosted-fi
 
 @Injectable()
 export class OpfPaymentService implements OpfPaymentFacade {
+  protected queryService = inject(QueryService);
+  protected commandService = inject(CommandService);
+  protected opfPaymentConnector = inject(OpfPaymentConnector);
+  protected opfPaymentHostedFieldsService = inject(
+    OpfPaymentHostedFieldsService
+  );
+  protected opfPaymentApplePayService = inject(OpfPaymentApplePayService);
+
   protected verifyPaymentCommand: Command<
     {
       paymentSessionId: string;
@@ -102,14 +110,6 @@ export class OpfPaymentService implements OpfPaymentFacade {
     this.queryService.create<ActiveConfiguration[]>(() =>
       this.opfPaymentConnector.getActiveConfigurations()
     );
-
-  constructor(
-    protected queryService: QueryService,
-    protected commandService: CommandService,
-    protected opfPaymentConnector: OpfPaymentConnector,
-    protected opfPaymentHostedFieldsService: OpfPaymentHostedFieldsService,
-    protected opfPaymentApplePayService: OpfPaymentApplePayService
-  ) {}
 
   verifyPayment(
     paymentSessionId: string,

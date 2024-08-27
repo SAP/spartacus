@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Command, CommandService, QueryService } from '@spartacus/core';
 import {
   OpfCheckoutFacade,
@@ -17,6 +17,10 @@ import { OpfCheckoutConnector } from '../connectors/opf-checkout.connector';
 
 @Injectable()
 export class OpfCheckoutService implements OpfCheckoutFacade {
+  protected queryService = inject(QueryService);
+  protected commandService = inject(CommandService);
+  protected opfCheckoutConnector = inject(OpfCheckoutConnector);
+
   protected initiatePaymentCommand: Command<
     {
       paymentConfig: PaymentInitiationConfig;
@@ -25,12 +29,6 @@ export class OpfCheckoutService implements OpfCheckoutFacade {
   > = this.commandService.create((payload) =>
     this.opfCheckoutConnector.initiatePayment(payload.paymentConfig)
   );
-
-  constructor(
-    protected queryService: QueryService,
-    protected commandService: CommandService,
-    protected opfCheckoutConnector: OpfCheckoutConnector
-  ) {}
 
   initiatePayment(
     paymentConfig: PaymentInitiationConfig

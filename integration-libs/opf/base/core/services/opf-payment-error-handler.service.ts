@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -19,10 +19,8 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class OpfPaymentErrorHandlerService {
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService
-  ) {}
+  protected globalMessageService = inject(GlobalMessageService);
+  protected routingService = inject(RoutingService);
 
   protected displayError(error: OpfPaymentError | undefined): void {
     this.globalMessageService.add(

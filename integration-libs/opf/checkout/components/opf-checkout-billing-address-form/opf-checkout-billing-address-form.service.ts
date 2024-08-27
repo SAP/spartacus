@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   CheckoutBillingAddressFacade,
@@ -21,9 +21,9 @@ import {
 } from '@spartacus/core';
 import {
   BehaviorSubject,
-  combineLatest,
   EMPTY,
   Observable,
+  combineLatest,
   throwError,
 } from 'rxjs';
 import {
@@ -40,6 +40,16 @@ import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrappe
 
 @Injectable()
 export class OpfCheckoutBillingAddressFormService {
+  protected checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
+  protected checkoutBillingAddressFacade = inject(CheckoutBillingAddressFacade);
+  protected userPaymentService = inject(UserPaymentService);
+  protected checkoutPaymentService = inject(CheckoutPaymentFacade);
+  protected activeCartService = inject(ActiveCartFacade);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected opfService = inject(OpfCheckoutPaymentWrapperService);
+
   protected readonly billingAddressSub = new BehaviorSubject<
     Address | undefined
   >(undefined);
@@ -50,16 +60,6 @@ export class OpfCheckoutBillingAddressFormService {
   billingAddress$ = this.billingAddressSub.asObservable();
   isLoadingAddress$ = this.isLoadingAddressSub.asObservable();
   isSameAsDelivery$ = this.isSameAsDeliverySub.asObservable();
-
-  constructor(
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutBillingAddressFacade: CheckoutBillingAddressFacade,
-    protected userPaymentService: UserPaymentService,
-    protected checkoutPaymentService: CheckoutPaymentFacade,
-    protected activeCartService: ActiveCartFacade,
-    protected globalMessageService: GlobalMessageService,
-    protected opfService: OpfCheckoutPaymentWrapperService
-  ) {}
 
   getCountries(): Observable<Country[]> {
     return this.userPaymentService.getAllBillingCountries().pipe(

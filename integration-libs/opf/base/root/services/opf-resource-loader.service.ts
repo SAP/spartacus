@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT, isPlatformServer } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Injectable } from '@angular/core';
 import { ScriptLoader } from '@spartacus/core';
 
 import { throwError } from 'rxjs';
@@ -18,13 +18,6 @@ import {
   providedIn: 'root',
 })
 export class OpfResourceLoaderService extends ScriptLoader {
-  constructor(
-    @Inject(DOCUMENT) protected document: any,
-    @Inject(PLATFORM_ID) protected platformId: Object
-  ) {
-    super(document, platformId);
-  }
-
   protected readonly OPF_RESOURCE_ATTRIBUTE_KEY = 'data-opf-resource';
 
   protected loadedResources: OpfDynamicScriptResource[] = [];

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   Command,
@@ -17,12 +17,19 @@ import {
 import { OpfOrderFacade } from '@spartacus/opf/base/root';
 import { Order, OrderFacade, OrderPlacedEvent } from '@spartacus/order/root';
 
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { OpfOrderConnector } from '../connectors/opf-order.connector';
 
 @Injectable()
 export class OpfOrderService implements OpfOrderFacade {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected orderFacade = inject(OrderFacade);
+  protected userIdService = inject(UserIdService);
+  protected commandService = inject(CommandService);
+  protected opfOrderConnector = inject(OpfOrderConnector);
+  protected eventService = inject(EventService);
+
   protected placeOpfOrderCommand: Command<boolean, Order> =
     this.commandService.create<boolean, Order>(
       (payload) =>
@@ -52,15 +59,6 @@ export class OpfOrderService implements OpfOrderFacade {
         strategy: CommandStrategy.CancelPrevious,
       }
     );
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected orderFacade: OrderFacade,
-    protected userIdService: UserIdService,
-    protected commandService: CommandService,
-    protected opfOrderConnector: OpfOrderConnector,
-    protected eventService: EventService
-  ) {}
 
   /**
    * Performs the necessary checkout preconditions.

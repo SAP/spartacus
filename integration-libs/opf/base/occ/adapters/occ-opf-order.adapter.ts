@@ -29,13 +29,10 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccOpfOrderAdapter implements OpfOrderAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
   protected logger = inject(LoggerService);
-
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
 
   public placeOpfOrder(
     userId: string,

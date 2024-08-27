@@ -4,23 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { ActiveCartFacade, PaymentType, Cart } from '@spartacus/cart/base/root';
-import {
-  CheckoutReviewSubmitComponent,
-  CheckoutStepService,
-} from '@spartacus/checkout/base/components';
-import {
-  CheckoutDeliveryAddressFacade,
-  CheckoutDeliveryModesFacade,
-  CheckoutPaymentFacade,
-} from '@spartacus/checkout/base/root';
-import { TranslationService } from '@spartacus/core';
+import { Cart, PaymentType } from '@spartacus/cart/base/root';
+import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { OpfService } from '@spartacus/opf/base/root';
 
 import { Observable } from 'rxjs';
@@ -35,6 +31,9 @@ export class OpfCheckoutPaymentAndReviewComponent
   extends CheckoutReviewSubmitComponent
   implements OnInit
 {
+  protected fb = inject(UntypedFormBuilder);
+  protected opfService = inject(OpfService);
+
   protected defaultTermsAndConditionsFieldValue = false;
 
   checkoutSubmitForm: UntypedFormGroup = this.fb.group({
@@ -56,26 +55,6 @@ export class OpfCheckoutPaymentAndReviewComponent
     return this.activeCartFacade
       .getActive()
       .pipe(map((cart: Cart) => cart.paymentType));
-  }
-
-  constructor(
-    protected fb: UntypedFormBuilder,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected activeCartFacade: ActiveCartFacade,
-    protected translationService: TranslationService,
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected opfService: OpfService
-  ) {
-    super(
-      checkoutDeliveryAddressFacade,
-      checkoutPaymentFacade,
-      activeCartFacade,
-      translationService,
-      checkoutStepService,
-      checkoutDeliveryModesFacade
-    );
   }
 
   protected updateTermsAndConditionsState() {

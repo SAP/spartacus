@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { Address, Country } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -16,6 +21,8 @@ import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-add
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpfCheckoutBillingAddressFormComponent implements OnInit {
+  protected service = inject(OpfCheckoutBillingAddressFormService);
+
   iconTypes = ICON_TYPE;
 
   billingAddress$ = this.service.billingAddress$;
@@ -26,8 +33,6 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   isAddingBillingAddressInProgress = false;
 
   countries$: Observable<Country[]>;
-
-  constructor(protected service: OpfCheckoutBillingAddressFormService) {}
 
   ngOnInit() {
     this.countries$ = this.service.getCountries();

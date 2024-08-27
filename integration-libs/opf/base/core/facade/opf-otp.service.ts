@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Command, CommandService, QueryService } from '@spartacus/core';
 import { OpfOtpFacade } from '@spartacus/opf/base/root';
 import { Observable } from 'rxjs';
@@ -12,6 +12,10 @@ import { OtpConnector } from '../connectors/otp.connector';
 
 @Injectable()
 export class OpfOtpService implements OpfOtpFacade {
+  protected queryService = inject(QueryService);
+  protected commandService = inject(CommandService);
+  protected otpConnector = inject(OtpConnector);
+
   protected generateOtpKeyCommand: Command<
     {
       userId: string;
@@ -21,12 +25,6 @@ export class OpfOtpService implements OpfOtpFacade {
   > = this.commandService.create(({ userId, cartId }) =>
     this.otpConnector.generateOtpKey(userId, cartId)
   );
-
-  constructor(
-    protected queryService: QueryService,
-    protected commandService: CommandService,
-    protected otpConnector: OtpConnector
-  ) {}
 
   generateOtpKey(
     userId: string,
