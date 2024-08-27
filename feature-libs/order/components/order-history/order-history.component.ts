@@ -5,6 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { Params } from '@angular/router';
 import {
   isNotUndefined,
   RoutingService,
@@ -91,10 +92,19 @@ export class OrderHistoryComponent implements OnDestroy {
   }
 
   goToOrderDetail(order: Order): void {
-    this.routing.go({
-      cxRoute: 'orderDetails',
-      params: order,
-    });
+    this.routing.go(
+      {
+        cxRoute: 'orderDetails',
+        params: order,
+      },
+      {
+        queryParams: this.getQueryParams(order),
+      }
+    );
+  }
+
+  getQueryParams(order: Order): Params | null {
+    return this.orderHistoryFacade.getQueryParams(order);
   }
 
   getSortLabels(): Observable<{ byDate: string; byOrderNumber: string }> {
