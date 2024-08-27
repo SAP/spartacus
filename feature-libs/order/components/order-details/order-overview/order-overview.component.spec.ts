@@ -13,6 +13,7 @@ import { Card, CmsComponentData } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponent } from './order-overview.component';
+import { OrderOverviewComponentService } from './order-overview-component.service';
 
 @Component({ selector: 'cx-card', template: '' })
 class MockCardComponent {
@@ -125,6 +126,11 @@ class MockOrderDetailsService {
     return of(mockOrder);
   }
 }
+class MockOrderOverviewComponentService {
+  showDeliveryMode(_mode: DeliveryMode): boolean {
+    return true;
+  }
+}
 
 const mockData: CmsOrderDetailOverviewComponent = {
   simple: false,
@@ -146,6 +152,10 @@ describe('OrderOverviewComponent', () => {
       declarations: [OrderOverviewComponent, MockCardComponent],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: OrderOverviewComponentService,
+          useClass: MockOrderOverviewComponentService,
+        },
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
       ],
