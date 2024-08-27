@@ -5,9 +5,6 @@
  */
 
 import { NgModule } from '@angular/core';
-import { ProductMultiDimensionalListOccModule } from './occ/product-multi-dimensional-list-occ.module';
 
-@NgModule({
-  imports: [ProductMultiDimensionalListOccModule],
-})
+@NgModule({})
 export class ProductMultiDimensionalListModule {}
