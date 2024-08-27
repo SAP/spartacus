@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DigitalWalletQuickBuy } from './opf-quick-buy.model';
-
 export interface ActiveConfiguration {
   description?: string;
   id?: number;
@@ -14,6 +12,21 @@ export interface ActiveConfiguration {
   displayName?: string;
   acquirerCountryCode?: string;
   digitalWalletQuickBuy?: DigitalWalletQuickBuy[];
+}
+
+export interface DigitalWalletQuickBuy {
+  description?: string;
+  provider?: DigitalWalletQuickBuyProvider;
+  enabled?: boolean;
+  merchantId?: string;
+  merchantName?: string;
+  countryCode?: string;
+  googlePayGateway?: string;
+}
+
+export enum DigitalWalletQuickBuyProvider {
+  APPLE_PAY = 'APPLE_PAY',
+  GOOGLE_PAY = 'GOOGLE_PAY',
 }
 
 export enum OpfPaymentProviderType {

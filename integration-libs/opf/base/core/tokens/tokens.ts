@@ -9,7 +9,6 @@ import { Converter } from '@spartacus/core';
 import {
   ActiveConfiguration,
   AfterRedirectScriptResponse,
-  ApplePaySessionVerificationResponse,
   CtaScriptsResponse,
   OpfPaymentVerificationResponse,
   SubmitCompleteResponse,
@@ -39,7 +38,3 @@ export const OPF_ACTIVE_CONFIGURATION_NORMALIZER = new InjectionToken<
 export const OPF_CTA_SCRIPTS_NORMALIZER = new InjectionToken<
   Converter<any, CtaScriptsResponse>
 >('OpfCtaScriptsNormalizer');
-
-export const OPF_APPLE_PAY_WEB_SESSION_NORMALIZER = new InjectionToken<
-  Converter<any, ApplePaySessionVerificationResponse>
->('OpfApplePayWebSession');

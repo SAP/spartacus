@@ -11,8 +11,6 @@ import { OPF_BASE_FEATURE } from '../feature-name';
 import {
   ActiveConfiguration,
   AfterRedirectScriptResponse,
-  ApplePaySessionVerificationRequest,
-  ApplePaySessionVerificationResponse,
   CtaScriptsRequest,
   CtaScriptsResponse,
   OpfPaymentVerificationPayload,
@@ -34,7 +32,6 @@ import {
         'afterRedirectScripts',
         'getActiveConfigurationsState',
         'getCtaScripts',
-        'getApplePayWebSession',
       ],
     }),
 })
@@ -85,13 +82,4 @@ export abstract class OpfPaymentFacade {
   abstract getCtaScripts(
     ctaScriptsRequest: CtaScriptsRequest
   ): Observable<CtaScriptsResponse>;
-
-  /**
-   * abstract method to get Apple Pay session for QuickBuy.
-   *
-   * @param applePayWebSessionRequest
-   */
-  abstract getApplePayWebSession(
-    applePayWebSessionRequest: ApplePaySessionVerificationRequest
-  ): Observable<ApplePaySessionVerificationResponse>;
 }

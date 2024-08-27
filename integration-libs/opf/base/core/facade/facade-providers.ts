@@ -12,7 +12,6 @@ import {
   OpfPaymentFacade,
 } from '@spartacus/opf/base/root';
 
-import { OpfPaymentApplePayService } from '../services/opf-payment-apple-pay.service';
 import { OpfPaymentHostedFieldsService } from '../services/opf-payment-hosted-fields.service';
 import { OpfGlobalFunctionsService } from './opf-global-functions.service';
 import { OpfOrderService } from './opf-order.service';
@@ -22,7 +21,6 @@ import { OpfPaymentService } from './opf-payment.service';
 export const facadeProviders: Provider[] = [
   OpfPaymentService,
   OpfPaymentHostedFieldsService,
-  OpfPaymentApplePayService,
   OpfOrderService,
   OpfOtpService,
   OpfGlobalFunctionsService,
