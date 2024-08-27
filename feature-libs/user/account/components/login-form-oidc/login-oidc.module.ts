@@ -16,7 +16,7 @@ import { LoginOidcComponent } from './login-oidc.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        ReturningOIDCLoginComponent: {
+        OidcLoginComponent: {
           component: LoginOidcComponent,
           guards: [NotAuthGuard],
         },
