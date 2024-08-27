@@ -86,6 +86,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
             if (!paymentDetailsId) {
               throw new Error('Checkout conditions not met');
             }
+
             return this.checkoutPaymentConnector
               .setPaymentDetails(userId, cartId, paymentDetailsId)
               .pipe(
