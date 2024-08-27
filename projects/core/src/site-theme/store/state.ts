@@ -21,6 +21,5 @@ export interface SiteThemeEntities {
 }
 
 export interface SiteThemesState {
-  entities: SiteThemeEntities | null;
   activeSiteTheme: string | null;
 }
