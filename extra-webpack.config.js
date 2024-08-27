@@ -38,6 +38,7 @@ module.exports = {
         __dirname,
         'feature-libs/product-configurator'
       ),
+    '@spartacus/product-multi-dimensional': path.join(__dirname, 'feature-libs/product-multi-dimensional'),
       '@spartacus/storefinder': path.join(
         __dirname,
         'feature-libs/storefinder'
@@ -73,6 +74,7 @@ module.exports = {
       '@spartacus/s4om': path.join(__dirname, 'integration-libs/s4om'),
       '@spartacus/opf': path.join(__dirname, 'integration-libs/opf'),
       '@spartacus/s4-service': path.join(__dirname, 'integration-libs/s4-service'),
+      '@spartacus/omf': path.join(__dirname, 'integration-libs/omf'),
     },
   },
 };

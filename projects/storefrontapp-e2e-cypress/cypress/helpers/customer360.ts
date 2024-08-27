@@ -53,7 +53,7 @@ function placeOrder(): void {
   checkout.goToCheapProductDetailsPage();
   checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
   checkout.fillAddressFormWithCheapProduct();
-  checkout.verifyDeliveryMethod();
+  checkout.verifyDeliveryOptions();
   checkout.fillPaymentFormWithCheapProduct();
   checkout.verifyReviewOrderPage();
   checkout.placeOrderWithCheapProduct();

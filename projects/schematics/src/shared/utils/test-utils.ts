@@ -74,6 +74,10 @@ export const productImageZoomFeatureModulePath =
   'src/app/spartacus/features/product/product-image-zoom-feature.module.ts';
 export const productVariantsFeatureModulePath =
   'src/app/spartacus/features/product/product-variants-feature.module.ts';
+export const productMultiDimensionalSelectorFeatureModulePath =
+  'src/app/spartacus/features/product-multi-dimensional/product-multi-dimensional-selector-feature.module.ts';
+export const productMultiDimensionalListFeatureModulePath =
+  'src/app/spartacus/features/product-multi-dimensional/product-multi-dimensional-list-feature.module.ts';
 export const productFutureStockFeatureModulePath =
   'src/app/spartacus/features/product/product-future-stock-feature.module.ts';
 export const productConfiguratorFeatureModulePath =
@@ -92,6 +96,8 @@ export const trackingPersonalizationFeatureModulePath =
   'src/app/spartacus/features/tracking/personalization-feature.module.ts';
 export const trackingTagManagementFeatureModulePath =
   'src/app/spartacus/features/tracking/tag-management-feature.module.ts';
+export const omfFeatureModulePath =
+  'src/app/spartacus/features/omf/omf-feature.module.ts';
 export const userFeatureModulePath =
   'src/app/spartacus/features/user/user-feature.module.ts';
 export const userAccountWrapperModulePath =

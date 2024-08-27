@@ -360,6 +360,36 @@
       "@spartacus/product-configurator/textfield/root": [
         "../../feature-libs/product-configurator/textfield/root/public_api"
       ],
+      "@spartacus/product-multi-dimensional/list": [
+        "../../feature-libs/product-multi-dimensional/list/public_api"
+      ],
+      "@spartacus/product-multi-dimensional/list/occ": [
+        "../../feature-libs/product-multi-dimensional/list/occ/public_api"
+      ],
+      "@spartacus/product-multi-dimensional/list/root": [
+        "../../feature-libs/product-multi-dimensional/list/root/public_api"
+      ],
+      "@spartacus/product-multi-dimensional": [
+        "../../feature-libs/product-multi-dimensional/public_api"
+      ],
+      "@spartacus/product-multi-dimensional/selector/assets": [
+        "../../feature-libs/product-multi-dimensional/selector/assets/public_api"
+      ],
+      "@spartacus/product-multi-dimensional/selector/components": [
+        "../../feature-libs/product-multi-dimensional/selector/components/public_api"
+      ],
+      "@spartacus/product-multi-dimensional/selector/core": [
+        "../../feature-libs/product-multi-dimensional/selector/core/public_api"
+      ],
+      "@spartacus/product-multi-dimensional/selector": [
+        "../../feature-libs/product-multi-dimensional/selector/public_api"
+      ],
+      "@spartacus/product-multi-dimensional/selector/occ": [
+        "../../feature-libs/product-multi-dimensional/selector/occ/public_api"
+      ],
+      "@spartacus/product-multi-dimensional/selector/root": [
+        "../../feature-libs/product-multi-dimensional/selector/root/public_api"
+      ],
       "@spartacus/product/bulk-pricing/assets": [
         "../../feature-libs/product/bulk-pricing/assets/public_api"
       ],
@@ -595,6 +625,7 @@
       "@spartacus/epd-visualization/root": [
         "../../integration-libs/epd-visualization/root/public_api"
       ],
+<<<<<<< HEAD
       "@spartacus/opf/base/assets": [
         "../../integration-libs/opf/base/assets/public_api"
       ],
@@ -630,6 +661,11 @@
         "../../integration-libs/opf/checkout/root/public_api"
       ],
       "@spartacus/opf": ["../../integration-libs/opf/public_api"],
+=======
+      "@spartacus/omf": ["../../integration-libs/omf/public_api"],
+      "@spartacus/omf/order": ["../../integration-libs/omf/order/public_api"],
+      "@spartacus/omf/root": ["../../integration-libs/omf/root/public_api"],
+>>>>>>> develop
       "@spartacus/opps": ["../../integration-libs/opps/public_api"],
       "@spartacus/opps/root": ["../../integration-libs/opps/root/public_api"],
       "@spartacus/s4-service/assets": [

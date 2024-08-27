@@ -42,6 +42,7 @@ SPARTACUS_PROJECTS=(
         "dist/epd-visualization:integration-libs/epd-visualization"
         "dist/opf:integration-libs/opf"
         "dist/product-configurator:feature-libs/product-configurator"
+        "dist/product-multi-dimensional:feature-libs/product-multi-dimensional"
         "dist/pickup-in-store:feature-libs/pickup-in-store"
         "dist/pdf-invoices:feature-libs/pdf-invoices"
         "dist/estimated-delivery-date:feature-libs/estimated-delivery-date"
@@ -86,6 +87,7 @@ OPF_BASE_URL=
 OPF_CLIENT_PUBLIC_KEY=
 ADD_CPQ_QUOTE=false
 ADD_S4_SERVICE=false
+ADD_PRODUCT_MULTI_DIMENSIONAL=false
 
 # The base URL (origin) of the SAP EPD Visualization Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=

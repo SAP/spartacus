@@ -1,0 +1,38 @@
+%cx-cancel-service-order-headline {
+  .service-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+
+    .service-header {
+      margin: 0 0 0.5rem;
+      padding: 15px 30px;
+      background-color: var(--cx-color-background);
+      font-size: var(--cx-font-size, 1.125rem);
+      font-weight: var(--cx-font-weight-bold);
+      line-height: var(--cx-line-height, 1.2222222222);
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    tr,
+    thead {
+      border: none !important;
+    }
+
+    th {
+      font-weight: bold !important;
+      color: #333333;
+      text-transform: capitalize !important;
+      padding: 9px;
+    }
+
+    td {
+      padding: 9px;
+    }
+  }
+
+  .service-table,
+  .service-cell {
+    border: 1px solid #dee2e6;
+  }
+}

@@ -7,6 +7,7 @@
 import { SchematicsException } from '@angular-devkit/schematics';
 import {
   CDP_SCHEMATICS_CONFIG,
+  OMF_SCHEMATICS_CONFIG,
   OPPS_SCHEMATICS_CONFIG,
   QUOTE_SCHEMATICS_CONFIG,
   S4_SERVICE_SCHEMATICS_CONFIG,
@@ -33,6 +34,7 @@ import {
   CDC_SCHEMATICS_CONFIG,
 } from './lib-configs/integration-libs/cdc-schematics-config';
 import { CDS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cds-schematics-config';
+import { CPQ_QUOTE_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cpq-quote-schematics-config';
 import { DIGITAL_PAYMENTS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/digital-payments-schematics-config';
 import { EPD_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/epd-schematics-config';
 import {
@@ -40,8 +42,8 @@ import {
   OPF_CHECKOUT_SCHEMATICS_CONFIG,
 } from './lib-configs/integration-libs/opf-schematics-config';
 import { S4OM_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/s4om-schematics-config';
-import { CPQ_QUOTE_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cpq-quote-schematics-config';
 
+import { ESTIMATED_DELIVERY_DATE_SCHEMATICS_CONFIG } from './lib-configs/estimated-delivery-date-schematics-config';
 import { SEGMENT_REFS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/segment-refs-schematics-config';
 import { ORDER_SCHEMATICS_CONFIG } from './lib-configs/order-schematics-config';
 import {
@@ -59,6 +61,10 @@ import {
   PRODUCT_CONFIGURATOR_TEXTFIELD_SCHEMATICS_CONFIG,
 } from './lib-configs/product-configurator-schematics-config';
 import {
+  PRODUCT_MULTI_DIMENSIONAL_LIST_SCHEMATICS_CONFIG,
+  PRODUCT_MULTI_DIMENSIONAL_SELECTOR_SCHEMATICS_CONFIG,
+} from './lib-configs/product-multi-dimensional-schematics-config';
+import {
   PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG,
   PRODUCT_FUTURE_STOCK_SCHEMATICS_CONFIG,
   PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG,
@@ -66,7 +72,6 @@ import {
 } from './lib-configs/product-schematics-config';
 import { QUALTRICS_SCHEMATICS_CONFIG } from './lib-configs/qualtrics-schematics-config';
 import { REQUESTED_DELIVERY_DATE_SCHEMATICS_CONFIG } from './lib-configs/requested-delivery-date-schematics-config';
-import { ESTIMATED_DELIVERY_DATE_SCHEMATICS_CONFIG } from './lib-configs/estimated-delivery-date-schematics-config';
 import { SMARTEDIT_SCHEMATICS_CONFIG } from './lib-configs/smartedit-schematics-config';
 import { STOREFINDER_SCHEMATICS_CONFIG } from './lib-configs/storefinder-schematics-config';
 import {
@@ -118,6 +123,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG,
   PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG,
   PRODUCT_VARIANTS_SCHEMATICS_CONFIG,
+  PRODUCT_MULTI_DIMENSIONAL_SELECTOR_SCHEMATICS_CONFIG,
+  PRODUCT_MULTI_DIMENSIONAL_LIST_SCHEMATICS_CONFIG,
   PRODUCT_FUTURE_STOCK_SCHEMATICS_CONFIG,
 
   PDF_INVOICES_SCHEMATICS_CONFIG,
@@ -154,6 +161,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   EPD_SCHEMATICS_CONFIG,
 
   OPPS_SCHEMATICS_CONFIG,
+
+  OMF_SCHEMATICS_CONFIG,
 
   S4OM_SCHEMATICS_CONFIG,
 

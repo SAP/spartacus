@@ -21,6 +21,7 @@ const featureLibsFolders: string[] = [
   'pickup-in-store',
   'product',
   'product-configurator',
+  'product-multi-dimensional',
   'qualtrics',
   'requested-delivery-date',
   'estimated-delivery-date',
@@ -64,6 +65,7 @@ const commands = [
   'build pickup-in-store/schematics',
   'build product/schematics',
   'build product-configurator/schematics',
+  'build product-multi-dimensional/schematics',
   'build s4om/schematics',
   'build segment-refs/schematics',
   'build opps/schematics',
@@ -221,6 +223,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build pickup-in-store/schematics':
     case 'build product/schematics':
     case 'build product-configurator/schematics':
+    case 'build product-multi-dimensional/schematics':
     case 'build qualtrics/schematics':
     case 'build requested-delivery-date/schematics':
     case 'build estimated-delivery-date/schematics':
