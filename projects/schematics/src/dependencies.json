@@ -17,10 +17,13 @@
   "@spartacus/schematics": {
     "@angular-devkit/core": "^17.0.5",
     "@angular-devkit/schematics": "^17.0.5",
+    "@angular/common": "^17.0.5",
     "@angular/compiler": "^17.0.5",
+    "@angular/core": "^17.0.5",
     "@schematics/angular": "^17.0.5",
     "jsonc-parser": "^3.2.0",
     "parse5": "^7.1.2",
+    "rxjs": "^7.8.0",
     "typescript": "^5.2.2"
   },
   "ssr-tests": {
@@ -405,25 +408,6 @@
     "bootstrap": "^4.6.2",
     "rxjs": "^7.8.0"
   },
-  "@spartacus/opf": {
-    "@angular-devkit/schematics": "^17.0.5",
-    "@angular/common": "^17.0.5",
-    "@angular/core": "^17.0.5",
-    "@angular/forms": "^17.0.5",
-    "@angular/platform-browser": "^17.0.5",
-    "@angular/router": "^17.0.5",
-    "@ng-select/ng-select": "^12.0.4",
-    "@ngrx/store": "^17.0.1",
-    "@spartacus/cart": "2211.25.1",
-    "@spartacus/checkout": "2211.25.1",
-    "@spartacus/core": "2211.25.1",
-    "@spartacus/order": "2211.25.1",
-    "@spartacus/pickup-in-store": "2211.25.1",
-    "@spartacus/schematics": "2211.25.1",
-    "@spartacus/storefront": "2211.25.1",
-    "@spartacus/styles": "2211.25.1",
-    "@spartacus/user": "2211.25.1",
-    "bootstrap": "^4.6.2",
   "@spartacus/omf": {
     "@angular-devkit/schematics": "^17.0.5",
     "@angular/common": "^17.0.5",
@@ -433,6 +417,27 @@
     "@spartacus/core": "2211.27.0",
     "@spartacus/order": "2211.27.0",
     "@spartacus/schematics": "2211.27.0",
+    "rxjs": "^7.8.0"
+  },
+  "@spartacus/opf": {
+    "@angular-devkit/schematics": "^17.0.5",
+    "@angular/common": "^17.0.5",
+    "@angular/core": "^17.0.5",
+    "@angular/forms": "^17.0.5",
+    "@angular/platform-browser": "^17.0.5",
+    "@angular/router": "^17.0.5",
+    "@ng-select/ng-select": "^12.0.4",
+    "@ngrx/store": "^17.0.1",
+    "@spartacus/cart": "2211.27.0",
+    "@spartacus/checkout": "2211.27.0",
+    "@spartacus/core": "2211.27.0",
+    "@spartacus/order": "2211.27.0",
+    "@spartacus/pickup-in-store": "2211.27.0",
+    "@spartacus/schematics": "2211.27.0",
+    "@spartacus/storefront": "2211.27.0",
+    "@spartacus/styles": "2211.27.0",
+    "@spartacus/user": "2211.27.0",
+    "bootstrap": "^4.6.2",
     "rxjs": "^7.8.0"
   },
   "@spartacus/opps": {

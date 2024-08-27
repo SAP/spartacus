@@ -625,7 +625,6 @@
       "@spartacus/epd-visualization/root": [
         "../../integration-libs/epd-visualization/root/public_api"
       ],
-<<<<<<< HEAD
       "@spartacus/opf/base/assets": [
         "../../integration-libs/opf/base/assets/public_api"
       ],
@@ -661,11 +660,9 @@
         "../../integration-libs/opf/checkout/root/public_api"
       ],
       "@spartacus/opf": ["../../integration-libs/opf/public_api"],
-=======
       "@spartacus/omf": ["../../integration-libs/omf/public_api"],
       "@spartacus/omf/order": ["../../integration-libs/omf/order/public_api"],
       "@spartacus/omf/root": ["../../integration-libs/omf/root/public_api"],
->>>>>>> develop
       "@spartacus/opps": ["../../integration-libs/opps/public_api"],
       "@spartacus/opps/root": ["../../integration-libs/opps/root/public_api"],
       "@spartacus/s4-service/assets": [
