@@ -62,8 +62,6 @@ export class CheckoutDeliveryModeComponent {
       map((deliveryMode) => deliveryMode?.code)
     );
 
-  deliveryModesToExclude: String[] = ['pickup'];
-
   supportedDeliveryModes$ = this.checkoutDeliveryModesFacade
     .getSupportedDeliveryModes()
     .pipe(
@@ -83,9 +81,7 @@ export class CheckoutDeliveryModeComponent {
         }
       }),
       map(([deliveryModes]) =>
-        deliveryModes.filter(
-          (mode) => !this.deliveryModesToExclude.includes(mode.code ?? '')
-        )
+        deliveryModes.filter((mode) => mode.code !== 'pickup')
       )
     );
 

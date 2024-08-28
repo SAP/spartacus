@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CheckoutDeliveryModeComponent } from '@spartacus/checkout/base/components';
 import {
   CheckoutServiceDetailsFacade,
-  SERVICE_DELIVERY_MODE,
+  ServiceDeliveryModeConfig,
 } from '@spartacus/s4-service/root';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-delivery-mode',
@@ -13,17 +13,10 @@ import { Observable, map } from 'rxjs';
 })
 export class ServiceCheckoutDeliveryModeComponent extends CheckoutDeliveryModeComponent {
   protected checkoutServiceDetailsFacade = inject(CheckoutServiceDetailsFacade);
+  protected config = inject(ServiceDeliveryModeConfig);
 
   hasServiceProducts$: Observable<boolean> =
     this.checkoutServiceDetailsFacade.hasServiceItems();
 
-  deliveryModesToExclude: String[] = ['pickup', SERVICE_DELIVERY_MODE];
-
-  serviceDeliveryConfig = this.checkoutDeliveryModesFacade
-    .getSupportedDeliveryModes()
-    .pipe(
-      map(([deliveryModes]) =>
-        [deliveryModes].find((mode) => mode.code === SERVICE_DELIVERY_MODE)
-      )
-    );
+  serviceDeliveryConfig = this.config.serviceDeliveryMode;
 }

@@ -25,8 +25,8 @@ import { filter, map } from 'rxjs/operators';
 import {
   CheckoutServiceDetailsFacade,
   CheckoutServiceSchedulePickerService,
-  SERVICE_DELIVERY_MODE,
   ServiceDateTime,
+  ServiceDeliveryModeConfig,
 } from '@spartacus/s4-service/root';
 
 @Component({
@@ -40,6 +40,7 @@ export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmi
   protected checkoutServiceSchedulePickerService = inject(
     CheckoutServiceSchedulePickerService
   );
+  protected config = inject(ServiceDeliveryModeConfig);
 
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -84,7 +85,7 @@ export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmi
   }
 
   hasActiveDeliveryMode(mode: DeliveryMode): Boolean {
-    return mode.code !== SERVICE_DELIVERY_MODE;
+    return mode.code !== this.config.serviceDeliveryMode?.code;
   }
 
   getServiceDetailsCard(
