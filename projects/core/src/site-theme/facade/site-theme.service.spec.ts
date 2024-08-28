@@ -105,14 +105,14 @@ describe('SiteThemeService', () => {
 
   it('should return TRUE if the theme is valid', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
-    service.isValidTheme('dark').subscribe((results) => {
+    service.isValid('dark').subscribe((results) => {
       expect(results).toBeTruthy();
     });
   });
 
   it('should return FALSE if the theme is not valid', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
-    service.isValidTheme('light').subscribe((results) => {
+    service.isValid('light').subscribe((results) => {
       expect(results).toBeFalsy();
     });
   });
