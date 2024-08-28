@@ -47,7 +47,7 @@ export class SiteThemeService implements SiteContext<SiteTheme> {
    * 1. The default theme ID can be configured only via Spartacus config `config.context.theme`
    *    (note: its value can be defined statically or fetched dynamically from the CMS backend).
    * 2. The optional themes (their IDs and their i18n keys) can be configured
-   *    only via Spartacus config `config.siteTheme.siteThemes`
+   *    only via Spartacus config `config.siteTheme.optionalThemes`
    *
    * CAUTION: This property should be accessed only when those configs are stable, e.g. `ConfigInitializer.getStable('context','siteTheme'))`
    */

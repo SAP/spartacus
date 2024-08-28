@@ -39,10 +39,10 @@ export function getStorage(
 /**
  * Persists the given value to the given storage, piping it first through `JSON.stringify()`.
  *
- * Note: It deliberately doesn't save `undefined` values in storage.
+ * Note: It silently refuses to save `undefined` values in storage.
  *       It's because `JSON.stringify()` returns the string `"undefined"` for `undefined`.
- *       And this string is not valid JSON and will cause a runtime `SyntaxError` in `readFromStorage()`
- *       when `JSON.parse()` is called with the string `"undefined"` as an argument.
+ *       And this string is not valid JSON so it would  cause a runtime `SyntaxError`
+ *       in `readFromStorage()` when `JSON.parse()` is called with the string `"undefined"` as an argument.
  */
 export function persistToStorage(
   configKey: string,

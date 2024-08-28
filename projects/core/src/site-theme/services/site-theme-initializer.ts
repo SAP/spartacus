@@ -45,8 +45,8 @@ export class SiteThemeInitializer implements OnDestroy {
   }
 
   /**
-   * Sets the active language value based on the default value from the config,
-   * unless the active language has been already initialized.
+   * Sets the active theme value based on the default value from the config,
+   * unless the active theme has been already initialized.
    */
   protected setDefaultFromConfig(): void {
     if (!this.siteThemeService.isInitialized()) {

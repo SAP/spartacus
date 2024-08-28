@@ -73,7 +73,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
         ),
         // Note: The default Site Theme can be driven by the CMS, but additional possible
         // selectable themes (like a11y high contrast themes) can be configured only
-        // in the separate Spartacus configuration.
+        // in the separate Spartacus configuration `config.siteTheme.optionalThemes`.
         [THEME_CONTEXT_ID]: [source.theme],
       },
     } as SiteContextConfig;
