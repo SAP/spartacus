@@ -30,7 +30,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/checkout.scss';
 
-xdescribe('Spartacus Checkout schematics: ng-add', () => {
+describe('Spartacus Checkout schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_CHECKOUT,
     collectionPath

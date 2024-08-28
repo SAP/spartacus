@@ -25,7 +25,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/quote.scss';
 
-xdescribe('Spartacus Quote schematics: ng-add', () => {
+describe('Spartacus Quote schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_QUOTE,
     collectionPath

@@ -12,6 +12,7 @@ import {
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_ESTIMATED_DELIVERY_DATE,
+  SPARTACUS_OMF,
   SPARTACUS_OPPS,
   SPARTACUS_ORDER,
   SPARTACUS_ORGANIZATION,
@@ -25,7 +26,6 @@ import {
   SPARTACUS_REQUESTED_DELIVERY_DATE,
   SPARTACUS_S4OM,
   SPARTACUS_S4_SERVICE,
-  SPARTACUS_OMF,
   SPARTACUS_SEGMENT_REFS,
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFINDER,
@@ -39,7 +39,7 @@ import {
   kahnsAlgorithm,
 } from './graph-utils';
 
-xdescribe('Graph utils', () => {
+describe('Graph utils', () => {
   describe('library dependency graph', () => {
     it('scenario #1 - should be able to find a correct installation order', () => {
       const graph = new Graph([

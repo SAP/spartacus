@@ -1,6 +1,6 @@
 import { parseCSV } from './transform-utils';
 
-xdescribe('parseCSV', () => {
+describe('parseCSV', () => {
   it('should use the default values if no raw value is provided', () => {
     const result = parseCSV(undefined, ['default', 'values']);
     expect(result).toEqual(`'default', 'values'`);

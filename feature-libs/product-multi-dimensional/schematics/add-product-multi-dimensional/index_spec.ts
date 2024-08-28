@@ -10,14 +10,14 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  LibraryOptions as SpartacusProductOptions,
-  PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE_NAME,
   PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE_NAME,
-  productMultiDimensionalSelectorFeatureModulePath,
-  productMultiDimensionalListFeatureModulePath,
+  PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE_NAME,
   SPARTACUS_PRODUCT,
   SPARTACUS_SCHEMATICS,
   SpartacusOptions,
+  LibraryOptions as SpartacusProductOptions,
+  productMultiDimensionalListFeatureModulePath,
+  productMultiDimensionalSelectorFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -25,7 +25,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/product-multi-dimensional.scss';
 
-xdescribe('Spartacus Product Multi-Dimensional schematics: ng-add', () => {
+describe('Spartacus Product Multi-Dimensional schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_PRODUCT,
     collectionPath

@@ -15,7 +15,7 @@ import { getPathResultsForFile } from '../shared/utils/file-utils';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-xdescribe('add-ssr', () => {
+describe('add-ssr', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     collectionPath

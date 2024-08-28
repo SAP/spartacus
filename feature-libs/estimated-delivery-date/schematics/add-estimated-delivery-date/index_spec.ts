@@ -28,7 +28,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/estimated-delivery-date.scss';
 
-xdescribe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
+describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_ESTIMATED_DELIVERY_DATE,
     collectionPath
