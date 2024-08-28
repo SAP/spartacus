@@ -78,7 +78,7 @@ export class SiteThemeService implements SiteContext<SiteTheme> {
     this.store
       .pipe(select(SiteThemeSelectors.getActiveSiteTheme), take(1))
       .subscribe((activeTheme: string | null) => {
-        if (activeTheme !== className) {
+        if (activeTheme !== className && this.isValid(className)) {
           this.store.dispatch(
             new SiteThemeActions.SetActiveSiteTheme(className)
           );
