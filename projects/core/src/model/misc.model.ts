@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Address } from './address.model';
 import { B2BUnit } from '.';
+import { Address } from './address.model';
 
 export interface Currency {
   active?: boolean;
@@ -137,6 +137,6 @@ export interface CaptchaConfig {
 }
 
 export interface SiteTheme {
-  i18nNameKey?: string;
-  className?: string;
+  i18nNameKey: string;
+  className: string;
 }
