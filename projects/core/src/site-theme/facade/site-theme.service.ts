@@ -52,8 +52,7 @@ export class SiteThemeService implements SiteContext<SiteTheme> {
    * CAUTION: This property should be accessed only when those configs are stable, e.g. `ConfigInitializer.getStable('context','siteTheme'))`
    */
   protected get themes(): SiteTheme[] {
-    // SPIKE TODO: rethink the key names `siteTheme.siteThemes` vs `optionalSiteThemes
-    const optionalThemes = this.config.siteTheme?.siteThemes || [];
+    const optionalThemes = this.config.siteTheme?.optionalThemes || [];
     return [this.getDefault(), ...optionalThemes];
   }
 

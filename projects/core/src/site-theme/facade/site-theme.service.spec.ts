@@ -24,7 +24,9 @@ const mockActiveTheme = 'dark';
 
 const mockSiteThemeConfig: SiteThemeConfig = {
   siteTheme: {
-    siteThemes: [{ i18nNameKey: 'dark', className: 'dark', default: false }],
+    optionalThemes: [
+      { i18nNameKey: 'dark', className: 'dark', default: false },
+    ],
   },
 };
 

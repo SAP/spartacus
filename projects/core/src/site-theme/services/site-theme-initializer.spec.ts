@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, of } from 'rxjs';
 import { ConfigInitializerService } from '../../config';
-import createSpy = jasmine.createSpy;
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { SiteThemeConfig } from '../config/site-theme-config';
 import { SiteThemeService } from '../facade';
 import { SiteThemeInitializer } from './site-theme-initializer';
 import { SiteThemePersistenceService } from './site-theme-persistence.service';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
+import createSpy = jasmine.createSpy;
 
 const mockSiteThemeConfig: SiteThemeConfig = {
   siteTheme: {
-    siteThemes: [{ i18nNameKey: 'dark', className: 'dark', default: true }],
+    optionalThemes: [{ i18nNameKey: 'dark', className: 'dark', default: true }],
   },
 };
 

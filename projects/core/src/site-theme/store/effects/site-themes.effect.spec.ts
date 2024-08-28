@@ -6,17 +6,17 @@ import { BehaviorSubject, of, Subject } from 'rxjs';
 import { ConfigModule } from '../../../config/config.module';
 import { SiteTheme } from '../../../model/misc.model';
 import { BaseOccModule } from '../../../occ/base-occ.module';
-import { SiteThemeActions } from '../actions/index';
-import * as fromEffects from './site-themes.effect';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { SiteThemeConfig } from '../../config/site-theme-config';
+import { SiteThemeActions } from '../actions/index';
+import * as fromEffects from './site-themes.effect';
 
 const themes: SiteTheme[] = [
   { i18nNameKey: 'dark', className: 'dark', default: true },
 ];
 const mockSiteThemeConfig: SiteThemeConfig = {
   siteTheme: {
-    siteThemes: themes,
+    optionalThemes: themes,
   },
 };
 
