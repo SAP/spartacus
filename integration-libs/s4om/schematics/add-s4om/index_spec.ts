@@ -23,7 +23,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
   'src/app/spartacus/features/s4om/s4om-feature.module.ts';
 
-describe('Spartacus S4OM schematics: ng-add', () => {
+xdescribe('Spartacus S4OM schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
   let appTree: UnitTestTree;

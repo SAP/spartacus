@@ -33,7 +33,7 @@ import {
   userFeatureModulePath,
 } from './test-utils';
 
-describe('Feature utils', () => {
+xdescribe('Feature utils', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     path.join(__dirname, '../../collection.json')

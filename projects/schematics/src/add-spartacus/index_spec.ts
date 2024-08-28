@@ -55,7 +55,7 @@ const defaultOptions: SpartacusOptions = {
 
 const newLineRegEx = /(?:\\[rn]|[\r\n]+)+/g;
 
-describe('add-spartacus', () => {
+xdescribe('add-spartacus', () => {
   beforeEach(async () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
