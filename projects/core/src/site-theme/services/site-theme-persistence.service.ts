@@ -5,7 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { combineLatest, Observable, ReplaySubject, takeUntil } from 'rxjs';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { SiteThemeConfig } from '../config/site-theme-config';
 import { SiteThemeService } from '../facade/site-theme.service';
@@ -32,13 +32,32 @@ export class SiteThemePersistenceService {
     return this.initialized$;
   }
 
+  // we cannot do it in sync way like in other similar persistance services because it cause race condition (I'm wondering why it is not the case in other mentioned services)
   protected onRead(valueFromStorage: string | undefined): void {
-    if (!this.siteThemeService.isInitialized() && valueFromStorage) {
-      this.siteThemeService.setActive(valueFromStorage);
+    if (valueFromStorage) {
+      combineLatest([
+        this.siteThemeService.isInitialized(), //checks whether theme is initialized, it cannot be verified in sync as in other similar persistance services
+        this.siteThemeService.isValidTheme(valueFromStorage), //checks whether theme is valid
+      ])
+        .pipe(takeUntil(this.initialized$))
+        .subscribe(([isInitialized, isValid]) => {
+          if (!isInitialized && isValid && valueFromStorage) {
+            //checks whether theme is initialized and valid
+            this.siteThemeService.setActive(valueFromStorage); //if not, sets it if true (unfortunately, in this one case isThemeValid used inside is redundant)
+          }
+          if (!this.initialized$.closed && (isInitialized || !isValid)) {
+            //if theme is initialized or not valid, completes the whole observable to allow setting fallback value in `site-theme-initializer.ts`
+            this.finalizeInitialization();
+          }
+        });
+    } else {
+      //if there is no value in storage, completes the whole observable to allow setting fallback value in `site-theme-initializer.ts`
+      this.finalizeInitialization();
     }
-    if (!this.initialized$.closed) {
-      this.initialized$.next(undefined);
-      this.initialized$.complete();
-    }
+  }
+
+  protected finalizeInitialization(): void {
+    this.initialized$.next(undefined);
+    this.initialized$.complete();
   }
 }

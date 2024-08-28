@@ -8,10 +8,10 @@ import { inject, Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { SiteThemeConfig } from '../config/site-theme-config';
 import { SiteThemeService } from '../facade/site-theme.service';
 import { SiteThemePersistenceService } from './site-theme-persistence.service';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
 
 @Injectable({ providedIn: 'root' })
 export class SiteThemeInitializer implements OnDestroy {
@@ -45,7 +45,7 @@ export class SiteThemeInitializer implements OnDestroy {
         this.configInit
           .getStable('siteTheme')
           .pipe(
-            tap((config: SiteThemeConfig) =>
+            switchMap((config: SiteThemeConfig) =>
               this.setDefaultValue(siteTheme, config)
             )
           )
@@ -67,13 +67,22 @@ export class SiteThemeInitializer implements OnDestroy {
   protected setDefaultValue(
     siteTheme: string | undefined,
     config: SiteThemeConfig
-  ): void {
+  ): Observable<boolean> {
+    // changed return type as we cannot do it in sync way due to race condition.
     const defaultTheme =
       config.siteTheme?.siteThemes?.find((theme) => theme.default)?.className ||
       siteTheme;
-    if (!this.siteThemeService.isInitialized() && defaultTheme) {
-      this.siteThemeService.setActive(defaultTheme);
-    }
+    return this.siteThemeService.isInitialized().pipe(
+      // get first value from observable - we know that this place will be reached only when `this.siteThemePersistenceService.initSync()` completes:
+      // - if theme is not initialized
+      // - if theme is not valid
+      take(1),
+      tap((isInitialized) => {
+        if (!isInitialized && defaultTheme) {
+          this.siteThemeService.setActive(defaultTheme);
+        }
+      })
+    );
   }
 
   ngOnDestroy() {

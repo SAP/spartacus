@@ -7,10 +7,10 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { SiteTheme } from '../../../model/misc.model';
 import {
-  SiteThemeState,
   SiteThemeEntities,
-  StateWithSiteTheme,
   SiteThemesState,
+  SiteThemeState,
+  StateWithSiteTheme,
 } from '../state';
 import { getSiteThemeState } from './feature.selector';
 
@@ -32,6 +32,9 @@ export const getActiveSiteTheme: MemoizedSelector<
   StateWithSiteTheme,
   string | null
 > = createSelector(getSiteThemesState, activeSiteThemeSelector);
+
+export const isActiveSiteTheme: MemoizedSelector<StateWithSiteTheme, boolean> =
+  createSelector(getActiveSiteTheme, (activeSiteTheme) => !!activeSiteTheme);
 
 export const getAllSiteThemes: MemoizedSelector<
   StateWithSiteTheme,
