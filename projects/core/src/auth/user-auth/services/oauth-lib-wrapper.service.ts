@@ -184,6 +184,9 @@ export class OAuthLibWrapperService {
           take(1)
         )
         .subscribe((event) => (tokenReceivedEvent = event));
+
+        // todo: 1. understand why loadDiscoveryDocument is not called in the original code, and simply this section
+        // todo: 2. if we can not get ride of this if/slse, reuse the than and finally blocks in both branches instead of duplicating the code
       if (this.authConfigService.getOAuthLibConfig().disablePKCE == false) {
         this.oAuthService
           .loadDiscoveryDocumentAndTryLogin()

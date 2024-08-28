@@ -21,7 +21,7 @@ export class CdcConfigInitializer implements ConfigInitializer {
   ) {}
 
   /**
-   * Emits the Routing config basing on the current base site data.
+   * Emits the Auth config basing on the current base site data.
    *
    * Completes after emitting the value.
    */
