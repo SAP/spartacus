@@ -5,6 +5,7 @@
  */
 
 import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import {
@@ -34,6 +35,20 @@ export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
         )
       );
     }
+  }
+
+  showServiceDetails(): Boolean {
+    let hasService: Boolean = false;
+    const deliveryEntries: OrderEntry[] =
+      this.order.entries?.filter(
+        (entry) => entry.deliveryPointOfService === undefined
+      ) || [];
+    deliveryEntries.map((entry) => {
+      entry.product?.productTypes === 'SERVICE'
+        ? (hasService = true)
+        : (hasService = false);
+    });
+    return hasService;
   }
 
   getServiceDetailsCard(
