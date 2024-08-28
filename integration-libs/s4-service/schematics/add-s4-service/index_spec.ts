@@ -30,7 +30,7 @@ import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-xdescribe('Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add', () => {
+describe('Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_S4_SERVICE,
     collectionPath

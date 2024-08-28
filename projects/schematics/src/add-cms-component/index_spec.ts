@@ -78,7 +78,7 @@ function assertContentDoesNotExist(
   }
 }
 
-xdescribe('add-cms-component', () => {
+describe('add-cms-component', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     collectionPath

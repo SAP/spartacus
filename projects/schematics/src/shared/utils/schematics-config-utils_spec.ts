@@ -6,7 +6,7 @@ import {
 } from '../libs-constants';
 import { getConfiguredDependencies } from './schematics-config-utils';
 
-xdescribe('schematics-config-util', () => {
+describe('schematics-config-util', () => {
   describe('getConfiguredDependencies', () => {
     it('should return the correct feature dependencies for the given feature', () => {
       const result = getConfiguredDependencies(DIGITAL_PAYMENTS_FEATURE_NAME);

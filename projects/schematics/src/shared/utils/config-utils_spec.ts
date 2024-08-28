@@ -13,7 +13,7 @@ import {
 } from './config-utils';
 import { getModulePropertyInitializer } from './new-module-utils';
 
-xdescribe('Storefront config utils', () => {
+describe('Storefront config utils', () => {
   let project: Project;
   let sourceFile: SourceFile;
   beforeEach(() => {

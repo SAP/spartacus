@@ -24,7 +24,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/asm.scss';
 
-xdescribe('Spartacus Asm schematics: ng-add', () => {
+describe('Spartacus Asm schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_ASM,
     collectionPath

@@ -24,7 +24,7 @@ import * as path from 'path';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-xdescribe('Spartacus CDP schematics: ng-add', () => {
+describe('Spartacus CDP schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_CDP,
     collectionPath

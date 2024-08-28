@@ -51,7 +51,7 @@ import {
   getSchematicsConfigByFeatureOrThrow,
 } from './schematics-config-mappings';
 
-xdescribe('schematics-config-mappings', () => {
+describe('schematics-config-mappings', () => {
   describe('libraryFeatureMapping', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().libraryFeatureMapping;
