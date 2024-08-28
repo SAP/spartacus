@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isNotUndefined } from '../../util';
 import { WindowRef } from '../../window/window-ref';
 import { StorageSyncType } from '../config/state-config';
 
@@ -40,7 +41,7 @@ export function persistToStorage(
   value: any,
   storage: Storage
 ): void {
-  if (!isSsr(storage) && value) {
+  if (!isSsr(storage) && isNotUndefined(value)) {
     storage.setItem(configKey, JSON.stringify(value));
   }
 }
