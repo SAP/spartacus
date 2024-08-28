@@ -36,39 +36,39 @@ export class OAuthLibWrapperService {
     protected winRef: WindowRef
   ) {
     this.initialize();
-    if (this.baseSiteService) {
-      this.baseSiteService
-        .get()
-        .pipe(take(1))
-        .subscribe((site) => {
-          if (
-            site?.cdcSiteConfig &&
-            site?.uid &&
-            site.baseStore?.defaultCurrency &&
-            site.defaultLanguage
-          ) {
-            const defaultCurrency = site.baseStore.defaultCurrency.isocode;
-            const defaultLanguage = site.defaultLanguage.isocode;
+    // if (this.baseSiteService) {
+    //   this.baseSiteService
+    //     .get()
+    //     .pipe(take(1))
+    //     .subscribe((site) => {
+    //       if (
+    //         site?.cdcSiteConfig &&
+    //         site?.uid &&
+    //         site.baseStore?.defaultCurrency &&
+    //         site.defaultLanguage
+    //       ) {
+    //         const defaultCurrency = site.baseStore.defaultCurrency.isocode;
+    //         const defaultLanguage = site.defaultLanguage.isocode;
 
-            this.currentBaseSite = site;
-            this.oAuthService.configure({
-              clientId: site.cdcSiteConfig.oidcRpClientId,
-              issuer: site.cdcSiteConfig.oidcOpIssuerURI,
-              redirectUri:
-                window.location.origin +
-                '/' +
-                site.uid +
-                '/' +
-                defaultLanguage +
-                '/' +
-                defaultCurrency +
-                '/login',
-              scope: site.cdcSiteConfig.scopes.join(' '),
-              responseType: 'code',
-            });
-          }
-        });
-    }
+    //         this.currentBaseSite = site;
+    //         this.oAuthService.configure({
+    //           clientId: site.cdcSiteConfig.oidcRpClientId,
+    //           issuer: site.cdcSiteConfig.oidcOpIssuerURI,
+    //           redirectUri:
+    //             window.location.origin +
+    //             '/' +
+    //             site.uid +
+    //             '/' +
+    //             defaultLanguage +
+    //             '/' +
+    //             defaultCurrency +
+    //             '/login',
+    //           scope: site.cdcSiteConfig.scopes.join(' '),
+    //           responseType: 'code',
+    //         });
+    //       }
+    //     });
+    // }
   }
 
   protected initialize() {
@@ -92,6 +92,10 @@ export class OAuthLibWrapperService {
           : ''),
       ...this.authConfigService.getOAuthLibConfig(),
     });
+  }
+
+  public refreshAuthConfig() {
+    this.initialize();
   }
 
   /**
@@ -180,7 +184,7 @@ export class OAuthLibWrapperService {
           take(1)
         )
         .subscribe((event) => (tokenReceivedEvent = event));
-      if (this.currentBaseSite.cdcSiteConfig) {
+      if (this.authConfigService.getOAuthLibConfig().disablePKCE == false) {
         this.oAuthService
           .loadDiscoveryDocumentAndTryLogin()
           .then((result: boolean) => {

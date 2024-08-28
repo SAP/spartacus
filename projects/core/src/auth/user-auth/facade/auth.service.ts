@@ -46,6 +46,11 @@ export class AuthService {
     protected authMultisiteIsolationService?: AuthMultisiteIsolationService
   ) {}
 
+
+  public refreshAuthConfig() {
+    this.oAuthLibWrapperService.refreshAuthConfig();
+  }
+
   /**
    * Check params in url and if there is an code/token then try to login with those.
    */

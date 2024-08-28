@@ -5,12 +5,13 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import { CONFIG_INITIALIZER, CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { UserAccountEventModule } from './events/user-account-event.module';
 import {
   USER_ACCOUNT_CORE_FEATURE,
   USER_ACCOUNT_FEATURE,
 } from './feature-name';
+import { CdcConfigInitializer } from './configs/cdc-config-initializer';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultUserAccountComponentsConfig(): CmsConfig {
@@ -34,8 +35,20 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
   return config;
 }
 
+export function initCdcConfigFactory(cdcConfigInitializer: CdcConfigInitializer) {
+  return cdcConfigInitializer;
+}
+
 @NgModule({
   imports: [UserAccountEventModule],
-  providers: [provideDefaultConfigFactory(defaultUserAccountComponentsConfig)],
+  providers: [
+    provideDefaultConfigFactory(defaultUserAccountComponentsConfig),
+    {
+      provide: CONFIG_INITIALIZER,
+      useFactory: initCdcConfigFactory,
+      deps: [CdcConfigInitializer],
+      multi: true,
+    },
+  ],
 })
 export class UserAccountRootModule {}
