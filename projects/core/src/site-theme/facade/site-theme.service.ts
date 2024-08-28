@@ -28,26 +28,33 @@ export class SiteThemeService implements SiteContext<SiteTheme> {
   protected store = inject(Store<StateWithSiteTheme>);
   protected config = inject(Config);
 
-  protected get themes(): SiteTheme[] {
-    // There are 2 types of themes: default and optional which are configured differently
-    // 1. The default theme ID can be configured only via Spartacus config `config.context.theme`
-    //    (note: its value can be defined statically or fetched dynamically from the CMS backend).
-    const defaultThemeId = getContextParameterDefault(
-      this.config,
-      THEME_CONTEXT_ID
-    );
-    const defaultTheme: SiteTheme = {
-      className: defaultThemeId || '',
+  getDefault(): SiteTheme {
+    const defaultThemeId =
+      getContextParameterDefault(this.config, THEME_CONTEXT_ID) ?? '';
+
+    return {
+      className: defaultThemeId,
       i18nNameKey: 'themeSwitcher.themes.default',
     };
+  }
 
+  /**
+   * List of possible themes.
+   *
+   * There are 2 types of themes: default and optional which are configured differently in Spartacus config.
+   * This property combines both types of themes into a single list.
+   *
+   * 1. The default theme ID can be configured only via Spartacus config `config.context.theme`
+   *    (note: its value can be defined statically or fetched dynamically from the CMS backend).
+   * 2. The optional themes (their IDs and their i18n keys) can be configured
+   *    only via Spartacus config `config.siteTheme.siteThemes`
+   *
+   * CAUTION: This property should be accessed only when those configs are stable, e.g. `ConfigInitializer.getStable('context','siteTheme'))`
+   */
+  protected get themes(): SiteTheme[] {
     // SPIKE TODO: rethink the key names `siteTheme.siteThemes` vs `optionalSiteThemes
-
-    // 2. The optional themes (their IDs and i18n keys) can be configured
-    //    only via Spartacus config `config.siteTheme.siteThemes`
-    const optionalThemes: SiteTheme[] = this.config.siteTheme?.siteThemes || [];
-
-    return [defaultTheme, ...optionalThemes];
+    const optionalThemes = this.config.siteTheme?.siteThemes || [];
+    return [this.getDefault(), ...optionalThemes];
   }
 
   getAll(): Observable<SiteTheme[]> {

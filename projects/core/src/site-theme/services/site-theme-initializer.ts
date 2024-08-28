@@ -8,11 +8,6 @@ import { inject, Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
-import {
-  getContextParameterDefault,
-  SiteContextConfig,
-  THEME_CONTEXT_ID,
-} from '../../site-context';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { SiteThemeService } from '../facade/site-theme.service';
 import { SiteThemePersistenceService } from './site-theme-persistence.service';
@@ -30,7 +25,7 @@ export class SiteThemeInitializer implements OnDestroy {
    */
   initialize(): void {
     this.subscription = this.configInit
-      .getStable('siteTheme')
+      .getStable('context')
       .pipe(
         switchMap(() => this.siteThemePersistenceService.initSync()),
         switchMap(() => this.setFallbackValue())
@@ -46,19 +41,17 @@ export class SiteThemeInitializer implements OnDestroy {
   protected setFallbackValue(): Observable<unknown> {
     return this.configInit
       .getStable('context')
-      .pipe(
-        tap((config: SiteContextConfig) => this.setDefaultFromConfig(config))
-      );
+      .pipe(tap(() => this.setDefaultFromConfig()));
   }
 
   /**
    * Sets the active language value based on the default value from the config,
    * unless the active language has been already initialized.
    */
-  protected setDefaultFromConfig(config: SiteContextConfig): void {
-    const contextParam = getContextParameterDefault(config, THEME_CONTEXT_ID);
-    if (!this.siteThemeService.isInitialized() && contextParam) {
-      this.siteThemeService.setActive(contextParam);
+  protected setDefaultFromConfig(): void {
+    if (!this.siteThemeService.isInitialized()) {
+      const defaultTheme = this.siteThemeService.getDefault();
+      this.siteThemeService.setActive(defaultTheme.className);
     }
   }
 
