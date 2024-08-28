@@ -13,8 +13,7 @@ import {
   ScriptLoader,
   SiteAdapter,
 } from '@spartacus/core';
-import { forkJoin, map, Observable, ReplaySubject, Subscription } from 'rxjs';
-import { concatMap, take } from 'rxjs/operators';
+import { Observable, of, ReplaySubject, Subscription } from 'rxjs';
 import { RenderParams } from './captcha.model';
 import { CaptchaApiConfig } from './captcha-api-config';
 import { CaptchaRenderer } from './captcha.renderer';
@@ -66,13 +65,10 @@ export abstract class CaptchaService implements CaptchaRenderer, OnDestroy {
   }
 
   fetchCaptchaConfigFromServer(): Observable<CaptchaConfig> {
-    return forkJoin([
-      this.languageService.getActive().pipe(take(1)),
-      this.baseSiteService.getActive().pipe(
-        concatMap((value) => this.adapter.loadBaseSite(value)),
-        take(1)
-      ),
-    ]).pipe(map((result) => result[1]?.captchaConfig as CaptchaConfig));
+    return of({
+      enabled: true,
+      publicKey: 'string',
+    });
   }
 
   getCaptchaConfig(): Observable<CaptchaConfig> {
