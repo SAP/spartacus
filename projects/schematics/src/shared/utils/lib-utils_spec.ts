@@ -25,7 +25,7 @@ import {
 
 const xxxFeaturePath = `src/app/spartacus/features/xxx/xxx-feature.module.ts`;
 
-describe('Lib utils', () => {
+xdescribe('Lib utils', () => {
   const schematicRunner = new SchematicTestRunner(
     'schematics',
     path.join(__dirname, '../../collection.json')

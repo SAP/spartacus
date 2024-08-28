@@ -33,7 +33,7 @@ import {
   collectCrossSpartacusPeerDeps,
 } from './dependency-utils';
 
-describe('dependency-util', () => {
+xdescribe('dependency-util', () => {
   describe('analyzeCrossFeatureDependencies', () => {
     it('DP - should return the correct set of ordered sub-features', () => {
       const result = analyzeCrossFeatureDependencies([

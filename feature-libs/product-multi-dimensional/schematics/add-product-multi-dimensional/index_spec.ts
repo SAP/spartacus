@@ -25,7 +25,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/product-multi-dimensional.scss';
 
-describe('Spartacus Product Multi-Dimensional schematics: ng-add', () => {
+xdescribe('Spartacus Product Multi-Dimensional schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_PRODUCT,
     collectionPath

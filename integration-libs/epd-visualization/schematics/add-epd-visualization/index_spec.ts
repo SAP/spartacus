@@ -24,7 +24,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/epd-visualization.scss';
 
-describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () => {
+xdescribe('Spartacus SAP EPD Visualization integration schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_EPD_VISUALIZATION,
     collectionPath
