@@ -39,8 +39,11 @@ export function checkOAuthParamsInUrl(
       ? lastValueFrom(
           configInit.getStable().pipe(
             switchMap(() =>
+              {
+                authService.refreshAuthConfig();
               // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
-              authService.checkOAuthParamsInUrl()
+              return authService.checkOAuthParamsInUrl();
+            }
             )
           )
         )
