@@ -4,13 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { viewportContext } from '../../../helpers/viewport-context';
 import * as checkoutMultiDVariants from '../../../helpers/checkout-multi-dimensional';
+import { viewportContext } from '../../../helpers/viewport-context';
 
-context('Multi Dimensional - checkout flow', () => {
+context('Multi Dimensional - checkout as guest', () => {
   viewportContext(['desktop', 'mobile'], () => {
-    describe('multi-d core-tests', () => {
-      checkoutMultiDVariants.testCheckoutRegisteredUser();
+    describe('multi-d all-tests', () => {
+      checkoutMultiDVariants.testCheckoutMultiDAsGuest();
+    });
+  });
+
+  viewportContext(['desktop'], () => {
+    describe('multi-d all-tests', () => {
+      checkoutMultiDVariants.testCheckoutMultiDAsGuestAndVerifyCart();
     });
   });
 });
