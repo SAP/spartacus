@@ -8,7 +8,9 @@
 
 <!-- TODO: Remove feature flag next major release -->
 <ng-container *cxFeature="'a11yPreventSRFocusOnHiddenElements'">
-  <h1 aria-live="polite" aria-atomic="true">{{ title$ | async }}</h1>
+  <h1 [attr.aria-live]="(ariaLive$ | async) ? 'polite' : null">
+    {{ title$ | async }}
+  </h1>
 </ng-container>
 <ng-container *cxFeature="'!a11yPreventSRFocusOnHiddenElements'">
   <!-- Hidden page title for Screen Reader initialized after view to avoid old values -->

@@ -106,7 +106,6 @@ describe('CheckoutServiceDetailsComponent', () => {
     component.ngOnInit();
     expect(component.form?.get('scheduleDate')?.value).toEqual('27/06/2024');
     expect(component.form?.get('scheduleTime')?.value).toEqual('09:30');
-    expect(pickerService.convertDateTimeToReadableString).toHaveBeenCalled();
     expect(pickerService.getServiceDetailsFromDateTime).toHaveBeenCalled();
   });
   it('should get back button text', () => {

@@ -12,6 +12,7 @@
     [attr.aria-disabled]="isInactive(item)"
     (click)="pageChange(item)"
     [attr.aria-label]="getAriaLabel$(item) | async"
+    [attr.title]="getAriaLabel$(item) | async"
   >
     {{ item.label }}
   </a></ng-container

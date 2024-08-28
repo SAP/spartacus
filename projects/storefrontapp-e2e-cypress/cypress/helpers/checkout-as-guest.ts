@@ -53,7 +53,7 @@ export function testCheckoutAsGuest() {
     loginAsGuest(guestUser);
 
     checkout.fillAddressFormWithCheapProduct();
-    checkout.verifyDeliveryMethod();
+    checkout.verifyDeliveryOptions();
     checkout.fillPaymentFormWithCheapProduct();
     checkout.placeOrderWithCheapProduct();
     checkout.verifyOrderConfirmationPageWithCheapProduct();

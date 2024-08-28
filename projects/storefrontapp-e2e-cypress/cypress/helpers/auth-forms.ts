@@ -77,6 +77,24 @@ export function register(
   });
 }
 
+export function registerWithCaptcha(
+  user: SampleUser,
+  giveRegistrationConsent = false,
+  hiddenConsent?
+) {
+  fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
+  const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.get('button[type="submit"]').click();
+  // Register a user without confirming captcha will have an error.
+  cy.get('cx-form-errors.control-invalid').should('exist');
+  // Confirming captcha
+  cy.get('.mock-captcha').click();
+  cy.contains('label', 'Verified', { timeout: 10000 }).should('be.visible');
+  cy.get('cx-form-errors.control-invalid').should('not.exist');
+  cy.get('button[type="submit"]').click();
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+}
+
 export function login(username: string, password: string) {
   fillLoginForm({ username, password });
 }

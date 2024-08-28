@@ -8,9 +8,11 @@ import { ProductReferencesEffects } from './product-references.effect';
 import { ProductReviewsEffects } from './product-reviews.effect';
 import { ProductsSearchEffects } from './product-search.effect';
 import { ProductEffects } from './product.effect';
+import { ProductSearchByCodeEffects } from './product-search-by-code.effect';
 
 export const effects: any[] = [
   ProductsSearchEffects,
+  ProductSearchByCodeEffects,
   ProductEffects,
   ProductReviewsEffects,
   ProductReferencesEffects,
@@ -19,4 +21,5 @@ export const effects: any[] = [
 export * from './product-references.effect';
 export * from './product-reviews.effect';
 export * from './product-search.effect';
+export * from './product-search-by-code.effect';
 export * from './product.effect';
