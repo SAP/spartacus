@@ -78,8 +78,17 @@ jobs:
 
           # Comment out the base url in the spartacus-configuration.module.ts file
           function modify_file_to_remove_baseurl() {
-            local file_location="../spartacus-${{ github.event.inputs.version }}-${storefront_type}/apps/spartacusstore/src/app/spartacus/spartacus-configuration.module.ts"
+            local path
+            if [ "${storefront_type}" = "b2c" ]; then
+              path="spartacusstore"
+            elif [ "${storefront_type}" = "b2b" ]; then
+              path="b2bspastore"
+            else
+              echo "Invalid storefront type: ${storefront_type}"
+              exit 1
+            fi
 
+            local file_location="../spartacus-${{ github.event.inputs.version }}-${storefront_type}/apps/${path}/src/app/spartacus/spartacus-configuration.module.ts"
             if [ -f "${file_location}" ]; then
               sed -i 's/baseUrl/\/\/baseUrl/1' "${file_location}"
               echo "Modified ${file_location}."
