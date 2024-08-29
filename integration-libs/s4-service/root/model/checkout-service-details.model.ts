@@ -14,3 +14,13 @@ export interface ServiceOrderConfig {
   leadDays?: number;
   serviceScheduleTimes?: string[];
 }
+
+export interface CancellationDetails {
+  cancelReason?: string; //name in request
+  cancellationRequestEntryInputs: CancellationRequestEntryInputs[];
+}
+export interface CancellationRequestEntryInputs {
+  orderEntryNumber?: number;
+  quantity?: string[];
+}
+export type serviceCancellable = boolean;

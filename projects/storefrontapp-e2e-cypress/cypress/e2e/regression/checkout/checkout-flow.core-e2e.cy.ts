@@ -36,7 +36,7 @@ context('Checkout flow', () => {
         firstName: '',
       });
       checkout.fillAddressFormWithCheapProduct({ firstName: user.firstName });
-      checkout.verifyDeliveryMethod();
+      checkout.verifyDeliveryOptions();
       checkout.proceedWithEmptyPaymentForm();
       checkout.proceedWithIncorrectPaymentForm({
         ...user,

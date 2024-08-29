@@ -184,7 +184,7 @@ describe('ConfiguratorGroupTitleComponent', () => {
     );
     expect(
       configuratorStorefrontUtilsService.focusFirstActiveElement
-    ).toHaveBeenCalledWith('cx-hamburger-menu');
+    ).toHaveBeenCalledWith('cx-configurator-group-menu');
   });
 
   it('should create component with hamburger menu icon', () => {
