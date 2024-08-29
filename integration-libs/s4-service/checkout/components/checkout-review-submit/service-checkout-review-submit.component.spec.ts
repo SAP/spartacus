@@ -496,6 +496,14 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
       done();
     });
   });
+  it('should call getServiceDetailsCard() to get service details and return empty card if scheduledAt is empty', (done) => {
+    component.getServiceDetailsCard(undefined).subscribe((card) => {
+      expect(card.title).toEqual('serviceOrderCheckout.serviceDetails');
+      expect(card.textBold).toEqual('');
+      expect(card.text).toEqual(['']);
+      done();
+    });
+  });
 
   it('should get checkout step url', () => {
     expect(

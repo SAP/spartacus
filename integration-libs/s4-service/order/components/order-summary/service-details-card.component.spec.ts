@@ -58,6 +58,15 @@ describe('ServiceDetailsCardComponent', () => {
       });
     });
   });
+  it('should return empty card', () => {
+    component.getServiceDetailsCard(undefined).subscribe((card) => {
+      expect(card).toEqual({
+        title: 'card title',
+        textBold: undefined,
+        text: [''],
+      });
+    });
+  });
 
   it('should call ngOnDestroy', () => {
     spyOn(component['subscription'], 'unsubscribe');
@@ -90,6 +99,10 @@ describe('ServiceDetailsCardComponent', () => {
         { product: { productTypes: 'PHYSICAL' } },
       ],
     } as any;
+    expect(component.showServiceDetails()).toEqual(false);
+  });
+  it('should not show service details card in order summary if order doesnot contains any entries', () => {
+    component.order = {} as any;
     expect(component.showServiceDetails()).toEqual(false);
   });
 });
