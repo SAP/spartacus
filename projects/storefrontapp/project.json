@@ -46,6 +46,10 @@
             "bundleName": "product-configurator"
           },
           {
+            "input": "projects/storefrontapp/src/styles/lib-product-multi-dimensional.scss",
+            "bundleName": "product-multi-dimensional"
+          },
+          {
             "input": "projects/storefrontapp/src/styles/lib-storefinder.scss",
             "bundleName": "storefinder"
           },

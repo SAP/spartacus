@@ -90,19 +90,9 @@ export class CheckoutServiceDetailsService
   getSelectedServiceDetailsState(): Observable<
     QueryState<ServiceDateTime | undefined>
   > {
-    return this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
-      switchMap((state) => {
-        return this.getServiceProducts().pipe(
-          map((products) => {
-            if (products.length > 0) {
-              return { ...state, data: state.data?.servicedAt };
-            } else {
-              return { ...state, data: undefined };
-            }
-          })
-        );
-      })
-    );
+    return this.checkoutQueryFacade
+      .getCheckoutDetailsState()
+      .pipe(map((state) => ({ ...state, data: state.data?.servicedAt })));
   }
 
   getServiceProducts(): Observable<string[]> {

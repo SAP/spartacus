@@ -23,6 +23,7 @@ import {
   verifyReviewOrderPage,
 } from '../../checkout-flow';
 import { tabbingOrderConfig as config } from '../../../helpers/accessibility/b2b/tabbing-order.config';
+import { ORDER_CODE } from '../../../sample-data/service-order';
 
 export const serviceUser = {
   email: 'james.weber@harvestlive.inc',
@@ -67,7 +68,7 @@ export function checkoutForServiceOrder(product: SampleProduct) {
 export function selectAccountDeliveryModeForServiceOrder() {
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint();
 
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Options');
   cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('.cx-checkout-btns button.btn-primary')
     .should('be.enabled')
@@ -100,7 +101,7 @@ export function interceptPatchServiceDetailsEndpoint() {
   return alias;
 }
 
-export function selectServiceDetailsForServiceOrder(serviceOrder: boolean) {
+export function selectServiceDetailsForServiceOrder() {
   const patchServiceDetails = interceptPatchServiceDetailsEndpoint();
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint();
@@ -110,28 +111,19 @@ export function selectServiceDetailsForServiceOrder(serviceOrder: boolean) {
     'Service Schedule - Date and Time'
   );
 
-  if (serviceOrder) {
-    verifyServiceDatePickerExists();
-    cy.get('select[formcontrolname="scheduleTime"]')
-      .should('exist')
-      .and('not.be.empty');
-    cy.get('.cx-checkout-btns button.btn-primary')
-      .should('be.enabled')
-      .click({ force: true });
-    cy.wait(`@${patchServiceDetails}`)
-      .its('response.statusCode')
-      .should('eq', 200);
-    cy.wait(`@${getCheckoutDetails}`)
-      .its('response.statusCode')
-      .should('eq', 200);
-  } else {
-    cy.get('cx-service-details').within(() => {
-      cy.findByText('No Service details required. Click Continue');
-    });
-    cy.get('.cx-checkout-btns button.btn-primary')
-      .should('be.enabled')
-      .click({ force: true });
-  }
+  verifyServiceDatePickerExists();
+  cy.get('select[formcontrolname="scheduleTime"]')
+    .should('exist')
+    .and('not.be.empty');
+  cy.get('.cx-checkout-btns button.btn-primary')
+    .should('be.enabled')
+    .click({ force: true });
+  cy.wait(`@${patchServiceDetails}`)
+    .its('response.statusCode')
+    .should('eq', 200);
+  cy.wait(`@${getCheckoutDetails}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   cy.wait(`@${orderReview}`, { timeout: 30000 })
     .its('response.statusCode')
@@ -159,9 +151,7 @@ export function verifyServiceOrderReviewOrderPage(serviceOrder: boolean) {
     cy.get('.cx-review-summary-card')
       .contains('cx-card', 'Service Details')
       .find('.cx-card-container')
-      .within(() => {
-        cy.findByText('None');
-      });
+      .should('not.exist');
   }
 
   cy.findByText('Terms & Conditions')
@@ -190,9 +180,7 @@ export function verifyServiceOrderConfirmationPage(serviceOrder: boolean) {
     cy.get('cx-card-service-details')
       .contains('cx-card', 'Service Details')
       .find('.cx-card-container')
-      .within(() => {
-        cy.findByText('None');
-      });
+      .should('not.exist');
   }
 }
 
@@ -255,4 +243,34 @@ export function selectAccountShippingAddressForServiceOrder() {
   cy.get('button.btn-primary').should('be.enabled').click();
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
   cy.wait(`@${putDeliveryMode}`).its('response.statusCode').should('eq', 200);
+}
+
+export function interceptOrderList(alias, response) {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orders?*`,
+    { statusCode: 200, body: response }
+  ).as(alias);
+}
+
+export function interceptOrderDetails(alias, response) {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orders/${ORDER_CODE}?*`,
+    { statusCode: 200, body: response }
+  ).as(alias);
+}
+
+export function interceptRescheduleServiceOrder(alias) {
+  cy.intercept(
+    'PATCH',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orders/${ORDER_CODE}/serviceOrder/serviceScheduleSlot?*`,
+    { statusCode: 200 }
+  ).as(alias);
 }

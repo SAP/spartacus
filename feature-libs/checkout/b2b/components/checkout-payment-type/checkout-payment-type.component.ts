@@ -117,7 +117,6 @@ export class CheckoutPaymentTypeComponent {
     distinctUntilChanged(),
     tap((selected) => {
       this.typeSelected = selected?.code;
-      this.checkoutStepService.resetSteps();
       this.checkoutStepService.disableEnableStep(
         CheckoutStepType.PAYMENT_DETAILS,
         selected?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT
