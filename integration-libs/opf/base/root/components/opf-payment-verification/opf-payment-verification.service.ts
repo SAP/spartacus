@@ -13,14 +13,10 @@ import {
   RoutingService,
 } from '@spartacus/core';
 
-import { Order } from '@spartacus/order/root';
+import { Order, OrderFacade } from '@spartacus/order/root';
 import { Observable, from, of, throwError } from 'rxjs';
 import { concatMap, filter, map, take, tap } from 'rxjs/operators';
-import {
-  OpfGlobalFunctionsFacade,
-  OpfOrderFacade,
-  OpfPaymentFacade,
-} from '../../facade';
+import { OpfGlobalFunctionsFacade, OpfPaymentFacade } from '../../facade';
 import {
   OpfPaymenVerificationUrlInput,
   OpfPaymentVerificationResponse,
@@ -41,7 +37,7 @@ import { OpfResourceLoaderService } from '../../services/opf-resource-loader.ser
 })
 export class OpfPaymentVerificationService {
   constructor(
-    protected opfOrderFacade: OpfOrderFacade,
+    protected orderFacade: OrderFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected opfPaymentService: OpfPaymentFacade,
@@ -129,7 +125,7 @@ export class OpfPaymentVerificationService {
   }
 
   protected placeOrder(): Observable<Order> {
-    return this.opfOrderFacade.placeOpfOrder(true);
+    return this.orderFacade.placePaymentAuthorizedOrder(true);
   }
 
   protected verifyPayment(

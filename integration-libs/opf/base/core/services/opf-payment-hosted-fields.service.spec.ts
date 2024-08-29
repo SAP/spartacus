@@ -11,9 +11,9 @@ import {
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+import { Order, OrderFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
-import { OpfOrderFacade, OpfOtpFacade } from '../../root/facade';
+import { OpfOtpFacade } from '../../root/facade';
 import {
   PaymentErrorType,
   PaymentMethod,
@@ -29,7 +29,7 @@ import { OpfPaymentHostedFieldsService } from './opf-payment-hosted-fields.servi
 describe('OpfPaymentHostedFieldsService', () => {
   let service: OpfPaymentHostedFieldsService;
   let routingService: RoutingService;
-  let opfOrderFacade: OpfOrderFacade;
+  let orderFacade: OrderFacade;
   let opfPaymentErrorHandlerService: OpfPaymentErrorHandlerService;
 
   const mockOpfPaymentConnector = {
@@ -57,9 +57,9 @@ describe('OpfPaymentHostedFieldsService', () => {
     go: jasmine.createSpy('go'),
   };
 
-  const mockOpfOrderFacade = {
-    placeOpfOrder: jasmine
-      .createSpy('placeOpfOrder')
+  const mockOrderFacade = {
+    placePaymentAuthorizedOrder: jasmine
+      .createSpy('placePaymentAuthorizedOrder')
       .and.returnValue(of({ id: 'testOrder' } as Order)),
   };
 
@@ -107,7 +107,7 @@ describe('OpfPaymentHostedFieldsService', () => {
         { provide: ActiveCartFacade, useValue: mockActiveCartFacade },
         { provide: UserIdService, useValue: mockUserIdService },
         { provide: RoutingService, useValue: mockRoutingService },
-        { provide: OpfOrderFacade, useValue: mockOpfOrderFacade },
+        { provide: OrderFacade, useValue: mockOrderFacade },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
         {
           provide: OpfPaymentErrorHandlerService,
@@ -118,7 +118,7 @@ describe('OpfPaymentHostedFieldsService', () => {
 
     service = TestBed.inject(OpfPaymentHostedFieldsService);
     routingService = TestBed.inject(RoutingService);
-    opfOrderFacade = TestBed.inject(OpfOrderFacade);
+    orderFacade = TestBed.inject(OrderFacade);
     opfPaymentErrorHandlerService = TestBed.inject(
       OpfPaymentErrorHandlerService
     );
@@ -141,7 +141,7 @@ describe('OpfPaymentHostedFieldsService', () => {
       service.submitPayment(mockInput).subscribe((result) => {
         expect(result).toBeTruthy();
         expect(mockOpfPaymentConnector.submitPayment).toHaveBeenCalled();
-        expect(opfOrderFacade.placeOpfOrder).toHaveBeenCalled();
+        expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalled();
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'orderConfirmation',
         });
@@ -185,7 +185,7 @@ describe('OpfPaymentHostedFieldsService', () => {
           expect(
             mockOpfPaymentConnector.submitCompletePayment
           ).toHaveBeenCalled();
-          expect(opfOrderFacade.placeOpfOrder).toHaveBeenCalled();
+          expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalled();
           expect(routingService.go).toHaveBeenCalledWith({
             cxRoute: 'orderConfirmation',
           });
@@ -241,7 +241,7 @@ describe('OpfPaymentHostedFieldsService', () => {
       ]).subscribe((result) => {
         expect(result).toBeTruthy();
         expect(mockSubmitSuccess).toHaveBeenCalled();
-        expect(opfOrderFacade.placeOpfOrder).toHaveBeenCalled();
+        expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalled();
         flush();
       });
     }));
@@ -260,7 +260,7 @@ describe('OpfPaymentHostedFieldsService', () => {
       ]).subscribe((result) => {
         expect(result).toBeTruthy();
         expect(mockSubmitSuccess).toHaveBeenCalled();
-        expect(opfOrderFacade.placeOpfOrder).toHaveBeenCalled();
+        expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalled();
         flush();
       });
     }));

@@ -8,11 +8,11 @@ import {
 } from '@spartacus/core';
 import {
   OpfDynamicScriptResourceType,
-  OpfOrderFacade,
   OpfOtpFacade,
   OpfResourceLoaderService,
   OpfService,
 } from '@spartacus/opf/base/root';
+import { OrderFacade } from '@spartacus/order/root';
 import { of, throwError } from 'rxjs';
 import { OpfCheckoutFacade } from '../../root/facade';
 import {
@@ -34,7 +34,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   let activeCartServiceMock: jasmine.SpyObj<ActiveCartService>;
   let routingServiceMock: jasmine.SpyObj<RoutingService>;
   let globalMessageServiceMock: jasmine.SpyObj<GlobalMessageService>;
-  let opfOrderFacadeMock: jasmine.SpyObj<OpfOrderFacade>;
+  let orderFacadeMock: jasmine.SpyObj<OrderFacade>;
   let opfServiceMock: jasmine.SpyObj<OpfService>;
 
   beforeEach(() => {
@@ -62,8 +62,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     globalMessageServiceMock = jasmine.createSpyObj('GlobalMessageService', [
       'add',
     ]);
-    opfOrderFacadeMock = jasmine.createSpyObj('OpfOrderFacade', [
-      'placeOpfOrder',
+    orderFacadeMock = jasmine.createSpyObj('OrderFacade', [
+      'placePaymentAuthorizedOrder',
     ]);
     opfServiceMock = jasmine.createSpyObj('OpfService', [
       'updateOpfMetadataState',
@@ -90,7 +90,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         { provide: ActiveCartService, useValue: activeCartServiceMock },
         { provide: RoutingService, useValue: routingServiceMock },
         { provide: GlobalMessageService, useValue: globalMessageServiceMock },
-        { provide: OpfOrderFacade, useValue: opfOrderFacadeMock },
+        { provide: OrderFacade, useValue: orderFacadeMock },
         { provide: OpfService, useValue: opfServiceMock },
       ],
     });
@@ -212,7 +212,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       throwError({ status: 409 })
     );
 
-    opfOrderFacadeMock.placeOpfOrder.and.returnValue(of({}));
+    orderFacadeMock.placePaymentAuthorizedOrder.and.returnValue(of({}));
     opfOtpFacadeMock.generateOtpKey.and.returnValue(
       of({ accessCode: mockOtpKey })
     );

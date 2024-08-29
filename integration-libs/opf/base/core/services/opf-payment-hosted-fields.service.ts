@@ -8,12 +8,14 @@ import { Injectable } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   backOff,
+  DEFAULT_AUTHORIZATION_ERROR_RETRIES_COUNT,
   GlobalMessageService,
+  isAuthorizationError,
   RoutingService,
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+import { Order, OrderFacade } from '@spartacus/order/root';
 
 import { combineLatest, EMPTY, from, Observable, throwError } from 'rxjs';
 import {
@@ -29,7 +31,6 @@ import {
 import {
   defaultError,
   MerchantCallback,
-  OpfOrderFacade,
   OpfOtpFacade,
   OpfPaymentError,
   PaymentErrorType,
@@ -44,10 +45,7 @@ import {
 } from '@spartacus/opf/base/root';
 import { OpfPaymentConnector } from '../connectors/opf-payment.connector';
 import { OpfPaymentErrorHandlerService } from '../services/opf-payment-error-handler.service';
-import {
-  isAuthorizationError,
-  opfAuthorizationErrorRetry,
-} from '../utils/opf-occ-http-error-handlers';
+
 import { getBrowserInfo } from '../utils/opf-payment-utils';
 
 @Injectable()
@@ -59,7 +57,7 @@ export class OpfPaymentHostedFieldsService {
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected routingService: RoutingService,
-    protected opfOrderFacade: OpfOrderFacade,
+    protected orderFacade: OrderFacade,
     protected globalMessageService: GlobalMessageService,
     protected opfPaymentErrorHandlerService: OpfPaymentErrorHandlerService
   ) {}
@@ -129,7 +127,7 @@ export class OpfPaymentHostedFieldsService {
          * It means that `accessCode` (OTP signature) is not valid or expired and we need to refresh it.
          */
         shouldRetry: isAuthorizationError,
-        maxTries: opfAuthorizationErrorRetry,
+        maxTries: DEFAULT_AUTHORIZATION_ERROR_RETRIES_COUNT,
       })
     );
   }
@@ -187,7 +185,7 @@ export class OpfPaymentHostedFieldsService {
          * It means that `accessCode` (OTP signature) is not valid or expired and we need to refresh it.
          */
         shouldRetry: isAuthorizationError,
-        maxTries: opfAuthorizationErrorRetry,
+        maxTries: DEFAULT_AUTHORIZATION_ERROR_RETRIES_COUNT,
       })
     );
   }
@@ -205,7 +203,7 @@ export class OpfPaymentHostedFieldsService {
       response.status === SubmitStatus.DELAYED
     ) {
       return from(Promise.resolve(submitSuccess(response))).pipe(
-        concatMap(() => this.opfOrderFacade.placeOpfOrder(true))
+        concatMap(() => this.orderFacade.placePaymentAuthorizedOrder(true))
       );
     } else if (response.status === SubmitStatus.PENDING) {
       return from(Promise.resolve(submitPending(response))).pipe(

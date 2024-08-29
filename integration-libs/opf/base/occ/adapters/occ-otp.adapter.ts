@@ -11,13 +11,10 @@ import {
   LoggerService,
   OccEndpointsService,
   backOff,
+  isServerError,
   normalizeHttpError,
 } from '@spartacus/core';
-import {
-  OTP_NORMALIZER,
-  OtpAdapter,
-  isHttp500Error,
-} from '@spartacus/opf/base/core';
+import { OTP_NORMALIZER, OtpAdapter } from '@spartacus/opf/base/core';
 import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable()
@@ -43,7 +40,7 @@ export class OccOtpAdapter implements OtpAdapter {
           throwError(normalizeHttpError(error, this.logger))
         ),
         backOff({
-          shouldRetry: isHttp500Error,
+          shouldRetry: isServerError,
           maxTries: 2,
         }),
         this.converterService.pipeable(OTP_NORMALIZER)

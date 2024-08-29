@@ -20,4 +20,16 @@ export class OrderConnector {
   ): Observable<Order> {
     return this.adapter.placeOrder(userId, cartId, termsChecked);
   }
+
+  public placePaymentAuthorizedOrder(
+    userId: string,
+    cartId: string,
+    termsChecked: boolean
+  ): Observable<Order> {
+    return this.adapter.placePaymentAuthorizedOrder(
+      userId,
+      cartId,
+      termsChecked
+    );
+  }
 }

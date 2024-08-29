@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartService } from '@spartacus/cart/base/core';
 import {
+  DEFAULT_AUTHORIZATION_ERROR_RETRIES_COUNT,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -14,13 +15,10 @@ import {
   RoutingService,
   UserIdService,
   backOff,
-} from '@spartacus/core';
-import {
   isAuthorizationError,
-  opfAuthorizationErrorRetry,
-} from '@spartacus/opf/base/core';
+} from '@spartacus/core';
+
 import {
-  OpfOrderFacade,
   OpfOtpFacade,
   OpfResourceLoaderService,
   OpfService,
@@ -33,6 +31,7 @@ import {
   PaymentPattern,
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';
+import { OrderFacade } from '@spartacus/order/root';
 import {
   BehaviorSubject,
   Observable,
@@ -62,7 +61,7 @@ export class OpfCheckoutPaymentWrapperService {
     protected activeCartService: ActiveCartService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected opfOrderFacade: OpfOrderFacade,
+    protected orderFacade: OrderFacade,
     protected opfService: OpfService
   ) {}
 
@@ -132,7 +131,7 @@ export class OpfCheckoutPaymentWrapperService {
          * It means that `accessCode` (OTP signature) is not valid or expired and we need to refresh it.
          */
         shouldRetry: isAuthorizationError,
-        maxTries: opfAuthorizationErrorRetry,
+        maxTries: DEFAULT_AUTHORIZATION_ERROR_RETRIES_COUNT,
       }),
       take(1)
     );
@@ -200,7 +199,7 @@ export class OpfCheckoutPaymentWrapperService {
   }
 
   protected handlePaymentAlreadyDoneError(): Observable<Error> {
-    return this.opfOrderFacade.placeOpfOrder(true).pipe(
+    return this.orderFacade.placePaymentAuthorizedOrder(true).pipe(
       catchError(() => {
         this.onPlaceOrderError();
 

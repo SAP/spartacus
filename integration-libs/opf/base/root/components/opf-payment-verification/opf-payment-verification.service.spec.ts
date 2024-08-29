@@ -12,13 +12,9 @@ import {
   HttpErrorModel,
   RoutingService,
 } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+import { Order, OrderFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
-import {
-  OpfGlobalFunctionsFacade,
-  OpfOrderFacade,
-  OpfPaymentFacade,
-} from '../../facade';
+import { OpfGlobalFunctionsFacade, OpfPaymentFacade } from '../../facade';
 import {
   GlobalFunctionsDomain,
   OpfDynamicScript,
@@ -31,7 +27,7 @@ import { OpfPaymentVerificationService } from './opf-payment-verification.servic
 
 describe('OpfPaymentVerificationService', () => {
   let service: OpfPaymentVerificationService;
-  let opfOrderFacadeMock: jasmine.SpyObj<OpfOrderFacade>;
+  let orderFacadeMock: jasmine.SpyObj<OrderFacade>;
   let routingServiceMock: jasmine.SpyObj<RoutingService>;
   let globalMessageServiceMock: jasmine.SpyObj<GlobalMessageService>;
   let opfPaymentServiceMock: jasmine.SpyObj<OpfPaymentFacade>;
@@ -40,8 +36,8 @@ describe('OpfPaymentVerificationService', () => {
   let globalFunctionsServiceMock: jasmine.SpyObj<OpfGlobalFunctionsFacade>;
 
   beforeEach(() => {
-    opfOrderFacadeMock = jasmine.createSpyObj('OpfOrderFacade', [
-      'placeOpfOrder',
+    orderFacadeMock = jasmine.createSpyObj('OrderFacade', [
+      'placePaymentAuthorizedOrder',
     ]);
     routingServiceMock = jasmine.createSpyObj('RoutingService', ['go']);
     globalMessageServiceMock = jasmine.createSpyObj('GlobalMessageService', [
@@ -71,7 +67,7 @@ describe('OpfPaymentVerificationService', () => {
     TestBed.configureTestingModule({
       providers: [
         OpfPaymentVerificationService,
-        { provide: OpfOrderFacade, useValue: opfOrderFacadeMock },
+        { provide: OrderFacade, useValue: orderFacadeMock },
         { provide: RoutingService, useValue: routingServiceMock },
         { provide: GlobalMessageService, useValue: globalMessageServiceMock },
         { provide: OpfPaymentFacade, useValue: opfPaymentServiceMock },
@@ -250,7 +246,7 @@ describe('OpfPaymentVerificationService', () => {
       );
 
       const mockPlaceOrderResult: Order = { guid: 'placeOrderResult' };
-      opfOrderFacadeMock.placeOpfOrder.and.returnValue(
+      orderFacadeMock.placePaymentAuthorizedOrder.and.returnValue(
         of(mockPlaceOrderResult)
       );
 
@@ -274,7 +270,7 @@ describe('OpfPaymentVerificationService', () => {
       };
 
       const mockPlaceOrderResult: Order = { guid: 'placeOrderResult' };
-      opfOrderFacadeMock.placeOpfOrder.and.returnValue(
+      orderFacadeMock.placePaymentAuthorizedOrder.and.returnValue(
         of(mockPlaceOrderResult)
       );
 

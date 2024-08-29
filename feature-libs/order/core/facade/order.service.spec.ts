@@ -92,6 +92,32 @@ describe(`OrderService`, () => {
     });
   });
 
+  describe(`placePaymentAuthorizedOrder`, () => {
+    it(`should call orderConnector.placePaymentAuthorizedOrder`, () => {
+      service.placePaymentAuthorizedOrder(termsChecked);
+
+      expect(connector.placePaymentAuthorizedOrder).toHaveBeenCalledWith(
+        mockUserId,
+        mockCartId,
+        termsChecked
+      );
+    });
+
+    it(`should dispatch OrderPlacedEvent`, () => {
+      service.placePaymentAuthorizedOrder(termsChecked);
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {
+          order: mockOrder,
+          userId: mockUserId,
+          cartId: mockCartId,
+          cartCode: mockCartId,
+        },
+        OrderPlacedEvent
+      );
+    });
+  });
+
   describe(`getOrderDetails`, () => {
     it(`should return falsy when there's no order`, (done) => {
       service

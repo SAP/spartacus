@@ -11,6 +11,7 @@ import {
   LoggerService,
   backOff,
   isJaloError,
+  isServerError,
   normalizeHttpError,
 } from '@spartacus/core';
 import {
@@ -22,7 +23,6 @@ import {
   OPF_PAYMENT_VERIFICATION_NORMALIZER,
   OpfEndpointsService,
   OpfPaymentAdapter,
-  isHttp500Error,
 } from '@spartacus/opf/base/core';
 import {
   ActiveConfiguration,
@@ -92,7 +92,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
           shouldRetry: isJaloError,
         }),
         backOff({
-          shouldRetry: isHttp500Error,
+          shouldRetry: isServerError,
           maxTries: 2,
         }),
         this.converter.pipeable(OPF_PAYMENT_VERIFICATION_NORMALIZER)
@@ -116,7 +116,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
         shouldRetry: isJaloError,
       }),
       backOff({
-        shouldRetry: isHttp500Error,
+        shouldRetry: isServerError,
         maxTries: 2,
       }),
       this.converter.pipeable(OPF_PAYMENT_SUBMIT_NORMALIZER)
@@ -144,7 +144,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
           shouldRetry: isJaloError,
         }),
         backOff({
-          shouldRetry: isHttp500Error,
+          shouldRetry: isServerError,
           maxTries: 2,
         }),
         this.converter.pipeable(OPF_PAYMENT_SUBMIT_COMPLETE_NORMALIZER)
@@ -167,7 +167,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
         shouldRetry: isJaloError,
       }),
       backOff({
-        shouldRetry: isHttp500Error,
+        shouldRetry: isServerError,
         maxTries: 2,
       }),
       this.converter.pipeable(OPF_AFTER_REDIRECT_SCRIPTS_NORMALIZER)
@@ -215,7 +215,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
           shouldRetry: isJaloError,
         }),
         backOff({
-          shouldRetry: isHttp500Error,
+          shouldRetry: isServerError,
           maxTries: 2,
         }),
         this.converter.pipeable(OPF_CTA_SCRIPTS_NORMALIZER)

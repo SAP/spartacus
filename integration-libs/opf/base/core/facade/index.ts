@@ -5,6 +5,5 @@
  */
 
 export * from './opf-global-functions.service';
-export * from './opf-order.service';
 export * from './opf-otp.service';
 export * from './opf-payment.service';
