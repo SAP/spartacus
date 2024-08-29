@@ -28,9 +28,15 @@ export class SiteThemeService implements SiteContext<SiteTheme> {
   protected store = inject(Store<StateWithSiteTheme>);
   protected config = inject(Config);
 
+  /**
+   * Fallback default theme ID to be used when `config.context.theme` is not defined.
+   */
+  protected readonly FALLBACK_DEFAULT_THEME_ID = '';
+
   getDefault(): SiteTheme {
     const defaultThemeId =
-      getContextParameterDefault(this.config, THEME_CONTEXT_ID) ?? '';
+      getContextParameterDefault(this.config, THEME_CONTEXT_ID) ??
+      this.FALLBACK_DEFAULT_THEME_ID;
 
     return {
       className: defaultThemeId,
