@@ -723,6 +723,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       spyOnProperty(window, 'innerWidth').and.returnValue(1000);
 
       expect(classUnderTest['isInViewport'](form)).toBe(true);
+      expect(classUnderTest['isInViewport'](form)).toBe(true);
     });
 
     it('should return true because clientWidth of element is known and its right is less than its width', () => {
