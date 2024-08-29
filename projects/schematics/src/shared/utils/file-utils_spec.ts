@@ -299,7 +299,7 @@ const schematicRunner = new SchematicTestRunner(
   collectionPath
 );
 
-xdescribe('File utils', () => {
+describe('File utils', () => {
   let appTree: UnitTestTree;
   const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',

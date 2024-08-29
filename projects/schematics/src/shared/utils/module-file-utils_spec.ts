@@ -46,7 +46,7 @@ import { Component } from '@angular/core';
 export class Test {}
 `;
 
-xdescribe('Module file utils', () => {
+describe('Module file utils', () => {
   let appTree: UnitTestTree;
   const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',

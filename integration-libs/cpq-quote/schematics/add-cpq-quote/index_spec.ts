@@ -27,7 +27,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
   'src/app/spartacus/features/cpq-quote/cpq-quote-feature.module.ts';
-xdescribe('Spartacus Cpq-quote', () => {
+describe('Spartacus Cpq-quote', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_CPQ_QUOTE,
     collectionPath

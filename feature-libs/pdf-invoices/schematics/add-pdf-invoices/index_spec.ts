@@ -23,7 +23,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/pdf-invoices.scss';
 
-xdescribe('Spartacus PDF Invoices schematics: ng-add', () => {
+describe('Spartacus PDF Invoices schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_PDF_INVOICES,
     collectionPath
