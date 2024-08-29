@@ -49,7 +49,7 @@ context('B2B - Credit Card Checkout flow', () => {
     checkout.fillAddressFormWithCheapProduct({ firstName: user.firstName });
 
     cy.log('💳 Selecting delivery mode');
-    checkout.verifyDeliveryMethod();
+    checkout.verifyDeliveryOptions();
 
     cy.log('💳 Preventing navigation to review order if payment form is empty');
     checkout.proceedWithEmptyPaymentForm();

@@ -6,3 +6,5 @@
 
 export * from './checkout-service-details.facade';
 export * from './checkout-service-schedule-picker.service';
+export * from './cancel-service-order.facade';
+export * from './reschedule-service-order.facade';

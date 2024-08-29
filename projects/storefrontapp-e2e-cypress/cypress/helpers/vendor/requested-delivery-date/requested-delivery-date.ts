@@ -49,7 +49,7 @@ export function selectAccountDeliveryMode() {
     '/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*'
   );
 
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Options');
   cy.wait(`@${getCheckoutDetails}`)
     .its('response.statusCode')
     .should('eq', 200);
@@ -144,7 +144,7 @@ export function proceedToOrderReviewPage() {
 
 export function verifyRDDOrderReviewPage(date: string) {
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Delivery Method')
+    .contains('cx-card', 'Delivery Options')
     .get('cx-request-delivery-date')
     .within(() => {
       cy.findByText('Requested Delivery Date');
