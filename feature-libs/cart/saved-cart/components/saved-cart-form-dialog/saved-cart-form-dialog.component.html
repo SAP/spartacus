@@ -189,6 +189,9 @@
             <p class="cx-saved-cart-form-subtitle">
               {{ 'savedCartDialog.itemsSavedForLater' | cxTranslate }}
             </p>
+            <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
+              {{ 'formLegend.required' | cxTranslate }}
+            </p>
           </ng-container>
 
           <div class="cx-saved-cart-form-row">
