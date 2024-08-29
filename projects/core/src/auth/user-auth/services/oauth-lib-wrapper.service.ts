@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
@@ -12,7 +12,6 @@ import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
 import { AuthConfigService } from './auth-config.service';
-import { BaseSite, BaseSiteService } from '@spartacus/core';
 
 /**
  * Wrapper service on the library OAuthService. Normalizes the lib API for services.
@@ -22,11 +21,7 @@ import { BaseSite, BaseSiteService } from '@spartacus/core';
   providedIn: 'root',
 })
 export class OAuthLibWrapperService {
-  protected baseSiteService = inject(BaseSiteService, {
-    optional: true,
-  });
   events$: Observable<OAuthEvent> = this.oAuthService.events;
-  currentBaseSite: BaseSite;
 
   // TODO: Remove platformId dependency in 4.0
   constructor(

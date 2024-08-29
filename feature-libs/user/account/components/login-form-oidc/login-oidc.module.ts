@@ -25,4 +25,4 @@ import { LoginOidcComponent } from './login-oidc.component';
   ],
   declarations: [LoginOidcComponent],
 })
-export class LoginFormOidcModule {}
+export class LoginOidcModule {}
