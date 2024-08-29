@@ -130,7 +130,7 @@ export class OAuthLibWrapperService {
    * In cases where we don't receive this event, the token has been obtained from storage.
    */
   tryLogin(): Promise<OAuthTryLoginResult> {
-    return new Promise((resolve) => {
+    return new Promise(async (resolve) => {
       // We use the 'token_received' event to check if we have returned
       // from the auth server.
       let tokenReceivedEvent: OAuthEvent | undefined;
@@ -140,35 +140,21 @@ export class OAuthLibWrapperService {
           take(1)
         )
         .subscribe((event) => (tokenReceivedEvent = event));
-      // todo: 1. understand why loadDiscoveryDocument is not called in the original code, and simply this section
-      // todo: 2. if we can not get ride of this if/slse, reuse the than and finally blocks in both branches instead of duplicating the code
-      if (this.authConfigService.getOAuthLibConfig().disablePKCE === false) {
-        this.oAuthService
-          .loadDiscoveryDocumentAndTryLogin()
-          .then((result: boolean) => {
-            resolve({
-              result: result,
-              tokenReceived: !!tokenReceivedEvent,
-            });
-          })
-          .finally(() => {
-            subscription.unsubscribe();
-          });
-      } else {
-        this.oAuthService
-          .tryLogin({
-            // We don't load discovery document, because it doesn't contain revoke endpoint information
+      try {
+        let result: boolean;
+        if (this.authConfigService.getOAuthLibConfig().disablePKCE === false) {
+          result = await this.oAuthService.loadDiscoveryDocumentAndTryLogin();
+        } else {
+          result = await this.oAuthService.tryLogin({
             disableOAuth2StateCheck: true,
-          })
-          .then((result: boolean) => {
-            resolve({
-              result: result,
-              tokenReceived: !!tokenReceivedEvent,
-            });
-          })
-          .finally(() => {
-            subscription.unsubscribe();
           });
+        }
+        resolve({
+          result: result,
+          tokenReceived: !!tokenReceivedEvent,
+        });
+      } finally {
+        subscription.unsubscribe();
       }
     });
   }
