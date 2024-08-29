@@ -79,9 +79,9 @@ jobs:
           # Comment out the base url in the spartacus-configuration.module.ts file
           function modify_file_to_remove_baseurl() {
             local path
-            if [ "${storefront_type}" = "b2c" ]; then
+            if [ "${storefront_type}" == "b2c" ]; then
               path="spartacusstore"
-            elif [ "${storefront_type}" = "b2b" ]; then
+            elif [ "${storefront_type}" == "b2b" ]; then
               path="b2bspastore"
             else
               echo "Invalid storefront type: ${storefront_type}"
