@@ -3,7 +3,12 @@
   class="cx-row"
   role="radiogroup"
 >
-  <ng-container *ngIf="!config.features?.productConfiguratorAttributeTypesV2">
+  <ng-container
+    *ngIf="
+      !config.features?.productConfiguratorAttributeTypesV2 &&
+      (changedPrices$ | async) as changedPrices
+    "
+  >
     <div
       *ngFor="let value of attribute.values"
       id="{{
@@ -24,7 +29,7 @@
         [value]="value.valueCode"
         name="{{ createAttributeIdForConfigurator(attribute) }}"
         attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
-        [attr.required]="attribute.required"
+        [attr.required]="attribute.required === true ? 'required' : null"
         [attr.checked]="
           attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
         "
@@ -32,17 +37,16 @@
           attributeRadioButtonForm.value === value.valueCode ? 'true' : 'false'
         "
         [attr.aria-label]="
-          value.valuePrice && value.valuePrice?.value !== 0
-            ? ('configurator.a11y.valueOfAttributeFullWithPrice'
-              | cxTranslate
-                : {
-                    value: value.valueDisplay,
-                    attribute: attribute.label,
-                    price: value.valuePrice.formattedValue
-                  })
-            : ('configurator.a11y.valueOfAttributeFull'
-              | cxTranslate
-                : { value: value.valueDisplay, attribute: attribute.label })
+          getAriaLabelGeneric(
+            attribute,
+            enrichValueWithPrice(value, changedPrices)
+          )
+        "
+        [attr.aria-live]="
+          listenForPriceChanges &&
+          attributeRadioButtonForm.value === value.valueCode
+            ? 'polite'
+            : null
         "
         [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
         (click)="onClick(value.valueCode)"
@@ -68,13 +72,22 @@
           <div *ngIf="!getImage(value)" class="cx-img-dummy"></div>
           {{ getLabel(expMode, value.valueDisplay, value.valueCode) }}
           <cx-configurator-price
-            [formula]="extractValuePriceFormulaParameters(value)"
+            [formula]="
+              extractValuePriceFormulaParameters(
+                enrichValueWithPrice(value, changedPrices)
+              )
+            "
           ></cx-configurator-price>
         </label>
       </div>
     </div>
   </ng-container>
-  <ng-container *ngIf="config.features?.productConfiguratorAttributeTypesV2">
+  <ng-container
+    *ngIf="
+      config.features?.productConfiguratorAttributeTypesV2 &&
+      (changedPrices$ | async) as changedPrices
+    "
+  >
     <ng-container *ngFor="let value of attribute.values">
       <div
         *ngIf="isValueDisplayed(attribute, value)"
@@ -96,7 +109,7 @@
           [value]="value.valueCode"
           name="{{ createAttributeIdForConfigurator(attribute) }}"
           attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
-          [attr.required]="attribute.required"
+          [attr.required]="attribute.required === true ? 'required' : null"
           [attr.checked]="
             attributeRadioButtonForm.value === value.valueCode
               ? 'checked'
@@ -108,17 +121,16 @@
               : 'false'
           "
           [attr.aria-label]="
-            value.valuePrice && value.valuePrice?.value !== 0
-              ? (getAriaLabelForValueWithPrice(isReadOnly(attribute))
-                | cxTranslate
-                  : {
-                      value: value.valueDisplay,
-                      attribute: attribute.label,
-                      price: value.valuePrice.formattedValue
-                    })
-              : (getAriaLabelForValue(isReadOnly(attribute))
-                | cxTranslate
-                  : { value: value.valueDisplay, attribute: attribute.label })
+            getAriaLabelGeneric(
+              attribute,
+              enrichValueWithPrice(value, changedPrices)
+            )
+          "
+          [attr.aria-live]="
+            listenForPriceChanges &&
+            attributeRadioButtonForm.value === value.valueCode
+              ? 'polite'
+              : null
           "
           [attr.aria-describedby]="
             createAttributeUiKey('label', attribute.name)
@@ -159,7 +171,7 @@
               [cxPopover]="value.description"
               [cxPopoverOptions]="{
                 placement: 'auto',
-                class: 'cx-value-description',
+                class: getValueDescriptionStyleClasses(),
                 appendToBody: true,
                 displayCloseButton: true
               }"
@@ -168,7 +180,11 @@
               <cx-icon [type]="iconTypes.INFO"> </cx-icon>
             </button>
             <cx-configurator-price
-              [formula]="extractValuePriceFormulaParameters(value)"
+              [formula]="
+                extractValuePriceFormulaParameters(
+                  enrichValueWithPrice(value, changedPrices)
+                )
+              "
             ></cx-configurator-price>
           </label>
         </div>

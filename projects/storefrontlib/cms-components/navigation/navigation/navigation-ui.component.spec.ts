@@ -12,6 +12,7 @@ import {
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
+import { BreakpointService } from 'projects/storefrontlib/layout';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
@@ -45,6 +46,12 @@ class MockHamburgerMenuService {
 class MockFeatureConfigService {
   isEnabled() {
     return true;
+  }
+}
+
+class MockBreakpointService {
+  isUp() {
+    return of(true);
   }
 }
 
@@ -130,6 +137,10 @@ describe('Navigation UI Component', () => {
         {
           provide: FeatureConfigService,
           useClass: MockFeatureConfigService,
+        },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
         },
       ],
     }).compileComponents();
@@ -328,7 +339,41 @@ describe('Navigation UI Component', () => {
       expect(navigationComponent.reinitializeMenu).toHaveBeenCalledWith();
       expect(hamburgerMenuService.toggle).toHaveBeenCalledWith();
     });
+
+    it('should remove topmost semantic list roles for non-flyout navigation', () => {
+      navigationComponent.flyout = false;
+      fixture.detectChanges();
+      const firstListElement: HTMLElement = element.query(
+        By.css('ul')
+      ).nativeElement;
+      const secondListElement: HTMLElement = element.query(
+        By.css('[depth="1"]')
+      ).nativeElement;
+
+      expect(firstListElement.getAttribute('role')).toBe('presentation');
+      Array.from(firstListElement.children).forEach((child) => {
+        expect(child.getAttribute('role')).toBe('presentation');
+      });
+
+      Array.from(secondListElement.children).forEach((child) => {
+        expect(child.getAttribute('role')).toBe('listitem');
+      });
+    });
+
+    it('should apply role="heading" to nested dropdown trigger button while on desktop', () => {
+      fixture.detectChanges();
+      const nestedTriggerButton = fixture.debugElement.query(
+        By.css('button[aria-label="Child 1"]')
+      ).nativeElement;
+      const rootTriggerButton = fixture.debugElement.query(
+        By.css('button[aria-label="Root 1"]')
+      ).nativeElement;
+
+      expect(nestedTriggerButton.getAttribute('role')).toEqual('heading');
+      expect(rootTriggerButton.getAttribute('role')).toEqual('button');
+    });
   });
+
   describe('Keyboard navigation', () => {
     beforeEach(() => {
       fixture.detectChanges();

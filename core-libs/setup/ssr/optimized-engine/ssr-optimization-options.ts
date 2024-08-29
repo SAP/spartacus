@@ -115,7 +115,13 @@ export interface SsrOptimizationOptions {
   reuseCurrentRendering?: boolean;
 
   /**
-   * Enable detailed logs for troubleshooting problems
+   * @deprecated - This flag is not used anymore since v2211.27.
+   *
+   * Now all the information about the traffic and rendering is logged unconditionally:
+   * - receiving requests
+   * - responding to requests (either with HTML result, error or fallback to CSR)
+   * - start and end of renders
+   * - timeout of renders (due to passing `maxRenderTime`)
    */
   debug?: boolean;
 
@@ -188,7 +194,6 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions &
   forcedSsrTimeout: 60_000,
   maxRenderTime: 300_000,
   reuseCurrentRendering: true,
-  debug: false,
   renderingStrategyResolver: defaultRenderingStrategyResolver(
     defaultRenderingStrategyResolverOptions
   ),

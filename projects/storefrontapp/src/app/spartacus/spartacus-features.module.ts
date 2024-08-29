@@ -73,10 +73,12 @@ import { WishListFeatureModule } from './features/cart/wish-list-feature.module'
 import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
+import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
 import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
 import { EstimatedDeliveryDateFeatureModule } from './features/estimated-delivery-date/estimated-delivery-date-feature.module';
+import { OmfFeatureModule } from './features/omf/omf-feature.module';
 import { OppsFeatureModule } from './features/opps/opps-feature.module';
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
@@ -87,6 +89,8 @@ import { PDFInvoicesFeatureModule } from './features/pdf-invoices/pdf-invoices-f
 import { PickupInStoreFeatureModule } from './features/pickup-in-store/pickup-in-store-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator/product-configurator-textfield-feature.module';
+import { ProductMultiDimensionalListFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-list-feature.module';
+import { ProductMultiDimensionalSelectorFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-selector-feature.module';
 import { BulkPricingFeatureModule } from './features/product/product-bulk-pricing-feature.module';
 import { FutureStockFeatureModule } from './features/product/product-future-stock-feature.module';
 import { ImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
@@ -95,6 +99,7 @@ import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.m
 import { QuoteFeatureModule } from './features/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
 import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
+import { S4ServiceFeatureModule } from './features/s4-service/s4-service-feature.module';
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
@@ -121,7 +126,9 @@ if (environment.b2b) {
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
 }
-
+if (environment.s4Service) {
+  featureModules.push(S4ServiceFeatureModule);
+}
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }
@@ -149,7 +156,12 @@ if (environment.requestedDeliveryDate) {
 if (environment.estimatedDeliveryDate) {
   featureModules.push(EstimatedDeliveryDateFeatureModule);
 }
-
+if (environment.omf) {
+  featureModules.push(OmfFeatureModule);
+}
+if (environment.cpq) {
+  featureModules.push(CpqQuoteFeatureModule);
+}
 @NgModule({
   imports: [
     // Auth Core
@@ -247,6 +259,8 @@ if (environment.estimatedDeliveryDate) {
     SmartEditFeatureModule,
 
     VariantsFeatureModule,
+    ProductMultiDimensionalSelectorFeatureModule,
+    ProductMultiDimensionalListFeatureModule,
     ImageZoomFeatureModule,
 
     QuoteFeatureModule,
@@ -269,8 +283,10 @@ if (environment.estimatedDeliveryDate) {
     // CXSPA-6793: refactor to`provideFeatureToggles` and `satisfies` keyword
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        showDeliveryOptionsTranslation: true,
         formErrorsDescriptiveMessages: true,
         showSearchingCustomerByOrderInASM: false,
+        showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
         showBillingAddressInDigitalPayments: false,
@@ -279,12 +295,15 @@ if (environment.estimatedDeliveryDate) {
         recentSearches: false,
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
+        useProductCarouselBatchApi: false, //TODO: CXSPA-8162
         productConfiguratorAttributeTypesV2: true,
         propagateErrorsToServer: true,
         ssrStrictErrorHandlingForHttpAndNgrx: true,
+        productConfiguratorDeltaRendering: true,
         a11yRequiredAsterisks: true,
         a11yQuantityOrderTabbing: true,
         a11yNavigationUiKeyboardControls: true,
+        a11yNavMenuExpandStateReadout: true,
         a11yOrderConfirmationHeadingOrder: true,
         a11yStarRating: true,
         a11yViewChangeAssistiveMessage: true,
@@ -325,10 +344,21 @@ if (environment.estimatedDeliveryDate) {
         a11yEmptyWishlistHeading: true,
         a11yScreenReaderBloatFix: true,
         a11yUseButtonsForBtnLinks: true,
+        a11yNotificationsOnConsentChange: true,
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
         a11yFacetsDialogFocusHandling: true,
+        a11yStoreFinderAlerts: true,
+        a11yFormErrorMuteIcon: true,
+        a11yCxMessageFocus: true,
+        occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
+        a11yRepeatedPageTitleFix: true,
+        a11yDeliveryModeRadiogroup: true,
+        a11yNgSelectOptionsCount: true,
+        a11yRepeatedCancelOrderError: true,
+        a11yAddedToCartActiveDialog: true,
+        a11yNgSelectMobileReadout: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
       };
       return appFeatureToggles;

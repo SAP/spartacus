@@ -196,7 +196,6 @@ describe('OptimizedSsrEngine', () => {
               "forcedSsrTimeout": 60000,
               "maxRenderTime": 300000,
               "reuseCurrentRendering": true,
-              "debug": false,
               "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR",
               "logger": "DefaultExpressServerLogger",
               "shouldCacheRenderingResult": "({ options, entry }) => !(options.featureToggles?.avoidCachingErrors === true && Boolean(entry.err))",
@@ -1469,7 +1468,6 @@ describe('OptimizedSsrEngine', () => {
             "options": {
               "cacheSize": 3000,
               "concurrency": 10,
-              "debug": false,
               "featureToggles": {
                 "avoidCachingErrors": false,
               },

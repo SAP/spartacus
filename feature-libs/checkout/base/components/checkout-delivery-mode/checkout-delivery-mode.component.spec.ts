@@ -24,6 +24,7 @@ import {
   QueryState,
 } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
@@ -114,8 +115,8 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string): boolean {
     return true;
   }
 }
@@ -127,11 +128,16 @@ describe('CheckoutDeliveryModeComponent', () => {
   let checkoutStepService: CheckoutStepService;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let globalMessageService: GlobalMessageService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
-      declarations: [CheckoutDeliveryModeComponent, MockSpinnerComponent],
+      declarations: [
+        CheckoutDeliveryModeComponent,
+        MockSpinnerComponent,
+        MockFeatureDirective,
+      ],
       providers: [
         {
           provide: CheckoutDeliveryModesFacade,
@@ -160,6 +166,7 @@ describe('CheckoutDeliveryModeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutDeliveryModeComponent);
     component = fixture.componentInstance;
+    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   it('should be created', () => {
@@ -174,6 +181,13 @@ describe('CheckoutDeliveryModeComponent', () => {
       modes = value;
     });
     expect(modes).toEqual(mockSupportedDeliveryModes);
+  });
+
+  it('should display delivery options when showDeliveryOptionsTranslation feature is enabled', () => {
+    spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+    fixture.detectChanges();
+    const legend = fixture.debugElement.query(By.css('legend')).nativeElement;
+    expect(legend.textContent).toContain('checkoutMode.deliveryOptions');
   });
 
   it('should pre-select preferred delivery mode if not chosen before', () => {

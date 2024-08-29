@@ -319,14 +319,15 @@ export class OptimizedSsrEngine {
     });
   }
 
+  /**
+   * @deprecated since v2211.27 - This method will be private in the future.
+   */
   protected log(
     message: string,
-    debug = true,
+    _ignoredLegacyDebugParameter = true,
     context: ExpressServerLoggerContext
   ): void {
-    if (debug || this.ssrOptions?.debug) {
-      this.logger.log(message, context || {});
-    }
+    this.logger.log(message, context || {});
   }
 
   /** Retrieve the document from the cache or the filesystem */

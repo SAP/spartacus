@@ -29,7 +29,9 @@
     "required": "required",
     "zoomIn": "Zoom in",
     "zoomOut": "Zoom out",
-    "selected": "Selected"
+    "selected": "Selected",
+    "expand": "Expand",
+    "collapse": "Collapse"
   },
   "pageMetaResolver": {
     "category": {
