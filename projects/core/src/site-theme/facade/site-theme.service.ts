@@ -87,10 +87,7 @@ export class SiteThemeService implements SiteContext<SiteTheme> {
   }
 
   isValid(className: string): boolean {
-    return (
-      !!className &&
-      this.themes.map((theme) => theme.className).includes(className)
-    );
+    return this.themes.map((theme) => theme.className).includes(className);
   }
 
   isInitialized(): boolean {
