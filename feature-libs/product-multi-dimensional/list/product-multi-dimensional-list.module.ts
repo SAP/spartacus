@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Public API Surface of Product-Multi-Dimensional List
- */
-export * from './product-multi-dimensional-list.module';
+import { NgModule } from '@angular/core';
+
+@NgModule({})
+export class ProductMultiDimensionalListModule {}
