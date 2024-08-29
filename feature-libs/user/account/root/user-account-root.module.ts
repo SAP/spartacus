@@ -15,7 +15,7 @@ import {
   USER_ACCOUNT_CORE_FEATURE,
   USER_ACCOUNT_FEATURE,
 } from './feature-name';
-import { CdcConfigInitializer } from './configs/oidc-config-initializer';
+import { OidcConfigInitializer } from './configs/oidc-config-initializer';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultUserAccountComponentsConfig(): CmsConfig {
@@ -40,9 +40,9 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
 }
 
 export function initCdcConfigFactory(
-  cdcConfigInitializer: CdcConfigInitializer
+  oidcConfigInitializer: OidcConfigInitializer
 ) {
-  return cdcConfigInitializer;
+  return oidcConfigInitializer;
 }
 
 @NgModule({
@@ -52,7 +52,7 @@ export function initCdcConfigFactory(
     {
       provide: CONFIG_INITIALIZER,
       useFactory: initCdcConfigFactory,
-      deps: [CdcConfigInitializer],
+      deps: [OidcConfigInitializer],
       multi: true,
     },
   ],

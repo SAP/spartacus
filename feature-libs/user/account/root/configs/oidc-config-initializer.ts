@@ -10,13 +10,12 @@ import {
   BaseSiteService,
   ConfigInitializer,
 } from '@spartacus/core';
-import { defaultAuthConfig } from 'projects/core/src/auth/user-auth/config/default-auth-config';
-import { Observable, from, lastValueFrom } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable, lastValueFrom } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
-export class CdcConfigInitializer implements ConfigInitializer {
-  readonly scopes = ['authentication'];
+export class OidcConfigInitializer implements ConfigInitializer {
+  readonly scopes = ['authconfig'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
   protected baseSiteService = inject(BaseSiteService);
 
@@ -26,33 +25,35 @@ export class CdcConfigInitializer implements ConfigInitializer {
    * Completes after emitting the value.
    */
   protected resolveConfig(): Observable<AuthConfig> {
-    return from(this.baseSiteService.get()).pipe(
+    return this.baseSiteService.get().pipe(
       take(1),
+      filter(
+        (site) =>
+          !!site?.cdcSiteConfig &&
+          !!site?.uid &&
+          !!site.baseStore?.defaultCurrency &&
+          !!site.defaultLanguage
+      ),
       map((site) => {
-        if (
-          site?.cdcSiteConfig &&
-          site?.uid &&
-          site.baseStore?.defaultCurrency &&
-          site.defaultLanguage
-        ) {
-          const defaultCurrency = site.baseStore.defaultCurrency.isocode;
-          const defaultLanguage = site.defaultLanguage.isocode;
-          const result: AuthConfig = {
-            authentication: {
-              client_id: site.cdcSiteConfig.oidcRpClientId,
-              OAuthLibConfig: {
-                issuer: site.cdcSiteConfig.oidcOpIssuerURI,
-                redirectUri: `${window.location.origin}/${site.uid}/${defaultLanguage}/${defaultCurrency}/login`,
-                scope: site.cdcSiteConfig.scopes.join(' '),
-                disablePKCE: false,
-                responseType: 'code',
-              },
-            },
-          };
-          return result;
-        } else {
-          return defaultAuthConfig;
+        if (!site) {
+          throw new Error('Site is undefined.');
         }
+        const defaultCurrency = site.baseStore?.defaultCurrency?.isocode;
+        const defaultLanguage = site.defaultLanguage?.isocode;
+        const result: AuthConfig = {
+          authentication: {
+            tokenEndpoint: site.cdcSiteConfig?.oidcOpIssuerURI + '/token',
+            client_id: site.cdcSiteConfig?.oidcRpClientId,
+            OAuthLibConfig: {
+              issuer: site.cdcSiteConfig?.oidcOpIssuerURI,
+              redirectUri: `${window.location.origin}/${site.uid}/${defaultLanguage}/${defaultCurrency}/login`,
+              scope: site.cdcSiteConfig?.scopes?.join(' '),
+              disablePKCE: false,
+              responseType: 'code',
+            },
+          },
+        };
+        return result;
       })
     );
   }
