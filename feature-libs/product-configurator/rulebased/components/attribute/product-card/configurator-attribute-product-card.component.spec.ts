@@ -25,6 +25,7 @@ import { ConfiguratorPriceComponentOptions } from '../../price/configurator-pric
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
+import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 
 const product: Product = {
   name: 'Product Name',
@@ -172,6 +173,10 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         {
           provide: ProductService,
           useClass: MockProductService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useValue: {},
         },
       ],
     })

@@ -3,10 +3,11 @@
   role="dialog"
   [cxFocus]="focusConfig"
   (esc)="close('Escape clicked')"
+  aria-labelledby="dialogTitle"
 >
   <div class="cx-stock-notification-container">
     <div class="cx-dialog-header cx-modal-header">
-      <div class="cx-dialog-title modal-title">
+      <div id="dialogTitle" class="cx-dialog-title modal-title">
         {{ 'stockNotification.subscriptionDialog.header' | cxTranslate }}
       </div>
       <button

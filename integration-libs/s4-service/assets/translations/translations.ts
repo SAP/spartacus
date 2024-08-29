@@ -12,5 +12,5 @@ export const s4ServiceTranslations: TranslationResources = {
 };
 
 export const s4ServiceTranslationChunksConfig: TranslationChunksConfig = {
-  s4Service: ['serviceOrderCheckout'],
+  s4Service: ['serviceOrderCheckout', 'rescheduleService', 'cancelService'],
 };
