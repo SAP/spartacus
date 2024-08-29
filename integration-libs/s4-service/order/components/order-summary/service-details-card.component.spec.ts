@@ -73,4 +73,23 @@ describe('ServiceDetailsCardComponent', () => {
     component.ngOnInit();
     expect(component.order).toEqual(order);
   });
+
+  it('should show service details card in order summary only if order contains service products', () => {
+    component.order = {
+      entries: [
+        { product: { productTypes: 'SERVICE' } },
+        { product: { productTypes: 'PHYSICAL' } },
+      ],
+    } as any;
+    expect(component.showServiceDetails()).toEqual(true);
+  });
+  it('should not show service details card in order summary if order doesnot contains service products', () => {
+    component.order = {
+      entries: [
+        { product: { productTypes: 'PHYSICAL' } },
+        { product: { productTypes: 'PHYSICAL' } },
+      ],
+    } as any;
+    expect(component.showServiceDetails()).toEqual(false);
+  });
 });

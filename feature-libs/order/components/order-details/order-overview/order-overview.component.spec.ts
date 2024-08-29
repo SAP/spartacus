@@ -145,6 +145,7 @@ describe('OrderOverviewComponent', () => {
   let fixture: ComponentFixture<OrderOverviewComponent>;
   let translationService: TranslationService;
   let orderDetailsService: OrderDetailsService;
+  let componentService: OrderOverviewComponentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -167,6 +168,7 @@ describe('OrderOverviewComponent', () => {
     component = fixture.componentInstance;
     translationService = TestBed.inject(TranslationService);
     orderDetailsService = TestBed.inject(OrderDetailsService);
+    componentService = TestBed.inject(OrderOverviewComponentService);
   });
 
   it('should create', () => {
@@ -525,6 +527,23 @@ describe('OrderOverviewComponent', () => {
         component['normalizeFormattedAddress'](mockFormattedAddress);
 
       expect(address).toEqual(mockFormattedAddress);
+    });
+  });
+
+  describe('show delivery mode in order summary', () => {
+    it('should show delivery mode card in order summary', () => {
+      spyOn(componentService, 'showDeliveryMode').and.returnValue(true);
+      const result = component.showDeliveryMode(mockDeliveryMode);
+      expect(result).toEqual(true);
+      expect(componentService.showDeliveryMode).toHaveBeenCalledWith(
+        mockDeliveryMode
+      );
+    });
+    it('should not show delivery mode card in order summary', () => {
+      spyOn(componentService, 'showDeliveryMode').and.returnValue(false);
+      const result = component.showDeliveryMode(undefined);
+      expect(result).toEqual(false);
+      expect(componentService.showDeliveryMode).toHaveBeenCalledWith(undefined);
     });
   });
 });

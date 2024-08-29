@@ -84,7 +84,7 @@ export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmi
     ];
   }
 
-  hasActiveDeliveryMode(mode: DeliveryMode): Boolean {
+  showDeliveryModeCard(mode: DeliveryMode): boolean {
     return mode.code !== this.config.serviceDeliveryMode?.code;
   }
 

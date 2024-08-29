@@ -40,8 +40,13 @@ import {
   CheckoutServiceDetailsFacade,
   CheckoutServiceSchedulePickerService,
   ServiceDateTime,
+  ServiceDeliveryModeConfig,
 } from '@spartacus/s4-service/root';
-
+const mockServiceDeliveryModeConfig: ServiceDeliveryModeConfig = {
+  serviceDeliveryMode: {
+    code: 'fast-service',
+  },
+};
 const mockCart: Cart = {
   guid: 'test',
   code: 'test',
@@ -297,6 +302,10 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
           provide: CheckoutServiceSchedulePickerService,
           useClass: MockCheckoutServiceSchedulePickerService,
         },
+        {
+          provide: ServiceDeliveryModeConfig,
+          useValue: mockServiceDeliveryModeConfig,
+        },
       ],
     }).compileComponents();
   }));
@@ -508,5 +517,24 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
       fixture.detectChanges();
       expect(getCartTotalText()).toContain('$999.98');
     });
+  });
+  it('should not show delivery mode card in review page', () => {
+    const mode1: DeliveryMode = {
+      code: 'fast-service',
+      description: 'Fast delivery mode',
+    };
+    expect(component.showDeliveryModeCard(mode1)).toEqual(false);
+  });
+  it('should show delivery mode card in review page', () => {
+    const mode2: DeliveryMode = {
+      code: 'super-fast-service',
+      description: 'Super Fast delivery mode',
+    };
+    const mode3: DeliveryMode = {
+      name: 'super-fast-service',
+      description: 'Super Fast delivery mode',
+    };
+    expect(component.showDeliveryModeCard(mode2)).toEqual(true);
+    expect(component.showDeliveryModeCard(mode3)).toEqual(true);
   });
 });

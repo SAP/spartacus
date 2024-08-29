@@ -151,7 +151,7 @@
     <div class="cx-review-summary-card cx-review-card-shipping">
       <div *ngIf="deliveryMode$ | async as deliveryMode">
         <cx-card
-          *ngIf="hasActiveDeliveryMode(deliveryMode)"
+          *ngIf="showDeliveryModeCard(deliveryMode)"
           [content]="getDeliveryModeCard(deliveryMode) | async"
         >
         </cx-card>

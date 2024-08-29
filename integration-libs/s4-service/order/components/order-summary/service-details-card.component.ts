@@ -37,16 +37,17 @@ export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  showServiceDetails(): Boolean {
-    let hasService: Boolean = false;
+  showServiceDetails(): boolean {
+    let hasService: boolean = false;
+    //Note: Pick up option is not applicable for Service Products
     const deliveryEntries: OrderEntry[] =
       this.order.entries?.filter(
         (entry) => entry.deliveryPointOfService === undefined
       ) || [];
-    deliveryEntries.map((entry) => {
-      entry.product?.productTypes === 'SERVICE'
-        ? (hasService = true)
-        : (hasService = false);
+    deliveryEntries.forEach((entry) => {
+      if (entry.product?.productTypes === 'SERVICE') {
+        hasService = true;
+      }
     });
     return hasService;
   }

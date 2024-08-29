@@ -12,7 +12,9 @@ import { ServiceDeliveryModeConfig } from '@spartacus/s4-service/root';
 @Injectable()
 export class ServiceOrderOverviewComponentService extends OrderOverviewComponentService {
   protected config = inject(ServiceDeliveryModeConfig);
-  showDeliveryMode(mode: DeliveryMode): boolean {
-    return mode.code === this.config.serviceDeliveryMode?.code ? false : true;
+  showDeliveryMode(mode: DeliveryMode | undefined): boolean {
+    return mode?.code === this.config.serviceDeliveryMode?.code
+      ? false
+      : super.showDeliveryMode(mode);
   }
 }

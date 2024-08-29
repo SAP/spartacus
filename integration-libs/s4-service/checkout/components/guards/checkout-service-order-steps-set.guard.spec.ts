@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { CheckoutServiceOrderStepsSetGuard } from './checkout-service-order-steps-set.guard';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CheckoutServiceDetailsFacade } from '@spartacus/s4-service/root';
+import {
+  CheckoutServiceDetailsFacade,
+  ServiceDeliveryModeConfig,
+} from '@spartacus/s4-service/root';
 import {
   Address,
   CostCenter,
@@ -30,7 +33,11 @@ import {
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import createSpy = jasmine.createSpy;
-
+const mockServiceDeliveryModeConfig: ServiceDeliveryModeConfig = {
+  serviceDeliveryMode: {
+    code: 'my-service-delivery-mode',
+  },
+};
 class MockRoutingConfigService implements Partial<RoutingConfigService> {
   getRouteConfig(stepRoute: string): RouteConfig | undefined {
     if (stepRoute === 'route0') {
@@ -130,6 +137,9 @@ class MockCheckoutDeliveryModeFacade
   > {
     return of({ loading: false, error: false, data: undefined });
   }
+  setDeliveryMode(_mode: string): Observable<unknown> {
+    return of(undefined);
+  }
 }
 
 class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
@@ -159,6 +169,7 @@ class MockCheckoutServiceDetailsFacade
 describe('CheckoutServiceOrderStepsSetGuard', () => {
   let guard: CheckoutServiceOrderStepsSetGuard;
   let facade: CheckoutServiceDetailsFacade;
+  let deliveryModeFacade: CheckoutDeliveryModesFacade;
   let stepService: CheckoutStepService;
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -167,6 +178,10 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
         {
           provide: CheckoutServiceDetailsFacade,
           useClass: MockCheckoutServiceDetailsFacade,
+        },
+        {
+          provide: ServiceDeliveryModeConfig,
+          useValue: mockServiceDeliveryModeConfig,
         },
         CheckoutB2BStepsSetGuard,
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
@@ -197,11 +212,12 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
     guard = TestBed.inject(CheckoutServiceOrderStepsSetGuard);
     stepService = TestBed.inject(CheckoutStepService);
     facade = TestBed.inject(CheckoutServiceDetailsFacade);
+    deliveryModeFacade = TestBed.inject(CheckoutDeliveryModesFacade);
   });
   it('should be created', () => {
     expect(guard).toBeTruthy();
   });
-  it('should disable service details tab if no service products exists', (done) => {
+  it('should disable service details tab if cart has no service products and no physical products', (done) => {
     spyOn(facade, 'hasServiceItems').and.returnValue(of(false));
     spyOn(facade, 'hasNonServiceItems').and.returnValue(of(false));
     spyOn(stepService, 'disableEnableStep').and.returnValue();
@@ -210,16 +226,56 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
         CheckoutStepType.SERVICE_DETAILS,
         true
       );
+      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.DELIVERY_MODE,
+        true
+      );
       done();
     });
   });
-  it('should enable service details tab if service products exists', (done) => {
+  it('should disable service details tab if cart has no service products but physical products', (done) => {
+    spyOn(facade, 'hasServiceItems').and.returnValue(of(false));
+    spyOn(facade, 'hasNonServiceItems').and.returnValue(of(true));
+    spyOn(stepService, 'disableEnableStep').and.returnValue();
+    guard.canActivate(<any>{ url: ['checkout', 'route3'] }).subscribe(() => {
+      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.SERVICE_DETAILS,
+        true
+      );
+      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.DELIVERY_MODE,
+        false
+      );
+      done();
+    });
+  });
+  it('should enable service details tab if service products exists but no physical product in cart', (done) => {
     spyOn(facade, 'hasServiceItems').and.returnValue(of(true));
     spyOn(facade, 'hasNonServiceItems').and.returnValue(of(false));
     spyOn(stepService, 'disableEnableStep').and.returnValue();
     guard.canActivate(<any>{ url: ['checkout', 'route3'] }).subscribe(() => {
       expect(stepService.disableEnableStep).toHaveBeenCalledWith(
         CheckoutStepType.SERVICE_DETAILS,
+        false
+      );
+      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.DELIVERY_MODE,
+        true
+      );
+      done();
+    });
+  });
+  it('should enable service details tab if both service products and physical products exists in cart', (done) => {
+    spyOn(facade, 'hasServiceItems').and.returnValue(of(true));
+    spyOn(facade, 'hasNonServiceItems').and.returnValue(of(true));
+    spyOn(stepService, 'disableEnableStep').and.returnValue();
+    guard.canActivate(<any>{ url: ['checkout', 'route3'] }).subscribe(() => {
+      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.SERVICE_DETAILS,
+        false
+      );
+      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.DELIVERY_MODE,
         false
       );
       done();
@@ -359,6 +415,44 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
           done();
         });
     });
-    it('should set delivery mdoe to service-delivery', () => {});
+    it('should set delivery mode to service-delivery if the cart contains only service products', (done) => {
+      spyOn(facade, 'hasServiceItems').and.returnValue(of(true));
+      spyOn(facade, 'hasNonServiceItems').and.returnValue(of(false));
+      spyOn(deliveryModeFacade, 'setDeliveryMode').and.returnValue(
+        of(undefined)
+      );
+      guard.setServiceDeliveryMode().subscribe(() => {
+        expect(deliveryModeFacade.setDeliveryMode).toHaveBeenCalledWith(
+          'my-service-delivery-mode'
+        );
+        done();
+      });
+    });
+    it('should not set delivery mode to service-delivery if the cart contains service products + physical products', (done) => {
+      spyOn(facade, 'hasServiceItems').and.returnValue(of(true));
+      spyOn(facade, 'hasNonServiceItems').and.returnValue(of(true));
+      spyOn(deliveryModeFacade, 'setDeliveryMode').and.returnValue(
+        of(undefined)
+      );
+      guard.setServiceDeliveryMode().subscribe(() => {
+        expect(deliveryModeFacade.setDeliveryMode).not.toHaveBeenCalledWith(
+          'my-service-delivery-mode'
+        );
+        done();
+      });
+    });
+    it('should not set delivery mode to service-delivery if the cart contains only physical products', (done) => {
+      spyOn(facade, 'hasServiceItems').and.returnValue(of(false));
+      spyOn(facade, 'hasNonServiceItems').and.returnValue(of(true));
+      spyOn(deliveryModeFacade, 'setDeliveryMode').and.returnValue(
+        of(undefined)
+      );
+      guard.setServiceDeliveryMode().subscribe(() => {
+        expect(deliveryModeFacade.setDeliveryMode).not.toHaveBeenCalledWith(
+          'my-service-delivery-mode'
+        );
+        done();
+      });
+    });
   });
 });

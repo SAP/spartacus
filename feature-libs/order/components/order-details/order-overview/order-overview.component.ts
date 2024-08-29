@@ -196,7 +196,7 @@ export class OrderOverviewComponent {
     );
   }
 
-  showDeliveryMode(mode: DeliveryMode): Boolean {
+  showDeliveryMode(mode: DeliveryMode | undefined): boolean {
     return this.orderOverviewComponentService.showDeliveryMode(mode);
   }
   getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card> {

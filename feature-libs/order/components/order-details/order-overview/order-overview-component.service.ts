@@ -9,7 +9,7 @@ import { DeliveryMode } from '@spartacus/cart/base/root';
 
 @Injectable()
 export class OrderOverviewComponentService {
-  showDeliveryMode(mode: DeliveryMode): boolean {
+  showDeliveryMode(mode: DeliveryMode | undefined): boolean {
     return mode !== undefined;
   }
 }
