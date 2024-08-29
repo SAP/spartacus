@@ -7,4 +7,4 @@
 /*
  * Public API Surface of Product-Multi-Dimensional List
  */
-export * from './product-multi-dimensional-list.module';
+export {};
