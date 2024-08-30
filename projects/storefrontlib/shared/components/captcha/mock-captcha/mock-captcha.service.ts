@@ -81,4 +81,17 @@ export class MockCaptchaService extends CaptchaService {
 
     return this.retVal.asObservable();
   }
+
+  resetCaptcha(element: HTMLElement): void {
+    this.checkbox.checked = false;
+    this.checkbox.disabled = false;
+    this.label.textContent = "I'm not a robot";
+
+    this.retVal = new Subject<string>();
+
+    if (element.contains(this.container)) {
+      element.removeChild(this.container);
+    }
+    element.appendChild(this.container);
+  }
 }

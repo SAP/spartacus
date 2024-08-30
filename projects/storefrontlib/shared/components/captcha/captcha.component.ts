@@ -45,10 +45,21 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
    * config.
    */
   ngAfterViewInit(): void {
+    this.resetCaptcha();
+  }
+
+  /**
+   * Loads the captcha based on the config
+   */
+  protected loadCaptcha(): void {
     if (this.config?.captchaRenderer) {
       const captchaRenderer = this.injector.get<CaptchaRenderer>(
         this.config.captchaRenderer
       );
+      
+      // Reset the confirmed state before rendering captcha
+      this.confirmed.emit(false);
+
       this.subscription.add(
         captchaRenderer
           .getCaptchaConfig()
@@ -67,6 +78,23 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
             this.confirmed.emit(true);
           })
       );
+    }
+  }
+
+  /**
+   * Resets the captcha, typically called when the component is re-initialized
+   */
+  resetCaptcha(): void {
+    if (this.config?.captchaRenderer) {
+      const captchaRenderer = this.injector.get<CaptchaRenderer>(
+        this.config.captchaRenderer!
+      );
+
+      // Reset the CAPTCHA widget if the provider supports it
+      captchaRenderer.resetCaptcha(this.captchaRef.nativeElement);
+
+      // Re-render the CAPTCHA to ensure it shows the "I'm not a robot" state
+      this.loadCaptcha();
     }
   }
 
