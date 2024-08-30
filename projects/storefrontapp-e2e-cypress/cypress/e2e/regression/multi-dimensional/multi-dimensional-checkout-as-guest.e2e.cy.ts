@@ -6,21 +6,17 @@
 
 import * as checkoutMultiDVariants from '../../../helpers/checkout-multi-dimensional';
 import { viewportContext } from '../../../helpers/viewport-context';
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 context('Multi Dimensional - checkout as guest', () => {
   viewportContext(['desktop', 'mobile'], () => {
-    beforeEach('core tests', () => {
-      clearAllStorage();
+    describe('multi-d all-tests', () => {
+      checkoutMultiDVariants.testCheckoutMultiDAsGuest();
     });
-
-    checkoutMultiDVariants.testCheckoutMultiDAsGuest();
   });
 
   viewportContext(['desktop'], () => {
-    beforeEach('core tests', () => {
-      clearAllStorage();
+    describe('multi-d all-tests', () => {
+      checkoutMultiDVariants.testCheckoutMultiDAsGuestAndVerifyCart();
     });
-    checkoutMultiDVariants.testCheckoutMultiDAsGuestAndVerifyCart();
   });
 });
