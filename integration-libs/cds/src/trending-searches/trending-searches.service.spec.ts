@@ -38,7 +38,7 @@ const mockCDSConfig: CdsConfig = {
     baseUrl: 'https://api.stage.context.cloud.sap',
     endpoints: {
       strategyProducts: '',
-      searchIntelligence: '/search-intelligence/${tenant}/trends',
+      searchIntelligence: '/search-intelligence/v1/sites/${currentSite}/trendingSearches',
     },
   },
 };
@@ -79,7 +79,7 @@ describe('TrendingSearchesService', () => {
     });
 
     const mockRequest = httpMock.expectOne((req) =>
-      req.url.includes('/search-intelligence/storksfront/trends')
+      req.url.includes('/search-intelligence/search-intelligence/v1/sites/main/trendingSearches')
     );
     mockRequest.flush({ searchPhrases: mockSearchPhrases });
   });
