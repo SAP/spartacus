@@ -24,6 +24,8 @@ const MockOccModuleConfig: OccConfig = {
       prefix: '',
       endpoints: {
         placeOrder: 'users/${userId}/orders?fields=FULL',
+        placePaymentAuthorizedOrder:
+          'users/${userId}/orders/paymentAuthorizedOrderPlacement?fields=FULL',
       } as OccEndpoints,
     },
   },
