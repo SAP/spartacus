@@ -32,4 +32,11 @@ export interface CaptchaProvider {
    * @returns captcha token
    */
   getToken(): string;
+
+  /**
+   * Resets the captcha widget, clearing any state or rendering a new instance
+   * @param element HTML element where the captcha is rendered
+   */
+  resetCaptcha(element: HTMLElement): void;
+
 }

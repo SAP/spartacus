@@ -99,4 +99,12 @@ export abstract class CaptchaService implements CaptchaProvider, OnDestroy {
   loadResource(): void {
     this.captchaConfigSubject$.next(this.captchaConfig);
   }
+
+  /**
+   * Implement the required resetCaptcha method from CaptchaProvider
+   */
+  resetCaptcha(_element: HTMLElement): void {
+    // This method can be empty or contain logic depending on the specific use case.
+    console.log('resetCaptcha called in CaptchaService');
+  }
 }
