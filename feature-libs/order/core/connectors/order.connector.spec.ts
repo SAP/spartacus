@@ -11,6 +11,11 @@ class MockOrderAdapter implements Partial<OrderAdapter> {
     (userId: string, cartId: string, termsChecked: boolean) =>
       of(`placedOrder-${userId}-${cartId}-${termsChecked}`)
   );
+  placePaymentAuthorizedOrder = createSpy(
+    'OrderAdapter.placePaymentAuthorizedOrder'
+  ).and.callFake((userId: string, cartId: string, termsChecked: boolean) =>
+    of(`placePaymentAuthorizedOrder-${userId}-${cartId}-${termsChecked}`)
+  );
 }
 
 describe('OrderConnector', () => {

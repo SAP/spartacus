@@ -28,6 +28,7 @@ class MockUserIdService implements Partial<UserIdService> {
 
 class MockOrderConnector implements Partial<OrderConnector> {
   placeOrder = createSpy().and.returnValue(of(mockOrder));
+  placePaymentAuthorizedOrder = createSpy().and.returnValue(of(mockOrder));
 }
 
 class MockEventService implements Partial<EventService> {
