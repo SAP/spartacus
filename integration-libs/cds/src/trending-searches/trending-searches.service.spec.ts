@@ -38,7 +38,7 @@ const mockCDSConfig: CdsConfig = {
     baseUrl: 'https://api.stage.context.cloud.sap',
     endpoints: {
       strategyProducts: '',
-      searchIntelligence: '/search-intelligence/v1/sites/${currentSite}/trendingSearches',
+      searchIntelligence: '/search-intelligence/v1/sites/main/trendingSearches',
     },
   },
 };

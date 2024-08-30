@@ -25,11 +25,11 @@ export class TrendingSearchesService {
 
   getTrendingSearches(): Observable<SearchPhrases[]> {
     return new Observable((observer) => {
-      this.baseSiteService.getActive().subscribe((currentSite: string) => {
+      this.baseSiteService.getActive().subscribe(() => {
         const originalEndpointUrl = this.cdsEndpointsService.getUrl(
-          TRENDING_SEARCHES_ENDPOINT_KEY, { currentSite }
+          TRENDING_SEARCHES_ENDPOINT_KEY
         );
-        const httpsPrefix = `https://${this.cdsConfig.cds.tenant}-${currentSite}.`;
+        const httpsPrefix = `https://${this.cdsConfig.cds.tenant}-main.`;
         const modifiedUrl = originalEndpointUrl.replace(
           /https:\/\//g,
           httpsPrefix
