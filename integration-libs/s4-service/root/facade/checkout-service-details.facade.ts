@@ -46,12 +46,12 @@ export abstract class CheckoutServiceDetailsFacade {
   abstract getServiceProducts(): Observable<string[]>;
 
   /**
-   * Return whether cart has service items
+   * Return whether cart has service products
    */
   abstract hasServiceItems(): Observable<boolean>;
 
   /**
-   * Return whether cart has delivery items excluding service items
+   * Return whether cart has deliverable physical products
    */
   abstract hasNonServiceItems(): Observable<boolean>;
 }
