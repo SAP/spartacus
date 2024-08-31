@@ -56,7 +56,7 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
       const captchaRenderer = this.injector.get<CaptchaRenderer>(
         this.config.captchaRenderer
       );
-      
+
       // Reset the confirmed state before rendering captcha
       this.confirmed.emit(false);
 
@@ -87,7 +87,7 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
   resetCaptcha(): void {
     if (this.config?.captchaRenderer) {
       const captchaRenderer = this.injector.get<CaptchaRenderer>(
-        this.config.captchaRenderer!
+        this.config.captchaRenderer
       );
 
       // Reset the CAPTCHA widget if the provider supports it

@@ -105,7 +105,5 @@ export abstract class CaptchaService implements CaptchaRenderer, OnDestroy {
    * Implement the required resetCaptcha method from CaptchaProvider
    */
   resetCaptcha(_element: HTMLElement): void {
-    // This method can be empty or contain logic depending on the specific use case.
-    console.log('resetCaptcha called in CaptchaService');
   }
 }
