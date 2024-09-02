@@ -42,7 +42,7 @@ export function defaultCdcComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [CDC_FEATURE]: {
-        cmsComponents: ['GigyaRaasComponent'],
+        cmsComponents: ['GigyaRaasComponent', 'OidcLoginComponent'],
       },
       // by default core is bundled together with components
       [CDC_CORE_FEATURE]: CDC_FEATURE,
