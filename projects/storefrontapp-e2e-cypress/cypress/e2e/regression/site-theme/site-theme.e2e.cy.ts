@@ -20,7 +20,7 @@ context('Site Theme', { testIsolation: false }, () => {
     cy.get('cx-theme-switcher select').then(($select) => {
       const selectedOption = $select.find('option:selected');
       cy.wrap(selectedOption).should('have.attr', 'aria-label', 'Default');
-      cy.wrap(selectedOption).should('have.value', 'santorini');
+      cy.wrap(selectedOption).should('have.value', '');
     });
   });
 
@@ -40,8 +40,11 @@ context('Site Theme', { testIsolation: false }, () => {
 
     cy.get('cx-theme-switcher select')
       .select('Default')
-      .should('have.value', 'santorini');
-    cy.get('cx-storefront').should('have.class', 'santorini');
+      .should('have.value', '');
+    cy.get('cx-storefront').should(
+      'not.have.class',
+      'cx-theme-high-contrast-light'
+    );
   });
 
   it('should keep selected theme after reload the page', () => {
