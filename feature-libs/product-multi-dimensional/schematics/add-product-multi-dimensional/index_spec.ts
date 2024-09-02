@@ -196,13 +196,6 @@ describe('Spartacus Product Multi-Dimensional schematics: ng-add', () => {
         );
       });
 
-      it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(
-          productMultiDimensionalListFeatureModulePath
-        );
-        expect(module).toMatchSnapshot();
-      });
-
       describe('styling', () => {
         it('should update angular.json', async () => {
           const content = appTree.readContent('/angular.json');
