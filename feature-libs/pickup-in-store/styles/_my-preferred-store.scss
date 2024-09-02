@@ -75,4 +75,20 @@
       }
     }
   }
+  @include cx-highContrastTheme {
+    .btn-outline-text {
+      border-color: var(--cx-color-primary);
+      background-color: var(--cx-color-light);
+    }
+
+    .container cx-card .cx-card-actions {
+      border-color: var(--cx-color-primary);
+      background-color: var(--cx-color-light);
+    }
+
+    .container cx-card .cx-card-actions:not(:disabled):not(.disabled):active {
+      border-color: var(--cx-color-primary);
+      background-color: var(--cx-color-light);
+    }
+  }
 }

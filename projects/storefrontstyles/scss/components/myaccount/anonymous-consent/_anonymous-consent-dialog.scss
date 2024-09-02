@@ -18,6 +18,9 @@
         padding-inline-end: 1.75rem;
         padding-bottom: 0.85rem;
         padding-inline-start: 1.75rem;
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
       }
       .cx-dialog-body {
         @extend .modal-body;
