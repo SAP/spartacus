@@ -8,7 +8,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
+import {
+  FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+  UrlModule,
+} from '@spartacus/core';
 import {
   FormErrorsModule,
   IconModule,
@@ -30,6 +35,7 @@ import { QuoteConfirmDialogComponent } from './quote-confirm-dialog.component';
     RouterModule,
     KeyboardFocusModule,
     SpinnerModule,
+    FeaturesConfigModule,
   ],
   providers: [provideDefaultConfig(defaultQuoteActionDialogConfig)],
   declarations: [QuoteConfirmDialogComponent],
