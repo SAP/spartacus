@@ -8,7 +8,7 @@ import {
   OnDestroy,
   Output,
   ViewChild,
-  ChangeDetectorRef, // 导入 ChangeDetectorRef
+  ChangeDetectorRef,
 } from '@angular/core';
 import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
