@@ -1,10 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -15,6 +8,7 @@ import {
   OnDestroy,
   Output,
   ViewChild,
+  ChangeDetectorRef, // 导入 ChangeDetectorRef
 } from '@angular/core';
 import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
@@ -28,7 +22,6 @@ import { CaptchaRenderer } from './captcha.renderer';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CaptchaComponent implements AfterViewInit, OnDestroy {
-  [x: string]: any;
   // Emits true if user confirms captcha
   @Output() confirmed = new EventEmitter<boolean>();
 
@@ -38,7 +31,8 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     protected config: CaptchaApiConfig,
-    protected injector: Injector
+    protected injector: Injector,
+    private cdr: ChangeDetectorRef
   ) {}
 
   /**
@@ -76,7 +70,9 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
           )
           .subscribe(() => {
             this.confirmed.emit(true);
-            this.cdr.detectChanges();
+            if (this.cdr) {
+              this.cdr.detectChanges();
+            }
           })
       );
     }
