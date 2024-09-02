@@ -84,8 +84,7 @@ class MockCaptchaService implements CaptchaRenderer {
     return of('');
   }
 
-  resetCaptcha(element: HTMLElement): void {
-  }
+  resetCaptcha(element: HTMLElement): void {}
 }
 
 const mockCaptchaApiConfig: CaptchaApiConfig = {
