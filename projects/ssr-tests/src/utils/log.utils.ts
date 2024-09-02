@@ -43,19 +43,11 @@ export function getLogMessages(): string[] {
       // We're interested only in JSON logs from Spartacus SSR app.
       // We ignore plain text logs coming from other sources, like `Node Express server listening on http://localhost:4200`
       .filter((text: string) => text.charAt(0) === '{')
-      .map((text: any) => JSON.parse(text).message)
+      .map((text: any) => {
+        // console.log('filtered text', text);
+        return JSON.parse(text).message;
+      })
   );
-}
-
-/**
- * Check that log contains expected messages in string array.
- * Fail test if log does not contain expected messages.
- */
-export function assertMessages(expected: string[]): void {
-  const messages = getLogMessages();
-  for (const message of expected) {
-    expect(messages).toContain(message);
-  }
 }
 
 /**

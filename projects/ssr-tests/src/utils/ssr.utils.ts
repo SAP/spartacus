@@ -12,6 +12,17 @@
 import * as childProcess from 'child_process';
 import * as Log from './log.utils';
 
+export interface SsrServerOptions {
+  /**
+   * The port the server should run on.
+   */
+  port?: number;
+  /**
+   * Whether to enable caching on the server.
+   */
+  cache?: boolean;
+}
+
 /**
  * Used to track the spawned child process running the server.
  */
@@ -20,11 +31,14 @@ let child: childProcess.ChildProcess | any;
 /**
  * Start an ssr server instance at the given port (default 4000).
  * The server will output a log file at the test project root named ".ssr.log".
- * Funtion finishes once the server is initialized.
+ * Function finishes once the server is initialized.
  */
-export async function startSsrServer(port = 4000) {
+export async function startSsrServer({
+  port = 4000,
+  cache = false,
+}: SsrServerOptions = {}) {
   child = childProcess.spawn(
-    `NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=${port} npm run serve:ssr --prefix ../../> .ssr.log`,
+    `NODE_TLS_REJECT_UNAUTHORIZED=0 SSR_CACHE=${cache} PORT=${port} npm run serve:ssr --prefix ../../> .ssr.log`,
     { detached: true, shell: true }
   );
 

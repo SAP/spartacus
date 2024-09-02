@@ -23,6 +23,7 @@ const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
+  cache: process.env['SSR_CACHE'] === 'true', // Enable caching for SSR E2E purposes
   featureToggles: {
     avoidCachingErrors: true,
   },
