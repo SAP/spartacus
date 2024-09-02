@@ -1,17 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, of } from 'rxjs';
 import { ConfigInitializerService } from '../../config';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
-import { SiteThemeConfig } from '../config/site-theme-config';
 import { SiteThemeService } from '../facade';
 import { SiteThemeInitializer } from './site-theme-initializer';
 import { SiteThemePersistenceService } from './site-theme-persistence.service';
 import createSpy = jasmine.createSpy;
+import { SiteContextConfig } from '../../site-context';
 
-const mockSiteThemeConfig: SiteThemeConfig = {
-  siteTheme: {
-    optionalThemes: [{ i18nNameKey: 'dark', className: 'dark', default: true }],
-  },
+const mockDefaultTheme = 'default';
+const mockSiteContextConfig: SiteContextConfig = {
+  context: { theme: [mockDefaultTheme] },
 };
 
 class MockSiteThemeService implements Partial<SiteThemeService> {
@@ -19,6 +17,12 @@ class MockSiteThemeService implements Partial<SiteThemeService> {
     return false;
   }
   setActive(_className: string) {}
+  getDefault() {
+    return {
+      className: mockDefaultTheme,
+      i18nNameKey: 'themeSwitcher.themes.default',
+    };
+  }
 }
 
 class MockSiteThemePersistenceService
@@ -30,17 +34,15 @@ class MockSiteThemePersistenceService
 class MockConfigInitializerService
   implements Partial<ConfigInitializerService>
 {
-  getStable = () => of(mockSiteThemeConfig);
+  getStable = () => of(mockSiteContextConfig);
 }
 
 describe('SiteThemeInitializer', () => {
   let initializer: SiteThemeInitializer;
   let siteThemeService: SiteThemeService;
   let siteThemePersistenceService: SiteThemePersistenceService;
-  let baseSiteService: jasmine.SpyObj<BaseSiteService>;
 
   beforeEach(() => {
-    const baseSiteServiceSpy = jasmine.createSpyObj('BaseSiteService', ['get']);
     TestBed.configureTestingModule({
       providers: [
         SiteThemeInitializer,
@@ -53,17 +55,12 @@ describe('SiteThemeInitializer', () => {
           provide: ConfigInitializerService,
           useClass: MockConfigInitializerService,
         },
-        { provide: BaseSiteService, useValue: baseSiteServiceSpy },
       ],
     });
 
     siteThemePersistenceService = TestBed.inject(SiteThemePersistenceService);
     siteThemeService = TestBed.inject(SiteThemeService);
     initializer = TestBed.inject(SiteThemeInitializer);
-    baseSiteService = TestBed.inject(
-      BaseSiteService
-    ) as jasmine.SpyObj<BaseSiteService>;
-    baseSiteService.get.and.returnValue(of({ theme: 'dark' }));
     spyOn(siteThemeService, 'setActive');
   });
 
@@ -83,7 +80,7 @@ describe('SiteThemeInitializer', () => {
     it('should set default theme is the theme is NOT initialized', () => {
       spyOn(siteThemeService, 'isInitialized').and.returnValue(false);
       initializer.initialize();
-      expect(siteThemeService.setActive).toHaveBeenCalledWith('dark');
+      expect(siteThemeService.setActive).toHaveBeenCalledWith(mockDefaultTheme);
     });
 
     it('should NOT set default from config is the theme is initialized', () => {

@@ -8,7 +8,6 @@ import { inject, Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { SiteThemeService } from '../facade/site-theme.service';
 import { SiteThemePersistenceService } from './site-theme-persistence.service';
 
@@ -17,7 +16,6 @@ export class SiteThemeInitializer implements OnDestroy {
   protected siteThemeService = inject(SiteThemeService);
   protected siteThemePersistenceService = inject(SiteThemePersistenceService);
   protected configInit = inject(ConfigInitializerService);
-  protected baseSiteService = inject(BaseSiteService);
   protected subscription: Subscription;
 
   /**

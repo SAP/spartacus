@@ -2,39 +2,29 @@ import { inject, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  BaseSiteService,
-  Config,
-  SiteThemeActions,
-  SiteThemeConfig,
-} from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { BaseSite, SiteTheme } from '../../model/misc.model';
+import { Config, SiteThemeActions } from '@spartacus/core';
+import { of } from 'rxjs';
+import { SiteTheme } from '../../model/misc.model';
 
 import { SiteThemeStoreModule } from '../store/site-theme-store.module';
 import { StateWithSiteTheme } from '../store/state';
 import { SiteThemeService } from './site-theme.service';
 import createSpy = jasmine.createSpy;
 
+const mockDefaultTheme = 'default';
 const mockThemes: SiteTheme[] = [
-  { i18nNameKey: 'dark', className: 'dark', default: false },
+  { className: mockDefaultTheme, i18nNameKey: 'themeSwitcher.themes.default' },
+  { i18nNameKey: 'dark', className: 'dark' },
 ];
 
 const mockActiveTheme = 'dark';
 
-const mockSiteThemeConfig: SiteThemeConfig = {
+const mockSiteThemeConfig: Config = {
+  context: { theme: [mockDefaultTheme] },
   siteTheme: {
-    optionalThemes: [
-      { i18nNameKey: 'dark', className: 'dark', default: false },
-    ],
+    optionalThemes: [{ i18nNameKey: 'dark', className: 'dark' }],
   },
 };
-
-class MockBaseSiteService {
-  get(_siteUid?: string): Observable<BaseSite | undefined> {
-    return of({ theme: 'defautlTheme' });
-  }
-}
 
 describe('SiteThemeService', () => {
   const mockSelect1 = createSpy('select').and.returnValue(() => of(mockThemes));
@@ -54,7 +44,6 @@ describe('SiteThemeService', () => {
       ],
       providers: [
         SiteThemeService,
-        { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: Config, useValue: mockSiteThemeConfig },
       ],
     });
@@ -73,6 +62,14 @@ describe('SiteThemeService', () => {
 
   it('should not load themes when service is constructed', () => {
     expect(store.dispatch).toHaveBeenCalledTimes(0);
+  });
+
+  it('should be able to get default theme', () => {
+    const defaultTheme = service.getDefault();
+    expect(defaultTheme).toEqual({
+      className: mockDefaultTheme,
+      i18nNameKey: 'themeSwitcher.themes.default',
+    });
   });
 
   it('should be able to get theme', () => {
@@ -97,23 +94,19 @@ describe('SiteThemeService', () => {
     );
   });
 
-  it('should return TRUE if a theme is initialized', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
-    service.setActive('dark_new');
-    expect(service.isInitialized()).toBeTruthy();
-  });
-
-  it('should return TRUE if the theme is valid', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
-    service.isValid('dark').subscribe((results) => {
-      expect(results).toBeTruthy();
+  describe('isInitialized', () => {
+    it('should return TRUE if a theme is initialized', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+      expect(service.isInitialized()).toBeTruthy();
     });
   });
 
-  it('should return FALSE if the theme is not valid', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
-    service.isValid('light').subscribe((results) => {
-      expect(results).toBeFalsy();
+  describe('isValid', () => {
+    it('should return TRUE if the theme is valid', () => {
+      expect(service['isValid']('dark')).toBeTruthy();
+    });
+    it('should return FALSE if the theme is not valid', () => {
+      expect(service['isValid']('light')).toBeFalsy();
     });
   });
 });
