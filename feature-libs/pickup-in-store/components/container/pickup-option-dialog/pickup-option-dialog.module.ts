@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule } from '@spartacus/core';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import {
   IconModule,
   KeyboardFocusModule,
@@ -25,6 +25,7 @@ import { PickupOptionDialogComponent } from './pickup-option-dialog.component';
     SpinnerModule,
     StoreListModule,
     StoreSearchModule,
+    FeaturesConfigModule,
   ],
   declarations: [PickupOptionDialogComponent],
   exports: [PickupOptionDialogComponent],
