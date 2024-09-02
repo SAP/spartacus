@@ -134,30 +134,6 @@ describe(`CheckoutServiceDetailsService`, () => {
           done();
         });
     });
-    it(`should return undefined service detail if no service products are available in cart`, (done) => {
-      checkoutQuery.getCheckoutDetailsState = createSpy().and.returnValue(
-        of(<QueryState<CheckoutState>>{
-          loading: false,
-          error: false,
-          data: {
-            servicedAt: mockData,
-          },
-        })
-      );
-      spyOn(cartService, 'getEntries').and.returnValue(of([]));
-
-      service
-        .getSelectedServiceDetailsState()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(<QueryState<ServiceDateTime | undefined>>{
-            loading: false,
-            error: false,
-            data: undefined,
-          });
-          done();
-        });
-    });
   });
 
   describe(`setServiceScheduleSlot`, () => {

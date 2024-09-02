@@ -103,6 +103,9 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { OmfFeatureModule } from './features/omf/omf-feature.module';
+import { ProductMultiDimensionalSelectorFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-selector-feature.module';
+import { ProductMultiDimensionalListFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-list-feature.module';
 
 const featureModules = [];
 
@@ -153,7 +156,9 @@ if (environment.requestedDeliveryDate) {
 if (environment.estimatedDeliveryDate) {
   featureModules.push(EstimatedDeliveryDateFeatureModule);
 }
-
+if (environment.omf) {
+  featureModules.push(OmfFeatureModule);
+}
 if (environment.cpq) {
   featureModules.push(CpqQuoteFeatureModule);
 }
@@ -254,6 +259,8 @@ if (environment.cpq) {
     SmartEditFeatureModule,
 
     VariantsFeatureModule,
+    ProductMultiDimensionalSelectorFeatureModule,
+    ProductMultiDimensionalListFeatureModule,
     ImageZoomFeatureModule,
 
     QuoteFeatureModule,
@@ -276,6 +283,7 @@ if (environment.cpq) {
     // CXSPA-6793: refactor to`provideFeatureToggles` and `satisfies` keyword
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        showDeliveryOptionsTranslation: true,
         formErrorsDescriptiveMessages: true,
         showSearchingCustomerByOrderInASM: false,
         showStyleChangesInASM: false,
@@ -288,11 +296,13 @@ if (environment.cpq) {
         recentSearches: true,
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
+        useProductCarouselBatchApi: false, //TODO: CXSPA-8162
         productConfiguratorAttributeTypesV2: true,
         productConfiguratorDeltaRendering: true,
         a11yRequiredAsterisks: true,
         a11yQuantityOrderTabbing: true,
         a11yNavigationUiKeyboardControls: true,
+        a11yNavMenuExpandStateReadout: true,
         a11yOrderConfirmationHeadingOrder: true,
         a11yStarRating: true,
         a11yViewChangeAssistiveMessage: true,
@@ -342,7 +352,11 @@ if (environment.cpq) {
         a11yCxMessageFocus: true,
         occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
+        a11yRepeatedPageTitleFix: true,
         a11yDeliveryModeRadiogroup: true,
+        a11yNgSelectOptionsCount: true,
+        a11yRepeatedCancelOrderError: true,
+        a11yAddedToCartActiveDialog: true,
         a11yNgSelectMobileReadout: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
       };
