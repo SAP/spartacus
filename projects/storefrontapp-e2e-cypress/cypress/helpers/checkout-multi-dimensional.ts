@@ -20,7 +20,7 @@ import { searchForProduct } from './product-search';
 import { addProductToCart } from './applied-promotions';
 
 export function testCheckoutMultiDAsGuest() {
-  it.skip('should perform checkout as guest, create an account and verify guest data', () => {
+  it('should perform checkout as guest, create an account and verify guest data', () => {
     const multiDUser = getSampleUser();
     checkout.visitHomePage();
     checkout.clickHamburger();
@@ -93,7 +93,7 @@ export function testCheckoutMultiDAsGuest() {
 }
 
 export function testCheckoutMultiDAsGuestAndVerifyCart() {
-  it.skip('should perform checkout as guest, create an account and verify guest data, and verify cart persists after registering', () => {
+  it('should perform checkout as guest, create an account and verify guest data, and verify cart persists after registering', () => {
     const multiDUser = getSampleUser();
 
     checkout.visitHomePage();
@@ -179,7 +179,7 @@ export function testCheckoutMultiDAsGuestAndVerifyCart() {
 }
 
 export function testCheckoutRegisteredUser() {
-  it.skip('should perform checkout with a registered user', () => {
+  it('should perform checkout with a registered user', () => {
     const regMultiDUser = getSampleUser();
     checkout.visitHomePage();
 
@@ -217,11 +217,14 @@ function selectVariantAndAddToCart(color: string = 'Blue') {
     .find(`img[title*="${color}"]`)
     .click();
 
-  cy.wait(2000);
+  cy.get('cx-product-multi-dimensional-selector')
+    .find(`button[aria-label*="Selected, ${color} Color"]`)
+    .should('be.visible');
 
   addProductToCart();
 
   cy.get('cx-added-to-cart-dialog.d-block.fade.modal.show')
+    .should('be.visible')
     .find('button.close[aria-label="Close Modal"]')
     .click();
 
@@ -233,7 +236,9 @@ export function selectVariant(color: string = 'Blue') {
     .find(`img[title*="${color}"]`)
     .click();
 
-  cy.wait(2000);
+  cy.get('cx-product-multi-dimensional-selector')
+    .find(`button[aria-label*="Selected, ${color} Color"]`)
+    .should('be.visible');
 }
 
 export function goToMultiDProductFromPLP() {
@@ -243,5 +248,5 @@ export function goToMultiDProductFromPLP() {
     .first()
     .click();
 
-  cy.wait(2000);
+  cy.get('cx-product-multi-dimensional-selector').should('be.visible');
 }

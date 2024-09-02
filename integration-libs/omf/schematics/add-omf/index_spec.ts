@@ -11,15 +11,15 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   OMF_FEATURE_NAME,
-  SPARTACUS_SCHEMATICS,
-  SPARTACUS_OMF,
+  ORDER_FEATURE_NAME,
   LibraryOptions as OmfOptions,
+  SPARTACUS_OMF,
+  SPARTACUS_ORDER,
+  SPARTACUS_SCHEMATICS,
   SpartacusOptions,
   omfFeatureModulePath,
-  ORDER_FEATURE_NAME,
-  orderWrapperModulePath,
-  SPARTACUS_ORDER,
   orderFeatureModulePath,
+  orderWrapperModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
