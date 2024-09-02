@@ -69,10 +69,12 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
             })
           )
           .subscribe(() => {
-            this.confirmed.emit(true);
-            if (this.cdr) {
-              this.cdr.detectChanges();
-            }
+            setTimeout(() => {
+              this.confirmed.emit(true);
+              if (this.cdr) {
+                this.cdr.detectChanges();
+              }
+            });
           })
       );
     }
