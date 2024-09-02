@@ -919,7 +919,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Delivery mode', type: TabbingOrderTypes.LINK },
     { value: 'Payment details', type: TabbingOrderTypes.LINK },
     { value: 'Edit delivery address', type: TabbingOrderTypes.LINK },
-    { value: 'Edit delivery method', type: TabbingOrderTypes.LINK },
+    { value: 'Edit delivery options', type: TabbingOrderTypes.LINK },
     { value: 'Edit payment method', type: TabbingOrderTypes.LINK },
     {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
