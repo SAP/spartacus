@@ -1,6 +1,6 @@
 import { Observable, of } from 'rxjs';
 import { CaptchaConfig } from '@spartacus/core';
-import { CaptchaComponent, CaptchaRenderer } from '@spartacus/storefront';
+import { CaptchaComponent } from '@spartacus/storefront';
 import {
   ComponentFixture,
   TestBed,
@@ -10,7 +10,7 @@ import {
 } from '@angular/core/testing';
 import { CaptchaApiConfig } from './captcha-api-config';
 
-class MockCaptchaService implements CaptchaRenderer {
+class MockCaptchaService {
   getCaptchaConfig(): Observable<CaptchaConfig> {
     return of({
       enabled: true,
@@ -38,14 +38,14 @@ const mockCaptchaApiConfig: CaptchaApiConfig = {
 describe('CaptchaComponent', () => {
   let component: CaptchaComponent;
   let fixture: ComponentFixture<CaptchaComponent>;
-  let service: CaptchaRenderer;
+  let service: MockCaptchaService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CaptchaComponent],
       providers: [
         { provide: CaptchaApiConfig, useValue: mockCaptchaApiConfig },
-        { provide: CaptchaRenderer, useClass: MockCaptchaService },
+        MockCaptchaService,
       ],
     }).compileComponents();
   }));
@@ -53,7 +53,7 @@ describe('CaptchaComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CaptchaComponent);
     component = fixture.componentInstance;
-    service = TestBed.inject(CaptchaRenderer);
+    service = TestBed.inject(MockCaptchaService);
   });
 
   it('should be created', () => {
@@ -64,9 +64,9 @@ describe('CaptchaComponent', () => {
     spyOn(service, 'getCaptchaConfig').and.callThrough();
     spyOn(service, 'renderCaptcha').and.callThrough();
 
-    fixture.detectChanges(); // 触发组件的ngOnInit和ngAfterViewInit等生命周期钩子
+    fixture.detectChanges();
 
-    tick(); // 推动时钟，使所有异步任务完成
+    tick();
 
     expect(service.getCaptchaConfig).toHaveBeenCalledTimes(1);
     expect(service.renderCaptcha).toHaveBeenCalledTimes(1);
