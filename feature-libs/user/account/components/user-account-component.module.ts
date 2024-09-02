@@ -11,7 +11,6 @@ import { LoginModule } from './login/login.module';
 import { MyAccountV2UserModule } from './my-account-v2-user';
 import { OneTimePasswordLoginFormModeule } from './otp-login-form/otp-login-form.module';
 import { VerificationTokenFormModule } from './verification-token-form/verification-token-form.module';
-import { LoginOidcModule } from './login-form-oidc';
 
 @NgModule({
   imports: [
@@ -21,7 +20,6 @@ import { LoginOidcModule } from './login-form-oidc';
     LoginRegisterModule,
     MyAccountV2UserModule,
     OneTimePasswordLoginFormModeule,
-    LoginOidcModule,
   ],
 })
 export class UserAccountComponentsModule {}

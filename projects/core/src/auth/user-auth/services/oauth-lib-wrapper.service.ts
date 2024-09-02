@@ -130,7 +130,7 @@ export class OAuthLibWrapperService {
    * In cases where we don't receive this event, the token has been obtained from storage.
    */
   tryLogin(): Promise<OAuthTryLoginResult> {
-    return new Promise(async (resolve) => {
+    return new Promise((resolve) => {
       // We use the 'token_received' event to check if we have returned
       // from the auth server.
       let tokenReceivedEvent: OAuthEvent | undefined;
@@ -140,22 +140,20 @@ export class OAuthLibWrapperService {
           take(1)
         )
         .subscribe((event) => (tokenReceivedEvent = event));
-      try {
-        let result: boolean;
-        if (this.authConfigService.getOAuthLibConfig().disablePKCE === false) {
-          result = await this.oAuthService.loadDiscoveryDocumentAndTryLogin();
-        } else {
-          result = await this.oAuthService.tryLogin({
-            disableOAuth2StateCheck: true,
+      this.oAuthService
+        .loadDiscoveryDocumentAndTryLogin({
+          // We don't load discovery document, because it doesn't contain revoke endpoint information
+          disableOAuth2StateCheck: true,
+        })
+        .then((result: boolean) => {
+          resolve({
+            result: result,
+            tokenReceived: !!tokenReceivedEvent,
           });
-        }
-        resolve({
-          result: result,
-          tokenReceived: !!tokenReceivedEvent,
+        })
+        .finally(() => {
+          subscription.unsubscribe();
         });
-      } finally {
-        subscription.unsubscribe();
-      }
     });
   }
 

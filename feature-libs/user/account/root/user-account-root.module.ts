@@ -5,17 +5,12 @@
  */
 
 import { NgModule } from '@angular/core';
-import {
-  CONFIG_INITIALIZER,
-  CmsConfig,
-  provideDefaultConfigFactory,
-} from '@spartacus/core';
+import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { UserAccountEventModule } from './events/user-account-event.module';
 import {
   USER_ACCOUNT_CORE_FEATURE,
   USER_ACCOUNT_FEATURE,
 } from './feature-name';
-import { OidcConfigInitializer } from './configs/oidc-config-initializer';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultUserAccountComponentsConfig(): CmsConfig {
@@ -29,7 +24,7 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
           'ReturningCustomerRegisterComponent',
           'MyAccountViewUserComponent',
           'ReturningCustomerOTPLoginComponent',
-          'ReturningOIDCLoginComponent',
+          'OidcLoginComponent',
         ],
       },
       // by default core is bundled together with components
@@ -39,22 +34,8 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
   return config;
 }
 
-export function initCdcConfigFactory(
-  oidcConfigInitializer: OidcConfigInitializer
-) {
-  return oidcConfigInitializer;
-}
-
 @NgModule({
   imports: [UserAccountEventModule],
-  providers: [
-    provideDefaultConfigFactory(defaultUserAccountComponentsConfig),
-    {
-      provide: CONFIG_INITIALIZER,
-      useFactory: initCdcConfigFactory,
-      deps: [OidcConfigInitializer],
-      multi: true,
-    },
-  ],
+  providers: [provideDefaultConfigFactory(defaultUserAccountComponentsConfig)],
 })
 export class UserAccountRootModule {}

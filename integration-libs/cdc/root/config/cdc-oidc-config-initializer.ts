@@ -15,9 +15,9 @@ import { map, take } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class OidcConfigInitializer implements ConfigInitializer {
+  protected baseSiteService = inject(BaseSiteService);
   readonly scopes = ['authconfig'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
-  protected baseSiteService = inject(BaseSiteService);
   /**
    * Emits the Auth config basing on the current base site data.
    *
