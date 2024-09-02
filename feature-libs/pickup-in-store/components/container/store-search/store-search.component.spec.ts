@@ -5,6 +5,7 @@ import { CurrentLocationService } from '../../services/current-location.service'
 import { MockCurrentLocationService } from '../../services/current-location.service.spec';
 
 import { StoreSearchComponent } from './store-search.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 describe('StoreSearchComponent', () => {
   let component: StoreSearchComponent;
@@ -13,7 +14,7 @@ describe('StoreSearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StoreSearchComponent],
+      declarations: [StoreSearchComponent, MockFeatureDirective],
       imports: [I18nTestingModule],
       providers: [
         {
