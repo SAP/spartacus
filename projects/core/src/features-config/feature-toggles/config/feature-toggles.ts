@@ -494,7 +494,7 @@ export interface FeatureTogglesInterface {
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDeliveryOptionsTranslation: false,
-  formErrorsDescriptiveMessages: true,
+  formErrorsDescriptiveMessages: false,
   showSearchingCustomerByOrderInASM: false,
   showStyleChangesInASM: false,
   shouldHideAddToCartForUnpurchasableProducts: false,
