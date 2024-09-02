@@ -28,6 +28,7 @@ import { CaptchaRenderer } from './captcha.renderer';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CaptchaComponent implements AfterViewInit, OnDestroy {
+  [x: string]: any;
   // Emits true if user confirms captcha
   @Output() confirmed = new EventEmitter<boolean>();
 
@@ -45,9 +46,8 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
    * config.
    */
   ngAfterViewInit(): void {
-    setTimeout(() => this.resetCaptcha());
+    this.resetCaptcha();
   }
-  
 
   /**
    * Loads the captcha based on the config
@@ -57,10 +57,9 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
       const captchaRenderer = this.injector.get<CaptchaRenderer>(
         this.config.captchaRenderer
       );
-  
-      // Reset the confirmed state before rendering captcha
+
       this.confirmed.emit(false);
-  
+
       this.subscription.add(
         captchaRenderer
           .getCaptchaConfig()
@@ -76,8 +75,8 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
             })
           )
           .subscribe(() => {
-            // Use setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
-            setTimeout(() => this.confirmed.emit(true));
+            this.confirmed.emit(true);
+            this.cdr.detectChanges();
           })
       );
     }
