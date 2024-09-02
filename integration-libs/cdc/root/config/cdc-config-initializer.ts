@@ -6,10 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { CdcConfig } from '@spartacus/cdc/root';
-import {
-  BaseSiteService,
-  ConfigInitializer,
-} from '@spartacus/core';
+import { BaseSiteService, ConfigInitializer } from '@spartacus/core';
 import { Observable, lastValueFrom } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
@@ -27,16 +24,16 @@ export class CdcConfigInitializer implements ConfigInitializer {
     return this.baseSiteService.get().pipe(
       take(1),
       map((site) => {
-        if ( site?.cdcSiteConfig && site?.uid) {
-            const result: CdcConfig = {
-                cdc: [
-                  {
-                    baseSite: site.uid,
-                    javascriptUrl: `https://cdns.gigya.com/js/gigya.js?apikey=${site.cdcSiteConfig.siteApiKey}`,
-                    sessionExpiration: 3600,
-                  },
-                ],
-              };
+        if (site?.cdcSiteConfig && site?.uid) {
+          const result: CdcConfig = {
+            cdc: [
+              {
+                baseSite: site.uid,
+                javascriptUrl: `https://cdns.gigya.com/js/gigya.js?apikey=${site.cdcSiteConfig.siteApiKey}`,
+                sessionExpiration: 3600,
+              },
+            ],
+          };
           return result;
         } else {
           return {} as CdcConfig;

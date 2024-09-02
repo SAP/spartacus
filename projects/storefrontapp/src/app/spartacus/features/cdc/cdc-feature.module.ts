@@ -4,14 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {  NgModule } from '@angular/core';
-import { CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
-import { CmsConfig, CONFIG_INITIALIZER, I18nConfig, provideConfig } from '@spartacus/core';
+import { NgModule } from '@angular/core';
+import {
+  CdcRootModule,
+  CDC_FEATURE,
+  CdcConfigInitializer,
+} from '@spartacus/cdc/root';
+import {
+  CmsConfig,
+  CONFIG_INITIALIZER,
+  I18nConfig,
+  provideConfig,
+} from '@spartacus/core';
 import {
   cdcTranslations,
   cdcTranslationChunksConfig,
 } from '@spartacus/cdc/assets';
-import { CdcConfigInitializer } from './cdc-config-initializer';
 
 export function initCdcConfigFactory(
   cdcConfigInitializer: CdcConfigInitializer
