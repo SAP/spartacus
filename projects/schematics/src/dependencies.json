@@ -312,6 +312,7 @@
     "@spartacus/schematics": "2211.27.0",
     "@spartacus/storefront": "2211.27.0",
     "@spartacus/styles": "2211.27.0",
+    "angular-oauth2-oidc": "^17.0.1",
     "rxjs": "^7.8.0"
   },
   "@spartacus/cdc": {

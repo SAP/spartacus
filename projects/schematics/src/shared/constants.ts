@@ -188,7 +188,6 @@ export const SMART_EDIT_CONFIG = 'SmartEditConfig';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const LOGOUT_GUARD = 'LogoutGuard';
-export const LOGOUT_MCS_GUARD = 'LogoutMcsGuard';
 export const LOGIN_GUARD = 'LoginGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =

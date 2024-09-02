@@ -18,7 +18,6 @@ import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
 import { UserIdService } from './user-id.service';
-import { OAuthService } from 'angular-oauth2-oidc';
 
 /**
  * Auth service for normal user authentication.
@@ -44,7 +43,6 @@ export class AuthService {
     protected authStorageService: AuthStorageService,
     protected authRedirectService: AuthRedirectService,
     protected routingService: RoutingService,
-    protected oauthService: OAuthService,
     protected authMultisiteIsolationService?: AuthMultisiteIsolationService
   ) {}
 
@@ -188,15 +186,4 @@ export class AuthService {
     this.authRedirectService.redirect();
   }
 
-  cmsLogout(): Promise<void> {
-    this.setLogoutProgress(true);
-    this.userIdService.clearUserId();
-    return new Promise((resolve) => {
-      this.oauthService.revokeTokenAndLogout().finally(() => {
-        this.store.dispatch(new AuthActions.Logout());
-        this.setLogoutProgress(false);
-        resolve();
-      });
-    });
-  }
 }

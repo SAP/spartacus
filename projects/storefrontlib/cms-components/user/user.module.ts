@@ -10,7 +10,6 @@ import { RouterModule } from '@angular/router';
 import { UrlModule } from '@spartacus/core';
 import { LoginRouteModule } from './login-route/login-route.module';
 import { LogoutModule } from './logout/logout.module';
-import { LogoutMcsModule } from './logout-mcs/logout-mcs.module';
 
 @NgModule({
   imports: [
@@ -19,7 +18,6 @@ import { LogoutMcsModule } from './logout-mcs/logout-mcs.module';
     ReactiveFormsModule,
     RouterModule,
     UrlModule,
-    LogoutMcsModule,
   ],
 })
 export class UserComponentModule {}
