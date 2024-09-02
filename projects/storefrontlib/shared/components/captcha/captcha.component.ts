@@ -45,8 +45,9 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
    * config.
    */
   ngAfterViewInit(): void {
-    this.resetCaptcha();
+    setTimeout(() => this.resetCaptcha());
   }
+  
 
   /**
    * Loads the captcha based on the config
@@ -56,10 +57,10 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
       const captchaRenderer = this.injector.get<CaptchaRenderer>(
         this.config.captchaRenderer
       );
-
+  
       // Reset the confirmed state before rendering captcha
       this.confirmed.emit(false);
-
+  
       this.subscription.add(
         captchaRenderer
           .getCaptchaConfig()
@@ -75,7 +76,8 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
             })
           )
           .subscribe(() => {
-            this.confirmed.emit(true);
+            // Use setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
+            setTimeout(() => this.confirmed.emit(true));
           })
       );
     }
