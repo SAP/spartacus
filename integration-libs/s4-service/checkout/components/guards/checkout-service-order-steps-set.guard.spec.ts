@@ -87,7 +87,7 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
     mockCheckoutSteps
   );
-  disableEnableStep = createSpy();
+  disableEnableStep() {}
   getCheckoutStep = createSpy().and.returnValue({});
 }
 
@@ -156,6 +156,7 @@ class MockCheckoutServiceDetailsFacade
 describe('CheckoutServiceOrderStepsSetGuard', () => {
   let guard: CheckoutServiceOrderStepsSetGuard;
   let facade: CheckoutServiceDetailsFacade;
+  let stepService: CheckoutStepService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
@@ -191,10 +192,35 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
       ],
     });
     guard = TestBed.inject(CheckoutServiceOrderStepsSetGuard);
+    stepService = TestBed.inject(CheckoutStepService);
     facade = TestBed.inject(CheckoutServiceDetailsFacade);
   });
   it('should be created', () => {
     expect(guard).toBeTruthy();
+  });
+  it('should disable service details tab if no service products exists', (done) => {
+    spyOn(facade, 'getServiceProducts').and.returnValue(of([]));
+    spyOn(stepService, 'disableEnableStep').and.returnValue();
+    guard.canActivate(<any>{ url: ['checkout', 'route3'] }).subscribe(() => {
+      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.SERVICE_DETAILS,
+        true
+      );
+      done();
+    });
+  });
+  it('should enable service details tab if service products exists', (done) => {
+    spyOn(facade, 'getServiceProducts').and.returnValue(
+      of(['service-1', 'service-2'])
+    );
+    spyOn(stepService, 'disableEnableStep').and.returnValue();
+    guard.canActivate(<any>{ url: ['checkout', 'route3'] }).subscribe(() => {
+      expect(stepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.SERVICE_DETAILS,
+        false
+      );
+      done();
+    });
   });
   it('should move to next step once service details are set', () => {
     spyOn(facade, 'getSelectedServiceDetailsState').and.callThrough();

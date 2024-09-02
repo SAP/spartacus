@@ -5,7 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, UrlTree } from '@angular/router';
 import { CheckoutB2BStepsSetGuard } from '@spartacus/checkout/b2b/components';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
 import { CheckoutServiceDetailsFacade } from '@spartacus/s4-service/root';
@@ -16,6 +16,18 @@ import { Observable, filter, map, of, switchMap } from 'rxjs';
 })
 export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard {
   protected checkoutServiceDetailsFacade = inject(CheckoutServiceDetailsFacade);
+
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
+    return this.checkoutServiceDetailsFacade.getServiceProducts().pipe(
+      switchMap((products) => {
+        this.checkoutStepService.disableEnableStep(
+          CheckoutStepType.SERVICE_DETAILS,
+          products && products.length === 0
+        );
+        return super.canActivate(route);
+      })
+    );
+  }
   protected isServiceDetailsSet(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
@@ -23,17 +35,8 @@ export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard 
       .getSelectedServiceDetailsState()
       .pipe(
         filter((state) => !state.loading && !state.error),
-        switchMap((selectedServiceDetails) =>
-          this.checkoutServiceDetailsFacade
-            .getServiceProducts()
-            .pipe(
-              map((products) =>
-                (products.length > 0 && selectedServiceDetails.data) ||
-                products.length === 0
-                  ? true
-                  : this.getUrl(step.routeName)
-              )
-            )
+        map((selectedServiceDetails) =>
+          selectedServiceDetails.data ? true : this.getUrl(step.routeName)
         )
       );
   }

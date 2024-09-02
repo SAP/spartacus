@@ -10,6 +10,12 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * In 'CheckoutDeliveryModeComponent' and 'CheckReviewShippingComponent', it displays
+   * the new delivery options translation
+   */
+  showDeliveryOptionsTranslation?: boolean;
+
+  /**
    * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
    * when a product does not have a defined price or its purchasable field is set to false
    */
@@ -385,7 +391,8 @@ export interface FeatureTogglesInterface {
   /**
    * When enabled the button-like UI elements will use `<button>` under the hood instead of `<a>`
    * in the following components: `AddedToCartDialogComponent`, `ForgotPasswordComponent`,
-   * `LoginRegisterComponent`, `ConfigureProductComponent`, `AnonymousConsentDialogComponent`
+   * `LoginRegisterComponent`, `ConfigureProductComponent`, `AnonymousConsentDialogComponent`,
+   * `StoreSearchComponent`, `AddToSavedCartComponent`, `PickupOptionsComponent`
    */
   a11yUseButtonsForBtnLinks?: boolean;
 
@@ -439,6 +446,23 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
+   * Aria-live inside the 'BreadcrumbComponent' will be toggled based on the active element.
+   * This removes the repeated announcement of the page title.
+   */
+  a11yRepeatedPageTitleFix?: boolean;
+
+  /**
+   * 'NgSelectA11yDirective' will now provide a count of items for each availble option.
+   * Including this count in aria-label will help screen readers to provide more context to the user.
+   */
+  a11yNgSelectOptionsCount?: boolean;
+
+  /**
+   * Removes duplicated error message from 'CancelOrderComponent'.
+   */
+  a11yRepeatedCancelOrderError?: boolean;
+
+  /**
    * Mofifies the template of 'AddedToCartDialogComponent' to retain the focus after the cart is updated.
    * Improves its screen reader readout.
    */
@@ -448,6 +472,11 @@ export interface FeatureTogglesInterface {
    * Modifies the 'NgSelectA11yDirective' to improve the sorting dropdown screen reader experience on mobile devices.
    */
   a11yNgSelectMobileReadout?: boolean;
+
+  /**
+   * Changes modal title elements form divs into headings. Affects modals before version 2211.27.
+   */
+  a11yDialogsHeading?: boolean;
 
   /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
@@ -464,6 +493,7 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  showDeliveryOptionsTranslation: false,
   formErrorsDescriptiveMessages: true,
   showSearchingCustomerByOrderInASM: false,
   showStyleChangesInASM: false,
@@ -529,9 +559,13 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFormErrorMuteIcon: false,
   a11yCxMessageFocus: false,
   a11yLinkBtnsToTertiaryBtns: false,
+  a11yRepeatedPageTitleFix: false,
   a11yDeliveryModeRadiogroup: false,
+  a11yNgSelectOptionsCount: false,
+  a11yRepeatedCancelOrderError: false,
   a11yAddedToCartActiveDialog: false,
   a11yNgSelectMobileReadout: false,
+  a11yDialogsHeading: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
 };
