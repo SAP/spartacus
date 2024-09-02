@@ -14,9 +14,9 @@ import { Observable, lastValueFrom } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
-export class OidcConfigInitializer implements ConfigInitializer {
+export class CdcAuthConfigInitializer implements ConfigInitializer {
   protected baseSiteService = inject(BaseSiteService);
-  readonly scopes = ['authconfig'];
+  readonly scopes = ['authentication'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
   /**
    * Emits the Auth config basing on the current base site data.
