@@ -44,7 +44,6 @@ export function getLogMessages(): string[] {
       // We ignore plain text logs coming from other sources, like `Node Express server listening on http://localhost:4200`
       .filter((text: string) => text.charAt(0) === '{')
       .map((text: any) => {
-        // console.log('filtered text', text);
         return JSON.parse(text).message;
       })
   );
