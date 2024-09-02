@@ -7,7 +7,18 @@
 >
   <div class="cx-stock-notification-container">
     <div class="cx-dialog-header cx-modal-header">
-      <div id="dialogTitle" class="cx-dialog-title modal-title">
+      <h3
+        *cxFeature="'a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+      >
+        {{ 'stockNotification.subscriptionDialog.header' | cxTranslate }}
+      </h3>
+      <div
+        *cxFeature="'!a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+      >
         {{ 'stockNotification.subscriptionDialog.header' | cxTranslate }}
       </div>
       <button
