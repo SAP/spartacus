@@ -29,6 +29,7 @@ import { StockNotificationComponent } from './stock-notification.component';
     SpinnerModule,
     UrlModule,
     KeyboardFocusModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(defaultStockNotificationLayoutConfig),

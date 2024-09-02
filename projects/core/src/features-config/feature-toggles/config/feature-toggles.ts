@@ -480,6 +480,11 @@ export interface FeatureTogglesInterface {
   a11yRemoveStatusLoadedRole?: boolean;
 
   /**
+   * Changes modal title elements form divs into headings. Affects modals before version 2211.27.
+   */
+  a11yDialogsHeading?: boolean;
+
+  /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
    * into a request body, instead of query params.
    * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
@@ -567,6 +572,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAddedToCartActiveDialog: false,
   a11yNgSelectMobileReadout: false,
   a11yRemoveStatusLoadedRole: false,
+  a11yDialogsHeading: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
 };
