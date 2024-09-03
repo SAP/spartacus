@@ -22,7 +22,6 @@ import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
 import { CdcLogoutGuard } from './guards/cdc-logout.guard';
 import { CdcJsService } from './service/cdc-js.service';
 import { CdcAuthConfigInitializer } from './config';
-import { LoginOidcModule } from './login-oidc';
 
 export function cdcJsFactory(
   cdcJsService: CdcJsService,
@@ -42,7 +41,7 @@ export function defaultCdcComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [CDC_FEATURE]: {
-        cmsComponents: ['GigyaRaasComponent', 'OidcLoginComponent'],
+        cmsComponents: ['GigyaRaasComponent'],
       },
       // by default core is bundled together with components
       [CDC_CORE_FEATURE]: CDC_FEATURE,
@@ -58,7 +57,7 @@ export function initCdcConfigFactory(
 }
 
 @NgModule({
-  imports: [CdcConsentManagementModule, LoginOidcModule],
+  imports: [CdcConsentManagementModule],
   providers: [
     provideDefaultConfigFactory(defaultCdcComponentsConfig),
     { provide: LogoutGuard, useExisting: CdcLogoutGuard },
