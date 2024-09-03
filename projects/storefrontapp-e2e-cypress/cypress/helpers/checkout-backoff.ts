@@ -22,5 +22,5 @@ export function visitCheckoutDeliveryModePage() {
   );
   cy.visit('/checkout/delivery-mode');
   cy.wait(`@${deliveryModePage}`).its('response.statusCode').should('eq', 200);
-  cy.get('cx-delivery-mode legend').should('contain', 'Delivery Method');
+  cy.get('cx-delivery-mode legend').should('contain', 'Delivery Options');
 }

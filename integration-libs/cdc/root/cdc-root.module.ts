@@ -22,6 +22,8 @@ import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
 import { CdcLogoutGuard } from './guards/cdc-logout.guard';
 import { CdcJsService } from './service/cdc-js.service';
 import { CdcConfigInitializer } from './config/cdc-config-initializer';
+import { CdcAuthConfigInitializer } from './config/cdc-auth-config-initializer';
+
 
 export function cdcJsFactory(
   cdcJsService: CdcJsService,
@@ -50,10 +52,16 @@ export function defaultCdcComponentsConfig(): CmsConfig {
   return config;
 }
 
+
 export function initCdcConfigFactory(
   cdcConfigInitializer: CdcConfigInitializer
 ) {
   return cdcConfigInitializer;
+}
+export function initCdcAuthConfigFactory(
+  cdcAuthConfigInitializer: CdcAuthConfigInitializer
+) {
+  return cdcAuthConfigInitializer;
 }
 
 @NgModule({
@@ -71,6 +79,12 @@ export function initCdcConfigFactory(
       provide: APP_INITIALIZER,
       useFactory: cdcJsFactory,
       deps: [CdcJsService, ConfigInitializerService],
+      multi: true,
+    },
+    {
+      provide: CONFIG_INITIALIZER,
+      useFactory: initCdcAuthConfigFactory,
+      deps: [CdcAuthConfigInitializer],
       multi: true,
     },
     provideDefaultConfig(defaultCdcRoutingConfig),

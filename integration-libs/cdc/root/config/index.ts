@@ -6,3 +6,4 @@
 
 export * from './cdc-config';
 export * from './cdc-config-initializer';
+export * from './cdc-auth-config-initializer';
