@@ -2,16 +2,30 @@
   <h2 *ngIf="title">{{ title }}</h2>
 
   <div class="carousel-panel" [ngClass]="'size-' + size">
-    <button
-      *ngIf="size < items.length"
-      class="previous"
-      (click)="activeSlide === 0 ? null : (activeSlide = activeSlide - size)"
-      [attr.aria-disabled]="activeSlide === 0"
-      [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
-      [attr.title]="'carousel.previousSlide' | cxTranslate"
-    >
-      <cx-icon [type]="previousIcon"></cx-icon>
-    </button>
+    <ng-container *cxFeature="'a11yFocusableCarouselControls'">
+      <button
+        *ngIf="size < items.length"
+        class="previous"
+        (click)="activeSlide === 0 ? null : (activeSlide = activeSlide - size)"
+        [attr.aria-disabled]="activeSlide === 0"
+        [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
+        [attr.title]="'carousel.previousSlide' | cxTranslate"
+      >
+        <cx-icon [type]="previousIcon"></cx-icon>
+      </button>
+    </ng-container>
+    <ng-container *cxFeature="'!a11yFocusableCarouselControls'">
+      <button
+        *ngIf="size < items.length"
+        class="previous"
+        (click)="activeSlide = activeSlide - size"
+        [disabled]="activeSlide === 0"
+        [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
+        [attr.title]="'carousel.previousSlide' | cxTranslate"
+      >
+        <cx-icon [type]="previousIcon"></cx-icon>
+      </button>
+    </ng-container>
 
     <div class="slides">
       <ng-container *ngFor="let _ of items; let i = index">
