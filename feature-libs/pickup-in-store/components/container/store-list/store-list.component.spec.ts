@@ -11,6 +11,7 @@ import {
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
 import { SpinnerModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { StoreListComponent } from './store-list.component';
@@ -22,7 +23,7 @@ describe('StoreListComponent', () => {
   let intendedPickupLocationService: IntendedPickupLocationFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StoreListComponent],
+      declarations: [StoreListComponent, MockFeatureDirective],
       imports: [
         HttpClientTestingModule,
         I18nTestingModule,
