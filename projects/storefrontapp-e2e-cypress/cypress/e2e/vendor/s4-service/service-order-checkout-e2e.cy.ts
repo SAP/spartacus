@@ -33,7 +33,7 @@ describe('Service Order Checkout Flow ', () => {
     selectAccountPaymentForServiceOrder();
     selectAccountShippingAddressForServiceOrder();
     selectAccountDeliveryModeForServiceOrder();
-    selectServiceDetailsForServiceOrder(true);
+    selectServiceDetailsForServiceOrder();
     verifyServiceOrderReviewOrderPage(true);
     placeOrder('/order-confirmation');
     verifyServiceOrderConfirmationPage(true);
@@ -43,7 +43,6 @@ describe('Service Order Checkout Flow ', () => {
     selectAccountPaymentForServiceOrder();
     selectAccountShippingAddressForServiceOrder();
     selectAccountDeliveryModeForServiceOrder();
-    selectServiceDetailsForServiceOrder(false);
     verifyServiceOrderReviewOrderPage(false);
     placeOrder('/order-confirmation');
     verifyServiceOrderConfirmationPage(false);

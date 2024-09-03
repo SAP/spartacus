@@ -34,10 +34,10 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { skip, take } from 'rxjs/operators';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   updateEntry(_entryNumber: number, _quantity: number): void {}

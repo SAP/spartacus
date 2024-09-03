@@ -167,6 +167,31 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
+  registerWithCaptcha: [
+    { value: 'titleCode', type: TabbingOrderTypes.NG_SELECT },
+    { value: 'firstName', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'lastName', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'email', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'password', type: TabbingOrderTypes.FORM_FIELD },
+    { value: '', type: TabbingOrderTypes.BUTTON },
+    { value: 'passwordconf', type: TabbingOrderTypes.FORM_FIELD },
+    { value: '', type: TabbingOrderTypes.BUTTON },
+    {
+      value: 'newsletter',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'termsandconditions',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    { value: 'Terms & Conditions', type: TabbingOrderTypes.LINK },
+    { value: 'captcha', type: TabbingOrderTypes.CX_CAPTCHA },
+    { value: 'Register', type: TabbingOrderTypes.BUTTON },
+    {
+      value: 'I already have an account. Sign In',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
   resetPassword: [
     { value: 'userEmail', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
@@ -226,10 +251,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Menu',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Filter',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -898,7 +919,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Delivery mode', type: TabbingOrderTypes.LINK },
     { value: 'Payment details', type: TabbingOrderTypes.LINK },
     { value: 'Edit delivery address', type: TabbingOrderTypes.LINK },
-    { value: 'Edit delivery method', type: TabbingOrderTypes.LINK },
+    { value: 'Edit delivery options', type: TabbingOrderTypes.LINK },
     { value: 'Edit payment method', type: TabbingOrderTypes.LINK },
     {
       value: 'FUN Flash Single Use Camera, 27+12 pic',

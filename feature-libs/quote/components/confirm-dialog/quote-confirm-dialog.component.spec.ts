@@ -11,6 +11,7 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteConfirmDialogComponent } from './quote-confirm-dialog.component';
@@ -84,6 +85,7 @@ describe('QuoteConfirmDialogComponent', () => {
         QuoteConfirmDialogComponent,
         MockKeyboardFocusDirective,
         MockCxIconComponent,
+        MockFeatureDirective,
       ],
       providers: [
         CxDatePipe,

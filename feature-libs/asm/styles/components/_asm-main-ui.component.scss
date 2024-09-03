@@ -127,6 +127,7 @@
         .cx-asm-customer-list-link {
           color: #0064d9;
           text-decoration: none;
+          padding-inline-end: 1.4rem;
         }
         .cx-asm-customer-list-link:hover {
           text-decoration: underline;
@@ -194,5 +195,12 @@
     .close {
       color: #0064d8;
     }
+  }
+}
+
+.cx-asm-help-portal {
+  padding-inline-end: 1.5rem;
+  .fa-circle-question {
+    padding-inline-end: 0.3rem;
   }
 }

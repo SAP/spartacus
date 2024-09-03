@@ -3,17 +3,30 @@
   role="dialog"
   [cxFocus]="focusConfig"
   (esc)="close('Escape clicked')"
+  aria-labelledby="dialogTitle"
 >
   <div class="cx-coupon-container">
     <!-- Modal Header -->
 
     <div class="cx-dialog-header modal-header">
-      <div class="cx-dialog-title modal-title">
+      <h3
+        *cxFeature="'a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+      >
+        {{ 'myCoupons.dialogTitle' | cxTranslate }}
+      </h3>
+      <div
+        *cxFeature="'!a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+      >
         {{ 'myCoupons.dialogTitle' | cxTranslate }}
       </div>
       <button
         type="button"
         class="close"
+        title="{{ 'common.close' | cxTranslate }}"
         [attr.aria-label]="'common.close' | cxTranslate"
         (click)="close('Cross click')"
       >

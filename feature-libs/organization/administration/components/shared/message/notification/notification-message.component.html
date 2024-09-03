@@ -5,7 +5,13 @@
 >
   <cx-icon *ngIf="messageIcon" [type]="messageIcon"></cx-icon>
   <p>{{ message | cxTranslate }}</p>
-  <button class="close" (click)="close()" type="button">
+  <button
+    class="close"
+    (click)="close()"
+    type="button"
+    attr.aria-label="{{ 'common.close' | cxTranslate }}"
+    attr.title="{{ 'common.close' | cxTranslate }}"
+  >
     <cx-icon [type]="closeIcon"></cx-icon>
   </button>
 </div>

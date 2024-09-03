@@ -20,11 +20,12 @@ import {
 } from '@spartacus/checkout/base/root';
 import { TranslationService, UserCostCenterService } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import {
   CheckoutServiceDetailsFacade,
   CheckoutServiceSchedulePickerService,
+  ServiceDateTime,
 } from '@spartacus/s4-service/root';
 
 @Component({
@@ -82,29 +83,24 @@ export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmi
   }
 
   getServiceDetailsCard(
-    scheduledAt: string | null | undefined
+    scheduledAt: ServiceDateTime | undefined | null
   ): Observable<Card> {
-    return combineLatest([
-      this.translationService.translate('serviceOrderCheckout.serviceDetails'),
-      this.translationService.translate('serviceOrderCheckout.cardLabel'),
-      this.translationService.translate(
-        'serviceOrderCheckout.emptyServiceDetailsCard'
-      ),
-    ]).pipe(
-      map(([textTitle, textLabel, emptyTextLabel]) => {
-        if (scheduledAt) {
-          scheduledAt =
-            this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
-              scheduledAt
-            );
-        }
-
-        return {
-          title: textTitle,
-          textBold: scheduledAt ? textLabel : emptyTextLabel,
-          text: scheduledAt ? [scheduledAt] : undefined,
-        };
-      })
-    );
+    return this.translationService
+      .translate('serviceOrderCheckout.serviceDetails')
+      .pipe(
+        map((textTitle) => {
+          if (scheduledAt) {
+            scheduledAt =
+              this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
+                scheduledAt
+              );
+          }
+          return {
+            title: textTitle,
+            textBold: scheduledAt?.split(',')[0] ?? '',
+            text: [scheduledAt?.split(',')[1].trim() ?? ''],
+          };
+        })
+      );
   }
 }

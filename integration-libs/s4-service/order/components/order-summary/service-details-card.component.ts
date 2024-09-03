@@ -12,7 +12,7 @@ import {
   CheckoutServiceSchedulePickerService,
 } from '@spartacus/s4-service/root';
 import { Card, OutletContextData } from '@spartacus/storefront';
-import { Observable, Subscription, combineLatest, map } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 
 @Component({
   selector: 'cx-card-service-details',
@@ -37,41 +37,25 @@ export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
   }
 
   getServiceDetailsCard(
-    servicedAt: ServiceDateTime | undefined
+    scheduledAt: ServiceDateTime | undefined
   ): Observable<Card> {
-    const titleTranslation$ = this.translationService.translate(
-      'serviceOrderCheckout.serviceDetails'
-    );
-    if (servicedAt) {
-      const labelTranslation$ = this.translationService.translate(
-        'serviceOrderCheckout.cardLabel'
-      );
-      return combineLatest([titleTranslation$, labelTranslation$]).pipe(
-        map(([textTitle, textLabel]) => {
-          const text =
-            this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
-              servicedAt ?? ''
-            );
+    return this.translationService
+      .translate('serviceOrderCheckout.serviceDetails')
+      .pipe(
+        map((textTitle) => {
+          if (scheduledAt) {
+            scheduledAt =
+              this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
+                scheduledAt
+              );
+          }
           return {
             title: textTitle,
-            textBold: textLabel,
-            text: [text],
+            textBold: scheduledAt?.split(',')[0],
+            text: [scheduledAt?.split(',')[1].trim() ?? ''],
           };
         })
       );
-    } else {
-      const emptyTextTranslation$ = this.translationService.translate(
-        'serviceOrderCheckout.emptyServiceDetailsCard'
-      );
-      return combineLatest([titleTranslation$, emptyTextTranslation$]).pipe(
-        map(([textTitle, text]) => {
-          return {
-            title: textTitle,
-            text: [text],
-          };
-        })
-      );
-    }
   }
 
   ngOnDestroy(): void {

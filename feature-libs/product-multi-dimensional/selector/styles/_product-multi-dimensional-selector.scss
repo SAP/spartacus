@@ -1,0 +1,42 @@
+%cx-product-multi-dimensional-selector {
+  .variant-generic-selector {
+    display: flex;
+    flex-direction: column;
+
+    .image-variant-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+
+      .image-variant {
+        background-color: var(--cx-color-transparent);
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        margin: 0 2px 0 0;
+
+        &.active {
+          border: 1px solid grey;
+        }
+      }
+
+      cx-media {
+        &.is-missing {
+          min-height: 70px;
+          min-width: 70px;
+        }
+      }
+    }
+
+    .select-variant-container {
+      margin-bottom: 10px;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: 20px;
+    padding-inline-end: 20px;
+    padding-bottom: 0px;
+    padding-inline-start: 20px;
+  }
+}

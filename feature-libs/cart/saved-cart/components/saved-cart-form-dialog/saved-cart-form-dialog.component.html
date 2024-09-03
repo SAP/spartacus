@@ -4,12 +4,35 @@
     (esc)="close('Escape clicked')"
     class="cx-saved-cart-form-dialog"
     role="dialog"
+    aria-labelledby="dialogTitle"
   >
     <form [formGroup]="form" class="cx-saved-cart-form-container">
       <!-- Modal Header -->
       <div class="modal-header cx-saved-cart-form-header">
         <ng-container [ngSwitch]="layoutOption">
-          <div class="cx-saved-cart-form-title modal-title">
+          <h3
+            *cxFeature="'a11yDialogsHeading'"
+            id="dialogTitle"
+            class="cx-saved-cart-form-title modal-title"
+          >
+            <ng-container *ngSwitchCase="savedCartFormType.EDIT">
+              {{ 'savedCartDialog.editSavedCart' | cxTranslate }}
+            </ng-container>
+            <ng-container *ngSwitchCase="savedCartFormType.DELETE">
+              {{ 'savedCartDialog.deleteSavedCart' | cxTranslate }}
+            </ng-container>
+            <ng-container *ngSwitchCase="savedCartFormType.SAVE">
+              {{ 'savedCartDialog.saveForLater' | cxTranslate }}
+            </ng-container>
+            <ng-container *ngSwitchCase="savedCartFormType.RESTORE">
+              {{ 'savedCartDialog.restoreSavedCart' | cxTranslate }}
+            </ng-container>
+          </h3>
+          <div
+            *cxFeature="'!a11yDialogsHeading'"
+            id="dialogTitle"
+            class="cx-saved-cart-form-title modal-title"
+          >
             <ng-container *ngSwitchCase="savedCartFormType.EDIT">
               {{ 'savedCartDialog.editSavedCart' | cxTranslate }}
             </ng-container>
@@ -30,6 +53,8 @@
           [disabled]="isLoading$ | async"
           class="cx-saved-cart-form-close close"
           type="button"
+          title="{{ 'common.close' | cxTranslate }}"
+          [attr.aria-label]="'common.close' | cxTranslate"
         >
           <span aria-hidden="true">
             <cx-icon [type]="iconTypes.CLOSE"></cx-icon>

@@ -9,7 +9,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { Config, I18nTestingModule } from '@spartacus/core';
+import {
+  Config,
+  I18nTestingModule,
+  FeatureConfigService,
+} from '@spartacus/core';
 import { IconTestingModule, PopoverModule } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -20,6 +24,8 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import { Observable, of } from 'rxjs';
 
 const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
@@ -43,6 +49,12 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
+class MockConfiguratorAttributePriceChangeService {
+  getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
+    return of([]);
+  }
+}
+
 class MockConfig {
   features = [{ productConfiguratorAttributeTypesV2: false }];
 }
@@ -55,8 +67,22 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   const groupId = 'testGroup';
   const attributeName = 'attributeName';
   let config: Config;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
+    TestBed.overrideComponent(
+      ConfiguratorAttributeSingleSelectionImageComponent,
+      {
+        set: {
+          providers: [
+            {
+              provide: ConfiguratorAttributePriceChangeService,
+              useClass: MockConfiguratorAttributePriceChangeService,
+            },
+          ],
+        },
+      }
+    );
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeSingleSelectionImageComponent,
@@ -85,6 +111,10 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
         { provide: Config, useClass: MockConfig },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useValue: {},
+        },
       ],
     })
       .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
@@ -153,6 +183,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     component.ownerKey = ownerKey;
     config = TestBed.inject(Config);
     (config.features ?? {}).productConfiguratorAttributeTypesV2 = false;
+    featureConfigService = TestBed.inject(FeatureConfigService);
     fixture.detectChanges();
   });
 
@@ -273,6 +304,21 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     });
   });
 
+  describe('value description styling', () => {
+    it('should return default style class if a11yImproveContrast feature flag is disabled', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+      expect(component.getValueDescriptionStyleClasses()).toEqual(
+        'cx-value-description'
+      );
+    });
+    it('should return additional style class if a11yImproveContrast feature flag is enabled', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      expect(component.getValueDescriptionStyleClasses()).toEqual(
+        'cx-value-description santorini-updated'
+      );
+    });
+  });
+
   describe('Accessibility', () => {
     it("should contain input element with class name 'form-input' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -337,6 +383,33 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         'aria-label',
         'configurator.a11y.description'
       );
+    });
+
+    it('should create input element for selected value with aria-live', () => {
+      component.listenForPriceChanges = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-input',
+        2,
+        'aria-live',
+        'polite'
+      );
+    });
+
+    it('should create input element for not selected value without aria-live', () => {
+      component.listenForPriceChanges = true;
+      fixture.detectChanges();
+      const item = CommonConfiguratorTestUtilsService.getHTMLElement(
+        htmlElem,
+        'input',
+        'form-input',
+        0
+      );
+      const attributes = item?.attributes;
+      expect(attributes?.hasOwnProperty('aria-live')).toBe(false);
     });
   });
 });
