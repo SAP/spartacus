@@ -10,14 +10,14 @@ import { ErrorActionService } from './error-action.service';
 describe('CxErrorHandlerEffect', () => {
   let effect: CxErrorHandlerEffect;
   let actions$: Observable<Action>;
-  let effectsErrorHandlerService: jasmine.SpyObj<ErrorActionService>;
+  let errorActionService: jasmine.SpyObj<ErrorActionService>;
   let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
-    const effectsErrorHandlerServiceSpy = jasmine.createSpyObj(
-      'EffectsErrorHandlerService',
-      ['handleError', 'filterActions']
-    );
+    const errorActionServiceSpy = jasmine.createSpyObj('ErrorActionService', [
+      'handle',
+      'isErrorAction',
+    ]);
     TestBed.configureTestingModule({
       providers: [
         CxErrorHandlerEffect,
@@ -25,14 +25,14 @@ describe('CxErrorHandlerEffect', () => {
         provideMockActions(() => actions$),
         {
           provide: ErrorActionService,
-          useValue: effectsErrorHandlerServiceSpy,
+          useValue: errorActionServiceSpy,
         },
       ],
     });
 
     effect = TestBed.inject(CxErrorHandlerEffect);
     actions$ = TestBed.inject(Actions);
-    effectsErrorHandlerService = TestBed.inject(
+    errorActionService = TestBed.inject(
       ErrorActionService
     ) as jasmine.SpyObj<ErrorActionService>;
     featureConfigService = TestBed.inject(FeatureConfigService);
@@ -54,15 +54,13 @@ describe('CxErrorHandlerEffect', () => {
           error: new Error(),
         };
 
-        effectsErrorHandlerService.isErrorAction.and.returnValue(true);
+        errorActionService.isErrorAction.and.returnValue(true);
 
         actions$ = of(mockErrorAction);
 
         effect.error$.subscribe();
 
-        expect(effectsErrorHandlerService.handle).toHaveBeenCalledWith(
-          mockErrorAction
-        );
+        expect(errorActionService.handle).toHaveBeenCalledWith(mockErrorAction);
       });
 
       it('should not handle non-error action', () => {
@@ -70,13 +68,13 @@ describe('CxErrorHandlerEffect', () => {
           type: 'SOME_ACTION',
         };
 
-        effectsErrorHandlerService.isErrorAction.and.returnValue(false);
+        errorActionService.isErrorAction.and.returnValue(false);
 
         actions$ = of(mockNonErrorAction);
 
         effect.error$.subscribe();
 
-        expect(effectsErrorHandlerService.handle).not.toHaveBeenCalled();
+        expect(errorActionService.handle).not.toHaveBeenCalled();
       });
     });
   });
@@ -89,10 +87,10 @@ describe('CxErrorHandlerEffect', () => {
         type: 'ERROR_ACTION_TYPE',
         error: new Error(),
       };
-      effectsErrorHandlerService.isErrorAction.and.returnValue(true);
+      errorActionService.isErrorAction.and.returnValue(true);
       actions$ = of(mockErrorAction);
       effect.error$.subscribe();
-      expect(effectsErrorHandlerService.handle).not.toHaveBeenCalled();
+      expect(errorActionService.handle).not.toHaveBeenCalled();
     });
   });
 });
