@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as checkout from '../../../helpers/checkout-flow';
+import * as checkout from '../../../../helpers/checkout-flow';
 
 describe('Login', () => {
   const gigyaBaseUrl = 'https://166957287542.eu1.my.gigya-ext.com';

@@ -50,7 +50,7 @@ export function defaultCdcComponentsConfig(): CmsConfig {
   return config;
 }
 
-export function initCdcConfigFactory(
+export function initCdcAuthConfigFactory(
   cdcAuthConfigInitializer: CdcAuthConfigInitializer
 ) {
   return cdcAuthConfigInitializer;
@@ -69,7 +69,7 @@ export function initCdcConfigFactory(
     },
     {
       provide: CONFIG_INITIALIZER,
-      useFactory: initCdcConfigFactory,
+      useFactory: initCdcAuthConfigFactory,
       deps: [CdcAuthConfigInitializer],
       multi: true,
     },
