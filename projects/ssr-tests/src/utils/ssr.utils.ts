@@ -15,14 +15,17 @@ import * as Log from './log.utils';
 export interface SsrServerOptions {
   /**
    * The port the server should run on.
+   * Default is 4000.
    */
   port?: number;
   /**
    * Whether to enable caching on the server.
+   * Default is false.
    */
   cache?: boolean;
   /**
-   * The timeout for the server to start.
+   * Time in milliseconds to wait for SSR rendering to happen.
+   * Default is 20000.
    */
   timeout?: number;
 }
