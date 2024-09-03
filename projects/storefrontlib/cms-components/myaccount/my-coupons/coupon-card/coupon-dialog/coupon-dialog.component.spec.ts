@@ -2,11 +2,12 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
+import { FocusDirective } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { LaunchDialogService } from '../../../../../layout/index';
 import { CouponDialogComponent } from './coupon-dialog.component';
-import { FocusDirective } from '@spartacus/storefront';
 
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',
@@ -45,6 +46,7 @@ describe('CouponDialogComponent', () => {
         CouponDialogComponent,
         MockCxIconComponent,
         FocusDirective,
+        MockFeatureDirective,
       ],
       imports: [I18nTestingModule],
       providers: [
