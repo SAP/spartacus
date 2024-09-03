@@ -8,8 +8,6 @@
 import * as http from 'http';
 import httpProxy from 'http-proxy';
 
-let proxy: httpProxy;
-
 /**
  * Options to start a proxy server.
  */
@@ -34,7 +32,7 @@ interface ProxyOptions {
 export async function startBackendProxyServer(
   options: ProxyOptions
 ): Promise<http.Server> {
-  proxy = httpProxy.createProxyServer({
+  const proxy = httpProxy.createProxyServer({
     secure: false,
   });
   return new Promise((resolve) => {
