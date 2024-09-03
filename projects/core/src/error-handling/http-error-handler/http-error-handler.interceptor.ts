@@ -29,6 +29,12 @@ import {
  *
  * Thanks to this, in SSR, any HTTP error from backend can potentially mark the Server-Side Rendering
  * as an error and therefore allow for sending an appropriate error response to a final client of SSR.
+ *
+ * NOTE: It handles not only HTTP errors, but also any RxJs errors
+ * (e.g., `TimeoutError` from `timeout()` operator) thrown in any subsequent interceptor.
+ *
+ * CAUTION: It MUST be provided as the first one in the application to be able to
+ *          catch errors from all subsequent interceptors.
  */
 @Injectable()
 export class HttpErrorHandlerInterceptor implements HttpInterceptor {

@@ -10,12 +10,17 @@ import { Action } from '@ngrx/store';
 import { ErrorAction, HttpErrorModel } from '../../model/index';
 import { WindowRef } from '../../window';
 
+/**
+ * Service responsible for capturing and handling NgRx error actions that implements `ErrorAction`.
+ * It ensures that HTTP errors, which are already handled by `HttpErrorHandlerInterceptor`, are not processed
+ * again to avoid duplicate error handling.
+ */
 @Injectable()
-export class EffectsErrorHandlerService {
+export class ErrorActionService {
   protected errorHandler: ErrorHandler = inject(ErrorHandler);
   protected windowRef = inject(WindowRef);
 
-  handleError(action: ErrorAction): void {
+  handle(action: ErrorAction): void {
     const error: unknown = action.error;
 
     // Http errors are already handled in HttpErrorHandlerInterceptor.
@@ -32,7 +37,7 @@ export class EffectsErrorHandlerService {
 
   /** Here we want to filter which error actions should be handled.
    * By default, we check if action implements interface ErrorAction  */
-  filterActions(action: Action): action is ErrorAction {
+  isErrorAction(action: Action): action is ErrorAction {
     return 'error' in action;
   }
 

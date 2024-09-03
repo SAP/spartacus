@@ -75,9 +75,9 @@ export class OptimizedSsrEngine {
           // overrides the default options
           ...ssrOptions,
           // merge feature toggles
-          featureToggles: {
-            ...defaultSsrOptimizationOptions.featureToggles,
-            ...ssrOptions.featureToggles,
+          ssrFeatureToggles: {
+            ...defaultSsrOptimizationOptions.ssrFeatureToggles,
+            ...ssrOptions.ssrFeatureToggles,
           },
         }
       : undefined;

@@ -168,7 +168,7 @@ describe('RenderingCache with cacheSize', () => {
       it('should cache HTML if avoidCachingErrors is false', () => {
         renderingCache = new RenderingCache({
           ...options,
-          featureToggles: {
+          ssrFeatureToggles: {
             avoidCachingErrors: false,
           },
         });
@@ -179,7 +179,7 @@ describe('RenderingCache with cacheSize', () => {
       it('should cache HTML if avoidCachingErrors is true', () => {
         renderingCache = new RenderingCache({
           ...options,
-          featureToggles: {
+          ssrFeatureToggles: {
             avoidCachingErrors: false,
           },
         });
@@ -190,7 +190,7 @@ describe('RenderingCache with cacheSize', () => {
       it('should cache errors if avoidCachingErrors is false', () => {
         renderingCache = new RenderingCache({
           ...options,
-          featureToggles: {
+          ssrFeatureToggles: {
             avoidCachingErrors: false,
           },
         });
@@ -204,7 +204,7 @@ describe('RenderingCache with cacheSize', () => {
       it('should not cache errors if avoidCachingErrors is true', () => {
         renderingCache = new RenderingCache({
           ...options,
-          featureToggles: {
+          ssrFeatureToggles: {
             avoidCachingErrors: true,
           },
         });

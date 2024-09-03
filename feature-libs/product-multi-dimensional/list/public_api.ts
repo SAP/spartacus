@@ -4,4 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './product-multi-dimensional-list.module';
+/*
+ * Public API Surface of Product-Multi-Dimensional List
+ */
+export {};
