@@ -65,15 +65,19 @@
     </ng-container>
   </div>
 
-  <div *ngIf="!hideIndicators && size < items.length" class="indicators">
+  <div
+    *ngIf="!hideIndicators && size < items.length"
+    role="tablist"
+    class="indicators"
+  >
     <ng-container *ngFor="let _ of items; let i = index">
       <!-- TODO: (CXSPA-6904) - Remove feature flag next major release -->
       <ng-container *cxFeature="'a11yFocusableCarouselControls'">
         <button
           *ngIf="i % size === 0"
           (click)="activeSlide = i"
-          [disabled]="i === activeSlide"
-          [attr.aria-current]="i === activeSlide"
+          [class.active-slide]="i === activeSlide"
+          [attr.aria-selected]="i === activeSlide"
           [attr.aria-label]="
             'carousel.slideNumber'
               | cxTranslate
@@ -86,6 +90,7 @@
             'carousel.slideNumber'
               | cxTranslate: { currentSlideNumber: getSlideNumber(size, i) }
           "
+          role="tab"
         >
           <cx-icon [type]="indicatorIcon" aria-hidden="true"></cx-icon>
         </button>

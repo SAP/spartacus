@@ -108,7 +108,8 @@
       background-color: var(--cx-color-inverse);
       font-size: var(--cx-font-size, 0.875rem);
       padding: 10px;
-
+      
+      // TODO: (CXSPA-6904) - Remove obsolete disabled styles for indicator buttons
       &[disabled] {
         .cx-icon {
           color: var(--cx-color-primary);
@@ -129,6 +130,18 @@
 
       // TODO: (CXSPA-6904) - Remove feature flag next major release
       @include forFeature('a11yFocusableCarouselControls') {
+        &.active-slide {
+          .cx-icon {
+            color: var(--cx-color-primary);
+            background-color: var(--cx-color-inverse);
+            padding: 2px;
+          }
+        }
+
+        &:not(.active-slide):hover {
+          color: var(--cx-color-primary-accent);
+        }
+
         &:focus {
           outline-offset: -5px;
         }
