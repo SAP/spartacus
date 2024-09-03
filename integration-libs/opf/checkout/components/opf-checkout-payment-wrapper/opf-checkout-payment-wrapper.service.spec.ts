@@ -1,5 +1,6 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ActiveCartService } from '@spartacus/cart/base/core';
+import { CartAccessCodeFacade } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   RouterState,
@@ -8,7 +9,6 @@ import {
 } from '@spartacus/core';
 import {
   OpfDynamicScriptResourceType,
-  OpfOtpFacade,
   OpfResourceLoaderService,
   OpfService,
 } from '@spartacus/opf/base/root';
@@ -28,7 +28,7 @@ const mockUrl = 'https://sap.com';
 describe('OpfCheckoutPaymentWrapperService', () => {
   let service: OpfCheckoutPaymentWrapperService;
   let opfCheckoutFacadeMock: jasmine.SpyObj<OpfCheckoutFacade>;
-  let opfOtpFacadeMock: jasmine.SpyObj<OpfOtpFacade>;
+  let cartAccessCodeFacadeMock: jasmine.SpyObj<CartAccessCodeFacade>;
   let opfResourceLoaderServiceMock: jasmine.SpyObj<OpfResourceLoaderService>;
   let userIdServiceMock: jasmine.SpyObj<UserIdService>;
   let activeCartServiceMock: jasmine.SpyObj<ActiveCartService>;
@@ -41,7 +41,9 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     opfCheckoutFacadeMock = jasmine.createSpyObj('OpfCheckoutFacade', [
       'initiatePayment',
     ]);
-    opfOtpFacadeMock = jasmine.createSpyObj('OpfOtpFacade', ['generateOtpKey']);
+    cartAccessCodeFacadeMock = jasmine.createSpyObj('CartAccessCodeFacade', [
+      'getCartAccessCode',
+    ]);
     opfResourceLoaderServiceMock = jasmine.createSpyObj(
       'OpfResourceLoaderService',
       [
@@ -81,7 +83,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       providers: [
         OpfCheckoutPaymentWrapperService,
         { provide: OpfCheckoutFacade, useValue: opfCheckoutFacadeMock },
-        { provide: OpfOtpFacade, useValue: opfOtpFacadeMock },
+        { provide: CartAccessCodeFacade, useValue: cartAccessCodeFacadeMock },
         {
           provide: OpfResourceLoaderService,
           useValue: opfResourceLoaderServiceMock,
@@ -134,7 +136,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     opfCheckoutFacadeMock.initiatePayment.and.returnValue(
       of(mockPaymentSessionData)
     );
-    opfOtpFacadeMock.generateOtpKey.and.returnValue(
+    cartAccessCodeFacadeMock.getCartAccessCode.and.returnValue(
       of({ accessCode: mockOtpKey })
     );
     userIdServiceMock.getUserId.and.returnValue(of(mockUserId));
@@ -213,7 +215,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     );
 
     orderFacadeMock.placePaymentAuthorizedOrder.and.returnValue(of({}));
-    opfOtpFacadeMock.generateOtpKey.and.returnValue(
+    cartAccessCodeFacadeMock.getCartAccessCode.and.returnValue(
       of({ accessCode: mockOtpKey })
     );
     userIdServiceMock.getUserId.and.returnValue(of(mockUserId));
@@ -247,7 +249,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       throwError({ status: 500 })
     );
 
-    opfOtpFacadeMock.generateOtpKey.and.returnValue(
+    cartAccessCodeFacadeMock.getCartAccessCode.and.returnValue(
       of({ accessCode: mockOtpKey })
     );
     userIdServiceMock.getUserId.and.returnValue(of(mockUserId));

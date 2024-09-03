@@ -10,7 +10,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { ActiveCartFacade, PaymentType, Cart } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, Cart, PaymentType } from '@spartacus/cart/base/root';
 import {
   CheckoutReviewSubmitComponent,
   CheckoutStepService,
@@ -21,7 +21,7 @@ import {
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
 import { TranslationService } from '@spartacus/core';
-import { OpfService } from '@spartacus/opf/base/root';
+import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -66,7 +66,7 @@ export class OpfCheckoutPaymentAndReviewComponent
     protected translationService: TranslationService,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected opfService: OpfService
+    protected opfMetadataStoreService: OpfMetadataStoreService
   ) {
     super(
       checkoutDeliveryAddressFacade,
@@ -79,7 +79,7 @@ export class OpfCheckoutPaymentAndReviewComponent
   }
 
   protected updateTermsAndConditionsState() {
-    this.opfService.updateOpfMetadataState({
+    this.opfMetadataStoreService.updateOpfMetadata({
       termsAndConditionsChecked: this.termsAndConditionsFieldValue,
     });
   }

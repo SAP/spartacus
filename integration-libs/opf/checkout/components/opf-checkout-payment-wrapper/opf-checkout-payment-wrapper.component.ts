@@ -13,15 +13,13 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import {
-  GlobalFunctionsDomain,
-  OpfGlobalFunctionsFacade,
-} from '@spartacus/opf/base/root';
+import { GlobalFunctionsDomain } from '@spartacus/opf/base/root';
+import { OpfGlobalFunctionsFacade } from '@spartacus/opf/global-functions/root';
 import {
   OpfPaymentMethodType,
   PaymentPattern,
   PaymentSessionData,
-} from '@spartacus/opf/checkout/root';
+} from '@spartacus/opf/payment/root';
 import { Subscription } from 'rxjs';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 

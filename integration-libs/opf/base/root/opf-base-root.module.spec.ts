@@ -6,7 +6,7 @@
 import { TestBed } from '@angular/core/testing';
 import { MODULE_INITIALIZER } from '@spartacus/core';
 import { OpfBaseRootModule } from './opf-base-root.module';
-import { OpfStatePersistenceService } from './services/opf-state-persistence.service';
+import { OpfStatePersistenceService } from './services/opf-metadata-state-persistence.service';
 
 describe('OpfBaseRootModule', () => {
   beforeEach(() => {

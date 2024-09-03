@@ -7,25 +7,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { OpfPaymentAdapter, OtpAdapter } from '@spartacus/opf/base/core';
-import { OccOtpAdapter } from './adapters';
-import { OccOpfPaymentAdapter } from './adapters/occ-opf.adapter';
-import { defaultOccOpfConfig } from './config/default-occ-opf-config';
-import { defaultOccOtpConfig } from './config/default-occ-otp-config';
+import { OpfBaseAdapter } from '@spartacus/opf/base/core';
+import { OccOpfBaseAdapter } from './adapters';
+import { defaultOccOpfBaseConfig } from './config/default-occ-opf-base-config';
 
 @NgModule({
   imports: [CommonModule],
   providers: [
-    provideDefaultConfig(defaultOccOpfConfig),
+    provideDefaultConfig(defaultOccOpfBaseConfig),
     {
-      provide: OpfPaymentAdapter,
-      useClass: OccOpfPaymentAdapter,
-    },
-
-    provideDefaultConfig(defaultOccOtpConfig),
-    {
-      provide: OtpAdapter,
-      useClass: OccOtpAdapter,
+      provide: OpfBaseAdapter,
+      useClass: OccOpfBaseAdapter,
     },
   ],
 })

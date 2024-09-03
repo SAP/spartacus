@@ -5,5 +5,3 @@
  */
 
 export * from './opf-checkout.model';
-export * from './opf-payment.model';
-export * from './opf.model';

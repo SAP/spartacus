@@ -4,6 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf-global-functions.facade';
-export * from './opf-otp.facade';
-export * from './opf-payment.facade';
+export * from './opf-base.facade';

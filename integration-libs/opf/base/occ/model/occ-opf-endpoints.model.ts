@@ -29,9 +29,5 @@ declare module '@spartacus/core' {
      * Endpoint to get active payment configurations
      */
     getActiveConfigurations?: string | OccEndpoint;
-    /**
-     * Endpoint to get CTA (Call To Action) Scripts
-     */
-    getCtaScripts?: string | OccEndpoint;
   }
 }

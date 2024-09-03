@@ -7,10 +7,6 @@
 import { NgModule, Provider } from '@angular/core';
 import { I18nConfig, RoutingConfig, provideConfig } from '@spartacus/core';
 import {
-  opfBaseTranslationChunksConfig,
-  opfBaseTranslations,
-} from '@spartacus/opf/base/assets';
-import {
   OPF_BASE_FEATURE,
   OpfBaseRootModule,
   OpfConfig,
@@ -23,7 +19,14 @@ import {
   defaultOpfCheckoutB2bConfig,
   defaultOpfCheckoutConfig,
 } from '@spartacus/opf/checkout/root';
+import {
+  opfPaymentTranslationChunksConfig,
+  opfPaymentTranslations,
+} from '@spartacus/opf/payment/assets';
 
+import { OPF_PAYMENT_FEATURE } from '@spartacus/opf/payment/root';
+import { OPF_CTA_FEATURE } from 'integration-libs/opf/cta/root/feature-name';
+import { OPF_GLOBAL_FUNCTIONS_FEATURE } from 'integration-libs/opf/global-functions/root/feature-name';
 import { environment } from '../../../../environments/environment';
 
 const extensionProviders: Provider[] = [];
@@ -41,6 +44,20 @@ if (environment.b2b) {
         [OPF_BASE_FEATURE]: {
           module: () =>
             import('@spartacus/opf/base').then((m) => m.OpfBaseModule),
+        },
+        [OPF_PAYMENT_FEATURE]: {
+          module: () =>
+            import('@spartacus/opf/payment').then((m) => m.OpfPaymentModule),
+        },
+        [OPF_CTA_FEATURE]: {
+          module: () =>
+            import('@spartacus/opf/cta').then((m) => m.OpfCtaModule),
+        },
+        [OPF_GLOBAL_FUNCTIONS_FEATURE]: {
+          module: () =>
+            import('@spartacus/opf/global-functions').then(
+              (m) => m.OpfGlobalFunctionsModule
+            ),
         },
       },
     }),
@@ -66,8 +83,8 @@ if (environment.b2b) {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: opfBaseTranslations,
-        chunks: opfBaseTranslationChunksConfig,
+        resources: opfPaymentTranslations,
+        chunks: opfPaymentTranslationChunksConfig,
         fallbackLang: 'en',
       },
     }),
