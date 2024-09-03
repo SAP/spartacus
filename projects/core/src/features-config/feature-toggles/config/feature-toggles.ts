@@ -500,7 +500,7 @@ export interface FeatureTogglesInterface {
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDeliveryOptionsTranslation: false,
-  formErrorsDescriptiveMessages: true,
+  formErrorsDescriptiveMessages: false,
   showSearchingCustomerByOrderInASM: false,
   showStyleChangesInASM: false,
   shouldHideAddToCartForUnpurchasableProducts: false,
@@ -510,7 +510,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showPromotionsInPDP: false,
   recentSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
-  storeFrontLibCardParagraphTruncated: false,
+  storeFrontLibCardParagraphTruncated: true,
   useProductCarouselBatchApi: false,
   productConfiguratorAttributeTypesV2: false,
   productConfiguratorDeltaRendering: false,
