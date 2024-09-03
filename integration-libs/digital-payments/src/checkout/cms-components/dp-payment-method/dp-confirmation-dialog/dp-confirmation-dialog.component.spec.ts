@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DpConfirmationDialogComponent } from './dp-confirmation-dialog.component';
-import { LaunchDialogService } from '@spartacus/storefront';
 import { ActivatedRoute, Router, convertToParamMap } from '@angular/router';
-import { of } from 'rxjs';
 import { I18nTestingModule } from '@spartacus/core';
+import { LaunchDialogService } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { of } from 'rxjs';
+import { DpConfirmationDialogComponent } from './dp-confirmation-dialog.component';
 
 class MockLaunchDialogService {
   closeDialog(_x: any) {}
@@ -59,7 +60,7 @@ describe('DpConfirmationDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [DpConfirmationDialogComponent],
+      declarations: [DpConfirmationDialogComponent, MockFeatureDirective],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {

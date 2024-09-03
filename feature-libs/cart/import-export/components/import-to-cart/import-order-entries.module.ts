@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   CmsConfig,
   ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
@@ -43,6 +44,7 @@ import { ImportOrderEntriesComponent } from './import-entries/import-order-entri
         },
       },
     }),
+    FeaturesConfigModule,
   ],
   declarations: [
     ImportOrderEntriesComponent,

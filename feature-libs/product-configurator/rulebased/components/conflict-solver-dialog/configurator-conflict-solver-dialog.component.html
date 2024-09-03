@@ -17,7 +17,20 @@
   <div class="cx-modal-content" [cxFocus]="focusConfig">
     <!-- Modal Header -->
     <div class="cx-dialog-header modal-header">
-      <div id="dialogTitle" class="cx-dialog-title modal-title" tabindex="0">
+      <h3
+        *cxFeature="'a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+        tabindex="0"
+      >
+        {{ 'configurator.header.resolveIssue' | cxTranslate }}
+      </h3>
+      <div
+        *cxFeature="'!a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+        tabindex="0"
+      >
         {{ 'configurator.header.resolveIssue' | cxTranslate }}
       </div>
       <button
