@@ -6,6 +6,9 @@ import { AuthService } from './facade/auth.service';
 import { checkOAuthParamsInUrl } from './user-auth.module';
 
 class MockAuthService implements Partial<AuthService> {
+  refreshAuthConfig() {
+    return;
+  }
   checkOAuthParamsInUrl() {
     return Promise.resolve();
   }
