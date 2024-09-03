@@ -24,7 +24,12 @@ import {
   opfPaymentTranslations,
 } from '@spartacus/opf/payment/assets';
 
-import { OPF_PAYMENT_FEATURE } from '@spartacus/opf/payment/root';
+import { OpfCtaRootModule } from '@spartacus/opf/cta/root';
+import { OpfGlobalFunctionsRootModule } from '@spartacus/opf/global-functions/root';
+import {
+  OPF_PAYMENT_FEATURE,
+  OpfPaymentRootModule,
+} from '@spartacus/opf/payment/root';
 import { OPF_CTA_FEATURE } from 'integration-libs/opf/cta/root/feature-name';
 import { OPF_GLOBAL_FUNCTIONS_FEATURE } from 'integration-libs/opf/global-functions/root/feature-name';
 import { environment } from '../../../../environments/environment';
@@ -37,7 +42,12 @@ if (environment.b2b) {
 }
 
 @NgModule({
-  imports: [OpfBaseRootModule],
+  imports: [
+    OpfBaseRootModule,
+    OpfPaymentRootModule,
+    OpfCtaRootModule,
+    OpfGlobalFunctionsRootModule,
+  ],
   providers: [
     provideConfig({
       featureModules: {

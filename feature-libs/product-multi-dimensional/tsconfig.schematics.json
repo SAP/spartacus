@@ -615,9 +615,6 @@
       "@spartacus/omf": ["../../integration-libs/omf/public_api"],
       "@spartacus/omf/order": ["../../integration-libs/omf/order/public_api"],
       "@spartacus/omf/root": ["../../integration-libs/omf/root/public_api"],
-      "@spartacus/opf/base/assets": [
-        "../../integration-libs/opf/base/assets/public_api"
-      ],
       "@spartacus/opf/base/components": [
         "../../integration-libs/opf/base/components/public_api"
       ],
@@ -637,19 +634,44 @@
       "@spartacus/opf/checkout/components": [
         "../../integration-libs/opf/checkout/components/public_api"
       ],
-      "@spartacus/opf/checkout/core": [
-        "../../integration-libs/opf/checkout/core/public_api"
-      ],
       "@spartacus/opf/checkout": [
         "../../integration-libs/opf/checkout/public_api"
-      ],
-      "@spartacus/opf/checkout/occ": [
-        "../../integration-libs/opf/checkout/occ/public_api"
       ],
       "@spartacus/opf/checkout/root": [
         "../../integration-libs/opf/checkout/root/public_api"
       ],
+      "@spartacus/opf/cta/core/components": [
+        "../../integration-libs/opf/cta/core/components/public_api"
+      ],
+      "@spartacus/opf/cta/core": [
+        "../../integration-libs/opf/cta/core/public_api"
+      ],
+      "@spartacus/opf/cta": ["../../integration-libs/opf/cta/public_api"],
+      "@spartacus/opf/cta/occ": [
+        "../../integration-libs/opf/cta/occ/public_api"
+      ],
+      "@spartacus/opf/global-functions/core": [
+        "../../integration-libs/opf/global-functions/core/public_api"
+      ],
+      "@spartacus/opf/global-functions": [
+        "../../integration-libs/opf/global-functions/public_api"
+      ],
       "@spartacus/opf": ["../../integration-libs/opf/public_api"],
+      "@spartacus/opf/payment/assets": [
+        "../../integration-libs/opf/payment/assets/public_api"
+      ],
+      "@spartacus/opf/payment/core": [
+        "../../integration-libs/opf/payment/core/public_api"
+      ],
+      "@spartacus/opf/payment": [
+        "../../integration-libs/opf/payment/public_api"
+      ],
+      "@spartacus/opf/payment/occ": [
+        "../../integration-libs/opf/payment/occ/public_api"
+      ],
+      "@spartacus/opf/payment/root": [
+        "../../integration-libs/opf/payment/root/public_api"
+      ],
       "@spartacus/opps": ["../../integration-libs/opps/public_api"],
       "@spartacus/opps/root": ["../../integration-libs/opps/root/public_api"],
       "@spartacus/s4-service/assets": [
