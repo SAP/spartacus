@@ -73,8 +73,6 @@ class TestEngineRunner {
     };
 
     this.optimizedSsrEngine = new OptimizedSsrEngine(engineInstanceMock, {
-      shouldCacheRenderingResult:
-        defaultSsrOptimizationOptions.shouldCacheRenderingResult,
       ...options,
     });
     this.engineInstance = this.optimizedSsrEngine.engineInstance;
@@ -391,7 +389,7 @@ describe('OptimizedSsrEngine', () => {
       it('should not cache errors if `avoidCachingErrors` is set to true', fakeAsync(() => {
         const engineRunner = TestEngineRunner.withError({
           cache: true,
-          featureToggles: {
+          ssrFeatureToggles: {
             avoidCachingErrors: true,
           },
         }).request('a');
@@ -411,7 +409,7 @@ describe('OptimizedSsrEngine', () => {
       it('should cache errors if `avoidCachingErrors` is set to false', fakeAsync(() => {
         const engineRunner = TestEngineRunner.withError({
           cache: true,
-          featureToggles: {
+          ssrFeatureToggles: {
             avoidCachingErrors: false,
           },
         }).request('a');
@@ -431,7 +429,7 @@ describe('OptimizedSsrEngine', () => {
       it('should cache HTML if `avoidCachingErrors` is set to true', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           cache: true,
-          featureToggles: {
+          ssrFeatureToggles: {
             avoidCachingErrors: true,
           },
         }).request('a');
@@ -447,7 +445,7 @@ describe('OptimizedSsrEngine', () => {
       it('should cache HTML if `avoidCachingErrors` is set to false', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           cache: true,
-          featureToggles: {
+          ssrFeatureToggles: {
             avoidCachingErrors: true,
           },
         }).request('a');

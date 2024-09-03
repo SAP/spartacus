@@ -18,7 +18,6 @@ import { ErrorRequestHandler } from 'express';
  * @param documentContent The document content to be sent to the client.
  * @returns The error request handler.
  */
-//EXPRESS JS ERROR HANDLER
 export const defaultExpressErrorHandlers =
   (documentContent: string): ErrorRequestHandler =>
   (err, _req, res, _next) => {
