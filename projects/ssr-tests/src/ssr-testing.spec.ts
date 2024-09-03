@@ -7,9 +7,11 @@ import * as SsrUtils from './utils/ssr.utils';
 
 const BACKEND_BASE_URL: string = process.env.CX_BASE_URL || '';
 
+jest.setTimeout(SsrUtils.DEFAULT_SSR_TIMEOUT); // set timeout to at least 1x DEFAULT_SSR_TIMEOUT seconds for each test in this file to increase stability of the tests
+
 describe('SSR E2E', () => {
   let backendProxy: Server;
-  const REQUEST_PATH = '/electronics-spa/en/USD/';
+  const REQUEST_PATH = '/contact'; // path to the page that is less "busy" than the homepage
 
   beforeEach(() => {
     LogUtils.clearSsrLogFile();
@@ -82,43 +84,51 @@ describe('SSR E2E', () => {
         await SsrUtils.startSsrServer({ cache: true });
       });
 
-      it('should take the response from cache for the next request if previous render succeeded', async () => {
-        backendProxy = await ProxyUtils.startBackendProxyServer({
-          target: BACKEND_BASE_URL,
-        });
-        let response: HttpUtils.SsrResponse;
-        response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
-        expect(response.statusCode).toEqual(200);
+      it(
+        'should take the response from cache for the next request if previous render succeeded',
+        async () => {
+          backendProxy = await ProxyUtils.startBackendProxyServer({
+            target: BACKEND_BASE_URL,
+          });
+          let response: HttpUtils.SsrResponse;
+          response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+          expect(response.statusCode).toEqual(200);
 
-        expectLogMessages().toContainLogs([
-          `Rendering started (${REQUEST_PATH})`,
-          `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`,
-        ]);
+          expectLogMessages().toContainLogs([
+            `Rendering started (${REQUEST_PATH})`,
+            `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`,
+          ]);
 
-        response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
-        expect(response.statusCode).toEqual(200);
-        expectLogMessages().toContain(`Render from cache (${REQUEST_PATH})`);
-      });
+          response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+          expect(response.statusCode).toEqual(200);
+          expectLogMessages().toContain(`Render from cache (${REQUEST_PATH})`);
+        },
+        2 * SsrUtils.DEFAULT_SSR_TIMEOUT // increase timeout for this test as it calls the SSR server twice
+      );
 
-      it('should render for the next request if previous render failed', async () => {
-        backendProxy = await ProxyUtils.startBackendProxyServer({
-          target: BACKEND_BASE_URL,
-          callback: (proxyRes, req) => {
-            if (req.url?.includes('cms/pages')) {
-              proxyRes.statusCode = 404;
-            }
-          },
-        });
-        let response: HttpUtils.SsrResponse;
-        response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
-        expect(response.statusCode).toEqual(404);
+      it(
+        'should render for the next request if previous render failed',
+        async () => {
+          backendProxy = await ProxyUtils.startBackendProxyServer({
+            target: BACKEND_BASE_URL,
+            callback: (proxyRes, req) => {
+              if (req.url?.includes('cms/pages')) {
+                proxyRes.statusCode = 404;
+              }
+            },
+          });
+          let response: HttpUtils.SsrResponse;
+          response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+          expect(response.statusCode).toEqual(404);
 
-        response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
-        expect(response.statusCode).toEqual(404);
-        expectLogMessages().not.toContain(
-          `Render from cache (${REQUEST_PATH})`
-        );
-      });
+          response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+          expect(response.statusCode).toEqual(404);
+          expectLogMessages().not.toContain(
+            `Render from cache (${REQUEST_PATH})`
+          );
+        },
+        2 * SsrUtils.DEFAULT_SSR_TIMEOUT // increase timeout for this test as it calls the SSR server twice
+      );
     });
   });
 });

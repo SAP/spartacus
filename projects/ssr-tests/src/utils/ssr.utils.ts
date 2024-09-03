@@ -12,6 +12,11 @@
 import * as childProcess from 'child_process';
 import * as Log from './log.utils';
 
+/**
+ * Default timeout for SSR rendering to happen.
+ */
+export const DEFAULT_SSR_TIMEOUT = 20000;
+
 export interface SsrServerOptions {
   /**
    * The port the server should run on.
@@ -43,7 +48,7 @@ let child: childProcess.ChildProcess | any;
 export async function startSsrServer({
   port = 4000,
   cache = false,
-  timeout = 20000,
+  timeout = DEFAULT_SSR_TIMEOUT,
 }: SsrServerOptions = {}) {
   child = childProcess.spawn(
     `NODE_TLS_REJECT_UNAUTHORIZED=0 SSR_CACHE=${cache} SSR_TIMEOUT=${timeout} PORT=${port} npm run serve:ssr --prefix ../../> .ssr.log`,
