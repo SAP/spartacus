@@ -30,7 +30,7 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     protected config: CaptchaApiConfig,
-    protected injector: Injector,
+    protected injector: Injector
   ) {}
 
   /**
