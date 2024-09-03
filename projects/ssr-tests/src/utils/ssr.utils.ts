@@ -22,7 +22,7 @@ export interface SsrServerOptions {
    */
   cache?: boolean;
   /**
-   * The timeout for the SSR.
+   * The timeout for the server to start.
    */
   timeout?: number;
 }

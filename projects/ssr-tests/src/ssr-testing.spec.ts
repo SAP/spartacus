@@ -1,5 +1,6 @@
 import { Server } from 'http';
 import { expectLogMessages } from './matchers/matchers';
+import * as HttpUtils from './utils/http.utils';
 import * as LogUtils from './utils/log.utils';
 import * as ProxyUtils from './utils/proxy.utils';
 import * as SsrUtils from './utils/ssr.utils';
@@ -7,7 +8,7 @@ import * as SsrUtils from './utils/ssr.utils';
 const BACKEND_BASE_URL: string = process.env.CX_BASE_URL || '';
 
 describe('SSR E2E', () => {
-  let proxy: Server;
+  let backendProxy: Server;
   const REQUEST_PATH = '/electronics-spa/en/USD/';
 
   beforeEach(() => {
@@ -15,7 +16,7 @@ describe('SSR E2E', () => {
   });
 
   afterEach(async () => {
-    proxy.close();
+    backendProxy.close();
     await SsrUtils.killSsrServer();
   });
 
@@ -26,15 +27,13 @@ describe('SSR E2E', () => {
       });
 
       it('should receive success response with request', async () => {
-        proxy = await ProxyUtils.startBackendProxyServer({
+        backendProxy = await ProxyUtils.startBackendProxyServer({
           target: BACKEND_BASE_URL,
         });
         const response: any =
-          await ProxyUtils.sendRequestToSsrServer(REQUEST_PATH);
+          await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
         expect(response.statusCode).toEqual(200);
 
-        // Rendering should not complete in the first request.
-        // App should fall back to csr.
         expectLogMessages().toContainLogs([
           `Rendering started (${REQUEST_PATH})`,
           `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`,
@@ -42,17 +41,17 @@ describe('SSR E2E', () => {
       });
 
       it('should receive response with 404 when page does not exist', async () => {
-        proxy = await ProxyUtils.startBackendProxyServer({
+        backendProxy = await ProxyUtils.startBackendProxyServer({
           target: BACKEND_BASE_URL,
         });
-        const response = await ProxyUtils.sendRequestToSsrServer(
+        const response = await HttpUtils.sendRequestToSsrServer(
           REQUEST_PATH + 'not-existing-page'
         );
         expect(response.statusCode).toEqual(404);
       });
 
       it('should receive response with status 404 if HTTP error occurred when calling cms/pages API URL', async () => {
-        proxy = await ProxyUtils.startBackendProxyServer({
+        backendProxy = await ProxyUtils.startBackendProxyServer({
           target: BACKEND_BASE_URL,
           callback: (proxyRes, req) => {
             if (req.url?.includes('cms/pages')) {
@@ -60,12 +59,12 @@ describe('SSR E2E', () => {
             }
           },
         });
-        const response = await ProxyUtils.sendRequestToSsrServer(REQUEST_PATH);
+        const response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
         expect(response.statusCode).toEqual(404);
       });
 
       it('should receive response with status 500 if HTTP error occurred when calling other than cms/pages API URL', async () => {
-        proxy = await ProxyUtils.startBackendProxyServer({
+        backendProxy = await ProxyUtils.startBackendProxyServer({
           target: BACKEND_BASE_URL,
           callback: (proxyRes, req) => {
             if (req.url?.includes('cms/components')) {
@@ -73,7 +72,7 @@ describe('SSR E2E', () => {
             }
           },
         });
-        const response = await ProxyUtils.sendRequestToSsrServer(REQUEST_PATH);
+        const response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
         expect(response.statusCode).toEqual(500);
       });
     });
@@ -84,11 +83,11 @@ describe('SSR E2E', () => {
       });
 
       it('should take the response from cache for the next request if previous render succeeded', async () => {
-        proxy = await ProxyUtils.startBackendProxyServer({
+        backendProxy = await ProxyUtils.startBackendProxyServer({
           target: BACKEND_BASE_URL,
         });
-        let response: ProxyUtils.SsrResponse;
-        response = await ProxyUtils.sendRequestToSsrServer(REQUEST_PATH);
+        let response: HttpUtils.SsrResponse;
+        response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
         expect(response.statusCode).toEqual(200);
 
         expectLogMessages().toContainLogs([
@@ -96,13 +95,13 @@ describe('SSR E2E', () => {
           `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`,
         ]);
 
-        response = await ProxyUtils.sendRequestToSsrServer(REQUEST_PATH);
+        response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
         expect(response.statusCode).toEqual(200);
         expectLogMessages().toContain(`Render from cache (${REQUEST_PATH})`);
       });
 
-      it('should call rendering for the next request if previous render failed', async () => {
-        proxy = await ProxyUtils.startBackendProxyServer({
+      it('should render for the next request if previous render failed', async () => {
+        backendProxy = await ProxyUtils.startBackendProxyServer({
           target: BACKEND_BASE_URL,
           callback: (proxyRes, req) => {
             if (req.url?.includes('cms/pages')) {
@@ -110,12 +109,11 @@ describe('SSR E2E', () => {
             }
           },
         });
-        let response: ProxyUtils.SsrResponse;
-        response = await ProxyUtils.sendRequestToSsrServer(REQUEST_PATH);
+        let response: HttpUtils.SsrResponse;
+        response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
         expect(response.statusCode).toEqual(404);
-        LogUtils.clearSsrLogFile();
 
-        response = await ProxyUtils.sendRequestToSsrServer(REQUEST_PATH);
+        response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
         expect(response.statusCode).toEqual(404);
         expectLogMessages().not.toContain(
           `Render from cache (${REQUEST_PATH})`
