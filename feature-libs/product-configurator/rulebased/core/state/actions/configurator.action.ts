@@ -185,7 +185,10 @@ export class UpdateConfigurationFinalizeSuccess extends StateUtils.EntitySuccess
   }
 }
 
-export class UpdateConfigurationFinalizeFail extends StateUtils.EntityFailAction {
+export class UpdateConfigurationFinalizeFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = UPDATE_CONFIGURATION_FINALIZE_FAIL;
 
   constructor(public payload: Configurator.Configuration) {
