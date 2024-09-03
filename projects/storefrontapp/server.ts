@@ -23,7 +23,7 @@ const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
-  featureToggles: {
+  ssrFeatureToggles: {
     avoidCachingErrors: true,
   },
 };

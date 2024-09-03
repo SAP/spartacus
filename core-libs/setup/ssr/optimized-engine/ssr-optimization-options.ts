@@ -139,7 +139,7 @@ export interface SsrOptimizationOptions {
   logger?: ExpressServerLogger;
 
   /**
-   * When caching is enabled, this function tell whether the given rendering result
+   * When caching is enabled, this function tells whether the given rendering result
    * (html or error) should be cached.
    *
    * By default, all html rendering results are cached. By default, also all errors are cached
@@ -157,8 +157,11 @@ export interface SsrOptimizationOptions {
    * Toggles providing granular adaptation to breaking changes in OptimizedSsrEngine.
    * They are temporary and will be removed in the future.
    * Each toggle has its own lifespan.
+   *
+   * Note: They are related only to the `OptimizedSsrEngine`. In particular, they
+   * are different from Spartacus's regular feature toggles provided in the Angular app.
    */
-  featureToggles?: {
+  ssrFeatureToggles?: {
     /**
      * Determines if rendering errors should be skipped from caching.
      *
@@ -187,7 +190,7 @@ type DeepRequired<T> = {
 
 export const defaultSsrOptimizationOptions: SsrOptimizationOptions &
   // To not forget adding default values, when adding new feature toggles in the type in the future
-  DeepRequired<Pick<SsrOptimizationOptions, 'featureToggles'>> = {
+  DeepRequired<Pick<SsrOptimizationOptions, 'ssrFeatureToggles'>> = {
   cacheSize: 3000,
   concurrency: 10,
   timeout: 3_000,
@@ -200,9 +203,10 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions &
   logger: new DefaultExpressServerLogger(),
   shouldCacheRenderingResult: ({ options, entry }) =>
     !(
-      options.featureToggles?.avoidCachingErrors === true && Boolean(entry.err)
+      options.ssrFeatureToggles?.avoidCachingErrors === true &&
+      Boolean(entry.err)
     ),
-  featureToggles: {
+  ssrFeatureToggles: {
     avoidCachingErrors: false,
   },
 };
