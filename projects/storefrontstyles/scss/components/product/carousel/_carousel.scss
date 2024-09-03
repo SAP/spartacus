@@ -92,8 +92,18 @@
     }
     color: var(--cx-color-inverse);
 
+      // TODO: (CXSPA-6904) - Remove all styles with disabled selector
     &:not(:disabled) {
       cursor: pointer;
+    }
+
+    @include forFeature('a11yFocusableCarouselControls') {
+      &:not(:disabled) {
+        cursor: unset;
+      }
+      &[aria-disabled='false']  {
+        cursor: pointer;
+      }
     }
   }
 
@@ -109,7 +119,6 @@
       font-size: var(--cx-font-size, 0.875rem);
       padding: 10px;
       
-      // TODO: (CXSPA-6904) - Remove obsolete disabled styles for indicator buttons
       &[disabled] {
         .cx-icon {
           color: var(--cx-color-primary);
@@ -130,7 +139,7 @@
 
       // TODO: (CXSPA-6904) - Remove feature flag next major release
       @include forFeature('a11yFocusableCarouselControls') {
-        &.active-slide {
+        &[aria-disabled='true'] {
           .cx-icon {
             color: var(--cx-color-primary);
             background-color: var(--cx-color-inverse);
@@ -138,7 +147,7 @@
           }
         }
 
-        &:not(.active-slide):hover {
+        &:not([aria-disabled='true']):hover {
           color: var(--cx-color-primary-accent);
         }
 
@@ -166,6 +175,20 @@
 
     &:not(:disabled):hover {
       color: var(--cx-color-primary-accent);
+    }
+
+    @include forFeature('a11yFocusableCarouselControls') {
+      &:not(:disabled):hover {
+        color: var(--cx-color-primary);
+      }
+
+      &[aria-disabled='true'] {
+        opacity: 0.5;
+      }
+  
+      &[aria-disabled='false']:hover {
+        color: var(--cx-color-primary-accent);
+      }
     }
 
     @include media-breakpoint-down(sm) {
