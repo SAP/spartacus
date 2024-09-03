@@ -202,7 +202,7 @@ export function addProductToCart(product: SampleProduct, quantity: number) {
 export function clickSavedCartButtonsFromCartPage(position: number) {
   // 0 = Saved Carts 'link' button
   // 1 = Save Cart For Later 'link' button
-  cy.get(`cx-add-to-saved-cart a`)
+  cy.get(`cx-add-to-saved-cart .cx-action-link`)
     .eq(position)
     .should('exist')
     .click({ force: true });

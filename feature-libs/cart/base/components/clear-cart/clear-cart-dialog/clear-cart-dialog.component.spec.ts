@@ -1,13 +1,14 @@
-import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
+import { CommonModule } from '@angular/common';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   IconTestingModule,
   KeyboardFocusTestingModule,
 } from '@spartacus/storefront';
-import { I18nTestingModule } from '@spartacus/core';
-import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
 import { ClearCartDialogComponent } from './clear-cart-dialog.component';
-import { By } from '@angular/platform-browser';
 
 const mockCloseReason = 'Cancel Clear Cart';
 
@@ -29,7 +30,7 @@ describe('ClearCartDialogComponent', () => {
         KeyboardFocusTestingModule,
         IconTestingModule,
       ],
-      declarations: [ClearCartDialogComponent],
+      declarations: [ClearCartDialogComponent, MockFeatureDirective],
       providers: [
         {
           provide: ClearCartDialogComponentService,

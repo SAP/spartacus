@@ -1,19 +1,20 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { StockNotificationDialogComponent } from './stock-notification-dialog.component';
+import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
-  UserInterestsService,
   I18nTestingModule,
   NotificationPreference,
+  UserInterestsService,
 } from '@spartacus/core';
-import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
-import { RouterTestingModule } from '@angular/router/testing';
-import { DebugElement } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { By } from '@angular/platform-browser';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { LaunchDialogService } from '../../../../layout/launch-dialog/services/index';
 import { FocusDirective } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { Observable, of } from 'rxjs';
+import { LaunchDialogService } from '../../../../layout/launch-dialog/services/index';
+import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
+import { StockNotificationDialogComponent } from './stock-notification-dialog.component';
 
 describe('StockNotificationDialogComponent', () => {
   let component: StockNotificationDialogComponent;
@@ -44,7 +45,11 @@ describe('StockNotificationDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [StockNotificationDialogComponent, FocusDirective],
+      declarations: [
+        StockNotificationDialogComponent,
+        FocusDirective,
+        MockFeatureDirective,
+      ],
       imports: [
         I18nTestingModule,
         RouterTestingModule,

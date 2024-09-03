@@ -1,27 +1,27 @@
-import { Component, Directive, Input } from '@angular/core';
+import { Component, Directive, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
 import { I18nTestingModule } from '@spartacus/core';
-import {
-  ICON_TYPE,
-  IconLoaderService,
-  IconModule,
-  LaunchDialogService,
-  FocusConfig,
-  KeyboardFocusService,
-} from '@spartacus/storefront';
-import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
-import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { Type } from '@angular/core';
-import * as ConfigurationTestData from '../../testing/configurator-test-data';
-import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import {
   CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import {
+  FocusConfig,
+  ICON_TYPE,
+  IconLoaderService,
+  IconModule,
+  KeyboardFocusService,
+  LaunchDialogService,
+} from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from '../../core/model/configurator.model';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
+import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
 
 export class MockIconFontLoaderService {
   getStyleClasses(_iconType: ICON_TYPE): void {}
@@ -98,6 +98,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         MockConfiguratorDefaultFormComponent,
         ConfiguratorConflictSolverDialogComponent,
         MockKeyboardFocusDirective,
+        MockFeatureDirective,
       ],
       providers: [
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },

@@ -7,7 +7,18 @@
 >
   <div *ngIf="data$ | async as data" class="cx-suggested-addresses-container">
     <div class="cx-suggested-addresses-header cx-modal-header">
-      <div id="dialogTitle" class="cx-suggested-addresses-title">
+      <h3
+        *cxFeature="'a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-suggested-addresses-title"
+      >
+        {{ 'addressSuggestion.verifyYourAddress' | cxTranslate }}
+      </h3>
+      <div
+        *cxFeature="'!a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-suggested-addresses-title"
+      >
         {{ 'addressSuggestion.verifyYourAddress' | cxTranslate }}
       </div>
       <button
