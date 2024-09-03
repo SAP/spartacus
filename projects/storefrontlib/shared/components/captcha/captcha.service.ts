@@ -102,7 +102,7 @@ export abstract class CaptchaService implements CaptchaRenderer, OnDestroy {
   }
 
   /**
-   * Implement the required resetCaptcha method from CaptchaProvider
+   * Implement the required resetCaptcha method from CaptchaRenderer
    */
   resetCaptcha(_element: HTMLElement): void {}
 }
