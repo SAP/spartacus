@@ -90,7 +90,7 @@ export function placeOrder(): void {
 export function completeCheckout(user: SampleUser): void {
   cy.log('Fulfill shipping address form and submit');
   checkoutForms.fillShippingAddress(<any>user, true);
-  checkout.verifyDeliveryMethod();
+  checkout.verifyDeliveryOptions();
   cy.log('Fulfill payment details form');
   checkoutForms.fillPaymentDetails(user, <any>user, true);
   checkTermsAndConditions();

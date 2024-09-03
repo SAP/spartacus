@@ -1,0 +1,320 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus Product Multi-Dimensional schematics: ng-add list feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { ProductMultiDimensionalListRootModule } from "@spartacus/product-multi-dimensional/list/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    ProductMultiDimensionalListRootModule
+  ]
+})
+export class ProductMultiDimensionalListFeatureModule { }
+"
+`;
+
+exports[`Spartacus Product Multi-Dimensional schematics: ng-add list feature general setup styling should update angular.json 1`] = `
+"{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "schematics-test": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/schematics-test",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ]
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "3.5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "schematics-test:build:production"
+            },
+            "development": {
+              "buildTarget": "schematics-test:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "schematics-test:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { ProductMultiDimensionalSelectorModule } from "@spartacus/product-multi-dimensional/selector";
+import { multiDimensionalSelectorTranslationChunksConfig, multiDimensionalSelectorTranslations } from "@spartacus/product-multi-dimensional/selector/assets";
+import { ProductMultiDimensionalSelectorRootModule } from "@spartacus/product-multi-dimensional/selector/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    ProductMultiDimensionalSelectorRootModule,
+    ProductMultiDimensionalSelectorModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: multiDimensionalSelectorTranslations,
+      chunks: multiDimensionalSelectorTranslationChunksConfig,
+    },
+  })]
+})
+export class ProductMultiDimensionalSelectorFeatureModule { }
+"
+`;
+
+exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
+import { multiDimensionalSelectorTranslationChunksConfig, multiDimensionalSelectorTranslations } from "@spartacus/product-multi-dimensional/selector/assets";
+import { PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE, ProductMultiDimensionalSelectorRootModule } from "@spartacus/product-multi-dimensional/selector/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    ProductMultiDimensionalSelectorRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE]: {
+        module: () =>
+          import('@spartacus/product-multi-dimensional/selector').then((m) => m.ProductMultiDimensionalSelectorModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: multiDimensionalSelectorTranslations,
+      chunks: multiDimensionalSelectorTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class ProductMultiDimensionalSelectorFeatureModule { }
+"
+`;
+
+exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature general setup styling should create a proper scss file 1`] = `
+"@import "../../styles-config";
+@import "@spartacus/product-multi-dimensional";
+"
+`;
+
+exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature general setup styling should update angular.json 1`] = `
+"{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "schematics-test": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/schematics-test",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/product-multi-dimensional.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ]
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "3.5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "schematics-test:build:production"
+            },
+            "development": {
+              "buildTarget": "schematics-test:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "schematics-test:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/product-multi-dimensional.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}"
+`;

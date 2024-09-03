@@ -218,7 +218,7 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 
   /**
-   * Delivery mode PUT intercept is not in verifyDeliveryMethod()
+   * Delivery mode PUT intercept is not in verifyDeliveryOptions()
    * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
    */
   cy.intercept({
@@ -233,10 +233,10 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
   cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
-export function verifyDeliveryMethod() {
-  cy.log('🛒 Selecting delivery method');
+export function verifyDeliveryOptions() {
+  cy.log('🛒 Selecting delivery options');
 
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Options');
 
   cy.get('cx-delivery-mode input').first().should('be.checked');
 
@@ -283,7 +283,7 @@ export function placeOrder() {
       cy.findByText(user.address.line2);
     });
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Delivery Method')
+    .contains('cx-card', 'Delivery Options')
     .find('.cx-card-container')
     .within(() => {
       cy.findByText('Standard Delivery');
@@ -435,7 +435,7 @@ export function fillAddressFormWithCheapProduct(
   cy.log('🛒 Filling shipping address form');
 
   /**
-   * Delivery mode PUT intercept is not in verifyDeliveryMethod()
+   * Delivery mode PUT intercept is not in verifyDeliveryOptions()
    * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
    */
   const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
@@ -537,7 +537,7 @@ export function placeOrderWithCheapProduct(
       cy.findByText(sampleUser.address.line2);
     });
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Delivery Method')
+    .contains('cx-card', 'Delivery Options')
     .find('.cx-card-container')
     .within(() => {
       cy.findByText('Standard Delivery');
@@ -691,7 +691,7 @@ export function checkoutFirstDisplayedProduct(user: SampleUser) {
 
     cy.wait('@userCart').its('response.statusCode').should('eq', 200);
 
-    verifyDeliveryMethod();
+    verifyDeliveryOptions();
     fillPaymentFormWithCheapProduct(user as PaymentDetails);
 
     cy.get('@userCart').then((xhr: any) => {

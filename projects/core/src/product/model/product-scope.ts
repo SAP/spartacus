@@ -14,4 +14,6 @@ export const enum ProductScope {
   STOCK = 'stock',
   PROMOTIONS = 'promotions',
   LIST_ITEM = 'list_item',
+  MULTI_DIMENSIONAL = 'multi_dimensional',
+  MULTI_DIMENSIONAL_AVAILABILITY = 'multi_dimensional_availability',
 }

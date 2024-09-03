@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FocusDirective, LaunchDialogService } from '@spartacus/storefront';
 import { VERIFICATION_TOKEN_DIALOG_ACTION } from '@spartacus/user/account/root';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { VerificationTokenDialogComponent } from './verification-token-dialog.component';
 
 @Pipe({
@@ -28,6 +29,7 @@ describe('VerificationTokenDialogComponent', () => {
         VerificationTokenDialogComponent,
         MockTranslatePipe,
         FocusDirective,
+        MockFeatureDirective,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },

@@ -6,7 +6,11 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorOverviewFilterModule } from '../overview-filter/configurator-overview-filter.module';
 import { ConfiguratorOverviewFilterDialogComponent } from './configurator-overview-filter-dialog.component';
@@ -19,6 +23,7 @@ import { defaultConfiguratorOverviewFilterDialogLayoutConfig } from './default-c
     IconModule,
     ConfiguratorOverviewFilterModule,
     KeyboardFocusModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(defaultConfiguratorOverviewFilterDialogLayoutConfig),
