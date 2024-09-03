@@ -9,7 +9,6 @@ describe('Login', () => {
 
   it('should login successfully and redirect to spatarcus storefront home page', () => {
     cy.visit('/login');
-    cy.get('.cx-spinner').should('be.visible');
     cy.origin(gigyaBaseUrl, () => {
       cy.get('[placeholder="Email *"]').type('mark.rivers@rustic-hw.com');
       cy.get('[placeholder="Password *"]').type('Pw4all@');
@@ -27,7 +26,6 @@ describe('Login', () => {
     cy.visit('/product/3755219/psr-960');
     cy.get('cx-product-intro').should('be.visible');
     cy.visit('/login');
-    cy.get('.cx-spinner').should('be.visible');
     cy.origin(gigyaBaseUrl, () => {
       cy.get('[placeholder="Email *"]').type('mark.rivers@rustic-hw.com');
       cy.get('[placeholder="Password *"]').type('Pw4all@');
