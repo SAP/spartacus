@@ -8,7 +8,6 @@ import {
   OnDestroy,
   Output,
   ViewChild,
-  ChangeDetectorRef,
 } from '@angular/core';
 import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
@@ -32,7 +31,6 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
   constructor(
     protected config: CaptchaApiConfig,
     protected injector: Injector,
-    private cdr: ChangeDetectorRef
   ) {}
 
   /**
@@ -52,8 +50,6 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
         this.config.captchaRenderer
       );
 
-      this.confirmed.emit(false);
-
       this.subscription.add(
         captchaRenderer
           .getCaptchaConfig()
@@ -69,12 +65,7 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
             })
           )
           .subscribe(() => {
-            setTimeout(() => {
-              this.confirmed.emit(true);
-              if (this.cdr) {
-                this.cdr.detectChanges();
-              }
-            });
+            this.confirmed.emit(true);
           })
       );
     }
