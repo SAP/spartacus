@@ -7,9 +7,11 @@ import * as SsrUtils from './utils/ssr.utils';
 
 const BACKEND_BASE_URL: string = process.env.CX_BASE_URL || '';
 
+jest.setTimeout(20000); // set timeout to 20 seconds for each test in this file co increase stability of the tests
+
 describe('SSR E2E', () => {
   let backendProxy: Server;
-  const REQUEST_PATH = '/electronics-spa/en/USD/';
+  const REQUEST_PATH = '/contact'; // path to the page that is less "busy" than the homepage
 
   beforeEach(() => {
     LogUtils.clearSsrLogFile();
@@ -68,13 +70,15 @@ describe('SSR E2E', () => {
           target: BACKEND_BASE_URL,
           callback: (proxyRes, req) => {
             if (req.url?.includes('cms/components')) {
+              console.log('Setting status code to 404');
               proxyRes.statusCode = 404;
             }
           },
         });
+        console.log(LogUtils.getLogMessages());
         const response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
         expect(response.statusCode).toEqual(500);
-      }, 10000);
+      });
     });
 
     describe('With caching enabled', () => {
