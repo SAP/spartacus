@@ -1,13 +1,7 @@
 import { Observable, of } from 'rxjs';
 import { CaptchaConfig } from '@spartacus/core';
 import { CaptchaComponent } from '@spartacus/storefront';
-import {
-  ComponentFixture,
-  TestBed,
-  waitForAsync,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CaptchaApiConfig } from './captcha-api-config';
 
 class MockCaptchaService {
@@ -60,15 +54,13 @@ describe('CaptchaComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should init correctly', fakeAsync(() => {
+  it('should init correctly', () => {
     spyOn(service, 'getCaptchaConfig').and.callThrough();
     spyOn(service, 'renderCaptcha').and.callThrough();
-
+    component.ngAfterViewInit();
     fixture.detectChanges();
-
-    tick();
 
     expect(service.getCaptchaConfig).toHaveBeenCalledTimes(1);
     expect(service.renderCaptcha).toHaveBeenCalledTimes(1);
-  }));
+  });
 });
