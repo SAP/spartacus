@@ -8,11 +8,9 @@ import { NgModule } from '@angular/core';
 import {
   CdcRootModule,
   CDC_FEATURE,
-  CdcConfigInitializer,
 } from '@spartacus/cdc/root';
 import {
   CmsConfig,
-  CONFIG_INITIALIZER,
   I18nConfig,
   provideConfig,
 } from '@spartacus/core';
@@ -21,21 +19,10 @@ import {
   cdcTranslationChunksConfig,
 } from '@spartacus/cdc/assets';
 
-export function initCdcConfigFactory(
-  cdcConfigInitializer: CdcConfigInitializer
-) {
-  return cdcConfigInitializer;
-}
 
 @NgModule({
   imports: [CdcRootModule],
   providers: [
-    {
-      provide: CONFIG_INITIALIZER,
-      useFactory: initCdcConfigFactory,
-      deps: [CdcConfigInitializer],
-      multi: true,
-    },
     provideConfig(<CmsConfig>{
       featureModules: {
         [CDC_FEATURE]: {

@@ -8,6 +8,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import {
   CmsConfig,
   Config,
+  CONFIG_INITIALIZER,
   ConfigInitializerService,
   provideDefaultConfig,
   provideDefaultConfigFactory,
@@ -20,6 +21,7 @@ import { defaultCdcRoutingConfig } from './config/default-cdc-routing-config';
 import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
 import { CdcLogoutGuard } from './guards/cdc-logout.guard';
 import { CdcJsService } from './service/cdc-js.service';
+import { CdcConfigInitializer } from './config/cdc-config-initializer';
 
 export function cdcJsFactory(
   cdcJsService: CdcJsService,
@@ -48,11 +50,23 @@ export function defaultCdcComponentsConfig(): CmsConfig {
   return config;
 }
 
+export function initCdcConfigFactory(
+  cdcConfigInitializer: CdcConfigInitializer
+) {
+  return cdcConfigInitializer;
+}
+
 @NgModule({
   imports: [CdcConsentManagementModule],
   providers: [
     provideDefaultConfigFactory(defaultCdcComponentsConfig),
     { provide: LogoutGuard, useExisting: CdcLogoutGuard },
+    {
+      provide: CONFIG_INITIALIZER,
+      useFactory: initCdcConfigFactory,
+      deps: [CdcConfigInitializer],
+      multi: true,
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: cdcJsFactory,
