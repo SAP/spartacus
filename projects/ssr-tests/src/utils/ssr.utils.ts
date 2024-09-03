@@ -21,6 +21,10 @@ export interface SsrServerOptions {
    * Whether to enable caching on the server.
    */
   cache?: boolean;
+  /**
+   * The timeout for the SSR.
+   */
+  timeout?: number;
 }
 
 /**
@@ -36,9 +40,10 @@ let child: childProcess.ChildProcess | any;
 export async function startSsrServer({
   port = 4000,
   cache = false,
+  timeout = 20000,
 }: SsrServerOptions = {}) {
   child = childProcess.spawn(
-    `NODE_TLS_REJECT_UNAUTHORIZED=0 SSR_CACHE=${cache} PORT=${port} npm run serve:ssr --prefix ../../> .ssr.log`,
+    `NODE_TLS_REJECT_UNAUTHORIZED=0 SSR_CACHE=${cache} SSR_TIMEOUT=${timeout} PORT=${port} npm run serve:ssr --prefix ../../> .ssr.log`,
     { detached: true, shell: true }
   );
 
