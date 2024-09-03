@@ -140,9 +140,9 @@ export class OAuthLibWrapperService {
           take(1)
         )
         .subscribe((event) => (tokenReceivedEvent = event));
+
       this.oAuthService
         .loadDiscoveryDocumentAndTryLogin({
-          // We don't load discovery document, because it doesn't contain revoke endpoint information
           disableOAuth2StateCheck: true,
         })
         .then((result: boolean) => {
