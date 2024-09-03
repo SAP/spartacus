@@ -196,8 +196,8 @@ describe('OptimizedSsrEngine', () => {
               "reuseCurrentRendering": true,
               "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR",
               "logger": "DefaultExpressServerLogger",
-              "shouldCacheRenderingResult": "({ options, entry }) => !(options.featureToggles?.avoidCachingErrors === true && Boolean(entry.err))",
-              "featureToggles": {
+              "shouldCacheRenderingResult": "({ options, entry }) => !(options.ssrFeatureToggles?.avoidCachingErrors === true &&\\n        Boolean(entry.err))",
+              "ssrFeatureToggles": {
                 "avoidCachingErrors": false
               }
             }
@@ -1466,9 +1466,6 @@ describe('OptimizedSsrEngine', () => {
             "options": {
               "cacheSize": 3000,
               "concurrency": 10,
-              "featureToggles": {
-                "avoidCachingErrors": false,
-              },
               "forcedSsrTimeout": 60000,
               "logger": "MockExpressServerLogger",
               "maxRenderTime": 300000,
@@ -1481,7 +1478,11 @@ describe('OptimizedSsrEngine', () => {
                 : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
         }",
               "reuseCurrentRendering": true,
-              "shouldCacheRenderingResult": "({ options, entry }) => !(options.featureToggles?.avoidCachingErrors === true && Boolean(entry.err))",
+              "shouldCacheRenderingResult": "({ options, entry }) => !(options.ssrFeatureToggles?.avoidCachingErrors === true &&
+                Boolean(entry.err))",
+              "ssrFeatureToggles": {
+                "avoidCachingErrors": false,
+              },
               "timeout": 3000,
             },
           },

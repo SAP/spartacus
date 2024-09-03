@@ -215,7 +215,7 @@ import { fileURLToPath } from 'node:url';
 import AppServerModule from './src/main.server';
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, {
-  featureToggles: {
+  ssrFeatureToggles: {
     avoidCachingErrors: true,
   },
 });
