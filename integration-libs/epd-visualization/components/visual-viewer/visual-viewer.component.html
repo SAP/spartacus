@@ -1,5 +1,9 @@
 <ng-container *ngIf="viewportReady; else loading">
-  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+  <div
+    *cxFeature="'!a11yRemoveStatusLoadedRole'"
+    role="status"
+    [attr.aria-label]="'common.loaded' | cxTranslate"
+  ></div>
   <div class="content-type-symbol" [hidden]="!viewportReady">
     <span class="content-type-text">{{
       (is2D
