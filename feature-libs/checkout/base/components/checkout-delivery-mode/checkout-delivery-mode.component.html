@@ -18,7 +18,11 @@
       else loading
     "
   >
-    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <div
+      *cxFeature="'!a11yRemoveStatusLoadedRole'"
+      role="status"
+      [attr.aria-label]="'common.loaded' | cxTranslate"
+    ></div>
     <div [formGroup]="mode" class="cx-delivery-mode-wrapper">
       <div class="form-check" *ngFor="let mode of supportedDeliveryModes">
         <input
@@ -78,7 +82,11 @@
       else loading
     "
   >
-    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <div
+      *cxFeature="'!a11yRemoveStatusLoadedRole'"
+      role="status"
+      [attr.aria-label]="'common.loaded' | cxTranslate"
+    ></div>
     <div [formGroup]="mode" class="cx-delivery-mode-wrapper">
       <div role="radiogroup">
         <div class="form-check" *ngFor="let mode of supportedDeliveryModes">
