@@ -12,6 +12,7 @@ import {
   cdcTranslationChunksConfig,
 } from '@spartacus/cdc/assets';
 
+
 @NgModule({
   imports: [CdcRootModule],
   providers: [

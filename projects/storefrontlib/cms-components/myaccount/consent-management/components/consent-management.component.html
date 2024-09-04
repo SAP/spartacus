@@ -36,6 +36,7 @@
 
       <ng-container *ngIf="!data.allConsentsLoading">
         <div
+          *cxFeature="'!a11yRemoveStatusLoadedRole'"
           role="status"
           [attr.aria-label]="'common.loaded' | cxTranslate"
         ></div>
@@ -64,7 +65,11 @@
   </div>
 
   <ng-template #consentManagementForm>
-    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <div
+      *cxFeature="'!a11yRemoveStatusLoadedRole'"
+      role="status"
+      [attr.aria-label]="'common.loaded' | cxTranslate"
+    ></div>
     <ng-container *ngIf="templateList$ | async as templateList">
       <div class="cx-consent-action-links">
         <div class="col-sm-12 col-md-8 col-lg-6">

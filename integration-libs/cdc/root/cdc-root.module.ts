@@ -24,6 +24,7 @@ import { CdcJsService } from './service/cdc-js.service';
 import { CdcConfigInitializer } from './config/cdc-config-initializer';
 import { CdcAuthConfigInitializer } from './config/cdc-auth-config-initializer';
 
+
 export function cdcJsFactory(
   cdcJsService: CdcJsService,
   configInit: ConfigInitializerService
@@ -50,6 +51,7 @@ export function defaultCdcComponentsConfig(): CmsConfig {
   };
   return config;
 }
+
 
 export function initCdcConfigFactory(
   cdcConfigInitializer: CdcConfigInitializer
