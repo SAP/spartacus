@@ -3,6 +3,7 @@ import { CaptchaConfig } from '@spartacus/core';
 import { CaptchaComponent } from '@spartacus/storefront';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CaptchaApiConfig } from './captcha-api-config';
+import { ElementRef } from '@angular/core';
 
 class MockCaptchaService {
   getCaptchaConfig(): Observable<CaptchaConfig> {
@@ -47,7 +48,13 @@ describe('CaptchaComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CaptchaComponent);
     component = fixture.componentInstance;
+
+    component.captchaRef = {
+      nativeElement: document.createElement('div'),
+    } as ElementRef;
+
     service = TestBed.inject(MockCaptchaService);
+    fixture.detectChanges();
   });
 
   it('should be created', () => {
