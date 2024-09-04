@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorAction } from '../../../model/index';
+import { ErrorAction } from '../../../error-handling';
 import {
   ENTITY_FAIL_ACTION,
   ENTITY_LOAD_ACTION,

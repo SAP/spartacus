@@ -7,8 +7,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { ErrorAction, HttpErrorModel } from '../../model/index';
+import { HttpErrorModel } from '../../model/index';
 import { WindowRef } from '../../window';
+import { ErrorAction } from './error-action';
 
 /**
  * Service responsible for capturing and handling NgRx error actions that implements `ErrorAction`.

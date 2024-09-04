@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ErrorAction } from '../../../model/error-action';
+import { ErrorAction } from '../../../error-handling';
 import { Product } from '../../../model/product.model';
 import { StateUtils } from '../../../state/utils';
 import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';

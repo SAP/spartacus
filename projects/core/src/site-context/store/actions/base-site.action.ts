@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorAction } from '../../../model/index';
+import { ErrorAction } from '../../../error-handling';
 import { BaseSite } from '../../../model/misc.model';
 
 export const LOAD_BASE_SITE = '[Site-context] Load BaseSite';

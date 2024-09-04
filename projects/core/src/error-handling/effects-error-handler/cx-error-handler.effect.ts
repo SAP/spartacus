@@ -9,7 +9,7 @@ import { Actions, createEffect } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { FeatureConfigService } from '../../features-config';
-import { ErrorAction } from '../../model/index';
+import { ErrorAction } from './error-action';
 import { ErrorActionService } from './error-action.service';
 
 /**

@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorAction } from '../../../model';
+import { ErrorAction } from '../../../error-handling';
 import { EntityId, entityMeta, EntityMeta } from '../entity/entity.action';
 import {
   failMeta,

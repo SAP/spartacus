@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorAction } from '../../../model';
+import { ErrorAction } from '../../../error-handling';
 import { ProductReference } from '../../../model/product.model';
 
 export const LOAD_PRODUCT_REFERENCES = '[Product] Load Product References Data';
