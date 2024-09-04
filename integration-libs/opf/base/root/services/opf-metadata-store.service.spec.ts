@@ -4,8 +4,8 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import { OpfPaymentMetadata } from '../model';
-import { OpfPaymentMetadataStoreService } from './opf-metadata-store.service';
+import { OpfMetadataModel } from '../model';
+import { OpfMetadataStoreService } from './opf-metadata-store.service';
 
 const initialState = {
   termsAndConditionsChecked: false,
@@ -14,22 +14,22 @@ const initialState = {
   paymentSessionId: undefined,
 };
 
-const state: OpfPaymentMetadata = {
+const state: OpfMetadataModel = {
   isPaymentInProgress: true,
   selectedPaymentOptionId: 111,
   termsAndConditionsChecked: true,
   paymentSessionId: '111111',
 };
 
-describe('OpfPaymentMetadataStoreService', () => {
-  let service: OpfPaymentMetadataStoreService;
+describe('OpfMetadataStoreService', () => {
+  let service: OpfMetadataStoreService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [OpfPaymentMetadataStoreService],
+      providers: [OpfMetadataStoreService],
     });
 
-    service = TestBed.inject(OpfPaymentMetadataStoreService);
+    service = TestBed.inject(OpfMetadataStoreService);
   });
 
   it('should be created', () => {
@@ -37,11 +37,11 @@ describe('OpfPaymentMetadataStoreService', () => {
   });
 
   it('should initialize with the initial state', () => {
-    expect(service.opfPaymentMetadataState.value).toEqual(initialState);
+    expect(service.opfMetadataState.value).toEqual(initialState);
   });
 
-  it('should return the current opfPaymentMetadataState as an observable', (done) => {
-    service.opfPaymentMetadataState.next(state);
+  it('should return the current OpfMetadataStoreService as an observable', (done) => {
+    service.opfMetadataState.next(state);
 
     service.getOpfMetadataState().subscribe((state) => {
       expect(state).toEqual(state);
@@ -49,13 +49,13 @@ describe('OpfPaymentMetadataStoreService', () => {
     });
   });
 
-  it('should update opfPaymentMetadataState with the given payload', () => {
-    const mockedState: OpfPaymentMetadata = {
+  it('should update OpfMetadataStoreService with the given payload', () => {
+    const mockedState: OpfMetadataModel = {
       ...state,
       isPaymentInProgress: false,
     };
 
-    service.opfPaymentMetadataState.next(mockedState);
+    service.opfMetadataState.next(mockedState);
 
     const updatedPayload = {
       isPaymentInProgress: true,
@@ -64,13 +64,13 @@ describe('OpfPaymentMetadataStoreService', () => {
 
     service.updateOpfMetadata(updatedPayload);
 
-    expect(service.opfPaymentMetadataState.value).toEqual({
+    expect(service.opfMetadataState.value).toEqual({
       ...mockedState,
       ...updatedPayload,
     });
   });
 
-  it('should clear opfPaymentMetadataState and set it back to the initial state', () => {
+  it('should clear OpfMetadataStoreService and set it back to the initial state', () => {
     const state = {
       isPaymentInProgress: true,
       termsAndConditionsChecked: true,
@@ -78,10 +78,10 @@ describe('OpfPaymentMetadataStoreService', () => {
       paymentSessionId: '111111',
     };
 
-    service.opfPaymentMetadataState.next(state);
+    service.opfMetadataState.next(state);
 
     service.clearOpfMetadata();
 
-    expect(service.opfPaymentMetadataState.value).toEqual(initialState);
+    expect(service.opfMetadataState.value).toEqual(initialState);
   });
 });

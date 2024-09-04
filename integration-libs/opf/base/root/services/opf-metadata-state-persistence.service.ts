@@ -8,14 +8,14 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { StatePersistenceService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { OpfPaymentMetadata } from '../model/opf.model';
+import { OpfMetadataModel } from '../model/opf.model';
 import { OpfMetadataStoreService } from './opf-metadata-store.service';
 
 /**
  * OPF state synced to browser storage.
  */
 export interface SyncedOpfState {
-  metadata?: OpfPaymentMetadata;
+  metadata?: OpfMetadataModel;
 }
 
 /**
@@ -55,7 +55,7 @@ export class OpfMetadataStatePersistanceService implements OnDestroy {
    */
   protected getOpfState(): Observable<SyncedOpfState> {
     return this.opfMetadataStoreService.getOpfMetadataState().pipe(
-      map((metadata: OpfPaymentMetadata) => {
+      map((metadata: OpfMetadataModel) => {
         return {
           metadata,
         };

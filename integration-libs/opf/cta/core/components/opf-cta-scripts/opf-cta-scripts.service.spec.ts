@@ -2,11 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { CmsService, Page, Product, QueryState } from '@spartacus/core';
 import {
   ActiveConfiguration,
-  CtaScriptsResponse,
-  OpfPaymentFacade,
+  OpfBaseFacade,
   OpfPaymentProviderType,
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
+import { CtaScriptsResponse, OpfCtaFacade } from '@spartacus/opf/cta/root';
 import { Order, OrderFacade, OrderHistoryFacade } from '@spartacus/order/root';
 import { CurrentProductService } from '@spartacus/storefront';
 import { of } from 'rxjs';
@@ -19,7 +19,8 @@ describe('OpfCtaScriptsService', () => {
   let opfResourceLoaderServiceMock: jasmine.SpyObj<OpfResourceLoaderService>;
   let cmsServiceMock: jasmine.SpyObj<CmsService>;
   let currentProductMock: jasmine.SpyObj<CurrentProductService>;
-  let opfPaymentFacadeMock: jasmine.SpyObj<OpfPaymentFacade>;
+  let opfBaseFacadeMock: jasmine.SpyObj<OpfBaseFacade>;
+  let opfCtaFacadeMock: jasmine.SpyObj<OpfCtaFacade>;
   beforeEach(() => {
     orderFacadeMock = jasmine.createSpyObj('OrderFacade', ['getOrderDetails']);
     orderHistoryFacadeMock = jasmine.createSpyObj('OrderHistoryFacade', [
@@ -37,10 +38,10 @@ describe('OpfCtaScriptsService', () => {
     currentProductMock = jasmine.createSpyObj('CurrentProductService', [
       'getProduct',
     ]);
-    opfPaymentFacadeMock = jasmine.createSpyObj('OpfPaymentFacade', [
-      'getCtaScripts',
+    opfBaseFacadeMock = jasmine.createSpyObj('OpfBaseFacade', [
       'getActiveConfigurationsState',
     ]);
+    opfCtaFacadeMock = jasmine.createSpyObj('OpfCtaFacade', ['getCtaScripts']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -53,7 +54,8 @@ describe('OpfCtaScriptsService', () => {
         },
         { provide: CmsService, useValue: cmsServiceMock },
         { provide: CurrentProductService, useValue: currentProductMock },
-        { provide: OpfPaymentFacade, useValue: opfPaymentFacadeMock },
+        { provide: OpfBaseFacade, useValue: opfBaseFacadeMock },
+        { provide: OpfCtaFacade, useValue: opfCtaFacadeMock },
       ],
     });
     service = TestBed.inject(OpfCtaScriptsService);
@@ -67,12 +69,10 @@ describe('OpfCtaScriptsService', () => {
     );
     currentProductMock.getProduct.and.returnValue(of(mockProduct));
     cmsServiceMock.getCurrentPage.and.returnValue(of(mockPage));
-    opfPaymentFacadeMock.getActiveConfigurationsState.and.returnValue(
+    opfBaseFacadeMock.getActiveConfigurationsState.and.returnValue(
       of(activeConfigurationsMock)
     );
-    opfPaymentFacadeMock.getCtaScripts.and.returnValue(
-      of(ctaScriptsresponseMock)
-    );
+    opfCtaFacadeMock.getCtaScripts.and.returnValue(of(ctaScriptsresponseMock));
   });
 
   it('should be created', () => {
@@ -121,7 +121,7 @@ describe('OpfCtaScriptsService', () => {
   });
 
   it('should throw an error when empty CTA scripts response from OPF server', (done) => {
-    opfPaymentFacadeMock.getCtaScripts.and.returnValue(of({ value: [] }));
+    opfCtaFacadeMock.getCtaScripts.and.returnValue(of({ value: [] }));
 
     service.getCtaHtmlslList().subscribe({
       error: (error) => {
@@ -159,7 +159,7 @@ describe('OpfCtaScriptsService', () => {
   });
 
   it('should not load html snippet when html returned from server is empty ', (done) => {
-    opfPaymentFacadeMock.getCtaScripts.and.returnValue(
+    opfCtaFacadeMock.getCtaScripts.and.returnValue(
       of({
         ...ctaScriptsresponseMock,
         value: [
@@ -183,7 +183,7 @@ describe('OpfCtaScriptsService', () => {
   });
 
   it('should remove all script tags from html snippet', (done) => {
-    opfPaymentFacadeMock.getCtaScripts.and.returnValue(
+    opfCtaFacadeMock.getCtaScripts.and.returnValue(
       of({
         ...ctaScriptsresponseMock,
         value: [

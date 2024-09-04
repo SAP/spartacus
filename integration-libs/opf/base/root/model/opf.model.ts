@@ -6,7 +6,7 @@
 
 import { ViewContainerRef } from '@angular/core';
 
-export interface OpfPaymentMetadata {
+export interface OpfMetadataModel {
   termsAndConditionsChecked: boolean;
   selectedPaymentOptionId: number | undefined;
   defaultSelectedPaymentOptionId?: number;

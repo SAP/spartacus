@@ -3,9 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { TestBed } from '@angular/core/testing';
-import { OpfGlobalFunctionsService } from './opf-global-functions.service';
-import { WindowRef } from '@spartacus/core';
 import {
   Component,
   ComponentRef,
@@ -13,14 +10,17 @@ import {
   InjectionToken,
   ViewContainerRef,
 } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { WindowRef } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { OpfGlobalFunctionsService } from './opf-global-functions.service';
 
 import {
   GlobalFunctionsDomain,
-  OpfPaymentFacade,
   PaymentMethod,
   defaultErrorDialogOptions,
 } from '@spartacus/opf/base/root';
+import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import { EMPTY, Observable, of } from 'rxjs';
 export const WINDOW = new InjectionToken<Window>('window');
 @Component({

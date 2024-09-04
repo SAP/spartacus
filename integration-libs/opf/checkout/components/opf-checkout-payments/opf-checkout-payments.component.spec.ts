@@ -9,10 +9,10 @@ import {
 } from '@spartacus/core';
 import {
   ActiveConfiguration,
-  OpfPaymentFacade,
-  OpfPaymentMetadata,
+  OpfBaseFacade,
+  OpfMetadataModel,
+  OpfMetadataStoreService,
   OpfPaymentProviderType,
-  OpfService,
 } from '@spartacus/opf/base/root';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -36,7 +36,7 @@ const mockActiveConfigurations: ActiveConfiguration[] = [
     displayName: 'Test3',
   },
 ];
-class MockOpfPaymentFacade implements Partial<OpfPaymentFacade> {
+class MockOpfBaseFacade implements Partial<OpfBaseFacade> {
   getActiveConfigurationsState(): Observable<
     QueryState<ActiveConfiguration[] | undefined>
   > {
@@ -60,7 +60,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   remove(_: GlobalMessageType, __?: number): void {}
 }
 
-const mockOpfPaymentMetadata: OpfPaymentMetadata = {
+const mockOpfMetadata: OpfMetadataModel = {
   isPaymentInProgress: true,
   selectedPaymentOptionId: 111,
   termsAndConditionsChecked: true,
@@ -72,27 +72,30 @@ describe('OpfCheckoutPaymentsComponent', () => {
   let component: OpfCheckoutPaymentsComponent;
   let fixture: ComponentFixture<OpfCheckoutPaymentsComponent>;
   let globalMessageService: GlobalMessageService;
-  let opfServiceMock: jasmine.SpyObj<OpfService>;
+  let opfMetadataStoreServiceMock: jasmine.SpyObj<OpfMetadataStoreService>;
 
   beforeEach(async () => {
-    opfServiceMock = jasmine.createSpyObj('OpfService', [
-      'getOpfMetadataState',
-      'updateOpfMetadataState',
-    ]);
+    opfMetadataStoreServiceMock = jasmine.createSpyObj(
+      'OpfMetadataStoreService',
+      ['getOpfMetadataState', 'updateOpfMetadata']
+    );
 
-    opfServiceMock.getOpfMetadataState.and.returnValue(
-      of(mockOpfPaymentMetadata)
+    opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+      of(mockOpfMetadata)
     );
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule],
       declarations: [OpfCheckoutPaymentsComponent],
       providers: [
         {
-          provide: OpfPaymentFacade,
-          useClass: MockOpfPaymentFacade,
+          provide: OpfBaseFacade,
+          useClass: MockOpfBaseFacade,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: OpfService, useValue: opfServiceMock },
+        {
+          provide: OpfMetadataStoreService,
+          useValue: opfMetadataStoreServiceMock,
+        },
       ],
     }).compileComponents();
 
@@ -111,13 +114,13 @@ describe('OpfCheckoutPaymentsComponent', () => {
   it('should preselect the payment options', () => {
     fixture.detectChanges();
     expect(component.selectedPaymentId).toBe(
-      mockOpfPaymentMetadata.selectedPaymentOptionId
+      mockOpfMetadata.selectedPaymentOptionId
     );
   });
 
   it('should change active payment option', () => {
     component.changePayment(mockActiveConfigurations[2]);
-    expect(opfServiceMock.updateOpfMetadataState).toHaveBeenCalledWith({
+    expect(opfMetadataStoreServiceMock.updateOpfMetadata).toHaveBeenCalledWith({
       selectedPaymentOptionId: component.selectedPaymentId,
     });
   });
@@ -155,7 +158,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
   it('should preselect the default payment option', () => {
     const defaultSelectedPaymentOptionId = 1;
 
-    opfServiceMock.getOpfMetadataState.and.returnValue(
+    opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
       of({
         isPaymentInProgress: false,
         selectedPaymentOptionId: undefined,

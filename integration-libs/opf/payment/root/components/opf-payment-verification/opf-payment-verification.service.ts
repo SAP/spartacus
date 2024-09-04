@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 
 import {
+  OpfMetadataModel,
   OpfMetadataStoreService,
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
@@ -30,7 +31,6 @@ import {
   OpfDynamicScript,
   OpfPage,
   OpfPaymenVerificationUrlInput,
-  OpfPaymentMetadata,
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
 } from '../../model';
@@ -181,10 +181,7 @@ export class OpfPaymentVerificationService {
       .getOpfMetadataState()
       .pipe(
         take(1),
-        filter(
-          (opfPaymentMetadata: OpfPaymentMetadata) =>
-            opfPaymentMetadata.isPaymentInProgress === false
-        )
+        filter((state: OpfMetadataModel) => state.isPaymentInProgress === false)
       )
       .subscribe(() => {
         this.goToPage(OpfPage.CART_PAGE);

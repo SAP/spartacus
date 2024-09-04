@@ -9,25 +9,26 @@ import {
 } from '@spartacus/core';
 import {
   OpfDynamicScriptResourceType,
+  OpfMetadataStoreService,
   OpfResourceLoaderService,
-  OpfService,
 } from '@spartacus/opf/base/root';
 import { OrderFacade } from '@spartacus/order/root';
 import { of, throwError } from 'rxjs';
-import { OpfCheckoutFacade } from '../../root/facade';
+
+import { OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE } from '@spartacus/opf/checkout/root';
 import {
-  OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE,
+  OpfPaymentFacade,
   OpfPaymentMethodType,
   PaymentPattern,
   PaymentSessionData,
-} from '../../root/model';
+} from '@spartacus/opf/payment/root';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
 const mockUrl = 'https://sap.com';
 
 describe('OpfCheckoutPaymentWrapperService', () => {
   let service: OpfCheckoutPaymentWrapperService;
-  let opfCheckoutFacadeMock: jasmine.SpyObj<OpfCheckoutFacade>;
+  let opfPaymentFacadeMock: jasmine.SpyObj<OpfPaymentFacade>;
   let cartAccessCodeFacadeMock: jasmine.SpyObj<CartAccessCodeFacade>;
   let opfResourceLoaderServiceMock: jasmine.SpyObj<OpfResourceLoaderService>;
   let userIdServiceMock: jasmine.SpyObj<UserIdService>;
@@ -35,10 +36,10 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   let routingServiceMock: jasmine.SpyObj<RoutingService>;
   let globalMessageServiceMock: jasmine.SpyObj<GlobalMessageService>;
   let orderFacadeMock: jasmine.SpyObj<OrderFacade>;
-  let opfServiceMock: jasmine.SpyObj<OpfService>;
+  let opfMetadataStoreServiceMock: jasmine.SpyObj<OpfMetadataStoreService>;
 
   beforeEach(() => {
-    opfCheckoutFacadeMock = jasmine.createSpyObj('OpfCheckoutFacade', [
+    opfPaymentFacadeMock = jasmine.createSpyObj('OpfPaymentFacade', [
       'initiatePayment',
     ]);
     cartAccessCodeFacadeMock = jasmine.createSpyObj('CartAccessCodeFacade', [
@@ -67,9 +68,10 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     orderFacadeMock = jasmine.createSpyObj('OrderFacade', [
       'placePaymentAuthorizedOrder',
     ]);
-    opfServiceMock = jasmine.createSpyObj('OpfService', [
-      'updateOpfMetadataState',
-    ]);
+    opfMetadataStoreServiceMock = jasmine.createSpyObj(
+      'OpfMetadataStoreService',
+      ['updateOpfMetadata']
+    );
 
     routingServiceMock.getRouterState.and.returnValue(
       of({
@@ -82,7 +84,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     TestBed.configureTestingModule({
       providers: [
         OpfCheckoutPaymentWrapperService,
-        { provide: OpfCheckoutFacade, useValue: opfCheckoutFacadeMock },
+        { provide: OpfPaymentFacade, useValue: opfPaymentFacadeMock },
         { provide: CartAccessCodeFacade, useValue: cartAccessCodeFacadeMock },
         {
           provide: OpfResourceLoaderService,
@@ -93,7 +95,10 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         { provide: RoutingService, useValue: routingServiceMock },
         { provide: GlobalMessageService, useValue: globalMessageServiceMock },
         { provide: OrderFacade, useValue: orderFacadeMock },
-        { provide: OpfService, useValue: opfServiceMock },
+        {
+          provide: OpfMetadataStoreService,
+          useValue: opfMetadataStoreServiceMock,
+        },
       ],
     });
 
@@ -133,7 +138,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       },
     };
 
-    opfCheckoutFacadeMock.initiatePayment.and.returnValue(
+    opfPaymentFacadeMock.initiatePayment.and.returnValue(
       of(mockPaymentSessionData)
     );
     cartAccessCodeFacadeMock.getCartAccessCode.and.returnValue(
@@ -145,7 +150,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       of({ state: { semanticRoute: 'checkoutReviewOrder' } } as RouterState)
     );
     routingServiceMock.getFullUrl.and.returnValue(mockUrl);
-    opfServiceMock.updateOpfMetadataState.and.stub();
+    opfMetadataStoreServiceMock.updateOpfMetadata.and.stub();
     opfResourceLoaderServiceMock.loadProviderResources.and.returnValue(
       Promise.resolve()
     );
@@ -153,7 +158,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     spyOn<any>(service, 'storePaymentSessionId');
 
     service.initiatePayment(mockPaymentOptionId).subscribe(() => {
-      expect(opfCheckoutFacadeMock.initiatePayment).toHaveBeenCalledWith({
+      expect(opfPaymentFacadeMock.initiatePayment).toHaveBeenCalledWith({
         otpKey: mockOtpKey,
         config: {
           configurationId: mockPaymentOptionId.toString(),
@@ -210,7 +215,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     const mockUserId = 'userId';
     const mockCartId = 'cartId';
 
-    opfCheckoutFacadeMock.initiatePayment.and.returnValue(
+    opfPaymentFacadeMock.initiatePayment.and.returnValue(
       throwError({ status: 409 })
     );
 
@@ -224,7 +229,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       of({ state: { semanticRoute: 'checkoutReviewOrder' } } as RouterState)
     );
     routingServiceMock.getFullUrl.and.returnValue(mockUrl);
-    opfServiceMock.updateOpfMetadataState.and.stub();
+    opfMetadataStoreServiceMock.updateOpfMetadata.and.stub();
     opfResourceLoaderServiceMock.loadProviderResources.and.returnValue(
       Promise.resolve()
     );
@@ -245,7 +250,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     const mockUserId = 'userId';
     const mockCartId = 'cartId';
 
-    opfCheckoutFacadeMock.initiatePayment.and.returnValue(
+    opfPaymentFacadeMock.initiatePayment.and.returnValue(
       throwError({ status: 500 })
     );
 
@@ -258,7 +263,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       of({ state: { semanticRoute: 'checkoutReviewOrder' } } as RouterState)
     );
     routingServiceMock.getFullUrl.and.returnValue(mockUrl);
-    opfServiceMock.updateOpfMetadataState.and.stub();
+    opfMetadataStoreServiceMock.updateOpfMetadata.and.stub();
     opfResourceLoaderServiceMock.loadProviderResources.and.returnValue(
       Promise.resolve()
     );
@@ -309,13 +314,13 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       paymentSessionId: mockPaymentSessionId,
     };
     (service as any).storePaymentSessionId(mockPaymentSessionData);
-    expect(opfServiceMock.updateOpfMetadataState).toHaveBeenCalledWith({
+    expect(opfMetadataStoreServiceMock.updateOpfMetadata).toHaveBeenCalledWith({
       paymentSessionId: mockPaymentSessionId,
     });
 
     mockPaymentSessionData.pattern = PaymentPattern.HOSTED_FIELDS;
     (service as any).storePaymentSessionId(mockPaymentSessionData);
-    expect(opfServiceMock.updateOpfMetadataState).toHaveBeenCalledWith({
+    expect(opfMetadataStoreServiceMock.updateOpfMetadata).toHaveBeenCalledWith({
       paymentSessionId: undefined,
     });
   });

@@ -19,8 +19,8 @@ import {
 import {
   ActiveConfiguration,
   OpfBaseFacade,
+  OpfMetadataModel,
   OpfMetadataStoreService,
-  OpfPaymentMetadata,
 } from '@spartacus/opf/base/root';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -71,7 +71,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.opfMetadataStoreService
         .getOpfMetadataState()
-        .subscribe((state: OpfPaymentMetadata) => {
+        .subscribe((state: OpfMetadataModel) => {
           if (state.termsAndConditionsChecked && !isPreselected) {
             isPreselected = true;
             this.selectedPaymentId = !state.selectedPaymentOptionId

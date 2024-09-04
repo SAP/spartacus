@@ -12,17 +12,22 @@ import {
   HttpErrorModel,
   RoutingService,
 } from '@spartacus/core';
+import {
+  OpfMetadataModel,
+  OpfMetadataStoreService,
+  OpfResourceLoaderService,
+} from '@spartacus/opf/base/root';
 import { Order, OrderFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
-import { OpfGlobalFunctionsFacade, OpfPaymentFacade } from '../../facade';
+import { OpfPaymentFacade } from '../../facade';
 import {
   GlobalFunctionsDomain,
   OpfDynamicScript,
-  OpfPaymentMetadata,
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
 } from '../../model';
-import { OpfResourceLoaderService, OpfService } from '../../services';
+
+import { OpfGlobalFunctionsFacade } from '@spartacus/opf/global-functions/root';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 describe('OpfPaymentVerificationService', () => {
@@ -31,7 +36,7 @@ describe('OpfPaymentVerificationService', () => {
   let routingServiceMock: jasmine.SpyObj<RoutingService>;
   let globalMessageServiceMock: jasmine.SpyObj<GlobalMessageService>;
   let opfPaymentServiceMock: jasmine.SpyObj<OpfPaymentFacade>;
-  let opfServiceMock: jasmine.SpyObj<OpfService>;
+  let opfMetadataStoreServiceMock: jasmine.SpyObj<OpfMetadataStoreService>;
   let opfResourceLoaderServiceMock: jasmine.SpyObj<OpfResourceLoaderService>;
   let globalFunctionsServiceMock: jasmine.SpyObj<OpfGlobalFunctionsFacade>;
 
@@ -47,9 +52,10 @@ describe('OpfPaymentVerificationService', () => {
       'verifyPayment',
       'afterRedirectScripts',
     ]);
-    opfServiceMock = jasmine.createSpyObj('OpfService', [
-      'getOpfMetadataState',
-    ]);
+    opfMetadataStoreServiceMock = jasmine.createSpyObj(
+      'OpfMetadataStoreService',
+      ['getOpfMetadataState']
+    );
     opfResourceLoaderServiceMock = jasmine.createSpyObj(
       'OpfResourceLoaderService',
       [
@@ -71,7 +77,10 @@ describe('OpfPaymentVerificationService', () => {
         { provide: RoutingService, useValue: routingServiceMock },
         { provide: GlobalMessageService, useValue: globalMessageServiceMock },
         { provide: OpfPaymentFacade, useValue: opfPaymentServiceMock },
-        { provide: OpfService, useValue: opfServiceMock },
+        {
+          provide: OpfMetadataStoreService,
+          useValue: opfMetadataStoreServiceMock,
+        },
         {
           provide: OpfResourceLoaderService,
           useValue: opfResourceLoaderServiceMock,
@@ -132,15 +141,15 @@ describe('OpfPaymentVerificationService', () => {
         queryParams: of({ afterRedirectScriptFlag: 'true' }),
       } as unknown as ActivatedRoute;
 
-      const mockOpfPaymentMetadata: OpfPaymentMetadata = {
+      const mockOpfMetadata: OpfMetadataModel = {
         isPaymentInProgress: true,
         selectedPaymentOptionId: 111,
         termsAndConditionsChecked: true,
         paymentSessionId: mockPaymentSessionId,
       };
 
-      opfServiceMock.getOpfMetadataState.and.returnValue(
-        of(mockOpfPaymentMetadata)
+      opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+        of(mockOpfMetadata)
       );
 
       service.verifyResultUrl(mockRouteSnapshot).subscribe((result) => {
@@ -171,15 +180,15 @@ describe('OpfPaymentVerificationService', () => {
     });
 
     it('should throw an error if queryParams is undefined and paymentSessionId not in local storage', (done) => {
-      const mockOpfPaymentMetadata: OpfPaymentMetadata = {
+      const mockOpfMetadata: OpfMetadataModel = {
         isPaymentInProgress: true,
         selectedPaymentOptionId: 111,
         termsAndConditionsChecked: true,
         paymentSessionId: undefined,
       };
 
-      opfServiceMock.getOpfMetadataState.and.returnValue(
-        of(mockOpfPaymentMetadata)
+      opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+        of(mockOpfMetadata)
       );
 
       const mockRoute: ActivatedRoute = {
@@ -202,15 +211,15 @@ describe('OpfPaymentVerificationService', () => {
     });
 
     it('should throw an error if paymentSessionId is missing in url params and local storage', (done) => {
-      const mockOpfPaymentMetadata: OpfPaymentMetadata = {
+      const mockOpfMetadata: OpfMetadataModel = {
         isPaymentInProgress: true,
         selectedPaymentOptionId: 111,
         termsAndConditionsChecked: true,
         paymentSessionId: undefined,
       };
 
-      opfServiceMock.getOpfMetadataState.and.returnValue(
-        of(mockOpfPaymentMetadata)
+      opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+        of(mockOpfMetadata)
       );
 
       const mockRoute: ActivatedRoute = {
@@ -500,40 +509,44 @@ describe('OpfPaymentVerificationService', () => {
   });
 
   describe('checkIfProcessingCartIdExist', () => {
-    it('should not do anything if the opfPaymentMetadata isPaymentInProgress is true', () => {
-      const mockOpfPaymentMetadata: OpfPaymentMetadata = {
+    it('should not do anything if the opfMetadata isPaymentInProgress is true', () => {
+      const mockOpfMetadata: OpfMetadataModel = {
         isPaymentInProgress: true,
         selectedPaymentOptionId: 111,
         termsAndConditionsChecked: true,
         paymentSessionId: '111111',
       };
 
-      opfServiceMock.getOpfMetadataState.and.returnValue(
-        of(mockOpfPaymentMetadata)
+      opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+        of(mockOpfMetadata)
       );
 
       service.checkIfProcessingCartIdExist();
 
-      expect(opfServiceMock.getOpfMetadataState).toHaveBeenCalled();
+      expect(
+        opfMetadataStoreServiceMock.getOpfMetadataState
+      ).toHaveBeenCalled();
       expect(globalMessageServiceMock.add).not.toHaveBeenCalled();
       expect(routingServiceMock.go).not.toHaveBeenCalled();
     });
 
-    it('should go to "cart" page and add global error message if the opfPaymentMetadata isPaymentInProgress is false', () => {
-      const mockOpfPaymentMetadata: OpfPaymentMetadata = {
+    it('should go to "cart" page and add global error message if the opfMetadata isPaymentInProgress is false', () => {
+      const mockOpfMetadata: OpfMetadataModel = {
         isPaymentInProgress: false,
         selectedPaymentOptionId: 111,
         termsAndConditionsChecked: true,
         paymentSessionId: '111111',
       };
 
-      opfServiceMock.getOpfMetadataState.and.returnValue(
-        of(mockOpfPaymentMetadata)
+      opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+        of(mockOpfMetadata)
       );
 
       service.checkIfProcessingCartIdExist();
 
-      expect(opfServiceMock.getOpfMetadataState).toHaveBeenCalled();
+      expect(
+        opfMetadataStoreServiceMock.getOpfMetadataState
+      ).toHaveBeenCalled();
       expect(globalMessageServiceMock.add).toHaveBeenCalledWith(
         { key: 'httpHandlers.cartNotFound' },
         GlobalMessageType.MSG_TYPE_ERROR

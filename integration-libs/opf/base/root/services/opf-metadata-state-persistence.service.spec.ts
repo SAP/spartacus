@@ -6,50 +6,50 @@
 import { TestBed } from '@angular/core/testing';
 import { StatePersistenceService } from '@spartacus/core';
 import { BehaviorSubject, of, Subscription } from 'rxjs';
-import { OpfPaymentMetadata } from '../model';
+import { OpfMetadataModel } from '../model';
 import {
-  OpfStatePersistenceService,
+  OpfMetadataStatePersistanceService,
   SyncedOpfState,
 } from './opf-metadata-state-persistence.service';
-import { OpfPaymentMetadataStoreService } from './opf-metadata-store.service';
+import { OpfMetadataStoreService } from './opf-metadata-store.service';
 
-const mockOpfMetadata: OpfPaymentMetadata = {
+const mockOpfMetadata: OpfMetadataModel = {
   isPaymentInProgress: true,
   selectedPaymentOptionId: 111,
   termsAndConditionsChecked: true,
   paymentSessionId: '111111',
 };
 
-describe('OpfStatePersistenceService', () => {
-  let service: OpfStatePersistenceService;
+describe('OpfMetadataStatePersistanceService', () => {
+  let service: OpfMetadataStatePersistanceService;
   let statePersistenceServiceMock: jasmine.SpyObj<StatePersistenceService>;
-  let opfPaymentMetadataStoreServiceMock: jasmine.SpyObj<OpfPaymentMetadataStoreService>;
+  let opfMetadataStoreServiceMock: jasmine.SpyObj<OpfMetadataStoreService>;
 
   beforeEach(() => {
     statePersistenceServiceMock = jasmine.createSpyObj(
       'StatePersistenceService',
       ['syncWithStorage']
     );
-    opfPaymentMetadataStoreServiceMock = jasmine.createSpyObj(
-      'OpfPaymentMetadataStoreService',
+    opfMetadataStoreServiceMock = jasmine.createSpyObj(
+      'OpMetadataStoreService',
       ['getOpfMetadataState', 'updateOpfMetadata']
     );
 
     TestBed.configureTestingModule({
       providers: [
-        OpfStatePersistenceService,
+        OpfMetadataStatePersistanceService,
         {
           provide: StatePersistenceService,
           useValue: statePersistenceServiceMock,
         },
         {
-          provide: OpfPaymentMetadataStoreService,
-          useValue: opfPaymentMetadataStoreServiceMock,
+          provide: OpfMetadataStoreService,
+          useValue: opfMetadataStoreServiceMock,
         },
       ],
     });
 
-    service = TestBed.inject(OpfStatePersistenceService);
+    service = TestBed.inject(OpfMetadataStatePersistanceService);
   });
 
   it('should be created', () => {
@@ -64,7 +64,8 @@ describe('OpfStatePersistenceService', () => {
     const stateObservable = new BehaviorSubject<SyncedOpfState | undefined>(
       mockSyncedOpfState
     );
-    opfPaymentMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+
+    opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
       of(stateObservable.value?.metadata)
     );
 
@@ -74,29 +75,29 @@ describe('OpfStatePersistenceService', () => {
   });
 
   it('should get and transform Opf state', (done) => {
-    const stateObservable = new BehaviorSubject<OpfPaymentMetadata>(
+    const stateObservable = new BehaviorSubject<OpfMetadataModel>(
       mockOpfMetadata
     );
-    opfPaymentMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+    opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
       stateObservable
     );
 
-    service['getOpfState']().subscribe((state) => {
+    service['getOpfState']().subscribe((state: any) => {
       expect(state).toEqual({ metadata: mockOpfMetadata });
       done();
     });
   });
 
-  it('should update OpfPaymentMetadataStoreService when onRead is called', () => {
+  it('should update OpfMetadataStoreService when onRead is called', () => {
     const mockSyncedOpfState: SyncedOpfState = {
       metadata: mockOpfMetadata,
     };
 
     service['onRead'](mockSyncedOpfState);
 
-    expect(
-      opfPaymentMetadataStoreServiceMock.updateOpfMetadata
-    ).toHaveBeenCalledWith(mockOpfMetadata);
+    expect(opfMetadataStoreServiceMock.updateOpfMetadata).toHaveBeenCalledWith(
+      mockOpfMetadata
+    );
   });
 
   it('should unsubscribe on ngOnDestroy', () => {

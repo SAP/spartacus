@@ -6,9 +6,9 @@
 
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { OpfPaymentMetadata } from '../model/opf.model';
+import { OpfMetadataModel } from '../model/opf.model';
 
-const initialState: OpfPaymentMetadata = {
+const initialState: OpfMetadataModel = {
   termsAndConditionsChecked: false,
   selectedPaymentOptionId: undefined,
   isPaymentInProgress: false,
@@ -17,22 +17,20 @@ const initialState: OpfPaymentMetadata = {
 
 @Injectable({ providedIn: 'root' })
 export class OpfMetadataStoreService {
-  opfPaymentMetadataState = new BehaviorSubject<OpfPaymentMetadata>(
-    initialState
-  );
+  opfMetadataState = new BehaviorSubject<OpfMetadataModel>(initialState);
 
-  getOpfMetadataState(): Observable<OpfPaymentMetadata> {
-    return this.opfPaymentMetadataState.asObservable();
+  getOpfMetadataState(): Observable<OpfMetadataModel> {
+    return this.opfMetadataState.asObservable();
   }
 
-  updateOpfMetadata(payload: Partial<OpfPaymentMetadata>): void {
-    this.opfPaymentMetadataState.next({
-      ...this.opfPaymentMetadataState.value,
+  updateOpfMetadata(payload: Partial<OpfMetadataModel>): void {
+    this.opfMetadataState.next({
+      ...this.opfMetadataState.value,
       ...payload,
     });
   }
 
   clearOpfMetadata(): void {
-    this.opfPaymentMetadataState.next(initialState);
+    this.opfMetadataState.next(initialState);
   }
 }
