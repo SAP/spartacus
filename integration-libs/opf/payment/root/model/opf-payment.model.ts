@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ViewContainerRef } from '@angular/core';
+import { ErrorDialogOptions, OpfDynamicScript } from '@spartacus/opf/base/root';
 
 export interface KeyValuePair {
   key: string;
@@ -120,45 +120,6 @@ export interface SubmitCompleteInput {
 export interface AfterRedirectScriptResponse {
   afterRedirectScript: OpfDynamicScript;
 }
-
-export interface OpfDynamicScript {
-  cssUrls?: OpfDynamicScriptResource[];
-  jsUrls?: OpfDynamicScriptResource[];
-  html?: string;
-}
-
-export interface OpfDynamicScriptResource {
-  url?: string;
-  sri?: string;
-  attributes?: KeyValuePair[];
-  type?: OpfDynamicScriptResourceType;
-}
-
-export enum OpfDynamicScriptResourceType {
-  SCRIPT = 'SCRIPT',
-  STYLES = 'STYLES',
-}
-
-export interface GlobalFunctionsInput {
-  paymentSessionId: string;
-  vcr?: ViewContainerRef;
-  paramsMap?: Array<KeyValuePair>;
-  domain: GlobalFunctionsDomain;
-}
-
-export enum TargetPage {
-  CHECKOUT_REVIEW = 'CHECKOUT_REVIEW',
-  RESULT = 'RESULT',
-}
-
-export type ErrorDialogOptions = {
-  confirmString?: string;
-  confirmKey?: string;
-  confirmReplacements?: any;
-  messageString?: string;
-  messageKey?: string;
-  messageReplacements?: any;
-};
 
 export const defaultErrorDialogOptions: ErrorDialogOptions = {
   messageKey: 'opf.payment.errors.proceedPayment',

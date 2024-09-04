@@ -14,7 +14,6 @@ import {
 import { WindowRef } from '@spartacus/core';
 import {
   ErrorDialogOptions,
-  OpfPage,
   defaultErrorDialogOptions,
 } from '@spartacus/opf/base/root';
 import {
@@ -26,6 +25,7 @@ import {
   GlobalOpfPaymentMethods,
   KeyValuePair,
   MerchantCallback,
+  OpfPage,
   OpfPaymentFacade,
   PaymentMethod,
 } from '@spartacus/opf/payment/root';

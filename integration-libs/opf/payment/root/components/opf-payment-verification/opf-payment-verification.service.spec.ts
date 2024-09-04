@@ -13,6 +13,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import {
+  OpfDynamicScript,
   OpfMetadataModel,
   OpfMetadataStoreService,
   OpfResourceLoaderService,
@@ -22,7 +23,6 @@ import { of } from 'rxjs';
 import { OpfPaymentFacade } from '../../facade';
 import {
   GlobalFunctionsDomain,
-  OpfDynamicScript,
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
 } from '../../model';

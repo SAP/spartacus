@@ -15,16 +15,13 @@ import {
   normalizeHttpError,
 } from '@spartacus/core';
 import { OpfEndpointsService } from '@spartacus/opf/base/core';
-import {
-  OPF_CC_PUBLIC_KEY,
-  OpfConfig,
-  SubmitResponse,
-} from '@spartacus/opf/base/root';
+import { OPF_CC_PUBLIC_KEY, OpfConfig } from '@spartacus/opf/base/root';
 import {
   OPF_CTA_SCRIPTS_NORMALIZER,
   OpfCtaAdapter,
 } from '@spartacus/opf/cta/core';
 import { CtaScriptsRequest, CtaScriptsResponse } from '@spartacus/opf/cta/root';
+import { SubmitResponse } from '@spartacus/opf/payment/root';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

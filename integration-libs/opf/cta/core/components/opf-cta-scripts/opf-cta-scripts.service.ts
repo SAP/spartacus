@@ -21,6 +21,7 @@ import {
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   OpfBaseFacade,
+  OpfDynamicScript,
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
 import {
@@ -30,7 +31,7 @@ import {
   CtaScriptsResponse,
   OpfCtaFacade,
 } from '@spartacus/opf/cta/root';
-import { OpfDynamicScript } from '@spartacus/opf/payment/root';
+
 import { CurrentProductService } from '@spartacus/storefront';
 
 @Injectable({

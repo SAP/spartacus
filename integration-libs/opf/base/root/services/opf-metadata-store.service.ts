@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { OpfMetadataModel } from '../model/opf.model';
+import { OpfMetadataModel } from '../model/opf-metadata-store.model';
 
 const initialState: OpfMetadataModel = {
   termsAndConditionsChecked: false,

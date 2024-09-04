@@ -16,7 +16,7 @@ export type CtaAdditionalDataKey =
 export interface CtaScriptsRequest {
   paymentAccountIds?: Array<number>;
   cartId?: string;
-  ctaProductItems?: Array<CTAProductItem>;
+  ctaProductItems?: Array<CtaProductItem>;
   scriptLocations?: Array<CtaScriptsLocation>;
   additionalData?: Array<{
     key: CtaAdditionalDataKey;
@@ -24,7 +24,7 @@ export interface CtaScriptsRequest {
   }>;
 }
 
-export interface CTAProductItem {
+export interface CtaProductItem {
   productId: string;
   quantity: number;
   fulfillmentLocationId?: string;

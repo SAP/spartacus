@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PaymentBrowserInfo } from '@spartacus/opf/base/root';
+import { PaymentBrowserInfo } from '@spartacus/opf/payment/root';
 
 export function getBrowserInfo(
   nativeWindow: Window | undefined

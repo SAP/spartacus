@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 
 import {
+  OpfDynamicScript,
   OpfMetadataModel,
   OpfMetadataStoreService,
   OpfResourceLoaderService,
@@ -28,7 +29,6 @@ import { concatMap, filter, map, take, tap } from 'rxjs/operators';
 import { OpfPaymentFacade } from '../../facade';
 import {
   KeyValuePair,
-  OpfDynamicScript,
   OpfPage,
   OpfPaymenVerificationUrlInput,
   OpfPaymentVerificationResponse,

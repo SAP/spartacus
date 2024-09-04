@@ -14,6 +14,24 @@ export interface ActiveConfiguration {
   digitalWalletQuickBuy?: DigitalWalletQuickBuy[];
 }
 
+export interface OpfDynamicScript {
+  cssUrls?: OpfDynamicScriptResource[];
+  jsUrls?: OpfDynamicScriptResource[];
+  html?: string;
+}
+
+export interface KeyValuePair {
+  key: string;
+  value: string;
+}
+
+export interface OpfDynamicScriptResource {
+  url?: string;
+  sri?: string;
+  attributes?: KeyValuePair[];
+  type?: OpfDynamicScriptResourceType;
+}
+
 export interface DigitalWalletQuickBuy {
   description?: string;
   provider?: DigitalWalletQuickBuyProvider;
@@ -22,6 +40,11 @@ export interface DigitalWalletQuickBuy {
   merchantName?: string;
   countryCode?: string;
   googlePayGateway?: string;
+}
+
+export enum OpfDynamicScriptResourceType {
+  SCRIPT = 'SCRIPT',
+  STYLES = 'STYLES',
 }
 
 export enum DigitalWalletQuickBuyProvider {

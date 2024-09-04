@@ -12,16 +12,12 @@ import {
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
+import { defaultErrorDialogOptions } from '@spartacus/opf/base/root';
+import { GlobalFunctionsDomain } from '@spartacus/opf/global-functions/root';
+import { OpfPaymentFacade, PaymentMethod } from '@spartacus/opf/payment/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { OpfGlobalFunctionsService } from './opf-global-functions.service';
-
-import {
-  GlobalFunctionsDomain,
-  PaymentMethod,
-  defaultErrorDialogOptions,
-} from '@spartacus/opf/base/root';
-import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import { EMPTY, Observable, of } from 'rxjs';
+import { OpfGlobalFunctionsService } from './opf-global-functions.service';
 export const WINDOW = new InjectionToken<Window>('window');
 @Component({
   template: '',

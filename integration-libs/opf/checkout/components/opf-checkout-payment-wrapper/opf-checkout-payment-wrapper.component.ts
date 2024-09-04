@@ -13,8 +13,10 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { GlobalFunctionsDomain } from '@spartacus/opf/base/root';
-import { OpfGlobalFunctionsFacade } from '@spartacus/opf/global-functions/root';
+import {
+  GlobalFunctionsDomain,
+  OpfGlobalFunctionsFacade,
+} from '@spartacus/opf/global-functions/root';
 import {
   OpfPaymentMethodType,
   PaymentPattern,
