@@ -666,8 +666,14 @@
       "@spartacus/opf/cta/occ": [
         "../../integration-libs/opf/cta/occ/public_api"
       ],
+      "@spartacus/opf/cta/root": [
+        "../../integration-libs/opf/cta/root/public_api"
+      ],
       "@spartacus/opf/global-functions/core": [
         "../../integration-libs/opf/global-functions/core/public_api"
+      ],
+      "@spartacus/opf/global-functions/root": [
+        "../../integration-libs/opf/global-functions/root/public_api"
       ],
       "@spartacus/opf/global-functions": [
         "../../integration-libs/opf/global-functions/public_api"

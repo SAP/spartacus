@@ -477,11 +477,15 @@
       "@spartacus/opf/cta/core/components": [
         "../../dist/opf/cta/core/components"
       ],
+      "@spartacus/opf/cta/root": ["../../dist/opf/cta/root"],
       "@spartacus/opf/cta/core": ["../../dist/opf/cta/core"],
       "@spartacus/opf/cta": ["../../dist/opf/cta"],
       "@spartacus/opf/cta/occ": ["../../dist/opf/cta/occ"],
       "@spartacus/opf/global-functions/core": [
         "../../dist/opf/global-functions/core"
+      ],
+      "@spartacus/opf/global-functions/root": [
+        "../../dist/opf/global-functions/root"
       ],
       "@spartacus/opf/global-functions": ["../../dist/opf/global-functions"],
       "@spartacus/opf": ["../../dist/opf"],

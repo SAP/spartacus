@@ -24,14 +24,18 @@ import {
   opfPaymentTranslations,
 } from '@spartacus/opf/payment/assets';
 
-import { OpfCtaRootModule } from '@spartacus/opf/cta/root';
-import { OpfGlobalFunctionsRootModule } from '@spartacus/opf/global-functions/root';
 import {
   OPF_PAYMENT_FEATURE,
   OpfPaymentRootModule,
 } from '@spartacus/opf/payment/root';
-import { OPF_CTA_FEATURE } from 'integration-libs/opf/cta/root/feature-name';
-import { OPF_GLOBAL_FUNCTIONS_FEATURE } from 'integration-libs/opf/global-functions/root/feature-name';
+import {
+  OPF_CTA_FEATURE,
+  OpfCtaRootModule,
+} from 'integration-libs/opf/cta/root';
+import {
+  OPF_GLOBAL_FUNCTIONS_FEATURE,
+  OpfGlobalFunctionsRootModule,
+} from 'integration-libs/opf/global-functions/root';
 import { environment } from '../../../../environments/environment';
 
 const extensionProviders: Provider[] = [];
