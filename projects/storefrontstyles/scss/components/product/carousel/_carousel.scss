@@ -92,7 +92,7 @@
     }
     color: var(--cx-color-inverse);
 
-      // TODO: (CXSPA-6904) - Remove all styles with disabled selector
+    // TODO: (CXSPA-6904) - Remove all styles with disabled selector
     &:not(:disabled) {
       cursor: pointer;
     }
@@ -101,7 +101,7 @@
       &:not(:disabled) {
         cursor: unset;
       }
-      &[aria-disabled='false']  {
+      &[aria-disabled='false'] {
         cursor: pointer;
       }
     }
@@ -185,7 +185,7 @@
       &[aria-disabled='true'] {
         opacity: 0.5;
       }
-  
+
       &[aria-disabled='false']:hover {
         color: var(--cx-color-primary-accent);
       }
