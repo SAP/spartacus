@@ -9,6 +9,7 @@ import { OpfGlobalFunctionsFacade } from '@spartacus/opf/global-functions/root';
 import { OpfGlobalFunctionsService } from './opf-global-functions.service';
 
 export const facadeProviders: Provider[] = [
+  OpfGlobalFunctionsService,
   {
     provide: OpfGlobalFunctionsFacade,
     useExisting: OpfGlobalFunctionsService,
