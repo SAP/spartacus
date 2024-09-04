@@ -40,6 +40,7 @@ import { StockNotificationComponent } from './stock-notification.component';
         },
       },
     }),
+    FeaturesConfigModule,
   ],
   exports: [StockNotificationComponent, StockNotificationDialogComponent],
 })

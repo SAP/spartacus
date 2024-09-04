@@ -1,19 +1,20 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
+  ANONYMOUS_CONSENT_STATUS,
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
-  ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
+  GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
   Translatable,
-  GlobalMessageType,
-  GlobalMessageService,
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { KeyboardFocusTestingModule } from '../../../layout/a11y/keyboard-focus/focus-testing.module';
 import { LaunchDialogService } from '../../../layout/launch-dialog/index';
+import { MockFeatureDirective } from '../../test/mock-feature-directive';
 import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
 
 @Component({
@@ -95,6 +96,7 @@ describe('AnonymousConsentsDialogComponent', () => {
         MockCxIconComponent,
         MockConsentManagementFormComponent,
         MockCxSpinnerComponent,
+        MockFeatureDirective,
       ],
       providers: [
         {
