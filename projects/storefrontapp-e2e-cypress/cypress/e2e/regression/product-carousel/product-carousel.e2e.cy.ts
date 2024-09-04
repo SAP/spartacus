@@ -11,7 +11,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 
 context('Product carousel', () => {
   viewportContext(['mobile', 'desktop'], () => {
-    beforeEach(() => {
+    before(() => {
       // Configure ProductCarouselComponent to render Add To Cart buttons for each slide.
       cy.cxConfig({
         cmsComponents: {
