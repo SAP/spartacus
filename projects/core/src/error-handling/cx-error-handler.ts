@@ -21,7 +21,6 @@ import { MULTI_ERROR_HANDLER } from './multi-error-handler';
  */
 @Injectable()
 export class CxErrorHandler implements ErrorHandler {
-  //TODO: Keep it updated with the latest version of Spartacus
   /**
    * @deprecated Since 2211.29 - `LoggerService` is not used anymore in this class.
    *             Instead it's now used in `LoggingErrorHandler`.
