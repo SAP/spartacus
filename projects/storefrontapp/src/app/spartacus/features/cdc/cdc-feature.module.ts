@@ -5,20 +5,12 @@
  */
 
 import { NgModule } from '@angular/core';
-import {
-  CdcRootModule,
-  CDC_FEATURE,
-} from '@spartacus/cdc/root';
-import {
-  CmsConfig,
-  I18nConfig,
-  provideConfig,
-} from '@spartacus/core';
+import { CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
+import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   cdcTranslations,
   cdcTranslationChunksConfig,
 } from '@spartacus/cdc/assets';
-
 
 @NgModule({
   imports: [CdcRootModule],
