@@ -15,10 +15,11 @@ import {
 import {
   IconTestingModule,
   KeyboardFocusModule,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
@@ -92,6 +93,7 @@ describe('PickupOptionDialogComponent', () => {
         PickupOptionDialogComponent,
         StoreSearchStubComponent,
         StoreListStubComponent,
+        MockFeatureDirective,
       ],
       imports: [
         CommonModule,

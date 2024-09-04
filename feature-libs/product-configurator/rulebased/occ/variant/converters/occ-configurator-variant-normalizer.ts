@@ -48,6 +48,7 @@ export class OccConfiguratorVariantNormalizer
       hideBasePriceAndSelectedOptions: source.hideBasePriceAndSelectedOptions,
       immediateConflictResolution: source.immediateConflictResolution ?? false,
       newConfiguration: source.newConfiguration, // we need a trinary state true, false, undefined!
+      isPricingAsync: true,
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>
@@ -136,13 +137,7 @@ export class OccConfiguratorVariantNormalizer
       uiType: uiType,
       uiTypeVariation: sourceAttribute.type,
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
-      userInput:
-        uiType === Configurator.UiType.NUMERIC ||
-        uiType === Configurator.UiType.STRING
-          ? sourceAttribute.formattedValue
-            ? sourceAttribute.formattedValue
-            : ''
-          : undefined,
+      userInput: this.compileUserInput(sourceAttribute),
       maxlength:
         (sourceAttribute.maxlength ?? 0) +
         (sourceAttribute.negativeAllowed ? 1 : 0),
@@ -166,7 +161,24 @@ export class OccConfiguratorVariantNormalizer
     this.compileAttributeIncomplete(attribute);
     attributeList.push(attribute);
   }
-
+  protected compileUserInput(
+    sourceAttribute: OccConfigurator.Attribute
+  ): string | undefined {
+    let userInput;
+    if (
+      sourceAttribute.type === OccConfigurator.UiType.NUMERIC ||
+      sourceAttribute.type === OccConfigurator.UiType.STRING ||
+      sourceAttribute.type === OccConfigurator.UiType.READ_ONLY
+    ) {
+      userInput = sourceAttribute.formattedValue
+        ? sourceAttribute.formattedValue
+        : '';
+    }
+    if (sourceAttribute.type === OccConfigurator.UiType.SAP_DATE) {
+      userInput = sourceAttribute.value ? sourceAttribute.value : '';
+    }
+    return userInput;
+  }
   setSelectedSingleValue(attribute: Configurator.Attribute) {
     if (attribute.values) {
       const selectedValues = attribute.values
@@ -413,6 +425,10 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.NUMERIC;
         break;
       }
+      case OccConfigurator.UiType.SAP_DATE: {
+        uiType = Configurator.UiType.SAP_DATE;
+        break;
+      }
     }
     return uiType;
   }
@@ -515,41 +531,64 @@ export class OccConfiguratorVariantNormalizer
     //Default value for incomplete is false
     attribute.incomplete = false;
 
-    switch (attribute.uiType) {
-      case Configurator.UiType.RADIOBUTTON:
-      case Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT:
-      case Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT:
-      case Configurator.UiType.DROPDOWN: {
-        if (
-          !attribute.selectedSingleValue ||
-          attribute.selectedSingleValue === Configurator.RetractValueCode
-        ) {
-          attribute.incomplete = true;
-        }
-        break;
-      }
-      case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
-        if (!attribute.selectedSingleValue) {
-          attribute.incomplete = true;
-        }
-        break;
-      }
-      case Configurator.UiType.NUMERIC:
-      case Configurator.UiType.STRING: {
-        if (!attribute.userInput) {
-          attribute.incomplete = true;
-        }
-        break;
-      }
-
-      case Configurator.UiType.CHECKBOXLIST:
-      case Configurator.UiType.CHECKBOX:
-      case Configurator.UiType.MULTI_SELECTION_IMAGE: {
-        const isOneValueSelected =
-          attribute.values?.find((value) => value.selected) !== undefined;
-        attribute.incomplete = !isOneValueSelected;
-        break;
-      }
+    const singleValueTypes = [
+      Configurator.UiType.RADIOBUTTON,
+      Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
+      Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT,
+      Configurator.UiType.DROPDOWN,
+    ];
+    const inputTypes = [
+      Configurator.UiType.NUMERIC,
+      Configurator.UiType.SAP_DATE,
+      Configurator.UiType.STRING,
+    ];
+    const multiValueTypes = [
+      Configurator.UiType.CHECKBOXLIST,
+      Configurator.UiType.CHECKBOX,
+      Configurator.UiType.MULTI_SELECTION_IMAGE,
+    ];
+    const uiType = attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED;
+    if (singleValueTypes.includes(uiType)) {
+      this.compileAttributeIncompleteSingleLevel(attribute);
+    } else if (uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE) {
+      this.compileAttributeIncompleteSingleSelectionImage(attribute);
+    } else if (inputTypes.includes(uiType)) {
+      this.compileAttributeIncompleteInputTypes(attribute);
+    } else if (multiValueTypes.includes(uiType)) {
+      this.compileAttributeIncompleteMultiSelect(attribute);
     }
+  }
+
+  protected compileAttributeIncompleteSingleLevel(
+    attribute: Configurator.Attribute
+  ): void {
+    if (
+      !attribute.selectedSingleValue ||
+      attribute.selectedSingleValue === Configurator.RetractValueCode
+    ) {
+      attribute.incomplete = true;
+    }
+  }
+  protected compileAttributeIncompleteSingleSelectionImage(
+    attribute: Configurator.Attribute
+  ): void {
+    if (!attribute.selectedSingleValue) {
+      attribute.incomplete = true;
+    }
+  }
+  protected compileAttributeIncompleteInputTypes(
+    attribute: Configurator.Attribute
+  ): void {
+    if (!attribute.userInput) {
+      attribute.incomplete = true;
+    }
+  }
+
+  protected compileAttributeIncompleteMultiSelect(
+    attribute: Configurator.Attribute
+  ): void {
+    const isOneValueSelected =
+      attribute.values?.find((value) => value.selected) !== undefined;
+    attribute.incomplete = !isOneValueSelected;
   }
 }

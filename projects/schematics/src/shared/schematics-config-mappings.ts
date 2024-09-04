@@ -6,14 +6,15 @@
 
 import { SchematicsException } from '@angular-devkit/schematics';
 import {
-  ASM_SCHEMATICS_CONFIG,
   ASM_CUSTOMER_360_SCHEMATICS_CONFIG,
+  ASM_SCHEMATICS_CONFIG,
 } from './lib-configs/asm-schematics-config';
 import {
   CDP_SCHEMATICS_CONFIG,
-  QUOTE_SCHEMATICS_CONFIG,
   OPPS_SCHEMATICS_CONFIG,
+  QUOTE_SCHEMATICS_CONFIG,
   S4_SERVICE_SCHEMATICS_CONFIG,
+  OMF_SCHEMATICS_CONFIG,
 } from './lib-configs';
 import {
   CART_BASE_SCHEMATICS_CONFIG,
@@ -75,6 +76,10 @@ import {
   USER_PROFILE_SCHEMATICS_CONFIG,
 } from './lib-configs/user-schematics-config';
 import { Module, SchematicConfig } from './utils/lib-utils';
+import {
+  PRODUCT_MULTI_DIMENSIONAL_LIST_SCHEMATICS_CONFIG,
+  PRODUCT_MULTI_DIMENSIONAL_SELECTOR_SCHEMATICS_CONFIG,
+} from './lib-configs/product-multi-dimensional-schematics-config';
 
 /**
  * A list of all schematics feature configurations.
@@ -114,6 +119,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG,
   PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG,
   PRODUCT_VARIANTS_SCHEMATICS_CONFIG,
+  PRODUCT_MULTI_DIMENSIONAL_SELECTOR_SCHEMATICS_CONFIG,
+  PRODUCT_MULTI_DIMENSIONAL_LIST_SCHEMATICS_CONFIG,
   PRODUCT_FUTURE_STOCK_SCHEMATICS_CONFIG,
 
   PDF_INVOICES_SCHEMATICS_CONFIG,
@@ -150,6 +157,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   EPD_SCHEMATICS_CONFIG,
 
   OPPS_SCHEMATICS_CONFIG,
+
+  OMF_SCHEMATICS_CONFIG,
 
   S4OM_SCHEMATICS_CONFIG,
 

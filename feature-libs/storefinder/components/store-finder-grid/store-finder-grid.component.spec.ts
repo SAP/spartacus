@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { RoutingService, TranslationService } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable } from 'rxjs';
 import { StoreFinderGridComponent } from './store-finder-grid.component';
 import createSpy = jasmine.createSpy;
@@ -57,6 +58,7 @@ describe('StoreFinderGridComponent', () => {
       declarations: [
         StoreFinderGridComponent,
         MockStoreFinderListItemComponent,
+        MockFeatureDirective,
       ],
       providers: [
         { provide: StoreFinderService, useClass: MockStoreFinderService },
