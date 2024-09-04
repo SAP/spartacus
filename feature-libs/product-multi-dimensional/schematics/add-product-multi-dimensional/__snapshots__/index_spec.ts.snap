@@ -2,38 +2,13 @@
 
 exports[`Spartacus Product Multi-Dimensional schematics: ng-add list feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { ProductMultiDimensionalListModule } from "@spartacus/product-multi-dimensional/list";
 import { ProductMultiDimensionalListRootModule } from "@spartacus/product-multi-dimensional/list/root";
 
 @NgModule({
   declarations: [],
   imports: [
-    ProductMultiDimensionalListRootModule,
-    ProductMultiDimensionalListModule
-  ]
-})
-export class ProductMultiDimensionalListFeatureModule { }
-"
-`;
-
-exports[`Spartacus Product Multi-Dimensional schematics: ng-add list feature general setup should add the feature using the lazy loading syntax 1`] = `
-"import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from "@spartacus/core";
-import { PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE, ProductMultiDimensionalListRootModule } from "@spartacus/product-multi-dimensional/list/root";
-
-@NgModule({
-  declarations: [],
-  imports: [
     ProductMultiDimensionalListRootModule
-  ],
-  providers: [provideConfig(<CmsConfig>{
-    featureModules: {
-      [PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE]: {
-        module: () =>
-          import('@spartacus/product-multi-dimensional/list').then((m) => m.ProductMultiDimensionalListModule),
-      },
-    }
-  })]
+  ]
 })
 export class ProductMultiDimensionalListFeatureModule { }
 "

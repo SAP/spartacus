@@ -1,6 +1,10 @@
 <ng-container *ngIf="preferences$ | async as preferences">
   <div *ngIf="preferences.length > 0; else loading">
-    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <div
+      *cxFeature="'!a11yRemoveStatusLoadedRole'"
+      role="status"
+      [attr.aria-label]="'common.loaded' | cxTranslate"
+    ></div>
     <!-- TODO: (CXSPA-7414) - Remove feature flag next major release. -->
     <div
       *cxFeature="'a11yNotificationPreferenceFieldset'"
