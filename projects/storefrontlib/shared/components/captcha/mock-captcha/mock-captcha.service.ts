@@ -89,9 +89,6 @@ export class MockCaptchaService extends CaptchaService {
 
     this.retVal = new Subject<string>();
 
-    if (element.contains(this.container)) {
-      element.removeChild(this.container);
-    }
     element.appendChild(this.container);
   }
 }
