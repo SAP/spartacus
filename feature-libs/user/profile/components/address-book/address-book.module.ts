@@ -9,14 +9,15 @@ import { NgModule } from '@angular/core';
 import {
   AuthGuard,
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UserAddressService,
 } from '@spartacus/core';
+import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { AddressBookComponent } from './address-book.component';
 import { AddressFormModule } from './address-form/address-form.module';
 import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/suggested-addresses-dialog/default-suggested-addresses-dialog-layout.config';
-import { CardModule, SpinnerModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { CardModule, SpinnerModule } from '@spartacus/storefront';
     }),
     provideDefaultConfig(defaultSuggestedAddressesDialogLayoutConfig),
     UserAddressService,
+    FeaturesConfigModule,
   ],
 })
 export class AddressBookModule {}
