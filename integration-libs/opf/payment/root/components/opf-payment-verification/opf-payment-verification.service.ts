@@ -24,12 +24,12 @@ import {
 import { Order, OrderFacade } from '@spartacus/order/root';
 import { Observable, from, of, throwError } from 'rxjs';
 import { concatMap, filter, map, take, tap } from 'rxjs/operators';
+import { OpfPaymentFacade } from '../../facade';
 import {
   KeyValuePair,
   OpfDynamicScript,
   OpfPage,
   OpfPaymenVerificationUrlInput,
-  OpfPaymentFacade,
   OpfPaymentMetadata,
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
