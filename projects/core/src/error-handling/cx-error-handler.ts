@@ -15,9 +15,6 @@ import { MULTI_ERROR_HANDLER } from './multi-error-handler';
  * The prefix `Cx` was used to distinguish it from Angular's `ErrorHandler` class.
  * For more, see Angular docs: https://angular.dev/api/core/ErrorHandler
  *
- * @method handleError - Handles the error by passing it to the registered multi error handlers.
- *
- * @public
  */
 @Injectable()
 export class CxErrorHandler implements ErrorHandler {
