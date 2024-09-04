@@ -127,8 +127,8 @@ export interface FeatureTogglesInterface {
 
   /**
    * In SSR, the following errors will be printed to logs (and additionally can also
-   * be forwarded to ExpressJS if only the setting
-   * `SsrOptimizationOptions.ssrErrorHandling`  is enabled):
+   * be forwarded to ExpressJS if only the other feature toggle `propagateErrorsToServer` is enabled):
+   *
    * 1. any outgoing HTTP request error (4xx-5xx status)
    * 2. any NgRx action with the `error` property
    */

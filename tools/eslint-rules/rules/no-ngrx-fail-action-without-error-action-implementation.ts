@@ -39,7 +39,7 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
     schema: [], // no options
     messages: {
       missingImplementsErrorAction:
-        '[Spartacus] NgRx Failure Action class should have `implements ErrorAction`. Otherwise it might be not handled properly by `EffectsErrorHandlerService`',
+        '[Spartacus] NgRx Failure Action class should have `implements ErrorAction`. Otherwise it might be not handled properly by `ErrorActionService`',
     },
     fixable: 'code',
   },
