@@ -104,7 +104,7 @@ describe('CxCommonEngine', () => {
     });
 
     // Cannot use `.toMatchInlineSnapshot()` due to bug in jest:
-    // see: https://github.com/thymikee/jest-preset-angular/issues/1084ń
+    // see: https://github.com/thymikee/jest-preset-angular/issues/1084
     await expect(
       engine.render({
         url: 'http://localhost:4200',
