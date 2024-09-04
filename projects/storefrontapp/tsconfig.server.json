@@ -649,7 +649,9 @@
       "@spartacus/opf/cta/core": [
         "../../integration-libs/opf/cta/core/public_api"
       ],
-      "@spartacus/opf/cta/root": ["../../integration-libs/opf/cta/root/public_api"],
+      "@spartacus/opf/cta/root": [
+        "../../integration-libs/opf/cta/root/public_api"
+      ],
       "@spartacus/opf/cta": ["../../integration-libs/opf/cta/public_api"],
       "@spartacus/opf/cta/occ": [
         "../../integration-libs/opf/cta/occ/public_api"

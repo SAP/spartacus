@@ -21,6 +21,9 @@ import {
   GlobalFunctionsDomain,
   OpfGlobalFunctionsFacade,
 } from '@spartacus/opf/global-functions/root';
+import { Order, OrderFacade } from '@spartacus/order/root';
+import { Observable, from, of, throwError } from 'rxjs';
+import { concatMap, filter, map, take, tap } from 'rxjs/operators';
 import {
   KeyValuePair,
   OpfDynamicScript,
@@ -30,10 +33,7 @@ import {
   OpfPaymentMetadata,
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
-} from '@spartacus/opf/payment/root';
-import { Order, OrderFacade } from '@spartacus/order/root';
-import { Observable, from, of, throwError } from 'rxjs';
-import { concatMap, filter, map, take, tap } from 'rxjs/operators';
+} from '../../model';
 
 @Injectable({
   providedIn: 'root',
