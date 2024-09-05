@@ -126,6 +126,10 @@ export class MediaComponent implements OnChanges {
 
   /**
    * @deprecated will be removed
+   *
+   * To use `img` HTML element instead of `picture`
+   * use `useMediaComponentWithConfigurableMediaQueries` feature flag
+   * and pass `[useImgElement]="true"` input to the component
    */
   protected isLegacy =
     inject(USE_LEGACY_MEDIA_COMPONENT, { optional: true }) ||

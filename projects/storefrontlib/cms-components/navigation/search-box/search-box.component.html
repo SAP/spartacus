@@ -163,6 +163,7 @@
           [container]="product.images?.PRIMARY"
           format="thumbnail"
           role="presentation"
+          [useImgElement]="true"
         ></cx-media>
         <div class="name" [innerHTML]="product.nameHtml"></div>
         <span class="price">{{ product.price?.formattedValue }}</span>
