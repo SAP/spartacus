@@ -30,8 +30,37 @@ export interface Media {
    */
   role?: string;
 
-  sources?: any[];
+  /**
+   * The sources holds a list of source element for picture html element
+   */
+  sources?: PictureHTMLElementSources[];
+
+  /**
+   * Specifies the intrinsic width of the image in pixels. Allowed if the parent of `<source>` is a `<picture>`
+   */
+  width?: number;
+
+  /**
+   * Specifies the intrinsic height of the image in pixels. Allowed if the parent of `<source>` is a `<picture>`
+   */
+  height?: number;
 }
+
+/**
+ * Specifies most commonly used media queries for `picture`
+ */
+export type DefaultMediaQueryKeys =
+  | 'minWidth'
+  | 'maxWidth'
+  | 'minHeight'
+  | 'maxHeight'
+  | 'minDevicePixelRatio'
+  | 'maxDevicePixelRatio'
+  | 'orientation'
+  | 'minAspectRatio'
+  | 'maxAspectRatio'
+  | 'minResolution'
+  | 'maxResolution';
 
 /**
  * Contains multiple media for different formats
@@ -53,12 +82,21 @@ export interface MediaFormatSize {
   width?: number;
 }
 
+export type MediaQueryKeys = DefaultMediaQueryKeys & string;
+
 /**
  * Specifies media queries that can be used to generate information for the
  * browser to resolve the right media for the right layout or device.
  */
-export interface PictureElementQueries {
+export type PictureElementQueries = {
   [query: string]: string | number;
+};
+
+export interface PictureHTMLElementSources {
+  srcset: string;
+  media: string;
+  width: number | undefined;
+  height: number | undefined;
 }
 
 /**

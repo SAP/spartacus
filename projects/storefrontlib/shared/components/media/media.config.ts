@@ -42,7 +42,11 @@ export abstract class MediaConfig {
    * <source> element in order and uses the first one that matches.
    */
   pictureElementFormats?: {
-    [format: string]: PictureElementQueries;
+    [format: string]: {
+      mediaQueries: PictureElementQueries;
+      width?: number;
+      height?: number;
+    };
   };
 
   /**

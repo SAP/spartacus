@@ -13,6 +13,7 @@ import {
   MediaContainer,
   MediaFormatSize,
   PictureElementQueries,
+  PictureHTMLElementSources,
 } from './media.model';
 
 /**
@@ -181,7 +182,9 @@ export class MediaService {
       this._sortedPictureFormats = Object.keys(pictureElementMediaFormats).map(
         (key) => ({
           code: key,
-          mediaQuery: this.generateMediaQuery(pictureElementMediaFormats[key]),
+          mediaQuery: this.generateMediaQuery(
+            pictureElementMediaFormats[key].mediaQueries
+          ),
         })
       );
 
@@ -319,12 +322,7 @@ export class MediaService {
   protected resolveSources(
     media: MediaContainer | Image,
     maxFormat?: string
-  ):
-    | {
-        srcset: string;
-        media: string;
-      }[]
-    | undefined {
+  ): PictureHTMLElementSources[] | undefined {
     if (!media) {
       return undefined;
     }
@@ -333,11 +331,14 @@ export class MediaService {
       this.sortedPictureFormats,
       maxFormat
     );
+    const pictureElementMediaFormats = this.config?.pictureElementFormats;
 
     return pictureFormats.reduce<
       {
         srcset: string;
         media: string;
+        width: number | undefined;
+        height: number | undefined;
       }[]
     >((sources, format) => {
       const image = (media as MediaContainer)[format.code];
@@ -346,6 +347,8 @@ export class MediaService {
         sources.push({
           srcset: this.resolveAbsoluteUrl(image.url),
           media: format.mediaQuery,
+          width: pictureElementMediaFormats?.[format?.code]?.width,
+          height: pictureElementMediaFormats?.[format?.code]?.height,
         });
       }
       return sources;

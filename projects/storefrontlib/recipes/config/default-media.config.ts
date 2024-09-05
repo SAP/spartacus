@@ -20,26 +20,28 @@ export const mediaConfig: MediaConfig = {
   },
   pictureElementFormats: {
     mobile: {
-      maxWidth: '767px',
+      mediaQueries: {
+        maxWidth: '767px',
+      },
+      width: 50,
+      height: 50,
     },
     tablet: {
-      minWidth: '768px',
-      maxWidth: '1024px',
+      mediaQueries: { minWidth: '768px', maxWidth: '1024px' },
     },
     desktop: {
-      minWidth: '1025px',
-      maxWidth: '1439px',
+      mediaQueries: { minWidth: '1025px', maxWidth: '1439px' },
+      width: 100,
+      height: 100,
     },
     widescreen: {
-      minWidth: '1440px',
+      mediaQueries: { minWidth: '1440px' },
     },
     retina_mobile: {
-      maxWidth: '786px',
-      minDevicePixelRatio: 3,
+      mediaQueries: { maxWidth: '786px', minDevicePixelRatio: 3 },
     },
     retina_desktop: {
-      minWidth: '1440px',
-      minDevicePixelRatio: 2,
+      mediaQueries: { minWidth: '1440px', minDevicePixelRatio: 2 },
     },
   },
   pictureFormatsOrder: [

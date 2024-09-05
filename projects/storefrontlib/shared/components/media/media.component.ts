@@ -66,7 +66,29 @@ export class MediaComponent implements OnChanges {
    */
   @Input() loading: ImageLoadingStrategy | null = this.loadingStrategy;
 
-  @Input() usePictureElement: boolean = false;
+  @Input() useImgElement: boolean = false;
+
+  /**
+   * The intrinsic width of the image, in pixels
+   */
+  @Input() width: number;
+
+  /**
+   * The intrinsic height of the image, in pixels
+   */
+  @Input() height: number;
+
+  /**
+   * Specifies the sizes attribute for responsive images.
+   *
+   * The `sizes` attribute describes the layout width of the image for various viewport sizes.
+   * It helps the browser determine which image to download from the `srcset` attribute.
+   *
+   * - The sizes attribute is defined using media queries.
+   * - It allows specifying different sizes for various screen widths or other conditions (e.g., device orientation).
+   * - The browser uses the value to pick the most appropriate image source from the `srcset`.
+   */
+  @Input() sizes: string;
 
   /**
    * Once the media is loaded, we emit an event.
@@ -123,10 +145,10 @@ export class MediaComponent implements OnChanges {
    */
   protected create(): void {
     const shouldGetMediaForPictureElement =
-      this.usePictureElement &&
       this.featureConfigService.isEnabled(
         'useMediaComponentWithConfigurableMediaQueries'
-      );
+      ) && !this.useImgElement;
+
     const getMedia = shouldGetMediaForPictureElement
       ? this.mediaService.getMediaForPictureElement.bind(this.mediaService)
       : this.mediaService.getMedia.bind(this.mediaService);
