@@ -100,7 +100,7 @@ const testConfig = [
     name: 'CPQ Configuration - cpqOverOcc Mode',
     cpqOverOcc: true,
     backendURL: `${Cypress.env('OCC_PREFIX')}/${POWERTOOLS}/cpqconfigurator/**`,
-  }
+  },
 ];
 
 testConfig.forEach((config) => {
