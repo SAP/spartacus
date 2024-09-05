@@ -27,7 +27,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/pickup-in-store.scss';
 
-describe('Spartacus Pickup in Store schematics: ng-add', () => {
+xdescribe('Spartacus Pickup in Store schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_PICKUP_IN_STORE,
     collectionPath

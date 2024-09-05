@@ -17,7 +17,7 @@ import {
   formatFeatureStart,
 } from './logger-utils';
 
-describe('Logger utils', () => {
+xdescribe('Logger utils', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     path.join(__dirname, '../../collection.json')

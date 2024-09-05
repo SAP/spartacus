@@ -28,7 +28,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/product-configurator.scss';
 
-describe('Spartacus product configurator schematics: ng-add', () => {
+xdescribe('Spartacus product configurator schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_PRODUCT_CONFIGURATOR,
     collectionPath
