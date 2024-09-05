@@ -28,7 +28,7 @@
 
       // z-index was being set to 1000 on focus
       // when a11yVisibleFocusOverflows feature toggle was enabled
-      z-index: 0;
+      z-index: 0 !important;
 
       canvas {
         outline-style: unset;
