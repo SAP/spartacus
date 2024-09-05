@@ -116,6 +116,7 @@ export interface CdcSiteConfig {
   oidcOpIssuerURI: string;
   oidcRpClientId: string;
   scopes: string[];
+  siteApiKey?: string;
 }
 
 export interface BaseSite {

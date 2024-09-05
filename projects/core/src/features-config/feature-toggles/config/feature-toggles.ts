@@ -474,6 +474,17 @@ export interface FeatureTogglesInterface {
   a11yNgSelectMobileReadout?: boolean;
 
   /**
+   * Fixes `aria-controls` attribute in the 'QuickOrderFormComponent' combobox.
+   */
+  a11yQuickOrderAriaControls?: boolean;
+
+  /**
+   * Removes the element with `role="status"` attribute from subpage components.
+   * The 'Loaded, empty status' message will no longer be present for the screen readers.
+   */
+  a11yRemoveStatusLoadedRole?: boolean;
+
+  /**
    * Changes modal title elements form divs into headings. Affects modals before version 2211.27.
    */
   a11yDialogsHeading?: boolean;
@@ -501,8 +512,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useExtractedBillingAddressComponent: false,
   showBillingAddressInDigitalPayments: false,
   showDownloadProposalButton: false,
-  showPromotionsInPDP: false,
-  recentSearches: false,
+  showPromotionsInPDP: true,
+  recentSearches: true,
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: true,
   useProductCarouselBatchApi: false,
@@ -565,6 +576,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRepeatedCancelOrderError: false,
   a11yAddedToCartActiveDialog: false,
   a11yNgSelectMobileReadout: false,
+  a11yQuickOrderAriaControls: false,
+  a11yRemoveStatusLoadedRole: false,
   a11yDialogsHeading: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,

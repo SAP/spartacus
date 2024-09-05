@@ -38,6 +38,7 @@ export class CdcAuthConfigInitializer implements ConfigInitializer {
           const result: AuthConfig = {
             authentication: {
               client_id: site.cdcSiteConfig.oidcRpClientId,
+              revokeEndpoint: site.cdcSiteConfig.oidcRpClientId + '/revoke',
               OAuthLibConfig: {
                 issuer: site.cdcSiteConfig.oidcOpIssuerURI,
                 redirectUri: `${window.location.origin}/${site.uid}/${defaultLanguage}/${defaultCurrency}/login`,

@@ -58,6 +58,9 @@ class MockOAuthService implements Partial<OAuthService> {
   revokeTokenAndLogout() {
     return Promise.resolve(true);
   }
+  loadDiscoveryDocumentAndTryLogin() {
+    return Promise.resolve(true);
+  }
 }
 
 const store = {};
@@ -266,11 +269,13 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should call tryLogin method from the lib', () => {
-      spyOn(oAuthService, 'tryLogin').and.callThrough();
+      spyOn(oAuthService, 'loadDiscoveryDocumentAndTryLogin').and.callThrough();
 
       service.tryLogin();
 
-      expect(oAuthService.tryLogin).toHaveBeenCalledWith({
+      expect(
+        oAuthService.loadDiscoveryDocumentAndTryLogin
+      ).toHaveBeenCalledWith({
         disableOAuth2StateCheck: true,
       });
     });
