@@ -1,0 +1,29 @@
+%cx-service-details {
+  @include checkout-media-style();
+
+  border: 1px solid var(--cx-color-medium);
+  border-radius: 10px;
+  padding: 23px 30px 8px;
+  background-color: var(--cx-color-inverse);
+
+  @include media-breakpoint-down(md) {
+    background-color: var(--cx-color-transparent);
+    margin-top: 32px;
+    padding: 23px 30px 8px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin: 2rem 0 2rem;
+  }
+  &.row {
+    display: flex;
+    flex-direction: column;
+  }
+  .cx-service-location-text {
+    margin-bottom: 1.25rem;
+
+    @include media-breakpoint-down(md) {
+      padding-inline-start: 0;
+    }
+  }
+}

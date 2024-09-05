@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorAction } from '../../../model/index';
+import { ErrorAction } from '../../../error-handling';
 
 export const LOADER_LOAD_ACTION = '[LOADER] LOAD';
 export const LOADER_FAIL_ACTION = '[LOADER] FAIL';

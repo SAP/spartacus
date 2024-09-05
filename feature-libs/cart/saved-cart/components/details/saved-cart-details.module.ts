@@ -12,6 +12,7 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
@@ -54,6 +55,7 @@ import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview
         },
       },
     }),
+    FeaturesConfigModule,
   ],
   declarations: [
     SavedCartDetailsOverviewComponent,

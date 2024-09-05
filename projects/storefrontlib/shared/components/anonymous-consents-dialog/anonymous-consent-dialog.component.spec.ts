@@ -1,16 +1,20 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
+  ANONYMOUS_CONSENT_STATUS,
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
-  ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
+  GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
+  Translatable,
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { KeyboardFocusTestingModule } from '../../../layout/a11y/keyboard-focus/focus-testing.module';
 import { LaunchDialogService } from '../../../layout/launch-dialog/index';
+import { MockFeatureDirective } from '../../test/mock-feature-directive';
 import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
 
 @Component({
@@ -60,6 +64,10 @@ class MockAnonymousConsentsService {
   }
 }
 
+class GlobalMessageServiceMock {
+  add(_text: string | Translatable, _type: GlobalMessageType): void {}
+}
+
 class MockLaunchDialogService {
   closeDialog() {}
 }
@@ -88,6 +96,7 @@ describe('AnonymousConsentsDialogComponent', () => {
         MockCxIconComponent,
         MockConsentManagementFormComponent,
         MockCxSpinnerComponent,
+        MockFeatureDirective,
       ],
       providers: [
         {
@@ -101,6 +110,10 @@ describe('AnonymousConsentsDialogComponent', () => {
         {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,
+        },
+        {
+          provide: GlobalMessageService,
+          useClass: GlobalMessageServiceMock,
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

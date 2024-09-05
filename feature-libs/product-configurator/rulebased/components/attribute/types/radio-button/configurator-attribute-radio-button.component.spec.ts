@@ -24,6 +24,7 @@ import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/co
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 
 const VALUE_NAME_2 = 'val2';
 
@@ -79,6 +80,12 @@ class MockConfigUtilsService {
   }
 }
 
+class MockConfiguratorAttributePriceChangeService {
+  getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
+    return of([]);
+  }
+}
+
 describe('ConfigAttributeRadioButtonComponent', () => {
   let component: ConfiguratorAttributeRadioButtonComponent;
   let htmlElem: HTMLElement;
@@ -86,15 +93,29 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   const ownerKey = 'theOwnerKey';
   const name = 'attributeName';
   const groupId = 'theGroupId';
-  const initialSelectedValue = 'initialSelectedValue';
+  const initialSelectedValue = '1';
 
-  const value1 = createValue('1', 'val1', true);
-  const value2 = createValue('2', VALUE_NAME_2, false);
-  const value3 = createValue('3', 'val3', false);
-
-  const values: Configurator.Value[] = [value1, value2, value3];
+  let value1: Configurator.Value;
+  let value2: Configurator.Value;
+  let value3: Configurator.Value;
+  let values: Configurator.Value[];
 
   beforeEach(waitForAsync(() => {
+    value1 = createValue('1', 'val1', true);
+    value2 = createValue('2', VALUE_NAME_2, false);
+    value3 = createValue('3', 'val3', false);
+    values = [value1, value2, value3];
+
+    TestBed.overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
+      set: {
+        providers: [
+          {
+            provide: ConfiguratorAttributePriceChangeService,
+            useClass: MockConfiguratorAttributePriceChangeService,
+          },
+        ],
+      },
+    });
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeRadioButtonComponent,
@@ -170,7 +191,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   });
 
   describe('attribute level', () => {
-    it('should not display quantity and no price', () => {
+    it('should not display quantity and price in case attribute does not carry quantity', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_NO_QTY;
       fixture.detectChanges();
@@ -182,7 +203,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       );
     });
 
-    it('should display quantity and price', () => {
+    it('should display quantity and no price in case value price not present', () => {
       component.attribute.quantity = 5;
       component.attribute.attributePriceTotal = {
         currencyIso: '$',
@@ -190,18 +211,34 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         value: 500,
       };
 
-      let value = component.attribute.values
-        ? component.attribute.values[0]
-        : undefined;
-      if (value) {
-        value.valuePrice = {
-          currencyIso: '$',
-          formattedValue: '$100.00',
-          value: 100,
-        };
-      } else {
-        fail('Value not available');
-      }
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-attribute-level-quantity-price cx-configurator-price'
+      );
+    });
+
+    it('should display quantity and price in case attribute carries quantity and selected value has price', () => {
+      component.attribute.quantity = 5;
+      component.attribute.attributePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '500.00$',
+        value: 500,
+      };
+
+      value1.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
 
       fixture.detectChanges();
 
@@ -214,7 +251,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        '.cx-attribute-level-quantity-price cx-configurator-price'
       );
     });
   });
@@ -232,18 +269,11 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     });
 
     it('should display price formula', () => {
-      let value = component.attribute.values
-        ? component.attribute.values[0]
-        : undefined;
-      if (value) {
-        value.valuePrice = {
-          currencyIso: '$',
-          formattedValue: '$100.00',
-          value: 100,
-        };
-      } else {
-        fail('Value not available');
-      }
+      value1.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
 
       fixture.detectChanges();
 
@@ -275,7 +305,25 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that defines an accessible name to label the current unselected element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        1,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          VALUE_NAME_2
+      );
+    });
+
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that defines an accessible name to label the current selected element", () => {
+      value1.selected = false;
+      value2.selected = true;
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -312,6 +360,30 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         'aria-hidden',
         'true',
         VALUE_NAME_2
+      );
+    });
+
+    it('selected value should have aria-live tag if delta rendering is active', () => {
+      component.listenForPriceChanges = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        0,
+        'aria-live',
+        'polite'
+      );
+    });
+
+    it('selected value should not have aria-live tag if delta rendering is not active', () => {
+      component.listenForPriceChanges = false;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'input[aria-live]'
       );
     });
   });

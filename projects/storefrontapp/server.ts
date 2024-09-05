@@ -29,7 +29,7 @@ const ssrOptions: SsrOptimizationOptions = {
 const ngExpressEngine1 = NgExpressEngineDecorator.get(engine, {
   ...ssrOptions,
   cache: true,
-  featureToggles: {
+  ssrFeatureToggles: {
     avoidCachingErrors: true,
   },
 })({
@@ -40,7 +40,7 @@ const ngExpressEngine2 = NgExpressEngineDecorator.get(engine, {
   ...ssrOptions,
   cache: true,
   shouldCacheRenderingResult: () => true,
-  featureToggles: {
+  ssrFeatureToggles: {
     avoidCachingErrors: true,
   },
 })({
@@ -51,7 +51,7 @@ const ngExpressEngine3 = NgExpressEngineDecorator.get(engine, {
   ...ssrOptions,
   cache: true,
   shouldCacheRenderingResult: () => true,
-  featureToggles: {
+  ssrFeatureToggles: {
     avoidCachingErrors: true,
   },
 })({

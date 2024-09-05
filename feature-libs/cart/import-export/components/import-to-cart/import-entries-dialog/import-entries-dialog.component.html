@@ -3,12 +3,24 @@
   (esc)="close('Escape clicked')"
   class="cx-import-entries-dialog"
   role="dialog"
+  aria-labelledby="dialogTitle"
 >
   <div class="cx-import-entries-container">
     <!-- Modal Header -->
     <div class="modal-header cx-import-entries-header">
       <ng-container>
-        <div class="cx-import-entries-title modal-title">
+        <h3
+          *cxFeature="'a11yDialogsHeading'"
+          id="dialogTitle"
+          class="cx-import-entries-title modal-title"
+        >
+          {{ 'importEntriesDialog.importProducts' | cxTranslate }}
+        </h3>
+        <div
+          *cxFeature="'!a11yDialogsHeading'"
+          id="dialogTitle"
+          class="cx-import-entries-title modal-title"
+        >
           {{ 'importEntriesDialog.importProducts' | cxTranslate }}
         </div>
       </ng-container>
@@ -16,6 +28,7 @@
       <button
         (click)="close('Close Import Products Dialog')"
         [attr.aria-label]="'importEntriesDialog.close' | cxTranslate"
+        title="{{ 'importEntriesDialog.close' | cxTranslate }}"
         class="cx-import-entries-close close"
         type="button"
         [disabled]="(summary$ | async)?.loading"

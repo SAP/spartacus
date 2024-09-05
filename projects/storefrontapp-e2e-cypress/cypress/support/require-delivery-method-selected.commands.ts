@@ -10,8 +10,8 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Selects a default delivery method for a cart.
-       * Returns delivery method object.
+       * Selects a default delivery options for a cart.
+       * Returns delivery options object.
        *
        * @memberof Cypress.Chainable
        *

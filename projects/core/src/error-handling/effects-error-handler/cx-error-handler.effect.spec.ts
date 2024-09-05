@@ -5,36 +5,36 @@ import { Action } from '@ngrx/store';
 import { ErrorAction, FeatureConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CxErrorHandlerEffect } from './cx-error-handler.effect';
-import { EffectsErrorHandlerService } from './effects-error-handler.service';
+import { ErrorActionService } from './error-action.service';
 
 describe('CxErrorHandlerEffect', () => {
   let effect: CxErrorHandlerEffect;
   let actions$: Observable<Action>;
-  let effectsErrorHandlerService: jasmine.SpyObj<EffectsErrorHandlerService>;
+  let errorActionService: jasmine.SpyObj<ErrorActionService>;
   let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
-    const effectsErrorHandlerServiceSpy = jasmine.createSpyObj(
-      'EffectsErrorHandlerService',
-      ['handleError', 'filterActions']
-    );
+    const errorActionServiceSpy = jasmine.createSpyObj('ErrorActionService', [
+      'handle',
+      'isErrorAction',
+    ]);
     TestBed.configureTestingModule({
       providers: [
         CxErrorHandlerEffect,
         FeatureConfigService,
         provideMockActions(() => actions$),
         {
-          provide: EffectsErrorHandlerService,
-          useValue: effectsErrorHandlerServiceSpy,
+          provide: ErrorActionService,
+          useValue: errorActionServiceSpy,
         },
       ],
     });
 
     effect = TestBed.inject(CxErrorHandlerEffect);
     actions$ = TestBed.inject(Actions);
-    effectsErrorHandlerService = TestBed.inject(
-      EffectsErrorHandlerService
-    ) as jasmine.SpyObj<EffectsErrorHandlerService>;
+    errorActionService = TestBed.inject(
+      ErrorActionService
+    ) as jasmine.SpyObj<ErrorActionService>;
     featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
@@ -54,15 +54,13 @@ describe('CxErrorHandlerEffect', () => {
           error: new Error(),
         };
 
-        effectsErrorHandlerService.filterActions.and.returnValue(true);
+        errorActionService.isErrorAction.and.returnValue(true);
 
         actions$ = of(mockErrorAction);
 
         effect.error$.subscribe();
 
-        expect(effectsErrorHandlerService.handleError).toHaveBeenCalledWith(
-          mockErrorAction
-        );
+        expect(errorActionService.handle).toHaveBeenCalledWith(mockErrorAction);
       });
 
       it('should not handle non-error action', () => {
@@ -70,13 +68,13 @@ describe('CxErrorHandlerEffect', () => {
           type: 'SOME_ACTION',
         };
 
-        effectsErrorHandlerService.filterActions.and.returnValue(false);
+        errorActionService.isErrorAction.and.returnValue(false);
 
         actions$ = of(mockNonErrorAction);
 
         effect.error$.subscribe();
 
-        expect(effectsErrorHandlerService.handleError).not.toHaveBeenCalled();
+        expect(errorActionService.handle).not.toHaveBeenCalled();
       });
     });
   });
@@ -89,10 +87,10 @@ describe('CxErrorHandlerEffect', () => {
         type: 'ERROR_ACTION_TYPE',
         error: new Error(),
       };
-      effectsErrorHandlerService.filterActions.and.returnValue(true);
+      errorActionService.isErrorAction.and.returnValue(true);
       actions$ = of(mockErrorAction);
       effect.error$.subscribe();
-      expect(effectsErrorHandlerService.handleError).not.toHaveBeenCalled();
+      expect(errorActionService.handle).not.toHaveBeenCalled();
     });
   });
 });

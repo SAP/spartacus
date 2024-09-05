@@ -14,6 +14,7 @@ import { take } from 'rxjs/operators';
 
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { AddToSavedCartComponent } from './add-to-saved-cart.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 const mockCart: Cart = {
   code: '123456789',
@@ -64,7 +65,7 @@ describe('AddToSavedCartComponent', () => {
         UrlTestingModule,
         RouterTestingModule,
       ],
-      declarations: [AddToSavedCartComponent],
+      declarations: [AddToSavedCartComponent, MockFeatureDirective],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: AuthService, useClass: MockAuthService },

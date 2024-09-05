@@ -7,7 +7,6 @@
 export * from './cx-error-handler';
 export * from './effects-error-handler';
 export * from './error-handling.module';
-// export * from './error-interceptors'; TODO: not used, to be removed in separate ticket
 export * from './http-error-handler';
 export * from './multi-error-handler';
 export * from './test-query-params.service';

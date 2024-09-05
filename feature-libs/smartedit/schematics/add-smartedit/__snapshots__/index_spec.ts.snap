@@ -157,7 +157,7 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
 exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, provideConfig } from "@spartacus/core";
-import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from "@spartacus/smartedit/root";
+import { SMART_EDIT_FEATURE, SmartEditConfig, SmartEditRootModule } from "@spartacus/smartedit/root";
 
 @NgModule({
   declarations: [],
@@ -187,7 +187,7 @@ export class SmartEditFeatureModule { }
 exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature with allowOrigin config should configure the allowOrigin 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, provideConfig } from "@spartacus/core";
-import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from "@spartacus/smartedit/root";
+import { SMART_EDIT_FEATURE, SmartEditConfig, SmartEditRootModule } from "@spartacus/smartedit/root";
 
 @NgModule({
   declarations: [],
@@ -217,7 +217,7 @@ export class SmartEditFeatureModule { }
 exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature with storefrontPreviewRoute config should configure the storefrontPreviewRoute 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, provideConfig } from "@spartacus/core";
-import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from "@spartacus/smartedit/root";
+import { SMART_EDIT_FEATURE, SmartEditConfig, SmartEditRootModule } from "@spartacus/smartedit/root";
 
 @NgModule({
   declarations: [],

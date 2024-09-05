@@ -3,6 +3,7 @@
   role="dialog"
   [cxFocus]="focusConfig"
   (esc)="close('Escape clicked')"
+  aria-labelledby="dialogTitle"
 >
   <div class="cx-dialog-content">
     <div *ngIf="loading$ | async; else dialogBody">
@@ -10,16 +11,18 @@
     </div>
     <ng-template #dialogBody>
       <div
+        *cxFeature="'!a11yRemoveStatusLoadedRole'"
         role="status"
         [attr.aria-label]="'common.loaded' | cxTranslate"
       ></div>
       <div class="cx-dialog-header">
-        <h3>
+        <h3 id="dialogTitle">
           {{ 'anonymousConsents.dialog.title' | cxTranslate }}
         </h3>
         <button
           type="button"
           class="close"
+          title="{{ 'common.close' | cxTranslate }}"
           [attr.aria-label]="'common.close' | cxTranslate"
           (click)="close('Cross click')"
         >
@@ -37,12 +40,22 @@
       </div>
       <!-- Actions -->
       <div class="cx-dialog-buttons">
-        <a tabindex="0" class="btn-link cx-action-link" (click)="rejectAll()">{{
-          'anonymousConsents.dialog.clearAll' | cxTranslate
-        }}</a>
-        <a tabindex="0" class="btn-link cx-action-link" (click)="allowAll()">{{
-          'anonymousConsents.dialog.selectAll' | cxTranslate
-        }}</a>
+        <ng-container *cxFeature="'a11yUseButtonsForBtnLinks'">
+          <button class="btn btn-link cx-action-link" (click)="rejectAll()">
+            {{ 'anonymousConsents.dialog.clearAll' | cxTranslate }}
+          </button>
+          <button class="btn btn-link cx-action-link" (click)="allowAll()">
+            {{ 'anonymousConsents.dialog.selectAll' | cxTranslate }}
+          </button>
+        </ng-container>
+        <ng-container *cxFeature="'!a11yUseButtonsForBtnLinks'">
+          <a tabindex="0" class="btn-link cx-action-link" (click)="rejectAll()">
+            {{ 'anonymousConsents.dialog.clearAll' | cxTranslate }}
+          </a>
+          <a tabindex="0" class="btn-link cx-action-link" (click)="allowAll()">
+            {{ 'anonymousConsents.dialog.selectAll' | cxTranslate }}
+          </a>
+        </ng-container>
       </div>
       <!-- Modal Body -->
       <div class="cx-dialog-body" *ngIf="templates$ | async as templates">

@@ -68,6 +68,10 @@ cx-form-errors {
 
     &::after {
       content: '!';
+      // TODO: (CXSPA-7588) - Remove feature flag next major release
+      @include forFeature('a11yFormErrorMuteIcon') {
+        content: '!' / '';
+      }
       color: var(--cx-color-inverse);
       font-weight: var(--cx-font-weight-bold);
       text-align: center;
@@ -342,9 +346,10 @@ input[type='radio'] {
   }
 }
 
-:focus {
+:focus:not(main) {
   @include visible-focus();
 }
+
 .form-control,
 input {
   &:focus {

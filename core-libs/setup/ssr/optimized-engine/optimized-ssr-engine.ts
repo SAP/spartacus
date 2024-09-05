@@ -75,9 +75,9 @@ export class OptimizedSsrEngine {
           // overrides the default options
           ...ssrOptions,
           // merge feature toggles
-          featureToggles: {
-            ...defaultSsrOptimizationOptions.featureToggles,
-            ...ssrOptions.featureToggles,
+          ssrFeatureToggles: {
+            ...defaultSsrOptimizationOptions.ssrFeatureToggles,
+            ...ssrOptions.ssrFeatureToggles,
           },
         }
       : undefined;
@@ -319,14 +319,15 @@ export class OptimizedSsrEngine {
     });
   }
 
+  /**
+   * @deprecated since v2211.27 - This method will be private in the future.
+   */
   protected log(
     message: string,
-    debug = true,
+    _ignoredLegacyDebugParameter = true,
     context: ExpressServerLoggerContext
   ): void {
-    if (debug || this.ssrOptions?.debug) {
-      this.logger.log(message, context || {});
-    }
+    this.logger.log(message, context || {});
   }
 
   /** Retrieve the document from the cache or the filesystem */

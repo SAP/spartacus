@@ -9,26 +9,30 @@ import { Actions, createEffect } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { FeatureConfigService } from '../../features-config';
-import { ErrorAction } from '../../model/index';
-import { EffectsErrorHandlerService } from './effects-error-handler.service';
+import { ErrorAction } from './error-action';
+import { ErrorActionService } from './error-action.service';
 
+/**
+ * Effect that captures in a centralized manner errors occurred in NgRx flow.
+ * When such an action is detected, it delegates the error handling to the `ErrorActionService`.
+ */
 @Injectable()
 export class CxErrorHandlerEffect {
   protected actions$ = inject(Actions);
-  protected effectErrorHandlerService = inject(EffectsErrorHandlerService);
+  protected errorActionService = inject(ErrorActionService);
   private featureConfigService = inject(FeatureConfigService);
 
   error$: Observable<ErrorAction> = createEffect(
     () =>
       this.actions$.pipe(
-        filter(this.effectErrorHandlerService.filterActions),
+        filter(this.errorActionService.isErrorAction),
         tap((errorAction: ErrorAction) => {
           if (
             this.featureConfigService.isEnabled(
               'ssrStrictErrorHandlingForHttpAndNgrx'
             )
           ) {
-            this.effectErrorHandlerService.handleError(errorAction);
+            this.errorActionService.handle(errorAction);
           }
         })
       ),

@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorAction } from '../../../model';
+import { ErrorAction } from '../../../error-handling';
 import { Region } from '../../../model/address.model';
 import { StateUtils } from '../../../state/utils/index';
 import { REGIONS } from '../user-state';

@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorAction } from '../../../model/index';
+import { ErrorAction } from '../../../error-handling';
 import { Language } from '../../../model/misc.model';
 
 export const LOAD_LANGUAGES = '[Site-context] Load Languages';

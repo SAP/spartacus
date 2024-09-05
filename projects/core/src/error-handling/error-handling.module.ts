@@ -6,9 +6,16 @@
 
 import { ErrorHandler, ModuleWithProviders, NgModule } from '@angular/core';
 import { CxErrorHandler } from './cx-error-handler';
-import { provideMultiErrorHandler } from './multi-error-handler';
+import { EffectsErrorHandlerModule } from './effects-error-handler';
+import { HttpErrorHandlerModule } from './http-error-handler';
+import { provideMultiErrorHandler } from './multi-error-handler/provide-multi-error-handler';
 
-@NgModule()
+@NgModule({
+  imports: [
+    EffectsErrorHandlerModule.forRoot(),
+    HttpErrorHandlerModule.forRoot(),
+  ],
+})
 export class ErrorHandlingModule {
   static forRoot(): ModuleWithProviders<ErrorHandlingModule> {
     return {

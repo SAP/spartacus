@@ -185,8 +185,10 @@ export class UpdateConfigurationFinalizeSuccess extends StateUtils.EntitySuccess
   }
 }
 
-// eslint-disable-next-line @nx/workspace/no-ngrx-fail-action-without-error-action-implementation -- CXSPA-7091: `UpdateConfigurationFinalFail` contains `Fail` word in its name, but the purpose ot this action is not clear due to extending `EntitySuccessAction` instead of `EntitySuccessAction` That said, it's not know whether this action should implement `ErrorAction` or not.
-export class UpdateConfigurationFinalizeFail extends StateUtils.EntitySuccessAction {
+export class UpdateConfigurationFinalizeFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = UPDATE_CONFIGURATION_FINALIZE_FAIL;
 
   constructor(public payload: Configurator.Configuration) {
@@ -216,8 +218,25 @@ export class UpdatePriceSummaryFail
 export class UpdatePriceSummarySuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_PRICE_SUMMARY_SUCCESS;
 
-  constructor(public payload: Configurator.Configuration) {
+  /** @deprecated the property `isDeltaRendering` will be removed alongside with the feature toggle `productConfiguratorDeltaRendering` */
+  isDeltaRendering: boolean;
+
+  constructor(payload: Configurator.Configuration);
+  /**
+   * @deprecated the `extra` param with `isDeltaRendering` will be removed alongside with the feature toggle `productConfiguratorDeltaRendering`
+   */
+  constructor(
+    payload: Configurator.Configuration,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    extra?: { isDeltaRendering?: boolean }
+  );
+
+  constructor(
+    public payload: Configurator.Configuration,
+    extra?: { isDeltaRendering?: boolean }
+  ) {
     super(CONFIGURATOR_DATA, payload.owner.key);
+    this.isDeltaRendering = extra?.isDeltaRendering ?? false;
   }
 }
 

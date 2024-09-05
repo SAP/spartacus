@@ -63,7 +63,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.25'
+      level: '2211.28'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -76,7 +76,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
 import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
 import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
 import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
+import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
@@ -283,7 +283,7 @@ export class CheckoutFeatureModule { }
 exports[`Spartacus Checkout schematics: ng-add Checkout feature base general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
+import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
@@ -514,7 +514,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.25'
+      level: '2211.28'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -527,7 +527,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
 import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
 import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
 import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
+import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
 import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from "@spartacus/checkout/scheduled-replenishment/assets";
 import { CheckoutScheduledReplenishmentRootModule } from "@spartacus/checkout/scheduled-replenishment/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";

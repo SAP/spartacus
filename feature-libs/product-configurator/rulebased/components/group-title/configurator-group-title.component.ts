@@ -10,6 +10,7 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
+  AfterContentChecked,
 } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import {
@@ -31,11 +32,14 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-group-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
+export class ConfiguratorGroupTitleComponent
+  implements OnInit, OnDestroy, AfterContentChecked
+{
   @HostBinding('class.ghost') ghostStyle = true;
   protected subscription = new Subscription();
   protected readonly PRE_HEADER = '.PreHeader';
   protected readonly ADD_TO_CART_BUTTON = 'cx-configurator-add-to-cart-button';
+  protected focusFirstElementInMobileGroupList = false;
 
   displayedGroup$: Observable<Configurator.Group> =
     this.configRouterExtractorService.extractRouterData().pipe(
@@ -88,12 +92,19 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
             'z-index',
             '0'
           );
-          this.configuratorStorefrontUtilsService.focusFirstActiveElement(
-            'cx-hamburger-menu'
-          );
+          this.focusFirstElementInMobileGroupList = true;
         }
       })
     );
+  }
+
+  ngAfterContentChecked(): void {
+    if (this.focusFirstElementInMobileGroupList) {
+      this.configuratorStorefrontUtilsService.focusFirstActiveElement(
+        'cx-configurator-group-menu'
+      );
+      this.focusFirstElementInMobileGroupList = false;
+    }
   }
 
   ngOnDestroy(): void {

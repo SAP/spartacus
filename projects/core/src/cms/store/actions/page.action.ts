@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ErrorAction } from '../../../model';
+import { ErrorAction } from '../../../error-handling';
 import { PageContext } from '../../../routing/index';
 import { StateUtils } from '../../../state/utils/index';
 import { Page } from '../../model/page.model';

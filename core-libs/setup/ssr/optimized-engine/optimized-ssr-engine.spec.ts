@@ -73,8 +73,6 @@ class TestEngineRunner {
     };
 
     this.optimizedSsrEngine = new OptimizedSsrEngine(engineInstanceMock, {
-      shouldCacheRenderingResult:
-        defaultSsrOptimizationOptions.shouldCacheRenderingResult,
       ...options,
     });
     this.engineInstance = this.optimizedSsrEngine.engineInstance;
@@ -196,11 +194,10 @@ describe('OptimizedSsrEngine', () => {
               "forcedSsrTimeout": 60000,
               "maxRenderTime": 300000,
               "reuseCurrentRendering": true,
-              "debug": false,
               "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR",
               "logger": "DefaultExpressServerLogger",
-              "shouldCacheRenderingResult": "({ options, entry }) => !(options.featureToggles?.avoidCachingErrors === true && Boolean(entry.err))",
-              "featureToggles": {
+              "shouldCacheRenderingResult": "({ options, entry }) => !(options.ssrFeatureToggles?.avoidCachingErrors === true &&\\n        Boolean(entry.err))",
+              "ssrFeatureToggles": {
                 "avoidCachingErrors": false
               }
             }
@@ -392,7 +389,7 @@ describe('OptimizedSsrEngine', () => {
       it('should not cache errors if `avoidCachingErrors` is set to true', fakeAsync(() => {
         const engineRunner = TestEngineRunner.withError({
           cache: true,
-          featureToggles: {
+          ssrFeatureToggles: {
             avoidCachingErrors: true,
           },
         }).request('a');
@@ -412,7 +409,7 @@ describe('OptimizedSsrEngine', () => {
       it('should cache errors if `avoidCachingErrors` is set to false', fakeAsync(() => {
         const engineRunner = TestEngineRunner.withError({
           cache: true,
-          featureToggles: {
+          ssrFeatureToggles: {
             avoidCachingErrors: false,
           },
         }).request('a');
@@ -432,7 +429,7 @@ describe('OptimizedSsrEngine', () => {
       it('should cache HTML if `avoidCachingErrors` is set to true', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           cache: true,
-          featureToggles: {
+          ssrFeatureToggles: {
             avoidCachingErrors: true,
           },
         }).request('a');
@@ -448,7 +445,7 @@ describe('OptimizedSsrEngine', () => {
       it('should cache HTML if `avoidCachingErrors` is set to false', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           cache: true,
-          featureToggles: {
+          ssrFeatureToggles: {
             avoidCachingErrors: true,
           },
         }).request('a');
@@ -1469,10 +1466,6 @@ describe('OptimizedSsrEngine', () => {
             "options": {
               "cacheSize": 3000,
               "concurrency": 10,
-              "debug": false,
-              "featureToggles": {
-                "avoidCachingErrors": false,
-              },
               "forcedSsrTimeout": 60000,
               "logger": "MockExpressServerLogger",
               "maxRenderTime": 300000,
@@ -1485,7 +1478,11 @@ describe('OptimizedSsrEngine', () => {
                 : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
         }",
               "reuseCurrentRendering": true,
-              "shouldCacheRenderingResult": "({ options, entry }) => !(options.featureToggles?.avoidCachingErrors === true && Boolean(entry.err))",
+              "shouldCacheRenderingResult": "({ options, entry }) => !(options.ssrFeatureToggles?.avoidCachingErrors === true &&
+                Boolean(entry.err))",
+              "ssrFeatureToggles": {
+                "avoidCachingErrors": false,
+              },
               "timeout": 3000,
             },
           },

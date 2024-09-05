@@ -8,9 +8,13 @@ import {
   AfterViewInit,
   Directive,
   ElementRef,
+  HostListener,
+  inject,
   Input,
   Renderer2,
 } from '@angular/core';
+import { FeatureConfigService, TranslationService } from '@spartacus/core';
+import { take } from 'rxjs';
 
 @Directive({
   selector: '[cxNgSelectA11y]',
@@ -23,6 +27,20 @@ export class NgSelectA11yDirective implements AfterViewInit {
    */
   @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
 
+  protected translationService = inject(TranslationService);
+  private featureConfigService = inject(FeatureConfigService);
+
+  @HostListener('open')
+  onOpen() {
+    if (!this.featureConfigService?.isEnabled('a11yNgSelectOptionsCount')) {
+      return;
+    }
+    const observer = new MutationObserver((changes, observerInstance) =>
+      this.appendAriaLabelToOptions(changes, observerInstance)
+    );
+    observer.observe(this.elementRef.nativeElement, { childList: true });
+  }
+
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef
@@ -31,6 +49,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
   ngAfterViewInit(): void {
     const divCombobox =
       this.elementRef.nativeElement.querySelector('[role="combobox"]');
+    const inputElement = divCombobox.querySelector('input');
 
     const ariaLabel = this.cxNgSelectA11y.ariaLabel;
     const elementId = this.elementRef.nativeElement.id;
@@ -43,5 +62,34 @@ export class NgSelectA11yDirective implements AfterViewInit {
     if (ariaControls) {
       this.renderer.setAttribute(divCombobox, 'aria-controls', ariaControls);
     }
+
+    if (
+      this.featureConfigService.isEnabled('a11yNgSelectMobileReadout') &&
+      inputElement.readOnly
+    ) {
+      this.renderer.setAttribute(inputElement, 'aria-hidden', 'true');
+    }
+  }
+
+  appendAriaLabelToOptions(
+    _changes: MutationRecord[],
+    observerInstance: MutationObserver
+  ) {
+    const options: HTMLOptionElement[] =
+      this.elementRef?.nativeElement.querySelectorAll('.ng-option');
+    if (options?.length) {
+      this.translationService
+        .translate('common.of')
+        .pipe(take(1))
+        .subscribe((translation) => {
+          options.forEach(
+            (option: HTMLOptionElement, index: string | number) => {
+              const ariaLabel = `${option.innerText}, ${+index + 1} ${translation} ${options.length}`;
+              this.renderer.setAttribute(option, 'aria-label', ariaLabel);
+            }
+          );
+        });
+    }
+    observerInstance.disconnect();
   }
 }
