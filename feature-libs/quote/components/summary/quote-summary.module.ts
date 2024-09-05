@@ -13,19 +13,16 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { QuoteSummaryComponent } from './quote-summary.component';
-import { QuoteSummaryPricesModule } from './prices/quote-summary-prices.module';
-import { QuoteSummarySellerEditModule } from './seller-edit/quote-summary-seller-edit.module';
-import { QuoteSummaryActionsModule } from './actions/quote-summary-actions.module';
+
+
+
 
 @NgModule({
     imports: [
-        CommonModule,
-        I18nModule,
-        QuoteSummaryPricesModule,
-        QuoteSummarySellerEditModule,
-        QuoteSummaryActionsModule,
-        QuoteSummaryComponent,
-    ],
+    CommonModule,
+    I18nModule,
+    QuoteSummaryComponent,
+],
     providers: [
         provideDefaultConfig(<CmsConfig>{
             cmsComponents: {

@@ -10,7 +10,7 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { SharedOrganizationModule } from '../shared/shared-organization.module';
-import { PermissionDetailsModule } from './details/permission-details.module';
+
 import { PermissionFormModule } from './form/permission-form.module';
 import {
   permissionCmsConfig,
@@ -20,9 +20,8 @@ import {
 @NgModule({
   imports: [
     SharedOrganizationModule,
-    PermissionDetailsModule,
     PermissionFormModule,
-  ],
+],
   providers: [
     provideDefaultConfig(permissionCmsConfig),
     provideDefaultConfigFactory(permissionTableConfigFactory),

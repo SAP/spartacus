@@ -19,11 +19,7 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import {
-  FormErrorsModule,
-  NgSelectA11yModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
+import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 import { UpdateProfileComponentService } from './update-profile-component.service';
@@ -40,19 +36,18 @@ const myAccountV2ProfileMapping: CmsConfig = {
 
 @NgModule({
     imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        SpinnerModule,
-        I18nModule,
-        FormErrorsModule,
-        RouterModule,
-        UrlModule,
-        NgSelectModule,
-        NgSelectA11yModule,
-        FeaturesConfigModule,
-        UpdateProfileComponent, MyAccountV2ProfileComponent,
-    ],
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SpinnerModule,
+    I18nModule,
+    FormErrorsModule,
+    RouterModule,
+    UrlModule,
+    NgSelectModule,
+    FeaturesConfigModule,
+    UpdateProfileComponent, MyAccountV2ProfileComponent,
+],
     exports: [UpdateProfileComponent, MyAccountV2ProfileComponent],
     providers: [
         provideDefaultConfig(<CmsConfig>{

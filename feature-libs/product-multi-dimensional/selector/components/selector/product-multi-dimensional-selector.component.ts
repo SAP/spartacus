@@ -20,7 +20,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CurrentProductService, KeyboardFocusModule, MediaModule, NgSelectA11yModule } from '@spartacus/storefront';
+import { CurrentProductService, KeyboardFocusModule, MediaModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -32,17 +32,16 @@ import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        NgIf,
-        NgFor,
-        NgClass,
-        KeyboardFocusModule,
-        MediaModule,
-        NgSelectModule,
-        FormsModule,
-        NgSelectA11yModule,
-        AsyncPipe,
-        I18nModule,
-    ],
+    NgIf,
+    NgFor,
+    NgClass,
+    KeyboardFocusModule,
+    MediaModule,
+    NgSelectModule,
+    FormsModule,
+    AsyncPipe,
+    I18nModule,
+],
 })
 export class ProductMultiDimensionalSelectorComponent {
   protected multiDimensionalService: ProductMultiDimensionalSelectorService =

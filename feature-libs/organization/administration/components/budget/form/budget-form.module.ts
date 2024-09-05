@@ -12,23 +12,22 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { DatePickerModule, FormErrorsModule } from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
-import { ItemActiveModule } from '../../shared/item-active.module';
+
 import { BudgetFormComponent } from './budget-form.component';
 
 @NgModule({
     imports: [
-        CommonModule,
-        RouterModule,
-        FormModule,
-        NgSelectModule,
-        UrlModule,
-        I18nModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        ItemActiveModule,
-        DatePickerModule,
-        FeaturesConfigModule,
-        BudgetFormComponent,
-    ],
+    CommonModule,
+    RouterModule,
+    FormModule,
+    NgSelectModule,
+    UrlModule,
+    I18nModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    DatePickerModule,
+    FeaturesConfigModule,
+    BudgetFormComponent,
+],
 })
 export class BudgetFormModule {}

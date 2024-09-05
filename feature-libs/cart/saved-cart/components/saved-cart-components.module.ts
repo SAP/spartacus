@@ -17,16 +17,15 @@ import { SavedCartListModule } from './list/saved-cart-list.module';
 import { SavedCartOrderEntriesContext } from './page-context/saved-cart-details-page/saved-cart-order-entries.context';
 import { NewSavedCartOrderEntriesContext } from './page-context/saved-carts-page/new-saved-cart-order-entries.context';
 import { defaultSavedCartFormLayoutConfig } from './saved-cart-form-dialog/default-saved-cart-form-layout.config';
-import { SavedCartFormDialogModule } from './saved-cart-form-dialog/saved-cart-form-dialog.module';
+
 
 @NgModule({
   imports: [
     RouterModule,
     AddToSavedCartModule,
-    SavedCartFormDialogModule,
     SavedCartListModule,
     SavedCartDetailsModule,
-  ],
+],
   providers: [
     {
       provide: SavedCartOrderEntriesContextToken,

@@ -14,20 +14,19 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { FormErrorsModule, StarRatingModule } from '../../../../shared/index';
+import { StarRatingModule } from '../../../../shared/index';
 import { ProductReviewsComponent } from './product-reviews.component';
 
 @NgModule({
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        FormsModule,
-        I18nModule,
-        StarRatingModule,
-        FormErrorsModule,
-        FeaturesConfigModule,
-        ProductReviewsComponent,
-    ],
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    I18nModule,
+    StarRatingModule,
+    FeaturesConfigModule,
+    ProductReviewsComponent,
+],
     providers: [
         provideDefaultConfig(<CmsConfig>{
             cmsComponents: {

@@ -19,20 +19,19 @@ import {
 import { ListNavigationModule } from '@spartacus/storefront';
 import { UnitLevelOrdersViewerGuard } from '@spartacus/organization/unit-order/core';
 import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
-import { UnitLevelOrderHistoryFilterModule } from './filter/unit-level-order-history-filter.module';
+
 
 @NgModule({
     imports: [
-        CommonModule,
-        RouterModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        ListNavigationModule,
-        UrlModule,
-        I18nModule,
-        UnitLevelOrderHistoryFilterModule,
-        UnitLevelOrderHistoryComponent,
-    ],
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    ListNavigationModule,
+    UrlModule,
+    I18nModule,
+    UnitLevelOrderHistoryComponent,
+],
     exports: [UnitLevelOrderHistoryComponent],
     providers: [
         provideDefaultConfig({

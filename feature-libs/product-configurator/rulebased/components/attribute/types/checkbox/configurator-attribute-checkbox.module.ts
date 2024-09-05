@@ -10,21 +10,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
-import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
+
 import { ConfiguratorAttributeCompositionConfig } from '../../composition';
-import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
+
 
 @NgModule({
     imports: [
-        KeyboardFocusModule,
-        FormsModule,
-        ReactiveFormsModule,
-        CommonModule,
-        I18nModule,
-        ConfiguratorPriceModule,
-        ConfiguratorShowMoreModule,
-        ConfiguratorAttributeCheckBoxComponent,
-    ],
+    KeyboardFocusModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    I18nModule,
+    ConfiguratorAttributeCheckBoxComponent,
+],
     providers: [
         provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
             productConfigurator: {

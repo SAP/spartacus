@@ -7,24 +7,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
+
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
-import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
+
 
 @NgModule({
     imports: [
-        KeyboardFocusModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ConfiguratorPriceModule,
-        ConfiguratorShowMoreModule,
-        CommonModule,
-        I18nModule,
-        ConfiguratorAttributeReadOnlyComponent,
-    ],
+    KeyboardFocusModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    I18nModule,
+    ConfiguratorAttributeReadOnlyComponent,
+],
     providers: [
         provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
             productConfigurator: {

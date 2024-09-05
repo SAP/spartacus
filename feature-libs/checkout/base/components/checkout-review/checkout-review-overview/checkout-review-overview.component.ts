@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { I18nModule } from '@spartacus/core';
-import { PromotionsModule } from '@spartacus/storefront';
+
 import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
@@ -17,11 +17,10 @@ import { NgIf, AsyncPipe } from '@angular/common';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        NgIf,
-        PromotionsModule,
-        AsyncPipe,
-        I18nModule,
-    ],
+    NgIf,
+    AsyncPipe,
+    I18nModule,
+],
 })
 export class CheckoutReviewOverviewComponent {
   constructor(protected activeCartFacade: ActiveCartFacade) {}

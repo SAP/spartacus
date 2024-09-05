@@ -9,8 +9,8 @@ import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { defaultTableConfig } from './config/default-table.config';
-import { TableDataCellModule } from './table-data-cell/table-data-cell.module';
-import { TableHeaderCellModule } from './table-header-cell/table-header-cell.module';
+
+
 import { TableComponent } from './table.component';
 
 /**
@@ -18,12 +18,10 @@ import { TableComponent } from './table.component';
  */
 @NgModule({
     imports: [
-        CommonModule,
-        OutletModule,
-        TableHeaderCellModule,
-        TableDataCellModule,
-        TableComponent,
-    ],
+    CommonModule,
+    OutletModule,
+    TableComponent,
+],
     exports: [TableComponent],
     providers: [provideDefaultConfig(defaultTableConfig)],
 })

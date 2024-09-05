@@ -17,28 +17,27 @@ import {
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { defaultDigitalPaymentsConfig } from '../../adapters/config/default-digital-payments-endpoint.config';
 import { DpPaymentCallbackModule } from './dp-payment-callback/dp-payment-callback.module';
-import { DpPaymentFormModule } from './dp-payment-form/dp-payment-form.module';
+
 import { DpPaymentMethodComponent } from './dp-payment-method.component';
 
 @NgModule({
     imports: [
-        CommonModule,
-        DpPaymentFormModule,
-        RouterModule,
-        CardModule,
-        SpinnerModule,
-        I18nModule,
-        DpPaymentCallbackModule,
-        ConfigModule.withConfig({
-            cmsComponents: {
-                CheckoutPaymentDetails: {
-                    component: DpPaymentMethodComponent,
-                },
+    CommonModule,
+    RouterModule,
+    CardModule,
+    SpinnerModule,
+    I18nModule,
+    DpPaymentCallbackModule,
+    ConfigModule.withConfig({
+        cmsComponents: {
+            CheckoutPaymentDetails: {
+                component: DpPaymentMethodComponent,
             },
-        }),
-        FeaturesConfigModule,
-        DpPaymentMethodComponent,
-    ],
+        },
+    }),
+    FeaturesConfigModule,
+    DpPaymentMethodComponent,
+],
     exports: [DpPaymentMethodComponent],
     providers: [provideDefaultConfig(defaultDigitalPaymentsConfig)],
 })

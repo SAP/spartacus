@@ -15,25 +15,19 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import {
-  CardModule,
-  IconModule,
-  OutletModule,
-  PromotionsModule,
-} from '@spartacus/storefront';
+import { CardModule, IconModule, OutletModule } from '@spartacus/storefront';
 
 @NgModule({
     imports: [
-        CommonModule,
-        RouterModule,
-        I18nModule,
-        CardModule,
-        UrlModule,
-        PromotionsModule,
-        IconModule,
-        OutletModule,
-        CancelServiceOrderHeadlineComponent,
-    ],
+    CommonModule,
+    RouterModule,
+    I18nModule,
+    CardModule,
+    UrlModule,
+    IconModule,
+    OutletModule,
+    CancelServiceOrderHeadlineComponent,
+],
     providers: [
         provideDefaultConfig(<CmsConfig>{
             cmsComponents: {

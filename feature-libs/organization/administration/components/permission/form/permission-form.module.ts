@@ -12,23 +12,22 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
-import { ItemActiveModule } from '../../shared/item-active.module';
+
 import { PermissionFormComponent } from './permission-form.component';
 
 @NgModule({
     imports: [
-        CommonModule,
-        RouterModule,
-        NgSelectModule,
-        UrlModule,
-        I18nModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        FormModule,
-        ItemActiveModule,
-        FeaturesConfigModule,
-        PermissionFormComponent,
-    ],
+    CommonModule,
+    RouterModule,
+    NgSelectModule,
+    UrlModule,
+    I18nModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    FormModule,
+    FeaturesConfigModule,
+    PermissionFormComponent,
+],
     exports: [PermissionFormComponent],
 })
 export class PermissionFormModule {}

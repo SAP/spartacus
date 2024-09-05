@@ -10,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
-import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
+
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
@@ -18,17 +18,16 @@ import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './c
 
 @NgModule({
     imports: [
-        CommonModule,
-        ConfiguratorAttributeProductCardModule,
-        FormsModule,
-        I18nModule,
-        KeyboardFocusModule,
-        NgSelectModule,
-        ReactiveFormsModule,
-        ConfiguratorAttributeQuantityModule,
-        ConfiguratorPriceModule,
-        ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
-    ],
+    CommonModule,
+    ConfiguratorAttributeProductCardModule,
+    FormsModule,
+    I18nModule,
+    KeyboardFocusModule,
+    NgSelectModule,
+    ReactiveFormsModule,
+    ConfiguratorAttributeQuantityModule,
+    ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+],
     providers: [
         provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
             productConfigurator: {

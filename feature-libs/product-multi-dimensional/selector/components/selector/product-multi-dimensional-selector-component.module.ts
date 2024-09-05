@@ -13,11 +13,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
-import {
-  KeyboardFocusModule,
-  MediaModule,
-  NgSelectA11yModule,
-} from '@spartacus/storefront';
+import { KeyboardFocusModule, MediaModule } from '@spartacus/storefront';
 import { ProductMultiDimensionalSelectorComponent } from './product-multi-dimensional-selector.component';
 import { ProductMultiDimensionalSelectorGuard } from '../guards';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -25,17 +21,16 @@ import { FormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
-        CommonModule,
-        RouterModule,
-        UrlModule,
-        MediaModule,
-        KeyboardFocusModule,
-        NgSelectModule,
-        FormsModule,
-        NgSelectA11yModule,
-        I18nModule,
-        ProductMultiDimensionalSelectorComponent,
-    ],
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    MediaModule,
+    KeyboardFocusModule,
+    NgSelectModule,
+    FormsModule,
+    I18nModule,
+    ProductMultiDimensionalSelectorComponent,
+],
     exports: [ProductMultiDimensionalSelectorComponent],
     providers: [
         provideDefaultConfig(<CmsConfig>{

@@ -12,23 +12,22 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
-import { ItemActiveModule } from '../../shared/item-active.module';
+
 import { UnitFormComponent } from './unit-form.component';
 
 @NgModule({
     imports: [
-        CommonModule,
-        RouterModule,
-        FormModule,
-        NgSelectModule,
-        UrlModule,
-        I18nModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        ItemActiveModule,
-        FeaturesConfigModule,
-        UnitFormComponent,
-    ],
+    CommonModule,
+    RouterModule,
+    FormModule,
+    NgSelectModule,
+    UrlModule,
+    I18nModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    FeaturesConfigModule,
+    UnitFormComponent,
+],
     exports: [UnitFormComponent],
 })
 export class UnitFormModule {}

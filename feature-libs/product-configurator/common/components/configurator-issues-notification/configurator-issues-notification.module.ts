@@ -13,18 +13,17 @@ import {
   OutletPosition,
   provideOutlet,
 } from '@spartacus/storefront';
-import { ConfigureCartEntryModule } from '../configure-cart-entry/configure-cart-entry.module';
+
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
 
 @NgModule({
     imports: [
-        CommonModule,
-        UrlModule,
-        I18nModule,
-        IconModule,
-        ConfigureCartEntryModule,
-        ConfiguratorIssuesNotificationComponent,
-    ],
+    CommonModule,
+    UrlModule,
+    I18nModule,
+    IconModule,
+    ConfiguratorIssuesNotificationComponent,
+],
     providers: [
         provideOutlet({
             id: CartOutlets.ITEM_CONFIGURATOR_ISSUES,

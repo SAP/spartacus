@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BaseCoreModule } from '@spartacus/core';
 import { GlobalMessageComponentModule } from './cms-components/misc/global-message/global-message.module';
-import { OutletRefModule } from './cms-structure/outlet/outlet-ref/outlet-ref.module';
+
 import { OutletModule } from './cms-structure/outlet/outlet.module';
 import { PageComponentModule } from './cms-structure/page/component/page-component.module';
 import { PageLayoutModule } from './cms-structure/page/page-layout/page-layout.module';
@@ -28,7 +28,6 @@ import { MediaModule } from './shared/components/media/media.module';
     RouterModule,
     GlobalMessageComponentModule,
     OutletModule,
-    OutletRefModule,
     PwaModule,
     PageLayoutModule,
     SeoModule,
@@ -41,7 +40,7 @@ import { MediaModule } from './shared/components/media/media.module';
     MediaModule.forRoot(),
     OutletModule.forRoot(),
     StorefrontComponentModule,
-  ],
+],
   exports: [LayoutModule, StorefrontComponentModule],
 })
 export class BaseStorefrontModule {}

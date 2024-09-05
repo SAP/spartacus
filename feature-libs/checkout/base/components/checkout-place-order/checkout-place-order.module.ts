@@ -15,7 +15,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { AtMessageModule, FormErrorsModule } from '@spartacus/storefront';
+import { FormErrorsModule } from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';
@@ -23,16 +23,15 @@ import { defaultPlaceOrderSpinnerLayoutConfig } from './default-place-order-spin
 
 @NgModule({
     imports: [
-        AtMessageModule,
-        CommonModule,
-        RouterModule,
-        UrlModule,
-        I18nModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        FeaturesConfigModule,
-        CheckoutPlaceOrderComponent,
-    ],
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    FeaturesConfigModule,
+    CheckoutPlaceOrderComponent,
+],
     providers: [
         provideDefaultConfig(defaultPlaceOrderSpinnerLayoutConfig),
         provideDefaultConfig(<CmsConfig>{

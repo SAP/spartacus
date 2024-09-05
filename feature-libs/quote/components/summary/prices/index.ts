@@ -5,4 +5,4 @@
  */
 
 export * from './quote-summary-prices.component';
-export * from './quote-summary-prices.module';
+

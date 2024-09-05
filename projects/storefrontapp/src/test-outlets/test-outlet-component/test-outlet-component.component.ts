@@ -5,13 +5,13 @@
  */
 
 import { Component } from '@angular/core';
-import { PageLayoutModule, OutletRefModule } from '@spartacus/storefront';
+import { PageLayoutModule } from '@spartacus/storefront';
 
 @Component({
     selector: 'cx-test-outlet-component',
     templateUrl: './test-outlet-component.component.html',
     standalone: true,
-    imports: [PageLayoutModule, OutletRefModule],
+    imports: [PageLayoutModule],
 })
 export class TestOutletComponentComponent {
   testComponent = 'CMSParagraphComponent';

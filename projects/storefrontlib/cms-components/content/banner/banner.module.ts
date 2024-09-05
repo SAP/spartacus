@@ -12,19 +12,18 @@ import {
   FeaturesConfigModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
+
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { BannerComponent } from './banner.component';
 
 @NgModule({
     imports: [
-        CommonModule,
-        RouterModule,
-        GenericLinkModule,
-        MediaModule,
-        FeaturesConfigModule,
-        BannerComponent,
-    ],
+    CommonModule,
+    RouterModule,
+    MediaModule,
+    FeaturesConfigModule,
+    BannerComponent,
+],
     providers: [
         provideDefaultConfig(<CmsConfig>{
             cmsComponents: {

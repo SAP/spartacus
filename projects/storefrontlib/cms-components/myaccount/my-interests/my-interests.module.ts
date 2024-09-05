@@ -17,34 +17,32 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
-import { AtMessageModule } from '../../../shared/components/assistive-technology-message/assistive-technology-message.module';
+
 import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
 import { MediaModule } from '../../../shared/components/media/media.module';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+
 import { MyInterestsComponent } from './my-interests.component';
 
 @NgModule({
     imports: [
-        AtMessageModule,
-        CommonModule,
-        I18nModule,
-        ListNavigationModule,
-        I18nModule,
-        UrlModule,
-        MediaModule,
-        SpinnerModule,
-        RouterModule.forChild([
-            {
-                // @ts-ignore
-                path: null,
-                canActivate: [AuthGuard, CmsPageGuard],
-                component: PageLayoutComponent,
-                data: { cxRoute: 'myInterests' },
-            },
-        ]),
-        FeaturesConfigModule,
-        MyInterestsComponent,
-    ],
+    CommonModule,
+    I18nModule,
+    ListNavigationModule,
+    I18nModule,
+    UrlModule,
+    MediaModule,
+    RouterModule.forChild([
+        {
+            // @ts-ignore
+            path: null,
+            canActivate: [AuthGuard, CmsPageGuard],
+            component: PageLayoutComponent,
+            data: { cxRoute: 'myInterests' },
+        },
+    ]),
+    FeaturesConfigModule,
+    MyInterestsComponent,
+],
     providers: [
         provideDefaultConfig(<CmsConfig>{
             cmsComponents: {

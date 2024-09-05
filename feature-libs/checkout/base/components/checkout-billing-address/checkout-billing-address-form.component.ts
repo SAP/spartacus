@@ -8,7 +8,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import { Address, AddressValidation, Country, GlobalMessageService, GlobalMessageType, Region, TranslationService, UserAddressService, UserPaymentService, I18nModule } from '@spartacus/core';
-import { Card, LAUNCH_CALLER, LaunchDialogService, getAddressNumbers, CardModule, NgSelectA11yModule, FormErrorsModule } from '@spartacus/storefront';
+import { Card, LAUNCH_CALLER, LaunchDialogService, getAddressNumbers, CardModule, FormErrorsModule } from '@spartacus/storefront';
 import {
   BehaviorSubject,
   EMPTY,
@@ -28,15 +28,14 @@ import { NgIf, AsyncPipe } from '@angular/common';
     templateUrl: './checkout-billing-address-form.component.html',
     standalone: true,
     imports: [
-        NgIf,
-        CardModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        NgSelectA11yModule,
-        FormErrorsModule,
-        AsyncPipe,
-        I18nModule,
-    ],
+    NgIf,
+    CardModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    FormErrorsModule,
+    AsyncPipe,
+    I18nModule,
+],
 })
 export class CheckoutBillingAddressFormComponent implements OnInit {
   showSameAsDeliveryAddressCheckbox$: Observable<boolean>;

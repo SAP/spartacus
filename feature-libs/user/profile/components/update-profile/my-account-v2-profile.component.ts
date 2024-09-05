@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { SpinnerModule, NgSelectA11yModule, FormErrorsModule } from '@spartacus/storefront';
+import { SpinnerModule, FormErrorsModule } from '@spartacus/storefront';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
@@ -27,18 +27,17 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        NgIf,
-        SpinnerModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        NgSelectA11yModule,
-        NgFor,
-        FeaturesConfigModule,
-        FormErrorsModule,
-        AsyncPipe,
-        I18nModule,
-    ],
+    NgIf,
+    SpinnerModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    NgFor,
+    FeaturesConfigModule,
+    FormErrorsModule,
+    AsyncPipe,
+    I18nModule,
+],
 })
 export class MyAccountV2ProfileComponent implements OnInit {
   protected service = inject(UpdateProfileComponentService);

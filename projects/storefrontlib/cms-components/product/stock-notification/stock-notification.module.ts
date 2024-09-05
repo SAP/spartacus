@@ -15,22 +15,21 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+
 import { defaultStockNotificationLayoutConfig } from './stock-notification-dialog/default-stock-notification-layout.config';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 import { StockNotificationComponent } from './stock-notification.component';
 
 @NgModule({
     imports: [
-        CommonModule,
-        RouterModule,
-        I18nModule,
-        SpinnerModule,
-        UrlModule,
-        KeyboardFocusModule,
-        FeaturesConfigModule,
-        StockNotificationComponent, StockNotificationDialogComponent,
-    ],
+    CommonModule,
+    RouterModule,
+    I18nModule,
+    UrlModule,
+    KeyboardFocusModule,
+    FeaturesConfigModule,
+    StockNotificationComponent, StockNotificationDialogComponent,
+],
     providers: [
         provideDefaultConfig(defaultStockNotificationLayoutConfig),
         provideDefaultConfig(<CmsConfig>{

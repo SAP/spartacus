@@ -19,7 +19,7 @@ import {
   SortingModule,
 } from '@spartacus/storefront';
 import { AccountSummaryDocumentComponent } from './account-summary-document.component';
-import { AccountSummaryDocumentFilterModule } from './filter';
+
 
 export const accountSummaryDocumentCmsConfig: CmsConfig = {
   cmsComponents: {
@@ -32,14 +32,13 @@ export const accountSummaryDocumentCmsConfig: CmsConfig = {
 
 @NgModule({
     imports: [
-        AccountSummaryDocumentFilterModule,
-        CommonModule,
-        I18nModule,
-        SortingModule,
-        PaginationModule,
-        IconModule,
-        AccountSummaryDocumentComponent,
-    ],
+    CommonModule,
+    I18nModule,
+    SortingModule,
+    PaginationModule,
+    IconModule,
+    AccountSummaryDocumentComponent,
+],
     providers: [provideDefaultConfig(accountSummaryDocumentCmsConfig)],
 })
 export class AccountSummaryDocumentModule {}

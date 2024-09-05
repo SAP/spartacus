@@ -6,5 +6,5 @@
  */
 
 export * from './model/index';
-export * from './cpq-quote-root.module';
+
 export * from './feature-name';

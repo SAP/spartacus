@@ -13,24 +13,23 @@ import { ItemCounterModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
-import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
+
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 
 @NgModule({
     imports: [
-        CommonModule,
-        ConfiguratorAttributeProductCardModule,
-        ConfiguratorAttributeQuantityModule,
-        FormsModule,
-        I18nModule,
-        ItemCounterModule,
-        KeyboardFocusModule,
-        ReactiveFormsModule,
-        RouterModule,
-        UrlModule,
-        ConfiguratorPriceModule,
-        ConfiguratorAttributeSingleSelectionBundleComponent,
-    ],
+    CommonModule,
+    ConfiguratorAttributeProductCardModule,
+    ConfiguratorAttributeQuantityModule,
+    FormsModule,
+    I18nModule,
+    ItemCounterModule,
+    KeyboardFocusModule,
+    ReactiveFormsModule,
+    RouterModule,
+    UrlModule,
+    ConfiguratorAttributeSingleSelectionBundleComponent,
+],
     providers: [
         provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
             productConfigurator: {

@@ -14,21 +14,20 @@ import {
   PopoverModule,
 } from '@spartacus/storefront';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
-import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
+
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 
 @NgModule({
     imports: [
-        KeyboardFocusModule,
-        FormsModule,
-        ReactiveFormsModule,
-        CommonModule,
-        I18nModule,
-        IconModule,
-        ConfiguratorPriceModule,
-        PopoverModule,
-        ConfiguratorAttributeMultiSelectionImageComponent,
-    ],
+    KeyboardFocusModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    I18nModule,
+    IconModule,
+    PopoverModule,
+    ConfiguratorAttributeMultiSelectionImageComponent,
+],
     providers: [
         provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
             productConfigurator: {

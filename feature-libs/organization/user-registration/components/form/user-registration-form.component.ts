@@ -16,7 +16,7 @@ import { Title } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { UserRegistrationFormService } from './user-registration-form.service';
 import { RouterLink } from '@angular/router';
-import { NgSelectA11yModule, FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgIf, AsyncPipe } from '@angular/common';
 
@@ -26,18 +26,17 @@ import { NgIf, AsyncPipe } from '@angular/common';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        NgIf,
-        FeaturesConfigModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        NgSelectA11yModule,
-        FormErrorsModule,
-        RouterLink,
-        SpinnerModule,
-        AsyncPipe,
-        UrlModule,
-        I18nModule,
-    ],
+    NgIf,
+    FeaturesConfigModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    FormErrorsModule,
+    RouterLink,
+    SpinnerModule,
+    AsyncPipe,
+    UrlModule,
+    I18nModule,
+],
 })
 export class UserRegistrationFormComponent implements OnDestroy {
   titles$: Observable<Title[]> = this.userRegistrationFormService.getTitles();

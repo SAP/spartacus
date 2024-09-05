@@ -15,8 +15,4 @@ export class MockKeyboardFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
-@NgModule({
-    imports: [MockKeyboardFocusDirective],
-    exports: [MockKeyboardFocusDirective],
-})
-export class KeyboardFocusTestingModule {}
+

@@ -13,28 +13,22 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import {
-  CardModule,
-  IconModule,
-  OutletModule,
-  PromotionsModule,
-} from '@spartacus/storefront';
+import { CardModule, IconModule, OutletModule } from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 
 @NgModule({
     imports: [
-        CommonModule,
-        CardModule,
-        I18nModule,
-        UrlModule,
-        RouterModule,
-        PromotionsModule,
-        IconModule,
-        OutletModule,
-        CheckoutReviewSubmitComponent,
-    ],
+    CommonModule,
+    CardModule,
+    I18nModule,
+    UrlModule,
+    RouterModule,
+    IconModule,
+    OutletModule,
+    CheckoutReviewSubmitComponent,
+],
     providers: [
         provideDefaultConfig(<CmsConfig>{
             cmsComponents: {

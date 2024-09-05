@@ -21,17 +21,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { OrderOutlets, USE_MY_ACCOUNT_V2_ORDER } from '@spartacus/order/root';
-import {
-  CardModule,
-  IconModule,
-  KeyboardFocusModule,
-  OutletModule,
-  OutletPosition,
-  OutletService,
-  PromotionsModule,
-  ProvideOutletOptions,
-  SpinnerModule,
-} from '@spartacus/storefront';
+import { CardModule, IconModule, KeyboardFocusModule, OutletModule, OutletPosition, OutletService, ProvideOutletOptions, SpinnerModule } from '@spartacus/storefront';
 import {
   MyAccountV2ConsignmentTrackingComponent,
   MyAccountV2DownloadInvoicesModule,
@@ -95,22 +85,21 @@ const moduleComponents = [
 
 @NgModule({
     imports: [
-        CardModule,
-        CommonModule,
-        I18nModule,
-        FeaturesConfigModule,
-        PromotionsModule,
-        UrlModule,
-        SpinnerModule,
-        RouterModule,
-        OutletModule,
-        AddToCartModule,
-        KeyboardFocusModule,
-        IconModule,
-        MyAccountV2DownloadInvoicesModule,
-        AbstractOrderContextModule,
-        ...moduleComponents,
-    ],
+    CardModule,
+    CommonModule,
+    I18nModule,
+    FeaturesConfigModule,
+    UrlModule,
+    SpinnerModule,
+    RouterModule,
+    OutletModule,
+    AddToCartModule,
+    KeyboardFocusModule,
+    IconModule,
+    MyAccountV2DownloadInvoicesModule,
+    AbstractOrderContextModule,
+    ...moduleComponents,
+],
     providers: [
         provideDefaultConfig(<CmsConfig | FeaturesConfig>{
             cmsComponents: {

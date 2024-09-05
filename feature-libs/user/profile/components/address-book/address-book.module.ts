@@ -16,18 +16,17 @@ import {
 } from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { AddressBookComponent } from './address-book.component';
-import { AddressFormModule } from './address-form/address-form.module';
+
 import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/suggested-addresses-dialog/default-suggested-addresses-dialog-layout.config';
 
 @NgModule({
     imports: [
-        CommonModule,
-        CardModule,
-        AddressFormModule,
-        SpinnerModule,
-        I18nModule,
-        AddressBookComponent,
-    ],
+    CommonModule,
+    CardModule,
+    SpinnerModule,
+    I18nModule,
+    AddressBookComponent,
+],
     exports: [AddressBookComponent],
     providers: [
         provideDefaultConfig(<CmsConfig>{

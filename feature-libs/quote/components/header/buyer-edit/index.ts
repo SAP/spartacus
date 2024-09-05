@@ -5,4 +5,4 @@
  */
 
 export * from './quote-header-buyer-edit.component';
-export * from './quote-header-buyer-edit.module';
+

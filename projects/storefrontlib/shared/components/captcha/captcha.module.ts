@@ -10,11 +10,11 @@ import { provideDefaultConfig } from '@spartacus/core';
 import { CaptchaComponent } from './captcha.component';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormErrorsModule } from '../form';
+
 import { MockCaptchaApiConfig } from './mock-captcha/config/mock-captcha-api-config';
 
 @NgModule({
-    imports: [CommonModule, ReactiveFormsModule, FormErrorsModule, CaptchaComponent],
+    imports: [CommonModule, ReactiveFormsModule, CaptchaComponent],
     providers: [provideDefaultConfig(MockCaptchaApiConfig)],
     exports: [CaptchaComponent],
 })

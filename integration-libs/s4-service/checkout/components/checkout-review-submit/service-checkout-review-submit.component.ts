@@ -19,7 +19,7 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { TranslationService, UserCostCenterService, I18nModule, UrlModule } from '@spartacus/core';
-import { Card, CardModule, IconModule, OutletModule, PromotionsModule } from '@spartacus/storefront';
+import { Card, CardModule, IconModule, OutletModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import {
@@ -36,21 +36,20 @@ import { NgIf, NgFor, NgSwitch, NgSwitchCase, NgTemplateOutlet, NgClass, AsyncPi
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        NgIf,
-        NgFor,
-        NgSwitch,
-        NgSwitchCase,
-        NgTemplateOutlet,
-        NgClass,
-        CardModule,
-        RouterLink,
-        IconModule,
-        OutletModule,
-        PromotionsModule,
-        AsyncPipe,
-        I18nModule,
-        UrlModule,
-    ],
+    NgIf,
+    NgFor,
+    NgSwitch,
+    NgSwitchCase,
+    NgTemplateOutlet,
+    NgClass,
+    CardModule,
+    RouterLink,
+    IconModule,
+    OutletModule,
+    AsyncPipe,
+    I18nModule,
+    UrlModule,
+],
 })
 export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmitComponent {
   checkoutStepTypeServiceDetails = CheckoutStepType.SERVICE_DETAILS;

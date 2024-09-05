@@ -21,21 +21,20 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
-import { CustomerTicketingCreateModule } from '../customer-ticketing-create/customer-ticketing-create.module';
+
 
 @NgModule({
     imports: [
-        CustomerTicketingCreateModule,
-        CommonModule,
-        I18nModule,
-        UrlModule,
-        CardModule,
-        IconModule,
-        ListNavigationModule,
-        RouterModule,
-        SpinnerModule,
-        CustomerTicketingListComponent,
-    ],
+    CommonModule,
+    I18nModule,
+    UrlModule,
+    CardModule,
+    IconModule,
+    ListNavigationModule,
+    RouterModule,
+    SpinnerModule,
+    CustomerTicketingListComponent,
+],
     providers: [
         provideDefaultConfig(<CmsConfig>{
             cmsComponents: {

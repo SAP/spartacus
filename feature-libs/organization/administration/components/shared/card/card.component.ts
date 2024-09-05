@@ -10,7 +10,7 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { ICON_TYPE, ViewComponent, SplitViewModule, PopoverModule, IconModule } from '@spartacus/storefront';
+import { ICON_TYPE, ViewComponent, PopoverModule, IconModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
@@ -29,16 +29,15 @@ import { NgIf, AsyncPipe } from '@angular/common';
     providers: [MessageService],
     standalone: true,
     imports: [
-        SplitViewModule,
-        NgIf,
-        PopoverModule,
-        IconModule,
-        RouterLink,
-        MessageComponent,
-        RouterOutlet,
-        AsyncPipe,
-        I18nModule,
-    ],
+    NgIf,
+    PopoverModule,
+    IconModule,
+    RouterLink,
+    MessageComponent,
+    RouterOutlet,
+    AsyncPipe,
+    I18nModule,
+],
 })
 export class CardComponent<T extends BaseItem> {
   @Input() i18nRoot: string;

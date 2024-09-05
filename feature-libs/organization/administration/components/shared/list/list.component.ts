@@ -11,7 +11,7 @@ import {
   Input,
 } from '@angular/core';
 import { EntitiesModel, PaginationModel, Translatable, useFeatureStyles, FeaturesConfigModule, UrlModule, I18nModule } from '@spartacus/core';
-import { ICON_TYPE, Table, TableStructure, TrapFocus, SplitViewModule, PopoverModule, IconModule, TableModule, PaginationModule } from '@spartacus/storefront';
+import { ICON_TYPE, Table, TableStructure, TrapFocus, PopoverModule, IconModule, TableModule, PaginationModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
@@ -28,24 +28,23 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        SplitViewModule,
-        NgIf,
-        FeaturesConfigModule,
-        PopoverModule,
-        IconModule,
-        NgSelectModule,
-        ReactiveFormsModule,
-        FormsModule,
-        NgFor,
-        RouterLinkActive,
-        RouterLink,
-        TableModule,
-        PaginationModule,
-        RouterOutlet,
-        AsyncPipe,
-        UrlModule,
-        I18nModule,
-    ],
+    NgIf,
+    FeaturesConfigModule,
+    PopoverModule,
+    IconModule,
+    NgSelectModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NgFor,
+    RouterLinkActive,
+    RouterLink,
+    TableModule,
+    PaginationModule,
+    RouterOutlet,
+    AsyncPipe,
+    UrlModule,
+    I18nModule,
+],
 })
 export class ListComponent<T = any, P = PaginationModel> {
   readonly trapFocus = TrapFocus;

@@ -18,18 +18,17 @@ import {
   KeyboardFocusModule,
 } from '@spartacus/storefront';
 import { QuoteHeaderOverviewComponent } from './quote-header-overview.component';
-import { QuoteHeaderBuyerEditModule } from '../buyer-edit/quote-header-buyer-edit.module';
+
 
 @NgModule({
     imports: [
-        CommonModule,
-        I18nModule,
-        IconModule,
-        CardModule,
-        QuoteHeaderBuyerEditModule,
-        KeyboardFocusModule,
-        QuoteHeaderOverviewComponent,
-    ],
+    CommonModule,
+    I18nModule,
+    IconModule,
+    CardModule,
+    KeyboardFocusModule,
+    QuoteHeaderOverviewComponent,
+],
     providers: [
         provideDefaultConfig(<CmsConfig>{
             cmsComponents: {

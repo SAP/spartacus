@@ -14,7 +14,7 @@ import {
 import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RoutingService, FeaturesConfigModule, UrlModule, I18nModule } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER, FormErrorsModule, AtMessageModule } from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER, FormErrorsModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { RouterLink } from '@angular/router';
 
@@ -24,14 +24,13 @@ import { RouterLink } from '@angular/router';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
-        ReactiveFormsModule,
-        RouterLink,
-        FeaturesConfigModule,
-        FormErrorsModule,
-        AtMessageModule,
-        UrlModule,
-        I18nModule,
-    ],
+    ReactiveFormsModule,
+    RouterLink,
+    FeaturesConfigModule,
+    FormErrorsModule,
+    UrlModule,
+    I18nModule,
+],
 })
 export class CheckoutPlaceOrderComponent implements OnDestroy {
   placedOrder: void | Observable<ComponentRef<any> | undefined>;

@@ -6,5 +6,5 @@
  */
 
 export * from './model/index';
-export * from './estimated-delivery-date-root.module';
+
 export * from './feature-name';

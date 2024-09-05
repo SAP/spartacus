@@ -19,15 +19,7 @@ import {
   OrderFacade,
   OrderOutlets,
 } from '@spartacus/order/root';
-import {
-  CardModule,
-  FormErrorsModule,
-  OutletModule,
-  PasswordVisibilityToggleModule,
-  PromotionsModule,
-  PwaModule,
-  provideOutlet,
-} from '@spartacus/storefront';
+import { CardModule, FormErrorsModule, OutletModule, PasswordVisibilityToggleModule, PwaModule, provideOutlet } from '@spartacus/storefront';
 import { OrderConfirmationGuard } from '../guards/order-confirmation.guard';
 import { OrderDetailBillingComponent } from '../order-details/order-detail-billing/order-detail-billing.component';
 import { OrderDetailsService } from '../order-details/order-details.service';
@@ -49,19 +41,18 @@ const orderConfirmationComponents = [
 
 @NgModule({
     imports: [
-        CommonModule,
-        CardModule,
-        PwaModule,
-        PromotionsModule,
-        I18nModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        OutletModule.forChild(),
-        PasswordVisibilityToggleModule,
-        AbstractOrderContextModule,
-        FeaturesConfigModule,
-        ...orderConfirmationComponents,
-    ],
+    CommonModule,
+    CardModule,
+    PwaModule,
+    I18nModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    OutletModule.forChild(),
+    PasswordVisibilityToggleModule,
+    AbstractOrderContextModule,
+    FeaturesConfigModule,
+    ...orderConfirmationComponents,
+],
     providers: [
         provideDefaultConfig(<CmsConfig>{
             cmsComponents: {

@@ -13,21 +13,20 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
+
 import { IconModule } from '../../misc/icon/icon.module';
 import { NavigationUIComponent } from './navigation-ui.component';
 import { NavigationComponent } from './navigation.component';
 
 @NgModule({
     imports: [
-        CommonModule,
-        RouterModule,
-        IconModule,
-        GenericLinkModule,
-        I18nModule,
-        FeaturesConfigModule,
-        NavigationComponent, NavigationUIComponent,
-    ],
+    CommonModule,
+    RouterModule,
+    IconModule,
+    I18nModule,
+    FeaturesConfigModule,
+    NavigationComponent, NavigationUIComponent,
+],
     providers: [
         provideDefaultConfig(<CmsConfig>{
             cmsComponents: {

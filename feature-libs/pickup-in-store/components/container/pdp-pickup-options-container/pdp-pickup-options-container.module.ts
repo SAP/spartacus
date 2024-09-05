@@ -8,12 +8,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { OutletPosition, provideOutlet } from '@spartacus/storefront';
-import { PickupOptionsModule } from '../../presentational/index';
+
 
 import { PdpPickupOptionsContainerComponent } from './pdp-pickup-options-container.component';
 
 @NgModule({
-    imports: [CommonModule, PickupOptionsModule, PdpPickupOptionsContainerComponent],
+    imports: [CommonModule, PdpPickupOptionsContainerComponent],
     exports: [PdpPickupOptionsContainerComponent],
     providers: [
         provideOutlet({

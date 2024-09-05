@@ -17,26 +17,20 @@ import {
   UrlModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import {
-  CardModule,
-  IconModule,
-  OutletModule,
-  PromotionsModule,
-} from '@spartacus/storefront';
+import { CardModule, IconModule, OutletModule } from '@spartacus/storefront';
 import { ServiceCheckoutReviewSubmitComponent } from './service-checkout-review-submit.component';
 
 @NgModule({
     imports: [
-        CommonModule,
-        CardModule,
-        I18nModule,
-        UrlModule,
-        RouterModule,
-        PromotionsModule,
-        IconModule,
-        OutletModule,
-        ServiceCheckoutReviewSubmitComponent,
-    ],
+    CommonModule,
+    CardModule,
+    I18nModule,
+    UrlModule,
+    RouterModule,
+    IconModule,
+    OutletModule,
+    ServiceCheckoutReviewSubmitComponent,
+],
     providers: [
         provideDefaultConfig(<CmsConfig>{
             cmsComponents: {

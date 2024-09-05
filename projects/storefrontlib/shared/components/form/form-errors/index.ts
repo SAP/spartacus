@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './form-errors.module';
+
 export * from './form-errors.component';

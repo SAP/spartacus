@@ -17,7 +17,7 @@ import { UpdateProfileComponentService } from './update-profile-component.servic
 import { RoutingService, FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { RouterLink } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { SpinnerModule, NgSelectA11yModule, FormErrorsModule } from '@spartacus/storefront';
+import { SpinnerModule, FormErrorsModule } from '@spartacus/storefront';
 import { NgIf, NgFor, NgTemplateOutlet, AsyncPipe } from '@angular/common';
 
 @Component({
@@ -27,21 +27,20 @@ import { NgIf, NgFor, NgTemplateOutlet, AsyncPipe } from '@angular/common';
     host: { class: 'user-form' },
     standalone: true,
     imports: [
-        NgIf,
-        SpinnerModule,
-        FeaturesConfigModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        NgSelectA11yModule,
-        NgFor,
-        NgTemplateOutlet,
-        FormErrorsModule,
-        RouterLink,
-        AsyncPipe,
-        I18nModule,
-        UrlModule,
-    ],
+    NgIf,
+    SpinnerModule,
+    FeaturesConfigModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    NgFor,
+    NgTemplateOutlet,
+    FormErrorsModule,
+    RouterLink,
+    AsyncPipe,
+    I18nModule,
+    UrlModule,
+],
 })
 export class UpdateProfileComponent {
   @Optional() protected routingService = inject(RoutingService, {

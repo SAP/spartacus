@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { ConfiguratorAttributeCompositionModule } from '../attribute/composition/configurator-attribute-composition.module';
+
 import { ConfiguratorAttributeFooterModule } from '../attribute/footer/configurator-attribute-footer.module';
 import { ConfiguratorAttributeHeaderModule } from '../attribute/header/configurator-attribute-header.module';
 import { ConfiguratorAttributeCheckboxListModule } from '../attribute/types/checkbox-list/configurator-attribute-checkbox-list.module';
@@ -25,37 +25,34 @@ import { ConfiguratorAttributeReadOnlyModule } from '../attribute/types/read-onl
 import { ConfiguratorAttributeSingleSelectionBundleDropdownModule } from '../attribute/types/single-selection-bundle-dropdown/configurator-attribute-single-selection-bundle-dropdown.module';
 import { ConfiguratorAttributeSingleSelectionBundleModule } from '../attribute/types/single-selection-bundle/configurator-attribute-single-selection-bundle.module';
 import { ConfiguratorAttributeSingleSelectionImageModule } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.module';
-import { ConfiguratorConflictDescriptionModule } from '../conflict-description/configurator-conflict-description.module';
-import { ConfiguratorConflictSuggestionModule } from '../conflict-suggestion/configurator-conflict-suggestion.module';
+
+
 import { ConfiguratorGroupComponent } from './configurator-group.component';
 
 @NgModule({
     imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        CommonModule,
-        I18nModule,
-        NgSelectModule,
-        ConfiguratorAttributeNotSupportedModule,
-        ConfiguratorAttributeInputFieldModule,
-        ConfiguratorAttributeFooterModule,
-        ConfiguratorAttributeNumericInputFieldModule,
-        ConfiguratorAttributeHeaderModule,
-        ConfiguratorAttributeRadioButtonModule,
-        ConfiguratorAttributeSingleSelectionBundleModule,
-        ConfiguratorAttributeMultiSelectionBundleModule,
-        ConfiguratorAttributeReadOnlyModule,
-        ConfiguratorAttributeSingleSelectionImageModule,
-        ConfiguratorAttributeSingleSelectionBundleDropdownModule,
-        ConfiguratorAttributeCheckboxModule,
-        ConfiguratorAttributeCheckboxListModule,
-        ConfiguratorAttributeDropDownModule,
-        ConfiguratorAttributeMultiSelectionImageModule,
-        ConfiguratorConflictDescriptionModule,
-        ConfiguratorConflictSuggestionModule,
-        ConfiguratorAttributeCompositionModule,
-        ConfiguratorGroupComponent,
-    ],
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    I18nModule,
+    NgSelectModule,
+    ConfiguratorAttributeNotSupportedModule,
+    ConfiguratorAttributeInputFieldModule,
+    ConfiguratorAttributeFooterModule,
+    ConfiguratorAttributeNumericInputFieldModule,
+    ConfiguratorAttributeHeaderModule,
+    ConfiguratorAttributeRadioButtonModule,
+    ConfiguratorAttributeSingleSelectionBundleModule,
+    ConfiguratorAttributeMultiSelectionBundleModule,
+    ConfiguratorAttributeReadOnlyModule,
+    ConfiguratorAttributeSingleSelectionImageModule,
+    ConfiguratorAttributeSingleSelectionBundleDropdownModule,
+    ConfiguratorAttributeCheckboxModule,
+    ConfiguratorAttributeCheckboxListModule,
+    ConfiguratorAttributeDropDownModule,
+    ConfiguratorAttributeMultiSelectionImageModule,
+    ConfiguratorGroupComponent,
+],
     providers: [
         provideDefaultConfig(<CmsConfig>{
             cmsComponents: {

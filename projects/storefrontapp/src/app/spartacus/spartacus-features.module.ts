@@ -78,7 +78,7 @@ import { CustomerTicketingFeatureModule } from './features/customer-ticketing/cu
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
 import { EstimatedDeliveryDateFeatureModule } from './features/estimated-delivery-date/estimated-delivery-date-feature.module';
-import { OppsFeatureModule } from './features/opps/opps-feature.module';
+
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
@@ -98,14 +98,14 @@ import { OrganizationUserRegistrationFeatureModule } from './features/registrati
 import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
 import { S4ServiceFeatureModule } from './features/s4-service/s4-service-feature.module';
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
-import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
+
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-import { OmfFeatureModule } from './features/omf/omf-feature.module';
+
 import { ProductMultiDimensionalSelectorFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-selector-feature.module';
-import { ProductMultiDimensionalListFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-list-feature.module';
+
 
 const featureModules = [];
 
@@ -142,13 +142,13 @@ if (environment.pdfInvoices) {
   featureModules.push(PDFInvoicesFeatureModule);
 }
 if (environment.opps) {
-  featureModules.push(OppsFeatureModule);
+  featureModules.push( /* TODO(standalone-migration): clean up removed NgModule reference manually. */ OppsFeatureModule);
 }
 if (environment.s4om) {
   featureModules.push(S4OMFeatureModule);
 }
 if (environment.segmentRefs) {
-  featureModules.push(SegmentRefsFeatureModule);
+  featureModules.push( /* TODO(standalone-migration): clean up removed NgModule reference manually. */ SegmentRefsFeatureModule);
 }
 if (environment.requestedDeliveryDate) {
   featureModules.push(RequestedDeliveryDateFeatureModule);
@@ -157,7 +157,7 @@ if (environment.estimatedDeliveryDate) {
   featureModules.push(EstimatedDeliveryDateFeatureModule);
 }
 if (environment.omf) {
-  featureModules.push(OmfFeatureModule);
+  featureModules.push( /* TODO(standalone-migration): clean up removed NgModule reference manually. */ OmfFeatureModule);
 }
 if (environment.cpq) {
   featureModules.push(CpqQuoteFeatureModule);
@@ -166,9 +166,8 @@ if (environment.cpq) {
   imports: [
     // Auth Core
     AuthModule.forRoot(),
-    LogoutModule, // will be come part of auth package
-    LoginRouteModule, // will be come part of auth package
-
+    LogoutModule,
+    LoginRouteModule,
     // Basic Cms Components
     HamburgerMenuModule,
     SiteContextSelectorModule,
@@ -185,7 +184,6 @@ if (environment.cpq) {
     PDFModule,
     ScrollToTopModule,
     VideoModule,
-
     // User Core
     UserModule,
     UserOccModule,
@@ -197,17 +195,14 @@ if (environment.cpq) {
     StockNotificationModule,
     ConsentManagementModule,
     MyCouponsModule,
-
     // Anonymous Consents Core
     AnonymousConsentsModule.forRoot(),
     // Anonymous Consents UI
     AnonymousConsentsDialogModule,
     AnonymousConsentManagementBannerModule,
-
     // Product Core
     ProductModule.forRoot(),
     ProductOccModule,
-
     // Product UI
     ProductDetailsPageModule,
     ProductListingPageModule,
@@ -220,56 +215,39 @@ if (environment.cpq) {
     ProductImagesModule,
     ProductSummaryModule,
     ProductIntroModule,
-
     // Cost Center
     CostCenterOccModule,
-
     // Page Events
     NavigationEventModule,
     HomePageEventModule,
     ProductPageEventModule,
-
     /************************* Opt-in features *************************/
-
-    ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
+    ExternalRoutesModule.forRoot(),
     JsonLdBuilderModule,
-
     /************************* Feature libraries *************************/
     UserFeatureModule,
-
     CartBaseFeatureModule,
     WishListFeatureModule,
     SavedCartFeatureModule,
     QuickOrderFeatureModule,
     ImportExportFeatureModule,
-
     OrderFeatureModule,
-
     CheckoutFeatureModule,
-
     TrackingFeatureModule,
-
     AsmFeatureModule,
     AsmCustomer360FeatureModule,
-
     StorefinderFeatureModule,
-
     QualtricsFeatureModule,
-
     SmartEditFeatureModule,
-
     VariantsFeatureModule,
     ProductMultiDimensionalSelectorFeatureModule,
-    ProductMultiDimensionalListFeatureModule,
     ImageZoomFeatureModule,
-
     QuoteFeatureModule,
     CustomerTicketingFeatureModule,
-
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
     ...featureModules,
-  ],
+],
   providers: [
     // Adding the provider here because consents feature is not code-splitted to separate library and not lazy-loaded
     {

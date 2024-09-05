@@ -13,8 +13,8 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { AmendOrderActionsModule } from '../../amend-order-actions/amend-order-actions.module';
-import { AmendOrderItemsModule } from '../../amend-order-items/amend-order-items.module';
+
+
 import { OrderAmendService } from '../../amend-order.service';
 import { OrderReturnGuard } from '../order-return.guard';
 import { OrderReturnService } from '../order-return.service';
@@ -22,13 +22,11 @@ import { ReturnOrderConfirmationComponent } from './return-order-confirmation.co
 
 @NgModule({
     imports: [
-        CommonModule,
-        AmendOrderItemsModule,
-        I18nModule,
-        ReactiveFormsModule,
-        AmendOrderActionsModule,
-        ReturnOrderConfirmationComponent,
-    ],
+    CommonModule,
+    I18nModule,
+    ReactiveFormsModule,
+    ReturnOrderConfirmationComponent,
+],
     providers: [
         provideDefaultConfig(<CmsConfig>{
             cmsComponents: {

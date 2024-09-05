@@ -17,7 +17,7 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+
 import { MyAccountV2NotificationPreferenceComponent } from '../my-account-v2';
 import { USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE } from '../my-account-v2/use-my-account-v2-consent-notification-perference';
 import { NotificationPreferenceComponent } from './notification-preference.component';
@@ -32,21 +32,20 @@ const myAccountV2CmsMapping: CmsConfig = {
 };
 @NgModule({
     imports: [
-        CommonModule,
-        SpinnerModule,
-        I18nModule,
-        FeaturesConfigModule,
-        RouterModule.forChild([
-            {
-                // @ts-ignore
-                path: null,
-                canActivate: [AuthGuard, CmsPageGuard],
-                component: PageLayoutComponent,
-                data: { cxRoute: 'notificationPreference' },
-            },
-        ]),
-        NotificationPreferenceComponent,
-    ],
+    CommonModule,
+    I18nModule,
+    FeaturesConfigModule,
+    RouterModule.forChild([
+        {
+            // @ts-ignore
+            path: null,
+            canActivate: [AuthGuard, CmsPageGuard],
+            component: PageLayoutComponent,
+            data: { cxRoute: 'notificationPreference' },
+        },
+    ]),
+    NotificationPreferenceComponent,
+],
     providers: [
         provideDefaultConfig(<CmsConfig>{
             cmsComponents: {
