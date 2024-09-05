@@ -87,7 +87,6 @@ jobs:
       - name: Run linting validation
         run: |
           ci-scripts/validate-lint.sh
-    # TODO: For testing ssr-tests epic only. Remove before merging to ssr error handling epic.
   ci_result:
     needs: [unit_tests, sonarqube_scan, linting]
     name: CI - Result
