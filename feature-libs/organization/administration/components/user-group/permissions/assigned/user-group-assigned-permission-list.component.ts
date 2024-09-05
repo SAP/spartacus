@@ -7,17 +7,26 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ListService } from '../../../shared/list/list.service';
 import { UserGroupAssignedPermissionsListService } from './user-group-assigned-permission-list.service';
+import { I18nModule } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { SubListComponent } from '../../../shared/sub-list/sub-list.component';
 
 @Component({
-  selector: 'cx-org-user-group-assigned-permission-list',
-  templateUrl: './user-group-assigned-permission-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
-  providers: [
-    {
-      provide: ListService,
-      useExisting: UserGroupAssignedPermissionsListService,
-    },
-  ],
+    selector: 'cx-org-user-group-assigned-permission-list',
+    templateUrl: './user-group-assigned-permission-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    providers: [
+        {
+            provide: ListService,
+            useExisting: UserGroupAssignedPermissionsListService,
+        },
+    ],
+    standalone: true,
+    imports: [
+        SubListComponent,
+        RouterLink,
+        I18nModule,
+    ],
 })
 export class UserGroupAssignedPermissionListComponent {}

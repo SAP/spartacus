@@ -18,16 +18,16 @@ import { AssignCellComponent } from './assign-cell.component';
 import { SubListComponent } from './sub-list.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    CardModule,
-    TableModule,
-    PaginationModule,
-    MessageModule,
-    KeyboardFocusModule,
-  ],
-  declarations: [SubListComponent, AssignCellComponent],
-  exports: [SubListComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        CardModule,
+        TableModule,
+        PaginationModule,
+        MessageModule,
+        KeyboardFocusModule,
+        SubListComponent, AssignCellComponent,
+    ],
+    exports: [SubListComponent],
 })
 export class SubListModule {}

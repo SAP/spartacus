@@ -14,16 +14,16 @@ import { VisualViewerToolbarButtonModule } from './toolbar/visual-viewer-toolbar
 import { VisualViewerComponent } from './visual-viewer.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    I18nModule,
-    VisualViewerToolbarButtonModule,
-    VisualViewerAnimationSliderModule,
-    SpinnerModule,
-    FeaturesConfigModule,
-  ],
-  declarations: [VisualViewerComponent],
-  exports: [VisualViewerComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        I18nModule,
+        VisualViewerToolbarButtonModule,
+        VisualViewerAnimationSliderModule,
+        SpinnerModule,
+        FeaturesConfigModule,
+        VisualViewerComponent,
+    ],
+    exports: [VisualViewerComponent],
 })
 export class VisualViewerModule {}

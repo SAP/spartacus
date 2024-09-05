@@ -82,23 +82,22 @@ describe('RescheduleServiceOrderComponent', () => {
   let checkoutServiceSchedulePickerService: CheckoutServiceSchedulePickerService;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, UrlTestingModule],
-      declarations: [RescheduleServiceOrderComponent],
-      providers: [
+    imports: [I18nTestingModule, UrlTestingModule, RescheduleServiceOrderComponent],
+    providers: [
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         {
-          provide: RescheduleServiceOrderFacade,
-          useClass: MockRescheduleServiceOrderFacade,
+            provide: RescheduleServiceOrderFacade,
+            useClass: MockRescheduleServiceOrderFacade,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
-          provide: CheckoutServiceSchedulePickerService,
-          useClass: MockCheckoutServiceSchedulePickerService,
+            provide: CheckoutServiceSchedulePickerService,
+            useClass: MockCheckoutServiceSchedulePickerService,
         },
         FormBuilder,
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(RescheduleServiceOrderComponent);
     component = fixture.componentInstance;

@@ -10,13 +10,22 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, UrlModule, I18nModule } from '@spartacus/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'cx-amend-order-actions',
-  templateUrl: './amend-order-actions.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-amend-order-actions',
+    templateUrl: './amend-order-actions.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        RouterLink,
+        NgIf,
+        UrlModule,
+        I18nModule,
+    ],
 })
 export class AmendOrderActionsComponent {
   @Input() orderCode: string;

@@ -10,15 +10,14 @@ describe('AmountCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AmountCellComponent],
-      imports: [RouterTestingModule, UrlTestingModule],
-      providers: [
+    imports: [RouterTestingModule, UrlTestingModule, AmountCellComponent],
+    providers: [
         {
-          provide: OutletContextData,
-          useValue: { context: { budget: '1000', currency: 'EUR' } },
+            provide: OutletContextData,
+            useValue: { context: { budget: '1000', currency: 'EUR' } },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

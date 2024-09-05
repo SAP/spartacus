@@ -12,21 +12,20 @@ import { defaultQualtricsConfig } from './qualtrics-loader/config/default-qualtr
 import { QualtricsComponent } from './qualtrics-loader/qualtrics.component';
 
 @NgModule({
-  imports: [CommonModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        QualtricsEmbeddedFeedbackComponent: {
-          component: QualtricsEmbeddedFeedbackComponent,
-        },
-        QualtricsComponent: {
-          component: QualtricsComponent,
-        },
-      },
-    }),
-    provideDefaultConfig(defaultQualtricsConfig),
-  ],
-  declarations: [QualtricsComponent, QualtricsEmbeddedFeedbackComponent],
-  exports: [QualtricsComponent, QualtricsEmbeddedFeedbackComponent],
+    imports: [CommonModule, QualtricsComponent, QualtricsEmbeddedFeedbackComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                QualtricsEmbeddedFeedbackComponent: {
+                    component: QualtricsEmbeddedFeedbackComponent,
+                },
+                QualtricsComponent: {
+                    component: QualtricsComponent,
+                },
+            },
+        }),
+        provideDefaultConfig(defaultQualtricsConfig),
+    ],
+    exports: [QualtricsComponent, QualtricsEmbeddedFeedbackComponent],
 })
 export class QualtricsComponentsModule {}

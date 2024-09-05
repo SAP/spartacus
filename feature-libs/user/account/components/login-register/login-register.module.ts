@@ -19,24 +19,24 @@ import { PageSlotModule } from '@spartacus/storefront';
 import { LoginRegisterComponent } from './login-register.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    UrlModule,
-    PageSlotModule,
-    I18nModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ReturningCustomerRegisterComponent: {
-          component: LoginRegisterComponent,
-          guards: [NotAuthGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [LoginRegisterComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        UrlModule,
+        PageSlotModule,
+        I18nModule,
+        FeaturesConfigModule,
+        LoginRegisterComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ReturningCustomerRegisterComponent: {
+                    component: LoginRegisterComponent,
+                    guards: [NotAuthGuard],
+                },
+            },
+        }),
+    ],
 })
 export class LoginRegisterModule {}

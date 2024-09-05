@@ -18,9 +18,10 @@ import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { RoutingService } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-close-account',
-  templateUrl: './close-account.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-close-account',
+    templateUrl: './close-account.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 export class CloseAccountComponent {
   @ViewChild('element') element: ElementRef;

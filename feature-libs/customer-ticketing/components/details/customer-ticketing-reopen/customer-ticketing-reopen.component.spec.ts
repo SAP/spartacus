@@ -54,17 +54,17 @@ describe('CustomerTicketingReopenComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CustomerTicketingReopenComponent],
-      providers: [
+    imports: [I18nTestingModule],
+    declarations: [CustomerTicketingReopenComponent],
+    providers: [
         CustomerTicketingReopenComponentService,
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: CustomerTicketingFacade,
-          useClass: MockCustomerTicketingFacade,
+            provide: CustomerTicketingFacade,
+            useClass: MockCustomerTicketingFacade,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     mockTicketDetails$.next(mockTicket);
     launchDialogService = TestBed.inject(LaunchDialogService);

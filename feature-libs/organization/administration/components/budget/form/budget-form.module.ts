@@ -16,19 +16,19 @@ import { ItemActiveModule } from '../../shared/item-active.module';
 import { BudgetFormComponent } from './budget-form.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormModule,
-    NgSelectModule,
-    UrlModule,
-    I18nModule,
-    ReactiveFormsModule,
-    FormErrorsModule,
-    ItemActiveModule,
-    DatePickerModule,
-    FeaturesConfigModule,
-  ],
-  declarations: [BudgetFormComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormModule,
+        NgSelectModule,
+        UrlModule,
+        I18nModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        ItemActiveModule,
+        DatePickerModule,
+        FeaturesConfigModule,
+        BudgetFormComponent,
+    ],
 })
 export class BudgetFormModule {}

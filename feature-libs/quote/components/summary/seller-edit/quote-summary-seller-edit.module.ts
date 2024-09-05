@@ -12,15 +12,15 @@ import { QuoteSummarySellerEditComponent } from './quote-summary-seller-edit.com
 import { IconModule, DatePickerModule } from '@spartacus/storefront';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IconModule,
-    DatePickerModule,
-  ],
-  declarations: [QuoteSummarySellerEditComponent],
-  exports: [QuoteSummarySellerEditComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        FormsModule,
+        ReactiveFormsModule,
+        IconModule,
+        DatePickerModule,
+        QuoteSummarySellerEditComponent,
+    ],
+    exports: [QuoteSummarySellerEditComponent],
 })
 export class QuoteSummarySellerEditModule {}

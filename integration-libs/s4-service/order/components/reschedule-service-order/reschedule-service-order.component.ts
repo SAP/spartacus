@@ -11,13 +11,9 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CartOutlets } from '@spartacus/cart/base/root';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType, RoutingService, I18nModule, UrlModule } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
 import {
@@ -26,11 +22,26 @@ import {
   ServiceDateTime,
 } from '@spartacus/s4-service/root';
 import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { DatePickerModule, OutletModule } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-reschedule-service-order',
-  templateUrl: './reschedule-service-order.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-reschedule-service-order',
+    templateUrl: './reschedule-service-order.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        DatePickerModule,
+        NgIf,
+        NgFor,
+        OutletModule,
+        RouterLink,
+        AsyncPipe,
+        I18nModule,
+        UrlModule,
+    ],
 })
 export class RescheduleServiceOrderComponent implements OnInit, OnDestroy {
   protected orderDetailsService = inject(OrderDetailsService);

@@ -31,37 +31,35 @@ const myAccountV2CmsMapping: CmsConfig = {
   },
 };
 @NgModule({
-  declarations: [NotificationPreferenceComponent],
-  imports: [
-    CommonModule,
-    SpinnerModule,
-    I18nModule,
-    FeaturesConfigModule,
-    RouterModule.forChild([
-      {
-        // @ts-ignore
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: 'notificationPreference' },
-      },
-    ]),
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        NotificationPreferenceComponent: {
-          component: NotificationPreferenceComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-    provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE)
-        ? myAccountV2CmsMapping
-        : {}
-    ),
-  ],
-  exports: [NotificationPreferenceComponent],
+    imports: [
+        CommonModule,
+        SpinnerModule,
+        I18nModule,
+        FeaturesConfigModule,
+        RouterModule.forChild([
+            {
+                // @ts-ignore
+                path: null,
+                canActivate: [AuthGuard, CmsPageGuard],
+                component: PageLayoutComponent,
+                data: { cxRoute: 'notificationPreference' },
+            },
+        ]),
+        NotificationPreferenceComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                NotificationPreferenceComponent: {
+                    component: NotificationPreferenceComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+        provideDefaultConfigFactory(() => inject(USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE)
+            ? myAccountV2CmsMapping
+            : {}),
+    ],
+    exports: [NotificationPreferenceComponent],
 })
 export class NotificationPreferenceModule {}

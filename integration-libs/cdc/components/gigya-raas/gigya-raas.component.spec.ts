@@ -77,15 +77,16 @@ describe('GigyaRaasComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [GigyaRaasComponent, MockTranslatePipe],
-      providers: [
+    imports: [MockTranslatePipe],
+    declarations: [GigyaRaasComponent],
+    providers: [
         { provide: CdcConfig, useValue: sampleCdcConfig },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
         { provide: CdcJsService, useClass: CdcJsServiceStub },
         { provide: LanguageService, useClass: LanguageServiceStub },
-      ],
-    });
+    ],
+});
     baseSiteService = TestBed.inject(BaseSiteService);
     cdcJsService = TestBed.inject(CdcJsService);
     fixture = TestBed.createComponent(GigyaRaasComponent);

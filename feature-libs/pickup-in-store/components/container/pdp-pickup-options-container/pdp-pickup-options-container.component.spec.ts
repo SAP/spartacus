@@ -90,36 +90,34 @@ describe('PdpPickupOptionsComponent', () => {
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
-      declarations: [
-        PdpPickupOptionsContainerComponent,
-        PickupOptionsStubComponent,
-      ],
-      imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
-      providers: [
+    declarations: [PdpPickupOptionsContainerComponent,
+        PickupOptionsStubComponent],
+    imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
+    providers: [
         PdpPickupOptionsContainerComponent,
         {
-          provide: PickupLocationsSearchFacade,
-          useClass: MockPickupLocationsSearchFacade,
+            provide: PickupLocationsSearchFacade,
+            useClass: MockPickupLocationsSearchFacade,
         },
         {
-          provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
         },
         {
-          provide: IntendedPickupLocationFacade,
-          useClass: MockIntendedPickupLocationService,
+            provide: IntendedPickupLocationFacade,
+            useClass: MockIntendedPickupLocationService,
         },
         { provide: CurrentProductService, useClass: MockCurrentProductService },
         {
-          provide: PreferredStoreFacade,
-          useClass: MockPreferredStoreService,
+            provide: PreferredStoreFacade,
+            useClass: MockPreferredStoreService,
         },
         {
-          provide: CurrentLocationService,
-          useClass: MockCurrentLocationService,
+            provide: CurrentLocationService,
+            useClass: MockCurrentLocationService,
         },
-      ],
-    });
+    ],
+});
 
   const stubServiceAndCreateComponent = () => {
     fixture = TestBed.createComponent(PdpPickupOptionsContainerComponent);

@@ -17,18 +17,18 @@ import { ConfiguratorOverviewFilterDialogComponent } from './configurator-overvi
 import { defaultConfiguratorOverviewFilterDialogLayoutConfig } from './default-configurator-overview-filer-dialog-layout.config';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    IconModule,
-    ConfiguratorOverviewFilterModule,
-    KeyboardFocusModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(defaultConfiguratorOverviewFilterDialogLayoutConfig),
-  ],
-  declarations: [ConfiguratorOverviewFilterDialogComponent],
-  exports: [ConfiguratorOverviewFilterDialogComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        IconModule,
+        ConfiguratorOverviewFilterModule,
+        KeyboardFocusModule,
+        FeaturesConfigModule,
+        ConfiguratorOverviewFilterDialogComponent,
+    ],
+    providers: [
+        provideDefaultConfig(defaultConfiguratorOverviewFilterDialogLayoutConfig),
+    ],
+    exports: [ConfiguratorOverviewFilterDialogComponent],
 })
 export class ConfiguratorOverviewFilterDialogModule {}

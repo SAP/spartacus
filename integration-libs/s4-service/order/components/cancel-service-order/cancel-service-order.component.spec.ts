@@ -38,7 +38,8 @@ class MockRoutingService {
 }
 
 @Pipe({
-  name: 'cxUrl',
+    name: 'cxUrl',
+    standalone: true,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {
@@ -55,23 +56,23 @@ describe('CancelServiceOrderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         RouterTestingModule,
         HttpClientTestingModule,
         I18nTestingModule,
-      ],
-      declarations: [CancelServiceOrderComponent, MockUrlPipe],
-      providers: [
+        CancelServiceOrderComponent, MockUrlPipe,
+    ],
+    providers: [
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         {
-          provide: CancelServiceOrderFacade,
-          useClass: MockCancelServiceOrderFacade,
+            provide: CancelServiceOrderFacade,
+            useClass: MockCancelServiceOrderFacade,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: RoutingService, useClass: MockRoutingService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

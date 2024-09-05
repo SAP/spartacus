@@ -5,19 +5,36 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  CustomerCouponSearchResult,
-  CustomerCouponService,
-  PaginationModel,
-} from '@spartacus/core';
+import { CustomerCouponSearchResult, CustomerCouponService, PaginationModel, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 import { MyCouponsComponentService } from './my-coupons.component.service';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { RouterLink } from '@angular/router';
+import { IconComponent } from '../../misc/icon/icon.component';
+import { CouponCardComponent } from './coupon-card/coupon-card.component';
+import { PaginationComponent } from '../../../shared/components/list-navigation/pagination/pagination.component';
+import { SortingComponent } from '../../../shared/components/list-navigation/sorting/sorting.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-my-coupons',
-  templateUrl: './my-coupons.component.html',
+    selector: 'cx-my-coupons',
+    templateUrl: './my-coupons.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        FeaturesConfigModule,
+        SortingComponent,
+        PaginationComponent,
+        NgFor,
+        CouponCardComponent,
+        IconComponent,
+        RouterLink,
+        SpinnerComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class MyCouponsComponent implements OnInit, OnDestroy {
   couponResult$: Observable<CustomerCouponSearchResult>;

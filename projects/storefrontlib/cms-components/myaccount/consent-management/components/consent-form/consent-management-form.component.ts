@@ -5,15 +5,14 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  AnonymousConsent,
-  ANONYMOUS_CONSENT_STATUS,
-  ConsentTemplate,
-} from '@spartacus/core';
+import { AnonymousConsent, ANONYMOUS_CONSENT_STATUS, ConsentTemplate, FeaturesConfigModule } from '@spartacus/core';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'cx-consent-management-form',
-  templateUrl: './consent-management-form.component.html',
+    selector: 'cx-consent-management-form',
+    templateUrl: './consent-management-form.component.html',
+    standalone: true,
+    imports: [NgIf, FeaturesConfigModule],
 })
 export class ConsentManagementFormComponent implements OnInit {
   consentGiven = false;

@@ -5,8 +5,8 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
-import { Card, FocusConfig, ICON_TYPE } from '@spartacus/storefront';
+import { TranslationService, I18nModule } from '@spartacus/core';
+import { Card, FocusConfig, ICON_TYPE, CardModule } from '@spartacus/storefront';
 
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,10 +17,20 @@ import {
   PaymentCardCode,
 } from '@spartacus/asm/customer-360/root';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
+import { NgIf, NgTemplateOutlet, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-asm-customer-360-profile',
-  templateUrl: './asm-customer-360-profile.component.html',
+    selector: 'cx-asm-customer-360-profile',
+    templateUrl: './asm-customer-360-profile.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgTemplateOutlet,
+        NgFor,
+        CardModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class AsmCustomer360ProfileComponent implements OnInit {
   focusConfig: FocusConfig = {

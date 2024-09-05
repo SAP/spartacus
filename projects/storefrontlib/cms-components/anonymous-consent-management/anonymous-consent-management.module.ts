@@ -18,28 +18,25 @@ import { defaultAnonymousConsentLayoutConfig } from './default-anonymous-consent
 import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-consent-open-dialog.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, KeyboardFocusModule],
-  providers: [
-    provideDefaultConfig(defaultAnonymousConsentLayoutConfig),
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        AnonymousConsentManagementBannerComponent: {
-          component: AnonymousConsentManagementBannerComponent,
-          deferLoading: DeferLoadingStrategy.INSTANT,
-        },
-        AnonymousConsentOpenDialogComponent: {
-          component: AnonymousConsentOpenDialogComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [
-    AnonymousConsentManagementBannerComponent,
-    AnonymousConsentOpenDialogComponent,
-  ],
-  exports: [
-    AnonymousConsentManagementBannerComponent,
-    AnonymousConsentOpenDialogComponent,
-  ],
+    imports: [CommonModule, I18nModule, KeyboardFocusModule, AnonymousConsentManagementBannerComponent,
+        AnonymousConsentOpenDialogComponent],
+    providers: [
+        provideDefaultConfig(defaultAnonymousConsentLayoutConfig),
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                AnonymousConsentManagementBannerComponent: {
+                    component: AnonymousConsentManagementBannerComponent,
+                    deferLoading: DeferLoadingStrategy.INSTANT,
+                },
+                AnonymousConsentOpenDialogComponent: {
+                    component: AnonymousConsentOpenDialogComponent,
+                },
+            },
+        }),
+    ],
+    exports: [
+        AnonymousConsentManagementBannerComponent,
+        AnonymousConsentOpenDialogComponent,
+    ],
 })
 export class AnonymousConsentManagementBannerModule {}

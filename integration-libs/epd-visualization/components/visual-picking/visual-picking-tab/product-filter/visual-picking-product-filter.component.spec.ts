@@ -41,8 +41,7 @@ describe('VisualPickingProductFilterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [VisualPickingProductFilterComponent, MockTranslatePipe],
-      imports: [
+    imports: [
         RouterTestingModule,
         HttpClientTestingModule,
         I18nModule,
@@ -50,14 +49,15 @@ describe('VisualPickingProductFilterComponent', () => {
         FormsModule,
         UrlModule,
         IconModule,
-      ],
-      providers: [
+        VisualPickingProductFilterComponent, MockTranslatePipe,
+    ],
+    providers: [
         {
-          provide: VisualPickingProductFilterService,
-          useValue: mockVisualPickingProductFilterService,
+            provide: VisualPickingProductFilterService,
+            useValue: mockVisualPickingProductFilterService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     TestBed.inject(HttpTestingController);
 

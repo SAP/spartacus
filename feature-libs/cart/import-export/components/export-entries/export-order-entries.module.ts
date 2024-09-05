@@ -16,20 +16,20 @@ import {
 import { ExportOrderEntriesComponent } from './export-order-entries.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    I18nModule,
-    UrlModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        ExportOrderEntriesComponent: {
-          component: ExportOrderEntriesComponent,
-        },
-      },
-    }),
-  ],
-  exports: [ExportOrderEntriesComponent],
-  declarations: [ExportOrderEntriesComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        I18nModule,
+        UrlModule,
+        ConfigModule.withConfig(<CmsConfig>{
+            cmsComponents: {
+                ExportOrderEntriesComponent: {
+                    component: ExportOrderEntriesComponent,
+                },
+            },
+        }),
+        ExportOrderEntriesComponent,
+    ],
+    exports: [ExportOrderEntriesComponent],
 })
 export class ExportOrderEntriesModule {}

@@ -10,8 +10,7 @@ import { I18nModule } from '@spartacus/core';
 import { QuoteSummaryActionsComponent } from './quote-summary-actions.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
-  declarations: [QuoteSummaryActionsComponent],
-  exports: [QuoteSummaryActionsComponent],
+    imports: [CommonModule, I18nModule, QuoteSummaryActionsComponent],
+    exports: [QuoteSummaryActionsComponent],
 })
 export class QuoteSummaryActionsModule {}

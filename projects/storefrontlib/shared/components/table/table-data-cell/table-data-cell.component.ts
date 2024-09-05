@@ -9,9 +9,10 @@ import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model
 import { TableHeaderOutletContext } from '../table.model';
 
 @Component({
-  selector: 'cx-table-data-cell',
-  template: `{{ value }}`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-table-data-cell',
+    template: `{{ value }}`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 export class TableDataCellComponent {
   constructor(protected outlet: OutletContextData<TableHeaderOutletContext>) {}

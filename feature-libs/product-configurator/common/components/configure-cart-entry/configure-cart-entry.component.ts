@@ -10,13 +10,13 @@ import {
   Input,
   inject,
 } from '@angular/core';
-import { Params } from '@angular/router';
+import { Params, RouterLink } from '@angular/router';
 import {
   AbstractOrderKey,
   AbstractOrderType,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, UrlModule, I18nModule } from '@spartacus/core';
 
 import { AbstractOrderContext } from '@spartacus/cart/base/components';
 import { Observable, of } from 'rxjs';
@@ -26,11 +26,20 @@ import {
   ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-configure-cart-entry',
-  templateUrl: './configure-cart-entry.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-configure-cart-entry',
+    templateUrl: './configure-cart-entry.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        RouterLink,
+        AsyncPipe,
+        UrlModule,
+        I18nModule,
+    ],
 })
 export class ConfigureCartEntryComponent {
   protected routingService = inject(RoutingService);

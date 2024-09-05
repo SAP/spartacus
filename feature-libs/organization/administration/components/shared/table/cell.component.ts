@@ -10,17 +10,26 @@ import {
   Optional,
   inject,
 } from '@angular/core';
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureConfigService, UrlModule } from '@spartacus/core';
 import {
   OutletContextData,
   TableDataOutletContext,
   TableFieldOptions,
 } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 @Component({
-  selector: 'cx-org-cell',
-  templateUrl: './cell.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-org-cell',
+    templateUrl: './cell.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        RouterLink,
+        NgTemplateOutlet,
+        UrlModule,
+    ],
 })
 export class CellComponent {
   @Optional() featuteConfigService = inject(FeatureConfigService, {

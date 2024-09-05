@@ -18,22 +18,20 @@ import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-cre
 import { CustomerTicketingCreateComponent } from './customer-ticketing-create.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    IconModule,
-    KeyboardFocusModule,
-    ReactiveFormsModule,
-    FormErrorsModule,
-    FileUploadModule,
-  ],
-  declarations: [
-    CustomerTicketingCreateComponent,
-    CustomerTicketingCreateDialogComponent,
-  ],
-  exports: [
-    CustomerTicketingCreateComponent,
-    CustomerTicketingCreateDialogComponent,
-  ],
+    imports: [
+        CommonModule,
+        I18nModule,
+        IconModule,
+        KeyboardFocusModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        FileUploadModule,
+        CustomerTicketingCreateComponent,
+        CustomerTicketingCreateDialogComponent,
+    ],
+    exports: [
+        CustomerTicketingCreateComponent,
+        CustomerTicketingCreateDialogComponent,
+    ],
 })
 export class CustomerTicketingCreateModule {}

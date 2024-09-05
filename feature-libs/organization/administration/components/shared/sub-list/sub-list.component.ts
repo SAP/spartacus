@@ -11,18 +11,30 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { EntitiesModel } from '@spartacus/core';
-import { TableStructure } from '@spartacus/storefront';
+import { EntitiesModel, I18nModule } from '@spartacus/core';
+import { TableStructure, KeyboardFocusModule, TableModule, PaginationModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ListComponent } from '../list/list.component';
 import { MessageService } from '../message/services/message.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { CardComponent } from '../card/card.component';
 
 @Component({
-  selector: 'cx-org-sub-list',
-  templateUrl: './sub-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
+    selector: 'cx-org-sub-list',
+    templateUrl: './sub-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    standalone: true,
+    imports: [
+        CardComponent,
+        KeyboardFocusModule,
+        NgIf,
+        TableModule,
+        PaginationModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class SubListComponent extends ListComponent {
   hostClass = '';

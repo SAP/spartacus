@@ -35,20 +35,19 @@ describe('LoginFormComponentService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
-      ],
-      declarations: [],
-      providers: [
+    ],
+    providers: [
         LoginFormComponentService,
         { provide: WindowRef, useClass: MockWinRef },
         { provide: AuthService, useClass: MockAuthService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

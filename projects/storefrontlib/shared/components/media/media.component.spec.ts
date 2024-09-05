@@ -9,7 +9,8 @@ import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
 const mediaUrl = 'mockProductImageUrl.jpg';
 
 @Pipe({
-  name: 'cxMediaSources',
+    name: 'cxMediaSources',
+    standalone: true,
 })
 export class MockMediaSourcesPipe implements PipeTransform {
   transform() {
@@ -69,15 +70,15 @@ function configureTestingModule(
   isLegacy: boolean = true
 ): void {
   TestBed.configureTestingModule({
-    declarations: [MediaComponent, MockMediaSourcesPipe],
+    imports: [MediaComponent, MockMediaSourcesPipe],
     providers: [
-      { provide: MediaService, useValue: mockMediaService },
-      {
-        provide: USE_LEGACY_MEDIA_COMPONENT,
-        useValue: isLegacy,
-      },
+        { provide: MediaService, useValue: mockMediaService },
+        {
+            provide: USE_LEGACY_MEDIA_COMPONENT,
+            useValue: isLegacy,
+        },
     ],
-  }).compileComponents();
+}).compileComponents();
 }
 
 function createComponent() {

@@ -85,8 +85,10 @@ const mockActivatedRoute = {
 };
 
 @Component({
-  selector: 'cx-address-form',
-  template: '',
+    selector: 'cx-address-form',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockAddressFormComponent {
   @Input() cancelBtnLabel: string;
@@ -96,14 +98,18 @@ class MockAddressFormComponent {
 }
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
+    selector: 'cx-spinner',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockSpinnerComponent {}
 
 @Component({
-  selector: 'cx-card',
-  template: '',
+    selector: 'cx-card',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCardComponent {
   @Input()
@@ -141,39 +147,36 @@ describe('CheckoutDeliveryAddressComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CheckoutDeliveryAddressComponent,
-        MockAddressFormComponent,
+    imports: [I18nTestingModule, MockAddressFormComponent,
         MockCardComponent,
-        MockSpinnerComponent,
-      ],
-      providers: [
+        MockSpinnerComponent],
+    declarations: [CheckoutDeliveryAddressComponent],
+    providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
-          provide: CheckoutDeliveryAddressFacade,
-          useClass: MockCheckoutDeliveryAddressFacade,
+            provide: CheckoutDeliveryAddressFacade,
+            useClass: MockCheckoutDeliveryAddressFacade,
         },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
-          provide: CheckoutDeliveryModesFacade,
-          useClass: MockCheckoutDeliveryModesFacade,
+            provide: CheckoutDeliveryModesFacade,
+            useClass: MockCheckoutDeliveryModesFacade,
         },
         {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '6.3' },
-          },
+            provide: FeaturesConfig,
+            useValue: {
+                features: { level: '6.3' },
+            },
         },
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(CheckoutDeliveryAddressComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

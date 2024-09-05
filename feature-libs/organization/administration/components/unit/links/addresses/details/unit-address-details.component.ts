@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Address, B2BUnit, Country, UserAddressService } from '@spartacus/core';
+import { Address, B2BUnit, Country, UserAddressService, UrlModule, I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -17,18 +17,34 @@ import {
 import { ItemService } from '../../../../shared/item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitAddressItemService } from '../services/unit-address-item.service';
+import { DeleteItemComponent } from '../../../../shared/detail/delete-item-action/delete-item.component';
+import { RouterLink } from '@angular/router';
+import { KeyboardFocusModule } from '@spartacus/storefront';
+import { CardComponent } from '../../../../shared/card/card.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-org-unit-address-details',
-  templateUrl: './unit-address-details.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
-  providers: [
-    {
-      provide: ItemService,
-      useExisting: UnitAddressItemService,
-    },
-  ],
+    selector: 'cx-org-unit-address-details',
+    templateUrl: './unit-address-details.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    providers: [
+        {
+            provide: ItemService,
+            useExisting: UnitAddressItemService,
+        },
+    ],
+    standalone: true,
+    imports: [
+        NgIf,
+        CardComponent,
+        KeyboardFocusModule,
+        RouterLink,
+        DeleteItemComponent,
+        AsyncPipe,
+        UrlModule,
+        I18nModule,
+    ],
 })
 export class UnitAddressDetailsComponent {
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService.item$;

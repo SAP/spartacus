@@ -110,35 +110,35 @@ describe('QuoteLinksComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         I18nTestingModule,
         RouterTestingModule.withRoutes(mockRoutes),
         UrlTestingModule,
-      ],
-      declarations: [QuoteLinksComponent],
-      providers: [
+        QuoteLinksComponent,
+    ],
+    providers: [
         {
-          provide: QuoteFacade,
-          useClass: MockCommerceQuotesFacade,
+            provide: QuoteFacade,
+            useClass: MockCommerceQuotesFacade,
         },
         {
-          provide: CartUtilsService,
-          useClass: MockCartUtilsService,
+            provide: CartUtilsService,
+            useClass: MockCartUtilsService,
         },
         {
-          provide: FileDownloadService,
-          useClass: MockFileDownloadService,
+            provide: FileDownloadService,
+            useClass: MockFileDownloadService,
         },
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
         },
         {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

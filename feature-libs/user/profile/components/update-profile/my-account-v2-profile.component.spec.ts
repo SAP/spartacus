@@ -21,8 +21,17 @@ import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 import createSpy = jasmine.createSpy;
 import { UpdateProfileComponentService } from './update-profile-component.service';
 @Component({
-  selector: 'cx-spinner',
-  template: ` <div>spinner</div> `,
+    selector: 'cx-spinner',
+    template: ` <div>spinner</div> `,
+    standalone: true,
+    imports: [CommonModule,
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        NgSelectModule,
+        FeaturesConfigModule,],
 })
 class MockCxSpinnerComponent {}
 
@@ -51,7 +60,7 @@ describe('MyAccountV2ProfileComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         CommonModule,
         ReactiveFormsModule,
         I18nTestingModule,
@@ -60,15 +69,15 @@ describe('MyAccountV2ProfileComponent', () => {
         UrlTestingModule,
         NgSelectModule,
         FeaturesConfigModule,
-      ],
-      declarations: [MyAccountV2ProfileComponent, MockCxSpinnerComponent],
-      providers: [
+        MyAccountV2ProfileComponent, MockCxSpinnerComponent,
+    ],
+    providers: [
         {
-          provide: UpdateProfileComponentService,
-          useClass: MockProfileService,
+            provide: UpdateProfileComponentService,
+            useClass: MockProfileService,
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(MyAccountV2ProfileComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

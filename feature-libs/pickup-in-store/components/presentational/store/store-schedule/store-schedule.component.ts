@@ -17,8 +17,9 @@ type OpeningTime = {
  * A presentational component for a store's opening hours
  */
 @Component({
-  selector: 'cx-store-schedule',
-  templateUrl: 'store-schedule.component.html',
+    selector: 'cx-store-schedule',
+    templateUrl: 'store-schedule.component.html',
+    standalone: true,
 })
 export class StoreScheduleComponent implements OnChanges {
   /** The details of the store */

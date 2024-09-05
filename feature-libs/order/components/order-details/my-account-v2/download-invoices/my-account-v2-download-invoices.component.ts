@@ -13,17 +13,24 @@ import {
   inject,
 } from '@angular/core';
 import { OrderOutlets } from '@spartacus/order/root';
-import { InvoicesListComponent } from '@spartacus/pdf-invoices/components';
-import {
-  ICON_TYPE,
-  FocusConfig,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { InvoicesListComponent, PDFInvoicesComponentsModule } from '@spartacus/pdf-invoices/components';
+import { ICON_TYPE, FocusConfig, LaunchDialogService, KeyboardFocusModule, IconModule, SpinnerModule } from '@spartacus/storefront';
+import { I18nModule } from '@spartacus/core';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'cx-my-account-v2-download-invoices',
-  templateUrl: './my-account-v2-download-invoices.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-my-account-v2-download-invoices',
+    templateUrl: './my-account-v2-download-invoices.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        KeyboardFocusModule,
+        IconModule,
+        PDFInvoicesComponentsModule,
+        NgIf,
+        SpinnerModule,
+        I18nModule,
+    ],
 })
 export class MyAccountV2DownloadInvoicesComponent implements AfterViewChecked {
   @ViewChild(InvoicesListComponent, { static: false })

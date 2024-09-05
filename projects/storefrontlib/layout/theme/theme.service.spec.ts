@@ -4,8 +4,9 @@ import { SiteContextConfig } from '@spartacus/core';
 import { ThemeService } from './theme.service';
 
 @Component({
-  selector: 'cx-test',
-  template: '',
+    selector: 'cx-test',
+    template: '',
+    standalone: true,
 })
 class TestComponent {}
 
@@ -15,15 +16,15 @@ describe('ThemeService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
+    imports: [TestComponent],
+    providers: [
         ThemeService,
         {
-          provide: SiteContextConfig,
-          useValue: { context: { theme: ['test-theme'] } },
+            provide: SiteContextConfig,
+            useValue: { context: { theme: ['test-theme'] } },
         },
-      ],
-      declarations: [TestComponent],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     service = TestBed.inject(ThemeService);
     componentRef = TestBed.createComponent(TestComponent).componentRef;

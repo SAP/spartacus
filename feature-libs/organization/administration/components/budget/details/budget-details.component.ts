@@ -10,18 +10,40 @@ import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';
 import { BudgetItemService } from '../services/budget-item.service';
+import { UrlModule, I18nModule } from '@spartacus/core';
+import { ItemExistsDirective } from '../../shared/item-exists.directive';
+import { DisableInfoComponent } from '../../shared/detail/disable-info/disable-info.component';
+import { ToggleStatusComponent } from '../../shared/detail/toggle-status-action/toggle-status.component';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { KeyboardFocusModule } from '@spartacus/storefront';
+import { CardComponent } from '../../shared/card/card.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-org-budget-details',
-  templateUrl: './budget-details.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: ItemService,
-      useExisting: BudgetItemService,
-    },
-  ],
-  host: { class: 'content-wrapper' },
+    selector: 'cx-org-budget-details',
+    templateUrl: './budget-details.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: ItemService,
+            useExisting: BudgetItemService,
+        },
+    ],
+    host: { class: 'content-wrapper' },
+    standalone: true,
+    imports: [
+        NgIf,
+        CardComponent,
+        KeyboardFocusModule,
+        RouterLink,
+        ToggleStatusComponent,
+        DisableInfoComponent,
+        ItemExistsDirective,
+        RouterLinkActive,
+        AsyncPipe,
+        UrlModule,
+        I18nModule,
+    ],
 })
 export class BudgetDetailsComponent implements OnInit {
   model$: Observable<Budget>;

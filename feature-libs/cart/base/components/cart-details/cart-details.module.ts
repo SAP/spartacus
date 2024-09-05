@@ -20,26 +20,26 @@ import { CartDetailsComponent } from './cart-details.component';
 import { CartValidationWarningsModule } from '../validation/cart-warnings/cart-validation-warnings.module';
 
 @NgModule({
-  imports: [
-    CartSharedModule,
-    CommonModule,
-    CartCouponModule,
-    RouterModule,
-    UrlModule,
-    PromotionsModule,
-    I18nModule,
-    CartValidationWarningsModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CartComponent: {
-          component: CartDetailsComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [CartDetailsComponent],
-  exports: [CartDetailsComponent],
+    imports: [
+        CartSharedModule,
+        CommonModule,
+        CartCouponModule,
+        RouterModule,
+        UrlModule,
+        PromotionsModule,
+        I18nModule,
+        CartValidationWarningsModule,
+        CartDetailsComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CartComponent: {
+                    component: CartDetailsComponent,
+                },
+            },
+        }),
+    ],
+    exports: [CartDetailsComponent],
 })
 export class CartDetailsModule {}

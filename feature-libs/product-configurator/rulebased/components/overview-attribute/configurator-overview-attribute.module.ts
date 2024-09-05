@@ -11,8 +11,7 @@ import { ConfiguratorPriceModule } from '../price/configurator-price.module';
 import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-attribute.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, ConfiguratorPriceModule],
-  declarations: [ConfiguratorOverviewAttributeComponent],
-  exports: [ConfiguratorOverviewAttributeComponent],
+    imports: [CommonModule, I18nModule, ConfiguratorPriceModule, ConfiguratorOverviewAttributeComponent],
+    exports: [ConfiguratorOverviewAttributeComponent],
 })
 export class ConfiguratorOverviewAttributeModule {}

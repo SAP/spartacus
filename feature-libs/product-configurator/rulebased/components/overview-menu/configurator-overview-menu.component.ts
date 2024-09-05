@@ -12,14 +12,25 @@ import {
   HostListener,
   Input,
 } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconModule } from '@spartacus/storefront';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { I18nModule } from '@spartacus/core';
+import { NgIf, NgTemplateOutlet, NgFor, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'cx-configurator-overview-menu',
-  templateUrl: './configurator-overview-menu.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-configurator-overview-menu',
+    templateUrl: './configurator-overview-menu.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgTemplateOutlet,
+        NgFor,
+        NgClass,
+        IconModule,
+        I18nModule,
+    ],
 })
 export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   @HostBinding('style.height') height = this.getHeight();

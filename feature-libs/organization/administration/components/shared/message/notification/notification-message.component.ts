@@ -5,13 +5,22 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, KeyboardFocusModule, IconModule } from '@spartacus/storefront';
 import { BaseMessageComponent } from '../base-message.component';
+import { I18nModule } from '@spartacus/core';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'cx-org-notification',
-  templateUrl: './notification-message.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-org-notification',
+    templateUrl: './notification-message.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        KeyboardFocusModule,
+        NgIf,
+        IconModule,
+        I18nModule,
+    ],
 })
 export class NotificationMessageComponent extends BaseMessageComponent {
   closeIcon = ICON_TYPE.CLOSE;

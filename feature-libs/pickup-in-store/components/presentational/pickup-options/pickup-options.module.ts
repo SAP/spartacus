@@ -11,13 +11,13 @@ import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { PickupOptionsComponent } from './pickup-options.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    ReactiveFormsModule,
-    FeaturesConfigModule,
-  ],
-  declarations: [PickupOptionsComponent],
-  exports: [PickupOptionsComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        ReactiveFormsModule,
+        FeaturesConfigModule,
+        PickupOptionsComponent,
+    ],
+    exports: [PickupOptionsComponent],
 })
 export class PickupOptionsModule {}

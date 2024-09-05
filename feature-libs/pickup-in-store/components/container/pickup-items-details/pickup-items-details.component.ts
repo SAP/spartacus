@@ -18,9 +18,10 @@ import { take, tap } from 'rxjs/operators';
 import { DeliveryPointsService } from '../../services/delivery-points.service';
 
 @Component({
-  selector: 'cx-pick-up-in-store-items-details',
-  templateUrl: './pickup-items-details.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-pick-up-in-store-items-details',
+    templateUrl: './pickup-items-details.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 export class PickUpItemsDetailsComponent implements OnInit {
   @Input() showEdit: boolean;

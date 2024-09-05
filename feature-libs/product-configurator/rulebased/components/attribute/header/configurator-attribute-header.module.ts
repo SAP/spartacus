@@ -15,25 +15,25 @@ import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-h
 import { ConfiguratorShowMoreModule } from '../../show-more/configurator-show-more.module';
 
 @NgModule({
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule,
-    I18nModule,
-    IconModule,
-    NgSelectModule,
-    ConfiguratorShowMoreModule,
-  ],
-  providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-      productConfigurator: {
-        assignment: {
-          Header: ConfiguratorAttributeHeaderComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ConfiguratorAttributeHeaderComponent],
-  exports: [ConfiguratorAttributeHeaderComponent],
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        CommonModule,
+        I18nModule,
+        IconModule,
+        NgSelectModule,
+        ConfiguratorShowMoreModule,
+        ConfiguratorAttributeHeaderComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+            productConfigurator: {
+                assignment: {
+                    Header: ConfiguratorAttributeHeaderComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ConfiguratorAttributeHeaderComponent],
 })
 export class ConfiguratorAttributeHeaderModule {}

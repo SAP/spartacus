@@ -11,8 +11,7 @@ import { IconModule } from '../../../cms-components/misc/index';
 import { StarRatingComponent } from './star-rating.component';
 
 @NgModule({
-  imports: [CommonModule, IconModule, I18nModule, FeaturesConfigModule],
-  declarations: [StarRatingComponent],
-  exports: [StarRatingComponent],
+    imports: [CommonModule, IconModule, I18nModule, FeaturesConfigModule, StarRatingComponent],
+    exports: [StarRatingComponent],
 })
 export class StarRatingModule {}

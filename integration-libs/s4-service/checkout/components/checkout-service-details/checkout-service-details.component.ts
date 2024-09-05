@@ -13,19 +13,30 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { GlobalMessageService, GlobalMessageType, I18nModule } from '@spartacus/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Subscription, BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import {
   CheckoutServiceDetailsFacade,
   CheckoutServiceSchedulePickerService,
 } from '@spartacus/s4-service/root';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { DatePickerModule } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-service-details',
-  templateUrl: './checkout-service-details.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-service-details',
+    templateUrl: './checkout-service-details.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        DatePickerModule,
+        NgIf,
+        NgFor,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
   protected activatedRoute = inject(ActivatedRoute);

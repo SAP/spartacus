@@ -89,13 +89,10 @@ describe('PickupOptionDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PickupOptionDialogComponent,
+    declarations: [PickupOptionDialogComponent,
         StoreSearchStubComponent,
-        StoreListStubComponent,
-        MockFeatureDirective,
-      ],
-      imports: [
+        StoreListStubComponent,],
+    imports: [
         CommonModule,
         HttpClientTestingModule,
         I18nTestingModule,
@@ -104,28 +101,29 @@ describe('PickupOptionDialogComponent', () => {
         SpinnerModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
-      ],
-      providers: [
+        MockFeatureDirective,
+    ],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: PickupLocationsSearchFacade,
-          useClass: MockPickupLocationsSearchService,
+            provide: PickupLocationsSearchFacade,
+            useClass: MockPickupLocationsSearchService,
         },
         { provide: PreferredStoreService, useClass: MockPreferredStoreService },
         {
-          provide: IntendedPickupLocationFacade,
-          useClass: MockIntendedPickupLocationService,
+            provide: IntendedPickupLocationFacade,
+            useClass: MockIntendedPickupLocationService,
         },
         {
-          provide: ActiveCartFacade,
-          useClass: MockActiveCartService,
+            provide: ActiveCartFacade,
+            useClass: MockActiveCartService,
         },
         {
-          provide: PickupOptionFacade,
-          useClass: MockPickupOptionFacade,
+            provide: PickupOptionFacade,
+            useClass: MockPickupOptionFacade,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(PickupOptionDialogComponent);
     component = fixture.componentInstance;

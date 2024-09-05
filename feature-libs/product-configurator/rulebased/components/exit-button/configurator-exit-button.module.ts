@@ -15,18 +15,17 @@ import {
 import { ConfiguratorExitButtonComponent } from './configurator-exit-button.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ConfiguratorExitButton: {
-          component: ConfiguratorExitButtonComponent,
-        },
-      },
-    }),
-    WindowRef,
-  ],
-  declarations: [ConfiguratorExitButtonComponent],
-  exports: [ConfiguratorExitButtonComponent],
+    imports: [CommonModule, I18nModule, ConfiguratorExitButtonComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ConfiguratorExitButton: {
+                    component: ConfiguratorExitButtonComponent,
+                },
+            },
+        }),
+        WindowRef,
+    ],
+    exports: [ConfiguratorExitButtonComponent],
 })
 export class ConfiguratorExitButtonModule {}

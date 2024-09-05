@@ -14,24 +14,24 @@ import { VisualPickingProductListModule } from './product-list/visual-picking-pr
 import { VisualPickingTabComponent } from './visual-picking-tab.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    I18nModule,
-    VisualViewerModule,
-    VisualPickingProductListModule,
-    VisualPickingProductFilterModule,
-  ],
-  providers: [
-    provideDefaultConfig({
-      cmsComponents: {
-        VisualPickingTabComponent: {
-          component: VisualPickingTabComponent,
-        },
-      },
-    } as CmsConfig),
-  ],
-  declarations: [VisualPickingTabComponent],
-  exports: [VisualPickingTabComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        I18nModule,
+        VisualViewerModule,
+        VisualPickingProductListModule,
+        VisualPickingProductFilterModule,
+        VisualPickingTabComponent,
+    ],
+    providers: [
+        provideDefaultConfig({
+            cmsComponents: {
+                VisualPickingTabComponent: {
+                    component: VisualPickingTabComponent,
+                },
+            },
+        } as CmsConfig),
+    ],
+    exports: [VisualPickingTabComponent],
 })
 export class VisualPickingTabModule {}

@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useFeatureStyles } from '@spartacus/core';
+import { useFeatureStyles, I18nModule } from '@spartacus/core';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator } from '../../core/model/configurator.model';
+import { NgIf, NgClass } from '@angular/common';
 
 export interface ConfiguratorPriceComponentOptions {
   quantity?: number;
@@ -17,9 +18,15 @@ export interface ConfiguratorPriceComponentOptions {
 }
 
 @Component({
-  selector: 'cx-configurator-price',
-  templateUrl: './configurator-price.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-configurator-price',
+    templateUrl: './configurator-price.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgClass,
+        I18nModule,
+    ],
 })
 export class ConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;

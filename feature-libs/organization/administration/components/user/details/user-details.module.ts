@@ -16,18 +16,18 @@ import { ItemExistsModule } from '../../shared/item-exists.module';
 import { UserDetailsComponent } from './user-details.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CardModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-    ToggleStatusModule,
-    ItemExistsModule,
-    DisableInfoModule,
-    KeyboardFocusModule,
-  ],
-  declarations: [UserDetailsComponent],
-  exports: [UserDetailsComponent],
+    imports: [
+        CommonModule,
+        CardModule,
+        RouterModule,
+        UrlModule,
+        I18nModule,
+        ToggleStatusModule,
+        ItemExistsModule,
+        DisableInfoModule,
+        KeyboardFocusModule,
+        UserDetailsComponent,
+    ],
+    exports: [UserDetailsComponent],
 })
 export class UserDetailsModule {}

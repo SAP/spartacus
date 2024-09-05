@@ -9,8 +9,10 @@ import { UnitTreeService } from '../services/unit-tree.service';
 import createSpy = jasmine.createSpy;
 
 @Component({
-  template: '<ng-content select="[actions]"></ng-content>',
-  selector: 'cx-org-list',
+    template: '<ng-content select="[actions]"></ng-content>',
+    selector: 'cx-org-list',
+    standalone: true,
+    imports: [I18nTestingModule, UrlTestingModule],
 })
 class MockListComponent {
   @Input() key: any;
@@ -36,19 +38,19 @@ describe('UnitListComponent', () => {
   let collapseAll: HTMLElement;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, UrlTestingModule],
-      declarations: [MockListComponent, UnitListComponent],
-      providers: [
+    imports: [I18nTestingModule, UrlTestingModule, MockListComponent],
+    declarations: [UnitListComponent],
+    providers: [
         {
-          provide: UnitTreeService,
-          useClass: MockUnitTreeService,
+            provide: UnitTreeService,
+            useClass: MockUnitTreeService,
         },
         {
-          provide: OrgUnitService,
-          useClass: MockOrgUnitService,
+            provide: OrgUnitService,
+            useClass: MockOrgUnitService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

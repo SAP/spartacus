@@ -5,15 +5,30 @@
  */
 
 import { Component, inject, OnDestroy } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Product, UrlModule, I18nModule } from '@spartacus/core';
 import { MyAccountV2OrderHistoryService } from '@spartacus/order/core';
 import { Order, OrderHistoryListView } from '@spartacus/order/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { MediaModule, SpinnerModule } from '@spartacus/storefront';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
-  selector: 'cx-my-account-v2-orders',
-  templateUrl: './my-account-v2-orders.component.html',
+    selector: 'cx-my-account-v2-orders',
+    templateUrl: './my-account-v2-orders.component.html',
+    standalone: true,
+    imports: [
+        RouterLink,
+        NgIf,
+        NgFor,
+        MediaModule,
+        RouterLinkActive,
+        SpinnerModule,
+        AsyncPipe,
+        UrlModule,
+        I18nModule,
+    ],
 })
 export class MyAccountV2OrdersComponent implements OnDestroy {
   protected service = inject(MyAccountV2OrderHistoryService);

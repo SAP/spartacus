@@ -24,28 +24,28 @@ import {
 import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-    FormErrorsModule,
-    SpinnerModule,
-    PasswordVisibilityToggleModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ReturningCustomerOTPLoginComponent: {
-          component: OneTimePasswordLoginFormComponent,
-          guards: [NotAuthGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [OneTimePasswordLoginFormComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        UrlModule,
+        I18nModule,
+        FormErrorsModule,
+        SpinnerModule,
+        PasswordVisibilityToggleModule,
+        FeaturesConfigModule,
+        OneTimePasswordLoginFormComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ReturningCustomerOTPLoginComponent: {
+                    component: OneTimePasswordLoginFormComponent,
+                    guards: [NotAuthGuard],
+                },
+            },
+        }),
+    ],
 })
 export class OneTimePasswordLoginFormModeule {}

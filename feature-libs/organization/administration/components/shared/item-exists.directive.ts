@@ -13,7 +13,8 @@ import { MessageService } from './message/services/message.service';
 import { BaseItem } from './organization.model';
 
 @Directive({
-  selector: '[cxOrgItemExists]',
+    selector: '[cxOrgItemExists]',
+    standalone: true,
 })
 export class ItemExistsDirective<T = BaseItem> implements OnInit, OnDestroy {
   protected subscription: Subscription;

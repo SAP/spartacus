@@ -5,15 +5,7 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  AnonymousConsentsConfig,
-  AnonymousConsentsService,
-  AuthService,
-  ConsentTemplate,
-  GlobalMessageService,
-  GlobalMessageType,
-  UserConsentService,
-} from '@spartacus/core';
+import { AnonymousConsentsConfig, AnonymousConsentsService, AuthService, ConsentTemplate, GlobalMessageService, GlobalMessageType, UserConsentService, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import {
   BehaviorSubject,
   combineLatest,
@@ -31,10 +23,23 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { ConsentManagementComponentService } from '../consent-management-component.service';
+import { ConsentManagementFormComponent } from './consent-form/consent-management-form.component';
+import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-consent-management',
-  templateUrl: './consent-management.component.html',
+    selector: 'cx-consent-management',
+    templateUrl: './consent-management.component.html',
+    standalone: true,
+    imports: [
+        FeaturesConfigModule,
+        NgIf,
+        SpinnerComponent,
+        NgFor,
+        ConsentManagementFormComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ConsentManagementComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();

@@ -48,97 +48,92 @@ const orderConfirmationComponents = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CardModule,
-    PwaModule,
-    PromotionsModule,
-    I18nModule,
-    ReactiveFormsModule,
-    FormErrorsModule,
-    OutletModule.forChild(),
-    PasswordVisibilityToggleModule,
-    AbstractOrderContextModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        OrderConfirmationThankMessageComponent: {
-          component: OrderConfirmationThankYouMessageComponent,
-          guards: [OrderConfirmationGuard],
-        },
-        ReplenishmentConfirmationMessageComponent: {
-          component: OrderConfirmationThankYouMessageComponent,
-          guards: [OrderConfirmationGuard],
-        },
-
-        OrderConfirmationItemsComponent: {
-          component: OrderConfirmationItemsComponent,
-          guards: [OrderConfirmationGuard],
-        },
-        ReplenishmentConfirmationItemsComponent: {
-          component: OrderConfirmationItemsComponent,
-          guards: [OrderConfirmationGuard],
-        },
-
-        OrderConfirmationTotalsComponent: {
-          component: OrderConfirmationTotalsComponent,
-          guards: [OrderConfirmationGuard],
-        },
-        ReplenishmentConfirmationTotalsComponent: {
-          component: OrderConfirmationTotalsComponent,
-          guards: [OrderConfirmationGuard],
-        },
-
-        OrderConfirmationOverviewComponent: {
-          component: OrderOverviewComponent,
-          providers: [
-            {
-              provide: OrderDetailsService,
-              useExisting: OrderFacade,
+    imports: [
+        CommonModule,
+        CardModule,
+        PwaModule,
+        PromotionsModule,
+        I18nModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        OutletModule.forChild(),
+        PasswordVisibilityToggleModule,
+        AbstractOrderContextModule,
+        FeaturesConfigModule,
+        ...orderConfirmationComponents,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                OrderConfirmationThankMessageComponent: {
+                    component: OrderConfirmationThankYouMessageComponent,
+                    guards: [OrderConfirmationGuard],
+                },
+                ReplenishmentConfirmationMessageComponent: {
+                    component: OrderConfirmationThankYouMessageComponent,
+                    guards: [OrderConfirmationGuard],
+                },
+                OrderConfirmationItemsComponent: {
+                    component: OrderConfirmationItemsComponent,
+                    guards: [OrderConfirmationGuard],
+                },
+                ReplenishmentConfirmationItemsComponent: {
+                    component: OrderConfirmationItemsComponent,
+                    guards: [OrderConfirmationGuard],
+                },
+                OrderConfirmationTotalsComponent: {
+                    component: OrderConfirmationTotalsComponent,
+                    guards: [OrderConfirmationGuard],
+                },
+                ReplenishmentConfirmationTotalsComponent: {
+                    component: OrderConfirmationTotalsComponent,
+                    guards: [OrderConfirmationGuard],
+                },
+                OrderConfirmationOverviewComponent: {
+                    component: OrderOverviewComponent,
+                    providers: [
+                        {
+                            provide: OrderDetailsService,
+                            useExisting: OrderFacade,
+                        },
+                    ],
+                    guards: [OrderConfirmationGuard],
+                },
+                ReplenishmentConfirmationOverviewComponent: {
+                    component: OrderOverviewComponent,
+                    providers: [
+                        {
+                            provide: OrderDetailsService,
+                            useExisting: OrderFacade,
+                        },
+                    ],
+                    guards: [OrderConfirmationGuard],
+                },
+                OrderConfirmationShippingComponent: {
+                    component: OrderConfirmationShippingComponent,
+                    guards: [OrderConfirmationGuard],
+                },
+                OrderConfirmationBillingComponent: {
+                    component: OrderDetailBillingComponent,
+                    providers: [
+                        {
+                            provide: OrderDetailsService,
+                            useExisting: OrderFacade,
+                        },
+                    ],
+                    guards: [OrderConfirmationGuard],
+                },
             },
-          ],
-          guards: [OrderConfirmationGuard],
+        }),
+        {
+            provide: OrderConfirmationOrderEntriesContextToken,
+            useExisting: OrderConfirmationOrderEntriesContext,
         },
-        ReplenishmentConfirmationOverviewComponent: {
-          component: OrderOverviewComponent,
-          providers: [
-            {
-              provide: OrderDetailsService,
-              useExisting: OrderFacade,
-            },
-          ],
-          guards: [OrderConfirmationGuard],
-        },
-
-        OrderConfirmationShippingComponent: {
-          component: OrderConfirmationShippingComponent,
-          guards: [OrderConfirmationGuard],
-        },
-
-        OrderConfirmationBillingComponent: {
-          component: OrderDetailBillingComponent,
-          providers: [
-            {
-              provide: OrderDetailsService,
-              useExisting: OrderFacade,
-            },
-          ],
-          guards: [OrderConfirmationGuard],
-        },
-      },
-    }),
-    {
-      provide: OrderConfirmationOrderEntriesContextToken,
-      useExisting: OrderConfirmationOrderEntriesContext,
-    },
-    provideOutlet({
-      id: OrderOutlets.CONSIGNMENT_DELIVERY_INFO,
-      component: OrderConfirmationShippingComponent,
-    }),
-  ],
-  declarations: [...orderConfirmationComponents],
-  exports: [...orderConfirmationComponents],
+        provideOutlet({
+            id: OrderOutlets.CONSIGNMENT_DELIVERY_INFO,
+            component: OrderConfirmationShippingComponent,
+        }),
+    ],
+    exports: [...orderConfirmationComponents],
 })
 export class OrderConfirmationModule {}

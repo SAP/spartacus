@@ -20,9 +20,10 @@ import {
 import { take } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-suggested-addresses-dialog',
-  templateUrl: './suggested-addresses-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-suggested-addresses-dialog',
+    templateUrl: './suggested-addresses-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 export class SuggestedAddressDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;

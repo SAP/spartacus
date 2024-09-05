@@ -18,24 +18,24 @@ import { SpinnerModule } from '../../../shared/components/spinner/spinner.module
 import { PaymentMethodsComponent } from './payment-methods.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CardModule,
-    SpinnerModule,
-    I18nModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        AccountPaymentDetailsComponent: {
-          component: PaymentMethodsComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [PaymentMethodsComponent],
-  exports: [PaymentMethodsComponent],
+    imports: [
+        CommonModule,
+        CardModule,
+        SpinnerModule,
+        I18nModule,
+        FeaturesConfigModule,
+        PaymentMethodsComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                AccountPaymentDetailsComponent: {
+                    component: PaymentMethodsComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+    ],
+    exports: [PaymentMethodsComponent],
 })
 export class PaymentMethodsModule {}

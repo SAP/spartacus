@@ -5,10 +5,13 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { I18nModule } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-configurator-attribute-not-supported',
-  templateUrl: './configurator-attribute-not-supported.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-configurator-attribute-not-supported',
+    templateUrl: './configurator-attribute-not-supported.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [I18nModule],
 })
 export class ConfiguratorAttributeNotSupportedComponent {}

@@ -9,8 +9,9 @@ import { IconLoaderService } from '../icon-loader.service';
 
 // PRIVATE TESTING UTIL
 @Component({
-  selector: 'cx-icon,[cxIcon]',
-  template: `{{ type || cxIcon }}`,
+    selector: 'cx-icon,[cxIcon]',
+    template: `{{ type || cxIcon }}`,
+    standalone: true,
 })
 export class MockIconComponent {
   @Input() cxIcon: any;
@@ -35,13 +36,13 @@ export class MockIconLoaderService {
 }
 
 @NgModule({
-  declarations: mockComponents,
-  exports: mockComponents,
-  providers: [
-    {
-      provide: IconLoaderService,
-      useClass: MockIconLoaderService,
-    },
-  ],
+    imports: [...mockComponents],
+    exports: mockComponents,
+    providers: [
+        {
+            provide: IconLoaderService,
+            useClass: MockIconLoaderService,
+        },
+    ],
 })
 export class IconTestingModule {}

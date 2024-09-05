@@ -11,20 +11,19 @@ import { NavigationModule } from '../navigation/navigation.module';
 import { CategoryNavigationComponent } from './category-navigation.component';
 
 @NgModule({
-  imports: [CommonModule, NavigationModule, I18nModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CategoryNavigationComponent: {
-          component: CategoryNavigationComponent,
-          data: {
-            resetMenuOnClose: true,
-          },
-        },
-      },
-    }),
-  ],
-  declarations: [CategoryNavigationComponent],
-  exports: [CategoryNavigationComponent],
+    imports: [CommonModule, NavigationModule, I18nModule, CategoryNavigationComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CategoryNavigationComponent: {
+                    component: CategoryNavigationComponent,
+                    data: {
+                        resetMenuOnClose: true,
+                    },
+                },
+            },
+        }),
+    ],
+    exports: [CategoryNavigationComponent],
 })
 export class CategoryNavigationModule {}

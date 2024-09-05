@@ -7,10 +7,11 @@ const SKIP_KEY_1 = 'Key1';
 const SKIP_KEY_2 = 'Key2';
 
 @Component({
-  template: `
+    template: `
     <ng-container [cxSkipLink]="'${SKIP_KEY_1}'"></ng-container>
     <div [cxSkipLink]="'${SKIP_KEY_2}'"></div>
   `,
+    standalone: true,
 })
 class TestContainerComponent {}
 
@@ -20,16 +21,15 @@ describe('SkipLinkDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [TestContainerComponent, SkipLinkDirective],
-      providers: [
+    imports: [TestContainerComponent, SkipLinkDirective],
+    providers: [
         SkipLinkService,
         {
-          provide: SkipLinkConfig,
-          useValue: { skipLinks: [] },
+            provide: SkipLinkConfig,
+            useValue: { skipLinks: [] },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

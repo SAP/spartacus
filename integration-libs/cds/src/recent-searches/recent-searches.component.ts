@@ -11,13 +11,13 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
-import {
-  OutletContextData,
-  SearchBoxComponentService,
-} from '@spartacus/storefront';
+import { OutletContextData, SearchBoxComponentService, SearchBoxModule } from '@spartacus/storefront';
 import { RecentSearchesService } from './recent-searches.service';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { I18nModule, UrlModule } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 export interface SearchBoxOutlet {
   search: string;
@@ -27,9 +27,19 @@ export interface SearchBoxOutlet {
 
 const MAX_RECENT_SEARCHES = 5;
 @Component({
-  selector: 'cx-recent-searches',
-  templateUrl: './recent-searches.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-recent-searches',
+    templateUrl: './recent-searches.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        RouterLink,
+        AsyncPipe,
+        I18nModule,
+        SearchBoxModule,
+        UrlModule,
+    ],
 })
 export class RecentSearchesComponent implements OnInit {
   protected recentSearchesService = inject(RecentSearchesService);

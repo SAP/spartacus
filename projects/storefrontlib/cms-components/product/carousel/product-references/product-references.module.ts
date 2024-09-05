@@ -13,17 +13,16 @@ import { MediaModule } from '../../../../shared/components/media/media.module';
 import { ProductReferencesComponent } from './product-references.component';
 
 @NgModule({
-  imports: [CommonModule, CarouselModule, MediaModule, RouterModule, UrlModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ProductReferencesComponent: {
-          component: ProductReferencesComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ProductReferencesComponent],
-  exports: [ProductReferencesComponent],
+    imports: [CommonModule, CarouselModule, MediaModule, RouterModule, UrlModule, ProductReferencesComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ProductReferencesComponent: {
+                    component: ProductReferencesComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ProductReferencesComponent],
 })
 export class ProductReferencesModule {}

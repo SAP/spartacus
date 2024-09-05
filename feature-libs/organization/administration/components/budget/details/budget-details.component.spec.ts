@@ -41,7 +41,7 @@ describe('BudgetDetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         CommonModule,
         RouterTestingModule,
         I18nTestingModule,
@@ -50,14 +50,12 @@ describe('BudgetDetailsComponent', () => {
         MessageTestingModule,
         ToggleStatusModule,
         DisableInfoModule,
-      ],
-      declarations: [
         BudgetDetailsComponent,
         ItemExistsDirective,
         FocusDirective,
-      ],
-      providers: [{ provide: ItemService, useClass: MockBudgetItemService }],
-    })
+    ],
+    providers: [{ provide: ItemService, useClass: MockBudgetItemService }],
+})
       .overrideComponent(BudgetDetailsComponent, {
         set: {
           providers: [

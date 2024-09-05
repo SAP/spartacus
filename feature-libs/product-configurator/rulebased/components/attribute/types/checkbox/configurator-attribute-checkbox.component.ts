@@ -5,18 +5,31 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
+import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
+import { KeyboardFocusModule } from '@spartacus/storefront';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-configurator-attribute-checkbox',
-  templateUrl: './configurator-attribute-checkbox.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ConfiguratorAttributePriceChangeService],
+    selector: 'cx-configurator-attribute-checkbox',
+    templateUrl: './configurator-attribute-checkbox.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [ConfiguratorAttributePriceChangeService],
+    standalone: true,
+    imports: [
+        NgIf,
+        ReactiveFormsModule,
+        KeyboardFocusModule,
+        ConfiguratorShowMoreComponent,
+        ConfiguratorPriceComponent,
+        AsyncPipe,
+    ],
 })
 export class ConfiguratorAttributeCheckBoxComponent
   extends ConfiguratorAttributeBaseComponent

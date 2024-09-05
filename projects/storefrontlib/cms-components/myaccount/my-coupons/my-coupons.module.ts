@@ -29,48 +29,46 @@ import { defaultCouponLayoutConfig } from './default-coupon-card-layout.config';
 import { MyCouponsComponent } from './my-coupons.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CardModule,
-    SpinnerModule,
-    I18nModule,
-    RouterModule,
-    UrlModule,
-    IconModule,
-    ListNavigationModule,
-    RouterModule.forChild([
-      {
-        // @ts-ignore
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: 'couponClaim' },
-      },
-    ]),
-    KeyboardFocusModule,
-    FeaturesConfigModule,
-  ],
-  declarations: [
-    MyCouponsComponent,
-    CouponCardComponent,
-    CouponDialogComponent,
-    CouponClaimComponent,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        MyCouponsComponent: {
-          component: MyCouponsComponent,
-          guards: [AuthGuard],
-        },
-        CouponClaimComponent: {
-          component: CouponClaimComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-    provideDefaultConfig(defaultCouponLayoutConfig),
-  ],
-  exports: [MyCouponsComponent, CouponClaimComponent],
+    imports: [
+        CommonModule,
+        CardModule,
+        SpinnerModule,
+        I18nModule,
+        RouterModule,
+        UrlModule,
+        IconModule,
+        ListNavigationModule,
+        RouterModule.forChild([
+            {
+                // @ts-ignore
+                path: null,
+                canActivate: [AuthGuard, CmsPageGuard],
+                component: PageLayoutComponent,
+                data: { cxRoute: 'couponClaim' },
+            },
+        ]),
+        KeyboardFocusModule,
+        FeaturesConfigModule,
+        MyCouponsComponent,
+        CouponCardComponent,
+        CouponDialogComponent,
+        CouponClaimComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                MyCouponsComponent: {
+                    component: MyCouponsComponent,
+                    guards: [AuthGuard],
+                },
+                CouponClaimComponent: {
+                    component: CouponClaimComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+        provideDefaultConfig(defaultCouponLayoutConfig),
+    ],
+    exports: [MyCouponsComponent, CouponClaimComponent],
 })
 export class MyCouponsModule {}

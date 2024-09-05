@@ -16,19 +16,19 @@ import { ItemActiveModule } from '../../shared/item-active.module';
 import { PermissionFormComponent } from './permission-form.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    NgSelectModule,
-    UrlModule,
-    I18nModule,
-    ReactiveFormsModule,
-    FormErrorsModule,
-    FormModule,
-    ItemActiveModule,
-    FeaturesConfigModule,
-  ],
-  declarations: [PermissionFormComponent],
-  exports: [PermissionFormComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        NgSelectModule,
+        UrlModule,
+        I18nModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        FormModule,
+        ItemActiveModule,
+        FeaturesConfigModule,
+        PermissionFormComponent,
+    ],
+    exports: [PermissionFormComponent],
 })
 export class PermissionFormModule {}

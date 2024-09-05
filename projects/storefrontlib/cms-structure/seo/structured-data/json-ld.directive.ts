@@ -19,7 +19,8 @@ import { JsonLdScriptFactory } from './json-ld-script.factory';
  * to the DOM in a save way.
  */
 @Directive({
-  selector: '[cxJsonLd]',
+    selector: '[cxJsonLd]',
+    standalone: true,
 })
 export class JsonLdDirective {
   /**

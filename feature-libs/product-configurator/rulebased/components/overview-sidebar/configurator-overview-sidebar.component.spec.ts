@@ -94,8 +94,10 @@ class MockProductService {
 }
 
 @Component({
-  selector: 'cx-configurator-overview-filter',
-  template: '',
+    selector: 'cx-configurator-overview-filter',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockConfiguratorOverviewFilterComponent {
   @Input() showFilterBar: boolean = true;
@@ -103,8 +105,10 @@ class MockConfiguratorOverviewFilterComponent {
 }
 
 @Component({
-  selector: 'cx-configurator-overview-menu',
-  template: '',
+    selector: 'cx-configurator-overview-menu',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockConfiguratorOverviewMenuComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
@@ -113,34 +117,31 @@ class MockConfiguratorOverviewMenuComponent {
 describe('ConfiguratorOverviewSidebarComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        MockConfiguratorOverviewFilterComponent,
-        MockConfiguratorOverviewMenuComponent,
-      ],
-      providers: [
+    imports: [I18nTestingModule, MockConfiguratorOverviewFilterComponent,
+        MockConfiguratorOverviewMenuComponent],
+    providers: [
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
         },
         {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfiguratorRouterExtractorService,
         },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         {
-          provide: ProductService,
-          useClass: MockProductService,
+            provide: ProductService,
+            useClass: MockProductService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   it('should create component', () => {

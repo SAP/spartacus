@@ -6,11 +6,21 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CellComponent } from '../cell.component';
+import { UrlModule } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 @Component({
-  selector: 'cx-org-active-link-cell',
-  templateUrl: '../cell.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-org-active-link-cell',
+    templateUrl: '../cell.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        RouterLink,
+        NgTemplateOutlet,
+        UrlModule,
+    ],
 })
 export class ActiveLinkCellComponent extends CellComponent {
   get tabIndex() {

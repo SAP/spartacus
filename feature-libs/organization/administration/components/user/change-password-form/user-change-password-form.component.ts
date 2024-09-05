@@ -5,20 +5,37 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { User } from '@spartacus/core';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { User, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { MessageService } from '../../shared/message/services/message.service';
 import { UserItemService } from '../services/user-item.service';
 import { UserChangePasswordFormService } from './user-change-password-form.service';
+import { RouterLink } from '@angular/router';
+import { KeyboardFocusModule, PasswordVisibilityToggleModule, FormErrorsModule } from '@spartacus/storefront';
+import { CardComponent } from '../../shared/card/card.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-org-user-change-password-form',
-  templateUrl: './user-change-password-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
+    selector: 'cx-org-user-change-password-form',
+    templateUrl: './user-change-password-form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    standalone: true,
+    imports: [
+        NgIf,
+        ReactiveFormsModule,
+        CardComponent,
+        KeyboardFocusModule,
+        RouterLink,
+        PasswordVisibilityToggleModule,
+        FeaturesConfigModule,
+        FormErrorsModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class UserChangePasswordFormComponent {
   form$: Observable<UntypedFormGroup | null> = this.itemService.current$.pipe(

@@ -36,18 +36,15 @@ describe('CreateComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [
-        BannerCarouselComponent,
+    imports: [RouterTestingModule, BannerCarouselComponent,
         CarouselComponent,
         ComponentWrapperDirective,
-        IconComponent,
-      ],
-      providers: [
+        IconComponent],
+    providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: CmsService, useClass: MockCmsService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

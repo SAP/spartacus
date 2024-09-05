@@ -28,11 +28,13 @@ const QUOTE_CODE = 'q123';
 const ALL_PRODUCTS_ID = '';
 
 @Component({
-  selector: 'cx-messaging',
-  template: '',
-  providers: [
-    { provide: MessagingComponent, useClass: MockCxMessagingComponent },
-  ],
+    selector: 'cx-messaging',
+    template: '',
+    providers: [
+        { provide: MessagingComponent, useClass: MockCxMessagingComponent },
+    ],
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCxMessagingComponent {
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
@@ -41,8 +43,10 @@ class MockCxMessagingComponent {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -64,31 +68,28 @@ describe('QuoteCommentsComponent', () => {
     initTestData();
     initMocks();
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        QuoteCommentsComponent,
+    imports: [I18nTestingModule, QuoteCommentsComponent,
         MockCxMessagingComponent,
-        MockCxIconComponent,
-      ],
-      providers: [
+        MockCxIconComponent],
+    providers: [
         {
-          provide: QuoteFacade,
-          useValue: quoteFacade,
+            provide: QuoteFacade,
+            useValue: quoteFacade,
         },
         {
-          provide: EventService,
-          useValue: eventService,
+            provide: EventService,
+            useValue: eventService,
         },
         {
-          provide: QuoteUIConfig,
-          useValue: quoteUIConfig,
+            provide: QuoteUIConfig,
+            useValue: quoteUIConfig,
         },
         {
-          provide: QuoteItemsComponentService,
-          useValue: mockQuoteItemsComponentService,
+            provide: QuoteItemsComponentService,
+            useValue: mockQuoteItemsComponentService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

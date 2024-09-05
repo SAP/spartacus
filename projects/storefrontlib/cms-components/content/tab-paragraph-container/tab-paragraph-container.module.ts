@@ -12,17 +12,16 @@ import { PageComponentModule } from '../../../cms-structure/page/component/page-
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 
 @NgModule({
-  imports: [CommonModule, PageComponentModule, OutletModule, I18nModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CMSTabParagraphContainer: {
-          component: TabParagraphContainerComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [TabParagraphContainerComponent],
-  exports: [TabParagraphContainerComponent],
+    imports: [CommonModule, PageComponentModule, OutletModule, I18nModule, TabParagraphContainerComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CMSTabParagraphContainer: {
+                    component: TabParagraphContainerComponent,
+                },
+            },
+        }),
+    ],
+    exports: [TabParagraphContainerComponent],
 })
 export class TabParagraphContainerModule {}

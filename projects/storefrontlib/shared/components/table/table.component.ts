@@ -21,6 +21,8 @@ import {
   TableOptions,
   TableStructure,
 } from './table.model';
+import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
+import { NgIf, NgFor } from '@angular/common';
 
 /**
  * The table component provides a generic table DOM structure, with 3 layout types:
@@ -47,9 +49,15 @@ import {
  * `table.cost-center.data.name`.
  */
 @Component({
-  selector: 'cx-table',
-  templateUrl: './table.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-table',
+    templateUrl: './table.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        OutletDirective,
+    ],
 })
 export class TableComponent<T> {
   @HostBinding('attr.__cx-table-type') tableType: string;

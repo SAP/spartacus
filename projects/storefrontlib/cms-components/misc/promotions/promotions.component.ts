@@ -6,11 +6,14 @@
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Promotion } from '@spartacus/core';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'cx-promotions',
-  templateUrl: './promotions.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-promotions',
+    templateUrl: './promotions.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NgFor],
 })
 export class PromotionsComponent {
   @Input()

@@ -9,11 +9,20 @@ import { CheckoutStep } from '@spartacus/checkout/base/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
+import { I18nModule } from '@spartacus/core';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-checkout-progress-mobile-bottom',
-  templateUrl: './checkout-progress-mobile-bottom.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-checkout-progress-mobile-bottom',
+    templateUrl: './checkout-progress-mobile-bottom.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class CheckoutProgressMobileBottomComponent {
   private _steps$: BehaviorSubject<CheckoutStep[]> =

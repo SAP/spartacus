@@ -53,22 +53,24 @@ class MockCurrentProductService {
 }
 
 @Component({
-  selector: 'cx-media',
-  template: '',
+    selector: 'cx-media',
+    template: '',
+    standalone: true,
 })
 class MockMediaComponent {
   @Input() container;
 }
 
 @Component({
-  selector: 'cx-carousel',
-  template: `
+    selector: 'cx-carousel',
+    template: `
     <ng-container *ngFor="let item$ of items">
       <ng-container
         *ngTemplateOutlet="template; context: { item: item$ | async }"
       ></ng-container>
     </ng-container>
   `,
+    standalone: true,
 })
 class MockCarouselComponent {
   @Input() items;
@@ -84,18 +86,16 @@ describe('ProductImagesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ProductImagesComponent,
+    imports: [ProductImagesComponent,
         MockMediaComponent,
-        MockCarouselComponent,
-      ],
-      providers: [
+        MockCarouselComponent,],
+    providers: [
         {
-          provide: CurrentProductService,
-          useClass: MockCurrentProductService,
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     currentProductService = TestBed.inject(CurrentProductService);
   }));

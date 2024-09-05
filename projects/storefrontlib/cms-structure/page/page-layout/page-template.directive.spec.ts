@@ -11,7 +11,7 @@ class MockPageLayoutService {
 }
 
 @Component({
-  template: `
+    template: `
     <div id="host1" cxPageTemplateStyle></div>
 
     <div id="host2">
@@ -34,7 +34,8 @@ class MockPageLayoutService {
       </ng-template>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 class MockTemplateComponent {}
 
@@ -44,15 +45,14 @@ describe('PageTemplateDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [MockTemplateComponent, PageTemplateDirective],
-      providers: [
+    imports: [MockTemplateComponent, PageTemplateDirective],
+    providers: [
         {
-          provide: PageLayoutService,
-          useClass: MockPageLayoutService,
+            provide: PageLayoutService,
+            useClass: MockPageLayoutService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(MockTemplateComponent);
     hostComponent = fixture.componentInstance;

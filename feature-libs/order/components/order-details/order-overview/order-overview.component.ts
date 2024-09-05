@@ -20,9 +20,10 @@ import { OrderDetailsService } from '../order-details.service';
 import { OrderOutlets, paymentMethodCard } from '@spartacus/order/root';
 
 @Component({
-  selector: 'cx-order-overview',
-  templateUrl: './order-overview.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-order-overview',
+    templateUrl: './order-overview.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 export class OrderOverviewComponent {
   readonly cartOutlets = CartOutlets;

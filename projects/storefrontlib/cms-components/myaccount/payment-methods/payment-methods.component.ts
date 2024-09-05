@@ -5,21 +5,27 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  PaymentDetails,
-  TranslationService,
-  UserPaymentService,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType, PaymentDetails, TranslationService, UserPaymentService, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon';
-import { Card } from '../../../shared/components/card/card.component';
+import { Card, CardComponent } from '../../../shared/components/card/card.component';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-payment-methods',
-  templateUrl: './payment-methods.component.html',
+    selector: 'cx-payment-methods',
+    templateUrl: './payment-methods.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        FeaturesConfigModule,
+        SpinnerComponent,
+        NgFor,
+        CardComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class PaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<PaymentDetails[]>;

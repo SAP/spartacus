@@ -15,18 +15,18 @@ import { TestOutletTemplateComponent } from './test-outlet-template.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    PageLayoutModule,
-    OutletRefModule,
-    RouterModule.forChild([
-      {
-        path: 'test/outlet/template',
-        component: TestOutletTemplateComponent,
-        canActivate: [CmsPageGuard],
-      },
-    ]),
-  ],
-  declarations: [TestOutletTemplateComponent],
+    imports: [
+        CommonModule,
+        PageLayoutModule,
+        OutletRefModule,
+        RouterModule.forChild([
+            {
+                path: 'test/outlet/template',
+                component: TestOutletTemplateComponent,
+                canActivate: [CmsPageGuard],
+            },
+        ]),
+        TestOutletTemplateComponent,
+    ],
 })
 export class TestOutletTemplateModule {}

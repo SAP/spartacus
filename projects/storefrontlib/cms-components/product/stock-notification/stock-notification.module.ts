@@ -21,27 +21,27 @@ import { StockNotificationDialogComponent } from './stock-notification-dialog/st
 import { StockNotificationComponent } from './stock-notification.component';
 
 @NgModule({
-  declarations: [StockNotificationComponent, StockNotificationDialogComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    I18nModule,
-    SpinnerModule,
-    UrlModule,
-    KeyboardFocusModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(defaultStockNotificationLayoutConfig),
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        StockNotificationComponent: {
-          component: StockNotificationComponent,
-        },
-      },
-    }),
-    FeaturesConfigModule,
-  ],
-  exports: [StockNotificationComponent, StockNotificationDialogComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        I18nModule,
+        SpinnerModule,
+        UrlModule,
+        KeyboardFocusModule,
+        FeaturesConfigModule,
+        StockNotificationComponent, StockNotificationDialogComponent,
+    ],
+    providers: [
+        provideDefaultConfig(defaultStockNotificationLayoutConfig),
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                StockNotificationComponent: {
+                    component: StockNotificationComponent,
+                },
+            },
+        }),
+        FeaturesConfigModule,
+    ],
+    exports: [StockNotificationComponent, StockNotificationDialogComponent],
 })
 export class StockNotificationModule {}

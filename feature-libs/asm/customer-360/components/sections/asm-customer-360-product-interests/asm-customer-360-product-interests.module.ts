@@ -12,8 +12,7 @@ import { AsmCustomer360ProductListingModule } from '../../asm-customer-360-produ
 import { AsmCustomer360ProductInterestsComponent } from './asm-customer-360-product-interests.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, AsmCustomer360ProductListingModule],
-  declarations: [AsmCustomer360ProductInterestsComponent],
-  exports: [AsmCustomer360ProductInterestsComponent],
+    imports: [CommonModule, I18nModule, AsmCustomer360ProductListingModule, AsmCustomer360ProductInterestsComponent],
+    exports: [AsmCustomer360ProductInterestsComponent],
 })
 export class AsmCustomer360ProductInterestsModule {}

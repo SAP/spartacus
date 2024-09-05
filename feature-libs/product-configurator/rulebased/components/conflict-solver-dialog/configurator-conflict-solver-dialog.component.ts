@@ -10,23 +10,31 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  LaunchDialogService,
-  ICON_TYPE,
-  FocusConfig,
-  KeyboardFocusService,
-} from '@spartacus/storefront';
+import { LaunchDialogService, ICON_TYPE, FocusConfig, KeyboardFocusService, KeyboardFocusModule, IconModule } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { take } from 'rxjs/operators';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorGroupComponent } from '../group/configurator-group.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-configurator-conflict-solver-dialog',
-  templateUrl: './configurator-conflict-solver-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-configurator-conflict-solver-dialog',
+    templateUrl: './configurator-conflict-solver-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        KeyboardFocusModule,
+        FeaturesConfigModule,
+        IconModule,
+        NgIf,
+        ConfiguratorGroupComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ConfiguratorConflictSolverDialogComponent
   implements OnInit, OnDestroy

@@ -17,18 +17,18 @@ import { FormComponent } from './form.component';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    I18nModule,
-    RouterModule,
-    CardModule,
-    MessageModule,
-    ItemActiveModule,
-    KeyboardFocusModule,
-  ],
-  declarations: [FormComponent],
-  providers: [MessageService],
-  exports: [FormComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        I18nModule,
+        RouterModule,
+        CardModule,
+        MessageModule,
+        ItemActiveModule,
+        KeyboardFocusModule,
+        FormComponent,
+    ],
+    providers: [MessageService],
+    exports: [FormComponent],
 })
 export class FormModule {}

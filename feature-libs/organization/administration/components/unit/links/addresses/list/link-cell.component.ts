@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { B2BUnit } from '@spartacus/core';
+import { B2BUnit, UrlModule } from '@spartacus/core';
 import {
   OutletContextData,
   TableDataOutletContext,
@@ -13,10 +13,12 @@ import {
 import { Observable } from 'rxjs';
 import { ItemService } from '../../../../shared/item.service';
 import { CellComponent } from '../../../../shared/table/cell.component';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgTemplateOutlet, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-org-link-cell',
-  template: `
+    selector: 'cx-org-link-cell',
+    template: `
     <ng-container *ngIf="unitKey$ | async as uid">
       <a
         *ngIf="linkable; else text"
@@ -31,7 +33,15 @@ import { CellComponent } from '../../../../shared/table/cell.component';
       <span class="text" title="{{ property }}">{{ property }}</span>
     </ng-template>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        RouterLink,
+        NgTemplateOutlet,
+        AsyncPipe,
+        UrlModule,
+    ],
 })
 export class LinkCellComponent extends CellComponent {
   unitKey$: Observable<string> = this.itemService.key$;

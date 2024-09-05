@@ -15,18 +15,18 @@ import { FormModule } from '../../shared/form/form.module';
 import { UserFormComponent } from './user-form.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormModule,
-    NgSelectModule,
-    UrlModule,
-    I18nModule,
-    ReactiveFormsModule,
-    FormErrorsModule,
-    FeaturesConfigModule,
-  ],
-  declarations: [UserFormComponent],
-  exports: [UserFormComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormModule,
+        NgSelectModule,
+        UrlModule,
+        I18nModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        FeaturesConfigModule,
+        UserFormComponent,
+    ],
+    exports: [UserFormComponent],
 })
 export class UserFormModule {}

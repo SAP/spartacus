@@ -11,13 +11,18 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { EMPTY, Observable } from 'rxjs';
 import { first, map, switchMap, take } from 'rxjs/operators';
 import { CardComponent } from '../card/card.component';
 import { ItemService } from '../item.service';
 import { MessageService } from '../message/services/message.service';
+import { I18nModule } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { KeyboardFocusModule } from '@spartacus/storefront';
+import { ItemActiveDirective } from '../item-active.directive';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 const DISABLED_STATUS = 'DISABLED';
 
@@ -26,10 +31,22 @@ const DISABLED_STATUS = 'DISABLED';
  * know anything about form specific.
  */
 @Component({
-  selector: 'cx-org-form',
-  templateUrl: './form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
+    selector: 'cx-org-form',
+    templateUrl: './form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    standalone: true,
+    imports: [
+        NgIf,
+        ReactiveFormsModule,
+        FormsModule,
+        CardComponent,
+        ItemActiveDirective,
+        KeyboardFocusModule,
+        RouterLink,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class FormComponent<T> implements OnInit, OnDestroy {
   /**

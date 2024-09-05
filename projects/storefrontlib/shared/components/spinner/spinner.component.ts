@@ -5,12 +5,15 @@
  */
 
 import { Component } from '@angular/core';
+import { I18nModule } from '@spartacus/core';
 
 // TODO: Improve a11y with better text appropriate to usage (example: loading cart spinner)
 
 @Component({
-  selector: 'cx-spinner',
-  templateUrl: './spinner.component.html',
+    selector: 'cx-spinner',
+    templateUrl: './spinner.component.html',
+    standalone: true,
+    imports: [I18nModule],
 })
 export class SpinnerComponent {
   constructor() {

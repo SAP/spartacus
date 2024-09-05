@@ -18,22 +18,21 @@ import { ConfigureCartEntryModule } from '../configure-cart-entry/configure-cart
 import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    UrlModule,
-    I18nModule,
-    IconModule,
-    ConfiguratorIssuesNotificationModule,
-    ConfigureCartEntryModule,
-  ],
-  declarations: [ConfiguratorCartEntryInfoComponent],
-
-  providers: [
-    provideOutlet({
-      id: CartOutlets.ITEM_DETAILS,
-      position: OutletPosition.AFTER,
-      component: ConfiguratorCartEntryInfoComponent,
-    }),
-  ],
+    imports: [
+        CommonModule,
+        UrlModule,
+        I18nModule,
+        IconModule,
+        ConfiguratorIssuesNotificationModule,
+        ConfigureCartEntryModule,
+        ConfiguratorCartEntryInfoComponent,
+    ],
+    providers: [
+        provideOutlet({
+            id: CartOutlets.ITEM_DETAILS,
+            position: OutletPosition.AFTER,
+            component: ConfiguratorCartEntryInfoComponent,
+        }),
+    ],
 })
 export class ConfiguratorCartEntryInfoModule {}

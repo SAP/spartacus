@@ -10,21 +10,16 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  PaginationModel,
-  Product,
-  ProductInterestEntryRelation,
-  ProductInterestSearchResult,
-  ProductScope,
-  ProductService,
-  TranslationService,
-  UserInterestsService,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType, PaginationModel, Product, ProductInterestEntryRelation, ProductInterestSearchResult, ProductScope, ProductService, TranslationService, UserInterestsService, useFeatureStyles, FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { AtMessageDirective } from '../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
+import { MediaComponent } from '../../../shared/components/media/media.component';
+import { RouterLink } from '@angular/router';
+import { PaginationComponent } from '../../../shared/components/list-navigation/pagination/pagination.component';
+import { SortingComponent } from '../../../shared/components/list-navigation/sorting/sorting.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   results?: (ProductInterestEntryRelation & {
@@ -33,9 +28,24 @@ interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
 }
 
 @Component({
-  selector: 'cx-my-interests',
-  templateUrl: './my-interests.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-my-interests',
+    templateUrl: './my-interests.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        FeaturesConfigModule,
+        SortingComponent,
+        PaginationComponent,
+        NgFor,
+        RouterLink,
+        MediaComponent,
+        AtMessageDirective,
+        SpinnerComponent,
+        AsyncPipe,
+        I18nModule,
+        UrlModule,
+    ],
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {
   private DEFAULT_PAGE_SIZE = 10;

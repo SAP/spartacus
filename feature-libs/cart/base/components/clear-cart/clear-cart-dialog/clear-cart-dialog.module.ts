@@ -15,15 +15,15 @@ import {
 import { ClearCartDialogComponent } from './clear-cart-dialog.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SpinnerModule,
-    I18nModule,
-    IconModule,
-    KeyboardFocusModule,
-    FeaturesConfigModule,
-  ],
-  declarations: [ClearCartDialogComponent],
-  exports: [ClearCartDialogComponent],
+    imports: [
+        CommonModule,
+        SpinnerModule,
+        I18nModule,
+        IconModule,
+        KeyboardFocusModule,
+        FeaturesConfigModule,
+        ClearCartDialogComponent,
+    ],
+    exports: [ClearCartDialogComponent],
 })
 export class ClearCartDialogModule {}

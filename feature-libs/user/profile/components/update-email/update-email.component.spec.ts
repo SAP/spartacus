@@ -24,8 +24,15 @@ import { UpdateEmailComponent } from './update-email.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
+    selector: 'cx-spinner',
+    template: '',
+    standalone: true,
+    imports: [ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        PasswordVisibilityToggleModule,],
 })
 class MockCxSpinnerComponent {}
 
@@ -50,26 +57,24 @@ describe('UpdateEmailComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
         RouterTestingModule,
         UrlTestingModule,
         PasswordVisibilityToggleModule,
-      ],
-      declarations: [
         UpdateEmailComponent,
         MockCxSpinnerComponent,
         MockFeatureDirective,
-      ],
-      providers: [
+    ],
+    providers: [
         {
-          provide: UpdateEmailComponentService,
-          useClass: MockUpdateEmailService,
+            provide: UpdateEmailComponentService,
+            useClass: MockUpdateEmailService,
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(UpdateEmailComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

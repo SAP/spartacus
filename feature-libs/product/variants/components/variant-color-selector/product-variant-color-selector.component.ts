@@ -5,18 +5,15 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import {
-  BaseOption,
-  Product,
-  RoutingService,
-  VariantOptionQualifier,
-  VariantQualifier,
-} from '@spartacus/core';
+import { BaseOption, Product, RoutingService, VariantOptionQualifier, VariantQualifier, I18nModule } from '@spartacus/core';
+import { NgFor } from '@angular/common';
 
 @Component({
-  selector: 'cx-product-variant-color-selector',
-  templateUrl: './product-variant-color-selector.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-variant-color-selector',
+    templateUrl: './product-variant-color-selector.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgFor, I18nModule],
 })
 export class ProductVariantColorSelectorComponent {
   constructor(private routingService: RoutingService) {}

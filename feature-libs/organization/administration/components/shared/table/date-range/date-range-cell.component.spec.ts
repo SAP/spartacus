@@ -12,20 +12,19 @@ describe('DateRangeCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DateRangeCellComponent],
-      imports: [RouterTestingModule, UrlTestingModule, I18nTestingModule],
-      providers: [
+    imports: [RouterTestingModule, UrlTestingModule, I18nTestingModule, DateRangeCellComponent],
+    providers: [
         {
-          provide: OutletContextData,
-          useValue: {
-            context: {
-              startDate: '2020-07-15T02:00:00+0000',
-              endDate: '2020-07-15T02:59:00+0000',
+            provide: OutletContextData,
+            useValue: {
+                context: {
+                    startDate: '2020-07-15T02:00:00+0000',
+                    endDate: '2020-07-15T02:59:00+0000',
+                },
             },
-          },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

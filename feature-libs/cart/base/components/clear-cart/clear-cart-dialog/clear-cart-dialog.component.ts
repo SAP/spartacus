@@ -12,12 +12,23 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
-import { ICON_TYPE, FocusConfig } from '@spartacus/storefront';
+import { ICON_TYPE, FocusConfig, KeyboardFocusModule, IconModule, SpinnerModule } from '@spartacus/storefront';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'cx-clear-cart-dialog',
-  templateUrl: './clear-cart-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-clear-cart-dialog',
+    templateUrl: './clear-cart-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        KeyboardFocusModule,
+        NgIf,
+        FeaturesConfigModule,
+        IconModule,
+        SpinnerModule,
+        I18nModule,
+    ],
 })
 export class ClearCartDialogComponent implements OnDestroy {
   focusConfig: FocusConfig = {

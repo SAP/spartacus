@@ -5,8 +5,10 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { I18nModule } from '@spartacus/core';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 export interface SaveEvent {
   name?: string;
@@ -20,8 +22,16 @@ export interface EditCard {
 }
 
 @Component({
-  selector: 'cx-quote-header-buyer-edit',
-  templateUrl: './quote-header-buyer-edit.component.html',
+    selector: 'cx-quote-header-buyer-edit',
+    templateUrl: './quote-header-buyer-edit.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        FormsModule,
+        ReactiveFormsModule,
+        NgTemplateOutlet,
+        I18nModule,
+    ],
 })
 export class QuoteHeaderBuyerEditComponent implements OnInit {
   iconTypes = ICON_TYPE;

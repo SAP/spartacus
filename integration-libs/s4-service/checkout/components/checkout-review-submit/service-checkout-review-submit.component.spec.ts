@@ -97,8 +97,14 @@ const mockPaymentTypes: PaymentType[] = [
 const mockScheduledAt = '2024-06-27T09:30:00-04:00';
 
 @Component({
-  selector: 'cx-card',
-  template: '',
+    selector: 'cx-card',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule,
+        PromotionsModule,
+        RouterTestingModule,
+        IconTestingModule,
+        OutletModule,],
 })
 class MockCardComponent {
   @Input()
@@ -232,7 +238,8 @@ class MockCheckoutServiceSchedulePickerService
 }
 
 @Pipe({
-  name: 'cxUrl',
+    name: 'cxUrl',
+    standalone: true,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -244,58 +251,56 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         I18nTestingModule,
         PromotionsModule,
         RouterTestingModule,
         IconTestingModule,
         OutletModule,
-      ],
-      declarations: [
         ServiceCheckoutReviewSubmitComponent,
         MockCardComponent,
         MockUrlPipe,
-      ],
-      providers: [
+    ],
+    providers: [
         {
-          provide: CheckoutDeliveryAddressFacade,
-          useClass: MockCheckoutDeliveryAddressService,
+            provide: CheckoutDeliveryAddressFacade,
+            useClass: MockCheckoutDeliveryAddressService,
         },
         {
-          provide: CheckoutDeliveryModesFacade,
-          useClass: MockCheckoutDeliveryModesService,
+            provide: CheckoutDeliveryModesFacade,
+            useClass: MockCheckoutDeliveryModesService,
         },
         {
-          provide: CheckoutPaymentFacade,
-          useClass: MockCheckoutPaymentService,
+            provide: CheckoutPaymentFacade,
+            useClass: MockCheckoutPaymentService,
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
-          provide: CheckoutStepService,
-          useClass: MockCheckoutStepService,
+            provide: CheckoutStepService,
+            useClass: MockCheckoutStepService,
         },
         {
-          provide: CheckoutPaymentTypeFacade,
-          useClass: MockCheckoutPaymentTypeFacade,
+            provide: CheckoutPaymentTypeFacade,
+            useClass: MockCheckoutPaymentTypeFacade,
         },
         {
-          provide: CheckoutCostCenterFacade,
-          useClass: MockCheckoutCostCenterService,
+            provide: CheckoutCostCenterFacade,
+            useClass: MockCheckoutCostCenterService,
         },
         {
-          provide: UserCostCenterService,
-          useClass: MockUserCostCenterService,
+            provide: UserCostCenterService,
+            useClass: MockUserCostCenterService,
         },
         {
-          provide: CheckoutServiceDetailsFacade,
-          useClass: MockCheckoutServiceDetails,
+            provide: CheckoutServiceDetailsFacade,
+            useClass: MockCheckoutServiceDetails,
         },
         {
-          provide: CheckoutServiceSchedulePickerService,
-          useClass: MockCheckoutServiceSchedulePickerService,
+            provide: CheckoutServiceSchedulePickerService,
+            useClass: MockCheckoutServiceSchedulePickerService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

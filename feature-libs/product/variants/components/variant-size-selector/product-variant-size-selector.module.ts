@@ -11,8 +11,7 @@ import { ProductVariantSizeSelectorComponent } from './product-variant-size-sele
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, I18nModule],
-  declarations: [ProductVariantSizeSelectorComponent],
-  exports: [ProductVariantSizeSelectorComponent],
+    imports: [CommonModule, RouterModule, UrlModule, I18nModule, ProductVariantSizeSelectorComponent],
+    exports: [ProductVariantSizeSelectorComponent],
 })
 export class ProductVariantSizeSelectorModule {}

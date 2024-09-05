@@ -22,27 +22,27 @@ import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.compo
 import { UnitLevelOrderHistoryFilterModule } from './filter/unit-level-order-history-filter.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
-    NgSelectModule,
-    ListNavigationModule,
-    UrlModule,
-    I18nModule,
-    UnitLevelOrderHistoryFilterModule,
-  ],
-  declarations: [UnitLevelOrderHistoryComponent],
-  exports: [UnitLevelOrderHistoryComponent],
-  providers: [
-    provideDefaultConfig({
-      cmsComponents: {
-        UnitLevelOrderHistoryComponent: {
-          component: UnitLevelOrderHistoryComponent,
-          guards: [AuthGuard, UnitLevelOrdersViewerGuard],
-        },
-      },
-    } as CmsConfig),
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        ListNavigationModule,
+        UrlModule,
+        I18nModule,
+        UnitLevelOrderHistoryFilterModule,
+        UnitLevelOrderHistoryComponent,
+    ],
+    exports: [UnitLevelOrderHistoryComponent],
+    providers: [
+        provideDefaultConfig({
+            cmsComponents: {
+                UnitLevelOrderHistoryComponent: {
+                    component: UnitLevelOrderHistoryComponent,
+                    guards: [AuthGuard, UnitLevelOrdersViewerGuard],
+                },
+            },
+        } as CmsConfig),
+    ],
 })
 export class UnitLevelOrderHistoryModule {}

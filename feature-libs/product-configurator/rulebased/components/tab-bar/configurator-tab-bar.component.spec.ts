@@ -88,7 +88,8 @@ class MockConfigUtilsService {
 class MockConfiguratorGroupsService {}
 
 @Pipe({
-  name: 'cxUrl',
+    name: 'cxUrl',
+    standalone: true,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -108,27 +109,27 @@ describe('ConfigTabBarComponent', () => {
 
     routerStateObservable = of(mockRouterState);
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterModule, RouterTestingModule],
-      declarations: [ConfiguratorTabBarComponent, MockUrlPipe],
-      providers: [
+    imports: [I18nTestingModule, RouterModule, RouterTestingModule, MockUrlPipe],
+    declarations: [ConfiguratorTabBarComponent],
+    providers: [
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
         },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
         },
         {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
+            provide: ConfiguratorGroupsService,
+            useClass: MockConfiguratorGroupsService,
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(ConfiguratorTabBarComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

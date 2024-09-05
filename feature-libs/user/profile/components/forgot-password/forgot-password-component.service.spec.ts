@@ -38,21 +38,20 @@ describe('ForgotPasswordComponentService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
-      ],
-      declarations: [],
-      providers: [
+    ],
+    providers: [
         ForgotPasswordComponentService,
         { provide: UserPasswordFacade, useClass: MockUserPasswordService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AuthConfigService, useClass: MockAuthConfigService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

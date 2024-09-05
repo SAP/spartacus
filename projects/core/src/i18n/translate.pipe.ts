@@ -22,7 +22,10 @@ import {
 } from './translatable';
 import { TranslationService } from './translation.service';
 
-@Pipe({ name: 'cxTranslate', pure: false })
+@Pipe({
+    name: 'cxTranslate', pure: false,
+    standalone: true
+})
 export class TranslatePipe implements PipeTransform, OnDestroy {
   private lastKey: string;
   private lastOptions: object;

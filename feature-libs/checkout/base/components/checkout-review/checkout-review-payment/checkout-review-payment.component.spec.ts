@@ -64,8 +64,10 @@ class MockCheckoutStepService {
 }
 
 @Component({
-  selector: 'cx-card',
-  template: '',
+    selector: 'cx-card',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, RouterTestingModule, IconTestingModule,],
 })
 class MockCardComponent {
   @Input()
@@ -73,7 +75,8 @@ class MockCardComponent {
 }
 
 @Pipe({
-  name: 'cxUrl',
+    name: 'cxUrl',
+    standalone: true,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -85,23 +88,20 @@ describe('CheckoutReviewPaymentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule, IconTestingModule],
-      declarations: [
-        CheckoutReviewPaymentComponent,
-        MockUrlPipe,
-        MockCardComponent,
-      ],
-      providers: [
+    imports: [I18nTestingModule, RouterTestingModule, IconTestingModule, MockUrlPipe,
+        MockCardComponent],
+    declarations: [CheckoutReviewPaymentComponent],
+    providers: [
         {
-          provide: CheckoutPaymentFacade,
-          useClass: MockCheckoutPaymentService,
+            provide: CheckoutPaymentFacade,
+            useClass: MockCheckoutPaymentService,
         },
         {
-          provide: CheckoutStepService,
-          useClass: MockCheckoutStepService,
+            provide: CheckoutStepService,
+            useClass: MockCheckoutStepService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(CheckoutReviewPaymentComponent);
     component = fixture.componentInstance;

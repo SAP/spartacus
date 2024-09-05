@@ -11,8 +11,7 @@ import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-order-cancellation-dialog.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule, KeyboardFocusModule],
-  declarations: [ReplenishmentOrderCancellationDialogComponent],
-  exports: [ReplenishmentOrderCancellationDialogComponent],
+    imports: [CommonModule, I18nModule, IconModule, KeyboardFocusModule, ReplenishmentOrderCancellationDialogComponent],
+    exports: [ReplenishmentOrderCancellationDialogComponent],
 })
 export class ReplenishmentOrderCancellationDialogModule {}

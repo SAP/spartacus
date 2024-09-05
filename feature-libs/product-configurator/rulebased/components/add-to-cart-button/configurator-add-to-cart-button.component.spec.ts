@@ -96,16 +96,20 @@ const mockOrder: Order = {
 };
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-  template: '',
-  selector: 'cx-item-counter',
+    template: '',
+    selector: 'cx-item-counter',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockItemCounterComponent {
   @Input() min: number;
@@ -412,66 +416,63 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ConfiguratorAddToCartButtonComponent,
-        MockItemCounterComponent,
+    imports: [I18nTestingModule, MockItemCounterComponent,
         MockCxIconComponent,
-        MockFeatureLevelDirective,
-      ],
-      providers: [
+        MockFeatureLevelDirective],
+    declarations: [ConfiguratorAddToCartButtonComponent],
+    providers: [
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         {
-          provide: ConfiguratorQuantityService,
-          useClass: MockConfiguratorQuantityService,
+            provide: ConfiguratorQuantityService,
+            useClass: MockConfiguratorQuantityService,
         },
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
         },
         {
-          provide: ConfiguratorCartService,
-          useClass: MockConfiguratorCartService,
+            provide: ConfiguratorCartService,
+            useClass: MockConfiguratorCartService,
         },
         {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
+            provide: ConfiguratorGroupsService,
+            useClass: MockConfiguratorGroupsService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
-          provide: OrderHistoryFacade,
-          useClass: MockOrderHistoryFacade,
+            provide: OrderHistoryFacade,
+            useClass: MockOrderHistoryFacade,
         },
         {
-          provide: CommonConfiguratorUtilsService,
-          useClass: MockCommonConfiguratorUtilsService,
+            provide: CommonConfiguratorUtilsService,
+            useClass: MockCommonConfiguratorUtilsService,
         },
         {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfiguratorRouterExtractorService,
         },
         {
-          provide: ConfiguratorAddToCartButtonComponent,
-          useClass: MockConfiguratorAddToCartButtonComponent,
+            provide: ConfiguratorAddToCartButtonComponent,
+            useClass: MockConfiguratorAddToCartButtonComponent,
         },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
         },
         {
-          provide: IntersectionService,
-          useClass: MockIntersectionService,
+            provide: IntersectionService,
+            useClass: MockIntersectionService,
         },
         {
-          provide: MultiCartFacade,
-          useClass: MockMultiCartFacade,
+            provide: MultiCartFacade,
+            useClass: MockMultiCartFacade,
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
-      ],
-    })
+    ],
+})
       .overrideComponent(ConfiguratorAddToCartButtonComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

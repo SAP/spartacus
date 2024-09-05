@@ -25,10 +25,9 @@ describe('CdcUserPreferenceSerializer', () => {
   let service: CdcUserPreferenceSerializer;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [],
-      providers: [],
-    });
+    imports: [],
+    providers: [],
+});
     service = TestBed.inject(CdcUserPreferenceSerializer);
     TestBed.compileComponents();
   });

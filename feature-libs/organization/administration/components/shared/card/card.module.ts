@@ -19,17 +19,17 @@ import { PopoverModule } from '@spartacus/storefront';
  * a reusable component inside the organization UI.
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    SplitViewModule,
-    RouterModule,
-    I18nModule,
-    IconModule,
-    UrlModule,
-    MessageModule,
-    PopoverModule,
-  ],
-  declarations: [CardComponent],
-  exports: [CardComponent],
+    imports: [
+        CommonModule,
+        SplitViewModule,
+        RouterModule,
+        I18nModule,
+        IconModule,
+        UrlModule,
+        MessageModule,
+        PopoverModule,
+        CardComponent,
+    ],
+    exports: [CardComponent],
 })
 export class CardModule {}

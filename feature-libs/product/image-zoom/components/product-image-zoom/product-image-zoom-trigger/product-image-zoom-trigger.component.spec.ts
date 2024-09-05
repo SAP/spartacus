@@ -13,7 +13,9 @@ import { of } from 'rxjs';
 import { ProductImageZoomTriggerComponent } from './product-image-zoom-trigger.component';
 
 @Component({
-  template: '',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class TestDialogComponent {
   @Input() galleryItem: number;
@@ -36,20 +38,17 @@ describe('ProductImageZoomTriggerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      providers: [
-        {
-          provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
-        },
-      ],
-      declarations: [
-        ProductImageZoomTriggerComponent,
+    imports: [I18nTestingModule, ProductImageZoomTriggerComponent,
         TestDialogComponent,
-        MockFeatureDirective,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+        MockFeatureDirective],
+    providers: [
+        {
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
+        },
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+}).compileComponents();
 
     fixture = TestBed.createComponent(ProductImageZoomTriggerComponent);
     component = fixture.componentInstance;

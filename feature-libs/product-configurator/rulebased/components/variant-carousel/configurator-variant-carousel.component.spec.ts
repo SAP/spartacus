@@ -48,8 +48,9 @@ const product: Product = {
 };
 
 @Component({
-  selector: 'cx-carousel',
-  template: '',
+    selector: 'cx-carousel',
+    template: '',
+    standalone: true,
 })
 class MockCarouselComponent {
   @Input() items;
@@ -59,7 +60,8 @@ class MockCarouselComponent {
 }
 
 @Pipe({
-  name: 'cxTranslate',
+    name: 'cxTranslate',
+    standalone: true,
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
@@ -133,27 +135,25 @@ const router: ConfiguratorRouter.Data = {
 describe('ConfiguratorVariantCarouselComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorVariantCarouselComponent,
-        MockTranslatePipe,
-        MockCarouselComponent,
-      ],
-      providers: [
+    imports: [MockTranslatePipe,
+        MockCarouselComponent],
+    declarations: [ConfiguratorVariantCarouselComponent],
+    providers: [
         {
-          provide: ProductService,
-          useClass: MockProductService,
+            provide: ProductService,
+            useClass: MockProductService,
         },
         { provide: TranslationService, useClass: MockTranslationService },
         {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfigRouterExtractorService,
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfigRouterExtractorService,
         },
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   it('should create a component without variants', () => {

@@ -16,18 +16,18 @@ import { CostCenterDetailsComponent } from './cost-center-details.component';
 import { DisableInfoModule } from '../../shared/detail/disable-info/disable-info.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CardModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-    ToggleStatusModule,
-    ItemExistsModule,
-    DisableInfoModule,
-    KeyboardFocusModule,
-  ],
-  declarations: [CostCenterDetailsComponent],
-  exports: [CostCenterDetailsComponent],
+    imports: [
+        CommonModule,
+        CardModule,
+        RouterModule,
+        UrlModule,
+        I18nModule,
+        ToggleStatusModule,
+        ItemExistsModule,
+        DisableInfoModule,
+        KeyboardFocusModule,
+        CostCenterDetailsComponent,
+    ],
+    exports: [CostCenterDetailsComponent],
 })
 export class CostCenterDetailsModule {}

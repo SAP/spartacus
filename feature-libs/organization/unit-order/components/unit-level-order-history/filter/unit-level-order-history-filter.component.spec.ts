@@ -20,15 +20,18 @@ import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core
 import { UnitLevelOrderHistoryFilterComponent } from './unit-level-order-history-filter.component';
 
 @Pipe({
-  name: 'cxTranslate',
+    name: 'cxTranslate',
+    standalone: true,
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
 @Component({
-  template: '',
-  selector: 'cx-pagination',
+    template: '',
+    selector: 'cx-pagination',
+    standalone: true,
+    imports: [ReactiveFormsModule],
 })
 class MockPaginationComponent {
   @Input() pagination: PaginationModel;
@@ -36,8 +39,10 @@ class MockPaginationComponent {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [ReactiveFormsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -63,14 +68,11 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        UnitLevelOrderHistoryFilterComponent,
+    imports: [ReactiveFormsModule, UnitLevelOrderHistoryFilterComponent,
         MockTranslatePipe,
         MockPaginationComponent,
-        MockCxIconComponent,
-      ],
-      imports: [ReactiveFormsModule],
-    }).compileComponents();
+        MockCxIconComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(UnitLevelOrderHistoryFilterComponent);
     component = fixture.componentInstance;

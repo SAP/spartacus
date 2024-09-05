@@ -15,17 +15,17 @@ import { FormModule } from '../../shared/form/form.module';
 import { UserGroupFormComponent } from './user-group-form.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    NgSelectModule,
-    UrlModule,
-    I18nModule,
-    ReactiveFormsModule,
-    FormErrorsModule,
-    FormModule,
-    FeaturesConfigModule,
-  ],
-  declarations: [UserGroupFormComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        NgSelectModule,
+        UrlModule,
+        I18nModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        FormModule,
+        FeaturesConfigModule,
+        UserGroupFormComponent,
+    ],
 })
 export class UserGroupFormModule {}

@@ -10,25 +10,35 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import {
-  Config,
-  useFeatureStyles,
-  FeatureConfigService,
-} from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
+import { Config, useFeatureStyles, FeatureConfigService, I18nModule } from '@spartacus/core';
+import { ICON_TYPE, KeyboardFocusModule, PopoverModule, IconModule } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorPriceComponentOptions, ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-configurator-attribute-single-selection-image',
-  templateUrl: './configurator-attribute-single-selection-image.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ConfiguratorAttributePriceChangeService],
+    selector: 'cx-configurator-attribute-single-selection-image',
+    templateUrl: './configurator-attribute-single-selection-image.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [ConfiguratorAttributePriceChangeService],
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        ReactiveFormsModule,
+        KeyboardFocusModule,
+        ConfiguratorPriceComponent,
+        NgClass,
+        PopoverModule,
+        IconModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ConfiguratorAttributeSingleSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent

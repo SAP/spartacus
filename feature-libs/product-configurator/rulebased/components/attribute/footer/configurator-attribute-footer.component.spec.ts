@@ -81,24 +81,20 @@ const owner = ConfiguratorModelUtils.createOwner(
 describe('ConfigAttributeFooterComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconModule],
-      declarations: [
-        ConfiguratorAttributeFooterComponent,
-        MockFeatureLevelDirective,
-      ],
-      providers: [
+    imports: [I18nTestingModule, IconModule, ConfiguratorAttributeFooterComponent,
+        MockFeatureLevelDirective],
+    providers: [
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
         },
-
         {
-          provide: ConfiguratorAttributeCompositionContext,
-          useValue: ConfiguratorTestUtils.getAttributeContext(),
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(ConfiguratorAttributeFooterComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

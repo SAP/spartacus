@@ -27,23 +27,28 @@ import { KeyboardFocusService } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, RouterTestingModule],
 })
 class MockIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-  selector: 'cx-facet',
-  template: '',
+    selector: 'cx-facet',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, RouterTestingModule],
 })
 class MockFacetComponent {
   @Input() facet;
 }
 
 @Directive({
-  selector: '[cxFocus]',
+    selector: '[cxFocus]',
+    standalone: true,
 })
 class MockKeyboadFocusDirective {
   @Input() cxFocus;
@@ -74,24 +79,21 @@ describe('FacetListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [
-        FacetListComponent,
+    imports: [I18nTestingModule, RouterTestingModule, FacetListComponent,
         MockIconComponent,
         MockFacetComponent,
         MockKeyboadFocusDirective,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective],
+    providers: [
         { provide: FacetService, useClass: MockFacetService },
         {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '5.1' },
-          },
+            provide: FeaturesConfig,
+            useValue: {
+                features: { level: '5.1' },
+            },
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(FacetListComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

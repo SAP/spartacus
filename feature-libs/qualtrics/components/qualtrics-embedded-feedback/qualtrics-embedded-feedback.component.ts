@@ -7,7 +7,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'cx-qualtrics-embedded-feedback',
-  template: '',
+    selector: 'cx-qualtrics-embedded-feedback',
+    template: '',
+    standalone: true,
 })
 export class QualtricsEmbeddedFeedbackComponent {}

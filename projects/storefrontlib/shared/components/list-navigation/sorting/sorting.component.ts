@@ -11,12 +11,24 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { SortModel } from '@spartacus/core';
+import { SortModel, I18nModule } from '@spartacus/core';
+import { NgFor } from '@angular/common';
+import { NgSelectA11yDirective } from '../../ng-select-a11y/ng-select-a11y.directive';
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'cx-sorting',
-  templateUrl: './sorting.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-sorting',
+    templateUrl: './sorting.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgSelectModule,
+        FormsModule,
+        NgSelectA11yDirective,
+        NgFor,
+        I18nModule,
+    ],
 })
 export class SortingComponent {
   @Input()

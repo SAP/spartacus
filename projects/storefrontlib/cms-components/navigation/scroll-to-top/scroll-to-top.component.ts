@@ -15,21 +15,19 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import {
-  CmsScrollToTopComponent,
-  FeatureConfigService,
-  ScrollBehavior,
-  WindowRef,
-} from '@spartacus/core';
+import { CmsScrollToTopComponent, FeatureConfigService, ScrollBehavior, WindowRef, I18nModule } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SelectFocusUtility } from '../../../layout/a11y/index';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
+import { IconComponent } from '../../misc/icon/icon.component';
 
 @Component({
-  selector: 'cx-scroll-to-top',
-  templateUrl: './scroll-to-top.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-scroll-to-top',
+    templateUrl: './scroll-to-top.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [IconComponent, I18nModule],
 })
 export class ScrollToTopComponent implements OnInit {
   iconTypes = ICON_TYPE;

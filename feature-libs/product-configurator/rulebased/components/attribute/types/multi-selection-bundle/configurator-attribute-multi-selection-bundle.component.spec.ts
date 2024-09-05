@@ -27,8 +27,14 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Component({
-  selector: 'cx-configurator-attribute-product-card',
-  template: '',
+    selector: 'cx-configurator-attribute-product-card',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        ReactiveFormsModule,
+        MediaModule,],
 })
 class MockProductCardComponent {
   @Input()
@@ -36,8 +42,14 @@ class MockProductCardComponent {
 }
 
 @Component({
-  selector: 'cx-configurator-attribute-quantity',
-  template: '',
+    selector: 'cx-configurator-attribute-quantity',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        ReactiveFormsModule,
+        MediaModule,],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -45,8 +57,14 @@ class MockConfiguratorAttributeQuantityComponent {
 }
 
 @Component({
-  selector: 'cx-configurator-price',
-  template: '',
+    selector: 'cx-configurator-price',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        ReactiveFormsModule,
+        MediaModule,],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -100,36 +118,34 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         I18nTestingModule,
         RouterTestingModule,
         UrlTestingModule,
         ReactiveFormsModule,
         MediaModule,
-      ],
-      declarations: [
         ConfiguratorAttributeMultiSelectionBundleComponent,
         ConfiguratorShowMoreComponent,
         ItemCounterComponent,
         MockProductCardComponent,
         MockConfiguratorAttributeQuantityComponent,
         MockConfiguratorPriceComponent,
-      ],
-      providers: [
+    ],
+    providers: [
         {
-          provide: ConfiguratorAttributeCompositionContext,
-          useValue: ConfiguratorTestUtils.getAttributeContext(),
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
         },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useValue: {},
+            provide: ConfiguratorStorefrontUtilsService,
+            useValue: {},
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

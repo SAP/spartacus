@@ -79,22 +79,26 @@ class MockCurrentProductService {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, RouterTestingModule],
 })
 class MockIconComponent {
   @Input() type;
 }
 
 @Pipe({
-  name: 'cxUrl',
+    name: 'cxUrl',
+    standalone: true,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
 @Directive({
-  selector: '[cxAtMessage]',
+    selector: '[cxAtMessage]',
+    standalone: true,
 })
 class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
@@ -108,23 +112,20 @@ describe('AddToWishListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [
-        AddToWishListComponent,
-        MockIconComponent,
+    imports: [I18nTestingModule, RouterTestingModule, MockIconComponent,
         MockUrlPipe,
         MockAtMessageDirective,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective],
+    declarations: [AddToWishListComponent],
+    providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: WishListFacade, useClass: MockWishListService },
         {
-          provide: CurrentProductService,
-          useClass: MockCurrentProductService,
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(AddToWishListComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

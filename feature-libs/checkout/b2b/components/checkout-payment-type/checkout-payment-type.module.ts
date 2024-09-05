@@ -21,21 +21,21 @@ import { SpinnerModule } from '@spartacus/storefront';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    SpinnerModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        CheckoutPaymentType: {
-          component: CheckoutPaymentTypeComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
-        },
-      },
-    }),
-    FeaturesConfigModule,
-  ],
-  declarations: [CheckoutPaymentTypeComponent],
-  exports: [CheckoutPaymentTypeComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        SpinnerModule,
+        ConfigModule.withConfig(<CmsConfig>{
+            cmsComponents: {
+                CheckoutPaymentType: {
+                    component: CheckoutPaymentTypeComponent,
+                    guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
+                },
+            },
+        }),
+        FeaturesConfigModule,
+        CheckoutPaymentTypeComponent,
+    ],
+    exports: [CheckoutPaymentTypeComponent],
 })
 export class CheckoutPaymentTypeModule {}

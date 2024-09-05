@@ -18,17 +18,17 @@ import { CdcReconsentComponent } from './cdc-reconsent.component';
 import { defaultCdcReconsentLayoutConfig } from './default-cdc-reconsent-layout.config';
 
 @NgModule({
-  providers: [provideDefaultConfig(defaultCdcReconsentLayoutConfig)],
-  declarations: [CdcReconsentComponent],
-  exports: [CdcReconsentComponent],
-  imports: [
-    CommonModule,
-    SpinnerModule,
-    IconModule,
-    I18nModule,
-    KeyboardFocusModule,
-    ConsentManagementModule,
-  ],
+    providers: [provideDefaultConfig(defaultCdcReconsentLayoutConfig)],
+    exports: [CdcReconsentComponent],
+    imports: [
+        CommonModule,
+        SpinnerModule,
+        IconModule,
+        I18nModule,
+        KeyboardFocusModule,
+        ConsentManagementModule,
+        CdcReconsentComponent,
+    ],
 })
 export class CdcReconsentModule {
   constructor(

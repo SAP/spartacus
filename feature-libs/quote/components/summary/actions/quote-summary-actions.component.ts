@@ -16,7 +16,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType, I18nModule } from '@spartacus/core';
 import { QuoteStorefrontUtilsService } from '@spartacus/quote/core';
 import {
   Quote,
@@ -39,10 +39,19 @@ import {
   QuoteUIConfig,
 } from '../../config/quote-ui.config';
 import { ConfirmationContext } from '../../confirm-dialog/quote-confirm-dialog.model';
+import { NgIf, NgClass, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-quote-summary-actions',
-  templateUrl: './quote-summary-actions.component.html',
+    selector: 'cx-quote-summary-actions',
+    templateUrl: './quote-summary-actions.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgClass,
+        NgFor,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class QuoteSummaryActionsComponent
   implements AfterViewInit, OnInit, OnDestroy

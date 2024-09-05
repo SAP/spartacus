@@ -13,8 +13,10 @@ const mockEntries: OrderEntry[] = [
 ];
 
 @Component({
-  template: '',
-  selector: '[cx-quick-order-item], cx-quick-order-item',
+    template: '',
+    selector: '[cx-quick-order-item], cx-quick-order-item',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockQuickOrderItemComponent {
   @Input() entry: OrderEntry;
@@ -29,9 +31,8 @@ describe('QuickOrderTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [QuickOrderTableComponent, MockQuickOrderItemComponent],
-    }).compileComponents();
+    imports: [I18nTestingModule, QuickOrderTableComponent, MockQuickOrderItemComponent],
+}).compileComponents();
   });
 
   beforeEach(() => {

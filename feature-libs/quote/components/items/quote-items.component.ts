@@ -6,12 +6,15 @@
 
 import { Component, inject } from '@angular/core';
 import { AbstractOrderType, CartOutlets } from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconModule, OutletModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   QuoteItemsComponentService,
   QuoteItemsData,
 } from './quote-items.component.service';
+import { I18nModule } from '@spartacus/core';
+import { AbstractOrderContextModule } from '@spartacus/cart/base/components';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 /**
  * Renders quote items. These items are either taken from the actual quote,
@@ -27,8 +30,18 @@ import {
  */
 
 @Component({
-  selector: 'cx-quote-items',
-  templateUrl: './quote-items.component.html',
+    selector: 'cx-quote-items',
+    templateUrl: './quote-items.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        IconModule,
+        AbstractOrderContextModule,
+        OutletModule,
+        NgFor,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class QuoteItemsComponent {
   protected quoteItemsComponentService = inject(QuoteItemsComponentService);

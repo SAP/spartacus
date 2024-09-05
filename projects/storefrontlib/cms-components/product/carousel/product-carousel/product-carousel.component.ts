@@ -5,22 +5,26 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import {
-  CmsProductCarouselComponent as model,
-  FeatureConfigService,
-  Product,
-  ProductScope,
-  ProductService,
-  ProductSearchByCodeService,
-} from '@spartacus/core';
+import { CmsProductCarouselComponent as model, FeatureConfigService, Product, ProductScope, ProductService, ProductSearchByCodeService, I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
+import { ProductCarouselItemComponent } from '../product-carousel-item/product-carousel-item.component';
+import { CarouselComponent } from '../../../../shared/components/carousel/carousel.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-product-carousel',
-  templateUrl: './product-carousel.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-carousel',
+    templateUrl: './product-carousel.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        CarouselComponent,
+        ProductCarouselItemComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ProductCarouselComponent {
   private featureConfigService: FeatureConfigService =

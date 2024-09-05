@@ -13,15 +13,14 @@ import { PickupInfoModule } from '../../presentational/index';
 import { PickupInfoContainerComponent } from './pickup-info-container.component';
 
 @NgModule({
-  imports: [CommonModule, PickupInfoModule],
-  exports: [PickupInfoContainerComponent],
-  declarations: [PickupInfoContainerComponent],
-  providers: [
-    provideOutlet({
-      id: CartOutlets.PICKUP_INFO,
-      position: OutletPosition.REPLACE,
-      component: PickupInfoContainerComponent,
-    }),
-  ],
+    imports: [CommonModule, PickupInfoModule, PickupInfoContainerComponent],
+    exports: [PickupInfoContainerComponent],
+    providers: [
+        provideOutlet({
+            id: CartOutlets.PICKUP_INFO,
+            position: OutletPosition.REPLACE,
+            component: PickupInfoContainerComponent,
+        }),
+    ],
 })
 export class PickupInfoContainerModule {}

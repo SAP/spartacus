@@ -7,13 +7,14 @@
 import { Component, NgModule } from '@angular/core';
 
 @Component({
-  selector: 'cx-org-message',
-  template: '',
+    selector: 'cx-org-message',
+    template: '',
+    standalone: true,
 })
 class MessageComponent {}
 
 @NgModule({
-  declarations: [MessageComponent],
-  exports: [MessageComponent],
+    imports: [MessageComponent],
+    exports: [MessageComponent],
 })
 export class MessageTestingModule {}

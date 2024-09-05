@@ -14,18 +14,26 @@ import { ListService } from '../../shared/list/list.service';
 import { SubListComponent } from '../../shared/sub-list/sub-list.component';
 import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListService } from './user-group-user-list.service';
+import { I18nModule } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'cx-org-user-group-user-list',
-  templateUrl: './user-group-user-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
-  providers: [
-    {
-      provide: ListService,
-      useExisting: UserGroupUserListService,
-    },
-  ],
+    selector: 'cx-org-user-group-user-list',
+    templateUrl: './user-group-user-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    providers: [
+        {
+            provide: ListService,
+            useExisting: UserGroupUserListService,
+        },
+    ],
+    standalone: true,
+    imports: [
+        SubListComponent,
+        RouterLink,
+        I18nModule,
+    ],
 })
 export class UserGroupUserListComponent {
   constructor(

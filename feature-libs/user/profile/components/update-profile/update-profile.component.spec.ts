@@ -23,13 +23,22 @@ import { UpdateProfileComponent } from './update-profile.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
-  selector: 'cx-spinner',
-  template: ` <div>spinner</div> `,
+    selector: 'cx-spinner',
+    template: ` <div>spinner</div> `,
+    standalone: true,
+    imports: [CommonModule,
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        NgSelectModule,],
 })
 class MockCxSpinnerComponent {}
 
 @Directive({
-  selector: '[cxNgSelectA11y]',
+    selector: '[cxNgSelectA11y]',
+    standalone: true,
 })
 class MockNgSelectA11yDirective {
   @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
@@ -65,7 +74,7 @@ describe('UpdateProfileComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         CommonModule,
         ReactiveFormsModule,
         I18nTestingModule,
@@ -73,27 +82,25 @@ describe('UpdateProfileComponent', () => {
         RouterTestingModule,
         UrlTestingModule,
         NgSelectModule,
-      ],
-      declarations: [
         UpdateProfileComponent,
         MockCxSpinnerComponent,
         MockNgSelectA11yDirective,
         MockFeatureDirective,
-      ],
-      providers: [
+    ],
+    providers: [
         {
-          provide: UpdateProfileComponentService,
-          useClass: MockUpdateProfileService,
+            provide: UpdateProfileComponentService,
+            useClass: MockUpdateProfileService,
         },
         {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '5.2' },
-          },
+            provide: FeaturesConfig,
+            useValue: {
+                features: { level: '5.2' },
+            },
         },
         { provide: RoutingService, useClass: MockRoutingService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

@@ -18,8 +18,9 @@ export enum SAVE_CART_DIALOG_ACTION {
 }
 
 @Component({
-  selector: 'cx-asm-save-cart-dialog',
-  templateUrl: './asm-save-cart-dialog.component.html',
+    selector: 'cx-asm-save-cart-dialog',
+    templateUrl: './asm-save-cart-dialog.component.html',
+    standalone: true,
 })
 export class AsmSaveCartDialogComponent implements OnInit {
   BIND_CART_ACTION = SAVE_CART_DIALOG_ACTION;

@@ -12,14 +12,15 @@ import { LockFocusDirective } from './lock-focus.directive';
 import { LockFocusService } from './lock-focus.service';
 
 @Directive({
-  selector: '[cxLockFocus]',
+    selector: '[cxLockFocus]',
+    standalone: true,
 })
 class CustomFocusDirective extends LockFocusDirective {
   @Input('cxLockFocus') protected config: LockFocusConfig;
 }
 @Component({
-  selector: 'cx-host',
-  template: `
+    selector: 'cx-host',
+    template: `
     <div cxLockFocus id="a">
       <button id="a1"></button>
       <a href="" id="a2"></a>
@@ -49,6 +50,7 @@ class CustomFocusDirective extends LockFocusDirective {
       <button id="e3"></button>
     </div>
   `,
+    standalone: true,
 })
 class MockComponent {}
 
@@ -81,14 +83,14 @@ describe('LockFocusDirective', () => {
   let service: LockFocusService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent, CustomFocusDirective],
-      providers: [
+    imports: [MockComponent, CustomFocusDirective],
+    providers: [
         {
-          provide: LockFocusService,
-          useClass: MockLockFocusService,
+            provide: LockFocusService,
+            useClass: MockLockFocusService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
     service = TestBed.inject(LockFocusService);

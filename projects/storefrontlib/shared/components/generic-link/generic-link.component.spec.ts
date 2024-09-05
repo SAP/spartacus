@@ -19,9 +19,8 @@ describe('GenericLinkComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [GenericLinkComponent],
-    }).compileComponents();
+    imports: [RouterTestingModule, GenericLinkComponent],
+}).compileComponents();
   });
 
   beforeEach(() => {

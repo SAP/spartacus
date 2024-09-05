@@ -10,11 +10,24 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OrderAmendService } from '../../amend-order.service';
+import { AmendOrderActionsComponent } from '../../amend-order-actions/amend-order-actions.component';
+import { FormErrorsModule } from '@spartacus/storefront';
+import { CancelOrReturnItemsComponent } from '../../amend-order-items/amend-order-items.component';
+import { NgIf, NgTemplateOutlet, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-return-order',
-  templateUrl: './return-order.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-return-order',
+    templateUrl: './return-order.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgTemplateOutlet,
+        CancelOrReturnItemsComponent,
+        FormErrorsModule,
+        AmendOrderActionsComponent,
+        AsyncPipe,
+    ],
 })
 export class ReturnOrderComponent {
   orderCode: string;

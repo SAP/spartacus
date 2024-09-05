@@ -43,46 +43,44 @@ const myAccountV2PasswordMapping: CmsConfig = {
 };
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SpinnerModule,
-    I18nModule,
-    FormErrorsModule,
-    UrlModule,
-    RouterModule,
-    PasswordVisibilityToggleModule,
-    FeaturesConfigModule,
-    MessageComponentModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        UpdatePasswordComponent: {
-          component: UpdatePasswordComponent,
-          guards: [AuthGuard],
-          providers: [
-            {
-              provide: UpdatePasswordComponentService,
-              useClass: UpdatePasswordComponentService,
-              deps: [
-                UserPasswordFacade,
-                RoutingService,
-                GlobalMessageService,
-                AuthRedirectService,
-                AuthService,
-              ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SpinnerModule,
+        I18nModule,
+        FormErrorsModule,
+        UrlModule,
+        RouterModule,
+        PasswordVisibilityToggleModule,
+        FeaturesConfigModule,
+        MessageComponentModule,
+        UpdatePasswordComponent, MyAccountV2PasswordComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                UpdatePasswordComponent: {
+                    component: UpdatePasswordComponent,
+                    guards: [AuthGuard],
+                    providers: [
+                        {
+                            provide: UpdatePasswordComponentService,
+                            useClass: UpdatePasswordComponentService,
+                            deps: [
+                                UserPasswordFacade,
+                                RoutingService,
+                                GlobalMessageService,
+                                AuthRedirectService,
+                                AuthService,
+                            ],
+                        },
+                    ],
+                },
             },
-          ],
-        },
-      },
-    }),
-    provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_PASSWORD) ? myAccountV2PasswordMapping : {}
-    ),
-  ],
-  declarations: [UpdatePasswordComponent, MyAccountV2PasswordComponent],
-  exports: [UpdatePasswordComponent, MyAccountV2PasswordComponent],
+        }),
+        provideDefaultConfigFactory(() => inject(USE_MY_ACCOUNT_V2_PASSWORD) ? myAccountV2PasswordMapping : {}),
+    ],
+    exports: [UpdatePasswordComponent, MyAccountV2PasswordComponent],
 })
 export class UpdatePasswordModule {}

@@ -12,14 +12,14 @@ import { AsmCustomer360PromotionListingModule } from '../../asm-customer-360-pro
 import { IconModule, SearchBoxModule } from '@spartacus/storefront';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AsmCustomer360PromotionListingModule,
-    I18nModule,
-    IconModule,
-    SearchBoxModule,
-  ],
-  declarations: [AsmCustomer360CustomerCouponComponent],
-  exports: [AsmCustomer360CustomerCouponComponent],
+    imports: [
+        CommonModule,
+        AsmCustomer360PromotionListingModule,
+        I18nModule,
+        IconModule,
+        SearchBoxModule,
+        AsmCustomer360CustomerCouponComponent,
+    ],
+    exports: [AsmCustomer360CustomerCouponComponent],
 })
 export class AsmCustomer360CustomerCouponComponentModule {}

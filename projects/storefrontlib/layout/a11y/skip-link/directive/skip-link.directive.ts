@@ -8,7 +8,8 @@ import { Directive, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { SkipLinkService } from '../service/skip-link.service';
 
 @Directive({
-  selector: '[cxSkipLink]',
+    selector: '[cxSkipLink]',
+    standalone: true,
 })
 export class SkipLinkDirective implements OnInit, OnDestroy {
   @Input() cxSkipLink: string;

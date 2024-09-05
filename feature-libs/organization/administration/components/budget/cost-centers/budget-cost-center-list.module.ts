@@ -10,7 +10,6 @@ import { SubListModule } from '../../shared/sub-list/sub-list.module';
 import { BudgetCostCenterListComponent } from './budget-cost-center-list.component';
 
 @NgModule({
-  imports: [CommonModule, SubListModule],
-  declarations: [BudgetCostCenterListComponent],
+    imports: [CommonModule, SubListModule, BudgetCostCenterListComponent],
 })
 export class BudgetCostCenterListModule {}

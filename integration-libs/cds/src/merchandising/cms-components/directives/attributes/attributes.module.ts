@@ -9,8 +9,7 @@ import { NgModule } from '@angular/core';
 import { AttributesDirective } from './attributes.directive';
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [AttributesDirective],
-  exports: [AttributesDirective],
+    imports: [CommonModule, AttributesDirective],
+    exports: [AttributesDirective],
 })
 export class AttributesModule {}

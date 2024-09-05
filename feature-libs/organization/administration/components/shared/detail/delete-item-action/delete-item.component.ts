@@ -13,14 +13,22 @@ import { ConfirmationMessageComponent } from '../../message/confirmation/confirm
 import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';
 import { MessageService } from '../../message/services/message.service';
 import { BaseItem } from '../../organization.model';
+import { I18nModule } from '@spartacus/core';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 /**
  * Reusable component in the my-company is to delete an item (if it's possible)
  */
 @Component({
-  selector: 'cx-org-delete-item',
-  templateUrl: './delete-item.component.html',
-  host: { class: 'content-wrapper' },
+    selector: 'cx-org-delete-item',
+    templateUrl: './delete-item.component.html',
+    host: { class: 'content-wrapper' },
+    standalone: true,
+    imports: [
+        NgIf,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
   /**

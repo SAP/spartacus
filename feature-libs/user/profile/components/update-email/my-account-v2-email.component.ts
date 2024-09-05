@@ -11,18 +11,33 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { GlobalMessageType, User } from '@spartacus/core';
+import { GlobalMessageType, User, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { filter } from 'rxjs/operators';
 import { UpdateEmailComponentService } from './update-email-component.service';
+import { SpinnerModule, MessageComponentModule, FormErrorsModule, PasswordVisibilityToggleModule } from '@spartacus/storefront';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-my-account-v2-email',
-  templateUrl: './my-account-v2-email.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-my-account-v2-email',
+    templateUrl: './my-account-v2-email.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        SpinnerModule,
+        MessageComponentModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FeaturesConfigModule,
+        FormErrorsModule,
+        PasswordVisibilityToggleModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class MyAccountV2EmailComponent implements OnInit {
   protected emailComponentService = inject(UpdateEmailComponentService);

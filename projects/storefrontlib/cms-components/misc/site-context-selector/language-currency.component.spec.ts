@@ -21,8 +21,9 @@ import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
 })
 class MockCxIconComponent {
   @Input() type;
@@ -86,33 +87,30 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
-      declarations: [
-        LanguageCurrencyComponent,
+    imports: [BrowserAnimationsModule, LanguageCurrencyComponent,
         SiteContextSelectorComponent,
-        MockCxIconComponent,
-      ],
-      providers: [
+        MockCxIconComponent],
+    providers: [
         { provide: CmsService, useValue: MockCmsService },
         {
-          provide: LanguageService,
-          useValue: MockLanguageService,
+            provide: LanguageService,
+            useValue: MockLanguageService,
         },
         {
-          provide: CurrencyService,
-          useValue: MockCurrencyService,
+            provide: CurrencyService,
+            useValue: MockCurrencyService,
         },
         {
-          provide: CmsComponentData,
-          useValue: MockCmsComponentData,
+            provide: CmsComponentData,
+            useValue: MockCmsComponentData,
         },
         {
-          provide: TranslationService,
-          useClass: MockTranslationService,
+            provide: TranslationService,
+            useClass: MockTranslationService,
         },
         contextServiceMapProvider,
-      ],
-    })
+    ],
+})
       .overrideComponent(SiteContextSelectorComponent, {
         set: {
           providers: [

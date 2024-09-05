@@ -148,16 +148,20 @@ const mockTicketList2: TicketList = {
 };
 
 @Component({
-  template: '',
-  selector: 'cx-pagination',
+    template: '',
+    selector: 'cx-pagination',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule],
 })
 class MockPaginationComponent {
   @Input() pagination: any;
   @Output() viewPageEvent = new EventEmitter<string>();
 }
 @Component({
-  template: '',
-  selector: 'cx-sorting',
+    template: '',
+    selector: 'cx-sorting',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule],
 })
 class MockSortingComponent {
   @Input() sortOptions: any;
@@ -168,7 +172,8 @@ class MockSortingComponent {
 }
 
 @Pipe({
-  name: 'cxUrl',
+    name: 'cxUrl',
+    standalone: true,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -196,7 +201,9 @@ class MockCustomerTicketingFacade {
   clearTicketList() {}
 }
 @Component({
-  selector: 'cx-customer-ticketing-create',
+    selector: 'cx-customer-ticketing-create',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule],
 })
 class MockCustomerTicketingCreateComponent {}
 
@@ -208,23 +215,20 @@ describe('CustomerTicketingListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [
-        CustomerTicketingListComponent,
-        MockPaginationComponent,
+    imports: [RouterTestingModule, I18nTestingModule, MockPaginationComponent,
         MockSortingComponent,
         MockUrlPipe,
-        MockCustomerTicketingCreateComponent,
-      ],
-      providers: [
+        MockCustomerTicketingCreateComponent],
+    declarations: [CustomerTicketingListComponent],
+    providers: [
         {
-          provide: CustomerTicketingFacade,
-          useClass: MockCustomerTicketingFacade,
+            provide: CustomerTicketingFacade,
+            useClass: MockCustomerTicketingFacade,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: TranslationService, useClass: MockTranslationService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     const translationService = TestBed.inject(TranslationService);
     spyOn(translationService, 'translate').and.callFake((input) => {

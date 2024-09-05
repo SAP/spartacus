@@ -13,8 +13,9 @@ import {
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 
 @Component({
-  selector: 'cx-order-consigned-entries',
-  templateUrl: './order-consigned-entries.component.html',
+    selector: 'cx-order-consigned-entries',
+    templateUrl: './order-consigned-entries.component.html',
+    standalone: true,
 })
 export class OrderConsignedEntriesComponent {
   @Input() consignments: Consignment[];

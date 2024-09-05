@@ -12,22 +12,22 @@ import { ConfiguratorOverviewBundleAttributeModule } from '../overview-bundle-at
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ConfiguratorOverviewAttributeModule,
-    ConfiguratorOverviewBundleAttributeModule,
-    I18nModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ConfiguratorOverviewForm: {
-          component: ConfiguratorOverviewFormComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ConfiguratorOverviewFormComponent],
-  exports: [ConfiguratorOverviewFormComponent],
+    imports: [
+        CommonModule,
+        ConfiguratorOverviewAttributeModule,
+        ConfiguratorOverviewBundleAttributeModule,
+        I18nModule,
+        ConfiguratorOverviewFormComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ConfiguratorOverviewForm: {
+                    component: ConfiguratorOverviewFormComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ConfiguratorOverviewFormComponent],
 })
 export class ConfiguratorOverviewFormModule {}

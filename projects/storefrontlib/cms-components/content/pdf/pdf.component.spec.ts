@@ -9,7 +9,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { PDFComponent } from './pdf.component';
 
 @Pipe({
-  name: 'cxTranslate',
+    name: 'cxTranslate',
+    standalone: true,
 })
 class MockTranslatePipe implements PipeTransform {
   transform(value: string): any {
@@ -29,8 +30,9 @@ class MockMediaService {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
 })
 class MockCxIconComponent {
   @Input() type: any;
@@ -65,15 +67,15 @@ describe('PdfComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PDFComponent, MockTranslatePipe, MockCxIconComponent],
-      providers: [
+    imports: [PDFComponent, MockTranslatePipe, MockCxIconComponent,],
+    providers: [
         {
-          provide: CmsComponentData,
-          useClass: MockCmsPDFDocumentComponentData,
+            provide: CmsComponentData,
+            useClass: MockCmsPDFDocumentComponentData,
         },
         { provide: MediaService, useClass: MockMediaService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

@@ -143,16 +143,20 @@ export class MockIconFontLoaderService {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule,],
 })
 class MockCxIconComponent {
   @Input() type: any;
 }
 
 @Component({
-  template: '',
-  selector: 'cx-media',
+    template: '',
+    selector: 'cx-media',
+    standalone: true,
+    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule,],
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -322,40 +326,37 @@ function setDataForQuoteEntry() {
 describe('ConfigProductTitleComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [
-        ConfiguratorProductTitleComponent,
-        MockCxIconComponent,
-        MockMediaComponent,
-      ],
-      providers: [
+    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule, MockCxIconComponent,
+        MockMediaComponent],
+    declarations: [ConfiguratorProductTitleComponent],
+    providers: [
         {
-          provide: Router,
-          useClass: MockRouter,
+            provide: Router,
+            useClass: MockRouter,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfiguratorRouterExtractorService,
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfiguratorRouterExtractorService,
         },
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
         },
         {
-          provide: ProductService,
-          useClass: MockProductService,
+            provide: ProductService,
+            useClass: MockProductService,
         },
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
-          provide: ConfiguratorExpertModeService,
-          useClass: MockConfiguratorExpertModeService,
+            provide: ConfiguratorExpertModeService,
+            useClass: MockConfiguratorExpertModeService,
         },
-      ],
-    });
+    ],
+});
   }));
 
   beforeEach(() => {

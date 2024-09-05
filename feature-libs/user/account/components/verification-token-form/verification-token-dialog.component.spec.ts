@@ -7,7 +7,8 @@ import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-fe
 import { VerificationTokenDialogComponent } from './verification-token-dialog.component';
 
 @Pipe({
-  name: 'cxTranslate',
+    name: 'cxTranslate',
+    standalone: true,
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
@@ -25,16 +26,14 @@ describe('VerificationTokenDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        VerificationTokenDialogComponent,
+    imports: [VerificationTokenDialogComponent,
         MockTranslatePipe,
         FocusDirective,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective,],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

@@ -12,20 +12,18 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { Product, ProductService, TranslationService } from '@spartacus/core';
+import { Product, ProductService, TranslationService, I18nModule } from '@spartacus/core';
 import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
-import {
-  FocusConfig,
-  ICON_TYPE,
-  KeyboardFocusService,
-} from '@spartacus/storefront';
+import { FocusConfig, ICON_TYPE, KeyboardFocusService, MediaModule, KeyboardFocusModule, IconModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
-import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorPriceComponentOptions, ConfiguratorPriceComponent } from '../../price/configurator-price.component';
+import { ConfiguratorAttributeQuantityComponentOptions, ConfiguratorAttributeQuantityComponent } from '../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
+import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 
 export interface ConfiguratorAttributeProductCardComponentOptions {
   /** If set to `true`, all action buttons will be disabled.  */
@@ -52,9 +50,22 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
 }
 
 @Component({
-  selector: 'cx-configurator-attribute-product-card',
-  templateUrl: './configurator-attribute-product-card.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-configurator-attribute-product-card',
+    templateUrl: './configurator-attribute-product-card.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgClass,
+        MediaModule,
+        ConfiguratorShowMoreComponent,
+        ConfiguratorAttributeQuantityComponent,
+        ConfiguratorPriceComponent,
+        KeyboardFocusModule,
+        IconModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ConfiguratorAttributeProductCardComponent
   extends ConfiguratorAttributeBaseComponent

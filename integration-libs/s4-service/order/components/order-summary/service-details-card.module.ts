@@ -12,14 +12,13 @@ import { ServiceDetailsCardComponent } from './service-details-card.component';
 import { OrderOutlets } from '@spartacus/order/root';
 
 @NgModule({
-  imports: [CardModule, CommonModule, I18nModule],
-  providers: [
-    provideOutlet({
-      id: OrderOutlets.SERVICE_DETAILS,
-      component: ServiceDetailsCardComponent,
-    }),
-  ],
-  exports: [ServiceDetailsCardComponent],
-  declarations: [ServiceDetailsCardComponent],
+    imports: [CardModule, CommonModule, I18nModule, ServiceDetailsCardComponent],
+    providers: [
+        provideOutlet({
+            id: OrderOutlets.SERVICE_DETAILS,
+            component: ServiceDetailsCardComponent,
+        }),
+    ],
+    exports: [ServiceDetailsCardComponent],
 })
 export class ServiceDetailsCardModule {}

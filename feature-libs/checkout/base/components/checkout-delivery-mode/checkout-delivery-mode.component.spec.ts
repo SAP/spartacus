@@ -33,8 +33,10 @@ import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.componen
 import createSpy = jasmine.createSpy;
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
+    selector: 'cx-spinner',
+    template: '',
+    standalone: true,
+    imports: [ReactiveFormsModule, I18nTestingModule, OutletModule,],
 })
 class MockSpinnerComponent {}
 
@@ -132,28 +134,25 @@ describe('CheckoutDeliveryModeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
-      declarations: [
-        CheckoutDeliveryModeComponent,
-        MockSpinnerComponent,
-        MockFeatureDirective,
-      ],
-      providers: [
+    imports: [ReactiveFormsModule, I18nTestingModule, OutletModule, MockSpinnerComponent,
+        MockFeatureDirective],
+    declarations: [CheckoutDeliveryModeComponent],
+    providers: [
         {
-          provide: CheckoutDeliveryModesFacade,
-          useClass: MockCheckoutDeliveryModeService,
+            provide: CheckoutDeliveryModesFacade,
+            useClass: MockCheckoutDeliveryModeService,
         },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         {
-          provide: CheckoutConfigService,
-          useClass: MockCheckoutConfigService,
+            provide: CheckoutConfigService,
+            useClass: MockCheckoutConfigService,
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: ActiveCartFacade, useClass: MockCartService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);

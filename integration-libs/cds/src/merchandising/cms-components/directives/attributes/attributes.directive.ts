@@ -13,7 +13,8 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[cxAttributes]',
+    selector: '[cxAttributes]',
+    standalone: true,
 })
 export class AttributesDirective implements OnChanges {
   @Input() cxAttributes: { [attribute: string]: any };

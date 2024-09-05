@@ -12,22 +12,22 @@ import { ConfiguratorOverviewMenuModule } from '../overview-menu/configurator-ov
 import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-sidebar.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    ConfiguratorOverviewFilterModule,
-    ConfiguratorOverviewMenuModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ConfiguratorOverviewSidebar: {
-          component: ConfiguratorOverviewSidebarComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ConfiguratorOverviewSidebarComponent],
-  exports: [ConfiguratorOverviewSidebarComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        ConfiguratorOverviewFilterModule,
+        ConfiguratorOverviewMenuModule,
+        ConfiguratorOverviewSidebarComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ConfiguratorOverviewSidebar: {
+                    component: ConfiguratorOverviewSidebarComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ConfiguratorOverviewSidebarComponent],
 })
 export class ConfiguratorOverviewSidebarModule {}

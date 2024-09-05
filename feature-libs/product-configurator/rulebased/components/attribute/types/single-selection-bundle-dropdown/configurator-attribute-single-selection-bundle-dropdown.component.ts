@@ -5,21 +5,37 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { TranslationService, useFeatureStyles } from '@spartacus/core';
+import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
+import { TranslationService, useFeatureStyles, I18nModule } from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeProductCardComponentOptions, ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
+import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
+import { KeyboardFocusModule } from '@spartacus/storefront';
+import { NgIf, NgClass, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-configurator-attribute-single-selection-bundle-dropdown',
-  templateUrl:
-    './configurator-attribute-single-selection-bundle-dropdown.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-configurator-attribute-single-selection-bundle-dropdown',
+    templateUrl: './configurator-attribute-single-selection-bundle-dropdown.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        ReactiveFormsModule,
+        NgClass,
+        KeyboardFocusModule,
+        NgFor,
+        ConfiguratorAttributeProductCardComponent,
+        ConfiguratorAttributeQuantityComponent,
+        ConfiguratorPriceComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent

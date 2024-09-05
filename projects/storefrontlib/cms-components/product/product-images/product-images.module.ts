@@ -14,23 +14,23 @@ import { MediaModule } from '../../../shared/components/media/media.module';
 import { ProductImagesComponent } from './product-images.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    MediaModule,
-    OutletModule,
-    CarouselModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ProductImagesComponent: {
-          component: ProductImagesComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ProductImagesComponent],
-  exports: [ProductImagesComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        MediaModule,
+        OutletModule,
+        CarouselModule,
+        ProductImagesComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ProductImagesComponent: {
+                    component: ProductImagesComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ProductImagesComponent],
 })
 export class ProductImagesModule {}

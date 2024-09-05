@@ -10,13 +10,9 @@ import {
   HostBinding,
   inject,
 } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
-import { RoutingService, WindowRef } from '@spartacus/core';
-import { CustomFormValidators } from '@spartacus/storefront';
+import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RoutingService, WindowRef, FeaturesConfigModule, UrlModule, I18nModule } from '@spartacus/core';
+import { CustomFormValidators, SpinnerModule, FormErrorsModule, PasswordVisibilityToggleModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 import {
@@ -25,11 +21,28 @@ import {
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgTemplateOutlet, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-otp-login-form',
-  templateUrl: './otp-login-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-otp-login-form',
+    templateUrl: './otp-login-form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        SpinnerModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FeaturesConfigModule,
+        NgTemplateOutlet,
+        FormErrorsModule,
+        PasswordVisibilityToggleModule,
+        RouterLink,
+        AsyncPipe,
+        UrlModule,
+        I18nModule,
+    ],
 })
 export class OneTimePasswordLoginFormComponent {
   protected routingService = inject(RoutingService);

@@ -106,16 +106,20 @@ const mockOrderInvoiceList: OrderInvoiceList = {
 };
 
 @Component({
-  template: '',
-  selector: 'cx-pagination',
+    template: '',
+    selector: 'cx-pagination',
+    standalone: true,
+    imports: [I18nTestingModule, IconTestingModule],
 })
 class MockPaginationComponent {
   @Input() pagination: any;
   @Output() viewPageEvent = new EventEmitter<string>();
 }
 @Component({
-  template: '',
-  selector: 'cx-sorting',
+    template: '',
+    selector: 'cx-sorting',
+    standalone: true,
+    imports: [I18nTestingModule, IconTestingModule],
 })
 class MockSortingComponent {
   @Input() sortOptions: any;
@@ -191,20 +195,17 @@ describe('InvoicesListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconTestingModule],
-      declarations: [
-        InvoicesListComponent,
-        MockPaginationComponent,
-        MockSortingComponent,
-      ],
-      providers: [
+    imports: [I18nTestingModule, IconTestingModule, MockPaginationComponent,
+        MockSortingComponent],
+    declarations: [InvoicesListComponent],
+    providers: [
         { provide: PDFInvoicesFacade, useClass: MockPDFInvoicesFacade },
         { provide: FileDownloadService, useClass: MockFileDownloadService },
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     pdfInvoicesFacade = TestBed.inject(PDFInvoicesFacade);
     translationService = TestBed.inject(TranslationService);
     downloadService = TestBed.inject(FileDownloadService);

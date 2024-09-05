@@ -6,10 +6,9 @@ describe('CdcOrgUnitService', () => {
   let service: CdcOrgUnitService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
-      declarations: [],
-      providers: [],
-    });
+    imports: [StoreModule.forRoot({})],
+    providers: [],
+});
     service = TestBed.inject(CdcOrgUnitService);
     TestBed.compileComponents();
   });

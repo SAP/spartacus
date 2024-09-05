@@ -40,8 +40,9 @@ class InnerAComponent {}
 class InnerBComponent {}
 
 @Component({
-  selector: 'cx-host',
-  template: `<div [cxInnerComponentsHost]></div>`,
+    selector: 'cx-host',
+    template: `<div [cxInnerComponentsHost]></div>`,
+    standalone: true,
 })
 class HostComponent {}
 
@@ -105,39 +106,36 @@ describe('InnerComponentsHostDirective', () => {
 
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [PageComponentModule.forRoot()],
-        declarations: [
-          HostComponent,
-          InnerComponentsHostDirective,
-          ComponentWrapperDirective,
-        ],
-        providers: [
-          Renderer2,
-          { provide: CmsConfig, useValue: MockCmsModuleConfig },
-          { provide: CmsService, useClass: MockCmsService },
-          {
+    imports: [PageComponentModule.forRoot(), HostComponent,
+        InnerComponentsHostDirective,
+        ComponentWrapperDirective],
+    providers: [
+        Renderer2,
+        { provide: CmsConfig, useValue: MockCmsModuleConfig },
+        { provide: CmsService, useClass: MockCmsService },
+        {
             provide: DynamicAttributeService,
             useClass: MockDynamicAttributeService,
-          },
-          {
+        },
+        {
             provide: ComponentHandler,
             useExisting: WebComponentHandler,
             multi: true,
-          },
-          {
+        },
+        {
             provide: CxApiService,
             useValue: { cms: {}, auth: {}, routing: {} },
-          },
-          {
+        },
+        {
             provide: ConfigInitializerService,
             useClass: MockConfigInitializerService,
-          },
-          {
+        },
+        {
             provide: CmsComponentData,
             useValue: MockCmsComponentData,
-          },
-        ],
-      }).compileComponents();
+        },
+    ],
+}).compileComponents();
       fixture = TestBed.createComponent(HostComponent);
     }));
 

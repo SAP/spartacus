@@ -106,22 +106,23 @@ describe('CartQuickOrderFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         StoreModule.forRoot({}),
         FormErrorsModule,
         I18nTestingModule,
         ReactiveFormsModule,
-      ],
-      declarations: [CartQuickOrderFormComponent, MockFeatureDirective],
-      providers: [
+        MockFeatureDirective,
+    ],
+    declarations: [CartQuickOrderFormComponent],
+    providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
-          provide: EventService,
-          useClass: MockEventService,
+            provide: EventService,
+            useClass: MockEventService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(CartQuickOrderFormComponent);
     component = fixture.componentInstance;

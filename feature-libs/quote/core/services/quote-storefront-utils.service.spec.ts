@@ -4,14 +4,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuoteStorefrontUtilsService } from './quote-storefront-utils.service';
 
 @Component({
-  selector: 'cx-quote',
-  template: `
+    selector: 'cx-quote',
+    template: `
     <cx-quote-list>
       <label id="ATTR_1--value_1">value_1</label>
       <label id="ATTR_1--value_2">value_2</label>
       <label id="ATTR_1--value_3">value_3</label>
     </cx-quote-list>
   `,
+    standalone: true,
 })
 class MockQuoteComponent {}
 
@@ -24,9 +25,9 @@ describe('QuoteStorefrontUtilsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MockQuoteComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+    imports: [MockQuoteComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+}).compileComponents();
 
     classUnderTest = TestBed.inject(QuoteStorefrontUtilsService);
     fixture = TestBed.createComponent(MockQuoteComponent);

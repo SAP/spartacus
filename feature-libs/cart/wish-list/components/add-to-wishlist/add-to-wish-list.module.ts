@@ -18,25 +18,25 @@ import { AtMessageModule, IconModule } from '@spartacus/storefront';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    IconModule,
-    RouterModule,
-    UrlModule,
-    AtMessageModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        AddToWishListComponent: {
-          component: AddToWishListComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [AddToWishListComponent],
-  exports: [AddToWishListComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        IconModule,
+        RouterModule,
+        UrlModule,
+        AtMessageModule,
+        FeaturesConfigModule,
+        AddToWishListComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                AddToWishListComponent: {
+                    component: AddToWishListComponent,
+                },
+            },
+        }),
+    ],
+    exports: [AddToWishListComponent],
 })
 export class AddToWishListModule {}

@@ -12,8 +12,7 @@ import { MessageModule } from '../../message/message.module';
 import { ToggleStatusComponent } from './toggle-status.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, MessageModule, ConfirmationMessageModule],
-  declarations: [ToggleStatusComponent],
-  exports: [ToggleStatusComponent],
+    imports: [CommonModule, I18nModule, MessageModule, ConfirmationMessageModule, ToggleStatusComponent],
+    exports: [ToggleStatusComponent],
 })
 export class ToggleStatusModule {}

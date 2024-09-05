@@ -17,18 +17,18 @@ import { KeyboardFocusModule } from '../a11y/keyboard-focus/keyboard-focus.modul
 import { SkipLinkModule } from '../a11y/skip-link/skip-link.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    GlobalMessageComponentModule,
-    OutletModule,
-    OutletRefModule,
-    PageLayoutModule,
-    PageSlotModule,
-    KeyboardFocusModule,
-    SkipLinkModule,
-  ],
-  declarations: [StorefrontComponent],
-  exports: [StorefrontComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        GlobalMessageComponentModule,
+        OutletModule,
+        OutletRefModule,
+        PageLayoutModule,
+        PageSlotModule,
+        KeyboardFocusModule,
+        SkipLinkModule,
+        StorefrontComponent,
+    ],
+    exports: [StorefrontComponent],
 })
 export class StorefrontComponentModule {}

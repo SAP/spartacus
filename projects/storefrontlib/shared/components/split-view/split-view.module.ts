@@ -40,8 +40,7 @@ import { ViewComponent } from './view/view.component';
  */
 
 @NgModule({
-  declarations: [SplitViewComponent, ViewComponent],
-  imports: [CommonModule, RouterModule],
-  exports: [SplitViewComponent, ViewComponent],
+    imports: [CommonModule, RouterModule, SplitViewComponent, ViewComponent],
+    exports: [SplitViewComponent, ViewComponent],
 })
 export class SplitViewModule {}

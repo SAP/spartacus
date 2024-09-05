@@ -12,8 +12,10 @@ import { of } from 'rxjs';
 import { MyAccountV2NotificationPreferenceComponent } from './my-account-v2-notification-preference.component';
 
 @Component({
-  selector: 'cx-spinner',
-  template: ` <div>spinner</div> `,
+    selector: 'cx-spinner',
+    template: ` <div>spinner</div> `,
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCxSpinnerComponent {}
 
@@ -51,19 +53,16 @@ describe('MyAccountV2NotificationPreferenceComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        MyAccountV2NotificationPreferenceComponent,
+    imports: [I18nTestingModule, MyAccountV2NotificationPreferenceComponent,
         MockCxSpinnerComponent,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective],
+    providers: [
         {
-          provide: UserNotificationPreferenceService,
-          useValue: notificationPreferenceService,
+            provide: UserNotificationPreferenceService,
+            useValue: notificationPreferenceService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

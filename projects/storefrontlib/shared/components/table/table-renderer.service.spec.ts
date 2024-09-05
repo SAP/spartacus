@@ -15,11 +15,20 @@ class MockOutletService {
 class MockGlobalDataComponent {}
 @Component({ template: '' })
 class MockGlobalHeaderComponent {}
-@Component({ template: '' })
+@Component({
+    template: '',
+    standalone: true
+})
 class MockDataComponent {}
-@Component({ template: '' })
+@Component({
+    template: '',
+    standalone: true
+})
 class MockHeaderComponent {}
-@Component({ template: '' })
+@Component({
+    template: '',
+    standalone: true
+})
 class MockCodeRendererComponent {}
 
 const mockOptions: TableOptions = {
@@ -66,29 +75,27 @@ describe('TableRendererService', () => {
   describe('with global configured cell components', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          MockDataComponent,
-          MockHeaderComponent,
-          MockCodeRendererComponent,
-        ],
-        providers: [
-          TableService,
-          { provide: OutletService, useClass: MockOutletService },
-          {
+    imports: [MockDataComponent,
+        MockHeaderComponent,
+        MockCodeRendererComponent,],
+    providers: [
+        TableService,
+        { provide: OutletService, useClass: MockOutletService },
+        {
             provide: ComponentFactoryResolver,
             useClass: MockComponentFactoryResolver,
-          },
-          {
+        },
+        {
             provide: TableConfig,
             useValue: {
-              tableOptions: {
-                headerComponent: MockGlobalHeaderComponent,
-                dataComponent: MockGlobalDataComponent,
-              },
+                tableOptions: {
+                    headerComponent: MockGlobalHeaderComponent,
+                    dataComponent: MockGlobalDataComponent,
+                },
             } as TableConfig,
-          },
-        ],
-      });
+        },
+    ],
+});
       service = TestBed.inject(TableRendererService);
       componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
     });
@@ -112,21 +119,19 @@ describe('TableRendererService', () => {
   describe('without global configured cell components', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          MockDataComponent,
-          MockHeaderComponent,
-          MockCodeRendererComponent,
-        ],
-        providers: [
-          TableService,
-          { provide: OutletService, useClass: MockOutletService },
-          {
+    imports: [MockDataComponent,
+        MockHeaderComponent,
+        MockCodeRendererComponent,],
+    providers: [
+        TableService,
+        { provide: OutletService, useClass: MockOutletService },
+        {
             provide: ComponentFactoryResolver,
             useClass: MockComponentFactoryResolver,
-          },
-          { provide: TableConfig, useValue: {} },
-        ],
-      });
+        },
+        { provide: TableConfig, useValue: {} },
+    ],
+});
       service = TestBed.inject(TableRendererService);
       componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
     });

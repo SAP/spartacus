@@ -5,8 +5,8 @@
  */
 
 import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
-import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
+import { RoutingService, UrlModule } from '@spartacus/core';
+import { CmsComponentData, IntersectionService, CarouselModule, MediaModule } from '@spartacus/storefront';
 import { EMPTY, Observable, using } from 'rxjs';
 import {
   distinctUntilKeyChanged,
@@ -21,11 +21,24 @@ import { CmsMerchandisingCarouselComponent as model } from '../../../cds-models/
 import { MerchandisingProduct } from '../../model/index';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
+import { RouterLink } from '@angular/router';
+import { AttributesDirective } from '../directives/attributes/attributes.directive';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-merchandising-carousel',
-  templateUrl: './merchandising-carousel.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-merchandising-carousel',
+    templateUrl: './merchandising-carousel.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        AttributesDirective,
+        CarouselModule,
+        RouterLink,
+        MediaModule,
+        AsyncPipe,
+        UrlModule,
+    ],
 })
 export class MerchandisingCarouselComponent {
   protected lastEventModelId: string;

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { getLocaleId } from '@angular/common';
+import { getLocaleId, NgIf, NgClass, AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,10 +13,10 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { LoggerService, TranslationService } from '@spartacus/core';
+import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
+import { LoggerService, TranslationService, I18nModule } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, KeyboardFocusModule, IconModule } from '@spartacus/storefront';
 import { timer } from 'rxjs';
 import { debounce, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -36,9 +36,19 @@ class DefaultSettings {
 }
 
 @Component({
-  selector: 'cx-configurator-attribute-numeric-input-field',
-  templateUrl: './configurator-attribute-numeric-input-field.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-configurator-attribute-numeric-input-field',
+    templateUrl: './configurator-attribute-numeric-input-field.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        ReactiveFormsModule,
+        NgClass,
+        KeyboardFocusModule,
+        IconModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ConfiguratorAttributeNumericInputFieldComponent
   extends ConfiguratorAttributeInputFieldComponent

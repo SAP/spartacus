@@ -18,22 +18,28 @@ import { MockFeatureDirective } from '../../test/mock-feature-directive';
 import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
 
 @Component({
-  selector: 'cx-spinner',
-  template: ` <div>spinner</div> `,
+    selector: 'cx-spinner',
+    template: ` <div>spinner</div> `,
+    standalone: true,
+    imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockCxSpinnerComponent {}
 
 @Component({
-  selector: 'cx-icon',
-  template: ``,
+    selector: 'cx-icon',
+    template: ``,
+    standalone: true,
+    imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: string;
 }
 
 @Component({
-  selector: 'cx-consent-management-form',
-  template: ``,
+    selector: 'cx-consent-management-form',
+    template: ``,
+    standalone: true,
+    imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockConsentManagementFormComponent {
   @Input()
@@ -90,34 +96,31 @@ describe('AnonymousConsentsDialogComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, KeyboardFocusTestingModule],
-      declarations: [
-        AnonymousConsentDialogComponent,
+    imports: [I18nTestingModule, KeyboardFocusTestingModule, AnonymousConsentDialogComponent,
         MockCxIconComponent,
         MockConsentManagementFormComponent,
         MockCxSpinnerComponent,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective],
+    providers: [
         {
-          provide: AnonymousConsentsService,
-          useClass: MockAnonymousConsentsService,
+            provide: AnonymousConsentsService,
+            useClass: MockAnonymousConsentsService,
         },
         {
-          provide: AnonymousConsentsConfig,
-          useValue: mockConfig,
+            provide: AnonymousConsentsConfig,
+            useValue: mockConfig,
         },
         {
-          provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
         },
         {
-          provide: GlobalMessageService,
-          useClass: GlobalMessageServiceMock,
+            provide: GlobalMessageService,
+            useClass: GlobalMessageServiceMock,
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+}).compileComponents();
   }));
 
   beforeEach(() => {

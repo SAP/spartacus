@@ -19,7 +19,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { Facet, FeatureConfigService } from '@spartacus/core';
+import { Facet, FeatureConfigService, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -30,11 +30,25 @@ import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetGroupCollapsedState, FacetList } from '../facet.model';
 import { FacetComponent } from '../facet/facet.component';
 import { FacetService } from '../services/facet.service';
+import { IconComponent } from '../../../../misc/icon/icon.component';
+import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-facet-list',
-  templateUrl: './facet-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-facet-list',
+    templateUrl: './facet-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        FocusDirective,
+        IconComponent,
+        NgFor,
+        FacetComponent,
+        FeaturesConfigModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class FacetListComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();

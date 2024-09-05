@@ -33,17 +33,18 @@ describe('RolesCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UserDetailsCellComponent, PopoverDirective],
-      providers: [
+    imports: [PopoverDirective],
+    declarations: [UserDetailsCellComponent],
+    providers: [
         {
-          provide: OutletContextData,
-          useValue: {
-            context: mockB2BUser,
-          },
+            provide: OutletContextData,
+            useValue: {
+                context: mockB2BUser,
+            },
         },
         { provide: B2BUserService, useClass: MockB2BUserService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     b2bUserService = TestBed.inject(B2BUserService);
 

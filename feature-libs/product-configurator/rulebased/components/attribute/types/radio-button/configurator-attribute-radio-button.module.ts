@@ -18,30 +18,29 @@ import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attrib
 import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ConfiguratorAttributeQuantityModule,
-    FormsModule,
-    I18nModule,
-    KeyboardFocusModule,
-    ReactiveFormsModule,
-    ConfiguratorPriceModule,
-    ConfiguratorAttributeNumericInputFieldModule,
-    ConfiguratorAttributeInputFieldModule,
-    ConfiguratorShowMoreModule,
-  ],
-  providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-      productConfigurator: {
-        assignment: {
-          AttributeType_radioGroup: ConfiguratorAttributeRadioButtonComponent,
-          AttributeType_radioGroup_add:
-            ConfiguratorAttributeRadioButtonComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ConfiguratorAttributeRadioButtonComponent],
-  exports: [ConfiguratorAttributeRadioButtonComponent],
+    imports: [
+        CommonModule,
+        ConfiguratorAttributeQuantityModule,
+        FormsModule,
+        I18nModule,
+        KeyboardFocusModule,
+        ReactiveFormsModule,
+        ConfiguratorPriceModule,
+        ConfiguratorAttributeNumericInputFieldModule,
+        ConfiguratorAttributeInputFieldModule,
+        ConfiguratorShowMoreModule,
+        ConfiguratorAttributeRadioButtonComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+            productConfigurator: {
+                assignment: {
+                    AttributeType_radioGroup: ConfiguratorAttributeRadioButtonComponent,
+                    AttributeType_radioGroup_add: ConfiguratorAttributeRadioButtonComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ConfiguratorAttributeRadioButtonComponent],
 })
 export class ConfiguratorAttributeRadioButtonModule {}

@@ -37,16 +37,20 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
+    selector: 'cx-spinner',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCxSpinnerComponent {}
 
@@ -59,35 +63,32 @@ describe('CloseAccountModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CloseAccountModalComponent,
-        MockCxSpinnerComponent,
-        MockCxIconComponent,
-      ],
-      providers: [
+    imports: [I18nTestingModule, MockCxSpinnerComponent,
+        MockCxIconComponent],
+    declarations: [CloseAccountModalComponent],
+    providers: [
         {
-          provide: UserProfileFacade,
-          useClass: MockUserProfileFacade,
+            provide: UserProfileFacade,
+            useClass: MockUserProfileFacade,
         },
         {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         {
-          provide: AuthService,
-          useClass: MockAuthService,
+            provide: AuthService,
+            useClass: MockAuthService,
         },
         {
-          provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

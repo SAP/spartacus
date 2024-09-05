@@ -11,8 +11,7 @@ import { ProductVariantStyleIconsComponent } from './product-variant-style-icons
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, I18nModule],
-  declarations: [ProductVariantStyleIconsComponent],
-  exports: [ProductVariantStyleIconsComponent],
+    imports: [CommonModule, RouterModule, UrlModule, I18nModule, ProductVariantStyleIconsComponent],
+    exports: [ProductVariantStyleIconsComponent],
 })
 export class ProductVariantStyleIconsModule {}

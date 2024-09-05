@@ -61,8 +61,10 @@ function initTestComponent() {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -74,18 +76,15 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       initTestData();
       initMocks();
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          ConfiguratorOverviewFilterBarComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          {
+    imports: [I18nTestingModule, ConfiguratorOverviewFilterBarComponent,
+        MockCxIconComponent],
+    providers: [
+        {
             provide: ConfiguratorCommonsService,
             useValue: mockConfigCommonsService,
-          },
-        ],
-      }).compileComponents();
+        },
+    ],
+}).compileComponents();
     }));
 
     it('should create component', () => {

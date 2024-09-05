@@ -11,23 +11,33 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Product, UrlModule } from '@spartacus/core';
 import {
   ProductListItemContext,
   ProductListItemContextSource,
 } from '../../product-list';
+import { InnerComponentsHostDirective } from '../../../../cms-structure/page/component/inner-components-host.directive';
+import { MediaComponent } from '../../../../shared/components/media/media.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'cx-product-carousel-item',
-  templateUrl: './product-carousel-item.component.html',
-  providers: [
-    ProductListItemContextSource,
-    {
-      provide: ProductListItemContext,
-      useExisting: ProductListItemContextSource,
-    },
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-carousel-item',
+    templateUrl: './product-carousel-item.component.html',
+    providers: [
+        ProductListItemContextSource,
+        {
+            provide: ProductListItemContext,
+            useExisting: ProductListItemContextSource,
+        },
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        RouterLink,
+        MediaComponent,
+        InnerComponentsHostDirective,
+        UrlModule,
+    ],
 })
 export class ProductCarouselItemComponent implements OnChanges {
   @Input() item: Product;

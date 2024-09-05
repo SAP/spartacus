@@ -24,28 +24,28 @@ import { CustomerTicketingListComponent } from './customer-ticketing-list.compon
 import { CustomerTicketingCreateModule } from '../customer-ticketing-create/customer-ticketing-create.module';
 
 @NgModule({
-  imports: [
-    CustomerTicketingCreateModule,
-    CommonModule,
-    I18nModule,
-    UrlModule,
-    CardModule,
-    IconModule,
-    ListNavigationModule,
-    RouterModule,
-    SpinnerModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        SupportTicketHistoryComponent: {
-          component: CustomerTicketingListComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [CustomerTicketingListComponent],
-  exports: [CustomerTicketingListComponent],
+    imports: [
+        CustomerTicketingCreateModule,
+        CommonModule,
+        I18nModule,
+        UrlModule,
+        CardModule,
+        IconModule,
+        ListNavigationModule,
+        RouterModule,
+        SpinnerModule,
+        CustomerTicketingListComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                SupportTicketHistoryComponent: {
+                    component: CustomerTicketingListComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+    ],
+    exports: [CustomerTicketingListComponent],
 })
 export class CustomerTicketingListModule {}

@@ -9,11 +9,25 @@ import { CheckoutStep, CheckoutStepState } from '@spartacus/checkout/base/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
+import { MultiLinePipe } from './multiline-titles.pipe';
+import { UrlModule, I18nModule } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-checkout-progress',
-  templateUrl: './checkout-progress.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-checkout-progress',
+    templateUrl: './checkout-progress.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        RouterLink,
+        AsyncPipe,
+        UrlModule,
+        I18nModule,
+        MultiLinePipe,
+    ],
 })
 export class CheckoutProgressComponent {
   private _steps$: BehaviorSubject<CheckoutStep[]> =

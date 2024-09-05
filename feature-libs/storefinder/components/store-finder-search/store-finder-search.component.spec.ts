@@ -29,15 +29,18 @@ const mockActivatedRoute = {
 };
 
 @Pipe({
-  name: 'cxUrl',
+    name: 'cxUrl',
+    standalone: true,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule,],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -51,21 +54,18 @@ describe('StoreFinderSearchComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
-      declarations: [
-        StoreFinderSearchComponent,
-        MockUrlPipe,
+    imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule, MockUrlPipe,
         MockCxIconComponent,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective],
+    declarations: [StoreFinderSearchComponent],
+    providers: [
         {
-          provide: RoutingService,
-          useValue: { go: jasmine.createSpy() },
+            provide: RoutingService,
+            useValue: { go: jasmine.createSpy() },
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

@@ -39,40 +39,38 @@ const myAccountV2ProfileMapping: CmsConfig = {
 };
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SpinnerModule,
-    I18nModule,
-    FormErrorsModule,
-    RouterModule,
-    UrlModule,
-    NgSelectModule,
-    NgSelectA11yModule,
-    FeaturesConfigModule,
-  ],
-  declarations: [UpdateProfileComponent, MyAccountV2ProfileComponent],
-  exports: [UpdateProfileComponent, MyAccountV2ProfileComponent],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        UpdateProfileComponent: {
-          component: UpdateProfileComponent,
-          guards: [AuthGuard],
-          providers: [
-            {
-              provide: UpdateProfileComponentService,
-              useClass: UpdateProfileComponentService,
-              deps: [UserProfileFacade, GlobalMessageService],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SpinnerModule,
+        I18nModule,
+        FormErrorsModule,
+        RouterModule,
+        UrlModule,
+        NgSelectModule,
+        NgSelectA11yModule,
+        FeaturesConfigModule,
+        UpdateProfileComponent, MyAccountV2ProfileComponent,
+    ],
+    exports: [UpdateProfileComponent, MyAccountV2ProfileComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                UpdateProfileComponent: {
+                    component: UpdateProfileComponent,
+                    guards: [AuthGuard],
+                    providers: [
+                        {
+                            provide: UpdateProfileComponentService,
+                            useClass: UpdateProfileComponentService,
+                            deps: [UserProfileFacade, GlobalMessageService],
+                        },
+                    ],
+                },
             },
-          ],
-        },
-      },
-    }),
-    provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_PROFILE) ? myAccountV2ProfileMapping : {}
-    ),
-  ],
+        }),
+        provideDefaultConfigFactory(() => inject(USE_MY_ACCOUNT_V2_PROFILE) ? myAccountV2ProfileMapping : {}),
+    ],
 })
 export class UpdateProfileModule {}

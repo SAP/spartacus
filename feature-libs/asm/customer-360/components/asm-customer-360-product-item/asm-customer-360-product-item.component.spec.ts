@@ -14,8 +14,10 @@ import { By } from '@angular/platform-browser';
 import { AsmCustomer360ProductItemComponent } from './asm-customer-360-product-item.component';
 
 @Component({
-  template: '',
-  selector: 'cx-media',
+    template: '',
+    selector: 'cx-media',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -55,14 +57,17 @@ describe('AsmCustomer360ProductItemComponent', () => {
 
   @Pipe({
     name: 'cxTranslate',
-  })
+    standalone: true,
+})
   class MockTranslatePipe implements PipeTransform {
     transform(): any {}
   }
   @Component({
     selector: 'cx-icon',
     template: '',
-  })
+    standalone: true,
+    imports: [I18nTestingModule],
+})
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
   }
@@ -73,14 +78,11 @@ describe('AsmCustomer360ProductItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        AsmCustomer360ProductItemComponent,
+    imports: [I18nTestingModule, AsmCustomer360ProductItemComponent,
         MockTranslatePipe,
         MockCxIconComponent,
-        MockMediaComponent,
-      ],
-    }).compileComponents();
+        MockMediaComponent],
+}).compileComponents();
   });
 
   beforeEach(() => {

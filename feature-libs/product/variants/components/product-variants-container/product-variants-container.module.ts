@@ -14,15 +14,15 @@ import { ProductVariantStyleSelectorModule } from '../variant-style-selector/pro
 import { ProductVariantsContainerComponent } from './product-variants-container.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-    ProductVariantStyleSelectorModule,
-    ProductVariantSizeSelectorModule,
-    ProductVariantColorSelectorModule,
-  ],
-  declarations: [ProductVariantsContainerComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        UrlModule,
+        I18nModule,
+        ProductVariantStyleSelectorModule,
+        ProductVariantSizeSelectorModule,
+        ProductVariantColorSelectorModule,
+        ProductVariantsContainerComponent,
+    ],
 })
 export class ProductVariantsContainerModule {}

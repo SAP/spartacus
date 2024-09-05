@@ -5,15 +5,24 @@
  */
 
 import { Component } from '@angular/core';
-import {
-  FocusConfig,
-  ICON_TYPE,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { FocusConfig, ICON_TYPE, LaunchDialogService, KeyboardFocusModule, IconModule } from '@spartacus/storefront';
+import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configurator-overview-filter.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-configurator-overview-filter-dialog',
-  templateUrl: './configurator-overview-filter-dialog.component.html',
+    selector: 'cx-configurator-overview-filter-dialog',
+    templateUrl: './configurator-overview-filter-dialog.component.html',
+    standalone: true,
+    imports: [
+        KeyboardFocusModule,
+        FeaturesConfigModule,
+        IconModule,
+        NgIf,
+        ConfiguratorOverviewFilterComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ConfiguratorOverviewFilterDialogComponent {
   constructor(protected launchDialogService: LaunchDialogService) {}

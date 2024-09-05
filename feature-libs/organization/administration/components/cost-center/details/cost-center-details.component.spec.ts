@@ -37,7 +37,7 @@ describe('CostCenterDetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         CommonModule,
         RouterTestingModule,
         I18nTestingModule,
@@ -46,10 +46,10 @@ describe('CostCenterDetailsComponent', () => {
         MessageTestingModule,
         ToggleStatusModule,
         DisableInfoModule,
-      ],
-      declarations: [CostCenterDetailsComponent, FocusDirective],
-      providers: [{ provide: ItemService, useClass: MockItemService }],
-    })
+        CostCenterDetailsComponent, FocusDirective,
+    ],
+    providers: [{ provide: ItemService, useClass: MockItemService }],
+})
       .overrideComponent(CostCenterDetailsComponent, {
         set: {
           providers: [

@@ -12,7 +12,8 @@ import { QuoteItemsComponent } from './quote-items.component';
 import { QuoteItemsComponentService } from './quote-items.component.service';
 
 @Directive({
-  selector: '[cxOutlet]',
+    selector: '[cxOutlet]',
+    standalone: true,
 })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
@@ -32,23 +33,23 @@ describe('QuoteItemsComponent', () => {
   beforeEach(waitForAsync(() => {
     initMocks();
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         I18nTestingModule,
         IconTestingModule,
         AbstractOrderContextModule,
-      ],
-      declarations: [QuoteItemsComponent, MockOutletDirective],
-      providers: [
+        QuoteItemsComponent, MockOutletDirective,
+    ],
+    providers: [
         {
-          provide: EventService,
-          useValue: eventService,
+            provide: EventService,
+            useValue: eventService,
         },
         {
-          provide: QuoteItemsComponentService,
-          useValue: quoteItemsComponentService,
+            provide: QuoteItemsComponentService,
+            useValue: quoteItemsComponentService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

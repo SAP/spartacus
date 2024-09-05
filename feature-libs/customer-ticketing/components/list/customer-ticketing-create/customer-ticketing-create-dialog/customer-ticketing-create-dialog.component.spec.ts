@@ -92,15 +92,21 @@ class MockTranslationService {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        FileUploadModule,],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Directive({
-  selector: '[cxFocus]',
+    selector: '[cxFocus]',
+    standalone: true,
 })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
@@ -114,28 +120,26 @@ describe('CustomerTicketingCreateDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         I18nTestingModule,
         ReactiveFormsModule,
         FormErrorsModule,
         FileUploadModule,
-      ],
-      declarations: [
         CustomerTicketingCreateDialogComponent,
         MockCxIconComponent,
         MockKeyboadFocusDirective,
-      ],
-      providers: [
+    ],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: CustomerTicketingFacade,
-          useClass: MockCustomerTicketingFacade,
+            provide: CustomerTicketingFacade,
+            useClass: MockCustomerTicketingFacade,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: TranslationService, useClass: MockTranslationService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
 

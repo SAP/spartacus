@@ -15,8 +15,9 @@ import { Subscription } from 'rxjs';
 import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 
 @Component({
-  selector: 'cx-customer-ticketing-reopen-dialog',
-  templateUrl: './customer-ticketing-reopen-dialog.component.html',
+    selector: 'cx-customer-ticketing-reopen-dialog',
+    templateUrl: './customer-ticketing-reopen-dialog.component.html',
+    standalone: true,
 })
 export class CustomerTicketingReopenDialogComponent
   extends CustomerTicketingDialogComponent

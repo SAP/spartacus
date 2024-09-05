@@ -15,12 +15,21 @@ import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';
 import { VisualPickingProductListComponent } from './product-list/visual-picking-product-list.component';
 import { VisualPickingProductListService } from './product-list/visual-picking-product-list.service';
 import { VisualPickingTabService } from './visual-picking-tab.service';
+import { I18nModule } from '@spartacus/core';
+import { VisualPickingProductFilterComponent } from './product-filter/visual-picking-product-filter.component';
 
 @Component({
-  selector: 'cx-epd-visualization-visual-picking-tab',
-  templateUrl: './visual-picking-tab.component.html',
-  providers: [VisualPickingTabService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-epd-visualization-visual-picking-tab',
+    templateUrl: './visual-picking-tab.component.html',
+    providers: [VisualPickingTabService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        VisualViewerComponent,
+        VisualPickingProductFilterComponent,
+        VisualPickingProductListComponent,
+        I18nModule,
+    ],
 })
 export class VisualPickingTabComponent implements AfterViewInit {
   constructor(protected visualPickingTabService: VisualPickingTabService) {}

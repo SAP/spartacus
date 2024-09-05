@@ -36,20 +36,18 @@ describe('DeleteItemComponent', () => {
   let messageService: MessageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, I18nTestingModule],
-      declarations: [DeleteItemComponent],
-
-      providers: [
+    imports: [CommonModule, I18nTestingModule, DeleteItemComponent],
+    providers: [
         {
-          provide: MessageService,
-          useClass: MockMessageService,
+            provide: MessageService,
+            useClass: MockMessageService,
         },
         {
-          provide: ItemService,
-          useClass: MockItemService,
+            provide: ItemService,
+            useClass: MockItemService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(DeleteItemComponent);
     component = fixture.componentInstance;

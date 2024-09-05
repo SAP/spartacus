@@ -5,9 +5,17 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { I18nModule } from '@spartacus/core';
+import { NgClass, NgIf } from '@angular/common';
 @Component({
-  selector: 'cx-progress-button',
-  templateUrl: './progress-button.component.html',
+    selector: 'cx-progress-button',
+    templateUrl: './progress-button.component.html',
+    standalone: true,
+    imports: [
+        NgClass,
+        NgIf,
+        I18nModule,
+    ],
 })
 export class ProgressButtonComponent {
   @Input()

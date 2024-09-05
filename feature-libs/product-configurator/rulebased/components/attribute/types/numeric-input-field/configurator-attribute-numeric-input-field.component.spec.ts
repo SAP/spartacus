@@ -34,15 +34,18 @@ import {
 } from './configurator-attribute-numeric-input-field.component.service';
 
 @Directive({
-  selector: '[cxFocus]',
+    selector: '[cxFocus]',
+    standalone: true,
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: any;
@@ -134,39 +137,35 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       setActive: jasmine.createSpy(),
     };
     TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeNumericInputFieldComponent,
+    imports: [ReactiveFormsModule, I18nTestingModule, ConfiguratorAttributeNumericInputFieldComponent,
         MockFocusDirective,
-        MockCxIconComponent,
-      ],
-      imports: [ReactiveFormsModule, I18nTestingModule],
-      providers: [
+        MockCxIconComponent],
+    providers: [
         { provide: LanguageService, useValue: mockLanguageService },
         {
-          provide: ConfiguratorUISettingsConfig,
-          useValue: configuratorUISettingsConfig,
+            provide: ConfiguratorUISettingsConfig,
+            useValue: configuratorUISettingsConfig,
         },
         {
-          provide: ConfiguratorAttributeCompositionContext,
-          useValue: ConfiguratorTestUtils.getAttributeContext(),
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
         },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
         },
-
         {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '*' },
-          },
+            provide: FeaturesConfig,
+            useValue: {
+                features: { level: '*' },
+            },
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

@@ -10,8 +10,9 @@ import { DownloadOrderInvoicesEvent, Order } from '@spartacus/order/root';
 import { OrderDetailActionsComponent } from '../../order-detail-actions/order-detail-actions.component';
 
 @Component({
-  selector: 'cx-my-account-v2-order-details-actions',
-  templateUrl: './my-account-v2-order-details-actions.component.html',
+    selector: 'cx-my-account-v2-order-details-actions',
+    templateUrl: './my-account-v2-order-details-actions.component.html',
+    standalone: true,
 })
 export class MyAccountV2OrderDetailsActionsComponent
   extends OrderDetailActionsComponent

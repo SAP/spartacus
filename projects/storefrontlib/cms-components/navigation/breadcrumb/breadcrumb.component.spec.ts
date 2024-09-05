@@ -21,18 +21,17 @@ describe('BreadcrumbComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [BreadcrumbComponent, MockFeatureDirective],
-      providers: [
+    imports: [RouterTestingModule, I18nTestingModule, BreadcrumbComponent, MockFeatureDirective],
+    providers: [
         { provide: PageMetaService, useClass: MockPageMetaService },
         {
-          provide: CmsComponentData,
-          useValue: {
-            data$: of({}),
-          },
+            provide: CmsComponentData,
+            useValue: {
+                data$: of({}),
+            },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

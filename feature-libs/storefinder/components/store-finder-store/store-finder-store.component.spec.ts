@@ -23,16 +23,20 @@ class MockStoreFinderService implements Partial<StoreFinderService> {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [SpinnerModule, RouterTestingModule, I18nTestingModule,],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-  selector: 'cx-store-finder-store-description',
-  template: '',
+    selector: 'cx-store-finder-store-description',
+    template: '',
+    standalone: true,
+    imports: [SpinnerModule, RouterTestingModule, I18nTestingModule,],
 })
 class MockStoreFinderStoreDescriptionComponent {
   @Input() location: PointOfService;
@@ -55,25 +59,22 @@ describe('StoreFinderStoreComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SpinnerModule, RouterTestingModule, I18nTestingModule],
-      declarations: [
-        StoreFinderStoreComponent,
-        MockStoreFinderStoreDescriptionComponent,
+    imports: [SpinnerModule, RouterTestingModule, I18nTestingModule, MockStoreFinderStoreDescriptionComponent,
         MockCxIconComponent,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective],
+    declarations: [StoreFinderStoreComponent],
+    providers: [
         { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
         {
-          provide: StoreFinderService,
-          useClass: MockStoreFinderService,
+            provide: StoreFinderService,
+            useClass: MockStoreFinderService,
         },
         {
-          provide: ActivatedRoute,
-          useValue: mockActivatedRoute,
+            provide: ActivatedRoute,
+            useValue: mockActivatedRoute,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

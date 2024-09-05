@@ -18,19 +18,18 @@ import {
 import { CompactAddToCartComponent } from './compact-add-to-cart.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    SpinnerModule,
-    PromotionsModule,
-
-    UrlModule,
-    IconModule,
-    I18nModule,
-    ItemCounterModule,
-  ],
-  declarations: [CompactAddToCartComponent],
-  exports: [CompactAddToCartComponent],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        RouterModule,
+        SpinnerModule,
+        PromotionsModule,
+        UrlModule,
+        IconModule,
+        I18nModule,
+        ItemCounterModule,
+        CompactAddToCartComponent,
+    ],
+    exports: [CompactAddToCartComponent],
 })
 export class CompactAddToCartModule {}

@@ -18,8 +18,8 @@ import {
   CheckoutPaymentFacade,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { TranslationService, UserCostCenterService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { TranslationService, UserCostCenterService, I18nModule, UrlModule } from '@spartacus/core';
+import { Card, CardModule, IconModule, OutletModule, PromotionsModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import {
@@ -27,11 +27,30 @@ import {
   CheckoutServiceSchedulePickerService,
   ServiceDateTime,
 } from '@spartacus/s4-service/root';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgFor, NgSwitch, NgSwitchCase, NgTemplateOutlet, NgClass, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-review-submit',
-  templateUrl: './service-checkout-review-submit.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-review-submit',
+    templateUrl: './service-checkout-review-submit.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        NgSwitch,
+        NgSwitchCase,
+        NgTemplateOutlet,
+        NgClass,
+        CardModule,
+        RouterLink,
+        IconModule,
+        OutletModule,
+        PromotionsModule,
+        AsyncPipe,
+        I18nModule,
+        UrlModule,
+    ],
 })
 export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmitComponent {
   checkoutStepTypeServiceDetails = CheckoutStepType.SERVICE_DETAILS;

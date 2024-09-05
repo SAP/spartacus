@@ -12,8 +12,7 @@ import { FormErrorsModule } from '../form-errors/form-errors.module';
 import { FileUploadComponent } from './file-upload.component';
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, FormErrorsModule, I18nModule],
-  declarations: [FileUploadComponent],
-  exports: [FileUploadComponent],
+    imports: [CommonModule, ReactiveFormsModule, FormErrorsModule, I18nModule, FileUploadComponent],
+    exports: [FileUploadComponent],
 })
 export class FileUploadModule {}

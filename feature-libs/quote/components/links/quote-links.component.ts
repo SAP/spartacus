@@ -5,12 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import {
-  EventService,
-  FeatureConfigService,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
+import { EventService, FeatureConfigService, GlobalMessageService, GlobalMessageType, I18nModule, UrlModule } from '@spartacus/core';
 import {
   CartUtilsService,
   QuoteDetailsReloadQueryEvent,
@@ -18,11 +13,21 @@ import {
 import { Quote, QuoteAttachment, QuoteFacade } from '@spartacus/quote/root';
 import { FileDownloadService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-quote-links',
-  templateUrl: './quote-links.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-quote-links',
+    templateUrl: './quote-links.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        RouterLink,
+        AsyncPipe,
+        I18nModule,
+        UrlModule,
+    ],
 })
 export class QuoteLinksComponent {
   protected quoteFacade = inject(QuoteFacade);

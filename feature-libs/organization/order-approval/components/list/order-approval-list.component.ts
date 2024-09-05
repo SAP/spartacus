@@ -5,21 +5,30 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {
-  EntitiesModel,
-  RoutingService,
-  SearchConfig,
-  TranslationService,
-} from '@spartacus/core';
+import { EntitiesModel, RoutingService, SearchConfig, TranslationService, UrlModule, I18nModule } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';
+import { RouterLink } from '@angular/router';
+import { SortingModule, PaginationModule } from '@spartacus/storefront';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-order-approval-list',
-  templateUrl: './order-approval-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-order-approval-list',
+    templateUrl: './order-approval-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        SortingModule,
+        PaginationModule,
+        NgFor,
+        RouterLink,
+        AsyncPipe,
+        UrlModule,
+        I18nModule,
+    ],
 })
 export class OrderApprovalListComponent implements OnInit {
   constructor(

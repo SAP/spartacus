@@ -70,21 +70,20 @@ describe('MiniCartComponentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [],
-      providers: [
+    providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: AuthService, useClass: MockAuthService },
         {
-          provide: StatePersistenceService,
-          useClass: MockStatePersistenceService,
+            provide: StatePersistenceService,
+            useClass: MockStatePersistenceService,
         },
         {
-          provide: SiteContextParamsService,
-          useClass: MockSiteContextParamsService,
+            provide: SiteContextParamsService,
+            useClass: MockSiteContextParamsService,
         },
         { provide: EventService, useClass: MockEventService },
-      ],
-    });
+    ],
+});
     service = TestBed.inject(MiniCartComponentService);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
     statePersistenceService = TestBed.inject(StatePersistenceService);

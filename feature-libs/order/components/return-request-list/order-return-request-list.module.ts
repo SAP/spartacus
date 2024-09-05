@@ -18,24 +18,24 @@ import { ListNavigationModule } from '@spartacus/storefront';
 import { OrderReturnRequestListComponent } from './order-return-request-list.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    ListNavigationModule,
-    UrlModule,
-    I18nModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        OrderReturnRequestListComponent: {
-          component: OrderReturnRequestListComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [OrderReturnRequestListComponent],
-  exports: [OrderReturnRequestListComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        ListNavigationModule,
+        UrlModule,
+        I18nModule,
+        OrderReturnRequestListComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                OrderReturnRequestListComponent: {
+                    component: OrderReturnRequestListComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+    ],
+    exports: [OrderReturnRequestListComponent],
 })
 export class ReturnRequestListModule {}

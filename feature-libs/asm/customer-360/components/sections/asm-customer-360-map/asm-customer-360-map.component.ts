@@ -15,11 +15,7 @@ import {
   AsmCustomer360SectionConfig,
   AsmCustomer360StoreLocation,
 } from '@spartacus/asm/customer-360/root';
-import {
-  PointOfService,
-  TranslationService,
-  WeekdayOpeningDay,
-} from '@spartacus/core';
+import { PointOfService, TranslationService, WeekdayOpeningDay, I18nModule } from '@spartacus/core';
 import {
   StoreFinderConfig,
   StoreFinderSearchPage,
@@ -29,11 +25,19 @@ import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'cx-asm-customer-360-map',
-  templateUrl: './asm-customer-360-map.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-asm-customer-360-map',
+    templateUrl: './asm-customer-360-map.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class AsmCustomer360MapComponent implements OnDestroy, OnInit {
   storeData: StoreFinderSearchPage;

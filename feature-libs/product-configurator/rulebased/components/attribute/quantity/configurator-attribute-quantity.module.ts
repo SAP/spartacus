@@ -12,9 +12,8 @@ import { defaultConfiguratorUISettingsConfig } from '../../config/default-config
 import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
 
 @NgModule({
-  declarations: [ConfiguratorAttributeQuantityComponent],
-  exports: [ConfiguratorAttributeQuantityComponent],
-  imports: [CommonModule, I18nModule, ItemCounterModule, KeyboardFocusModule],
-  providers: [provideDefaultConfig(defaultConfiguratorUISettingsConfig)],
+    exports: [ConfiguratorAttributeQuantityComponent],
+    imports: [CommonModule, I18nModule, ItemCounterModule, KeyboardFocusModule, ConfiguratorAttributeQuantityComponent],
+    providers: [provideDefaultConfig(defaultConfiguratorUISettingsConfig)],
 })
 export class ConfiguratorAttributeQuantityModule {}

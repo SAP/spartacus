@@ -20,27 +20,27 @@ import { AddressFormModule } from './address-form/address-form.module';
 import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/suggested-addresses-dialog/default-suggested-addresses-dialog-layout.config';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CardModule,
-    AddressFormModule,
-    SpinnerModule,
-    I18nModule,
-  ],
-  declarations: [AddressBookComponent],
-  exports: [AddressBookComponent],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        AccountAddressBookComponent: {
-          component: AddressBookComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-    provideDefaultConfig(defaultSuggestedAddressesDialogLayoutConfig),
-    UserAddressService,
-    FeaturesConfigModule,
-  ],
+    imports: [
+        CommonModule,
+        CardModule,
+        AddressFormModule,
+        SpinnerModule,
+        I18nModule,
+        AddressBookComponent,
+    ],
+    exports: [AddressBookComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                AccountAddressBookComponent: {
+                    component: AddressBookComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+        provideDefaultConfig(defaultSuggestedAddressesDialogLayoutConfig),
+        UserAddressService,
+        FeaturesConfigModule,
+    ],
 })
 export class AddressBookModule {}

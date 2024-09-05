@@ -14,16 +14,16 @@ import { TruncateTextPopoverModule } from '../truncate-text-popover/truncate-tex
 import { CardComponent } from './card.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AtMessageModule,
-    I18nModule,
-    IconModule,
-    TruncateTextPopoverModule,
-    KeyboardFocusModule,
-    FeaturesConfigModule,
-  ],
-  declarations: [CardComponent],
-  exports: [CardComponent],
+    imports: [
+        CommonModule,
+        AtMessageModule,
+        I18nModule,
+        IconModule,
+        TruncateTextPopoverModule,
+        KeyboardFocusModule,
+        FeaturesConfigModule,
+        CardComponent,
+    ],
+    exports: [CardComponent],
 })
 export class CardModule {}

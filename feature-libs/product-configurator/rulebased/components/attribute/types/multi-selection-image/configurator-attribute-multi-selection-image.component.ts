@@ -10,21 +10,36 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { Config, useFeatureStyles } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
+import { Config, useFeatureStyles, I18nModule } from '@spartacus/core';
+import { ICON_TYPE, KeyboardFocusModule, PopoverModule, IconModule } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
+import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-configurator-attribute-multi-selection-image',
-  templateUrl: './configurator-attribute-multi-selection-image.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ConfiguratorAttributePriceChangeService],
+    selector: 'cx-configurator-attribute-multi-selection-image',
+    templateUrl: './configurator-attribute-multi-selection-image.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [ConfiguratorAttributePriceChangeService],
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        ReactiveFormsModule,
+        KeyboardFocusModule,
+        ConfiguratorPriceComponent,
+        NgClass,
+        PopoverModule,
+        IconModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ConfiguratorAttributeMultiSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent

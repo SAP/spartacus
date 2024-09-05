@@ -16,18 +16,18 @@ import { PermissionDetailsComponent } from './permission-details.component';
 import { DisableInfoModule } from '../../shared/detail/disable-info/disable-info.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CardModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-    ToggleStatusModule,
-    ItemExistsModule,
-    DisableInfoModule,
-    KeyboardFocusModule,
-  ],
-  declarations: [PermissionDetailsComponent],
-  exports: [PermissionDetailsComponent],
+    imports: [
+        CommonModule,
+        CardModule,
+        RouterModule,
+        UrlModule,
+        I18nModule,
+        ToggleStatusModule,
+        ItemExistsModule,
+        DisableInfoModule,
+        KeyboardFocusModule,
+        PermissionDetailsComponent,
+    ],
+    exports: [PermissionDetailsComponent],
 })
 export class PermissionDetailsModule {}

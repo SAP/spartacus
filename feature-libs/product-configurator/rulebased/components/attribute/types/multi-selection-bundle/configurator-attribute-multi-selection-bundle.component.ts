@@ -8,9 +8,11 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
-import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorPriceComponentOptions, ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
+import { ConfiguratorAttributeProductCardComponentOptions, ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
+import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 interface SelectionValue {
   name?: string;
@@ -20,9 +22,18 @@ interface SelectionValue {
 }
 
 @Component({
-  selector: 'cx-configurator-attribute-multi-selection-bundle',
-  templateUrl: './configurator-attribute-multi-selection-bundle.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-configurator-attribute-multi-selection-bundle',
+    templateUrl: './configurator-attribute-multi-selection-bundle.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        ConfiguratorAttributeQuantityComponent,
+        ConfiguratorPriceComponent,
+        NgFor,
+        ConfiguratorAttributeProductCardComponent,
+        AsyncPipe,
+    ],
 })
 export class ConfiguratorAttributeMultiSelectionBundleComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent

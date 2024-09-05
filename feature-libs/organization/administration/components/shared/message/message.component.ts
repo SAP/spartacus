@@ -22,9 +22,10 @@ import { MessageRenderService } from './services/message-render.service';
 import { MessageService } from './services/message.service';
 
 @Component({
-  selector: 'cx-org-message',
-  templateUrl: './message.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-org-message',
+    templateUrl: './message.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 export class MessageComponent implements AfterViewInit, OnDestroy {
   // We use a child view container ref, as creating components will become siblings.

@@ -14,12 +14,21 @@ import {
   AsmCustomer360SavedCart,
   CustomerCart,
 } from '@spartacus/asm/customer-360/root';
-import { Product, ProductScope, ProductService } from '@spartacus/core';
+import { Product, ProductScope, ProductService, I18nModule } from '@spartacus/core';
+import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-asm-customer-360-saved-cart',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './asm-customer-360-saved-cart.component.html',
+    selector: 'cx-asm-customer-360-saved-cart',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './asm-customer-360-saved-cart.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        AsmCustomer360ProductListingComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class AsmCustomer360SavedCartComponent {
   savedCart$: Observable<CustomerCart | undefined>;

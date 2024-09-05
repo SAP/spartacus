@@ -12,20 +12,19 @@ import { SupplementHashAnchorsModule } from '../../../shared/pipes/suplement-has
 import { ParagraphComponent } from './paragraph.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, SupplementHashAnchorsModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CMSParagraphComponent: {
-          component: ParagraphComponent,
-        },
-        CMSTabParagraphComponent: {
-          component: ParagraphComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ParagraphComponent],
-  exports: [ParagraphComponent],
+    imports: [CommonModule, RouterModule, SupplementHashAnchorsModule, ParagraphComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CMSParagraphComponent: {
+                    component: ParagraphComponent,
+                },
+                CMSTabParagraphComponent: {
+                    component: ParagraphComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ParagraphComponent],
 })
 export class CmsParagraphModule {}

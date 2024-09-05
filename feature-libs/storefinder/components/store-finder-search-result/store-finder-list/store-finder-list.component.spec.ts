@@ -51,22 +51,22 @@ describe('StoreFinderDisplayListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         RouterTestingModule,
         HttpClientTestingModule,
         SpinnerModule,
         I18nTestingModule,
-      ],
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [StoreFinderListComponent, StoreFinderMapComponent],
-      providers: [
+    ],
+    schemas: [NO_ERRORS_SCHEMA],
+    declarations: [StoreFinderListComponent, StoreFinderMapComponent],
+    providers: [
         {
-          provide: GoogleMapRendererService,
-          useClass: GoogleMapRendererServiceMock,
+            provide: GoogleMapRendererService,
+            useClass: GoogleMapRendererServiceMock,
         },
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { SelectFocusUtility } from './select-focus.util';
 
 @Component({
-  template: `
+    template: `
     <div id="a">
       <button id="a1">focusable</button>
       <a href="" tabindex="-1">locked focus</a>
@@ -50,6 +50,7 @@ import { SelectFocusUtility } from './select-focus.util';
       <button id="e5"></button>
     </div>
   `,
+    standalone: true,
 })
 class MockComponent {}
 
@@ -59,9 +60,9 @@ describe('SelectFocusUtility', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent],
-      providers: [SelectFocusUtility],
-    }).compileComponents();
+    imports: [MockComponent],
+    providers: [SelectFocusUtility],
+}).compileComponents();
 
     service = TestBed.inject(SelectFocusUtility);
     fixture = TestBed.createComponent(MockComponent);

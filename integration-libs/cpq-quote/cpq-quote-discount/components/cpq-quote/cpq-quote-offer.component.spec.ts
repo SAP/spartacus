@@ -21,8 +21,10 @@ class MockLanguageService {
   }
 }
 @Component({
-  selector: 'cx-cpq-quote-offer',
-  template: '',
+    selector: 'cx-cpq-quote-offer',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockConfigureCpqDiscountsComponent {
   @Input() cartEntry: Partial<OrderEntry & Array<CpqDiscounts>>;
@@ -36,20 +38,17 @@ describe('CpqQuoteOfferComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CpqQuoteOfferComponent,
-        MockConfigureCpqDiscountsComponent,
-      ],
-      providers: [
+    imports: [I18nTestingModule, CpqQuoteOfferComponent,
+        MockConfigureCpqDiscountsComponent],
+    providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {
-          provide: TranslationService,
-          useClass: MockTranslationService,
+            provide: TranslationService,
+            useClass: MockTranslationService,
         },
         { provide: LanguageService, useClass: MockLanguageService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(CpqQuoteOfferComponent);

@@ -17,6 +17,8 @@ import { UntypedFormControl } from '@angular/forms';
 import { Observable, Subscription, timer } from 'rxjs';
 import { debounce, distinct, take } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
+import { I18nModule } from '@spartacus/core';
+import { ItemCounterModule } from '@spartacus/storefront';
 
 export interface ConfiguratorAttributeQuantityComponentOptions {
   allowZero?: boolean;
@@ -25,9 +27,11 @@ export interface ConfiguratorAttributeQuantityComponentOptions {
 }
 
 @Component({
-  selector: 'cx-configurator-attribute-quantity',
-  templateUrl: './configurator-attribute-quantity.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-configurator-attribute-quantity',
+    templateUrl: './configurator-attribute-quantity.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [ItemCounterModule, I18nModule],
 })
 export class ConfiguratorAttributeQuantityComponent
   implements OnDestroy, OnInit

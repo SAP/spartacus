@@ -12,14 +12,14 @@ import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { QuoteHeaderBuyerEditComponent } from './quote-header-buyer-edit.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    IconModule,
-    KeyboardFocusModule,
-    ReactiveFormsModule,
-  ],
-  declarations: [QuoteHeaderBuyerEditComponent],
-  exports: [QuoteHeaderBuyerEditComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        IconModule,
+        KeyboardFocusModule,
+        ReactiveFormsModule,
+        QuoteHeaderBuyerEditComponent,
+    ],
+    exports: [QuoteHeaderBuyerEditComponent],
 })
 export class QuoteHeaderBuyerEditModule {}

@@ -28,44 +28,42 @@ import { CartItemComponent } from './cart-item/cart-item.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 
 @NgModule({
-  imports: [
-    AtMessageModule,
-    CartCouponModule,
-    CartItemValidationWarningModule,
-    CommonModule,
-    I18nModule,
-    IconModule,
-    ItemCounterModule,
-    MediaModule,
-    OutletModule,
-    PromotionsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    UrlModule,
-    AddToCartModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideOutlet({
-      id: CartOutlets.ORDER_SUMMARY,
-      component: OrderSummaryComponent,
-    }),
-    provideOutlet({
-      id: CartOutlets.CART_ITEM_LIST,
-      component: CartItemListComponent,
-    }),
-  ],
-  declarations: [
-    CartItemComponent,
-    OrderSummaryComponent,
-    CartItemListComponent,
-    CartItemListRowComponent,
-  ],
-  exports: [
-    CartItemComponent,
-    CartItemListRowComponent,
-    CartItemListComponent,
-    OrderSummaryComponent,
-  ],
+    imports: [
+        AtMessageModule,
+        CartCouponModule,
+        CartItemValidationWarningModule,
+        CommonModule,
+        I18nModule,
+        IconModule,
+        ItemCounterModule,
+        MediaModule,
+        OutletModule,
+        PromotionsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        UrlModule,
+        AddToCartModule,
+        FeaturesConfigModule,
+        CartItemComponent,
+        OrderSummaryComponent,
+        CartItemListComponent,
+        CartItemListRowComponent,
+    ],
+    providers: [
+        provideOutlet({
+            id: CartOutlets.ORDER_SUMMARY,
+            component: OrderSummaryComponent,
+        }),
+        provideOutlet({
+            id: CartOutlets.CART_ITEM_LIST,
+            component: CartItemListComponent,
+        }),
+    ],
+    exports: [
+        CartItemComponent,
+        CartItemListRowComponent,
+        CartItemListComponent,
+        OrderSummaryComponent,
+    ],
 })
 export class CartSharedModule {}

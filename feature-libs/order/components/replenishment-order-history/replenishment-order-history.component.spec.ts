@@ -57,16 +57,20 @@ const replenishmentOrderHistory = new BehaviorSubject<ReplenishmentOrderList>(
 );
 
 @Component({
-  template: '',
-  selector: 'cx-pagination',
+    template: '',
+    selector: 'cx-pagination',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule],
 })
 class MockPaginationComponent {
   @Input() pagination;
   @Output() viewPageEvent = new EventEmitter<string>();
 }
 @Component({
-  template: '',
-  selector: 'cx-sorting',
+    template: '',
+    selector: 'cx-sorting',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule],
 })
 class MockSortingComponent {
   @Input() sortOptions;
@@ -77,7 +81,8 @@ class MockSortingComponent {
 }
 
 @Pipe({
-  name: 'cxUrl',
+    name: 'cxUrl',
+    standalone: true,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -124,25 +129,22 @@ describe('ReplenishmentOrderHistoryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [
-        ReplenishmentOrderHistoryComponent,
-        MockUrlPipe,
+    imports: [RouterTestingModule, I18nTestingModule, MockUrlPipe,
         MockPaginationComponent,
-        MockSortingComponent,
-      ],
-      providers: [
+        MockSortingComponent],
+    declarations: [ReplenishmentOrderHistoryComponent],
+    providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         {
-          provide: ReplenishmentOrderHistoryFacade,
-          useClass: MockReplenishmentOrderHistoryFacade,
+            provide: ReplenishmentOrderHistoryFacade,
+            useClass: MockReplenishmentOrderHistoryFacade,
         },
         {
-          provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     replenishmentOrderHistoryFacade = TestBed.inject(
       ReplenishmentOrderHistoryFacade

@@ -14,15 +14,14 @@ describe('StoreSearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StoreSearchComponent, MockFeatureDirective],
-      imports: [I18nTestingModule],
-      providers: [
+    imports: [I18nTestingModule, StoreSearchComponent, MockFeatureDirective],
+    providers: [
         {
-          provide: CurrentLocationService,
-          useClass: MockCurrentLocationService,
+            provide: CurrentLocationService,
+            useClass: MockCurrentLocationService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

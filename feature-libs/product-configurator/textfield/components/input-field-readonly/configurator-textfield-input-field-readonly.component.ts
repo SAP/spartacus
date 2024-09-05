@@ -9,9 +9,10 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 
 @Component({
-  selector: 'cx-configurator-textfield-input-field-readonly',
-  templateUrl: './configurator-textfield-input-field-readonly.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-configurator-textfield-input-field-readonly',
+    templateUrl: './configurator-textfield-input-field-readonly.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 export class ConfiguratorTextfieldInputFieldReadonlyComponent {
   PREFIX_TEXTFIELD = 'cx-configurator-textfield';

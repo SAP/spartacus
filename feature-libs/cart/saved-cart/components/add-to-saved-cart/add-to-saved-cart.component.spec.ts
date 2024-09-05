@@ -59,20 +59,21 @@ describe('AddToSavedCartComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         StoreModule.forRoot({}),
         I18nTestingModule,
         UrlTestingModule,
         RouterTestingModule,
-      ],
-      declarations: [AddToSavedCartComponent, MockFeatureDirective],
-      providers: [
+        MockFeatureDirective,
+    ],
+    declarations: [AddToSavedCartComponent],
+    providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: AuthService, useClass: MockAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     isLoggedInSubject$.next(false);
     routingService = TestBed.inject(RoutingService);

@@ -23,28 +23,28 @@ describe('UnitChildrenComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         SubListTestingModule,
         UrlTestingModule,
         I18nTestingModule,
         DisableInfoModule,
-      ],
-      providers: [
+        UnitChildrenComponent,
+    ],
+    providers: [
         {
-          provide: UnitChildrenService,
-          useClass: MockUnitChildrenService,
+            provide: UnitChildrenService,
+            useClass: MockUnitChildrenService,
         },
         {
-          provide: CurrentUnitService,
-          useClass: MockCurrentUnitService,
+            provide: CurrentUnitService,
+            useClass: MockCurrentUnitService,
         },
         {
-          provide: ItemService,
-          useClass: MockItemService,
+            provide: ItemService,
+            useClass: MockItemService,
         },
-      ],
-      declarations: [UnitChildrenComponent],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(UnitChildrenComponent);
     component = fixture.componentInstance;

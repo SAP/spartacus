@@ -11,20 +11,28 @@ import {
   OnInit,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { AnonymousConsentsService, ConsentTemplate } from '@spartacus/core';
-import {
-  FocusConfig,
-  ICON_TYPE,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { AnonymousConsentsService, ConsentTemplate, I18nModule } from '@spartacus/core';
+import { FocusConfig, ICON_TYPE, LaunchDialogService, KeyboardFocusModule, IconModule, ConsentManagementModule, SpinnerModule } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CdcReconsentComponentService } from './cdc-reconsent-component.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-anonymous-consent-dialog', //reusing existing selector
-  templateUrl: './cdc-reconsent.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-anonymous-consent-dialog',
+    templateUrl: './cdc-reconsent.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        KeyboardFocusModule,
+        NgIf,
+        IconModule,
+        NgFor,
+        ConsentManagementModule,
+        SpinnerModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class CdcReconsentComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

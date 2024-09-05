@@ -9,7 +9,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 const defaultLimit = 20;
 
 @Pipe({
-  name: 'cxTruncate',
+    name: 'cxTruncate',
+    standalone: true,
 })
 export class TruncatePipe implements PipeTransform {
   /**

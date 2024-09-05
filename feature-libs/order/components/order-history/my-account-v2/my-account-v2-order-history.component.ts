@@ -12,8 +12,9 @@ import { tap } from 'rxjs/operators';
 import { OrderHistoryComponent } from '../order-history.component';
 
 @Component({
-  selector: 'cx-my-account-v2-order-history',
-  templateUrl: './my-account-v2-order-history.component.html',
+    selector: 'cx-my-account-v2-order-history',
+    templateUrl: './my-account-v2-order-history.component.html',
+    standalone: true,
 })
 export class MyAccountV2OrderHistoryComponent extends OrderHistoryComponent {
   protected service = inject(MyAccountV2OrderHistoryService);

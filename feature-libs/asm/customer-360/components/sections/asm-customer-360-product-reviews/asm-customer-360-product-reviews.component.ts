@@ -20,10 +20,11 @@ import { ReviewEntry } from './asm-customer-360-product-reviews.model';
 import { AsmCustomer360Config } from '../../config/asm-customer-360-config';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'cx-asm-customer-360-product-reviews',
-  templateUrl: './asm-customer-360-product-reviews.component.html',
-  providers: [CxDatePipe],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-asm-customer-360-product-reviews',
+    templateUrl: './asm-customer-360-product-reviews.component.html',
+    providers: [CxDatePipe],
+    standalone: true,
 })
 export class AsmCustomer360ProductReviewsComponent implements OnInit {
   reviewColumns: Array<CustomerTableColumn> = [

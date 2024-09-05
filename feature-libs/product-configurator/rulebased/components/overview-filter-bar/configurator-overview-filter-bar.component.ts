@@ -5,13 +5,22 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconModule } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { I18nModule } from '@spartacus/core';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'cx-configurator-overview-filter-bar',
-  templateUrl: './configurator-overview-filter-bar.component.html',
+    selector: 'cx-configurator-overview-filter-bar',
+    templateUrl: './configurator-overview-filter-bar.component.html',
+    standalone: true,
+    imports: [
+        NgFor,
+        IconModule,
+        NgIf,
+        I18nModule,
+    ],
 })
 export class ConfiguratorOverviewFilterBarComponent {
   constructor(

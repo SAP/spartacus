@@ -115,7 +115,8 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 @Directive({
-  selector: '[cxNgSelectA11y]',
+    selector: '[cxNgSelectA11y]',
+    standalone: true,
 })
 class MockNgSelectA11yDirective {
   @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
@@ -140,24 +141,22 @@ describe('AddressFormComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         NgSelectModule,
         I18nTestingModule,
         FormErrorsModule,
-      ],
-      declarations: [
-        AddressFormComponent,
         MockNgSelectA11yDirective,
         MockFeatureDirective,
-      ],
-      providers: [
+    ],
+    declarations: [AddressFormComponent],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
         { provide: UserProfileFacade, useClass: MockUserProfileFacade },
-      ],
-    })
+    ],
+})
       .overrideComponent(AddressFormComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

@@ -71,8 +71,13 @@ const mockOrderApprovals: EntitiesModel<OrderApproval> = {
 };
 
 @Component({
-  template: '',
-  selector: 'cx-sorting',
+    template: '',
+    selector: 'cx-sorting',
+    standalone: true,
+    imports: [I18nTestingModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        PaginationTestingModule,],
 })
 class MockSortingComponent {
   @Input() sortOptions;
@@ -106,19 +111,19 @@ describe('OrderApprovalListComponent?', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         I18nTestingModule,
         RouterTestingModule,
         UrlTestingModule,
         PaginationTestingModule,
-      ],
-      declarations: [OrderApprovalListComponent, MockSortingComponent],
-      providers: [
+        OrderApprovalListComponent, MockSortingComponent,
+    ],
+    providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrderApprovalService, useClass: MockOrderApprovalService },
         { provide: RoutingService, useClass: MockRoutingService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     orderApprovalService = TestBed.inject(OrderApprovalService);
     routingService = TestBed.inject(RoutingService);

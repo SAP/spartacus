@@ -11,15 +11,24 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
+import { NgIf } from '@angular/common';
 
 /**
  * The presentational component of a pair of radio buttons for pickup options for a product.
  */
 @Component({
-  selector: 'cx-pickup-options',
-  templateUrl: './pickup-options.component.html',
+    selector: 'cx-pickup-options',
+    templateUrl: './pickup-options.component.html',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        NgIf,
+        FeaturesConfigModule,
+        I18nModule,
+    ],
 })
 export class PickupOptionsComponent implements OnChanges {
   /** The selected option, either `'pickup'` or `'delivery'`. */

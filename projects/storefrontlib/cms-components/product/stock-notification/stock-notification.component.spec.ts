@@ -112,7 +112,8 @@ describe('StockNotificationComponent', () => {
 
   @Pipe({
     name: 'cxUrl',
-  })
+    standalone: true,
+})
   class MockUrlPipe implements PipeTransform {
     transform(): any {}
   }
@@ -121,31 +122,28 @@ describe('StockNotificationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
-      declarations: [
-        StockNotificationComponent,
+    imports: [I18nTestingModule, RouterTestingModule, SpinnerModule, StockNotificationComponent,
         StockNotificationDialogComponent,
         MockUrlPipe,
         FocusDirective,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective],
+    providers: [
         { provide: UserIdService, useValue: userIdService },
         { provide: CurrentProductService, useValue: currentProductService },
         { provide: GlobalMessageService, useValue: globalMessageService },
         { provide: TranslationService, useValue: translationService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: UserNotificationPreferenceService,
-          useValue: notificationPrefService,
+            provide: UserNotificationPreferenceService,
+            useValue: notificationPrefService,
         },
         {
-          provide: StockNotificationDialogComponent,
-          useValue: dialogComponent,
+            provide: StockNotificationDialogComponent,
+            useValue: dialogComponent,
         },
         { provide: UserInterestsService, useValue: interestsService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

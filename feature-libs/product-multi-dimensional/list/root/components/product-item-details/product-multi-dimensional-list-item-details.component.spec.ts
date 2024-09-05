@@ -16,10 +16,9 @@ describe('ProductMultiDimensionalListItemDetailsComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ProductMultiDimensionalListItemDetailsComponent],
-      providers: [{ provide: ProductListItemContext, useValue: mockContext }],
-    })
+    imports: [I18nTestingModule, ProductMultiDimensionalListItemDetailsComponent],
+    providers: [{ provide: ProductListItemContext, useValue: mockContext }],
+})
       .overrideComponent(ProductMultiDimensionalListItemDetailsComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

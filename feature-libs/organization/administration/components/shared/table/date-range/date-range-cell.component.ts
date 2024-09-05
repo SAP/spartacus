@@ -10,13 +10,23 @@ import {
   Optional,
   inject,
 } from '@angular/core';
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureConfigService, UrlModule, I18nModule } from '@spartacus/core';
 import { CellComponent } from '../cell.component';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 @Component({
-  selector: 'cx-org-date-range-cell',
-  templateUrl: './date-range-cell.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-org-date-range-cell',
+    templateUrl: './date-range-cell.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        RouterLink,
+        NgTemplateOutlet,
+        UrlModule,
+        I18nModule,
+    ],
 })
 export class DateRangeCellComponent extends CellComponent {
   @Optional() featuteConfigService = inject(FeatureConfigService, {

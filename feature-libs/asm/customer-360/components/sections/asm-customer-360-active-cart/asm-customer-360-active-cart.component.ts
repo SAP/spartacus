@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product, ProductScope, ProductService } from '@spartacus/core';
+import { Product, ProductScope, ProductService, I18nModule } from '@spartacus/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, filter, map, take } from 'rxjs/operators';
 import { ProductItem } from '../../asm-customer-360-product-listing/product-item.model';
@@ -14,11 +14,20 @@ import {
   AsmCustomer360ActiveCart,
   CustomerCart,
 } from '@spartacus/asm/customer-360/root';
+import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'cx-asm-customer-360-active-cart',
-  templateUrl: './asm-customer-360-active-cart.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-asm-customer-360-active-cart',
+    templateUrl: './asm-customer-360-active-cart.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        AsmCustomer360ProductListingComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class AsmCustomer360ActiveCartComponent {
   productItems$: Observable<Array<ProductItem>>;

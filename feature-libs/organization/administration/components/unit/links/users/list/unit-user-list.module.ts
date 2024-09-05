@@ -14,15 +14,15 @@ import { UnitUserRolesCellComponent } from './unit-user-link-cell.component';
 import { UnitUserListComponent } from './unit-user-list.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    RouterModule,
-    UrlModule,
-    SubListModule,
-    DisableInfoModule,
-    FeaturesConfigModule,
-  ],
-  declarations: [UnitUserListComponent, UnitUserRolesCellComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        RouterModule,
+        UrlModule,
+        SubListModule,
+        DisableInfoModule,
+        FeaturesConfigModule,
+        UnitUserListComponent, UnitUserRolesCellComponent,
+    ],
 })
 export class UnitUserListModule {}

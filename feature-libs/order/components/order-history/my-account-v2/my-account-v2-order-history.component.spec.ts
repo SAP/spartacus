@@ -49,8 +49,10 @@ const mockEmptyOrderList: OrderHistoryList = {
 };
 
 @Component({
-  template: '',
-  selector: 'cx-pagination',
+    template: '',
+    selector: 'cx-pagination',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule],
 })
 class MockPaginationComponent {
   @Input() pagination: any;
@@ -58,7 +60,8 @@ class MockPaginationComponent {
 }
 
 @Pipe({
-  name: 'cxUrl',
+    name: 'cxUrl',
+    standalone: true,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -111,16 +114,20 @@ class MockReplenishmentOrderHistoryFacade
 }
 
 @Component({
-  selector: 'cx-my-account-v2-order-consolidated-information',
-  template: '',
+    selector: 'cx-my-account-v2-order-consolidated-information',
+    template: '',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule],
 })
 export class MockMyAccountV2OrderConsolidatedInformationComponent {
   @Input() order?: OrderHistoryView;
 }
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
+    selector: 'cx-spinner',
+    template: '',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule],
 })
 class MockSpinnerComponent {}
 
@@ -131,28 +138,25 @@ describe('MyAccountV2OrderHistoryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [
-        MyAccountV2OrderHistoryComponent,
+    imports: [RouterTestingModule, I18nTestingModule, MyAccountV2OrderHistoryComponent,
         MockUrlPipe,
         MockPaginationComponent,
         MockMyAccountV2OrderConsolidatedInformationComponent,
-        MockSpinnerComponent,
-      ],
-      providers: [
+        MockSpinnerComponent],
+    providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
         {
-          provide: MyAccountV2OrderHistoryService,
-          useClass: MockMyAccountV2OrderHistoryService,
+            provide: MyAccountV2OrderHistoryService,
+            useClass: MockMyAccountV2OrderHistoryService,
         },
         { provide: TranslationService, useClass: MockTranslationService },
         {
-          provide: ReplenishmentOrderHistoryFacade,
-          useClass: MockReplenishmentOrderHistoryFacade,
+            provide: ReplenishmentOrderHistoryFacade,
+            useClass: MockReplenishmentOrderHistoryFacade,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     routingService = TestBed.inject(RoutingService);
   }));
 

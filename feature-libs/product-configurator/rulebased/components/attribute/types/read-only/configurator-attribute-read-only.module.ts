@@ -15,25 +15,25 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
 import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 
 @NgModule({
-  imports: [
-    KeyboardFocusModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ConfiguratorPriceModule,
-    ConfiguratorShowMoreModule,
-    CommonModule,
-    I18nModule,
-  ],
-  providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-      productConfigurator: {
-        assignment: {
-          AttributeType_readonly: ConfiguratorAttributeReadOnlyComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ConfiguratorAttributeReadOnlyComponent],
-  exports: [ConfiguratorAttributeReadOnlyComponent],
+    imports: [
+        KeyboardFocusModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ConfiguratorPriceModule,
+        ConfiguratorShowMoreModule,
+        CommonModule,
+        I18nModule,
+        ConfiguratorAttributeReadOnlyComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+            productConfigurator: {
+                assignment: {
+                    AttributeType_readonly: ConfiguratorAttributeReadOnlyComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ConfiguratorAttributeReadOnlyComponent],
 })
 export class ConfiguratorAttributeReadOnlyModule {}

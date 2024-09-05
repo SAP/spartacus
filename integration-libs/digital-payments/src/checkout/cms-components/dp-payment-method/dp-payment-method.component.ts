@@ -24,9 +24,10 @@ import {
 import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
 
 @Component({
-  selector: 'cx-payment-method',
-  templateUrl: './dp-payment-method.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-payment-method',
+    templateUrl: './dp-payment-method.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
   showCallbackScreen = false;

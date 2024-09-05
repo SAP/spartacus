@@ -6,19 +6,21 @@ import { TabFocusDirective } from './tab-focus.directive';
 import { TabFocusService } from './tab-focus.service';
 
 @Directive({
-  selector: '[cxTabFocus]',
+    selector: '[cxTabFocus]',
+    standalone: true,
 })
 class CustomFocusDirective extends TabFocusDirective {
   @Input('cxTabFocus') protected config: TabFocusConfig;
 }
 
 @Component({
-  selector: 'cx-host',
-  template: `
+    selector: 'cx-host',
+    template: `
     <div cxTabFocus id="a"></div>
     <div [cxTabFocus]="{ tab: true }" id="b"></div>
     <div [cxTabFocus]="{ tab: false }" id="c"></div>
   `,
+    standalone: true,
 })
 class MockComponent {}
 
@@ -33,14 +35,14 @@ describe('TabFocusDirective', () => {
   let service: TabFocusService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent, CustomFocusDirective],
-      providers: [
+    imports: [MockComponent, CustomFocusDirective],
+    providers: [
         {
-          provide: TabFocusService,
-          useClass: MockTabFocusService,
+            provide: TabFocusService,
+            useClass: MockTabFocusService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
     service = TestBed.inject(TabFocusService);
