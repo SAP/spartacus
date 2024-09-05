@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 export * from './split-view.service';
 export * from './split/index';
 export * from './view/index';
