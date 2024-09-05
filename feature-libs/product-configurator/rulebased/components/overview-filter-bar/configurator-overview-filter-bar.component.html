@@ -3,6 +3,11 @@
 >
   <button
     class="cx-overview-filter-applied"
+    id="cx-overview-filter-applied-{{
+      filter === attributeFilterTypes.PRICE_RELEVANT
+        ? attributeFilterTypes.PRICE_RELEVANT
+        : attributeFilterTypes.USER_INPUT
+    }}"
     title="{{
       (filter === attributeFilterTypes.PRICE_RELEVANT
         ? 'configurator.overviewFilter.removeByPrice'
@@ -27,6 +32,7 @@
   *ngFor="let groupId of config.overview.groupFilters; let i = index"
 >
   <button
+    id="cx-overview-filter-applied-{{ groupId }}"
     class="cx-overview-filter-applied"
     title="{{
       'configurator.overviewFilter.removeByGroup'
@@ -45,6 +51,7 @@
 <ng-container *ngIf="isShowRemoveAll(config.overview)">
   <button
     class="cx-overview-filter-applied"
+    id="cx-overview-filter-applied-REMOVE_ALL"
     title="{{ 'configurator.overviewFilter.removeAllFilters' | cxTranslate }}"
     (click)="onRemoveAll(config)"
   >
