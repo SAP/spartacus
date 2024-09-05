@@ -65,7 +65,8 @@ export class AuthInterceptor implements HttpInterceptor {
                 } else if (
                   // Refresh the expired token
                   // Check if the OAuth endpoint was called and the error is because the refresh token expired
-                  this.errorIsInvalidToken(errResponse)
+                  this.errorIsInvalidToken(errResponse) ||
+                  this.isOidcInvlidToken(errResponse)
                 ) {
                   this.authHttpHeaderService.handleExpiredRefreshToken();
                   return EMPTY;
@@ -101,6 +102,22 @@ export class AuthInterceptor implements HttpInterceptor {
         errResponse.error.error === 'invalid_grant') ??
       false
     );
+  }
+
+  protected isOidcInvlidToken(errResponse: HttpErrorResponse): boolean {
+    const authHeader = errResponse.headers.get('www-authenticate');
+    if (!this.authConfigService.getOAuthLibConfig().disablePKCE && authHeader) {
+      const parts = authHeader.split(',').map((part) => part.trim());
+      const errorPart = parts.find((part) => part.startsWith('Bearer error='));
+      const errorDetails = errorPart
+        ? errorPart.split('=')[1].replace(/"/g, '')
+        : '';
+
+      if (errorDetails === 'invalid_token') {
+        return true;
+      }
+    }
+    return false;
   }
 
   protected isExpiredToken(resp: HttpErrorResponse): boolean {
