@@ -104,6 +104,8 @@ import { StorefinderFeatureModule } from './features/storefinder/storefinder-fea
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
 import { OmfFeatureModule } from './features/omf/omf-feature.module';
+import { ProductMultiDimensionalSelectorFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-selector-feature.module';
+import { ProductMultiDimensionalListFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-list-feature.module';
 
 const featureModules = [];
 
@@ -257,6 +259,8 @@ if (environment.cpq) {
     SmartEditFeatureModule,
 
     VariantsFeatureModule,
+    ProductMultiDimensionalSelectorFeatureModule,
+    ProductMultiDimensionalListFeatureModule,
     ImageZoomFeatureModule,
 
     QuoteFeatureModule,
@@ -291,7 +295,7 @@ if (environment.cpq) {
         recentSearches: false,
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
-        useProductCarouselBatchApi: false, //TODO: CXSPA-8162
+        useProductCarouselBatchApi: true,
         productConfiguratorAttributeTypesV2: true,
         productConfiguratorDeltaRendering: true,
         a11yRequiredAsterisks: true,
@@ -353,6 +357,9 @@ if (environment.cpq) {
         a11yRepeatedCancelOrderError: true,
         a11yAddedToCartActiveDialog: true,
         a11yNgSelectMobileReadout: true,
+        a11yQuickOrderAriaControls: true,
+        a11yRemoveStatusLoadedRole: true,
+        a11yDialogsHeading: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
       };
       return appFeatureToggles;
