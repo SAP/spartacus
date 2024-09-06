@@ -15,15 +15,14 @@ export function reducer(
   state = initialState,
   action: SiteThemeActions.SiteThemesAction
 ): SiteThemesState {
-  switch (action.type) {
-    case SiteThemeActions.SET_ACTIVE_SITE_THEME: {
-      const className = action.payload;
+  if (action.type === SiteThemeActions.SET_ACTIVE_SITE_THEME) {
+    const className = action.payload;
 
-      return {
-        ...state,
-        activeSiteTheme: className,
-      };
-    }
+    return {
+      ...state,
+      activeSiteTheme: className,
+    };
   }
+
   return state;
 }
