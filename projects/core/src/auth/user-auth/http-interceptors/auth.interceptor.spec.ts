@@ -16,6 +16,7 @@ import { AuthToken } from '../models/auth-token.model';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthHttpHeaderService } from '../services/auth-http-header.service';
 import { AuthInterceptor } from './auth.interceptor';
+import { AuthLibConfig } from '../config/auth-config';
 
 class MockAuthHeaderService implements Partial<AuthHttpHeaderService> {
   alterRequest(req) {
@@ -39,6 +40,9 @@ class MockAuthHeaderService implements Partial<AuthHttpHeaderService> {
 class MockAuthConfigService implements Partial<AuthConfigService> {
   getTokenEndpoint() {
     return '/authorizationserver/token';
+  }
+  public getOAuthLibConfig(): AuthLibConfig {
+    return {};
   }
 }
 
