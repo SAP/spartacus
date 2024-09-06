@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { CmsPageNotFoundOutboundHttpError } from '@spartacus/core';
 import { defaultExpressErrorHandlers } from './express-error-handlers';
 
-describe('errorResponseHandlers', () => {
+describe('expressErrorHandlers', () => {
   let documentContent: string;
   let req: any;
   let res: any;
