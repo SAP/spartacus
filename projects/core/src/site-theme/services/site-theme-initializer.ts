@@ -6,19 +6,16 @@
 
 import { inject, Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
-import { SiteThemeConfig } from '../config/site-theme-config';
 import { SiteThemeService } from '../facade/site-theme.service';
 import { SiteThemePersistenceService } from './site-theme-persistence.service';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
 
 @Injectable({ providedIn: 'root' })
 export class SiteThemeInitializer implements OnDestroy {
   protected siteThemeService = inject(SiteThemeService);
   protected siteThemePersistenceService = inject(SiteThemePersistenceService);
   protected configInit = inject(ConfigInitializerService);
-  protected baseSiteService = inject(BaseSiteService);
   protected subscription: Subscription;
 
   /**
@@ -26,7 +23,7 @@ export class SiteThemeInitializer implements OnDestroy {
    */
   initialize(): void {
     this.subscription = this.configInit
-      .getStable('siteTheme')
+      .getStable('context')
       .pipe(
         switchMap(() => this.siteThemePersistenceService.initSync()),
         switchMap(() => this.setFallbackValue())
@@ -40,39 +37,19 @@ export class SiteThemeInitializer implements OnDestroy {
    * Sets the default value, unless the active theme has been already initialized.
    */
   protected setFallbackValue(): Observable<unknown> {
-    return this.getCustomSiteTheme().pipe(
-      switchMap((siteTheme) =>
-        this.configInit
-          .getStable('siteTheme')
-          .pipe(
-            tap((config: SiteThemeConfig) =>
-              this.setDefaultValue(siteTheme, config)
-            )
-          )
-      )
-    );
-  }
-
-  protected getCustomSiteTheme(): Observable<string | undefined> {
-    return this.baseSiteService.get().pipe(
-      map((baseSite) => baseSite?.theme),
-      take(1)
-    );
+    return this.configInit
+      .getStable('context')
+      .pipe(tap(() => this.setDefaultFromConfig()));
   }
 
   /**
-   * Sets the active theme value based on the default value,
+   * Sets the active theme value based on the default value from the config,
    * unless the active theme has been already initialized.
    */
-  protected setDefaultValue(
-    siteTheme: string | undefined,
-    config: SiteThemeConfig
-  ): void {
-    const defaultTheme =
-      config.siteTheme?.siteThemes?.find((theme) => theme.default)?.className ||
-      siteTheme;
-    if (!this.siteThemeService.isInitialized() && defaultTheme) {
-      this.siteThemeService.setActive(defaultTheme);
+  protected setDefaultFromConfig(): void {
+    if (!this.siteThemeService.isInitialized()) {
+      const defaultTheme = this.siteThemeService.getDefault();
+      this.siteThemeService.setActive(defaultTheme.className);
     }
   }
 

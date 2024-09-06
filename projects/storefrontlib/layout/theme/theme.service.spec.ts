@@ -84,6 +84,11 @@ describe('ThemeService', () => {
     expect(
       componentRef.location.nativeElement.classList.contains('basic-theme')
     ).toBeFalsy();
+
+    service.setTheme('');
+    expect(
+      componentRef.location.nativeElement.classList.contains('new-theme')
+    ).toBeFalsy();
   });
 
   it('should clean up subscriptions on destroy', () => {

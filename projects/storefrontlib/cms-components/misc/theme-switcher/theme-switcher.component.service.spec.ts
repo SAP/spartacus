@@ -33,8 +33,8 @@ describe('ThemeSwitcherComponentService', () => {
 
   it('getItems should return all themes', (done: DoneFn) => {
     const mockThemes: SiteTheme[] = [
-      { className: 'theme1' },
-      { className: 'theme2' },
+      { className: 'theme1', i18nNameKey: 'theme1' },
+      { className: 'theme2', i18nNameKey: 'theme2' },
     ];
     siteThemeService.getAll.and.returnValue(of(mockThemes));
 

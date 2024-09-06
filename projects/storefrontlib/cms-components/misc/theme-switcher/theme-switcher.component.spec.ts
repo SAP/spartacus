@@ -46,8 +46,8 @@ describe('ThemeSwitcherComponent', () => {
 
   it('should get items from the service', (done: DoneFn) => {
     const itemsMock: Array<SiteTheme> = [
-      { className: 'theme1' },
-      { className: 'theme2' },
+      { className: 'theme1', i18nNameKey: 'theme1' },
+      { className: 'theme2', i18nNameKey: 'theme1' },
     ];
     themeSwitcherComponentService.getItems.and.returnValue(of(itemsMock));
 

@@ -14,7 +14,7 @@ import { SiteTheme } from '../../model/misc.model';
 })
 export abstract class SiteThemeConfig {
   siteTheme?: {
-    siteThemes?: Array<SiteTheme>;
+    optionalThemes?: Array<SiteTheme>;
   };
 }
 
