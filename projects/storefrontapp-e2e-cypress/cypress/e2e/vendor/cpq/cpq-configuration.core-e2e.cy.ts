@@ -93,16 +93,13 @@ const ATTR_NAMES = {
   ],
 };
 
+//only test with cpqOverOcc = true. For now we leave the option to run the obsolete flavor
+//but delete it finally with the next breaking major release
 const testConfig = [
   {
     name: 'CPQ Configuration - cpqOverOcc Mode',
     cpqOverOcc: true,
     backendURL: `${Cypress.env('OCC_PREFIX')}/${POWERTOOLS}/cpqconfigurator/**`,
-  },
-  {
-    name: 'CPQ Configuration - direct Mode',
-    cpqOverOcc: false,
-    backendURL: '**/api/configuration/v1/configurations/**',
   },
 ];
 
