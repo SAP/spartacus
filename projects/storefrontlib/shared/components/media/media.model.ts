@@ -47,22 +47,6 @@ export interface Media {
 }
 
 /**
- * Specifies most commonly used media queries for `picture`
- */
-export type DefaultMediaQueryKeys =
-  | 'minWidth'
-  | 'maxWidth'
-  | 'minHeight'
-  | 'maxHeight'
-  | 'minDevicePixelRatio'
-  | 'maxDevicePixelRatio'
-  | 'orientation'
-  | 'minAspectRatio'
-  | 'maxAspectRatio'
-  | 'minResolution'
-  | 'maxResolution';
-
-/**
  * Contains multiple media for different formats
  */
 export interface MediaContainer {
@@ -81,8 +65,6 @@ export interface MediaFormatSize {
    */
   width?: number;
 }
-
-export type MediaQueryKeys = DefaultMediaQueryKeys & string;
 
 /**
  * Specifies media queries that can be used to generate information for the

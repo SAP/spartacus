@@ -30,19 +30,27 @@ const MockStorefrontConfig: Config = {
   },
   pictureElementFormats: {
     format400: {
-      maxWidth: '786px',
-      minDevicePixelRatio: 3,
+      mediaQueries: {
+        maxWidth: '786px',
+        minDevicePixelRatio: 3,
+      },
     },
     format200: {
-      minWidth: '768px',
-      maxWidth: '1024px',
+      mediaQueries: {
+        minWidth: '768px',
+        maxWidth: '1024px',
+      },
     },
     format600: {
-      minWidth: '1025px',
-      maxWidth: '1439px',
+      mediaQueries: {
+        minWidth: '1025px',
+        maxWidth: '1439px',
+      },
     },
     format1: {
-      minWidth: '1440px',
+      mediaQueries: {
+        minWidth: '1440px',
+      },
     },
   },
   pictureFormatsOrder: ['format1', 'format200', 'format400', 'format600'],
@@ -443,14 +451,23 @@ describe('MediaService', () => {
 
       it('should return all images in sources', () => {
         const expectedResult = [
-          { srcset: 'base:format-1.url', media: '(min-width: 1440px)' },
+          {
+            srcset: 'base:format-1.url',
+            media: '(min-width: 1440px)',
+            width: undefined,
+            height: undefined,
+          },
           {
             srcset: 'base:format-400.url',
             media: '(max-width: 786px) and (-webkit-min-device-pixel-ratio: 3)',
+            width: undefined,
+            height: undefined,
           },
           {
             srcset: 'base:format-600.url',
             media: '(min-width: 1025px) and (max-width: 1439px)',
+            width: undefined,
+            height: undefined,
           },
         ];
 
@@ -468,24 +485,40 @@ describe('MediaService', () => {
             'format400'
           )?.sources
         ).toEqual([
-          { srcset: 'base:format-1.url', media: '(min-width: 1440px)' },
+          {
+            srcset: 'base:format-1.url',
+            media: '(min-width: 1440px)',
+            width: undefined,
+            height: undefined,
+          },
           {
             srcset: 'base:format-400.url',
             media: '(max-width: 786px) and (-webkit-min-device-pixel-ratio: 3)',
+            width: undefined,
+            height: undefined,
           },
         ]);
       });
 
       it('should return all formats for unknown format', () => {
         const expectedResult = [
-          { srcset: 'base:format-1.url', media: '(min-width: 1440px)' },
+          {
+            srcset: 'base:format-1.url',
+            media: '(min-width: 1440px)',
+            width: undefined,
+            height: undefined,
+          },
           {
             srcset: 'base:format-400.url',
             media: '(max-width: 786px) and (-webkit-min-device-pixel-ratio: 3)',
+            width: undefined,
+            height: undefined,
           },
           {
             srcset: 'base:format-600.url',
             media: '(min-width: 1025px) and (max-width: 1439px)',
+            width: undefined,
+            height: undefined,
           },
         ];
 
