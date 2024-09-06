@@ -6,9 +6,24 @@
     "serviceLocationHeading": "Service Location",
     "datePickerLabel": "Schedule Service Date",
     "timePickerLabel": "Schedule Service Time",
-    "clickContinue": "No Service details required. Click Continue",
-    "emptyServiceDetailsCard": "None",
     "unknownError": "An unknown error occurred. Please contact support."
+  },
+  "cancelService": {
+    "heading": "The following items will be included in the cancellation request",
+    "cancelReason": "Reason for  cancelling service",
+    "optional": "(optional)",
+    "action": "Cancel Service",
+    "back": "Back",
+    "Submit": "Submit Request",
+    "cancelServiceSuccess": "The service has been cancelled sucessfully",
+    "unknownError": "An unknown error occurred. Please contact support.",
+    "ServiceTime": "Service Time",
+    "ServiceLocation": "Service Location",
+    "ServiceDate": "Service Date",
+    "SubmitRequest": "Submit Request",
+    "serviceNotRcancelable": "Service is not cancelable",
+    "charactersLeft": "characters left: {{count}}",
+    "Services": "Services"
   },
   "rescheduleService": {
     "actionButtonLabel": "Reschedule Service",

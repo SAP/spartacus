@@ -1,0 +1,17 @@
+<ng-container *ngIf="product$ | async as product">
+  <cx-star-rating
+    *ngIf="product.averageRating"
+    [rating]="product?.averageRating ?? 0"
+  ></cx-star-rating>
+
+  <div *ngIf="!product.averageRating" class="cx-product-no-review">
+    {{ 'productDetails.noReviews' | cxTranslate }}
+  </div>
+
+  <div
+    class="cx-product-price"
+    [attr.aria-label]="'productDetails.productPrice' | cxTranslate"
+  >
+    {{ getProductPrice(product) }}
+  </div>
+</ng-container>

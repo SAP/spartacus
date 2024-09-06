@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './cancel-service-order.service';
 export * from './reschedule-service-order.service';

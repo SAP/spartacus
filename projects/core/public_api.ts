@@ -35,6 +35,7 @@ export * from './src/window/index';
 export * from './src/site-theme/index';
 
 /** AUGMENTABLE_TYPES_START */
+export { ProductScope } from './src/product/model/product-scope';
 export { AuthToken } from './src/auth/user-auth/models/auth-token.model';
 export { Config } from './src/config/config-tokens';
 export { Address } from './src/model/address.model';

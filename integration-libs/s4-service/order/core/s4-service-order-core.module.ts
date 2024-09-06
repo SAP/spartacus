@@ -6,13 +6,28 @@
 
 import { NgModule } from '@angular/core';
 import { CxDatePipe } from '@spartacus/core';
-import { RescheduleServiceOrderService } from './facade';
-import { RescheduleServiceOrderFacade } from '@spartacus/s4-service/root';
-import { RescheduleServiceOrderConnector } from './connector';
+import {
+  CancelServiceOrderFacade,
+  RescheduleServiceOrderFacade,
+} from '@spartacus/s4-service/root';
+import {
+  CancelServiceOrderConnector,
+  RescheduleServiceOrderConnector,
+} from './connector';
+import {
+  CancelServiceOrderService,
+  RescheduleServiceOrderService,
+} from './facade';
 
 @NgModule({
   providers: [
     CxDatePipe,
+    CancelServiceOrderService,
+    {
+      provide: CancelServiceOrderFacade,
+      useExisting: CancelServiceOrderService,
+    },
+    CancelServiceOrderConnector,
     RescheduleServiceOrderService,
     {
       provide: RescheduleServiceOrderFacade,

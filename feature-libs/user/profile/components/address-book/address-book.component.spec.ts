@@ -14,10 +14,11 @@ import {
   I18nTestingModule,
   User,
 } from '@spartacus/core';
+import { CardModule, SpinnerModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
-import { CardModule, SpinnerModule } from '@spartacus/storefront';
 
 class MockGlobalMessageService {
   add = jasmine.createSpy();
@@ -111,7 +112,11 @@ describe('AddressBookComponent', () => {
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
-      declarations: [AddressBookComponent, MockAddressFormComponent],
+      declarations: [
+        AddressBookComponent,
+        MockAddressFormComponent,
+        MockFeatureDirective,
+      ],
     }).compileComponents();
   }));
 

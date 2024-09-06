@@ -6,13 +6,23 @@
 
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
+import {
+  CancelServiceOrderAdapter,
+  RescheduleServiceOrderAdapter,
+} from '../core/connector';
+import {
+  OccCancelServiceOrderAdapter,
+  OccRescheduleServiceOrderAdapter,
+} from './adapters';
 import { defaultOccServiceOrderConfig } from './config/default-occ-s4-service-config';
-import { RescheduleServiceOrderAdapter } from '../core/connector';
-import { OccRescheduleServiceOrderAdapter } from './adapters';
 
 @NgModule({
   providers: [
     provideDefaultConfig(defaultOccServiceOrderConfig),
+    {
+      provide: CancelServiceOrderAdapter,
+      useClass: OccCancelServiceOrderAdapter,
+    },
     {
       provide: RescheduleServiceOrderAdapter,
       useClass: OccRescheduleServiceOrderAdapter,

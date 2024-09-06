@@ -23,11 +23,6 @@ export interface UserProfileOccEndpoints {
   userForgotPassword?: string | OccEndpoint;
 
   /**
-   * Request an email to reset the password
-   */
-  userRestoreToken?: string | OccEndpoint;
-
-  /**
    * Reset the password once the email is received.
    */
   userResetPassword?: string | OccEndpoint;
