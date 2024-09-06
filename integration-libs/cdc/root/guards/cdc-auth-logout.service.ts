@@ -7,9 +7,6 @@
 import { Injectable } from '@angular/core';
 import { CdcLogoutGuard } from './cdc-logout.guard';
 
-/**
- * Extendable service for `AuthInterceptor`.
- */
 @Injectable({
   providedIn: 'root',
 })
