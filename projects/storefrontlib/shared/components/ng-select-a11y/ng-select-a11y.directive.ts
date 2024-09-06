@@ -119,6 +119,10 @@ export class NgSelectA11yDirective implements AfterViewInit {
     observerInstance.disconnect();
   }
 
+  /**
+   * Hides the input value from the screen reader and provides it as part of the aria-label instead.
+   * This improves the screen reader output on mobile devices.
+   */
   appendValueToAriaLabel(
     _changes: any,
     observer: MutationObserver,
