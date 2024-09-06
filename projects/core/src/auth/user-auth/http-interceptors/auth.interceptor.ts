@@ -66,7 +66,7 @@ export class AuthInterceptor implements HttpInterceptor {
                   // Refresh the expired token
                   // Check if the OAuth endpoint was called and the error is because the refresh token expired
                   this.errorIsInvalidToken(errResponse) ||
-                  this.isOidcInvlidToken(errResponse)
+                  this.errorIsOidcInvlidToken(errResponse)
                 ) {
                   this.authHttpHeaderService.handleExpiredRefreshToken();
                   return EMPTY;
@@ -104,7 +104,7 @@ export class AuthInterceptor implements HttpInterceptor {
     );
   }
 
-  protected isOidcInvlidToken(errResponse: HttpErrorResponse): boolean {
+  protected errorIsOidcInvlidToken(errResponse: HttpErrorResponse): boolean {
     const authHeader = errResponse.headers.get('www-authenticate');
     if (!this.authConfigService.getOAuthLibConfig().disablePKCE && authHeader) {
       const parts = authHeader.split(',').map((part) => part.trim());
