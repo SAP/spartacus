@@ -14,6 +14,8 @@
         : 'configurator.overviewFilter.removeMySelections'
       ) | cxTranslate
     }}"
+    (keydown.delete)="onAttrFilterRemove(config, filter)"
+    aria-keyshortcuts="Delete"
     (click)="onAttrFilterRemove(config, filter)"
   >
     {{
@@ -39,6 +41,8 @@
         | cxTranslate
           : { group: getGroupFilterDescription(config.overview, groupId) }
     }}"
+    (keydown.delete)="onGroupFilterRemove(config, groupId)"
+    aria-keyshortcuts="Delete"
     (click)="onGroupFilterRemove(config, groupId)"
   >
     {{ getGroupFilterDescription(config.overview, groupId) }}
@@ -53,6 +57,8 @@
     class="cx-overview-filter-applied"
     id="cx-overview-filter-applied-REMOVE_ALL"
     title="{{ 'configurator.overviewFilter.removeAllFilters' | cxTranslate }}"
+    (keydown.delete)="onRemoveAll(config)"
+    aria-keyshortcuts="Delete"
     (click)="onRemoveAll(config)"
   >
     {{ 'configurator.overviewFilter.removeAll' | cxTranslate }}

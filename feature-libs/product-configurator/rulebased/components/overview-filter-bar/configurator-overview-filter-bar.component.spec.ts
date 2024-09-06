@@ -180,6 +180,26 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       ).toHaveBeenCalledTimes(3); // My Selections, Group 1, Remove All
     });
 
+    it('should activate the remove my selections button with Delete key', () => {
+      ovConfig.overview.attributeFilters = [MY_SELECTIONS];
+      fixture.detectChanges();
+
+      let buttonEl = fixture.debugElement.query(
+        By.css('#cx-overview-filter-applied-USER_INPUT')
+      );
+      spyOn(component, 'onAttrFilterRemove');
+
+      const event = new KeyboardEvent('keydown', {
+        key: 'Delete',
+      });
+      buttonEl.nativeElement.dispatchEvent(event);
+
+      expect(component.onAttrFilterRemove).toHaveBeenCalledWith(
+        ovConfig,
+        ovConfig.overview.attributeFilters[0]
+      );
+    });
+
     describe('to support A11Y', () => {
       it('the button to remove the price filter should have a descriptive title', () => {
         ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
