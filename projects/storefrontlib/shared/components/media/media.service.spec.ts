@@ -712,6 +712,76 @@ describe('MediaService', () => {
     });
   });
 
+  describe('width and height attributes for picture sources', () => {
+    it('should return all images with proper width and height properties based on values from config', () => {
+      const config = {
+        ...MockStorefrontConfig,
+        pictureElementFormats: {
+          format400: {
+            mediaQueries: {
+              maxWidth: '786px',
+              minDevicePixelRatio: 3,
+            },
+            width: 200,
+            height: 300,
+          },
+          format200: {
+            mediaQueries: {
+              minWidth: '768px',
+              maxWidth: '1024px',
+            },
+            width: 700,
+            height: 1000,
+          },
+          format600: {
+            mediaQueries: {
+              minWidth: '1025px',
+              maxWidth: '1439px',
+            },
+            width: 1000,
+            height: 800,
+          },
+          format1: {
+            mediaQueries: {
+              minWidth: '1440px',
+            },
+            width: 1440,
+            height: 1000,
+          },
+        },
+      };
+      configureTestingModule(config);
+      const service = TestBed.inject(MediaService);
+
+      const expectedResult = [
+        {
+          srcset: 'base:format-1.url',
+          media: '(min-width: 1440px)',
+          width: 1440,
+          height: 1000,
+        },
+        {
+          srcset: 'base:format-400.url',
+          media: '(max-width: 786px) and (-webkit-min-device-pixel-ratio: 3)',
+          width: 200,
+          height: 300,
+        },
+        {
+          srcset: 'base:format-600.url',
+          media: '(min-width: 1025px) and (max-width: 1439px)',
+          width: 1000,
+          height: 800,
+        },
+      ];
+
+      const result = service.getMediaForPictureElement(
+        mockBestFormatMediaContainer
+      )?.sources;
+
+      expect(result).toEqual(expectedResult);
+    });
+  });
+
   describe('without media config', () => {
     let mediaService: MediaService;
 
