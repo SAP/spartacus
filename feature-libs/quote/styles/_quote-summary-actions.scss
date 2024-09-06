@@ -31,6 +31,9 @@
       gap: 1em;
       justify-content: center;
       background-color: var(--cx-color-inverse);
+      @include cx-highContrastTheme {
+        background-color: var(--cx-color-background);
+      }
     }
   }
 }
