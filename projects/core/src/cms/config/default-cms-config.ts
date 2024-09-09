@@ -12,7 +12,7 @@ export const defaultCmsModuleConfig: CmsConfig = {
       endpoints: {
         component: 'cms/components/${id}',
         components: 'cms/components',
-        pages: 'cms/pages2',
+        pages: 'cms/pages',
         page: 'cms/pages/${id}',
       },
     },
