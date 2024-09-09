@@ -7,6 +7,7 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable, inject, isDevMode } from '@angular/core';
 
+import { FeatureConfigService } from '../../../../features-config';
 import { LoggerService } from '../../../../logger';
 import { Priority } from '../../../../util/applicable';
 import { HttpResponseStatus } from '../../../models/response-status.model';
@@ -20,9 +21,10 @@ import { HttpErrorHandler } from '../http-error.handler';
   providedIn: 'root',
 })
 export class UnknownErrorHandler extends HttpErrorHandler {
-  responseStatus = HttpResponseStatus.UNKNOWN;
-
   protected logger = inject(LoggerService);
+  protected featureConfigService = inject(FeatureConfigService);
+
+  responseStatus = HttpResponseStatus.UNKNOWN;
 
   /**
    * hasMatch always returns true, to mach all errors
@@ -32,7 +34,16 @@ export class UnknownErrorHandler extends HttpErrorHandler {
   }
 
   handleError(_request: HttpRequest<any>, errorResponse: HttpErrorResponse) {
-    if (isDevMode() || this.isSsr()) {
+    const shouldLogError = this.featureConfigService.isEnabled(
+      'ssrStrictErrorHandlingForHttpAndNgrx'
+    )
+      ? isDevMode()
+      : isDevMode() || this.isSsr();
+    console.log('shouldLogError', shouldLogError);
+
+    // Error will be handled and logged by the `HttpErrorHandlerInterceptor`.
+    // After removing the `ssrStrictErrorHandlingForHttpAndNgrx` feature flag, error will be logged only in dev mode.
+    if (shouldLogError) {
       this.logger.warn(
         `An unknown http error occurred\n`,
         errorResponse.message
@@ -44,6 +55,6 @@ export class UnknownErrorHandler extends HttpErrorHandler {
    * Fallback priority assures that the handler is used as a last resort
    */
   getPriority() {
-    return Priority.FALLBACK;
+    return Priority.HIGH;
   }
 }
