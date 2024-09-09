@@ -6,7 +6,9 @@
 
 import { isDevMode } from '@angular/core';
 import { Request } from 'express';
+import { formatWithOptions } from 'util';
 import { getRequestContext } from '../../optimized-engine/request-context';
+import { DEFAULT_INSPECT_OPTIONS } from '../default-inspect-options';
 import {
   ExpressServerLogger,
   ExpressServerLoggerContext,
@@ -83,7 +85,17 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
       });
     }
 
+    if (context.error) {
+      Object.assign(outputContext, {
+        error: this.mapError(context.error),
+      });
+    }
+
     return outputContext;
+  }
+
+  protected mapError(error: unknown): string {
+    return formatWithOptions(DEFAULT_INSPECT_OPTIONS, error);
   }
 
   /**

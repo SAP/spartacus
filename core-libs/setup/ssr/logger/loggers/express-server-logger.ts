@@ -13,6 +13,7 @@ import { Request } from 'express';
  */
 export interface ExpressServerLoggerContext {
   request?: Request;
+  error?: unknown;
   [_key: string]: any;
 }
 
