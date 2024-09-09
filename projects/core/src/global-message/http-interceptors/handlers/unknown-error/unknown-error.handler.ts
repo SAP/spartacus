@@ -55,6 +55,6 @@ export class UnknownErrorHandler extends HttpErrorHandler {
    * Fallback priority assures that the handler is used as a last resort
    */
   getPriority() {
-    return Priority.HIGH;
+    return Priority.FALLBACK;
   }
 }
