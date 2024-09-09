@@ -151,7 +151,7 @@ jobs:
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   merge_checks_result:
-    needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, ssr_tests]
+    needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests]
     name: MC - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}
