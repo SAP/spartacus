@@ -39,7 +39,6 @@ export class UnknownErrorHandler extends HttpErrorHandler {
     )
       ? isDevMode()
       : isDevMode() || this.isSsr();
-    console.log('shouldLogError', shouldLogError);
 
     // Error will be handled and logged by the `HttpErrorHandlerInterceptor`.
     // After removing the `ssrStrictErrorHandlingForHttpAndNgrx` feature flag, error will be logged only in dev mode.
