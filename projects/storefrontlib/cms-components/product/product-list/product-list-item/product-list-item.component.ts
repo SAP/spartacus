@@ -12,23 +12,41 @@ import {
   SimpleChanges,
   inject,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
+import { useFeatureStyles, FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { ProductListOutlets } from '../../product-outlets.model';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductListService } from '../product-list.service';
+import { InnerComponentsHostDirective } from '../../../../cms-structure/page/component/inner-components-host.directive';
+import { StarRatingComponent } from '../../../../shared/components/star-rating/star-rating.component';
+import { NgIf } from '@angular/common';
+import { OutletDirective } from '../../../../cms-structure/outlet/outlet.directive';
+import { MediaComponent } from '../../../../shared/components/media/media.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'cx-product-list-item',
-  templateUrl: './product-list-item.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    ProductListItemContextSource,
-    {
-      provide: ProductListItemContext,
-      useExisting: ProductListItemContextSource,
-    },
-  ],
+    selector: 'cx-product-list-item',
+    templateUrl: './product-list-item.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        ProductListItemContextSource,
+        {
+            provide: ProductListItemContext,
+            useExisting: ProductListItemContextSource,
+        },
+    ],
+    standalone: true,
+    imports: [
+        RouterLink,
+        MediaComponent,
+        FeaturesConfigModule,
+        OutletDirective,
+        NgIf,
+        StarRatingComponent,
+        InnerComponentsHostDirective,
+        I18nModule,
+        UrlModule,
+    ],
 })
 export class ProductListItemComponent implements OnChanges {
   protected productListService = inject(ProductListService);

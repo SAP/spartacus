@@ -19,25 +19,25 @@ import { defaultReplenishmentOrderCancellationLayoutConfig } from '../replenishm
 import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    ListNavigationModule,
-    UrlModule,
-    I18nModule,
-  ],
-  providers: [
-    provideDefaultConfig(defaultReplenishmentOrderCancellationLayoutConfig),
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        AccountReplenishmentHistoryComponent: {
-          component: ReplenishmentOrderHistoryComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [ReplenishmentOrderHistoryComponent],
-  exports: [ReplenishmentOrderHistoryComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        ListNavigationModule,
+        UrlModule,
+        I18nModule,
+        ReplenishmentOrderHistoryComponent,
+    ],
+    providers: [
+        provideDefaultConfig(defaultReplenishmentOrderCancellationLayoutConfig),
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                AccountReplenishmentHistoryComponent: {
+                    component: ReplenishmentOrderHistoryComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+    ],
+    exports: [ReplenishmentOrderHistoryComponent],
 })
 export class ReplenishmentOrderHistoryModule {}

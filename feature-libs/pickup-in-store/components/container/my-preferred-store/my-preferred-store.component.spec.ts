@@ -58,32 +58,32 @@ describe('MyPreferredStoreComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MyPreferredStoreComponent],
-      imports: [
+    declarations: [MyPreferredStoreComponent],
+    imports: [
         CardModule,
         CommonModule,
         I18nTestingModule,
         IconTestingModule,
         StoreModule,
         ConfigModule.withConfig({
-          cmsComponents: {
-            MyPreferredStore: {
-              component: MyPreferredStoreComponent,
+            cmsComponents: {
+                MyPreferredStore: {
+                    component: MyPreferredStoreComponent,
+                },
             },
-          },
         } as CmsConfig),
-      ],
-      providers: [
+    ],
+    providers: [
         { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
         {
-          provide: PickupLocationsSearchFacade,
-          useClass: MockPickupLocationsSearchService,
+            provide: PickupLocationsSearchFacade,
+            useClass: MockPickupLocationsSearchService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: StoreFinderFacade, useClass: MockStoreFinderService },
         { provide: CmsService, useClass: MockCmsService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     routingService = TestBed.inject(RoutingService);
   });
 

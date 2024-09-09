@@ -34,12 +34,12 @@ describe('Captcha Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CaptchaComponent],
-      providers: [
+    imports: [CaptchaComponent],
+    providers: [
         { provide: CaptchaApiConfig, useValue: mockCaptchaApiConfig },
         MockCaptchaService,
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

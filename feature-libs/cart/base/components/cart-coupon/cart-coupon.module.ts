@@ -19,26 +19,26 @@ import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.compo
 import { CartCouponComponent } from './cart-coupon.component';
 
 @NgModule({
-  declarations: [CartCouponComponent, AppliedCouponsComponent],
-  exports: [CartCouponComponent, AppliedCouponsComponent],
-  imports: [
-    CommonModule,
-    NgSelectModule,
-    FormsModule,
-    ReactiveFormsModule,
-    I18nModule,
-    IconModule,
-    FormErrorsModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CartApplyCouponComponent: {
-          component: CartCouponComponent,
-        },
-      },
-    }),
-  ],
+    exports: [CartCouponComponent, AppliedCouponsComponent],
+    imports: [
+        CommonModule,
+        NgSelectModule,
+        FormsModule,
+        ReactiveFormsModule,
+        I18nModule,
+        IconModule,
+        FormErrorsModule,
+        FeaturesConfigModule,
+        CartCouponComponent, AppliedCouponsComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CartApplyCouponComponent: {
+                    component: CartCouponComponent,
+                },
+            },
+        }),
+    ],
 })
 export class CartCouponModule {}

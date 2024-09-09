@@ -42,7 +42,8 @@ import { PageLayoutService } from './page-layout.service';
  *
  */
 @Directive({
-  selector: '[cxPageTemplateStyle]',
+    selector: '[cxPageTemplateStyle]',
+    standalone: true,
 })
 export class PageTemplateDirective implements OnInit, OnDestroy {
   /**

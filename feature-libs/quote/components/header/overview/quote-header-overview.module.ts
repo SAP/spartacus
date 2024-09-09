@@ -18,28 +18,27 @@ import {
   KeyboardFocusModule,
 } from '@spartacus/storefront';
 import { QuoteHeaderOverviewComponent } from './quote-header-overview.component';
-import { QuoteHeaderBuyerEditModule } from '../buyer-edit/quote-header-buyer-edit.module';
+
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     I18nModule,
     IconModule,
     CardModule,
-    QuoteHeaderBuyerEditModule,
     KeyboardFocusModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        QuoteHeaderOverviewComponent: {
-          component: QuoteHeaderOverviewComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [QuoteHeaderOverviewComponent],
-  exports: [QuoteHeaderOverviewComponent],
+    QuoteHeaderOverviewComponent,
+],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                QuoteHeaderOverviewComponent: {
+                    component: QuoteHeaderOverviewComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+    ],
+    exports: [QuoteHeaderOverviewComponent],
 })
 export class QuoteHeaderOverviewModule {}

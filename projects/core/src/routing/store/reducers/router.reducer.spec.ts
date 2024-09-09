@@ -16,8 +16,9 @@ import { RouterState } from '../routing-state';
 import * as fromReducer from './router.reducer';
 
 @Component({
-  selector: 'cx-test-cmp',
-  template: 'test-cmp',
+    selector: 'cx-test-cmp',
+    template: 'test-cmp',
+    standalone: true,
 })
 class TestComponent {}
 
@@ -45,63 +46,63 @@ describe('Router Reducer', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [TestComponent],
-      imports: [
+    imports: [
         StoreModule.forRoot(fromReducer.reducerToken),
         RouterTestingModule.withRoutes([
-          { path: '', component: TestComponent },
-          {
-            path: 'category/:categoryCode',
-            component: TestComponent,
-            data: { cxRoute: SemanticRoutes.CATEGORY },
-          },
-          {
-            path: 'product/:productCode',
-            component: TestComponent,
-            data: { cxRoute: SemanticRoutes.PRODUCT },
-          },
-          {
-            path: 'brand/:brandCode',
-            component: TestComponent,
-            data: { cxRoute: SemanticRoutes.BRAND },
-          },
-          {
-            path: 'search/:query',
-            component: TestComponent,
-            data: { cxRoute: SemanticRoutes.SEARCH },
-          },
-          {
-            path: 'cmsPage',
-            component: TestComponent,
-            data: { pageLabel: 'testPageLabel' },
-          },
-          {
-            path: 'dynamically-created',
-            component: TestComponent,
-            children: [{ path: 'sub-route', component: TestComponent }],
-            data: {
-              cxCmsRouteContext: {
-                type: PageType.CONTENT_PAGE,
-                id: 'explicit',
-              },
+            { path: '', component: TestComponent },
+            {
+                path: 'category/:categoryCode',
+                component: TestComponent,
+                data: { cxRoute: SemanticRoutes.CATEGORY },
             },
-          },
-          { path: '**', component: TestComponent },
+            {
+                path: 'product/:productCode',
+                component: TestComponent,
+                data: { cxRoute: SemanticRoutes.PRODUCT },
+            },
+            {
+                path: 'brand/:brandCode',
+                component: TestComponent,
+                data: { cxRoute: SemanticRoutes.BRAND },
+            },
+            {
+                path: 'search/:query',
+                component: TestComponent,
+                data: { cxRoute: SemanticRoutes.SEARCH },
+            },
+            {
+                path: 'cmsPage',
+                component: TestComponent,
+                data: { pageLabel: 'testPageLabel' },
+            },
+            {
+                path: 'dynamically-created',
+                component: TestComponent,
+                children: [{ path: 'sub-route', component: TestComponent }],
+                data: {
+                    cxCmsRouteContext: {
+                        type: PageType.CONTENT_PAGE,
+                        id: 'explicit',
+                    },
+                },
+            },
+            { path: '**', component: TestComponent },
         ]),
         StoreRouterConnectingModule.forRoot(),
-      ],
-      providers: [
+        TestComponent,
+    ],
+    providers: [
         fromReducer.reducerProvider,
         {
-          provide: RouterStateSerializer,
-          useClass: fromReducer.CustomSerializer,
+            provide: RouterStateSerializer,
+            useClass: fromReducer.CustomSerializer,
         },
         {
-          provide: RoutingConfig,
-          useValue: mockConfig,
+            provide: RoutingConfig,
+            useValue: mockConfig,
         },
-      ],
-    });
+    ],
+});
 
     zone = TestBed.inject(NgZone);
     store = TestBed.inject(Store);

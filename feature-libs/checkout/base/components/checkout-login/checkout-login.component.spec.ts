@@ -30,16 +30,15 @@ describe('CheckoutLoginComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-      declarations: [CheckoutLoginComponent, MockFeatureDirective],
-      providers: [
+    imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule, CheckoutLoginComponent, MockFeatureDirective],
+    providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
-          provide: AuthRedirectService,
-          useClass: MockRedirectAfterAuthService,
+            provide: AuthRedirectService,
+            useClass: MockRedirectAfterAuthService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

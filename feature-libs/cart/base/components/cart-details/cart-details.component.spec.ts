@@ -40,8 +40,10 @@ interface CartItemComponentOptions {
 }
 
 @Component({
-  template: '',
-  selector: 'cx-cart-item-list',
+    template: '',
+    selector: 'cx-cart-item-list',
+    standalone: true,
+    imports: [RouterTestingModule, PromotionsModule, I18nTestingModule,],
 })
 class MockCartItemListComponent {
   @Input()
@@ -58,16 +60,20 @@ class MockCartItemListComponent {
 }
 
 @Component({
-  template: '',
-  selector: 'cx-cart-coupon',
+    template: '',
+    selector: 'cx-cart-coupon',
+    standalone: true,
+    imports: [RouterTestingModule, PromotionsModule, I18nTestingModule,],
 })
 class MockCartCouponComponent {
   cartIsLoading = false;
 }
 
 @Component({
-  selector: 'cx-cart-validation-warnings',
-  template: '',
+    selector: 'cx-cart-validation-warnings',
+    template: '',
+    standalone: true,
+    imports: [RouterTestingModule, PromotionsModule, I18nTestingModule,],
 })
 class MockCartValidationWarningsComponent {}
 
@@ -96,27 +102,24 @@ describe('CartDetailsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
-      declarations: [
-        CartDetailsComponent,
-        MockCartItemListComponent,
+    imports: [RouterTestingModule, PromotionsModule, I18nTestingModule, MockCartItemListComponent,
         MockCartCouponComponent,
-        MockCartValidationWarningsComponent,
-      ],
-      providers: [
+        MockCartValidationWarningsComponent],
+    declarations: [CartDetailsComponent],
+    providers: [
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartFacade },
         { provide: AuthService, useValue: mockAuthService },
         { provide: RoutingService, useValue: mockRoutingService },
         {
-          provide: ActiveCartFacade,
-          useClass: MockActiveCartService,
+            provide: ActiveCartFacade,
+            useClass: MockActiveCartService,
         },
         {
-          provide: CartConfigService,
-          useValue: mockCartConfig,
+            provide: CartConfigService,
+            useValue: mockCartConfig,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     mockCartConfig.isSelectiveCartEnabled.and.returnValue(true);
     mockSelectiveCartFacade.isStable.and.returnValue(of(true));

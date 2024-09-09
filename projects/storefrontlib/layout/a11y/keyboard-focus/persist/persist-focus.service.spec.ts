@@ -7,10 +7,11 @@ import { PersistFocusService } from './persist-focus.service';
 class MockSelectFocusUtility {}
 
 @Component({
-  template: `
+    template: `
     <div id="a"></div>
     <div id="b" tabindex="5" data-cx-focus-group="pg"></div>
   `,
+    standalone: true,
 })
 class MockComponent {}
 
@@ -20,15 +21,15 @@ describe('PersistFocusService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent],
-      providers: [
+    imports: [MockComponent],
+    providers: [
         PersistFocusService,
         {
-          provide: SelectFocusUtility,
-          useClass: MockSelectFocusUtility,
+            provide: SelectFocusUtility,
+            useClass: MockSelectFocusUtility,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     service = TestBed.inject(PersistFocusService);
     fixture = TestBed.createComponent(MockComponent);

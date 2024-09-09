@@ -5,14 +5,22 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product, ProductScope } from '@spartacus/core';
+import { Product, ProductScope, I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-product-attributes',
-  templateUrl: './product-attributes.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-attributes',
+    templateUrl: './product-attributes.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ProductAttributesComponent {
   product$: Observable<Product | null> = this.currentProductService.getProduct(

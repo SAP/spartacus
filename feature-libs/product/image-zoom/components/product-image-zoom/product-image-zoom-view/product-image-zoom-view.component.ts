@@ -17,20 +17,9 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import {
-  FeatureConfigService,
-  ImageGroup,
-  Product,
-  isNotNullable,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { FeatureConfigService, ImageGroup, Product, isNotNullable, useFeatureStyles, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
-import {
-  BREAKPOINT,
-  BreakpointService,
-  CurrentProductService,
-  ICON_TYPE,
-} from '@spartacus/storefront';
+import { BREAKPOINT, BreakpointService, CurrentProductService, ICON_TYPE, IconModule, MediaModule } from '@spartacus/storefront';
 import {
   BehaviorSubject,
   Observable,
@@ -49,11 +38,23 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumbnails/product-image-zoom-thumbnails.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-product-image-zoom-view',
-  templateUrl: './product-image-zoom-view.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-image-zoom-view',
+    templateUrl: './product-image-zoom-view.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        IconModule,
+        FeaturesConfigModule,
+        MediaModule,
+        ProductImageZoomThumbnailsComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
   iconType = ICON_TYPE;

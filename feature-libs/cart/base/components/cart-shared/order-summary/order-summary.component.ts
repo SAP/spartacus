@@ -10,8 +10,9 @@ import { OutletContextData } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'cx-order-summary',
-  templateUrl: './order-summary.component.html',
+    selector: 'cx-order-summary',
+    templateUrl: './order-summary.component.html',
+    standalone: true,
 })
 export class OrderSummaryComponent implements OnInit, OnDestroy {
   @Input()

@@ -10,15 +10,17 @@ const coupon1: Voucher = { code: 'coupon1', voucherCode: 'coupon1' };
 const coupon2: Voucher = { code: 'coupon2', voucherCode: 'coupon2' };
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-  template: `
+    template: `
     <cx-applied-coupons
       [vouchers]="coupons"
       [cartIsLoading]="cartIsLoading"
@@ -26,6 +28,8 @@ class MockCxIconComponent {
     >
     </cx-applied-coupons>
   `,
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockedCartCouponComponent {
   coupons = [coupon2, coupon1];
@@ -43,22 +47,19 @@ describe('AppliedCouponsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        AppliedCouponsComponent,
-        MockCxIconComponent,
-        MockedCartCouponComponent,
-      ],
-      providers: [
+    imports: [I18nTestingModule, MockCxIconComponent,
+        MockedCartCouponComponent],
+    declarations: [AppliedCouponsComponent],
+    providers: [
         { provide: CartVoucherFacade, useValue: mockCartVoucherService },
         {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '5.1' },
-          },
+            provide: FeaturesConfig,
+            useValue: {
+                features: { level: '5.1' },
+            },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

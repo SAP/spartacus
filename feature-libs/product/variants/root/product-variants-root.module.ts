@@ -13,7 +13,7 @@ import {
   provideOutlet,
 } from '@spartacus/storefront';
 import { ProductVariantStyleIconsComponent } from './components/variant-style-icons/product-variant-style-icons.component';
-import { ProductVariantStyleIconsModule } from './components/variant-style-icons/product-variant-style-icons.module';
+
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultProductVariantsComponentsConfig(): CmsConfig {
@@ -29,7 +29,7 @@ export function defaultProductVariantsComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
-  imports: [ProductVariantStyleIconsModule],
+  imports: [],
   providers: [
     provideDefaultConfigFactory(defaultProductVariantsComponentsConfig),
     provideOutlet({

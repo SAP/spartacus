@@ -14,9 +14,8 @@ describe('PickupOptionsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PickupOptionsComponent, MockFeatureDirective],
-      imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
-    });
+    imports: [CommonModule, I18nTestingModule, ReactiveFormsModule, PickupOptionsComponent, MockFeatureDirective],
+});
     fixture = TestBed.createComponent(PickupOptionsComponent);
     component = fixture.componentInstance;
   });

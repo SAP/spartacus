@@ -15,7 +15,8 @@ import { OutletPosition } from '../outlet.model';
 import { OutletService } from '../outlet.service';
 
 @Directive({
-  selector: '[cxOutletRef]',
+    selector: '[cxOutletRef]',
+    standalone: true,
 })
 export class OutletRefDirective implements OnInit, OnDestroy {
   @Input()

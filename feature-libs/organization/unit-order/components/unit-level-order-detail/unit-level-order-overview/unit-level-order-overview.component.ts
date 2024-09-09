@@ -6,23 +6,25 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
-import {
-  Address,
-  B2BUser,
-  CostCenter,
-  PaymentDetails,
-  TranslationService,
-} from '@spartacus/core';
+import { Address, B2BUser, CostCenter, PaymentDetails, TranslationService, I18nModule } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { Card } from '@spartacus/storefront';
+import { Card, CardModule } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-unit-level-order-overview',
-  templateUrl: './unit-level-order-overview.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-unit-level-order-overview',
+    templateUrl: './unit-level-order-overview.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        CardModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class UnitLevelOrderOverviewComponent implements OnInit {
   constructor(

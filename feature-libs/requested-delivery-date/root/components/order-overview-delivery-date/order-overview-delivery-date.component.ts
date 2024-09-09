@@ -5,16 +5,24 @@
  */
 
 import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
+import { TranslationService, I18nModule } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { Card, OutletContextData } from '@spartacus/storefront';
+import { Card, OutletContextData, CardModule } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { DateValidationService } from '../shared/date-validation.service';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-order-overview-delivery-date',
-  templateUrl: './order-overview-delivery-date.component.html',
+    selector: 'cx-order-overview-delivery-date',
+    templateUrl: './order-overview-delivery-date.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        CardModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class OrderOverviewDeliveryDateComponent implements OnInit, OnDestroy {
   constructor(

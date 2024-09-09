@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { ProductMultiDimensionalListItemDetailsModule } from './components/product-item-details/product-multi-dimensional-list-item-details.module';
+
 
 import {
   OutletPosition,
@@ -31,7 +31,7 @@ export function defaultProductMultiDimensionalListConfig() {
 }
 
 @NgModule({
-  imports: [ProductMultiDimensionalListItemDetailsModule],
+  imports: [],
   providers: [
     provideDefaultConfigFactory(defaultProductMultiDimensionalListConfig),
     provideOutlet({

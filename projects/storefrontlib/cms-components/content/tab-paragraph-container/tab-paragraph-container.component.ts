@@ -12,20 +12,27 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import {
-  CmsService,
-  CMSTabParagraphContainer,
-  WindowRef,
-} from '@spartacus/core';
+import { CmsService, CMSTabParagraphContainer, WindowRef, I18nModule } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
+import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-tab-paragraph-container',
-  templateUrl: './tab-paragraph-container.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-tab-paragraph-container',
+    templateUrl: './tab-paragraph-container.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        OutletDirective,
+        ComponentWrapperDirective,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   activeTabNum = 0;

@@ -5,15 +5,30 @@
  */
 
 import { ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
-import { ProductSearchPage } from '@spartacus/core';
+import { ProductSearchPage, I18nModule } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { ViewConfig } from '../../../../../shared/config/view-config';
 import { ViewModes } from '../../product-view/product-view.component';
 import { ProductListComponentService } from '../product-list-component.service';
+import { ProductListItemComponent } from '../../product-list-item/product-list-item.component';
+import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
+import { ProductGridItemComponent } from '../../product-grid-item/product-grid-item.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'cx-product-scroll',
-  templateUrl: './product-scroll.component.html',
+    selector: 'cx-product-scroll',
+    templateUrl: './product-scroll.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        InfiniteScrollModule,
+        NgFor,
+        ProductGridItemComponent,
+        SpinnerComponent,
+        ProductListItemComponent,
+        I18nModule,
+    ],
 })
 export class ProductScrollComponent implements OnDestroy {
   private subscription = new Subscription();

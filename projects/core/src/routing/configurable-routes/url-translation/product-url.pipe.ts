@@ -8,7 +8,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { SemanticPathService } from './semantic-path.service';
 import { Product } from '../../../model/product.model';
 @Pipe({
-  name: 'cxProductUrl',
+    name: 'cxProductUrl',
+    standalone: true,
 })
 export class ProductURLPipe implements PipeTransform {
   constructor(private semanticPath: SemanticPathService) {}

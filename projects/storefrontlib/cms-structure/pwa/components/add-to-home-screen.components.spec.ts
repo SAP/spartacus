@@ -6,8 +6,9 @@ import { AddToHomeScreenComponent } from './add-to-home-screen.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
-  selector: 'cx-add-to-home',
-  template: 'test-add-to-home',
+    selector: 'cx-add-to-home',
+    template: 'test-add-to-home',
+    standalone: true,
 })
 class ExampleAddToHomeScreenComponent extends AddToHomeScreenComponent {
   constructor(protected addToHomeScreenService: AddToHomeScreenService) {
@@ -27,14 +28,14 @@ describe('AddToHomeScreenComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ExampleAddToHomeScreenComponent],
-      providers: [
+    imports: [ExampleAddToHomeScreenComponent],
+    providers: [
         {
-          provide: AddToHomeScreenService,
-          useClass: MockAddToHomeScreenService,
+            provide: AddToHomeScreenService,
+            useClass: MockAddToHomeScreenService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     mockAddToHomeScreenService = TestBed.inject(AddToHomeScreenService);
   }));

@@ -14,11 +14,19 @@ import {
 import { CmsLinkComponent } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-link',
-  templateUrl: './link.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-link',
+    templateUrl: './link.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        GenericLinkComponent,
+        AsyncPipe,
+    ],
 })
 export class LinkComponent implements OnDestroy, OnInit {
   @HostBinding('class') styleClasses: string | undefined;

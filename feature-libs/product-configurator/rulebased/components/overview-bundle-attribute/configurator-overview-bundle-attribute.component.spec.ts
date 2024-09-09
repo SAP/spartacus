@@ -16,7 +16,8 @@ import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.c
 import { ConfiguratorOverviewBundleAttributeComponent } from './configurator-overview-bundle-attribute.component';
 
 @Pipe({
-  name: 'cxNumeric',
+    name: 'cxNumeric',
+    standalone: true,
 })
 class MockNumericPipe implements PipeTransform {
   transform(): any {}
@@ -52,9 +53,11 @@ class MockProductService {
 }
 
 @Component({
-  // tslint:disable-next-line: component-selector
-  selector: 'cx-configurator-price',
-  template: '',
+    // tslint:disable-next-line: component-selector
+    selector: 'cx-configurator-price',
+    template: '',
+    standalone: true,
+    imports: [MediaModule, I18nTestingModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -67,14 +70,11 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [MediaModule, I18nTestingModule],
-      declarations: [
-        ConfiguratorOverviewBundleAttributeComponent,
+    imports: [MediaModule, I18nTestingModule, ConfiguratorOverviewBundleAttributeComponent,
         MockConfiguratorPriceComponent,
-        MockNumericPipe,
-      ],
-      providers: [{ provide: ProductService, useClass: MockProductService }],
-    }).compileComponents();
+        MockNumericPipe],
+    providers: [{ provide: ProductService, useClass: MockProductService }],
+}).compileComponents();
   }));
 
   beforeEach(() => {

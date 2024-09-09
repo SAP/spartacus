@@ -19,10 +19,10 @@ import {
 import { ListNavigationModule } from '@spartacus/storefront';
 import { UnitLevelOrdersViewerGuard } from '@spartacus/organization/unit-order/core';
 import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
-import { UnitLevelOrderHistoryFilterModule } from './filter/unit-level-order-history-filter.module';
+
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
@@ -30,19 +30,18 @@ import { UnitLevelOrderHistoryFilterModule } from './filter/unit-level-order-his
     ListNavigationModule,
     UrlModule,
     I18nModule,
-    UnitLevelOrderHistoryFilterModule,
-  ],
-  declarations: [UnitLevelOrderHistoryComponent],
-  exports: [UnitLevelOrderHistoryComponent],
-  providers: [
-    provideDefaultConfig({
-      cmsComponents: {
-        UnitLevelOrderHistoryComponent: {
-          component: UnitLevelOrderHistoryComponent,
-          guards: [AuthGuard, UnitLevelOrdersViewerGuard],
-        },
-      },
-    } as CmsConfig),
-  ],
+    UnitLevelOrderHistoryComponent,
+],
+    exports: [UnitLevelOrderHistoryComponent],
+    providers: [
+        provideDefaultConfig({
+            cmsComponents: {
+                UnitLevelOrderHistoryComponent: {
+                    component: UnitLevelOrderHistoryComponent,
+                    guards: [AuthGuard, UnitLevelOrdersViewerGuard],
+                },
+            },
+        } as CmsConfig),
+    ],
 })
 export class UnitLevelOrderHistoryModule {}

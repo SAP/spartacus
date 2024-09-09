@@ -51,12 +51,11 @@ describe('OrderDetailPermissionResultsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderDetailPermissionResultsComponent],
-      providers: [
+    imports: [I18nTestingModule, OrderDetailPermissionResultsComponent],
+    providers: [
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

@@ -20,7 +20,8 @@ import {
 import { GlobalMessageType } from '@spartacus/core';
 
 @Pipe({
-  name: 'cxTranslate',
+    name: 'cxTranslate',
+    standalone: true,
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
@@ -45,8 +46,9 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 @Component({
-  selector: 'cx-message',
-  template: '',
+    selector: 'cx-message',
+    template: '',
+    standalone: true,
 })
 class MockCxMessageComponent {
   @Input() text: string;
@@ -63,17 +65,15 @@ describe('AsmBindCartDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        AsmSaveCartDialogComponent,
+    imports: [AsmSaveCartDialogComponent,
         MockTranslatePipe,
         FocusDirective,
-        MockCxMessageComponent,
-      ],
-      providers: [
+        MockCxMessageComponent,],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

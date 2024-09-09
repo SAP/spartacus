@@ -25,8 +25,10 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 };
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -74,21 +76,18 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, KeyboardFocusTestingModule],
-      declarations: [
-        ReplenishmentOrderCancellationDialogComponent,
-        MockCxIconComponent,
-        MockFeatureLevelDirective,
-      ],
-      providers: [
+    imports: [I18nTestingModule, KeyboardFocusTestingModule, MockCxIconComponent,
+        MockFeatureLevelDirective],
+    declarations: [ReplenishmentOrderCancellationDialogComponent],
+    providers: [
         {
-          provide: ReplenishmentOrderHistoryFacade,
-          useClass: MockReplenishmentOrderHistoryFacade,
+            provide: ReplenishmentOrderHistoryFacade,
+            useClass: MockReplenishmentOrderHistoryFacade,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

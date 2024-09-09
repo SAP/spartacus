@@ -43,46 +43,44 @@ const myAccountV2EmailMapping: CmsConfig = {
 };
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SpinnerModule,
-    UrlModule,
-    RouterModule,
-    I18nModule,
-    FormErrorsModule,
-    PasswordVisibilityToggleModule,
-    FeaturesConfigModule,
-    MessageComponentModule,
-  ],
-  declarations: [UpdateEmailComponent, MyAccountV2EmailComponent],
-  exports: [UpdateEmailComponent, MyAccountV2EmailComponent],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        UpdateEmailComponent: {
-          component: UpdateEmailComponent,
-          guards: [AuthGuard],
-          providers: [
-            {
-              provide: UpdateEmailComponentService,
-              useClass: UpdateEmailComponentService,
-              deps: [
-                UserEmailFacade,
-                RoutingService,
-                GlobalMessageService,
-                AuthService,
-                AuthRedirectService,
-              ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SpinnerModule,
+        UrlModule,
+        RouterModule,
+        I18nModule,
+        FormErrorsModule,
+        PasswordVisibilityToggleModule,
+        FeaturesConfigModule,
+        MessageComponentModule,
+        UpdateEmailComponent, MyAccountV2EmailComponent,
+    ],
+    exports: [UpdateEmailComponent, MyAccountV2EmailComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                UpdateEmailComponent: {
+                    component: UpdateEmailComponent,
+                    guards: [AuthGuard],
+                    providers: [
+                        {
+                            provide: UpdateEmailComponentService,
+                            useClass: UpdateEmailComponentService,
+                            deps: [
+                                UserEmailFacade,
+                                RoutingService,
+                                GlobalMessageService,
+                                AuthService,
+                                AuthRedirectService,
+                            ],
+                        },
+                    ],
+                },
             },
-          ],
-        },
-      },
-    }),
-    provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_EMAIL) ? myAccountV2EmailMapping : {}
-    ),
-  ],
+        }),
+        provideDefaultConfigFactory(() => inject(USE_MY_ACCOUNT_V2_EMAIL) ? myAccountV2EmailMapping : {}),
+    ],
 })
 export class UpdateEmailModule {}

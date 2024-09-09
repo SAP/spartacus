@@ -15,10 +15,11 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { FeatureConfigService, useFeatureStyles } from '@spartacus/core';
+import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FeatureConfigService, useFeatureStyles, I18nModule } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
+import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
 
 /**
  * Provides a UI to manage the count of the quantity, typically by using
@@ -26,12 +27,15 @@ import { startWith } from 'rxjs/operators';
  * so that the state of the control can be managed outside of this component.
  */
 @Component({
-  selector: 'cx-item-counter',
-  templateUrl: './item-counter.component.html',
-  // do not use OnPush change detection strategy as we would not
-  // get updates of other form control state (disabled). We want to have a
-  // disabled state in order to ensure that the control cannot be used while
-  // the cart is updated.
+    selector: 'cx-item-counter',
+    templateUrl: './item-counter.component.html',
+    standalone: true,
+    imports: [
+        FocusDirective,
+        FormsModule,
+        ReactiveFormsModule,
+        I18nModule,
+    ],
 })
 export class ItemCounterComponent implements OnInit, OnDestroy {
   /**

@@ -9,7 +9,8 @@ import { SemanticPathService } from './semantic-path.service';
 import { UrlCommands } from './url-command';
 
 @Pipe({
-  name: 'cxUrl',
+    name: 'cxUrl',
+    standalone: true,
 })
 export class UrlPipe implements PipeTransform {
   constructor(private urlService: SemanticPathService) {}

@@ -9,10 +9,21 @@ import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
+import { I18nModule } from '@spartacus/core';
+import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-configurator-cart-entry-info',
-  templateUrl: './configurator-cart-entry-info.component.html',
+    selector: 'cx-configurator-cart-entry-info',
+    templateUrl: './configurator-cart-entry-info.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        ConfigureCartEntryComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ConfiguratorCartEntryInfoComponent {
   constructor(

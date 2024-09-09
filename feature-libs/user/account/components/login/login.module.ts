@@ -17,16 +17,15 @@ import { PageSlotModule } from '@spartacus/storefront';
 import { LoginComponent } from './login.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, PageSlotModule, I18nModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        LoginComponent: {
-          component: LoginComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [LoginComponent],
+    imports: [CommonModule, RouterModule, UrlModule, PageSlotModule, I18nModule, LoginComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                LoginComponent: {
+                    component: LoginComponent,
+                },
+            },
+        }),
+    ],
 })
 export class LoginModule {}

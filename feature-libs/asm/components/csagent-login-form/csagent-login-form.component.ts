@@ -12,8 +12,9 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'cx-csagent-login-form',
-  templateUrl: './csagent-login-form.component.html',
+    selector: 'cx-csagent-login-form',
+    templateUrl: './csagent-login-form.component.html',
+    standalone: true,
 })
 export class CSAgentLoginFormComponent implements OnInit {
   csAgentLoginForm: UntypedFormGroup;

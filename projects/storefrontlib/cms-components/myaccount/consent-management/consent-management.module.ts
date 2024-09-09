@@ -15,7 +15,7 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+
 import { IconModule } from '../../misc/icon/icon.module';
 import { ConsentManagementFormComponent } from './components/consent-form/consent-management-form.component';
 import { ConsentManagementComponent } from './components/consent-management.component';
@@ -33,30 +33,27 @@ const myAccountV2CmsMapping: CmsConfig = {
 };
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SpinnerModule,
     I18nModule,
     IconModule,
     FeaturesConfigModule,
-  ],
-  providers: [
-    ConsentManagementComponentService,
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ConsentManagementComponent: {
-          component: ConsentManagementComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-    provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_CONSENT) ? myAccountV2CmsMapping : {}
-    ),
-  ],
-  declarations: [ConsentManagementComponent, ConsentManagementFormComponent],
-  exports: [ConsentManagementComponent, ConsentManagementFormComponent],
+    ConsentManagementComponent, ConsentManagementFormComponent,
+],
+    providers: [
+        ConsentManagementComponentService,
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ConsentManagementComponent: {
+                    component: ConsentManagementComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+        provideDefaultConfigFactory(() => inject(USE_MY_ACCOUNT_V2_CONSENT) ? myAccountV2CmsMapping : {}),
+    ],
+    exports: [ConsentManagementComponent, ConsentManagementFormComponent],
 })
 export class ConsentManagementModule {}

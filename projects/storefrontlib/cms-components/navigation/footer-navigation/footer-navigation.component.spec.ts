@@ -16,8 +16,10 @@ import { FooterNavigationComponent } from './footer-navigation.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
-  selector: 'cx-navigation-ui',
-  template: '',
+    selector: 'cx-navigation-ui',
+    template: '',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule],
 })
 class MockNavigationUIComponent {
   @Input() flyout = true;
@@ -32,8 +34,10 @@ const mockAnonymousConsentsConfig = {
 };
 
 @Component({
-  selector: 'cx-generic-link',
-  template: '<ng-content></ng-content>',
+    selector: 'cx-generic-link',
+    template: '<ng-content></ng-content>',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule],
 })
 class MockGenericLinkComponent {
   @Input() url: string | any[];
@@ -72,28 +76,25 @@ describe('FooterNavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [
-        FooterNavigationComponent,
+    imports: [RouterTestingModule, I18nTestingModule, FooterNavigationComponent,
         NavigationComponent,
         MockNavigationUIComponent,
-        MockGenericLinkComponent,
-      ],
-      providers: [
+        MockGenericLinkComponent],
+    providers: [
         {
-          provide: NavigationService,
-          useValue: mockNavigationService,
+            provide: NavigationService,
+            useValue: mockNavigationService,
         },
         {
-          provide: CmsComponentData,
-          useValue: MockCmsNavigationComponent,
+            provide: CmsComponentData,
+            useValue: MockCmsNavigationComponent,
         },
         {
-          provide: AnonymousConsentsConfig,
-          useValue: mockAnonymousConsentsConfig,
+            provide: AnonymousConsentsConfig,
+            useValue: mockAnonymousConsentsConfig,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

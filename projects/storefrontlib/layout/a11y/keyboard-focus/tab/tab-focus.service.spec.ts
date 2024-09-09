@@ -5,7 +5,7 @@ import { SelectFocusUtility } from '../services';
 import { TabFocusService } from './tab-focus.service';
 
 @Component({
-  template: `
+    template: `
     <div id="a">
       <button id="a1"></button>
       <button id="a2"></button>
@@ -22,6 +22,7 @@ import { TabFocusService } from './tab-focus.service';
     </div>
     <div id="c"></div>
   `,
+    standalone: true,
 })
 class MockComponent {}
 
@@ -36,15 +37,15 @@ describe('TabFocusService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent],
-      providers: [
+    imports: [MockComponent],
+    providers: [
         TabFocusService,
         {
-          provide: SelectFocusUtility,
-          useClass: MockSelectFocusUtility,
+            provide: SelectFocusUtility,
+            useClass: MockSelectFocusUtility,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     service = TestBed.inject(TabFocusService);
     fixture = TestBed.createComponent(MockComponent);

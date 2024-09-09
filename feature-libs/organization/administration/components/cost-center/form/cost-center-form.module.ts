@@ -18,11 +18,11 @@ import {
 import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
-import { ItemActiveModule } from '../../shared/item-active.module';
+
 import { CostCenterFormComponent } from './cost-center-form.component';
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     RouterModule,
     FormModule,
@@ -31,11 +31,10 @@ import { CostCenterFormComponent } from './cost-center-form.component';
     I18nModule,
     ReactiveFormsModule,
     FormErrorsModule,
-    ItemActiveModule,
     FeaturesConfigModule,
-  ],
-  declarations: [CostCenterFormComponent],
-  exports: [CostCenterFormComponent],
-  providers: [CurrencyService, OrgUnitService],
+    CostCenterFormComponent,
+],
+    exports: [CostCenterFormComponent],
+    providers: [CurrencyService, OrgUnitService],
 })
 export class CostCenterFormModule {}

@@ -15,11 +15,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import {
-  FormErrorsModule,
-  NgSelectA11yModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
+import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { UpdateProfileComponentService } from '@spartacus/user/profile/components';
 import { CDCUpdateProfileComponentService } from './cdc-update-profile-component.service';
 
@@ -34,8 +30,7 @@ import { CDCUpdateProfileComponentService } from './cdc-update-profile-component
     RouterModule,
     UrlModule,
     NgSelectModule,
-    NgSelectA11yModule,
-  ],
+],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

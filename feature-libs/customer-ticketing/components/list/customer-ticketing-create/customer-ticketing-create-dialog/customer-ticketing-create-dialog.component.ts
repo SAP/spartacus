@@ -5,7 +5,7 @@
  */
 
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import {
   AssociatedObject,
   Category,
@@ -13,20 +13,28 @@ import {
   TicketDetails,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
-import { FormUtils } from '@spartacus/storefront';
+import { FormUtils, KeyboardFocusModule, IconModule, FormErrorsModule, FileUploadModule } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  HttpErrorModel,
-  TranslationService,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType, HttpErrorModel, TranslationService, I18nModule } from '@spartacus/core';
 import { catchError, first, tap } from 'rxjs/operators';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-customer-ticketing-create-dialog',
-  templateUrl: './customer-ticketing-create-dialog.component.html',
+    selector: 'cx-customer-ticketing-create-dialog',
+    templateUrl: './customer-ticketing-create-dialog.component.html',
+    standalone: true,
+    imports: [
+        KeyboardFocusModule,
+        ReactiveFormsModule,
+        IconModule,
+        FormErrorsModule,
+        NgIf,
+        NgFor,
+        FileUploadModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class CustomerTicketingCreateDialogComponent
   extends CustomerTicketingDialogComponent

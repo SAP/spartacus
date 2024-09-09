@@ -23,29 +23,29 @@ import {
 import { ConfigureProductComponent } from './configure-product.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        ConfigureProductComponent: {
-          component: ConfigureProductComponent,
-        },
-      },
-    }),
-    UrlModule,
-    I18nModule,
-    IconModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideOutlet({
-      id: ProductListOutlets.ITEM_ACTIONS,
-      position: OutletPosition.AFTER,
-      component: ConfigureProductComponent,
-    }),
-  ],
-  declarations: [ConfigureProductComponent],
-  exports: [ConfigureProductComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        ConfigModule.withConfig(<CmsConfig>{
+            cmsComponents: {
+                ConfigureProductComponent: {
+                    component: ConfigureProductComponent,
+                },
+            },
+        }),
+        UrlModule,
+        I18nModule,
+        IconModule,
+        FeaturesConfigModule,
+        ConfigureProductComponent,
+    ],
+    providers: [
+        provideOutlet({
+            id: ProductListOutlets.ITEM_ACTIONS,
+            position: OutletPosition.AFTER,
+            component: ConfigureProductComponent,
+        }),
+    ],
+    exports: [ConfigureProductComponent],
 })
 export class ConfigureProductModule {}

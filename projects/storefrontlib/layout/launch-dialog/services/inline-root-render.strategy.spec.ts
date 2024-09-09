@@ -14,8 +14,9 @@ import { InlineRootRenderStrategy } from './inline-root-render.strategy';
 class TestComponent {}
 
 @Component({
-  selector: 'cx-root-app',
-  template: '',
+    selector: 'cx-root-app',
+    template: '',
+    standalone: true,
 })
 class MockRootComponent {}
 
@@ -55,15 +56,15 @@ describe('InlineRootRenderStrategy', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
+    imports: [MockRootComponent],
+    providers: [
         InlineRootRenderStrategy,
         {
-          provide: ComponentFactoryResolver,
-          useClass: MockComponentFactoryResolver,
+            provide: ComponentFactoryResolver,
+            useClass: MockComponentFactoryResolver,
         },
-      ],
-      declarations: [MockRootComponent],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     appRef = TestBed.inject(ApplicationRef);
     fixture = TestBed.createComponent(MockRootComponent);

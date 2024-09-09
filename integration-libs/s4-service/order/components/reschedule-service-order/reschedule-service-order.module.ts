@@ -25,28 +25,28 @@ import { ServiceOrderGuard } from '../guards';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [RescheduleServiceOrderComponent],
-  imports: [
-    CommonModule,
-    CardModule,
-    I18nModule,
-    OutletModule,
-    UrlModule,
-    RouterModule,
-    SpinnerModule,
-    DatePickerModule,
-    ReactiveFormsModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        RescheduleServiceOrder: {
-          component: RescheduleServiceOrderComponent,
-          guards: [AuthGuard, ServiceOrderGuard],
-        },
-      },
-    }),
-  ],
-  exports: [RescheduleServiceOrderComponent],
+    imports: [
+        CommonModule,
+        CardModule,
+        I18nModule,
+        OutletModule,
+        UrlModule,
+        RouterModule,
+        SpinnerModule,
+        DatePickerModule,
+        ReactiveFormsModule,
+        RescheduleServiceOrderComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                RescheduleServiceOrder: {
+                    component: RescheduleServiceOrderComponent,
+                    guards: [AuthGuard, ServiceOrderGuard],
+                },
+            },
+        }),
+    ],
+    exports: [RescheduleServiceOrderComponent],
 })
 export class RescheduleServiceOrderModule {}

@@ -11,19 +11,18 @@ describe('StatusCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StatusCellComponent],
-      imports: [RouterTestingModule, UrlTestingModule, I18nTestingModule],
-      providers: [
+    imports: [RouterTestingModule, UrlTestingModule, I18nTestingModule, StatusCellComponent],
+    providers: [
         {
-          provide: OutletContextData,
-          useValue: {
-            context: {
-              active: true,
+            provide: OutletContextData,
+            useValue: {
+                context: {
+                    active: true,
+                },
             },
-          },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

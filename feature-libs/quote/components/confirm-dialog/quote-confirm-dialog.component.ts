@@ -10,22 +10,28 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { CxDatePipe, TranslationService } from '@spartacus/core';
+import { CxDatePipe, TranslationService, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { QuoteCoreConfig } from '@spartacus/quote/core';
-import {
-  FocusConfig,
-  ICON_TYPE,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { FocusConfig, ICON_TYPE, LaunchDialogService, KeyboardFocusModule, IconModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { ConfirmationContext } from './quote-confirm-dialog.model';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-quote-confirm-dialog',
-  templateUrl: './quote-confirm-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CxDatePipe],
+    selector: 'cx-quote-confirm-dialog',
+    templateUrl: './quote-confirm-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [CxDatePipe],
+    standalone: true,
+    imports: [
+        KeyboardFocusModule,
+        NgIf,
+        FeaturesConfigModule,
+        IconModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class QuoteConfirmDialogComponent implements OnInit {
   protected launchDialogService = inject(LaunchDialogService);

@@ -14,16 +14,23 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { CustomerCoupon } from '@spartacus/core';
+import { CustomerCoupon, I18nModule } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
+import { AsyncPipe, LowerCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-coupon-card',
-  templateUrl: './coupon-card.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-coupon-card',
+    templateUrl: './coupon-card.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        AsyncPipe,
+        LowerCasePipe,
+        I18nModule,
+    ],
 })
 export class CouponCardComponent {
   @Input() coupon: CustomerCoupon;

@@ -5,10 +5,17 @@
  */
 
 import { Component } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { PageLayoutModule } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-test-outlet-slot',
-  templateUrl: './test-outlet-slot.component.html',
+    selector: 'cx-test-outlet-slot',
+    templateUrl: './test-outlet-slot.component.html',
+    standalone: true,
+    imports: [
+    PageLayoutModule,
+    AsyncPipe,
+],
 })
 export class TestOutletSlotComponent {
   testSlot1 = 'Section2A';

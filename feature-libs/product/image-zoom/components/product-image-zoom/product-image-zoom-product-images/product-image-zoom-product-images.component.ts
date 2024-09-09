@@ -6,16 +6,24 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import {
-  CurrentProductService,
-  ProductImagesComponent,
-} from '@spartacus/storefront';
-import { Product } from '@spartacus/core';
+import { CurrentProductService, ProductImagesComponent, MediaModule, CarouselModule } from '@spartacus/storefront';
+import { Product, I18nModule } from '@spartacus/core';
+import { ProductImageZoomTriggerComponent } from '../product-image-zoom-trigger/product-image-zoom-trigger.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-product-images',
-  templateUrl: './product-image-zoom-product-images.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-images',
+    templateUrl: './product-image-zoom-product-images.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        MediaModule,
+        ProductImageZoomTriggerComponent,
+        CarouselModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ProductImageZoomProductImagesComponent extends ProductImagesComponent {
   expandImage = new BehaviorSubject(false);

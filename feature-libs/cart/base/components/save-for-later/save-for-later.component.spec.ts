@@ -13,8 +13,10 @@ import { CmsService, I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SaveForLaterComponent } from './save-for-later.component';
 @Component({
-  template: '',
-  selector: 'cx-cart-item-list',
+    template: '',
+    selector: 'cx-cart-item-list',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCartItemListComponent {
   @Input() readonly = false;
@@ -48,14 +50,14 @@ describe('SaveForLaterComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [SaveForLaterComponent, MockCartItemListComponent],
-      imports: [I18nTestingModule],
-      providers: [
+    declarations: [SaveForLaterComponent],
+    imports: [I18nTestingModule, MockCartItemListComponent],
+    providers: [
         { provide: CmsService, useValue: mockCmsService },
         { provide: ActiveCartFacade, useValue: mockActiveCartService },
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

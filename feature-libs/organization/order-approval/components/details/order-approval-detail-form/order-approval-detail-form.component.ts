@@ -5,11 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
@@ -18,11 +14,27 @@ import {
 } from '../../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../../core/services/order-approval.service';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
+import { RouterLink } from '@angular/router';
+import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
+import { SpinnerModule, FormErrorsModule } from '@spartacus/storefront';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-order-approval-detail-form',
-  templateUrl: './order-approval-detail-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-order-approval-detail-form',
+    templateUrl: './order-approval-detail-form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        SpinnerModule,
+        FeaturesConfigModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        RouterLink,
+        AsyncPipe,
+        I18nModule,
+        UrlModule,
+    ],
 })
 export class OrderApprovalDetailFormComponent implements OnDestroy {
   approvalDecisionValue = OrderApprovalDecisionValue;

@@ -5,7 +5,7 @@
  */
 
 import { Component, inject } from '@angular/core';
-import { EventService, TranslationService } from '@spartacus/core';
+import { EventService, TranslationService, I18nModule } from '@spartacus/core';
 import {
   Quote,
   QuoteAction,
@@ -14,18 +14,26 @@ import {
   QuoteMetadata,
   QuoteState,
 } from '@spartacus/quote/root';
-import { Card, ICON_TYPE } from '@spartacus/storefront';
+import { Card, ICON_TYPE, CardModule, IconModule } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { QuoteUIConfig } from '../../config/quote-ui.config';
-import {
-  EditCard,
-  SaveEvent,
-} from '../buyer-edit/quote-header-buyer-edit.component';
+import { EditCard, SaveEvent, QuoteHeaderBuyerEditComponent } from '../buyer-edit/quote-header-buyer-edit.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-quote-header-overview',
-  templateUrl: './quote-header-overview.component.html',
+    selector: 'cx-quote-header-overview',
+    templateUrl: './quote-header-overview.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        CardModule,
+        IconModule,
+        QuoteHeaderBuyerEditComponent,
+        NgFor,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class QuoteHeaderOverviewComponent {
   protected quoteFacade = inject(QuoteFacade);

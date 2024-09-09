@@ -60,15 +60,18 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 @Directive({
-  selector: '[cxFocus]',
+    selector: '[cxFocus]',
+    standalone: true,
 })
 export class MockKeyboardFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
 @Component({
-  selector: 'cx-configurator-group',
-  template: '',
+    selector: 'cx-configurator-group',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, IconModule],
 })
 class MockConfiguratorDefaultFormComponent {
   @Input() group: Configurator.Group;
@@ -93,26 +96,23 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconModule],
-      declarations: [
-        MockConfiguratorDefaultFormComponent,
+    imports: [I18nTestingModule, IconModule, MockConfiguratorDefaultFormComponent,
         ConfiguratorConflictSolverDialogComponent,
         MockKeyboardFocusDirective,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective],
+    providers: [
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
         },
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

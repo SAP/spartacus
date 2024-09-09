@@ -5,22 +5,26 @@
  */
 
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import {
-  CmsBannerComponent,
-  CmsService,
-  Image,
-  ImageGroup,
-  PageType,
-  SemanticPathService,
-} from '@spartacus/core';
+import { CmsBannerComponent, CmsService, Image, ImageGroup, PageType, SemanticPathService, FeaturesConfigModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { MediaComponent } from '../../../shared/components/media/media.component';
+import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-banner',
-  templateUrl: './banner.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-banner',
+    templateUrl: './banner.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        FeaturesConfigModule,
+        GenericLinkComponent,
+        MediaComponent,
+        AsyncPipe,
+    ],
 })
 export class BannerComponent {
   routerLink: string | any[] | undefined;

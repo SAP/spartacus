@@ -5,16 +5,25 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CmsPDFDocumentComponent } from '@spartacus/core';
+import { CmsPDFDocumentComponent, I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { MediaService } from '../../../shared/components/media/media.service';
+import { IconComponent } from '../../misc/icon/icon.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-pdf',
-  templateUrl: './pdf.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-pdf',
+    templateUrl: './pdf.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        IconComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class PDFComponent {
   url?: string;

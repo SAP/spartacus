@@ -17,36 +17,30 @@ import {
   UrlModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import {
-  CardModule,
-  IconModule,
-  OutletModule,
-  PromotionsModule,
-} from '@spartacus/storefront';
+import { CardModule, IconModule, OutletModule } from '@spartacus/storefront';
 import { ServiceCheckoutReviewSubmitComponent } from './service-checkout-review-submit.component';
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     CardModule,
     I18nModule,
     UrlModule,
     RouterModule,
-    PromotionsModule,
     IconModule,
     OutletModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CheckoutReviewOrder: {
-          component: ServiceCheckoutReviewSubmitComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [ServiceCheckoutReviewSubmitComponent],
-  exports: [ServiceCheckoutReviewSubmitComponent],
+    ServiceCheckoutReviewSubmitComponent,
+],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CheckoutReviewOrder: {
+                    component: ServiceCheckoutReviewSubmitComponent,
+                    guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+                },
+            },
+        }),
+    ],
+    exports: [ServiceCheckoutReviewSubmitComponent],
 })
 export class ServiceCheckoutReviewSubmitModule {}

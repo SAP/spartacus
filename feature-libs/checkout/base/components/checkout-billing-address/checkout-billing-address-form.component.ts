@@ -5,25 +5,10 @@
  */
 
 import { Component, OnInit, inject } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
-import {
-  Address,
-  AddressValidation,
-  Country,
-  GlobalMessageService,
-  GlobalMessageType,
-  Region,
-  TranslationService,
-  UserAddressService,
-  UserPaymentService,
-} from '@spartacus/core';
-import {
-  Card,
-  LAUNCH_CALLER,
-  LaunchDialogService,
-  getAddressNumbers,
-} from '@spartacus/storefront';
+import { Address, AddressValidation, Country, GlobalMessageService, GlobalMessageType, Region, TranslationService, UserAddressService, UserPaymentService, I18nModule } from '@spartacus/core';
+import { Card, LAUNCH_CALLER, LaunchDialogService, getAddressNumbers, CardModule, FormErrorsModule } from '@spartacus/storefront';
 import {
   BehaviorSubject,
   EMPTY,
@@ -35,10 +20,22 @@ import {
   tap,
 } from 'rxjs';
 import { CheckoutBillingAddressFormService } from './checkout-billing-address-form.service';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-checkout-billing-address-form',
-  templateUrl: './checkout-billing-address-form.component.html',
+    selector: 'cx-checkout-billing-address-form',
+    templateUrl: './checkout-billing-address-form.component.html',
+    standalone: true,
+    imports: [
+    NgIf,
+    CardModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    FormErrorsModule,
+    AsyncPipe,
+    I18nModule,
+],
 })
 export class CheckoutBillingAddressFormComponent implements OnInit {
   showSameAsDeliveryAddressCheckbox$: Observable<boolean>;

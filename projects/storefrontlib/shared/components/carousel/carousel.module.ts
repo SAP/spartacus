@@ -13,16 +13,16 @@ import { MediaModule } from '../media/media.module';
 import { CarouselComponent } from './carousel.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    IconModule,
-    MediaModule,
-    UrlModule,
-    I18nModule,
-    FeaturesConfigModule,
-  ],
-  declarations: [CarouselComponent],
-  exports: [CarouselComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        IconModule,
+        MediaModule,
+        UrlModule,
+        I18nModule,
+        FeaturesConfigModule,
+        CarouselComponent,
+    ],
+    exports: [CarouselComponent],
 })
 export class CarouselModule {}

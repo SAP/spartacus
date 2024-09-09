@@ -46,8 +46,10 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -101,28 +103,36 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 @Component({
-  selector: 'cx-asm-toggle-ui',
-  template: '',
+    selector: 'cx-asm-toggle-ui',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockAsmToggleUiComponent {}
 
 @Component({
-  selector: 'cx-asm-session-timer',
-  template: '',
+    selector: 'cx-asm-session-timer',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockAsmSessionTimerComponent {}
 
 @Component({
-  selector: 'cx-customer-selection',
-  template: '',
+    selector: 'cx-customer-selection',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCustomerSelectionComponent {
   @Output()
   submitEvent = new EventEmitter();
 }
 @Component({
-  selector: 'cx-csagent-login-form',
-  template: '',
+    selector: 'cx-csagent-login-form',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCSAgentLoginFormComponent {
   @Output()
@@ -131,8 +141,10 @@ class MockCSAgentLoginFormComponent {
   csAgentTokenLoading = false;
 }
 @Component({
-  template: '',
-  selector: 'cx-customer-emulation',
+    template: '',
+    selector: 'cx-customer-emulation',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCustomerEmulationComponent {}
 
@@ -181,17 +193,14 @@ describe('AsmMainUiComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        AsmMainUiComponent,
-        MockAsmToggleUiComponent,
+    imports: [I18nTestingModule, MockAsmToggleUiComponent,
         MockCSAgentLoginFormComponent,
         MockCustomerSelectionComponent,
         MockAsmSessionTimerComponent,
         MockCustomerEmulationComponent,
-        MockCxIconComponent,
-      ],
-      providers: [
+        MockCxIconComponent],
+    declarations: [AsmMainUiComponent],
+    providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
@@ -200,8 +209,8 @@ describe('AsmMainUiComponent', () => {
         { provide: AsmComponentService, useClass: MockAsmComponentService },
         { provide: AsmService, useClass: MockAsmService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

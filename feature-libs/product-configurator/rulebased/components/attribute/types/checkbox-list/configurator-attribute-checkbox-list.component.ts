@@ -11,7 +11,7 @@ import {
   isDevMode,
   OnInit,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { LoggerService } from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -20,12 +20,28 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
+import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
+import { KeyboardFocusModule } from '@spartacus/storefront';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
+import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-configurator-attribute-checkbox-list',
-  templateUrl: './configurator-attribute-checkbox-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ConfiguratorAttributePriceChangeService],
+    selector: 'cx-configurator-attribute-checkbox-list',
+    templateUrl: './configurator-attribute-checkbox-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [ConfiguratorAttributePriceChangeService],
+    standalone: true,
+    imports: [
+        NgIf,
+        ConfiguratorAttributeQuantityComponent,
+        ConfiguratorPriceComponent,
+        NgFor,
+        ReactiveFormsModule,
+        KeyboardFocusModule,
+        ConfiguratorShowMoreComponent,
+        AsyncPipe,
+    ],
 })
 export class ConfiguratorAttributeCheckBoxListComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent

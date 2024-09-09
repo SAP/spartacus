@@ -53,26 +53,25 @@ describe('CdcLoginComponentService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
-      ],
-      declarations: [],
-      providers: [
+    ],
+    providers: [
         CdcLoginFormComponentService,
         { provide: WindowRef, useClass: MockWinRef },
         { provide: AuthService, useClass: MockAuthService },
-        { provide: Store, useValue: { dispatch: () => {} } },
+        { provide: Store, useValue: { dispatch: () => { } } },
         { provide: CdcJsService, useClass: MockCDCJsService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
-          provide: LoginFormComponentService,
-          useClass: MockLoginFormComponentService,
+            provide: LoginFormComponentService,
+            useClass: MockLoginFormComponentService,
         },
-      ],
-    });
+    ],
+});
   }));
 
   beforeEach(() => {

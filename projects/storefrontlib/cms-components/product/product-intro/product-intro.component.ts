@@ -5,12 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  EventService,
-  Product,
-  TranslationService,
-  WindowRef,
-} from '@spartacus/core';
+import { EventService, Product, TranslationService, WindowRef, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { defer, merge, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import {
@@ -18,11 +13,22 @@ import {
   ComponentDestroyEvent,
 } from '../../../cms-structure';
 import { CurrentProductService } from '../current-product.service';
+import { StarRatingComponent } from '../../../shared/components/star-rating/star-rating.component';
+import { NgIf, AsyncPipe, DecimalPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-product-intro',
-  templateUrl: './product-intro.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-intro',
+    templateUrl: './product-intro.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        StarRatingComponent,
+        FeaturesConfigModule,
+        AsyncPipe,
+        DecimalPipe,
+        I18nModule,
+    ],
 })
 export class ProductIntroComponent {
   product$: Observable<Product | null> =

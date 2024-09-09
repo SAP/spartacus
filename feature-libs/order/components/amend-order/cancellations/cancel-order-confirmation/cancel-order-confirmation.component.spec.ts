@@ -17,8 +17,13 @@ import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.co
 import createSpy = jasmine.createSpy;
 
 @Component({
-  template: '',
-  selector: 'cx-amend-order-actions',
+    template: '',
+    selector: 'cx-amend-order-actions',
+    standalone: true,
+    imports: [CommonModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        ReactiveFormsModule,],
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;
@@ -28,8 +33,13 @@ class MockAmendOrderActionComponent {
 }
 
 @Component({
-  template: '',
-  selector: 'cx-amend-order-items',
+    template: '',
+    selector: 'cx-amend-order-items',
+    standalone: true,
+    imports: [CommonModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        ReactiveFormsModule,],
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
@@ -68,21 +78,19 @@ describe('CancelOrderConfirmationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         CommonModule,
         RouterTestingModule,
         I18nTestingModule,
         ReactiveFormsModule,
-      ],
-      providers: [
-        { provide: OrderAmendService, useClass: MockOrderAmendService },
-      ],
-      declarations: [
         CancelOrderConfirmationComponent,
         MockAmendOrderActionComponent,
         MockCancelOrReturnItemsComponent,
-      ],
-    }).compileComponents();
+    ],
+    providers: [
+        { provide: OrderAmendService, useClass: MockOrderAmendService },
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

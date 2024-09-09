@@ -8,9 +8,10 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 
 @Component({
-  selector: 'cx-quick-order-table',
-  templateUrl: './quick-order-table.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-quick-order-table',
+    templateUrl: './quick-order-table.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 export class QuickOrderTableComponent {
   @Input()

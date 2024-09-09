@@ -11,16 +11,33 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@spartacus/user/profile/root';
 import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { SpinnerModule, FormErrorsModule } from '@spartacus/storefront';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-my-account-v2-profile',
-  templateUrl: './my-account-v2-profile.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-my-account-v2-profile',
+    templateUrl: './my-account-v2-profile.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+    NgIf,
+    SpinnerModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    NgFor,
+    FeaturesConfigModule,
+    FormErrorsModule,
+    AsyncPipe,
+    I18nModule,
+],
 })
 export class MyAccountV2ProfileComponent implements OnInit {
   protected service = inject(UpdateProfileComponentService);

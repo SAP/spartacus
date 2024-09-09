@@ -6,15 +6,30 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { GlobalMessageType } from '@spartacus/core';
+import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GlobalMessageType, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
+import { SpinnerModule, MessageComponentModule, PasswordVisibilityToggleModule, FormErrorsModule } from '@spartacus/storefront';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-my-account-v2-password',
-  templateUrl: './my-account-v2-password.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-my-account-v2-password',
+    templateUrl: './my-account-v2-password.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        SpinnerModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MessageComponentModule,
+        PasswordVisibilityToggleModule,
+        FeaturesConfigModule,
+        FormErrorsModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class MyAccountV2PasswordComponent {
   protected service = inject(UpdatePasswordComponentService);

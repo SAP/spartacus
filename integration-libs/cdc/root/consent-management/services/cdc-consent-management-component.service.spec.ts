@@ -27,15 +27,14 @@ describe('CdcConsentManagementService', () => {
   let store: CdcConsentsLocalStorageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [],
-      providers: [
+    imports: [],
+    providers: [
         {
-          provide: CdcConsentsLocalStorageService,
-          useClass: MockCdcConsentsLocalStorageService,
+            provide: CdcConsentsLocalStorageService,
+            useClass: MockCdcConsentsLocalStorageService,
         },
-      ],
-    });
+    ],
+});
     service = TestBed.inject(CdcConsentManagementComponentService);
     store = TestBed.inject(CdcConsentsLocalStorageService);
     TestBed.compileComponents();

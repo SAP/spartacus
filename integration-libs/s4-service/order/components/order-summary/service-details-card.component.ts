@@ -11,12 +11,19 @@ import {
   ServiceDateTime,
   CheckoutServiceSchedulePickerService,
 } from '@spartacus/s4-service/root';
-import { Card, OutletContextData } from '@spartacus/storefront';
+import { Card, OutletContextData, CardModule } from '@spartacus/storefront';
 import { Observable, Subscription, map } from 'rxjs';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-card-service-details',
-  templateUrl: './service-details-card.component.html',
+    selector: 'cx-card-service-details',
+    templateUrl: './service-details-card.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        CardModule,
+        AsyncPipe,
+    ],
 })
 export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);

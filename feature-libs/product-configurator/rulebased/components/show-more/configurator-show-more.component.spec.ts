@@ -16,10 +16,9 @@ describe('ConfiguratorShowMoreComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ConfiguratorShowMoreComponent],
-      providers: [{ provide: Config, useClass: MockConfig }],
-    })
+    imports: [I18nTestingModule, ConfiguratorShowMoreComponent],
+    providers: [{ provide: Config, useClass: MockConfig }],
+})
       .overrideComponent(ConfiguratorShowMoreComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

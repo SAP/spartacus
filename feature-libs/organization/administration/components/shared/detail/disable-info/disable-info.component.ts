@@ -5,16 +5,25 @@
  */
 
 import { Component, Input, OnInit } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { ItemService } from '../../item.service';
 import { BaseItem } from '../../organization.model';
 import { DisableInfoService } from './disable-info.service';
+import { I18nModule } from '@spartacus/core';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-org-disable-info',
-  templateUrl: './disable-info.component.html',
-  host: { class: 'content-wrapper' },
+    selector: 'cx-org-disable-info',
+    templateUrl: './disable-info.component.html',
+    host: { class: 'content-wrapper' },
+    standalone: true,
+    imports: [
+        NgIf,
+        IconModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class DisableInfoComponent<T extends BaseItem> implements OnInit {
   /**

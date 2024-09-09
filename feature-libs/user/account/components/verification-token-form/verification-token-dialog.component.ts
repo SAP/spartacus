@@ -5,12 +5,20 @@
  */
 
 import { Component } from '@angular/core';
-import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
+import { FocusConfig, LaunchDialogService, KeyboardFocusModule, IconModule } from '@spartacus/storefront';
 import { VERIFICATION_TOKEN_DIALOG_ACTION } from '@spartacus/user/account/root';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-verification-token-dialog',
-  templateUrl: './verification-token-dialog.component.html',
+    selector: 'cx-verification-token-dialog',
+    templateUrl: './verification-token-dialog.component.html',
+    standalone: true,
+    imports: [
+        KeyboardFocusModule,
+        IconModule,
+        FeaturesConfigModule,
+        I18nModule,
+    ],
 })
 export class VerificationTokenDialogComponent {
   VERIFICATION_TOKEN_DIALOG_ACTION = VERIFICATION_TOKEN_DIALOG_ACTION;

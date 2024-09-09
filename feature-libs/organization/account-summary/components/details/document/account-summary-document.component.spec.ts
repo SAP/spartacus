@@ -30,16 +30,20 @@ import { mockAccountSummaryList } from '../account-summary-mock-data';
 const blob = new Blob();
 
 @Component({
-  template: '',
-  selector: 'cx-pagination',
+    template: '',
+    selector: 'cx-pagination',
+    standalone: true,
+    imports: [I18nTestingModule, IconTestingModule],
 })
 class MockPaginationComponent {
   @Input() pagination: any;
   @Output() viewPageEvent = new EventEmitter<string>();
 }
 @Component({
-  template: '',
-  selector: 'cx-sorting',
+    template: '',
+    selector: 'cx-sorting',
+    standalone: true,
+    imports: [I18nTestingModule, IconTestingModule],
 })
 class MockSortingComponent {
   @Input() sortOptions: any;
@@ -50,8 +54,10 @@ class MockSortingComponent {
 }
 
 @Component({
-  template: '',
-  selector: 'cx-account-summary-document-filter',
+    template: '',
+    selector: 'cx-account-summary-document-filter',
+    standalone: true,
+    imports: [I18nTestingModule, IconTestingModule],
 })
 class MockAccountSummaryDocumentFilterComponent {
   @Input() documentTypeOptions: any;
@@ -94,20 +100,17 @@ describe('AccountSummaryDocumentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconTestingModule],
-      declarations: [
-        AccountSummaryDocumentComponent,
-        MockAccountSummaryDocumentFilterComponent,
+    imports: [I18nTestingModule, IconTestingModule, MockAccountSummaryDocumentFilterComponent,
         MockPaginationComponent,
-        MockSortingComponent,
-      ],
-      providers: [
+        MockSortingComponent],
+    declarations: [AccountSummaryDocumentComponent],
+    providers: [
         { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },
         { provide: FileDownloadService, useClass: MockFileDownloadService },
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: TranslationService, useClass: MockTranslationService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     accountSummaryFacade = TestBed.inject(AccountSummaryFacade);
     translationService = TestBed.inject(TranslationService);
     downloadService = TestBed.inject(FileDownloadService);

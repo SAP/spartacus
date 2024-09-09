@@ -4,19 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgIf, AsyncPipe } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { EventService, TranslationService } from '@spartacus/core';
+import { EventService, TranslationService, I18nModule } from '@spartacus/core';
 import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
 import { Quote, QuoteComment, QuoteFacade } from '@spartacus/quote/root';
-import {
-  ICON_TYPE,
-  MessageEvent,
-  MessageEventBoundItem,
-  MessagingComponent,
-  MessagingConfigs,
-} from '@spartacus/storefront';
+import { ICON_TYPE, MessageEvent, MessageEventBoundItem, MessagingComponent, MessagingConfigs, IconModule, ChatMessagingModule } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { delay, finalize, map, take } from 'rxjs/operators';
 import { QuoteUIConfig } from '../config/quote-ui.config';
@@ -26,8 +20,16 @@ const DEFAULT_COMMENT_MAX_CHARS = 1000;
 const ALL_PRODUCTS_ID = '';
 
 @Component({
-  selector: 'cx-quote-comments',
-  templateUrl: './quote-comments.component.html',
+    selector: 'cx-quote-comments',
+    templateUrl: './quote-comments.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        IconModule,
+        ChatMessagingModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class QuoteCommentsComponent {
   protected quoteFacade = inject(QuoteFacade);

@@ -12,19 +12,19 @@ import { SpinnerModule } from '@spartacus/storefront';
 import { BulkPricingTableComponent } from './bulk-pricing-table.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    SpinnerModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        BulkPricingTableComponent: {
-          component: BulkPricingTableComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [BulkPricingTableComponent],
-  exports: [BulkPricingTableComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        SpinnerModule,
+        ConfigModule.withConfig(<CmsConfig>{
+            cmsComponents: {
+                BulkPricingTableComponent: {
+                    component: BulkPricingTableComponent,
+                },
+            },
+        }),
+        BulkPricingTableComponent,
+    ],
+    exports: [BulkPricingTableComponent],
 })
 export class BulkPricingTableModule {}

@@ -34,15 +34,14 @@ describe('LinkComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, GenericLinkModule],
-      declarations: [LinkComponent],
-      providers: [
+    imports: [RouterTestingModule, GenericLinkModule, LinkComponent],
+    providers: [
         {
-          provide: CmsComponentData,
-          useClass: MockCmsComponentData,
+            provide: CmsComponentData,
+            useClass: MockCmsComponentData,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(LinkComponent);
     linkComponent = fixture.componentInstance;

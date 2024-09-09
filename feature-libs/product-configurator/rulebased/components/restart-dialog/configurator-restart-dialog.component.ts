@@ -5,20 +5,26 @@
  */
 
 import { Component } from '@angular/core';
-import { Product, ProductService, RoutingService } from '@spartacus/core';
+import { Product, ProductService, RoutingService, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import {
-  FocusConfig,
-  ICON_TYPE,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { FocusConfig, ICON_TYPE, LaunchDialogService, KeyboardFocusModule, IconModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-configurator-restart-dialog',
-  templateUrl: './configurator-restart-dialog.component.html',
+    selector: 'cx-configurator-restart-dialog',
+    templateUrl: './configurator-restart-dialog.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        KeyboardFocusModule,
+        FeaturesConfigModule,
+        IconModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ConfiguratorRestartDialogComponent {
   constructor(

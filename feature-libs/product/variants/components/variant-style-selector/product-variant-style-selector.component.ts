@@ -5,23 +5,21 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import {
-  BaseOption,
-  isNotUndefined,
-  OccConfig,
-  Product,
-  ProductScope,
-  ProductService,
-  RoutingService,
-  VariantOptionQualifier,
-  VariantQualifier,
-} from '@spartacus/core';
+import { BaseOption, isNotUndefined, OccConfig, Product, ProductScope, ProductService, RoutingService, VariantOptionQualifier, VariantQualifier, I18nModule } from '@spartacus/core';
 import { filter, take } from 'rxjs/operators';
+import { NgIf, NgFor, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'cx-product-variant-style-selector',
-  templateUrl: './product-variant-style-selector.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-variant-style-selector',
+    templateUrl: './product-variant-style-selector.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        NgClass,
+        I18nModule,
+    ],
 })
 export class ProductVariantStyleSelectorComponent {
   constructor(

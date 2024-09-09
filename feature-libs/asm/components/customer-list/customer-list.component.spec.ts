@@ -165,8 +165,10 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -201,7 +203,8 @@ class MockAsmCustomerListFacade implements Partial<AsmCustomerListFacade> {
 }
 
 @Directive({
-  selector: '[cxFocus]',
+    selector: '[cxFocus]',
+    standalone: true,
 })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
@@ -217,26 +220,23 @@ describe('CustomerListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CustomerListComponent,
-        MockCxIconComponent,
-        MockKeyboadFocusDirective,
-      ],
-      providers: [
+    imports: [I18nTestingModule, MockCxIconComponent,
+        MockKeyboadFocusDirective],
+    declarations: [CustomerListComponent],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
         },
         { provide: AsmConfig, useClass: MockAsmConfig },
         {
-          provide: AsmCustomerListFacade,
-          useClass: MockAsmCustomerListFacade,
+            provide: AsmCustomerListFacade,
+            useClass: MockAsmCustomerListFacade,
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    }).compileComponents();
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+}).compileComponents();
     launchDialogService = TestBed.inject(LaunchDialogService);
     config = TestBed.inject(AsmConfig);
     breakpointService = TestBed.inject(BreakpointService);

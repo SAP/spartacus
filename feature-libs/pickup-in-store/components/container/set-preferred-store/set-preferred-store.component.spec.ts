@@ -23,12 +23,12 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SetPreferredStoreComponent],
-      imports: [I18nTestingModule, IconTestingModule, CommonModule],
-      providers: [
+    declarations: [SetPreferredStoreComponent],
+    imports: [I18nTestingModule, IconTestingModule, CommonModule],
+    providers: [
         { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     fixture = TestBed.createComponent(SetPreferredStoreComponent);
     component = fixture.componentInstance;
     preferredStoreFacade = TestBed.inject(PreferredStoreFacade);
@@ -72,13 +72,13 @@ describe('SetPreferredStoreComponent with outlet.context$', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SetPreferredStoreComponent],
-      imports: [I18nTestingModule, IconTestingModule, CommonModule],
-      providers: [
+    declarations: [SetPreferredStoreComponent],
+    imports: [I18nTestingModule, IconTestingModule, CommonModule],
+    providers: [
         { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
         { provide: OutletContextData, useValue: { context$ } },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     fixture = TestBed.createComponent(SetPreferredStoreComponent);
     component = fixture.componentInstance;
     preferredStoreFacade = TestBed.inject(PreferredStoreFacade);

@@ -5,17 +5,16 @@
  */
 
 import { DpLocalStorageService } from '../../../facade/dp-local-storage.service';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  WindowRef,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType, WindowRef, I18nModule } from '@spartacus/core';
 import { DpCheckoutPaymentService } from '../../../facade';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { SpinnerModule } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-dp-payment-form',
-  templateUrl: './dp-payment-form.component.html',
+    selector: 'cx-dp-payment-form',
+    templateUrl: './dp-payment-form.component.html',
+    standalone: true,
+    imports: [SpinnerModule, I18nModule],
 })
 export class DpPaymentFormComponent implements OnInit {
   @Output()

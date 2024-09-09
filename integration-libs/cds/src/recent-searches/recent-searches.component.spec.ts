@@ -21,14 +21,16 @@ import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 @Pipe({
-  name: 'cxHighlight',
+    name: 'cxHighlight',
+    standalone: true,
 })
 class MockHighlightPipe implements PipeTransform {
   transform(): any {}
 }
 
 @Pipe({
-  name: 'cxUrl',
+    name: 'cxUrl',
+    standalone: true,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {
@@ -57,21 +59,20 @@ describe('RecentSearchesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [RecentSearchesComponent, MockHighlightPipe, MockUrlPipe],
-      providers: [
+    imports: [I18nTestingModule, RouterTestingModule, RecentSearchesComponent, MockHighlightPipe, MockUrlPipe],
+    providers: [
         {
-          provide: RecentSearchesService,
-          useValue: recentSearchesServiceMock,
+            provide: RecentSearchesService,
+            useValue: recentSearchesServiceMock,
         },
         {
-          provide: SearchBoxComponentService,
-          useValue: searchBoxComponentServiceMock,
+            provide: SearchBoxComponentService,
+            useValue: searchBoxComponentServiceMock,
         },
         { provide: OutletContextData, useValue: { context$ } },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+}).compileComponents();
   });
 
   beforeEach(() => {

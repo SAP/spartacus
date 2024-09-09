@@ -29,19 +29,18 @@ describe('CdcUserConsentAdapter', () => {
   let httpMock: HttpTestingController;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, StoreModule.forRoot()],
-      declarations: [],
-      providers: [
+    imports: [HttpClientTestingModule, StoreModule.forRoot()],
+    providers: [
         {
-          provide: CdcUserConsentService,
-          useClass: MockCdcUserConsentService,
+            provide: CdcUserConsentService,
+            useClass: MockCdcUserConsentService,
         },
         {
-          provide: CdcConsentsLocalStorageService,
-          useClass: MockCdcConsentsLocalStorageService,
+            provide: CdcConsentsLocalStorageService,
+            useClass: MockCdcConsentsLocalStorageService,
         },
-      ],
-    });
+    ],
+});
     service = TestBed.inject(CdcUserConsentAdapter);
     cdcUserConsentService = TestBed.inject(CdcUserConsentService);
     httpMock = TestBed.inject(HttpTestingController);

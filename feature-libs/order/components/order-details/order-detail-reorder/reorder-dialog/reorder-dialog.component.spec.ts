@@ -87,21 +87,36 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [FormsModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        SpinnerModule,
+        I18nTestingModule,
+        PromotionsModule,],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
+    selector: 'cx-spinner',
+    template: '',
+    standalone: true,
+    imports: [FormsModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        SpinnerModule,
+        I18nTestingModule,
+        PromotionsModule,],
 })
 class MockSpinnerComponent {}
 
 @Directive({
-  selector: '[cxFocus]',
+    selector: '[cxFocus]',
+    standalone: true,
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
@@ -121,36 +136,34 @@ describe('ReorderDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         FormsModule,
         ReactiveFormsModule,
         RouterTestingModule,
         SpinnerModule,
         I18nTestingModule,
         PromotionsModule,
-      ],
-      declarations: [
-        ReorderDialogComponent,
         MockCxIconComponent,
         MockSpinnerComponent,
         MockFocusDirective,
-      ],
-      providers: [
+    ],
+    declarations: [ReorderDialogComponent],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: ReorderOrderFacade,
-          useClass: MockReorderOrderFacade,
+            provide: ReorderOrderFacade,
+            useClass: MockReorderOrderFacade,
         },
         {
-          provide: MultiCartFacade,
-          useClass: MockMultiCartService,
+            provide: MultiCartFacade,
+            useClass: MockMultiCartService,
         },
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

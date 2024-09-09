@@ -196,15 +196,18 @@ class MockBreakpointService {
 }
 
 @Directive({
-  selector: '[cxFocus]',
+    selector: '[cxFocus]',
+    standalone: true,
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: string;
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule,],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -251,48 +254,45 @@ function initialize() {
 describe('ConfiguratorGroupMenuComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [
-        ConfiguratorGroupMenuComponent,
-        MockCxIconComponent,
-        MockFocusDirective,
-      ],
-      providers: [
+    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule, MockCxIconComponent,
+        MockFocusDirective],
+    declarations: [ConfiguratorGroupMenuComponent],
+    providers: [
         HamburgerMenuService,
         {
-          provide: Router,
-          useClass: MockRouter,
+            provide: Router,
+            useClass: MockRouter,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
         },
         {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupService,
+            provide: ConfiguratorGroupsService,
+            useClass: MockConfiguratorGroupService,
         },
         {
-          provide: DirectionService,
-          useClass: MockDirectionService,
+            provide: DirectionService,
+            useClass: MockDirectionService,
         },
         {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
         },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
         },
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
         },
-      ],
-    });
+    ],
+});
   }));
 
   beforeEach(() => {

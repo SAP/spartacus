@@ -49,22 +49,28 @@ const mockQuote: Quote = {
 };
 
 @Component({
-  selector: 'cx-quote-actions-link',
-  template: '',
+    selector: 'cx-quote-actions-link',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, CardModule, RouterTestingModule,],
 })
 export class MockQuoteActionsLinkComponent {}
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, CardModule, RouterTestingModule,],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-  selector: 'cx-quote-header-buyer-edit',
-  template: '',
+    selector: 'cx-quote-header-buyer-edit',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, CardModule, RouterTestingModule,],
 })
 class MockQuoteHeaderBuyerEditComponent {
   @Input() content: EditCard | null;
@@ -99,29 +105,26 @@ describe('QuoteHeaderOverviewComponent', () => {
   beforeEach(waitForAsync(() => {
     initMocks();
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, CardModule, RouterTestingModule],
-      declarations: [
-        QuoteHeaderOverviewComponent,
+    imports: [I18nTestingModule, CardModule, RouterTestingModule, QuoteHeaderOverviewComponent,
         MockCxIconComponent,
         MockQuoteActionsLinkComponent,
-        MockQuoteHeaderBuyerEditComponent,
-      ],
-      providers: [
+        MockQuoteHeaderBuyerEditComponent],
+    providers: [
         {
-          provide: QuoteFacade,
-          useClass: MockCommerceQuotesFacade,
+            provide: QuoteFacade,
+            useClass: MockCommerceQuotesFacade,
         },
         {
-          provide: EventService,
-          useValue: eventService,
+            provide: EventService,
+            useValue: eventService,
         },
         { provide: TranslationService, useClass: MockTranslationService },
         {
-          provide: QuoteUIConfig,
-          useValue: quoteUIConfig,
+            provide: QuoteUIConfig,
+            useValue: quoteUIConfig,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

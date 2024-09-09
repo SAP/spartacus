@@ -20,9 +20,8 @@ describe('ItemCounterComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
-      declarations: [ItemCounterComponent],
-    }).compileComponents();
+    imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule, ItemCounterComponent],
+}).compileComponents();
   }));
 
   beforeEach(() => {

@@ -7,17 +7,26 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ListService } from '../../../../shared/list/list.service';
 import { UnitAssignedApproverListService } from './unit-assigned-approver-list.service';
+import { I18nModule } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { SubListComponent } from '../../../../shared/sub-list/sub-list.component';
 
 @Component({
-  selector: 'cx-org-unit-assigned-approver-list',
-  templateUrl: './unit-assigned-approver-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
-  providers: [
-    {
-      provide: ListService,
-      useExisting: UnitAssignedApproverListService,
-    },
-  ],
+    selector: 'cx-org-unit-assigned-approver-list',
+    templateUrl: './unit-assigned-approver-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    providers: [
+        {
+            provide: ListService,
+            useExisting: UnitAssignedApproverListService,
+        },
+    ],
+    standalone: true,
+    imports: [
+        SubListComponent,
+        RouterLink,
+        I18nModule,
+    ],
 })
 export class UnitAssignedApproverListComponent {}

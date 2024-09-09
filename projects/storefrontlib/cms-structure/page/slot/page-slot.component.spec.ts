@@ -50,19 +50,21 @@ class MockDynamicAttributeService {
 }
 
 @Component({
-  template: `
+    template: `
     <cx-page-slot
       position="Section1"
       class="existing-style and-more"
     ></cx-page-slot>
   `,
+    standalone: true,
 })
 class MockHostComponent {}
 
 @Component({
-  template: `
+    template: `
     <div cx-page-slot position="Section2" class="existing-style and-more"></div>
   `,
+    standalone: true,
 })
 class MockHostWithDivComponent {}
 
@@ -76,7 +78,8 @@ class MockPageSlotService implements Partial<PageSlotService> {
   getComponentDeferOptions = () => undefined;
 }
 @Directive({
-  selector: '[cxComponentWrapper]',
+    selector: '[cxComponentWrapper]',
+    standalone: true,
 })
 class MockComponentWrapperDirective {
   @Input() cxComponentWrapper;
@@ -111,16 +114,14 @@ describe('PageSlotComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PageSlotComponent,
+    imports: [PageSlotComponent,
         OutletDirective,
         SkipLinkDirective,
         MockHostComponent,
         MockHostWithDivComponent,
-        MockComponentWrapperDirective,
-      ],
-      providers,
-    }).compileComponents();
+        MockComponentWrapperDirective,],
+    providers,
+}).compileComponents();
 
     cmsService = TestBed.inject(CmsService);
     pageSlotService = TestBed.inject(PageSlotService);

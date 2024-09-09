@@ -14,19 +14,34 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LAUNCH_CALLER, LaunchDialogService, SpinnerModule, FormErrorsModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 
 import { VerificationToken } from '@spartacus/user/account/root';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, UrlModule, I18nModule } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-verification-token-form',
-  templateUrl: './verification-token-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-verification-token-form',
+    templateUrl: './verification-token-form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        SpinnerModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        NgClass,
+        RouterLink,
+        AsyncPipe,
+        UrlModule,
+        I18nModule,
+    ],
 })
 export class VerificationTokenFormComponent implements OnInit {
   constructor() {}

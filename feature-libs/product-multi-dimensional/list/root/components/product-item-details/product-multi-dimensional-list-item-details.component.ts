@@ -6,13 +6,21 @@
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
-import { Product } from '@spartacus/core';
-import { ProductListItemContext } from '@spartacus/storefront';
+import { Product, I18nModule } from '@spartacus/core';
+import { ProductListItemContext, StarRatingModule } from '@spartacus/storefront';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-product-multi-dimensional-list-item-details',
-  templateUrl: './product-multi-dimensional-list-item-details.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-multi-dimensional-list-item-details',
+    templateUrl: './product-multi-dimensional-list-item-details.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        StarRatingModule,
+        I18nModule,
+        AsyncPipe,
+    ],
 })
 export class ProductMultiDimensionalListItemDetailsComponent {
   productListItemContext?: ProductListItemContext = inject(

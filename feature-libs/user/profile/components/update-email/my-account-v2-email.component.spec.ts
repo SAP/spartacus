@@ -24,8 +24,15 @@ import { UpdateEmailComponentService } from './update-email-component.service';
 import { UserProfileFacade } from '../../root/facade';
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
+    selector: 'cx-spinner',
+    template: '',
+    standalone: true,
+    imports: [ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        PasswordVisibilityToggleModule,],
 })
 class MockCxSpinnerComponent {}
 
@@ -63,26 +70,26 @@ describe('MyAccountV2EmailComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
         RouterTestingModule,
         UrlTestingModule,
         PasswordVisibilityToggleModule,
-      ],
-      declarations: [MyAccountV2EmailComponent, MockCxSpinnerComponent],
-      providers: [
+        MyAccountV2EmailComponent, MockCxSpinnerComponent,
+    ],
+    providers: [
         {
-          provide: UpdateEmailComponentService,
-          useClass: MockMyAccountV2EmailService,
+            provide: UpdateEmailComponentService,
+            useClass: MockMyAccountV2EmailService,
         },
         {
-          provide: UserProfileFacade,
-          useClass: MockNewProfileFacade,
+            provide: UserProfileFacade,
+            useClass: MockNewProfileFacade,
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(MyAccountV2EmailComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

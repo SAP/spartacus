@@ -83,14 +83,17 @@ describe('AsmCustomer360TableComponent', () => {
   };
   @Pipe({
     name: 'cxTranslate',
-  })
+    standalone: true,
+})
   class MockTranslatePipe implements PipeTransform {
     transform(): any {}
   }
   @Component({
     selector: 'cx-icon',
     template: '',
-  })
+    standalone: true,
+    imports: [I18nTestingModule],
+})
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
   }
@@ -217,7 +220,9 @@ describe('AsmCustomer360TableComponent', () => {
         (selectItem)="itemSelected($event)"
       ></cx-asm-customer-360-table>
     `,
-  })
+    standalone: true,
+    imports: [I18nTestingModule],
+})
   class TestHostComponent {
     @Input() columns: Array<CustomerTableColumn>;
     @Input() emptyStateText: string;
@@ -237,24 +242,21 @@ describe('AsmCustomer360TableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        TestHostComponent,
-        AsmCustomer360TableComponent,
+    imports: [I18nTestingModule, TestHostComponent,
         MockTranslatePipe,
         MockCxIconComponent,
-        ArgsPipe,
-      ],
-      providers: [
+        ArgsPipe],
+    declarations: [AsmCustomer360TableComponent],
+    providers: [
         CxDatePipe,
         { provide: LanguageService, useValue: mockLanguageService },
         {
-          provide: DirectionService,
-          useClass: MockDirectionService,
+            provide: DirectionService,
+            useClass: MockDirectionService,
         },
         { provide: AsmCustomer360Config, useValue: mockAsmConfig },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     datePipe = TestBed.inject(CxDatePipe);
     languageService = TestBed.inject(LanguageService);
     spyOn(languageService, 'getActive').and.returnValue(of('en'));

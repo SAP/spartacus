@@ -9,18 +9,11 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
-import {
-  CardModule,
-  FormErrorsModule,
-  IconModule,
-  NgSelectA11yModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
+import { CardModule, FormErrorsModule, IconModule, SpinnerModule } from '@spartacus/storefront';
 import { CheckoutBillingAddressFormService } from './checkout-billing-address-form.service';
 import { CheckoutBillingAddressFormComponent } from './checkout-billing-address-form.component';
 @NgModule({
-  imports: [
-    NgSelectA11yModule,
+    imports: [
     CommonModule,
     ReactiveFormsModule,
     NgSelectModule,
@@ -30,9 +23,9 @@ import { CheckoutBillingAddressFormComponent } from './checkout-billing-address-
     SpinnerModule,
     FormErrorsModule,
     FeaturesConfigModule,
-  ],
-  providers: [CheckoutBillingAddressFormService],
-  declarations: [CheckoutBillingAddressFormComponent],
-  exports: [CheckoutBillingAddressFormComponent],
+    CheckoutBillingAddressFormComponent,
+],
+    providers: [CheckoutBillingAddressFormService],
+    exports: [CheckoutBillingAddressFormComponent],
 })
 export class CheckoutBillingAddressFormModule {}

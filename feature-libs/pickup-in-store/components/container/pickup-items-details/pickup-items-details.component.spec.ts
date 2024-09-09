@@ -26,8 +26,7 @@ describe('Order - PickUpItemsDetailsComponent', () => {
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PickUpItemsDetailsComponent],
-      imports: [
+    imports: [
         CommonModule,
         I18nModule,
         RouterModule,
@@ -36,18 +35,19 @@ describe('Order - PickUpItemsDetailsComponent', () => {
         StoreModule,
         CardModule,
         MediaModule,
-      ],
-      providers: [
+        PickUpItemsDetailsComponent,
+    ],
+    providers: [
         {
-          provide: DeliveryPointsService,
-          useClass: DeliveryPointsServiceMock,
+            provide: DeliveryPointsService,
+            useClass: DeliveryPointsServiceMock,
         },
         {
-          provide: CmsComponentData,
-          useValue: data,
+            provide: CmsComponentData,
+            useValue: data,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     fixture = TestBed.createComponent(PickUpItemsDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -69,8 +69,7 @@ describe('Delivery Mode - PickUpItemsDetailsComponent', () => {
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PickUpItemsDetailsComponent],
-      imports: [
+    imports: [
         CommonModule,
         I18nModule,
         RouterModule,
@@ -79,18 +78,19 @@ describe('Delivery Mode - PickUpItemsDetailsComponent', () => {
         StoreModule,
         CardModule,
         MediaModule,
-      ],
-      providers: [
+        PickUpItemsDetailsComponent,
+    ],
+    providers: [
         {
-          provide: DeliveryPointsService,
-          useClass: DeliveryPointsServiceMock,
+            provide: DeliveryPointsService,
+            useClass: DeliveryPointsServiceMock,
         },
         {
-          provide: CmsComponentData,
-          useValue: data,
+            provide: CmsComponentData,
+            useValue: data,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     fixture = TestBed.createComponent(PickUpItemsDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

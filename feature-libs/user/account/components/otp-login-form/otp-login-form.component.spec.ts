@@ -45,7 +45,8 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 @Pipe({
-  name: 'cxUrl',
+    name: 'cxUrl',
+    standalone: true,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -60,23 +61,23 @@ describe('OneTimePasswordLoginFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
-      ],
-      declarations: [OneTimePasswordLoginFormComponent, MockUrlPipe],
-      providers: [
+        OneTimePasswordLoginFormComponent, MockUrlPipe,
+    ],
+    providers: [
         {
-          provide: VerificationTokenFacade,
-          useClass: MockVerificationTokenService,
+            provide: VerificationTokenFacade,
+            useClass: MockVerificationTokenService,
         },
         { provide: WindowRef, useClass: MockWinRef },
         { provide: RoutingService, useClass: MockRoutingService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

@@ -65,8 +65,10 @@ const mockEmptyOrderList: OrderHistoryList = {
 };
 
 @Component({
-  template: '',
-  selector: 'cx-pagination',
+    template: '',
+    selector: 'cx-pagination',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule, ReactiveFormsModule,],
 })
 class MockPaginationComponent {
   @Input() pagination: PaginationModel;
@@ -74,8 +76,10 @@ class MockPaginationComponent {
 }
 
 @Component({
-  template: '',
-  selector: 'cx-sorting',
+    template: '',
+    selector: 'cx-sorting',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule, ReactiveFormsModule,],
 })
 class MockSortingComponent {
   @Input() sortOptions: SortModel;
@@ -86,7 +90,8 @@ class MockSortingComponent {
 }
 
 @Pipe({
-  name: 'cxUrl',
+    name: 'cxUrl',
+    standalone: true,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -138,16 +143,20 @@ class MockTranslationService {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule, ReactiveFormsModule,],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-  selector: 'cx-total',
-  template: '',
+    selector: 'cx-total',
+    template: '',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule, ReactiveFormsModule,],
 })
 class MockTotalComponent {
   @Input() pagination: any;
@@ -162,22 +171,19 @@ describe('UnitLevelOrderHistoryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule, ReactiveFormsModule],
-      declarations: [
-        UnitLevelOrderHistoryComponent,
-        MockUrlPipe,
+    imports: [RouterTestingModule, I18nTestingModule, ReactiveFormsModule, MockUrlPipe,
         MockPaginationComponent,
         MockSortingComponent,
         UnitLevelOrderHistoryFilterComponent,
         MockCxIconComponent,
-        MockTotalComponent,
-      ],
-      providers: [
+        MockTotalComponent],
+    declarations: [UnitLevelOrderHistoryComponent],
+    providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UnitOrderFacade, useClass: MockUnitLevelOrdersFacade },
         { provide: TranslationService, useClass: MockTranslationService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     unitOrderFacade = TestBed.inject(UnitOrderFacade);
     mockUnitLevelOrdersFacade = unitOrderFacade as MockUnitLevelOrdersFacade;

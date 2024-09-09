@@ -11,12 +11,13 @@ import { CartItemContextSource } from '../cart-item/model/cart-item-context-sour
 import { CartItemListComponentService } from './cart-item-list-row.component.service';
 
 @Component({
-  selector: '[cx-cart-item-list-row], cx-cart-item-list-row',
-  templateUrl: './cart-item-list-row.component.html',
-  providers: [
-    CartItemContextSource,
-    { provide: CartItemContext, useExisting: CartItemContextSource },
-  ],
+    selector: '[cx-cart-item-list-row], cx-cart-item-list-row',
+    templateUrl: './cart-item-list-row.component.html',
+    providers: [
+        CartItemContextSource,
+        { provide: CartItemContext, useExisting: CartItemContextSource },
+    ],
+    standalone: true,
 })
 export class CartItemListRowComponent extends CartItemComponent {
   protected componentService = inject(CartItemListComponentService);

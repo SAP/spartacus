@@ -28,7 +28,8 @@ import { CommonConfiguratorTestUtilsService } from '../../testing/common-configu
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
 
 @Pipe({
-  name: 'cxNumeric',
+    name: 'cxNumeric',
+    standalone: true,
 })
 class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
@@ -37,8 +38,10 @@ class MockNumericPipe implements PipeTransform {
 }
 
 @Component({
-  selector: 'cx-configure-cart-entry',
-  template: '',
+    selector: 'cx-configure-cart-entry',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
@@ -103,19 +106,16 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ConfiguratorCartEntryBundleInfoComponent,
+    imports: [I18nTestingModule, ConfiguratorCartEntryBundleInfoComponent,
         MockNumericPipe,
-        MockConfigureCartEntryComponent,
-      ],
-      providers: [
+        MockConfigureCartEntryComponent],
+    providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {
-          provide: ControlContainer,
+            provide: ControlContainer,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {
@@ -929,9 +929,8 @@ describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', (
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ConfiguratorCartEntryBundleInfoComponent],
-    }).compileComponents();
+    imports: [I18nTestingModule, ConfiguratorCartEntryBundleInfoComponent],
+}).compileComponents();
   }));
 
   beforeEach(() => {

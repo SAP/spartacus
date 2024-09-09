@@ -10,13 +10,16 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconModule } from '@spartacus/storefront';
 import { Configurator } from '../../core/model/configurator.model';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'cx-configurator-conflict-description',
-  templateUrl: './configurator-conflict-description.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-configurator-conflict-description',
+    templateUrl: './configurator-conflict-description.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, IconModule],
 })
 export class ConfiguratorConflictDescriptionComponent {
   @Input() currentGroup: Configurator.Group;

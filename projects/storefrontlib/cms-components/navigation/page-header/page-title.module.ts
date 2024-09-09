@@ -15,17 +15,16 @@ import {
 import { PageTitleComponent } from './page-title.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, PageMetaModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        PageTitleComponent: {
-          component: PageTitleComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [PageTitleComponent],
-  exports: [PageTitleComponent],
+    imports: [CommonModule, RouterModule, PageMetaModule, PageTitleComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                PageTitleComponent: {
+                    component: PageTitleComponent,
+                },
+            },
+        }),
+    ],
+    exports: [PageTitleComponent],
 })
 export class PageTitleModule {}

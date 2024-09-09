@@ -108,9 +108,11 @@ class MockQuoteHeaderSellerEditComponentService {
 }
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'cx-date-picker',
-  template: '',
+    // eslint-disable-next-line @angular-eslint/component-selector
+    selector: 'cx-date-picker',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockDatePickerComponent {
   @Input() control: FormControl;
@@ -120,8 +122,10 @@ class MockDatePickerComponent {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -137,27 +141,24 @@ describe('QuoteSummarySellerEditComponent', () => {
       quote: { updateDebounceTime: { expiryDate: DEBOUNCE_TIME } },
     };
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
-      declarations: [
-        QuoteSummarySellerEditComponent,
+    imports: [I18nTestingModule, ReactiveFormsModule, QuoteSummarySellerEditComponent,
         MockCxIconComponent,
-        MockDatePickerComponent,
-      ],
-      providers: [
+        MockDatePickerComponent],
+    providers: [
         {
-          provide: QuoteFacade,
-          useClass: MockCommerceQuotesFacade,
+            provide: QuoteFacade,
+            useClass: MockCommerceQuotesFacade,
         },
         {
-          provide: QuoteSummarySellerEditComponentService,
-          useClass: MockQuoteHeaderSellerEditComponentService,
+            provide: QuoteSummarySellerEditComponentService,
+            useClass: MockQuoteHeaderSellerEditComponentService,
         },
         {
-          provide: QuoteUIConfig,
-          useValue: uiConfig,
+            provide: QuoteUIConfig,
+            useValue: uiConfig,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

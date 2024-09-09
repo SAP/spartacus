@@ -12,7 +12,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   Quote,
   QuoteDiscount,
@@ -20,7 +20,7 @@ import {
   QuoteFacade,
   QuoteMetadata,
 } from '@spartacus/quote/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconModule, DatePickerModule } from '@spartacus/storefront';
 import {
   BehaviorSubject,
   combineLatest,
@@ -34,10 +34,22 @@ import {
   LocalizationElements,
   QuoteSummarySellerEditComponentService,
 } from './quote-summary-seller-edit.component.service';
+import { I18nModule } from '@spartacus/core';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-quote-summary-seller-edit',
-  templateUrl: './quote-summary-seller-edit.component.html',
+    selector: 'cx-quote-summary-seller-edit',
+    templateUrl: './quote-summary-seller-edit.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        FormsModule,
+        ReactiveFormsModule,
+        IconModule,
+        DatePickerModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {
   protected quoteFacade = inject(QuoteFacade);

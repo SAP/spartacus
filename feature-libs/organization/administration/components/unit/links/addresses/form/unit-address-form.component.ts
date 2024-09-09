@@ -5,25 +5,40 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { Address, B2BUnit, Country, Region, Title } from '@spartacus/core';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Address, B2BUnit, Country, Region, Title, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ItemService } from '../../../../shared/item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitAddressItemService } from '../services/unit-address-item.service';
 import { UnitAddressFormService } from './unit-address-form.service';
+import { FormErrorsModule } from '@spartacus/storefront';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { FormComponent } from '../../../../shared/form/form.component';
 
 @Component({
-  selector: 'cx-org-unit-address-form',
-  templateUrl: './unit-address-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
-  providers: [
-    {
-      provide: ItemService,
-      useExisting: UnitAddressItemService,
-    },
-  ],
+    selector: 'cx-org-unit-address-form',
+    templateUrl: './unit-address-form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    providers: [
+        {
+            provide: ItemService,
+            useExisting: UnitAddressItemService,
+        },
+    ],
+    standalone: true,
+    imports: [
+        FormComponent,
+        NgIf,
+        ReactiveFormsModule,
+        NgSelectModule,
+        FeaturesConfigModule,
+        FormErrorsModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class UnitAddressFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

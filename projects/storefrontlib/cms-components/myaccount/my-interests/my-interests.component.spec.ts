@@ -31,16 +31,20 @@ import { MockFeatureLevelDirective } from '../../../shared/test/mock-feature-lev
 import { MyInterestsComponent } from './my-interests.component';
 
 @Component({
-  template: '',
-  selector: 'cx-pagination',
+    template: '',
+    selector: 'cx-pagination',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule],
 })
 class MockPaginationComponent {
   @Input() pagination;
   @Output() viewPageEvent = new EventEmitter<string>();
 }
 @Component({
-  template: '',
-  selector: 'cx-sorting',
+    template: '',
+    selector: 'cx-sorting',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule],
 })
 class MockSortingComponent {
   @Input() sortOptions;
@@ -51,8 +55,10 @@ class MockSortingComponent {
 }
 
 @Component({
-  template: '',
-  selector: 'cx-media',
+    template: '',
+    selector: 'cx-media',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container;
@@ -73,7 +79,8 @@ const MockOccModuleConfig: OccConfig = {
 const MockLayoutConfig: LayoutConfig = {};
 
 @Pipe({
-  name: 'cxUrl',
+    name: 'cxUrl',
+    standalone: true,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -85,13 +92,16 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 }
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
+    selector: 'cx-spinner',
+    template: '',
+    standalone: true,
+    imports: [RouterTestingModule, I18nTestingModule],
 })
 class MockSpinnerComponent {}
 
 @Directive({
-  selector: '[cxAtMessage]',
+    selector: '[cxAtMessage]',
+    standalone: true,
 })
 class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
@@ -213,16 +223,7 @@ describe('MyInterestsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      providers: [
-        { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: LayoutConfig, useValue: MockLayoutConfig },
-        { provide: UserInterestsService, useValue: productInterestService },
-        { provide: ProductService, useValue: productService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-      ],
-      declarations: [
-        MyInterestsComponent,
+    imports: [RouterTestingModule, I18nTestingModule, MyInterestsComponent,
         MockUrlPipe,
         MockMediaComponent,
         MockSpinnerComponent,
@@ -230,9 +231,15 @@ describe('MyInterestsComponent', () => {
         MockSortingComponent,
         MockFeatureLevelDirective,
         MockAtMessageDirective,
-        MockFeatureDirective,
-      ],
-    }).compileComponents();
+        MockFeatureDirective],
+    providers: [
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: LayoutConfig, useValue: MockLayoutConfig },
+        { provide: UserInterestsService, useValue: productInterestService },
+        { provide: ProductService, useValue: productService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

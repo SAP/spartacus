@@ -30,7 +30,9 @@ const createTestValue = (
 });
 
 @Component({
-  selector: 'cx-configurator-attribute-multi-selection',
+    selector: 'cx-configurator-attribute-multi-selection',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class ExampleConfiguratorAttributeMultiSelectionComponent extends ConfiguratorAttributeMultiSelectionBaseComponent {
   constructor(
@@ -55,24 +57,23 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ExampleConfiguratorAttributeMultiSelectionComponent],
-      imports: [I18nTestingModule],
-      providers: [
+    imports: [I18nTestingModule, ExampleConfiguratorAttributeMultiSelectionComponent],
+    providers: [
         ConfiguratorAttributeQuantityService,
         {
-          provide: ConfiguratorAttributeCompositionContext,
-          useValue: ConfiguratorTestUtils.getAttributeContext(),
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
         },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useValue: {},
+            provide: ConfiguratorStorefrontUtilsService,
+            useValue: {},
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   function createValue(code: string, name: string, isSelected: boolean) {

@@ -17,23 +17,23 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    I18nModule,
-    FormErrorsModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CartQuickOrderFormComponent: {
-          component: CartQuickOrderFormComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [CartQuickOrderFormComponent],
-  exports: [CartQuickOrderFormComponent],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        I18nModule,
+        FormErrorsModule,
+        FeaturesConfigModule,
+        CartQuickOrderFormComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CartQuickOrderFormComponent: {
+                    component: CartQuickOrderFormComponent,
+                },
+            },
+        }),
+    ],
+    exports: [CartQuickOrderFormComponent],
 })
 export class CartQuickOrderFormModule {}

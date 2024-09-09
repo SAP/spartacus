@@ -9,28 +9,27 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, provideDefaultConfig, UrlModule } from '@spartacus/core';
 import { CarouselModule, MediaModule } from '@spartacus/storefront';
-import { AttributesModule } from './directives/attributes/attributes.module';
+
 import { MerchandisingCarouselComponent } from './merchandising-carousel/merchandising-carousel.component';
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
-    AttributesModule,
     CarouselModule,
     MediaModule,
     RouterModule,
     UrlModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        MerchandisingCarouselComponent: {
-          component: MerchandisingCarouselComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [MerchandisingCarouselComponent],
-  exports: [MerchandisingCarouselComponent],
+    MerchandisingCarouselComponent,
+],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                MerchandisingCarouselComponent: {
+                    component: MerchandisingCarouselComponent,
+                },
+            },
+        }),
+    ],
+    exports: [MerchandisingCarouselComponent],
 })
 export class MerchandisingCarouselCmsModule {}

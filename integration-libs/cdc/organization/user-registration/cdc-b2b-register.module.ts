@@ -10,11 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import {
-  FormErrorsModule,
-  NgSelectA11yModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
+import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { UserRegistrationFormService } from '@spartacus/organization/user-registration/components';
 import { CDCB2BRegisterComponentService } from './cdc-b2b-register-component.service';
 
@@ -28,8 +24,7 @@ import { CDCB2BRegisterComponentService } from './cdc-b2b-register-component.ser
     SpinnerModule,
     FormErrorsModule,
     NgSelectModule,
-    NgSelectA11yModule,
-  ],
+],
   providers: [
     {
       provide: UserRegistrationFormService,

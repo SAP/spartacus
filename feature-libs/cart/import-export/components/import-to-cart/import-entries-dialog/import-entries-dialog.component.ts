@@ -23,9 +23,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-import-entries-dialog',
-  templateUrl: './import-entries-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-import-entries-dialog',
+    templateUrl: './import-entries-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 export class ImportEntriesDialogComponent {
   iconTypes = ICON_TYPE;

@@ -4,8 +4,10 @@ import { StoreFinderHeaderComponent } from './store-finder-header.component';
 import { I18nTestingModule } from '@spartacus/core';
 
 @Component({
-  template: '',
-  selector: 'cx-store-finder-search',
+    template: '',
+    selector: 'cx-store-finder-search',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockStoreFinderSearchComponent {}
 
@@ -15,12 +17,9 @@ describe('StoreFinderHeaderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        StoreFinderHeaderComponent,
-        MockStoreFinderSearchComponent,
-      ],
-    }).compileComponents();
+    imports: [I18nTestingModule, MockStoreFinderSearchComponent],
+    declarations: [StoreFinderHeaderComponent],
+}).compileComponents();
   }));
 
   beforeEach(() => {

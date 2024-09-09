@@ -37,19 +37,18 @@ describe('ScrollToTopComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IconTestingModule, I18nTestingModule],
-      declarations: [ScrollToTopComponent],
-      providers: [
+    imports: [IconTestingModule, I18nTestingModule, ScrollToTopComponent],
+    providers: [
         {
-          provide: CmsComponentData,
-          useValue: MockCmsComponentData,
+            provide: CmsComponentData,
+            useValue: MockCmsComponentData,
         },
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     focusUtility = TestBed.inject(SelectFocusUtility);
     fixture = TestBed.createComponent(ScrollToTopComponent);

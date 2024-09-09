@@ -20,8 +20,9 @@ import { MyAccountV2OrderConsignmentsService } from '../my-account-v2-order-cons
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
-  selector: 'cx-order-details-items',
-  templateUrl: './order-detail-items.component.html',
+    selector: 'cx-order-details-items',
+    templateUrl: './order-detail-items.component.html',
+    standalone: true,
 })
 export class OrderDetailItemsComponent {
   protected orderConsignmentsService = inject(

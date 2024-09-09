@@ -18,18 +18,17 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
-  declarations: [MyAccountV2CustomerTicketingComponent],
-  exports: [MyAccountV2CustomerTicketingComponent],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        MyAccountViewRequestsComponent: {
-          component: MyAccountV2CustomerTicketingComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-  ],
-  imports: [CommonModule, I18nModule, UrlModule, SpinnerModule, RouterModule],
+    exports: [MyAccountV2CustomerTicketingComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                MyAccountViewRequestsComponent: {
+                    component: MyAccountV2CustomerTicketingComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+    ],
+    imports: [CommonModule, I18nModule, UrlModule, SpinnerModule, RouterModule, MyAccountV2CustomerTicketingComponent],
 })
 export class MyAccountV2CustomerTicketingModule {}

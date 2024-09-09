@@ -28,35 +28,35 @@ import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-    FormErrorsModule,
-    SpinnerModule,
-    PasswordVisibilityToggleModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ReturningCustomerLoginComponent: {
-          component: LoginFormComponent,
-          guards: [NotAuthGuard],
-          providers: [
-            {
-              provide: LoginFormComponentService,
-              useClass: LoginFormComponentService,
-              deps: [AuthService, GlobalMessageService, WindowRef],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        UrlModule,
+        I18nModule,
+        FormErrorsModule,
+        SpinnerModule,
+        PasswordVisibilityToggleModule,
+        FeaturesConfigModule,
+        LoginFormComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ReturningCustomerLoginComponent: {
+                    component: LoginFormComponent,
+                    guards: [NotAuthGuard],
+                    providers: [
+                        {
+                            provide: LoginFormComponentService,
+                            useClass: LoginFormComponentService,
+                            deps: [AuthService, GlobalMessageService, WindowRef],
+                        },
+                    ],
+                },
             },
-          ],
-        },
-      },
-    }),
-  ],
-  declarations: [LoginFormComponent],
+        }),
+    ],
 })
 export class LoginFormModule {}

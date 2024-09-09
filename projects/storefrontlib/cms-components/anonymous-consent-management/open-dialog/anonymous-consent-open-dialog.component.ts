@@ -13,10 +13,13 @@ import {
 import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
 import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
 import { take } from 'rxjs/operators';
+import { I18nModule } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-anonymous-consent-open-dialog',
-  templateUrl: './anonymous-consent-open-dialog.component.html',
+    selector: 'cx-anonymous-consent-open-dialog',
+    templateUrl: './anonymous-consent-open-dialog.component.html',
+    standalone: true,
+    imports: [I18nModule],
 })
 export class AnonymousConsentOpenDialogComponent {
   @ViewChild('open') openElement: ElementRef;

@@ -18,13 +18,7 @@ import {
   UrlModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import {
-  CaptchaModule,
-  FormErrorsModule,
-  NgSelectA11yModule,
-  PasswordVisibilityToggleModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
+import { CaptchaModule, FormErrorsModule, PasswordVisibilityToggleModule, SpinnerModule } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
@@ -40,10 +34,9 @@ import { RegisterComponent } from './register.component';
     SpinnerModule,
     FormErrorsModule,
     NgSelectModule,
-    NgSelectA11yModule,
     PasswordVisibilityToggleModule,
     FeaturesConfigModule,
-  ],
+],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

@@ -11,16 +11,15 @@ describe('ConsentManagementComponentService', () => {
   let service: ConsentManagementComponentService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [],
-      providers: [
+    imports: [],
+    providers: [
         ConsentManagementComponentService,
         {
-          provide: AnonymousConsentsConfig,
-          useValue: mockAnonymousConsentsConfig,
+            provide: AnonymousConsentsConfig,
+            useValue: mockAnonymousConsentsConfig,
         },
-      ],
-    });
+    ],
+});
     service = TestBed.inject(ConsentManagementComponentService);
     TestBed.compileComponents();
   });

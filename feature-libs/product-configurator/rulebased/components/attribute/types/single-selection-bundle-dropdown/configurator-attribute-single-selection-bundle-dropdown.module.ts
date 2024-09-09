@@ -10,14 +10,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
-import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
+
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     ConfiguratorAttributeProductCardModule,
     FormsModule,
@@ -26,19 +26,17 @@ import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './c
     NgSelectModule,
     ReactiveFormsModule,
     ConfiguratorAttributeQuantityModule,
-    ConfiguratorPriceModule,
-  ],
-  providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-      productConfigurator: {
-        assignment: {
-          AttributeType_dropdownProduct:
-            ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ConfiguratorAttributeSingleSelectionBundleDropdownComponent],
-  exports: [ConfiguratorAttributeSingleSelectionBundleDropdownComponent],
+    ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+],
+    providers: [
+        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+            productConfigurator: {
+                assignment: {
+                    AttributeType_dropdownProduct: ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ConfiguratorAttributeSingleSelectionBundleDropdownComponent],
 })
 export class ConfiguratorAttributeSingleSelectionBundleDropdownModule {}

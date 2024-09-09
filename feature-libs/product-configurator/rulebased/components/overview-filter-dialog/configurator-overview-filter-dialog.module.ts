@@ -12,23 +12,22 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
-import { ConfiguratorOverviewFilterModule } from '../overview-filter/configurator-overview-filter.module';
+
 import { ConfiguratorOverviewFilterDialogComponent } from './configurator-overview-filter-dialog.component';
 import { defaultConfiguratorOverviewFilterDialogLayoutConfig } from './default-configurator-overview-filer-dialog-layout.config';
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     I18nModule,
     IconModule,
-    ConfiguratorOverviewFilterModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(defaultConfiguratorOverviewFilterDialogLayoutConfig),
-  ],
-  declarations: [ConfiguratorOverviewFilterDialogComponent],
-  exports: [ConfiguratorOverviewFilterDialogComponent],
+    ConfiguratorOverviewFilterDialogComponent,
+],
+    providers: [
+        provideDefaultConfig(defaultConfiguratorOverviewFilterDialogLayoutConfig),
+    ],
+    exports: [ConfiguratorOverviewFilterDialogComponent],
 })
 export class ConfiguratorOverviewFilterDialogModule {}

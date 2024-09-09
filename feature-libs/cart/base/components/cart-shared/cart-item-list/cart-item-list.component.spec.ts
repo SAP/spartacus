@@ -86,8 +86,13 @@ const mockCartId = 'test-cart';
 const mockUserId = 'test-user';
 
 @Component({
-  template: '',
-  selector: '[cx-cart-item-list-row], cx-cart-item-list-row',
+    template: '',
+    selector: '[cx-cart-item-list-row], cx-cart-item-list-row',
+    standalone: true,
+    imports: [ReactiveFormsModule,
+        RouterTestingModule,
+        PromotionsModule,
+        I18nTestingModule,],
 })
 class MockCartItemComponent {
   @Input() item;
@@ -130,21 +135,22 @@ describe('CartItemListComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         RouterTestingModule,
         PromotionsModule,
         I18nTestingModule,
-      ],
-      declarations: [CartItemListComponent, MockCartItemComponent],
-      providers: [
+        MockCartItemComponent,
+    ],
+    declarations: [CartItemListComponent],
+    providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
         { provide: MultiCartFacade, useClass: MockMultiCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-      ],
-    });
+    ],
+});
   }
 
   function stubSeviceAndCreateComponent() {

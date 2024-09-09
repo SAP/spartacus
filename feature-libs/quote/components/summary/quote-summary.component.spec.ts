@@ -8,20 +8,26 @@ import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.
 import { QuoteSummaryComponent } from './quote-summary.component';
 
 @Component({
-  selector: 'cx-quote-summary-prices',
-  template: '',
+    selector: 'cx-quote-summary-prices',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockQuoteSummaryPricesComponent {}
 
 @Component({
-  selector: 'cx-quote-summary-actions',
-  template: '',
+    selector: 'cx-quote-summary-actions',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockQuoteSummaryActionsComponent {}
 
 @Component({
-  selector: 'cx-quote-summary-seller-edit',
-  template: '',
+    selector: 'cx-quote-summary-seller-edit',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockQuoteSummarySellerEditComponent {}
 
@@ -44,20 +50,17 @@ describe('QuoteSummaryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        QuoteSummaryComponent,
+    imports: [I18nTestingModule, QuoteSummaryComponent,
         MockQuoteSummaryPricesComponent,
         MockQuoteSummaryActionsComponent,
-        MockQuoteSummarySellerEditComponent,
-      ],
-      providers: [
+        MockQuoteSummarySellerEditComponent],
+    providers: [
         {
-          provide: QuoteFacade,
-          useClass: MockCommerceQuotesFacade,
+            provide: QuoteFacade,
+            useClass: MockCommerceQuotesFacade,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

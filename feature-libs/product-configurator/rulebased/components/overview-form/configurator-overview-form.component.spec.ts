@@ -127,8 +127,10 @@ function checkConfigurationOverviewObs(
 }
 
 @Component({
-  selector: 'cx-configurator-price',
-  template: '',
+    selector: 'cx-configurator-price',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule,],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -137,28 +139,24 @@ class MockConfiguratorPriceComponent {
 describe('ConfigurationOverviewFormComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [
-        ConfiguratorOverviewFormComponent,
-        ConfiguratorOverviewAttributeComponent,
-
-        MockConfiguratorPriceComponent,
-      ],
-      providers: [
+    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule, ConfiguratorOverviewAttributeComponent,
+        MockConfiguratorPriceComponent],
+    declarations: [ConfiguratorOverviewFormComponent],
+    providers: [
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
         },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
   beforeEach(() => {
     routerStateObservable = null;

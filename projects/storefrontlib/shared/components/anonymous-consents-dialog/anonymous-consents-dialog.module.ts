@@ -10,20 +10,19 @@ import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { ConsentManagementModule } from '../../../cms-components/myaccount/consent-management/consent-management.module';
 import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/index';
-import { SpinnerModule } from '../spinner/spinner.module';
+
 import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     I18nModule,
     IconModule,
-    SpinnerModule,
     ConsentManagementModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
-  ],
-  declarations: [AnonymousConsentDialogComponent],
-  exports: [AnonymousConsentDialogComponent],
+    AnonymousConsentDialogComponent,
+],
+    exports: [AnonymousConsentDialogComponent],
 })
 export class AnonymousConsentsDialogModule {}

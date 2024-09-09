@@ -6,4 +6,4 @@
 
 export * from './quote-summary-seller-edit.component';
 export * from './quote-summary-seller-edit.component.service';
-export * from './quote-summary-seller-edit.module';
+

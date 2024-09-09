@@ -18,23 +18,26 @@ import {
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
 
 @Pipe({
-  name: 'cxTranslate',
+    name: 'cxTranslate',
+    standalone: true,
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
 })
 class MockCxIconComponent {
   @Input() type: any;
 }
 
 @Component({
-  selector: 'cx-configure-cart-entry',
-  template: '',
+    selector: 'cx-configure-cart-entry',
+    template: '',
+    standalone: true,
 })
 class MockConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
@@ -76,16 +79,14 @@ describe('ConfigureIssuesNotificationComponent', () => {
   describe('with cart item context', () => {
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorIssuesNotificationComponent,
-          MockTranslatePipe,
-          MockCxIconComponent,
-          MockConfigureCartEntryComponent,
-        ],
-        providers: [
-          { provide: CartItemContext, useClass: MockCartItemContext },
-        ],
-      }).compileComponents();
+    imports: [ConfiguratorIssuesNotificationComponent,
+        MockTranslatePipe,
+        MockCxIconComponent,
+        MockConfigureCartEntryComponent,],
+    providers: [
+        { provide: CartItemContext, useClass: MockCartItemContext },
+    ],
+}).compileComponents();
     }));
 
     beforeEach(() => {
@@ -295,14 +296,12 @@ describe('ConfigureIssuesNotificationComponent', () => {
   describe('without cart item context', () => {
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorIssuesNotificationComponent,
-          MockTranslatePipe,
-          MockCxIconComponent,
-          MockConfigureCartEntryComponent,
-        ],
-        providers: [{ provide: CartItemContext, useValue: null }],
-      }).compileComponents();
+    imports: [ConfiguratorIssuesNotificationComponent,
+        MockTranslatePipe,
+        MockCxIconComponent,
+        MockConfigureCartEntryComponent,],
+    providers: [{ provide: CartItemContext, useValue: null }],
+}).compileComponents();
     }));
 
     beforeEach(() => {

@@ -45,8 +45,10 @@ class MockOrderApprovalDetailService {
 }
 
 @Component({
-  selector: 'cx-form-errors',
-  template: '',
+    selector: 'cx-form-errors',
+    template: '',
+    standalone: true,
+    imports: [ReactiveFormsModule, I18nTestingModule, RouterTestingModule,],
 })
 class MockFormErrorsComponent {
   @Input() control: UntypedFormControl;
@@ -55,13 +57,16 @@ class MockFormErrorsComponent {
 }
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
+    selector: 'cx-spinner',
+    template: '',
+    standalone: true,
+    imports: [ReactiveFormsModule, I18nTestingModule, RouterTestingModule,],
 })
 class MockSpinnerComponent {}
 
 @Pipe({
-  name: 'cxUrl',
+    name: 'cxUrl',
+    standalone: true,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -89,22 +94,19 @@ describe('OrderApprovalDetailFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, RouterTestingModule],
-      declarations: [
-        OrderApprovalDetailFormComponent,
+    imports: [ReactiveFormsModule, I18nTestingModule, RouterTestingModule, OrderApprovalDetailFormComponent,
         MockFormErrorsComponent,
         MockSpinnerComponent,
         MockUrlPipe,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective],
+    providers: [
         {
-          provide: OrderApprovalDetailService,
-          useClass: MockOrderApprovalDetailService,
+            provide: OrderApprovalDetailService,
+            useClass: MockOrderApprovalDetailService,
         },
         { provide: OrderApprovalService, useClass: MockOrderApprovalService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     makeDecisionResultLoading$.next(false);
     orderApprovalLoading$.next(false);

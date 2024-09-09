@@ -12,11 +12,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
-import { ItemActiveModule } from '../../shared/item-active.module';
+
 import { UnitFormComponent } from './unit-form.component';
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     RouterModule,
     FormModule,
@@ -25,10 +25,9 @@ import { UnitFormComponent } from './unit-form.component';
     I18nModule,
     ReactiveFormsModule,
     FormErrorsModule,
-    ItemActiveModule,
     FeaturesConfigModule,
-  ],
-  declarations: [UnitFormComponent],
-  exports: [UnitFormComponent],
+    UnitFormComponent,
+],
+    exports: [UnitFormComponent],
 })
 export class UnitFormModule {}

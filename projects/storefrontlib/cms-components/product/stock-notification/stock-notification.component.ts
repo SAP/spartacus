@@ -13,29 +13,30 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  isNotNullable,
-  NotificationPreference,
-  NotificationType,
-  OCC_USER_ID_ANONYMOUS,
-  Product,
-  TranslationService,
-  UserIdService,
-  UserInterestsService,
-  UserNotificationPreferenceService,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType, isNotNullable, NotificationPreference, NotificationType, OCC_USER_ID_ANONYMOUS, Product, TranslationService, UserIdService, UserInterestsService, UserNotificationPreferenceService, FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, first, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 import { LaunchDialogService, LAUNCH_CALLER } from '../../../layout/index';
 import { take } from 'rxjs/operators';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { RouterLink } from '@angular/router';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-stock-notification',
-  templateUrl: './stock-notification.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-stock-notification',
+    templateUrl: './stock-notification.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        RouterLink,
+        FeaturesConfigModule,
+        SpinnerComponent,
+        AsyncPipe,
+        I18nModule,
+        UrlModule,
+    ],
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {
   hasProductInterests$: Observable<boolean>;

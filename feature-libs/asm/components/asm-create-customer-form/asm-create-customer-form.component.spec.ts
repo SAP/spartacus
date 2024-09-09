@@ -78,8 +78,10 @@ const duplicatedUidErrorResponse: HttpErrorModel = {
 };
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -98,7 +100,8 @@ class MockAsmCreateCustomerFacade implements Partial<AsmCreateCustomerFacade> {
 }
 
 @Directive({
-  selector: '[cxFocus]',
+    selector: '[cxFocus]',
+    standalone: true,
 })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
@@ -113,21 +116,18 @@ describe('AsmCreateCustomerFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        AsmCreateCustomerFormComponent,
-        MockCxIconComponent,
-        MockKeyboadFocusDirective,
-      ],
-      providers: [
+    imports: [I18nTestingModule, MockCxIconComponent,
+        MockKeyboadFocusDirective],
+    declarations: [AsmCreateCustomerFormComponent],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: AsmCreateCustomerFacade,
-          useClass: MockAsmCreateCustomerFacade,
+            provide: AsmCreateCustomerFacade,
+            useClass: MockAsmCreateCustomerFacade,
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    }).compileComponents();
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+}).compileComponents();
 
     launchDialogService = TestBed.inject(LaunchDialogService);
     asmCreateCustomerFacade = TestBed.inject(AsmCreateCustomerFacade);

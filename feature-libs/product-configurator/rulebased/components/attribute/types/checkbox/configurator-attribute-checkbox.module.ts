@@ -10,30 +10,28 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
-import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
+
 import { ConfiguratorAttributeCompositionConfig } from '../../composition';
-import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
+
 
 @NgModule({
-  imports: [
+    imports: [
     KeyboardFocusModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
     I18nModule,
-    ConfiguratorPriceModule,
-    ConfiguratorShowMoreModule,
-  ],
-  providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-      productConfigurator: {
-        assignment: {
-          AttributeType_checkBox: ConfiguratorAttributeCheckBoxComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ConfiguratorAttributeCheckBoxComponent],
-  exports: [ConfiguratorAttributeCheckBoxComponent],
+    ConfiguratorAttributeCheckBoxComponent,
+],
+    providers: [
+        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+            productConfigurator: {
+                assignment: {
+                    AttributeType_checkBox: ConfiguratorAttributeCheckBoxComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ConfiguratorAttributeCheckBoxComponent],
 })
 export class ConfiguratorAttributeCheckboxModule {}

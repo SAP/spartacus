@@ -14,6 +14,7 @@ import { QuoteCartGuard } from './quote-cart.guard';
  * details page of the quote that is attached to the current cart.
  */
 @Component({
-  templateUrl: './quote-cart-guard.component.html',
+    templateUrl: './quote-cart-guard.component.html',
+    standalone: true,
 })
 export class QuoteCartGuardComponent {}

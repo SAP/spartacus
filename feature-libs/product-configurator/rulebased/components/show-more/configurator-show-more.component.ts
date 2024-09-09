@@ -12,12 +12,15 @@ import {
   inject,
   Input,
 } from '@angular/core';
-import { Config, useFeatureStyles } from '@spartacus/core';
+import { Config, useFeatureStyles, I18nModule } from '@spartacus/core';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'cx-configurator-show-more',
-  templateUrl: './configurator-show-more.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-configurator-show-more',
+    templateUrl: './configurator-show-more.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, I18nModule],
 })
 export class ConfiguratorShowMoreComponent implements AfterViewInit {
   showMore = false;

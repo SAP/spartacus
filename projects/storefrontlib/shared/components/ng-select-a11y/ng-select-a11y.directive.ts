@@ -17,7 +17,8 @@ import { FeatureConfigService, TranslationService } from '@spartacus/core';
 import { take } from 'rxjs';
 
 @Directive({
-  selector: '[cxNgSelectA11y]',
+    selector: '[cxNgSelectA11y]',
+    standalone: true,
 })
 export class NgSelectA11yDirective implements AfterViewInit {
   /**

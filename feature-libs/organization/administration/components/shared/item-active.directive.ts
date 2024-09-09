@@ -13,7 +13,8 @@ import { MessageService } from './message/services/message.service';
 import { BaseItem } from './organization.model';
 
 @Directive({
-  selector: '[cxOrgItemActive]',
+    selector: '[cxOrgItemActive]',
+    standalone: true,
 })
 export class ItemActiveDirective<T extends BaseItem = BaseItem>
   implements OnInit, OnDestroy

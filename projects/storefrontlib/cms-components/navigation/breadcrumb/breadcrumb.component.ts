@@ -10,23 +10,26 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import {
-  CmsBreadcrumbsComponent,
-  FeatureConfigService,
-  PageMetaService,
-  TranslationService,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { CmsBreadcrumbsComponent, FeatureConfigService, PageMetaService, TranslationService, useFeatureStyles, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { PageTitleComponent } from '../page-header/page-title.component';
+import { NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-breadcrumb',
-  templateUrl: './breadcrumb.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-breadcrumb',
+    templateUrl: './breadcrumb.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgFor,
+        RouterLink,
+        FeaturesConfigModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   crumbs$: Observable<any[]>;

@@ -28,15 +28,18 @@ import { Observable, of } from 'rxjs';
 class MockGroupService {}
 
 @Directive({
-  selector: '[cxFocus]',
+    selector: '[cxFocus]',
+    standalone: true,
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
 
 @Component({
-  selector: 'cx-configurator-attribute-quantity',
-  template: '',
+    selector: 'cx-configurator-attribute-quantity',
+    template: '',
+    standalone: true,
+    imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule,],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -44,16 +47,20 @@ class MockConfiguratorAttributeQuantityComponent {
 }
 
 @Component({
-  selector: 'cx-configurator-price',
-  template: '',
+    selector: 'cx-configurator-price',
+    template: '',
+    standalone: true,
+    imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule,],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
 @Component({
-  selector: 'cx-configurator-show-more',
-  template: '',
+    selector: 'cx-configurator-show-more',
+    template: '',
+    standalone: true,
+    imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule,],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
@@ -108,34 +115,31 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
       },
     });
     TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeCheckBoxListComponent,
+    imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule, ConfiguratorAttributeCheckBoxListComponent,
         MockFocusDirective,
         MockConfiguratorAttributeQuantityComponent,
         MockConfiguratorPriceComponent,
-        MockConfiguratorShowMoreComponent,
-      ],
-      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
-      providers: [
+        MockConfiguratorShowMoreComponent],
+    providers: [
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
         },
         {
-          provide: ConfiguratorGroupsService,
-          useClass: MockGroupService,
+            provide: ConfiguratorGroupsService,
+            useClass: MockGroupService,
         },
         ConfiguratorAttributeQuantityService,
         {
-          provide: ConfiguratorAttributeCompositionContext,
-          useValue: ConfiguratorTestUtils.getAttributeContext(),
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

@@ -5,18 +5,22 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import {
-  FocusConfig,
-  ICON_TYPE,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { FocusConfig, ICON_TYPE, LaunchDialogService, KeyboardFocusModule, IconModule } from '@spartacus/storefront';
 import { DP_CARD_REGISTRATION_STATUS } from '../../../../utils/dp-constants';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-dp-confirmation-dialog',
-  templateUrl: './dp-confirmation-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-dp-confirmation-dialog',
+    templateUrl: './dp-confirmation-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        KeyboardFocusModule,
+        FeaturesConfigModule,
+        IconModule,
+        I18nModule,
+    ],
 })
 export class DpConfirmationDialogComponent {
   focusConfig: FocusConfig = {

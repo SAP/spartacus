@@ -40,7 +40,8 @@ import { ComponentHandlerService } from './services/component-handler.service';
  * Directive used to facilitate instantiation of CMS driven dynamic components
  */
 @Directive({
-  selector: '[cxComponentWrapper]',
+    selector: '[cxComponentWrapper]',
+    standalone: true,
 })
 export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input() cxComponentWrapper: ContentSlotComponentData;

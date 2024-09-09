@@ -38,31 +38,30 @@ describe('CdcUserListService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [],
-      providers: [
+    imports: [],
+    providers: [
         {
-          provide: CdcJsService,
-          useClass: MockCdcJsService,
+            provide: CdcJsService,
+            useClass: MockCdcJsService,
         },
         {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
         },
         {
-          provide: WindowRef,
-          useClass: MockWinRef,
+            provide: WindowRef,
+            useClass: MockWinRef,
         },
         {
-          provide: B2BUserService,
-          useClass: MockB2BUserService,
+            provide: B2BUserService,
+            useClass: MockB2BUserService,
         },
         {
-          provide: TableService,
-          useClass: MockTableService,
+            provide: TableService,
+            useClass: MockTableService,
         },
-      ],
-    });
+    ],
+});
     service = TestBed.inject(CdcUserListService);
     cdcJsService = TestBed.inject(CdcJsService);
     globalMessageService = TestBed.inject(GlobalMessageService);

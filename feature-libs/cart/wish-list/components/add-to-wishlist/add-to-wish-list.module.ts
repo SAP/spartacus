@@ -14,29 +14,28 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { AtMessageModule, IconModule } from '@spartacus/storefront';
+import { IconModule } from '@spartacus/storefront';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     I18nModule,
     IconModule,
     RouterModule,
     UrlModule,
-    AtMessageModule,
     FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        AddToWishListComponent: {
-          component: AddToWishListComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [AddToWishListComponent],
-  exports: [AddToWishListComponent],
+    AddToWishListComponent,
+],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                AddToWishListComponent: {
+                    component: AddToWishListComponent,
+                },
+            },
+        }),
+    ],
+    exports: [AddToWishListComponent],
 })
 export class AddToWishListModule {}

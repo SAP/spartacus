@@ -14,7 +14,11 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponent } from './order-overview.component';
 
-@Component({ selector: 'cx-card', template: '' })
+@Component({
+    selector: 'cx-card', template: '',
+    standalone: true,
+    imports: [I18nTestingModule]
+})
 class MockCardComponent {
   @Input()
   content: Card;
@@ -142,14 +146,13 @@ describe('OrderOverviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderOverviewComponent, MockCardComponent],
-      providers: [
+    imports: [I18nTestingModule, OrderOverviewComponent, MockCardComponent],
+    providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

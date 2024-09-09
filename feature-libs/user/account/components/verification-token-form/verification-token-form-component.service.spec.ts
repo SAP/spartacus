@@ -35,23 +35,22 @@ describe('VerificationTokenFormComponentService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
-      ],
-      declarations: [],
-      providers: [
+    ],
+    providers: [
         VerificationTokenFormComponentService,
         { provide: AuthService, useClass: MockAuthService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
-          provide: VerificationTokenFacade,
-          useClass: MockVerificationTokenFacade,
+            provide: VerificationTokenFacade,
+            useClass: MockVerificationTokenFacade,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

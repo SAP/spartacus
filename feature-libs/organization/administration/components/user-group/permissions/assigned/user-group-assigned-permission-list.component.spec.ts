@@ -13,15 +13,14 @@ describe('UserGroupAssignedPermissionListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SubListTestingModule, UrlTestingModule, I18nTestingModule],
-      providers: [
+    imports: [SubListTestingModule, UrlTestingModule, I18nTestingModule, UserGroupAssignedPermissionListComponent],
+    providers: [
         {
-          provide: UserGroupAssignedPermissionsListService,
-          useClass: MockUserGroupAssignedPermissionsListService,
+            provide: UserGroupAssignedPermissionsListService,
+            useClass: MockUserGroupAssignedPermissionsListService,
         },
-      ],
-      declarations: [UserGroupAssignedPermissionListComponent],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(UserGroupAssignedPermissionListComponent);
     component = fixture.componentInstance;

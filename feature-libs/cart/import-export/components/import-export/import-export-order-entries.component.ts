@@ -14,9 +14,10 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-import-export-order-entries',
-  templateUrl: './import-export-order-entries.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-import-export-order-entries',
+    templateUrl: './import-export-order-entries.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 export class ImportExportOrderEntriesComponent {
   constructor(protected contextService: ContextService) {}

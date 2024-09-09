@@ -19,18 +19,29 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef, I18nModule } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PositioningService } from '../../services/positioning/positioning.service';
 import { PopoverEvent, PopoverPosition } from './popover.model';
+import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
 
 @Component({
-  selector: 'cx-popover',
-  templateUrl: './popover.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-popover',
+    templateUrl: './popover.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FocusDirective,
+        NgIf,
+        IconComponent,
+        NgTemplateOutlet,
+        I18nModule,
+    ],
 })
 export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**

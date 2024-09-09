@@ -10,28 +10,41 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import {
-  EntitiesModel,
-  PaginationModel,
-  Translatable,
-  useFeatureStyles,
-} from '@spartacus/core';
-import {
-  ICON_TYPE,
-  Table,
-  TableStructure,
-  TrapFocus,
-} from '@spartacus/storefront';
+import { EntitiesModel, PaginationModel, Translatable, useFeatureStyles, FeaturesConfigModule, UrlModule, I18nModule } from '@spartacus/core';
+import { ICON_TYPE, Table, TableStructure, TrapFocus, PopoverModule, IconModule, TableModule, PaginationModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { OrganizationTableType } from '../organization.model';
 import { CreateButtonType, ListService } from './list.service';
+import { RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-org-list',
-  templateUrl: './list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-org-list',
+    templateUrl: './list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+    NgIf,
+    FeaturesConfigModule,
+    PopoverModule,
+    IconModule,
+    NgSelectModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NgFor,
+    RouterLinkActive,
+    RouterLink,
+    TableModule,
+    PaginationModule,
+    RouterOutlet,
+    AsyncPipe,
+    UrlModule,
+    I18nModule,
+],
 })
 export class ListComponent<T = any, P = PaginationModel> {
   readonly trapFocus = TrapFocus;

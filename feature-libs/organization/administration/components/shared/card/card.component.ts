@@ -10,19 +10,34 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { ICON_TYPE, ViewComponent } from '@spartacus/storefront';
+import { ICON_TYPE, ViewComponent, PopoverModule, IconModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { MessageService } from '../message/services/message.service';
 import { BaseItem } from '../organization.model';
+import { I18nModule } from '@spartacus/core';
+import { MessageComponent } from '../message/message.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-org-card',
-  templateUrl: './card.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
-  providers: [MessageService],
+    selector: 'cx-org-card',
+    templateUrl: './card.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    providers: [MessageService],
+    standalone: true,
+    imports: [
+    NgIf,
+    PopoverModule,
+    IconModule,
+    RouterLink,
+    MessageComponent,
+    RouterOutlet,
+    AsyncPipe,
+    I18nModule,
+],
 })
 export class CardComponent<T extends BaseItem> {
   @Input() i18nRoot: string;

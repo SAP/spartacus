@@ -12,15 +12,31 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { NotificationPreference, UserInterestsService } from '@spartacus/core';
+import { NotificationPreference, UserInterestsService, FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { FocusConfig } from '../../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { LaunchDialogService } from '../../../../layout/index';
+import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
 
 @Component({
-  selector: 'cx-stock-notification-dialog',
-  templateUrl: './stock-notification-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-stock-notification-dialog',
+    templateUrl: './stock-notification-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FocusDirective,
+        FeaturesConfigModule,
+        NgIf,
+        NgFor,
+        RouterLink,
+        SpinnerComponent,
+        AsyncPipe,
+        I18nModule,
+        UrlModule,
+    ],
 })
 export class StockNotificationDialogComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

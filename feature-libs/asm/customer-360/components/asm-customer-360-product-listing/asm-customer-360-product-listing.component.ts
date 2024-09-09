@@ -13,17 +13,29 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Product, I18nModule } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ProductItem } from './product-item.model';
+import { AsmCustomer360ProductItemComponent } from '../asm-customer-360-product-item/asm-customer-360-product-item.component';
+import { NgIf, NgTemplateOutlet, NgClass, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-asm-customer-360-product-listing',
-  templateUrl: './asm-customer-360-product-listing.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-asm-customer-360-product-listing',
+    templateUrl: './asm-customer-360-product-listing.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgTemplateOutlet,
+        NgClass,
+        NgFor,
+        AsmCustomer360ProductItemComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class AsmCustomer360ProductListingComponent implements OnInit {
   @Input()

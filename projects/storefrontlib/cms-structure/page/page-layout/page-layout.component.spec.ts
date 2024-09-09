@@ -115,9 +115,8 @@ describe('PageLayoutComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PageTemplateDirective],
-      imports: [TestModule],
-    }).compileComponents();
+    imports: [TestModule, PageTemplateDirective],
+}).compileComponents();
   });
 
   beforeEach(() => {

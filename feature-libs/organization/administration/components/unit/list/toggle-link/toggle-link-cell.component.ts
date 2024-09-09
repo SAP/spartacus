@@ -28,9 +28,10 @@ import { CellComponent } from '../../../shared/table/cell.component';
 import { UnitTreeService } from '../../services/unit-tree.service';
 
 @Component({
-  selector: 'cx-org-toggle-link-cell',
-  templateUrl: './toggle-link-cell.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-org-toggle-link-cell',
+    templateUrl: './toggle-link-cell.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 export class ToggleLinkCellComponent extends CellComponent {
   @HostBinding('style.--cx-depth-level')

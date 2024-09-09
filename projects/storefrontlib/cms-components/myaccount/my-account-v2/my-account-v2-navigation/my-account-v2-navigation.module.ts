@@ -16,18 +16,17 @@ import {
 import { NavigationModule } from '../../../navigation/navigation/navigation.module';
 
 @NgModule({
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        MyAccountSideNavigationComponent: {
-          component: MyAccountV2NavigationComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [MyAccountV2NavigationComponent],
-  exports: [MyAccountV2NavigationComponent],
-  imports: [CommonModule, NavigationModule, I18nModule],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                MyAccountSideNavigationComponent: {
+                    component: MyAccountV2NavigationComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+    ],
+    exports: [MyAccountV2NavigationComponent],
+    imports: [CommonModule, NavigationModule, I18nModule, MyAccountV2NavigationComponent],
 })
 export class MyAccountV2NavigationModule {}

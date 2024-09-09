@@ -11,17 +11,21 @@ import {
   HostListener,
   Input,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
-import {
-  FocusConfig,
-  ICON_TYPE,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { useFeatureStyles, I18nModule } from '@spartacus/core';
+import { FocusConfig, ICON_TYPE, LaunchDialogService, KeyboardFocusModule, IconModule } from '@spartacus/storefront';
+import { ProductImageZoomViewComponent } from '../product-image-zoom-view/product-image-zoom-view.component';
 
 @Component({
-  selector: 'cx-product-image-zoom-dialog',
-  templateUrl: 'product-image-zoom-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-image-zoom-dialog',
+    templateUrl: 'product-image-zoom-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        KeyboardFocusModule,
+        IconModule,
+        ProductImageZoomViewComponent,
+        I18nModule,
+    ],
 })
 export class ProductImageZoomDialogComponent {
   iconType = ICON_TYPE;

@@ -13,18 +13,14 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
-import {
-  KeyboardFocusModule,
-  MediaModule,
-  NgSelectA11yModule,
-} from '@spartacus/storefront';
+import { KeyboardFocusModule, MediaModule } from '@spartacus/storefront';
 import { ProductMultiDimensionalSelectorComponent } from './product-multi-dimensional-selector.component';
 import { ProductMultiDimensionalSelectorGuard } from '../guards';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     RouterModule,
     UrlModule,
@@ -32,20 +28,19 @@ import { FormsModule } from '@angular/forms';
     KeyboardFocusModule,
     NgSelectModule,
     FormsModule,
-    NgSelectA11yModule,
     I18nModule,
-  ],
-  declarations: [ProductMultiDimensionalSelectorComponent],
-  exports: [ProductMultiDimensionalSelectorComponent],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ProductMultiDimensionalSelectorComponent: {
-          component: ProductMultiDimensionalSelectorComponent,
-          guards: [ProductMultiDimensionalSelectorGuard],
-        },
-      },
-    }),
-  ],
+    ProductMultiDimensionalSelectorComponent,
+],
+    exports: [ProductMultiDimensionalSelectorComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ProductMultiDimensionalSelectorComponent: {
+                    component: ProductMultiDimensionalSelectorComponent,
+                    guards: [ProductMultiDimensionalSelectorGuard],
+                },
+            },
+        }),
+    ],
 })
 export class ProductMultiDimensionalSelectorComponentModule {}

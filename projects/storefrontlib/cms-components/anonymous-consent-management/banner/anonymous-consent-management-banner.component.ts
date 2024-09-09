@@ -5,15 +5,23 @@
  */
 
 import { Component, OnDestroy, ViewContainerRef } from '@angular/core';
-import { AnonymousConsentsService } from '@spartacus/core';
+import { AnonymousConsentsService, I18nModule } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
 import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-anonymous-consent-management-banner',
-  templateUrl: './anonymous-consent-management-banner.component.html',
+    selector: 'cx-anonymous-consent-management-banner',
+    templateUrl: './anonymous-consent-management-banner.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgClass,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class AnonymousConsentManagementBannerComponent implements OnDestroy {
   private subscriptions = new Subscription();

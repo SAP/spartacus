@@ -5,22 +5,29 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  CmsProductReferencesComponent,
-  isNotNullable,
-  Product,
-  ProductReference,
-  ProductReferenceService,
-} from '@spartacus/core';
+import { CmsProductReferencesComponent, isNotNullable, Product, ProductReference, ProductReferenceService, UrlModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
+import { MediaComponent } from '../../../../shared/components/media/media.component';
+import { RouterLink } from '@angular/router';
+import { CarouselComponent } from '../../../../shared/components/carousel/carousel.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-product-references',
-  templateUrl: './product-references.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-references',
+    templateUrl: './product-references.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        CarouselComponent,
+        RouterLink,
+        MediaComponent,
+        AsyncPipe,
+        UrlModule,
+    ],
 })
 export class ProductReferencesComponent {
   constructor(

@@ -13,11 +13,11 @@ import { ItemCounterModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
-import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
+
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     ConfiguratorAttributeProductCardModule,
     ConfiguratorAttributeQuantityModule,
@@ -28,19 +28,17 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
     ReactiveFormsModule,
     RouterModule,
     UrlModule,
-    ConfiguratorPriceModule,
-  ],
-  providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-      productConfigurator: {
-        assignment: {
-          AttributeType_radioGroupProduct:
-            ConfiguratorAttributeSingleSelectionBundleComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ConfiguratorAttributeSingleSelectionBundleComponent],
-  exports: [ConfiguratorAttributeSingleSelectionBundleComponent],
+    ConfiguratorAttributeSingleSelectionBundleComponent,
+],
+    providers: [
+        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+            productConfigurator: {
+                assignment: {
+                    AttributeType_radioGroupProduct: ConfiguratorAttributeSingleSelectionBundleComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ConfiguratorAttributeSingleSelectionBundleComponent],
 })
 export class ConfiguratorAttributeSingleSelectionBundleModule {}

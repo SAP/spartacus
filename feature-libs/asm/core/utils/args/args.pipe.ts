@@ -30,7 +30,10 @@ import { Pipe, PipeTransform } from '@angular/core';
  *  </div>
  * ```
  */
-@Pipe({ name: 'cxArgs' })
+@Pipe({
+    name: 'cxArgs',
+    standalone: true
+})
 export class ArgsPipe implements PipeTransform {
   transform<A extends Array<any>, R>(
     projectionFunction: (...arglist: A) => R,

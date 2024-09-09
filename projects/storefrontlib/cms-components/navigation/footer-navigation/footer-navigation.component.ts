@@ -5,17 +5,27 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CmsNavigationComponent } from '@spartacus/core';
+import { CmsNavigationComponent, I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationService } from '../navigation/navigation.service';
+import { NavigationUIComponent } from '../navigation/navigation-ui.component';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-footer-navigation',
-  templateUrl: './footer-navigation.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-footer-navigation',
+    templateUrl: './footer-navigation.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NavigationUIComponent,
+        NgClass,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class FooterNavigationComponent {
   node$: Observable<NavigationNode> = this.service.getNavigationNode(

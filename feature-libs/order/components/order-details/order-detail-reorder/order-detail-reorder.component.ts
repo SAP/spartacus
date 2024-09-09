@@ -19,9 +19,10 @@ import { take } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
-  selector: 'cx-order-details-reorder',
-  templateUrl: './order-detail-reorder.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-order-details-reorder',
+    templateUrl: './order-detail-reorder.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
 })
 export class OrderDetailReorderComponent implements OnInit, OnDestroy {
   constructor(

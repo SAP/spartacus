@@ -11,19 +11,30 @@ import {
   OnInit,
 } from '@angular/core';
 import { QuoteListComponentService } from './quote-list-component.service';
-import {
-  CxDatePipe,
-  PaginationModel,
-  TranslationService,
-} from '@spartacus/core';
+import { CxDatePipe, PaginationModel, TranslationService, I18nModule, UrlModule } from '@spartacus/core';
 import { QuoteState } from '@spartacus/quote/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, SortingModule, PaginationModule, IconModule } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-quote-list',
-  templateUrl: './quote-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CxDatePipe],
+    selector: 'cx-quote-list',
+    templateUrl: './quote-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [CxDatePipe],
+    standalone: true,
+    imports: [
+        NgIf,
+        SortingModule,
+        PaginationModule,
+        NgFor,
+        RouterLink,
+        NgClass,
+        IconModule,
+        AsyncPipe,
+        I18nModule,
+        UrlModule,
+    ],
 })
 export class QuoteListComponent implements OnInit {
   protected quoteListComponentService = inject(QuoteListComponentService);

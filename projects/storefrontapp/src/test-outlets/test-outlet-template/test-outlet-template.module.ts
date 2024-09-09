@@ -5,28 +5,23 @@
  */
 
 import { NgModule } from '@angular/core';
-import {
-  PageLayoutModule,
-  OutletRefModule,
-  CmsPageGuard,
-} from '@spartacus/storefront';
+import { PageLayoutModule, CmsPageGuard } from '@spartacus/storefront';
 import { CommonModule } from '@angular/common';
 import { TestOutletTemplateComponent } from './test-outlet-template.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     PageLayoutModule,
-    OutletRefModule,
     RouterModule.forChild([
-      {
-        path: 'test/outlet/template',
-        component: TestOutletTemplateComponent,
-        canActivate: [CmsPageGuard],
-      },
+        {
+            path: 'test/outlet/template',
+            component: TestOutletTemplateComponent,
+            canActivate: [CmsPageGuard],
+        },
     ]),
-  ],
-  declarations: [TestOutletTemplateComponent],
+    TestOutletTemplateComponent,
+],
 })
 export class TestOutletTemplateModule {}

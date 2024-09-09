@@ -17,16 +17,12 @@ import {
   NotAuthGuard,
   UrlModule,
 } from '@spartacus/core';
-import {
-  FormErrorsModule,
-  NgSelectA11yModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
+import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { UserRegistrationFormComponent } from './user-registration-form.component';
 import { UserRegistrationFormService } from './user-registration-form.service';
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
@@ -35,19 +31,18 @@ import { UserRegistrationFormService } from './user-registration-form.service';
     SpinnerModule,
     FormErrorsModule,
     NgSelectModule,
-    NgSelectA11yModule,
     ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        OrganizationUserRegistrationComponent: {
-          component: UserRegistrationFormComponent,
-          guards: [NotAuthGuard],
+        cmsComponents: {
+            OrganizationUserRegistrationComponent: {
+                component: UserRegistrationFormComponent,
+                guards: [NotAuthGuard],
+            },
         },
-      },
     }),
     FeaturesConfigModule,
-  ],
-  declarations: [UserRegistrationFormComponent],
-  exports: [UserRegistrationFormComponent],
-  providers: [UserRegistrationFormService],
+    UserRegistrationFormComponent,
+],
+    exports: [UserRegistrationFormComponent],
+    providers: [UserRegistrationFormService],
 })
 export class UserRegistrationFormModule {}

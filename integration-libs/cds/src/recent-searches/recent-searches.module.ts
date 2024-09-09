@@ -17,15 +17,14 @@ import { I18nModule, UrlModule } from '@spartacus/core';
 import { RecentSearchesComponent } from './recent-searches.component';
 
 @NgModule({
-  exports: [RecentSearchesComponent],
-  declarations: [RecentSearchesComponent],
-  imports: [CommonModule, I18nModule, SearchBoxModule, UrlModule, RouterModule],
-  providers: [
-    provideOutlet({
-      id: SearchBoxOutlets.RECENT_SEARCHES,
-      component: RecentSearchesComponent,
-      position: OutletPosition.AFTER,
-    }),
-  ],
+    exports: [RecentSearchesComponent],
+    imports: [CommonModule, I18nModule, SearchBoxModule, UrlModule, RouterModule, RecentSearchesComponent],
+    providers: [
+        provideOutlet({
+            id: SearchBoxOutlets.RECENT_SEARCHES,
+            component: RecentSearchesComponent,
+            position: OutletPosition.AFTER,
+        }),
+    ],
 })
 export class RecentSearchesModule {}

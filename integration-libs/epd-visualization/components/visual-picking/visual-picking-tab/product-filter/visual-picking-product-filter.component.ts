@@ -5,13 +5,21 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconModule } from '@spartacus/storefront';
 import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';
+import { I18nModule } from '@spartacus/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'cx-epd-visualization-product-filter',
-  templateUrl: './visual-picking-product-filter.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-epd-visualization-product-filter',
+    templateUrl: './visual-picking-product-filter.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FormsModule,
+        IconModule,
+        I18nModule,
+    ],
 })
 export class VisualPickingProductFilterComponent {
   constructor(

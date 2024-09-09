@@ -10,21 +10,33 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
+import { useFeatureStyles, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import {
   DaysOfWeek,
   ORDER_TYPE,
   ScheduleReplenishmentForm,
   recurrencePeriod,
 } from '@spartacus/order/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconModule } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
+import { NgFor, NgIf, AsyncPipe, TitleCasePipe, KeyValuePipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-schedule-replenishment-order',
-  templateUrl: './checkout-schedule-replenishment-order.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-schedule-replenishment-order',
+    templateUrl: './checkout-schedule-replenishment-order.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FeaturesConfigModule,
+        IconModule,
+        NgFor,
+        NgIf,
+        AsyncPipe,
+        TitleCasePipe,
+        KeyValuePipe,
+        I18nModule,
+    ],
 })
 export class CheckoutScheduleReplenishmentOrderComponent
   implements OnInit, OnDestroy

@@ -28,10 +28,31 @@ import {
 import { SkipLinkComponent } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontOutlets } from './storefront-outlets.model';
+import { AsyncPipe } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+import { GlobalMessageComponent } from '../../cms-components/misc/global-message/global-message.component';
+import { PageSlotComponent } from '../../cms-structure/page/slot/page-slot.component';
+import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
+import { FocusDirective } from '../a11y/keyboard-focus/focus.directive';
+import { SkipLinkDirective } from '../a11y/skip-link/directive/skip-link.directive';
+import { OutletDirective } from '../../cms-structure/outlet/outlet.directive';
+import { PageTemplateDirective } from '../../cms-structure/page/page-layout/page-template.directive';
 
 @Component({
-  selector: 'cx-storefront',
-  templateUrl: './storefront.component.html',
+    selector: 'cx-storefront',
+    templateUrl: './storefront.component.html',
+    standalone: true,
+    imports: [
+        PageTemplateDirective,
+        OutletDirective,
+        SkipLinkDirective,
+        FocusDirective,
+        PageLayoutComponent,
+        PageSlotComponent,
+        GlobalMessageComponent,
+        RouterOutlet,
+        AsyncPipe,
+    ],
 })
 export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;

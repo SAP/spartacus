@@ -64,22 +64,26 @@ class MockCurrentProductService {
 }
 
 @Component({
-  selector: 'cx-media',
-  template: '',
+    selector: 'cx-media',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container: any;
 }
 
 @Component({
-  selector: 'cx-carousel',
-  template: `
+    selector: 'cx-carousel',
+    template: `
     <ng-container *ngFor="let item$ of items">
       <ng-container
         *ngTemplateOutlet="template; context: { item: item$ | async }"
       ></ng-container>
     </ng-container>
   `,
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockCarouselComponent {
   @Input() items: any;
@@ -89,8 +93,10 @@ class MockCarouselComponent {
 }
 
 @Component({
-  selector: 'cx-product-image-zoom-trigger',
-  template: ``,
+    selector: 'cx-product-image-zoom-trigger',
+    template: ``,
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockProductImageZoomTriggerComponent {
   @Input() expandImage: any;
@@ -105,20 +111,17 @@ describe('ProductImagesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ProductImageZoomProductImagesComponent,
+    imports: [I18nTestingModule, ProductImageZoomProductImagesComponent,
         MockMediaComponent,
         MockCarouselComponent,
-        MockProductImageZoomTriggerComponent,
-      ],
-      providers: [
+        MockProductImageZoomTriggerComponent],
+    providers: [
         {
-          provide: CurrentProductService,
-          useClass: MockCurrentProductService,
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     currentProductService = TestBed.inject(CurrentProductService);
   }));

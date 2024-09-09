@@ -8,13 +8,15 @@ import { ICON_TYPE } from './icon.model';
 import { IconModule } from './icon.module';
 
 @Component({
-  selector: 'cx-icon-test',
-  template: `
+    selector: 'cx-icon-test',
+    template: `
     <cx-icon type="CART"></cx-icon>
     <button cxIcon="CART"></button>
     <div cxIcon type="CART"></div>
     <p class="original" cxIcon="CART"></p>
   `,
+    standalone: true,
+    imports: [IconModule],
 })
 class MockIconTestComponent {}
 
@@ -39,12 +41,11 @@ describe('IconComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [IconComponent],
-      providers: [
+    imports: [IconComponent],
+    providers: [
         { provide: IconLoaderService, useClass: MockIconLoaderService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {
@@ -184,12 +185,11 @@ describe('host icon components', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [IconModule],
-      declarations: [MockIconTestComponent],
-      providers: [
+    imports: [IconModule, MockIconTestComponent],
+    providers: [
         { provide: IconLoaderService, useClass: MockIconLoaderService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

@@ -8,13 +8,15 @@ const testAttributeValue = 'test-attribute-value';
 const attributeNamePrefix = 'attribute-prefix';
 
 @Component({
-  selector: 'cx-test-cmp',
-  template: `
+    selector: 'cx-test-cmp',
+    template: `
     <div
       [cxAttributes]="attributes"
       [cxAttributesNamePrefix]="attributesNamePrefix"
     ></div>
   `,
+    standalone: true,
+    imports: [AttributesModule],
 })
 class TestComponent {
   attributes: { [attribute: string]: any };
@@ -28,9 +30,8 @@ describe('cxAttributes directive', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AttributesModule],
-      declarations: [TestComponent],
-    });
+    imports: [AttributesModule, TestComponent],
+});
 
     fixture = TestBed.createComponent(TestComponent);
     testComponent = fixture.componentInstance;

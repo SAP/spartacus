@@ -55,8 +55,10 @@ class MockConfiguratorStorefrontUtilsService {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule,],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -109,19 +111,18 @@ function initialize() {
 describe('ConfigurationOverviewMenuComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [MockCxIconComponent, ConfiguratorOverviewMenuComponent],
-      providers: [
+    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule, MockCxIconComponent, ConfiguratorOverviewMenuComponent],
+    providers: [
         {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
+            provide: ConfiguratorGroupsService,
+            useClass: MockConfiguratorGroupsService,
         },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   afterEach(() => {

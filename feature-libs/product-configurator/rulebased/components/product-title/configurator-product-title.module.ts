@@ -13,25 +13,25 @@ import { IconModule, MediaModule } from '@spartacus/storefront';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 
 @NgModule({
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    NgSelectModule,
-    CommonModule,
-    I18nModule,
-    IconModule,
-    MediaModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ConfiguratorProductTitle: {
-          component: ConfiguratorProductTitleComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ConfiguratorProductTitleComponent],
-  exports: [ConfiguratorProductTitleComponent],
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        CommonModule,
+        I18nModule,
+        IconModule,
+        MediaModule,
+        ConfiguratorProductTitleComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ConfiguratorProductTitle: {
+                    component: ConfiguratorProductTitleComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ConfiguratorProductTitleComponent],
 })
 export class ConfiguratorProductTitleModule {}

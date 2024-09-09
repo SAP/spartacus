@@ -10,11 +10,22 @@ import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
+import { ComponentWrapperDirective } from '../../../../cms-structure/page/component/component-wrapper.directive';
+import { OutletDirective } from '../../../../cms-structure/outlet/outlet.directive';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-product-details-tab',
-  templateUrl: './product-details-tab.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-details-tab',
+    templateUrl: './product-details-tab.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        OutletDirective,
+        ComponentWrapperDirective,
+        AsyncPipe,
+    ],
 })
 export class ProductDetailsTabComponent implements OnInit {
   product$: Observable<Product | null>;

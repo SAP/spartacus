@@ -14,11 +14,13 @@ import {
   OnInit,
   TemplateRef,
 } from '@angular/core';
-import { LoggerService, useFeatureStyles } from '@spartacus/core';
+import { LoggerService, useFeatureStyles, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { CarouselService } from './carousel.service';
+import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
+import { NgIf, NgClass, NgFor, NgTemplateOutlet, AsyncPipe, SlicePipe } from '@angular/common';
 
 /**
  * Generic carousel component that can be used to render any carousel items,
@@ -36,9 +38,21 @@ import { CarouselService } from './carousel.service';
  * given `template`. This allows for maximum flexibility.
  */
 @Component({
-  selector: 'cx-carousel',
-  templateUrl: './carousel.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-carousel',
+    templateUrl: './carousel.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgClass,
+        IconComponent,
+        NgFor,
+        NgTemplateOutlet,
+        FeaturesConfigModule,
+        AsyncPipe,
+        SlicePipe,
+        I18nModule,
+    ],
 })
 export class CarouselComponent implements OnInit {
   /**

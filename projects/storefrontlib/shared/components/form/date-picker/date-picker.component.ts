@@ -5,8 +5,10 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePickerService } from './date-picker.service';
+import { FormErrorsComponent } from '../form-errors/form-errors.component';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 
 /**
  * Component that adds a date control. While the native date picker works in most
@@ -19,10 +21,16 @@ import { DatePickerService } from './date-picker.service';
  * Most of the implementation is done in the `DatePickerFallbackDirective`.
  */
 @Component({
-  selector: 'cx-date-picker',
-  templateUrl: './date-picker.component.html',
-  // we cannot use onPush change detection as the form state isn't updated without explicit
-  // change detection, see https://github.com/angular/angular/issues/10816
+    selector: 'cx-date-picker',
+    templateUrl: './date-picker.component.html',
+    standalone: true,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        FeaturesConfigModule,
+        FormErrorsComponent,
+        I18nModule,
+    ],
 })
 export class DatePickerComponent {
   constructor(protected service: DatePickerService) {}

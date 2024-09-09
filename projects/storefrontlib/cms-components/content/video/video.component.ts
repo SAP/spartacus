@@ -10,13 +10,7 @@ import {
   Component,
   HostBinding,
 } from '@angular/core';
-import {
-  CmsService,
-  CmsVideoComponent,
-  ContainerBackgroundOptions,
-  PageType,
-  SemanticPathService,
-} from '@spartacus/core';
+import { CmsService, CmsVideoComponent, ContainerBackgroundOptions, PageType, SemanticPathService, I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -25,11 +19,22 @@ import {
   MediaContainer,
 } from '../../../shared/components/media/media.model';
 import { MediaService } from '../../../shared/components/media/media.service';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { RouterLink } from '@angular/router';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-video',
-  templateUrl: './video.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-video',
+    templateUrl: './video.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        RouterLink,
+        SpinnerComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class VideoComponent {
   @HostBinding('class') styleClasses: string | undefined;

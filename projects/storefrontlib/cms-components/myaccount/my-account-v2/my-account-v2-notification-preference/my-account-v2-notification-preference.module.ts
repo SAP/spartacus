@@ -11,26 +11,25 @@ import { RouterModule } from '@angular/router';
 import { AuthGuard, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
-import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
+
 import { MyAccountV2NotificationPreferenceComponent } from './my-account-v2-notification-preference.component';
 
 @NgModule({
-  declarations: [MyAccountV2NotificationPreferenceComponent],
-  imports: [
+    imports: [
     CommonModule,
-    SpinnerModule,
     I18nModule,
     RouterModule.forChild([
-      {
-        // @ts-ignore
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: 'notificationPreference' },
-      },
+        {
+            // @ts-ignore
+            path: null,
+            canActivate: [AuthGuard, CmsPageGuard],
+            component: PageLayoutComponent,
+            data: { cxRoute: 'notificationPreference' },
+        },
     ]),
     FeaturesConfigModule,
-  ],
-  exports: [MyAccountV2NotificationPreferenceComponent],
+    MyAccountV2NotificationPreferenceComponent,
+],
+    exports: [MyAccountV2NotificationPreferenceComponent],
 })
 export class MyAccountV2NotificationPreferenceModule {}

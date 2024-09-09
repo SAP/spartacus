@@ -14,17 +14,15 @@ import {
   KeyboardFocusModule,
   MediaModule,
 } from '@spartacus/storefront';
-import { ConfiguratorPriceModule } from '../../price/configurator-price.module';
-import { ConfiguratorShowMoreModule } from '../../show-more/configurator-show-more.module';
+
+
 import { ConfiguratorAttributeQuantityModule } from '../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 
 @NgModule({
-  declarations: [ConfiguratorAttributeProductCardComponent],
-  exports: [ConfiguratorAttributeProductCardComponent],
-  imports: [
+    exports: [ConfiguratorAttributeProductCardComponent],
+    imports: [
     CommonModule,
-    ConfiguratorShowMoreModule,
     ConfiguratorAttributeQuantityModule,
     I18nModule,
     RouterModule,
@@ -32,9 +30,9 @@ import { ConfiguratorAttributeProductCardComponent } from './configurator-attrib
     FormsModule,
     ReactiveFormsModule,
     MediaModule,
-    ConfiguratorPriceModule,
     KeyboardFocusModule,
     IconModule,
-  ],
+    ConfiguratorAttributeProductCardComponent,
+],
 })
 export class ConfiguratorAttributeProductCardModule {}

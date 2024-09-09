@@ -23,18 +23,16 @@ describe('CSAgentLoginFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
         PasswordVisibilityToggleModule,
-      ],
-      declarations: [
         CSAgentLoginFormComponent,
         DotSpinnerComponent,
         MockFeatureDirective,
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

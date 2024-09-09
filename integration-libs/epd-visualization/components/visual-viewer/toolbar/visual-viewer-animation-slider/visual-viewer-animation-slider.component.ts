@@ -15,12 +15,15 @@ import {
   ViewChild,
 } from '@angular/core';
 import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';
+import { I18nModule } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-epd-visualization-animation-slider',
-  templateUrl: './visual-viewer-animation-slider.component.html',
-  providers: [VisualViewerAnimationSliderService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-epd-visualization-animation-slider',
+    templateUrl: './visual-viewer-animation-slider.component.html',
+    providers: [VisualViewerAnimationSliderService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [I18nModule],
 })
 export class VisualViewerAnimationSliderComponent implements AfterViewInit {
   constructor(

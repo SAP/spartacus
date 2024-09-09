@@ -14,15 +14,23 @@ import { ConfirmationMessageData } from '../../message/confirmation/confirmation
 import { MessageService } from '../../message/services/message.service';
 import { BaseItem } from '../../organization.model';
 import { DisableInfoService } from '../disable-info/disable-info.service';
+import { I18nModule } from '@spartacus/core';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 /**
  * Reusable component in the my-company is to toggle the disabled state for
  * my company entities.
  */
 @Component({
-  selector: 'cx-org-toggle-status',
-  templateUrl: './toggle-status.component.html',
-  host: { class: 'content-wrapper' },
+    selector: 'cx-org-toggle-status',
+    templateUrl: './toggle-status.component.html',
+    host: { class: 'content-wrapper' },
+    standalone: true,
+    imports: [
+        NgIf,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**

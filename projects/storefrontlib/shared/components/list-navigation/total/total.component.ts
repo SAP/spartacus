@@ -5,12 +5,15 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { PaginationModel } from '@spartacus/core';
+import { PaginationModel, I18nModule } from '@spartacus/core';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'cx-total',
-  templateUrl: './total.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-total',
+    templateUrl: './total.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, I18nModule],
 })
 export class TotalComponent {
   private _pagination: PaginationModel;

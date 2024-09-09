@@ -16,13 +16,10 @@ import {
   inject,
 } from '@angular/core';
 import { AbstractControl, UntypedFormControl } from '@angular/forms';
-import {
-  FeatureConfigService,
-  isObject,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { FeatureConfigService, isObject, useFeatureStyles, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 /**
  * Renders translated form errors for a given form control, based on its `errors` property.
@@ -34,9 +31,17 @@ import { map, startWith } from 'rxjs/operators';
  * (if only it's an object) merged with the optional input object `translationParams`.
  */
 @Component({
-  selector: 'cx-form-errors',
-  templateUrl: './form-errors.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-form-errors',
+    templateUrl: './form-errors.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        FeaturesConfigModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class FormErrorsComponent implements DoCheck {
   private featureConfigService = inject(FeatureConfigService);

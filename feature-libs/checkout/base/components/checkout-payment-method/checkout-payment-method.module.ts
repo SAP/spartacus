@@ -20,26 +20,26 @@ import { CheckoutPaymentFormModule } from './checkout-payment-form/checkout-paym
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    CheckoutPaymentFormModule,
-    CardModule,
-    SpinnerModule,
-    I18nModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CheckoutPaymentDetails: {
-          component: CheckoutPaymentMethodComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [CheckoutPaymentMethodComponent],
-  exports: [CheckoutPaymentMethodComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        CheckoutPaymentFormModule,
+        CardModule,
+        SpinnerModule,
+        I18nModule,
+        FeaturesConfigModule,
+        CheckoutPaymentMethodComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CheckoutPaymentDetails: {
+                    component: CheckoutPaymentMethodComponent,
+                    guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+                },
+            },
+        }),
+    ],
+    exports: [CheckoutPaymentMethodComponent],
 })
 export class CheckoutPaymentMethodModule {}

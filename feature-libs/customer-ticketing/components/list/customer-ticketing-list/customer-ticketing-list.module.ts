@@ -21,11 +21,10 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
-import { CustomerTicketingCreateModule } from '../customer-ticketing-create/customer-ticketing-create.module';
+
 
 @NgModule({
-  imports: [
-    CustomerTicketingCreateModule,
+    imports: [
     CommonModule,
     I18nModule,
     UrlModule,
@@ -34,18 +33,18 @@ import { CustomerTicketingCreateModule } from '../customer-ticketing-create/cust
     ListNavigationModule,
     RouterModule,
     SpinnerModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        SupportTicketHistoryComponent: {
-          component: CustomerTicketingListComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [CustomerTicketingListComponent],
-  exports: [CustomerTicketingListComponent],
+    CustomerTicketingListComponent,
+],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                SupportTicketHistoryComponent: {
+                    component: CustomerTicketingListComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+    ],
+    exports: [CustomerTicketingListComponent],
 })
 export class CustomerTicketingListModule {}

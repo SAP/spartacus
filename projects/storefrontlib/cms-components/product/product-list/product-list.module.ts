@@ -18,14 +18,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { PageComponentModule } from '../../../cms-structure/page/component/page-component.module';
 import { ViewConfig } from '../../../shared/config/view-config';
-import {
-  AtMessageModule,
-  ItemCounterModule,
-  ListNavigationModule,
-  MediaModule,
-  SpinnerModule,
-  StarRatingModule,
-} from '../../../shared/index';
+import { ItemCounterModule, ListNavigationModule, MediaModule, StarRatingModule } from '../../../shared/index';
 import { IconModule } from '../../misc/icon/index';
 import { defaultViewConfig } from '../config/default-view-config';
 import { ProductListComponent } from './container/product-list.component';
@@ -36,8 +29,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
 import { ProductListService } from './product-list.service';
 
 @NgModule({
-  imports: [
-    AtMessageModule,
+    imports: [
     CommonModule,
     I18nModule,
     IconModule,
@@ -48,56 +40,53 @@ import { ProductListService } from './product-list.service';
     OutletModule,
     PageComponentModule,
     RouterModule,
-    SpinnerModule,
     StarRatingModule,
     UrlModule,
     FeaturesConfigModule,
-  ],
-  providers: [
-    ProductListService,
-    provideDefaultConfig(<ViewConfig>defaultViewConfig),
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CMSProductListComponent: {
-          component: ProductListComponent,
-          data: {
-            composition: {
-              inner: ['ProductAddToCartComponent'],
-            },
-          },
-        },
-        ProductGridComponent: {
-          component: ProductListComponent,
-          data: {
-            composition: {
-              inner: ['ProductAddToCartComponent'],
-            },
-          },
-        },
-        SearchResultsListComponent: {
-          component: ProductListComponent,
-          data: {
-            composition: {
-              inner: ['ProductAddToCartComponent'],
-            },
-          },
-        },
-      },
-    }),
-  ],
-  declarations: [
     ProductListComponent,
     ProductListItemComponent,
     ProductGridItemComponent,
     ProductViewComponent,
     ProductScrollComponent,
-  ],
-  exports: [
-    ProductListComponent,
-    ProductListItemComponent,
-    ProductGridItemComponent,
-    ProductViewComponent,
-    ProductScrollComponent,
-  ],
+],
+    providers: [
+        ProductListService,
+        provideDefaultConfig(<ViewConfig>defaultViewConfig),
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CMSProductListComponent: {
+                    component: ProductListComponent,
+                    data: {
+                        composition: {
+                            inner: ['ProductAddToCartComponent'],
+                        },
+                    },
+                },
+                ProductGridComponent: {
+                    component: ProductListComponent,
+                    data: {
+                        composition: {
+                            inner: ['ProductAddToCartComponent'],
+                        },
+                    },
+                },
+                SearchResultsListComponent: {
+                    component: ProductListComponent,
+                    data: {
+                        composition: {
+                            inner: ['ProductAddToCartComponent'],
+                        },
+                    },
+                },
+            },
+        }),
+    ],
+    exports: [
+        ProductListComponent,
+        ProductListItemComponent,
+        ProductGridItemComponent,
+        ProductViewComponent,
+        ProductScrollComponent,
+    ],
 })
 export class ProductListModule {}

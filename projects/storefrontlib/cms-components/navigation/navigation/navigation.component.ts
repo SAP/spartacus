@@ -11,11 +11,19 @@ import { map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationService } from './navigation.service';
+import { NgClass, AsyncPipe } from '@angular/common';
+import { NavigationUIComponent } from './navigation-ui.component';
 
 @Component({
-  selector: 'cx-navigation',
-  templateUrl: './navigation.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-navigation',
+    templateUrl: './navigation.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NavigationUIComponent,
+        NgClass,
+        AsyncPipe,
+    ],
 })
 export class NavigationComponent {
   node$: Observable<NavigationNode> = this.service.createNavigation(

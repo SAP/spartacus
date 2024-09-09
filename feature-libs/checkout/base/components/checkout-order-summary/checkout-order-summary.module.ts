@@ -11,17 +11,16 @@ import { OutletModule } from '@spartacus/storefront';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
 
 @NgModule({
-  imports: [CommonModule, OutletModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CheckoutOrderSummary: {
-          component: CheckoutOrderSummaryComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [CheckoutOrderSummaryComponent],
-  exports: [CheckoutOrderSummaryComponent],
+    imports: [CommonModule, OutletModule, CheckoutOrderSummaryComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CheckoutOrderSummary: {
+                    component: CheckoutOrderSummaryComponent,
+                },
+            },
+        }),
+    ],
+    exports: [CheckoutOrderSummaryComponent],
 })
 export class CheckoutOrderSummaryModule {}

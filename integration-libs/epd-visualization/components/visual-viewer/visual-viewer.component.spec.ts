@@ -259,32 +259,32 @@ describe('VisualViewerComponent', () => {
       };
 
       TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          HttpClientTestingModule,
-          I18nTestingModule,
-          VisualViewerToolbarButtonModule,
-          VisualViewerAnimationSliderModule,
-          SpinnerModule,
-        ],
-        declarations: [VisualViewerComponent],
-        providers: [
-          provideConfigFactory(getTestConfig),
-          provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
-          {
+    imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        I18nTestingModule,
+        VisualViewerToolbarButtonModule,
+        VisualViewerAnimationSliderModule,
+        SpinnerModule,
+        VisualViewerComponent,
+    ],
+    providers: [
+        provideConfigFactory(getTestConfig),
+        provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
+        {
             provide: LanguageService,
             useValue: mockLanguageService,
-          },
-          {
+        },
+        {
             provide: VisualizationAdapter,
             useClass: VisualizationV1Adapter,
-          },
-          {
+        },
+        {
             provide: SceneAdapter,
             useClass: StorageV1Adapter,
-          },
-        ],
-      }).compileComponents();
+        },
+    ],
+}).compileComponents();
 
       TestBed.inject(HttpTestingController);
 
@@ -301,27 +301,27 @@ describe('VisualViewerComponent', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [VisualViewerComponent],
-        imports: [
-          RouterTestingModule,
-          HttpClientTestingModule,
-          I18nTestingModule,
-          VisualViewerToolbarButtonModule,
-          VisualViewerAnimationSliderModule,
-        ],
-        providers: [
-          provideConfigFactory(getTestConfig),
-          provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
-          {
+    imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        I18nTestingModule,
+        VisualViewerToolbarButtonModule,
+        VisualViewerAnimationSliderModule,
+        VisualViewerComponent,
+    ],
+    providers: [
+        provideConfigFactory(getTestConfig),
+        provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
+        {
             provide: LanguageService,
             useValue: mockLanguageService,
-          },
-          {
+        },
+        {
             provide: VisualViewerAnimationSliderComponent,
             useClass: MockVisualViewerAnimationSliderComponent,
-          },
-        ],
-      }).overrideComponent(VisualViewerComponent, {
+        },
+    ],
+}).overrideComponent(VisualViewerComponent, {
         set: {
           providers: [
             {

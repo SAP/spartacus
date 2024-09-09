@@ -15,15 +15,14 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { AtMessageModule, FormErrorsModule } from '@spartacus/storefront';
+import { FormErrorsModule } from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';
 import { defaultPlaceOrderSpinnerLayoutConfig } from './default-place-order-spinner-layout.config';
 
 @NgModule({
-  imports: [
-    AtMessageModule,
+    imports: [
     CommonModule,
     RouterModule,
     UrlModule,
@@ -31,19 +30,19 @@ import { defaultPlaceOrderSpinnerLayoutConfig } from './default-place-order-spin
     ReactiveFormsModule,
     FormErrorsModule,
     FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(defaultPlaceOrderSpinnerLayoutConfig),
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CheckoutPlaceOrder: {
-          component: CheckoutPlaceOrderComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [CheckoutPlaceOrderComponent],
-  exports: [CheckoutPlaceOrderComponent],
+    CheckoutPlaceOrderComponent,
+],
+    providers: [
+        provideDefaultConfig(defaultPlaceOrderSpinnerLayoutConfig),
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CheckoutPlaceOrder: {
+                    component: CheckoutPlaceOrderComponent,
+                    guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+                },
+            },
+        }),
+    ],
+    exports: [CheckoutPlaceOrderComponent],
 })
 export class CheckoutPlaceOrderModule {}

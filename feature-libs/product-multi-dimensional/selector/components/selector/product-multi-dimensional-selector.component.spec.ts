@@ -48,20 +48,19 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
     );
 
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ProductMultiDimensionalSelectorComponent],
-      providers: [
+    imports: [I18nTestingModule, ProductMultiDimensionalSelectorComponent],
+    providers: [
         { provide: ProductService, useValue: mockProductService },
         { provide: RoutingService, useValue: mockRoutingService },
         {
-          provide: ProductMultiDimensionalSelectorService,
-          useValue: mockMultiDimensionalService,
+            provide: ProductMultiDimensionalSelectorService,
+            useValue: mockMultiDimensionalService,
         },
         { provide: TranslationService, useValue: mockTranslationService },
         { provide: CurrentProductService, useValue: mockCurrentProductService },
         { provide: ActivatedRoute, useValue: {} },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(ProductMultiDimensionalSelectorComponent);
     component = fixture.componentInstance;

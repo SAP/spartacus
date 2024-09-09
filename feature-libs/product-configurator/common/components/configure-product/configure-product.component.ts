@@ -10,7 +10,7 @@ import {
   Optional,
   inject,
 } from '@angular/core';
-import { Product, ProductScope, RoutingService } from '@spartacus/core';
+import { Product, ProductScope, RoutingService, FeaturesConfigModule, UrlModule, I18nModule } from '@spartacus/core';
 import {
   CurrentProductService,
   ProductListItemContext,
@@ -22,11 +22,22 @@ import {
   ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
+import { RouterLink } from '@angular/router';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-configure-product',
-  templateUrl: './configure-product.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-configure-product',
+    templateUrl: './configure-product.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        FeaturesConfigModule,
+        RouterLink,
+        AsyncPipe,
+        UrlModule,
+        I18nModule,
+    ],
 })
 export class ConfigureProductComponent {
   nonConfigurable: Product = { configurable: false };

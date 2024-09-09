@@ -19,26 +19,26 @@ import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 
 @NgModule({
-  declarations: [CheckoutReviewShippingComponent],
-  exports: [CheckoutReviewShippingComponent],
-  imports: [
-    CommonModule,
-    I18nModule,
-    CardModule,
-    UrlModule,
-    RouterModule,
-    IconModule,
-    OutletModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CheckoutReviewShipping: {
-          component: CheckoutReviewShippingComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
-        },
-      },
-    }),
-  ],
+    exports: [CheckoutReviewShippingComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        CardModule,
+        UrlModule,
+        RouterModule,
+        IconModule,
+        OutletModule,
+        CheckoutReviewShippingComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CheckoutReviewShipping: {
+                    component: CheckoutReviewShippingComponent,
+                    guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+                },
+            },
+        }),
+    ],
 })
 export class CheckoutReviewShippingModule {}

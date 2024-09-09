@@ -53,22 +53,21 @@ describe('CDCForgotPasswordComponentService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
-      ],
-      declarations: [],
-      providers: [
+    ],
+    providers: [
         CDCForgotPasswordComponentService,
         { provide: UserPasswordFacade, useClass: MockUserPasswordService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CdcJsService, useClass: MockCDCJsService },
         { provide: AuthConfigService, useClass: MockAuthConfigService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-      ],
-    });
+    ],
+});
   }));
 
   beforeEach(() => {

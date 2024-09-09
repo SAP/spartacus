@@ -10,22 +10,26 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import {
-  ImageGroup,
-  Product,
-  ProductScope,
-  ProductService,
-  TranslationService,
-} from '@spartacus/core';
+import { ImageGroup, Product, ProductScope, ProductService, TranslationService, I18nModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
+import { ConfiguratorPriceComponentOptions, ConfiguratorPriceComponent } from '../price/configurator-price.component';
+import { MediaModule } from '@spartacus/storefront';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-configurator-cpq-overview-attribute',
-  templateUrl: './configurator-overview-bundle-attribute.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-configurator-cpq-overview-attribute',
+    templateUrl: './configurator-overview-bundle-attribute.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        MediaModule,
+        ConfiguratorPriceComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
   product$: Observable<Product>;

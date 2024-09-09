@@ -13,27 +13,26 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
-import { PromotionsModule } from '../../misc/promotions/promotions.module';
+
 import { ProductSummaryComponent } from './product-summary.component';
 
 @NgModule({
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ProductSummaryComponent: {
-          component: ProductSummaryComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ProductSummaryComponent],
-  exports: [ProductSummaryComponent],
-  imports: [
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ProductSummaryComponent: {
+                    component: ProductSummaryComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ProductSummaryComponent],
+    imports: [
     CommonModule,
     OutletModule,
     I18nModule,
-    PromotionsModule,
     FeaturesConfigModule,
-  ],
+    ProductSummaryComponent,
+],
 })
 export class ProductSummaryModule {}

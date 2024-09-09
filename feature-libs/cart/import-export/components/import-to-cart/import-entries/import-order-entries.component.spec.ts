@@ -37,16 +37,15 @@ describe('ImportOrderEntriesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ImportOrderEntriesComponent],
-      providers: [
+    imports: [I18nTestingModule, ImportOrderEntriesComponent],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: ContextService,
-          useClass: MockContextService,
+            provide: ContextService,
+            useClass: MockContextService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(ImportOrderEntriesComponent);
     component = fixture.componentInstance;

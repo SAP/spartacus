@@ -11,11 +11,14 @@ import {
   TableHeader,
   TableHeaderOutletContext,
 } from '../table.model';
+import { I18nModule } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-table-header-cell',
-  template: `{{ header || (localizedHeader | cxTranslate) }}`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-table-header-cell',
+    template: `{{ header || (localizedHeader | cxTranslate) }}`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [I18nModule],
 })
 export class TableHeaderCellComponent {
   constructor(protected outlet: OutletContextData<TableHeaderOutletContext>) {}

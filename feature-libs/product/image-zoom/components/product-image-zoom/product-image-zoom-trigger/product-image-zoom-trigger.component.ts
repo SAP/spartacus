@@ -16,20 +16,22 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
-import {
-  ICON_TYPE,
-  LAUNCH_CALLER,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { useFeatureStyles, FeaturesConfigModule, I18nModule } from '@spartacus/core';
+import { ICON_TYPE, LAUNCH_CALLER, LaunchDialogService, IconModule } from '@spartacus/storefront';
 import { Subscription, combineLatest } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { ProductImageZoomDialogComponent } from '../product-image-zoom-dialog/product-image-zoom-dialog.component';
 
 @Component({
-  selector: 'cx-product-image-zoom-trigger',
-  templateUrl: 'product-image-zoom-trigger.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-image-zoom-trigger',
+    templateUrl: 'product-image-zoom-trigger.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FeaturesConfigModule,
+        IconModule,
+        I18nModule,
+    ],
 })
 export class ProductImageZoomTriggerComponent implements OnDestroy {
   iconType = ICON_TYPE;

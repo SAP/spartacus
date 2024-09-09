@@ -13,12 +13,8 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
-import { WindowRef } from '@spartacus/core';
+import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { WindowRef, I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { FilesFormValidators } from '../../../services/file/files-form-validators';
@@ -28,10 +24,29 @@ import {
   MessageEventBoundItem,
   MessagingConfigs,
 } from './messaging.model';
+import { FormErrorsComponent } from '../../form/form-errors/form-errors.component';
+import { FileUploadComponent as FileUploadComponent_1 } from '../../form/file-upload/file-upload.component';
+import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
+import { AvatarComponent } from '../avatar/avatar.component';
+import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-messaging',
-  templateUrl: './messaging.component.html',
+    selector: 'cx-messaging',
+    templateUrl: './messaging.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        NgClass,
+        AvatarComponent,
+        IconComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        FileUploadComponent_1,
+        FormErrorsComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class MessagingComponent implements OnInit, AfterViewChecked {
   // can be undefined if you press add message button very fast on slow network

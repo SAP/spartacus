@@ -33,12 +33,14 @@ class MockKeyboadFocusService {
 }
 
 @Component({
-  template: `
+    template: `
     <ng-container></ng-container>
     <div></div>
     <button class="target" id="skip1" tabindex="0">skip 1</button>
     <div class="target" id="skip2"></div>
   `,
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class TestContainerComponent {}
 
@@ -50,20 +52,19 @@ describe('SkipLinkService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [TestContainerComponent],
-      providers: [
+    imports: [I18nTestingModule, TestContainerComponent],
+    providers: [
         SkipLinkService,
         {
-          provide: SkipLinkConfig,
-          useValue: MockSkipLinkConfig,
+            provide: SkipLinkConfig,
+            useValue: MockSkipLinkConfig,
         },
         {
-          provide: KeyboardFocusService,
-          useClass: MockKeyboadFocusService,
+            provide: KeyboardFocusService,
+            useClass: MockKeyboadFocusService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

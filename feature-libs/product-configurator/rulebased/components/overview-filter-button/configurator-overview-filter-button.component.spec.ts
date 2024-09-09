@@ -69,8 +69,10 @@ function initMocks() {
 }
 
 @Component({
-  selector: 'cx-configurator-overview-filter-bar',
-  template: '',
+    selector: 'cx-configurator-overview-filter-bar',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule],
 })
 class MockConfiguratorOverviewFilterBarComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
@@ -89,27 +91,24 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
     initTestData();
     initMocks();
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ConfiguratorOverviewFilterButtonComponent,
-        MockConfiguratorOverviewFilterBarComponent,
-      ],
-      providers: [
+    imports: [I18nTestingModule, MockConfiguratorOverviewFilterBarComponent],
+    declarations: [ConfiguratorOverviewFilterButtonComponent],
+    providers: [
         { provide: LaunchDialogService, useValue: mockLaunchDialogService },
         {
-          provide: ConfiguratorRouterExtractorService,
-          useValue: mockConfigRouterService,
+            provide: ConfiguratorRouterExtractorService,
+            useValue: mockConfigRouterService,
         },
         {
-          provide: ConfiguratorCommonsService,
-          useValue: mockConfigCommonsService,
+            provide: ConfiguratorCommonsService,
+            useValue: mockConfigCommonsService,
         },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     initComponent();
   }));
 

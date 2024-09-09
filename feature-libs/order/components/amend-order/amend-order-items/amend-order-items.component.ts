@@ -7,14 +7,25 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Price } from '@spartacus/core';
+import { Price, I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OrderAmendService } from '../amend-order.service';
+import { MediaModule, ItemCounterModule } from '@spartacus/storefront';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-amend-order-items',
-  templateUrl: './amend-order-items.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-amend-order-items',
+    templateUrl: './amend-order-items.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        MediaModule,
+        ItemCounterModule,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class CancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];

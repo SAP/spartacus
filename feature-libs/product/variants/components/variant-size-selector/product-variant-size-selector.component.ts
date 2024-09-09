@@ -5,22 +5,16 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import {
-  BaseOption,
-  isNotUndefined,
-  Product,
-  ProductScope,
-  ProductService,
-  RoutingService,
-  VariantOptionQualifier,
-  VariantQualifier,
-} from '@spartacus/core';
+import { BaseOption, isNotUndefined, Product, ProductScope, ProductService, RoutingService, VariantOptionQualifier, VariantQualifier, I18nModule } from '@spartacus/core';
 import { filter, take } from 'rxjs/operators';
+import { NgFor } from '@angular/common';
 
 @Component({
-  selector: 'cx-product-variant-size-selector',
-  templateUrl: './product-variant-size-selector.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-variant-size-selector',
+    templateUrl: './product-variant-size-selector.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgFor, I18nModule],
 })
 export class ProductVariantSizeSelectorComponent {
   constructor(

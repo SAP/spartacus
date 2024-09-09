@@ -14,11 +14,19 @@ import { ContextService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.service';
+import { I18nModule } from '@spartacus/core';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-export-order-entries',
-  templateUrl: './export-order-entries.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-export-order-entries',
+    templateUrl: './export-order-entries.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ExportOrderEntriesComponent {
   @HostBinding('class') styles = 'container';

@@ -39,7 +39,8 @@ describe('AsmCustomer360ProductReviewsComponent', () => {
   }
   @Pipe({
     name: 'cxTranslate',
-  })
+    standalone: true,
+})
   class MockTranslatePipe implements PipeTransform {
     transform(): any {}
   }
@@ -47,7 +48,9 @@ describe('AsmCustomer360ProductReviewsComponent', () => {
   @Component({
     selector: 'cx-icon',
     template: '',
-  })
+    standalone: true,
+    imports: [I18nTestingModule],
+})
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
   }
@@ -55,7 +58,9 @@ describe('AsmCustomer360ProductReviewsComponent', () => {
   @Component({
     selector: 'cx-star-rating',
     template: '',
-  })
+    standalone: true,
+    imports: [I18nTestingModule],
+})
   class MockCxStarRatingnComponent {
     @Input() rating: number;
   }
@@ -93,25 +98,22 @@ describe('AsmCustomer360ProductReviewsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        AsmCustomer360ProductReviewsComponent,
+    imports: [I18nTestingModule, AsmCustomer360ProductReviewsComponent,
         MockTranslatePipe,
         MockCxIconComponent,
-        AsmCustomer360TableComponent,
         MockCxStarRatingnComponent,
-        ArgsPipe,
-      ],
-      providers: [
+        ArgsPipe],
+    declarations: [AsmCustomer360TableComponent],
+    providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         AsmCustomer360SectionContextSource,
         {
-          provide: AsmCustomer360SectionContext,
-          useExisting: AsmCustomer360SectionContextSource,
+            provide: AsmCustomer360SectionContext,
+            useExisting: AsmCustomer360SectionContextSource,
         },
         { provide: LanguageService, useClass: MockLanguageService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

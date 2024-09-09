@@ -11,17 +11,8 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
-import {
-  isNotNullable,
-  Product,
-  ProductReviewService,
-  Review,
-} from '@spartacus/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { isNotNullable, Product, ProductReviewService, Review, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -31,11 +22,28 @@ import {
   tap,
 } from 'rxjs/operators';
 import { CurrentProductService } from '../../current-product.service';
+import { FormErrorsComponent } from '../../../../shared/components/form/form-errors/form-errors.component';
+import { StarRatingComponent } from '../../../../shared/components/star-rating/star-rating.component';
+import { NgIf, NgFor, NgTemplateOutlet, AsyncPipe, SlicePipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-product-reviews',
-  templateUrl: './product-reviews.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-reviews',
+    templateUrl: './product-reviews.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        StarRatingComponent,
+        NgFor,
+        FeaturesConfigModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgTemplateOutlet,
+        FormErrorsComponent,
+        AsyncPipe,
+        SlicePipe,
+        I18nModule,
+    ],
 })
 export class ProductReviewsComponent {
   @ViewChild('titleInput', { static: false }) titleInput: ElementRef;

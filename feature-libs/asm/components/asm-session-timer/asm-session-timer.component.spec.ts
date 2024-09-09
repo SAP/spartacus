@@ -48,7 +48,8 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 @Pipe({
-  name: 'formatTimer',
+    name: 'formatTimer',
+    standalone: true,
 })
 class MockFormatTimerPipe implements PipeTransform {
   transform() {}
@@ -64,19 +65,19 @@ describe('AsmSessionTimerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AsmSessionTimerComponent, MockFormatTimerPipe],
-      providers: [
+    imports: [I18nTestingModule, MockFormatTimerPipe],
+    declarations: [AsmSessionTimerComponent],
+    providers: [
         {
-          provide: ChangeDetectorRef,
-          useValue: { markForCheck: createSpy('markForCheck') },
+            provide: ChangeDetectorRef,
+            useValue: { markForCheck: createSpy('markForCheck') },
         },
         { provide: AsmConfig, useValue: MockAsmConfig },
         { provide: AsmComponentService, useClass: MockAsmComponentService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserIdService, useClass: MockUserIdService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

@@ -5,19 +5,22 @@
  */
 
 import { Component, OnDestroy } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { AuthRedirectService } from '@spartacus/core';
-import { CustomFormValidators } from '@spartacus/storefront';
+import { AuthRedirectService, FeaturesConfigModule, I18nModule } from '@spartacus/core';
+import { CustomFormValidators, FormErrorsModule } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'cx-checkout-login',
-  templateUrl: './checkout-login.component.html',
+    selector: 'cx-checkout-login',
+    templateUrl: './checkout-login.component.html',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        FeaturesConfigModule,
+        FormErrorsModule,
+        I18nModule,
+    ],
 })
 export class CheckoutLoginComponent implements OnDestroy {
   checkoutLoginForm: UntypedFormGroup = this.formBuilder.group(

@@ -14,28 +14,27 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { CardModule } from '../../../shared/components/card/card.module';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+
 import { PaymentMethodsComponent } from './payment-methods.component';
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     CardModule,
-    SpinnerModule,
     I18nModule,
     FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        AccountPaymentDetailsComponent: {
-          component: PaymentMethodsComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [PaymentMethodsComponent],
-  exports: [PaymentMethodsComponent],
+    PaymentMethodsComponent,
+],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                AccountPaymentDetailsComponent: {
+                    component: PaymentMethodsComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+    ],
+    exports: [PaymentMethodsComponent],
 })
 export class PaymentMethodsModule {}

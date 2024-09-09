@@ -5,14 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import {
-  isNotNullable,
-  Product,
-  ProductScope,
-  ProductService,
-  RoutingService,
-  TranslationService,
-} from '@spartacus/core';
+import { isNotNullable, Product, ProductScope, ProductService, RoutingService, TranslationService, I18nModule } from '@spartacus/core';
 import {
   ProductMultiDimensionalSelectorService,
   VariantCategoryGroup,
@@ -27,13 +20,28 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CurrentProductService } from '@spartacus/storefront';
+import { CurrentProductService, KeyboardFocusModule, MediaModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-product-multi-dimensional-selector',
-  templateUrl: './product-multi-dimensional-selector.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-multi-dimensional-selector',
+    templateUrl: './product-multi-dimensional-selector.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+    NgIf,
+    NgFor,
+    NgClass,
+    KeyboardFocusModule,
+    MediaModule,
+    NgSelectModule,
+    FormsModule,
+    AsyncPipe,
+    I18nModule,
+],
 })
 export class ProductMultiDimensionalSelectorComponent {
   protected multiDimensionalService: ProductMultiDimensionalSelectorService =

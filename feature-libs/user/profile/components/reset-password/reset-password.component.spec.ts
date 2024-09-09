@@ -39,21 +39,21 @@ describe('ResetPasswordComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
-      ],
-      declarations: [ResetPasswordComponent, MockFeatureDirective],
-      providers: [
+        ResetPasswordComponent, MockFeatureDirective,
+    ],
+    providers: [
         {
-          provide: ResetPasswordComponentService,
-          useClass: MockResetPasswordService,
+            provide: ResetPasswordComponentService,
+            useClass: MockResetPasswordService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

@@ -10,21 +10,33 @@ import {
   inject,
   OnDestroy,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import {
-  Country,
-  GlobalMessageService,
-  GlobalMessageType,
-  Region,
-} from '@spartacus/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Country, GlobalMessageService, GlobalMessageType, Region, FeaturesConfigModule, UrlModule, I18nModule } from '@spartacus/core';
 import { Title } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { UserRegistrationFormService } from './user-registration-form.service';
+import { RouterLink } from '@angular/router';
+import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-user-registration-form',
-  templateUrl: './user-registration-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-user-registration-form',
+    templateUrl: './user-registration-form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+    NgIf,
+    FeaturesConfigModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    FormErrorsModule,
+    RouterLink,
+    SpinnerModule,
+    AsyncPipe,
+    UrlModule,
+    I18nModule,
+],
 })
 export class UserRegistrationFormComponent implements OnDestroy {
   titles$: Observable<Title[]> = this.userRegistrationFormService.getTitles();

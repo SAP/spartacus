@@ -16,8 +16,10 @@ const mockCard: EditCard = {
 };
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
+    selector: 'cx-icon',
+    template: '',
+    standalone: true,
+    imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -30,9 +32,8 @@ describe('QuoteHeaderBuyerEditComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
-      declarations: [QuoteHeaderBuyerEditComponent, MockCxIconComponent],
-    }).compileComponents();
+    imports: [I18nTestingModule, ReactiveFormsModule, QuoteHeaderBuyerEditComponent, MockCxIconComponent],
+}).compileComponents();
   });
 
   beforeEach(() => {

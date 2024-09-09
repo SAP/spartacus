@@ -7,11 +7,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActiveCartFacade, Cart, CartOutlets } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+import { OutletModule } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-checkout-order-summary',
-  templateUrl: './checkout-order-summary.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-checkout-order-summary',
+    templateUrl: './checkout-order-summary.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [OutletModule, AsyncPipe],
 })
 export class CheckoutOrderSummaryComponent {
   cart$: Observable<Cart>;

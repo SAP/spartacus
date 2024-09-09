@@ -19,7 +19,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { FeatureConfigService, WindowRef } from '@spartacus/core';
+import { FeatureConfigService, WindowRef, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -31,13 +31,27 @@ import { BREAKPOINT, BreakpointService } from '../../../layout';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
+import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
+import { IconComponent } from '../../misc/icon/icon.component';
+import { NgIf, NgFor, NgTemplateOutlet, AsyncPipe } from '@angular/common';
 
 const ARIA_EXPANDED_ATTR = 'aria-expanded';
 
 @Component({
-  selector: 'cx-navigation-ui',
-  templateUrl: './navigation-ui.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-navigation-ui',
+    templateUrl: './navigation-ui.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        IconComponent,
+        NgFor,
+        NgTemplateOutlet,
+        FeaturesConfigModule,
+        GenericLinkComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class NavigationUIComponent implements OnInit, OnDestroy {
   /**

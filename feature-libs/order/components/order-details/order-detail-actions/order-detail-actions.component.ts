@@ -9,8 +9,9 @@ import { Observable } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
-  selector: 'cx-order-details-actions',
-  templateUrl: './order-detail-actions.component.html',
+    selector: 'cx-order-details-actions',
+    templateUrl: './order-detail-actions.component.html',
+    standalone: true,
 })
 export class OrderDetailActionsComponent {
   constructor(protected orderDetailsService: OrderDetailsService) {}

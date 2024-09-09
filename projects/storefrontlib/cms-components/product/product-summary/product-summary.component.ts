@@ -5,15 +5,27 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FeatureConfigService, Product, ProductScope } from '@spartacus/core';
+import { FeatureConfigService, Product, ProductScope, FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductDetailOutlets } from '../product-outlets.model';
+import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
+import { PromotionsComponent } from '../../misc/promotions/promotions.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-product-summary',
-  templateUrl: './product-summary.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-product-summary',
+    templateUrl: './product-summary.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        FeaturesConfigModule,
+        PromotionsComponent,
+        OutletDirective,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ProductSummaryComponent {
   private featureConfig = inject(FeatureConfigService);

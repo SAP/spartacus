@@ -18,12 +18,13 @@ import { CartItemContextSource } from './model/cart-item-context-source.model';
 import { useFeatureStyles } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-cart-item',
-  templateUrl: './cart-item.component.html',
-  providers: [
-    CartItemContextSource,
-    { provide: CartItemContext, useExisting: CartItemContextSource },
-  ],
+    selector: 'cx-cart-item',
+    templateUrl: './cart-item.component.html',
+    providers: [
+        CartItemContextSource,
+        { provide: CartItemContext, useExisting: CartItemContextSource },
+    ],
+    standalone: true,
 })
 export class CartItemComponent implements OnChanges {
   @Input() compact = false;

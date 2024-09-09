@@ -10,15 +10,22 @@ import {
   inject,
   OnDestroy,
 } from '@angular/core';
-import { AuthService, RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService, I18nModule } from '@spartacus/core';
 import { QuoteFacade } from '@spartacus/quote/root';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-quote-request-button',
-  templateUrl: './quote-request-button.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-quote-request-button',
+    templateUrl: './quote-request-button.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class QuoteRequestButtonComponent implements OnDestroy {
   protected quoteFacade = inject(QuoteFacade);

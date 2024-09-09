@@ -16,13 +16,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import {
-  CmsSearchBoxComponent,
-  FeatureConfigService,
-  PageType,
-  RoutingService,
-  WindowRef,
-} from '@spartacus/core';
+import { CmsSearchBoxComponent, FeatureConfigService, PageType, RoutingService, WindowRef, FeaturesConfigModule, UrlModule, I18nModule } from '@spartacus/core';
 import { Observable, Subscription, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
@@ -36,6 +30,12 @@ import {
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
+import { HighlightPipe } from './highlight.pipe';
+import { MediaComponent } from '../../../shared/components/media/media.component';
+import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { IconComponent } from '../../misc/icon/icon.component';
 
 const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,
@@ -50,9 +50,23 @@ const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
 const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
 
 @Component({
-  selector: 'cx-searchbox',
-  templateUrl: './search-box.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-searchbox',
+    templateUrl: './search-box.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        IconComponent,
+        NgIf,
+        FeaturesConfigModule,
+        NgFor,
+        RouterLink,
+        OutletDirective,
+        MediaComponent,
+        AsyncPipe,
+        UrlModule,
+        I18nModule,
+        HighlightPipe,
+    ],
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
   readonly searchBoxOutlets = SearchBoxOutlets;

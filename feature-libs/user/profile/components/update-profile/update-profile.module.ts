@@ -19,11 +19,7 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import {
-  FormErrorsModule,
-  NgSelectA11yModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
+import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 import { UpdateProfileComponentService } from './update-profile-component.service';
@@ -39,7 +35,7 @@ const myAccountV2ProfileMapping: CmsConfig = {
 };
 
 @NgModule({
-  imports: [
+    imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -49,30 +45,27 @@ const myAccountV2ProfileMapping: CmsConfig = {
     RouterModule,
     UrlModule,
     NgSelectModule,
-    NgSelectA11yModule,
     FeaturesConfigModule,
-  ],
-  declarations: [UpdateProfileComponent, MyAccountV2ProfileComponent],
-  exports: [UpdateProfileComponent, MyAccountV2ProfileComponent],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        UpdateProfileComponent: {
-          component: UpdateProfileComponent,
-          guards: [AuthGuard],
-          providers: [
-            {
-              provide: UpdateProfileComponentService,
-              useClass: UpdateProfileComponentService,
-              deps: [UserProfileFacade, GlobalMessageService],
+    UpdateProfileComponent, MyAccountV2ProfileComponent,
+],
+    exports: [UpdateProfileComponent, MyAccountV2ProfileComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                UpdateProfileComponent: {
+                    component: UpdateProfileComponent,
+                    guards: [AuthGuard],
+                    providers: [
+                        {
+                            provide: UpdateProfileComponentService,
+                            useClass: UpdateProfileComponentService,
+                            deps: [UserProfileFacade, GlobalMessageService],
+                        },
+                    ],
+                },
             },
-          ],
-        },
-      },
-    }),
-    provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_PROFILE) ? myAccountV2ProfileMapping : {}
-    ),
-  ],
+        }),
+        provideDefaultConfigFactory(() => inject(USE_MY_ACCOUNT_V2_PROFILE) ? myAccountV2ProfileMapping : {}),
+    ],
 })
 export class UpdateProfileModule {}

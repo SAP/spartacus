@@ -10,8 +10,9 @@ import { FormService } from './form.service';
 import createSpy = jasmine.createSpy;
 
 @Component({
-  selector: 'cx-org-form',
-  template: '<ng-content></ng-content>',
+    selector: 'cx-org-form',
+    template: '<ng-content></ng-content>',
+    standalone: true,
 })
 class MockFormComponent {
   @Input() i18nRoot;
@@ -25,17 +26,17 @@ class MockFormService {
 }
 
 @NgModule({
-  declarations: [MockFormComponent],
-  exports: [MockFormComponent],
-  providers: [
-    {
-      provide: CurrentItemService,
-      useExisting: MockCurrentItemService,
-    },
-    {
-      provide: FormService,
-      useExisting: MockFormService,
-    },
-  ],
+    imports: [MockFormComponent],
+    exports: [MockFormComponent],
+    providers: [
+        {
+            provide: CurrentItemService,
+            useExisting: MockCurrentItemService,
+        },
+        {
+            provide: FormService,
+            useExisting: MockFormService,
+        },
+    ],
 })
 export class FormTestingModule {}

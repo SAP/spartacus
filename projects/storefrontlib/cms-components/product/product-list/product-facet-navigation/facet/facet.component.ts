@@ -18,17 +18,33 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { Facet, FacetValue, FeatureConfigService } from '@spartacus/core';
+import { Facet, FacetValue, FeatureConfigService, I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
 import { FacetCollapseState } from '../facet.model';
 import { FacetService } from '../services/facet.service';
+import { AtMessageDirective } from '../../../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
+import { RouterLink } from '@angular/router';
+import { IconComponent } from '../../../../misc/icon/icon.component';
+import { NgIf, NgFor, AsyncPipe, SlicePipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-facet',
-  templateUrl: './facet.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-facet',
+    templateUrl: './facet.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        FocusDirective,
+        IconComponent,
+        NgFor,
+        RouterLink,
+        AtMessageDirective,
+        AsyncPipe,
+        SlicePipe,
+        I18nModule,
+    ],
 })
 export class FacetComponent implements AfterViewInit {
   protected _facet: Facet;

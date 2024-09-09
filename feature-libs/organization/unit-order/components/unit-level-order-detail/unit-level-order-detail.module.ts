@@ -8,10 +8,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthGuard, CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { UnitLevelOrdersViewerGuard } from '@spartacus/organization/unit-order/core';
-import {
-  UnitLevelOrderOverviewComponent,
-  UnitLevelOrderOverviewModule,
-} from './unit-level-order-overview';
+import { UnitLevelOrderOverviewComponent } from './unit-level-order-overview';
 import {
   OrderDetailItemsComponent,
   OrderDetailsService,
@@ -20,7 +17,7 @@ import {
 import { UnitLevelOrderDetailService } from './unit-level-order-detail.service';
 
 @NgModule({
-  imports: [CommonModule, UnitLevelOrderOverviewModule],
+  imports: [CommonModule],
   providers: [
     provideDefaultConfig({
       cmsComponents: {

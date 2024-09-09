@@ -7,21 +7,31 @@
 import { Component, Optional } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { TranslationService } from '@spartacus/core';
+import { TranslationService, I18nModule } from '@spartacus/core';
 import { BreakpointService } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
+import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 /**
  * Requires default change detection strategy, as the disabled state of the quantity from control may change,
  * which would not be proper detected with onPush strategy.
  */
 @Component({
-  selector: 'cx-configurator-cart-entry-bundle-info',
-  templateUrl: './configurator-cart-entry-bundle-info.component.html',
+    selector: 'cx-configurator-cart-entry-bundle-info',
+    templateUrl: './configurator-cart-entry-bundle-info.component.html',
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        ConfigureCartEntryComponent,
+        AsyncPipe,
+        I18nModule,
+    ],
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
   constructor(

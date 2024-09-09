@@ -21,8 +21,7 @@ const directives = [
 ];
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [...directives],
-  exports: [...directives],
+    imports: [CommonModule, ...directives],
+    exports: [...directives],
 })
 export class KeyboardFocusModule {}

@@ -19,11 +19,19 @@ import { Config, Image, ImageGroup } from '@spartacus/core';
 import { ImageLoadingStrategy, Media, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
+import { MediaSourcesPipe } from './media-sources.pipe';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'cx-media',
-  templateUrl: './media.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-media',
+    templateUrl: './media.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        MediaSourcesPipe,
+    ],
 })
 export class MediaComponent implements OnChanges {
   /**

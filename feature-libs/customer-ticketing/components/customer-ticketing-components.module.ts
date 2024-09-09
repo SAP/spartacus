@@ -9,7 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { provideDefaultConfig } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { CustomerTicketingCloseModule } from './details/customer-ticketing-close';
-import { CustomerTicketingCreateModule } from './list/customer-ticketing-create';
+
 import { defaultCustomerTicketingFormLayoutConfig } from './shared/customer-ticketing-dialog';
 import { CustomerTicketingListModule } from './list/customer-ticketing-list';
 import { CustomerTicketingDetailsModule } from './details/customer-ticketing-details';
@@ -26,9 +26,8 @@ import { MyAccountV2CustomerTicketingModule } from './my-account-v2';
     CustomerTicketingReopenModule,
     CustomerTicketingListModule,
     CustomerTicketingMessagesModule,
-    CustomerTicketingCreateModule,
     MyAccountV2CustomerTicketingModule,
-  ],
+],
   providers: [provideDefaultConfig(defaultCustomerTicketingFormLayoutConfig)],
 })
 export class CustomerTicketingComponentsModule {}
