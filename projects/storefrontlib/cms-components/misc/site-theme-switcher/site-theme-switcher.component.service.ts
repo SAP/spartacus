@@ -9,7 +9,7 @@ import { SiteThemeService, SiteTheme } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class ThemeSwitcherComponentService {
+export class SiteThemeSwitcherComponentService {
   protected siteThemeService = inject(SiteThemeService);
 
   getItems(): Observable<SiteTheme[]> {

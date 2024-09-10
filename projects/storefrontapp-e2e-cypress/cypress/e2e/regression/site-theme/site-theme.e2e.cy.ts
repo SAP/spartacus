@@ -22,11 +22,11 @@ context('Site Theme', { testIsolation: false }, () => {
   });
 
   it('should display theme switcher', () => {
-    cy.get('cx-theme-switcher').should('be.visible');
+    cy.get('cx-site-theme-switcher').should('be.visible');
   });
 
   it('should set default theme', () => {
-    cy.get('cx-theme-switcher select').then(($select) => {
+    cy.get('cx-site-theme-switcher select').then(($select) => {
       const selectedOption = $select.find('option:selected');
       cy.wrap(selectedOption).should('have.attr', 'aria-label', 'Default');
       cy.wrap(selectedOption).should('have.value', '');
@@ -34,12 +34,12 @@ context('Site Theme', { testIsolation: false }, () => {
   });
 
   it('should change theme in the page', () => {
-    cy.get('cx-theme-switcher select')
+    cy.get('cx-site-theme-switcher select')
       .select('HC-Dark')
       .should('have.value', 'cx-theme-high-contrast-dark');
     cy.get('cx-storefront').should('have.class', 'cx-theme-high-contrast-dark');
 
-    cy.get('cx-theme-switcher select')
+    cy.get('cx-site-theme-switcher select')
       .select('HC-Light')
       .should('have.value', 'cx-theme-high-contrast-light');
     cy.get('cx-storefront').should(
@@ -47,7 +47,7 @@ context('Site Theme', { testIsolation: false }, () => {
       'cx-theme-high-contrast-light'
     );
 
-    cy.get('cx-theme-switcher select')
+    cy.get('cx-site-theme-switcher select')
       .select('Default')
       .should('have.value', '');
     cy.get('cx-storefront').should(
@@ -57,7 +57,7 @@ context('Site Theme', { testIsolation: false }, () => {
   });
 
   it('should keep selected theme after reload the page', () => {
-    cy.get('cx-theme-switcher select')
+    cy.get('cx-site-theme-switcher select')
       .select('HC-Dark')
       .should('have.value', 'cx-theme-high-contrast-dark');
     cy.get('cx-storefront').should('have.class', 'cx-theme-high-contrast-dark');
@@ -72,7 +72,7 @@ context('Site Theme', { testIsolation: false }, () => {
     siteTheme.interceptToAddThemeCompnent();
 
     cy.get('cx-storefront').should('have.class', 'cx-theme-high-contrast-dark');
-    cy.get('cx-theme-switcher select').then(($select) => {
+    cy.get('cx-site-theme-switcher select').then(($select) => {
       const selectedOption = $select.find('option:selected');
       cy.wrap(selectedOption).should('have.attr', 'aria-label', 'HC-Dark');
       cy.wrap(selectedOption).should(

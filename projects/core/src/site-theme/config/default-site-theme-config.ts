@@ -10,11 +10,11 @@ export const defaultSiteThemeConfig: SiteThemeConfig = {
   siteTheme: {
     optionalThemes: [
       {
-        i18nNameKey: 'themeSwitcher.themes.highContrastDark',
+        i18nNameKey: 'siteThemeSwitcher.themes.highContrastDark',
         className: 'cx-theme-high-contrast-dark',
       },
       {
-        i18nNameKey: 'themeSwitcher.themes.highContrastLight',
+        i18nNameKey: 'siteThemeSwitcher.themes.highContrastLight',
         className: 'cx-theme-high-contrast-light',
       },
     ],

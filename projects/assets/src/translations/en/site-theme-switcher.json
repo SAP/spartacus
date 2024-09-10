@@ -1,5 +1,5 @@
 {
-  "themeSwitcher": {
+  "siteThemeSwitcher": {
     "theme": "Theme",
     "themes": {
       "default": "Default",

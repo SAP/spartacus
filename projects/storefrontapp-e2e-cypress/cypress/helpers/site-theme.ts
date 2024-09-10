@@ -21,18 +21,18 @@ export function interceptToAddThemeCompnent() {
               Array.isArray(slot.components.component)
             ) {
               const themeComponent = slot.components.component.find(
-                (component) => component.uid === 'ThemeSwitcherComponent'
+                (component) => component.uid === 'SiteThemeSwitcherComponent'
               );
 
               if (!themeComponent) {
                 slot.components.component.push({
-                  uid: 'ThemeSwitcherComponent',
-                  uuid: 'ThemeSwitcherComponent',
+                  uid: 'SiteThemeSwitcherComponent',
+                  uuid: 'SiteThemeSwitcherComponent',
                   typeCode: 'CMSFlexComponent',
                   modifiedtime: '2024-09-09T15:15:02.954Z',
-                  name: 'Theme Switcher Component',
+                  name: 'Site Theme Switcher Component',
                   container: false,
-                  flexType: 'ThemeSwitcherComponent',
+                  flexType: 'SiteThemeSwitcherComponent',
                   synchronizationBlocked: false,
                 });
               }

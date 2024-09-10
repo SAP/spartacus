@@ -40,7 +40,7 @@ export class SiteThemeService implements SiteContext<SiteTheme> {
 
     return {
       className: defaultThemeId,
-      i18nNameKey: 'themeSwitcher.themes.default',
+      i18nNameKey: 'siteThemeSwitcher.themes.default',
     };
   }
 

@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { ThemeSwitcherComponent } from './theme-switcher.component';
-import { ThemeSwitcherComponentService } from './theme-switcher.component.service';
+import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
+import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
 import { I18nTestingModule, SiteTheme } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 
 describe('ThemeSwitcherComponent', () => {
-  let component: ThemeSwitcherComponent;
-  let fixture: ComponentFixture<ThemeSwitcherComponent>;
-  let themeSwitcherComponentService: jasmine.SpyObj<ThemeSwitcherComponentService>;
+  let component: SiteThemeSwitcherComponent;
+  let fixture: ComponentFixture<SiteThemeSwitcherComponent>;
+  let themeSwitcherComponentService: jasmine.SpyObj<SiteThemeSwitcherComponentService>;
 
   beforeEach(async () => {
     const themeSwitcherServiceSpy = jasmine.createSpyObj(
@@ -18,24 +18,24 @@ describe('ThemeSwitcherComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule, IconModule],
-      declarations: [ThemeSwitcherComponent],
+      declarations: [SiteThemeSwitcherComponent],
       providers: [
         {
-          provide: ThemeSwitcherComponentService,
+          provide: SiteThemeSwitcherComponentService,
           useValue: themeSwitcherServiceSpy,
         },
       ],
     }).compileComponents();
 
     themeSwitcherComponentService = TestBed.inject(
-      ThemeSwitcherComponentService
-    ) as jasmine.SpyObj<ThemeSwitcherComponentService>;
+      SiteThemeSwitcherComponentService
+    ) as jasmine.SpyObj<SiteThemeSwitcherComponentService>;
     themeSwitcherComponentService.getItems.and.returnValue(of([]));
     themeSwitcherComponentService.getActiveItem.and.returnValue(of(''));
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ThemeSwitcherComponent);
+    fixture = TestBed.createComponent(SiteThemeSwitcherComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

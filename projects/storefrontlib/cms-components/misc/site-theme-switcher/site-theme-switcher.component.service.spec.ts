@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { SiteThemeService, SiteTheme } from '@spartacus/core';
-import { ThemeSwitcherComponentService } from './theme-switcher.component.service';
+import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
 
-describe('ThemeSwitcherComponentService', () => {
-  let service: ThemeSwitcherComponentService;
+describe('SiteThemeSwitcherComponentService', () => {
+  let service: SiteThemeSwitcherComponentService;
   let siteThemeService: jasmine.SpyObj<SiteThemeService>;
 
   beforeEach(() => {
@@ -16,12 +16,12 @@ describe('ThemeSwitcherComponentService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        ThemeSwitcherComponentService,
+        SiteThemeSwitcherComponentService,
         { provide: SiteThemeService, useValue: siteThemeServiceSpy },
       ],
     });
 
-    service = TestBed.inject(ThemeSwitcherComponentService);
+    service = TestBed.inject(SiteThemeSwitcherComponentService);
     siteThemeService = TestBed.inject(
       SiteThemeService
     ) as jasmine.SpyObj<SiteThemeService>;

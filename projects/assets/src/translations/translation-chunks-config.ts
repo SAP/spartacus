@@ -70,5 +70,5 @@ export const translationChunksConfig: TranslationChunksConfig = {
   deliveryMode: ['setDeliveryMode'],
   myAccountV2NotifiationPerference: ['myAccountV2NotifiationPerference'],
   myAccountV2Consent: ['myAccountV2Consent'],
-  themeSwitcher: ['themeSwitcher'],
+  siteThemeSwitcher: ['siteThemeSwitcher'],
 };

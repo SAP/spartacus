@@ -7,22 +7,22 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ICON_TYPE } from '../icon/icon.model';
 import { Observable } from 'rxjs';
-import { ThemeSwitcherComponentService } from './theme-switcher.component.service';
+import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
 import { SiteTheme } from '@spartacus/core';
 
 /**
  * Component for switching themes.
  */
 @Component({
-  selector: 'cx-theme-switcher',
-  templateUrl: './theme-switcher.component.html',
+  selector: 'cx-site-theme-switcher',
+  templateUrl: './site-theme-switcher.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ThemeSwitcherComponent {
+export class SiteThemeSwitcherComponent {
   iconTypes = ICON_TYPE;
 
   protected themeSwitcherComponentService = inject(
-    ThemeSwitcherComponentService
+    SiteThemeSwitcherComponentService
   );
 
   get items$(): Observable<Array<SiteTheme>> {

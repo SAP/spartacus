@@ -1,5 +1,5 @@
 <label *ngIf="items$ | async as themes">
-  <span> {{ 'themeSwitcher.theme' | cxTranslate }}:</span>
+  <span> {{ 'siteThemeSwitcher.theme' | cxTranslate }}:</span>
   <select (change)="activeItem = $any($event).target.value">
     <option
       [attr.aria-label]="

@@ -13,7 +13,10 @@ import createSpy = jasmine.createSpy;
 
 const mockDefaultTheme = 'default';
 const mockThemes: SiteTheme[] = [
-  { className: mockDefaultTheme, i18nNameKey: 'themeSwitcher.themes.default' },
+  {
+    className: mockDefaultTheme,
+    i18nNameKey: 'siteThemeSwitcher.themes.default',
+  },
   { i18nNameKey: 'dark', className: 'dark' },
 ];
 
@@ -68,7 +71,7 @@ describe('SiteThemeService', () => {
     const defaultTheme = service.getDefault();
     expect(defaultTheme).toEqual({
       className: mockDefaultTheme,
-      i18nNameKey: 'themeSwitcher.themes.default',
+      i18nNameKey: 'siteThemeSwitcher.themes.default',
     });
   });
 

@@ -15,7 +15,7 @@ import product from './product.json';
 import pwa from './pwa.json';
 import user from './user.json';
 import video from './video.json';
-import themeSwitcher from './theme-switcher.json';
+import siteThemeSwitcher from './site-theme-switcher.json';
 
 export const en = {
   common,
@@ -29,5 +29,5 @@ export const en = {
   deliveryMode,
   myAccountV2Consent,
   myAccountV2NotifiationPerference,
-  themeSwitcher,
+  siteThemeSwitcher,
 };

@@ -20,7 +20,7 @@ class MockSiteThemeService implements Partial<SiteThemeService> {
   getDefault() {
     return {
       className: mockDefaultTheme,
-      i18nNameKey: 'themeSwitcher.themes.default',
+      i18nNameKey: 'siteThemeSwitcher.themes.default',
     };
   }
 }
