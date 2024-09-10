@@ -11,21 +11,27 @@
         [attr.role]="mode === TAB_MODE.ACCORDIAN ? 'button' : 'tab'"
         (click)="select(i, mode)"
         (keydown)="handleKeydownEvent(i, tabs, mode, $event)"
-        [attr.aria-selected]="isOpen(i)"
-        [attr.aria-expanded]="isOpen(i)"
+        [attr.aria-selected]="mode === TAB_MODE.ACCORDIAN ? null : isOpen(i)"
+        [attr.aria-expanded]="mode === TAB_MODE.TAB ? null : isOpen(i)"
         [attr.aria-controls]="'section-' + i"
         [attr.tabindex]="getTabIndex(i, mode)"
         [attr.id]="tab.id"
         [attr.title]="
-          (isOpen(i) ? 'Collapse' : 'Expand') +
-          ' ' +
-          (tab.headerKey ? (tab.headerKey | cxTranslate) : tab.header)
+          mode === TAB_MODE.TAB
+            ? null
+            : (isOpen(i) ? 'Collapse' : 'Expand') +
+              ' ' +
+              (tab.headerKey ? (tab.headerKey | cxTranslate) : tab.header)
         "
         [class.active]="isOpen(i)"
         #tabHeader
       >
         {{ tab.headerKey ? (tab.headerKey | cxTranslate) : tab.header }}
-        <span class="tab-icon" aria-hidden="true">
+        <span
+          *ngIf="mode === TAB_MODE.ACCORDIAN"
+          class="tab-icon"
+          aria-hidden="true"
+        >
           {{ isOpen(i) ? '–' : '+' }}
         </span>
       </button>
