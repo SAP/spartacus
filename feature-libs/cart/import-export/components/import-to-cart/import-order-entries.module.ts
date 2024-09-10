@@ -19,6 +19,7 @@ import {
   FormErrorsModule,
   IconModule,
   KeyboardFocusModule,
+  MessageComponentModule,
 } from '@spartacus/storefront';
 import { defaultImportEntriesLayoutConfig } from './default-import-entries-layout.config';
 import { ImportEntriesDialogComponent } from './import-entries-dialog/import-entries-dialog.component';
@@ -37,6 +38,8 @@ import { ImportOrderEntriesComponent } from './import-entries/import-order-entri
     KeyboardFocusModule,
     FileUploadModule,
     I18nModule,
+    MessageComponentModule,
+    FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ImportOrderEntriesComponent: {
