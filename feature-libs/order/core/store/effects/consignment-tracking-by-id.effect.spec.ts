@@ -2,7 +2,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { LoggerService, normalizeHttpError, OccConfig } from '@spartacus/core';
+import {
+  LoggerService,
+  OccConfig,
+  tryNormalizeHttpError,
+} from '@spartacus/core';
 import { ConsignmentTracking } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -74,8 +78,9 @@ describe('Consignment Tracking By Id effect', () => {
     });
 
     it('should handle failures for load consignment tracking by id', () => {
+      const error = new Error('error');
       spyOn(orderHistoryConnector, 'getConsignmentTracking').and.returnValue(
-        throwError('Error')
+        throwError(() => error)
       );
 
       const action = new OrderActions.LoadConsignmentTrackingById(
@@ -85,7 +90,7 @@ describe('Consignment Tracking By Id effect', () => {
       const completion = new OrderActions.LoadConsignmentTrackingByIdFail({
         orderCode: mockTrackingParams.orderCode,
         consignmentCode: mockTrackingParams.consignmentCode,
-        error: normalizeHttpError('Error', new MockLoggerService()),
+        error: tryNormalizeHttpError(error, new MockLoggerService()),
       });
 
       actions$ = hot('-a', { a: action });
