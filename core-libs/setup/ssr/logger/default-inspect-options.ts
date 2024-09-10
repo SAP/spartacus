@@ -2,7 +2,7 @@ import type { InspectOptions } from 'node:util';
 
 // PRIVATE API
 /**
- * Default options used for formatting log messages.
+ * Default options used for formatting log messages in NodeJS.
  *
  * They are meant to be passed to `formatWithOptions()` function from the `node:util` module
  * for logging purposes.
