@@ -5,11 +5,14 @@
  */
 
 import { isolateTests } from '../../../support/utils/test-isolation';
+import * as siteTheme from '../../../helpers/site-theme';
 
 context('Site Theme', { testIsolation: false }, () => {
   isolateTests();
   before(() => {
     cy.visit('/');
+    // TODO: (CXSPA-8363) Remove the manual addition of the Theme component in e2e test when sample data is available
+    siteTheme.interceptToAddThemeCompnent();
   });
 
   it('should display theme switcher', () => {
@@ -54,6 +57,7 @@ context('Site Theme', { testIsolation: false }, () => {
     cy.get('cx-storefront').should('have.class', 'cx-theme-high-contrast-dark');
 
     cy.reload();
+    siteTheme.interceptToAddThemeCompnent();
 
     cy.get('cx-storefront').should('have.class', 'cx-theme-high-contrast-dark');
     cy.get('cx-theme-switcher select').then(($select) => {
