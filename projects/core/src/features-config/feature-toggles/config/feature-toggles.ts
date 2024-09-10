@@ -490,7 +490,7 @@ export interface FeatureTogglesInterface {
   a11yDialogsHeading?: boolean;
 
   /**
-   *
+   * The 'AddToWishListComponent' will restore focus to the button after adding or removing an item from the wishlist.
    */
   a11yAddToWishlistFocus?: boolean;
 
