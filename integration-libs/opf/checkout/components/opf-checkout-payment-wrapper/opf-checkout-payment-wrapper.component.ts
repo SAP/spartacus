@@ -12,13 +12,16 @@ import {
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import {
+  DomSanitizer,
+  SafeHtml,
+  SafeResourceUrl,
+} from '@angular/platform-browser';
 import {
   GlobalFunctionsDomain,
   OpfGlobalFunctionsFacade,
 } from '@spartacus/opf/base/root';
 import {
-  OpfPaymentMethodType,
   PaymentPattern,
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';
@@ -35,7 +38,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   renderPaymentMethodEvent$ = this.service.getRenderPaymentMethodEvent();
 
-  RENDER_TYPES = OpfPaymentMethodType;
+  RENDER_PATTERN = PaymentPattern;
 
   sub: Subscription = new Subscription();
 
@@ -48,6 +51,10 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   renderHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+
+  renderUrl(url: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   ngOnInit() {

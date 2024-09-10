@@ -4,17 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PaymentDestination } from './opf-payment.model';
+import { PaymentDestination, PaymentPattern } from './opf-payment.model';
 
 export interface OpfRenderPaymentMethodEvent {
   isLoading: boolean;
   isError: boolean;
-  renderType?: OpfPaymentMethodType | null;
+  renderType?: PaymentPattern | undefined;
   data?: string | null;
   destination?: PaymentDestination;
-}
-
-export enum OpfPaymentMethodType {
-  DESTINATION = 'DESTINATION',
-  DYNAMIC_SCRIPT = 'DYNAMIC_SCRIPT',
 }
