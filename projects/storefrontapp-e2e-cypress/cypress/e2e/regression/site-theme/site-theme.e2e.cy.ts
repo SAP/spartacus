@@ -62,7 +62,13 @@ context('Site Theme', { testIsolation: false }, () => {
       .should('have.value', 'cx-theme-high-contrast-dark');
     cy.get('cx-storefront').should('have.class', 'cx-theme-high-contrast-dark');
 
+    cy.cxConfig({
+      features: {
+        useNewSiteThemeSwitcher: true,
+      },
+    } as FeaturesConfig);
     cy.reload();
+
     siteTheme.interceptToAddThemeCompnent();
 
     cy.get('cx-storefront').should('have.class', 'cx-theme-high-contrast-dark');
