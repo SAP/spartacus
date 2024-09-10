@@ -13,6 +13,7 @@ import { Card, CmsComponentData } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponent } from './order-overview.component';
+import { OrderOverviewComponentService } from './order-overview-component.service';
 
 @Component({ selector: 'cx-card', template: '' })
 class MockCardComponent {
@@ -125,6 +126,11 @@ class MockOrderDetailsService {
     return of(mockOrder);
   }
 }
+class MockOrderOverviewComponentService {
+  shouldShowDeliveryMode(_mode: DeliveryMode): boolean {
+    return true;
+  }
+}
 
 const mockData: CmsOrderDetailOverviewComponent = {
   simple: false,
@@ -139,6 +145,7 @@ describe('OrderOverviewComponent', () => {
   let fixture: ComponentFixture<OrderOverviewComponent>;
   let translationService: TranslationService;
   let orderDetailsService: OrderDetailsService;
+  let componentService: OrderOverviewComponentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -146,6 +153,10 @@ describe('OrderOverviewComponent', () => {
       declarations: [OrderOverviewComponent, MockCardComponent],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: OrderOverviewComponentService,
+          useClass: MockOrderOverviewComponentService,
+        },
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
       ],
@@ -157,6 +168,7 @@ describe('OrderOverviewComponent', () => {
     component = fixture.componentInstance;
     translationService = TestBed.inject(TranslationService);
     orderDetailsService = TestBed.inject(OrderDetailsService);
+    componentService = TestBed.inject(OrderOverviewComponentService);
   });
 
   it('should create', () => {
@@ -515,6 +527,25 @@ describe('OrderOverviewComponent', () => {
         component['normalizeFormattedAddress'](mockFormattedAddress);
 
       expect(address).toEqual(mockFormattedAddress);
+    });
+  });
+
+  describe('show delivery mode in order summary', () => {
+    it('should show delivery mode card in order summary', () => {
+      spyOn(componentService, 'shouldShowDeliveryMode').and.returnValue(true);
+      const result = component.shouldShowDeliveryMode(mockDeliveryMode);
+      expect(result).toEqual(true);
+      expect(componentService.shouldShowDeliveryMode).toHaveBeenCalledWith(
+        mockDeliveryMode
+      );
+    });
+    it('should not show delivery mode card in order summary', () => {
+      spyOn(componentService, 'shouldShowDeliveryMode').and.returnValue(false);
+      const result = component.shouldShowDeliveryMode(undefined);
+      expect(result).toEqual(false);
+      expect(componentService.shouldShowDeliveryMode).toHaveBeenCalledWith(
+        undefined
+      );
     });
   });
 });
