@@ -316,6 +316,7 @@ if (environment.cpq) {
         a11yMobileVisibleFocus: true,
         a11yOrganizationsBanner: true,
         a11yOrganizationListHeadingOrder: true,
+        a11yCartImportConfirmationMessage: true,
         a11yReplenishmentOrderFieldset: true,
         a11yListOversizedFocus: true,
         a11yStoreFinderOverflow: true,
