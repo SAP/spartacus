@@ -25,11 +25,11 @@ const LEVEL_ACCESS_API = 'https://sap.levelaccess.net/api/cont/organization';
 // * the Continuum configuration file (continuum.conf.js) specified by `configFilePath`
 // * Access Engine (AccessEngine.professional.js), the underlying accessibility testing engine Continuum uses
 // Normally code outside the Continuum JavaScript SDK is not required to do this, but Cypress' design essentially forces our hand
-const setUpContinuum = (configFilePath) => {
+const a11yContinuumSetup = (configFilePath) => {
   /**
    * Prevent showing xhr calls in logs and exposing api token.
    */
-  const origLog = Cypress.log;
+  const origLog = Cypress.log.bind(Cypress);
   Cypress.log = function (opts, ...other) {
     if (opts.displayName >= LEVEL_ACCESS_API || opts.name >= LEVEL_ACCESS_API) {
       return;
@@ -67,7 +67,7 @@ const setUpContinuum = (configFilePath) => {
 };
 
 // We verify Access Engine is loaded, loading it again only if necessary, before running our accessibility tests using `Continuum.runAllTests`
-const runAllAccessibilityTests = (includeiframe = false) =>
+const a11yContinuumRunAllTests = (includeiframe = false) =>
   cy
     .window()
     .then((windowUnderTest) =>
@@ -87,7 +87,7 @@ const runAllAccessibilityTests = (includeiframe = false) =>
     )
     .then(() => Continuum.runAllTests(includeiframe));
 
-const printAccessibilityTestResults = () => {
+const a11YContinuumPrintResults = () => {
   const accessibilityConcerns = Continuum.getAccessibilityConcerns();
 
   if (accessibilityConcerns.length > 0) {
@@ -120,14 +120,14 @@ const printAccessibilityTestResults = () => {
   }
 };
 
-const failIfAnyAccessibilityConcerns = () => {
+const a11YContinuumFailIfConcerns = () => {
   expect(
     Continuum.getAccessibilityConcerns(),
     'no accessibility concerns'
   ).to.have.lengthOf(0);
 };
 
-const submitAccessibilityConcernsToAMP = (reportName = 'AMP Report') => {
+const a11yContinuumSubmitConcernsToAmp = (reportName = 'AMP Report') => {
   const accessibilityConcerns = Continuum.getAccessibilityConcerns();
   if (accessibilityConcerns.length <= 0) {
     return;
@@ -172,17 +172,14 @@ const submitAccessibilityConcernsToAMP = (reportName = 'AMP Report') => {
   }
 };
 
-Cypress.Commands.add('setUpContinuum', setUpContinuum);
-Cypress.Commands.add('runAllAccessibilityTests', runAllAccessibilityTests);
+Cypress.Commands.add('a11yContinuumSetup', a11yContinuumSetup);
+Cypress.Commands.add('a11yContinuumRunAllTests', a11yContinuumRunAllTests);
+Cypress.Commands.add('a11YContinuumPrintResults', a11YContinuumPrintResults);
 Cypress.Commands.add(
-  'printAccessibilityTestResults',
-  printAccessibilityTestResults
+  'a11YContinuumFailIfConcerns',
+  a11YContinuumFailIfConcerns
 );
 Cypress.Commands.add(
-  'failIfAnyAccessibilityConcerns',
-  failIfAnyAccessibilityConcerns
-);
-Cypress.Commands.add(
-  'submitAccessibilityConcernsToAMP',
-  submitAccessibilityConcernsToAMP
+  'a11yContinuumSubmitConcernsToAmp',
+  a11yContinuumSubmitConcernsToAmp
 );

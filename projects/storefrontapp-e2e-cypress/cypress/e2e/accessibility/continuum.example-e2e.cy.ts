@@ -11,7 +11,7 @@ context('Access Continuum', () => {
   before(() => {
     // Continuum only needs to be set up once per testing context;
     // the page under test can change without having to set up Continuum again
-    cy.setUpContinuum('cypress/continuum.conf.ts');
+    cy.a11yContinuumSetup('cypress/continuum.conf.ts');
   });
 
   describe('Homepage', () => {
@@ -33,9 +33,9 @@ context('Access Continuum', () => {
 
 function checkA11yConcerns() {
   it('should NOT have any accessibility concerns', () => {
-    cy.runAllAccessibilityTests()
-      .printAccessibilityTestResults()
-      .submitAccessibilityConcernsToAMP()
-      .failIfAnyAccessibilityConcerns();
+    cy.a11yContinuumRunAllTests()
+      .a11YContinuumPrintResults()
+      .a11yContinuumSubmitConcernsToAmp()
+      .a11YContinuumFailIfConcerns();
   });
 }
