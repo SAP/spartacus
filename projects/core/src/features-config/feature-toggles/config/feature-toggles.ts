@@ -509,8 +509,12 @@ export interface FeatureTogglesInterface {
   cmsBottomHeaderSlotUsingFlexStyles?: boolean;
 
   /**
-   * When enabled, a new theme switcher will be used.
-   * It supports default theme together with High Contrast Dark and High Contrast Light.
+   * 1. It uses the new `SiteThemeService` as the source of truth for the "site theme" value
+   * (this value can change over time, e.g. when selecting new value in the new `ThemeSwitcherComponent`).
+   * Previously the "site theme" could be set only on the page start (via the static config `config.context.theme` or via CMS, when using the feature of the "automatic site-context configuration").
+   * 2. Now, when no custom theme is selected, the default theme value is an empty string `''`,
+   * unless you configure it differently via the global config `config.context.theme` (or via CMS).
+   * Previously, there the non-defined theme had a value `undefined`.
    */
   useNewSiteThemeSwitcher?: boolean;
 }
