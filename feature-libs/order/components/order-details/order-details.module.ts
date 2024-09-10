@@ -49,6 +49,7 @@ import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/re
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
+import { OrderOverviewComponentService } from './order-overview/order-overview-component.service';
 
 function registerOrderOutletFactory(): () => void {
   const isMyAccountV2 = inject(USE_MY_ACCOUNT_V2_ORDER);
@@ -111,6 +112,7 @@ const moduleComponents = [
     AbstractOrderContextModule,
   ],
   providers: [
+    OrderOverviewComponentService,
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
       cmsComponents: {
         AccountOrderDetailsActionsComponent: {
