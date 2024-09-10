@@ -22,7 +22,7 @@ import { HttpErrorHandler } from '../http-error.handler';
 })
 export class UnknownErrorHandler extends HttpErrorHandler {
   protected logger = inject(LoggerService);
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   responseStatus = HttpResponseStatus.UNKNOWN;
 
@@ -40,8 +40,10 @@ export class UnknownErrorHandler extends HttpErrorHandler {
       ? isDevMode()
       : isDevMode() || this.isSsr();
 
-    // Error will be handled and logged by the `HttpErrorHandlerInterceptor`.
-    // After removing the `ssrStrictErrorHandlingForHttpAndNgrx` feature flag, error will be logged only in dev mode.
+    // Error is already handled and logged by the `HttpErrorHandlerInterceptor`,
+    // if `ssrStrictErrorHandlingForHttpAndNgrx` feature toggle is enabled.
+    // In the future, after removing the `ssrStrictErrorHandlingForHttpAndNgrx` feature toggle,
+    // error will be logged here only in dev mode.
     if (shouldLogError) {
       this.logger.warn(
         `An unknown http error occurred\n`,
