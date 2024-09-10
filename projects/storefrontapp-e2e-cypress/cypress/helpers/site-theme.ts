@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// TODO: (CXSPA-8363) This is only a temporary solution until we deploy the proper sample data to the CI server. Once that is done, this code should be removed.
 export function interceptToAddThemeCompnent() {
   const path = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
     'BASE_SITE'

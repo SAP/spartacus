@@ -92,10 +92,6 @@ export class SiteThemeService implements SiteContext<SiteTheme> {
       });
   }
 
-  isValid(className: string): boolean {
-    return this.themes.map((theme) => theme.className).includes(className);
-  }
-
   isInitialized(): boolean {
     let valueInitialized = false;
     this.getActive()
@@ -103,5 +99,9 @@ export class SiteThemeService implements SiteContext<SiteTheme> {
       .unsubscribe();
 
     return valueInitialized;
+  }
+
+  protected isValid(className: string): boolean {
+    return this.themes.map((theme) => theme.className).includes(className);
   }
 }
