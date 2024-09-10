@@ -490,6 +490,11 @@ export interface FeatureTogglesInterface {
   a11yDialogsHeading?: boolean;
 
   /**
+   *
+   */
+  a11yAddToWishlistFocus?: boolean;
+
+  /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
    * into a request body, instead of query params.
    * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
@@ -579,6 +584,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yQuickOrderAriaControls: false,
   a11yRemoveStatusLoadedRole: false,
   a11yDialogsHeading: false,
+  a11yAddToWishlistFocus: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
 };
