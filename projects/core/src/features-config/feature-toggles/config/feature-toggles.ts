@@ -536,7 +536,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: true,
   useProductCarouselBatchApi: false,
-  productConfiguratorAttributeTypesV2: false,
+  productConfiguratorAttributeTypesV2: true,
   propagateErrorsToServer: false,
   ssrStrictErrorHandlingForHttpAndNgrx: false,
   productConfiguratorDeltaRendering: false,
