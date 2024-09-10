@@ -8,6 +8,7 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
+import { TestQueryParamsService } from '../../../error-handling';
 import { LoggerService } from '../../../logger';
 import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
@@ -16,6 +17,7 @@ import { ProductActions } from '../actions/index';
 @Injectable()
 export class ProductsSearchEffects {
   protected logger = inject(LoggerService);
+  private testQueryParamsService = inject(TestQueryParamsService);
 
   searchProducts$: Observable<
     ProductActions.SearchProductsSuccess | ProductActions.SearchProductsFail
@@ -30,6 +32,9 @@ export class ProductsSearchEffects {
               .search(action.payload.queryText, action.payload.searchConfig)
               .pipe(
                 map((data) => {
+                  if (this.testQueryParamsService.queryParams.ngrxError) {
+                    throw new Error('Ngrx Error');
+                  }
                   return new ProductActions.SearchProductsSuccess(
                     data,
                     action.auxiliary

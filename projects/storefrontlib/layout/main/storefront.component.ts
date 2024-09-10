@@ -18,6 +18,7 @@ import {
 import {
   FeatureConfigService,
   RoutingService,
+  TestQueryParamsService,
   useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -84,6 +85,9 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   ) {
     useFeatureStyles('a11yImproveContrast');
     useFeatureStyles('cmsBottomHeaderSlotUsingFlexStyles');
+    if (inject(TestQueryParamsService).queryParams.runtimeErrorInComponent) {
+      throw new Error('Runtime error in StorefrontComponent');
+    }
   }
 
   ngOnInit(): void {

@@ -3,5 +3,6 @@
   "dest": "../../dist/setup",
   "lib": {
     "entryFile": "public_api.ts"
-  }
+  },
+  "assets": ["**/*.ejs"]
 }

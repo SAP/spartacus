@@ -12,6 +12,8 @@ import {
   SERVER_REQUEST_URL,
 } from '@spartacus/core';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TestHttpStatusInterceptor } from '../error-handling';
 import { PropagatingToServerErrorHandler } from '../error-handling/multi-error-handlers';
 import { getRequestOrigin } from '../express-utils/express-request-origin';
 import { getRequestUrl } from '../express-utils/express-request-url';
@@ -41,6 +43,11 @@ export function provideServer(options?: ServerOptions): Provider[] {
     {
       provide: MULTI_ERROR_HANDLER,
       useExisting: PropagatingToServerErrorHandler,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useExisting: TestHttpStatusInterceptor,
       multi: true,
     },
   ];

@@ -8,6 +8,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
+  customErrorPageErrorHandlers,
   defaultExpressErrorHandlers,
   defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
@@ -23,13 +24,72 @@ const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
-  cache: process.env['SSR_CACHE'] === 'true',
+};
+
+const ngExpressEngine1 = NgExpressEngineDecorator.get(engine, {
+  ...ssrOptions,
+  cache: true,
   ssrFeatureToggles: {
     avoidCachingErrors: true,
   },
-};
+})({
+  bootstrap: AppServerModule,
+});
 
-const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
+const ngExpressEngine2 = NgExpressEngineDecorator.get(engine, {
+  ...ssrOptions,
+  cache: true,
+  shouldCacheRenderingResult: () => true,
+  ssrFeatureToggles: {
+    avoidCachingErrors: true,
+  },
+})({
+  bootstrap: AppServerModule,
+});
+
+const ngExpressEngine3 = NgExpressEngineDecorator.get(engine, {
+  ...ssrOptions,
+  cache: true,
+  shouldCacheRenderingResult: () => true,
+  ssrFeatureToggles: {
+    avoidCachingErrors: true,
+  },
+})({
+  bootstrap: AppServerModule,
+});
+
+const ngExpressEngineDefault = NgExpressEngineDecorator.get(
+  engine,
+  ssrOptions
+)({
+  bootstrap: AppServerModule,
+});
+
+const ngExpressEngineWrapper = (
+  filePath: string,
+  options: object,
+  callback: any
+) => {
+  const ngExpressEngineInstance = String(
+    (options as any).req.query.ngExpressEngineInstance
+  );
+  console.log('ngExpressEngineInstance', ngExpressEngineInstance);
+  // WORKS BUT INSTANCES NEEDS TO BE CREATED BEFORE
+  switch (ngExpressEngineInstance) {
+    case '1':
+      console.log('ngExpressEngineInstance 1');
+      return ngExpressEngine1(filePath, options, callback);
+    case '2':
+      console.log('ngExpressEngineInstance 2');
+      return ngExpressEngine2(filePath, options, callback);
+    case '3':
+      console.log('ngExpressEngineInstance 3');
+      return ngExpressEngine3(filePath, options, callback);
+    default:
+      console.log('ngExpressEngineInstance default');
+      return ngExpressEngineDefault(filePath, options, callback);
+  }
+};
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -43,12 +103,7 @@ export function app(): express.Express {
   server.set('trust proxy', 'loopback');
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
-  server.engine(
-    'html',
-    ngExpressEngine({
-      bootstrap: AppServerModule,
-    })
-  );
+  server.engine('html', ngExpressEngineWrapper);
 
   server.set('view engine', 'html');
   server.set('views', distFolder);
@@ -69,6 +124,7 @@ export function app(): express.Express {
     });
   });
 
+  server.use(customErrorPageErrorHandlers);
   server.use(defaultExpressErrorHandlers(indexHtmlContent));
 
   return server;

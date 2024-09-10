@@ -7,3 +7,4 @@
 export * from './error-response/index';
 export * from './express-error-handlers/index';
 export * from './multi-error-handlers/index';
+export * from './test-http-status.interceptor';
