@@ -543,7 +543,9 @@ describe('OrderOverviewComponent', () => {
       spyOn(componentService, 'shouldShowDeliveryMode').and.returnValue(false);
       const result = component.shouldShowDeliveryMode(undefined);
       expect(result).toEqual(false);
-      expect(componentService.shouldShowDeliveryMode).toHaveBeenCalledWith(undefined);
+      expect(componentService.shouldShowDeliveryMode).toHaveBeenCalledWith(
+        undefined
+      );
     });
   });
 });
