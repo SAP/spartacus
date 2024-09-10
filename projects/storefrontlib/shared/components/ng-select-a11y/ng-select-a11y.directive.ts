@@ -18,6 +18,8 @@ import { FeatureConfigService, TranslationService } from '@spartacus/core';
 import { filter, take } from 'rxjs';
 import { BREAKPOINT, BreakpointService } from '../../../layout';
 
+const ARIA_LABEL = 'aria-label';
+
 @Directive({
   selector: '[cxNgSelectA11y]',
 })
@@ -45,8 +47,6 @@ export class NgSelectA11yDirective implements AfterViewInit {
 
   @Optional() breakpointService = inject(BreakpointService, { optional: true });
 
-  ariaLabelAttribute = 'aria-label';
-
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef
@@ -62,11 +62,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
     const ariaControls = this.cxNgSelectA11y.ariaControls ?? elementId;
 
     if (ariaLabel) {
-      this.renderer.setAttribute(
-        divCombobox,
-        this.ariaLabelAttribute,
-        ariaLabel
-      );
+      this.renderer.setAttribute(divCombobox, ARIA_LABEL, ariaLabel);
     }
 
     if (ariaControls) {
@@ -107,11 +103,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
           options.forEach(
             (option: HTMLOptionElement, index: string | number) => {
               const ariaLabel = `${option.innerText}, ${+index + 1} ${translation} ${options.length}`;
-              this.renderer.setAttribute(
-                option,
-                this.ariaLabelAttribute,
-                ariaLabel
-              );
+              this.renderer.setAttribute(option, ARIA_LABEL, ariaLabel);
             }
           );
         });
@@ -131,14 +123,13 @@ export class NgSelectA11yDirective implements AfterViewInit {
     const valueLabel =
       this.elementRef.nativeElement.querySelector('.ng-value-label')?.innerText;
     if (valueLabel) {
-      const comboboxAriaLabel =
-        divCombobox?.getAttribute(this.ariaLabelAttribute) || '';
+      const comboboxAriaLabel = divCombobox?.getAttribute(ARIA_LABEL) || '';
       const valueElement =
         this.elementRef.nativeElement.querySelector('.ng-value');
       this.renderer.setAttribute(valueElement, 'aria-hidden', 'true');
       this.renderer.setAttribute(
         divCombobox,
-        this.ariaLabelAttribute,
+        ARIA_LABEL,
         comboboxAriaLabel + ', ' + valueLabel
       );
     }
