@@ -225,6 +225,12 @@ export interface FeatureTogglesInterface {
   a11yOrganizationListHeadingOrder?: boolean;
 
   /**
+   * In `ImportToNewSavedCartFormComponent`,`ImportEntriesFormComponent` after selecting a file
+   * confirmation message is displayed and read out
+   */
+  a11yCartImportConfirmationMessage?: boolean;
+
+  /**
    * Changes 'order days' check list into a fieldset inside of 'CheckoutScheduleReplenishmentOrderComponent'.
    */
   a11yReplenishmentOrderFieldset?: boolean;
@@ -523,7 +529,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: true,
   useProductCarouselBatchApi: false,
-  productConfiguratorAttributeTypesV2: false,
+  productConfiguratorAttributeTypesV2: true,
   productConfiguratorDeltaRendering: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
@@ -543,6 +549,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yMobileVisibleFocus: false,
   a11yOrganizationsBanner: false,
   a11yOrganizationListHeadingOrder: false,
+  a11yCartImportConfirmationMessage: false,
   a11yReplenishmentOrderFieldset: false,
   a11yListOversizedFocus: false,
   a11yStoreFinderOverflow: false,
