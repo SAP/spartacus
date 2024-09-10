@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '@spartacus/core';
+import { ErrorAction, StateUtils } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import { CONFIGURATION_TEXTFIELD_DATA } from '../configuration-textfield-state';
@@ -41,6 +41,7 @@ export const REMOVE_CONFIGURATION =
 
 export class CreateConfiguration extends StateUtils.LoaderLoadAction {
   readonly type = CREATE_CONFIGURATION;
+
   constructor(
     public payload: { productCode: string; owner: CommonConfigurator.Owner }
   ) {
@@ -48,8 +49,12 @@ export class CreateConfiguration extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class CreateConfigurationFail extends StateUtils.LoaderFailAction {
+export class CreateConfigurationFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = CREATE_CONFIGURATION_FAIL;
+
   constructor(public payload: any) {
     super(CONFIGURATION_TEXTFIELD_DATA, payload);
   }
@@ -57,6 +62,7 @@ export class CreateConfigurationFail extends StateUtils.LoaderFailAction {
 
 export class CreateConfigurationSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = CREATE_CONFIGURATION_SUCCESS;
+
   constructor(public payload: ConfiguratorTextfield.Configuration) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
@@ -64,6 +70,7 @@ export class CreateConfigurationSuccess extends StateUtils.LoaderSuccessAction {
 
 export class UpdateConfiguration extends StateUtils.LoaderLoadAction {
   readonly type = UPDATE_CONFIGURATION;
+
   constructor(public payload: ConfiguratorTextfield.Configuration) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
@@ -71,13 +78,18 @@ export class UpdateConfiguration extends StateUtils.LoaderLoadAction {
 
 export class AddToCart extends StateUtils.LoaderLoadAction {
   readonly type = ADD_TO_CART;
+
   constructor(public payload: ConfiguratorTextfield.AddToCartParameters) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class AddToCartFail extends StateUtils.LoaderFailAction {
+export class AddToCartFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = ADD_TO_CART_FAIL;
+
   constructor(public payload: any) {
     super(CONFIGURATION_TEXTFIELD_DATA, payload);
   }
@@ -85,13 +97,18 @@ export class AddToCartFail extends StateUtils.LoaderFailAction {
 
 export class UpdateCartEntryConfiguration extends StateUtils.LoaderLoadAction {
   readonly type = UPDATE_CART_ENTRY_CONFIGURATION;
+
   constructor(public payload: ConfiguratorTextfield.UpdateCartEntryParameters) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class UpdateCartEntryConfigurationFail extends StateUtils.LoaderFailAction {
+export class UpdateCartEntryConfigurationFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = UPDATE_CART_ENTRY_CONFIGURATION_FAIL;
+
   constructor(public payload: any) {
     super(CONFIGURATION_TEXTFIELD_DATA, payload);
   }
@@ -99,6 +116,7 @@ export class UpdateCartEntryConfigurationFail extends StateUtils.LoaderFailActio
 
 export class ReadCartEntryConfiguration extends StateUtils.LoaderLoadAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION;
+
   constructor(
     public payload: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ) {
@@ -108,13 +126,18 @@ export class ReadCartEntryConfiguration extends StateUtils.LoaderLoadAction {
 
 export class ReadCartEntryConfigurationSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION_SUCCESS;
+
   constructor(public payload: ConfiguratorTextfield.Configuration) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class ReadCartEntryConfigurationFail extends StateUtils.LoaderFailAction {
+export class ReadCartEntryConfigurationFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = READ_CART_ENTRY_CONFIGURATION_FAIL;
+
   constructor(public payload: any) {
     super(CONFIGURATION_TEXTFIELD_DATA, payload);
   }
@@ -122,6 +145,7 @@ export class ReadCartEntryConfigurationFail extends StateUtils.LoaderFailAction 
 
 export class ReadOrderEntryConfiguration extends StateUtils.LoaderLoadAction {
   readonly type = READ_ORDER_ENTRY_CONFIGURATION;
+
   constructor(
     public payload: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ) {
@@ -131,13 +155,18 @@ export class ReadOrderEntryConfiguration extends StateUtils.LoaderLoadAction {
 
 export class ReadOrderEntryConfigurationSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_SUCCESS;
+
   constructor(public payload: ConfiguratorTextfield.Configuration) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class ReadOrderEntryConfigurationFail extends StateUtils.LoaderFailAction {
+export class ReadOrderEntryConfigurationFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_FAIL;
+
   constructor(public payload: any) {
     super(CONFIGURATION_TEXTFIELD_DATA, payload);
   }
@@ -145,6 +174,7 @@ export class ReadOrderEntryConfigurationFail extends StateUtils.LoaderFailAction
 
 export class RemoveConfiguration extends StateUtils.LoaderResetAction {
   readonly type = REMOVE_CONFIGURATION;
+
   constructor() {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }

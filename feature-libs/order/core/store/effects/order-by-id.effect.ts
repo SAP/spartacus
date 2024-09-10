@@ -7,7 +7,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
@@ -34,7 +34,7 @@ export class OrderByIdEffect {
             return of(
               new OrderActions.LoadOrderByIdFail({
                 code,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             );
           })

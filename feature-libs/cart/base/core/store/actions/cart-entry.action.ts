@@ -5,7 +5,7 @@
  */
 
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { StateUtils } from '@spartacus/core';
+import { ErrorAction, StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';
@@ -21,6 +21,7 @@ export const CART_UPDATE_ENTRY_FAIL = '[Cart-entry] Update Entry Fail';
 
 export class CartAddEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_ADD_ENTRY;
+
   constructor(
     public payload: {
       cartId: string;
@@ -36,6 +37,7 @@ export class CartAddEntry extends StateUtils.EntityProcessesIncrementAction {
 
 export class CartAddEntrySuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_ADD_ENTRY_SUCCESS;
+
   constructor(
     public payload: {
       userId: string;
@@ -54,8 +56,13 @@ export class CartAddEntrySuccess extends StateUtils.EntityProcessesDecrementActi
   }
 }
 
-export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction {
+export class CartAddEntryFail
+  extends StateUtils.EntityProcessesDecrementAction
+  implements ErrorAction
+{
+  public error: any;
   readonly type = CART_ADD_ENTRY_FAIL;
+
   constructor(
     public payload: {
       error: any;
@@ -67,11 +74,13 @@ export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction 
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
+    this.error = payload.error;
   }
 }
 
 export class CartRemoveEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_REMOVE_ENTRY;
+
   constructor(
     public payload: { cartId: string; userId: string; entryNumber: string }
   ) {
@@ -81,6 +90,7 @@ export class CartRemoveEntry extends StateUtils.EntityProcessesIncrementAction {
 
 export class CartRemoveEntrySuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_ENTRY_SUCCESS;
+
   constructor(
     public payload: { userId: string; cartId: string; entryNumber: string }
   ) {
@@ -88,8 +98,13 @@ export class CartRemoveEntrySuccess extends StateUtils.EntityProcessesDecrementA
   }
 }
 
-export class CartRemoveEntryFail extends StateUtils.EntityProcessesDecrementAction {
+export class CartRemoveEntryFail
+  extends StateUtils.EntityProcessesDecrementAction
+  implements ErrorAction
+{
+  public error: any;
   readonly type = CART_REMOVE_ENTRY_FAIL;
+
   constructor(
     public payload: {
       error: any;
@@ -99,11 +114,13 @@ export class CartRemoveEntryFail extends StateUtils.EntityProcessesDecrementActi
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
+    this.error = payload.error;
   }
 }
 
 export class CartUpdateEntry extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_UPDATE_ENTRY;
+
   constructor(
     public payload: {
       userId: string;
@@ -120,6 +137,7 @@ export class CartUpdateEntry extends StateUtils.EntityProcessesIncrementAction {
 
 export class CartUpdateEntrySuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_UPDATE_ENTRY_SUCCESS;
+
   constructor(
     public payload: {
       userId: string;
@@ -134,8 +152,13 @@ export class CartUpdateEntrySuccess extends StateUtils.EntityProcessesDecrementA
   }
 }
 
-export class CartUpdateEntryFail extends StateUtils.EntityProcessesDecrementAction {
+export class CartUpdateEntryFail
+  extends StateUtils.EntityProcessesDecrementAction
+  implements ErrorAction
+{
+  public error: any;
   readonly type = CART_UPDATE_ENTRY_FAIL;
+
   constructor(
     public payload: {
       error: any;
@@ -148,6 +171,7 @@ export class CartUpdateEntryFail extends StateUtils.EntityProcessesDecrementActi
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
+    this.error = payload.error;
   }
 }
 

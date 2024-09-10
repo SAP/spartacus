@@ -12,14 +12,13 @@ import { UserAccountFacade } from '@spartacus/user/account/root';
 import { of } from 'rxjs';
 import { SavedCartActions } from '../store/actions/index';
 import { SavedCartService } from './saved-cart.service';
-
 import createSpy = jasmine.createSpy;
 
 const mockUserId = 'test-user';
 const mockCartId = 'test-cart';
 const mockCartName = 'test-cart-name';
 const mockCartDescription = 'test-cart-description';
-const mockError = 'test-error';
+const mockError = new Error('test-error');
 
 const mockUser: User = {
   customerId: 'test-customer',

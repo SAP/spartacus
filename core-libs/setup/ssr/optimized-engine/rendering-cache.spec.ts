@@ -1,12 +1,21 @@
 /// <reference types="jest" />
 
 import { RenderingCache } from './rendering-cache';
+import {
+  SsrOptimizationOptions,
+  defaultSsrOptimizationOptions,
+} from './ssr-optimization-options';
+
+const options: SsrOptimizationOptions = {
+  shouldCacheRenderingResult:
+    defaultSsrOptimizationOptions.shouldCacheRenderingResult,
+};
 
 describe('RenderingCache', () => {
   let renderingCache: RenderingCache;
 
   beforeEach(() => {
-    renderingCache = new RenderingCache({});
+    renderingCache = new RenderingCache(options);
   });
 
   it('should create rendering cache instance', () => {
@@ -77,13 +86,13 @@ describe('RenderingCache with ttl', () => {
   let renderingCache: RenderingCache;
 
   beforeEach(() => {
-    renderingCache = new RenderingCache({ ttl: 100 });
+    renderingCache = new RenderingCache({ ...options, ttl: 100 });
   });
 
   describe('get', () => {
     it('should return timestamp', () => {
       renderingCache.store('test', null, 'testHtml');
-      expect(renderingCache.get('test').time).toBeTruthy();
+      expect(renderingCache.get('test')?.time).toBeTruthy();
     });
   });
 
@@ -118,7 +127,7 @@ describe('RenderingCache with cacheSize', () => {
   let renderingCache: RenderingCache;
 
   beforeEach(() => {
-    renderingCache = new RenderingCache({ cacheSize: 2 });
+    renderingCache = new RenderingCache({ ...options, cacheSize: 2 });
   });
 
   describe('get', () => {
@@ -149,6 +158,77 @@ describe('RenderingCache with cacheSize', () => {
       expect(renderingCache.get('a')).toBeFalsy();
       expect(renderingCache.get('b')).toBeTruthy();
       expect(renderingCache.get('c')).toBeTruthy();
+    });
+  });
+
+  describe('RenderingCache and shouldCacheRenderingResult', () => {
+    let renderingCache: RenderingCache;
+
+    describe('if default shouldCacheRenderingResult', () => {
+      it('should cache HTML if avoidCachingErrors is false', () => {
+        renderingCache = new RenderingCache({
+          ...options,
+          ssrFeatureToggles: {
+            avoidCachingErrors: false,
+          },
+        });
+        renderingCache.store('a', undefined, 'a');
+        expect(renderingCache.get('a')).toEqual({ html: 'a', err: undefined });
+      });
+
+      it('should cache HTML if avoidCachingErrors is true', () => {
+        renderingCache = new RenderingCache({
+          ...options,
+          ssrFeatureToggles: {
+            avoidCachingErrors: false,
+          },
+        });
+        renderingCache.store('a', undefined, 'a');
+        expect(renderingCache.get('a')).toEqual({ html: 'a', err: undefined });
+      });
+
+      it('should cache errors if avoidCachingErrors is false', () => {
+        renderingCache = new RenderingCache({
+          ...options,
+          ssrFeatureToggles: {
+            avoidCachingErrors: false,
+          },
+        });
+        renderingCache.store('a', new Error('err'), 'a');
+        expect(renderingCache.get('a')).toEqual({
+          html: 'a',
+          err: new Error('err'),
+        });
+      });
+
+      it('should not cache errors if avoidCachingErrors is true', () => {
+        renderingCache = new RenderingCache({
+          ...options,
+          ssrFeatureToggles: {
+            avoidCachingErrors: true,
+          },
+        });
+        renderingCache.store('a', new Error('err'), 'a');
+        expect(renderingCache.get('a')).toBeFalsy();
+      });
+    });
+
+    describe('if shouldCacheRenderingResult is not defined', () => {
+      beforeEach(() => {
+        renderingCache = new RenderingCache({
+          ...options,
+          shouldCacheRenderingResult: undefined,
+        });
+      });
+      it('should not cache a html', () => {
+        renderingCache.store('a', undefined, 'a');
+        expect(renderingCache.get('a')).toBeFalsy();
+      });
+
+      it('should not cache an error', () => {
+        renderingCache.store('a', new Error('err'), 'a');
+        expect(renderingCache.get('a')).toBeFalsy();
+      });
     });
   });
 });
