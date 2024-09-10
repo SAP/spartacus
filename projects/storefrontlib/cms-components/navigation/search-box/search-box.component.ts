@@ -22,6 +22,7 @@ import {
   PageType,
   RoutingService,
   WindowRef,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, Subscription, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -114,7 +115,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     protected winRef: WindowRef,
     protected routingService: RoutingService
-  ) {}
+  ) {
+    useFeatureStyles('a11ySearchboxLabel');
+  }
 
   /**
    * Returns the SearchBox configuration. The configuration is driven by multiple
@@ -158,7 +161,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
             data.state.context?.type === PageType.CONTENT_PAGE
           )
         ) {
-          this.chosenWord = '';
+          this.updateChosenWord('');
         }
       });
 
@@ -212,7 +215,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           true
         );
         this.searchBoxActive = true;
-        this.searchInput.nativeElement.focus();
+        this.searchInput?.nativeElement.focus();
       }
     } else {
       this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
@@ -256,7 +259,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     // TODO: (CXSPA-6929) - Remove feature flag next major release
     if (this.a11ySearchBoxMobileFocusEnabled) {
       this.changeDetecorRef?.detectChanges();
-      this.searchButton.nativeElement.focus();
+      this.searchButton?.nativeElement.focus();
     } else {
       if (event && event.target) {
         (<HTMLElement>event.target).blur();
@@ -300,6 +303,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   updateChosenWord(chosenWord: string): void {
     this.chosenWord = chosenWord;
+    if (this.searchInput) {
+      this.searchInput.nativeElement.value = this.chosenWord;
+    }
   }
 
   private getFocusedIndex(): number {
