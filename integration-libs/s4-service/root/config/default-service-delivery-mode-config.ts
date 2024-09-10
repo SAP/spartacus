@@ -5,10 +5,10 @@
  */
 
 import { PriceType } from '@spartacus/core';
-import { ServiceDeliveryModeConfig } from '../model/augmented-types.model';
+import { S4ServiceDeliveryModeConfig } from '../model/augmented-types.model';
 
-export const defaultServiceDeliveryModeConfig: ServiceDeliveryModeConfig = {
-  serviceDeliveryMode: {
+export const defaultServiceDeliveryModeConfig: S4ServiceDeliveryModeConfig = {
+  s4ServiceDeliveryMode: {
     code: 'service-delivery',
     deliveryCost: {
       currencyIso: 'USD',

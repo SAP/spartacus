@@ -57,10 +57,10 @@ declare module '@spartacus/core' {
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class ServiceDeliveryModeConfig {
-  serviceDeliveryMode?: DeliveryMode;
+export abstract class S4ServiceDeliveryModeConfig {
+  s4ServiceDeliveryMode?: DeliveryMode;
 }
 
 declare module '@spartacus/core' {
-  export interface Config extends ServiceDeliveryModeConfig {}
+  export interface Config extends S4ServiceDeliveryModeConfig {}
 }

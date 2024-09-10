@@ -40,10 +40,10 @@ import {
   CheckoutServiceDetailsFacade,
   CheckoutServiceSchedulePickerService,
   ServiceDateTime,
-  ServiceDeliveryModeConfig,
+  S4ServiceDeliveryModeConfig,
 } from '@spartacus/s4-service/root';
-const mockServiceDeliveryModeConfig: ServiceDeliveryModeConfig = {
-  serviceDeliveryMode: {
+const mockServiceDeliveryModeConfig: S4ServiceDeliveryModeConfig = {
+  s4ServiceDeliveryMode: {
     code: 'fast-service',
   },
 };
@@ -303,7 +303,7 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
           useClass: MockCheckoutServiceSchedulePickerService,
         },
         {
-          provide: ServiceDeliveryModeConfig,
+          provide: S4ServiceDeliveryModeConfig,
           useValue: mockServiceDeliveryModeConfig,
         },
       ],
@@ -531,7 +531,7 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
       code: 'fast-service',
       description: 'Fast delivery mode',
     };
-    expect(component.showDeliveryModeCard(mode1)).toEqual(false);
+    expect(component.shouldShowDeliveryModeCard(mode1)).toEqual(false);
   });
   it('should show delivery mode card in review page', () => {
     const mode2: DeliveryMode = {
@@ -542,7 +542,7 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
       name: 'super-fast-service',
       description: 'Super Fast delivery mode',
     };
-    expect(component.showDeliveryModeCard(mode2)).toEqual(true);
-    expect(component.showDeliveryModeCard(mode3)).toEqual(true);
+    expect(component.shouldShowDeliveryModeCard(mode2)).toEqual(true);
+    expect(component.shouldShowDeliveryModeCard(mode3)).toEqual(true);
   });
 });

@@ -8,7 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { OutletModule } from '@spartacus/storefront';
 import {
   CheckoutServiceDetailsFacade,
-  ServiceDeliveryModeConfig,
+  S4ServiceDeliveryModeConfig,
 } from '@spartacus/s4-service/root';
 import { BehaviorSubject, of } from 'rxjs';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
@@ -27,8 +27,8 @@ const mockActivatedRoute = {
     url: ['checkout', 'delivery-mode'],
   },
 };
-const mockServiceDeliveryModeConfig: ServiceDeliveryModeConfig = {
-  serviceDeliveryMode: {
+const mockServiceDeliveryModeConfig: S4ServiceDeliveryModeConfig = {
+  s4ServiceDeliveryMode: {
     code: 'd1',
   },
 };
@@ -70,7 +70,7 @@ describe('ServiceCheckoutDeliveryModeComponent', () => {
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
-          provide: ServiceDeliveryModeConfig,
+          provide: S4ServiceDeliveryModeConfig,
           useValue: mockServiceDeliveryModeConfig,
         },
       ],

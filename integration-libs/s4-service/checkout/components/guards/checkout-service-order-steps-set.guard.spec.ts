@@ -3,7 +3,7 @@ import { CheckoutServiceOrderStepsSetGuard } from './checkout-service-order-step
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   CheckoutServiceDetailsFacade,
-  ServiceDeliveryModeConfig,
+  S4ServiceDeliveryModeConfig,
 } from '@spartacus/s4-service/root';
 import {
   Address,
@@ -33,8 +33,8 @@ import {
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import createSpy = jasmine.createSpy;
-const mockServiceDeliveryModeConfig: ServiceDeliveryModeConfig = {
-  serviceDeliveryMode: {
+const mockServiceDeliveryModeConfig: S4ServiceDeliveryModeConfig = {
+  s4ServiceDeliveryMode: {
     code: 'my-service-delivery-mode',
   },
 };
@@ -180,7 +180,7 @@ describe('CheckoutServiceOrderStepsSetGuard', () => {
           useClass: MockCheckoutServiceDetailsFacade,
         },
         {
-          provide: ServiceDeliveryModeConfig,
+          provide: S4ServiceDeliveryModeConfig,
           useValue: mockServiceDeliveryModeConfig,
         },
         CheckoutB2BStepsSetGuard,

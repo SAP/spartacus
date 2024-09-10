@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { ServiceOrderOverviewComponentService } from './service-order-overview-component.service';
 import { Order } from '@spartacus/order/root';
-import { ServiceDeliveryModeConfig } from '@spartacus/s4-service/root';
-const mockServiceDeliveryModeConfig: ServiceDeliveryModeConfig = {
-  serviceDeliveryMode: {
+import { S4ServiceDeliveryModeConfig } from '@spartacus/s4-service/root';
+const mockServiceDeliveryModeConfig: S4ServiceDeliveryModeConfig = {
+  s4ServiceDeliveryMode: {
     code: 'd1',
   },
 };
@@ -15,7 +15,7 @@ describe('ServiceOrderOverviewComponentService', () => {
       providers: [
         ServiceOrderOverviewComponentService,
         {
-          provide: ServiceDeliveryModeConfig,
+          provide: S4ServiceDeliveryModeConfig,
           useValue: mockServiceDeliveryModeConfig,
         },
       ],
@@ -30,16 +30,16 @@ describe('ServiceOrderOverviewComponentService', () => {
     const order1: Order = {
       deliveryMode: { code: 'd2' },
     };
-    expect(service.showDeliveryMode(order1.deliveryMode)).toEqual(true);
+    expect(service.shouldShowDeliveryMode(order1.deliveryMode)).toEqual(true);
     const order2: Order = {
       deliveryMode: { name: 'fast-delivery' },
     };
-    expect(service.showDeliveryMode(order2.deliveryMode)).toEqual(true);
+    expect(service.shouldShowDeliveryMode(order2.deliveryMode)).toEqual(true);
   });
   it('should return false if delivery mode is not defined', () => {
     const order: Order = {
       deliveryMode: { code: 'd1', name: 'service-delivery' },
     };
-    expect(service.showDeliveryMode(order?.deliveryMode)).toEqual(false);
+    expect(service.shouldShowDeliveryMode(order?.deliveryMode)).toEqual(false);
   });
 });

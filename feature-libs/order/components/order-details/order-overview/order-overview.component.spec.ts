@@ -127,7 +127,7 @@ class MockOrderDetailsService {
   }
 }
 class MockOrderOverviewComponentService {
-  showDeliveryMode(_mode: DeliveryMode): boolean {
+  shouldShowDeliveryMode(_mode: DeliveryMode): boolean {
     return true;
   }
 }
@@ -532,18 +532,18 @@ describe('OrderOverviewComponent', () => {
 
   describe('show delivery mode in order summary', () => {
     it('should show delivery mode card in order summary', () => {
-      spyOn(componentService, 'showDeliveryMode').and.returnValue(true);
-      const result = component.showDeliveryMode(mockDeliveryMode);
+      spyOn(componentService, 'shouldShowDeliveryMode').and.returnValue(true);
+      const result = component.shouldShowDeliveryMode(mockDeliveryMode);
       expect(result).toEqual(true);
-      expect(componentService.showDeliveryMode).toHaveBeenCalledWith(
+      expect(componentService.shouldShowDeliveryMode).toHaveBeenCalledWith(
         mockDeliveryMode
       );
     });
     it('should not show delivery mode card in order summary', () => {
-      spyOn(componentService, 'showDeliveryMode').and.returnValue(false);
-      const result = component.showDeliveryMode(undefined);
+      spyOn(componentService, 'shouldShowDeliveryMode').and.returnValue(false);
+      const result = component.shouldShowDeliveryMode(undefined);
       expect(result).toEqual(false);
-      expect(componentService.showDeliveryMode).toHaveBeenCalledWith(undefined);
+      expect(componentService.shouldShowDeliveryMode).toHaveBeenCalledWith(undefined);
     });
   });
 });

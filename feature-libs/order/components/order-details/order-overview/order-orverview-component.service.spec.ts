@@ -19,10 +19,10 @@ describe('OrderOverviewComponentService', () => {
     const order: Order = {
       deliveryMode: { code: 'd1' },
     };
-    expect(service.showDeliveryMode(order?.deliveryMode)).toEqual(true);
+    expect(service.shouldShowDeliveryMode(order?.deliveryMode)).toEqual(true);
   });
   it('should return false if delivery mode is not defined', () => {
     const order: Order = {};
-    expect(service.showDeliveryMode(order?.deliveryMode)).toEqual(false);
+    expect(service.shouldShowDeliveryMode(order?.deliveryMode)).toEqual(false);
   });
 });

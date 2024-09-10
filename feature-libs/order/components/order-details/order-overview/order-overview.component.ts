@@ -196,8 +196,8 @@ export class OrderOverviewComponent {
     );
   }
 
-  showDeliveryMode(mode: DeliveryMode | undefined): boolean {
-    return this.orderOverviewComponentService.showDeliveryMode(mode);
+  shouldShowDeliveryMode(mode: DeliveryMode | undefined): boolean {
+    return this.orderOverviewComponentService.shouldShowDeliveryMode(mode);
   }
   getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card> {
     return this.translation.translate('orderDetails.shippingMethod').pipe(

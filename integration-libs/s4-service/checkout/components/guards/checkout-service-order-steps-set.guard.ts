@@ -11,7 +11,7 @@ import { CheckoutB2BStepsSetGuard } from '@spartacus/checkout/b2b/components';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
   CheckoutServiceDetailsFacade,
-  ServiceDeliveryModeConfig,
+  S4ServiceDeliveryModeConfig,
 } from '@spartacus/s4-service/root';
 import { Observable, combineLatest, filter, map, of, switchMap } from 'rxjs';
 
@@ -21,7 +21,7 @@ import { Observable, combineLatest, filter, map, of, switchMap } from 'rxjs';
 export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard {
   protected checkoutServiceDetailsFacade = inject(CheckoutServiceDetailsFacade);
   protected activeCartFacade = inject(ActiveCartFacade);
-  protected config = inject(ServiceDeliveryModeConfig);
+  protected config = inject(S4ServiceDeliveryModeConfig);
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
     return combineLatest(
@@ -69,7 +69,7 @@ export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard 
       switchMap(([hasServiceItems, hasNonServiceItems]) => {
         if (!hasNonServiceItems && hasServiceItems) {
           return this.checkoutDeliveryModesFacade.setDeliveryMode(
-            this.config.serviceDeliveryMode?.code ?? ''
+            this.config.s4ServiceDeliveryMode?.code ?? ''
           );
         }
         return of(undefined);

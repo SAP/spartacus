@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CheckoutDeliveryModeComponent } from '@spartacus/checkout/base/components';
 import {
   CheckoutServiceDetailsFacade,
-  ServiceDeliveryModeConfig,
+  S4ServiceDeliveryModeConfig,
 } from '@spartacus/s4-service/root';
 import { Observable } from 'rxjs';
 
@@ -19,10 +19,10 @@ import { Observable } from 'rxjs';
 })
 export class ServiceCheckoutDeliveryModeComponent extends CheckoutDeliveryModeComponent {
   protected checkoutServiceDetailsFacade = inject(CheckoutServiceDetailsFacade);
-  protected config = inject(ServiceDeliveryModeConfig);
+  protected config = inject(S4ServiceDeliveryModeConfig);
 
   hasServiceProducts$: Observable<boolean> =
     this.checkoutServiceDetailsFacade.hasServiceItems();
 
-  serviceDeliveryConfig = this.config.serviceDeliveryMode;
+  serviceDeliveryConfig = this.config.s4ServiceDeliveryMode;
 }

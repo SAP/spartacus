@@ -19,7 +19,7 @@ import { OrderOverviewComponentService } from '@spartacus/order/components';
     ServiceOrderOverviewComponentService,
     {
       provide: OrderOverviewComponentService,
-      useClass: ServiceOrderOverviewComponentService,
+      useExisting: ServiceOrderOverviewComponentService,
     },
     provideOutlet({
       id: OrderOutlets.SERVICE_DETAILS,
