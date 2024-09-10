@@ -9,9 +9,14 @@ import { CheckoutStepsSetGuard } from '@spartacus/checkout/base/components';
 import { CheckoutServiceOrderStepsSetGuard } from './guards';
 import { ServiceCheckoutReviewSubmitModule } from './checkout-review-submit/service-checkout-review-submit.module';
 import { CheckoutServiceDetailsModule } from './checkout-service-details/checkout-service-details.module';
+import { ServiceCheckoutDeliveryModeModule } from './checkout-delivery-mode/service-checkout-delivery-mode.module';
 
 @NgModule({
-  imports: [ServiceCheckoutReviewSubmitModule, CheckoutServiceDetailsModule],
+  imports: [
+    ServiceCheckoutReviewSubmitModule,
+    CheckoutServiceDetailsModule,
+    ServiceCheckoutDeliveryModeModule,
+  ],
   providers: [
     {
       provide: CheckoutStepsSetGuard,
