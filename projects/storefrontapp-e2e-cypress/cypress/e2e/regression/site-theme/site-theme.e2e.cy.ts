@@ -6,10 +6,16 @@
 
 import { isolateTests } from '../../../support/utils/test-isolation';
 import * as siteTheme from '../../../helpers/site-theme';
+import { FeaturesConfig } from '@spartacus/core';
 
 context('Site Theme', { testIsolation: false }, () => {
   isolateTests();
   before(() => {
+    cy.cxConfig({
+      features: {
+        useNewSiteThemeSwitcher: true,
+      },
+    } as FeaturesConfig);
     cy.visit('/');
     // TODO: (CXSPA-8363) Remove the manual addition of the Theme component in e2e test when sample data is available
     siteTheme.interceptToAddThemeCompnent();
