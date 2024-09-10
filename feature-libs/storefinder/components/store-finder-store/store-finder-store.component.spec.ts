@@ -9,6 +9,7 @@ import {
 } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { ICON_TYPE, SpinnerModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY } from 'rxjs';
 import { StoreFinderStoreComponent } from './store-finder-store.component';
 import createSpy = jasmine.createSpy;
@@ -59,6 +60,7 @@ describe('StoreFinderStoreComponent', () => {
         StoreFinderStoreComponent,
         MockStoreFinderStoreDescriptionComponent,
         MockCxIconComponent,
+        MockFeatureDirective,
       ],
       providers: [
         { provide: RoutingService, useValue: { go: jasmine.createSpy() } },

@@ -19,9 +19,10 @@ import {
   Translatable,
   UserConsentService,
 } from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
-import { MyAccountV2ConsentManagementComponent } from './my-account-v2-consent-management.component';
 import { ConsentManagementComponentService } from '../../../consent-management';
+import { MyAccountV2ConsentManagementComponent } from './my-account-v2-consent-management.component';
 
 @Component({
   selector: 'cx-spinner',
@@ -131,6 +132,7 @@ describe('MyAccountV2ConsentManagementComponent', () => {
         MockCxSpinnerComponent,
         MockConsentManagementFormComponent,
         MyAccountV2ConsentManagementComponent,
+        MockFeatureDirective,
       ],
       providers: [
         ConsentManagementComponentService,
