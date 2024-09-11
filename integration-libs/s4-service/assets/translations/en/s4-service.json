@@ -6,7 +6,11 @@
     "serviceLocationHeading": "Service Location",
     "datePickerLabel": "Schedule Service Date",
     "timePickerLabel": "Schedule Service Time",
-    "unknownError": "An unknown error occurred. Please contact support."
+    "unknownError": "An unknown error occurred. Please contact support.",
+    "productDeliveryOptions": "Delivery Options for Products",
+    "serviceDeliveryOption": "Delivery Option for Services",
+    "productDeliveryMethods": "Delivery Methods for Products",
+    "serviceDeliveryMethod": "Delivery Method for Services"
   },
   "cancelService": {
     "heading": "The following items will be included in the cancellation request",

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CartOutlets, DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
@@ -18,6 +18,7 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderOutlets, paymentMethodCard } from '@spartacus/order/root';
+import { OrderOverviewComponentService } from './order-overview-component.service';
 
 @Component({
   selector: 'cx-order-overview',
@@ -25,6 +26,9 @@ import { OrderOutlets, paymentMethodCard } from '@spartacus/order/root';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderOverviewComponent {
+  protected orderOverviewComponentService = inject(
+    OrderOverviewComponentService
+  );
   readonly cartOutlets = CartOutlets;
   readonly orderOutlets = OrderOutlets;
 
@@ -192,6 +196,9 @@ export class OrderOverviewComponent {
     );
   }
 
+  shouldShowDeliveryMode(mode: DeliveryMode | undefined): boolean {
+    return this.orderOverviewComponentService.shouldShowDeliveryMode(mode);
+  }
   getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card> {
     return this.translation.translate('orderDetails.shippingMethod').pipe(
       filter(() => Boolean(deliveryMode)),
