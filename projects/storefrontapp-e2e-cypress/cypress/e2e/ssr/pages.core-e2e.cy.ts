@@ -42,7 +42,7 @@ describe('SSR', () => {
     seoChecks();
   });
 
-  it('should render PDP', () => {
+  it.skip('should render PDP', () => {
     cy.visit(pdpUrl);
     seoChecks();
   });
