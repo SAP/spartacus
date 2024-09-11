@@ -9,6 +9,7 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import { FocusDirective } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../cms-components/misc/icon';
 import { CardComponent } from '../../../shared/components/card/card.component';
@@ -79,6 +80,7 @@ describe('PaymentMethodsComponent', () => {
         MockCxIconComponent,
         MockAtMessageDirective,
         FocusDirective,
+        MockFeatureDirective,
       ],
       providers: [
         { provide: UserPaymentService, useClass: MockUserPaymentService },

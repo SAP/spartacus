@@ -2,7 +2,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { LoggerService, normalizeHttpError, OccConfig } from '@spartacus/core';
+import {
+  LoggerService,
+  OccConfig,
+  tryNormalizeHttpError,
+} from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -67,13 +71,16 @@ describe('Order By Id effect', () => {
     });
 
     it('should handle failures for load order by id', () => {
-      spyOn(orderHistoryConnector, 'get').and.returnValue(throwError('Error'));
+      const error = new Error('error');
+      spyOn(orderHistoryConnector, 'get').and.returnValue(
+        throwError(() => error)
+      );
 
       const action = new OrderActions.LoadOrderById(mockOrderParams);
 
       const completion = new OrderActions.LoadOrderByIdFail({
         code: mockOrderParams.code,
-        error: normalizeHttpError('Error', new MockLoggerService()),
+        error: tryNormalizeHttpError(error, new MockLoggerService()),
       });
 
       actions$ = hot('-a', { a: action });

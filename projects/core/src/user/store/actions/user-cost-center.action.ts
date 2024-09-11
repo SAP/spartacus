@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ErrorAction } from '../../../error-handling';
 import { CostCenter } from '../../../model/org-unit.model';
 import { StateUtils } from '../../../state/utils/index';
 import { USER_COST_CENTERS } from '../user-state';
@@ -21,7 +22,10 @@ export class LoadActiveCostCenters extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadActiveCostCentersFail extends StateUtils.LoaderFailAction {
+export class LoadActiveCostCentersFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_ACTIVE_COST_CENTERS_FAIL;
   constructor(public payload: any) {
     super(USER_COST_CENTERS, payload);
