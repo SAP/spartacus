@@ -32,7 +32,6 @@
     "@angular/platform-browser": "^17.0.5",
     "@angular/router": "^17.0.5",
     "@ng-select/ng-select": "^12.0.4",
-    "@ngrx/store": "^17.0.1",
     "@spartacus/cart": "2211.27.0",
     "@spartacus/checkout": "2211.27.0",
     "@spartacus/core": "2211.27.0",
