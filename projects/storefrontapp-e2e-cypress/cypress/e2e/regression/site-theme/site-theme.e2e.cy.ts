@@ -13,7 +13,7 @@ context('Site Theme', { testIsolation: false }, () => {
   before(() => {
     cy.cxConfig({
       features: {
-        useNewSiteThemeSwitcher: true,
+        useSiteThemeService: true,
       },
     } as FeaturesConfig);
     cy.visit('/');
@@ -64,7 +64,7 @@ context('Site Theme', { testIsolation: false }, () => {
 
     cy.cxConfig({
       features: {
-        useNewSiteThemeSwitcher: true,
+        useSiteThemeService: true,
       },
     } as FeaturesConfig);
     cy.reload();

@@ -364,7 +364,7 @@ if (environment.cpq) {
         a11yRemoveStatusLoadedRole: true,
         a11yDialogsHeading: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
-        useNewSiteThemeSwitcher: false,
+        useSiteThemeService: false,
       };
       return appFeatureToggles;
     }),

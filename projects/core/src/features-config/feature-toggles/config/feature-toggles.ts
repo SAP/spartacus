@@ -516,7 +516,7 @@ export interface FeatureTogglesInterface {
    * unless you configure it differently via the global config `config.context.theme` (or via CMS).
    * Previously, there the non-defined theme had a value `undefined`.
    */
-  useNewSiteThemeSwitcher?: boolean;
+  useSiteThemeService?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -598,5 +598,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDialogsHeading: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
-  useNewSiteThemeSwitcher: false,
+  useSiteThemeService: false,
 };

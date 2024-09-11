@@ -44,7 +44,7 @@ export class ThemeService implements OnDestroy {
     // Theme value is a string. It is put in the generic multi-value
     // property of the SiteContextConfig. So the array's first item
     // is the theme value.
-    if (this.featureConfigService.isEnabled('useNewSiteThemeSwitcher')) {
+    if (this.featureConfigService.isEnabled('useSiteThemeService')) {
       this.subscription.add(
         this.siteThemeService
           .getActive()
@@ -62,7 +62,7 @@ export class ThemeService implements OnDestroy {
   setTheme(theme: string | undefined): void {
     const element = this.rootComponent.location.nativeElement;
 
-    if (this.featureConfigService.isEnabled('useNewSiteThemeSwitcher')) {
+    if (this.featureConfigService.isEnabled('useSiteThemeService')) {
       if (this.existingTheme) {
         this.renderer.removeClass(element, this.existingTheme);
       }
