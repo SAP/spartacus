@@ -6,7 +6,7 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CmsComponentWithChildren, CmsService, Product } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
@@ -25,9 +25,12 @@ export class ProductDetailsTabComponent implements OnInit {
     protected cmsService: CmsService
   ) {}
   children$: Observable<any[]> = this.componentData.data$.pipe(
-    switchMap((data) =>
-      combineLatest(
-        (data?.children ?? '').split(' ').map((component) =>
+    switchMap((data) => {
+      if (!data?.children) {
+        return of([]);
+      }
+      return combineLatest(
+        (data?.children).split(' ').map((component) =>
           this.cmsService.getComponentData<any>(component).pipe(
             distinctUntilChanged(),
             map((child) => {
@@ -45,8 +48,8 @@ export class ProductDetailsTabComponent implements OnInit {
             })
           )
         )
-      )
-    )
+      );
+    })
   );
 
   ngOnInit() {
