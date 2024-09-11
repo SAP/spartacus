@@ -10,7 +10,7 @@ const mockNotificationPreference: NotificationPreference[] = [
     visible: true,
   },
 ];
-const error = 'anError';
+const error = new Error('anError');
 
 describe('Notification Preference Reducer', () => {
   describe('undefined action', () => {

@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorModel, HttpErrorModel } from '../../../model/misc.model';
+import { ErrorAction } from '../../../error-handling';
 import { Review } from '../../../model/product.model';
 
 export const LOAD_PRODUCT_REVIEWS = '[Product] Load Product Reviews Data';
@@ -20,31 +20,59 @@ export const POST_PRODUCT_REVIEW_SUCCESS =
 
 export class LoadProductReviews implements Action {
   readonly type = LOAD_PRODUCT_REVIEWS;
+
   constructor(public payload: string) {}
 }
 
-export class LoadProductReviewsFail implements Action {
+export class LoadProductReviewsFail implements ErrorAction {
   readonly type = LOAD_PRODUCT_REVIEWS_FAIL;
-  constructor(public payload?: ErrorModel) {}
+  public error: any;
+
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(payload: any);
+  /**
+   * @deprecated Please pass the argument `payload` (i.e. the error object).
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor();
+  constructor(public payload?: any) {
+    this.error = payload;
+  }
 }
 
 export class LoadProductReviewsSuccess implements Action {
   readonly type = LOAD_PRODUCT_REVIEWS_SUCCESS;
+
   constructor(public payload: { productCode: string; list: Review[] }) {}
 }
 
 export class PostProductReview implements Action {
   readonly type = POST_PRODUCT_REVIEW;
+
   constructor(public payload: { productCode: string; review: Review }) {}
 }
 
-export class PostProductReviewFail implements Action {
+export class PostProductReviewFail implements ErrorAction {
   readonly type = POST_PRODUCT_REVIEW_FAIL;
-  constructor(public payload?: HttpErrorModel) {}
+  public error: any;
+
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(payload: any);
+  /**
+   * @deprecated Please pass the argument `payload` (i.e. the error object).
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor();
+  constructor(public payload?: any) {
+    this.error = payload;
+  }
 }
 
 export class PostProductReviewSuccess implements Action {
   readonly type = POST_PRODUCT_REVIEW_SUCCESS;
+
   constructor(public payload: Review) {}
 }
 

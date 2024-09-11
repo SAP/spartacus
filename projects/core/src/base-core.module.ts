@@ -24,6 +24,7 @@ import { SiteThemeModule } from './site-theme/site-theme.module';
 
 @NgModule({
   imports: [
+    ErrorHandlingModule.forRoot(), // Import this module before any other interceptor to handle HTTP errors efficiently
     StateModule.forRoot(),
     ConfigModule.forRoot(),
     ConfigInitializerModule.forRoot(),
@@ -38,7 +39,6 @@ import { SiteThemeModule } from './site-theme/site-theme.module';
     BaseOccModule.forRoot(),
     LazyLoadingModule.forRoot(),
     HttpModule.forRoot(),
-    ErrorHandlingModule.forRoot(),
     SiteThemeModule.forRoot(),
   ],
 })
