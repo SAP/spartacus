@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { LoggerService } from '../../../logger';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
 import { ProductActions } from '../actions/index';
 
@@ -38,7 +38,7 @@ export class ProductsSearchEffects {
                 catchError((error) =>
                   of(
                     new ProductActions.SearchProductsFail(
-                      normalizeHttpError(error, this.logger),
+                      tryNormalizeHttpError(error, this.logger),
                       action.auxiliary
                     )
                   )
@@ -72,7 +72,7 @@ export class ProductsSearchEffects {
             catchError((error) =>
               of(
                 new ProductActions.GetProductSuggestionsFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )

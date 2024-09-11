@@ -21,7 +21,7 @@ import {
   StateUtils,
   UserIdService,
   isNotUndefined,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { EMPTY, Observable, from } from 'rxjs';
 import {
@@ -65,7 +65,7 @@ export class WishListEffects {
                   from([
                     new WishListActions.CreateWishListFail({
                       cartId: cart.code ?? '',
-                      error: normalizeHttpError(error, this.logger),
+                      error: tryNormalizeHttpError(error, this.logger),
                     }),
                   ])
                 )
@@ -111,7 +111,7 @@ export class WishListEffects {
             from([
               new WishListActions.LoadWishListFail({
                 cartId: cartId,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               }),
             ])
           )
@@ -148,7 +148,7 @@ export class WishListEffects {
               from([
                 new WishListActions.LoadWishListFail({
                   cartId: wishListId,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
               ])
             )

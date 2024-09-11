@@ -6,7 +6,7 @@
 
 import { Action } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
-import { StateUtils } from '@spartacus/core';
+import { ErrorAction, StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';
@@ -58,10 +58,13 @@ interface CreateCartFailPayload extends CreateCartPayload {
   error: any;
 }
 
-export class CreateCartFail extends StateUtils.EntityFailAction {
+export class CreateCartFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = CREATE_CART_FAIL;
   constructor(public payload: CreateCartFailPayload) {
-    super(MULTI_CART_DATA, payload.tempCartId);
+    super(MULTI_CART_DATA, payload.tempCartId, payload.error);
   }
 }
 
@@ -86,7 +89,11 @@ export class AddEmailToCart extends StateUtils.EntityProcessesIncrementAction {
   }
 }
 
-export class AddEmailToCartFail extends StateUtils.EntityProcessesDecrementAction {
+export class AddEmailToCartFail
+  extends StateUtils.EntityProcessesDecrementAction
+  implements ErrorAction
+{
+  public error: any;
   readonly type = ADD_EMAIL_TO_CART_FAIL;
   constructor(
     public payload: {
@@ -97,6 +104,7 @@ export class AddEmailToCartFail extends StateUtils.EntityProcessesDecrementActio
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
+    this.error = payload.error;
   }
 }
 
@@ -128,7 +136,10 @@ interface LoadCartFailPayload extends LoadCartPayload {
   error: any;
 }
 
-export class LoadCartFail extends StateUtils.EntityFailAction {
+export class LoadCartFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_CART_FAIL;
   constructor(public payload: LoadCartFailPayload) {
     super(MULTI_CART_DATA, payload.cartId, payload.error);
@@ -220,9 +231,12 @@ export class DeleteCartSuccess extends StateUtils.EntityRemoveAction {
   }
 }
 
-export class DeleteCartFail implements Action {
+export class DeleteCartFail implements ErrorAction {
+  public error: any;
   readonly type = DELETE_CART_FAIL;
-  constructor(public payload: { userId: string; cartId: string; error: any }) {}
+  constructor(public payload: { userId: string; cartId: string; error: any }) {
+    this.error = payload.error;
+  }
 }
 
 export type CartAction =

@@ -14,12 +14,13 @@ describe('Languages Actions', () => {
 
     describe('LoadLanguagesFail', () => {
       it('should create an action', () => {
-        const payload = { message: 'Load Error' };
-        const action = new SiteContextActions.LoadLanguagesFail(payload);
+        const error = { message: 'Load Error' };
+        const action = new SiteContextActions.LoadLanguagesFail(error);
 
         expect({ ...action }).toEqual({
           type: SiteContextActions.LOAD_LANGUAGES_FAIL,
-          payload,
+          payload: error,
+          error,
         });
       });
     });

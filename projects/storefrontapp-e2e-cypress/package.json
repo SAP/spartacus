@@ -51,6 +51,6 @@
     "cypress-file-upload": "^5.0.8",
     "ts-loader": "^9.4.2",
     "typescript": "^5.0.0",
-    "webpack": "^5.76.0"
+    "webpack": "^5.94.0"
   }
 }

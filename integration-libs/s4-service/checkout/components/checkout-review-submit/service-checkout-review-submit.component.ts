@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import { B2BCheckoutReviewSubmitComponent } from '@spartacus/checkout/b2b/components';
 import {
   CheckoutCostCenterFacade,
@@ -26,6 +26,7 @@ import {
   CheckoutServiceDetailsFacade,
   CheckoutServiceSchedulePickerService,
   ServiceDateTime,
+  S4ServiceDeliveryModeConfig,
 } from '@spartacus/s4-service/root';
 
 @Component({
@@ -39,6 +40,7 @@ export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmi
   protected checkoutServiceSchedulePickerService = inject(
     CheckoutServiceSchedulePickerService
   );
+  protected config = inject(S4ServiceDeliveryModeConfig);
 
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -80,6 +82,10 @@ export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmi
       CheckoutStepType.DELIVERY_MODE,
       CheckoutStepType.SERVICE_DETAILS,
     ];
+  }
+
+  shouldShowDeliveryModeCard(mode: DeliveryMode): boolean {
+    return mode.code !== this.config.s4ServiceDeliveryMode?.code;
   }
 
   getServiceDetailsCard(
