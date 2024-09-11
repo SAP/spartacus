@@ -61,24 +61,22 @@ describe('ReplenishmentOrderCancellationComponent', () => {
   let fixture: ComponentFixture<ReplenishmentOrderCancellationComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [ReplenishmentOrderCancellationComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: ReplenishmentOrderHistoryFacade,
-            useClass: MockReplenishmentOrderHistoryFacade,
-          },
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [ReplenishmentOrderCancellationComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: ReplenishmentOrderHistoryFacade,
+          useClass: MockReplenishmentOrderHistoryFacade,
+        },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReplenishmentOrderCancellationComponent);

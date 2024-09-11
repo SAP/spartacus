@@ -7,8 +7,15 @@
     viewMode === iconTypes.GRID
       ? ('productView.gridView' | cxTranslate)
       : viewMode === iconTypes.LIST
-      ? ('productView.listView' | cxTranslate)
-      : null
+        ? ('productView.listView' | cxTranslate)
+        : null
+  }}"
+  attr.title="{{
+    viewMode === iconTypes.GRID
+      ? ('productView.gridView' | cxTranslate)
+      : viewMode === iconTypes.LIST
+        ? ('productView.listView' | cxTranslate)
+        : null
   }}"
 >
   <cx-icon

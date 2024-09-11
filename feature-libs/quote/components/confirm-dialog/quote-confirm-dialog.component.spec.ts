@@ -11,6 +11,7 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteConfirmDialogComponent } from './quote-confirm-dialog.component';
@@ -77,26 +78,25 @@ describe('QuoteConfirmDialogComponent', () => {
     data$ = dialogDataSender;
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          QuoteConfirmDialogComponent,
-          MockKeyboardFocusDirective,
-          MockCxIconComponent,
-        ],
-        providers: [
-          CxDatePipe,
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-          { provide: LanguageService, useClass: MockLanguageService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        QuoteConfirmDialogComponent,
+        MockKeyboardFocusDirective,
+        MockCxIconComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        CxDatePipe,
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+        { provide: LanguageService, useClass: MockLanguageService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     dialogDataSender = new BehaviorSubject({

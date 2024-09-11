@@ -13,6 +13,7 @@
     "storeHours": "Store hours",
     "storeFeatures": "Store features",
     "storeFinder": "Store Finder",
+    "storesFoundTitle": "Stores Found",
     "storesFound": "{{ count }} store found",
     "storesFound_other": "{{ count }} stores found",
     "fromStoresFound": "from {{ count }} store found",

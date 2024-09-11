@@ -21,23 +21,21 @@ describe('PageTitleComponent', () => {
   let fixture: ComponentFixture<PageTitleComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [PageTitleComponent],
-        providers: [
-          { provide: PageMetaService, useClass: MockPageMetaService },
-          {
-            provide: CmsComponentData,
-            useValue: {
-              data$: of({}),
-            },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [PageTitleComponent],
+      providers: [
+        { provide: PageMetaService, useClass: MockPageMetaService },
+        {
+          provide: CmsComponentData,
+          useValue: {
+            data$: of({}),
           },
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PageTitleComponent);

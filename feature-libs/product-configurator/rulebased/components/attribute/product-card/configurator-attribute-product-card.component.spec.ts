@@ -25,6 +25,7 @@ import { ConfiguratorPriceComponentOptions } from '../../price/configurator-pric
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
+import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 
 const product: Product = {
   name: 'Product Name',
@@ -151,39 +152,41 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     return configValue;
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          ReactiveFormsModule,
-          RouterTestingModule,
-          UrlTestingModule,
-          MediaModule,
-        ],
-        declarations: [
-          ConfiguratorAttributeProductCardComponent,
-          ConfiguratorShowMoreComponent,
-          ItemCounterComponent,
-          MockConfiguratorPriceComponent,
-          MockFocusDirective,
-          MockConfiguratorAttributeQuantityComponent,
-        ],
-        providers: [
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeProductCardComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        MediaModule,
+      ],
+      declarations: [
+        ConfiguratorAttributeProductCardComponent,
+        ConfiguratorShowMoreComponent,
+        ItemCounterComponent,
+        MockConfiguratorPriceComponent,
+        MockFocusDirective,
+        MockConfiguratorAttributeQuantityComponent,
+      ],
+      providers: [
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useValue: {},
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeProductCardComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

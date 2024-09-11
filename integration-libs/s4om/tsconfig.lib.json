@@ -61,6 +61,12 @@
       "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
       "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"],
       "@spartacus/core": ["dist/core"],
+      "@spartacus/pdf-invoices/assets": ["dist/pdf-invoices/assets"],
+      "@spartacus/pdf-invoices/components": ["dist/pdf-invoices/components"],
+      "@spartacus/pdf-invoices/core": ["dist/pdf-invoices/core"],
+      "@spartacus/pdf-invoices": ["dist/pdf-invoices"],
+      "@spartacus/pdf-invoices/occ": ["dist/pdf-invoices/occ"],
+      "@spartacus/pdf-invoices/root": ["dist/pdf-invoices/root"],
       "@spartacus/requested-delivery-date/assets": [
         "dist/requested-delivery-date/assets"
       ],
@@ -118,13 +124,7 @@
       "@spartacus/order/core": ["dist/order/core"],
       "@spartacus/order": ["dist/order"],
       "@spartacus/order/occ": ["dist/order/occ"],
-      "@spartacus/order/root": ["dist/order/root"],
-      "@spartacus/pdf-invoices/assets": ["dist/pdf-invoices/assets"],
-      "@spartacus/pdf-invoices/components": ["dist/pdf-invoices/components"],
-      "@spartacus/pdf-invoices/core": ["dist/pdf-invoices/core"],
-      "@spartacus/pdf-invoices": ["dist/pdf-invoices"],
-      "@spartacus/pdf-invoices/occ": ["dist/pdf-invoices/occ"],
-      "@spartacus/pdf-invoices/root": ["dist/pdf-invoices/root"]
+      "@spartacus/order/root": ["dist/order/root"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

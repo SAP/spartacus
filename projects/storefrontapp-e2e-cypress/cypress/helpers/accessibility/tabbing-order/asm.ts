@@ -60,10 +60,14 @@ export function asmTabbingOrderWithCustomerList(
   asm.agentLogin(agent, 'pw4all');
 
   const customerListsRequestAlias = asm.listenForCustomerListsRequest();
+  const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
   cy.get('cx-asm-main-ui div.cx-asm-customer-list a').click();
   cy.get('cx-customer-list').should('exist');
   cy.get('cx-customer-list h2').should('exist');
   cy.wait(customerListsRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+  cy.wait(customerSearchRequestAlias)
     .its('response.statusCode')
     .should('eq', 200);
 

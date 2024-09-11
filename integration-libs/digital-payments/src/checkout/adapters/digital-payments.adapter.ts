@@ -6,7 +6,7 @@
 
 import { Observable } from 'rxjs';
 import { DpPaymentRequest } from '../models';
-import { PaymentDetails } from '@spartacus/core';
+import { Address, PaymentDetails } from '@spartacus/core';
 
 export abstract class DigitalPaymentsAdapter {
   abstract createPaymentRequest(
@@ -17,6 +17,7 @@ export abstract class DigitalPaymentsAdapter {
     sessionId: string,
     signature: string,
     userId?: string,
-    cartId?: string
+    cartId?: string,
+    billingAddress?: Address
   ): Observable<PaymentDetails>;
 }

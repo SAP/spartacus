@@ -5,11 +5,19 @@
  */
 
 export interface Translatable {
-  key?: string;
+  key?: string | string[];
   params?: TranslatableParams;
   raw?: string;
 }
 
 export interface TranslatableParams {
   [param: string]: any;
+}
+
+export function isTranslatable(input: any): input is Translatable {
+  return (
+    input !== null &&
+    typeof input === 'object' &&
+    ('key' in input || 'raw' in input)
+  );
 }

@@ -24,7 +24,18 @@
             [attr.aria-label]="'register.password.placeholder' | cxTranslate"
             cxPasswordVisibilitySwitch
           />
+
+          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            [translationParams]="{
+              label: 'register.password.label' | cxTranslate
+            }"
+            [control]="guestRegisterForm.get('password')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="guestRegisterForm.get('password')"
           ></cx-form-errors>
         </label>
@@ -49,7 +60,18 @@
             "
             cxPasswordVisibilitySwitch
           />
+
+          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            [translationParams]="{
+              label: 'register.confirmPassword.label' | cxTranslate
+            }"
+            [control]="guestRegisterForm.get('passwordconf')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="guestRegisterForm.get('passwordconf')"
           ></cx-form-errors>
         </label>

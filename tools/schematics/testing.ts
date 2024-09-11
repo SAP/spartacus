@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import chalk from 'chalk';
 import { ChildProcess, exec, execSync } from 'child_process';
 import { prompt } from 'enquirer';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
+import { chalk } from '../chalk';
 
 const featureLibsFolders: string[] = [
   'asm',
@@ -21,8 +21,10 @@ const featureLibsFolders: string[] = [
   'pickup-in-store',
   'product',
   'product-configurator',
+  'product-multi-dimensional',
   'qualtrics',
   'requested-delivery-date',
+  'estimated-delivery-date',
   'smartedit',
   'storefinder',
   'tracking',
@@ -38,6 +40,9 @@ const integrationLibsFolders: string[] = [
   'epd-visualization',
   's4om',
   'segment-refs',
+  'opps',
+  's4-service',
+  'cpq-quote',
 ];
 
 const commands = [
@@ -49,6 +54,7 @@ const commands = [
   'build checkout/schematics',
   'build quote/schematics',
   'build cdc/schematics',
+  'build s4-service/schematics',
   'build cds/schematics',
   'build digital-payments/schematics',
   'build epd-visualization/schematics',
@@ -57,15 +63,19 @@ const commands = [
   'build pickup-in-store/schematics',
   'build product/schematics',
   'build product-configurator/schematics',
+  'build product-multi-dimensional/schematics',
   'build s4om/schematics',
   'build segment-refs/schematics',
+  'build opps/schematics',
   'build qualtrics/schematics',
   'build requested-delivery-date/schematics',
+  'build estimated-delivery-date/schematics',
   'build smartedit/schematics',
   'build storefinder/schematics',
   'build tracking/schematics',
   'build user/schematics',
   'build customer-ticketing/schematics',
+  'build cpq-quote/schematics',
   'build all libs',
   'test all schematics',
   'exit',
@@ -199,7 +209,9 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build order/schematics':
     case 'build checkout/schematics':
     case 'build quote/schematics':
+    case 'build cpq-quote/schematics':
     case 'build cdc/schematics':
+    case 'build s4-service/schematics':
     case 'build cds/schematics':
     case 'build digital-payments/schematics':
     case 'build epd-visualization/schematics':
@@ -208,10 +220,13 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build pickup-in-store/schematics':
     case 'build product/schematics':
     case 'build product-configurator/schematics':
+    case 'build product-multi-dimensional/schematics':
     case 'build qualtrics/schematics':
     case 'build requested-delivery-date/schematics':
+    case 'build estimated-delivery-date/schematics':
     case 'build s4om/schematics':
     case 'build segment-refs/schematics':
+    case 'build opps/schematics':
     case 'build smartedit/schematics':
     case 'build storefinder/schematics':
     case 'build tracking/schematics':

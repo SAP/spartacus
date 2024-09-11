@@ -7,6 +7,8 @@ import { ConfiguratorAttributeQuantityService } from '../../quantity/configurato
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from './configurator-attribute-multi-selection-base.component';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { I18nTestingModule } from '@spartacus/core';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 const createTestValue = (
   price: number | undefined,
@@ -51,24 +53,27 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionBaseComponent;
   let fixture: ComponentFixture<ExampleConfiguratorAttributeMultiSelectionComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [ExampleConfiguratorAttributeMultiSelectionComponent],
-        providers: [
-          ConfiguratorAttributeQuantityService,
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ExampleConfiguratorAttributeMultiSelectionComponent],
+      imports: [I18nTestingModule],
+      providers: [
+        ConfiguratorAttributeQuantityService,
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useValue: {},
+        },
+      ],
+    }).compileComponents();
+  }));
 
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {

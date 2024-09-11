@@ -18,7 +18,11 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CpqConfiguratorOccService } from './../occ/cpq-configurator-occ.service';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
-
+/**
+ * @deprecated since 2211.25. Not needed for commerce based CPQ orchestration (which is the default communication flavour).
+ * Refer to configuration setting ConfiguratorCoreConfig.productConfigurator.cpqOverOcc = true.
+ * The other flavour (performing direct calls from composable storefront to CPQ) is technically no longer supported.
+ */
 @Injectable()
 export class CpqConfiguratorRestAdapter
   implements RulebasedConfiguratorAdapter

@@ -64,7 +64,7 @@
 # ================================================
 #  Quotes
 # ================================================
-/feature-libs/quote/          @SAP/spartacus-codeowners @SAP/spartacus-CPQ
+/feature-libs/quote/          @SAP/spartacus-codeowners @SAP/spartacus-mooncake
 
 # ================================================
 #  Intelligent services (ISS)

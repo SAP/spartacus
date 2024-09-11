@@ -4,8 +4,10 @@
     "mainTitle": "Assisted Service Mode",
     "logout": "Sign Out",
     "hideUi": "Close ASM",
+    "helpPortalUrl": "Help",
     "customers": "Customers",
     "asmCustomer360Button": "Customer 360 View",
+    "asmCustomer360ViewButton": "Customer 360°",
     "createCustomerSuccessfullyAlert": "The customer account has been created and the customer session has started.",
     "saveInactiveCartAlertInfo": "The identified cart is an inactive cart. To take further actions on this cart, save it first.",
     "activeCartAlertInfo": "The identified cart is an active cart.",
@@ -27,11 +29,21 @@
       "searchTerm": {
         "label": "Customer Name/Email Address"
       },
+      "searchCustomer": {
+        "label": "Search by name or email address"
+      },
+      "searchOrder": {
+        "label": "Search by full order ID"
+      },
       "submit": "Start Session",
       "startEmulation": "Start Emulation",
       "noMatch": "No customer found.",
       "noMatchResult": "This account cannot be found.",
-      "createCustomer": "Create New Customer"
+      "noCustomerMatchResult": "No matching customer found.",
+      "noOrderMatchResult": "Search by full order ID.",
+      "createCustomer": "Create New Customer",
+      "customer": "Customer",
+      "orderID": "Order ID"
     },
     "createCustomerForm": {
       "title": "Create New Customer",
@@ -72,7 +84,13 @@
         "account": "Account",
         "cart": "Cart",
         "order": "Order",
-        "view": "360 View"
+        "view": "360 View",
+        "activeCart": "Active Cart",
+        "viewActiveCart": "View Active Cart",
+        "orders": "Orders",
+        "viewOrders": "View Orders",
+        "customer360": "Customer 360°",
+        "viewCustomer360": "View Customer 360°"
       },
       "tableSort": {
         "sortBy": "Sort by",

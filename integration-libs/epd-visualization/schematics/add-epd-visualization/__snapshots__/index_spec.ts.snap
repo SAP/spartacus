@@ -26,7 +26,7 @@ import { EpdVisualizationConfig, EpdVisualizationRootModule } from "@spartacus/e
       },
 
       apis: {
-        baseUrl: "https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com"
+        baseUrl: "https://epd-acc-eu20-consumer.visualization.eu20.acc.epd.dev.sap"
       }
     }
   })
@@ -62,7 +62,7 @@ import { EpdVisualizationConfig, EpdVisualizationRootModule } from "@spartacus/e
       },
 
       apis: {
-        baseUrl: "https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com"
+        baseUrl: "https://epd-acc-eu20-consumer.visualization.eu20.acc.epd.dev.sap"
       }
     }
   })
@@ -76,7 +76,7 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { epdVisualizationTranslationChunksConfig, epdVisualizationTranslations } from "@spartacus/epd-visualization/assets";
-import { EpdVisualizationConfig, EpdVisualizationRootModule, EPD_VISUALIZATION_FEATURE } from "@spartacus/epd-visualization/root";
+import { EPD_VISUALIZATION_FEATURE, EpdVisualizationConfig, EpdVisualizationRootModule } from "@spartacus/epd-visualization/root";
 
 @NgModule({
   declarations: [],
@@ -104,7 +104,7 @@ import { EpdVisualizationConfig, EpdVisualizationRootModule, EPD_VISUALIZATION_F
       },
 
       apis: {
-        baseUrl: "https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com"
+        baseUrl: "https://epd-acc-eu20-consumer.visualization.eu20.acc.epd.dev.sap"
       }
     }
   })

@@ -305,7 +305,10 @@
       *ngIf="column.actionType"
       (click)="startColumnAction(customerEntry, column.actionType)"
       class="btn btn-link cx-action-link cx-btn-cell"
-      [class]="column.actionType === 'ACTIVE_CART' ? 'cx-cart' : ''"
+      [class]="
+        (column.actionType === 'ACTIVE_CART' ? 'cx-cart ' : '') +
+        (column.actionType !== 'START_SESSION' ? 'cx-action-disable' : '')
+      "
       [disabled]="isRequired(customerEntry, column.actionType)"
       [attr.title]="
         column.icon
@@ -468,6 +471,7 @@
     class="close"
     attr.aria-label="{{ 'common.close' | cxTranslate }}"
     (click)="closeModal('Cross click')"
+    title="{{ 'common.close' | cxTranslate }}"
   >
     <span aria-hidden="true">
       <cx-icon [type]="iconTypes.CLOSE"></cx-icon>

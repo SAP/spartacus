@@ -20,6 +20,7 @@
       (mouseover)="setRate(i)"
       (click)="saveRate(i)"
       (keydown.space)="saveRate(i)"
+      [attr.aria-current]="!disabled && i === rating"
       [attr.tabindex]="disabled ? null : 0"
       [attr.role]="disabled ? null : 'button'"
       [attr.aria-label]="

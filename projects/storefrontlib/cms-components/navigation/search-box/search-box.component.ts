@@ -6,30 +6,36 @@
 
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnDestroy,
   OnInit,
   Optional,
+  ViewChild,
+  inject,
 } from '@angular/core';
 import {
   CmsSearchBoxComponent,
+  FeatureConfigService,
   PageType,
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { BREAKPOINT, BreakpointService } from '../../../layout/';
 import { SearchBoxComponentService } from './search-box-component.service';
+import { SearchBoxFeatures } from './search-box-features.model';
+import { SearchBoxOutlets } from './search-box-outlets.model';
 import {
   SearchBoxProductSelectedEvent,
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
-import { SearchBoxOutlets } from './search-box-outlets.model';
-import { SearchBoxFeatures } from './search-box-features.model';
 
 const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,
@@ -63,6 +69,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     }
   }
 
+  @ViewChild('searchInput') searchInput: any;
+
+  @ViewChild('searchButton') searchButton: ElementRef<HTMLElement>;
+
   iconTypes = ICON_TYPE;
 
   searchBoxActive: boolean = false;
@@ -76,6 +86,27 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   chosenWord = '';
 
   protected subscriptions = new Subscription();
+
+  get isMobile(): Observable<boolean> | undefined {
+    return this.breakpointService?.isDown(BREAKPOINT.sm);
+  }
+
+  // TODO: (CXSPA-6929) - Remove getter next major release.
+  /** Temporary getter, not ment for public use */
+  get a11ySearchBoxMobileFocusEnabled(): boolean {
+    return (
+      this.featureConfigService?.isEnabled('a11ySearchBoxMobileFocus') || false
+    );
+  }
+
+  // TODO: (CXSPA-6929) - Make dependencies no longer optional next major release
+  @Optional() changeDetecorRef = inject(ChangeDetectorRef, { optional: true });
+
+  @Optional() breakpointService = inject(BreakpointService, { optional: true });
+
+  @Optional() featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
@@ -151,6 +182,16 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * The Searchbox should not be focusable while not visible.
+   */
+  getTabIndex(isMobile: boolean | null): number {
+    if (isMobile) {
+      return this.searchBoxActive ? 0 : -1;
+    }
+    return 0;
+  }
+
+  /**
    * Closes the searchBox and opens the search result page.
    */
   search(query: string): void {
@@ -163,8 +204,20 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Opens the type-ahead searchBox
    */
   open(): void {
-    this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
-    this.searchBoxActive = true;
+    // TODO: (CXSPA-6929) - Remove feature flag next major release
+    if (this.a11ySearchBoxMobileFocusEnabled) {
+      if (!this.searchBoxActive) {
+        this.searchBoxComponentService.toggleBodyClass(
+          SEARCHBOX_IS_ACTIVE,
+          true
+        );
+        this.searchBoxActive = true;
+        this.searchInput.nativeElement.focus();
+      }
+    } else {
+      this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
+      this.searchBoxActive = true;
+    }
   }
 
   /**
@@ -200,8 +253,14 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   protected blurSearchBox(event: UIEvent): void {
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
     this.searchBoxActive = false;
-    if (event && event.target) {
-      (<HTMLElement>event.target).blur();
+    // TODO: (CXSPA-6929) - Remove feature flag next major release
+    if (this.a11ySearchBoxMobileFocusEnabled) {
+      this.changeDetecorRef?.detectChanges();
+      this.searchButton.nativeElement.focus();
+    } else {
+      if (event && event.target) {
+        (<HTMLElement>event.target).blur();
+      }
     }
   }
 

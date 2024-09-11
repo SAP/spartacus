@@ -9,6 +9,7 @@ import {
 } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { ICON_TYPE, SpinnerModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY } from 'rxjs';
 import { StoreFinderStoreComponent } from './store-finder-store.component';
 import createSpy = jasmine.createSpy;
@@ -52,29 +53,28 @@ describe('StoreFinderStoreComponent', () => {
   let fixture: ComponentFixture<StoreFinderStoreComponent>;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [SpinnerModule, RouterTestingModule, I18nTestingModule],
-        declarations: [
-          StoreFinderStoreComponent,
-          MockStoreFinderStoreDescriptionComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
-          {
-            provide: StoreFinderService,
-            useClass: MockStoreFinderService,
-          },
-          {
-            provide: ActivatedRoute,
-            useValue: mockActivatedRoute,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [SpinnerModule, RouterTestingModule, I18nTestingModule],
+      declarations: [
+        StoreFinderStoreComponent,
+        MockStoreFinderStoreDescriptionComponent,
+        MockCxIconComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
+        {
+          provide: StoreFinderService,
+          useClass: MockStoreFinderService,
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: mockActivatedRoute,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     routingService = TestBed.inject(RoutingService);

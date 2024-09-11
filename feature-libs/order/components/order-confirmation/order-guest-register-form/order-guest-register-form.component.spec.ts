@@ -10,6 +10,7 @@ import {
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { OrderGuestRegisterFormComponent } from './order-guest-register-form.component';
 import createSpy = jasmine.createSpy;
@@ -33,24 +34,22 @@ describe('OrderGuestRegisterFormComponent', () => {
   let userRegisterFacade: UserRegisterFacade;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          ReactiveFormsModule,
-          FormErrorsModule,
-          PasswordVisibilityToggleModule,
-        ],
-        declarations: [OrderGuestRegisterFormComponent],
-        providers: [
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
-          { provide: RoutingService, useClass: MockRoutingService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        PasswordVisibilityToggleModule,
+      ],
+      declarations: [OrderGuestRegisterFormComponent, MockFeatureDirective],
+      providers: [
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderGuestRegisterFormComponent);

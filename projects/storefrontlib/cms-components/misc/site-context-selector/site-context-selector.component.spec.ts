@@ -15,9 +15,11 @@ import {
   contextServiceMapProvider,
   CurrencyService,
   Language,
-  LanguageService,
   LANGUAGE_CONTEXT_ID,
+  LanguageService,
+  TranslationService,
 } from '@spartacus/core';
+import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SiteContextComponentService } from './site-context-component.service';
@@ -78,45 +80,47 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
     data$: of(mockComponentData),
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [BrowserAnimationsModule],
-        declarations: [
-          SiteContextSelectorComponent,
-          MockUrlPipe,
-          MockCxIconComponent,
-        ],
-        providers: [
-          { provide: CmsService, useValue: MockCmsService },
-          {
-            provide: LanguageService,
-            useValue: MockLanguageService,
-          },
-          {
-            provide: CurrencyService,
-            useValue: {},
-          },
-          {
-            provide: CmsComponentData,
-            useValue: MockCmsComponentData,
-          },
-          contextServiceMapProvider,
-        ],
-      })
-        .overrideComponent(SiteContextSelectorComponent, {
-          set: {
-            providers: [
-              {
-                provide: SiteContextComponentService,
-                useClass: SiteContextComponentService,
-              },
-            ],
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [BrowserAnimationsModule],
+      declarations: [
+        SiteContextSelectorComponent,
+        MockUrlPipe,
+        MockCxIconComponent,
+      ],
+      providers: [
+        { provide: CmsService, useValue: MockCmsService },
+        {
+          provide: LanguageService,
+          useValue: MockLanguageService,
+        },
+        {
+          provide: CurrencyService,
+          useValue: {},
+        },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData,
+        },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
+        contextServiceMapProvider,
+      ],
     })
-  );
+      .overrideComponent(SiteContextSelectorComponent, {
+        set: {
+          providers: [
+            {
+              provide: SiteContextComponentService,
+              useClass: SiteContextComponentService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SiteContextSelectorComponent);

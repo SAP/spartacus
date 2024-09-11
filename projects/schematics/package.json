@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "2211.23.0-1",
+  "version": "2211.28.0",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -13,14 +13,14 @@
   "scripts": {
     "build": "npm run clean && npm --prefix ../../ run generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
     "clean": "../../node_modules/.bin/rimraf --glob \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\" && npm run copy-feature-toggles",
-    "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js",
-    "copy-feature-toggles": "node copy-feature-toggles"
+    "copy-feature-toggles": "node copy-feature-toggles",
+    "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
     "@angular/pwa": "^17.0.5",
     "@angular/ssr": "^17.0.5",
     "semver": "^7.5.2",
-    "ts-morph": "^9.1.0",
+    "ts-morph": "^23.0.0",
     "tslib": "^2.6.2"
   },
   "peerDependencies": {
@@ -56,6 +56,7 @@
       "@spartacus/pdf-invoices",
       "@spartacus/product",
       "@spartacus/product-configurator",
+      "@spartacus/product-multi-dimensional",
       "@spartacus/qualtrics",
       "@spartacus/requested-delivery-date",
       "@spartacus/smartedit",
@@ -68,7 +69,8 @@
       "@spartacus/digital-payments",
       "@spartacus/epd-visualization",
       "@spartacus/s4om",
-      "@spartacus/customer-ticketing"
+      "@spartacus/customer-ticketing",
+      "@spartacus/estimated-delivery-date"
     ]
   },
   "schematics": "./src/collection.json"

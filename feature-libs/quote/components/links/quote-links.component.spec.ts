@@ -6,7 +6,16 @@ import {
 } from '@angular/core/testing';
 import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { EventService, I18nTestingModule, Price } from '@spartacus/core';
+import {
+  EventService,
+  I18nTestingModule,
+  Price,
+  FeatureConfigService,
+  GlobalMessageService,
+  HttpErrorModel,
+  Translatable,
+  GlobalMessageType,
+} from '@spartacus/core';
 import {
   CartUtilsService,
   QuoteDetailsReloadQueryEvent,
@@ -17,8 +26,9 @@ import {
   QuoteFacade,
   QuoteState,
 } from '@spartacus/quote/root';
+import { FileDownloadService } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, NEVER, Observable } from 'rxjs';
+import { BehaviorSubject, NEVER, Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteLinksComponent } from './quote-links.component';
@@ -48,12 +58,43 @@ const mockQuote: Quote = {
   totalPrice: totalPrice,
 };
 
+const mockQuoteAttachment = (): File => {
+  const blob = new Blob([''], { type: 'application/pdf' });
+  return blob as File;
+};
+
+const errorResponse: HttpErrorModel = {
+  message: 'Bad request',
+  status: 400,
+};
+
 const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
 
 class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   getQuoteDetails(): Observable<Quote> {
     return mockQuoteDetails$.asObservable();
   }
+
+  downloadAttachment(
+    _quoteCode: string,
+    _attachmentId: string
+  ): Observable<Blob> {
+    return of(mockQuoteAttachment());
+  }
+}
+
+class MockFileDownloadService {
+  download(_url: string, _fileName?: string): void {}
+}
+
+class MockFeatureConfigService {
+  isEnabled(_feature: string): boolean {
+    return true;
+  }
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
 }
 
 describe('QuoteLinksComponent', () => {
@@ -63,6 +104,9 @@ describe('QuoteLinksComponent', () => {
   let cartUtilsService: CartUtilsService;
   let router: Router;
   let eventService: EventService;
+  let quoteFacade: QuoteFacade;
+  let fileDownloadService: FileDownloadService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -81,6 +125,18 @@ describe('QuoteLinksComponent', () => {
           provide: CartUtilsService,
           useClass: MockCartUtilsService,
         },
+        {
+          provide: FileDownloadService,
+          useClass: MockFileDownloadService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
     }).compileComponents();
   });
@@ -91,6 +147,9 @@ describe('QuoteLinksComponent', () => {
     cartUtilsService = TestBed.inject(CartUtilsService);
     eventService = TestBed.inject(EventService);
     router = TestBed.inject(Router);
+    quoteFacade = TestBed.inject(QuoteFacade);
+    fileDownloadService = TestBed.inject(FileDownloadService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
     component = fixture.componentInstance;
     mockQuoteDetails$.next(mockQuote);
     fixture.detectChanges();
@@ -168,4 +227,97 @@ describe('QuoteLinksComponent', () => {
 
     expect(router.url).toBe('/cxRoute:quotes');
   }));
+
+  describe('Download proposal document', () => {
+    const vendorQuote: Quote = {
+      ...mockQuote,
+      sapAttachments: [
+        {
+          id: mockQuote.code,
+        },
+      ],
+    };
+
+    it('should display download button if there is a proposal document attached to the quote', () => {
+      mockQuoteDetails$.next(vendorQuote);
+      fixture.detectChanges();
+      const buttonContainerSection = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        'section'
+      );
+      CommonQuoteTestUtilsService.expectElementPresent(
+        expect,
+        buttonContainerSection,
+        'button'
+      );
+      CommonQuoteTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'button',
+        'download'
+      );
+    });
+
+    it('should not display download button if there is no proposal document attached to the quote', () => {
+      mockQuoteDetails$.next(mockQuote);
+      fixture.detectChanges();
+      const buttonContainerSection = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        'section'
+      );
+      CommonQuoteTestUtilsService.expectElementNotPresent(
+        expect,
+        buttonContainerSection,
+        'button'
+      );
+    });
+
+    it('should download the proposal document attached when Download button is clicked', () => {
+      const spyDownloadAttachment = spyOn(
+        quoteFacade,
+        'downloadAttachment'
+      ).and.returnValue(of(mockQuoteAttachment()));
+      const spyDownload = spyOn(fileDownloadService, 'download');
+      mockQuoteDetails$.next(vendorQuote);
+      fixture.detectChanges();
+      const downloadBtn = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        'button'
+      );
+      downloadBtn.click();
+      fixture.detectChanges();
+      expect(spyDownloadAttachment).toHaveBeenCalledWith(
+        vendorQuote.code,
+        vendorQuote.code
+      );
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(spyDownload).toHaveBeenCalled();
+      });
+    });
+
+    it('should display error message when download fails', () => {
+      const spyDownloadAttachment = spyOn(
+        quoteFacade,
+        'downloadAttachment'
+      ).and.returnValue(throwError(() => new Error(errorResponse.message)));
+      const spyMessage = spyOn(globalMessageService, 'add');
+      mockQuoteDetails$.next(vendorQuote);
+      fixture.detectChanges();
+      const downloadBtn = CommonQuoteTestUtilsService.getHTMLElement(
+        htmlElem,
+        'button'
+      );
+      downloadBtn.click();
+      fixture.detectChanges();
+      expect(spyDownloadAttachment).toHaveBeenCalledWith(
+        vendorQuote.code,
+        vendorQuote.code
+      );
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(spyMessage).toHaveBeenCalled();
+      });
+    });
+  });
 });

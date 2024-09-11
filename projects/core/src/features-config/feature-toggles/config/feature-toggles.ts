@@ -10,9 +10,61 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * In 'CheckoutDeliveryModeComponent' and 'CheckReviewShippingComponent', it displays
+   * the new delivery options translation
+   */
+  showDeliveryOptionsTranslation?: boolean;
+
+  /**
+   * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
+   * when a product does not have a defined price or its purchasable field is set to false
+   */
+  shouldHideAddToCartForUnpurchasableProducts?: boolean;
+
+  /**
+   * In `FormErrorsComponent` it uses more descriptive validation error messages
+   * in all UI form fields existing before v2211.25.
+   *
+   * 1. The `FormErrorsComponent` uses new i18n keys:
+   * `formErrors.labeled.<validatorName>` instead of `formErrors.<validatorName>`,
+   * for example `formErrors.labeled.required` instead of `formErrors.required`.
+   *
+   * 2. The existing usages of `CustomFormValidators.passwordValidator` are replaced with
+   * an array of new, more specific validators `CustomFormValidators.passwordValidators`
+   * (with the plural `...Validators`)
+   */
+  formErrorsDescriptiveMessages?: boolean;
+
+  /**
+   * In `CheckoutPaymentFormComponent`, use the extracted billing address component instead of embedded billing address form.
+   */
+  useExtractedBillingAddressComponent?: boolean;
+
+  /**
+   * In `DpPaymentCallbackComponent` it shows the billing address form.
+   */
+  showBillingAddressInDigitalPayments?: boolean;
+
+  /**
+   * In `QuoteLinksComponent` it shows the download button.
+   * API for this button is available in commerce 2211.16 and above
+   */
+  showDownloadProposalButton?: boolean;
+
+  /**
    * In `ProductSummaryComponent` it shows the promotions info.
    */
   showPromotionsInPDP?: boolean;
+
+  /**
+   * In `ASM` it shows searching customer by order ID.
+   */
+  showSearchingCustomerByOrderInASM?: boolean;
+
+  /**
+   * Some Changes for input of cart Number and text of Customer360View in ASM view
+   */
+  showStyleChangesInASM?: boolean;
 
   /**
    * In `SearchBoxComponent` it shows the recent searches.
@@ -32,6 +84,26 @@ export interface FeatureTogglesInterface {
   storeFrontLibCardParagraphTruncated?: boolean;
 
   /**
+   * When enabled, the batch API is used `ProductCarouselComponent` to load products. It increases the component's performance.
+   *
+   * _NOTE_: When flag is enabled, custom OCC config for the `productSearch` endpoint has to be adjusted to have an object representation:
+   * ```js
+   * backend: {
+   *    occ: {
+   *      endpoints: {
+   *         productSearch: {
+   *           default: '...',
+   *           carousel: '...',
+   *           carouselMinimal: '...',
+   *         },
+   *       },
+   *     },
+   *   }
+   * ```
+   */
+  useProductCarouselBatchApi?: boolean;
+
+  /**
    * In `ConfiguratorAttributeDropDownComponent`, `ConfiguratorAttributeSingleSelectionImageComponent`
    * and in 'ConfiguratorAttributeMultiSelectionImageComponent' some HTML changes were done
    * to render read-only attribute with images and a long description at the value level accordingly.
@@ -42,6 +114,39 @@ export interface FeatureTogglesInterface {
    * to render read-only attribute with images and a long description at the value level accordingly.
    */
   productConfiguratorAttributeTypesV2?: boolean;
+
+  /**
+   * In a server environment (SSR or Prerendering) it propagates all errors caught in Angular app
+   * (in the Angular's `ErrorHandler` class) to the server layer.
+   *
+   * In SSR, such a propagation allows the server layer (e.g. ExpressJS) for handling those errors,
+   * e.g. sending a proper Error Page in response to the client,
+   * instead of a rendered HTML that is possibly malformed due to the occurred error.
+   */
+  propagateErrorsToServer?: boolean;
+
+  /**
+   * In SSR, the following errors will be printed to logs (and additionally can also
+   * be forwarded to ExpressJS if only the other feature toggle `propagateErrorsToServer` is enabled):
+   *
+   * 1. any outgoing HTTP request error (4xx-5xx status)
+   * 2. any NgRx action with the `error` property
+   */
+  ssrStrictErrorHandlingForHttpAndNgrx?: boolean;
+
+  /**
+   * The product configuration UI is completely re-rendered after each UI interaction. This may lead to performance issues for large configuration models,
+   * where a lot of attributes (>50) and/or a lot of possible values per attribute (>50) are rendered on the UI.
+   *
+   * When this feature toggle is activated, only these parts of the UI are re-rendered, that actually changed, significantly (up to factor 10) improving rendering performance for large models.
+   *
+   * Please note, this will influence how the pricing requests are processed and rendered.
+   * Instead of merging the prices into the configuration model, which effectively triggers re-rendering the whole UI-Component tree,
+   * the price supplements are kept in a separate subtree of the model, so that attribute components can react independently on pricing changes using the `ConfiguratorDeltaRenderingService`.
+   *
+   * Hence, it is advised to do full regression testing after activation of this flag and before rolling this out to production.
+   */
+  productConfiguratorDeltaRendering?: boolean;
 
   /**
    * Adds asterisks to required form fields in all components existing before v2211.20
@@ -58,6 +163,11 @@ export interface FeatureTogglesInterface {
    * Improves keyboard navigation inside of 'NavigationUIComponent'.
    */
   a11yNavigationUiKeyboardControls?: boolean;
+
+  /**
+   * Improves screen reader(VoiceOver, JAWS) narration of menu buttons inside of 'NavigationUIComponent'.
+   */
+  a11yNavMenuExpandStateReadout?: boolean;
 
   /**
    * Fixes heading gap present in 'OrderConfirmationItemsComponent' template.
@@ -134,6 +244,12 @@ export interface FeatureTogglesInterface {
   a11yOrganizationListHeadingOrder?: boolean;
 
   /**
+   * In `ImportToNewSavedCartFormComponent`,`ImportEntriesFormComponent` after selecting a file
+   * confirmation message is displayed and read out
+   */
+  a11yCartImportConfirmationMessage?: boolean;
+
+  /**
    * Changes 'order days' check list into a fieldset inside of 'CheckoutScheduleReplenishmentOrderComponent'.
    */
   a11yReplenishmentOrderFieldset?: boolean;
@@ -145,6 +261,7 @@ export interface FeatureTogglesInterface {
 
   /**
    * Adjuststs the styles of 'StoreFinderMapComponent' to stop the Google map from overflowing on zoomed/mobile screens.
+   * Includes DOM changes to 'StoreFinderStoreDescriptionComponent' improving the screen reader experience.
    */
   a11yStoreFinderOverflow?: boolean;
 
@@ -152,6 +269,17 @@ export interface FeatureTogglesInterface {
    * Corrects heading order inside 'OrderSummaryComponent' template.
    */
   a11yCartSummaryHeadingOrder?: boolean;
+
+  /**
+   * Improves focus behaviour of 'SearchBoxComponent'.
+   * On mobile, search box will no longer open on focus.
+   */
+  a11ySearchBoxMobileFocus?: boolean;
+
+  /**
+   * Modifies 'FacetComponent' to enable keyboard navigation for facets in the product list page.
+   */
+  a11yFacetKeyboardNavigation?: boolean;
 
   /**
    * Allows users to navigate through the list of units using the arrow keys.
@@ -168,20 +296,260 @@ export interface FeatureTogglesInterface {
   a11yCartItemsLinksStyles?: boolean;
 
   /**
+   * If enabled, the "Select this address/payment" button
+   * will not be displayed in `CheckoutPaymentMethodComponent`
+   * and `CheckoutDeliveryAddressComponent` when the address
+   * or payment method is already selected.
+   */
+  a11yHideSelectBtnForSelectedAddrOrPayment?: boolean;
+
+  /**
    * Determines whether the controls in the `CarouselComponent` are focusable and accessible from the keyboard.
    */
   a11yFocusableCarouselControls?: boolean;
+
+  /**
+   * In `CmsGuardsService`, it uses the `GuardsComposer` instead of
+   * calling its own deprecated method `canActivateGuard()`.
+   */
+  cmsGuardsServiceUseGuardsComposer?: boolean;
+
+  /**
+   * In `CartQuickOrderFormComponent` it stops calling the deprecated method
+   * `watchAddEntryFailEvent()`, which listens to the `CartAddEntryFailEvent`.
+   *
+   * It avoids showing an unnecessary duplicated error message on the failure
+   * of adding to the cart.
+   */
+  cartQuickOrderRemoveListeningToFailEvent?: boolean;
+
+  /**
+   * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
+   */
+  a11yKeyboardAccessibleZoom?: boolean;
+
+  /**
+   * Sets 'linkable' property in 'CellComponent' to be false by default.
+   * Modifies all table configs to acomodate this change.
+   * This stops unnecessary anchor tags from being rendered in the table cells.
+   */
+  a11yOrganizationLinkableCells?: boolean;
+
+  /**
+   * Stops the focus indicator from overflowing and being obstructed by other elements.
+   * Modifies the 'visible-focus' mixin. Includes style changes for:
+   * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent
+   */
+  a11yVisibleFocusOverflows?: boolean;
+
+  /**
+   * When enabled then on mobile(320px) responsive view:
+   * 1. `ProductListComponent` - grid view button is aligned correctly
+   * 2. `QuickOrderFormComponent` - search combobox options are not truncated
+   * 3. `BreadcrumbComponent` - breadcrumb heading is not truncated
+   * 4. `CheckoutProgressMobileTopComponent` - checkout step names do not have huge vertical white space
+   */
+  a11yTruncatedTextForResponsiveView?: boolean;
+
+  /**
+   * Modifies getAriaLabel method in 'PaginationComponent' to return a sematic label.
+   */
+  a11ySemanticPaginationLabel?: boolean;
+
+  /**
+   * When using CartItemListComponent as an outlet ([cxOutlet]="CartOutlets.CART_ITEM_LIST"):
+   * prevents the form from being recreated when neither the items nor other dependent properties (e.g., readonly) have changed.
+   */
+  a11yPreventCartItemsFormRedundantRecreation?: boolean;
+
+  /**
+   * Prevents screen reader from stopping on invisible elements when being in read mode for `BreadcrumbComponent`, `QuickOrderFormComponent`
+   */
+  a11yPreventSRFocusOnHiddenElements?: boolean;
+
+  /**
+   * In `LoginComponent` the outline of "My Account" link when focused will not cover the user name
+   */
+  a11yMyAccountLinkOutline?: boolean;
+
+  /**
+   * When enabled focus outline on the close button inside `ProductImageZoomDialogComponent`
+   * will be fully visible
+   */
+  a11yCloseProductImageBtnFocus?: boolean;
+
+  /**
+   * Improve colour contrast in the demonstration theme Santorini
+   * to comply with accessibility standards. On activation, colour
+   * assignations for all UI elements will change and previous keyboard
+   * focus-ring gets replaced by a new bi-colour focus-ring.
+   *
+   * Note: If you're not using in your app the `StorefrontComponent`
+   *       (`<cx-storefront>`) from Spartacus, then you'll need to also add
+   *       the following line to the constructor of your app's root component:
+   *
+   * ```
+   * constructor() {
+   *   useFeatureStyles('a11yImproveContrast');
+   * }
+   * ```
+   */
+  a11yImproveContrast?: boolean;
+
+  /**
+   * Moves input elements of 'NotificationPreferenceComponent' into a fieldset.
+   */
+  a11yNotificationPreferenceFieldset?: boolean;
+
+  /**
+   * Modifies the template of 'WishListComponent'.
+   * Empty wishlist notification will be displayed in a paragraph instead of a heading.
+   */
+  a11yEmptyWishlistHeading?: boolean;
+
+  /**
+   * Removes the `tabindex` attribute from the `StorefrontComponent`.
+   * This helps to reduce the screen reader bloat.
+   */
+  a11yScreenReaderBloatFix?: boolean;
+
+  /**
+   * When enabled the button-like UI elements will use `<button>` under the hood instead of `<a>`
+   * in the following components: `AddedToCartDialogComponent`, `ForgotPasswordComponent`,
+   * `LoginRegisterComponent`, `ConfigureProductComponent`, `AnonymousConsentDialogComponent`,
+   * `StoreSearchComponent`, `AddToSavedCartComponent`, `PickupOptionsComponent`
+   */
+  a11yUseButtonsForBtnLinks?: boolean;
+
+  /**
+   * `AnonymousConsentDialogComponent` - after consent was given/withdrawn the notification
+   * will be displayed
+   * `ConsentManagementComponent` - improve stability of notifications announcements by VoiceOver
+   * `ConsentManagementFormComponent` - only pronounce the title of the consent by default
+   */
+  a11yNotificationsOnConsentChange?: boolean;
+
+  /**
+   * When enabled disable "Apply" button in promo code component in cart for empty input,
+   * disable "Add" button in quick order component when input is empty and remove
+   * required validators for both inputs
+   */
+  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields?: boolean;
+
+  /**
+   * In `FacetListComponent` dialog view focus will be moved to the first facet
+   * after single-select facet selection.
+   * New "Back To Results" button is added
+   */
+  a11yFacetsDialogFocusHandling?: boolean;
+
+  /**
+   * Enables radio group fieldset for 'CheckoutDeliveryModeComponent' form
+   * and further improves its screen reader readout.
+   */
+  a11yDeliveryModeRadiogroup?: boolean;
+
+  /**
+   * Removes 'aria-live' from 'StoreFinderComponent' and adds 'alert' role to child components elements.
+   */
+  a11yStoreFinderAlerts?: boolean;
+
+  /**
+   * Stops the icon inside 'FormErrorsComponent' from being read out by screen readers.
+   */
+  a11yFormErrorMuteIcon?: boolean;
+
+  /**
+   * `MessageComponent` gets focused after a message with an action is rendered.
+   */
+  a11yCxMessageFocus?: boolean;
+
+  /**
+   * Replaces buttons resembling links with tetriary buttons in the following components:
+   * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
+   */
+  a11yLinkBtnsToTertiaryBtns?: boolean;
+
+  /**
+   * Aria-live inside the 'BreadcrumbComponent' will be toggled based on the active element.
+   * This removes the repeated announcement of the page title.
+   */
+  a11yRepeatedPageTitleFix?: boolean;
+
+  /**
+   * 'NgSelectA11yDirective' will now provide a count of items for each availble option.
+   * Including this count in aria-label will help screen readers to provide more context to the user.
+   */
+  a11yNgSelectOptionsCount?: boolean;
+
+  /**
+   * Removes duplicated error message from 'CancelOrderComponent'.
+   */
+  a11yRepeatedCancelOrderError?: boolean;
+
+  /**
+   * Mofifies the template of 'AddedToCartDialogComponent' to retain the focus after the cart is updated.
+   * Improves its screen reader readout.
+   */
+  a11yAddedToCartActiveDialog?: boolean;
+
+  /**
+   * Modifies the 'NgSelectA11yDirective' to improve the sorting dropdown screen reader experience on mobile devices.
+   */
+  a11yNgSelectMobileReadout?: boolean;
+
+  /**
+   * Fixes `aria-controls` attribute in the 'QuickOrderFormComponent' combobox.
+   */
+  a11yQuickOrderAriaControls?: boolean;
+
+  /**
+   * Removes the element with `role="status"` attribute from subpage components.
+   * The 'Loaded, empty status' message will no longer be present for the screen readers.
+   */
+  a11yRemoveStatusLoadedRole?: boolean;
+
+  /**
+   * Changes modal title elements form divs into headings. Affects modals before version 2211.27.
+   */
+  a11yDialogsHeading?: boolean;
+
+  /**
+   * In OCC cart requests, it puts parameters of a cart name and cart description
+   * into a request body, instead of query params.
+   * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
+   */
+  occCartNameAndDescriptionInHttpRequestBody?: boolean;
+
+  /**
+   * When enabled, styles for the `cx-bottom-header-slot` class will be applied. These styles are necessary to display
+   * customization buttons in the BottomHeaderSlot in SmartEdit.
+   */
+  cmsBottomHeaderSlotUsingFlexStyles?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  showPromotionsInPDP: false,
-  recentSearches: false,
+  showDeliveryOptionsTranslation: false,
+  formErrorsDescriptiveMessages: false,
+  showSearchingCustomerByOrderInASM: false,
+  showStyleChangesInASM: false,
+  shouldHideAddToCartForUnpurchasableProducts: false,
+  useExtractedBillingAddressComponent: false,
+  showBillingAddressInDigitalPayments: false,
+  showDownloadProposalButton: false,
+  showPromotionsInPDP: true,
+  recentSearches: true,
   pdfInvoicesSortByInvoiceDate: false,
-  storeFrontLibCardParagraphTruncated: false,
-  productConfiguratorAttributeTypesV2: false,
+  storeFrontLibCardParagraphTruncated: true,
+  useProductCarouselBatchApi: false,
+  productConfiguratorAttributeTypesV2: true,
+  propagateErrorsToServer: false,
+  ssrStrictErrorHandlingForHttpAndNgrx: false,
+  productConfiguratorDeltaRendering: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
   a11yNavigationUiKeyboardControls: false,
+  a11yNavMenuExpandStateReadout: false,
   a11yOrderConfirmationHeadingOrder: false,
   a11yStarRating: false,
   a11yViewChangeAssistiveMessage: false,
@@ -196,11 +564,49 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yMobileVisibleFocus: false,
   a11yOrganizationsBanner: false,
   a11yOrganizationListHeadingOrder: false,
+  a11yCartImportConfirmationMessage: false,
   a11yReplenishmentOrderFieldset: false,
   a11yListOversizedFocus: false,
   a11yStoreFinderOverflow: false,
   a11yCartSummaryHeadingOrder: false,
+  a11ySearchBoxMobileFocus: false,
+  a11yFacetKeyboardNavigation: false,
   a11yUnitsListKeyboardControls: false,
   a11yCartItemsLinksStyles: false,
+  a11yHideSelectBtnForSelectedAddrOrPayment: false,
   a11yFocusableCarouselControls: false,
+  cmsGuardsServiceUseGuardsComposer: false,
+  cartQuickOrderRemoveListeningToFailEvent: false,
+  a11yKeyboardAccessibleZoom: false,
+  a11yOrganizationLinkableCells: false,
+  a11yVisibleFocusOverflows: false,
+  a11yTruncatedTextForResponsiveView: false,
+  a11ySemanticPaginationLabel: false,
+  a11yPreventCartItemsFormRedundantRecreation: false,
+  a11yPreventSRFocusOnHiddenElements: false,
+  a11yMyAccountLinkOutline: false,
+  a11yCloseProductImageBtnFocus: false,
+  a11yNotificationPreferenceFieldset: false,
+  a11yImproveContrast: false,
+  a11yEmptyWishlistHeading: false,
+  a11yScreenReaderBloatFix: false,
+  a11yUseButtonsForBtnLinks: false,
+  a11yNotificationsOnConsentChange: false,
+  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
+  a11yFacetsDialogFocusHandling: false,
+  a11yStoreFinderAlerts: false,
+  a11yFormErrorMuteIcon: false,
+  a11yCxMessageFocus: false,
+  a11yLinkBtnsToTertiaryBtns: false,
+  a11yRepeatedPageTitleFix: false,
+  a11yDeliveryModeRadiogroup: false,
+  a11yNgSelectOptionsCount: false,
+  a11yRepeatedCancelOrderError: false,
+  a11yAddedToCartActiveDialog: false,
+  a11yNgSelectMobileReadout: false,
+  a11yQuickOrderAriaControls: false,
+  a11yRemoveStatusLoadedRole: false,
+  a11yDialogsHeading: false,
+  occCartNameAndDescriptionInHttpRequestBody: false,
+  cmsBottomHeaderSlotUsingFlexStyles: false,
 };

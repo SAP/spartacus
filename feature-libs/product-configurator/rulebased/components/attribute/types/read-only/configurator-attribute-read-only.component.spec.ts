@@ -8,6 +8,9 @@ import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-uti
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
+import { Observable, of } from 'rxjs';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-price',
@@ -57,6 +60,12 @@ const myValues: Configurator.Value[] = [
   },
 ];
 
+class MockConfiguratorAttributePriceChangeService {
+  getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
+    return of([]);
+  }
+}
+
 describe('ConfigAttributeReadOnlyComponent', () => {
   let component: ConfiguratorAttributeReadOnlyComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeReadOnlyComponent>;
@@ -68,30 +77,42 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     isLightedUp: myValues[0].selected,
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeReadOnlyComponent,
-          MockConfiguratorPriceComponent,
-          MockConfiguratorShowMoreComponent,
-        ],
+  beforeEach(waitForAsync(() => {
+    TestBed.overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
+      set: {
         providers: [
           {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
+            provide: ConfiguratorAttributePriceChangeService,
+            useClass: MockConfiguratorAttributePriceChangeService,
           },
         ],
-        imports: [ReactiveFormsModule, I18nTestingModule],
-      })
-        .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+      },
+    });
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeReadOnlyComponent,
+        MockConfiguratorPriceComponent,
+        MockConfiguratorShowMoreComponent,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useValue: {},
+        },
+      ],
+      imports: [ReactiveFormsModule, I18nTestingModule],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeReadOnlyComponent);
@@ -297,6 +318,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       });
 
       it('should return aria label for only valuePrice', () => {
+        component['configuratorAttributePriceChangeService'] = null;
         myValues[0].selected = false;
         myValues[1].selected = false;
         myValues[2].selected = true;

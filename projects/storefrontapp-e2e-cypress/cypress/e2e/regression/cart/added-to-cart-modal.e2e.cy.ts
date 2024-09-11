@@ -22,7 +22,10 @@ describe('Added to cart modal - Anonymous user', () => {
     });
 
     it('should test item counter on PDP', () => {
-      interceptGet('getProductStock', '/products/*?fields=*stock*');
+      interceptGet(
+        'getProductStock',
+        '/products/*?fields=code,configurable,configuratorType,purchasable*stock*'
+      );
       cy.wait('@getProductStock').then((xhr) => {
         const stock = xhr.response.body.stock.stockLevel;
 
@@ -64,16 +67,8 @@ describe('Added to cart modal - Anonymous user', () => {
         cy.get('.cx-dialog-total').should('contain', '2 items');
 
         // check action button links
-        cy.get('.btn-primary')
-          .should('have.attr', 'href')
-          .then(($href) => {
-            expect($href).contain('/cart');
-          });
-        cy.get('.btn-secondary')
-          .should('have.attr', 'href')
-          .then(($href) => {
-            expect($href).contain('/checkout');
-          });
+        cy.get('button.btn-primary').scrollIntoView().should('be.visible');
+        cy.get('button.btn-secondary').should('be.visible');
 
         cy.get('[aria-label="Close Modal"]').click();
       });

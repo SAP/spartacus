@@ -202,7 +202,7 @@ export function addProductToCart(product: SampleProduct, quantity: number) {
 export function clickSavedCartButtonsFromCartPage(position: number) {
   // 0 = Saved Carts 'link' button
   // 1 = Save Cart For Later 'link' button
-  cy.get(`cx-add-to-saved-cart a`)
+  cy.get(`cx-add-to-saved-cart .cx-action-link`)
     .eq(position)
     .should('exist')
     .click({ force: true });
@@ -254,7 +254,7 @@ export function saveActiveCart(verify = true) {
           .clear()
           .type(sampleData.savedActiveCartForm[0].description);
 
-        cy.get('button[aria-label="Save"]').click();
+        cy.get('button').contains('Save').click();
       });
 
       cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
@@ -395,7 +395,7 @@ export function restoreCart(
                 }
               }
 
-              cy.get('button[aria-label="Restore"]').click();
+              cy.get('button').contains('Restore').click();
             });
 
             if (cloneSavedCart.isCloneCartActive) {
@@ -492,7 +492,7 @@ export function updateSavedCartAndDelete(
           cy.get('[formcontrolname="description"]').type(`
           {selectall}${sampleData.savedActiveCartForm[4].description}`);
 
-          cy.get('button[aria-label="Save"]').click();
+          cy.get('button').contains('Save').click();
         });
 
         cy.wait(`@${updatedSavedCartAlias}`)
@@ -534,7 +534,7 @@ export function updateSavedCartAndDelete(
               sampleData.savedActiveCartForm[4].description
             );
 
-            cy.get('button[aria-label="Delete"]').click();
+            cy.get('button').contains('Delete').click();
           });
         }
 
@@ -597,7 +597,7 @@ export function updateSavedCartAndRestore(
           cy.get('[formcontrolname="description"]').type(`
           {selectall}${sampleData.savedActiveCartForm[4].description}`);
 
-          cy.get('button[aria-label="Save"]').click();
+          cy.get('button').contains('Save').click();
         });
 
         cy.wait(`@${updatedSavedCartAlias}`)
@@ -626,7 +626,7 @@ export function updateSavedCartAndRestore(
         cy.get('cx-saved-cart-details-action .btn-primary').click();
 
         cy.get('cx-saved-cart-form-dialog').within(() => {
-          cy.get('button[aria-label="Restore"]').click();
+          cy.get('button').contains('Restore').click();
         });
 
         cy.wait(`@${restoreSavedCartAlias}`)

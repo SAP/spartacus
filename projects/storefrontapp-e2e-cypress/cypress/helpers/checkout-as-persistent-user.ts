@@ -51,12 +51,9 @@ export function addShippingAddress() {
 
 export function goToProductPageFromCategory() {
   // click big banner
-  cy.get('.Section1 cx-banner cx-generic-link')
-    .first()
-    .find('cx-media')
-    .click();
+  cy.get('.Section1 cx-banner cx-generic-link a').first().click();
   // click small banner number 6 (would be good if label or alt text would be available)
-  cy.get('.Section2 cx-banner:nth-of-type(6) a cx-media').click();
+  cy.get('.Section2 cx-banner:nth-of-type(6) a').click();
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', product.code);
   });
@@ -169,7 +166,7 @@ export function selectDeliveryMethod() {
       pageLabelOrId: '/checkout/payment-details',
     },
   }).as('getPaymentPage');
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Options');
   cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('button.btn-primary').click();
   cy.wait('@getPaymentPage').its('response.statusCode').should('eq', 200);
@@ -192,7 +189,7 @@ export function verifyAndPlaceOrder() {
     .find('.cx-card-container')
     .should('not.be.empty');
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Delivery Method')
+    .contains('cx-card', 'Delivery Options')
     .find('.cx-card-label-bold')
     .should('contain', 'Standard Delivery');
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(

@@ -267,7 +267,16 @@ function handleReadOrderEntryConfigurationSuccess(
   state: Configurator.Configuration,
   action: ConfiguratorActions.ReadOrderEntryConfigurationSuccess
 ): Configurator.Configuration | undefined {
-  const configuration = { ...action.payload };
+  const overview = action.payload.overview;
+  const configuration = overview
+    ? {
+        ...action.payload,
+        overview: {
+          ...overview,
+          possibleGroups: overview.groups,
+        },
+      }
+    : action.payload;
 
   const result: Configurator.Configuration = {
     ...state,
@@ -338,6 +347,7 @@ function handleSetMenuParentGroup(
     },
   };
 }
+
 function handleSetGroupsVisited(
   state: Configurator.Configuration,
   action: ConfiguratorActions.SetGroupsVisited
@@ -368,6 +378,7 @@ function handleSetGroupsVisited(
     },
   };
 }
+
 function handleChangeGroup(
   state: Configurator.Configuration,
   action: ConfiguratorActions.ChangeGroup
@@ -445,6 +456,10 @@ function takeOverChanges(
       issueNavigationDone: true,
     },
   };
+  if (result.priceSupplements) {
+    // remove any price supplements, as they are now invalid
+    result.priceSupplements = undefined;
+  }
   return result;
 }
 
@@ -455,7 +470,9 @@ function takeOverPricingChanges(
   const content = { ...action.payload };
   const priceSupplements = content.priceSupplements;
   const groups =
-    priceSupplements && priceSupplements.length > 0
+    !action.isDeltaRendering && // remove alongside with the feature toggle `productConfiguratorDeltaRendering`
+    priceSupplements &&
+    priceSupplements.length > 0
       ? ConfiguratorStateUtils.mergeGroupsWithSupplements(
           state.groups,
           priceSupplements

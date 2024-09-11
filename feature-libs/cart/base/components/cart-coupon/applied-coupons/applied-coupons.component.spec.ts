@@ -41,27 +41,25 @@ describe('AppliedCouponsComponent', () => {
     'removeVoucher',
   ]);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          AppliedCouponsComponent,
-          MockCxIconComponent,
-          MockedCartCouponComponent,
-        ],
-        providers: [
-          { provide: CartVoucherFacade, useValue: mockCartVoucherService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        AppliedCouponsComponent,
+        MockCxIconComponent,
+        MockedCartCouponComponent,
+      ],
+      providers: [
+        { provide: CartVoucherFacade, useValue: mockCartVoucherService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
           },
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MockedCartCouponComponent);

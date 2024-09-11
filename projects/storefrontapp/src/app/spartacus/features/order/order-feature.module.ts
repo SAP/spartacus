@@ -23,7 +23,8 @@ import { environment } from '../../../../environments/environment';
     provideConfig(<CmsConfig>{
       featureModules: {
         [ORDER_FEATURE]: {
-          module: () => import('@spartacus/order').then((m) => m.OrderModule),
+          module: () =>
+            import('./order-wrapper.module').then((m) => m.OrderWrapperModule),
         },
       },
     }),

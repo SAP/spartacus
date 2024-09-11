@@ -9,7 +9,7 @@ import * as authentication from '../auth-forms';
 import * as cart from '../cart';
 import * as common from '../common';
 import * as productConfigurator from '../product-configurator';
-
+export const READ_VENDOR_QUOTE = '@READ_VENDOR_QUOTE';
 export const READ_QUOTE = '@READ_QUOTE';
 export const UPDATE_QUOTE_ITEM = '@UPDATE_QUOTE_ITEM';
 export const UPDATE_CART_ITEM = '@UPDATE_CART_ITEM';
@@ -291,6 +291,16 @@ export function prepareSellerQuote(
 }
 
 /**
+ * Navigates to the quotes list.
+ */
+export function navigateToQuotesList() {
+  cy.visit(QUOTE_LIST_PATH).then(() => {
+    cy.location('pathname').should('contain', QUOTE_LIST_PATH);
+    checkQuoteListDisplayed();
+  });
+}
+
+/**
  * Verifies if the most recent created quote of the buyer is available for the seller.
  */
 function checkQuoteAvailableForSeller() {
@@ -348,6 +358,18 @@ function waitUntilQuoteExists(
           }
         }
       });
+  });
+}
+
+/**
+ * Defines a quote ID alias.
+ */
+export function defineQuoteIdAlias(): void {
+  cy.url().then((url) => {
+    const currentURL = url.split('/');
+    const quoteId = currentURL[currentURL.length - 1];
+    cy.log('quote ID: ' + quoteId);
+    cy.wrap(quoteId).as('quoteId');
   });
 }
 

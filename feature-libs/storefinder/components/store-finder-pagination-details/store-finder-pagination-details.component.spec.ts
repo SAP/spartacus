@@ -13,14 +13,12 @@ describe('StoreFinderPaginationDetailsComponent', () => {
   let component: StoreFinderPaginationDetailsComponent;
   let fixture: ComponentFixture<StoreFinderPaginationDetailsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [StoreFinderPaginationDetailsComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [StoreFinderPaginationDetailsComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderPaginationDetailsComponent);
