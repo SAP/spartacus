@@ -9,7 +9,7 @@ import { PaymentDestination, PaymentPattern } from './opf-payment.model';
 export interface OpfRenderPaymentMethodEvent {
   isLoading: boolean;
   isError: boolean;
-  renderType?: PaymentPattern | undefined;
+  renderType?: PaymentPattern;
   data?: string | null;
   destination?: PaymentDestination;
 }
