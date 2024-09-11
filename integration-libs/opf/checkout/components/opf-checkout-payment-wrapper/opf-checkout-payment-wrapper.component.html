@@ -28,7 +28,9 @@
     >
       <iframe
         class="cx-payment-iframe"
-        *ngIf="!paymentLink.destination?.form?.length"
+        *ngIf="
+          !paymentLink.destination?.form?.length && paymentLink.destination?.url
+        "
         [src]="renderUrl(paymentLink.destination?.url)"
       ></iframe>
 

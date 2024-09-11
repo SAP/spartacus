@@ -7,8 +7,8 @@ import {
   GlobalFunctionsInput,
   OpfGlobalFunctionsFacade,
 } from '@spartacus/opf/base/root';
+import { PaymentPattern } from '@spartacus/opf/checkout/root';
 import { of } from 'rxjs';
-import { PaymentPattern } from '../../root/model';
 import { OpfCheckoutPaymentWrapperComponent } from './opf-checkout-payment-wrapper.component';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
