@@ -106,6 +106,7 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { SubscriptionBillingFeatureModule } from './features/subscription-billing/subscription-billing-feature.module';
 
 const featureModules = [];
 
@@ -161,6 +162,9 @@ if (environment.omf) {
 }
 if (environment.cpq) {
   featureModules.push(CpqQuoteFeatureModule);
+}
+if (environment.subscriptionBilling) {
+  featureModules.push(SubscriptionBillingFeatureModule);
 }
 @NgModule({
   imports: [

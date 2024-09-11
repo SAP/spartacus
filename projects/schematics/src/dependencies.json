@@ -461,6 +461,12 @@
     "@spartacus/schematics": "2211.28.0",
     "rxjs": "^7.8.0"
   },
+  "@spartacus/subscription-billing": {
+    "@angular-devkit/schematics": "^17.0.5",
+    "@angular/core": "^17.0.5",
+    "@spartacus/core": "2211.28.0",
+    "@spartacus/schematics": "2211.28.0"
+  },
   "storefrontapp": {
     "@angular/animations": "^17.0.5",
     "@angular/common": "^17.0.5",

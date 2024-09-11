@@ -73,6 +73,7 @@ module.exports = {
       ),
       '@spartacus/s4om': path.join(__dirname, 'integration-libs/s4om'),
       '@spartacus/s4-service': path.join(__dirname, 'integration-libs/s4-service'),
+      '@spartacus/subscription-billing': path.join(__dirname, 'integration-libs/subscription-billing'),
       '@spartacus/omf': path.join(__dirname, 'integration-libs/omf'),
     },
   },

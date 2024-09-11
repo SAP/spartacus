@@ -204,6 +204,7 @@ describe('Graph utils', () => {
           "cpq-quote",
           "Segment-Refs",
           "s4-service",
+          "subscription-billing",
           "S4HANA-Order-Management",
           "OMF",
           "OPPS",

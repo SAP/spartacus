@@ -756,6 +756,15 @@
       "@spartacus/segment-refs/root": [
         "integration-libs/segment-refs/root/public_api"
       ],
+      "@spartacus/subscription-billing/assets": [
+        "integration-libs/subscription-billing/assets/public_api"
+      ],
+      "@spartacus/subscription-billing": [
+        "integration-libs/subscription-billing/public_api"
+      ],
+      "@spartacus/subscription-billing/root": [
+        "integration-libs/subscription-billing/root/public_api"
+      ],
       "@spartacus/assets": [
         "projects/assets/src/public_api"
       ],
