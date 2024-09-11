@@ -1,15 +1,15 @@
 import { STOCK_DATA } from '../stock-state';
 import {
-  ClearStockData,
   CLEAR_STOCK_DATA,
-  StockLevel,
-  StockLevelFail,
-  StockLevelOnHold,
-  StockLevelSuccess,
+  ClearStockData,
   STOCK_LEVEL,
   STOCK_LEVEL_FAIL,
   STOCK_LEVEL_ON_HOLD,
   STOCK_LEVEL_SUCCESS,
+  StockLevel,
+  StockLevelFail,
+  StockLevelOnHold,
+  StockLevelSuccess,
 } from './stock.action';
 
 describe('[Stock] Actions', () => {
@@ -60,11 +60,13 @@ describe('[Stock] Actions', () => {
         },
       },
       payload: {},
+      error: {},
     };
 
     expect(RESULT.type).toEqual(EXPECTED.type);
     expect(RESULT.meta).toEqual(EXPECTED.meta);
     expect(RESULT.payload).toEqual(EXPECTED.payload);
+    expect(RESULT.error).toEqual(EXPECTED.error);
   });
 
   it('StockLevelSuccess', () => {

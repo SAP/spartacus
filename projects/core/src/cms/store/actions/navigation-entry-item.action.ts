@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ErrorAction } from '../../../error-handling';
 import { StateUtils } from '../../../state/utils/index';
 import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
 
@@ -15,13 +16,18 @@ export const LOAD_CMS_NAVIGATION_ITEMS_SUCCESS =
 
 export class LoadCmsNavigationItems extends StateUtils.EntityLoadAction {
   readonly type = LOAD_CMS_NAVIGATION_ITEMS;
+
   constructor(public payload: { nodeId: string; items: any[] }) {
     super(NAVIGATION_DETAIL_ENTITY, payload.nodeId);
   }
 }
 
-export class LoadCmsNavigationItemsFail extends StateUtils.EntityFailAction {
+export class LoadCmsNavigationItemsFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_CMS_NAVIGATION_ITEMS_FAIL;
+
   constructor(
     nodeId: string,
     public payload: any
@@ -32,6 +38,7 @@ export class LoadCmsNavigationItemsFail extends StateUtils.EntityFailAction {
 
 export class LoadCmsNavigationItemsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_CMS_NAVIGATION_ITEMS_SUCCESS;
+
   constructor(public payload: { nodeId: string; components: any[] }) {
     super(NAVIGATION_DETAIL_ENTITY, payload.nodeId);
   }

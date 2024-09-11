@@ -23,6 +23,7 @@ import { StateModule } from './state/state.module';
 
 @NgModule({
   imports: [
+    ErrorHandlingModule.forRoot(), // Import this module before any other interceptor to handle HTTP errors efficiently
     StateModule.forRoot(),
     ConfigModule.forRoot(),
     ConfigInitializerModule.forRoot(),
@@ -37,7 +38,6 @@ import { StateModule } from './state/state.module';
     BaseOccModule.forRoot(),
     LazyLoadingModule.forRoot(),
     HttpModule.forRoot(),
-    ErrorHandlingModule.forRoot(),
   ],
 })
 export class BaseCoreModule {

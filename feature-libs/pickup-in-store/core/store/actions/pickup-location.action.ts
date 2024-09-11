@@ -5,6 +5,7 @@
  */
 
 import { createAction, props } from '@ngrx/store';
+import { TypedAction } from '@ngrx/store/src/models';
 import { PointOfService } from '@spartacus/core';
 import {
   AugmentedPointOfService,
@@ -80,8 +81,23 @@ export const SetStoreDetailsSuccess = createAction(
   STORE_DETAILS_SUCCESS,
   props<{ payload: PointOfService }>()
 );
-
-export const SetStoreDetailsFailure = createAction(
+// The `error` property was added later to the return type,
+// to be recognizable by `CxErrorHandlerEffect` (which expects
+// `error` property in every fail action).
+// However, we keep the original property `payload` as the only
+// one required _input props_ parameter, to avoid introducing a breaking change.
+const _SetStoreDetailsFailure = createAction(
   STORE_DETAILS_FAIL,
   props<{ payload: any }>()
 );
+export const SetStoreDetailsFailure = ($props: {
+  payload: any;
+}): {
+  payload: any;
+  error: any;
+} & TypedAction<typeof STORE_DETAILS_FAIL> => {
+  return {
+    ..._SetStoreDetailsFailure($props),
+    error: $props.payload,
+  };
+};

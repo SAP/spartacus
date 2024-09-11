@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, StoreModule } from '@ngrx/store';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
@@ -153,7 +153,7 @@ describe('Page Effects', () => {
 
         const completion = new CmsActions.LoadCmsPageDataFail(
           pageContext,
-          normalizeHttpError(error, new MockLoggerService())
+          tryNormalizeHttpError(error, new MockLoggerService())
         );
 
         actions$ = hot('-a', { a: action });
