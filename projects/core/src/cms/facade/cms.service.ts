@@ -74,9 +74,9 @@ export class CmsService {
   getComponentData<T extends CmsComponent | null>(
     uid: string,
     pageContext?: PageContext
-  ): Observable<T | null> {
+  ): Observable<T> {
     if (uid === '') {
-      return of(null);
+      return of(null) as Observable<T>;
     }
 
     const context = serializePageContext(pageContext, true);
