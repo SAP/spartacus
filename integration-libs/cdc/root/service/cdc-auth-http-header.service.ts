@@ -18,7 +18,7 @@ export class CdcAuthHttpHeaderService extends AuthHttpHeaderService {
    */
   public handleExpiredRefreshToken(): void {
     this.authRedirectService.saveCurrentNavigationUrl();
-    this.cdcAuthLogOutService.cdcLogout().finally(() => {
+    this.cdcAuthLogOutService.logout().finally(() => {
       this.routingService.go({ cxRoute: 'login' });
 
       this.globalMessageService.add(
