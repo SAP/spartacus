@@ -5,6 +5,7 @@
         {{ 'cdsRecentSearches.recentSearches' | cxTranslate }}
       </h3>
       <ul
+        tabindex="0"
         [ariaLabel]="'cdsRecentSearches.ariaRecentSearches' | cxTranslate"
         role="listbox"
       >
@@ -24,6 +25,8 @@
             (mousedown)="$event.preventDefault()"
             (keydown.arrowup)="shareEvent($any($event))"
             (keydown.arrowdown)="shareEvent($any($event))"
+            (keydown.arrowleft)="shareEvent($any($event))"
+            (keydown.arrowright)="shareEvent($any($event))"
             (keydown.enter)="shareEvent($any($event))"
             (keydown.escape)="shareEvent($any($event))"
             (blur)="shareEvent($any($event))"

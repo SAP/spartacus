@@ -13,10 +13,11 @@ import {
   isDevMode,
   OnChanges,
   OnInit,
+  Output,
   TemplateRef,
 } from '@angular/core';
 import { LoggerService, useFeatureStyles } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { CarouselService } from './carousel.service';
@@ -42,6 +43,7 @@ import { CarouselService } from './carousel.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarouselComponent implements OnInit, OnChanges {
+  @Output() keybordEvent = new BehaviorSubject<KeyboardEvent>(null);
   /**
    * The title is rendered as the carousel heading.
    */
@@ -112,5 +114,12 @@ export class CarouselComponent implements OnInit, OnChanges {
   getSlideNumber(size: number, currentIndex: number): number {
     const normalizedCurrentIndex = currentIndex + 1;
     return Math.ceil(normalizedCurrentIndex / size);
+  }
+
+  shareEvent(event: KeyboardEvent) {
+    if (!event) {
+      throw new Error('Missing Event');
+    }
+    this.keybordEvent.next(event);
   }
 }

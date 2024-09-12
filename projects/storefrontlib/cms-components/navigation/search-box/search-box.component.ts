@@ -43,7 +43,7 @@ const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,
   displayProducts: true,
   displaySuggestions: true,
-  maxProducts: 15,
+  maxProducts: 5,
   maxSuggestions: 5,
   displayProductImages: true,
   recentSearches: true,
@@ -75,9 +75,14 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     return this.isEnabledFeature(SearchBoxFeatures.SEARCH_BOX_V2);
   }
 
+  get hasSearchBoxV2(): boolean {
+    const hostElement = this.elementRef.nativeElement;
+    return hostElement.classList.contains('search-box-v2');
+  }
+
   /**
    * Listener for clicout out of searchInput and searchPanel
-   * */@HostListener('document:click', ['$event'])
+   * */ @HostListener('document:click', ['$event'])
   clickout(event: UIEvent) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.close(event);
@@ -306,11 +311,47 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   private getResultElements(): HTMLElement[] {
     return Array.from(
       this.winRef.document.querySelectorAll(
-        '.products ul > li a, .suggestions ul  > li a, .recent-searches ul > li a, .products .carousel-panel .item.active a, .products .carousel-panel button:not([disabled])'
+        '.products ul:not(.hidden) > li a, .suggestions ul  > li a, .recent-searches ul > li a, .carousel-panel .item.active > a, .products .carousel-panel > button:not([disabled])'
       )
     );
   }
 
+  // Return group list as HTMLElement array
+  private getGroupElements(): any[] {
+    const groups = [];
+    groups.push(
+      Array.from(
+        this.winRef.document.querySelectorAll(
+          '.products ul:not(.hidden) > li a'
+        )
+      )
+    );
+    groups.push(
+      Array.from(
+        this.winRef.document.querySelectorAll('.suggestions ul  > li a')
+      )
+    );
+    groups.push(
+      Array.from(
+        this.winRef.document.querySelectorAll('.recent-searches ul > li a')
+      )
+    );
+
+    groups.push(
+      Array.from(
+        this.winRef.document.querySelectorAll(
+          '.carousel-panel .item.active > a, .carousel-panel > button:not([disabled])'
+        )
+      )
+    );
+    groups.push(
+      Array.from(
+        this.winRef.document.querySelectorAll('.search-panel-close-btn')
+      )
+    );
+
+    return groups.filter((group) => group.length);
+  }
   // Return focused element as HTMLElement
   private getFocusedElement(): HTMLElement {
     return <HTMLElement>this.winRef.document.activeElement;
@@ -322,6 +363,16 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   private getFocusedIndex(): number {
     return this.getResultElements().indexOf(this.getFocusedElement());
+  }
+
+  private getFocusedGroupIndex(): number {
+    let indexGroup = 0;
+    this.getGroupElements().map((group, index) => {
+      if (group.indexOf(this.getFocusedElement()) !== -1) {
+        indexGroup = index;
+      }
+    });
+    return indexGroup;
   }
 
   private propagateEvent(event: KeyboardEvent) {
@@ -336,6 +387,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           return;
         case 'ArrowDown':
           this.focusNextChild(event);
+          return;
+        case 'ArrowLeft':
+          this.focusPreviousGroup(event);
+          return;
+        case 'ArrowRight':
+          this.focusNextGroup(event);
           return;
         default:
           return;
@@ -376,6 +433,71 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         results[0].focus();
       } else {
         results[focusedIndex + 1].focus();
+      }
+    }
+  }
+
+  // Focus on previous item in results list
+  focusPreviousGroup(event: UIEvent) {
+    event.preventDefault(); // Negate normal keyscroll
+    const [results, focusedGroupIndex] = [
+      this.getGroupElements(),
+      this.getFocusedGroupIndex(),
+    ];
+
+    // Focus on last index moving to first
+    if (results[focusedGroupIndex].length) {
+      if (focusedGroupIndex < 1) {
+        results[0][0].focus();
+      } else {
+        results[focusedGroupIndex - 1][0].focus();
+      }
+    }
+  }
+  // Focus on next item in results list
+  focusNextGroup(event: UIEvent) {
+    this.open();
+    event.preventDefault(); // Negate normal keyscroll
+    const [results, focusedGroupIndex] = [
+      this.getGroupElements(),
+      this.getFocusedGroupIndex(),
+    ];
+    // Focus on first index moving to last
+    if (results.length) {
+      if (focusedGroupIndex >= results.length - 1) {
+        results[0][0].focus();
+      } else {
+        results[focusedGroupIndex + 1][0].focus();
+      }
+    }
+  }
+
+  carouseEventPropagator(event: KeyboardEvent) {
+    if (event) {
+      if (event.code) {
+        switch (event.code) {
+          case 'ArrowRight':
+            this.focusNextChild(event);
+            return;
+          case 'ArrowLeft': {
+            this.getGroupElements().forEach((group) => {
+              if (group.indexOf(this.getFocusedElement()) !== -1) {
+                if (group.indexOf(this.getFocusedElement()) === 0) {
+                  this.focusPreviousGroup(event);
+                } else {
+                  this.focusPreviousChild(event);
+                }
+              }
+            });
+
+            return;
+          }
+          case 'ArrowUp':
+            this.focusNextGroup(event);
+            return;
+          default:
+            return;
+        }
       }
     }
   }

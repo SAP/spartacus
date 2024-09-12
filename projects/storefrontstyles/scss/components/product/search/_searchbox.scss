@@ -266,6 +266,9 @@
     }
 
     .products {
+      cx-carousel {
+        display: none;
+      }
       @include media-breakpoint-down(sm) {
         display: none;
       }
@@ -314,19 +317,27 @@
       }
     }
   }
-  .search-panel-close-btn{
+  .search-panel-close-btn {
     display: none;
   }
   &.search-box-v2 {
-    .search-panel-close-btn{
+    input {
+      @include media-breakpoint-down(sm) {
+        background-color: var(--cx-color-light);
+      }
+    }
+    .search-panel-close-btn {
       display: block;
       position: absolute;
-      right: 0;
-      top: 0;
-      font-size: 14px;
+      right: 40px; //padding panel
+      top: 24px; //padding panel
+      min-height: 1rem;
       color: $primary;
+      padding: 5px 8px;
       z-index: 1;
-      font-weight: 600;
+      @include forFeature('a11yImproveContrast') {
+        @include type('8');
+      }
       @include media-breakpoint-down(sm) {
         right: 12px;
         top: 4px;
@@ -377,6 +388,9 @@
         @include media-breakpoint-down(sm) {
           width: 100%;
         }
+        &:focus{
+          background-color: pink;
+        }
       }
 
       cx-recent-searches {
@@ -385,7 +399,6 @@
         padding-inline-start: 0;
         margin-bottom: 0;
         border-top: none;
-
         &:has(.recent-searches) {
           width: 20%;
           @include media-breakpoint-down(sm) {
@@ -398,6 +411,14 @@
       }
 
       .products {
+        cx-carousel {
+          display: flex;
+        }
+
+        ul {
+          display: none;
+        }
+
         width: 100%;
         flex-wrap: wrap;
         list-style: none;
@@ -411,22 +432,22 @@
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
-          cx-media{
-            &.is-missing{
+          cx-media {
+            &.is-missing {
               height: 120px;
             }
             img {
               max-width: 120px;
             }
-
           }
           h3.cx-product-name {
             text-overflow: ellipsis;
             overflow: hidden;
           }
-        }@include media-breakpoint-down(sm) {
-           display: block;
-         }
+        }
+        @include media-breakpoint-down(sm) {
+          display: block;
+        }
       }
       .suggestions ~ cx-recent-searches:has(.recent-searches) ~ .products {
         flex-basis: 60%;
@@ -448,7 +469,7 @@
         }
       }
       %cx-carousel {
-        .indicators{
+        .indicators {
           display: none;
           @include media-breakpoint-down(sm) {
             display: flex;
