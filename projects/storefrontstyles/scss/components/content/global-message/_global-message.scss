@@ -3,4 +3,17 @@
   display: block;
   top: 0;
   z-index: 2;
+
+  @include cx-highContrastTheme {
+    .alert-danger,
+    .alert-warning,
+    .alert-info,
+    .alert-success {
+      border: 1px solid var(--cx-color-text);
+      background-color: var(--cx-color-background);
+    }
+    .close {
+      color: var(--cx-color-text);
+    }
+  }
 }

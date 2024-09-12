@@ -14,12 +14,13 @@ describe('BaseSite Actions', () => {
 
     describe('LoadBaseSiteFail', () => {
       it('should create an action', () => {
-        const payload = { message: 'Load Error' };
-        const action = new SiteContextActions.LoadBaseSiteFail(payload);
+        const error = { message: 'Load Error' };
+        const action = new SiteContextActions.LoadBaseSiteFail(error);
 
         expect({ ...action }).toEqual({
           type: SiteContextActions.LOAD_BASE_SITE_FAIL,
-          payload,
+          payload: error,
+          error,
         });
       });
     });
@@ -53,12 +54,13 @@ describe('BaseSite Actions', () => {
 
     describe('LoadBaseSitesFail', () => {
       it('should create an action', () => {
-        const payload = { message: 'Load Error' };
-        const action = new SiteContextActions.LoadBaseSitesFail(payload);
+        const error = { message: 'Load Error' };
+        const action = new SiteContextActions.LoadBaseSitesFail(error);
 
         expect({ ...action }).toEqual({
           type: SiteContextActions.LOAD_BASE_SITES_FAIL,
-          payload,
+          payload: error,
+          error,
         });
       });
     });

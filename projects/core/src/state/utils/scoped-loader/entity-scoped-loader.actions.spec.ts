@@ -1,10 +1,10 @@
-import { EntityScopedLoaderActions } from './entity-scoped-loader.actions';
 import {
   ENTITY_FAIL_ACTION,
   ENTITY_LOAD_ACTION,
   ENTITY_RESET_ACTION,
   ENTITY_SUCCESS_ACTION,
 } from '../entity-loader/entity-loader.action';
+import { EntityScopedLoaderActions } from './entity-scoped-loader.actions';
 
 describe('EntityScopedLoaderActions', () => {
   const TEST_ENTITY_TYPE = 'test';
@@ -32,11 +32,12 @@ describe('EntityScopedLoaderActions', () => {
 
     describe('EntityScopedFailAction', () => {
       it('should create an action', () => {
+        const error = new Error('error');
         const action = new EntityScopedLoaderActions.EntityScopedFailAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID,
           SCOPE,
-          'error'
+          error
         );
         expect({ ...action }).toEqual({
           type: ENTITY_FAIL_ACTION,
@@ -44,8 +45,9 @@ describe('EntityScopedLoaderActions', () => {
             TEST_ENTITY_TYPE,
             TEST_ENTITY_ID,
             SCOPE,
-            'error'
+            error
           ),
+          error,
         });
       });
     });

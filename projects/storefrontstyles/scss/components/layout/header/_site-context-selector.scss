@@ -54,4 +54,14 @@ $caretSize: 7px;
       background-color: var(--cx-color-light);
     }
   }
+
+  @include cx-highContrastTheme {
+    select {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    cx-icon {
+      color: var(--cx-color-text);
+    }
+  }
 }
