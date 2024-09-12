@@ -28,7 +28,6 @@ import {
 import {
   OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE,
   OpfCheckoutFacade,
-  OpfPaymentMethodType,
   OpfRenderPaymentMethodEvent,
   PaymentPattern,
   PaymentSessionData,
@@ -158,13 +157,16 @@ export class OpfCheckoutPaymentWrapperService {
       this.renderPaymentMethodEvent$.next({
         isLoading: false,
         isError: false,
-        renderType: OpfPaymentMethodType.DESTINATION,
+        renderType: config?.pattern,
         data: config?.destination.url,
         destination: config?.destination,
       });
     }
 
-    if (config?.dynamicScript) {
+    if (
+      config?.dynamicScript &&
+      config?.pattern === PaymentPattern.HOSTED_FIELDS
+    ) {
       const html = config?.dynamicScript?.html;
 
       this.opfResourceLoaderService
@@ -176,7 +178,7 @@ export class OpfCheckoutPaymentWrapperService {
           this.renderPaymentMethodEvent$.next({
             isLoading: false,
             isError: false,
-            renderType: OpfPaymentMethodType.DYNAMIC_SCRIPT,
+            renderType: config?.pattern,
             data: html,
           });
 

@@ -44,7 +44,7 @@ export interface PaymentSessionData {
   relayResultUrl?: string;
   relayCancelUrl?: string;
   paymentIntent?: string;
-  pattern?: string;
+  pattern?: PaymentPattern;
   destination?: PaymentDestination;
   dynamicScript?: OpfDynamicScript;
 }

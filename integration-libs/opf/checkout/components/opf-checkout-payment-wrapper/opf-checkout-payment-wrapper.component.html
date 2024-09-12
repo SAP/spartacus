@@ -14,15 +14,25 @@
 <ng-template #paymentData let-paymentLink="paymentLink">
   <div>
     <div
-      *ngIf="paymentLink.renderType === RENDER_TYPES.DESTINATION"
+      *ngIf="paymentLink.renderType === RENDER_PATTERN.FULL_PAGE"
       class="cx-payment-link"
     >
-      <a
-        *ngIf="!paymentLink.destination?.form?.length"
-        class="btn btn-primary"
-        [href]="paymentLink.data"
-        >{{ 'opf.checkout.proceedPayment' | cxTranslate }}</a
-      >
+      <a class="btn btn-primary" [href]="paymentLink.data">{{
+        'opf.checkout.proceedPayment' | cxTranslate
+      }}</a>
+    </div>
+    <ng-container
+      *ngIf="
+        paymentLink.data && paymentLink.renderType === RENDER_PATTERN.IFRAME
+      "
+    >
+      <iframe
+        class="cx-payment-iframe"
+        *ngIf="
+          !paymentLink.destination?.form?.length && paymentLink.destination?.url
+        "
+        [src]="renderUrl(paymentLink.destination?.url)"
+      ></iframe>
 
       <form
         *ngIf="paymentLink.destination?.form?.length"
@@ -44,11 +54,11 @@
           [value]="'opf.checkout.proceedPayment' | cxTranslate"
         />
       </form>
-    </div>
+    </ng-container>
     <ng-container
       *ngIf="
         paymentLink.data &&
-        paymentLink.renderType === RENDER_TYPES.DYNAMIC_SCRIPT
+        paymentLink.renderType === RENDER_PATTERN.HOSTED_FIELDS
       "
     >
       <div [innerHTML]="renderHtml(paymentLink.data)"></div>

@@ -11,5 +11,10 @@
     .cx-payment-link {
       text-align: end;
     }
+    .cx-payment-iframe {
+      min-height: 400px;
+      width: 100%;
+      border: none;
+    }
   }
 }
