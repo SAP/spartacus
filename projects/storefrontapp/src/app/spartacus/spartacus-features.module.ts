@@ -58,6 +58,7 @@ import {
   SiteContextSelectorModule,
   StockNotificationModule,
   TabParagraphContainerModule,
+  SiteThemeSwitcherModule,
   USE_MY_ACCOUNT_V2_CONSENT,
   USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
   VideoModule,
@@ -185,6 +186,7 @@ if (environment.cpq) {
     PDFModule,
     ScrollToTopModule,
     VideoModule,
+    SiteThemeSwitcherModule,
 
     // User Core
     UserModule,
@@ -364,6 +366,7 @@ if (environment.cpq) {
         a11yRemoveStatusLoadedRole: true,
         a11yDialogsHeading: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
+        useSiteThemeService: false,
       };
       return appFeatureToggles;
     }),

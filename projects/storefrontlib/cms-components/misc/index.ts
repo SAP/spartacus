@@ -9,3 +9,4 @@ export * from './icon/index';
 export * from './message/index';
 export * from './promotions/index';
 export * from './site-context-selector/index';
+export * from './site-theme-switcher/index';

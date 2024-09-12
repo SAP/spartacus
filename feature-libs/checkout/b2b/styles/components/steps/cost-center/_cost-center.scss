@@ -16,5 +16,10 @@
 
     border-radius: 4px;
     border-color: var(--cx-color-light);
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+      border-color: var(--cx-color-text);
+    }
   }
 }

@@ -24,6 +24,9 @@
     .title {
       @include type('4');
     }
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+    }
   }
 
   .spliter {
@@ -47,6 +50,9 @@
 
     .cx-dialog-item {
       padding: 0.2rem;
+    }
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
     }
   }
 
