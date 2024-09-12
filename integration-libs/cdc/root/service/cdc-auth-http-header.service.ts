@@ -6,7 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { AuthHttpHeaderService, GlobalMessageType } from '@spartacus/core';
-import { CdcAuthLogOutService } from '../guards/cdc-auth-logout.service';
+import { CdcAuthLogOutService } from './cdc-auth-logout.service';
 
 @Injectable({
   providedIn: 'root',

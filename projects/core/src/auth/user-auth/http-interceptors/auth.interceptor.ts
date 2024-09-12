@@ -65,8 +65,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 } else if (
                   // Refresh the expired token
                   // Check if the OAuth endpoint was called and the error is because the refresh token expired
-                  this.errorIsInvalidToken(errResponse) ||
-                  this.errorIsOidcInvlidToken(errResponse)
+                  this.errorIsInvalidToken(errResponse)
                 ) {
                   this.authHttpHeaderService.handleExpiredRefreshToken();
                   return EMPTY;
@@ -89,22 +88,6 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   protected errorIsInvalidToken(errResponse: HttpErrorResponse): boolean {
-    return (
-      (errResponse.url?.includes(this.authConfigService.getTokenEndpoint()) &&
-        errResponse.error.error === 'invalid_token') ??
-      false
-    );
-  }
-
-  protected errorIsInvalidGrant(errResponse: HttpErrorResponse): boolean {
-    return (
-      (errResponse.url?.includes(this.authConfigService.getTokenEndpoint()) &&
-        errResponse.error.error === 'invalid_grant') ??
-      false
-    );
-  }
-
-  protected errorIsOidcInvlidToken(errResponse: HttpErrorResponse): boolean {
     const authHeader = errResponse.headers.get('www-authenticate');
     if (!this.authConfigService.getOAuthLibConfig().disablePKCE && authHeader) {
       const parts = authHeader.split(',').map((part) => part.trim());
@@ -113,11 +96,22 @@ export class AuthInterceptor implements HttpInterceptor {
         ? errorPart.split('=')[1].replace(/"/g, '')
         : '';
 
-      if (errorDetails === 'invalid_token') {
-        return true;
-      }
+      return errorDetails === 'invalid_token' ?? false;
+    } else {
+      return (
+        (errResponse.url?.includes(this.authConfigService.getTokenEndpoint()) &&
+          errResponse.error.error === 'invalid_token') ??
+        false
+      );
     }
-    return false;
+  }
+
+  protected errorIsInvalidGrant(errResponse: HttpErrorResponse): boolean {
+    return (
+      (errResponse.url?.includes(this.authConfigService.getTokenEndpoint()) &&
+        errResponse.error.error === 'invalid_grant') ??
+      false
+    );
   }
 
   protected isExpiredToken(resp: HttpErrorResponse): boolean {
