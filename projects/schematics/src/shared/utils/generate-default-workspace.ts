@@ -14,8 +14,10 @@ const workspaceOptions: WorkspaceOptions = {
   name: 'workspace',
   version: '0.5.0',
 };
+const projectName = 'schematics-test';
+
 const appOptions: ApplicationOptions = {
-  name: 'schematics-test',
+  name: projectName,
   inlineStyle: false,
   inlineTemplate: false,
   style: Style.Scss,
@@ -24,10 +26,11 @@ const appOptions: ApplicationOptions = {
   standalone: false,
 };
 const spartacusDefaultOptions: SpartacusOptions = {
-  project: 'schematics-test',
+  project: projectName,
   lazy: true,
   features: [],
 };
+
 export async function generateDefaultWorkspace(
   schematicRunner: SchematicTestRunner,
   appTree: UnitTestTree
@@ -51,7 +54,7 @@ export async function generateDefaultWorkspace(
   appTree = await schematicRunner.runExternalSchematic(
     SPARTACUS_SCHEMATICS,
     'ng-add',
-    { ...spartacusDefaultOptions, name: 'schematics-test' },
+    { ...spartacusDefaultOptions, name: projectName },
     appTree
   );
   return appTree;
