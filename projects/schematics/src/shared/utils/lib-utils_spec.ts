@@ -16,10 +16,10 @@ import {
   SPARTACUS_ORDER,
 } from '../libs-constants';
 import {
-  LibraryOptions,
-  SchematicConfig,
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  LibraryOptions,
+  SchematicConfig,
   shouldAddFeature,
 } from './lib-utils';
 
@@ -129,7 +129,7 @@ describe('Lib utils', () => {
     lazy: true,
   };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
@@ -164,17 +164,65 @@ describe('Lib utils', () => {
     });
   });
 
-  describe('addLibraryFeature', () => {
-    it('should add i18n config in feature module', async () => {
+  describe('addPackageJsonDependenciesForLibrary', () => {
+    beforeEach(async () => {
       appTree = await firstValueFrom(
         schematicRunner.callRule(
-          addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG),
+          addLibraryFeature(CHECKOUT_OPTIONS, CHECKOUT_FEATURE_CONFIG),
           appTree
         )
       );
-
-      expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
     });
+
+    it('checkout', async () => {
+      const peerDependencies: Record<string, string> = {
+        [SPARTACUS_ORDER]: '4.1.0-next.0',
+        [SPARTACUS_CART]: '4.1.0-next.0',
+        [SPARTACUS_CHECKOUT]: '4.1.0-next.0',
+      };
+
+      await schematicRunner
+        .callRule(
+          addPackageJsonDependenciesForLibrary(
+            peerDependencies,
+            CHECKOUT_OPTIONS
+          ),
+          appTree
+        )
+        .toPromise();
+
+      const packageJson = JSON.parse(
+        appTree.read('package.json')?.toString(UTF_8) ?? ''
+      ).dependencies as Record<string, string>;
+
+      expect(packageJson[SPARTACUS_ORDER]).toBeTruthy();
+      expect(packageJson[SPARTACUS_CART]).toBeTruthy();
+      expect(packageJson[SPARTACUS_CHECKOUT]).toBeTruthy();
+    });
+  });
+
+  describe('addLibraryFeature', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner.runExternalSchematic(
+        '@schematics/angular',
+        'workspace',
+        workspaceOptions
+      );
+
+      appTree = await schematicRunner.runExternalSchematic(
+        '@schematics/angular',
+        'application',
+        appOptions,
+        appTree
+      );
+
+      appTree = await schematicRunner.runSchematic(
+        'add-spartacus',
+        { ...spartacusDefaultOptions, name: 'schematics-test' },
+        appTree
+      );
+    });
+
     it('should NOT add i18n if the config is not present', async () => {
       const featureConfig: SchematicConfig = {
         ...BASE_FEATURE_CONFIG,
@@ -189,6 +237,29 @@ describe('Lib utils', () => {
 
       expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
     });
+    it('should add i18n config in feature module', async () => {
+      appTree = await firstValueFrom(
+        schematicRunner.callRule(
+          addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG),
+          appTree
+        )
+      );
+
+      expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
+    });
+
+    describe('when the eager loading is configured', () => {
+      it('should add it in the eager way', async () => {
+        const rule = addLibraryFeature(
+          { ...BASE_OPTIONS, lazy: false },
+          BASE_FEATURE_CONFIG
+        );
+        appTree = await firstValueFrom(schematicRunner.callRule(rule, appTree));
+
+        expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
+      });
+    });
+
     describe('when the lazy loading is configured', () => {
       it('should add it in the lazy loading way', async () => {
         appTree = await firstValueFrom(
@@ -197,17 +268,6 @@ describe('Lib utils', () => {
             appTree
           )
         );
-
-        expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
-      });
-    });
-    describe('when the eager loading is configured', () => {
-      it('should add it in the eager way', async () => {
-        const rule = addLibraryFeature(
-          { ...BASE_OPTIONS, lazy: false },
-          BASE_FEATURE_CONFIG
-        );
-        appTree = await firstValueFrom(schematicRunner.callRule(rule, appTree));
 
         expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
       });
@@ -271,6 +331,7 @@ describe('Lib utils', () => {
         expect(appTree.read('angular.json')?.toString(UTF_8)).toMatchSnapshot();
       });
     });
+
     describe('style', () => {
       describe('when the library style file name is provided in the config', () => {
         describe('and the scss file does NOT exist', () => {
@@ -366,43 +427,6 @@ describe('Lib utils', () => {
           expect(content?.startsWith(`${STYLES_CONFIG_IMPORT}\n`)).toBeFalsy();
         });
       });
-    });
-  });
-
-  describe('addPackageJsonDependenciesForLibrary', () => {
-    beforeEach(async () => {
-      appTree = await firstValueFrom(
-        schematicRunner.callRule(
-          addLibraryFeature(CHECKOUT_OPTIONS, CHECKOUT_FEATURE_CONFIG),
-          appTree
-        )
-      );
-    });
-
-    it('checkout', async () => {
-      const peerDependencies: Record<string, string> = {
-        [SPARTACUS_ORDER]: '4.1.0-next.0',
-        [SPARTACUS_CART]: '4.1.0-next.0',
-        [SPARTACUS_CHECKOUT]: '4.1.0-next.0',
-      };
-
-      await schematicRunner
-        .callRule(
-          addPackageJsonDependenciesForLibrary(
-            peerDependencies,
-            CHECKOUT_OPTIONS
-          ),
-          appTree
-        )
-        .toPromise();
-
-      const packageJson = JSON.parse(
-        appTree.read('package.json')?.toString(UTF_8) ?? ''
-      ).dependencies as Record<string, string>;
-
-      expect(packageJson[SPARTACUS_ORDER]).toBeTruthy();
-      expect(packageJson[SPARTACUS_CART]).toBeTruthy();
-      expect(packageJson[SPARTACUS_CHECKOUT]).toBeTruthy();
     });
   });
 });
