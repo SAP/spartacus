@@ -656,8 +656,8 @@
       "@spartacus/opf/checkout/root": [
         "../../integration-libs/opf/checkout/root/public_api"
       ],
-      "@spartacus/opf/cta/core/components": [
-        "../../integration-libs/opf/cta/core/components/public_api"
+      "@spartacus/opf/cta/components": [
+        "../../integration-libs/opf/cta/components/public_api"
       ],
       "@spartacus/opf/cta/core": [
         "../../integration-libs/opf/cta/core/public_api"
@@ -672,11 +672,11 @@
       "@spartacus/opf/global-functions/core": [
         "../../integration-libs/opf/global-functions/core/public_api"
       ],
-      "@spartacus/opf/global-functions/root": [
-        "../../integration-libs/opf/global-functions/root/public_api"
-      ],
       "@spartacus/opf/global-functions": [
         "../../integration-libs/opf/global-functions/public_api"
+      ],
+      "@spartacus/opf/global-functions/root": [
+        "../../integration-libs/opf/global-functions/root/public_api"
       ],
       "@spartacus/opf": ["../../integration-libs/opf/public_api"],
       "@spartacus/opf/payment/assets": [

@@ -415,7 +415,7 @@
       "@spartacus/opf/checkout/components": ["dist/opf/checkout/components"],
       "@spartacus/opf/checkout": ["dist/opf/checkout"],
       "@spartacus/opf/checkout/root": ["dist/opf/checkout/root"],
-      "@spartacus/opf/cta/core/components": ["dist/opf/cta/core/components"],
+      "@spartacus/opf/cta/components": ["dist/opf/cta/components"],
       "@spartacus/opf/cta/core": ["dist/opf/cta/core"],
       "@spartacus/opf/cta/root": ["dist/opf/cta/root"],
       "@spartacus/opf/cta": ["dist/opf/cta"],

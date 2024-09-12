@@ -643,8 +643,8 @@
       "@spartacus/opf/checkout/root": [
         "../../integration-libs/opf/checkout/root/public_api"
       ],
-      "@spartacus/opf/cta/core/components": [
-        "../../integration-libs/opf/cta/core/components/public_api"
+      "@spartacus/opf/cta/components": [
+        "../../integration-libs/opf/cta/components/public_api"
       ],
       "@spartacus/opf/cta/core": [
         "../../integration-libs/opf/cta/core/public_api"
