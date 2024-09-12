@@ -1,20 +1,12 @@
-import { Tree } from '@angular-devkit/schematics';
-import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
-import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
+import {Tree} from '@angular-devkit/schematics';
+import {SchematicTestRunner} from '@angular-devkit/schematics/testing';
+import {Schema as ApplicationOptions, Style,} from '@schematics/angular/application/schema';
+import {Schema as WorkspaceOptions} from '@schematics/angular/workspace/schema';
 import * as path from 'path';
-import { firstValueFrom } from 'rxjs';
-import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
-import { CDS_CONFIG, UTF_8 } from '../constants';
-import {
-  SPARTACUS_CART,
-  SPARTACUS_CDS,
-  SPARTACUS_CHECKOUT,
-  SPARTACUS_ORDER,
-} from '../libs-constants';
+import {firstValueFrom} from 'rxjs';
+import {Schema as SpartacusOptions} from '../../add-spartacus/schema';
+import {CDS_CONFIG, UTF_8} from '../constants';
+import {SPARTACUS_CART, SPARTACUS_CDS, SPARTACUS_CHECKOUT, SPARTACUS_ORDER,} from '../libs-constants';
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
@@ -129,7 +121,7 @@ describe('Lib utils', () => {
     lazy: true,
   };
 
-  beforeAll(async () => {
+  async function generateWorkspace() {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
@@ -145,12 +137,42 @@ describe('Lib utils', () => {
 
     appTree = await schematicRunner.runSchematic(
       'add-spartacus',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      {...spartacusDefaultOptions, name: 'schematics-test'},
       appTree
     );
-  });
+  }
 
+  describe('assets options', () => {
+    beforeAll(async () => {
+      await generateWorkspace()
+    });
+    it('should update angular.json file with assets', async () => {
+      // before
+      expect(appTree.read('angular.json')?.toString(UTF_8)).toMatchSnapshot();
+
+      const featureConfig: SchematicConfig = {
+        ...BASE_FEATURE_CONFIG,
+        assets: {
+          input: 'smartedit/assets',
+          glob: '**/*',
+        },
+      };
+      appTree = await firstValueFrom(
+        schematicRunner.callRule(
+          addLibraryFeature(BASE_OPTIONS, featureConfig),
+          appTree
+        )
+      );
+
+      // after
+      expect(appTree.read('angular.json')?.toString(UTF_8)).toMatchSnapshot();
+    });
+  });
   describe('shouldAddFeature', () => {
+    beforeAll(async () => {
+      await generateWorkspace()
+    })
+
     it('should return true if the feature is present in the given features array', () => {
       const feature1 = 'feature1';
       const features = [feature1];
@@ -164,8 +186,23 @@ describe('Lib utils', () => {
     });
   });
 
+  describe('when the eager loading is configured', () => {
+    beforeAll(async () => {
+      await generateWorkspace()
+    });
+    it('should add it in the eager way', async () => {
+      const rule = addLibraryFeature(
+        {...BASE_OPTIONS, lazy: false},
+        BASE_FEATURE_CONFIG
+      );
+      appTree = await firstValueFrom(schematicRunner.callRule(rule, appTree));
+
+      expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
+    });
+  });
   describe('addPackageJsonDependenciesForLibrary', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      await generateWorkspace()
       appTree = await firstValueFrom(
         schematicRunner.callRule(
           addLibraryFeature(CHECKOUT_OPTIONS, CHECKOUT_FEATURE_CONFIG),
@@ -202,7 +239,9 @@ describe('Lib utils', () => {
   });
 
   describe('addLibraryFeature', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      await generateWorkspace()
+
       appTree = await schematicRunner.runExternalSchematic(
         '@schematics/angular',
         'workspace',
@@ -218,7 +257,7 @@ describe('Lib utils', () => {
 
       appTree = await schematicRunner.runSchematic(
         'add-spartacus',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
+        {...spartacusDefaultOptions, name: 'schematics-test'},
         appTree
       );
     });
@@ -248,17 +287,6 @@ describe('Lib utils', () => {
       expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
     });
 
-    describe('when the eager loading is configured', () => {
-      it('should add it in the eager way', async () => {
-        const rule = addLibraryFeature(
-          { ...BASE_OPTIONS, lazy: false },
-          BASE_FEATURE_CONFIG
-        );
-        appTree = await firstValueFrom(schematicRunner.callRule(rule, appTree));
-
-        expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
-      });
-    });
 
     describe('when the lazy loading is configured', () => {
       it('should add it in the lazy loading way', async () => {
@@ -308,29 +336,6 @@ describe('Lib utils', () => {
         expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
       });
     });
-    describe('assets options', () => {
-      it('should update angular.json file with assets', async () => {
-        // before
-        expect(appTree.read('angular.json')?.toString(UTF_8)).toMatchSnapshot();
-
-        const featureConfig: SchematicConfig = {
-          ...BASE_FEATURE_CONFIG,
-          assets: {
-            input: 'smartedit/assets',
-            glob: '**/*',
-          },
-        };
-        appTree = await firstValueFrom(
-          schematicRunner.callRule(
-            addLibraryFeature(BASE_OPTIONS, featureConfig),
-            appTree
-          )
-        );
-
-        // after
-        expect(appTree.read('angular.json')?.toString(UTF_8)).toMatchSnapshot();
-      });
-    });
 
     describe('style', () => {
       describe('when the library style file name is provided in the config', () => {
@@ -349,7 +354,8 @@ describe('Lib utils', () => {
           });
         });
         describe('and the scss with the same content already exists', () => {
-          beforeEach(() => {
+          beforeEach(async () => {
+            await generateWorkspace()
             appTree.create(
               scssFilePath,
               `@import "${FEATURE_MODULE_IMPORT_PATH}";`
@@ -368,7 +374,8 @@ describe('Lib utils', () => {
         });
         describe('and the scss file with a different content already exists', () => {
           const randomContent = `@import "@random/xxx";`;
-          beforeEach(() => {
+          beforeEach(async () => {
+            await generateWorkspace()
             appTree.create(scssFilePath, randomContent);
           });
           it('should append it', async () => {
@@ -386,6 +393,9 @@ describe('Lib utils', () => {
         });
       });
       describe('When the library style file name is NOT provided in the config', () => {
+        beforeAll(async () => {
+          await generateWorkspace()
+        })
         it('should not add it', async () => {
           const rule = addLibraryFeature(BASE_OPTIONS, {
             ...BASE_FEATURE_CONFIG,
@@ -396,20 +406,6 @@ describe('Lib utils', () => {
           );
 
           expect(appTree.exists(scssFilePath)).toEqual(false);
-        });
-      });
-
-      describe('When the global style config file exists, ', () => {
-        it('import the global style config file in the library style file', async () => {
-          expect(appTree.exists(STYLES_CONFIG_FILE_PATH)).toEqual(true);
-          const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
-          appTree = await firstValueFrom(
-            schematicRunner.callRule(rule, appTree)
-          );
-
-          expect(appTree.exists(scssFilePath)).toEqual(true);
-          const content = appTree.read(scssFilePath)?.toString(UTF_8);
-          expect(content?.startsWith(`${STYLES_CONFIG_IMPORT}\n`)).toBeTruthy();
         });
       });
 
@@ -425,6 +421,23 @@ describe('Lib utils', () => {
           expect(appTree.exists(scssFilePath)).toEqual(true);
           const content = appTree.read(scssFilePath)?.toString(UTF_8);
           expect(content?.startsWith(`${STYLES_CONFIG_IMPORT}\n`)).toBeFalsy();
+        });
+      });
+
+      describe('When the global style config file exists, ', () => {
+        beforeAll(async () => {
+          await generateWorkspace()
+        })
+        it('import the global style config file in the library style file', async () => {
+          expect(appTree.exists(STYLES_CONFIG_FILE_PATH)).toEqual(true);
+          const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
+          appTree = await firstValueFrom(
+            schematicRunner.callRule(rule, appTree)
+          );
+
+          expect(appTree.exists(scssFilePath)).toEqual(true);
+          const content = appTree.read(scssFilePath)?.toString(UTF_8);
+          expect(content?.startsWith(`${STYLES_CONFIG_IMPORT}\n`)).toBeTruthy();
         });
       });
     });
