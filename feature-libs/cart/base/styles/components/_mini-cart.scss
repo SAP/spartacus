@@ -50,4 +50,10 @@
       }
     }
   }
+
+  @include cx-highContrastTheme-dark {
+    a {
+      color: var(--cx-color-medium);
+    }
+  }
 }

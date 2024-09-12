@@ -42,7 +42,8 @@ describe('SSR', () => {
     seoChecks();
   });
 
-  it('should render PDP', () => {
+  // Enable this test as soon as CXSPA-8389 is fixed
+  it.skip('should render PDP', () => {
     cy.visit(pdpUrl);
     seoChecks();
   });

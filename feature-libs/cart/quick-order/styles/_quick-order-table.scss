@@ -1,3 +1,11 @@
 %cx-quick-order-table {
   @extend %cx-cart-item-list;
+  @include cx-highContrastTheme {
+    tr {
+      border-color: var(--cx-color-dark);
+    }
+    .cx-item-list-items tr:last-child {
+      border-color: var(--cx-color-dark);
+    }
+  }
 }
