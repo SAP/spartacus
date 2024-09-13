@@ -6,16 +6,13 @@
 
 import { NgModule } from '@angular/core';
 import {
-  CHECKOUT_BASE_CMS_COMPONENTS,
-  CHECKOUT_FEATURE,
-} from '@spartacus/checkout/base/root';
-import {
   CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { defaultOpfCheckoutConfig } from './config/default-opf-checkout-config';
 import { defaultOpfCheckoutRoutingConfig } from './config/default-opf-checkout-routing-config';
+import { OPF_CHECKOUT_FEATURE } from './feature-name';
 
 export const CHECKOUT_OPF_CMS_COMPONENTS: string[] = [
   'OpfCheckoutPaymentAndReview',
@@ -24,11 +21,8 @@ export const CHECKOUT_OPF_CMS_COMPONENTS: string[] = [
 export function defaultOpfCheckoutComponentsConfig() {
   const config: CmsConfig = {
     featureModules: {
-      [CHECKOUT_FEATURE]: {
-        cmsComponents: [
-          ...CHECKOUT_BASE_CMS_COMPONENTS,
-          ...CHECKOUT_OPF_CMS_COMPONENTS,
-        ],
+      [OPF_CHECKOUT_FEATURE]: {
+        cmsComponents: CHECKOUT_OPF_CMS_COMPONENTS,
       },
     },
   };

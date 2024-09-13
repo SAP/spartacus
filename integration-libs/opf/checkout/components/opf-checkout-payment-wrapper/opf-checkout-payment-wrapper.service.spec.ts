@@ -1,6 +1,8 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { ActiveCartService } from '@spartacus/cart/base/core';
-import { CartAccessCodeFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  CartAccessCodeFacade,
+} from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   RouterState,
@@ -31,7 +33,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   let cartAccessCodeFacadeMock: jasmine.SpyObj<CartAccessCodeFacade>;
   let opfResourceLoaderServiceMock: jasmine.SpyObj<OpfResourceLoaderService>;
   let userIdServiceMock: jasmine.SpyObj<UserIdService>;
-  let activeCartServiceMock: jasmine.SpyObj<ActiveCartService>;
+  let activeCartServiceMock: jasmine.SpyObj<ActiveCartFacade>;
   let routingServiceMock: jasmine.SpyObj<RoutingService>;
   let globalMessageServiceMock: jasmine.SpyObj<GlobalMessageService>;
   let orderFacadeMock: jasmine.SpyObj<OrderFacade>;
@@ -53,7 +55,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       ]
     );
     userIdServiceMock = jasmine.createSpyObj('UserIdService', ['getUserId']);
-    activeCartServiceMock = jasmine.createSpyObj('ActiveCartService', [
+    activeCartServiceMock = jasmine.createSpyObj('ActiveCartFacade', [
       'getActiveCartId',
     ]);
     routingServiceMock = jasmine.createSpyObj('RoutingService', [
@@ -90,7 +92,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
           useValue: opfResourceLoaderServiceMock,
         },
         { provide: UserIdService, useValue: userIdServiceMock },
-        { provide: ActiveCartService, useValue: activeCartServiceMock },
+        { provide: ActiveCartFacade, useValue: activeCartServiceMock },
         { provide: RoutingService, useValue: routingServiceMock },
         { provide: GlobalMessageService, useValue: globalMessageServiceMock },
         { provide: OrderFacade, useValue: orderFacadeMock },

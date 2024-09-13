@@ -5,8 +5,10 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveCartService } from '@spartacus/cart/base/core';
-import { CartAccessCodeFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  CartAccessCodeFacade,
+} from '@spartacus/cart/base/root';
 import {
   DEFAULT_AUTHORIZATION_ERROR_RETRIES_COUNT,
   GlobalMessageService,
@@ -56,7 +58,7 @@ export class OpfCheckoutPaymentWrapperService {
     protected opfPaymentService: OpfPaymentFacade,
     protected opfResourceLoaderService: OpfResourceLoaderService,
     protected userIdService: UserIdService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected orderFacade: OrderFacade,
