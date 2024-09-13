@@ -5,7 +5,7 @@
  */
 
 import { NgModule, Provider } from '@angular/core';
-import { I18nConfig, RoutingConfig, provideConfig } from '@spartacus/core';
+import { I18nConfig, provideConfig, RoutingConfig } from '@spartacus/core';
 import {
   OPF_BASE_FEATURE,
   OpfBaseRootModule,
@@ -18,6 +18,8 @@ import {
 import {
   defaultOpfCheckoutB2bConfig,
   defaultOpfCheckoutConfig,
+  OPF_CHECKOUT_FEATURE,
+  OpfCheckoutRootModule,
 } from '@spartacus/opf/checkout/root';
 import {
   opfPaymentTranslationChunksConfig,
@@ -46,6 +48,7 @@ if (environment.b2b) {
   imports: [
     OpfBaseRootModule,
     OpfPaymentRootModule,
+    OpfCheckoutRootModule,
     OpfCtaRootModule,
     OpfGlobalFunctionsRootModule,
   ],
@@ -59,6 +62,10 @@ if (environment.b2b) {
         [OPF_PAYMENT_FEATURE]: {
           module: () =>
             import('@spartacus/opf/payment').then((m) => m.OpfPaymentModule),
+        },
+        [OPF_CHECKOUT_FEATURE]: {
+          module: () =>
+            import('@spartacus/opf/checkout').then((m) => m.OpfCheckoutModule),
         },
         [OPF_CTA_FEATURE]: {
           module: () =>
