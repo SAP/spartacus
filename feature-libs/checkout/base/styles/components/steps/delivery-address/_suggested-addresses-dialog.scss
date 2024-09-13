@@ -5,6 +5,9 @@
     padding-bottom: 1rem;
     padding-inline-start: 2rem;
     border-color: var(--cx-color-light);
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+    }
   }
   .cx-dialog-title {
     @include type('3');
@@ -13,6 +16,9 @@
     padding: 1rem;
     @include media-breakpoint-down(sm) {
       padding: 15px 0;
+    }
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
     }
   }
   .cx-dialog-suggested,

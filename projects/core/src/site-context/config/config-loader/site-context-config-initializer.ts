@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Observable, lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { BaseSite } from '../../../model/misc.model';
@@ -71,6 +71,9 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
           source.baseStore?.currencies,
           source.baseStore?.defaultCurrency
         ),
+        // Note: The default Site Theme can be driven by the CMS, but additional possible
+        // selectable themes (like a11y high contrast themes) can be configured only
+        // in the separate Spartacus configuration `config.siteTheme.optionalThemes`.
         [THEME_CONTEXT_ID]: [source.theme],
       },
     } as SiteContextConfig;

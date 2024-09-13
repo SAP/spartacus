@@ -6,6 +6,7 @@ import { CurrentProductService } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 const firstImage = {
   zoom: {
@@ -111,6 +112,7 @@ describe('ProductImagesComponent', () => {
         MockMediaComponent,
         MockCarouselComponent,
         MockProductImageZoomTriggerComponent,
+        MockFeatureDirective,
       ],
       providers: [
         {
