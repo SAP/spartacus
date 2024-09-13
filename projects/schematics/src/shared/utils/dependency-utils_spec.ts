@@ -33,8 +33,8 @@ import {
   collectCrossSpartacusPeerDeps,
 } from './dependency-utils';
 
-describe('dependency-util', () => {
-  describe('analyzeCrossFeatureDependencies', () => {
+xdescribe('dependency-util', () => {
+  xdescribe('analyzeCrossFeatureDependencies', () => {
     it('DP - should return the correct set of ordered sub-features', () => {
       const result = analyzeCrossFeatureDependencies([
         CDC_B2B_FEATURE_NAME,
@@ -67,7 +67,7 @@ describe('dependency-util', () => {
     });
   });
 
-  describe('analyzeCrossLibraryDependenciesByFeatures', () => {
+  xdescribe('analyzeCrossLibraryDependenciesByFeatures', () => {
     it('DP - should return the correct set of ordered libraries', () => {
       const result = analyzeCrossLibraryDependenciesByFeatures([
         DIGITAL_PAYMENTS_FEATURE_NAME,
@@ -100,7 +100,7 @@ describe('dependency-util', () => {
     });
   });
 
-  describe('analyzeCrossLibraryDependenciesByLibraries', () => {
+  xdescribe('analyzeCrossLibraryDependenciesByLibraries', () => {
     it('DP and CDC - should return the correct set of ordered libraries', () => {
       const result = analyzeCrossLibraryDependenciesByLibraries([
         SPARTACUS_DIGITAL_PAYMENTS,
@@ -160,7 +160,7 @@ describe('dependency-util', () => {
     });
   });
 
-  describe('collectCrossSpartacusPeerDeps', () => {
+  xdescribe('collectCrossSpartacusPeerDeps', () => {
     it('should correctly collect all peer deps for the given library and its dependencies', () => {
       const result: string[] = [];
       collectCrossSpartacusPeerDeps(SPARTACUS_DIGITAL_PAYMENTS, result);

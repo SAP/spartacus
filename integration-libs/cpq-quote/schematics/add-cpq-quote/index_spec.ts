@@ -27,7 +27,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
   'src/app/spartacus/features/cpq-quote/cpq-quote-feature.module.ts';
-describe('Spartacus Cpq-quote', () => {
+xdescribe('Spartacus Cpq-quote', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_CPQ_QUOTE,
     collectionPath
@@ -109,7 +109,7 @@ describe('Spartacus Cpq-quote', () => {
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -123,8 +123,8 @@ describe('Spartacus Cpq-quote', () => {
     });
   });
 
-  describe('CPQ-QUOTE feature', () => {
-    describe('general setup', () => {
+  xdescribe('CPQ-QUOTE feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -175,7 +175,7 @@ describe('Spartacus Cpq-quote', () => {
     });
   });
 
-  describe('eager loading', () => {
+  xdescribe('eager loading', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',

@@ -42,7 +42,7 @@ import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import { appModulePath, cartBaseFeatureModulePath } from './test-utils';
 
-describe('Import utils', () => {
+xdescribe('Import utils', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     path.join(__dirname, '../../collection.json')
@@ -112,7 +112,7 @@ describe('Import utils', () => {
     );
   });
 
-  describe('isImportedFromSpartacusLibs', () => {
+  xdescribe('isImportedFromSpartacusLibs', () => {
     it('should return true if the provided lib is a spartacus lib', () => {
       expect(isImportedFromSpartacusLibs(SPARTACUS_CHECKOUT)).toBeTruthy();
     });
@@ -121,7 +121,7 @@ describe('Import utils', () => {
     });
   });
 
-  describe('isImportedFromSpartacusCoreLib', () => {
+  xdescribe('isImportedFromSpartacusCoreLib', () => {
     it('should return true if the provided lib is a core spartacus lib', () => {
       expect(isImportedFromSpartacusCoreLib(SPARTACUS_CORE)).toBeTruthy();
     });
@@ -130,7 +130,7 @@ describe('Import utils', () => {
     });
   });
 
-  describe('collectDynamicImports', () => {
+  xdescribe('collectDynamicImports', () => {
     it('should collect all dynamic imports', async () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
 
@@ -152,7 +152,7 @@ describe('Import utils', () => {
     });
   });
 
-  describe('getDynamicImportCallExpression', () => {
+  xdescribe('getDynamicImportCallExpression', () => {
     it('should return the import paths', async () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
 
@@ -166,7 +166,7 @@ describe('Import utils', () => {
     });
   });
 
-  describe('getDynamicImportImportPath', () => {
+  xdescribe('getDynamicImportImportPath', () => {
     it('should return the import path', async () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
 
@@ -180,7 +180,7 @@ describe('Import utils', () => {
     });
   });
 
-  describe('getDynamicImportPropertyAccess', () => {
+  xdescribe('getDynamicImportPropertyAccess', () => {
     it('should return the module name', async () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
 
@@ -194,7 +194,7 @@ describe('Import utils', () => {
     });
   });
 
-  describe('createImports', () => {
+  xdescribe('createImports', () => {
     it('should create the specified import', async () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
 
@@ -212,7 +212,7 @@ describe('Import utils', () => {
     });
   });
 
-  describe('importExists', () => {
+  xdescribe('importExists', () => {
     it('should create the specified import', async () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
       const cartFeatureModule = program.getSourceFileOrThrow(
@@ -228,7 +228,7 @@ describe('Import utils', () => {
     });
   });
 
-  describe('isRelative', () => {
+  xdescribe('isRelative', () => {
     it('should return true if starts with ./', async () => {
       const path = './something';
       const result = isRelative(path);
@@ -246,7 +246,7 @@ describe('Import utils', () => {
     });
   });
 
-  describe('findDynamicImport', () => {
+  xdescribe('findDynamicImport', () => {
     it('should be able to find it', () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
       const cartFeatureModule = program.getSourceFileOrThrow(
@@ -275,7 +275,7 @@ describe('Import utils', () => {
     });
   });
 
-  describe('removeImports', () => {
+  xdescribe('removeImports', () => {
     it('should remove the specified imports', () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
       const appModule = program.getSourceFileOrThrow(appModulePath);

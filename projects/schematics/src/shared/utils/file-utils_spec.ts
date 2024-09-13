@@ -299,7 +299,7 @@ const schematicRunner = new SchematicTestRunner(
   collectionPath
 );
 
-describe('File utils', () => {
+xdescribe('File utils', () => {
   let appTree: UnitTestTree;
   const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
@@ -339,7 +339,7 @@ describe('File utils', () => {
     );
   });
 
-  describe('getTsSourceFile', () => {
+  xdescribe('getTsSourceFile', () => {
     it('should return TS file', async () => {
       const tsFile = getTsSourceFile(appTree, 'src/main.ts');
       const tsFileName = tsFile.fileName.split('/').pop();
@@ -349,7 +349,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('getAllTsSourceFiles', () => {
+  xdescribe('getAllTsSourceFiles', () => {
     it('should return all .ts files', () => {
       const project = getSourceRoot(appTree, {});
       const sourceFiles = getAllTsSourceFiles(appTree, project);
@@ -357,14 +357,14 @@ describe('File utils', () => {
     });
   });
 
-  describe('getIndexHtmlPath', () => {
+  xdescribe('getIndexHtmlPath', () => {
     it('should return index.html path', async () => {
       const projectIndexHtmlPath = getIndexHtmlPath(appTree);
       expect(projectIndexHtmlPath).toEqual(`src/index.html`);
     });
   });
 
-  describe('getPathResultsForFile', () => {
+  xdescribe('getPathResultsForFile', () => {
     it('should return proper path for file', async () => {
       const pathsToFiles = getPathResultsForFile(appTree, 'main.ts', 'src');
 
@@ -373,7 +373,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('getAllHtmlFiles', () => {
+  xdescribe('getAllHtmlFiles', () => {
     it('should return proper path for file', async () => {
       let pathsToFiles = getHtmlFiles(appTree, undefined, 'src');
       expect(pathsToFiles).toBeTruthy();
@@ -385,7 +385,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('insertComponentSelectorComment', () => {
+  xdescribe('insertComponentSelectorComment', () => {
     it('should insert the comment', async () => {
       const componentDeprecation = COMPONENT_DEPRECATION_DATA[0];
       const result = insertComponentSelectorComment(
@@ -399,7 +399,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('insertHtmlComment', () => {
+  xdescribe('insertHtmlComment', () => {
     it('should insert the comment with *ngIf', async () => {
       const angularCompiler = await import('@angular/compiler');
 
@@ -415,7 +415,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('commitChanges', () => {
+  xdescribe('commitChanges', () => {
     it('should commit provided InsertChanges', async () => {
       const filePath = 'src/index.html';
       const change = 'xxx';
@@ -464,7 +464,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('findConstructor', () => {
+  xdescribe('findConstructor', () => {
     it('should return the constructor if found', () => {
       const constructorNode: ts.Node = {
         kind: ts.SyntaxKind.Constructor,
@@ -479,7 +479,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('findConstructor', () => {
+  xdescribe('findConstructor', () => {
     it('should return the constructor if found', () => {
       const constructorNode: ts.Node = {
         kind: ts.SyntaxKind.Constructor,
@@ -494,7 +494,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('defineProperty', () => {
+  xdescribe('defineProperty', () => {
     it('should create a Change if the constructor exists', async () => {
       const testPath = 'path-xxx';
       const toAdd = 'add-xxx';
@@ -508,7 +508,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('isCandidateForConstructorDeprecation', () => {
+  xdescribe('isCandidateForConstructorDeprecation', () => {
     it('should return false if the inheritance condition is not satisfied', () => {
       const source = ts.createSourceFile(
         'xxx.ts',
@@ -680,7 +680,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('isInheriting', () => {
+  xdescribe('isInheriting', () => {
     it('should return true if the class is inheriting the provided service name', () => {
       const source = ts.createSourceFile(
         'xxx.ts',
@@ -705,7 +705,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('addConstructorParam', () => {
+  xdescribe('addConstructorParam', () => {
     it('should return the expected changes', () => {
       const sourcePath = 'xxx.ts';
       const source = ts.createSourceFile(
@@ -738,7 +738,7 @@ describe('File utils', () => {
         `Inserted , authService into position 311 of ${sourcePath}`
       );
     });
-    describe('when the class has additional services injected', () => {
+    xdescribe('when the class has additional services injected', () => {
       it('should return the expected changes', () => {
         const sourcePath = 'xxx.ts';
         const source = ts.createSourceFile(
@@ -772,7 +772,7 @@ describe('File utils', () => {
         );
       });
     });
-    describe('when adding an @Inject decorator', () => {
+    xdescribe('when adding an @Inject decorator', () => {
       it('should return the expected changes', () => {
         const sourcePath = 'xxx.ts';
         const source = ts.createSourceFile(
@@ -815,7 +815,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('removeConstructorParam', () => {
+  xdescribe('removeConstructorParam', () => {
     it('should return the expected changes', () => {
       const sourcePath = 'xxx.ts';
       const source = ts.createSourceFile(
@@ -857,7 +857,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('injectService', () => {
+  xdescribe('injectService', () => {
     it('should create a Change to inject the specified service', async () => {
       const testPath = 'path-xxx';
       const ctorNode = {

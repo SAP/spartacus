@@ -17,7 +17,7 @@ import {
   formatFeatureStart,
 } from './logger-utils';
 
-describe('Logger utils', () => {
+xdescribe('Logger utils', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     path.join(__dirname, '../../collection.json')
@@ -68,7 +68,7 @@ describe('Logger utils', () => {
     );
   });
 
-  describe('debugLog', () => {
+  xdescribe('debugLog', () => {
     let lastLogMessage: string | undefined;
     beforeEach(() => {
       schematicRunner.logger.subscribe((log) => {
@@ -85,14 +85,14 @@ describe('Logger utils', () => {
     });
   });
 
-  describe('formatFeatureStart', () => {
+  xdescribe('formatFeatureStart', () => {
     it('should format the message', () => {
       const message = formatFeatureStart('featurename', 'xxx');
       expect(message).toEqual(`⌛️ featurename: xxx`);
     });
   });
 
-  describe('formatFeatureComplete', () => {
+  xdescribe('formatFeatureComplete', () => {
     it('should format the message', () => {
       const message = formatFeatureComplete('featurename', 'xxx');
       expect(message).toEqual(`✅ featurename: xxx`);

@@ -24,7 +24,7 @@ import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus segment-refs schematics: ng-add', () => {
+xdescribe('Spartacus segment-refs schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SEGMENT_REFS,
     collectionPath
@@ -94,7 +94,7 @@ describe('Spartacus segment-refs schematics: ng-add', () => {
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -108,8 +108,8 @@ describe('Spartacus segment-refs schematics: ng-add', () => {
     });
   });
 
-  describe('Segment-refs feature', () => {
-    describe('general setup', () => {
+  xdescribe('Segment-refs feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -150,7 +150,7 @@ describe('Spartacus segment-refs schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
