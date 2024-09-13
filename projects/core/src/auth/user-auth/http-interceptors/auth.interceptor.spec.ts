@@ -16,6 +16,7 @@ import { AuthToken } from '../models/auth-token.model';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthHttpHeaderService } from '../services/auth-http-header.service';
 import { AuthInterceptor } from './auth.interceptor';
+import { AuthLibConfig } from '../config/auth-config';
 
 class MockAuthHeaderService implements Partial<AuthHttpHeaderService> {
   alterRequest(req) {
@@ -40,12 +41,16 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
   getTokenEndpoint() {
     return '/authorizationserver/token';
   }
+  getOAuthLibConfig(): AuthLibConfig {
+    return {};
+  }
 }
 
 describe('AuthInterceptor', () => {
   let httpMock: HttpTestingController;
   let http: HttpClient;
   let authHeaderService: AuthHttpHeaderService;
+  let authConfigService: AuthConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -63,6 +68,7 @@ describe('AuthInterceptor', () => {
 
     httpMock = TestBed.inject(HttpTestingController);
     authHeaderService = TestBed.inject(AuthHttpHeaderService);
+    authConfigService = TestBed.inject(AuthConfigService);
     http = TestBed.inject(HttpClient);
   });
 
@@ -203,6 +209,33 @@ describe('AuthInterceptor', () => {
     mockReq.flush(
       { error: 'invalid_token' },
       { status: 401, statusText: 'Unauthorized' }
+    );
+    sub.unsubscribe();
+  });
+
+  it(`Should handle 401 error with oidc invalid_token calls`, (done) => {
+    spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
+    spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({
+      disablePKCE: false,
+    });
+    const sub: Subscription = http.get('/authorizationserver/token').subscribe({
+      complete: () => {
+        expect(authHeaderService.handleExpiredRefreshToken).toHaveBeenCalled();
+        done();
+      },
+    });
+
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
+      return req.method === 'GET' && req.url === '/authorizationserver/token';
+    });
+
+    mockReq.flush(
+      {},
+      {
+        headers: { 'www-authenticate': 'Bearer error="invalid_token"' },
+        status: 401,
+        statusText: 'Unauthorized',
+      }
     );
     sub.unsubscribe();
   });

@@ -6,6 +6,7 @@
 
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import {
+  AuthHttpHeaderService,
   CmsConfig,
   Config,
   CONFIG_INITIALIZER,
@@ -23,6 +24,7 @@ import { CdcLogoutGuard } from './guards/cdc-logout.guard';
 import { CdcJsService } from './service/cdc-js.service';
 import { CdcConfigInitializer } from './config/cdc-config-initializer';
 import { CdcAuthConfigInitializer } from './config/cdc-auth-config-initializer';
+import { CdcAuthHttpHeaderService } from './service/cdc-auth-http-header.service';
 
 export function cdcJsFactory(
   cdcJsService: CdcJsService,
@@ -67,6 +69,10 @@ export function initCdcAuthConfigFactory(
   providers: [
     provideDefaultConfigFactory(defaultCdcComponentsConfig),
     { provide: LogoutGuard, useExisting: CdcLogoutGuard },
+    {
+      provide: AuthHttpHeaderService,
+      useExisting: CdcAuthHttpHeaderService,
+    },
     {
       provide: CONFIG_INITIALIZER,
       useFactory: initCdcConfigFactory,
