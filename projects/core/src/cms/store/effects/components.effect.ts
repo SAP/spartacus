@@ -94,10 +94,10 @@ export class ComponentsEffects {
           actions.push(
             new CmsActions.LoadCmsComponentFail({
               uid,
+              pageContext,
               error: new Error(
                 `Failed to load CmsComponent ${pageContext.type} uid: ${uid}`
               ),
-              pageContext,
             })
           );
         });
