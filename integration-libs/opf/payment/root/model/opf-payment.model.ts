@@ -177,7 +177,7 @@ export interface PaymentSessionData {
   relayResultUrl?: string;
   relayCancelUrl?: string;
   paymentIntent?: string;
-  pattern?: string;
+  pattern?: PaymentPattern;
   destination?: PaymentDestination;
   dynamicScript?: OpfDynamicScript;
 }
@@ -200,12 +200,7 @@ export enum PaymentPattern {
 export interface OpfRenderPaymentMethodEvent {
   isLoading: boolean;
   isError: boolean;
-  renderType?: OpfPaymentMethodType | null;
+  renderType?: PaymentPattern;
   data?: string | null;
   destination?: PaymentDestination;
-}
-
-export enum OpfPaymentMethodType {
-  DESTINATION = 'DESTINATION',
-  DYNAMIC_SCRIPT = 'DYNAMIC_SCRIPT',
 }
