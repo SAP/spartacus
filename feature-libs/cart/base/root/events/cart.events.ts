@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ElementRef } from '@angular/core';
 import { CxEvent } from '@spartacus/core';
 import { OrderEntry } from '../models/cart.model';
 
@@ -127,6 +128,7 @@ export class CartUiEventAddToCart extends CxEvent {
   quantity: number;
   numberOfEntriesBeforeAdd: number;
   pickupStoreName?: string;
+  triggerElementRef?: ElementRef;
 }
 
 /**

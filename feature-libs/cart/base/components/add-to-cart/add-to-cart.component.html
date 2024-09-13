@@ -27,6 +27,7 @@
   </ng-container>
 
   <button
+    #addToCartDialogTrigger
     *ngIf="hasStock"
     [ngClass]="
       options?.displayAddToCart

@@ -363,6 +363,7 @@ if (environment.cpq) {
         a11yQuickOrderAriaControls: true,
         a11yRemoveStatusLoadedRole: true,
         a11yDialogsHeading: true,
+        a11yDialogTriggerRefocus: false,
         cmsBottomHeaderSlotUsingFlexStyles: true,
       };
       return appFeatureToggles;

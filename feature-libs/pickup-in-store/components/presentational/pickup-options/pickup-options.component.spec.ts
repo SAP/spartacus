@@ -2,11 +2,17 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule } from '@spartacus/core';
+import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable } from 'rxjs';
 import { PickupOptionsComponent } from './pickup-options.component';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
 
 describe('PickupOptionsComponent', () => {
   let component: PickupOptionsComponent;
@@ -16,6 +22,9 @@ describe('PickupOptionsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [PickupOptionsComponent, MockFeatureDirective],
       imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
+      providers: [
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      ],
     });
     fixture = TestBed.createComponent(PickupOptionsComponent);
     component = fixture.componentInstance;
