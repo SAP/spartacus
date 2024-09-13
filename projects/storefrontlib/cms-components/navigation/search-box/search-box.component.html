@@ -1,4 +1,8 @@
-<div [attr.aria-label]="'searchBox.productSearch' | cxTranslate" role="search">
+<div
+  *cxFeature="'!a11ySearchboxLabel'"
+  [attr.aria-label]="'searchBox.productSearch' | cxTranslate"
+  role="search"
+>
   <label class="searchbox" [class.dirty]="!!searchInput.value">
     <!-- TODO: (CXSPA-6929) - Remove feature flag next major release -->
     <input
@@ -57,6 +61,74 @@
     </button>
   </label>
 </div>
+<div
+  *cxFeature="'a11ySearchboxLabel'"
+  [attr.aria-label]="'searchBox.productSearch' | cxTranslate"
+  role="search"
+  class="cx-searchbox-container"
+>
+  <label
+    class="searchbox cxFeat_a11ySearchboxLabel"
+    [class.dirty]="!!searchInput.value"
+  >
+    <span class="cx-input-label">{{ 'common.search' | cxTranslate }}</span>
+    <div class="cx-label-inner-container">
+      <input
+        #searchInput
+        [placeholder]="'searchBox.placeholder' | cxTranslate"
+        autocomplete="off"
+        aria-describedby="initialDescription"
+        aria-controls="results"
+        [attr.tabindex]="
+          a11ySearchBoxMobileFocusEnabled ? getTabIndex(isMobile | async) : null
+        "
+        [attr.aria-label]="'searchBox.placeholder' | cxTranslate"
+        (focus)="a11ySearchBoxMobileFocusEnabled ? null : open()"
+        (click)="open()"
+        (input)="search(searchInput.value)"
+        (blur)="close($any($event))"
+        (keydown.tab)="
+          a11ySearchBoxMobileFocusEnabled ? close($any($event)) : null
+        "
+        (keydown.escape)="close($any($event))"
+        (keydown.enter)="
+          close($any($event), true);
+          launchSearchResult($any($event), searchInput.value);
+          updateChosenWord(searchInput.value)
+        "
+        (keydown.arrowup)="focusPreviousChild($any($event))"
+        (keydown.arrowdown)="focusNextChild($any($event))"
+        value="{{ chosenWord }}"
+      />
+
+      <button
+        [attr.aria-label]="'common.reset' | cxTranslate"
+        [title]="'common.reset' | cxTranslate"
+        (click)="clear(searchInput)"
+        class="reset"
+      >
+        <cx-icon [type]="iconTypes.RESET"></cx-icon>
+      </button>
+
+      <div
+        role="presentation"
+        class="search-icon"
+        [title]="'common.search' | cxTranslate"
+      >
+        <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+      </div>
+    </div>
+    <button
+      #searchButton
+      [attr.aria-label]="'common.search' | cxTranslate"
+      [title]="'common.search' | cxTranslate"
+      class="search"
+      (click)="open()"
+    >
+      <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+    </button>
+  </label>
+</div>
 
 <div
   *ngIf="results$ | async as result"
@@ -84,7 +156,7 @@
     <li *ngFor="let suggestion of result.suggestions">
       <a
         role="option"
-        [innerHTML]="suggestion | cxHighlight: searchInput.value"
+        [innerHTML]="suggestion | cxHighlight: searchInput?.value"
         [routerLink]="
           {
             cxRoute: 'search',
@@ -116,7 +188,7 @@
       *ngIf="config.recentSearches"
       [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES"
       [cxOutletContext]="{
-        search: searchInput.value,
+        search: searchInput?.value,
         searchBoxActive: searchBoxActive,
         maxRecentSearches: config.maxRecentSearches
       }"

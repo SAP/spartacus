@@ -289,6 +289,11 @@ export interface FeatureTogglesInterface {
   a11yUnitsListKeyboardControls?: boolean;
 
   /**
+   * Adds label to the `SearchBoxComponent` search input
+   */
+  a11ySearchboxLabel?: boolean;
+
+  /**
    * When set to `true`, product titles in `CartItemComponent`, `QuickOrderItemComponent`, `WishListItemComponent`
    * adopt a more link-like style, appearing blue with an underline. This enhances visual cues for clickable elements,
    * providing a more intuitive user experience.
@@ -588,6 +593,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySearchBoxMobileFocus: false,
   a11yFacetKeyboardNavigation: false,
   a11yUnitsListKeyboardControls: false,
+  a11ySearchboxLabel: false,
   a11yCartItemsLinksStyles: false,
   a11yHideSelectBtnForSelectedAddrOrPayment: false,
   a11yFocusableCarouselControls: false,

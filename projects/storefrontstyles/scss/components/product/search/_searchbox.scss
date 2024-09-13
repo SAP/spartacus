@@ -52,12 +52,35 @@
     @include media-breakpoint-down(sm) {
       // hide the input on mobile when there's no interaction with searchbox
       cx-searchbox {
-        input {
-          // we cannot use display:none, visible:hidden or opacity: 0
-          // as this will no longer emit a focus event to the controller logic
-          width: 0;
-          padding: 0;
+        // cxFeat_a11ySearchboxLabel class is only applied if a11ySearchboxLabel flag is true
+        // Needed to add this class manually since:
+        // 1. %cx-searchbox__body can't be styled with `@include forFeature('...')`
+        // 2. We can't apply changes for when feature flag is NOT enabled and it would be
+        // complicated to achieve desired behaviour without this possibility.
+        // TODO: When removing feature flag `a11ySearchboxLabel` next major release remove also cxFeat_a11ySearchboxLabe class
+        // and all styles for label:not(.cxFeat_a11ySearchboxLabel)
+        label:not(.cxFeat_a11ySearchboxLabel) {
+          input {
+            // we cannot use display:none, visible:hidden or opacity: 0
+            // as this will no longer emit a focus event to the controller logic
+            width: 0;
+            padding: 0;
+          }
         }
+
+        .cxFeat_a11ySearchboxLabel {
+          .cx-label-inner-container,
+          input {
+            width: 0;
+            padding: 0;
+            border: none;
+          }
+
+          .cx-input-label {
+            display: none;
+          }
+        }
+
         button.reset {
           display: none;
         }
@@ -67,6 +90,7 @@
 }
 
 %cx-searchbox {
+  --cx-mobile-header-height: 60px;
   @include media-breakpoint-up(md) {
     // we position the parent relative to ensure the result panel
     // is aligned to the left of searchbox
@@ -85,6 +109,15 @@
     }
   }
 
+  @include forFeature('a11ySearchboxLabel') {
+    > .cx-searchbox-container {
+      @include media-breakpoint-up(md) {
+        background-color: unset;
+        position: unset;
+      }
+    }
+  }
+
   a,
   .message {
     padding: 6px 16px;
@@ -92,7 +125,20 @@
     user-select: none;
   }
 
-  label {
+  @include forFeature('a11ySearchboxLabel') {
+    .cx-input-label {
+      color: var(--cx-color-text);
+
+      @include media-breakpoint-down(sm) {
+        position: absolute;
+        top: var(--cx-mobile-header-height);
+        left: 10px;
+        z-index: 30;
+      }
+    }
+  }
+
+  label:not(.cxFeat_a11ySearchboxLabel) {
     display: flex;
     align-content: stretch;
     margin: 0;
@@ -181,6 +227,121 @@
     }
   }
 
+  label.cxFeat_a11ySearchboxLabel {
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    margin: 0;
+    padding-top: 6px;
+    padding-inline-end: 6px;
+    padding-bottom: 6px;
+    padding-inline-start: 10px;
+    gap: 15px;
+
+    @include media-breakpoint-up(md) {
+      // hide search icon when the input is dirty
+      &.dirty div.search-icon {
+        display: none;
+      }
+    }
+
+    &:not(.dirty) button.reset {
+      display: none;
+    }
+
+    .cx-label-inner-container {
+      display: flex;
+      align-content: stretch;
+      align-items: center;
+      padding-top: 6px;
+      padding-inline-end: 6px;
+      padding-bottom: 6px;
+      padding-inline-start: 10px;
+
+      @include media-breakpoint-up(md) {
+        border: 1px solid var(--cx-color-medium);
+        width: 27vw;
+        min-width: 300px;
+        max-width: 550px;
+        background-color: var(--cx-color-inverse);
+      }
+
+      @include media-breakpoint-down(sm) {
+        position: absolute;
+        left: 0;
+        top: var(--cx-mobile-header-height);
+        width: 100%;
+        background-color: var(--cx-color-inverse);
+        z-index: 20;
+        padding-top: 25px;
+      }
+    }
+
+    input {
+      background: none;
+      border: none;
+      outline: none;
+      display: block;
+
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+        padding: 6px 16px;
+        height: 48px;
+        border: 1px solid var(--cx-color-medium);
+        border-radius: 4px;
+      }
+
+      flex-basis: 100%;
+      height: 35px;
+      color: var(--cx-color-text);
+      z-index: 20;
+
+      @include placeholder {
+        color: currentColor;
+
+        @include forFeature('a11yImproveContrast') {
+          color: var(--cx-color-dark);
+        }
+      }
+    }
+
+    button,
+    div.search-icon {
+      flex-basis: 48px;
+      text-align: center;
+      background: none;
+      border: none;
+      padding: 6px;
+      color: var(--cx-color-medium);
+
+      @include forFeature('a11yImproveContrast') {
+        color: var(--cx-color-secondary);
+      }
+
+      @include media-breakpoint-down(sm) {
+        color: var(--cx-color-primary);
+        font-size: var(--cx-font-size, 1.563rem);
+
+        &.reset {
+          display: none;
+        }
+      }
+
+      &.reset cx-icon {
+        &:before {
+          font-size: 1.4rem;
+        }
+        @include media-breakpoint-down(sm) {
+          position: relative;
+          left: 74px;
+          z-index: 20;
+          top: 52px;
+          margin-top: 0;
+        }
+      }
+    }
+  }
+
   .results {
     // hide the result by default
     display: none;
@@ -197,6 +358,10 @@
 
     @include media-breakpoint-down(sm) {
       top: 105px;
+
+      @include forFeature('a11ySearchboxLabel') {
+        top: calc(var(--cx-mobile-header-height) + 79px);
+      }
       z-index: 10;
     }
 
