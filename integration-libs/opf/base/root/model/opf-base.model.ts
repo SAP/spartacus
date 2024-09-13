@@ -11,7 +11,6 @@ export interface ActiveConfiguration {
   providerType?: OpfPaymentProviderType;
   displayName?: string;
   acquirerCountryCode?: string;
-  digitalWalletQuickBuy?: DigitalWalletQuickBuy[];
 }
 
 export interface OpfDynamicScript {
@@ -32,24 +31,9 @@ export interface OpfDynamicScriptResource {
   type?: OpfDynamicScriptResourceType;
 }
 
-export interface DigitalWalletQuickBuy {
-  description?: string;
-  provider?: DigitalWalletQuickBuyProvider;
-  enabled?: boolean;
-  merchantId?: string;
-  merchantName?: string;
-  countryCode?: string;
-  googlePayGateway?: string;
-}
-
 export enum OpfDynamicScriptResourceType {
   SCRIPT = 'SCRIPT',
   STYLES = 'STYLES',
-}
-
-export enum DigitalWalletQuickBuyProvider {
-  APPLE_PAY = 'APPLE_PAY',
-  GOOGLE_PAY = 'GOOGLE_PAY',
 }
 
 export enum OpfPaymentProviderType {

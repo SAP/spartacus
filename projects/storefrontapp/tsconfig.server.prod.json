@@ -466,7 +466,7 @@
       "@spartacus/opf/base/components": ["../../dist/opf/base/components"],
       "@spartacus/opf/base/core": ["../../dist/opf/base/core"],
       "@spartacus/opf/base": ["../../dist/opf/base"],
-      "@spartacus/opf/base/occ": ["../../dist/opf/base/occ"],
+      "@spartacus/opf/base/opf-api": ["../../dist/opf/base/opf-api"],
       "@spartacus/opf/base/root": ["../../dist/opf/base/root"],
       "@spartacus/opf/checkout/assets": ["../../dist/opf/checkout/assets"],
       "@spartacus/opf/checkout/components": [
@@ -475,22 +475,22 @@
       "@spartacus/opf/checkout": ["../../dist/opf/checkout"],
       "@spartacus/opf/checkout/root": ["../../dist/opf/checkout/root"],
       "@spartacus/opf/cta/components": ["../../dist/opf/cta/components"],
-      "@spartacus/opf/cta/root": ["../../dist/opf/cta/root"],
       "@spartacus/opf/cta/core": ["../../dist/opf/cta/core"],
       "@spartacus/opf/cta": ["../../dist/opf/cta"],
-      "@spartacus/opf/cta/occ": ["../../dist/opf/cta/occ"],
+      "@spartacus/opf/cta/opf-api": ["../../dist/opf/cta/opf-api"],
+      "@spartacus/opf/cta/root": ["../../dist/opf/cta/root"],
       "@spartacus/opf/global-functions/core": [
         "../../dist/opf/global-functions/core"
       ],
+      "@spartacus/opf/global-functions": ["../../dist/opf/global-functions"],
       "@spartacus/opf/global-functions/root": [
         "../../dist/opf/global-functions/root"
       ],
-      "@spartacus/opf/global-functions": ["../../dist/opf/global-functions"],
       "@spartacus/opf": ["../../dist/opf"],
       "@spartacus/opf/payment/assets": ["../../dist/opf/payment/assets"],
       "@spartacus/opf/payment/core": ["../../dist/opf/payment/core"],
       "@spartacus/opf/payment": ["../../dist/opf/payment"],
-      "@spartacus/opf/payment/occ": ["../../dist/opf/payment/occ"],
+      "@spartacus/opf/payment/opf-api": ["../../dist/opf/payment/opf-api"],
       "@spartacus/opf/payment/root": ["../../dist/opf/payment/root"],
       "@spartacus/opps": ["../../dist/opps"],
       "@spartacus/opps/root": ["../../dist/opps/root"],

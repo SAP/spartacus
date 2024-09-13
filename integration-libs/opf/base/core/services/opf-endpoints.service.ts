@@ -44,7 +44,7 @@ export class OpfEndpointsService {
   }
 
   private getEndpointFromContext(endpoint: string): string | undefined {
-    const endpointsConfig = this.config.backend?.occ?.endpoints;
+    const endpointsConfig = this.config.backend?.opfApi?.endpoints;
 
     if (!endpointsConfig) {
       return '';
