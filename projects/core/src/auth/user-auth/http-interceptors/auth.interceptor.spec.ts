@@ -125,6 +125,9 @@ describe('AuthInterceptor', () => {
   });
 
   it(`Should handle 401 error for expired token occ calls`, (done) => {
+    spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({
+      disablePKCE: true,
+    });
     spyOn(authHeaderService, 'handleExpiredAccessToken').and.callFake(
       (_, next) => next.handle(new HttpRequest('GET', '/test'))
     );
@@ -139,6 +142,34 @@ describe('AuthInterceptor', () => {
 
     mockReq.flush(
       { errors: [{ type: 'InvalidTokenError' }] },
+      { status: 401, statusText: 'Unauthorized' }
+    );
+
+    const mockReq2: TestRequest = httpMock.expectOne((req) => {
+      return req.method === 'GET' && req.url === '/test';
+    });
+    mockReq2.flush('someText');
+    sub.unsubscribe();
+  });
+
+  it(`Should handle 401 error for expired token that get from oidc login flow`, (done) => {
+    spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({
+      disablePKCE: false,
+    });
+    spyOn(authHeaderService, 'handleExpiredAccessToken').and.callFake(
+      (_, next) => next.handle(new HttpRequest('GET', '/test'))
+    );
+    const sub: Subscription = http.get('/occ').subscribe((result) => {
+      expect(result).toEqual('someText');
+      done();
+    });
+
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
+      return req.method === 'GET' && req.url === '/occ';
+    });
+
+    mockReq.flush(
+      { errors: [{ type: 'AccessDeniedError' }] },
       { status: 401, statusText: 'Unauthorized' }
     );
 
