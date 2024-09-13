@@ -48,6 +48,9 @@
         padding-bottom: 0.85rem;
         padding-inline-start: 1.75rem;
         border-width: 0;
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
       }
 
       .cx-dialog-title {
@@ -61,6 +64,9 @@
         padding-inline-start: 1rem;
         @include media-breakpoint-down(sm) {
           padding: 0;
+        }
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
         }
       }
 
