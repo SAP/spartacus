@@ -51,7 +51,7 @@ export class OpfPaymentVerificationService {
 
   defaultError: HttpErrorModel = {
     statusText: 'Payment Verification Error',
-    message: 'opf.payment.errors.proceedPayment',
+    message: 'opfPayment.errors.proceedPayment',
     status: -1,
   };
 
@@ -101,7 +101,7 @@ export class OpfPaymentVerificationService {
         )
       : throwError({
           ...this.defaultError,
-          message: 'opf.payment.errors.cancelPayment',
+          message: 'opfPayment.errors.cancelPayment',
         });
   }
 
@@ -157,7 +157,7 @@ export class OpfPaymentVerificationService {
     } else if (response.result === OpfPaymentVerificationResult.CANCELLED) {
       return throwError({
         ...this.defaultError,
-        message: 'opf.payment.errors.cancelPayment',
+        message: 'opfPayment.errors.cancelPayment',
       });
     } else {
       return throwError(this.defaultError);
@@ -170,7 +170,7 @@ export class OpfPaymentVerificationService {
         key:
           error?.message && error?.status === -1
             ? error.message
-            : 'opf.payment.errors.proceedPayment',
+            : 'opfPayment.errors.proceedPayment',
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );

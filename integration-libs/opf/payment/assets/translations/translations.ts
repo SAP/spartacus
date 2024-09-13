@@ -12,5 +12,5 @@ export const opfPaymentTranslations: TranslationResources = {
 };
 
 export const opfPaymentTranslationChunksConfig: TranslationChunksConfig = {
-  opf: ['opf'],
+  opfPayment: ['opfPayment'],
 };

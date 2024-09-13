@@ -228,7 +228,7 @@ export class OpfCheckoutPaymentWrapperService {
       isError: true,
     });
 
-    this.showErrorMessage('opf.checkout.errors.unknown');
+    this.showErrorMessage('opfCheckout.errors.unknown');
     this.routingService.go({ cxRoute: OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE });
   }
 
@@ -238,7 +238,7 @@ export class OpfCheckoutPaymentWrapperService {
       isError: true,
     });
 
-    this.showErrorMessage('opf.payment.errors.proceedPayment');
+    this.showErrorMessage('opfPayment.errors.proceedPayment');
 
     return throwError('Payment failed');
   }

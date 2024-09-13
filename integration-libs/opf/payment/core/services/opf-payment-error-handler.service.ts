@@ -37,18 +37,18 @@ export class OpfPaymentErrorHandlerService {
     let message = defaultError.message;
     switch (errorType) {
       case PaymentErrorType.EXPIRED:
-        message = 'opf.payment.errors.cardExpired';
+        message = 'opfPayment.errors.cardExpired';
         break;
       case PaymentErrorType.INSUFFICENT_FUNDS:
       case PaymentErrorType.CREDIT_LIMIT:
-        message = 'opf.payment.errors.insufficientFunds';
+        message = 'opfPayment.errors.insufficientFunds';
         break;
       case PaymentErrorType.INVALID_CARD:
       case PaymentErrorType.INVALID_CVV:
-        message = 'opf.payment.errors.invalidCreditCard';
+        message = 'opfPayment.errors.invalidCreditCard';
         break;
       case PaymentErrorType.LOST_CARD:
-        message = 'opf.payment.errors.cardReportedLost';
+        message = 'opfPayment.errors.cardReportedLost';
         break;
     }
     return message;
@@ -63,7 +63,7 @@ export class OpfPaymentErrorHandlerService {
       message = this.handleBadRequestError(error?.type);
     } else {
       if (error?.type === PaymentErrorType.PAYMENT_CANCELLED) {
-        message = 'opf.payment.errors.cancelPayment';
+        message = 'opfPayment.errors.cancelPayment';
       }
     }
     this.displayError(error ? { ...error, message } : undefined);

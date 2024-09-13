@@ -8,7 +8,7 @@ import { HttpErrorModel } from '@spartacus/core';
 
 export const defaultError: OpfPaymentError = {
   statusText: 'Payment Error',
-  message: 'opf.payment.errors.proceedPayment',
+  message: 'opfPayment.errors.proceedPayment',
   status: -1,
   type: '',
 };

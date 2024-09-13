@@ -62,7 +62,7 @@ describe('OpfPaymentErrorHandlerService', () => {
       };
       service.handlePaymentError(error);
       expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-        { key: 'opf.payment.errors.invalidCreditCard' },
+        { key: 'opfPayment.errors.invalidCreditCard' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });
@@ -75,7 +75,7 @@ describe('OpfPaymentErrorHandlerService', () => {
 
       service.handlePaymentError(error);
       expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-        { key: 'opf.payment.errors.cancelPayment' },
+        { key: 'opfPayment.errors.cancelPayment' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });
@@ -100,7 +100,7 @@ describe('OpfPaymentErrorHandlerService', () => {
 
       const message = service['handleBadRequestError'](errorType);
 
-      expect(message).toBe('opf.payment.errors.insufficientFunds');
+      expect(message).toBe('opfPayment.errors.insufficientFunds');
     });
 
     it('should handle INVALID_CARD error type', () => {
@@ -108,7 +108,7 @@ describe('OpfPaymentErrorHandlerService', () => {
 
       const message = service['handleBadRequestError'](errorType);
 
-      expect(message).toBe('opf.payment.errors.invalidCreditCard');
+      expect(message).toBe('opfPayment.errors.invalidCreditCard');
     });
 
     it('should handle LOST_CARD error type', () => {
@@ -116,7 +116,7 @@ describe('OpfPaymentErrorHandlerService', () => {
 
       const message = service['handleBadRequestError'](errorType);
 
-      expect(message).toBe('opf.payment.errors.cardReportedLost');
+      expect(message).toBe('opfPayment.errors.cardReportedLost');
     });
 
     it('should handle EXPIRED error type', () => {
@@ -124,7 +124,7 @@ describe('OpfPaymentErrorHandlerService', () => {
 
       const message = service['handleBadRequestError'](errorType);
 
-      expect(message).toBe('opf.payment.errors.cardExpired');
+      expect(message).toBe('opfPayment.errors.cardExpired');
     });
 
     it('should handle INVALID_CVV error type', () => {
@@ -132,7 +132,7 @@ describe('OpfPaymentErrorHandlerService', () => {
 
       const message = service['handleBadRequestError'](errorType);
 
-      expect(message).toBe('opf.payment.errors.invalidCreditCard');
+      expect(message).toBe('opfPayment.errors.invalidCreditCard');
     });
 
     it('should handle CREDIT_LIMIT error type', () => {
@@ -140,7 +140,7 @@ describe('OpfPaymentErrorHandlerService', () => {
 
       const message = service['handleBadRequestError'](errorType);
 
-      expect(message).toBe('opf.payment.errors.insufficientFunds');
+      expect(message).toBe('opfPayment.errors.insufficientFunds');
     });
   });
 });

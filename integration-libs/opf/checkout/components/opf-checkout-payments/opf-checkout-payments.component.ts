@@ -90,7 +90,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   protected displayError(errorKey: string): void {
     this.globalMessageService.add(
-      { key: `opf.checkout.errors.${errorKey}` },
+      { key: `opfCheckout.errors.${errorKey}` },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   }

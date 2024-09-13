@@ -135,7 +135,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
     fixture.detectChanges();
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
-      { key: 'opf.checkout.errors.noActiveConfigurations' },
+      { key: 'opfCheckout.errors.noActiveConfigurations' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   });
@@ -150,7 +150,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
     fixture.detectChanges();
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
-      { key: 'opf.checkout.errors.loadActiveConfigurations' },
+      { key: 'opfCheckout.errors.loadActiveConfigurations' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   });

@@ -173,7 +173,7 @@ describe('OpfPaymentVerificationService', () => {
       service.verifyResultUrl(mockOtherRouteSnapshot).subscribe(
         () => {},
         (error) => {
-          expect(error.message).toEqual('opf.payment.errors.cancelPayment');
+          expect(error.message).toEqual('opfPayment.errors.cancelPayment');
           done();
         }
       );
@@ -204,7 +204,7 @@ describe('OpfPaymentVerificationService', () => {
         () => {},
         (error) => {
           expect(error).toBeDefined();
-          expect(error.message).toEqual('opf.payment.errors.proceedPayment');
+          expect(error.message).toEqual('opfPayment.errors.proceedPayment');
           done();
         }
       );
@@ -235,7 +235,7 @@ describe('OpfPaymentVerificationService', () => {
         () => {},
         (error) => {
           expect(error).toBeDefined();
-          expect(error.message).toEqual('opf.payment.errors.proceedPayment');
+          expect(error.message).toEqual('opfPayment.errors.proceedPayment');
           done();
         }
       );
@@ -299,7 +299,7 @@ describe('OpfPaymentVerificationService', () => {
         });
     });
 
-    it('should throw an error with "opf.payment.errors.cancelPayment" if the result is CANCELLED', (done) => {
+    it('should throw an error with "opfPayment.errors.cancelPayment" if the result is CANCELLED', (done) => {
       const mockPaymentSessionId = 'sessionId';
       const mockResponseMap = [{ key: 'key', value: 'value' }];
       const mockVerificationResponse: OpfPaymentVerificationResponse = {
@@ -315,7 +315,7 @@ describe('OpfPaymentVerificationService', () => {
         .subscribe(
           () => {},
           (error) => {
-            expect(error.message).toEqual('opf.payment.errors.cancelPayment');
+            expect(error.message).toEqual('opfPayment.errors.cancelPayment');
             done();
           }
         );
@@ -461,7 +461,7 @@ describe('OpfPaymentVerificationService', () => {
           () => {},
           (error) => {
             expect(error).toBeDefined();
-            expect(error.message).toEqual('opf.payment.errors.proceedPayment');
+            expect(error.message).toEqual('opfPayment.errors.proceedPayment');
             done();
           }
         );
@@ -502,7 +502,7 @@ describe('OpfPaymentVerificationService', () => {
       service.displayError(mockError);
 
       expect(globalMessageServiceMock.add).toHaveBeenCalledWith(
-        { key: 'opf.payment.errors.proceedPayment' },
+        { key: 'opfPayment.errors.proceedPayment' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });

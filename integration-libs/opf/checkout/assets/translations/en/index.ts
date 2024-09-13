@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { opf } from './opf.i18n';
+import opfCheckout from './opfCheckout.json';
 
 export const en = {
-  opf,
+  opfCheckout,
 };
