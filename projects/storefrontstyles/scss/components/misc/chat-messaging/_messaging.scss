@@ -154,4 +154,16 @@
       height: 48px;
     }
   }
+
+  @include cx-highContrastTheme {
+    .container .cx-messages .cx-message-left-align-text {
+      color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+    }
+    select {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+      border-color: var(--cx-color-text);
+    }
+  }
 }

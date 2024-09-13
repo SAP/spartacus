@@ -7,4 +7,18 @@
       flex: 100%;
     }
   }
+
+  @include cx-highContrastTheme {
+    input {
+      border-color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:focus {
+      transition:
+        background-color 0s 600000s,
+        color 0s 600000s !important;
+    }
+  }
 }

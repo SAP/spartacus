@@ -82,4 +82,9 @@
       display: flex;
     }
   }
+  @include cx-highContrastTheme {
+    tr {
+      border-color: var(--cx-color-dark);
+    }
+  }
 }
