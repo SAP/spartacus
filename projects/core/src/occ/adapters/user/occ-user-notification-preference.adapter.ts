@@ -19,7 +19,7 @@ import {
 } from '../../../user/connectors/notification-preference';
 import { UserNotificationPreferenceAdapter } from '../../../user/connectors/notification-preference/user-notification-preference.adapter';
 import { ConverterService } from '../../../util/converter.service';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 const headers = new HttpHeaders({
@@ -52,7 +52,7 @@ export class OccUserNotificationPreferenceAdapter
         map((list) => list.preferences ?? []),
         this.converter.pipeableMany(NOTIFICATION_PREFERENCE_NORMALIZER),
         catchError((error: any) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         })
       );
   }
@@ -75,7 +75,7 @@ export class OccUserNotificationPreferenceAdapter
       )
       .pipe(
         catchError((error: any) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         })
       );
   }

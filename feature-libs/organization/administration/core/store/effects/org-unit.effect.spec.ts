@@ -3,18 +3,18 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { FeatureConfigService } from '@spartacus/core';
 import {
   Address,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
   EntitiesModel,
+  FeatureConfigService,
   ListModel,
   LoggerService,
   OccConfig,
   SearchConfig,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   OrgUnitConnector,
@@ -97,7 +97,7 @@ class MockLoggerService {
   debug(): void {}
 }
 
-const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
+const error = tryNormalizeHttpError(httpErrorResponse, new MockLoggerService());
 
 describe('OrgUnit Effects', () => {
   let actions$: Observable<OrgUnitActions.OrgUnitAction>;

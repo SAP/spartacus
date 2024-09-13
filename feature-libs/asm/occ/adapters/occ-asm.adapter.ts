@@ -27,7 +27,7 @@ import {
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
   User,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -76,7 +76,7 @@ export class OccAsmAdapter implements AsmAdapter {
 
     return this.http.get<CustomerListsPage>(url, { headers, params }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       }),
       this.converterService.pipeable(CUSTOMER_LISTS_NORMALIZER)
     );
@@ -129,7 +129,7 @@ export class OccAsmAdapter implements AsmAdapter {
 
     return this.http.get<CustomerSearchPage>(url, { headers, params }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       }),
       this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER)
     );
@@ -161,7 +161,7 @@ export class OccAsmAdapter implements AsmAdapter {
 
     return this.http.post<void>(url, body, { headers, params }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }
@@ -183,7 +183,7 @@ export class OccAsmAdapter implements AsmAdapter {
     );
     return this.http.post<User>(url, user, { headers, params }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }

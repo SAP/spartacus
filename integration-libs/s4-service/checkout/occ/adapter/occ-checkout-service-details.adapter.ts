@@ -9,7 +9,7 @@ import { Injectable, inject } from '@angular/core';
 import {
   LoggerService,
   OccEndpointsService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { ServiceDetails } from '@spartacus/s4-service/root';
 import { Observable, catchError } from 'rxjs';
@@ -38,7 +38,7 @@ export class OccCheckoutServiceDetailsAdapter
     //check if we need to add serializer and normalizer.
     return this.http.patch(url, scheduledAt, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }

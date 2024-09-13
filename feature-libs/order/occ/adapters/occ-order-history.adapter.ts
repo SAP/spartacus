@@ -15,7 +15,7 @@ import {
   Occ,
   OccEndpointsService,
   USE_CLIENT_TOKEN,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { OrderHistoryAdapter } from '@spartacus/order/core';
 import {
@@ -118,7 +118,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
 
     return this.http.post(url, cancelRequestInput, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }
@@ -141,7 +141,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
 
     return this.http.post(url, returnRequestInput, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       }),
       this.converter.pipeable(ORDER_RETURN_REQUEST_NORMALIZER)
     );
@@ -201,7 +201,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
 
     return this.http.patch(url, returnRequestModification, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }
