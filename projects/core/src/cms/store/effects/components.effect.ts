@@ -14,9 +14,9 @@ import { LoggerService } from '../../../logger';
 import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { bufferDebounceTime } from '../../../util/rxjs/buffer-debounce-time';
 import { withdrawOn } from '../../../util/rxjs/withdraw-on';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import { serializePageContext } from '../../utils/cms-utils';
 import { CmsActions } from '../actions/index';
@@ -94,10 +94,10 @@ export class ComponentsEffects {
           actions.push(
             new CmsActions.LoadCmsComponentFail({
               uid,
-              error: {
-                message: `Failed to load CmsComponent ${pageContext.type} uid: ${uid}`,
-              },
               pageContext,
+              error: new Error(
+                `Failed to load CmsComponent ${pageContext.type} uid: ${uid}`
+              ),
             })
           );
         });

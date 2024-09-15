@@ -1,0 +1,26 @@
+<ng-container *ngIf="contextObservable | async as results">
+  <ng-container *ngIf="searchPhrases?.length">
+    <div class="message">
+      {{ 'cdsTrendingSearches.trendingSearches' | cxTranslate }}
+    </div>
+
+    <ul
+      class="recent-searches"
+      [ariaLabel]="'cdsTrendingSearches.ariaTrendingSearches' | cxTranslate"
+    >
+      <li *ngFor="let phrase of searchPhrases">
+        <a
+          role="option"
+          [routerLink]="
+            {
+              cxRoute: 'search',
+              params: { query: phrase.searchPhrase }
+            } | cxUrl
+          "
+        >
+          {{ phrase.searchPhrase }}
+        </a>
+      </li>
+    </ul>
+  </ng-container>
+</ng-container>

@@ -296,6 +296,7 @@ if (environment.cpq) {
         showPromotionsInPDP: false,
         searchBoxV2: true,
         recentSearches: true,
+        trendingSearches: false,
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
         useProductCarouselBatchApi: true,
@@ -348,6 +349,7 @@ if (environment.cpq) {
         a11yEmptyWishlistHeading: true,
         a11yScreenReaderBloatFix: true,
         a11yUseButtonsForBtnLinks: true,
+        a11yCarouselArrowKeysNavigation: true,
         a11yNotificationsOnConsentChange: true,
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,

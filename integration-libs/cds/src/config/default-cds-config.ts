@@ -12,6 +12,7 @@ export const DEFAULT_CDS_CONFIG: CdsConfig = {
     baseUrl: '',
     endpoints: {
       strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
+      searchIntelligence: '/search-intelligence/${tenant}/trends',
     },
     merchandising: {
       defaultCarouselViewportThreshold: 80,

@@ -13,6 +13,8 @@ export interface SearchBoxConfig {
   minCharactersBeforeRequest?: number;
   recentSearches?: boolean | string;
   maxRecentSearches?: number;
+  trendingSearches?: boolean | string;
+  maxTrendingSearches?: number;
 }
 
 export interface SearchResults {
