@@ -6,7 +6,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OutletContextData } from '@spartacus/storefront';
+import { OutletContextData, SearchBoxComponentService } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
 import { I18nTestingModule } from '@spartacus/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -24,6 +24,9 @@ describe('TrendingSearchesComponent', () => {
   let trendingSearchesServiceMock = {
     getTrendingSearches: () => of([]),
   };
+  let searchBoxComponentServiceMock = {
+    setTrendingSearches: (enabled: boolean = false) => of(enabled),
+  };
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule],
@@ -32,6 +35,10 @@ describe('TrendingSearchesComponent', () => {
         {
           provide: TrendingSearchesService,
           useValue: trendingSearchesServiceMock,
+        },
+        {
+          provide: SearchBoxComponentService,
+          useValue: searchBoxComponentServiceMock,
         },
         { provide: OutletContextData, useValue: { context$ } },
       ],
