@@ -6,7 +6,10 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OutletContextData, SearchBoxComponentService } from '@spartacus/storefront';
+import {
+  OutletContextData,
+  SearchBoxComponentService,
+} from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
 import { I18nTestingModule } from '@spartacus/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
