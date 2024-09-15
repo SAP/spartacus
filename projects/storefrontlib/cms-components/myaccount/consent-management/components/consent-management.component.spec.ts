@@ -22,6 +22,7 @@ import {
 import { EMPTY, Observable, of } from 'rxjs';
 import { ConsentManagementComponentService } from '../consent-management-component.service';
 import { ConsentManagementComponent } from './consent-management.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-spinner',
@@ -38,6 +39,7 @@ class MockConsentManagementFormComponent {
   consentTemplate: ConsentTemplate;
   @Input()
   requiredConsents: string[] = [];
+  @Input() disabled = false;
   @Output()
   consentChanged = new EventEmitter<{
     given: boolean;
@@ -120,39 +122,38 @@ describe('ConsentManagementComponent', () => {
   let anonymousConsentsConfig: AnonymousConsentsConfig;
   let anonymousConsentsService: AnonymousConsentsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      const mockAnonymousConsentsConfig = {
-        anonymousConsents: {},
-      };
+  beforeEach(waitForAsync(() => {
+    const mockAnonymousConsentsConfig = {
+      anonymousConsents: {},
+    };
 
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          MockCxSpinnerComponent,
-          MockConsentManagementFormComponent,
-          ConsentManagementComponent,
-        ],
-        providers: [
-          ConsentManagementComponentService,
-          { provide: UserConsentService, useClass: UserConsentServiceMock },
-          { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
-          {
-            provide: AnonymousConsentsService,
-            useClass: AnonymousConsentsServiceMock,
-          },
-          {
-            provide: AuthService,
-            useClass: AuthServiceMock,
-          },
-          {
-            provide: AnonymousConsentsConfig,
-            useValue: mockAnonymousConsentsConfig,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        MockCxSpinnerComponent,
+        MockConsentManagementFormComponent,
+        ConsentManagementComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        ConsentManagementComponentService,
+        { provide: UserConsentService, useClass: UserConsentServiceMock },
+        { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
+        {
+          provide: AnonymousConsentsService,
+          useClass: AnonymousConsentsServiceMock,
+        },
+        {
+          provide: AuthService,
+          useClass: AuthServiceMock,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConsentManagementComponent);
@@ -663,7 +664,7 @@ describe('ConsentManagementComponent', () => {
   describe('component UI tests', () => {
     describe('spinner', () => {
       describe('when consents are loading', () => {
-        it('should show spinner', () => {
+        it('should show spinner for the first time', () => {
           spyOn(userService, 'getConsentsResultLoading').and.returnValue(
             of(true)
           );
@@ -673,6 +674,7 @@ describe('ConsentManagementComponent', () => {
           spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
             of(false)
           );
+          component.templateList$ = of([]);
           spyOn<any>(component, consentListInitMethod).and.stub();
           spyOn<any>(component, giveConsentInitMethod).and.stub();
           spyOn<any>(component, withdrawConsentInitMethod).and.stub();
@@ -681,10 +683,31 @@ describe('ConsentManagementComponent', () => {
           fixture.detectChanges();
 
           expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+        });
+
+        it('should not show spinner if consents were loaded before', () => {
+          spyOn(userService, 'getConsentsResultLoading').and.returnValue(
+            of(true)
+          );
+          spyOn(userService, 'getGiveConsentResultLoading').and.returnValue(
+            of(false)
+          );
+          spyOn(userService, 'getWithdrawConsentResultLoading').and.returnValue(
+            of(false)
+          );
+          component.templateList$ = of([mockConsentTemplate]);
+          spyOn<any>(component, consentListInitMethod).and.stub();
+          spyOn<any>(component, giveConsentInitMethod).and.stub();
+          spyOn<any>(component, withdrawConsentInitMethod).and.stub();
+
+          component.ngOnInit();
+          fixture.detectChanges();
+
+          expect(el.query(By.css('cx-spinner'))).toBeFalsy();
         });
       });
       describe('when a consent is being given', () => {
-        it('should show spinner', () => {
+        it('should not show spinner', () => {
           spyOn(userService, 'getConsentsResultLoading').and.returnValue(
             of(false)
           );
@@ -701,11 +724,11 @@ describe('ConsentManagementComponent', () => {
           component.ngOnInit();
           fixture.detectChanges();
 
-          expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+          expect(el.query(By.css('cx-spinner'))).toBeFalsy();
         });
       });
       describe('when a consent is being withdrawn', () => {
-        it('should show spinner', () => {
+        it('should not show spinner', () => {
           spyOn(userService, 'getConsentsResultLoading').and.returnValue(
             of(false)
           );
@@ -722,7 +745,7 @@ describe('ConsentManagementComponent', () => {
           component.ngOnInit();
           fixture.detectChanges();
 
-          expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+          expect(el.query(By.css('cx-spinner'))).toBeFalsy();
         });
       });
 

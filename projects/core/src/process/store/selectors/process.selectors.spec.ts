@@ -81,7 +81,11 @@ describe('Process selectors', () => {
   describe('getProcessErrorFactory', () => {
     it('should return success flag', () => {
       store.dispatch(
-        new StateUtils.EntityFailAction(PROCESS_FEATURE, MOCK_PROCESS_ID)
+        new StateUtils.EntityFailAction(
+          PROCESS_FEATURE,
+          MOCK_PROCESS_ID,
+          new Error('error')
+        )
       );
 
       let result = false;

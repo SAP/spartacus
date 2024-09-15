@@ -1,8 +1,9 @@
 import { Component, DebugElement, Directive, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GlobalMessageType, I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { MessageComponent } from './message.component';
 
 @Component({
@@ -37,18 +38,17 @@ describe('MessageComponent', () => {
   let fixture: ComponentFixture<MessageComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          MessageComponent,
-          MockCxIconComponent,
-          MockAtMessageDirective,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        MessageComponent,
+        MockCxIconComponent,
+        MockAtMessageDirective,
+        MockFeatureDirective,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MessageComponent);
@@ -117,5 +117,23 @@ describe('MessageComponent', () => {
     expect(button.textContent).toEqual(' Test ');
     expect(button).toBeTruthy();
     expect(component.buttonAction.emit).toHaveBeenCalled();
+  });
+
+  it('should focus on messageContainer after a message with an accordion renders', () => {
+    const focusSpy = spyOn(component.messageContainer.nativeElement, 'focus');
+    component.accordionText = 'Test';
+
+    component.ngAfterViewInit();
+
+    expect(focusSpy).toHaveBeenCalled();
+  });
+
+  it('should focus on messageContainer after a message with a button renders', () => {
+    const focusSpy = spyOn(component.messageContainer.nativeElement, 'focus');
+    component.actionButtonText = 'Test';
+
+    component.ngAfterViewInit();
+
+    expect(focusSpy).toHaveBeenCalled();
   });
 });

@@ -1,0 +1,42 @@
+%cx-cancel-service-order {
+  .form-group {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  label[for='reasonTextarea'] {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    span {
+      font-size: 13px;
+      font-weight: normal;
+      color: #9b9b9b;
+    }
+  }
+
+  #reasonTextarea {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    resize: none;
+  }
+
+  #reasonTextarea:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+
+  .characters-left {
+    position: absolute;
+    bottom: -1.5rem;
+    right: 0.5rem;
+    font-size: 0.875rem;
+    color: #6c757d;
+  }
+}

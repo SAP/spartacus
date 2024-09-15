@@ -143,6 +143,13 @@ function add_product_configurator {
     fi
 }
 
+function add_product_multi_dimensional {
+    if [ "$ADD_PRODUCT_MULTI_DIMENSIONAL" = true ] ; then
+    ng add @spartacus/product-multi-dimensional@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+    ng add @spartacus/product-multi-dimensional --skip-confirmation --no-interactive --features "Product-Multi-Dimensional-Selector" --features "Product-Multi-Dimensional-List"
+    fi
+}
+
 function add_quote {
   if [ "$ADD_QUOTE" = true ] ; then
         ng add @spartacus/quote@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
@@ -155,6 +162,17 @@ function add_s4om {
     fi
 }
 
+function add_S4_SERVICE {
+  if [ "$ADD_S4_SERVICE" = true ] ; then
+        ng add --skip-confirmation @spartacus/s4-service@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
+function add_cpq-quote {
+  if [ "$ADD_CPQ_QUOTE" = true ] ; then
+        ng add --skip-confirmation @spartacus/cpq-quote@${SPARTACUS_VERSION} --interactive false
+    fi
+}
 function add_requested_delivery_date {
   if [ "$ADD_REQUESTED_DELIVERY_DATE" = true ] ; then
         ng add --skip-confirmation @spartacus/requested-delivery-date@${SPARTACUS_VERSION} --interactive false
@@ -177,7 +195,7 @@ function add_pdf_invoices {
 function add_feature_libs {
   ng add @spartacus/tracking@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/tracking --skip-confirmation --no-interactive --features "TMS-GTM" --features "TMS-AEPL"
-  
+
   ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/customer-ticketing@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/pickup-in-store@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
@@ -199,10 +217,13 @@ function add_spartacus_csr {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    add_product_multi_dimensional
     add_quote
     add_s4om
+    add_S4_SERVICE
     add_requested_delivery_date
     add_estimated_delivery_date
+    add_cpq-quote
     add_pdf_invoices
     remove_npmrc
     )
@@ -225,10 +246,13 @@ function add_spartacus_ssr {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    add_product_multi_dimensional
     add_quote
     add_s4om
+    add_S4_SERVICE
     add_requested_delivery_date
     add_estimated_delivery_date
+    add_cpq-quote
     add_pdf_invoices
     remove_npmrc
     )
@@ -250,9 +274,12 @@ function add_spartacus_ssr_pwa {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    add_product_multi_dimensional
     add_s4om
+    add_S4_SERVICE
     add_requested_delivery_date
     add_estimated_delivery_date
+    add_cpq-quote
     add_pdf_invoices
     remove_npmrc
     )
@@ -412,7 +439,7 @@ function build_ssr {
         printh "Building ssr app"
         if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
             buildCommands="npm run build"
-        else 
+        else
             buildCommands="npm run build && npm run build:ssr"
         fi
        ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && eval $buildCommands )
@@ -427,7 +454,7 @@ function build_ssr_pwa {
         printh "Building ssr app with PWA"
         if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
             buildCommands="npm run build"
-        else 
+        else
             buildCommands="npm run build && npm run build:ssr"
         fi
        ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && eval $buildCommands )
@@ -781,10 +808,20 @@ function parseInstallArgs {
                 ADD_OPPS=true
                 echo "➖ Added OPPS"
                 shift
-                ;;                
+                ;;
             s4om)
                 ADD_S4OM=true
                 echo "➖ Added S4OM"
+                shift
+                ;;
+            s4Service)
+                ADD_S4_SERVICE=true
+                echo "➖ Added S/4HANA Service Integration"
+                shift
+                ;;
+            cpq-quote)
+                ADD_CPQ_QUOTE=true
+                echo "➖ Added CPQ_QUOTE"
                 shift
                 ;;
             rdd)
@@ -970,7 +1007,7 @@ function compareSemver() {
     # Remove delimiters like ~ or ^
     local version1=$(echo "$1" | tr -d '^~')
     local version2=$(echo "$2" | tr -d '^~')
-    
+
     # Split the version numbers into major, minor, and patch
     version1=(${version1//./ })
     version2=(${version2//./ })

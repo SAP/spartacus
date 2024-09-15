@@ -18,7 +18,11 @@ import {
 } from '../common/converters/cpq-configurator.converters';
 import { CpqConfiguratorEndpointService } from './cpq-configurator-endpoint.service';
 import { Cpq } from '../common/cpq.models';
-
+/**
+ * @deprecated since 2211.25. Not needed for commerce based CPQ orchestration (which is the default communication flavour).
+ * Refer to configuration setting ConfiguratorCoreConfig.productConfigurator.cpqOverOcc = true.
+ * The other flavour (performing direct calls from composable storefront to CPQ) is technically no longer supported.
+ */
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorRestService {
   constructor(

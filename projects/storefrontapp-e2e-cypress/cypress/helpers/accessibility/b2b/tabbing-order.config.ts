@@ -349,18 +349,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.FORM_FIELD,
     },
     {
-      value: 'Apply',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
       value: 'productCode',
       type: TabbingOrderTypes.FORM_FIELD,
     },
     { type: TabbingOrderTypes.GENERIC_INPUT },
-    {
-      value: 'Add',
-      type: TabbingOrderTypes.BUTTON,
-    },
     {
       value: 'Proceed to Checkout',
       type: TabbingOrderTypes.BUTTON,
@@ -475,18 +467,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.FORM_FIELD,
     },
     {
-      value: 'Apply',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
       value: 'productCode',
       type: TabbingOrderTypes.FORM_FIELD,
     },
     { type: TabbingOrderTypes.GENERIC_INPUT },
-    {
-      value: 'Add',
-      type: TabbingOrderTypes.BUTTON,
-    },
     {
       value: 'Proceed to Checkout',
       type: TabbingOrderTypes.BUTTON,

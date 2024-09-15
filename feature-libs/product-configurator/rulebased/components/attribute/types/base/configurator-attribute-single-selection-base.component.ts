@@ -62,6 +62,10 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
             false
         )
       );
+    this.initPriceChangedEvent(
+      attributeComponentContext.isPricingAsync,
+      attributeComponentContext.attribute.key
+    );
   }
 
   /**
@@ -220,7 +224,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   getAriaLabel(
-    value: Configurator.Value,
+    value: Configurator.Value | undefined,
     attribute: Configurator.Attribute
   ): string {
     const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
@@ -242,45 +246,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   getAriaLabelWithoutAdditionalValue(
-    value: Configurator.Value,
+    value: Configurator.Value | undefined,
     attribute: Configurator.Attribute
   ): string {
-    let ariaLabel = '';
-    if (value.valuePrice && value.valuePrice?.value !== 0) {
-      if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
-        this.translation
-          .translate(
-            'configurator.a11y.selectedValueOfAttributeFullWithPrice',
-            {
-              value: value.valueDisplay,
-              attribute: attribute.label,
-              price: value.valuePriceTotal.formattedValue,
-            }
-          )
-          .pipe(take(1))
-          .subscribe((text) => (ariaLabel = text));
-      } else {
-        this.translation
-          .translate(
-            'configurator.a11y.selectedValueOfAttributeFullWithPrice',
-            {
-              value: value.valueDisplay,
-              attribute: attribute.label,
-              price: value.valuePrice.formattedValue,
-            }
-          )
-          .pipe(take(1))
-          .subscribe((text) => (ariaLabel = text));
-      }
-    } else {
-      this.translation
-        .translate('configurator.a11y.selectedValueOfAttributeFull', {
-          value: value.valueDisplay,
-          attribute: attribute.label,
-        })
-        .pipe(take(1))
-        .subscribe((text) => (ariaLabel = text));
-    }
-    return ariaLabel;
+    return this.getAriaLabelGeneric(attribute, value, true);
   }
 }

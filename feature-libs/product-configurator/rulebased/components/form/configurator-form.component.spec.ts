@@ -36,10 +36,11 @@ import { ConfiguratorFormComponent } from './configurator-form.component';
   selector: 'cx-configurator-group',
   template: '',
 })
-class MockConfiguratorDefaultFormComponent {
+class MockConfiguratorGroupComponent {
   @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
   @Input() isNavigationToGroupEnabled = true;
+  @Input() isPricingAsync?: boolean;
 }
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -259,46 +260,41 @@ let configExpertModeService: ConfiguratorExpertModeService;
 let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
 
 describe('ConfigurationFormComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          MockConfiguratorDefaultFormComponent,
-          ConfiguratorFormComponent,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
-          },
-          {
-            provide: ConfiguratorExpertModeService,
-            useClass: MockConfiguratorExpertModeService,
-          },
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeHeaderComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [MockConfiguratorGroupComponent, ConfiguratorFormComponent],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+        {
+          provide: ConfiguratorExpertModeService,
+          useClass: MockConfiguratorExpertModeService,
+        },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeHeaderComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     configuratorGroupsService = TestBed.inject(

@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { User } from '@spartacus/core';
+import { FeatureConfigService, User } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { FormService } from '../../shared/form/form.service';
 
@@ -18,27 +18,29 @@ import { FormService } from '../../shared/form/form.service';
   providedIn: 'root',
 })
 export class UserChangePasswordFormService extends FormService<any> {
+  private featureConfigService = inject(FeatureConfigService);
+
   /**
    * @override
    * Adds the password and confirmPassword field. Also adds the customerId field,
    * so that the customerId can be used during persistent.
    */
   protected build() {
+    // TODO: (CXSPA-7315) Remove feature toggle in the next major
+    const passwordValidators = this.featureConfigService?.isEnabled(
+      'formErrorsDescriptiveMessages'
+    )
+      ? [CustomFormValidators.passwordValidator]
+      : CustomFormValidators.passwordValidators;
     const form = new UntypedFormGroup({});
     form.setControl('customerId', new UntypedFormControl(''));
     form.setControl(
       'password',
-      new UntypedFormControl('', [
-        Validators.required,
-        CustomFormValidators.passwordValidator,
-      ])
+      new UntypedFormControl('', [Validators.required, ...passwordValidators])
     );
     form.setControl(
       'confirmPassword',
-      new UntypedFormControl('', [
-        Validators.required,
-        CustomFormValidators.passwordValidator,
-      ])
+      new UntypedFormControl('', [Validators.required, ...passwordValidators])
     );
     form.setValidators(
       CustomFormValidators.passwordsMustMatch('password', 'confirmPassword')

@@ -1,4 +1,4 @@
-import { Component, Type } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
@@ -38,7 +38,7 @@ class MockRouter {
 }
 
 class MockConfiguratorGroupService {
-  navigateToGroup() {}
+  navigateToGroup(): void {}
 
   getCurrentGroup(): Observable<Configurator.Group> {
     return of(group);
@@ -64,9 +64,9 @@ export class MockIconFontLoaderService {
 }
 
 class MockBreakpointService {
-  isDown() {}
+  isDown(): void {}
 
-  isUp() {}
+  isUp(): void {}
 }
 
 @Component({
@@ -75,7 +75,13 @@ class MockBreakpointService {
 })
 class MockHamburgerMenuComponent {}
 
-describe('ConfigurationGroupTitleComponent', () => {
+class MockConfiguratorStorefrontUtilsService {
+  changeStyling(): void {}
+  focusFirstActiveElement(): void {}
+  removeStyling(): void {}
+}
+
+describe('ConfiguratorGroupTitleComponent', () => {
   let component: ConfiguratorGroupTitleComponent;
   let fixture: ComponentFixture<ConfiguratorGroupTitleComponent>;
   let htmlElem: HTMLElement;
@@ -86,46 +92,45 @@ describe('ConfigurationGroupTitleComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let hamburgerMenuService: HamburgerMenuService;
 
-  beforeEach(
-    waitForAsync(() => {
-      routerStateObservable = of(ConfigurationTestData.mockRouterState);
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          ConfiguratorGroupTitleComponent,
-          MockHamburgerMenuComponent,
-        ],
-        providers: [
-          HamburgerMenuService,
-          {
-            provide: Router,
-            useClass: MockRouter,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
+  beforeEach(waitForAsync(() => {
+    routerStateObservable = of(ConfigurationTestData.mockRouterState);
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [
+        ConfiguratorGroupTitleComponent,
+        MockHamburgerMenuComponent,
+      ],
+      providers: [
+        HamburgerMenuService,
+        {
+          provide: Router,
+          useClass: MockRouter,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
 
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupService,
-          },
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-          {
-            provide: BreakpointService,
-            useClass: MockBreakpointService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupService,
+        },
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);
     component = fixture.componentInstance;
@@ -134,24 +139,18 @@ describe('ConfigurationGroupTitleComponent', () => {
 
     configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
 
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(config.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
 
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
+    configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
 
-    breakpointService = TestBed.inject(
-      BreakpointService as Type<BreakpointService>
-    );
+    breakpointService = TestBed.inject(BreakpointService);
 
     spyOn(breakpointService, 'isUp').and.returnValue(of(false));
 
     configuratorStorefrontUtilsService = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+      ConfiguratorStorefrontUtilsService
     );
 
     spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
@@ -161,9 +160,7 @@ describe('ConfigurationGroupTitleComponent', () => {
       'focusFirstActiveElement'
     ).and.stub();
 
-    hamburgerMenuService = TestBed.inject(
-      HamburgerMenuService as Type<HamburgerMenuService>
-    );
+    hamburgerMenuService = TestBed.inject(HamburgerMenuService);
     spyOn(hamburgerMenuService, 'toggle').and.callThrough();
   });
 
@@ -172,13 +169,22 @@ describe('ConfigurationGroupTitleComponent', () => {
     spyOn(breakpointService, 'isDown').and.returnValue(of(true));
     fixture.detectChanges();
     expect(component).toBeDefined();
-    expect(configuratorStorefrontUtilsService.changeStyling).toHaveBeenCalled();
+    expect(
+      configuratorStorefrontUtilsService.changeStyling
+    ).toHaveBeenCalledTimes(2);
     expect(
       configuratorStorefrontUtilsService.changeStyling
     ).toHaveBeenCalledWith('.PreHeader', 'display', 'block');
     expect(
+      configuratorStorefrontUtilsService.changeStyling
+    ).toHaveBeenCalledWith(
+      'cx-configurator-add-to-cart-button',
+      'z-index',
+      '0'
+    );
+    expect(
       configuratorStorefrontUtilsService.focusFirstActiveElement
-    ).toHaveBeenCalledWith('cx-hamburger-menu');
+    ).toHaveBeenCalledWith('cx-configurator-group-menu');
   });
 
   it('should create component with hamburger menu icon', () => {
@@ -190,10 +196,19 @@ describe('ConfigurationGroupTitleComponent', () => {
       htmlElem,
       'cx-hamburger-menu'
     );
-    expect(configuratorStorefrontUtilsService.changeStyling).toHaveBeenCalled();
+    expect(
+      configuratorStorefrontUtilsService.changeStyling
+    ).toHaveBeenCalledTimes(2);
     expect(
       configuratorStorefrontUtilsService.changeStyling
     ).toHaveBeenCalledWith('.PreHeader', 'display', 'none');
+    expect(
+      configuratorStorefrontUtilsService.changeStyling
+    ).toHaveBeenCalledWith(
+      'cx-configurator-add-to-cart-button',
+      'z-index',
+      'calc(var(--cx-popover-z-index) + 10)'
+    );
     expect(
       configuratorStorefrontUtilsService.focusFirstActiveElement
     ).toHaveBeenCalledWith('.cx-group-title');

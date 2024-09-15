@@ -51,22 +51,20 @@ class MockAutoFocusService {
 describe('AutoFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: AutoFocusService;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [MockComponent, CustomFocusDirective],
-        providers: [
-          {
-            provide: AutoFocusService,
-            useClass: MockAutoFocusService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [MockComponent, CustomFocusDirective],
+      providers: [
+        {
+          provide: AutoFocusService,
+          useClass: MockAutoFocusService,
+        },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MockComponent);
-      service = TestBed.inject(AutoFocusService);
-    })
-  );
+    fixture = TestBed.createComponent(MockComponent);
+    service = TestBed.inject(AutoFocusService);
+  }));
 
   const event = {
     preventDefault: () => {},

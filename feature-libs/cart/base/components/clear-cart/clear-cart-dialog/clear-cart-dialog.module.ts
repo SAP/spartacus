@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule } from '@spartacus/core';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import {
   IconModule,
   KeyboardFocusModule,
@@ -21,6 +21,7 @@ import { ClearCartDialogComponent } from './clear-cart-dialog.component';
     I18nModule,
     IconModule,
     KeyboardFocusModule,
+    FeaturesConfigModule,
   ],
   declarations: [ClearCartDialogComponent],
   exports: [ClearCartDialogComponent],

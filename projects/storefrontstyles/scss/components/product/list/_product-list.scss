@@ -10,6 +10,10 @@
     border-color: var(--cx-color-light);
     margin: 0 0 25px 0;
 
+    @include forFeature('a11yImproveContrast') {
+      border-color: var(--cx-color-medium);
+    }
+
     &:last-of-type {
       border: none;
     }
@@ -22,6 +26,10 @@
   .cx-sorting {
     border-style: solid;
     border-color: var(--cx-color-light);
+
+    @include forFeature('a11yImproveContrast') {
+      border-color: var(--cx-color-medium);
+    }
 
     @include media-breakpoint-down(md) {
       border: none;
@@ -41,7 +49,7 @@
     @include forFeature('a11ySortingOptionsTruncation') {
       & ng-select {
         @include media-breakpoint-up(lg) {
-          width: 14rem;
+          width: 15rem;
         }
       }
     }
@@ -122,5 +130,11 @@
 
   .align-btn {
     margin-top: 0px !important;
+  }
+
+  @include cx-highContrastTheme {
+    .cx-sort-dropdown {
+      color: var(--cx-color-text);
+    }
   }
 }

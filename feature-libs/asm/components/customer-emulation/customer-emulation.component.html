@@ -5,7 +5,15 @@
   </div>
   <cx-asm-bind-cart></cx-asm-bind-cart>
   <button
-    *ngIf="isAsmCustomer360Configured && customer"
+    *ngIf="isAsmCustomer360Configured && customer && isShowStyleChangesInASM"
+    #asmCustomer360Launcher
+    class="cx-360-button"
+    (click)="openAsmCustomer360()"
+  >
+    {{ 'asm.asmCustomer360ViewButton' | cxTranslate }}
+  </button>
+  <button
+    *ngIf="isAsmCustomer360Configured && customer && !isShowStyleChangesInASM"
     #asmCustomer360Launcher
     class="cx-360-button"
     (click)="openAsmCustomer360()"

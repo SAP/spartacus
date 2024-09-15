@@ -12,6 +12,7 @@ import {
   Suggestion,
   ProductSearchPage,
 } from '../../../model/product-search.model';
+import { Product } from '../../../model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +22,17 @@ export class ProductSearchConnector {
 
   search(
     query: string,
-    searchConfig?: SearchConfig
+    searchConfig?: SearchConfig,
+    scope?: string
   ): Observable<ProductSearchPage> {
-    return this.adapter.search(query, searchConfig);
+    return this.adapter.search(query, searchConfig, scope);
+  }
+
+  searchByCodes(
+    codes: string[],
+    scope?: string
+  ): Observable<{ products: Product[] }> {
+    return this.adapter.searchByCodes(codes, scope);
   }
 
   getSuggestions(term: string, pageSize?: number): Observable<Suggestion[]> {

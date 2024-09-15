@@ -24,6 +24,7 @@ import {
   UserInterestsService,
 } from '@spartacus/core';
 import { cold, getTestScheduler } from 'jasmine-marbles';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { MockFeatureLevelDirective } from '../../../shared/test/mock-feature-level-directive';
@@ -210,30 +211,29 @@ describe('MyInterestsComponent', () => {
   ]);
   const productService = jasmine.createSpyObj('ProductService', ['get']);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        providers: [
-          { provide: OccConfig, useValue: MockOccModuleConfig },
-          { provide: LayoutConfig, useValue: MockLayoutConfig },
-          { provide: UserInterestsService, useValue: productInterestService },
-          { provide: ProductService, useValue: productService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        ],
-        declarations: [
-          MyInterestsComponent,
-          MockUrlPipe,
-          MockMediaComponent,
-          MockSpinnerComponent,
-          MockPaginationComponent,
-          MockSortingComponent,
-          MockFeatureLevelDirective,
-          MockAtMessageDirective,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      providers: [
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: LayoutConfig, useValue: MockLayoutConfig },
+        { provide: UserInterestsService, useValue: productInterestService },
+        { provide: ProductService, useValue: productService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+      ],
+      declarations: [
+        MyInterestsComponent,
+        MockUrlPipe,
+        MockMediaComponent,
+        MockSpinnerComponent,
+        MockPaginationComponent,
+        MockSortingComponent,
+        MockFeatureLevelDirective,
+        MockAtMessageDirective,
+        MockFeatureDirective,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyInterestsComponent);

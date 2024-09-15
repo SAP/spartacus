@@ -33,10 +33,6 @@
       }
 
       .cx-modal-content {
-        @include media-breakpoint-down(md) {
-          height: 100vh !important;
-        }
-
         .cx-dialog-header {
           outline: 0;
           padding-inline-start: 16px;
@@ -59,6 +55,9 @@
               padding-block-end: 0px;
             }
           }
+          @include cx-highContrastTheme {
+            background-color: var(--cx-color-background);
+          }
         }
 
         .cx-dialog-body {
@@ -72,7 +71,6 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            padding-inline-start: 0px;
             padding-inline-end: 5px;
             margin-block-start: 12px;
             margin-block-end: 12px;
@@ -83,27 +81,21 @@
               align-self: center;
               font-size: 30px;
               padding-inline-start: 15px;
-              padding-inline-end: 18px;
+              padding-inline-end: 15px;
               padding-block-start: 5px;
               padding-block-end: 15px;
             }
           }
 
+          .cx-msg-warning,
           cx-configurator-conflict-description {
             padding-inline-start: 0px;
-            padding-block-start: 0px;
-            padding-block-end: 0px;
+            padding-block-start: 5px;
+            padding-block-end: 5px;
           }
-        }
-
-        .cx-modal-footer {
-          display: flex;
-          justify-content: center;
-          margin-block-start: 15px;
-          padding-inline-start: 16px;
-          padding-inline-end: 16px;
-          padding-block-start: 16px;
-          padding-block-end: 16px;
+          @include cx-highContrastTheme {
+            background-color: var(--cx-color-background);
+          }
         }
       }
     }

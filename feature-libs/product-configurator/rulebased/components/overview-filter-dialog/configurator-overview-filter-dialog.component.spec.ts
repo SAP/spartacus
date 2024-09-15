@@ -1,3 +1,4 @@
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
@@ -6,12 +7,12 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorOverviewFilterDialogComponent } from './configurator-overview-filter-dialog.component';
-import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { NEVER, of } from 'rxjs';
-import { Component, Directive, Input } from '@angular/core';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { ConfiguratorOverviewFilterDialogComponent } from './configurator-overview-filter-dialog.component';
 
 let component: ConfiguratorOverviewFilterDialogComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterDialogComponent>;
@@ -59,23 +60,22 @@ export class MockKeyboadFocusDirective {
 }
 
 describe('ConfiguratorOverviewFilterDialogComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      initializeMocks();
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorOverviewFilterDialogComponent,
-          MockCxIconComponent,
-          MockConfiguratorOverviewFilterComponent,
-          MockKeyboadFocusDirective,
-        ],
-        imports: [I18nTestingModule],
-        providers: [
-          { provide: LaunchDialogService, useValue: mockLaunchDialogService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    initializeMocks();
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorOverviewFilterDialogComponent,
+        MockCxIconComponent,
+        MockConfiguratorOverviewFilterComponent,
+        MockKeyboadFocusDirective,
+        MockFeatureDirective,
+      ],
+      imports: [I18nTestingModule],
+      providers: [
+        { provide: LaunchDialogService, useValue: mockLaunchDialogService },
+      ],
+    }).compileComponents();
+  }));
 
   it('should create component', () => {
     initialize();

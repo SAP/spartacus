@@ -6,11 +6,17 @@
 
 import { Injectable, inject, isDevMode } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { LoggerService, WindowRef } from '@spartacus/core';
+import {
+  LoggerService,
+  ProductScope,
+  ProductService,
+  RoutingService,
+  WindowRef,
+} from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 
@@ -18,6 +24,9 @@ import { Configurator } from '../../core/model/configurator.model';
   providedIn: 'root',
 })
 export class ConfiguratorStorefrontUtilsService {
+  protected productService = inject(ProductService);
+  protected routingService = inject(RoutingService);
+
   /**
    * 'CX' prefix is used to generate an alphanumeric prefix ID.
    */
@@ -31,6 +40,11 @@ export class ConfiguratorStorefrontUtilsService {
 
   protected logger = inject(LoggerService);
 
+  /**
+   * Last selected attribute and value.
+   * Needed for accessibility of checkboxes in delta rendering mode
+   */
+  protected lastSelected?: { attributeName: string; valueCode: string };
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected windowRef: WindowRef,
@@ -476,5 +490,56 @@ export class ConfiguratorStorefrontUtilsService {
         container.scrollTop = element.getBoundingClientRect()?.top - 10;
       }
     }
+  }
+
+  /**
+   * Verifies whether a product is a variant product in the display only view.
+   *
+   * @returns - if `baseProduct` property of the current product is defined
+   * and provides the product code of the base product,
+   * and the current product is in the display only view
+   * then returns `true`, otherwise `false`.
+   */
+  isDisplayOnlyVariant(): Observable<boolean> {
+    return this.routingService.getRouterState().pipe(
+      switchMap((routerState) => {
+        return routerState.state.params.displayOnly &&
+          routerState.state.queryParams.productCode
+          ? this.productService.get(
+              routerState.state.queryParams.productCode,
+              ProductScope.LIST
+            )
+          : of(undefined);
+      }),
+      map((product) => {
+        return (product && !!product.baseProduct) ?? false;
+      })
+    );
+  }
+
+  /**
+   * Set the last selected attribute and value.
+   * Needed for accessibility of checkboxes in delta rendering mode
+   *
+   * @param attributeName - Attribute name
+   * @param valueCode - Value code
+   */
+  setLastSelected(attributeName: string, valueCode: string): void {
+    this.lastSelected = { attributeName, valueCode };
+  }
+
+  /**
+   * Check if the attribute and value are the last selected.
+   *
+   * @param attributeName - Attribute name
+   * @param valueCode - Value code
+   * @returns 'True', if the attribute and value are the last selected, otherwise 'false'
+   */
+  isLastSelected(attributeName: string, valueCode: string): boolean {
+    return (
+      !!this.lastSelected &&
+      this.lastSelected.attributeName === attributeName &&
+      this.lastSelected.valueCode === valueCode
+    );
   }
 }

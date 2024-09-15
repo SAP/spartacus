@@ -9,7 +9,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   LoggerService,
   SiteContextActions,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { OrderHistoryList } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
@@ -58,7 +58,7 @@ export class OrdersEffect {
             catchError((error) =>
               of(
                 new OrderActions.LoadUserOrdersFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )

@@ -100,11 +100,17 @@
           ></cx-card>
         </ng-container>
 
-        <ng-container *ngIf="order.deliveryMode">
+        <ng-container *ngIf="shouldShowDeliveryMode(order.deliveryMode)">
           <cx-card
             [content]="getDeliveryModeCardContent(order?.deliveryMode) | async"
           ></cx-card>
         </ng-container>
+
+        <ng-template
+          [cxOutlet]="orderOutlets.SERVICE_DETAILS"
+          [cxOutletContext]="{ item: order, readonly: true }"
+        >
+        </ng-template>
       </div>
 
       <ng-container *ngIf="order.paymentInfo">

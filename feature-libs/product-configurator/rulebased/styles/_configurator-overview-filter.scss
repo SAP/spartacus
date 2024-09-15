@@ -23,4 +23,20 @@
 
     margin-block-start: 25px;
   }
+
+  .cx-no-overview-filters-available {
+    padding-inline-start: 6px;
+    padding-inline-end: 10px;
+    padding-block-start: 15px;
+
+    @include media-breakpoint-only(md) {
+      padding-inline-start: 14px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding-inline-start: 10px;
+    }
+  }
+
+  @include cx-configurator-attribute-visible-focus();
 }

@@ -11,6 +11,7 @@ import {
   EventEmitter,
   HostBinding,
   HostListener,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -26,9 +27,12 @@ import {
   filter,
   take,
 } from 'rxjs/operators';
+import { BREAKPOINT, BreakpointService } from '../../../layout';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
+
+const ARIA_EXPANDED_ATTR = 'aria-expanded';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -83,6 +87,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     this.arrowControls.next(e);
   }
 
+  protected breakpointService = inject(BreakpointService);
+  isDesktop$ = this.breakpointService.isUp(BREAKPOINT.lg);
+
   constructor(
     private router: Router,
     private renderer: Renderer2,
@@ -110,6 +117,26 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     if (this.resetMenuOnClose) {
       this.resetOnMenuCollapse();
     }
+    if (
+      this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
+    ) {
+      this.focusOnMenuExpansion();
+    }
+  }
+
+  /**
+   * Focus on the first focusable element in the hamburger menu when the menu is opened.
+   */
+  focusOnMenuExpansion(): void {
+    this.subscriptions.add(
+      this.hamburgerMenuService?.isExpanded.subscribe((isExpanded) => {
+        if (isExpanded && this.navAriaLabel?.includes('menu')) {
+          setTimeout(() => {
+            this.elemRef.nativeElement.querySelector('[tabindex="0"]').focus();
+          });
+        }
+      })
+    );
   }
 
   /**
@@ -153,26 +180,43 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * This method performs the actions required to reset the state of the menu and reset any visual components.
    */
   reinitializeMenu(): void {
-    if (this.openNodes?.length > 0) {
-      // TODO: (CXSPA-5919) Remove feature flag next major release
-      if (
-        this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
-      ) {
-        this.elemRef.nativeElement
-          .querySelectorAll('li.is-open:not(.back), li.is-opened')
-          .forEach((el: any) => {
-            this.renderer.removeClass(el, 'is-open');
-            this.renderer.removeClass(el, 'is-opened');
-          });
+    const a11yKeyboardControlsEnabled = this.featureConfigService?.isEnabled(
+      'a11yNavigationUiKeyboardControls'
+    );
+    const a11yNavMenuExpandStateReadout = this.featureConfigService?.isEnabled(
+      'a11yNavMenuExpandStateReadout'
+    );
+    // TODO: (CXSPA-5919) Remove feature flag next major release
+    if (a11yKeyboardControlsEnabled || a11yNavMenuExpandStateReadout) {
+      const listItems = this.elemRef.nativeElement.querySelectorAll(
+        'li.is-open:not(.back), li.is-opened'
+      );
+
+      if (a11yNavMenuExpandStateReadout) {
+        listItems.forEach((el: HTMLElement) => {
+          Array.from(el.children)
+            .filter((childNode) => childNode?.tagName === 'BUTTON')
+            .forEach((childNode) => {
+              this.renderer.setAttribute(
+                childNode,
+                ARIA_EXPANDED_ATTR,
+                'false'
+              );
+            });
+        });
       }
-      this.clear();
-      if (
-        !this.featureConfigService?.isEnabled(
-          'a11yNavigationUiKeyboardControls'
-        )
-      ) {
+      if (a11yKeyboardControlsEnabled) {
+        listItems.forEach((el: HTMLElement) => {
+          this.renderer.removeClass(el, 'is-open');
+          this.renderer.removeClass(el, 'is-opened');
+        });
+        this.clear();
         this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
+        this.updateClasses();
       }
+    } else if (this.openNodes?.length > 0) {
+      this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
+      this.clear();
     }
   }
 
@@ -181,7 +225,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       Array.from(parentNode.children)
         .filter((childNode) => childNode?.tagName === 'BUTTON')
         .forEach((childNode) => {
-          this.renderer.setAttribute(childNode, 'aria-expanded', 'false');
+          this.renderer.setAttribute(childNode, ARIA_EXPANDED_ATTR, 'false');
         });
     });
   }
@@ -202,7 +246,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       }
     } else {
       this.openNodes.push(parentNode);
-      this.renderer.setAttribute(node, 'aria-expanded', 'true');
+      this.renderer.setAttribute(node, ARIA_EXPANDED_ATTR, 'true');
     }
 
     this.updateClasses();
@@ -265,18 +309,23 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
         this.openNodes[this.openNodes.length - 1],
         'is-open'
       );
-      this.openNodes.pop();
+      if (
+        this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
+      ) {
+        const removedNode = this.openNodes.pop();
+        setTimeout(() => {
+          (removedNode?.querySelector('[tabindex="0"]') as HTMLElement).focus();
+        }, 0);
+      } else {
+        this.openNodes.pop();
+      }
       this.updateClasses();
     }
   }
 
   clear(): void {
     this.openNodes = [];
-    if (
-      !this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
-    ) {
-      this.updateClasses();
-    }
+    this.updateClasses();
   }
 
   onMouseEnter(event: MouseEvent) {

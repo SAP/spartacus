@@ -5,6 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction } from '../../../error-handling';
 import { Language } from '../../../model/misc.model';
 
 export const LOAD_LANGUAGES = '[Site-context] Load Languages';
@@ -17,23 +18,30 @@ export class LoadLanguages implements Action {
   readonly type = LOAD_LANGUAGES;
 }
 
-export class LoadLanguagesFail implements Action {
+export class LoadLanguagesFail implements ErrorAction {
+  public error: any;
   readonly type = LOAD_LANGUAGES_FAIL;
-  constructor(public payload: any) {}
+
+  constructor(public payload: any) {
+    this.error = payload;
+  }
 }
 
 export class LoadLanguagesSuccess implements Action {
   readonly type = LOAD_LANGUAGES_SUCCESS;
+
   constructor(public payload: Language[]) {}
 }
 
 export class SetActiveLanguage implements Action {
   readonly type = SET_ACTIVE_LANGUAGE;
+
   constructor(public payload: string) {}
 }
 
 export class LanguageChange implements Action {
   readonly type = LANGUAGE_CHANGE;
+
   constructor(
     public payload: { previous: string | null; current: string | null }
   ) {}

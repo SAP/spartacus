@@ -35,7 +35,6 @@ $caretSize: 7px;
   }
 
   select {
-    color: inherit;
     background-color: var(--cx-color-light);
     color: var(--cx-color-text);
     border: 0;
@@ -53,6 +52,16 @@ $caretSize: 7px;
     position: relative;
     @include media-breakpoint-up(lg) {
       background-color: var(--cx-color-light);
+    }
+  }
+
+  @include cx-highContrastTheme {
+    select {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    cx-icon {
+      color: var(--cx-color-text);
     }
   }
 }

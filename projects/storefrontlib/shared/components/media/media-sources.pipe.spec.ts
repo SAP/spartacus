@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -49,7 +49,6 @@ describe('MediaSourcesPipe', () => {
     const srcset = `96w, ${mockImgUrl} 284w`;
 
     const result = pipe.transform(srcset);
-    console.log(result);
 
     expect(result.length).toBe(1);
     expect(result[0].srcset).toBe(mockImgUrl);

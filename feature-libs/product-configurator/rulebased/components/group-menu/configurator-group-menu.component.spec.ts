@@ -1,9 +1,13 @@
-import { Component, Directive, Input, Type } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -125,8 +129,18 @@ const mockRouterStateIssueNavigation: any = {
   },
 };
 
+let productConfiguratorDeltaRenderingEnabled = false;
+class MockFeatureConfigService {
+  isEnabled(name: string): boolean {
+    if (name === 'productConfiguratorDeltaRendering') {
+      return productConfiguratorDeltaRenderingEnabled;
+    }
+    return false;
+  }
+}
+
 class MockConfiguratorGroupService {
-  setMenuParentGroup() {}
+  setMenuParentGroup(): void {}
 
   getGroupStatus() {
     return of(null);
@@ -140,7 +154,7 @@ class MockConfiguratorGroupService {
     return null;
   }
 
-  navigateToGroup() {}
+  navigateToGroup(): void {}
 
   getCurrentGroup(): Observable<Configurator.Group> {
     return of(mockProductConfiguration.groups[0]);
@@ -196,6 +210,18 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
+class MockConfiguratorStorefrontUtilsService {
+  createGroupId(groupId?: string): string | undefined {
+    if (groupId) {
+      return groupId + '-group';
+    }
+  }
+
+  scrollToConfigurationElement(): void {}
+  setFocus(): void {}
+  focusFirstActiveElement(): void {}
+}
+
 let component: ConfiguratorGroupMenuComponent;
 let fixture: ComponentFixture<ConfiguratorGroupMenuComponent>;
 let configuratorGroupsService: ConfiguratorGroupsService;
@@ -222,88 +248,80 @@ function initialize() {
   fixture.detectChanges();
 }
 
-describe('ConfigurationGroupMenuComponent', () => {
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          ConfiguratorGroupMenuComponent,
-          MockCxIconComponent,
-          MockFocusDirective,
-        ],
-        providers: [
-          HamburgerMenuService,
-          {
-            provide: Router,
-            useClass: MockRouter,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupService,
-          },
-          {
-            provide: DirectionService,
-            useClass: MockDirectionService,
-          },
-          {
-            provide: BreakpointService,
-            useClass: MockBreakpointService,
-          },
-        ],
-      });
-    })
-  );
+describe('ConfiguratorGroupMenuComponent', () => {
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [
+        ConfiguratorGroupMenuComponent,
+        MockCxIconComponent,
+        MockFocusDirective,
+      ],
+      providers: [
+        HamburgerMenuService,
+        {
+          provide: Router,
+          useClass: MockRouter,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupService,
+        },
+        {
+          provide: DirectionService,
+          useClass: MockDirectionService,
+        },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
+    });
+  }));
 
   beforeEach(() => {
     groupVisitedObservable = of(false);
 
-    configuratorGroupsService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
-    );
+    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(configuratorGroupsService, 'setMenuParentGroup').and.stub();
     spyOn(configuratorGroupsService, 'isGroupVisited').and.callThrough();
     isConflictGroupType = false;
     spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
 
-    hamburgerMenuService = TestBed.inject(
-      HamburgerMenuService as Type<HamburgerMenuService>
-    );
+    hamburgerMenuService = TestBed.inject(HamburgerMenuService);
     spyOn(hamburgerMenuService, 'toggle').and.stub();
 
-    configUtils = TestBed.inject(
-      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
-    );
+    configUtils = TestBed.inject(ConfiguratorStorefrontUtilsService);
     spyOn(configUtils, 'setFocus').and.stub();
     spyOn(configUtils, 'focusFirstActiveElement').and.stub();
 
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(mockProductConfiguration.owner);
 
-    configGroupMenuService = TestBed.inject(
-      ConfiguratorGroupMenuService as Type<ConfiguratorGroupMenuService>
-    );
+    configGroupMenuService = TestBed.inject(ConfiguratorGroupMenuService);
     spyOn(configGroupMenuService, 'switchGroupOnArrowPress').and.stub();
 
-    directionService = TestBed.inject(
-      DirectionService as Type<DirectionService>
-    );
+    directionService = TestBed.inject(DirectionService);
     spyOn(directionService, 'getDirection').and.callThrough();
 
-    configExpertModeService = TestBed.inject(
-      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
-    );
+    configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
   });
 
   it('should create component', () => {
@@ -1797,6 +1815,20 @@ describe('ConfigurationGroupMenuComponent', () => {
       initialize();
       component['handleFocusLoopInMobileMode'](event);
       expect(configUtils.focusFirstActiveElement).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('trackByFn', () => {
+    it('should return group itself, if performance optimization is not active', () => {
+      productConfiguratorDeltaRenderingEnabled = false;
+      expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(
+        simpleConfig.groups[0]
+      );
+    });
+
+    it('should return group ID, if performance optimization is active', () => {
+      productConfiguratorDeltaRenderingEnabled = true;
+      expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(GROUP_ID_1);
     });
   });
 });

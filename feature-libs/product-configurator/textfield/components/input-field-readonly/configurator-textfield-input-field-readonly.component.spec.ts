@@ -10,14 +10,12 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorTextfieldInputFieldReadonlyComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [ConfiguratorTextfieldInputFieldReadonlyComponent],
-      });
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [ConfiguratorTextfieldInputFieldReadonlyComponent],
+    });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

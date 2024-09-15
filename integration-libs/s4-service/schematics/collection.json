@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-s4-service/index#addS4ServiceFeature",
+      "description": "Add and configure Spartacus' S/4HANA Service Integration feature",
+      "schema": "./add-s4-service/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-s4-service/index#addS4ServiceFeature",
+      "description": "Add and configure Spartacus' S/4HANA Service Integration feature",
+      "schema": "./add-s4-service/schema.json"
+    }
+  }
+}

@@ -13,6 +13,7 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -81,34 +82,33 @@ describe('ConfiguratorRestartDialogComponent', () => {
     return <jasmine.Spy>f;
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      initializeMocks();
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorRestartDialogComponent,
-          MockCxIconComponent,
-          MockKeyboadFocusDirective,
-        ],
-        imports: [I18nTestingModule],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: ConfiguratorCommonsService,
-            useValue: mockConfigCommonsService,
-          },
-          {
-            provide: RoutingService,
-            useValue: mockRoutingService,
-          },
-          {
-            provide: ProductService,
-            useValue: mockProductService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    initializeMocks();
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorRestartDialogComponent,
+        MockCxIconComponent,
+        MockKeyboadFocusDirective,
+        MockFeatureDirective,
+      ],
+      imports: [I18nTestingModule],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: ConfiguratorCommonsService,
+          useValue: mockConfigCommonsService,
+        },
+        {
+          provide: RoutingService,
+          useValue: mockRoutingService,
+        },
+        {
+          provide: ProductService,
+          useValue: mockProductService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     initialize();

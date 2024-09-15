@@ -11,6 +11,7 @@ import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/index';
 import { MediaModule } from '../media/media.module';
 import { CarouselComponent } from './carousel.component';
+import { FocusableCarouselItemDirective } from './focusable-carousel-item/focusable-carousel-item.directive';
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ import { CarouselComponent } from './carousel.component';
     I18nModule,
     FeaturesConfigModule,
   ],
-  declarations: [CarouselComponent],
-  exports: [CarouselComponent],
+  declarations: [CarouselComponent, FocusableCarouselItemDirective],
+  exports: [CarouselComponent, FocusableCarouselItemDirective],
 })
 export class CarouselModule {}

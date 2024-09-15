@@ -9,24 +9,75 @@
         <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
       </button>
     </div>
-    <cx-media
-      #defaultImage
-      class="cx-default-image-zoom"
-      *ngIf="!isZoomed"
-      [container]="main"
-    >
-    </cx-media>
-    <div #zoomContainer class="cx-zoom-container" *ngIf="isZoomed">
+    <!-- TODO: (CXSPA-7492) - Remove feature flag next major release. -->
+    <div *cxFeature="'a11yKeyboardAccessibleZoom'" class="cx-image-container">
       <cx-media
-        #zoomedImage
-        class="cx-image-zoomed"
+        #defaultImage
+        class="cx-default-image-zoom"
+        (loaded)="onImageLoad()"
+        *ngIf="!isZoomed"
         [container]="main"
-        (mousemove)="pointerMove($event)"
-        (touchmove)="touchMove($event)"
-        (touchend)="clearTouch()"
       >
       </cx-media>
+      <div #zoomContainer class="cx-zoom-container" *ngIf="isZoomed">
+        <cx-media
+          #zoomedImage
+          class="cx-image-zoomed"
+          [container]="main"
+          (mousemove)="pointerMove($event)"
+          (touchmove)="touchMove($event)"
+          (touchend)="clearTouch()"
+          (loaded)="onImageLoad()"
+        >
+        </cx-media>
+      </div>
+      <button
+        #zoomButton
+        *ngIf="imageLoaded | async"
+        [attr.aria-label]="
+          isZoomed
+            ? ('common.zoomOut' | cxTranslate)
+            : ('common.zoomIn' | cxTranslate)
+        "
+        title="{{
+          isZoomed
+            ? ('common.zoomOut' | cxTranslate)
+            : ('common.zoomIn' | cxTranslate)
+        }}"
+        class="btn btn-link cx-zoom-btn"
+        (click)="zoom()"
+      >
+        <cx-icon
+          [type]="iconType.SEARCH_PLUS"
+          *ngIf="!isZoomed"
+          class="cx-zoom-indicator"
+        ></cx-icon>
+        <cx-icon
+          [type]="iconType.SEARCH_MINUS"
+          *ngIf="isZoomed"
+          class="cx-zoom-indicator"
+        ></cx-icon>
+      </button>
     </div>
+    <ng-container *cxFeature="'!a11yKeyboardAccessibleZoom'">
+      <cx-media
+        #defaultImage
+        class="cx-default-image-zoom"
+        *ngIf="!isZoomed"
+        [container]="main"
+      >
+      </cx-media>
+      <div #zoomContainer class="cx-zoom-container" *ngIf="isZoomed">
+        <cx-media
+          #zoomedImage
+          class="cx-image-zoomed"
+          [container]="main"
+          (mousemove)="pointerMove($event)"
+          (touchmove)="touchMove($event)"
+          (touchend)="clearTouch()"
+        >
+        </cx-media></div
+    ></ng-container>
     <div class="cx-navigate-image">
       <button
         class="btn btn-link"

@@ -3,54 +3,58 @@
     [config]="config"
   ></cx-configurator-overview-filter-bar>
 </ng-container>
-<div class="cx-overview-filter-header">
-  {{ 'configurator.overviewFilter.byOption' | cxTranslate }}
-</div>
-
-<div class="cx-overview-filter-option">
-  <div class="form-check">
-    <input
-      id="cx-configurator-overview-filter-option-price"
-      type="checkbox"
-      class="form-check-input"
-      [formControl]="priceFilter"
-      (change)="onFilter(config)"
-      name="config-overview-price-filter"
-      [attr.aria-label]="
-        'configurator.a11y.filterOverviewByPrice' | cxTranslate
-      "
-    />
-    <label
-      class="form-check-label"
-      for="cx-configurator-overview-filter-option-price"
-    >
-      {{ 'configurator.overviewFilter.byPrice' | cxTranslate }}</label
-    >
+<ng-container *ngIf="!(isDisplayOnlyVariant() | async)">
+  <div class="cx-overview-filter-header">
+    {{ 'configurator.overviewFilter.byOption' | cxTranslate }}
   </div>
-</div>
-
-<div class="cx-overview-filter-option">
-  <div class="form-check">
-    <input
-      id="cx-configurator-overview-filter-option-mySelections"
-      type="checkbox"
-      class="form-check-input"
-      [formControl]="mySelectionsFilter"
-      (change)="onFilter(config)"
-      name="config-overview-my-selection-filter"
-      [attr.aria-label]="
-        'configurator.a11y.filterOverviewByMySelections' | cxTranslate
-      "
-    />
-    <label
-      class="form-check-label"
-      for="cx-configurator-overview-filter-option-mySelections"
-    >
-      {{ 'configurator.overviewFilter.mySelections' | cxTranslate }}</label
-    >
+  <div class="cx-overview-filter-option">
+    <div class="form-check">
+      <input
+        id="cx-configurator-overview-filter-option-price"
+        type="checkbox"
+        class="form-check-input"
+        [formControl]="priceFilter"
+        (change)="onFilter(config)"
+        name="config-overview-price-filter"
+        [attr.aria-label]="
+          'configurator.a11y.filterOverviewByPrice' | cxTranslate
+        "
+      />
+      <label
+        class="form-check-label"
+        for="cx-configurator-overview-filter-option-price"
+      >
+        {{ 'configurator.overviewFilter.byPrice' | cxTranslate }}</label
+      >
+    </div>
   </div>
-</div>
-<ng-container *ngIf="config.overview.possibleGroups">
+  <div class="cx-overview-filter-option">
+    <div class="form-check">
+      <input
+        id="cx-configurator-overview-filter-option-mySelections"
+        type="checkbox"
+        class="form-check-input"
+        [formControl]="mySelectionsFilter"
+        (change)="onFilter(config)"
+        name="config-overview-my-selection-filter"
+        [attr.aria-label]="
+          'configurator.a11y.filterOverviewByMySelections' | cxTranslate
+        "
+      />
+      <label
+        class="form-check-label"
+        for="cx-configurator-overview-filter-option-mySelections"
+      >
+        {{ 'configurator.overviewFilter.mySelections' | cxTranslate }}</label
+      >
+    </div>
+  </div>
+</ng-container>
+<ng-container
+  *ngIf="
+    config.overview.possibleGroups && config.overview.possibleGroups.length > 1
+  "
+>
   <div class="cx-overview-filter-header">
     {{ 'configurator.overviewFilter.byGroup' | cxTranslate }}
   </div>
@@ -80,3 +84,12 @@
     </div>
   </ng-container>
 </ng-container>
+<div
+  *ngIf="
+    (isDisplayOnlyVariant() | async) &&
+    config.overview.possibleGroups?.length === 1
+  "
+  class="cx-no-overview-filters-available"
+>
+  {{ 'configurator.overviewFilter.noFiltersAvailable' | cxTranslate }}
+</div>

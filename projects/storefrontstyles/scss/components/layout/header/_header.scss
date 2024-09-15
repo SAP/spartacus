@@ -78,6 +78,10 @@ $space: 0.5rem;
       flex: none;
     }
     justify-content: flex-start;
+
+    @include forFeature('a11yImproveContrast') {
+      @include type('8');
+    }
   }
 
   .SiteLinks {
@@ -130,6 +134,14 @@ $space: 0.5rem;
 
   .cx-hamburger {
     display: block;
+
+    &.is-active {
+      .hamburger-inner,
+      .hamburger-inner::before,
+      .hamburger-inner::after {
+        background-color: var(--cx-color-primary);
+      }
+    }
   }
 
   @include media-breakpoint-only(xs) {
@@ -145,6 +157,10 @@ $space: 0.5rem;
     .SiteLogin {
       background-color: var(--cx-color-light);
       color: var(--cx-color, var(--cx-color-text));
+
+      @include cx-highContrastTheme {
+        background-color: var(--cx-color-background);
+      }
     }
 
     .SiteContext {
@@ -198,19 +214,17 @@ $space: 0.5rem;
     }
   }
 
-  .cx-hamburger {
-    &.is-active {
-      .hamburger-inner,
-      .hamburger-inner::before,
-      .hamburger-inner::after {
-        background-color: var(--cx-color-primary);
-      }
-    }
-  }
-
   .hamburger-inner,
   .hamburger-inner::before,
   .hamburger-inner::after {
     background-color: var(--cx-color-primary);
+  }
+
+  @include cx-highContrastTheme {
+    background-image: linear-gradient(
+      var(--cx-color-background) $header-height,
+      var(--cx-color-background) 0
+    );
+    border-bottom: 1px solid var(--cx-color-dark);
   }
 }

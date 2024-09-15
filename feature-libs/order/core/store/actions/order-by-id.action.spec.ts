@@ -43,6 +43,7 @@ describe('Order By Id Actions', () => {
           'order1',
           'error'
         ),
+        error: 'error',
       });
     });
   });

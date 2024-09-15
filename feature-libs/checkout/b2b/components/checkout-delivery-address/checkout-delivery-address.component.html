@@ -4,7 +4,11 @@
 
 <ng-container *ngIf="cards$ | async as cards">
   <ng-container *ngIf="!(isUpdating$ | async); else loading">
-    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <div
+      *cxFeature="'!a11yRemoveStatusLoadedRole'"
+      role="status"
+      [attr.aria-label]="'common.loaded' | cxTranslate"
+    ></div>
     <ng-container
       *ngIf="
         isAccountPayment || (cards?.length && !addressFormOpened);

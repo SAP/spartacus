@@ -15,8 +15,15 @@ import {
   OnInit,
   Renderer2,
   ViewChild,
+  inject,
 } from '@angular/core';
-import { ImageGroup, Product, isNotNullable } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  ImageGroup,
+  Product,
+  isNotNullable,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import {
   BREAKPOINT,
@@ -39,6 +46,7 @@ import {
   map,
   shareReplay,
   switchMap,
+  take,
   tap,
 } from 'rxjs/operators';
 
@@ -58,12 +66,15 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
   private _defaultImage: ElementRef;
   private _zoomImage: ElementRef;
 
+  protected imageLoaded = new BehaviorSubject<boolean>(false);
   protected subscription = new Subscription();
   protected mainMediaContainer$: Observable<ImageGroup | null> =
     this.mainMediaContainer.asObservable();
   protected defaultImageReady$: Observable<boolean> =
     this.defaultImageReady.asObservable();
   protected zoomReady$: Observable<boolean> = this.zoomReady.asObservable();
+
+  private featureConfigService = inject(FeatureConfigService);
 
   activeThumb: EventEmitter<ImageGroup> = new EventEmitter<ImageGroup>();
 
@@ -113,6 +124,8 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
 
   @ViewChild('zoomedImage', { read: ElementRef }) zoomedImage: ElementRef;
 
+  @ViewChild('zoomButton') zoomButton: ElementRef;
+
   startCoords: { x: number; y: number } | null = null;
   left = 0;
   top = 0;
@@ -155,7 +168,9 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     protected renderer: Renderer2,
     protected cdRef: ChangeDetectorRef,
     protected breakpointService: BreakpointService
-  ) {}
+  ) {
+    useFeatureStyles('a11yKeyboardAccessibleZoom');
+  }
 
   ngOnInit() {
     this.subscription.add(this.defaultImageClickHandler$.subscribe());
@@ -200,6 +215,15 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     this.left = 0;
     this.top = 0;
     this.cdRef.markForCheck();
+    // TODO: (CXSPA-7492) - Remove feature flag next major release.
+    if (this.featureConfigService.isEnabled('a11yKeyboardAccessibleZoom')) {
+      this.imageLoaded.next(false);
+      this.imageLoaded.pipe(filter(Boolean), take(1)).subscribe(() => {
+        setTimeout(() => {
+          this.zoomButton.nativeElement.focus();
+        });
+      });
+    }
   }
 
   /**
@@ -380,5 +404,9 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     const positionY = -y + element.nativeElement.clientHeight / 2;
 
     return { positionX, positionY };
+  }
+
+  onImageLoad() {
+    this.imageLoaded.next(true);
   }
 }

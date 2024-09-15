@@ -11,6 +11,12 @@ export const enum CheckoutStepType {
   REVIEW_ORDER = 'reviewOrder',
 }
 
+export const enum CheckoutStepState {
+  COMPLETED = 'completed',
+  SELECTED = 'selected',
+  DISABLED = 'disabled',
+}
+
 export interface CheckoutStep {
   id: string;
   name: string;

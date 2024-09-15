@@ -53,26 +53,24 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
   let mockCartItemContext: MockCartItemContext;
   let mockOrderHistoryFacade: MockOrderHistoryFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
-        declarations: [
-          EstimatedDeliveryDateComponent,
-          MockConfigureEstimatedDeliveryDateComponent,
-        ],
-        providers: [
-          { provide: CartItemContext, useClass: MockCartItemContext },
-          { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
-          {
-            provide: TranslationService,
-            useClass: MockTranslationService,
-          },
-          { provide: LanguageService, useClass: MockLanguageService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      declarations: [
+        EstimatedDeliveryDateComponent,
+        MockConfigureEstimatedDeliveryDateComponent,
+      ],
+      providers: [
+        { provide: CartItemContext, useClass: MockCartItemContext },
+        { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
+        { provide: LanguageService, useClass: MockLanguageService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EstimatedDeliveryDateComponent);
