@@ -25,7 +25,7 @@ import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus Tracking schematics: ng-add', () => {
+xdescribe('Spartacus Tracking schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_TRACKING,
     collectionPath

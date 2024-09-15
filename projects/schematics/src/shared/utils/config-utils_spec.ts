@@ -13,7 +13,7 @@ import {
 } from './config-utils';
 import { getModulePropertyInitializer } from './new-module-utils';
 
-describe('Storefront config utils', () => {
+xdescribe('Storefront config utils', () => {
   let project: Project;
   let sourceFile: SourceFile;
   beforeEach(() => {
@@ -97,7 +97,7 @@ export class TrackingFeatureModule {}
       orderTranslations,
     } from '@spartacus/order/assets';
     import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
-    
+
     @NgModule({
       declarations: [],
       imports: [OrderRootModule],

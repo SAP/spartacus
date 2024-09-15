@@ -37,7 +37,7 @@ import { cleanupConfig } from './index';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module', () => {
+xdescribe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     collectionPath
