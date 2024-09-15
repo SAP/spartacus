@@ -46,6 +46,7 @@ const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   displayProductImages: true,
   recentSearches: true,
   maxRecentSearches: 5,
+  trendingSearches: true,
   maxTrendingSearches: 5,
 };
 const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
