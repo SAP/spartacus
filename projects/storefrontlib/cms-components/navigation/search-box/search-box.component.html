@@ -126,7 +126,7 @@
   <!--  TRENDING SEARCHES-->
   <ng-container *cxFeature="searchBoxFeatures.TRENDING_SEARCHES_FEATURE">
     <ng-template
-      *ngIf="config.recentSearches"
+      *ngIf="config.trendingSearches"
       [cxOutlet]="searchBoxOutlets.TRENDING_SEARCHES"
       [cxOutletContext]="{
         maxTrendingSearches: config.maxTrendingSearches

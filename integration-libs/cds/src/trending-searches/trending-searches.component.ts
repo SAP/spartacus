@@ -5,7 +5,10 @@
  */
 
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { OutletContextData } from '@spartacus/storefront';
+import {
+  OutletContextData,
+  SearchBoxComponentService,
+} from '@spartacus/storefront';
 import { TrendingSearchesService } from './trending-searches.service';
 import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { EMPTY, Subject } from 'rxjs';
@@ -21,6 +24,7 @@ export class TrendingSearchesComponent implements OnInit, OnDestroy {
   public searchPhrases: SearchPhrases[] = [];
   protected destroy$ = new Subject<void>();
 
+  protected searchBoxComponentService = inject(SearchBoxComponentService);
   protected trendingSearchesService = inject(TrendingSearchesService);
   protected outletContext = inject(OutletContextData, {
     optional: true,
@@ -35,6 +39,9 @@ export class TrendingSearchesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((searchPhrases: SearchPhrases[]) => {
         this.searchPhrases = searchPhrases;
+        this.searchBoxComponentService.setTrendingSearches(
+          !!this.searchPhrases.length
+        );
       });
   }
 
