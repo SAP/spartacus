@@ -93,7 +93,7 @@ export enum TrapFocus {
   /**
    * Will not trap the focus in both directions. This is actually not are
    * a great example of focus trap, but it will give the benefit of keyboard
-   * tabbing by arrows.
+   * tabbing by arrows. Should only be used with `TrapFocusConfig.trap` and not with `TrapFocusConfig.trapTabOnly`
    */
   both = 'both',
 }
@@ -109,10 +109,16 @@ export type TrapFocusType =
  * for the nested focusable elements. This means that the focus can not
  * "leave" the elements. If the last element is focused, the keyboard will
  * navigate to the first element and visa versa.
+ *
+ * Options:
+ * - Use the `trap` property to enable trapping for both Tab/Shift+Tab and Arrow Up/Down keys.
+ * - Use the `trapTabOnly` property to trap only Tab/Shift+Tab, preserving the default behavior of the Arrow Up/Down keys.
  */
 export interface TrapFocusConfig extends TabFocusConfig {
-  /** traps the focus */
+  /** traps the focus for both tab/shift+tab and up/down keys */
   trap?: TrapFocusType;
+  /** traps the focus for tab/shift+tab */
+  trapTabOnly?: TrapFocusType;
 }
 
 export interface LockFocusConfig extends TrapFocusConfig {

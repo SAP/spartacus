@@ -310,6 +310,13 @@ export interface FeatureTogglesInterface {
   a11yFocusableCarouselControls?: boolean;
 
   /**
+   * Enables only Tab/Shift+Tab keyboard navigation in dialogs and preserved default scrolling behaviour of up/down keys.
+   * Components:
+   * - `PickupOptionDialogComponent`
+   */
+  a11yUseTrapTabInsteadOfTrapInDialogs?: boolean;
+
+  /**
    * In `CmsGuardsService`, it uses the `GuardsComposer` instead of
    * calling its own deprecated method `canActivateGuard()`.
    */
@@ -641,6 +648,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartItemsLinksStyles: false,
   a11yHideSelectBtnForSelectedAddrOrPayment: false,
   a11yFocusableCarouselControls: false,
+  a11yUseTrapTabInsteadOfTrapInDialogs: false,
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
   a11yKeyboardAccessibleZoom: false,
