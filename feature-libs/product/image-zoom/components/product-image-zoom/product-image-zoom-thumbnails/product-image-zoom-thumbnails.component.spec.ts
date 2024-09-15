@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ProductImageZoomThumbnailsComponent } from './product-image-zoom-thumbnails.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 const firstImage = {
   zoom: {
@@ -44,16 +45,15 @@ describe('ProductImageZoomThumbnailsComponent', () => {
   let productImageZoomThumbnailsComponent: ProductImageZoomThumbnailsComponent;
   let fixture: ComponentFixture<ProductImageZoomThumbnailsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ProductImageZoomThumbnailsComponent,
-          MockCarouselComponent,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ProductImageZoomThumbnailsComponent,
+        MockCarouselComponent,
+        MockFeatureDirective,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductImageZoomThumbnailsComponent);

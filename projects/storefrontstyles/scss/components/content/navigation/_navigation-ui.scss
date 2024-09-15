@@ -36,6 +36,9 @@
         padding: 15px 20px;
         background: var(--cx-color-inverse);
         box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 12px 0px;
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
       }
     }
   }
@@ -93,6 +96,12 @@
         color: var(--cx-color-primary);
       }
 
+      @include forFeature('a11yImproveContrast') {
+        &:hover {
+          color: var(--cx-color-text);
+        }
+      }
+
       &:focus {
         z-index: 1;
         position: relative;
@@ -105,6 +114,18 @@
           z-index: 1;
           position: relative;
         }
+      }
+    }
+
+    @include forFeature('a11yImproveContrast') {
+      // arrow down caret to stay white on desktop
+      // adding outline to convey button's definition
+      button:hover {
+        color: var(--cx-color-inverse);
+        outline: 1px solid var(--cx-color-inverse);
+      }
+      cx-generic-link:hover {
+        color: var(--cx-color-inverse);
       }
     }
 
@@ -130,7 +151,6 @@
         border-bottom: 1px solid var(--cx-color-medium);
         display: flex;
         justify-content: space-between;
-
         cursor: pointer;
       }
 
@@ -138,6 +158,14 @@
       button,
       cx-generic-link a {
         padding: 1rem;
+
+        @include forFeature('a11yImproveContrast') {
+          // adjust style for mobile menu, has diff background colour
+          &:hover {
+            color: var(--cx-color-primary);
+            outline: 0;
+          }
+        }
       }
     }
 
@@ -151,6 +179,15 @@
           padding-bottom: 22px;
           padding-inline-start: 0;
           padding-inline-end: 0;
+          @include forFeature('a11yImproveContrast') {
+            margin-top: 2px;
+            margin-bottom: 2px;
+            margin-inline-start: 5px;
+            padding-top: 18px;
+            padding-bottom: 20px;
+            padding-inline-end: 8px;
+            padding-inline-start: 8px;
+          }
         }
         // first level headings will be bold in desktop
         ul > li > span,
@@ -187,6 +224,22 @@
     ul.childs > li > cx-generic-link > a {
       padding: 5px 0;
     }
+    @include forFeature('a11yImproveContrast') {
+      li > cx-generic-link > a {
+        padding-top: 10px;
+        padding-bottom: 12px;
+        padding-inline-start: 0;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      ul.childs > li > button:hover {
+        color: var(--cx-color-text);
+      }
+      ul.childs > li > cx-generic-link > a:hover {
+        color: var(--cx-color-text);
+        text-decoration: underline;
+      }
+    }
   }
 }
 
@@ -201,6 +254,10 @@
       padding-inline-start: 7px;
       &:before {
         font-size: 1rem;
+      }
+
+      @include forFeature('a11yImproveContrast') {
+        padding-inline-start: 0;
       }
     }
   }
@@ -218,6 +275,12 @@
           padding: 0;
         }
       }
+
+      @include forFeature('a11yImproveContrast') {
+        cx-generic-link:hover {
+          color: var(--cx-color-text);
+        }
+      }
     }
   }
 }
@@ -231,6 +294,12 @@
       display: block;
       text-decoration: none;
       white-space: nowrap;
+    }
+    @include forFeature('a11yImproveContrast') {
+      a:hover {
+        color: var(--cx-color-inverse);
+        text-decoration: underline;
+      }
     }
   }
 }
@@ -308,6 +377,10 @@
           > cx-generic-link + button {
             display: none;
           }
+
+          @include cx-highContrastTheme {
+            background-color: var(--cx-color-background);
+          }
         }
 
         li.is-opened {
@@ -383,6 +456,14 @@
     &.accNavComponent {
       background-color: transparent;
 
+      @include forFeature('a11yImproveContrast') {
+        // my account button has text, this fixes white hover on desktop
+        button:hover {
+          color: var(--cx-color-primary);
+          outline: 0;
+        }
+      }
+
       nav {
         li.is-open {
           @include media-breakpoint-down(md) {
@@ -391,6 +472,30 @@
           }
         }
       }
+    }
+    @include cx-highContrastTheme {
+      color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+      nav ul li > cx-generic-link + button {
+        border-inline-start: 1px solid var(--cx-color-background);
+      }
+      button:hover {
+        outline-color: var(--cx-color-dark);
+      }
+    }
+  }
+
+  @include cx-highContrastTheme-light {
+    &.flyout cx-generic-link:hover {
+      color: var(--cx-color-text);
+    }
+
+    &.flyout a:hover {
+      color: var(--cx-color-text);
+    }
+
+    &.flyout button:hover {
+      color: var(--cx-color-text);
     }
   }
 }

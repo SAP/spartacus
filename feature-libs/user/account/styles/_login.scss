@@ -35,4 +35,10 @@
       }
     }
   }
+
+  @include cx-highContrastTheme {
+    .cx-login-greet {
+      background-color: var(--cx-color-background);
+    }
+  }
 }

@@ -28,9 +28,10 @@ import { CurrentProductService } from '../current-product.service';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 import { StockNotificationComponent } from './stock-notification.component';
 
+import { FocusDirective } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/index';
 import { LaunchDialogService } from '../../../layout/launch-dialog/services/index';
-import { FocusDirective } from '@spartacus/storefront';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
@@ -118,35 +119,34 @@ describe('StockNotificationComponent', () => {
 
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
-        declarations: [
-          StockNotificationComponent,
-          StockNotificationDialogComponent,
-          MockUrlPipe,
-          FocusDirective,
-        ],
-        providers: [
-          { provide: UserIdService, useValue: userIdService },
-          { provide: CurrentProductService, useValue: currentProductService },
-          { provide: GlobalMessageService, useValue: globalMessageService },
-          { provide: TranslationService, useValue: translationService },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: UserNotificationPreferenceService,
-            useValue: notificationPrefService,
-          },
-          {
-            provide: StockNotificationDialogComponent,
-            useValue: dialogComponent,
-          },
-          { provide: UserInterestsService, useValue: interestsService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
+      declarations: [
+        StockNotificationComponent,
+        StockNotificationDialogComponent,
+        MockUrlPipe,
+        FocusDirective,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: UserIdService, useValue: userIdService },
+        { provide: CurrentProductService, useValue: currentProductService },
+        { provide: GlobalMessageService, useValue: globalMessageService },
+        { provide: TranslationService, useValue: translationService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: UserNotificationPreferenceService,
+          useValue: notificationPrefService,
+        },
+        {
+          provide: StockNotificationDialogComponent,
+          useValue: dialogComponent,
+        },
+        { provide: UserInterestsService, useValue: interestsService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     userIdService.getUserId.and.returnValue(of(OCC_USER_ID_CURRENT));

@@ -14,14 +14,26 @@ cx-page-layout {
     flex-wrap: wrap;
     justify-content: center;
     flex: 1 1 var(--cx-flex-basis, 100%);
+
     > * {
       flex: 1 1 var(--cx-flex-basis, 100%);
+    }
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
     }
   }
 
   &.footer {
-    background-color: var(--cx-background-color, var(--cx-color-dark));
+    background-color: var(--cx-color-dark);
+    @include forFeature('a11yImproveContrast') {
+      background-color: var(--cx-color-secondary);
+    }
+
     color: var(--cx-color, var(--cx-color-inverse));
+
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+    }
   }
 }
 
@@ -37,4 +49,14 @@ cx-paragraph {
 
 cx-category-navigation {
   display: block;
+}
+
+cx-page-slot.cx-bottom-header-slot {
+  @include forFeature('cmsBottomHeaderSlotUsingFlexStyles') {
+    display: flex;
+
+    > * {
+      flex: 1 1 var(--cx-flex-basis, 100%);
+    }
+  }
 }

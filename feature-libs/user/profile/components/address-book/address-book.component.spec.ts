@@ -14,10 +14,11 @@ import {
   I18nTestingModule,
   User,
 } from '@spartacus/core';
+import { CardModule, SpinnerModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
-import { CardModule, SpinnerModule } from '@spartacus/storefront';
 
 class MockGlobalMessageService {
   add = jasmine.createSpy();
@@ -96,26 +97,28 @@ describe('AddressBookComponent', () => {
   let el: DebugElement;
   let addressBookComponentService: AddressBookComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          SpinnerModule,
-          I18nTestingModule,
-          CardModule,
-          RouterTestingModule,
-        ],
-        providers: [
-          {
-            provide: AddressBookComponentService,
-            useClass: MockComponentService,
-          },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        ],
-        declarations: [AddressBookComponent, MockAddressFormComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        SpinnerModule,
+        I18nTestingModule,
+        CardModule,
+        RouterTestingModule,
+      ],
+      providers: [
+        {
+          provide: AddressBookComponentService,
+          useClass: MockComponentService,
+        },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+      ],
+      declarations: [
+        AddressBookComponent,
+        MockAddressFormComponent,
+        MockFeatureDirective,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressBookComponent);

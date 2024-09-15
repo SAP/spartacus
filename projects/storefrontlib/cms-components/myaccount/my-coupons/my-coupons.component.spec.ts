@@ -15,6 +15,7 @@ import {
   FeaturesConfig,
   I18nTestingModule,
 } from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
@@ -165,33 +166,32 @@ describe('MyCouponsComponent', () => {
   );
   const subscriptionFail = new BehaviorSubject<boolean>(false);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
-        declarations: [
-          MyCouponsComponent,
-          MockedCouponCardComponent,
-          MockCxIconComponent,
-          MockPaginationComponent,
-          MockSortingComponent,
-        ],
-        providers: [
-          { provide: CustomerCouponService, useValue: customerCouponService },
-          {
-            provide: MyCouponsComponentService,
-            useValue: myCouponsComponentService,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
+      declarations: [
+        MyCouponsComponent,
+        MockedCouponCardComponent,
+        MockCxIconComponent,
+        MockPaginationComponent,
+        MockSortingComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: CustomerCouponService, useValue: customerCouponService },
+        {
+          provide: MyCouponsComponentService,
+          useValue: myCouponsComponentService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
           },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyCouponsComponent);

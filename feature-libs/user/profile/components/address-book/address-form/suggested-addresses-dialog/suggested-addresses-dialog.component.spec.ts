@@ -6,13 +6,14 @@ import { Address, I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog.component';
-import createSpy = jasmine.createSpy;
 import {
   FocusDirective,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog.component';
+import createSpy = jasmine.createSpy;
 
 const mockData = {
   enteredAddress: {},
@@ -39,21 +40,20 @@ describe('SuggestedAddressDialogComponent', () => {
 
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [FormsModule, I18nTestingModule],
-        providers: [
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        ],
-        declarations: [
-          SuggestedAddressDialogComponent,
-          MockCxIconComponent,
-          FocusDirective,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [FormsModule, I18nTestingModule],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+      ],
+      declarations: [
+        SuggestedAddressDialogComponent,
+        MockCxIconComponent,
+        FocusDirective,
+        MockFeatureDirective,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SuggestedAddressDialogComponent);

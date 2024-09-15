@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { RoutingService, TranslationService } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable } from 'rxjs';
 import { StoreFinderGridComponent } from './store-finder-grid.component';
 import createSpy = jasmine.createSpy;
@@ -51,23 +52,22 @@ describe('StoreFinderGridComponent', () => {
   let storeFinderService: StoreFinderService;
   let route: ActivatedRoute;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, SpinnerModule],
-        declarations: [
-          StoreFinderGridComponent,
-          MockStoreFinderListItemComponent,
-        ],
-        providers: [
-          { provide: StoreFinderService, useClass: MockStoreFinderService },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          { provide: RoutingService, useValue: mockRoutingService },
-          { provide: TranslationService, useClass: MockTranslationService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, SpinnerModule],
+      declarations: [
+        StoreFinderGridComponent,
+        MockStoreFinderListItemComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: StoreFinderService, useClass: MockStoreFinderService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: RoutingService, useValue: mockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderGridComponent);

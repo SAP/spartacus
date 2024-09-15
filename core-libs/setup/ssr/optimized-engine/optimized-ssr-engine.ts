@@ -45,7 +45,7 @@ export type SsrCallbackFn = (
  */
 export class OptimizedSsrEngine {
   protected currentConcurrency = 0;
-  protected renderingCache = new RenderingCache(this.ssrOptions);
+  protected renderingCache: RenderingCache;
   private logger: ExpressServerLogger;
   private templateCache = new Map<string, string>();
 
@@ -74,6 +74,11 @@ export class OptimizedSsrEngine {
           ...defaultSsrOptimizationOptions,
           // overrides the default options
           ...ssrOptions,
+          // merge feature toggles
+          ssrFeatureToggles: {
+            ...defaultSsrOptimizationOptions.ssrFeatureToggles,
+            ...ssrOptions.ssrFeatureToggles,
+          },
         }
       : undefined;
 
@@ -81,6 +86,7 @@ export class OptimizedSsrEngine {
       throw new Error('`SsrOptimizationOptions.logger` is not defined');
     }
     this.logger = this.ssrOptions?.logger;
+    this.renderingCache = new RenderingCache(this.ssrOptions);
     this.logOptions();
   }
 
@@ -291,11 +297,7 @@ export class OptimizedSsrEngine {
         clearTimeout(requestTimeout);
         callback(err, html);
 
-        this.log(
-          `Request is resolved with the SSR rendering result (${request?.originalUrl})`,
-          true,
-          { request }
-        );
+        this.logForRenderResult(err, html, request);
 
         // store the render only if caching is enabled
         if (this.ssrOptions?.cache) {
@@ -317,14 +319,15 @@ export class OptimizedSsrEngine {
     });
   }
 
+  /**
+   * @deprecated since v2211.27 - This method will be private in the future.
+   */
   protected log(
     message: string,
-    debug = true,
+    _ignoredLegacyDebugParameter = true,
     context: ExpressServerLoggerContext
   ): void {
-    if (debug || this.ssrOptions?.debug) {
-      this.logger.log(message, context || {});
-    }
+    this.logger.log(message, context || {});
   }
 
   /** Retrieve the document from the cache or the filesystem */
@@ -472,5 +475,28 @@ export class OptimizedSsrEngine {
 
       renderCallback(err, html);
     });
+  }
+
+  /**
+   * Logs the result of the render.
+   */
+  private logForRenderResult(
+    err: unknown | undefined,
+    html: string | undefined,
+    request: Request
+  ): void {
+    if (html) {
+      this.log(
+        `Request is resolved with the SSR rendering result (${request?.originalUrl})`,
+        true,
+        { request }
+      );
+    }
+    if (err) {
+      this.logger.error(
+        `Request is resolved with the SSR rendering error (${request?.originalUrl})`,
+        { request, error: err }
+      );
+    }
   }
 }

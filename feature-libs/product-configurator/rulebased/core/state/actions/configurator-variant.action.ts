@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '@spartacus/core';
+import { ErrorAction, StateUtils } from '@spartacus/core';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 
@@ -19,7 +19,10 @@ export class SearchVariants extends StateUtils.EntityLoadAction {
   }
 }
 
-export class SearchVariantsFail extends StateUtils.EntityFailAction {
+export class SearchVariantsFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = SEARCH_VARIANTS_FAIL;
   constructor(public payload: { ownerKey: string; error: any }) {
     super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);

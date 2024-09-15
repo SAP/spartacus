@@ -1,0 +1,54 @@
+%cx-dp-confirmation-dialog {
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .cx-modal-content {
+    max-width: 500px;
+    width: 100%;
+  }
+
+  .cx-dialog-header {
+    padding-top: 2rem;
+    padding-inline-end: 1.75rem;
+
+    padding-inline-start: 1.75rem;
+
+    display: flex;
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+    }
+  }
+
+  .cx-dialog-title {
+    @include type('3');
+
+    font-weight: bold;
+  }
+
+  .cx-dialog-body {
+    max-width: 100%;
+  }
+
+  .cx-dialog-row {
+    display: flex;
+
+    flex-wrap: wrap;
+  }
+
+  .cx-dialog-actions {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .cx-dialog-buttons {
+    display: flex;
+    flex-direction: column;
+
+    .btn-primary {
+      margin: 0 1rem 0.7rem 1rem;
+    }
+    .cx-action-link {
+      margin: 0 0 2rem 0;
+    }
+  }
+}

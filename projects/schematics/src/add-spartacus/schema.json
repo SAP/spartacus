@@ -45,6 +45,8 @@
           "Future-Stock",
           "PDF-Invoices",
           "Product-Variants",
+          "Product-Multi-Dimensional-Selector",
+          "Product-Multi-Dimensional-List",
           "VC-Configurator",
           "Textfield-Configurator",
           "CPQ-Configurator",
@@ -52,6 +54,9 @@
           "Requested-Delivery-Date",
           "Estimated-Delivery-Date",
           "S4HANA-Order-Management",
+          "cpq-quote",
+          "s4-service",
+          "OMF",
           "SmartEdit",
           "Store-Finder",
           "Personalization",
@@ -184,6 +189,14 @@
             "label": "Product - Variants"
           },
           {
+            "value": "Product-Multi-Dimensional-Selector",
+            "label": "Product Multi-Dimensional - Selector"
+          },
+          {
+            "value": "Product-Multi-Dimensional-List",
+            "label": "Product Multi-Dimensional - PLP price range"
+          },
+          {
             "value": "Image-Zoom",
             "label": "Product - Image Zoom"
           },
@@ -222,6 +235,18 @@
           {
             "value": "S4HANA-Order-Management",
             "label": "S/4HANA Order Management (b2b feature)"
+          },
+          {
+            "value": "cpq-quote",
+            "label": "CPQ Quote Integration (b2b feature)"
+          },
+          {
+            "value": "s4-service",
+            "label": "S/4HANA Service Integration (b2b feature)"
+          },
+          {
+            "value": "OMF",
+            "label": "SAP Order Management Foundation Integration"
           },
           {
             "value": "SmartEdit",

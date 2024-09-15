@@ -25,6 +25,10 @@
       label {
         margin-bottom: 0;
         font-size: var(--cx-font-size, 0.875rem);
+
+        @include forFeature('a11yImproveContrast') {
+          @include type('4');
+        }
       }
 
       .cx-message-card {
@@ -138,12 +142,28 @@
           font-style: italic;
           text-align: end;
           margin: 0;
+
+          @include forFeature('a11yImproveContrast') {
+            @include type('8');
+          }
         }
       }
     }
     .cx-send {
       max-width: 6.5rem;
       height: 48px;
+    }
+  }
+
+  @include cx-highContrastTheme {
+    .container .cx-messages .cx-message-left-align-text {
+      color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+    }
+    select {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+      border-color: var(--cx-color-text);
     }
   }
 }

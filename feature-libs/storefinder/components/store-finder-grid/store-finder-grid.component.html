@@ -4,14 +4,25 @@
     else loading
   "
 >
-  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
   <div
-    class="container"
-    aria-live="assertive"
-    aria-atomic="true"
-    aria-relevant="additions"
-  >
-    <div class="cx-visually-hidden">
+    *cxFeature="'!a11yRemoveStatusLoadedRole'"
+    role="status"
+    [attr.aria-label]="'common.loaded' | cxTranslate"
+  ></div>
+  <div class="container">
+    <!-- TODO: (CXSPA-7581) - Remove feature flag next major release -->
+    <div *cxFeature="'a11yStoreFinderAlerts'" class="cx-counter">
+      <h3 class="cx-counter-title">
+        {{ 'storeFinder.storesFoundTitle' | cxTranslate }}
+      </h3>
+      <span role="alert">
+        {{
+          'storeFinder.storesFound'
+            | cxTranslate: { count: locations?.stores?.length }
+        }}
+      </span>
+    </div>
+    <div *cxFeature="'!a11yStoreFinderAlerts'" class="cx-visually-hidden">
       {{
         'storeFinder.storesFound'
           | cxTranslate: { count: locations?.stores?.length }

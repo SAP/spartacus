@@ -40,6 +40,7 @@ SPARTACUS_PROJECTS=(
         "dist/opps:integration-libs/opps"
         "dist/epd-visualization:integration-libs/epd-visualization"
         "dist/product-configurator:feature-libs/product-configurator"
+        "dist/product-multi-dimensional:feature-libs/product-multi-dimensional"
         "dist/pickup-in-store:feature-libs/pickup-in-store"
         "dist/pdf-invoices:feature-libs/pdf-invoices"
         "dist/estimated-delivery-date:feature-libs/estimated-delivery-date"
@@ -78,6 +79,9 @@ ADD_OPPS=false
 # config.epd-visualization.sh contains default values to use in your config.sh when ADD_EPD_VISUALIZATION is true.
 ADD_EPD_VISUALIZATION=false
 ADD_S4OM=false
+ADD_CPQ_QUOTE=false
+ADD_S4_SERVICE=false
+ADD_PRODUCT_MULTI_DIMENSIONAL=false
 
 # The base URL (origin) of the SAP EPD Visualization Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=

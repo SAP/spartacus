@@ -19,6 +19,7 @@
       <div *ngIf="loading$ | async; else cards"><cx-spinner></cx-spinner></div>
       <ng-template #cards>
         <div
+          *cxFeature="'!a11yRemoveStatusLoadedRole'"
           role="status"
           [attr.aria-label]="'common.loaded' | cxTranslate"
         ></div>

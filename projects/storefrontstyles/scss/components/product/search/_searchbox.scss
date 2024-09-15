@@ -136,6 +136,10 @@
 
       @include placeholder {
         color: currentColor;
+
+        @include forFeature('a11yImproveContrast') {
+          color: var(--cx-color-secondary);
+        }
       }
     }
 
@@ -152,6 +156,10 @@
       border: none;
       padding: 6px;
       color: var(--cx-color-medium);
+
+      @include forFeature('a11yImproveContrast') {
+        color: var(--cx-color-secondary);
+      }
 
       @include media-breakpoint-down(sm) {
         color: var(--cx-color-primary);
@@ -182,6 +190,10 @@
     color: #000;
     background-color: #fff;
     font-size: var(--cx-font-small, 1rem);
+
+    @include forFeature('a11yImproveContrast') {
+      @include type('8');
+    }
 
     @include media-breakpoint-down(sm) {
       top: 105px;
@@ -263,12 +275,20 @@
           font-size: inherit;
           font-weight: inherit;
 
+          @include forFeature('a11yImproveContrast') {
+            @include type('8');
+          }
+
           // Required for text-overflow to do anything
           white-space: nowrap;
           overflow: hidden;
         }
         .price {
           font-weight: normal;
+
+          @include forFeature('a11yImproveContrast') {
+            @include type('8');
+          }
         }
       }
     }
@@ -279,6 +299,39 @@
       font-weight: 600;
       padding-top: 16px;
       padding-bottom: 5px;
+    }
+  }
+
+  @include cx-highContrastTheme {
+    border: 1px solid var(--cx-color-dark);
+    label {
+      background-color: var(--cx-color-background);
+      input {
+        background-color: var(--cx-color-background);
+        color: var(--cx-color-text);
+      }
+      input:focus {
+        outline-style: none;
+        box-shadow: none;
+      }
+    }
+    .suggestions {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    .results {
+      border: 1px solid var(--cx-color-text);
+      a {
+        &:hover,
+        &:focus {
+          background: var(--cx-color-text);
+          color: var(--cx-color-background);
+        }
+      }
+    }
+    .products {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
     }
   }
 }

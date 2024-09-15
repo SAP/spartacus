@@ -73,6 +73,16 @@ describe('CmsService', () => {
 
   describe('getComponentData', () => {
     describe('when pageContext is NOT provided', () => {
+      describe('when uid is empty', () => {
+        it('should emit null', inject([CmsService], (service: CmsService) => {
+          let result;
+          service.getComponentData('').subscribe((res) => {
+            result = res;
+          });
+          expect(result).toBeNull();
+        }));
+      });
+
       it('should use the current page context and dispatch LoadCmsComponent', inject(
         [CmsService],
         (service: CmsService) => {
@@ -116,6 +126,16 @@ describe('CmsService', () => {
       ));
     });
     describe('when pageContext is provided', () => {
+      describe('when uid is empty', () => {
+        it('should emit null', inject([CmsService], (service: CmsService) => {
+          let result;
+          service.getComponentData('').subscribe((res) => {
+            result = res;
+          });
+          expect(result).toBeNull();
+        }));
+      });
+
       it('should use the provided page context and dispatch LoadCmsComponent', inject(
         [CmsService],
         (service: CmsService) => {

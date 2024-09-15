@@ -39,12 +39,13 @@ describe('Product Search Actions', () => {
 
     describe('SearchProductsFail', () => {
       it('should create an action', () => {
-        const payload: ErrorModel = { message: 'Load Error' };
-        const action = new fromProductSearch.SearchProductsFail(payload);
+        const error: ErrorModel = { message: 'Load Error' };
+        const action = new fromProductSearch.SearchProductsFail(error);
 
         expect({ ...action }).toEqual({
           type: fromProductSearch.SEARCH_PRODUCTS_FAIL,
-          payload,
+          payload: error,
+          error,
           auxiliary: undefined,
         });
       });
@@ -94,12 +95,13 @@ describe('Product Search Actions', () => {
 
     describe('SearchProductSuggestionsFail', () => {
       it('should create an action', () => {
-        const payload: ErrorModel = { message: 'Load Error' };
-        const action = new fromProductSearch.GetProductSuggestionsFail(payload);
+        const error: ErrorModel = { message: 'Load Error' };
+        const action = new fromProductSearch.GetProductSuggestionsFail(error);
 
         expect({ ...action }).toEqual({
           type: fromProductSearch.GET_PRODUCT_SUGGESTIONS_FAIL,
-          payload,
+          payload: error,
+          error,
         });
       });
     });

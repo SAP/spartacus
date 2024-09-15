@@ -17,14 +17,12 @@ describe('ProductViewComponent in product-list', () => {
   let component: ProductViewComponent;
   let fixture: ComponentFixture<ProductViewComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [NgSelectModule, FormsModule, I18nTestingModule],
-        declarations: [ProductViewComponent, MockCxIconComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [NgSelectModule, FormsModule, I18nTestingModule],
+      declarations: [ProductViewComponent, MockCxIconComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductViewComponent);

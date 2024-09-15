@@ -14,6 +14,7 @@
     <button
       type="button"
       class="close"
+      title="{{ 'common.close' | cxTranslate }}"
       [attr.aria-label]="'common.close' | cxTranslate"
       (click)="close()"
     >
@@ -41,4 +42,17 @@
             }
     }}"
   ></cx-facet>
+
+  <ng-container *cxFeature="'a11yFacetsDialogFocusHandling'">
+    <div *ngIf="isDialog" class="cx-facet-list-footer">
+      <button
+        #backToResultsBtn
+        class="btn btn-primary"
+        (click)="close()"
+        cxAutoFocus
+      >
+        {{ 'productFacetNavigation.backToResults' | cxTranslate }}
+      </button>
+    </div>
+  </ng-container>
 </section>

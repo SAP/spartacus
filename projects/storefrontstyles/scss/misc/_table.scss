@@ -32,6 +32,10 @@
     font-size: var(--cx-font-size, 0.875rem);
     white-space: nowrap;
 
+    @include forFeature('a11yImproveContrast') {
+      @include type('6');
+    }
+
     &:nth-last-of-type(1) {
       padding-inline-end: 16px;
     }
@@ -76,6 +80,11 @@
 
     .cx-mobile-only {
       display: flex;
+    }
+  }
+  @include cx-highContrastTheme {
+    tr {
+      border-color: var(--cx-color-dark);
     }
   }
 }

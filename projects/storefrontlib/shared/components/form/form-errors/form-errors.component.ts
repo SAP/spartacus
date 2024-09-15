@@ -13,9 +13,14 @@ import {
   Input,
   KeyValueDiffer,
   KeyValueDiffers,
+  inject,
 } from '@angular/core';
 import { AbstractControl, UntypedFormControl } from '@angular/forms';
-import { isObject } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  isObject,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -34,10 +39,14 @@ import { map, startWith } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormErrorsComponent implements DoCheck {
+  private featureConfigService = inject(FeatureConfigService);
+
   constructor(
     protected ChangeDetectionRef: ChangeDetectorRef,
     protected keyValueDiffers: KeyValueDiffers
-  ) {}
+  ) {
+    useFeatureStyles('a11yFormErrorMuteIcon');
+  }
 
   _control: UntypedFormControl | AbstractControl;
 
@@ -49,10 +58,20 @@ export class FormErrorsComponent implements DoCheck {
 
   protected differ: KeyValueDiffer<any, any>;
 
+  // TODO: (CXSPA-7315) Remove feature toggle in the next major
   /**
    * Prefix prepended to the translation key.
    */
-  @Input() prefix = 'formErrors';
+  @Input() prefix = this.featureConfigService.isEnabled(
+    'formErrorsDescriptiveMessages'
+  )
+    ? 'formErrors.labeled'
+    : 'formErrors';
+
+  /**
+   * Fallback prefix prepended to the translation key.
+   */
+  @Input() fallbackPrefix = 'formErrors';
 
   /**
    * Translation params to enrich the error details object.

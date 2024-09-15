@@ -23,7 +23,18 @@
         appendTo="cx-org-list"
       >
       </ng-select>
-      <cx-form-errors [control]="form.get('country.isocode')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{ label: 'orgUnitAddress.country' | cxTranslate }"
+        [control]="form.get('country.isocode')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('country.isocode')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -54,7 +65,20 @@
         placeholder="{{ 'orgUnitAddress.firstName' | cxTranslate }}"
         formControlName="firstName"
       />
-      <cx-form-errors [control]="form.get('firstName')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'orgUnitAddress.firstName' | cxTranslate
+        }"
+        [control]="form.get('firstName')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('firstName')"
+      ></cx-form-errors>
     </label>
     <label>
       <span class="label-content required">{{
@@ -67,7 +91,18 @@
         placeholder="{{ 'orgUnitAddress.lastName' | cxTranslate }}"
         formControlName="lastName"
       />
-      <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{ label: 'orgUnitAddress.lastName' | cxTranslate }"
+        [control]="form.get('lastName')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('lastName')"
+      ></cx-form-errors>
     </label>
 
     <label class="full-width">
@@ -81,7 +116,18 @@
         placeholder="{{ 'orgUnitAddress.streetAddress' | cxTranslate }}"
         formControlName="line1"
       />
-      <cx-form-errors [control]="form.get('line1')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{ label: 'orgUnitAddress.address1' | cxTranslate }"
+        [control]="form.get('line1')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('line1')"
+      ></cx-form-errors>
     </label>
 
     <label class="full-width">
@@ -119,7 +165,18 @@
         placeholder="{{ 'orgUnitAddress.city' | cxTranslate }}"
         formControlName="town"
       />
-      <cx-form-errors [control]="form.get('town')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{ label: 'orgUnitAddress.city' | cxTranslate }"
+        [control]="form.get('town')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('town')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -133,7 +190,18 @@
         placeholder="{{ 'orgUnitAddress.zipCode' | cxTranslate }}"
         formControlName="postalCode"
       />
-      <cx-form-errors [control]="form.get('postalCode')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{ label: 'orgUnitAddress.zipCode' | cxTranslate }"
+        [control]="form.get('postalCode')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('postalCode')"
+      ></cx-form-errors>
     </label>
 
     <label></label>
@@ -160,7 +228,18 @@
           appendTo="cx-org-list"
         >
         </ng-select>
-        <cx-form-errors [control]="form.get('region.isocode')"></cx-form-errors>
+
+        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+        <cx-form-errors
+          *cxFeature="'formErrorsDescriptiveMessages'"
+          [translationParams]="{ label: 'orgUnitAddress.state' | cxTranslate }"
+          [control]="form.get('region.isocode')"
+        ></cx-form-errors>
+
+        <cx-form-errors
+          *cxFeature="'!formErrorsDescriptiveMessages'"
+          [control]="form.get('region.isocode')"
+        ></cx-form-errors>
       </label>
     </ng-container>
   </ng-container>

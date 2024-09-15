@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   AuthGuard,
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   provideDefaultConfigFactory,
@@ -39,6 +40,7 @@ const myAccountV2CmsMapping: CmsConfig = {
     SpinnerModule,
     I18nModule,
     IconModule,
+    FeaturesConfigModule,
   ],
   providers: [
     ConsentManagementComponentService,

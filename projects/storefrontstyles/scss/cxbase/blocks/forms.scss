@@ -10,6 +10,41 @@
     box-shadow: none;
     -webkit-box-shadow: none;
   }
+
+  @include forFeature('a11yImproveContrast') {
+    border: 1px solid var(--cx-color-dark);
+
+    &:focus {
+      border-color: var(--cx-color-text);
+      background-color: var(--cx-color-inverse);
+    }
+
+    &::placeholder {
+      color: var(--cx-color-secondary);
+    }
+
+    &::-webkit-input-placeholder {
+      color: var(--cx-color-secondary);
+    }
+
+    &:-ms-input-placeholder {
+      color: var(--cx-color-secondary);
+    }
+
+    &::-ms-input-placeholder {
+      color: var(--cx-color-secondary);
+    }
+  }
+
+  @include cx-highContrastTheme {
+    border-color: var(--cx-color-text);
+    background-color: var(--cx-color-background);
+    color: var(--cx-color-text);
+    &:focus {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+  }
 }
 
 cx-form-errors {
@@ -19,6 +54,10 @@ cx-form-errors {
     padding-inline-start: 25px;
     position: relative;
     word-break: break-word;
+
+    @include forFeature('a11yImproveContrast') {
+      @include type('7');
+    }
 
     &::before,
     &::after {
@@ -39,6 +78,10 @@ cx-form-errors {
 
     &::after {
       content: '!';
+      // TODO: (CXSPA-7588) - Remove feature flag next major release
+      @include forFeature('a11yFormErrorMuteIcon') {
+        content: '!' / '';
+      }
       color: var(--cx-color-inverse);
       font-weight: var(--cx-font-weight-bold);
       text-align: center;
@@ -183,6 +226,10 @@ legend {
     border-width: 2px;
     border-color: var(--cx-color-medium);
 
+    @include forFeature('a11yImproveContrast') {
+      border-color: var(--cx-color-text);
+    }
+
     &:checked {
       font-style: normal;
       border-color: var(--cx-color-primary);
@@ -205,13 +252,27 @@ legend {
       }
     }
   }
+
+  @include cx-highContrastTheme-dark {
+    input[type='checkbox']:checked {
+      border-color: var(--cx-color-dark);
+      background-color: var(--cx-color-medium);
+    }
+  }
 }
 
 .form-control[type='text'] {
   &:focus {
     background-color: var(--cx-color-background);
+    @include forFeature('a11yImproveContrast') {
+      background-color: var(--cx-color-inverse);
+    }
     box-shadow: none;
     -webkit-box-shadow: none;
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
   }
 }
 
@@ -222,6 +283,10 @@ input[type='radio'] {
   border-width: 2px;
   border-color: var(--cx-color-medium);
   position: absolute;
+
+  @include forFeature('a11yImproveContrast') {
+    border-color: var(--cx-color-text);
+  }
 
   &::after {
     content: '';
@@ -263,6 +328,16 @@ input[type='radio'] {
     .ng-dropdown-panel-items {
       .ng-option.ng-option-marked {
         background-color: var(--cx-color-light);
+        @include forFeature('a11yImproveContrast') {
+          outline: 2px solid var(--cx-color-visual-focus);
+          margin-top: 2px;
+          margin-bottom: 2px;
+          margin-inline-start: 2px;
+          margin-inline-end: 2px;
+        }
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
       }
     }
   }
@@ -279,9 +354,29 @@ input[type='radio'] {
     padding: 0.6875rem 0;
     line-height: 1.6;
     height: unset;
+    @include forFeature('a11yImproveContrast') {
+      border: 1px solid var(--cx-color-dark);
+    }
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+      border-color: var(--cx-color-text);
+    }
 
     .ng-value-container {
       padding-inline-start: 10px;
+    }
+  }
+
+  @include cx-highContrastTheme {
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    s .ng-arrow-wrapper {
+      .ng-arrow {
+        border-color: var(--cx-color-text) transparent transparent;
+      }
     }
   }
 }
@@ -290,11 +385,25 @@ input[type='radio'] {
   .ng-arrow-wrapper {
     padding-inline-end: 5px;
   }
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+
+    .ng-arrow-wrapper {
+      .ng-arrow {
+        border-color: var(--cx-color-text) transparent transparent;
+      }
+    }
+  }
 }
 
-:focus {
+:focus:not(main) {
   @include visible-focus();
 }
+
 .form-control,
 input {
   &:focus {
@@ -345,17 +454,34 @@ input {
     -moz-appearance: none;
     appearance: none;
   }
+  @include cx-highContrastTheme {
+    input[type='radio']:checked {
+      border-color: var(--cx-color-dark) !important;
+      background-color: var(--cx-color-light);
+    }
+    input[type='radio']:checked::after {
+      background-color: var(--cx-color-dark);
+    }
+  }
 }
 
 .ng-select .ng-select-container .ng-value-container .ng-placeholder {
   color: var(--cx-color-secondary);
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+    color: var(--cx-color-text);
+  }
 }
 
 .form-group {
   input[type='text']::placeholder,
   input[type='tel']::placeholder {
-    color: var(--cx-color-text);
+    color: var(--cx-color-secondary);
     opacity: 1;
+
+    @include forFeature('a11yImproveContrast') {
+      color: var(--cx-color-secondary);
+    }
   }
 
   input[type='text']:-ms-input-placeholder,
@@ -366,5 +492,15 @@ input {
   input[type='text']::-ms-input-placeholder,
   input[type='tel']::-ms-input-placeholder {
     color: var(--cx-color-secondary);
+  }
+}
+form {
+  @include cx-highContrastTheme {
+    input:-webkit-autofill,
+    input:-webkit-autofill:focus {
+      transition:
+        background-color 0s 600000s,
+        color 0s 600000s !important;
+    }
   }
 }

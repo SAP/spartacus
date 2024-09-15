@@ -114,6 +114,12 @@
         "@nx/workspace/use-provide-default-feature-toggles": "error",
         "@nx/workspace/use-provide-default-feature-toggles-factory": "error"
       }
+    },
+    {
+      "files": ["*.action*.ts"],
+      "rules": {
+        "@nx/workspace/no-ngrx-fail-action-without-error-action-implementation": "error"
+      }
     }
   ]
 }

@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CustomerSearchPage } from '@spartacus/asm/root';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { AsmConnector } from '../../connectors/asm.connector';
@@ -26,13 +26,19 @@ export class CustomerEffects {
           map((customerSearchResults: CustomerSearchPage) => {
             return new AsmActions.CustomerSearchSuccess(customerSearchResults);
           }),
-          catchError((error) =>
-            of(
+          catchError((error) => {
+            if (
+              error.status === 400 &&
+              error.details?.[0]?.message?.indexOf('Wrong orderId') > -1
+            ) {
+              return of(new AsmActions.CustomerSearchSuccess({ entries: [] }));
+            }
+            return of(
               new AsmActions.CustomerSearchFail(
-                normalizeHttpError(error, this.logger)
+                tryNormalizeHttpError(error, this.logger)
               )
-            )
-          )
+            );
+          })
         )
       )
     )
@@ -53,7 +59,7 @@ export class CustomerEffects {
             catchError((error) =>
               of(
                 new AsmActions.CustomerListCustomersSearchFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )
@@ -62,5 +68,8 @@ export class CustomerEffects {
       )
     );
 
-  constructor(private actions$: Actions, private asmConnector: AsmConnector) {}
+  constructor(
+    private actions$: Actions,
+    private asmConnector: AsmConnector
+  ) {}
 }
