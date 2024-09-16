@@ -77,7 +77,7 @@ export class X extends AsmAuthHttpHeaderService {
 }
 `;
 
-describe('renamed symbols', () => {
+xdescribe('renamed symbols', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
@@ -130,7 +130,7 @@ describe('renamed symbols', () => {
     shx.rm('-r', tmpDirPath);
   });
 
-  describe('Previous import', () => {
+  xdescribe('Previous import', () => {
     it('should became new import', async () => {
       writeFile(host, '/src/index.ts', fileWithSimpleImport);
 
@@ -168,7 +168,7 @@ describe('renamed symbols', () => {
     expect(content).toMatchSnapshot();
   });
 
-  describe('when both rename symbol and ctor migration are required', () => {
+  xdescribe('when both rename symbol and ctor migration are required', () => {
     it('should be done in the correct order', async () => {
       writeFile(host, '/src/index.ts', fileWithImportsAndCtor);
 

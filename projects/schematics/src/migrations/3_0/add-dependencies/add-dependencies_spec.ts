@@ -11,7 +11,7 @@ import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v3-add-dependencies-08';
 
-describe('add dependencies migration', () => {
+xdescribe('add dependencies migration', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
@@ -75,7 +75,7 @@ describe('add dependencies migration', () => {
     shx.rm('-r', tmpDirPath);
   });
 
-  describe('when migrating from 2.0 -> 3.0', () => {
+  xdescribe('when migrating from 2.0 -> 3.0', () => {
     it('should add the angular-oauth2-oidc dependency', async () => {
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 

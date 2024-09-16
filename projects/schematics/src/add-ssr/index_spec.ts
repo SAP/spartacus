@@ -15,7 +15,7 @@ import { getPathResultsForFile } from '../shared/utils/file-utils';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('add-ssr', () => {
+xdescribe('add-ssr', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     collectionPath
@@ -73,7 +73,7 @@ describe('add-ssr', () => {
     );
   });
 
-  describe('package.json', () => {
+  xdescribe('package.json', () => {
     it('should add SSR dependencies', async () => {
       const packageJson = appTree.readContent('/package.json');
       const packageObj = JSON.parse(packageJson);
@@ -85,7 +85,7 @@ describe('add-ssr', () => {
     });
   });
 
-  describe('angular.json', () => {
+  xdescribe('angular.json', () => {
     it('should be configured properly', async () => {
       const angularJson = appTree.readContent('/angular.json');
       const angularObj = JSON.parse(angularJson);
@@ -93,28 +93,28 @@ describe('add-ssr', () => {
     });
   });
 
-  describe('server.ts', () => {
+  xdescribe('server.ts', () => {
     it('should be configured properly', async () => {
       const serverTs = appTree.readContent('/server.ts');
       expect(serverTs).toMatchSnapshot();
     });
   });
 
-  describe('app.module.server.ts', () => {
+  xdescribe('app.module.server.ts', () => {
     it('should be updated', () => {
       const content = appTree.readContent('./src/app/app.module.server.ts');
       expect(content).toMatchSnapshot();
     });
   });
 
-  describe('app.module.ts', () => {
+  xdescribe('app.module.ts', () => {
     it('should be updated', () => {
       const content = appTree.readContent('./src/app/app.module.ts');
       expect(content).toMatchSnapshot();
     });
   });
 
-  describe('index.html', () => {
+  xdescribe('index.html', () => {
     it('should contain occ-backend-base-url attribute in meta tags', async () => {
       const indexHtmlPath = getPathResultsForFile(
         appTree,

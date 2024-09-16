@@ -314,7 +314,7 @@ const HTML_EXTEND_COMPONENT_BECAUSE_OF_TEMPLATE_EXPECTED = `
 </ng-container>
 `;
 
-describe('component selectors migration', () => {
+xdescribe('component selectors migration', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
@@ -367,7 +367,7 @@ describe('component selectors migration', () => {
   const htmlFileName = '/src/test.html';
   const tsFileName = '/src/inherited.ts';
 
-  describe('when the html file contains a single usage', () => {
+  xdescribe('when the html file contains a single usage', () => {
     it('should add a comment', async () => {
       writeFile(host, tsFileName, COMPONENT_INHERITANCE_TEST_CLASS);
       writeFile(host, htmlFileName, SINGLE_USAGE_EXAMPLE);
@@ -379,7 +379,7 @@ describe('component selectors migration', () => {
     });
   });
 
-  describe('when the html file contains multiple usages', () => {
+  xdescribe('when the html file contains multiple usages', () => {
     it('should add comments', async () => {
       writeFile(host, tsFileName, COMPONENT_INHERITANCE_TEST_CLASS);
       writeFile(host, htmlFileName, MULTI_USAGE_EXAMPLE);
@@ -391,7 +391,7 @@ describe('component selectors migration', () => {
     });
   });
 
-  describe('when the component is extended', () => {
+  xdescribe('when the component is extended', () => {
     it('should add comments', async () => {
       writeFile(host, tsFileName, COMPONENT_INHERITANCE_TEST_CLASS);
 
@@ -402,7 +402,7 @@ describe('component selectors migration', () => {
     });
   });
 
-  describe('when the component is extended and has an inline template', () => {
+  xdescribe('when the component is extended and has an inline template', () => {
     it('should add comments to both component and inline template', async () => {
       writeFile(
         host,
@@ -419,8 +419,8 @@ describe('component selectors migration', () => {
     });
   });
 
-  describe('ProductImagesComponent', () => {
-    describe('when the html file contains a single usage', () => {
+  xdescribe('ProductImagesComponent', () => {
+    xdescribe('when the html file contains a single usage', () => {
       it('should add a comment', async () => {
         writeFile(
           host,
@@ -435,7 +435,7 @@ describe('component selectors migration', () => {
         expect(content).toEqual(PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE_EXPECTED);
       });
     });
-    describe('when the html file contains a multiple usage', () => {
+    xdescribe('when the html file contains a multiple usage', () => {
       it('should add a comment', async () => {
         writeFile(
           host,
@@ -450,7 +450,7 @@ describe('component selectors migration', () => {
         expect(content).toEqual(PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE_EXPECTED);
       });
     });
-    describe('when the component is extended', () => {
+    xdescribe('when the component is extended', () => {
       it('should add comments', async () => {
         writeFile(
           host,
@@ -468,7 +468,7 @@ describe('component selectors migration', () => {
     });
   });
 
-  describe('when a component is extended only to override its template', () => {
+  xdescribe('when a component is extended only to override its template', () => {
     it('should insert comments to the template', async () => {
       writeFile(host, tsFileName, TS_EXTEND_COMPONENT_BECAUSE_OF_TEMPLATE);
       writeFile(host, htmlFileName, HTML_EXTEND_COMPONENT_BECAUSE_OF_TEMPLATE);

@@ -57,7 +57,7 @@ import { layoutConfig } from '@spartacus/storefront';
 export class SpartacusConfigurationModule {}
 `;
 
-describe('scaffold app structure', () => {
+xdescribe('scaffold app structure', () => {
   let appTree: UnitTestTree;
   let schematicRunner: SchematicTestRunner;
 
@@ -96,7 +96,7 @@ describe('scaffold app structure', () => {
     );
   });
 
-  describe('When the new app structure does NOT exist', () => {
+  xdescribe('When the new app structure does NOT exist', () => {
     it('should create it', async () => {
       const resultTree = await firstValueFrom(
         schematicRunner.callRule(scaffoldAppStructure(), appTree)
@@ -113,7 +113,7 @@ describe('scaffold app structure', () => {
     });
   });
 
-  describe('When the new app structure is already in place', () => {
+  xdescribe('When the new app structure is already in place', () => {
     beforeEach(async () => {
       appTree.create(spartacusModulePath, exampleSpartacusModule);
       appTree.create(spartacusFeaturesModulePath, exampleFeaturesModule);

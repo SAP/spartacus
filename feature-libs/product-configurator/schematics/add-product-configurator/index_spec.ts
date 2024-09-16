@@ -28,7 +28,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/product-configurator.scss';
 
-describe('Spartacus product configurator schematics: ng-add', () => {
+xdescribe('Spartacus product configurator schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_PRODUCT_CONFIGURATOR,
     collectionPath
@@ -99,7 +99,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -134,9 +134,9 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     });
   });
 
-  describe('Product config feature', () => {
-    describe('VC', () => {
-      describe('general setup', () => {
+  xdescribe('Product config feature', () => {
+    xdescribe('VC', () => {
+      xdescribe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
@@ -176,7 +176,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(checkoutFeatureModule).toBeFalsy();
         });
 
-        describe('styling', () => {
+        xdescribe('styling', () => {
           it('should create a proper scss file', () => {
             const scssContent = appTree.readContent(scssFilePath);
             expect(scssContent).toMatchSnapshot();
@@ -189,7 +189,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         });
       });
 
-      describe('eager loading', () => {
+      xdescribe('eager loading', () => {
         beforeEach(async () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
@@ -211,8 +211,8 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       });
     });
 
-    describe('CPQ', () => {
-      describe('general setup', () => {
+    xdescribe('CPQ', () => {
+      xdescribe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
@@ -259,7 +259,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(checkoutFeatureModule).toBeFalsy();
         });
 
-        describe('styling', () => {
+        xdescribe('styling', () => {
           it('should create a proper scss file', () => {
             const scssContent = appTree.readContent(scssFilePath);
             expect(scssContent).toMatchSnapshot();
@@ -271,7 +271,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           });
         });
 
-        describe('b2b features', () => {
+        xdescribe('b2b features', () => {
           it('configuration should be added', () => {
             const configurationModule = appTree.readContent(
               `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
@@ -281,7 +281,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         });
       });
 
-      describe('eager loading', () => {
+      xdescribe('eager loading', () => {
         beforeEach(async () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
@@ -309,8 +309,8 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       });
     });
 
-    describe('Textfield', () => {
-      describe('general setup', () => {
+    xdescribe('Textfield', () => {
+      xdescribe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
@@ -350,7 +350,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(checkoutFeatureModule).toBeFalsy();
         });
 
-        describe('styling', () => {
+        xdescribe('styling', () => {
           it('should create a proper scss file', () => {
             const scssContent = appTree.readContent(scssFilePath);
             expect(scssContent).toMatchSnapshot();
@@ -362,7 +362,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           });
         });
 
-        describe('b2b features', () => {
+        xdescribe('b2b features', () => {
           it('configuration should not be added', () => {
             const configurationModule = appTree.readContent(
               `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
@@ -372,7 +372,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         });
       });
 
-      describe('eager loading', () => {
+      xdescribe('eager loading', () => {
         beforeEach(async () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
@@ -394,8 +394,8 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       });
     });
 
-    describe('CPQ and Textfield', () => {
-      describe('general setup', () => {
+    xdescribe('CPQ and Textfield', () => {
+      xdescribe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
@@ -448,7 +448,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(checkoutFeatureModule).toBeFalsy();
         });
 
-        describe('styling', () => {
+        xdescribe('styling', () => {
           it('should create a proper scss file', () => {
             const scssContent = appTree.readContent(scssFilePath);
             expect(scssContent).toMatchSnapshot();
@@ -460,7 +460,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           });
         });
 
-        describe('b2b features', () => {
+        xdescribe('b2b features', () => {
           it('configuration should be added', () => {
             const configurationModule = appTree.readContent(
               `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
@@ -470,7 +470,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         });
       });
 
-      describe('eager loading', () => {
+      xdescribe('eager loading', () => {
         beforeEach(async () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',

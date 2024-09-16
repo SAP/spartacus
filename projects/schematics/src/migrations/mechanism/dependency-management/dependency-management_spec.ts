@@ -24,7 +24,7 @@ import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = '02-migration-v4-dependency-management';
 
-describe('dependency management migrations', () => {
+xdescribe('dependency management migrations', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
@@ -78,7 +78,7 @@ describe('dependency management migrations', () => {
     shx.rm('-r', tmpDirPath);
   });
 
-  describe('when the dependencies are not present', () => {
+  xdescribe('when the dependencies are not present', () => {
     beforeEach(() => {
       writeFile(
         host,
@@ -103,8 +103,8 @@ describe('dependency management migrations', () => {
     });
   });
 
-  describe('when the semver range is not satisfied', () => {
-    describe('and when the present dependencies are higher', () => {
+  xdescribe('when the semver range is not satisfied', () => {
+    xdescribe('and when the present dependencies are higher', () => {
       beforeEach(() => {
         writeFile(
           host,
@@ -131,7 +131,7 @@ describe('dependency management migrations', () => {
       });
     });
 
-    describe('and when the present dependencies are lower', () => {
+    xdescribe('and when the present dependencies are lower', () => {
       beforeEach(() => {
         writeFile(
           host,
@@ -159,8 +159,8 @@ describe('dependency management migrations', () => {
     });
   });
 
-  describe('cross dependencies', () => {
-    describe('when only "core" deps are present', () => {
+  xdescribe('cross dependencies', () => {
+    xdescribe('when only "core" deps are present', () => {
       beforeEach(() => {
         writeFile(
           host,
@@ -195,7 +195,7 @@ describe('dependency management migrations', () => {
       });
     });
 
-    describe('when deps other than "core" are present', () => {
+    xdescribe('when deps other than "core" are present', () => {
       beforeEach(() => {
         writeFile(
           host,

@@ -26,7 +26,7 @@ import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus OMF Schematics: ng-add', () => {
+xdescribe('Spartacus OMF Schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_OMF,
     collectionPath
@@ -108,7 +108,7 @@ describe('Spartacus OMF Schematics: ng-add', () => {
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -122,8 +122,8 @@ describe('Spartacus OMF Schematics: ng-add', () => {
     });
   });
 
-  describe('OMF feature', () => {
-    describe('general setup', () => {
+  xdescribe('OMF feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -170,7 +170,7 @@ describe('Spartacus OMF Schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',

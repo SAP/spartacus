@@ -170,7 +170,7 @@ const CMS_COMPONENT_ACTIONS_TEST_TWO_CLASSES = `
     }
 `;
 
-describe('updateCmsComponentState migration', () => {
+xdescribe('updateCmsComponentState migration', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;

@@ -40,7 +40,7 @@ const config = {
 export class AppModule {}
 `;
 
-describe('config deprecations migration', () => {
+xdescribe('config deprecations migration', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;

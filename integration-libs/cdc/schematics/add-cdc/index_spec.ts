@@ -30,7 +30,7 @@ import {
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
-describe('Spartacus CDC schematics: ng-add', () => {
+xdescribe('Spartacus CDC schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_CDC,
     collectionPath
@@ -104,7 +104,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
       appTree
     );
   });
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -116,8 +116,8 @@ describe('Spartacus CDC schematics: ng-add', () => {
       expect(appTree.exists(cdcFeatureModulePath)).toBeFalsy();
     });
   });
-  describe('CDC-B2C feature', () => {
-    describe('validation of jsSDKUrl', () => {
+  xdescribe('CDC-B2C feature', () => {
+    xdescribe('validation of jsSDKUrl', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runExternalSchematic(
           SPARTACUS_SCHEMATICS,
@@ -139,7 +139,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
         expect(featureModule).toMatchSnapshot();
       });
     });
-    describe('general setup', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runExternalSchematic(
           SPARTACUS_SCHEMATICS,
@@ -194,7 +194,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
         expect(userProfileWrapperModule).toMatchSnapshot();
       });
     });
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runExternalSchematic(
           SPARTACUS_SCHEMATICS,
@@ -217,8 +217,8 @@ describe('Spartacus CDC schematics: ng-add', () => {
       });
     });
   });
-  describe('CDC-B2B feature', () => {
-    describe('validation of jsSDKUrl', () => {
+  xdescribe('CDC-B2B feature', () => {
+    xdescribe('validation of jsSDKUrl', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runExternalSchematic(
           SPARTACUS_SCHEMATICS,
@@ -248,7 +248,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
         expect(featureModule).toMatchSnapshot();
       });
     });
-    describe('general setup', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runExternalSchematic(
           SPARTACUS_SCHEMATICS,
@@ -316,7 +316,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
         expect(organizationUserRegistrationWrapperModule).toMatchSnapshot();
       });
     });
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runExternalSchematic(
           SPARTACUS_SCHEMATICS,

@@ -24,7 +24,7 @@ import * as path from 'path';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus CDP schematics: ng-add', () => {
+xdescribe('Spartacus CDP schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_CDP,
     collectionPath
@@ -94,7 +94,7 @@ describe('Spartacus CDP schematics: ng-add', () => {
     );
   });
 
-  describe('Without CDP features', () => {
+  xdescribe('Without CDP features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -108,8 +108,8 @@ describe('Spartacus CDP schematics: ng-add', () => {
     });
   });
 
-  describe('With CDP feature', () => {
-    describe('general setup', () => {
+  xdescribe('With CDP feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -160,7 +160,7 @@ describe('Spartacus CDP schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',

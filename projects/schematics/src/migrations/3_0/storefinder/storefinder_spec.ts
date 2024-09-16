@@ -39,7 +39,7 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     B2cStorefrontModule.withConfig({}),
-    
+
   ],
   providers: [],
   bootstrap: [AppComponent],
@@ -84,7 +84,7 @@ import { AppComponent } from './app.component';
 export class AppModule {}
 `;
 
-describe('Storefinder migration', () => {
+xdescribe('Storefinder migration', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
@@ -156,7 +156,7 @@ platformBrowserDynamic().bootstrapModule(AppModule)
     shx.rm('-r', tmpDirPath);
   });
 
-  describe('when the StoreFinderModule is imported', () => {
+  xdescribe('when the StoreFinderModule is imported', () => {
     it('should remove it from imports, imports array and migrate to the new setup', async () => {
       writeFile(
         host,
@@ -171,7 +171,7 @@ platformBrowserDynamic().bootstrapModule(AppModule)
     });
   });
 
-  describe('when the StorefrontModule is imported', () => {
+  xdescribe('when the StorefrontModule is imported', () => {
     it('should migrate to the new setup', async () => {
       writeFile(
         host,

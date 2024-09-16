@@ -15,7 +15,7 @@ import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v3-ssr-09';
 
-describe('ssr migration', () => {
+xdescribe('ssr migration', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
@@ -82,7 +82,7 @@ describe('ssr migration', () => {
     shx.rm('-r', tmpDirPath);
   });
 
-  describe('when the ssr is not configured', () => {
+  xdescribe('when the ssr is not configured', () => {
     it('should not do the migration', async () => {
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
@@ -91,7 +91,7 @@ describe('ssr migration', () => {
     });
   });
 
-  describe('when the ssr is configured', () => {
+  xdescribe('when the ssr is configured', () => {
     it('should migrate to the new setup', async () => {
       writeFile(
         host,

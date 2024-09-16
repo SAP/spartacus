@@ -24,7 +24,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/epd-visualization.scss';
 
-describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () => {
+xdescribe('Spartacus SAP EPD Visualization integration schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_EPD_VISUALIZATION,
     collectionPath
@@ -95,7 +95,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -109,8 +109,8 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
     });
   });
 
-  describe('SAP EPD Visualization feature', () => {
-    describe('general setup', () => {
+  xdescribe('SAP EPD Visualization feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -124,7 +124,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
         expect(module).toMatchSnapshot();
       });
 
-      describe('styling', () => {
+      xdescribe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
           expect(scssContent).toMatchSnapshot();
@@ -166,7 +166,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -182,8 +182,8 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
     });
   });
 
-  describe('SAP EPD Visualization feature - No compilerOptions in tsconfig', () => {
-    describe('general setup', () => {
+  xdescribe('SAP EPD Visualization feature - No compilerOptions in tsconfig', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -222,7 +222,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',

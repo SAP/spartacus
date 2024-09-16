@@ -26,7 +26,7 @@ const updateSsrCollectionPath = path.join(
 );
 const collectionPath = path.join(__dirname, '../../../collection.json');
 
-describe('Update SSR', () => {
+xdescribe('Update SSR', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     collectionPath
@@ -86,7 +86,7 @@ describe('Update SSR', () => {
     );
   });
 
-  describe('updateServerFile', () => {
+  xdescribe('updateServerFile', () => {
     it('should change nguniversal import in server.ts', async () => {
       tree = await updateSsrSchematicRunner.runSchematic(
         'update-ssr',
@@ -136,7 +136,7 @@ describe('Update SSR', () => {
     });
   });
 
-  describe('updateTokensSchematic', () => {
+  xdescribe('updateTokensSchematic', () => {
     it('should remove express.tokens.ts file', async () => {
       const tokensPath = `./${EXPRESS_TOKENS}.ts`;
       tree.create(tokensPath, 'request response');

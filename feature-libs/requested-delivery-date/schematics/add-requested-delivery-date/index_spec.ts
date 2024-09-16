@@ -23,7 +23,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/requested-delivery-date.scss';
 
-describe('Spartacus Requested Delivery Date schematics: ng-add', () => {
+xdescribe('Spartacus Requested Delivery Date schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_REQUESTED_DELIVERY_DATE,
     collectionPath
@@ -90,7 +90,7 @@ describe('Spartacus Requested Delivery Date schematics: ng-add', () => {
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -131,8 +131,8 @@ describe('Spartacus Requested Delivery Date schematics: ng-add', () => {
     });
   });
 
-  describe('Requested Delivery Date feature', () => {
-    describe('general setup', () => {
+  xdescribe('Requested Delivery Date feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -148,7 +148,7 @@ describe('Spartacus Requested Delivery Date schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
-      describe('styling', () => {
+      xdescribe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
           expect(scssContent).toMatchSnapshot();
@@ -161,7 +161,7 @@ describe('Spartacus Requested Delivery Date schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',

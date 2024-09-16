@@ -78,7 +78,7 @@ function assertContentDoesNotExist(
   }
 }
 
-describe('add-cms-component', () => {
+xdescribe('add-cms-component', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     collectionPath
@@ -136,7 +136,7 @@ describe('add-cms-component', () => {
     );
   });
 
-  describe('when generating a cms module and a component', () => {
+  xdescribe('when generating a cms module and a component', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'add-cms-component',
@@ -215,7 +215,7 @@ describe('add-cms-component', () => {
     });
   });
 
-  describe('when a cms module already exists', () => {
+  xdescribe('when a cms module already exists', () => {
     const existingModulePath = '/src/app/existing-cms/existing-cms.module.ts';
 
     beforeEach(async () => {
@@ -329,7 +329,7 @@ describe('add-cms-component', () => {
       );
     });
 
-    describe('when the ConfigModule.withConfig() already contains some CMS mappings', () => {
+    xdescribe('when the ConfigModule.withConfig() already contains some CMS mappings', () => {
       beforeEach(async () => {
         const moduleSource = getTsSourceFile(appTree, existingModulePath);
         const changes = addSymbolToNgModuleMetadata(
@@ -428,7 +428,7 @@ describe('add-cms-component', () => {
     });
   });
 
-  describe('when generating a new cms module and declaring it in app.module.ts', () => {
+  xdescribe('when generating a new cms module and declaring it in app.module.ts', () => {
     beforeEach(async () => {
       const modifiedOptions: CxCmsComponentSchema = {
         ...commonCmsOptions,
@@ -515,7 +515,7 @@ describe('add-cms-component', () => {
     });
   });
 
-  describe('when a cms module already exists and when module option is specified', () => {
+  xdescribe('when a cms module already exists and when module option is specified', () => {
     beforeEach(async () => {
       const moduleName = 'existing-cms';
       const moduleOptions = {

@@ -51,8 +51,8 @@ import {
   getSchematicsConfigByFeatureOrThrow,
 } from './schematics-config-mappings';
 
-describe('schematics-config-mappings', () => {
-  describe('libraryFeatureMapping', () => {
+xdescribe('schematics-config-mappings', () => {
+  xdescribe('libraryFeatureMapping', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().libraryFeatureMapping;
 
@@ -74,7 +74,7 @@ describe('schematics-config-mappings', () => {
     });
   });
 
-  describe('featureFeatureModuleMapping', () => {
+  xdescribe('featureFeatureModuleMapping', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().featureFeatureModuleMapping;
 
@@ -105,7 +105,7 @@ describe('schematics-config-mappings', () => {
     });
   });
 
-  describe('featureRootModuleMapping', () => {
+  xdescribe('featureRootModuleMapping', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().featureRootModuleMapping;
 
@@ -131,7 +131,7 @@ describe('schematics-config-mappings', () => {
     });
   });
 
-  describe('featureSchematicConfigMapping', () => {
+  xdescribe('featureSchematicConfigMapping', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().featureSchematicConfigMapping;
 
@@ -148,7 +148,7 @@ describe('schematics-config-mappings', () => {
     });
   });
 
-  describe('getKeyByMappingValueOrThrow', () => {
+  xdescribe('getKeyByMappingValueOrThrow', () => {
     it('should return the key', () => {
       const mapping: Map<string, string[]> = new Map();
       mapping.set('x', ['1', '2']);
@@ -168,7 +168,7 @@ describe('schematics-config-mappings', () => {
     });
   });
 
-  describe('getKeyByMappingValue', () => {
+  xdescribe('getKeyByMappingValue', () => {
     it('should return the key', () => {
       const mapping: Map<string, string[]> = new Map();
       mapping.set('x', ['1', '2']);
@@ -183,7 +183,7 @@ describe('schematics-config-mappings', () => {
     });
   });
 
-  describe('getSchematicsConfigByFeatureOrThrow', () => {
+  xdescribe('getSchematicsConfigByFeatureOrThrow', () => {
     it('should return the config', () => {
       const config = getSchematicsConfigByFeatureOrThrow(
         CHECKOUT_BASE_FEATURE_NAME

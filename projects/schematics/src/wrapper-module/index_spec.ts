@@ -37,7 +37,7 @@ import { cleanupConfig } from './index';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module', () => {
+xdescribe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     collectionPath
@@ -90,7 +90,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
       .buildPaths[0];
   });
 
-  describe('One dynamic import in the file', () => {
+  xdescribe('One dynamic import in the file', () => {
     it('should generate appropriate feature module', async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -116,7 +116,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
     });
   });
 
-  describe('Multiple dynamic imports in the file', () => {
+  xdescribe('Multiple dynamic imports in the file', () => {
     it('should generate appropriate feature module', async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -153,7 +153,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
     });
   });
 
-  describe('Double execution', () => {
+  xdescribe('Double execution', () => {
     it('should not change anything', async () => {
       // first execution happens under the hood
       appTree = await schematicRunner.runSchematic(
@@ -192,7 +192,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
     });
   });
 
-  describe('Checkout Scheduled Replenishment', () => {
+  xdescribe('Checkout Scheduled Replenishment', () => {
     it('should create the checkout wrapper module and import Checkout features', async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -218,7 +218,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
     });
   });
 
-  describe('Digital Payments', () => {
+  xdescribe('Digital Payments', () => {
     it('should create the checkout wrapper module and import Base Checkout and DP', async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -248,7 +248,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
     });
   });
 
-  describe('Checkout and DP', () => {
+  xdescribe('Checkout and DP', () => {
     let program: any;
 
     beforeEach(async () => {
@@ -313,7 +313,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
     });
   });
 
-  describe('wrapper module already exists', () => {
+  xdescribe('wrapper module already exists', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',

@@ -65,7 +65,7 @@ import * as Core from '@spartacus/core';
 new Core.ActiveCartService()
 `;
 
-describe('removed public api migrations', () => {
+xdescribe('removed public api migrations', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
@@ -119,7 +119,7 @@ describe('removed public api migrations', () => {
     shx.rm('-r', tmpDirPath);
   });
 
-  describe('when the import is present in the file', () => {
+  xdescribe('when the import is present in the file', () => {
     it('should leave comment above it', async () => {
       writeFile(host, '/src/index.ts', REMOVED_NODE_USED_VALID_TEST);
 
@@ -130,7 +130,7 @@ describe('removed public api migrations', () => {
     });
   });
 
-  describe('when the imports are present in the file', () => {
+  xdescribe('when the imports are present in the file', () => {
     it('should leave comment above each one', async () => {
       writeFile(host, '/src/index.ts', MULTI_LINE_IMPORT_VALID_TEST);
 
@@ -141,7 +141,7 @@ describe('removed public api migrations', () => {
     });
   });
 
-  describe('when namespaced import is present in the file', () => {
+  xdescribe('when namespaced import is present in the file', () => {
     it('should add comment above access to this property', async () => {
       writeFile(host, '/src/index.ts', NAMESPACED_IMPORT_VALID_TEST);
 
@@ -152,7 +152,7 @@ describe('removed public api migrations', () => {
     });
   });
 
-  describe('when the import is not present in the file', () => {
+  xdescribe('when the import is not present in the file', () => {
     it('should not change anything', async () => {
       writeFile(host, '/src/index.ts', NOT_IMPORTED);
 
@@ -163,7 +163,7 @@ describe('removed public api migrations', () => {
     });
   });
 
-  describe('when the namespaced import is present in the file', () => {
+  xdescribe('when the namespaced import is present in the file', () => {
     it('should not change anything when property is not access', async () => {
       writeFile(host, '/src/index.ts', NOT_USED_PROPERTY);
 

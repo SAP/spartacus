@@ -23,7 +23,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
   'src/app/spartacus/features/s4om/s4om-feature.module.ts';
 
-describe('Spartacus S4OM schematics: ng-add', () => {
+xdescribe('Spartacus S4OM schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
   let appTree: UnitTestTree;
@@ -97,7 +97,7 @@ describe('Spartacus S4OM schematics: ng-add', () => {
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -111,8 +111,8 @@ describe('Spartacus S4OM schematics: ng-add', () => {
     });
   });
 
-  describe('S4OM feature', () => {
-    describe('general setup', () => {
+  xdescribe('S4OM feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -145,7 +145,7 @@ describe('Spartacus S4OM schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',

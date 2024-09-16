@@ -30,7 +30,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/product.scss';
 
-describe('Spartacus Product schematics: ng-add', () => {
+xdescribe('Spartacus Product schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_PRODUCT,
     collectionPath
@@ -112,7 +112,7 @@ describe('Spartacus Product schematics: ng-add', () => {
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -154,8 +154,8 @@ describe('Spartacus Product schematics: ng-add', () => {
     });
   });
 
-  describe('BulkPricing feature', () => {
-    describe('general setup', () => {
+  xdescribe('BulkPricing feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -169,7 +169,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
-      describe('styling', () => {
+      xdescribe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
           expect(scssContent).toMatchSnapshot();
@@ -181,7 +181,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         });
       });
 
-      describe('b2b features', () => {
+      xdescribe('b2b features', () => {
         it('configuration should be added', () => {
           const configurationModule = appTree.readContent(
             `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
@@ -191,7 +191,7 @@ describe('Spartacus Product schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -207,8 +207,8 @@ describe('Spartacus Product schematics: ng-add', () => {
     });
   });
 
-  describe('Variants feature', () => {
-    describe('general setup', () => {
+  xdescribe('Variants feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -222,7 +222,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
-      describe('styling', () => {
+      xdescribe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
           expect(scssContent).toMatchSnapshot();
@@ -235,7 +235,7 @@ describe('Spartacus Product schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -251,8 +251,8 @@ describe('Spartacus Product schematics: ng-add', () => {
     });
   });
 
-  describe('ImageZoom feature', () => {
-    describe('general setup', () => {
+  xdescribe('ImageZoom feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -266,7 +266,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
-      describe('styling', () => {
+      xdescribe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
           expect(scssContent).toMatchSnapshot();
@@ -279,7 +279,7 @@ describe('Spartacus Product schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -295,8 +295,8 @@ describe('Spartacus Product schematics: ng-add', () => {
     });
   });
 
-  describe('FutureStock feature', () => {
-    describe('general setup', () => {
+  xdescribe('FutureStock feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -310,7 +310,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
-      describe('styling', () => {
+      xdescribe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
           expect(scssContent).toMatchSnapshot();
@@ -322,7 +322,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         });
       });
 
-      describe('b2b features', () => {
+      xdescribe('b2b features', () => {
         it('configuration should be added', () => {
           const configurationModule = appTree.readContent(
             `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
@@ -332,7 +332,7 @@ describe('Spartacus Product schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',

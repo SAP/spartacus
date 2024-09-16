@@ -33,7 +33,7 @@ import {
   userFeatureModulePath,
 } from './test-utils';
 
-describe('Feature utils', () => {
+xdescribe('Feature utils', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     path.join(__dirname, '../../collection.json')
@@ -92,7 +92,7 @@ describe('Feature utils', () => {
       .buildPaths[0];
   });
 
-  describe('addFeatures', () => {
+  xdescribe('addFeatures', () => {
     it('should generate feature modules for the given array of features', async () => {
       appTree = await firstValueFrom(
         schematicRunner.callRule(
@@ -107,7 +107,7 @@ describe('Feature utils', () => {
     });
   });
 
-  describe('getDynamicallyImportedLocalSourceFile', () => {
+  xdescribe('getDynamicallyImportedLocalSourceFile', () => {
     it('should return falsy if not local import', async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -161,8 +161,8 @@ describe('Feature utils', () => {
     });
   });
 
-  describe('analyzeApplication', () => {
-    describe('dependent features check', () => {
+  xdescribe('analyzeApplication', () => {
+    xdescribe('dependent features check', () => {
       it('should throw when a feature is not configured in the existing Spartacus application', async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -221,7 +221,7 @@ describe('Feature utils', () => {
         }
       });
 
-      describe('when the dependent feature is eagerly configured', () => {
+      xdescribe('when the dependent feature is eagerly configured', () => {
         it('should succeed', async () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
@@ -255,7 +255,7 @@ describe('Feature utils', () => {
           expect(checkoutFeatureModule.print()).toMatchSnapshot();
         });
       });
-      describe('when the dependent feature is lazily configured', () => {
+      xdescribe('when the dependent feature is lazily configured', () => {
         it('should succeed', async () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',

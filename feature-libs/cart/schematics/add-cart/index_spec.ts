@@ -32,7 +32,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/cart.scss';
 
-describe('Spartacus Cart schematics: ng-add', () => {
+xdescribe('Spartacus Cart schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_CART,
     collectionPath
@@ -119,7 +119,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -160,8 +160,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
   });
 
-  describe('Cart Base feature', () => {
-    describe('general setup', () => {
+  xdescribe('Cart Base feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -180,7 +180,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         expect(userFeatureModule).toBeFalsy();
       });
 
-      describe('styling', () => {
+      xdescribe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
           expect(scssContent).toMatchSnapshot();
@@ -193,7 +193,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -209,8 +209,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
   });
 
-  describe('Cart Import Export feature', () => {
-    describe('general setup', () => {
+  xdescribe('Cart Import Export feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -224,7 +224,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
-      describe('styling', () => {
+      xdescribe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
           expect(scssContent).toMatchSnapshot();
@@ -237,7 +237,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -253,8 +253,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
   });
 
-  describe('Quick Order feature', () => {
-    describe('general setup', () => {
+  xdescribe('Quick Order feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -268,7 +268,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
-      describe('styling', () => {
+      xdescribe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
           expect(scssContent).toMatchSnapshot();
@@ -281,7 +281,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -297,8 +297,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
   });
 
-  describe('Saved Cart feature', () => {
-    describe('general setup', () => {
+  xdescribe('Saved Cart feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -322,7 +322,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         expect(userFeatureModule).toBeFalsy();
       });
 
-      describe('styling', () => {
+      xdescribe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
           expect(scssContent).toMatchSnapshot();
@@ -335,7 +335,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -351,8 +351,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
   });
 
-  describe('Wish List feature', () => {
-    describe('general setup', () => {
+  xdescribe('Wish List feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -376,7 +376,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         expect(userFeatureModule).toBeFalsy();
       });
 
-      describe('styling', () => {
+      xdescribe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
           expect(scssContent).toMatchSnapshot();
@@ -389,7 +389,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',

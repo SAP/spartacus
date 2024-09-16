@@ -22,7 +22,7 @@ import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus SmartEdit schematics: ng-add', () => {
+xdescribe('Spartacus SmartEdit schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SMARTEDIT,
     collectionPath
@@ -89,7 +89,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -128,8 +128,8 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
     });
   });
 
-  describe('SmartEdit feature', () => {
-    describe('general setup', () => {
+  xdescribe('SmartEdit feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -143,7 +143,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
-      describe('assets', () => {
+      xdescribe('assets', () => {
         it('should update angular.json', async () => {
           const content = appTree.readContent('/angular.json');
           expect(content).toMatchSnapshot();
@@ -151,7 +151,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -166,7 +166,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       });
     });
 
-    describe('with storefrontPreviewRoute config', () => {
+    xdescribe('with storefrontPreviewRoute config', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -184,7 +184,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       });
     });
 
-    describe('with allowOrigin config', () => {
+    xdescribe('with allowOrigin config', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',

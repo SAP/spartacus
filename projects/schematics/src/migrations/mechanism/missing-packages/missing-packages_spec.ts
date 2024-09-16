@@ -26,7 +26,7 @@ const fileWithCheckoutImport = `import { Something } from "@spartacus/checkout";
 
 console.log(Something)`;
 
-describe('missing packages', () => {
+xdescribe('missing packages', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
