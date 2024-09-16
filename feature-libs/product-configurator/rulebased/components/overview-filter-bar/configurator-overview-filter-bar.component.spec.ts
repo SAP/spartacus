@@ -326,7 +326,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     });
 
     describe('getNextElementIdToFocusForAttributeFilter', () => {
-      it('should return the element ID when indexOfRemoved is less than the length of attrFilters', () => {
+      it('should return the element ID if indexOfRemoved is less than the length of attrFilters', () => {
         const attrFilters = ['filter1', 'filter2', 'filter3'];
         const result = component['getNextElementIdToFocusForAttributeFilter'](
           1,
@@ -335,7 +335,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect(result).toBe(PREFIX_ID + attrFilters[1]);
       });
 
-      it('should return null when removed attribute filter was the last one in the list', () => {
+      it('should return null if removed attribute filter was the last one in the list', () => {
         const attrFilters = ['filter1', 'filter2', 'filter3'];
         const result = component['getNextElementIdToFocusForAttributeFilter'](
           3,
@@ -344,7 +344,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect(result).toBeNull();
       });
 
-      it('should return null when attrFilters array is empty', () => {
+      it('should return null if attrFilters array is empty', () => {
         const attrFilters: string[] = [];
         const result = component['getNextElementIdToFocusForAttributeFilter'](
           0,
@@ -355,7 +355,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     });
 
     describe('getNextElementIdToFocusForGroupFilter', () => {
-      it('should return the next element id when indexOfRemoved is less than the length of groupFilters', () => {
+      it('should return the next element id if indexOfRemoved is less than the length of groupFilters', () => {
         const groupFilters = ['filter1', 'filter2', 'filter3'];
         const attrFilters: string[] = [];
         const indexOfRemoved = 1;
@@ -367,7 +367,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect(result).toBe(PREFIX_ID + groupFilters[1]);
       });
 
-      it('should return the remove all button id when removed group filter was the last one in the list but there are more than one group filters left', () => {
+      it('should return the remove all button id if removed group filter was the last one in the list but there are more than one group filters left', () => {
         const groupFilters = ['filter1', 'filter2'];
         const attrFilters: string[] = [];
         const indexOfRemoved = 2;
@@ -379,7 +379,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect(result).toBe(PREFIX_ID + 'REMOVE_ALL');
       });
 
-      it('should return the remove all button id when removed group filter was the last one in the list but there are more than one filters (attribute and group filter combined) left', () => {
+      it('should return the remove all button id if removed group filter was the last one in the list but there are more than one filters (attribute and group filter combined) left', () => {
         const groupFilters = ['filter1'];
         const attrFilters: string[] = ['filter2'];
         const indexOfRemoved = 2;
@@ -391,7 +391,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect(result).toBe(PREFIX_ID + 'REMOVE_ALL');
       });
 
-      it('should return first filter checkbox id when indexOfRemoved is equal or greather than the length of groupFilters and there is only one group filter', () => {
+      it('should return first filter checkbox id if indexOfRemoved is equal or greather than the length of groupFilters and there is only one group filter', () => {
         const groupFilters = ['filter1'];
         const attrFilters: string[] = [];
         const indexOfRemoved = 1;
@@ -403,7 +403,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         expect(result).toBe(FIRST_FILTER_CHECKBOX_ID);
       });
 
-      it('should return first filter checkbox id when no group and attribute filter is left', () => {
+      it('should return first filter checkbox id if no group and attribute filter is left', () => {
         const groupFilters: string[] = [];
         const attrFilters: string[] = [];
         const indexOfRemoved = 1;

@@ -33,8 +33,8 @@ export class ConfiguratorOverviewFilterBarComponent {
   /**
    * gets the description for the given group id
    *
-   * @param {string} groupId groupId
-   * @param {Configurator.ConfigurationWithOverview} config - current configuration with overview data
+   * @param groupId groupId
+   * @param config - current configuration with overview data
    */
   getGroupFilterDescription(
     overview: Configurator.Overview,
@@ -49,8 +49,8 @@ export class ConfiguratorOverviewFilterBarComponent {
   /**
    * removes the given attribute filter and updates the configuration overview accordingly
    *
-   * @param {Configurator.OverviewFilter} attrToRemove attribute filter to remove
-   * @param {Configurator.ConfigurationWithOverview} config - current configuration with overview data
+   * @param attrToRemove attribute filter to remove
+   * @param config - current configuration with overview data
    */
   onAttrFilterRemove(
     config: Configurator.ConfigurationWithOverview,
@@ -88,8 +88,8 @@ export class ConfiguratorOverviewFilterBarComponent {
   /**
    * removes the given group filter and updates the configuration overview accordingly
    *
-   * @param {string} groupIdToRemove id of the group to be removed from filtering
-   * @param {Configurator.ConfigurationWithOverview} config - current configuration with overview data
+   * @param groupIdToRemove id of the group to be removed from filtering
+   * @param config - current configuration with overview data
    */
   onGroupFilterRemove(
     config: Configurator.ConfigurationWithOverview,
@@ -122,9 +122,9 @@ export class ConfiguratorOverviewFilterBarComponent {
    * Determines the next element to focus on after removing an attribute filter.
    * Return null if removed attribute filter was the last one in the list.
    *
-   * @param {number} indexOfRemoved - The index of the attribute filter that has been removed.
-   * @param {string[]} attrFilters - The list of attribute filters.
-   * @returns {string | null} - The next element to focus on, or null if there is none.
+   * @param indexOfRemoved - The index of the attribute filter that has been removed.
+   * @param attrFilters - The list of attribute filters.
+   * @returns - The next element to focus on, or null if there is none.
    */
   protected getNextElementIdToFocusForAttributeFilter(
     indexOfRemoved: number,
@@ -145,10 +145,10 @@ export class ConfiguratorOverviewFilterBarComponent {
    * Return id of remove all button if removed group filter was the last one in the list and there are more than one filters (attribute and group combined) left.
    * Return id of first filter checkbox if removed group filter was the last one in the list and only one filter (attribute and group filters conbined) is left.
    *
-   * @param {number} indexOfRemoved - The index of the attribute filter that has been removed.
-   * @param {string[]} attrFilters - The list of attribute filters.
-   * @param {string[]} groupFilters - The list of attribute filters.
-   * @returns {string} - The next element to focus on
+   * @param indexOfRemoved - The index of the attribute filter that has been removed.
+   * @param attrFilters - The list of attribute filters.
+   * @param groupFilters - The list of attribute filters.
+   * @returns - The next element to focus on
    */
   protected getNextElementIdToFocusForGroupFilter(
     indexOfRemoved: number,
@@ -189,8 +189,8 @@ export class ConfiguratorOverviewFilterBarComponent {
   /**
    * check whether the button to remove all filters should be shown
    *
-   * @param {Configurator.Overview} overview - current configuration overview data
-   * @returns {boolean} - 'true' only if the button to remove all filters should be shown
+   * @param overview - current configuration overview data
+   * @returns - 'true' only if the button to remove all filters should be shown
    */
   isShowRemoveAll(overview: Configurator.Overview): boolean {
     const numFilters =
@@ -202,7 +202,7 @@ export class ConfiguratorOverviewFilterBarComponent {
   /**
    * removes all filters and updates the configuration overview accordingly
    *
-   * @param {Configurator.ConfigurationWithOverview} config - current configuration with overview data
+   * @param config - current configuration with overview data
    */
   onRemoveAll(config: Configurator.ConfigurationWithOverview) {
     this.focusElementById(this.FIRST_FILTER_CHECKBOX_ID);
