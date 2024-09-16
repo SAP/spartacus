@@ -3,12 +3,19 @@
 >
   <button
     class="cx-overview-filter-applied"
+    id="cx-overview-filter-applied-{{
+      filter === attributeFilterTypes.PRICE_RELEVANT
+        ? attributeFilterTypes.PRICE_RELEVANT
+        : attributeFilterTypes.USER_INPUT
+    }}"
     title="{{
       (filter === attributeFilterTypes.PRICE_RELEVANT
         ? 'configurator.overviewFilter.removeByPrice'
         : 'configurator.overviewFilter.removeMySelections'
       ) | cxTranslate
     }}"
+    (keydown.delete)="onAttrFilterRemove(config, filter)"
+    aria-keyshortcuts="Delete"
     (click)="onAttrFilterRemove(config, filter)"
   >
     {{
@@ -27,12 +34,15 @@
   *ngFor="let groupId of config.overview.groupFilters; let i = index"
 >
   <button
+    id="cx-overview-filter-applied-{{ groupId }}"
     class="cx-overview-filter-applied"
     title="{{
       'configurator.overviewFilter.removeByGroup'
         | cxTranslate
           : { group: getGroupFilterDescription(config.overview, groupId) }
     }}"
+    (keydown.delete)="onGroupFilterRemove(config, groupId)"
+    aria-keyshortcuts="Delete"
     (click)="onGroupFilterRemove(config, groupId)"
   >
     {{ getGroupFilterDescription(config.overview, groupId) }}
@@ -45,7 +55,10 @@
 <ng-container *ngIf="isShowRemoveAll(config.overview)">
   <button
     class="cx-overview-filter-applied"
+    id="cx-overview-filter-applied-REMOVE_ALL"
     title="{{ 'configurator.overviewFilter.removeAllFilters' | cxTranslate }}"
+    (keydown.delete)="onRemoveAll(config)"
+    aria-keyshortcuts="Delete"
     (click)="onRemoveAll(config)"
   >
     {{ 'configurator.overviewFilter.removeAll' | cxTranslate }}
