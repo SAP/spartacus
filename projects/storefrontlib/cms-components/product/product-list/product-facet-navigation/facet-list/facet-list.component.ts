@@ -18,10 +18,16 @@ import {
   Renderer2,
   ViewChild,
   inject,
+	AfterViewInit,
+	ViewChildren,
+	ChangeDetectorRef,
+	QueryList,
+	TemplateRef,
 } from '@angular/core';
 import { Facet, FeatureConfigService } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Tab, TabConfig, TAB_MODE} from 'projects/storefrontlib/cms-components/content/tab/tab.model';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
 import {
   FocusConfig,
   KeyboardFocusService,
@@ -36,7 +42,7 @@ import { FacetService } from '../services/facet.service';
   templateUrl: './facet-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FacetListComponent implements OnInit, OnDestroy {
+export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
   protected subscriptions = new Subscription();
   private _isDialog: boolean;
 
@@ -51,6 +57,7 @@ export class FacetListComponent implements OnInit, OnDestroy {
     this._isDialog = value;
     if (value) {
       this.renderer.addClass(document.body, 'modal-open');
+      this.renderFacets();
     }
   }
 
@@ -73,6 +80,16 @@ export class FacetListComponent implements OnInit, OnDestroy {
     autofocus: 'cx-facet > button',
   };
 
+    tabConfig: TabConfig = {
+    label: 'Product Facets',
+    mode: TAB_MODE.ACCORDIAN,
+    openTabs: [0],
+  };
+
+  tabs$: BehaviorSubject<Tab[]> = new BehaviorSubject<Tab[]>([]);
+
+  @ViewChildren('facetsRef') facetsRef: QueryList<TemplateRef<any>>;
+
   @HostListener('click') handleClick() {
     this.close();
   }
@@ -84,7 +101,8 @@ export class FacetListComponent implements OnInit, OnDestroy {
   constructor(
     protected facetService: FacetService,
     protected elementRef: ElementRef,
-    protected renderer: Renderer2
+    protected renderer: Renderer2,
+    protected changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -92,6 +110,35 @@ export class FacetListComponent implements OnInit, OnDestroy {
     if (this.featureConfigService?.isEnabled('a11yFacetsDialogFocusHandling')) {
       this.enableFocusHandlingOnFacetListChanges();
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.renderFacets();
+
+    // Renders facets on first PLP load on desktop
+    this.facetsRef.changes
+      .pipe(
+        take(1),
+        filter((changes) => !!changes)
+      )
+      .subscribe(() => this.renderFacets());
+  }
+
+  renderFacets(): void {
+    this.facetList$.pipe(take(1)).subscribe((list) => {
+      const facets = list.facets;
+      const tabs = [];
+
+      for (let i = 0; i < facets?.length; i++) {
+        tabs.push({
+          header: facets[i].name ?? 'unnamed',
+          content: this.facetsRef?.get(i),
+        });
+      }
+
+      this.tabs$.next(tabs);
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   /**
