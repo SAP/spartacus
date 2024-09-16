@@ -24,7 +24,11 @@
       either by using specific configuration or generic sproutlets
   -->
   <ng-container *cxFeature="'a11yTabComponent'">
-    <cx-tab [tabs]="tabs$ | async" [config]="tabConfig" *ngIf="tabs$ | async"></cx-tab>
+    <cx-tab
+      [tabs]="tabs$ | async"
+      [config]="tabConfig"
+      *ngIf="tabs$ | async"
+    ></cx-tab>
 
     <ng-template #facetsRef *ngFor="let facet of facets">
       <cx-facet
@@ -33,13 +37,13 @@
         [class.collapsed]="isCollapsed(facet) | async"
         role="group"
         attr.aria-label="{{
-	'productFacetNavigation.ariaLabelItemsAvailable'
-	  | cxTranslate
-	    : {
-	       name: facet.name,
-	       count: facet?.values?.length
-	      }
-      }}"
+          'productFacetNavigation.ariaLabelItemsAvailable'
+            | cxTranslate
+              : {
+                  name: facet.name,
+                  count: facet?.values?.length
+                }
+        }}"
       ></cx-facet>
     </ng-template>
   </ng-container>
@@ -53,12 +57,12 @@
       [class.collapsed]="isCollapsed(facet) | async"
       role="group"
       attr.aria-label="{{
-	'productFacetNavigation.ariaLabelItemsAvailable'
-	  | cxTranslate
-	    : {
-	       name: facet.name,
-	       count: facet?.values?.length
-	      }
+        'productFacetNavigation.ariaLabelItemsAvailable'
+          | cxTranslate
+            : {
+                name: facet.name,
+                count: facet?.values?.length
+              }
       }}"
     ></cx-facet>
   </ng-container>

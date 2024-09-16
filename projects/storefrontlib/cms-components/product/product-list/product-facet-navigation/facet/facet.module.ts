@@ -21,7 +21,7 @@ import { FacetComponent } from './facet.component';
     KeyboardFocusModule,
     RouterModule,
     UrlModule,
-    FeaturesConfigModule
+    FeaturesConfigModule,
   ],
   declarations: [FacetComponent],
   exports: [FacetComponent],

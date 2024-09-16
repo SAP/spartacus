@@ -18,14 +18,18 @@ import {
   Renderer2,
   ViewChild,
   inject,
-	AfterViewInit,
-	ViewChildren,
-	ChangeDetectorRef,
-	QueryList,
-	TemplateRef,
+  AfterViewInit,
+  ViewChildren,
+  ChangeDetectorRef,
+  QueryList,
+  TemplateRef,
 } from '@angular/core';
 import { Facet, FeatureConfigService } from '@spartacus/core';
-import {Tab, TabConfig, TAB_MODE} from 'projects/storefrontlib/cms-components/content/tab/tab.model';
+import {
+  Tab,
+  TabConfig,
+  TAB_MODE,
+} from 'projects/storefrontlib/cms-components/content/tab/tab.model';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import {
@@ -80,7 +84,7 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
     autofocus: 'cx-facet > button',
   };
 
-    tabConfig: TabConfig = {
+  tabConfig: TabConfig = {
     label: 'Product Facets',
     mode: TAB_MODE.ACCORDIAN,
     openTabs: [0],
