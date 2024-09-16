@@ -5,8 +5,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   LoggerService,
-  normalizeHttpError,
   Translatable,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
@@ -112,7 +112,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.LoadReplenishmentOrderDetailsFail(
-        normalizeHttpError(mockError, new MockLoggerService())
+        tryNormalizeHttpError(mockError, new MockLoggerService())
       );
 
       actions$ = hot('-a', { a: action });
@@ -156,7 +156,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.CancelReplenishmentOrderFail(
-        normalizeHttpError(mockError, new MockLoggerService())
+        tryNormalizeHttpError(mockError, new MockLoggerService())
       );
 
       actions$ = hot('-a', { a: action });

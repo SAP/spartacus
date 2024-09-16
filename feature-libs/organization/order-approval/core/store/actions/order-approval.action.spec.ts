@@ -22,7 +22,7 @@ const orderApprovalDecision: OrderApprovalDecision = {
 };
 
 const userId = 'xxx@xxx.xxx';
-const error = 'anError';
+const error = { message: 'anError' };
 const params = { currentPage: 2 };
 const query = '?pageSize=&currentPage=2&sort=';
 
@@ -58,6 +58,7 @@ describe('OrderApproval Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: OrderApprovalActions.LOAD_ORDER_APPROVAL_FAIL,
           payload: {
             orderApprovalCode,
@@ -109,15 +110,14 @@ describe('OrderApproval Actions', () => {
       it('should create the action', () => {
         const action = new OrderApprovalActions.LoadOrderApprovalsFail({
           params,
-          error: { error },
+          error,
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: OrderApprovalActions.LOAD_ORDER_APPROVALS_FAIL,
-          payload: { params, error: { error } },
-          meta: StateUtils.entityFailMeta(ORDER_APPROVAL_LIST, query, {
-            error,
-          }),
+          payload: { params, error },
+          meta: StateUtils.entityFailMeta(ORDER_APPROVAL_LIST, query, error),
         });
       });
     });
@@ -166,6 +166,7 @@ describe('OrderApproval Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: OrderApprovalActions.MAKE_DECISION_FAIL,
           payload: {
             orderApprovalCode,
@@ -174,10 +175,7 @@ describe('OrderApproval Actions', () => {
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
-            {
-              orderApprovalCode,
-              error,
-            }
+            error
           ),
         });
       });

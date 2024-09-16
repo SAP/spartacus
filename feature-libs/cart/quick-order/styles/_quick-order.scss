@@ -22,4 +22,11 @@
     justify-content: flex-end;
     margin-top: 40px;
   }
+
+  @include cx-highContrastTheme {
+    .quick-order-form-body {
+      background-color: var(--cx-color-background);
+      border: 1px solid var(--cx-color-text);
+    }
+  }
 }

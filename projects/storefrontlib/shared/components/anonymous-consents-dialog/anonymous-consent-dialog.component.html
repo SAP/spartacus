@@ -11,6 +11,7 @@
     </div>
     <ng-template #dialogBody>
       <div
+        *cxFeature="'!a11yRemoveStatusLoadedRole'"
         role="status"
         [attr.aria-label]="'common.loaded' | cxTranslate"
       ></div>

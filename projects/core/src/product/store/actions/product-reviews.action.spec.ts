@@ -17,11 +17,12 @@ describe('Product Review Actions', () => {
 
     describe('LOAD_PRODUCT_REVIEWS_FAIL', () => {
       it('should create the action', () => {
-        const payload: ErrorModel = { message: 'Load Error' };
-        const action = new ProductActions.LoadProductReviewsFail(payload);
+        const error: ErrorModel = { message: 'Load Error' };
+        const action = new ProductActions.LoadProductReviewsFail(error);
         expect({ ...action }).toEqual({
           type: ProductActions.LOAD_PRODUCT_REVIEWS_FAIL,
-          payload,
+          payload: error,
+          error,
         });
       });
     });

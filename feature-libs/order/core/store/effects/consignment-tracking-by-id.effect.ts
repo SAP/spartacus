@@ -6,7 +6,7 @@
 
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import { ConsignmentTracking } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -47,7 +47,7 @@ export class ConsignmentTrackingByIdEffects {
                   new OrderActions.LoadConsignmentTrackingByIdFail({
                     orderCode: payload.orderCode,
                     consignmentCode: payload.consignmentCode,
-                    error: normalizeHttpError(error, this.logger),
+                    error: tryNormalizeHttpError(error, this.logger),
                   })
                 )
               )

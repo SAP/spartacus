@@ -1,6 +1,7 @@
 <div
   class="cx-image-zoom-dialog"
   role="dialog"
+  (esc)="close('Escape clicked')"
   [cxFocus]="focusConfig"
   [attr.aria-label]="'productImageZoomDialog.zoomedInImage' | cxTranslate"
 >
