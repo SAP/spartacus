@@ -52,7 +52,10 @@ describe('PickupOptionsComponent', () => {
     spyOn(component.pickupOptionChange, 'emit');
     component.onPickupOptionChange('delivery');
 
-    expect(component.pickupOptionChange.emit).toHaveBeenCalledWith('delivery');
+    expect(component.pickupOptionChange.emit).toHaveBeenCalledWith({
+      option: 'delivery',
+      triggerElement: component.triggerElement,
+    });
   });
 
   it('should emit on onPickupLocationChange', () => {
