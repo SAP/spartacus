@@ -7,3 +7,4 @@
 export * from './carousel.component';
 export * from './carousel.module';
 export * from './carousel.service';
+export * from './focusable-carousel-item/focusable-carousel-item.directive';

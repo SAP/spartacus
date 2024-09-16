@@ -6,18 +6,7 @@
 
 import { placeOrder } from '../../../helpers/b2b/b2b-checkout';
 import { loginUser, signOutUser } from '../../../helpers/checkout-flow';
-import {
-  checkoutForServiceOrder,
-  nonServiceProduct,
-  selectAccountDeliveryModeForServiceOrder,
-  selectAccountPaymentForServiceOrder,
-  selectAccountShippingAddressForServiceOrder,
-  selectServiceDetailsForServiceOrder,
-  serviceProduct,
-  serviceUser,
-  verifyServiceOrderConfirmationPage,
-  verifyServiceOrderReviewOrderPage,
-} from '../../../helpers/vendor/s4-service/s4-service';
+import * as helper from '../../../helpers/vendor/s4-service/s4-service';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 
 describe('Service Order Checkout Flow ', () => {
@@ -25,27 +14,40 @@ describe('Service Order Checkout Flow ', () => {
     cy.restoreLocalStorage();
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     cy.visit('/powertools-spa/en/USD/login');
-    loginUser(serviceUser);
+    loginUser(helper.serviceUser);
     cy.get('button').contains('Allow All').click();
   });
-  it('with service products in cart', () => {
-    checkoutForServiceOrder(serviceProduct);
-    selectAccountPaymentForServiceOrder();
-    selectAccountShippingAddressForServiceOrder();
-    selectAccountDeliveryModeForServiceOrder();
-    selectServiceDetailsForServiceOrder();
-    verifyServiceOrderReviewOrderPage(true);
+  it('with only service products in cart', () => {
+    helper.addProductToCart(helper.serviceProduct);
+    helper.proceedToCheckout();
+    helper.selectAccountPayment();
+    helper.selectShippingAddress(false);
+    helper.selectServiceDetails();
+    helper.verifyOrderReviewPage(true, false);
     placeOrder('/order-confirmation');
-    verifyServiceOrderConfirmationPage(true);
+    helper.verifyOrderConfirmationPage(true, false);
+  });
+  it('with both service and physical products in cart', () => {
+    helper.addProductToCart(helper.serviceProduct);
+    helper.addProductToCart(helper.nonServiceProduct);
+    helper.proceedToCheckout();
+    helper.selectAccountPayment();
+    helper.selectShippingAddress(true);
+    helper.selectDeliveryMode(true);
+    helper.selectServiceDetails();
+    helper.verifyOrderReviewPage(true, true);
+    placeOrder('/order-confirmation');
+    helper.verifyOrderConfirmationPage(true, true);
   });
   it('without any service products in cart', () => {
-    checkoutForServiceOrder(nonServiceProduct);
-    selectAccountPaymentForServiceOrder();
-    selectAccountShippingAddressForServiceOrder();
-    selectAccountDeliveryModeForServiceOrder();
-    verifyServiceOrderReviewOrderPage(false);
+    helper.addProductToCart(helper.nonServiceProduct);
+    helper.proceedToCheckout();
+    helper.selectAccountPayment();
+    helper.selectShippingAddress(true);
+    helper.selectDeliveryMode(false);
+    helper.verifyOrderReviewPage(false, true);
     placeOrder('/order-confirmation');
-    verifyServiceOrderConfirmationPage(false);
+    helper.verifyOrderConfirmationPage(false, true);
   });
   afterEach(() => {
     signOutUser();

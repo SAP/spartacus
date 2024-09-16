@@ -147,6 +147,16 @@
     @include type('4');
     margin: 2rem 0 0.5rem 0;
   }
+
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+    .cx-review-summary-payment-card {
+      background-color: var(--cx-color-background);
+    }
+    .cx-review-summary {
+      background-color: var(--cx-color-background);
+    }
+  }
 }
 
 cx-place-order {

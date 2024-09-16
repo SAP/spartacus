@@ -20,6 +20,8 @@ import { ServiceDateTime } from '../model/checkout-service-details.model';
         'setServiceScheduleSlot',
         'getSelectedServiceDetailsState',
         'getServiceProducts',
+        'hasServiceItems',
+        'hasNonServiceItems',
       ],
     }),
 })
@@ -42,4 +44,14 @@ export abstract class CheckoutServiceDetailsFacade {
    * Get the name of products of type SERVICE in the active cart
    */
   abstract getServiceProducts(): Observable<string[]>;
+
+  /**
+   * Return whether cart has service products
+   */
+  abstract hasServiceItems(): Observable<boolean>;
+
+  /**
+   * Return whether cart has deliverable physical products
+   */
+  abstract hasNonServiceItems(): Observable<boolean>;
 }

@@ -20,9 +20,11 @@ import { MetaTagConfigModule } from './occ/config/meta-tag-config.module';
 import { ProcessModule } from './process/process.module';
 import { SiteContextModule } from './site-context/site-context.module';
 import { StateModule } from './state/state.module';
+import { SiteThemeModule } from './site-theme/site-theme.module';
 
 @NgModule({
   imports: [
+    ErrorHandlingModule.forRoot(), // Import this module before any other interceptor to handle HTTP errors efficiently
     StateModule.forRoot(),
     ConfigModule.forRoot(),
     ConfigInitializerModule.forRoot(),
@@ -37,7 +39,7 @@ import { StateModule } from './state/state.module';
     BaseOccModule.forRoot(),
     LazyLoadingModule.forRoot(),
     HttpModule.forRoot(),
-    ErrorHandlingModule.forRoot(),
+    SiteThemeModule.forRoot(),
   ],
 })
 export class BaseCoreModule {

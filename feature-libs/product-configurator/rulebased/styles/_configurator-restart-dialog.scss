@@ -27,6 +27,9 @@
         padding-block-end: 0px;
         align-self: flex-start;
       }
+      @include cx-highContrastTheme {
+        background-color: var(--cx-color-background);
+      }
     }
 
     .cx-dialog-body {
@@ -54,6 +57,9 @@
       .btn-secondary {
         margin-block-start: 8px;
         margin-block-end: 8px;
+      }
+      @include cx-highContrastTheme {
+        background-color: var(--cx-color-background);
       }
     }
   }
