@@ -14,6 +14,7 @@ import {
   Injector,
   OnDestroy,
   Output,
+  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { of, Subscription } from 'rxjs';
@@ -37,7 +38,8 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     protected config: CaptchaApiConfig,
-    protected injector: Injector
+    protected injector: Injector,
+    private renderer: Renderer2
   ) {}
 
   /**
@@ -45,6 +47,19 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
    * config.
    */
   ngAfterViewInit(): void {
+    const fields = this.config?.fields;
+    if (fields) {
+      Object.keys(fields).forEach((key) => {
+        if (fields[key]) {
+          this.renderer.setAttribute(
+            this.captchaRef.nativeElement,
+            key,
+            fields[key]
+          );
+        }
+      });
+    }
+
     if (this.config?.captchaRenderer) {
       const captchaRenderer = this.injector.get<CaptchaRenderer>(
         this.config.captchaRenderer
@@ -54,9 +69,10 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
           .getCaptchaConfig()
           .pipe(
             concatMap((captchaConfig) => {
-              if (captchaConfig?.enabled) {
+              if (captchaConfig?.enabled && captchaConfig?.publicKey) {
                 return captchaRenderer.renderCaptcha({
                   element: this.captchaRef.nativeElement,
+                  publicKey: captchaConfig.publicKey,
                 });
               } else {
                 return of(null);

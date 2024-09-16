@@ -11,12 +11,12 @@ import { CaptchaComponent } from './captcha.component';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormErrorsModule } from '../form';
-import { MockCaptchaApiConfig } from './mock-captcha/config/mock-captcha-api-config';
+import { googleCaptchaApiConfig } from './mock-captcha/config/google-recaptcha-v2-api-config';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, FormErrorsModule],
   declarations: [CaptchaComponent],
-  providers: [provideDefaultConfig(MockCaptchaApiConfig)],
+  providers: [provideDefaultConfig(googleCaptchaApiConfig)],
   exports: [CaptchaComponent],
 })
 export class CaptchaModule {}
