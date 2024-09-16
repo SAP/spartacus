@@ -5,8 +5,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import {
   LoggerService,
-  normalizeHttpError,
   SiteContextActions,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { OrderHistoryList } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
@@ -97,7 +97,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new OrderActions.LoadUserOrdersFail(
-          normalizeHttpError(mockError, new MockLoggerService())
+          tryNormalizeHttpError(mockError, new MockLoggerService())
         );
         actions$ = hot('-a', { a: action });
 
@@ -143,7 +143,7 @@ describe('Orders effect', () => {
         });
 
         const completion = new OrderActions.LoadUserOrdersFail(
-          normalizeHttpError(mockError, new MockLoggerService())
+          tryNormalizeHttpError(mockError, new MockLoggerService())
         );
         actions$ = hot('-a', { a: action });
 

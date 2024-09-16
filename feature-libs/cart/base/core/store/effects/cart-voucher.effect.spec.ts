@@ -5,8 +5,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import {
   GlobalMessageService,
   LoggerService,
-  normalizeHttpError,
   OccConfig,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -104,7 +104,7 @@ describe('Cart Voucher effect', () => {
         userId,
         cartId,
         voucherId,
-        error: normalizeHttpError(error, new MockLoggerService()),
+        error: tryNormalizeHttpError(error, new MockLoggerService()),
       });
       const completion2 = new CartActions.CartProcessesDecrement(cartId);
       const completion3 = new CartActions.LoadCart({

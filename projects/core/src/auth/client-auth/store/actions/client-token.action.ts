@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ErrorAction } from '../../../../error-handling';
 import { StateUtils } from '../../../../state/utils/index';
 import { ClientToken } from '../../models/client-token.model';
 import { CLIENT_TOKEN_DATA } from '../client-auth-state';
@@ -14,13 +15,18 @@ export const LOAD_CLIENT_TOKEN_SUCCESS = '[Token] Load Client Token Success';
 
 export class LoadClientToken extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_CLIENT_TOKEN;
+
   constructor() {
     super(CLIENT_TOKEN_DATA);
   }
 }
 
-export class LoadClientTokenFail extends StateUtils.LoaderFailAction {
+export class LoadClientTokenFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_CLIENT_TOKEN_FAIL;
+
   constructor(public payload: any) {
     super(CLIENT_TOKEN_DATA, payload);
   }
@@ -28,6 +34,7 @@ export class LoadClientTokenFail extends StateUtils.LoaderFailAction {
 
 export class LoadClientTokenSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_CLIENT_TOKEN_SUCCESS;
+
   constructor(public payload: ClientToken) {
     super(CLIENT_TOKEN_DATA);
   }

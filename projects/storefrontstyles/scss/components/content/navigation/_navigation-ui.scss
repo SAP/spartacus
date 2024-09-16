@@ -36,6 +36,9 @@
         padding: 15px 20px;
         background: var(--cx-color-inverse);
         box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 12px 0px;
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
       }
     }
   }
@@ -374,6 +377,10 @@
           > cx-generic-link + button {
             display: none;
           }
+
+          @include cx-highContrastTheme {
+            background-color: var(--cx-color-background);
+          }
         }
 
         li.is-opened {
@@ -465,6 +472,30 @@
           }
         }
       }
+    }
+    @include cx-highContrastTheme {
+      color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+      nav ul li > cx-generic-link + button {
+        border-inline-start: 1px solid var(--cx-color-background);
+      }
+      button:hover {
+        outline-color: var(--cx-color-dark);
+      }
+    }
+  }
+
+  @include cx-highContrastTheme-light {
+    &.flyout cx-generic-link:hover {
+      color: var(--cx-color-text);
+    }
+
+    &.flyout a:hover {
+      color: var(--cx-color-text);
+    }
+
+    &.flyout button:hover {
+      color: var(--cx-color-text);
     }
   }
 }

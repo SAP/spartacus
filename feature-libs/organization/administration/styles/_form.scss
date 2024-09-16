@@ -52,6 +52,11 @@
           @include type('6');
         }
       }
+      @include cx-highContrastTheme-dark {
+        p::after {
+          color: var(--cx-color-medium);
+        }
+      }
     }
   }
 

@@ -13,6 +13,9 @@
     padding-inline-start: 1.75rem;
 
     display: flex;
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+    }
   }
 
   .cx-dialog-title {

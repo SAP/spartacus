@@ -5,6 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction } from '../../../error-handling';
 
 export const LOAD_BILLING_COUNTRIES = '[User] Load Billing Countries';
 export const LOAD_BILLING_COUNTRIES_FAIL = '[User] Load Billing Countries Fail';
@@ -18,9 +19,13 @@ export class LoadBillingCountries implements Action {
   }
 }
 
-export class LoadBillingCountriesFail implements Action {
+export class LoadBillingCountriesFail implements ErrorAction {
   readonly type = LOAD_BILLING_COUNTRIES_FAIL;
-  constructor(public payload: any) {}
+  public error: any;
+
+  constructor(public payload: any) {
+    this.error = payload;
+  }
 }
 
 export class LoadBillingCountriesSuccess implements Action {

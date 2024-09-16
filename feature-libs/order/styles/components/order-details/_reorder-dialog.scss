@@ -31,6 +31,9 @@ cx-reorder-dialog {
             }
           }
         }
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
       }
       .cx-reorder-dialog-footer {
         justify-content: center;

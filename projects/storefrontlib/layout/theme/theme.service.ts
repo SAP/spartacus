@@ -7,13 +7,23 @@
 import {
   ComponentRef,
   Injectable,
+  OnDestroy,
   Renderer2,
   RendererFactory2,
+  inject,
 } from '@angular/core';
-import { SiteContextConfig, THEME_CONTEXT_ID } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  SiteContextConfig,
+  SiteThemeService,
+  THEME_CONTEXT_ID,
+} from '@spartacus/core';
+import { Subscription } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class ThemeService {
+export class ThemeService implements OnDestroy {
+  protected siteThemeService = inject(SiteThemeService);
+  protected featureConfigService = inject(FeatureConfigService);
   protected rootComponent: ComponentRef<any>;
   protected renderer: Renderer2;
   protected existingTheme: string;
@@ -22,6 +32,7 @@ export class ThemeService {
     protected config: SiteContextConfig,
     protected rendererFactory: RendererFactory2
   ) {}
+  protected subscription = new Subscription();
 
   /**
    * This function is to be called for the root component that is
@@ -33,17 +44,38 @@ export class ThemeService {
     // Theme value is a string. It is put in the generic multi-value
     // property of the SiteContextConfig. So the array's first item
     // is the theme value.
-    this.setTheme(this.config.context?.[THEME_CONTEXT_ID]?.[0]);
+    if (this.featureConfigService.isEnabled('useSiteThemeService')) {
+      this.subscription.add(
+        this.siteThemeService
+          .getActive()
+          .subscribe((activeTheme) => this.setTheme(activeTheme))
+      );
+    } else {
+      this.setTheme(this.config.context?.[THEME_CONTEXT_ID]?.[0]);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   setTheme(theme: string | undefined): void {
-    if (theme) {
-      const element = this.rootComponent.location.nativeElement;
-      // remove the old theme
-      this.renderer.removeClass(element, this.existingTheme);
-      // add the new theme
-      this.renderer.addClass(element, theme);
-      this.existingTheme = theme;
+    const element = this.rootComponent.location.nativeElement;
+
+    if (this.featureConfigService.isEnabled('useSiteThemeService')) {
+      if (this.existingTheme) {
+        this.renderer.removeClass(element, this.existingTheme);
+      }
+      if (theme) {
+        this.renderer.addClass(element, theme);
+        this.existingTheme = theme;
+      }
+    } else {
+      if (theme) {
+        this.renderer.removeClass(element, this.existingTheme);
+        this.renderer.addClass(element, theme);
+        this.existingTheme = theme;
+      }
     }
   }
 }

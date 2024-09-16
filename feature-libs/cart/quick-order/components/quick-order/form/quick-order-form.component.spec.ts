@@ -16,6 +16,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { QuickOrderFormComponent } from './quick-order-form.component';
 
@@ -83,7 +84,11 @@ describe('QuickOrderFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-      declarations: [QuickOrderFormComponent, MockCxIconComponent],
+      declarations: [
+        QuickOrderFormComponent,
+        MockCxIconComponent,
+        MockFeatureDirective,
+      ],
       providers: [
         ChangeDetectorRef,
         WindowRef,

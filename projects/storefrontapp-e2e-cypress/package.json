@@ -46,12 +46,13 @@
     "@babel/preset-env": "^7.14.2",
     "@continuum/continuum-javascript-professional": "^6.7.0",
     "@cypress/webpack-preprocessor": "^6.0.0",
-    "@testing-library/cypress": "10.0.1",
+    "@testing-library/cypress": "10.0.2",
     "babel-loader": "^9.0.0",
     "cypress": "^13.8.0",
     "cypress-file-upload": "^5.0.8",
     "selenium-webdriver": "^4.7.1",
     "ts-loader": "^9.4.2",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "webpack": "^5.94.0"
   }
 }
