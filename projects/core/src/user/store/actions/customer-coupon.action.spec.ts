@@ -1,23 +1,23 @@
 import {
-  CUSTOMER_COUPONS,
-  SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
-  UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
-  CLAIM_CUSTOMER_COUPON_PROCESS_ID,
-  DISCLAIM_CUSTOMER_COUPON_PROCESS_ID,
-} from '../user-state';
-import {
-  loadMeta,
-  failMeta,
-  successMeta,
-  resetMeta,
-} from '../../../state/utils/loader/loader.action';
+  CustomerCoupon,
+  CustomerCoupon2Customer,
+  CustomerCouponNotification,
+  CustomerCouponSearchResult,
+} from '../../../model/customer-coupon.model';
 import { StateUtils } from '../../../state/utils/index';
 import {
-  CustomerCoupon,
-  CustomerCouponSearchResult,
-  CustomerCouponNotification,
-  CustomerCoupon2Customer,
-} from '../../../model/customer-coupon.model';
+  failMeta,
+  loadMeta,
+  resetMeta,
+  successMeta,
+} from '../../../state/utils/loader/loader.action';
+import {
+  CLAIM_CUSTOMER_COUPON_PROCESS_ID,
+  CUSTOMER_COUPONS,
+  DISCLAIM_CUSTOMER_COUPON_PROCESS_ID,
+  SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+  UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+} from '../user-state';
 
 import { PROCESS_FEATURE } from '../../../process/store';
 
@@ -68,6 +68,7 @@ const customerCoupon2Customer: CustomerCoupon2Customer = {
   coupon: coupon1,
   customer: {},
 };
+const error = new Error('mockError');
 
 describe('Customer Coupon Actions', () => {
   describe('LoadCustomerCoupons Action', () => {
@@ -95,6 +96,7 @@ describe('Customer Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_CUSTOMER_COUPONS_FAIL,
         payload: error,
+        error,
         meta: failMeta(CUSTOMER_COUPONS, error),
       });
     });
@@ -145,12 +147,12 @@ describe('Customer Coupon Actions', () => {
 
   describe('SubscribeCustomerCouponFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
       const action = new UserActions.SubscribeCustomerCouponFail(error);
 
       expect({ ...action }).toEqual({
         type: UserActions.SUBSCRIBE_CUSTOMER_COUPON_FAIL,
         payload: error,
+        error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
@@ -211,12 +213,12 @@ describe('Customer Coupon Actions', () => {
 
   describe('UnsubscribeCustomerCouponFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
       const action = new UserActions.UnsubscribeCustomerCouponFail(error);
 
       expect({ ...action }).toEqual({
         type: UserActions.UNSUBSCRIBE_CUSTOMER_COUPON_FAIL,
         payload: error,
+        error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
@@ -276,12 +278,12 @@ describe('Customer Coupon Actions', () => {
 
   describe('ClaimCustomerCouponFail Action', () => {
     it('should create the action', () => {
-      const error = 'mockError';
       const action = new UserActions.ClaimCustomerCouponFail(error);
 
       expect({ ...action }).toEqual({
         type: UserActions.CLAIM_CUSTOMER_COUPON_FAIL,
         payload: error,
+        error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           CLAIM_CUSTOMER_COUPON_PROCESS_ID,

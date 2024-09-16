@@ -1,7 +1,7 @@
-import * as fromProductSearchByCode from './product-search-by-code.action';
-import { PRODUCT_SEARCH_RESULTS_BY_CODES_ENTITY } from '../product-state';
-import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
 import { StateUtils } from '@spartacus/core';
+import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
+import { PRODUCT_SEARCH_RESULTS_BY_CODES_ENTITY } from '../product-state';
+import * as fromProductSearchByCode from './product-search-by-code.action';
 
 describe('ProductSearchLoadByCode Actions', () => {
   describe('ProductSearchLoadByCode', () => {
@@ -62,6 +62,7 @@ describe('ProductSearchLoadByCode Actions', () => {
           payload.scope,
           payload.error
         ),
+        error: payload.error,
       });
     });
   });

@@ -40,8 +40,13 @@ import {
   CheckoutServiceDetailsFacade,
   CheckoutServiceSchedulePickerService,
   ServiceDateTime,
+  S4ServiceDeliveryModeConfig,
 } from '@spartacus/s4-service/root';
-
+const mockServiceDeliveryModeConfig: S4ServiceDeliveryModeConfig = {
+  s4ServiceDeliveryMode: {
+    code: 'fast-service',
+  },
+};
 const mockCart: Cart = {
   guid: 'test',
   code: 'test',
@@ -153,8 +158,11 @@ class MockCheckoutServiceDetails
   getSelectedServiceDetailsState(): Observable<QueryState<string | undefined>> {
     return of({ loading: false, error: false, data: mockScheduledAt });
   }
-  getServiceProducts(): Observable<string[]> {
-    return of([]);
+  hasServiceItems(): Observable<boolean> {
+    return of(false);
+  }
+  hasNonServiceItems(): Observable<boolean> {
+    return of(false);
   }
 }
 
@@ -293,6 +301,10 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
         {
           provide: CheckoutServiceSchedulePickerService,
           useClass: MockCheckoutServiceSchedulePickerService,
+        },
+        {
+          provide: S4ServiceDeliveryModeConfig,
+          useValue: mockServiceDeliveryModeConfig,
         },
       ],
     }).compileComponents();
@@ -484,13 +496,11 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
       done();
     });
   });
-
-  it('should call getEmptyServiceDetailsCard() to get empty card', (done) => {
-    component.getServiceDetailsCard(null).subscribe((card) => {
+  it('should call getServiceDetailsCard() to get service details and return empty card if scheduledAt is empty', (done) => {
+    component.getServiceDetailsCard(undefined).subscribe((card) => {
       expect(card.title).toEqual('serviceOrderCheckout.serviceDetails');
-      expect(card.textBold).toEqual(
-        'serviceOrderCheckout.emptyServiceDetailsCard'
-      );
+      expect(card.textBold).toEqual('');
+      expect(card.text).toEqual(['']);
       done();
     });
   });
@@ -515,5 +525,24 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
       fixture.detectChanges();
       expect(getCartTotalText()).toContain('$999.98');
     });
+  });
+  it('should not show delivery mode card in review page', () => {
+    const mode1: DeliveryMode = {
+      code: 'fast-service',
+      description: 'Fast delivery mode',
+    };
+    expect(component.shouldShowDeliveryModeCard(mode1)).toEqual(false);
+  });
+  it('should show delivery mode card in review page', () => {
+    const mode2: DeliveryMode = {
+      code: 'super-fast-service',
+      description: 'Super Fast delivery mode',
+    };
+    const mode3: DeliveryMode = {
+      name: 'super-fast-service',
+      description: 'Super Fast delivery mode',
+    };
+    expect(component.shouldShowDeliveryModeCard(mode2)).toEqual(true);
+    expect(component.shouldShowDeliveryModeCard(mode3)).toEqual(true);
   });
 });

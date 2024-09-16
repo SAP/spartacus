@@ -10,10 +10,17 @@ import { CommonModule } from '@angular/common';
 import { I18nModule } from '@spartacus/core';
 import { ServiceDetailsCardComponent } from './service-details-card.component';
 import { OrderOutlets } from '@spartacus/order/root';
+import { ServiceOrderOverviewComponentService } from './service-order-overview-component.service';
+import { OrderOverviewComponentService } from '@spartacus/order/components';
 
 @NgModule({
   imports: [CardModule, CommonModule, I18nModule],
   providers: [
+    ServiceOrderOverviewComponentService,
+    {
+      provide: OrderOverviewComponentService,
+      useExisting: ServiceOrderOverviewComponentService,
+    },
     provideOutlet({
       id: OrderOutlets.SERVICE_DETAILS,
       component: ServiceDetailsCardComponent,

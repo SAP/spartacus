@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
@@ -10,6 +10,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewFilterBarComponent } from './configurator-overview-filter-bar.component';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -17,10 +18,13 @@ const configId = '1234-56-7890';
 
 const PRICE_RELEVANT = Configurator.OverviewFilter.PRICE_RELEVANT;
 const MY_SELECTIONS = Configurator.OverviewFilter.USER_INPUT;
+const PREFIX_ID = 'cx-overview-filter-applied-';
+const FIRST_FILTER_CHECKBOX_ID = 'cx-configurator-overview-filter-option-price';
 
 let component: ConfiguratorOverviewFilterBarComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterBarComponent>;
 let htmlElem: HTMLElement;
+let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
 let mockConfigCommonsService: ConfiguratorCommonsService;
 
@@ -52,14 +56,6 @@ function initMocks() {
   ]);
 }
 
-function initTestComponent() {
-  fixture = TestBed.createComponent(ConfiguratorOverviewFilterBarComponent);
-  htmlElem = fixture.nativeElement;
-  component = fixture.componentInstance;
-  component.config = ovConfig;
-  fixture.detectChanges();
-}
-
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -67,35 +63,51 @@ function initTestComponent() {
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
+class MockConfigUtilsService {
+  getElement(): void {}
+}
 
 describe('ConfiguratorOverviewFilterBarComponent', () => {
-  describe('in a component test environment', () => {
-    beforeEach(waitForAsync(() => {
-      initTestData();
-      initMocks();
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          ConfiguratorOverviewFilterBarComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorCommonsService,
-            useValue: mockConfigCommonsService,
-          },
-        ],
-      }).compileComponents();
-    }));
+  beforeEach(waitForAsync(() => {
+    initTestData();
+    initMocks();
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        ConfiguratorOverviewFilterBarComponent,
+        MockCxIconComponent,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorCommonsService,
+          useValue: mockConfigCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ConfiguratorOverviewFilterBarComponent);
+    htmlElem = fixture.nativeElement;
+    component = fixture.componentInstance;
+    component.config = ovConfig;
+    fixture.detectChanges();
+    configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    );
+  });
+  describe('in a component test environment', () => {
     it('should create component', () => {
-      initTestComponent();
       expect(component).toBeDefined();
     });
 
     it('should render Price Relevant filter removal button', () => {
       ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
-      initTestComponent();
+      fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
@@ -107,7 +119,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
 
     it('should render my Selections filter removal button', () => {
       ovConfig.overview.attributeFilters = [MY_SELECTIONS];
-      initTestComponent();
+      fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
@@ -119,7 +131,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
 
     it('should render group filter removal button', () => {
       ovConfig.overview.groupFilters = ['1', '2'];
-      initTestComponent();
+      fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
@@ -141,7 +153,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     it('should render remove all button component if there are 2 or more filters active', () => {
       ovConfig.overview.attributeFilters = [MY_SELECTIONS];
       ovConfig.overview.groupFilters = ['1'];
-      initTestComponent();
+      fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
@@ -155,7 +167,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     it('should trigger overview update on filter removal click', () => {
       ovConfig.overview.attributeFilters = [MY_SELECTIONS];
       ovConfig.overview.groupFilters = ['1'];
-      initTestComponent();
+      fixture.detectChanges();
 
       fixture.debugElement
         .queryAll(By.css('.cx-overview-filter-applied'))
@@ -168,10 +180,30 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       ).toHaveBeenCalledTimes(3); // My Selections, Group 1, Remove All
     });
 
+    it('should activate the remove my selections button with Delete key', () => {
+      ovConfig.overview.attributeFilters = [MY_SELECTIONS];
+      fixture.detectChanges();
+
+      let buttonEl = fixture.debugElement.query(
+        By.css('#cx-overview-filter-applied-USER_INPUT')
+      );
+      spyOn(component, 'onAttrFilterRemove');
+
+      const event = new KeyboardEvent('keydown', {
+        key: 'Delete',
+      });
+      buttonEl.nativeElement.dispatchEvent(event);
+
+      expect(component.onAttrFilterRemove).toHaveBeenCalledWith(
+        ovConfig,
+        ovConfig.overview.attributeFilters[0]
+      );
+    });
+
     describe('to support A11Y', () => {
       it('the button to remove the price filter should have a descriptive title', () => {
         ovConfig.overview.attributeFilters = [PRICE_RELEVANT];
-        initTestComponent();
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -184,7 +216,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
 
       it('the button to remove the my selection filter should have a descriptive title', () => {
         ovConfig.overview.attributeFilters = [MY_SELECTIONS];
-        initTestComponent();
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -198,7 +230,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       it('the button to remove all filters should have a descriptive title', () => {
         ovConfig.overview.attributeFilters = [MY_SELECTIONS];
         ovConfig.overview.groupFilters = ['1'];
-        initTestComponent();
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -211,7 +243,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
 
       it('the button to remove a group filter should have a descriptive title', () => {
         ovConfig.overview.groupFilters = ['1'];
-        initTestComponent();
+        fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
           expect,
           htmlElem,
@@ -225,14 +257,6 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
   });
 
   describe('in a unit test environment', () => {
-    beforeEach(() => {
-      initTestData();
-      initMocks();
-      component = new ConfiguratorOverviewFilterBarComponent(
-        mockConfigCommonsService
-      );
-    });
-
     describe('getGroupFilterDescription', () => {
       it('should return description for existing group', () => {
         expect(
@@ -299,6 +323,128 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       expectedInputConfig.overview.groupFilters = ['3', '5'];
 
       expect(inputConfig).toEqual(expectedInputConfig);
+    });
+
+    describe('getNextElementIdToFocusForAttributeFilter', () => {
+      it('should return the element ID if indexOfRemoved is less than the length of attrFilters', () => {
+        const attrFilters = ['filter1', 'filter2', 'filter3'];
+        const result = component['getNextElementIdToFocusForAttributeFilter'](
+          1,
+          attrFilters
+        );
+        expect(result).toBe(PREFIX_ID + attrFilters[1]);
+      });
+
+      it('should return null if removed attribute filter was the last one in the list', () => {
+        const attrFilters = ['filter1', 'filter2', 'filter3'];
+        const result = component['getNextElementIdToFocusForAttributeFilter'](
+          3,
+          attrFilters
+        );
+        expect(result).toBeNull();
+      });
+
+      it('should return null if attrFilters array is empty', () => {
+        const attrFilters: string[] = [];
+        const result = component['getNextElementIdToFocusForAttributeFilter'](
+          0,
+          attrFilters
+        );
+        expect(result).toBeNull();
+      });
+    });
+
+    describe('getNextElementIdToFocusForGroupFilter', () => {
+      it('should return the next element id if indexOfRemoved is less than the length of groupFilters', () => {
+        const groupFilters = ['filter1', 'filter2', 'filter3'];
+        const attrFilters: string[] = [];
+        const indexOfRemoved = 1;
+        const result = component['getNextElementIdToFocusForGroupFilter'](
+          indexOfRemoved,
+          attrFilters,
+          groupFilters
+        );
+        expect(result).toBe(PREFIX_ID + groupFilters[1]);
+      });
+
+      it('should return the remove all button id if removed group filter was the last one in the list but there are more than one group filters left', () => {
+        const groupFilters = ['filter1', 'filter2'];
+        const attrFilters: string[] = [];
+        const indexOfRemoved = 2;
+        const result = component['getNextElementIdToFocusForGroupFilter'](
+          indexOfRemoved,
+          attrFilters,
+          groupFilters
+        );
+        expect(result).toBe(PREFIX_ID + 'REMOVE_ALL');
+      });
+
+      it('should return the remove all button id if removed group filter was the last one in the list but there are more than one filters (attribute and group filter combined) left', () => {
+        const groupFilters = ['filter1'];
+        const attrFilters: string[] = ['filter2'];
+        const indexOfRemoved = 2;
+        const result = component['getNextElementIdToFocusForGroupFilter'](
+          indexOfRemoved,
+          attrFilters,
+          groupFilters
+        );
+        expect(result).toBe(PREFIX_ID + 'REMOVE_ALL');
+      });
+
+      it('should return first filter checkbox id if indexOfRemoved is equal or greather than the length of groupFilters and there is only one group filter', () => {
+        const groupFilters = ['filter1'];
+        const attrFilters: string[] = [];
+        const indexOfRemoved = 1;
+        const result = component['getNextElementIdToFocusForGroupFilter'](
+          indexOfRemoved,
+          attrFilters,
+          groupFilters
+        );
+        expect(result).toBe(FIRST_FILTER_CHECKBOX_ID);
+      });
+
+      it('should return first filter checkbox id if no group and attribute filter is left', () => {
+        const groupFilters: string[] = [];
+        const attrFilters: string[] = [];
+        const indexOfRemoved = 1;
+        const result = component['getNextElementIdToFocusForGroupFilter'](
+          indexOfRemoved,
+          attrFilters,
+          groupFilters
+        );
+        expect(result).toBe(FIRST_FILTER_CHECKBOX_ID);
+      });
+    });
+
+    describe('focusElementById', () => {
+      it('should call getElement method of ConfiguratorStorefrontUtilsService using # as prefix', () => {
+        spyOn(
+          configuratorStorefrontUtilsService,
+          'getElement'
+        ).and.callThrough();
+        component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);
+        expect(
+          configuratorStorefrontUtilsService.getElement
+        ).toHaveBeenCalledWith('#' + FIRST_FILTER_CHECKBOX_ID);
+      });
+
+      it('should call focus method of html element', () => {
+        let mockElement = jasmine.createSpyObj('HTMLElement', ['focus']);
+        spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
+          mockElement
+        );
+        component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);
+        expect(mockElement.focus).toHaveBeenCalled();
+      });
+
+      it('should not call focus method if getElement returns null', () => {
+        let mockElement = jasmine.createSpyObj('HTMLElement', ['focus']);
+        spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
+          null
+        );
+        component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);
+        expect(mockElement.focus).not.toHaveBeenCalled();
+      });
     });
   });
 });

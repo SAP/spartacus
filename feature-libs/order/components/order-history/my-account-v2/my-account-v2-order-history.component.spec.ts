@@ -15,10 +15,14 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { MyAccountV2OrderHistoryService } from '@spartacus/order/core';
-import { EMPTY, Observable, of } from 'rxjs';
-import { ReplenishmentOrderHistoryFacade } from '../../../root/facade';
-import { OrderHistoryList, OrderHistoryView } from '../../../root/model';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import {
+  OrderHistoryFacade,
+  ReplenishmentOrderHistoryFacade,
+} from '../../../root/facade';
+import { Order, OrderHistoryList, OrderHistoryView } from '../../../root/model';
 import { MyAccountV2OrderHistoryComponent } from './my-account-v2-order-history.component';
+import { Params } from '@angular/router';
 
 const mockOrders: OrderHistoryList = {
   orders: [
@@ -58,6 +62,24 @@ class MockPaginationComponent {
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
+}
+
+class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
+  getOrderHistoryList(): Observable<OrderHistoryList> {
+    return new BehaviorSubject<OrderHistoryList>(mockOrders);
+  }
+  getOrderHistoryListLoaded(): Observable<boolean> {
+    return of(true);
+  }
+  getQueryParams(_order: Order): Params | null {
+    return null;
+  }
+  loadOrderList(
+    _pageSize: number,
+    _currentPage?: number,
+    _sort?: string
+  ): void {}
+  clearOrderList() {}
 }
 
 class MockMyAccountV2OrderHistoryService
@@ -119,6 +141,7 @@ describe('MyAccountV2OrderHistoryComponent', () => {
       ],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
         {
           provide: MyAccountV2OrderHistoryService,
           useClass: MockMyAccountV2OrderHistoryService,
@@ -164,10 +187,15 @@ describe('MyAccountV2OrderHistoryComponent', () => {
       By.css('.cx-my-account-v2-order-history-code')
     );
     codes[1].triggerEventHandler('click');
-    expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'orderDetails',
-      params: mockOrders.orders?.[1],
-    });
+    expect(routingService.go).toHaveBeenCalledWith(
+      {
+        cxRoute: 'orderDetails',
+        params: mockOrders.orders?.[1],
+      },
+      {
+        queryParams: null,
+      }
+    );
   });
 
   it('should display pagination', () => {

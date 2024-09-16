@@ -6,3 +6,4 @@
 
 import './augmented-types.model';
 export * from './checkout-service-details.model';
+export * from './augmented-types.model';

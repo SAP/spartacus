@@ -37,4 +37,6 @@
       padding-inline-start: 10px;
     }
   }
+
+  @include cx-configurator-attribute-visible-focus();
 }

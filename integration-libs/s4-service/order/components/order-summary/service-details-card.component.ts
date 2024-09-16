@@ -5,6 +5,7 @@
  */
 
 import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import {
@@ -12,7 +13,7 @@ import {
   CheckoutServiceSchedulePickerService,
 } from '@spartacus/s4-service/root';
 import { Card, OutletContextData } from '@spartacus/storefront';
-import { Observable, Subscription, combineLatest, map } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 
 @Component({
   selector: 'cx-card-service-details',
@@ -36,29 +37,41 @@ export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
     }
   }
 
+  showServiceDetails(): boolean {
+    let hasService: boolean = false;
+    //Note: Pick up option is not applicable for Service Products
+    const deliveryEntries: OrderEntry[] =
+      this.order.entries?.filter(
+        (entry) => entry.deliveryPointOfService === undefined
+      ) || [];
+    deliveryEntries.forEach((entry) => {
+      if (entry.product?.productTypes === 'SERVICE') {
+        hasService = true;
+      }
+    });
+    return hasService;
+  }
+
   getServiceDetailsCard(
     scheduledAt: ServiceDateTime | undefined
   ): Observable<Card> {
-    return combineLatest([
-      this.translationService.translate('serviceOrderCheckout.serviceDetails'),
-      this.translationService.translate(
-        'serviceOrderCheckout.emptyServiceDetailsCard'
-      ),
-    ]).pipe(
-      map(([textTitle, emptyTextLabel]) => {
-        if (scheduledAt) {
-          scheduledAt =
-            this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
-              scheduledAt
-            );
-        }
-        return {
-          title: textTitle,
-          textBold: scheduledAt ? scheduledAt.split(',')[0] : emptyTextLabel,
-          text: scheduledAt ? [scheduledAt.split(',')[1].trim()] : undefined,
-        };
-      })
-    );
+    return this.translationService
+      .translate('serviceOrderCheckout.serviceDetails')
+      .pipe(
+        map((textTitle) => {
+          if (scheduledAt) {
+            scheduledAt =
+              this.checkoutServiceSchedulePickerService.convertDateTimeToReadableString(
+                scheduledAt
+              );
+          }
+          return {
+            title: textTitle,
+            textBold: scheduledAt?.split(',')[0],
+            text: [scheduledAt?.split(',')[1].trim() ?? ''],
+          };
+        })
+      );
   }
 
   ngOnDestroy(): void {

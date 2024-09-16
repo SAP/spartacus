@@ -75,6 +75,10 @@ export class CmsService {
     uid: string,
     pageContext?: PageContext
   ): Observable<T> {
+    if (uid === '') {
+      return of(null) as Observable<T>;
+    }
+
     const context = serializePageContext(pageContext, true);
     if (!this.components[uid]) {
       // create the component data structure, if it doesn't already exist

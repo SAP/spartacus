@@ -7,6 +7,7 @@ import { PickupOption } from '@spartacus/pickup-in-store/root';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable } from 'rxjs';
 import { PickupOptionsComponent } from './pickup-options.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 describe('PickupOptionsComponent', () => {
   let component: PickupOptionsComponent;
@@ -120,7 +121,7 @@ describe('PickupOptionsComponent', () => {
       fixture.detectChanges();
 
       const selectStoreButton =
-        fixture.debugElement.nativeElement.querySelector('a[role="button"]');
+        fixture.debugElement.nativeElement.querySelector('button');
       selectStoreButton.click();
 
       expect(component.onPickupLocationChange).toHaveBeenCalled();
@@ -132,7 +133,7 @@ describe('PickupOptionsComponent', () => {
       fixture.detectChanges();
 
       const changeStoreButton =
-        fixture.debugElement.nativeElement.querySelector('a[role="button"]');
+        fixture.debugElement.nativeElement.querySelector('button');
       changeStoreButton.click();
 
       expect(component.onPickupLocationChange).toHaveBeenCalled();

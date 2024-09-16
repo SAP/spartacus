@@ -58,6 +58,7 @@
     "itemsToBeShipped": "Items To Be Shipped",
     "shippingAddress": "Shipping Address",
     "deliveryMethod": "Delivery Method",
+    "deliveryOptions": "Delivery Options",
     "statusDisplay_cancelled": "Cancelled",
     "statusDisplay_cancelling": "Cancel Pending",
     "statusDisplay_completed": "Completed",

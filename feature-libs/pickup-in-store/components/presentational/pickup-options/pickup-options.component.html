@@ -41,7 +41,23 @@
             }}</strong>
           </ng-container>
           |
+          <button
+            *cxFeature="'a11yUseButtonsForBtnLinks'"
+            [attr.data-store-location-link]="
+              displayPickupLocation ? 'change' : 'select'
+            "
+            class="link cx-action-link"
+            (click)="onPickupLocationChange()"
+          >
+            {{
+              (displayPickupLocation
+                ? 'pickupOptions.changeStore'
+                : 'pickupOptions.selectStore'
+              ) | cxTranslate
+            }}
+          </button>
           <a
+            *cxFeature="'!a11yUseButtonsForBtnLinks'"
             role="button"
             [attr.data-store-location-link]="
               displayPickupLocation ? 'change' : 'select'
@@ -101,7 +117,23 @@
             }}</strong>
           </ng-container>
           |
+          <button
+            *cxFeature="'a11yUseButtonsForBtnLinks'"
+            [attr.data-store-location-link]="
+              displayPickupLocation ? 'change' : 'select'
+            "
+            class="link cx-action-link"
+            (click)="onPickupLocationChange()"
+          >
+            {{
+              (displayPickupLocation
+                ? 'pickupOptions.changeStore'
+                : 'pickupOptions.selectStore'
+              ) | cxTranslate
+            }}
+          </button>
           <a
+            *cxFeature="'!a11yUseButtonsForBtnLinks'"
             role="button"
             [attr.data-store-location-link]="
               displayPickupLocation ? 'change' : 'select'
