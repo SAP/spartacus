@@ -7,7 +7,6 @@ import { PickupOption } from '@spartacus/pickup-in-store/root';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable } from 'rxjs';
 import { PickupOptionsComponent } from './pickup-options.component';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 describe('PickupOptionsComponent', () => {
   let component: PickupOptionsComponent;
