@@ -110,4 +110,22 @@ export class CheckoutServiceDetailsService
       })
     );
   }
+  hasNonServiceItems(): Observable<boolean> {
+    //Note: Pick up option is not applicable for Service Products
+    return combineLatest([
+      this.activeCartFacade.getDeliveryEntries(),
+      this.getServiceProducts(),
+    ]).pipe(
+      take(1),
+      map(([allEntries, serviceEntries]) => {
+        return allEntries.length - serviceEntries.length > 0;
+      })
+    );
+  }
+
+  hasServiceItems(): Observable<boolean> {
+    return this.getServiceProducts().pipe(
+      map((products) => products.length > 0)
+    );
+  }
 }

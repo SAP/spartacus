@@ -32,6 +32,9 @@
         background-color: var(--cx-color-primary-accent);
       }
     }
+    @include cx-highContrastTheme-dark {
+      color: var(--cx-color-medium);
+    }
   }
 
   @keyframes popup {

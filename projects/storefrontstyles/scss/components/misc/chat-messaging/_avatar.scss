@@ -19,4 +19,11 @@
   .right-align {
     background-color: var(--cx-color-background);
   }
+
+  @include cx-highContrastTheme {
+    .cx-avatar {
+      color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+    }
+  }
 }
