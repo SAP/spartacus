@@ -3,6 +3,17 @@
   [formGroup]="form"
   (submit)="formSubmitSubject$.next(undefined)"
 >
+  <ng-container *cxFeature="'a11yCartImportConfirmationMessage'">
+    <div aria-live="assertive" aria-atomic="true">
+      <cx-message
+        *ngIf="form.get('file')?.value && form.get('file')?.valid"
+        [text]="'importEntriesDialog.selectedSuccessfully' | cxTranslate"
+        [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
+        [isVisibleCloseButton]="false"
+        [cxFocus]="{ autofocus: '.cx-message' }"
+      ></cx-message>
+    </div>
+  </ng-container>
   <p class="cx-import-entries-subtitle">
     {{ 'importEntriesDialog.importProductsNewSavedCartSubtitle' | cxTranslate }}
   </p>

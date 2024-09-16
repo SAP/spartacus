@@ -9,4 +9,8 @@
   @include forFeature('a11yImproveContrast') {
     color: var(--cx-color-text);
   }
+
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+  }
 }

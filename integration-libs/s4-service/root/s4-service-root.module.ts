@@ -25,6 +25,7 @@ import { CheckoutServiceSchedulePickerService } from './facade/index';
 import { ORDER_FEATURE } from '@spartacus/order/root';
 import { RouterModule } from '@angular/router';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import { defaultServiceDeliveryModeConfig } from './config/default-service-delivery-mode-config';
 
 export const S4_SERVICE_CMS_COMPONENTS: string[] = [
   ...CHECKOUT_B2B_CMS_COMPONENTS,
@@ -106,6 +107,7 @@ export function defaultS4ServiceComponentsConfig() {
   providers: [
     { provide: CheckoutConfig, useValue: defaultServiceDetailsCheckoutConfig },
     provideDefaultConfig(defaultServiceOrdersRoutingConfig),
+    provideDefaultConfig(defaultServiceDeliveryModeConfig),
     provideDefaultConfigFactory(defaultS4ServiceComponentsConfig),
     CxDatePipe,
     CheckoutServiceSchedulePickerService,

@@ -6,28 +6,42 @@
 
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, UrlTree } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutB2BStepsSetGuard } from '@spartacus/checkout/b2b/components';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
-import { CheckoutServiceDetailsFacade } from '@spartacus/s4-service/root';
-import { Observable, filter, map, of, switchMap } from 'rxjs';
+import {
+  CheckoutServiceDetailsFacade,
+  S4ServiceDeliveryModeConfig,
+} from '@spartacus/s4-service/root';
+import { Observable, combineLatest, filter, map, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard {
   protected checkoutServiceDetailsFacade = inject(CheckoutServiceDetailsFacade);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected config = inject(S4ServiceDeliveryModeConfig);
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
-    return this.checkoutServiceDetailsFacade.getServiceProducts().pipe(
-      switchMap((products) => {
+    return combineLatest(
+      this.checkoutServiceDetailsFacade.hasServiceItems(),
+      this.checkoutServiceDetailsFacade.hasNonServiceItems()
+    ).pipe(
+      switchMap(([hasServiceItems, hasNonServiceItems]) => {
         this.checkoutStepService.disableEnableStep(
           CheckoutStepType.SERVICE_DETAILS,
-          products && products.length === 0
+          !hasServiceItems
+        );
+        this.checkoutStepService.disableEnableStep(
+          CheckoutStepType.DELIVERY_MODE,
+          !hasNonServiceItems
         );
         return super.canActivate(route);
       })
     );
   }
+
   protected isServiceDetailsSet(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
@@ -35,10 +49,32 @@ export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard 
       .getSelectedServiceDetailsState()
       .pipe(
         filter((state) => !state.loading && !state.error),
-        map((selectedServiceDetails) =>
-          selectedServiceDetails.data ? true : this.getUrl(step.routeName)
-        )
+        switchMap((selectedServiceDetails) => {
+          return this.setServiceDeliveryMode().pipe(
+            map(() => {
+              return selectedServiceDetails.data
+                ? true
+                : this.getUrl(step.routeName);
+            })
+          );
+        })
       );
+  }
+
+  setServiceDeliveryMode(): Observable<unknown> {
+    return combineLatest([
+      this.checkoutServiceDetailsFacade.hasServiceItems(),
+      this.checkoutServiceDetailsFacade.hasNonServiceItems(),
+    ]).pipe(
+      switchMap(([hasServiceItems, hasNonServiceItems]) => {
+        if (!hasNonServiceItems && hasServiceItems) {
+          return this.checkoutDeliveryModesFacade.setDeliveryMode(
+            this.config.s4ServiceDeliveryMode?.code ?? ''
+          );
+        }
+        return of(undefined);
+      })
+    );
   }
 
   protected override isB2BStepSet(

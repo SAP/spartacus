@@ -211,4 +211,10 @@
       }
     }
   }
+
+  @include cx-highContrastTheme {
+    .cx-group-menu {
+      background-color: var(--cx-color-background);
+    }
+  }
 }

@@ -135,4 +135,17 @@ cx-import-entries-dialog {
       }
     }
   }
+
+  @include cx-highContrastTheme {
+    .cx-import-entries-container {
+      border: 1px solid var(--cx-color-text);
+      cx-import-entries-form,
+      cx-import-to-new-saved-cart-form {
+        background-color: var(--cx-color-background);
+      }
+      .close {
+        color: var(--cx-color-text);
+      }
+    }
+  }
 }

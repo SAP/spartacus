@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -48,7 +48,7 @@ describe('Carousel Component', () => {
   let service: CarouselService;
 
   let templateFixture: ComponentFixture<MockTemplateComponent>;
-  let template;
+  let template: TemplateRef<any>;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule],
@@ -433,6 +433,162 @@ describe('Carousel Component', () => {
 
     it('should return the 6th slide', () => {
       expect(component.getSlideNumber(5, 27)).toBe(6);
+    });
+  });
+
+  describe('keyboard navigation', () => {
+    let nativeElement: HTMLElement;
+    const sizeMock = 4;
+    beforeEach(() => {
+      component.template = template;
+      nativeElement = fixture.nativeElement;
+
+      for (let i = 0; i < 10; i++) {
+        const element = document.createElement('div');
+        element.setAttribute('cxFocusableCarouselItem', '');
+        element.addEventListener(
+          'keydown',
+          (e) => component.onItemKeydown(e, sizeMock),
+          { once: true }
+        );
+        nativeElement.appendChild(element);
+      }
+      fixture.detectChanges();
+    });
+
+    describe('onItemKeydown', () => {
+      it('should call focusNextPrevItem with +1 when ArrowRight is pressed', () => {
+        spyOn(<any>component, 'focusNextPrevItem');
+        const keyboardEvent = new KeyboardEvent('keydown', {
+          key: 'ArrowRight',
+        });
+
+        const targetElement = nativeElement.querySelector(
+          '[cxFocusableCarouselItem]'
+        );
+        targetElement?.dispatchEvent(keyboardEvent);
+
+        expect(component['focusNextPrevItem']).toHaveBeenCalledWith(
+          targetElement,
+          1,
+          sizeMock
+        );
+      });
+
+      it('should call focusNextPrevItem with -1 when ArrowLeft is pressed', () => {
+        spyOn(<any>component, 'focusNextPrevItem');
+        const keyboardEvent = new KeyboardEvent('keydown', {
+          key: 'ArrowLeft',
+        });
+
+        const targetElement = nativeElement.querySelector(
+          '[cxFocusableCarouselItem]'
+        );
+        targetElement?.dispatchEvent(keyboardEvent);
+
+        expect(component['focusNextPrevItem']).toHaveBeenCalledWith(
+          targetElement,
+          -1,
+          sizeMock
+        );
+      });
+
+      it('should not handle keydown events other than ArrowRight or ArrowLeft', () => {
+        spyOn(<any>component, 'focusNextPrevItem');
+        const keyboardEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+
+        const targetElement = nativeElement.querySelector(
+          '[cxFocusableCarouselItem]'
+        );
+        targetElement?.dispatchEvent(keyboardEvent);
+
+        expect(component['focusNextPrevItem']).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('focusNextPrevItem', () => {
+      let focusableElements: NodeListOf<HTMLElement>;
+      beforeEach(() => {
+        nativeElement = fixture.nativeElement;
+        component.activeSlide = 0;
+        fixture.detectChanges();
+        focusableElements = nativeElement.querySelectorAll(
+          '[cxFocusableCarouselItem]'
+        );
+      });
+
+      it('should focus the next item within the current slide', () => {
+        const initialIndex = 0;
+        const targetIndex = 1;
+        spyOn(focusableElements[targetIndex], 'focus');
+
+        component['focusNextPrevItem'](
+          focusableElements[initialIndex],
+          1,
+          sizeMock
+        );
+
+        expect(focusableElements[targetIndex].focus).toHaveBeenCalled();
+        expect(component.activeSlide).toBe(0);
+      });
+
+      it('should update the active slide and focus next item when crossing boundary', () => {
+        const initialIndex = 3;
+        const targetIndex = 4;
+
+        spyOn(focusableElements[targetIndex], 'addEventListener');
+
+        component['focusNextPrevItem'](
+          focusableElements[initialIndex],
+          1,
+          sizeMock
+        );
+
+        expect(
+          focusableElements[targetIndex].addEventListener
+        ).toHaveBeenCalledWith('transitionend', jasmine.any(Function), {
+          once: true,
+        });
+        expect(component.activeSlide).toBe(4);
+      });
+
+      it('should handle transitionend event to focus the target element', (done) => {
+        const initialIndex = 3;
+        const targetIndex = 4;
+        const focusableElements = nativeElement.querySelectorAll(
+          '[cxFocusableCarouselItem]'
+        );
+        const targetElement = focusableElements[targetIndex] as HTMLElement;
+        spyOn(targetElement, 'focus');
+
+        component['focusNextPrevItem'](
+          focusableElements[initialIndex],
+          1,
+          sizeMock
+        );
+
+        const event = new Event('transitionend');
+        targetElement.dispatchEvent(event);
+
+        setTimeout(() => {
+          expect(targetElement.focus).toHaveBeenCalled();
+          done();
+        }, 100);
+      });
+
+      it('should not change focus if attempting to navigate out of bounds', () => {
+        const initialIndex = 0;
+        spyOn(focusableElements[initialIndex], 'focus');
+
+        component['focusNextPrevItem'](
+          focusableElements[initialIndex],
+          -1,
+          sizeMock
+        );
+
+        expect(focusableElements[initialIndex].focus).not.toHaveBeenCalled();
+        expect(component.activeSlide).toBe(0);
+      });
     });
   });
 });
