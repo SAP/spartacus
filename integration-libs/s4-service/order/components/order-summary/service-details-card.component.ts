@@ -5,6 +5,7 @@
  */
 
 import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import {
@@ -34,6 +35,21 @@ export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
         )
       );
     }
+  }
+
+  showServiceDetails(): boolean {
+    let hasService: boolean = false;
+    //Note: Pick up option is not applicable for Service Products
+    const deliveryEntries: OrderEntry[] =
+      this.order.entries?.filter(
+        (entry) => entry.deliveryPointOfService === undefined
+      ) || [];
+    deliveryEntries.forEach((entry) => {
+      if (entry.product?.productTypes === 'SERVICE') {
+        hasService = true;
+      }
+    });
+    return hasService;
   }
 
   getServiceDetailsCard(

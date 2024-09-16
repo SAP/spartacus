@@ -13,3 +13,6 @@ export * from './checkout-service-details/checkout-service-details.component';
 export * from './checkout-service-details/checkout-service-details.module';
 
 export * from './s4-service-checkout-component.module';
+
+export * from './checkout-delivery-mode/service-checkout-delivery-mode.component';
+export * from './checkout-delivery-mode/service-checkout-delivery-mode.module';

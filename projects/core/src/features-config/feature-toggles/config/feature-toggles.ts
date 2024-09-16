@@ -116,6 +116,25 @@ export interface FeatureTogglesInterface {
   productConfiguratorAttributeTypesV2?: boolean;
 
   /**
+   * In a server environment (SSR or Prerendering) it propagates all errors caught in Angular app
+   * (in the Angular's `ErrorHandler` class) to the server layer.
+   *
+   * In SSR, such a propagation allows the server layer (e.g. ExpressJS) for handling those errors,
+   * e.g. sending a proper Error Page in response to the client,
+   * instead of a rendered HTML that is possibly malformed due to the occurred error.
+   */
+  propagateErrorsToServer?: boolean;
+
+  /**
+   * In SSR, the following errors will be printed to logs (and additionally can also
+   * be forwarded to ExpressJS if only the other feature toggle `propagateErrorsToServer` is enabled):
+   *
+   * 1. any outgoing HTTP request error (4xx-5xx status)
+   * 2. any NgRx action with the `error` property
+   */
+  ssrStrictErrorHandlingForHttpAndNgrx?: boolean;
+
+  /**
    * The product configuration UI is completely re-rendered after each UI interaction. This may lead to performance issues for large configuration models,
    * where a lot of attributes (>50) and/or a lot of possible values per attribute (>50) are rendered on the UI.
    *
@@ -223,6 +242,12 @@ export interface FeatureTogglesInterface {
    * Corrects heading order inside 'ListComponent' template.
    */
   a11yOrganizationListHeadingOrder?: boolean;
+
+  /**
+   * In `ImportToNewSavedCartFormComponent`,`ImportEntriesFormComponent` after selecting a file
+   * confirmation message is displayed and read out
+   */
+  a11yCartImportConfirmationMessage?: boolean;
 
   /**
    * Changes 'order days' check list into a fieldset inside of 'CheckoutScheduleReplenishmentOrderComponent'.
@@ -397,6 +422,12 @@ export interface FeatureTogglesInterface {
   a11yUseButtonsForBtnLinks?: boolean;
 
   /**
+   * `ProductImageZoomProductImagesComponent`, `ProductImageZoomThumbnailsComponent` - enable
+   * arrow keys navigation for the carousel
+   */
+  a11yCarouselArrowKeysNavigation?: boolean;
+
+  /**
    * `AnonymousConsentDialogComponent` - after consent was given/withdrawn the notification
    * will be displayed
    * `ConsentManagementComponent` - improve stability of notifications announcements by VoiceOver
@@ -501,6 +532,16 @@ export interface FeatureTogglesInterface {
    * customization buttons in the BottomHeaderSlot in SmartEdit.
    */
   cmsBottomHeaderSlotUsingFlexStyles?: boolean;
+
+  /**
+   * 1. It uses the new `SiteThemeService` as the source of truth for the "site theme" value
+   * (this value can change over time, e.g. when selecting new value in the new `SiteThemeSwitcherComponent`).
+   * Previously the "site theme" could be set only on the page start (via the static config `config.context.theme` or via CMS, when using the feature of the "automatic site-context configuration").
+   * 2. Now, when no custom theme is selected, the default theme value is an empty string `''`,
+   * unless you configure it differently via the global config `config.context.theme` (or via CMS).
+   * Previously, there the non-defined theme had a value `undefined`.
+   */
+  useSiteThemeService?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -517,7 +558,9 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: true,
   useProductCarouselBatchApi: false,
-  productConfiguratorAttributeTypesV2: false,
+  productConfiguratorAttributeTypesV2: true,
+  propagateErrorsToServer: false,
+  ssrStrictErrorHandlingForHttpAndNgrx: false,
   productConfiguratorDeltaRendering: false,
   a11yRequiredAsterisks: false,
   a11yQuantityOrderTabbing: false,
@@ -537,6 +580,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yMobileVisibleFocus: false,
   a11yOrganizationsBanner: false,
   a11yOrganizationListHeadingOrder: false,
+  a11yCartImportConfirmationMessage: false,
   a11yReplenishmentOrderFieldset: false,
   a11yListOversizedFocus: false,
   a11yStoreFinderOverflow: false,
@@ -563,6 +607,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yEmptyWishlistHeading: false,
   a11yScreenReaderBloatFix: false,
   a11yUseButtonsForBtnLinks: false,
+  a11yCarouselArrowKeysNavigation: false,
   a11yNotificationsOnConsentChange: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
@@ -581,4 +626,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDialogsHeading: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
+  useSiteThemeService: false,
 };

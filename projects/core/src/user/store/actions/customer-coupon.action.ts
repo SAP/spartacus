@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ErrorAction } from '../../../error-handling';
 import {
   CustomerCoupon2Customer,
   CustomerCouponNotification,
@@ -78,7 +79,10 @@ export class LoadCustomerCoupons extends LoaderLoadAction {
   }
 }
 
-export class LoadCustomerCouponsFail extends LoaderFailAction {
+export class LoadCustomerCouponsFail
+  extends LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_CUSTOMER_COUPONS_FAIL;
   constructor(public payload: any) {
     super(CUSTOMER_COUPONS, payload);
@@ -112,7 +116,10 @@ export class SubscribeCustomerCoupon extends EntityLoadAction {
   }
 }
 
-export class SubscribeCustomerCouponFail extends EntityFailAction {
+export class SubscribeCustomerCouponFail
+  extends EntityFailAction
+  implements ErrorAction
+{
   readonly type = SUBSCRIBE_CUSTOMER_COUPON_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID, payload);
@@ -145,7 +152,10 @@ export class UnsubscribeCustomerCoupon extends EntityLoadAction {
   }
 }
 
-export class UnsubscribeCustomerCouponFail extends EntityFailAction {
+export class UnsubscribeCustomerCouponFail
+  extends EntityFailAction
+  implements ErrorAction
+{
   readonly type = UNSUBSCRIBE_CUSTOMER_COUPON_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID, payload);
@@ -197,7 +207,10 @@ export class ResetDisclaimCustomerCoupon extends EntityLoaderResetAction {
   }
 }
 
-export class DisclaimCustomerCouponFail extends EntityFailAction {
+export class DisclaimCustomerCouponFail
+  extends EntityFailAction
+  implements ErrorAction
+{
   readonly type = DISCLAIM_CUSTOMER_COUPON_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, DISCLAIM_CUSTOMER_COUPON_PROCESS_ID, payload);
@@ -211,7 +224,10 @@ export class DisclaimCustomerCouponSuccess extends EntitySuccessAction {
   }
 }
 
-export class ClaimCustomerCouponFail extends EntityFailAction {
+export class ClaimCustomerCouponFail
+  extends EntityFailAction
+  implements ErrorAction
+{
   readonly type = CLAIM_CUSTOMER_COUPON_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, CLAIM_CUSTOMER_COUPON_PROCESS_ID, payload);

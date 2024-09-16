@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorModel } from '../../../model/misc.model';
+import { ErrorAction } from '../../../error-handling';
 import {
   ClearSearch,
   ProductSearchPage,
@@ -32,12 +32,16 @@ export class SearchProducts implements Action {
   ) {}
 }
 
-export class SearchProductsFail implements Action {
+export class SearchProductsFail implements ErrorAction {
   readonly type = SEARCH_PRODUCTS_FAIL;
+  public error: any;
+
   constructor(
-    public payload: ErrorModel | undefined,
+    public payload: any,
     public auxiliary?: boolean
-  ) {}
+  ) {
+    this.error = payload;
+  }
 }
 
 export class SearchProductsSuccess implements Action {
@@ -58,9 +62,12 @@ export class GetProductSuggestionsSuccess implements Action {
   constructor(public payload: Suggestion[]) {}
 }
 
-export class GetProductSuggestionsFail implements Action {
+export class GetProductSuggestionsFail implements ErrorAction {
+  public error: any;
   readonly type = GET_PRODUCT_SUGGESTIONS_FAIL;
-  constructor(public payload: ErrorModel | undefined) {}
+  constructor(public payload: any) {
+    this.error = payload;
+  }
 }
 
 export class ClearProductSearchResult implements Action {

@@ -176,7 +176,9 @@ describe('AnonymousConsentsService', () => {
 
   it('getLoadTemplatesError should call getAnonymousConsentTemplatesError selector', () => {
     store.dispatch(
-      new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail('an error')
+      new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
+        new Error('an error')
+      )
     );
 
     let result = false;

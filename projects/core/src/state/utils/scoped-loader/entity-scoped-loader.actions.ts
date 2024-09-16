@@ -5,16 +5,17 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction } from '../../../error-handling';
 import {
-  entityFailMeta,
-  EntityLoaderMeta,
-  entityLoadMeta,
-  entityResetMeta,
-  entitySuccessMeta,
   ENTITY_FAIL_ACTION,
   ENTITY_LOAD_ACTION,
   ENTITY_RESET_ACTION,
   ENTITY_SUCCESS_ACTION,
+  EntityLoaderMeta,
+  entityFailMeta,
+  entityLoadMeta,
+  entityResetMeta,
+  entitySuccessMeta,
 } from '../entity-loader/entity-loader.action';
 
 export namespace EntityScopedLoaderActions {
@@ -38,6 +39,33 @@ export namespace EntityScopedLoaderActions {
     };
   }
 
+  export function entityScopedFailMeta(
+    entityType: string,
+    id: string | string[],
+    scope: string | undefined,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    error: any
+  ): EntityScopedLoaderMeta;
+  /**
+   * @deprecated Please pass the argument `error`.
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  export function entityScopedFailMeta(
+    entityType: string,
+    id: string | string[],
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    scope: string | undefined
+  ): EntityScopedLoaderMeta;
+  /**
+   * @deprecated Please pass the argument `scope` and `error`
+   *             They will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  export function entityScopedFailMeta(
+    entityType: string,
+    id: string | string[]
+  ): EntityScopedLoaderMeta;
   export function entityScopedFailMeta(
     entityType: string,
     id: string | string[],
@@ -75,14 +103,44 @@ export namespace EntityScopedLoaderActions {
   export class EntityScopedLoadAction implements EntityScopedLoaderAction {
     type = ENTITY_LOAD_ACTION;
     readonly meta: EntityScopedLoaderMeta;
+
     constructor(entityType: string, id: string | string[], scope?: string) {
       this.meta = entityScopedLoadMeta(entityType, id, scope);
     }
   }
 
-  export class EntityScopedFailAction implements EntityScopedLoaderAction {
+  export class EntityScopedFailAction
+    implements EntityScopedLoaderAction, ErrorAction
+  {
     type = ENTITY_FAIL_ACTION;
+    public error: any;
     readonly meta: EntityScopedLoaderMeta;
+
+    constructor(
+      entityType: string,
+      id: string | string[],
+      scope: string | undefined,
+      // eslint-disable-next-line @typescript-eslint/unified-signatures
+      error: any
+    );
+    /**
+     * @deprecated Please pass the argument `error`.
+     *             It will become mandatory along with removing
+     *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+     */
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    constructor(
+      entityType: string,
+      id: string | string[],
+      // eslint-disable-next-line @typescript-eslint/unified-signatures
+      scope: string | undefined
+    );
+    /**
+     * @deprecated Please pass the argument `scope` and `error`.
+     *             They will become mandatory along with removing
+     *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+     */
+    constructor(entityType: string, id: string | string[]);
     constructor(
       entityType: string,
       id: string | string[],
@@ -90,12 +148,14 @@ export namespace EntityScopedLoaderActions {
       error?: any
     ) {
       this.meta = entityScopedFailMeta(entityType, id, scope, error);
+      this.error = error;
     }
   }
 
   export class EntityScopedSuccessAction implements EntityScopedLoaderAction {
     type = ENTITY_SUCCESS_ACTION;
     readonly meta: EntityScopedLoaderMeta;
+
     constructor(
       entityType: string,
       id: string | string[],
@@ -109,6 +169,7 @@ export namespace EntityScopedLoaderActions {
   export class EntityScopedResetAction implements EntityScopedLoaderAction {
     type = ENTITY_RESET_ACTION;
     readonly meta: EntityScopedLoaderMeta;
+
     constructor(entityType: string, id?: string | string[], scope?: string) {
       this.meta = entityScopedResetMeta(entityType, id, scope);
     }

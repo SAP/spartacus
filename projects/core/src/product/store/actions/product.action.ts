@@ -5,6 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction } from '../../../error-handling';
 import { Product } from '../../../model/product.model';
 import { EntityLoaderMeta } from '../../../state/utils/entity-loader/entity-loader.action';
 import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
@@ -27,6 +28,7 @@ export interface EntityScopedLoaderAction extends Action {
 
 export class LoadProduct extends EntityScopedLoaderActions.EntityScopedLoadAction {
   readonly type = LOAD_PRODUCT;
+
   constructor(
     public payload: string,
     scope = ''
@@ -35,8 +37,12 @@ export class LoadProduct extends EntityScopedLoaderActions.EntityScopedLoadActio
   }
 }
 
-export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailAction {
+export class LoadProductFail
+  extends EntityScopedLoaderActions.EntityScopedFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_PRODUCT_FAIL;
+
   constructor(
     productCode: string,
     public payload: any,
@@ -48,6 +54,7 @@ export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailA
 
 export class LoadProductSuccess extends EntityScopedLoaderActions.EntityScopedSuccessAction {
   readonly type = LOAD_PRODUCT_SUCCESS;
+
   constructor(
     public payload: Product,
     scope = ''
@@ -58,6 +65,7 @@ export class LoadProductSuccess extends EntityScopedLoaderActions.EntityScopedSu
 
 export class ClearProductPrice extends EntityScopedLoaderActions.EntityScopedResetAction {
   readonly type = CLEAR_PRODUCT_PRICE;
+
   constructor() {
     super(PRODUCT_DETAIL_ENTITY, undefined, ProductScope.PRICE);
   }

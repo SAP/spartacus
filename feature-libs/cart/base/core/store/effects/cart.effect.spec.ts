@@ -11,7 +11,7 @@ import {
   OccConfig,
   SiteContextActions,
   USER_FEATURE,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import * as fromClientAuthReducers from 'projects/core/src/auth/client-auth/store/reducers/index';
@@ -212,7 +212,7 @@ describe('Cart effect', () => {
       loadMock.and.returnValue(throwError(() => httpError));
       const removeCartCompletion = new CartActions.LoadCartFail({
         ...payload,
-        error: normalizeHttpError(httpError, new MockLoggerService()),
+        error: tryNormalizeHttpError(httpError, new MockLoggerService()),
       });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {

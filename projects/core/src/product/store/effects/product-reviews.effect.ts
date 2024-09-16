@@ -14,8 +14,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message/index';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { LoggerService } from '../../../logger';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 
 @Injectable()
 export class ProductReviewsEffects {
@@ -38,7 +38,7 @@ export class ProductReviewsEffects {
           catchError((error) =>
             of(
               new ProductActions.LoadProductReviewsFail(
-                normalizeHttpError(error, this.logger)
+                tryNormalizeHttpError(error, this.logger)
               )
             )
           )
@@ -66,7 +66,7 @@ export class ProductReviewsEffects {
             catchError((error) =>
               of(
                 new ProductActions.PostProductReviewFail(
-                  normalizeHttpError(error, this.logger)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )

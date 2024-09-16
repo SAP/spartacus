@@ -24,6 +24,9 @@
       &.modal-header .close {
         padding-bottom: 0rem;
       }
+      @include cx-highContrastTheme {
+        background-color: var(--cx-color-background);
+      }
     }
 
     .cx-dialog-body {
@@ -37,6 +40,9 @@
 
       cx-configurator-overview-filter {
         padding: 0px;
+      }
+      @include cx-highContrastTheme {
+        background-color: var(--cx-color-background);
       }
     }
   }
