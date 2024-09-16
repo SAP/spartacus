@@ -115,6 +115,9 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   protected isExpiredToken(resp: HttpErrorResponse): boolean {
+    if (!this.authConfigService.getOAuthLibConfig().disablePKCE) {
+      return resp.error?.errors?.[0]?.type === 'AccessDeniedError';
+    }
     return resp.error?.errors?.[0]?.type === 'InvalidTokenError';
   }
 }
