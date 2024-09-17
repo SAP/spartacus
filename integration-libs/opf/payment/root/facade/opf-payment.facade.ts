@@ -46,14 +46,14 @@ export abstract class OpfPaymentFacade {
   ): Observable<OpfPaymentVerificationResponse>;
 
   /**
-   * abstract method to submit payment for Hosted Fields pattern.
+   * Abstract method to submit payment for Hosted Fields pattern.
    *
    * @param submitInput
    */
   abstract submitPayment(submitInput: SubmitInput): Observable<boolean>;
 
   /**
-   * abstract method to submit-complete payment for Hosted Fields pattern.
+   * Abstract method to submit-complete payment for Hosted Fields pattern.
    *
    * @param submitCompleteInput
    */
@@ -62,9 +62,8 @@ export abstract class OpfPaymentFacade {
   ): Observable<boolean>;
 
   /**
-   * abstract method to submit-complete payment for Hosted Fields pattern.
+   * Abstract method to submit-complete payment for Hosted Fields pattern.
    *
-   * @param submitCompleteInput
    */
   abstract afterRedirectScripts(
     paymentSessionId: string

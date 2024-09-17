@@ -19,13 +19,13 @@ export class CartAccessCodeService implements CartAccessCodeFacade {
     },
     string | undefined
   > = this.commandService.create(({ userId, cartId }) =>
-    this.cartAccessCodeConncector.getCartAccessCode(userId, cartId)
+    this.cartAccessCodeConnector.getCartAccessCode(userId, cartId)
   );
 
   constructor(
     protected queryService: QueryService,
     protected commandService: CommandService,
-    protected cartAccessCodeConncector: CartAccessCodeConnector
+    protected cartAccessCodeConnector: CartAccessCodeConnector
   ) {}
 
   getCartAccessCode(
