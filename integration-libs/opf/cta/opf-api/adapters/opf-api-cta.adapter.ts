@@ -15,7 +15,7 @@ import {
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import { OpfEndpointsService } from '@spartacus/opf/base/core';
-import { OPF_CC_PUBLIC_KEY, OpfConfig } from '@spartacus/opf/base/root';
+import { OPF_CC_PUBLIC_KEY_HEADER, OpfConfig } from '@spartacus/opf/base/root';
 import {
   OPF_CTA_SCRIPTS_NORMALIZER,
   OpfCtaAdapter,
@@ -54,7 +54,7 @@ export class OpfApiCtaAdapter implements OpfCtaAdapter {
     ctaScriptsRequest: CtaScriptsRequest
   ): Observable<CtaScriptsResponse> {
     const headers = new HttpHeaders(this.header).set(
-      OPF_CC_PUBLIC_KEY,
+      OPF_CC_PUBLIC_KEY_HEADER,
       this.config.opf?.commerceCloudPublicKey || ''
     );
 

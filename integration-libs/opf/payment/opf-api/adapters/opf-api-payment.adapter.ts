@@ -16,8 +16,8 @@ import {
 } from '@spartacus/core';
 import { OpfEndpointsService } from '@spartacus/opf/base/core';
 import {
-  OPF_CC_OTP_KEY,
-  OPF_CC_PUBLIC_KEY,
+  OPF_CC_ACCESS_CODE_HEADER,
+  OPF_CC_PUBLIC_KEY_HEADER,
   OpfConfig,
 } from '@spartacus/opf/base/root';
 import {
@@ -72,7 +72,7 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
     payload: OpfPaymentVerificationPayload
   ): Observable<OpfPaymentVerificationResponse> {
     const headers = new HttpHeaders(this.headerWithNoLanguage).set(
-      OPF_CC_PUBLIC_KEY,
+      OPF_CC_PUBLIC_KEY_HEADER,
       this.config.opf?.commerceCloudPublicKey || ''
     );
 
@@ -105,8 +105,11 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
     paymentSessionId: string
   ): Observable<SubmitResponse> {
     const headers = new HttpHeaders(this.header)
-      .set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '')
-      .set(OPF_CC_OTP_KEY, otpKey || '');
+      .set(
+        OPF_CC_PUBLIC_KEY_HEADER,
+        this.config.opf?.commerceCloudPublicKey || ''
+      )
+      .set(OPF_CC_ACCESS_CODE_HEADER, otpKey || '');
 
     const url = this.getSubmitPaymentEndpoint(paymentSessionId);
 
@@ -131,8 +134,11 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
     paymentSessionId: string
   ): Observable<SubmitCompleteResponse> {
     const headers = new HttpHeaders(this.headerWithContentLanguage)
-      .set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '')
-      .set(OPF_CC_OTP_KEY, otpKey || '');
+      .set(
+        OPF_CC_PUBLIC_KEY_HEADER,
+        this.config.opf?.commerceCloudPublicKey || ''
+      )
+      .set(OPF_CC_ACCESS_CODE_HEADER, otpKey || '');
 
     const url = this.getSubmitCompletePaymentEndpoint(paymentSessionId);
 
@@ -157,7 +163,7 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
     paymentSessionId: string
   ): Observable<AfterRedirectScriptResponse> {
     const headers = new HttpHeaders(this.header).set(
-      OPF_CC_PUBLIC_KEY,
+      OPF_CC_PUBLIC_KEY_HEADER,
       this.config.opf?.commerceCloudPublicKey || ''
     );
 
@@ -184,8 +190,11 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
     const headers = new HttpHeaders({
       'Accept-Language': 'en-us',
     })
-      .set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '')
-      .set(OPF_CC_OTP_KEY, paymentConfig?.otpKey || '');
+      .set(
+        OPF_CC_PUBLIC_KEY_HEADER,
+        this.config.opf?.commerceCloudPublicKey || ''
+      )
+      .set(OPF_CC_ACCESS_CODE_HEADER, paymentConfig?.otpKey || '');
 
     const url = this.getInitiatePaymentEndpoint();
 
