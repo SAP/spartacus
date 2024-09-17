@@ -27,6 +27,7 @@
               *ngIf="item | async as data"
               class="item"
               [class.active]="i === activeSlide"
+              (keydown)="onItemKeydown($event, size)"
             >
               <ng-container
                 *ngTemplateOutlet="template; context: { item: data }"

@@ -347,6 +347,7 @@ if (environment.cpq) {
         a11yEmptyWishlistHeading: true,
         a11yScreenReaderBloatFix: true,
         a11yUseButtonsForBtnLinks: true,
+        a11yCarouselArrowKeysNavigation: true,
         a11yNotificationsOnConsentChange: true,
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
@@ -365,6 +366,7 @@ if (environment.cpq) {
         a11yQuickOrderAriaControls: true,
         a11yRemoveStatusLoadedRole: true,
         a11yDialogsHeading: true,
+        a11ySearchBoxFocusOnEscape: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,
       };
