@@ -76,7 +76,7 @@
   <h3 *ngIf="result.message" [innerHTML]="result.message"></h3>
 
   <!--RESULT  SUGGESTIONS-->
-  <div class="suggestions">
+  <div class="suggestions" *ngIf="result?.suggestions?.length">
     <ng-container
       *ngIf="
         isEnabledFeature(searchBoxFeatures.RECENT_SEARCHES_FEATURE) ||
@@ -124,6 +124,20 @@
     </ul>
   </div>
 
+  <!--  TRENDING SEARCHES-->
+
+  <ng-container *ngIf="searchInput?.value?.length === 0">
+    <ng-container *cxFeature="searchBoxFeatures.TRENDING_SEARCHES_FEATURE">
+      <ng-template
+        *ngIf="config.trendingSearches"
+        [cxOutlet]="searchBoxOutlets.TRENDING_SEARCHES"
+        [cxOutletContext]="{
+          maxTrendingSearches: config.maxTrendingSearches
+        }"
+      ></ng-template>
+    </ng-container>
+  </ng-container>
+
   <!--  RECENT SEARCHES-->
   <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
     <ng-template
@@ -133,17 +147,6 @@
         search: searchInput.value,
         searchBoxActive: searchBoxActive,
         maxRecentSearches: config.maxRecentSearches
-      }"
-    ></ng-template>
-  </ng-container>
-
-  <!--  TRENDING SEARCHES-->
-  <ng-container *cxFeature="searchBoxFeatures.TRENDING_SEARCHES_FEATURE">
-    <ng-template
-      *ngIf="config.trendingSearches"
-      [cxOutlet]="searchBoxOutlets.TRENDING_SEARCHES"
-      [cxOutletContext]="{
-        maxTrendingSearches: config.maxTrendingSearches
       }"
     ></ng-template>
   </ng-container>

@@ -1,11 +1,11 @@
 <ng-container *ngIf="contextObservable | async as results">
   <ng-container *ngIf="searchPhrases?.length">
-    <div class="message">
-      {{ 'cdsTrendingSearches.trendingSearches' | cxTranslate }}
-    </div>
-
+    <div class="trending-searches">
+      <h3>
+        {{ 'cdsTrendingSearches.trendingSearches' | cxTranslate }}
+      </h3>
     <ul
-      class="recent-searches"
+      tabindex="0"
       [ariaLabel]="'cdsTrendingSearches.ariaTrendingSearches' | cxTranslate"
     >
       <li *ngFor="let phrase of searchPhrases">
@@ -17,10 +17,18 @@
               params: { query: phrase.searchPhrase }
             } | cxUrl
           "
+          (mousedown)="$event.preventDefault()"
+          (keydown.arrowup)="shareEvent($any($event))"
+          (keydown.arrowdown)="shareEvent($any($event))"
+          (keydown.arrowleft)="shareEvent($any($event))"
+          (keydown.arrowright)="shareEvent($any($event))"
+          (keydown.enter)="shareEvent($any($event))"
+          (keydown.escape)="shareEvent($any($event))"
         >
           {{ phrase.searchPhrase }}
         </a>
       </li>
     </ul>
+    </div>
   </ng-container>
 </ng-container>

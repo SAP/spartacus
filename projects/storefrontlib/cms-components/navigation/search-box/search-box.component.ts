@@ -313,7 +313,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   private getResultElements(): HTMLElement[] {
     return Array.from(
       this.winRef.document.querySelectorAll(
-        '.products ul:not(.hidden) > li a, .suggestions ul  > li a, .recent-searches ul > li a, .carousel-panel .item.active > a, .products .carousel-panel > button:not([disabled])'
+        '.products ul:not(.hidden) > li a, .suggestions ul  > li a, .recent-searches ul > li a,.trending-searches ul > li a, .carousel-panel .item.active > a, .products .carousel-panel > button:not([disabled])'
       )
     );
   }
@@ -335,6 +335,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     );
     groups.push(
       Array.from(
+        this.winRef.document.querySelectorAll('.trending-searches ul > li a')
+      )
+    );
+    groups.push(
+      Array.from(
         this.winRef.document.querySelectorAll('.recent-searches ul > li a')
       )
     );
@@ -351,7 +356,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         this.winRef.document.querySelectorAll('.search-panel-close-btn')
       )
     );
-
+console.log(groups);
     return groups.filter((group) => group.length);
   }
   // Return focused element as HTMLElement

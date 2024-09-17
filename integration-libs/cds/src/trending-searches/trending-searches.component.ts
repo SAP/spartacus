@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import {
   OutletContextData,
   SearchBoxComponentService,
@@ -19,6 +19,7 @@ const MAX_TRENDING_SEARCHES = 5;
 @Component({
   selector: 'cx-trending-searches',
   templateUrl: './trending-searches.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrendingSearchesComponent implements OnInit, OnDestroy {
   public searchPhrases: SearchPhrases[] = [];
@@ -26,6 +27,7 @@ export class TrendingSearchesComponent implements OnInit, OnDestroy {
 
   protected searchBoxComponentService = inject(SearchBoxComponentService);
   protected trendingSearchesService = inject(TrendingSearchesService);
+  protected changeDetectorRef = inject(ChangeDetectorRef);
   protected outletContext = inject(OutletContextData, {
     optional: true,
   }) as OutletContextData | null;
@@ -42,6 +44,7 @@ export class TrendingSearchesComponent implements OnInit, OnDestroy {
         this.searchBoxComponentService.setTrendingSearches(
           !!this.searchPhrases.length
         );
+        this.changeDetectorRef.detectChanges();
       });
   }
 
@@ -60,6 +63,13 @@ export class TrendingSearchesComponent implements OnInit, OnDestroy {
 
   get contextObservable() {
     return this.outletContext?.context$ ?? EMPTY;
+  }
+
+  shareEvent(event: KeyboardEvent) {
+    if (!event) {
+      throw new Error('Missing Event');
+    }
+    this.searchBoxComponentService.shareEvent(event);
   }
 
   ngOnDestroy() {

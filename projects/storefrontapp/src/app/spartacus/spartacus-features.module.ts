@@ -296,7 +296,7 @@ if (environment.cpq) {
         showPromotionsInPDP: false,
         searchBoxV2: true,
         recentSearches: true,
-        trendingSearches: false,
+        trendingSearches: true,
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
         useProductCarouselBatchApi: true,

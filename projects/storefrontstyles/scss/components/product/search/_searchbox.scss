@@ -181,9 +181,9 @@
         }
         @include media-breakpoint-down(sm) {
           position: relative;
-          left: 74px;
+          left: 140px;
           z-index: 20;
-          top: 52px;
+          top: 44px;
           margin-top: 0;
         }
       }
@@ -247,7 +247,8 @@
       }
     }
 
-    .recent-searches {
+    .recent-searches,
+    .trending-searches {
       ul {
         display: flex;
         flex-wrap: wrap;
@@ -339,7 +340,7 @@
       }
       @include media-breakpoint-down(sm) {
         right: 12px;
-        top: 4px;
+        top: 20px;
       }
     }
     position: unset;
@@ -366,6 +367,12 @@
         user-select: none;
         max-width: 160px;
         display: block;
+        font-weight: normal;
+
+        .highlight,
+        .search-results-highlight {
+          font-weight: 800;
+        }
       }
 
       h3:not(.cx-product-name) {
@@ -387,7 +394,7 @@
         @include media-breakpoint-down(sm) {
           width: 100%;
         }
-        &:focus{
+        &:focus {
           background-color: pink;
         }
       }
@@ -399,6 +406,22 @@
         margin-bottom: 0;
         border-top: none;
         &:has(.recent-searches) {
+          width: 20%;
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+          }
+        }
+        ul {
+          border-top: none;
+        }
+      }
+      cx-trending-searches {
+        flex-wrap: wrap;
+        list-style: none;
+        padding-inline-start: 0;
+        margin-bottom: 0;
+        border-top: none;
+        &:has(.trending-searches) {
           width: 20%;
           @include media-breakpoint-down(sm) {
             width: 100%;
@@ -455,6 +478,15 @@
         }
       }
 
+      cx-trending-searches:has(.trending-searches)
+        ~ cx-recent-searches:has(.recent-searches)
+        ~ .products {
+        flex-basis: 60%;
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+      }
+
       .suggestions ~ .products {
         flex-basis: 80%;
         @include media-breakpoint-down(sm) {
@@ -462,6 +494,12 @@
         }
       }
       cx-recent-searches:has(.recent-searches) ~ .products {
+        flex-basis: 80%;
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+      }
+      cx-trending-searches:has(.trending-searches) ~ .products {
         flex-basis: 80%;
         @include media-breakpoint-down(sm) {
           width: 100%;
