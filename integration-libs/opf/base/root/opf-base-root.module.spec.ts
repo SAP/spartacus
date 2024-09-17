@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { APP_INITIALIZER } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { MODULE_INITIALIZER } from '@spartacus/core';
 import { OpfBaseRootModule } from './opf-base-root.module';
 import { OpfMetadataStatePersistanceService } from './services/opf-metadata-state-persistence.service';
 
@@ -20,15 +20,15 @@ describe('OpfBaseRootModule', () => {
     expect(module).toBeTruthy();
   });
 
-  it('should provide MODULE_INITIALIZER with opfStatePersistenceFactory', () => {
-    const moduleInitializer = TestBed.inject(MODULE_INITIALIZER);
+  it('should provide APP_INITIALIZER with opfStatePersistenceFactory', () => {
+    const appInitializer = TestBed.inject(APP_INITIALIZER);
     const opfStatePersistenceService = TestBed.inject(
       OpfMetadataStatePersistanceService
     );
 
-    expect(moduleInitializer).toBeDefined();
-    expect(moduleInitializer.length).toBe(1);
-    const initFunction = moduleInitializer[0];
+    expect(appInitializer).toBeDefined();
+    expect(appInitializer.length).toBe(1);
+    const initFunction = appInitializer[0];
     expect(initFunction).toBeDefined();
     initFunction();
 

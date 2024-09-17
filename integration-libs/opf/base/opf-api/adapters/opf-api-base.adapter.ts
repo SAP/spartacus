@@ -11,7 +11,7 @@ import {
   LoggerService,
   backOff,
   isJaloError,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   OPF_ACTIVE_CONFIGURATION_NORMALIZER,
@@ -63,7 +63,7 @@ export class OpfApiBaseAdapter implements OpfBaseAdapter {
       })
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,

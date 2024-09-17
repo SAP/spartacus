@@ -12,7 +12,7 @@ import {
   backOff,
   isJaloError,
   isServerError,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { OpfEndpointsService } from '@spartacus/opf/base/core';
 import { OPF_CC_PUBLIC_KEY, OpfConfig } from '@spartacus/opf/base/root';
@@ -64,7 +64,7 @@ export class OpfApiCtaAdapter implements OpfCtaAdapter {
       .post<SubmitResponse>(url, ctaScriptsRequest, { headers })
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,

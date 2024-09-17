@@ -6,19 +6,24 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
-import { BaseSiteService, Config, StringTemplate } from '@spartacus/core';
+import { BaseSiteService, StringTemplate } from '@spartacus/core';
+import { OpfApiConfig } from '@spartacus/opf/base/opf-api';
+import { OpfConfig } from '@spartacus/opf/base/root';
 import { OpfEndpointsService } from './opf-endpoints.service';
 
 describe('OpfEndpointsService', () => {
   let service: OpfEndpointsService;
-  let configServiceMock: Partial<Config>;
+  let opfConfigMock: Partial<OpfConfig>;
+  let opfApiConfigMock: Partial<OpfApiConfig>;
   let baseSiteServiceMock: any;
 
   beforeEach(() => {
-    configServiceMock = {
+    opfConfigMock = {
       opf: {
         baseUrl: 'https://elec-spa.com/opf',
       },
+    };
+    opfApiConfigMock = {
       backend: {
         opfApi: {
           endpoints: {
@@ -34,7 +39,8 @@ describe('OpfEndpointsService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        { provide: Config, useValue: configServiceMock },
+        { provide: OpfConfig, useValue: opfConfigMock },
+        { provide: OpfApiConfig, useValue: opfApiConfigMock },
         { provide: BaseSiteService, useValue: baseSiteServiceMock },
       ],
     });
@@ -53,25 +59,19 @@ describe('OpfEndpointsService', () => {
     });
 
     it('should return an empty string when config is undefined', () => {
-      (service['config'] as any) = undefined;
-      const result = service['getBaseEndpoint']();
-      expect(result).toEqual('');
-    });
-
-    it('should return an empty string when opf is undefined', () => {
-      service['config'] = {};
+      (service['opfConfig'] as any) = undefined;
       const result = service['getBaseEndpoint']();
       expect(result).toEqual('');
     });
 
     it('should return an empty string when baseUrl is undefined', () => {
-      service['config'] = { opf: {} };
+      service['opfConfig'] = { opf: {} };
       const result = service['getBaseEndpoint']();
       expect(result).toEqual('');
     });
 
     it('should return an empty string when baseUrl is empty', () => {
-      service['config'] = { opf: { baseUrl: '' } };
+      service['opfConfig'] = { opf: { baseUrl: '' } };
       const result = service['getBaseEndpoint']();
       expect(result).toEqual('');
     });
@@ -87,7 +87,7 @@ describe('OpfEndpointsService', () => {
     });
 
     it('should return empty string when endpointsConfig is undefined', () => {
-      (service['config'] as any).backend.occ.endpoints = undefined;
+      (service['opfApiConfig'] as any).backend.opfApi.endpoints = undefined;
       const endpoint = 'sampleEndpoint';
 
       const result = service['getEndpointFromContext'](endpoint);

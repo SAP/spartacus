@@ -7,10 +7,11 @@
 import { Injectable } from '@angular/core';
 import {
   BaseSiteService,
-  Config,
   DynamicAttributes,
   StringTemplate,
 } from '@spartacus/core';
+import { OpfApiConfig } from '@spartacus/opf/base/opf-api';
+import { OpfConfig } from '@spartacus/opf/base/root';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +20,9 @@ export class OpfEndpointsService {
   private _activeBaseSite: string;
 
   constructor(
-    private config: Config,
-    private baseSiteService: BaseSiteService
+    protected opfConfig: OpfConfig,
+    protected opfApiConfig: OpfApiConfig,
+    protected baseSiteService: BaseSiteService
   ) {
     if (this.baseSiteService) {
       this.baseSiteService
@@ -44,7 +46,7 @@ export class OpfEndpointsService {
   }
 
   private getEndpointFromContext(endpoint: string): string | undefined {
-    const endpointsConfig = this.config.backend?.opfApi?.endpoints;
+    const endpointsConfig = this.opfApiConfig.backend?.opfApi?.endpoints;
 
     if (!endpointsConfig) {
       return '';
@@ -57,10 +59,10 @@ export class OpfEndpointsService {
   }
 
   private getBaseEndpoint(): string {
-    if (!this.config || !this.config.opf || !this.config.opf.baseUrl) {
-      return '';
+    if (this.opfConfig && this.opfConfig.opf && this.opfConfig.opf.baseUrl) {
+      return this.opfConfig.opf.baseUrl;
     }
 
-    return this.config.opf.baseUrl;
+    return '';
   }
 }

@@ -12,7 +12,7 @@ import {
   backOff,
   isJaloError,
   isServerError,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { OpfEndpointsService } from '@spartacus/opf/base/core';
 import {
@@ -86,7 +86,7 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,
@@ -112,7 +112,7 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
 
     return this.http.post<SubmitResponse>(url, submitRequest, { headers }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       }),
       backOff({
         shouldRetry: isJaloError,
@@ -140,7 +140,7 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
       .post<SubmitCompleteResponse>(url, submitCompleteRequest, { headers })
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,
@@ -165,7 +165,7 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
 
     return this.http.get<AfterRedirectScriptResponse>(url, { headers }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       }),
       backOff({
         shouldRetry: isJaloError,
@@ -198,7 +198,7 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
       .post<PaymentSessionData>(url, paymentConfig?.config, { headers })
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         })
       );
   }
