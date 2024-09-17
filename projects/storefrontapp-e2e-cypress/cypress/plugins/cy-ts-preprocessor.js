@@ -37,6 +37,7 @@ const webpackOptions = {
       },
     ],
   },
+  target: 'node',
 };
 
 const options = {
