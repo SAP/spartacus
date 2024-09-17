@@ -9,7 +9,6 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
