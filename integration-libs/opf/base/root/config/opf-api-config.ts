@@ -12,7 +12,7 @@ import { OpfApiBackendConfig } from '../model/opf-api-backend-config.model';
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class OpfApiConfig {
+export abstract class OpfApiConfig extends Config {
   backend?: OpfApiBackendConfig;
 }
 
