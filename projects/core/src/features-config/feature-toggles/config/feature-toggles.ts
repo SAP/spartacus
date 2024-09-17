@@ -510,6 +510,11 @@ export interface FeatureTogglesInterface {
   a11yDeliveryMethodFieldset?: boolean;
 
   /**
+   * In 'ProductReviewsComponent' the 'show more/less reviews' button will no longer loose focus on activation.
+   */
+  a11yShowMoreReviewsBtnFocus?: boolean;
+
+  /**
    * Fixes `aria-controls` attribute in the 'QuickOrderFormComponent' combobox.
    */
   a11yQuickOrderAriaControls?: boolean;
@@ -632,6 +637,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAddedToCartActiveDialog: false,
   a11yNgSelectMobileReadout: false,
   a11yDeliveryMethodFieldset: false,
+  a11yShowMoreReviewsBtnFocus: false,
   a11yQuickOrderAriaControls: false,
   a11yRemoveStatusLoadedRole: false,
   a11yDialogsHeading: false,
