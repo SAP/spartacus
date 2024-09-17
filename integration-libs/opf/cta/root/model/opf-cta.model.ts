@@ -40,6 +40,11 @@ export enum CtaScriptsLocation {
   ORDER_HISTORY_PAYMENT_GUIDE = 'ORDER_HISTORY_PAYMENT_GUIDE',
 }
 
+export const CtaOnsiteMessageLocations: Array<CtaScriptsLocation> = [
+  CtaScriptsLocation.CART_MESSAGING,
+  CtaScriptsLocation.PDP_MESSAGING,
+];
+
 export enum CmsPageLocation {
   ORDER_CONFIRMATION_PAGE = 'orderConfirmationPage',
   ORDER_PAGE = 'order',

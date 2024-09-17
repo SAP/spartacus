@@ -32,4 +32,6 @@ export abstract class OpfGlobalFunctionsFacade {
    * Abstract method to remove global functions used in Hosted-Fields pattern
    */
   abstract removeGlobalFunctions(domain: GlobalFunctionsDomain): void;
+
+  // abstract listenScriptReadyEvent(): Observable<string>;
 }

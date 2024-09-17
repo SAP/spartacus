@@ -16,7 +16,11 @@ import { CtaScriptsRequest, CtaScriptsResponse } from '../model';
     facadeFactory({
       facade: OpfCtaFacade,
       feature: OPF_CTA_FEATURE,
-      methods: ['getCtaScripts'],
+      methods: [
+        'getCtaScripts',
+        'listenScriptReadyEvent',
+        'emitScriptReadyEvent',
+      ],
     }),
 })
 export abstract class OpfCtaFacade {
@@ -26,4 +30,6 @@ export abstract class OpfCtaFacade {
   abstract getCtaScripts(
     ctaScriptsRequest: CtaScriptsRequest
   ): Observable<CtaScriptsResponse>;
+  abstract listenScriptReadyEvent(): Observable<string>;
+  abstract emitScriptReadyEvent(scriptIdentifier: string): void;
 }

@@ -6,7 +6,7 @@
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { OpfCtaScriptsService } from './opf-cta-scripts.service';
 
 @Component({
@@ -17,7 +17,14 @@ import { OpfCtaScriptsService } from './opf-cta-scripts.service';
 export class OpfCtaScriptsComponent {
   protected opfCtaScriptService = inject(OpfCtaScriptsService);
 
+  // ngOnInit(): void {
+  //   this.opfCtaScriptService.initiateOnsiteMessagingEvents();
+  // }
+
   ctaHtmls$ = this.opfCtaScriptService.getCtaHtmlslList().pipe(
+    tap((val) => {
+      console.log('val:', val);
+    }),
     catchError(() => {
       return of([]);
     })
