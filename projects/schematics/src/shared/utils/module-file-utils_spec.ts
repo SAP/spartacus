@@ -65,7 +65,7 @@ describe('Module file utils', () => {
     project: 'schematics-test',
   };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',

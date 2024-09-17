@@ -5,16 +5,11 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
+  generateDefaultWorkspace,
   LibraryOptions as S4OMOptions,
   S4OM_FEATURE_NAME,
   SPARTACUS_CHECKOUT,
   SPARTACUS_SCHEMATICS,
-  SpartacusOptions,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -28,27 +23,6 @@ describe('Spartacus S4OM schematics: ng-add', () => {
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
-
   const libraryNoFeaturesOptions: S4OMOptions = {
     project: 'schematics-test',
     lazy: true,
@@ -60,14 +34,7 @@ describe('Spartacus S4OM schematics: ng-add', () => {
     features: [S4OM_FEATURE_NAME],
   };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      path.join(
-        __dirname,
-        '../../../../projects/schematics/src/collection.json'
-      )
-    );
+  async function generateWorkspace() {
     schematicRunner.registerCollection(
       SPARTACUS_CHECKOUT,
       path.join(
@@ -75,30 +42,12 @@ describe('Spartacus S4OM schematics: ng-add', () => {
         '../../../../feature-libs/checkout/schematics/collection.json'
       )
     );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
+    return (appTree = await generateDefaultWorkspace(schematicRunner, appTree));
+  }
 
   describe('Without features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateWorkspace();
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
@@ -113,7 +62,8 @@ describe('Spartacus S4OM schematics: ng-add', () => {
 
   describe('S4OM feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateWorkspace();
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           s4omFeatureOptions,
@@ -146,7 +96,8 @@ describe('Spartacus S4OM schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateWorkspace();
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...s4omFeatureOptions, lazy: false },
