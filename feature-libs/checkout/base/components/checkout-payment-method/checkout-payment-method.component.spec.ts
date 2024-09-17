@@ -18,6 +18,7 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, Subject, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
@@ -188,6 +189,7 @@ describe('CheckoutPaymentMethodComponent', () => {
         CardComponent,
         MockSpinnerComponent,
         MockCxIconComponent,
+        MockFeatureDirective,
       ],
       providers: [
         { provide: UserPaymentService, useClass: MockUserPaymentService },

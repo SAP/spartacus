@@ -104,20 +104,22 @@
               <ng-container *ngTemplateOutlet="deliveryMode"></ng-container>
             </ng-container>
             <ng-container *ngSwitchCase="checkoutStepTypeServiceDetails">
-              <ng-container
-                *ngTemplateOutlet="
-                  summaryCard;
-                  context: {
-                    content: getServiceDetailsCard(scheduledAt$ | async),
-                    editRoute: getCheckoutStepUrl(
-                      checkoutStepTypeServiceDetails
-                    ),
-                    label: 'checkoutReview.editServiceDetails',
-                    styleClass:
-                      'cx-review-summary-card cx-review-service-details'
-                  }
-                "
-              ></ng-container>
+              <ng-container *ngIf="scheduledAt$ | async as scheduledAt">
+                <ng-container
+                  *ngTemplateOutlet="
+                    summaryCard;
+                    context: {
+                      content: getServiceDetailsCard(scheduledAt),
+                      editRoute: getCheckoutStepUrl(
+                        checkoutStepTypeServiceDetails
+                      ),
+                      label: 'checkoutReview.editServiceDetails',
+                      styleClass:
+                        'cx-review-summary-card cx-review-service-details'
+                    }
+                  "
+                ></ng-container>
+              </ng-container>
             </ng-container>
           </ng-container>
         </ng-container>
@@ -147,9 +149,9 @@
   <!-- DELIVERY MODE SECTION -->
   <ng-template #deliveryMode>
     <div class="cx-review-summary-card cx-review-card-shipping">
-      <div>
+      <div *ngIf="deliveryMode$ | async as deliveryMode">
         <cx-card
-          *ngIf="deliveryMode$ | async as deliveryMode"
+          *ngIf="shouldShowDeliveryModeCard(deliveryMode)"
           [content]="getDeliveryModeCard(deliveryMode) | async"
         >
         </cx-card>

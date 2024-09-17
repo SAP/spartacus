@@ -80,4 +80,13 @@
   button.link {
     margin-inline-start: 1rem;
   }
+
+  @include cx-highContrastTheme {
+    .cx-card {
+      padding: 2px;
+    }
+    .card-body {
+      background-color: var(--cx-color-background);
+    }
+  }
 }

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ErrorAction } from '../../../error-handling';
 import {
   AnonymousConsent,
   ConsentTemplate,
@@ -40,6 +41,7 @@ export const ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS =
 
 export class LoadAnonymousConsentTemplates extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_ANONYMOUS_CONSENT_TEMPLATES;
+
   constructor() {
     super(ANONYMOUS_CONSENTS);
   }
@@ -47,12 +49,18 @@ export class LoadAnonymousConsentTemplates extends StateUtils.LoaderLoadAction {
 
 export class LoadAnonymousConsentTemplatesSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_ANONYMOUS_CONSENT_TEMPLATES_SUCCESS;
+
   constructor(public payload: ConsentTemplate[]) {
     super(ANONYMOUS_CONSENTS);
   }
 }
-export class LoadAnonymousConsentTemplatesFail extends StateUtils.LoaderFailAction {
+
+export class LoadAnonymousConsentTemplatesFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_ANONYMOUS_CONSENT_TEMPLATES_FAIL;
+
   constructor(payload: any) {
     super(ANONYMOUS_CONSENTS, payload);
   }
@@ -60,6 +68,7 @@ export class LoadAnonymousConsentTemplatesFail extends StateUtils.LoaderFailActi
 
 export class ResetLoadAnonymousConsentTemplates extends StateUtils.LoaderResetAction {
   readonly type = RESET_LOAD_ANONYMOUS_CONSENT_TEMPLATES;
+
   constructor() {
     super(ANONYMOUS_CONSENTS);
   }
@@ -67,6 +76,7 @@ export class ResetLoadAnonymousConsentTemplates extends StateUtils.LoaderResetAc
 
 export class GetAllAnonymousConsents {
   readonly type = GET_ALL_ANONYMOUS_CONSENTS;
+
   constructor() {
     // Intentional empty constructor
   }
@@ -74,36 +84,43 @@ export class GetAllAnonymousConsents {
 
 export class GetAnonymousConsent {
   readonly type = GET_ANONYMOUS_CONSENT;
+
   constructor(public templateCode: string) {}
 }
 
 export class SetAnonymousConsents {
   readonly type = SET_ANONYMOUS_CONSENTS;
+
   constructor(public payload: AnonymousConsent[]) {}
 }
 
 export class GiveAnonymousConsent {
   readonly type = GIVE_ANONYMOUS_CONSENT;
+
   constructor(public templateCode: string) {}
 }
 
 export class WithdrawAnonymousConsent {
   readonly type = WITHDRAW_ANONYMOUS_CONSENT;
+
   constructor(public templateCode: string) {}
 }
 
 export class ToggleAnonymousConsentsBannerDissmissed {
   readonly type = TOGGLE_ANONYMOUS_CONSENTS_BANNER_DISMISSED;
+
   constructor(public dismissed: boolean) {}
 }
 
 export class ToggleAnonymousConsentTemplatesUpdated {
   readonly type = TOGGLE_ANONYMOUS_CONSENT_TEMPLATES_UPDATED;
+
   constructor(public updated: boolean) {}
 }
 
 export class AnonymousConsentCheckUpdatedVersions {
   readonly type = ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS;
+
   constructor() {
     // Intentional empty constructor
   }

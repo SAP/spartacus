@@ -6,6 +6,7 @@
   <ng-container *ngIf="!showCallbackScreen; else loadingPaymentDetails">
     <ng-container *ngIf="!(isUpdating$ | async); else loading">
       <div
+        *cxFeature="'!a11yRemoveStatusLoadedRole'"
         role="status"
         [attr.aria-label]="'common.loaded' | cxTranslate"
       ></div>

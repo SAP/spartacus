@@ -22,6 +22,7 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import { BreakpointService, ICON_TYPE } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
@@ -144,6 +145,7 @@ describe('QuoteListComponent', () => {
         MockPaginationComponent,
         MockSortingComponent,
         MockCxIconComponent,
+        MockFeatureDirective,
       ],
       providers: [
         {
