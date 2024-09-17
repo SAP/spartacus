@@ -4,7 +4,7 @@ This project is for testing server-side rendering in Spartacus.
 
 ## Running Tests
 
-Before running the test suite, we first need to build our application with `npm install && npm run build:libs && npm run build:ssr:local-http` from the root of the project.
+Before running the test suite, we first need to build our application with `npm install && npm run build:libs && npm run build:ssr:local-http-backend` from the root of the project.
 
 After the build, use the `npm run test:ssr` and `npm run test:ssr:ci` commands from the root of the project to run the tests.
 

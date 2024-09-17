@@ -10,14 +10,14 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  LibraryOptions as SpartacusProductOptions,
-  PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE_NAME,
   PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE_NAME,
-  productMultiDimensionalSelectorFeatureModulePath,
-  productMultiDimensionalListFeatureModulePath,
+  PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE_NAME,
   SPARTACUS_PRODUCT,
   SPARTACUS_SCHEMATICS,
   SpartacusOptions,
+  LibraryOptions as SpartacusProductOptions,
+  productMultiDimensionalListFeatureModulePath,
+  productMultiDimensionalSelectorFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -194,13 +194,6 @@ describe('Spartacus Product Multi-Dimensional schematics: ng-add', () => {
           multiDimensionalListOptions,
           appTree
         );
-      });
-
-      it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(
-          productMultiDimensionalListFeatureModulePath
-        );
-        expect(module).toMatchSnapshot();
       });
 
       describe('styling', () => {

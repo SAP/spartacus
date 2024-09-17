@@ -20,7 +20,6 @@ import {
   waitForProductPage,
   addCheapProductToCart,
   waitForPage,
-  verifyReviewOrderPage,
 } from '../../checkout-flow';
 import { tabbingOrderConfig as config } from '../../../helpers/accessibility/b2b/tabbing-order.config';
 import { ORDER_CODE } from '../../../sample-data/service-order';
@@ -43,19 +42,18 @@ export const nonServiceProduct: SampleProduct = {
   code: '3887119',
 };
 
-export function checkoutForServiceOrder(product: SampleProduct) {
+export function addProductToCart(product: SampleProduct) {
   const productPage = waitForProductPage(product.code, 'getProductPage');
-  const getPaymentTypes = interceptPaymentTypesEndpoint();
-
   cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${product.code}`);
   cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
-
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', product.code);
   });
-
   addCheapProductToCart(product);
+}
 
+export function proceedToCheckout() {
+  const getPaymentTypes = interceptPaymentTypesEndpoint();
   const paymentTypePage = waitForPage(
     '/checkout/payment-type',
     'getPaymentType'
@@ -65,25 +63,27 @@ export function checkoutForServiceOrder(product: SampleProduct) {
   cy.wait(`@${getPaymentTypes}`).its('response.statusCode').should('eq', 200);
 }
 
-export function selectAccountDeliveryModeForServiceOrder() {
-  const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint();
-
+export function selectDeliveryMode(checkServiceDetails: boolean) {
+  const getCheckoutDetailsAfterDeliveryMode =
+    interceptCheckoutB2BDetailsEndpoint();
+  const serviceDetails = waitForPage(
+    '/checkout/service-details',
+    'getServiceDetails'
+  );
   cy.get('.cx-checkout-title').should('contain', 'Delivery Options');
   cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('.cx-checkout-btns button.btn-primary')
     .should('be.enabled')
     .click({ force: true });
-  cy.wait(`@${getCheckoutDetails}`)
+  cy.wait(`@${getCheckoutDetailsAfterDeliveryMode}`)
     .its('response.statusCode')
     .should('eq', 200);
 
-  const serviceDetails = waitForPage(
-    '/checkout/service-details',
-    'getServiceDetails'
-  );
-  cy.wait(`@${serviceDetails}`, { timeout: 30000 })
-    .its('response.statusCode')
-    .should('eq', 200);
+  if (checkServiceDetails) {
+    cy.wait(`@${serviceDetails}`, { timeout: 30000 })
+      .its('response.statusCode')
+      .should('eq', 200);
+  }
 }
 
 export function verifyServiceDatePickerExists() {
@@ -101,7 +101,7 @@ export function interceptPatchServiceDetailsEndpoint() {
   return alias;
 }
 
-export function selectServiceDetailsForServiceOrder() {
+export function selectServiceDetails() {
   const patchServiceDetails = interceptPatchServiceDetailsEndpoint();
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint();
@@ -130,28 +130,41 @@ export function selectServiceDetailsForServiceOrder() {
     .should('eq', 200);
 }
 
-export function verifyServiceOrderReviewOrderPage(serviceOrder: boolean) {
-  verifyReviewOrderPage();
-
-  if (serviceOrder) {
+export function verifyOrderReviewPage(
+  shouldServiceDetailsBeVisible: boolean,
+  shouldDeliveryModeBeVisible: boolean
+) {
+  if (shouldServiceDetailsBeVisible) {
     cy.get('.cx-review-summary-card')
       .contains('cx-card', 'Service Details')
       .find('.cx-card-container')
-      .within(() => {
-        cy.findByText('Scheduled At');
-      });
+      .should('exist');
     cy.get('.cx-review-summary-card')
       .contains('cx-card', 'Service Details')
       .find('.cx-card-container .cx-card-label')
       .should((div) => {
         const text = div.text().trim();
-        expect(text).to.match(/\d{2}\/\d{2}\/\d{4}, \d{2}:\d{2}:\d{2}/);
+        expect(text).to.match(/\d{2}:\d{2}:\d{2}/);
+      });
+    cy.get('.cx-review-summary-card')
+      .contains('cx-card', 'Service Details')
+      .find('.cx-card-container .cx-card-label-bold')
+      .should((div) => {
+        const text = div.text().trim();
+        expect(text).to.match(/^\d{2}\/\d{2}\/\d{4}$/);
       });
   } else {
     cy.get('.cx-review-summary-card')
       .contains('cx-card', 'Service Details')
-      .find('.cx-card-container')
       .should('not.exist');
+  }
+
+  if (shouldDeliveryModeBeVisible === true) {
+    cy.contains('.cx-review-summary-card', 'Delivery Method').should('exist');
+  } else {
+    cy.contains('.cx-review-summary-card', 'Delivery Method').should(
+      'not.exist'
+    );
   }
 
   cy.findByText('Terms & Conditions')
@@ -164,27 +177,42 @@ export function verifyServiceOrderReviewOrderPage(serviceOrder: boolean) {
   cy.get('input[formcontrolname="termsAndConditions"]').check();
 }
 
-export function verifyServiceOrderConfirmationPage(serviceOrder: boolean) {
-  if (serviceOrder) {
+export function verifyOrderConfirmationPage(
+  shouldServiceDetailsBeVisible: boolean,
+  shouldDeliveryModeBeVisible: boolean
+) {
+  if (shouldServiceDetailsBeVisible) {
     cy.get('cx-card-service-details')
       .contains('cx-card', 'Service Details')
       .find('.cx-card-container')
-      .within(() => {
-        cy.findByText('Scheduled At');
+      .should('exist');
+    cy.get('cx-card-service-details')
+      .contains('cx-card', 'Service Details')
+      .find('.cx-card-container .cx-card-label')
+      .should((div) => {
+        const text = div.text().trim();
+        expect(text).to.match(/\d{2}:\d{2}:\d{2}/);
       });
-    cy.get('cx-card-service-details .cx-card-label').should((div) => {
-      const text = div.text().trim();
-      expect(text).to.match(/\d{2}\/\d{2}\/\d{4}, \d{2}:\d{2}:\d{2}/);
-    });
+    cy.get('cx-card-service-details')
+      .contains('cx-card', 'Service Details')
+      .find('.cx-card-container .cx-card-label-bold')
+      .should((div) => {
+        const text = div.text().trim();
+        expect(text).to.match(/^\d{2}\/\d{2}\/\d{4}$/);
+      });
   } else {
     cy.get('cx-card-service-details')
       .contains('cx-card', 'Service Details')
-      .find('.cx-card-container')
       .should('not.exist');
+  }
+  if (shouldDeliveryModeBeVisible === true) {
+    cy.contains('cx-card', 'Shipping Method').should('exist');
+  } else {
+    cy.contains('cx-card', 'Shipping Method').should('not.exist');
   }
 }
 
-export function selectAccountPaymentForServiceOrder() {
+export function selectAccountPayment() {
   const getCostCenters = interceptCostCenterEndpoint();
 
   cy.get('cx-payment-type').within(() => {
@@ -215,7 +243,7 @@ export function selectAccountPaymentForServiceOrder() {
   });
 }
 
-export function selectAccountShippingAddressForServiceOrder() {
+export function selectShippingAddress(checkDeliveryMode: boolean) {
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
 
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
@@ -241,8 +269,10 @@ export function selectAccountShippingAddressForServiceOrder() {
   );
 
   cy.get('button.btn-primary').should('be.enabled').click();
-  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
-  cy.wait(`@${putDeliveryMode}`).its('response.statusCode').should('eq', 200);
+  if (checkDeliveryMode === true) {
+    cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
+    cy.wait(`@${putDeliveryMode}`).its('response.statusCode').should('eq', 200);
+  }
 }
 
 export function interceptOrderList(alias, response) {

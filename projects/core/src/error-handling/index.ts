@@ -5,4 +5,7 @@
  */
 
 export * from './cx-error-handler';
+export * from './effects-error-handler';
 export * from './error-handling.module';
+export * from './http-error-handler';
+export * from './multi-error-handler';

@@ -235,9 +235,6 @@
       "@spartacus/product-multi-dimensional/list": [
         "dist/product-multi-dimensional/list"
       ],
-      "@spartacus/product-multi-dimensional/list/occ": [
-        "dist/product-multi-dimensional/list/occ"
-      ],
       "@spartacus/product-multi-dimensional/list/root": [
         "dist/product-multi-dimensional/list/root"
       ],

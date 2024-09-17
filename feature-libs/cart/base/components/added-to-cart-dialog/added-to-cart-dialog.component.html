@@ -149,7 +149,22 @@
     <!-- Modal Header -->
     <ng-container *ngIf="loaded$ | async; else loading">
       <div class="cx-dialog-header modal-header">
-        <div id="dialogTitle" class="cx-dialog-title modal-title">
+        <h3
+          *cxFeature="'a11yDialogsHeading'"
+          id="dialogTitle"
+          class="cx-dialog-title modal-title"
+        >
+          {{
+            (addedEntryWasMerged$ | async)
+              ? ('addToCart.itemsIncrementedInYourCart' | cxTranslate)
+              : ('addToCart.itemsAddedToYourCart' | cxTranslate)
+          }}
+        </h3>
+        <div
+          *cxFeature="'!a11yDialogsHeading'"
+          id="dialogTitle"
+          class="cx-dialog-title modal-title"
+        >
           {{
             (addedEntryWasMerged$ | async)
               ? ('addToCart.itemsIncrementedInYourCart' | cxTranslate)
@@ -262,7 +277,16 @@
 
     <ng-template #loading>
       <div class="cx-dialog-header modal-header">
-        <div class="cx-dialog-title modal-title">
+        <h2
+          *cxFeature="'a11yDialogsHeading'"
+          class="cx-dialog-title modal-title"
+        >
+          {{ 'addToCart.updatingCart' | cxTranslate }}
+        </h2>
+        <div
+          *cxFeature="'!a11yDialogsHeading'"
+          class="cx-dialog-title modal-title"
+        >
           {{ 'addToCart.updatingCart' | cxTranslate }}
         </div>
         <button

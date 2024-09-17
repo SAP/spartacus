@@ -23,6 +23,7 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 import createSpy = jasmine.createSpy;
@@ -175,6 +176,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
         MockAddressFormComponent,
         MockCardComponent,
         MockSpinnerComponent,
+        MockFeatureDirective,
       ],
       providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },

@@ -24,13 +24,8 @@ export const PRODUCT_MULTI_DIMENSIONAL_SCSS_FILE_NAME =
 export const PRODUCT_MULTI_DIMENSIONAL_LIST_MODULE_NAME =
   'ProductMultiDimensionalList';
 
-export const PRODUCT_MULTI_DIMENSIONAL_LIST_MODULE =
-  'ProductMultiDimensionalListModule';
-
 export const PRODUCT_MULTI_DIMENSIONAL_LIST_ROOT_MODULE_NAME =
   'ProductMultiDimensionalListRootModule';
-export const PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE_NAME_CONSTANT =
-  'PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE';
 
 export const PRODUCT_MULTI_DIMENSIONAL_LIST_SCHEMATICS_CONFIG: SchematicConfig =
   {
@@ -41,19 +36,10 @@ export const PRODUCT_MULTI_DIMENSIONAL_LIST_SCHEMATICS_CONFIG: SchematicConfig =
     },
     folderName: PRODUCT_MULTI_DIMENSIONAL_FOLDER_NAME,
     moduleName: PRODUCT_MULTI_DIMENSIONAL_LIST_MODULE_NAME,
-    featureModule: [
-      {
-        name: PRODUCT_MULTI_DIMENSIONAL_LIST_MODULE,
-        importPath: SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_LIST,
-      },
-    ],
+    featureModule: [],
     rootModule: {
       name: PRODUCT_MULTI_DIMENSIONAL_LIST_ROOT_MODULE_NAME,
       importPath: SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_LIST_ROOT,
-    },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_LIST_ROOT,
-      namedImports: [PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE_NAME_CONSTANT],
     },
   };
 
