@@ -56,7 +56,7 @@ describe('Workspace utils', () => {
     features: [],
   };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',

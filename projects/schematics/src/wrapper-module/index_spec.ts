@@ -21,7 +21,7 @@ import {
 } from '../shared/libs-constants';
 import { findDynamicImport } from '../shared/utils/import-utils';
 import { LibraryOptions } from '../shared/utils/lib-utils';
-import { Import, addModuleImport } from '../shared/utils/new-module-utils';
+import { addModuleImport, Import } from '../shared/utils/new-module-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import {
@@ -72,7 +72,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
     lazy: true,
   };
 
-  beforeEach(async () => {
+  async function generateWorkspace() {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
@@ -88,6 +88,49 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
 
     buildPath = getProjectTsConfigPaths(appTree, BASE_OPTIONS.project)
       .buildPaths[0];
+  }
+
+  beforeAll(async () => {
+    await generateWorkspace();
+  });
+
+  describe('Double execution', () => {
+    it('should not change anything', async () => {
+      // first execution happens under the hood
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        {
+          ...defaultOptions,
+          features: [CHECKOUT_BASE_FEATURE_NAME],
+          name: 'schematics-test',
+        },
+        appTree
+      );
+
+      const options: SpartacusWrapperOptions = {
+        project: 'schematics-test',
+        markerModuleName: CHECKOUT_BASE_MODULE,
+        featureModuleName: CHECKOUT_BASE_MODULE,
+      };
+      // the second execution
+      appTree = await schematicRunner.runSchematic(
+        'wrapper-module',
+        options,
+        appTree
+      );
+
+      const { program } = createProgram(appTree, appTree.root.path, buildPath);
+
+      const checkoutFeatureModule = program.getSourceFileOrThrow(
+        checkoutFeatureModulePath
+      );
+      const checkoutWrapperModule = program.getSourceFileOrThrow(
+        checkoutWrapperModulePath
+      );
+
+      expect(checkoutFeatureModule.print()).toMatchSnapshot();
+      expect(checkoutWrapperModule.print()).toMatchSnapshot();
+    });
   });
 
   describe('One dynamic import in the file', () => {
@@ -153,45 +196,6 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
     });
   });
 
-  describe('Double execution', () => {
-    it('should not change anything', async () => {
-      // first execution happens under the hood
-      appTree = await schematicRunner.runSchematic(
-        'ng-add',
-        {
-          ...defaultOptions,
-          features: [CHECKOUT_BASE_FEATURE_NAME],
-          name: 'schematics-test',
-        },
-        appTree
-      );
-
-      const options: SpartacusWrapperOptions = {
-        project: 'schematics-test',
-        markerModuleName: CHECKOUT_BASE_MODULE,
-        featureModuleName: CHECKOUT_BASE_MODULE,
-      };
-      // the second execution
-      appTree = await schematicRunner.runSchematic(
-        'wrapper-module',
-        options,
-        appTree
-      );
-
-      const { program } = createProgram(appTree, appTree.root.path, buildPath);
-
-      const checkoutFeatureModule = program.getSourceFileOrThrow(
-        checkoutFeatureModulePath
-      );
-      const checkoutWrapperModule = program.getSourceFileOrThrow(
-        checkoutWrapperModulePath
-      );
-
-      expect(checkoutFeatureModule.print()).toMatchSnapshot();
-      expect(checkoutWrapperModule.print()).toMatchSnapshot();
-    });
-  });
-
   describe('Checkout Scheduled Replenishment', () => {
     it('should create the checkout wrapper module and import Checkout features', async () => {
       appTree = await schematicRunner.runSchematic(
@@ -251,7 +255,9 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
   describe('Checkout and DP', () => {
     let program: any;
 
-    beforeEach(async () => {
+    beforeAll(async () => {
+      await generateWorkspace();
+
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         {
@@ -314,7 +320,9 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
   });
 
   describe('wrapper module already exists', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      await generateWorkspace();
+
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         {
