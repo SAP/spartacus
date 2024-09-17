@@ -1,17 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
-import { ServiceCheckoutDeliveryModeComponent } from './service-checkout-delivery-mode.component';
-import { ActivatedRoute } from '@angular/router';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import createSpy = jasmine.createSpy;
 import { ReactiveFormsModule } from '@angular/forms';
-import { OutletModule } from '@spartacus/storefront';
+import { ActivatedRoute } from '@angular/router';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
+import {
+  CheckoutFlowOrchestratorService,
+  CheckoutStepService,
+} from '@spartacus/checkout/base/components';
+import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
 import {
   CheckoutServiceDetailsFacade,
   S4ServiceDeliveryModeConfig,
 } from '@spartacus/s4-service/root';
+import { OutletModule } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
-import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
+import { ServiceCheckoutDeliveryModeComponent } from './service-checkout-delivery-mode.component';
+import createSpy = jasmine.createSpy;
 const mockCart: Cart = {
   code: '123456789',
   description: 'testCartDescription',
@@ -51,6 +54,13 @@ class MockCartService implements Partial<ActiveCartFacade> {
   getPickupEntries = createSpy().and.returnValue(of([]));
   getActive = () => cart$.asObservable();
 }
+
+class MockCheckoutFlowOrchestratorService
+  implements Partial<CheckoutFlowOrchestratorService>
+{
+  getCheckoutFlow = createSpy();
+}
+
 describe('ServiceCheckoutDeliveryModeComponent', () => {
   let component: ServiceCheckoutDeliveryModeComponent;
   let fixture: ComponentFixture<ServiceCheckoutDeliveryModeComponent>;
@@ -69,6 +79,10 @@ describe('ServiceCheckoutDeliveryModeComponent', () => {
         { provide: ActiveCartFacade, useClass: MockCartService },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: CheckoutFlowOrchestratorService,
+          useClass: MockCheckoutFlowOrchestratorService,
+        },
         {
           provide: S4ServiceDeliveryModeConfig,
           useValue: mockServiceDeliveryModeConfig,
