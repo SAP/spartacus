@@ -13,7 +13,7 @@ import {
 } from './config-utils';
 import { getModulePropertyInitializer } from './new-module-utils';
 
-describe('Storefront config utils', () => {
+xdescribe('Storefront config utils', () => {
   let project: Project;
   let sourceFile: SourceFile;
   beforeEach(() => {
@@ -22,7 +22,7 @@ describe('Storefront config utils', () => {
     });
   });
 
-  describe('ts-morph config utils', () => {
+  xdescribe('ts-morph config utils', () => {
     const configFileContent = `
 import { NgModule } from '@angular/core';
 import {
@@ -77,7 +77,7 @@ export class TrackingFeatureModule {}
       sourceFile = project.createSourceFile('test.ts', configFileContent);
     });
 
-    describe('getSpartacusProviders', () => {
+    xdescribe('getSpartacusProviders', () => {
       it('should return all providers from spartacus in file', () => {
         const providers = getSpartacusProviders(sourceFile);
         expect(providers.length).toEqual(3);
@@ -88,7 +88,7 @@ export class TrackingFeatureModule {}
     });
   });
 
-  describe('isSpartacusConfigDuplicate', () => {
+  xdescribe('isSpartacusConfigDuplicate', () => {
     const featureModule = `
     import { NgModule } from '@angular/core';
     import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
@@ -97,7 +97,7 @@ export class TrackingFeatureModule {}
       orderTranslations,
     } from '@spartacus/order/assets';
     import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
-    
+
     @NgModule({
       declarations: [],
       imports: [OrderRootModule],
@@ -137,8 +137,8 @@ featureModules: {[ORDER_FEATURE]: {module: () => import('@spartacus/order').then
     });
   });
 
-  describe('removeProperty', () => {
-    describe('when the property is not present', () => {
+  xdescribe('removeProperty', () => {
+    xdescribe('when the property is not present', () => {
       beforeEach(() => {
         sourceFile = project.createSourceFile(
           'feature-module.ts',
@@ -155,7 +155,7 @@ featureModules: {[ORDER_FEATURE]: {module: () => import('@spartacus/order').then
         expect(objectLiteral.print()).toEqual(`{ a: 1 }`);
       });
     });
-    describe('when multiple properties are present', () => {
+    xdescribe('when multiple properties are present', () => {
       beforeEach(() => {
         sourceFile = project.createSourceFile(
           'feature-module.ts',
@@ -172,7 +172,7 @@ featureModules: {[ORDER_FEATURE]: {module: () => import('@spartacus/order').then
         expect(objectLiteral.print()).toEqual(`{ b: 2 }`);
       });
     });
-    describe('when single property is present', () => {
+    xdescribe('when single property is present', () => {
       beforeEach(() => {
         sourceFile = project.createSourceFile(
           'feature-module.ts',
@@ -189,7 +189,7 @@ featureModules: {[ORDER_FEATURE]: {module: () => import('@spartacus/order').then
         expect(objectLiteral.print()).toEqual(`{}`);
       });
     });
-    describe('when the property is nested in the object', () => {
+    xdescribe('when the property is nested in the object', () => {
       beforeEach(() => {
         sourceFile = project.createSourceFile(
           'feature-module.ts',

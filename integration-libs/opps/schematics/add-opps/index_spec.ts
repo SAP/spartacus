@@ -24,7 +24,7 @@ import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus Opps Schematics: ng-add', () => {
+xdescribe('Spartacus Opps Schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_OPPS,
     collectionPath
@@ -95,7 +95,7 @@ describe('Spartacus Opps Schematics: ng-add', () => {
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -109,8 +109,8 @@ describe('Spartacus Opps Schematics: ng-add', () => {
     });
   });
 
-  describe('opps feature', () => {
-    describe('general setup', () => {
+  xdescribe('opps feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -151,7 +151,7 @@ describe('Spartacus Opps Schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',

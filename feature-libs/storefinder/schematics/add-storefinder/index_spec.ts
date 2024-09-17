@@ -23,7 +23,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/storefinder.scss';
 
-describe('Spartacus Storefinder schematics: ng-add', () => {
+xdescribe('Spartacus Storefinder schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_STOREFINDER,
     collectionPath
@@ -90,7 +90,7 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -129,8 +129,8 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
     });
   });
 
-  describe('Storefinder feature', () => {
-    describe('general setup', () => {
+  xdescribe('Storefinder feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',

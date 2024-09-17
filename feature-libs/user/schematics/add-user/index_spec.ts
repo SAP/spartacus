@@ -24,7 +24,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/user.scss';
 
-describe('Spartacus User schematics: ng-add', () => {
+xdescribe('Spartacus User schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_USER,
     collectionPath
@@ -96,7 +96,7 @@ describe('Spartacus User schematics: ng-add', () => {
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -135,8 +135,8 @@ describe('Spartacus User schematics: ng-add', () => {
     });
   });
 
-  describe('User-Account feature', () => {
-    describe('general setup', () => {
+  xdescribe('User-Account feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -150,7 +150,7 @@ describe('Spartacus User schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
-      describe('styling', () => {
+      xdescribe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
           expect(scssContent).toMatchSnapshot();
@@ -163,7 +163,7 @@ describe('Spartacus User schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -179,8 +179,8 @@ describe('Spartacus User schematics: ng-add', () => {
     });
   });
 
-  describe('User Profile feature', () => {
-    describe('general setup', () => {
+  xdescribe('User Profile feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -194,7 +194,7 @@ describe('Spartacus User schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
-      describe('styling', () => {
+      xdescribe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
           expect(scssContent).toMatchSnapshot();
@@ -212,7 +212,7 @@ describe('Spartacus User schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',

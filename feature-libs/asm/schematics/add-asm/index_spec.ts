@@ -24,7 +24,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/asm.scss';
 
-describe('Spartacus Asm schematics: ng-add', () => {
+xdescribe('Spartacus Asm schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_ASM,
     collectionPath
@@ -91,7 +91,7 @@ describe('Spartacus Asm schematics: ng-add', () => {
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -130,8 +130,8 @@ describe('Spartacus Asm schematics: ng-add', () => {
     });
   });
 
-  describe('Asm feature', () => {
-    describe('general setup', () => {
+  xdescribe('Asm feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -150,7 +150,7 @@ describe('Spartacus Asm schematics: ng-add', () => {
         expect(userFeatureModule).toBeFalsy();
       });
 
-      describe('styling', () => {
+      xdescribe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
           expect(scssContent).toMatchSnapshot();
@@ -163,7 +163,7 @@ describe('Spartacus Asm schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',

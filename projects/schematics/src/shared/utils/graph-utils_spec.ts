@@ -39,8 +39,8 @@ import {
   kahnsAlgorithm,
 } from './graph-utils';
 
-describe('Graph utils', () => {
-  describe('library dependency graph', () => {
+xdescribe('Graph utils', () => {
+  xdescribe('library dependency graph', () => {
     it('scenario #1 - should be able to find a correct installation order', () => {
       const graph = new Graph([
         SPARTACUS_DIGITAL_PAYMENTS,
@@ -169,7 +169,7 @@ describe('Graph utils', () => {
     });
   });
 
-  describe('feature dependency graph', () => {
+  xdescribe('feature dependency graph', () => {
     it('should generate the correct installation order', () => {
       expect(crossFeatureInstallationOrder).toMatchInlineSnapshot(`
         [

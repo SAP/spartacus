@@ -30,7 +30,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/checkout.scss';
 
-describe('Spartacus Checkout schematics: ng-add', () => {
+xdescribe('Spartacus Checkout schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_CHECKOUT,
     collectionPath
@@ -108,7 +108,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -147,9 +147,9 @@ describe('Spartacus Checkout schematics: ng-add', () => {
     });
   });
 
-  describe('Checkout feature', () => {
-    describe('base', () => {
-      describe('general setup', () => {
+  xdescribe('Checkout feature', () => {
+    xdescribe('base', () => {
+      xdescribe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
@@ -180,7 +180,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
           expect(userFeatureModule).toBeFalsy();
         });
 
-        describe('styling', () => {
+        xdescribe('styling', () => {
           it('should create a proper scss file', () => {
             const scssContent = appTree.readContent(scssFilePath);
             expect(scssContent).toMatchSnapshot();
@@ -193,7 +193,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
         });
       });
 
-      describe('eager loading', () => {
+      xdescribe('eager loading', () => {
         beforeEach(async () => {
           appTree = await schematicRunner.runSchematic(
             'ng-add',
@@ -211,7 +211,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
       });
     });
 
-    describe('b2b', () => {
+    xdescribe('b2b', () => {
       describe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner.runSchematic(

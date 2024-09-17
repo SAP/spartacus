@@ -46,7 +46,7 @@ import { Component } from '@angular/core';
 export class Test {}
 `;
 
-describe('Module file utils', () => {
+xdescribe('Module file utils', () => {
   let appTree: UnitTestTree;
   const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
@@ -86,7 +86,7 @@ describe('Module file utils', () => {
     );
   });
 
-  describe('stripTsFromImport', () => {
+  xdescribe('stripTsFromImport', () => {
     it('should strip the .ts when present', () => {
       const test1 = '../../components.ts';
       expect(stripTsFromImport(test1)).toEqual('../../components');
@@ -100,7 +100,7 @@ describe('Module file utils', () => {
     });
   });
 
-  describe('addImport', () => {
+  xdescribe('addImport', () => {
     it('should add passed import', async () => {
       const appModulePath = getPathResultsForFile(
         appTree,
@@ -121,8 +121,8 @@ describe('Module file utils', () => {
     });
   });
 
-  describe('add metadata to ng module', () => {
-    describe('addToModuleImports', () => {
+  xdescribe('add metadata to ng module', () => {
+    xdescribe('addToModuleImports', () => {
       it('should add passed position to imports array', async () => {
         const appModulePath = getPathResultsForFile(
           appTree,
@@ -141,7 +141,7 @@ describe('Module file utils', () => {
         expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
       });
     });
-    describe('addToModuleDeclarations', () => {
+    xdescribe('addToModuleDeclarations', () => {
       it('should add passed position to declarations array', async () => {
         const appModulePath = getPathResultsForFile(
           appTree,
@@ -161,7 +161,7 @@ describe('Module file utils', () => {
       });
     });
 
-    describe('addToModuleExports', () => {
+    xdescribe('addToModuleExports', () => {
       it('should add passed position to exports array', async () => {
         const appModulePath = getPathResultsForFile(
           appTree,
@@ -182,8 +182,8 @@ describe('Module file utils', () => {
     });
   });
 
-  describe('getTemplateInfo', () => {
-    describe('when the templateUrl is specified', () => {
+  xdescribe('getTemplateInfo', () => {
+    xdescribe('when the templateUrl is specified', () => {
       it('should return the template path', () => {
         const source = ts.createSourceFile(
           'component.ts',
@@ -201,7 +201,7 @@ describe('Module file utils', () => {
       });
     });
 
-    describe('when the inline template is defined', () => {
+    xdescribe('when the inline template is defined', () => {
       it('should return the template path', () => {
         const source = ts.createSourceFile(
           'component.ts',

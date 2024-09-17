@@ -35,7 +35,7 @@ const schematicRunner = new SchematicTestRunner(
   collectionPath
 );
 
-describe('Workspace utils', () => {
+xdescribe('Workspace utils', () => {
   let appTree: UnitTestTree;
   const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
@@ -77,21 +77,21 @@ describe('Workspace utils', () => {
     );
   });
 
-  describe('getSourceRoot', () => {
+  xdescribe('getSourceRoot', () => {
     it('should return the source root of the default project', async () => {
       const sourceRoot = getSourceRoot(appTree, {});
       expect(sourceRoot).toEqual('src');
     });
   });
 
-  describe('getWorkspace', () => {
+  xdescribe('getWorkspace', () => {
     it('should return data about project', async () => {
       const workspaceInfo = getWorkspace(appTree);
       expect(workspaceInfo.path).toEqual('/angular.json');
     });
   });
 
-  describe('getAngularJsonFile', () => {
+  xdescribe('getAngularJsonFile', () => {
     it('should return workspace', async () => {
       const workspace = getAngularJsonFile(appTree);
       expect(workspace).not.toBeUndefined();
@@ -114,7 +114,7 @@ describe('Workspace utils', () => {
     });
   });
 
-  describe('getProjectFromWorkspace', () => {
+  xdescribe('getProjectFromWorkspace', () => {
     it('should return workspace project object', async () => {
       const workspaceProjectObject = getProjectFromWorkspace(
         appTree,

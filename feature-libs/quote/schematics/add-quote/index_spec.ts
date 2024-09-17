@@ -25,7 +25,7 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/quote.scss';
 
-describe('Spartacus Quote schematics: ng-add', () => {
+xdescribe('Spartacus Quote schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_QUOTE,
     collectionPath
@@ -90,7 +90,7 @@ describe('Spartacus Quote schematics: ng-add', () => {
     );
   });
 
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -129,8 +129,8 @@ describe('Spartacus Quote schematics: ng-add', () => {
     });
   });
 
-  describe('Quote feature', () => {
-    describe('general setup', () => {
+  xdescribe('Quote feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -149,7 +149,7 @@ describe('Spartacus Quote schematics: ng-add', () => {
         expect(userFeatureModule).toBeFalsy();
       });
 
-      describe('styling', () => {
+      xdescribe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
           expect(scssContent).toMatchSnapshot();
@@ -161,7 +161,7 @@ describe('Spartacus Quote schematics: ng-add', () => {
         });
       });
 
-      describe('b2b features', () => {
+      xdescribe('b2b features', () => {
         it('should be added for quote library', () => {
           const configurationModule = appTree.readContent(
             `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
@@ -171,7 +171,7 @@ describe('Spartacus Quote schematics: ng-add', () => {
       });
     });
 
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',

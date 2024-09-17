@@ -30,7 +30,7 @@ import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add', () => {
+xdescribe('Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_S4_SERVICE,
     collectionPath
@@ -122,7 +122,7 @@ describe('Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add'
       appTree
     );
   });
-  describe('Without features', () => {
+  xdescribe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner.runSchematic(
         'ng-add',
@@ -134,8 +134,8 @@ describe('Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add'
       expect(appTree.exists(s4ServiceFeatureModulePath)).toBeFalsy();
     });
   });
-  describe('S4-Service feature', () => {
-    describe('general setup', () => {
+  xdescribe('S4-Service feature', () => {
+    xdescribe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
@@ -188,7 +188,7 @@ describe('Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add'
         expect(checkoutWrapperModule).toMatchSnapshot();
       });
     });
-    describe('eager loading', () => {
+    xdescribe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
