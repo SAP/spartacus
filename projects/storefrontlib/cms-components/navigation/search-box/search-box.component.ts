@@ -9,6 +9,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -94,6 +95,20 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @ViewChild('searchInput') searchInput: any;
 
   @ViewChild('searchButton') searchButton: ElementRef<HTMLElement>;
+
+  @HostListener('keydown.escape')
+  onEscape() {
+    if (
+      (this.featureConfigService?.isEnabled('a11ySearchBoxFocusOnEscape') &&
+        this.winRef.document.activeElement !==
+          this.searchInput.nativeElement) ||
+      this.searchBoxActive
+    ) {
+      setTimeout(() => {
+        this.searchInput.nativeElement.focus();
+      });
+    }
+  }
 
   iconTypes = ICON_TYPE;
 
@@ -237,7 +252,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           true
         );
         this.searchBoxActive = true;
-        this.searchInput.nativeElement.focus();
+        this.searchInput?.nativeElement.focus();
       }
     } else {
       this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
@@ -281,7 +296,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     // TODO: (CXSPA-6929) - Remove feature flag next major release
     if (this.a11ySearchBoxMobileFocusEnabled) {
       this.changeDetecorRef?.detectChanges();
-      this.searchButton.nativeElement.focus();
+      this.searchButton?.nativeElement.focus();
     } else {
       if (event && event.target) {
         (<HTMLElement>event.target).blur();
