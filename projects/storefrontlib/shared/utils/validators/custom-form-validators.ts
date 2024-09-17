@@ -201,6 +201,33 @@ export class CustomFormValidators {
   }
 
   /**
+   * Checks if two password controls don't match
+   *
+   * NOTE: Use it as a form validator and pass password control names as parameters
+   *
+   * @static
+   * @param {string} password First password control name
+   * @param {string} passwordConfirmation Second password control name
+   * @returns Uses 'cxPasswordsCannotMatch' validator error
+   * @memberof CustomFormValidators
+   */
+  static passwordsCannotMatch(
+    password: string,
+    passwordConfirmation: string
+  ): any {
+    const validator = (formGroup: UntypedFormGroup) =>
+      controlsMustMatch(
+        formGroup,
+        password,
+        passwordConfirmation,
+        'cxPasswordsCannotMatch',
+        true
+      );
+
+    return validator;
+  }
+
+  /**
    * Checks if two email controls match
    *
    * NOTE: Use it as a form validator and pass email control names as parameters
@@ -334,12 +361,14 @@ export class CustomFormValidators {
  * @param firstControlName First control to check
  * @param secondControlName Second control to check
  * @param errorName Error which will be returned by validator
+ * @param cannotMatch Reverse check
  */
 export function controlsMustMatch(
   formGroup: UntypedFormGroup,
   firstControlName: string,
   secondControlName: string,
-  errorName: string
+  errorName: string,
+  cannotMatch = false
 ): void {
   const firstControl = formGroup.controls[firstControlName];
   const secondControl = formGroup.controls[secondControlName];
@@ -348,7 +377,9 @@ export function controlsMustMatch(
     return;
   }
 
-  secondControl.setErrors(
-    firstControl.value !== secondControl.value ? { [errorName]: true } : null
-  );
+  const isTrue = cannotMatch
+    ? firstControl.value === secondControl.value
+    : firstControl.value !== secondControl.value;
+
+  secondControl.setErrors(isTrue ? { [errorName]: true } : null);
 }

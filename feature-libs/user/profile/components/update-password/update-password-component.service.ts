@@ -62,10 +62,13 @@ export class UpdatePasswordComponentService {
       newPasswordConfirm: new UntypedFormControl('', Validators.required),
     },
     {
-      validators: CustomFormValidators.passwordsMustMatch(
-        'newPassword',
-        'newPasswordConfirm'
-      ),
+      validators: [
+        CustomFormValidators.passwordsMustMatch(
+          'newPassword',
+          'newPasswordConfirm'
+        ),
+        CustomFormValidators.passwordsCannotMatch('oldPassword', 'newPassword'),
+      ],
     }
   );
 
