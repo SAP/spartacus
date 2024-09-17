@@ -6,17 +6,12 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
   EPD_VISUALIZATION_FEATURE_NAME,
+  epdFeatureModulePath,
+  generateDefaultWorkspace,
   SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_SCHEMATICS,
   SpartacusEpdVisualizationOptions,
-  SpartacusOptions,
-  epdFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -32,27 +27,6 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
-
   const libraryNoFeaturesOptions: SpartacusEpdVisualizationOptions = {
     project: 'schematics-test',
     lazy: true,
@@ -65,38 +39,9 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
     features: [EPD_VISUALIZATION_FEATURE_NAME],
   };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      path.join(
-        __dirname,
-        '../../../../projects/schematics/src/collection.json'
-      )
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
-
   describe('Without features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateDefaultWorkspace(schematicRunner, appTree);
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
@@ -111,7 +56,8 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
 
   describe('SAP EPD Visualization feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           visualizationFeatureOptions,
@@ -167,7 +113,8 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...visualizationFeatureOptions, lazy: false },
@@ -184,7 +131,8 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
 
   describe('SAP EPD Visualization feature - No compilerOptions in tsconfig', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           visualizationFeatureOptions,
@@ -223,7 +171,8 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...visualizationFeatureOptions, lazy: false },

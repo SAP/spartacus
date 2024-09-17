@@ -5,17 +5,12 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
   ASM_FEATURE_NAME,
+  asmFeatureModulePath,
+  generateDefaultWorkspace,
+  LibraryOptions as SpartacusAsmOptions,
   SPARTACUS_ASM,
   SPARTACUS_SCHEMATICS,
-  LibraryOptions as SpartacusAsmOptions,
-  SpartacusOptions,
-  asmFeatureModulePath,
   userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -32,27 +27,6 @@ describe('Spartacus Asm schematics: ng-add', () => {
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
-
   const libraryNoFeaturesOptions: SpartacusAsmOptions = {
     project: 'schematics-test',
     lazy: true,
@@ -64,35 +38,9 @@ describe('Spartacus Asm schematics: ng-add', () => {
     features: [ASM_FEATURE_NAME],
   };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
-
   describe('Without features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateDefaultWorkspace(schematicRunner, appTree);
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
@@ -132,7 +80,8 @@ describe('Spartacus Asm schematics: ng-add', () => {
 
   describe('Asm feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           asmFeatureOptions,
@@ -164,8 +113,10 @@ describe('Spartacus Asm schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner.runSchematic(
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
+        appTree = await schematicRunner.runExternalSchematic(
+          SPARTACUS_SCHEMATICS,
           'ng-add',
           {
             ...asmFeatureOptions,
