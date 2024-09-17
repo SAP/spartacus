@@ -5,20 +5,15 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
   CDP_FEATURE_NAME,
+  cdpFeatureModulePath,
   CUSTOMER_TICKETING_FEATURE_NAME,
+  customerTicketingFeatureModulePath,
+  customerTicketingWrapperModulePath,
   LibraryOptions as CdpOptions,
   SPARTACUS_CDP,
   SPARTACUS_SCHEMATICS,
-  SpartacusOptions,
-  cdpFeatureModulePath,
-  customerTicketingFeatureModulePath,
-  customerTicketingWrapperModulePath,
+  generateDefaultWorkspace,
 } from '@spartacus/schematics';
 import * as path from 'path';
 
@@ -32,27 +27,6 @@ describe('Spartacus CDP schematics: ng-add', () => {
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
-
   const libraryNoFeaturesOptions: CdpOptions = {
     project: 'schematics-test',
     lazy: false,
@@ -64,38 +38,9 @@ describe('Spartacus CDP schematics: ng-add', () => {
     features: [CDP_FEATURE_NAME],
   };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      path.join(
-        __dirname,
-        '../../../../projects/schematics/src/collection.json'
-      )
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
-
   describe('Without CDP features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateDefaultWorkspace(schematicRunner, appTree);
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
@@ -110,7 +55,8 @@ describe('Spartacus CDP schematics: ng-add', () => {
 
   describe('With CDP feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           {
@@ -161,7 +107,8 @@ describe('Spartacus CDP schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           {

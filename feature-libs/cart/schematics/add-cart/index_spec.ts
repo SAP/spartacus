@@ -5,24 +5,19 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
   CART_BASE_FEATURE_NAME,
   CART_IMPORT_EXPORT_FEATURE_NAME,
   CART_QUICK_ORDER_FEATURE_NAME,
   CART_SAVED_CART_FEATURE_NAME,
   CART_WISHLIST_FEATURE_NAME,
-  SPARTACUS_CART,
-  SPARTACUS_SCHEMATICS,
-  LibraryOptions as SpartacusCartOptions,
-  SpartacusOptions,
   cartBaseFeatureModulePath,
+  generateDefaultWorkspace,
   importExportFeatureModulePath,
+  LibraryOptions as SpartacusCartOptions,
   quickOrderFeatureModulePath,
   savedCartFeatureModulePath,
+  SPARTACUS_CART,
+  SPARTACUS_SCHEMATICS,
   userFeatureModulePath,
   wishListFeatureModulePath,
 } from '@spartacus/schematics';
@@ -39,27 +34,6 @@ describe('Spartacus Cart schematics: ng-add', () => {
   );
 
   let appTree: UnitTestTree;
-
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
 
   const libraryNoFeaturesOptions: SpartacusCartOptions = {
     project: 'schematics-test',
@@ -92,35 +66,9 @@ describe('Spartacus Cart schematics: ng-add', () => {
     features: [CART_IMPORT_EXPORT_FEATURE_NAME],
   };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
-
   describe('Without features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateDefaultWorkspace(schematicRunner, appTree);
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         { ...libraryNoFeaturesOptions, features: [] },
@@ -162,7 +110,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
   describe('Cart Base feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           cartBaseFeatureOptions,
@@ -194,7 +143,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...cartBaseFeatureOptions, lazy: false },
@@ -211,7 +161,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
   describe('Cart Import Export feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           cartImportExportFeatureOptions,
@@ -238,7 +189,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...cartImportExportFeatureOptions, lazy: false },
@@ -255,7 +207,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
   describe('Quick Order feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           quickOrderFeatureOptions,
@@ -282,7 +235,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...quickOrderFeatureOptions, lazy: false },
@@ -299,7 +253,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
   describe('Saved Cart feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           savedCartFeatureOptions,
@@ -336,7 +291,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...savedCartFeatureOptions, lazy: false },
@@ -353,7 +309,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
   describe('Wish List feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           wishListFeatureOptions,
@@ -390,7 +347,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...wishListFeatureOptions, lazy: false },
