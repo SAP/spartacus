@@ -140,7 +140,7 @@ export class OpfCheckoutBillingAddressFormService {
         }),
         catchError((error: HttpErrorModel) => {
           this.globalMessageService.add(
-            { key: 'opf.checkout.errors.updateBillingAddress' },
+            { key: 'opfCheckout.errors.updateBillingAddress' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
           return throwError(error);

@@ -1,7 +1,7 @@
 <!-- For B2B Account payment, OPF should not be displayed -->
 <ng-container *ngIf="(paymentType$ | async)?.code !== 'ACCOUNT'">
   <div class="cx-opf-terms-and-conditions">
-    <h3>{{ 'opf.checkout.termsAndConditions' | cxTranslate }}</h3>
+    <h3>{{ 'opfCheckout.termsAndConditions' | cxTranslate }}</h3>
 
     <form
       class="cx-place-order-form form-check"
@@ -63,7 +63,7 @@
       ></cx-promotions>
 
       <div class="cx-items-to-ship-label">
-        {{ 'opf.checkout.itemsToBeShipped' | cxTranslate }}
+        {{ 'opfCheckout.itemsToBeShipped' | cxTranslate }}
       </div>
 
       <div class="cx-shipping-and-delivery-info-cards">

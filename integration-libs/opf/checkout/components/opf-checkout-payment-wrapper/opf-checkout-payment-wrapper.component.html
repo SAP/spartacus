@@ -18,7 +18,7 @@
       class="cx-payment-link"
     >
       <a class="btn btn-primary" [href]="paymentLink.data">{{
-        'opf.checkout.proceedPayment' | cxTranslate
+        'opfCheckout.proceedPayment' | cxTranslate
       }}</a>
     </div>
     <ng-container
@@ -51,7 +51,7 @@
         <input
           class="btn btn-primary"
           type="submit"
-          [value]="'opf.checkout.proceedPayment' | cxTranslate"
+          [value]="'opfCheckout.proceedPayment' | cxTranslate"
         />
       </form>
     </ng-container>
@@ -71,7 +71,7 @@
     <div class="cx-payment-option-container">
       <div class="cx-payment-link">
         <button [ngClass]="'btn btn-primary'" (click)="retryInitiatePayment()">
-          {{ 'opf.checkout.retryPayment' | cxTranslate }}
+          {{ 'opfCheckout.retryPayment' | cxTranslate }}
         </button>
       </div>
     </div>

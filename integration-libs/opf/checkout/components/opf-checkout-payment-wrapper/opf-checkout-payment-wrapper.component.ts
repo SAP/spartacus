@@ -20,11 +20,11 @@ import {
 import {
   GlobalFunctionsDomain,
   OpfGlobalFunctionsFacade,
-} from '@spartacus/opf/base/root';
+} from '@spartacus/opf/global-functions/root';
 import {
   PaymentPattern,
   PaymentSessionData,
-} from '@spartacus/opf/checkout/root';
+} from '@spartacus/opf/payment/root';
 import { Subscription } from 'rxjs';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 

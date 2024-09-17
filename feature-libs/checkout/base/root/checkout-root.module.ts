@@ -32,8 +32,6 @@ export const CHECKOUT_BASE_CMS_COMPONENTS: string[] = [
   'CheckoutReviewOverview',
   'CheckoutDeliveryAddress',
   'GuestCheckoutLoginComponent',
-  // TODO: Move below component to the OpfCheckoutRootModule
-  'OpfCheckoutPaymentAndReview',
 ];
 
 export function defaultCheckoutComponentsConfig() {

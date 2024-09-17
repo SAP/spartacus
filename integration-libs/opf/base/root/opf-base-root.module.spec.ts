@@ -6,7 +6,7 @@
 import { TestBed } from '@angular/core/testing';
 import { MODULE_INITIALIZER } from '@spartacus/core';
 import { OpfBaseRootModule } from './opf-base-root.module';
-import { OpfStatePersistenceService } from './services/opf-state-persistence.service';
+import { OpfMetadataStatePersistanceService } from './services/opf-metadata-state-persistence.service';
 
 describe('OpfBaseRootModule', () => {
   beforeEach(() => {
@@ -23,7 +23,7 @@ describe('OpfBaseRootModule', () => {
   it('should provide MODULE_INITIALIZER with opfStatePersistenceFactory', () => {
     const moduleInitializer = TestBed.inject(MODULE_INITIALIZER);
     const opfStatePersistenceService = TestBed.inject(
-      OpfStatePersistenceService
+      OpfMetadataStatePersistanceService
     );
 
     expect(moduleInitializer).toBeDefined();

@@ -37,6 +37,8 @@ export const defaultOccOrderConfig: OccConfig = {
 
         /** placing an order endpoints start **/
         placeOrder: 'users/${userId}/orders?fields=FULL',
+        placePaymentAuthorizedOrder:
+          'users/${userId}/orders/paymentAuthorizedOrderPlacement?fields=FULL',
         /** placing an order endpoints end **/
       },
     },

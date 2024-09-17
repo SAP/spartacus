@@ -5,11 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { OpfCtaScriptsModule } from './opf-cta/opf-cta-scripts/opf-cta-scripts.module';
-import { OpfErrorModalModule } from './opf-error-modal/opf-error-modal.module';
+import { OpfErrorModalModule } from './opf-error-modal';
 
 @NgModule({
-  imports: [OpfErrorModalModule, OpfCtaScriptsModule],
+  imports: [OpfErrorModalModule],
   providers: [],
 })
 export class OpfBaseComponentsModule {}

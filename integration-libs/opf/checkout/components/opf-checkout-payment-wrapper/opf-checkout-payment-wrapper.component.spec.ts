@@ -1,17 +1,16 @@
 import { ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
-import { OpfGlobalFunctionsService } from '@spartacus/opf/base/core';
+import { OpfGlobalFunctionsService } from '@spartacus/opf/global-functions/core';
 import {
   GlobalFunctionsDomain,
   GlobalFunctionsInput,
   OpfGlobalFunctionsFacade,
-} from '@spartacus/opf/base/root';
-import { PaymentPattern } from '@spartacus/opf/checkout/root';
+} from '@spartacus/opf/global-functions/root';
+import { PaymentPattern } from '@spartacus/opf/payment/root';
 import { of } from 'rxjs';
 import { OpfCheckoutPaymentWrapperComponent } from './opf-checkout-payment-wrapper.component';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
-
 describe('OpfCheckoutPaymentWrapperComponent', () => {
   let component: OpfCheckoutPaymentWrapperComponent;
   let fixture: ComponentFixture<OpfCheckoutPaymentWrapperComponent>;

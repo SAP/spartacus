@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { FeatureToggles, OccConfig } from '@spartacus/core';
 import { inject } from '@angular/core';
+import { FeatureToggles, OccConfig } from '@spartacus/core';
 
 export function defaultOccCartConfigFactory(): OccConfig {
   const featureToggles = inject(FeatureToggles);
@@ -32,6 +32,7 @@ export function defaultOccCartConfigFactory(): OccConfig {
             ? '/users/${userId}/carts/${cartId}/save'
             : '/users/${userId}/carts/${cartId}/save?saveCartName=${saveCartName}&saveCartDescription=${saveCartDescription}',
           validate: 'users/${userId}/carts/${cartId}/validate?fields=DEFAULT',
+          cartAccessCode: 'users/${userId}/carts/${cartId}/accessCode',
           /* eslint-enable */
         },
       },

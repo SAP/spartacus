@@ -18,11 +18,10 @@ import {
 } from '@spartacus/core';
 import {
   ActiveConfiguration,
-  OpfPaymentFacade,
-  OpfPaymentMetadata,
-  OpfService,
+  OpfBaseFacade,
+  OpfMetadataModel,
+  OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
-
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -34,7 +33,7 @@ import { tap } from 'rxjs/operators';
 export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
-  activeConfigurations$ = this.opfPaymentervice
+  activeConfigurations$ = this.opfBaseService
     .getActiveConfigurationsState()
     .pipe(
       tap((state: QueryState<ActiveConfiguration[] | undefined>) => {
@@ -45,7 +44,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
         }
 
         if (state.data && !state.error && !state.loading) {
-          this.opfService.updateOpfMetadataState({
+          this.opfMetadataStoreService.updateOpfMetadata({
             defaultSelectedPaymentOptionId: state?.data[0]?.id,
           });
         }
@@ -58,8 +57,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   selectedPaymentId?: number;
 
   constructor(
-    protected opfPaymentervice: OpfPaymentFacade,
-    protected opfService: OpfService,
+    protected opfBaseService: OpfBaseFacade,
+    protected opfMetadataStoreService: OpfMetadataStoreService,
     protected globalMessageService: GlobalMessageService
   ) {}
 
@@ -70,15 +69,15 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected preselectPaymentOption(): void {
     let isPreselected = false;
     this.subscription.add(
-      this.opfService
+      this.opfMetadataStoreService
         .getOpfMetadataState()
-        .subscribe((state: OpfPaymentMetadata) => {
+        .subscribe((state: OpfMetadataModel) => {
           if (state.termsAndConditionsChecked && !isPreselected) {
             isPreselected = true;
             this.selectedPaymentId = !state.selectedPaymentOptionId
               ? state.defaultSelectedPaymentOptionId
               : state.selectedPaymentOptionId;
-            this.opfService.updateOpfMetadataState({
+            this.opfMetadataStoreService.updateOpfMetadata({
               selectedPaymentOptionId: this.selectedPaymentId,
             });
           } else if (!state.termsAndConditionsChecked) {
@@ -91,14 +90,14 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   protected displayError(errorKey: string): void {
     this.globalMessageService.add(
-      { key: `opf.checkout.errors.${errorKey}` },
+      { key: `opfCheckout.errors.${errorKey}` },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   }
 
   changePayment(payment: ActiveConfiguration): void {
     this.selectedPaymentId = payment.id;
-    this.opfService.updateOpfMetadataState({
+    this.opfMetadataStoreService.updateOpfMetadata({
       selectedPaymentOptionId: this.selectedPaymentId,
     });
   }

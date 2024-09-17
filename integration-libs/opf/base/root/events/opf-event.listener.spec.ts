@@ -3,15 +3,15 @@ import { CreateCartEvent } from '@spartacus/cart/base/root';
 import { CxEvent, EventService, LoginEvent } from '@spartacus/core';
 import { OrderPlacedEvent } from '@spartacus/order/root';
 import { Subject } from 'rxjs';
-import { OpfService } from '../services';
+import { OpfMetadataStoreService } from '../services';
 import { OpfEventListenerService } from './opf-event.listener';
 
 import createSpy = jasmine.createSpy;
 
 const mockEventStream$ = new Subject<CxEvent>();
 
-class MockOpfService implements Partial<OpfService> {
-  clearOpfMetadataState = createSpy();
+class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
+  clearOpfMetadata = createSpy();
 }
 
 class MockEventService implements Partial<EventService> {
@@ -19,7 +19,7 @@ class MockEventService implements Partial<EventService> {
 }
 
 describe(`OpfEventListenerService`, () => {
-  let opfService: OpfService;
+  let opfMetadataStoreService: OpfMetadataStoreService;
   let service: OpfEventListenerService;
 
   beforeEach(() => {
@@ -31,33 +31,33 @@ describe(`OpfEventListenerService`, () => {
           useClass: MockEventService,
         },
         {
-          provide: OpfService,
-          useClass: MockOpfService,
+          provide: OpfMetadataStoreService,
+          useClass: MockOpfMetadataStoreService,
         },
       ],
     });
 
     service = TestBed.inject(OpfEventListenerService);
-    opfService = TestBed.inject(OpfService);
+    opfMetadataStoreService = TestBed.inject(OpfMetadataStoreService);
   });
 
   describe(`onOpfPaymentMetadataResetConditionsMet`, () => {
-    it(`LoginEvent should call clearOpfMetadataState() method`, () => {
+    it(`LoginEvent should call clearOpfMetadata() method`, () => {
       mockEventStream$.next(new LoginEvent());
 
-      expect(opfService.clearOpfMetadataState).toHaveBeenCalled();
+      expect(opfMetadataStoreService.clearOpfMetadata).toHaveBeenCalled();
     });
 
-    it(`OrderPlacedEvent should call clearOpfMetadataState() method`, () => {
+    it(`OrderPlacedEvent should call clearOpfMetadata() method`, () => {
       mockEventStream$.next(new OrderPlacedEvent());
 
-      expect(opfService.clearOpfMetadataState).toHaveBeenCalled();
+      expect(opfMetadataStoreService.clearOpfMetadata).toHaveBeenCalled();
     });
 
-    it(`CreateCartEvent should call clearOpfMetadataState() method`, () => {
+    it(`CreateCartEvent should call clearOpfMetadata() method`, () => {
       mockEventStream$.next(new CreateCartEvent());
 
-      expect(opfService.clearOpfMetadataState).toHaveBeenCalled();
+      expect(opfMetadataStoreService.clearOpfMetadata).toHaveBeenCalled();
     });
 
     it('should unsubscribe from subscriptions on destroy', () => {

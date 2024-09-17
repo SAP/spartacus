@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
+  DEFAULT_SERVER_ERROR_RETRIES_COUNT,
   InterceptorUtil,
   LoggerService,
   OCC_USER_ID_ANONYMOUS,
@@ -16,6 +17,7 @@ import {
   USE_CLIENT_TOKEN,
   backOff,
   isJaloError,
+  isServerError,
   normalizeHttpError,
 } from '@spartacus/core';
 import { OrderAdapter } from '@spartacus/order/core';
@@ -63,12 +65,61 @@ export class OccOrderAdapter implements OrderAdapter {
       );
   }
 
+  public placePaymentAuthorizedOrder(
+    userId: string,
+    cartId: string,
+    termsChecked: boolean
+  ): Observable<Order> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+
+    if (userId === OCC_USER_ID_ANONYMOUS) {
+      headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    }
+
+    return this.http
+      .post<Occ.Order>(
+        this.getPlacePaymentAuthorizedOrderEndpoint(
+          userId,
+          cartId,
+          termsChecked.toString()
+        ),
+        {},
+        { headers }
+      )
+      .pipe(
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
+        backOff({
+          shouldRetry: isJaloError,
+        }),
+        backOff({
+          shouldRetry: isServerError,
+          maxTries: DEFAULT_SERVER_ERROR_RETRIES_COUNT,
+        }),
+        this.converter.pipeable(ORDER_NORMALIZER)
+      );
+  }
+
   protected getPlaceOrderEndpoint(
     userId: string,
     cartId: string,
     termsChecked: string
   ): string {
     return this.occEndpoints.buildUrl('placeOrder', {
+      urlParams: { userId },
+      queryParams: { cartId, termsChecked },
+    });
+  }
+
+  protected getPlacePaymentAuthorizedOrderEndpoint(
+    userId: string,
+    cartId: string,
+    termsChecked: string
+  ): string {
+    return this.occEndpoints.buildUrl('placePaymentAuthorizedOrder', {
       urlParams: { userId },
       queryParams: { cartId, termsChecked },
     });

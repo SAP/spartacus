@@ -9,7 +9,7 @@ import { CreateCartEvent } from '@spartacus/cart/base/root';
 import { EventService, LoginEvent } from '@spartacus/core';
 import { OrderPlacedEvent } from '@spartacus/order/root';
 import { Subscription, merge } from 'rxjs';
-import { OpfService } from '../services';
+import { OpfMetadataStoreService } from '../services';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class OpfEventListenerService implements OnDestroy {
 
   constructor(
     protected eventService: EventService,
-    protected opfService: OpfService
+    protected opfMetadataStoreService: OpfMetadataStoreService
   ) {
     this.onOpfPaymentMetadataResetConditionsMet();
   }
@@ -30,7 +30,7 @@ export class OpfEventListenerService implements OnDestroy {
         this.eventService.get(LoginEvent),
         this.eventService.get(OrderPlacedEvent),
         this.eventService.get(CreateCartEvent)
-      ).subscribe(() => this.opfService.clearOpfMetadataState())
+      ).subscribe(() => this.opfMetadataStoreService.clearOpfMetadata())
     );
   }
 
