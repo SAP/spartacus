@@ -5,15 +5,10 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
+  generateDefaultWorkspace,
+  LibraryOptions as SpartacusUserOptions,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_USER,
-  SpartacusOptions,
-  LibraryOptions as SpartacusUserOptions,
   USER_ACCOUNT_FEATURE_NAME,
   USER_PROFILE_FEATURE_NAME,
   userFeatureModulePath,
@@ -32,27 +27,6 @@ describe('Spartacus User schematics: ng-add', () => {
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
-
   const libraryNoFeaturesOptions: SpartacusUserOptions = {
     project: 'schematics-test',
     lazy: true,
@@ -69,35 +43,9 @@ describe('Spartacus User schematics: ng-add', () => {
     features: [USER_PROFILE_FEATURE_NAME],
   };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
-
   describe('Without features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateDefaultWorkspace(schematicRunner, appTree);
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
@@ -137,7 +85,8 @@ describe('Spartacus User schematics: ng-add', () => {
 
   describe('User-Account feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           accountFeatureOptions,
@@ -164,7 +113,8 @@ describe('Spartacus User schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...accountFeatureOptions, lazy: false },
@@ -181,7 +131,8 @@ describe('Spartacus User schematics: ng-add', () => {
 
   describe('User Profile feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           profileFeatureOptions,
@@ -213,7 +164,8 @@ describe('Spartacus User schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...profileFeatureOptions, lazy: false },

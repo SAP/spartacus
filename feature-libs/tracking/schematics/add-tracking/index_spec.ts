@@ -5,15 +5,10 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
+  generateDefaultWorkspace,
+  LibraryOptions as SpartacusTrackingOptions,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_TRACKING,
-  SpartacusOptions,
-  LibraryOptions as SpartacusTrackingOptions,
   TRACKING_PERSONALIZATION_FEATURE_NAME,
   TRACKING_TMS_AEP_FEATURE_NAME,
   TRACKING_TMS_GTM_FEATURE_NAME,
@@ -32,27 +27,6 @@ describe('Spartacus Tracking schematics: ng-add', () => {
   );
 
   let appTree: UnitTestTree;
-
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
 
   const libraryNoFeaturesOptions: SpartacusTrackingOptions = {
     project: 'schematics-test',
@@ -75,35 +49,9 @@ describe('Spartacus Tracking schematics: ng-add', () => {
     features: [TRACKING_TMS_AEP_FEATURE_NAME],
   };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
-
   describe('Without features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateDefaultWorkspace(schematicRunner, appTree);
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
@@ -148,7 +96,8 @@ describe('Spartacus Tracking schematics: ng-add', () => {
 
   describe('Personalization feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           personalizationFeatureOptions,
@@ -165,7 +114,8 @@ describe('Spartacus Tracking schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           {
@@ -187,7 +137,8 @@ describe('Spartacus Tracking schematics: ng-add', () => {
 
   describe('Tag Management feature', () => {
     describe('GTM', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           gtmFeatureOptions,
@@ -205,7 +156,8 @@ describe('Spartacus Tracking schematics: ng-add', () => {
     });
 
     describe('AEP', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           aepFeatureOptions,
@@ -224,7 +176,8 @@ describe('Spartacus Tracking schematics: ng-add', () => {
     });
 
     describe('GTM and AEP', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           {

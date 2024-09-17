@@ -5,21 +5,16 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
   CART_BASE_FEATURE_NAME,
+  cartBaseWrapperModulePath,
   ESTIMATED_DELIVERY_DATE_FEATURE_NAME,
+  estimatedDeliveryDateFeatureModulePath,
+  generateDefaultWorkspace,
+  LibraryOptions as SpartacusEddOptions,
+  orderFeatureModulePath,
   SPARTACUS_CART_BASE,
   SPARTACUS_ESTIMATED_DELIVERY_DATE,
   SPARTACUS_SCHEMATICS,
-  LibraryOptions as SpartacusEddOptions,
-  SpartacusOptions,
-  cartBaseWrapperModulePath,
-  estimatedDeliveryDateFeatureModulePath,
-  orderFeatureModulePath,
   userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -35,27 +30,6 @@ describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
   );
 
   let appTree: UnitTestTree;
-
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
 
   const libraryNoFeaturesOptions: SpartacusEddOptions = {
     project: 'schematics-test',
@@ -73,39 +47,17 @@ describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
     features: [ESTIMATED_DELIVERY_DATE_FEATURE_NAME],
   };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
-    );
+  async function generateWorkspace() {
     schematicRunner.registerCollection(
       SPARTACUS_CART_BASE,
       '../feature-libs/cart/schematics/collection.json'
     );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
+    return (appTree = await generateDefaultWorkspace(schematicRunner, appTree));
+  }
 
   describe('Without features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateWorkspace();
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
@@ -122,7 +74,8 @@ describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
 
   describe('Estimated-Delivery-Date feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateWorkspace();
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           cartBaseFeatureOptions,
@@ -187,7 +140,8 @@ describe('Spartacus Estimated-Delivery-Date schematics: ng-add', () => {
   });
 
   describe('eager loading', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateWorkspace();
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         { ...cartBaseFeatureOptions, lazy: false },
