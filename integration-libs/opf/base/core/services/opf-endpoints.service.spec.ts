@@ -7,8 +7,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { BaseSiteService, StringTemplate } from '@spartacus/core';
-import { OpfApiConfig } from '@spartacus/opf/base/opf-api';
-import { OpfConfig } from '@spartacus/opf/base/root';
+import { OpfApiConfig, OpfConfig } from '@spartacus/opf/base/root';
 import { OpfEndpointsService } from './opf-endpoints.service';
 
 describe('OpfEndpointsService', () => {

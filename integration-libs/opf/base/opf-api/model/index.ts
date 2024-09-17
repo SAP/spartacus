@@ -4,6 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf-api-backend.model';
 export * from './opf-api-base-endpoints.model';
-export * from './opf-api-endpoint.model';

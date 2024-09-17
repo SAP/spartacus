@@ -22,21 +22,24 @@ describe('OpfPaymentVerificationComponent', () => {
   let component: OpfPaymentVerificationComponent;
   let fixture: ComponentFixture<OpfPaymentVerificationComponent>;
   let routeMock: jasmine.SpyObj<ActivatedRoute>;
-  let paymentServiceMock: jasmine.SpyObj<OpfPaymentVerificationService>;
+  let opfPaymentVerificationServiceMock: jasmine.SpyObj<OpfPaymentVerificationService>;
 
   beforeEach(() => {
     routeMock = jasmine.createSpyObj('ActivatedRoute', [], {
       snapshot: { queryParamMap: new Map() },
     });
-    paymentServiceMock = jasmine.createSpyObj('OpfPaymentVerificationService', [
-      'checkIfProcessingCartIdExist',
-      'verifyResultUrl',
-      'goToPage',
-      'displayError',
-      'removeResourcesAndGlobalFunctions',
-      'runHostedFieldsPattern',
-      'runHostedPagePattern',
-    ]);
+    opfPaymentVerificationServiceMock = jasmine.createSpyObj(
+      'OpfPaymentVerificationService',
+      [
+        'checkIfProcessingCartIdExist',
+        'verifyResultUrl',
+        'goToPage',
+        'displayError',
+        'removeResourcesAndGlobalFunctions',
+        'runHostedFieldsPattern',
+        'runHostedPagePattern',
+      ]
+    );
 
     TestBed.configureTestingModule({
       declarations: [OpfPaymentVerificationComponent, MockSpinnerComponent],
@@ -44,7 +47,7 @@ describe('OpfPaymentVerificationComponent', () => {
         { provide: ActivatedRoute, useValue: routeMock },
         {
           provide: OpfPaymentVerificationService,
-          useValue: paymentServiceMock,
+          useValue: opfPaymentVerificationServiceMock,
         },
       ],
     });
@@ -59,11 +62,11 @@ describe('OpfPaymentVerificationComponent', () => {
 
   describe('ngOnInit', () => {
     it('should call checkIfProcessingCartIdExist', () => {
-      paymentServiceMock.verifyResultUrl.and.returnValue(of());
+      opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(of());
 
       component.ngOnInit();
       expect(
-        paymentServiceMock.checkIfProcessingCartIdExist
+        opfPaymentVerificationServiceMock.checkIfProcessingCartIdExist
       ).toHaveBeenCalled();
     });
 
@@ -81,19 +84,24 @@ describe('OpfPaymentVerificationComponent', () => {
         afterRedirectScriptFlag: mockAfterRedirectScriptFlag,
       };
 
-      paymentServiceMock.verifyResultUrl.and.returnValue(of(mockVerifyResult));
-      paymentServiceMock.runHostedFieldsPattern.and.returnValue(of(true));
-      paymentServiceMock.runHostedPagePattern.and.returnValue(of(true));
+      opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(
+        of(mockVerifyResult)
+      );
+      opfPaymentVerificationServiceMock.runHostedFieldsPattern.and.returnValue(
+        of(true)
+      );
+      opfPaymentVerificationServiceMock.runHostedPagePattern.and.returnValue(
+        of(true)
+      );
 
       component.ngOnInit();
 
-      expect(paymentServiceMock.verifyResultUrl).toHaveBeenCalledWith(
-        routeMock
-      );
-      expect(paymentServiceMock.runHostedPagePattern).toHaveBeenCalledWith(
-        mockPaymentSessionId,
-        mockResponseMap
-      );
+      expect(
+        opfPaymentVerificationServiceMock.verifyResultUrl
+      ).toHaveBeenCalledWith(routeMock);
+      expect(
+        opfPaymentVerificationServiceMock.runHostedPagePattern
+      ).toHaveBeenCalledWith(mockPaymentSessionId, mockResponseMap);
     });
 
     it('should handle error scenario', () => {
@@ -105,8 +113,10 @@ describe('OpfPaymentVerificationComponent', () => {
         afterRedirectScriptFlag: 'false',
       };
 
-      paymentServiceMock.verifyResultUrl.and.returnValue(of(mockVerifyResult));
-      paymentServiceMock.runHostedPagePattern.and.returnValue(
+      opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(
+        of(mockVerifyResult)
+      );
+      opfPaymentVerificationServiceMock.runHostedPagePattern.and.returnValue(
         throwError(mockError)
       );
 
@@ -124,8 +134,12 @@ describe('OpfPaymentVerificationComponent', () => {
         afterRedirectScriptFlag: 'false',
       };
 
-      paymentServiceMock.verifyResultUrl.and.returnValue(of(mockVerifyResult));
-      paymentServiceMock.runHostedPagePattern.and.returnValue(of(false));
+      opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(
+        of(mockVerifyResult)
+      );
+      opfPaymentVerificationServiceMock.runHostedPagePattern.and.returnValue(
+        of(false)
+      );
 
       spyOn(component, 'onError');
 
@@ -141,14 +155,20 @@ describe('OpfPaymentVerificationComponent', () => {
         afterRedirectScriptFlag: 'true',
       };
 
-      paymentServiceMock.verifyResultUrl.and.returnValue(
+      opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(
         of(mockVerifyResultWithFlag)
       );
-      paymentServiceMock.runHostedFieldsPattern.and.returnValue(of(true));
+      opfPaymentVerificationServiceMock.runHostedFieldsPattern.and.returnValue(
+        of(true)
+      );
       component.ngOnInit();
 
-      expect(paymentServiceMock.runHostedFieldsPattern).toHaveBeenCalled();
-      expect(paymentServiceMock.runHostedPagePattern).not.toHaveBeenCalled();
+      expect(
+        opfPaymentVerificationServiceMock.runHostedFieldsPattern
+      ).toHaveBeenCalled();
+      expect(
+        opfPaymentVerificationServiceMock.runHostedPagePattern
+      ).not.toHaveBeenCalled();
     });
   });
 
@@ -158,8 +178,10 @@ describe('OpfPaymentVerificationComponent', () => {
 
       component.onError(mockError);
 
-      expect(paymentServiceMock.displayError).toHaveBeenCalledWith(mockError);
-      expect(paymentServiceMock.goToPage).toHaveBeenCalledWith(
+      expect(
+        opfPaymentVerificationServiceMock.displayError
+      ).toHaveBeenCalledWith(mockError);
+      expect(opfPaymentVerificationServiceMock.goToPage).toHaveBeenCalledWith(
         OpfPage.CHECKOUT_REVIEW_PAGE
       );
     });
@@ -173,16 +195,18 @@ describe('OpfPaymentVerificationComponent', () => {
         afterRedirectScriptFlag: 'true',
       };
 
-      paymentServiceMock.verifyResultUrl.and.returnValue(
+      opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(
         of(mockVerifyResultWithFlag)
       );
-      paymentServiceMock.runHostedFieldsPattern.and.returnValue(of(true));
+      opfPaymentVerificationServiceMock.runHostedFieldsPattern.and.returnValue(
+        of(true)
+      );
       component.ngOnInit();
 
       component.ngOnDestroy();
 
       expect(
-        paymentServiceMock.removeResourcesAndGlobalFunctions
+        opfPaymentVerificationServiceMock.removeResourcesAndGlobalFunctions
       ).toHaveBeenCalled();
     });
   });

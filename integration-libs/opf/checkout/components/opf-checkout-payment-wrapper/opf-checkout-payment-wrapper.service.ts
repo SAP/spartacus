@@ -55,7 +55,7 @@ export class OpfCheckoutPaymentWrapperService {
     });
 
   constructor(
-    protected opfPaymentService: OpfPaymentFacade,
+    protected opfPaymentFacade: OpfPaymentFacade,
     protected opfResourceLoaderService: OpfResourceLoaderService,
     protected userIdService: UserIdService,
     protected activeCartService: ActiveCartFacade,
@@ -63,7 +63,7 @@ export class OpfCheckoutPaymentWrapperService {
     protected globalMessageService: GlobalMessageService,
     protected orderFacade: OrderFacade,
     protected opfMetadataStoreService: OpfMetadataStoreService,
-    protected cartAccessCodeService: CartAccessCodeFacade
+    protected cartAccessCodeFacade: CartAccessCodeFacade
   ) {}
 
   protected executeScriptFromHtml(html: string): void {
@@ -112,13 +112,13 @@ export class OpfCheckoutPaymentWrapperService {
       ),
       switchMap(([userId, cartId]: [string, string]) => {
         this.activeCartId = cartId;
-        return this.cartAccessCodeService.getCartAccessCode(userId, cartId);
+        return this.cartAccessCodeFacade.getCartAccessCode(userId, cartId);
       }),
       filter((response) => Boolean(response?.accessCode)),
       map(({ accessCode: otpKey }) =>
         this.setPaymentInitiationConfig(otpKey, paymentOptionId)
       ),
-      switchMap((params) => this.opfPaymentService.initiatePayment(params)),
+      switchMap((params) => this.opfPaymentFacade.initiatePayment(params)),
       tap((paymentOptionConfig: PaymentSessionData | Error) => {
         if (!(paymentOptionConfig instanceof Error)) {
           this.storePaymentSessionId(paymentOptionConfig);

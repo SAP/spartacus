@@ -4,11 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OpfApiEndpoint } from './opf-api-endpoint.model';
+import { OpfApiEndpoint } from '@spartacus/opf/base/root';
 
-export interface OpfApiEndpoints {
-  /**
-   * Endpoint to get active payment configurations
-   */
-  getActiveConfigurations?: string | OpfApiEndpoint;
+declare module '@spartacus/opf/base/root' {
+  interface OpfApiEndpoints {
+    /**
+     * Endpoint to get active payment configurations
+     */
+    getActiveConfigurations?: string | OpfApiEndpoint;
+  }
 }

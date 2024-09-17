@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OpfApiEndpoints } from './opf-api-base-endpoints.model';
+import { OpfApiEndpoints } from './opf-api-endpoints.model';
 
 export interface OpfApiBackendConfig {
   opfApi?: {

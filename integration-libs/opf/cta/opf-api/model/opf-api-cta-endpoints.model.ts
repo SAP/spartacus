@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OpfApiEndpoint } from '@spartacus/opf/base/opf-api';
+import { OpfApiEndpoint } from '@spartacus/opf/base/root';
 
-declare module '@spartacus/opf/base/opf-api' {
+declare module '@spartacus/opf/base/root' {
   interface OpfApiEndpoints {
     /**
      * Endpoint to get CTA (Call To Action) Scripts

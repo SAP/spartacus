@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
-import { OpfApiBackendConfig } from '../model';
+import { OpfApiBackendConfig } from '../model/opf-api-backend-config.model';
 
 @Injectable({
   providedIn: 'root',

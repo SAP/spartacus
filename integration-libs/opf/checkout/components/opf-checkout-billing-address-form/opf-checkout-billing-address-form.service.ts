@@ -58,7 +58,7 @@ export class OpfCheckoutBillingAddressFormService {
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected activeCartService: ActiveCartFacade,
     protected globalMessageService: GlobalMessageService,
-    protected opfService: OpfCheckoutPaymentWrapperService
+    protected opfCheckoutPaymentWrapperService: OpfCheckoutPaymentWrapperService
   ) {}
 
   getCountries(): Observable<Country[]> {
@@ -135,7 +135,7 @@ export class OpfCheckoutBillingAddressFormService {
             this.billingAddressId = billingAddress.id;
 
             this.billingAddressSub.next(billingAddress);
-            this.opfService.reloadPaymentMode();
+            this.opfCheckoutPaymentWrapperService.reloadPaymentMode();
           }
         }),
         catchError((error: HttpErrorModel) => {

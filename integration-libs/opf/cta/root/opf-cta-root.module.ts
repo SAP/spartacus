@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { OPF_CTA_FEATURE } from './feature-name';
 
-export function defaultOpfBaseCmsComponentsConfig(): CmsConfig {
+export function defaultOpfCtaCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [OPF_CTA_FEATURE]: {
@@ -20,6 +20,6 @@ export function defaultOpfBaseCmsComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
-  providers: [provideDefaultConfigFactory(defaultOpfBaseCmsComponentsConfig)],
+  providers: [provideDefaultConfigFactory(defaultOpfCtaCmsComponentsConfig)],
 })
 export class OpfCtaRootModule {}

@@ -10,8 +10,8 @@ import {
   DynamicAttributes,
   StringTemplate,
 } from '@spartacus/core';
-import { OpfApiConfig } from '@spartacus/opf/base/opf-api';
-import { OpfConfig } from '@spartacus/opf/base/root';
+
+import { OpfApiConfig, OpfConfig } from '@spartacus/opf/base/root';
 
 @Injectable({
   providedIn: 'root',

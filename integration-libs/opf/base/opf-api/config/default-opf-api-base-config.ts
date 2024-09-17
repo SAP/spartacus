@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OpfApiConfig } from './opf-api.config';
+import { OpfApiConfig } from '@spartacus/opf/base/root';
 
 export const defaultOpfApiBaseConfig: OpfApiConfig = {
   backend: {

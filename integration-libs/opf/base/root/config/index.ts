@@ -6,4 +6,5 @@
 
 export * from './constants';
 export * from './default-opf-config';
+export * from './opf-api-config';
 export * from './opf-config';

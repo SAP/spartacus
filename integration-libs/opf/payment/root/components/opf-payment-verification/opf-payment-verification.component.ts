@@ -25,14 +25,14 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
 
   constructor(
     protected route: ActivatedRoute,
-    protected paymentService: OpfPaymentVerificationService,
+    protected opfPaymentVerificationService: OpfPaymentVerificationService,
     protected vcr: ViewContainerRef
   ) {}
 
   ngOnInit(): void {
-    this.paymentService.checkIfProcessingCartIdExist();
+    this.opfPaymentVerificationService.checkIfProcessingCartIdExist();
 
-    this.subscription = this.paymentService
+    this.subscription = this.opfPaymentVerificationService
       .verifyResultUrl(this.route)
       .pipe(
         concatMap(
@@ -69,14 +69,14 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   }): Observable<boolean> {
     if (afterRedirectScriptFlag === 'true') {
       this.isHostedFieldPattern = true;
-      return this.paymentService.runHostedFieldsPattern(
+      return this.opfPaymentVerificationService.runHostedFieldsPattern(
         GlobalFunctionsDomain.REDIRECT,
         paymentSessionId,
         this.vcr,
         paramsMap
       );
     } else {
-      return this.paymentService.runHostedPagePattern(
+      return this.opfPaymentVerificationService.runHostedPagePattern(
         paymentSessionId,
         paramsMap
       );
@@ -84,8 +84,8 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   }
 
   onError(error: HttpErrorModel | undefined): void {
-    this.paymentService.displayError(error);
-    this.paymentService.goToPage(OpfPage.CHECKOUT_REVIEW_PAGE);
+    this.opfPaymentVerificationService.displayError(error);
+    this.opfPaymentVerificationService.goToPage(OpfPage.CHECKOUT_REVIEW_PAGE);
   }
 
   ngOnDestroy(): void {
@@ -94,7 +94,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
     }
 
     if (this.isHostedFieldPattern) {
-      this.paymentService.removeResourcesAndGlobalFunctions();
+      this.opfPaymentVerificationService.removeResourcesAndGlobalFunctions();
     }
   }
 }
