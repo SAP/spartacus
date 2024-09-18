@@ -10,7 +10,6 @@ import {
   ConverterService,
   LoggerService,
   backOff,
-  isJaloError,
   isServerError,
   tryNormalizeHttpError,
 } from '@spartacus/core';
@@ -89,9 +88,6 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
           throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({
-          shouldRetry: isJaloError,
-        }),
-        backOff({
           shouldRetry: isServerError,
           maxTries: 2,
         }),
@@ -116,9 +112,6 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
     return this.http.post<SubmitResponse>(url, submitRequest, { headers }).pipe(
       catchError((error) => {
         throw tryNormalizeHttpError(error, this.logger);
-      }),
-      backOff({
-        shouldRetry: isJaloError,
       }),
       backOff({
         shouldRetry: isServerError,
@@ -149,9 +142,6 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
           throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({
-          shouldRetry: isJaloError,
-        }),
-        backOff({
           shouldRetry: isServerError,
           maxTries: 2,
         }),
@@ -172,9 +162,6 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
     return this.http.get<AfterRedirectScriptResponse>(url, { headers }).pipe(
       catchError((error) => {
         throw tryNormalizeHttpError(error, this.logger);
-      }),
-      backOff({
-        shouldRetry: isJaloError,
       }),
       backOff({
         shouldRetry: isServerError,

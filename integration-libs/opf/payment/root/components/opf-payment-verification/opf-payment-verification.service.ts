@@ -43,7 +43,7 @@ export class OpfPaymentVerificationService {
     protected orderFacade: OrderFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected opfPaymentService: OpfPaymentFacade,
+    protected opfPaymentFacade: OpfPaymentFacade,
     protected opfMetadataStoreService: OpfMetadataStoreService,
     protected opfResourceLoaderService: OpfResourceLoaderService,
     protected globalFunctionsService: OpfGlobalFunctionsFacade
@@ -135,7 +135,7 @@ export class OpfPaymentVerificationService {
     paymentSessionId: string,
     responseMap: Array<KeyValuePair>
   ): Observable<boolean> {
-    return this.opfPaymentService
+    return this.opfPaymentFacade
       .verifyPayment(paymentSessionId, {
         responseMap: [...responseMap],
       })
@@ -222,7 +222,7 @@ export class OpfPaymentVerificationService {
       paramsMap,
     });
 
-    return this.opfPaymentService.afterRedirectScripts(paymentSessionId).pipe(
+    return this.opfPaymentFacade.afterRedirectScripts(paymentSessionId).pipe(
       concatMap((response) => {
         if (!response?.afterRedirectScript) {
           return throwError(this.defaultError);

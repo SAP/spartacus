@@ -19,18 +19,19 @@ import { Observable } from 'rxjs';
 
 export abstract class OpfPaymentAdapter {
   /**
-   * Abstract method used to verify payment
+   * Abstract method to verify a response from PSP for Full Page Redirect
+   * and iframe integration patterns.
+   *
    */
-
   abstract verifyPayment(
     paymentSessionId: string,
     payload: OpfPaymentVerificationPayload
   ): Observable<OpfPaymentVerificationResponse>;
 
   /**
-   * Abstract method used to submit payment for hosted-fields pattern
+   * Abstract method used to submit payment for hosted-fields pattern.
+   *
    */
-
   abstract submitPayment(
     submitRequest: SubmitRequest,
     otpKey: string,
@@ -38,9 +39,10 @@ export abstract class OpfPaymentAdapter {
   ): Observable<SubmitResponse>;
 
   /**
-   * Abstract method used to submit-complete payment for hosted-fields pattern
+   * Abstract method to submit-complete payment
+   * for Hosted Fields pattern.
+   *
    */
-
   abstract submitCompletePayment(
     submitRequest: SubmitCompleteRequest,
     otpKey: string,
@@ -48,7 +50,9 @@ export abstract class OpfPaymentAdapter {
   ): Observable<SubmitCompleteResponse>;
 
   /**
-   * Abstract method used to get AfterRedirect scripts used in hosted-fields pattern
+   * Abstract method to retrieve the dynamic scripts after redirect
+   * used in hosted-fields pattern.
+   *
    */
   abstract afterRedirectScripts(
     paymentSessionId: string
@@ -57,8 +61,6 @@ export abstract class OpfPaymentAdapter {
   /**
    * Abstract method used to initiate payment session
    * or call the PSP to initiate.
-   *
-   * @param {PaymentInitiationConfig} paymentConfig
    *
    */
   abstract initiatePayment(

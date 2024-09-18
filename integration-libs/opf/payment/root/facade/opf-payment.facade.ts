@@ -35,10 +35,12 @@ import {
 })
 export abstract class OpfPaymentFacade {
   /**
-   * Endpoint to verify a response from PSP for Full Page Redirect and iFrame integration patterns.
+   * Abstract method to verify a response from PSP for Full Page Redirect
+   * and iframe integration patterns.
    *
-   * @param paymentSessionId
-   * @param paymentVerificationPayload
+   * @param {string} paymentSessionId
+   * @param {OpfPaymentVerificationPayload} paymentVerificationPayload
+   *
    */
   abstract verifyPayment(
     paymentSessionId: string,
@@ -48,21 +50,27 @@ export abstract class OpfPaymentFacade {
   /**
    * Abstract method to submit payment for Hosted Fields pattern.
    *
-   * @param submitInput
+   * @param {SubmitInput} submitInput
+   *
    */
   abstract submitPayment(submitInput: SubmitInput): Observable<boolean>;
 
   /**
-   * Abstract method to submit-complete payment for Hosted Fields pattern.
+   * Abstract method to submit-complete payment
+   * for Hosted Fields pattern.
    *
-   * @param submitCompleteInput
+   * @param {SubmitCompleteInput} submitCompleteInput
+   *
    */
   abstract submitCompletePayment(
     submitCompleteInput: SubmitCompleteInput
   ): Observable<boolean>;
 
   /**
-   * Abstract method to submit-complete payment for Hosted Fields pattern.
+   * Abstract method to retrieve the dynamic scripts after redirect
+   * used in hosted-fields pattern.
+   *
+   * @param {string} paymentSessionId
    *
    */
   abstract afterRedirectScripts(

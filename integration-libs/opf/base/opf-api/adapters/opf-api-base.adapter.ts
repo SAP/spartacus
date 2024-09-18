@@ -9,12 +9,10 @@ import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
   LoggerService,
-  backOff,
-  isJaloError,
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
-  OPF_ACTIVE_CONFIGURATION_NORMALIZER,
+  OPF_ACTIVE_CONFIGURATIONS_NORMALIZER,
   OpfBaseAdapter,
   OpfEndpointsService,
 } from '@spartacus/opf/base/core';
@@ -65,10 +63,7 @@ export class OpfApiBaseAdapter implements OpfBaseAdapter {
         catchError((error) => {
           throw tryNormalizeHttpError(error, this.logger);
         }),
-        backOff({
-          shouldRetry: isJaloError,
-        }),
-        this.converter.pipeable(OPF_ACTIVE_CONFIGURATION_NORMALIZER)
+        this.converter.pipeable(OPF_ACTIVE_CONFIGURATIONS_NORMALIZER)
       );
   }
 

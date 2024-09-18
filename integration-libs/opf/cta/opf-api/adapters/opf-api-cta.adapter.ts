@@ -10,7 +10,6 @@ import {
   ConverterService,
   LoggerService,
   backOff,
-  isJaloError,
   isServerError,
   tryNormalizeHttpError,
 } from '@spartacus/core';
@@ -65,9 +64,6 @@ export class OpfApiCtaAdapter implements OpfCtaAdapter {
       .pipe(
         catchError((error) => {
           throw tryNormalizeHttpError(error, this.logger);
-        }),
-        backOff({
-          shouldRetry: isJaloError,
         }),
         backOff({
           shouldRetry: isServerError,
