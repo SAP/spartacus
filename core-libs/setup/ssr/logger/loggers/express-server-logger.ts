@@ -12,14 +12,7 @@ import { Request } from 'express';
  * It contains optional request object and additional properties that can be used in log message.
  */
 export interface ExpressServerLoggerContext {
-  /**
-   * ExpressJS Request object
-   */
   request?: Request;
-  /**
-   * Optional Error object
-   */
-  error?: unknown;
   [_key: string]: any;
 }
 

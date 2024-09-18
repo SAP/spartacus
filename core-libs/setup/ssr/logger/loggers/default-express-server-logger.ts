@@ -61,9 +61,20 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
   ): string {
     const logObject = { message, context: this.mapContext(context) };
 
+    /**
+     * Replaces Error instances with their stringified representation.
+     * This is necessary, because by default `JSON.stringify()` would convert Error instances to empty objects `{}`.
+     */
+    const replacer = (_key: string, value: any) => {
+      if (value instanceof Error) {
+        return this.stringifyError(value);
+      }
+      return value;
+    };
+
     return isDevMode()
-      ? JSON.stringify(logObject, null, 2)
-      : JSON.stringify(logObject);
+      ? JSON.stringify(logObject, replacer, 2)
+      : JSON.stringify(logObject, replacer);
   }
 
   /**
@@ -82,12 +93,6 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
     if (context.request) {
       Object.assign(outputContext, {
         request: this.mapRequest(context.request),
-      });
-    }
-
-    if (context.error) {
-      Object.assign(outputContext, {
-        error: this.mapError(context.error),
       });
     }
 
@@ -114,7 +119,7 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
    * Otherwise, the Error instance would not be visible in the logs after passing through `JSON.stringify()`.
    * For more, see https://stackoverflow.com/a/50738205/11734692
    */
-  protected mapError(error: unknown): string {
+  protected stringifyError(error: unknown): string {
     return formatWithOptions(DEFAULT_LOGGER_INSPECT_OPTIONS, error);
   }
 }
