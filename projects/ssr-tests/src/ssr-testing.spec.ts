@@ -18,7 +18,7 @@ describe('SSR E2E', () => {
   });
 
   afterEach(async () => {
-    backendProxy.close();
+    backendProxy?.close();
     await SsrUtils.killSsrServer();
   });
 
