@@ -50,6 +50,11 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
   /**
    * Converts a message and an ExpressServerLoggerContext object into a single JSON string containing both pieces of information, which can be used for logging purposes.
    *
+   * In prod mode, it prints a single line stringified JSON that can be easily parsed by
+   * monitoring tools e.g. Kibana.
+   *
+   * In dev mode, it prints human readable multi-line stringified JSON with indentation.
+   *
    * @protected
    * @param message - The message to be included in the log entry.
    * @param context - The context object associated with the log entry.
@@ -63,18 +68,27 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
 
     /**
      * Replaces Error instances with their stringified representation.
-     * This is necessary, because by default `JSON.stringify()` would convert Error instances to empty objects `{}`.
+     * This is necessary, because by default `JSON.stringify()` would convert Error instances to empty object strings `{}`.
      */
     const replacer = (_key: string, value: any) => {
-      if (value instanceof Error) {
-        return this.stringifyError(value);
-      }
-      return value;
+      return value instanceof Error ? this.stringifyError(value) : value;
     };
 
-    return isDevMode()
-      ? JSON.stringify(logObject, replacer, 2)
-      : JSON.stringify(logObject, replacer);
+    if (isDevMode()) {
+      // In dev mode, we indent JSON properties for better readability
+      const stringified = JSON.stringify(logObject, replacer, 2);
+
+      // Additionally:
+      // 1. We prevent showing multi-line strings (e.g. error stacktraces) in console as a single line
+      //    with multiple `\\n`, which would be hard to read. Instead we replace them with real new lines.
+      // 2. Moreover, we add 2 spaces at the beginning of each such created new line to align *a bit better*
+      //    with the first line which that is already (possibly deep) indented by the `JSON.stringify()` call.
+      return stringified.replace(/\\n/g, '\n  ');
+    }
+
+    // In prod mode, we want JSON to be a single line to allow for easier parsing by monitoring tools.
+    // The monitoring tools can then decide how to pretty-print the JSON in their UI.
+    return JSON.stringify(logObject, replacer);
   }
 
   /**
