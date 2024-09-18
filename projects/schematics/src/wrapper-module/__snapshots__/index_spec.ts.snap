@@ -5,7 +5,7 @@ exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper
 import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
 import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
 import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
-import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
 import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from "@spartacus/checkout/scheduled-replenishment/assets";
 import { CheckoutScheduledReplenishmentRootModule } from "@spartacus/checkout/scheduled-replenishment/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
@@ -91,7 +91,7 @@ exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper
 import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
 import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
 import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
-import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
 import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from "@spartacus/checkout/scheduled-replenishment/assets";
 import { CheckoutScheduledReplenishmentRootModule } from "@spartacus/checkout/scheduled-replenishment/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
@@ -179,7 +179,7 @@ exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper
 import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
 import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
 import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
-import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
 import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from "@spartacus/checkout/scheduled-replenishment/assets";
 import { CheckoutScheduledReplenishmentRootModule } from "@spartacus/checkout/scheduled-replenishment/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
@@ -245,7 +245,7 @@ export class DigitalPaymentsFeatureModule {
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Double execution should not change anything 1`] = `
 "import { NgModule } from '@angular/core';
 import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
-import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
     declarations: [],
@@ -289,7 +289,7 @@ export class CheckoutWrapperModule {
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Multiple dynamic imports in the file should generate appropriate feature module 1`] = `
 "import { NgModule } from '@angular/core';
 import { cartBaseTranslationChunksConfig, cartBaseTranslations } from "@spartacus/cart/base/assets";
-import { ADD_TO_CART_FEATURE, CART_BASE_FEATURE, CartBaseRootModule, MINI_CART_FEATURE } from "@spartacus/cart/base/root";
+import { ADD_TO_CART_FEATURE, CartBaseRootModule, CART_BASE_FEATURE, MINI_CART_FEATURE } from "@spartacus/cart/base/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
     declarations: [],
@@ -349,7 +349,7 @@ exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper
 import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
 import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
 import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
-import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
     declarations: [],
