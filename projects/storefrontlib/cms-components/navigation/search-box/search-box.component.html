@@ -71,7 +71,7 @@
     [innerHTML]="result.message"
   ></div>
   <!--RESULT  SUGGESTIONS-->
-  <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
+  <ng-container>
     <div class="message" *ngIf="result?.suggestions?.length">
       {{ 'searchBox.suggestions' | cxTranslate }}
     </div>
@@ -124,18 +124,20 @@
   </ng-container>
 
   <!--  TRENDING SEARCHES-->
-  <ng-container *cxFeature="searchBoxFeatures.TRENDING_SEARCHES_FEATURE">
-    <ng-template
-      *ngIf="config.trendingSearches"
-      [cxOutlet]="searchBoxOutlets.TRENDING_SEARCHES"
-      [cxOutletContext]="{
-        maxTrendingSearches: config.maxTrendingSearches
-      }"
-    ></ng-template>
+  <ng-container *ngIf="searchInput?.value?.length === 0">
+    <ng-container *cxFeature="searchBoxFeatures.TRENDING_SEARCHES_FEATURE">
+      <ng-template
+        *ngIf="config.trendingSearches"
+        [cxOutlet]="searchBoxOutlets.TRENDING_SEARCHES"
+        [cxOutletContext]="{
+          maxTrendingSearches: config.maxTrendingSearches
+        }"
+      ></ng-template>
+    </ng-container>
   </ng-container>
 
   <!--RESULT  PRODUCTS-->
-  <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
+  <ng-container>
     <div class="message" *ngIf="result.products?.length">
       {{ 'searchBox.products' | cxTranslate }}
     </div>
