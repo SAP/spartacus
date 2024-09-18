@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Config } from '@spartacus/core';
+import { TestConfig } from '@spartacus/core';
 import * as http from 'http';
 
 /**
@@ -36,7 +36,7 @@ export async function sendRequestToSsrServer(
      * It allows to have a Spartacus app that was built once, but test it with various
      * (dynamically injected) configuration variants (e.g. various feature toggles enabled/disabled).
      */
-    cxConfig?: Config;
+    cxConfig?: TestConfig;
   } = {}
 ): Promise<SsrResponse> {
   return new Promise((resolve, reject) => {

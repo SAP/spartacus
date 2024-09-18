@@ -1,6 +1,6 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "./",
     "module": "CommonJs",
     "types": ["jest"],
     "declaration": true,

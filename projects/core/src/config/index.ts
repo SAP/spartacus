@@ -18,6 +18,7 @@ export * from './config-validator/index';
 export { ConfigModule } from './config.module';
 export * from './services/configuration.service';
 export {
+  TestConfig,
   TestConfigModule,
   TestConfigModuleOptions,
 } from './test-config.module';
