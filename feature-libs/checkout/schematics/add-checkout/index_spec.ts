@@ -5,23 +5,18 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
+  cartBaseFeatureModulePath,
   CHECKOUT_B2B_FEATURE_NAME,
   CHECKOUT_BASE_FEATURE_NAME,
   CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
+  checkoutFeatureModulePath,
+  checkoutWrapperModulePath,
+  generateDefaultWorkspace,
+  LibraryOptions as SpartacusCheckoutOptions,
+  orderFeatureModulePath,
   SPARTACUS_CHECKOUT,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_SCHEMATICS,
-  LibraryOptions as SpartacusCheckoutOptions,
-  SpartacusOptions,
-  cartBaseFeatureModulePath,
-  checkoutFeatureModulePath,
-  checkoutWrapperModulePath,
-  orderFeatureModulePath,
   userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -37,27 +32,6 @@ describe('Spartacus Checkout schematics: ng-add', () => {
   );
 
   let appTree: UnitTestTree;
-
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
 
   const libraryNoFeaturesOptions: SpartacusCheckoutOptions = {
     project: 'schematics-test',
@@ -81,35 +55,10 @@ describe('Spartacus Checkout schematics: ng-add', () => {
       features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
     };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
-
   describe('Without features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateDefaultWorkspace(schematicRunner, appTree);
+
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         { ...libraryNoFeaturesOptions, features: [] },
@@ -150,7 +99,8 @@ describe('Spartacus Checkout schematics: ng-add', () => {
   describe('Checkout feature', () => {
     describe('base', () => {
       describe('general setup', () => {
-        beforeEach(async () => {
+        beforeAll(async () => {
+          appTree = await generateDefaultWorkspace(schematicRunner, appTree);
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             checkoutBaseFeatureOptions,
@@ -194,7 +144,8 @@ describe('Spartacus Checkout schematics: ng-add', () => {
       });
 
       describe('eager loading', () => {
-        beforeEach(async () => {
+        beforeAll(async () => {
+          appTree = await generateDefaultWorkspace(schematicRunner, appTree);
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             { ...checkoutBaseFeatureOptions, lazy: false },
@@ -213,7 +164,8 @@ describe('Spartacus Checkout schematics: ng-add', () => {
 
     describe('b2b', () => {
       describe('general setup', () => {
-        beforeEach(async () => {
+        beforeAll(async () => {
+          appTree = await generateDefaultWorkspace(schematicRunner, appTree);
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             checkoutBaseFeatureOptions,
@@ -273,7 +225,8 @@ describe('Spartacus Checkout schematics: ng-add', () => {
       });
 
       describe('eager loading', () => {
-        beforeEach(async () => {
+        beforeAll(async () => {
+          appTree = await generateDefaultWorkspace(schematicRunner, appTree);
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             { ...checkoutBaseFeatureOptions, lazy: false },
@@ -298,7 +251,8 @@ describe('Spartacus Checkout schematics: ng-add', () => {
 
     describe('scheduled replenishment', () => {
       describe('general setup', () => {
-        beforeEach(async () => {
+        beforeAll(async () => {
+          appTree = await generateDefaultWorkspace(schematicRunner, appTree);
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             checkoutBaseFeatureOptions,
@@ -364,7 +318,8 @@ describe('Spartacus Checkout schematics: ng-add', () => {
       });
 
       describe('eager loading', () => {
-        beforeEach(async () => {
+        beforeAll(async () => {
+          appTree = await generateDefaultWorkspace(schematicRunner, appTree);
           appTree = await schematicRunner.runSchematic(
             'ng-add',
             { ...checkoutBaseFeatureOptions, lazy: false },

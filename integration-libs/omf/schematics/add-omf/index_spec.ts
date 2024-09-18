@@ -5,21 +5,16 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
-  OMF_FEATURE_NAME,
-  ORDER_FEATURE_NAME,
+  generateDefaultWorkspace,
   LibraryOptions as OmfOptions,
+  OMF_FEATURE_NAME,
+  omfFeatureModulePath,
+  ORDER_FEATURE_NAME,
+  orderFeatureModulePath,
+  orderWrapperModulePath,
   SPARTACUS_OMF,
   SPARTACUS_ORDER,
   SPARTACUS_SCHEMATICS,
-  SpartacusOptions,
-  omfFeatureModulePath,
-  orderFeatureModulePath,
-  orderWrapperModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -33,28 +28,6 @@ describe('Spartacus OMF Schematics: ng-add', () => {
   );
 
   let appTree: UnitTestTree;
-
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    routing: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
 
   const libraryNoFeaturesOptions: OmfOptions = {
     project: 'schematics-test',
@@ -72,14 +45,7 @@ describe('Spartacus OMF Schematics: ng-add', () => {
     features: [OMF_FEATURE_NAME],
   };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      path.join(
-        __dirname,
-        '../../../../projects/schematics/src/collection.json'
-      )
-    );
+  async function generateWorkspace() {
     schematicRunner.registerCollection(
       SPARTACUS_ORDER,
       path.join(
@@ -87,29 +53,12 @@ describe('Spartacus OMF Schematics: ng-add', () => {
         '../../../../feature-libs/order/schematics/collection.json'
       )
     );
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
+    return (appTree = await generateDefaultWorkspace(schematicRunner, appTree));
+  }
 
   describe('Without features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateWorkspace();
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
@@ -124,7 +73,8 @@ describe('Spartacus OMF Schematics: ng-add', () => {
 
   describe('OMF feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateWorkspace();
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           orderFeatureOptions,
@@ -171,7 +121,8 @@ describe('Spartacus OMF Schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateWorkspace();
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...orderFeatureOptions, lazy: false },
