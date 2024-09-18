@@ -373,12 +373,6 @@ export interface FeatureTogglesInterface {
   a11yMyAccountLinkOutline?: boolean;
 
   /**
-   * When enabled focus outline on the close button inside `ProductImageZoomDialogComponent`
-   * will be fully visible
-   */
-  a11yCloseProductImageBtnFocus?: boolean;
-
-  /**
    * Improve colour contrast in the demonstration theme Santorini
    * to comply with accessibility standards. On activation, colour
    * assignations for all UI elements will change and previous keyboard
@@ -601,7 +595,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPreventSRFocusOnHiddenElements: false,
   a11yMyAccountLinkOutline: false,
-  a11yCloseProductImageBtnFocus: false,
   a11yNotificationPreferenceFieldset: false,
   a11yImproveContrast: false,
   a11yEmptyWishlistHeading: false,
