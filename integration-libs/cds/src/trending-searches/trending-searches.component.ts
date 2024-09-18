@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, OnDestroy, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
 import {
   OutletContextData,
   SearchBoxComponentService,
@@ -19,7 +19,6 @@ const MAX_TRENDING_SEARCHES = 5;
 @Component({
   selector: 'cx-trending-searches',
   templateUrl: './trending-searches.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrendingSearchesComponent implements OnInit, OnDestroy {
   public searchPhrases: SearchPhrases[] = [];
@@ -57,7 +56,7 @@ export class TrendingSearchesComponent implements OnInit, OnDestroy {
         return this.trendingSearchesService
           .getTrendingSearches()
           .pipe(map((data) => (data ? data.slice(0, maxSearches) : [])));
-      })
+        })
     );
   }
 
