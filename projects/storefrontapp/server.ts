@@ -9,6 +9,7 @@ import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
   defaultExpressErrorHandlers,
+  defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
 } from '@spartacus/setup/ssr';
 
@@ -19,7 +20,9 @@ import 'zone.js/node';
 import AppServerModule from './src/main.server';
 
 const ssrOptions: SsrOptimizationOptions = {
-  timeout: Number(10_000),
+  timeout: Number(
+    process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
+  ),
   cache: process.env['SSR_CACHE'] === 'true',
   ssrFeatureToggles: {
     avoidCachingErrors: true,
