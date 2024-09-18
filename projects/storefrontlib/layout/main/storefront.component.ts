@@ -93,10 +93,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
         this.startNavigating = val === true;
         this.stopNavigating = val === false;
       });
-
-    setTimeout(() => {
-      throw new Error('SPIKE error');
-    }, 1_000);
   }
 
   collapseMenuIfClickOutside(event: any): void {
