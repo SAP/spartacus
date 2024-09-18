@@ -156,12 +156,16 @@ export class CheckoutWrapperModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Digital Payments should create the checkout wrapper module and import Base Checkout and DP 1`] = `
 "import { NgModule } from '@angular/core';
+import { CheckoutB2BModule } from "@spartacus/checkout/b2b";
 import { CheckoutModule } from "@spartacus/checkout/base";
+import { CheckoutScheduledReplenishmentModule } from "@spartacus/checkout/scheduled-replenishment";
 import { DigitalPaymentsModule } from "@spartacus/digital-payments";
 @NgModule({
     declarations: [],
     imports: [
         CheckoutModule,
+        CheckoutB2BModule,
+        CheckoutScheduledReplenishmentModule,
         DigitalPaymentsModule
     ]
 })
@@ -172,13 +176,19 @@ export class CheckoutWrapperModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Digital Payments should create the checkout wrapper module and import Base Checkout and DP 2`] = `
 "import { NgModule } from '@angular/core';
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
 import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
 import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
+import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from "@spartacus/checkout/scheduled-replenishment/assets";
+import { CheckoutScheduledReplenishmentRootModule } from "@spartacus/checkout/scheduled-replenishment/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
     declarations: [],
     imports: [
-        CheckoutRootModule
+        CheckoutRootModule,
+        CheckoutB2BRootModule,
+        CheckoutScheduledReplenishmentRootModule
     ],
     providers: [provideConfig(<CmsConfig>{
             featureModules: {
@@ -191,6 +201,18 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
             i18n: {
                 resources: checkoutTranslations,
                 chunks: checkoutTranslationChunksConfig,
+            },
+        }),
+        provideConfig(<I18nConfig>{
+            i18n: {
+                resources: checkoutB2BTranslations,
+                chunks: checkoutB2BTranslationChunksConfig,
+            },
+        }),
+        provideConfig(<I18nConfig>{
+            i18n: {
+                resources: checkoutScheduledReplenishmentTranslations,
+                chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
             },
         })
     ]
