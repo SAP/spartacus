@@ -305,6 +305,7 @@ export function importCartTestFromConfig(config: ImportConfig) {
   cy.get(
     'cx-import-entries-dialog cx-file-upload input[type="file"]'
   ).attachFile({ filePath: `../downloads/${config.fileName}.csv` });
+  cy.get('cx-message .cx-message-success').should('be.visible');
 
   if (config.savedCartConfig) {
     cy.get('cx-import-entries-dialog input[formcontrolname="name"]')
@@ -361,9 +362,9 @@ export function attemptUpload(csvPath: string) {
   cy.get(
     'cx-import-entries-dialog cx-file-upload input[type="file"]'
   ).attachFile({ filePath: csvPath }, { allowEmpty: true });
-  cy.get('cx-import-entries-dialog input[formcontrolname="name"]').type(
-    'Test Cart'
-  );
+  cy.get('cx-import-entries-dialog input[formcontrolname="name"]')
+    .clear()
+    .type('Test Cart');
   cy.get(
     'cx-import-entries-dialog textarea[formcontrolname="description"]'
   ).type('A test description.');
