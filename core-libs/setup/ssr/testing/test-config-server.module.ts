@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ModuleWithProviders, NgModule, inject } from '@angular/core';
 import { TEST_CONFIG, TEST_CONFIG_COOKIE_NAME } from '@spartacus/core';
 import { REQUEST } from '../public_api';
