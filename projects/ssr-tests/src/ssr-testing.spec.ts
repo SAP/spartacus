@@ -78,29 +78,6 @@ describe('SSR E2E', () => {
         expect(response.statusCode).toEqual(500);
       });
 
-      fit('should inject test config', async () => {
-        backendProxy = await ProxyUtils.startBackendProxyServer({
-          target: BACKEND_BASE_URL,
-        });
-
-        // TODO: Verify correct test config cookie setup
-
-        // First request to trigger ssr rendering
-        const response: any = await HttpUtils.sendRequestToSsrServer(
-          REQUEST_PATH,
-          { cxConfig: { skipLinks: [] } }
-        );
-        expect(response.statusCode).toEqual(200);
-
-        // Second request to check rendered response to see if config has affected DOM
-        const response2: any = await HttpUtils.sendRequestToSsrServer(
-          REQUEST_PATH,
-          { cxConfig: { skipLinks: [] } }
-        );
-        // TODO: This is to verify body in console
-        expect(response2.body).toEqual(200);
-      }, 10000);
-    });
 
     describe('With caching enabled', () => {
       beforeEach(async () => {
