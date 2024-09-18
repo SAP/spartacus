@@ -92,11 +92,15 @@ export class TestConfigModule {
         },
 
         // eslint-disable-next-line @nx/workspace/use-provide-default-feature-toggles-factory -- deliberately providing high priority FeatureToggles
-        provideFeatureTogglesFactory(
-          () => (inject(TEST_CONFIG) ?? {}).features
-        ),
+        provideFeatureTogglesFactory(() => {
+          const testConfig = inject(TEST_CONFIG) ?? {};
+          return testConfig.features;
+        }),
         // eslint-disable-next-line @nx/workspace/use-provide-default-config-factory -- deliberately providing a high priority FeatureConfig
-        provideConfigFactory(() => inject(TEST_CONFIG)),
+        provideConfigFactory(() => {
+          const testConfig = inject(TEST_CONFIG) ?? {};
+          return testConfig;
+        }),
       ],
     };
   }
