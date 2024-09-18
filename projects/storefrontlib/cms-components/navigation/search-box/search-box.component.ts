@@ -9,14 +9,14 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostBinding,
+  HostListener,
+  inject,
   Input,
   OnDestroy,
   OnInit,
   Optional,
   ViewChild,
-  inject,
-  HostBinding,
-  HostListener,
 } from '@angular/core';
 import {
   CmsSearchBoxComponent,
@@ -25,7 +25,7 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, Subscription, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -77,6 +77,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     return this.isEnabledFeature(SearchBoxFeatures.SEARCH_BOX_V2);
   }
 
+  @HostListener('onload', ['$event'])
+  documentReload(event: UIEvent) {
+    console.log(event);
+    // this.close(event)
+  }
+
   get hasSearchBoxV2(): boolean {
     const hostElement = this.elementRef.nativeElement;
     return hostElement.classList.contains('search-box-v2');
@@ -84,7 +90,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   /**
    * Listener for clicout out of searchInput and searchPanel
-   * */ @HostListener('document:click', ['$event'])
+   * */
+  @HostListener('document:click', ['$event'])
   clickout(event: UIEvent) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.close(event);
@@ -349,7 +356,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     );
     groups.push(
       Array.from(
-        this.winRef.document.querySelectorAll('.trending-searches ul > li a')
+        this.winRef.document.querySelectorAll(
+          '.trending-searches-container.d-flex .trending-searches ul > li a'
+        )
       )
     );
     groups.push(
@@ -370,7 +379,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         this.winRef.document.querySelectorAll('.search-panel-close-btn')
       )
     );
-console.log(groups);
     return groups.filter((group) => group.length);
   }
   // Return focused element as HTMLElement
