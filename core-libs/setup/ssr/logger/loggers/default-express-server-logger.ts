@@ -78,12 +78,9 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
       // In dev mode, we indent JSON properties for better readability
       const stringified = JSON.stringify(logObject, replacer, 2);
 
-      // Additionally:
-      // 1. We prevent showing multi-line strings (e.g. error stacktraces) in console as a single line
-      //    with multiple `\\n`, which would be hard to read. Instead we replace them with real new lines.
-      // 2. Moreover, we add 2 spaces at the beginning of each such created new line to align *a bit better*
-      //    with the first line which that is already (possibly deep) indented by the `JSON.stringify()` call.
-      return stringified.replace(/\\n/g, '\n  ');
+      // Moreover, we prevent showing multi-line strings (e.g. error stacktraces) in console as a single line
+      // with multiple `\\n`, which would be hard to read. Instead we replace them with real new lines.
+      return stringified.replace(/\\n/g, '\n');
     }
 
     // In prod mode, we want JSON to be a single line to allow for easier parsing by monitoring tools.
