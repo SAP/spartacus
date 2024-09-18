@@ -2,4 +2,11 @@
   .cx-action-link {
     @include type('6');
   }
+
+  @include forFeature('a11yDeliveryMethodFieldset') {
+    legend {
+      @include type('8');
+      margin: 15px 0 10px 0;
+    }
+  }
 }
