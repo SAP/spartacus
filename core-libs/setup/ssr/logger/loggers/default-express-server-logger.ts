@@ -6,7 +6,9 @@
 
 import { isDevMode } from '@angular/core';
 import { Request } from 'express';
+import { formatWithOptions } from 'node:util';
 import { getRequestContext } from '../../optimized-engine/request-context';
+import { DEFAULT_LOGGER_INSPECT_OPTIONS } from '../default-logger-inspect-options';
 import {
   ExpressServerLogger,
   ExpressServerLoggerContext,
@@ -83,6 +85,12 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
       });
     }
 
+    if (context.error) {
+      Object.assign(outputContext, {
+        error: this.mapError(context.error),
+      });
+    }
+
     return outputContext;
   }
 
@@ -98,5 +106,15 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
       url: request.originalUrl,
       ...getRequestContext(request),
     };
+  }
+
+  /**
+   * Maps an Error object into a pretty string (with message, stack, optionally cause, etc.).
+   *
+   * Otherwise, the Error instance would not be visible in the logs after passing through `JSON.stringify()`.
+   * For more, see https://stackoverflow.com/a/50738205/11734692
+   */
+  protected mapError(error: unknown): string {
+    return formatWithOptions(DEFAULT_LOGGER_INSPECT_OPTIONS, error);
   }
 }
