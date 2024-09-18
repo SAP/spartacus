@@ -11,10 +11,15 @@ import {
   CtaScriptsResponse,
   OpfCtaFacade,
 } from '@spartacus/opf/cta/root';
+import { Observable, Subject } from 'rxjs';
 import { OpfCtaConnector } from '../connectors';
 
 @Injectable()
 export class OpfCtaService implements OpfCtaFacade {
+  protected _readyForScriptEvent: Subject<string> = new Subject();
+  readyForScriptEvent$: Observable<string> =
+    this._readyForScriptEvent.asObservable();
+
   protected ctaScriptsCommand: Command<
     {
       ctaScriptsRequest: CtaScriptsRequest;
@@ -31,5 +36,12 @@ export class OpfCtaService implements OpfCtaFacade {
 
   getCtaScripts(ctaScriptsRequest: CtaScriptsRequest) {
     return this.ctaScriptsCommand.execute({ ctaScriptsRequest });
+  }
+  emitScriptReadyEvent(scriptIdentifier: string) {
+    this._readyForScriptEvent.next(scriptIdentifier);
+  }
+
+  listenScriptReadyEvent(): Observable<string> {
+    return this.readyForScriptEvent$;
   }
 }

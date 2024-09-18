@@ -5,20 +5,26 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { CmsService, Product, isNotNullable } from '@spartacus/core';
+import {
+  CmsService,
+  EventService,
+  Product,
+  WindowRef,
+  isNotNullable,
+} from '@spartacus/core';
 import { Order, OrderFacade, OrderHistoryFacade } from '@spartacus/order/root';
-import { Observable, from, of, throwError } from 'rxjs';
+import { Observable, Subscription, from, of, throwError } from 'rxjs';
 import {
   concatMap,
   filter,
   finalize,
   map,
   reduce,
-  switchMap,
   take,
+  tap,
 } from 'rxjs/operators';
 
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
   OpfBaseFacade,
   OpfDynamicScript,
@@ -29,9 +35,11 @@ import {
   CtaScriptsLocation,
   CtaScriptsRequest,
   CtaScriptsResponse,
+  CtaOnsiteMessageLocations as DynamicCtaLocations,
   OpfCtaFacade,
 } from '@spartacus/opf/cta/root';
 
+import { OpfDynamicCtaService } from '@spartacus/opf/cta/core';
 import { CurrentProductService } from '@spartacus/storefront';
 
 @Injectable({
@@ -45,24 +53,116 @@ export class OpfCtaScriptsService {
   protected opfResourceLoaderService = inject(OpfResourceLoaderService);
   protected cmsService = inject(CmsService);
   protected currentProductService = inject(CurrentProductService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  // protected currencyService = inject(CurrencyService);
+  // protected languageService = inject(LanguageService);
+  // protected globalFunctionsFacade = inject(OpfGlobalFunctionsFacade);
+  protected opfDynamicCtaService = inject(OpfDynamicCtaService);
+  protected winRef = inject(WindowRef);
+  protected eventService = inject(EventService);
+  protected subList: Array<Subscription> = [];
+  isInQuickBuy = false;
+
+  CtaOnsiteMessageLocations: Array<CtaScriptsLocation> = [
+    CtaScriptsLocation.CART_MESSAGING,
+    CtaScriptsLocation.PDP_MESSAGING,
+  ];
 
   getCtaHtmlslList(): Observable<string[]> {
+    console.log('getCtaHtmlslList1');
+    let isDynamicCtaLocation = false;
     return this.fillCtaScriptRequest().pipe(
-      switchMap((ctaScriptsRequest) => this.fetchCtaScripts(ctaScriptsRequest)),
-      switchMap((scriptslist) => this.runCtaScripts(scriptslist)),
+      concatMap((ctaScriptsRequest) => {
+        isDynamicCtaLocation =
+          !!ctaScriptsRequest?.scriptLocations?.length &&
+          !!ctaScriptsRequest?.scriptLocations.map((location) =>
+            DynamicCtaLocations.includes(location)
+          );
+
+        return this.fetchCtaScripts(ctaScriptsRequest);
+      }),
+      tap((scripts) => {
+        if (scripts.length && isDynamicCtaLocation) {
+          this.opfDynamicCtaService.initiateEvents();
+        }
+      }),
+      concatMap((scriptslist) => this.runCtaScripts(scriptslist)),
       finalize(() => {
+        console.log('finalize');
         this.clearResources();
+        isDynamicCtaLocation && this.opfDynamicCtaService.stopEvents();
       })
     );
   }
 
   protected clearResources() {
-    this.opfResourceLoaderService.clearAllProviderResources();
+    console.log('clearResources');
+    //  this.opfResourceLoaderService.clearAllProviderResources();
   }
 
   protected fetchCtaScripts(
     ctaScriptsRequest: CtaScriptsRequest
   ): Observable<OpfDynamicScript[]> {
+    return of([
+      {
+        jsUrls: [
+          { url: 'https://eu-library.playground.klarnaservices.com/lib.js' },
+        ],
+        html: `<klarna-placement
+      id='klarna-onsite-message-${this.opfDynamicCtaService.scriptIdentifiers.length - 1}'
+      data-key="credit-promotion-badge"
+     >
+      </klarna-placement>
+      <script>
+      (function(){
+        console.log('klarna: klarna onsite messaging test');
+          var scriptIdentifier = '${this.opfDynamicCtaService.scriptIdentifiers.length - 1}';
+             console.log('flo identifier',scriptIdentifier);
+               var totalAmount = 0;
+        var messageInstance = window.document.getElementById('klarna-onsite-message-'+scriptIdentifier);
+       console.log('flo messageInstance',messageInstance);
+        function refreshMessageContent() {
+         console.log('Onsite: refreshMessageContent with',totalAmount * 100);
+            if (messageInstance) {
+                // messageInstance.innerText('data-purchase-amount', totalAmount * 100);
+                messageInstance.innerText = 'Klarna CTA #' + scriptIdentifier + ' - total:'+totalAmount +' USD';
+                window.KlarnaOnsiteService = window.KlarnaOnsiteService || [];
+                window.KlarnaOnsiteService.push({ eventName: 'refresh-placements' });
+            }
+        }
+
+        function handleProductTotalAmountChanged(event) {
+            if (event && event.detail && event.detail.productInfo && event.detail.productInfo.length > 0
+                && event.detail.scriptIdentifiers && event.detail.scriptIdentifiers.includes(scriptIdentifier)) {
+                totalAmount = event.detail.productInfo
+                    .map(product => product.price.sellingPrice * product.quantity)
+                    .reduce((accumulator, currentValue) => accumulator + currentValue);
+                refreshMessageContent();
+            }
+        }
+
+        function handleCartChanged(event) {
+         console.log('Onsite: handleCartChanged1');
+            if (event && event.detail && event.detail.cart) {
+              console.log('Onsite: handleCartChanged2',event.detail.cart);
+                totalAmount = event.detail.cart.total || event.detail.cart.subTotal || event.detail.cart.sellingSubTotal;
+                refreshMessageContent();
+            }
+        }
+
+        if (typeof window.addEventListener != 'undefined') {
+            window.addEventListener('productTotalAmountChanged',handleProductTotalAmountChanged,false);
+            window.addEventListener('cartChanged',handleCartChanged,false);
+        } else {
+            window.attachEvent('productTotalAmountChanged',handleProductTotalAmountChanged);
+            window.attachEvent('cartChanged',handleCartChanged);
+        }
+        //Upscale.payments.global.scriptReady(scriptIdentifier);
+        window.Opf.payments.global.scriptReady(scriptIdentifier);
+          })();
+      </script>`,
+      },
+    ]);
     return this.opfCtaFacade.getCtaScripts(ctaScriptsRequest).pipe(
       concatMap((ctaScriptsResponse: CtaScriptsResponse) => {
         if (!ctaScriptsResponse?.value?.length) {
@@ -77,7 +177,7 @@ export class OpfCtaScriptsService {
     );
   }
 
-  protected fillCtaScriptRequest() {
+  protected fillCtaScriptRequest(): Observable<CtaScriptsRequest> {
     let paymentAccountIds: number[];
 
     return this.getPaymentAccountIds().pipe(
@@ -112,7 +212,11 @@ export class OpfCtaScriptsService {
         this.fillCtaRequestforPagesWithOrder(scriptsLocation),
       [CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE]: () =>
         this.fillCtaRequestforPagesWithOrder(scriptsLocation),
-      [CtaScriptsLocation.CART_MESSAGING]: toBeImplementedException,
+      [CtaScriptsLocation.CART_MESSAGING]: () =>
+        this.opfDynamicCtaService.fillCtaRequestforCartPage(
+          scriptsLocation,
+          paymentAccountIds
+        ),
       [CtaScriptsLocation.CART_QUICK_BUY]: toBeImplementedException,
       [CtaScriptsLocation.CHECKOUT_QUICK_BUY]: toBeImplementedException,
       [CtaScriptsLocation.PDP_MESSAGING]: toBeImplementedException,
@@ -152,7 +256,6 @@ export class OpfCtaScriptsService {
       filter(isNotNullable),
       map((product: Product) => {
         return {
-          orderId: undefined,
           ctaProductItems: [{ productId: product?.code, quantity: 1 }],
           paymentAccountIds: paymentAccountIds,
           scriptLocations: [scriptLocation],
@@ -163,7 +266,9 @@ export class OpfCtaScriptsService {
 
   protected runCtaScripts(scripts: OpfDynamicScript[]) {
     return from(scripts).pipe(
+      tap(() => console.log('runCtaScripts1')),
       concatMap((script) => from(this.loadAndRunScript(script))),
+      tap(() => console.log('runCtaScripts2')),
       reduce((loadedList: string[], script) => {
         if (script?.html) {
           loadedList.push(script.html);
@@ -174,19 +279,25 @@ export class OpfCtaScriptsService {
         if (!list.length) {
           return [];
         }
-        return this.removeScriptTags(list);
+        return list;
       })
     );
   }
 
   protected getScriptLocation(): Observable<CtaScriptsLocation | undefined> {
+    // TO DO: add PDP_QUICK_BUY and CART_QUICK_BUY, need to detect if running QB cms
+    // best solution is to pass a flag into cta cms in QB template
     const cmsToCtaLocationMap: Record<CmsPageLocation, CtaScriptsLocation> = {
       [CmsPageLocation.ORDER_PAGE]:
         CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE,
       [CmsPageLocation.ORDER_CONFIRMATION_PAGE]:
         CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE,
-      [CmsPageLocation.PDP_PAGE]: CtaScriptsLocation.PDP_QUICK_BUY,
-      [CmsPageLocation.CART_PAGE]: CtaScriptsLocation.CART_QUICK_BUY,
+      [CmsPageLocation.PDP_PAGE]: this.isInQuickBuy
+        ? CtaScriptsLocation.PDP_QUICK_BUY
+        : CtaScriptsLocation.PDP_MESSAGING,
+      [CmsPageLocation.CART_PAGE]: this.isInQuickBuy
+        ? CtaScriptsLocation.CART_QUICK_BUY
+        : CtaScriptsLocation.CART_MESSAGING,
     };
     return this.cmsService.getCurrentPage().pipe(
       take(1),
@@ -243,7 +354,7 @@ export class OpfCtaScriptsService {
           .loadProviderResources(script.jsUrls, script.cssUrls)
           .then(() => {
             if (html) {
-              this.opfResourceLoaderService.executeScriptFromHtml(html);
+              //  this.opfResourceLoaderService.executeScriptFromHtml(html);
               resolve(script);
             } else {
               resolve(undefined);
@@ -254,15 +365,5 @@ export class OpfCtaScriptsService {
           });
       }
     );
-  }
-
-  protected removeScriptTags(htmls: string[]) {
-    return htmls.map((html) => {
-      const element = new DOMParser().parseFromString(html, 'text/html');
-      Array.from(element.getElementsByTagName('script')).forEach((script) => {
-        html = html.replace(script.outerHTML, '');
-      });
-      return html;
-    });
   }
 }
