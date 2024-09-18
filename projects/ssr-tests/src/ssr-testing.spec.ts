@@ -32,8 +32,9 @@ describe('SSR E2E', () => {
         backendProxy = await ProxyUtils.startBackendProxyServer({
           target: BACKEND_BASE_URL,
         });
-        const response: any =
-          await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+        const response: any = await HttpUtils.sendRequestToSsrServer({
+          path: REQUEST_PATH,
+        });
         expect(response.statusCode).toEqual(200);
 
         expectLogMessages().toContainLogs([
@@ -46,9 +47,9 @@ describe('SSR E2E', () => {
         backendProxy = await ProxyUtils.startBackendProxyServer({
           target: BACKEND_BASE_URL,
         });
-        const response = await HttpUtils.sendRequestToSsrServer(
-          REQUEST_PATH + 'not-existing-page'
-        );
+        const response = await HttpUtils.sendRequestToSsrServer({
+          path: REQUEST_PATH + 'not-existing-page',
+        });
         expect(response.statusCode).toEqual(404);
       });
 
@@ -61,7 +62,9 @@ describe('SSR E2E', () => {
             }
           },
         });
-        const response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+        const response = await HttpUtils.sendRequestToSsrServer({
+          path: REQUEST_PATH,
+        });
         expect(response.statusCode).toEqual(404);
       });
 
@@ -74,7 +77,9 @@ describe('SSR E2E', () => {
             }
           },
         });
-        const response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+        const response = await HttpUtils.sendRequestToSsrServer({
+          path: REQUEST_PATH,
+        });
         expect(response.statusCode).toEqual(500);
       });
     });
@@ -91,7 +96,9 @@ describe('SSR E2E', () => {
             target: BACKEND_BASE_URL,
           });
           let response: HttpUtils.SsrResponse;
-          response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+          response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
           expect(response.statusCode).toEqual(200);
 
           expectLogMessages().toContainLogs([
@@ -99,7 +106,9 @@ describe('SSR E2E', () => {
             `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`,
           ]);
 
-          response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+          response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
           expect(response.statusCode).toEqual(200);
           expectLogMessages().toContain(`Render from cache (${REQUEST_PATH})`);
         },
@@ -118,10 +127,14 @@ describe('SSR E2E', () => {
             },
           });
           let response: HttpUtils.SsrResponse;
-          response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+          response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
           expect(response.statusCode).toEqual(404);
 
-          response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+          response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
           expect(response.statusCode).toEqual(404);
           expectLogMessages().not.toContain(
             `Render from cache (${REQUEST_PATH})`
