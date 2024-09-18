@@ -77,7 +77,7 @@ describe('SSR E2E', () => {
         const response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
         expect(response.statusCode).toEqual(500);
       });
-
+    });
 
     describe('With caching enabled', () => {
       beforeEach(async () => {
