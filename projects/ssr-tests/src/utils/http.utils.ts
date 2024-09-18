@@ -46,7 +46,7 @@ export async function sendRequestToSsrServer(
           ...REQUEST_OPTIONS,
           path,
           headers: {
-            Cookie: buildCxConfigE2ECookie(options.cxConfig),
+            Cookie: buildCxConfigE2ECookie(options?.cxConfig),
           },
         },
         (res) => {
