@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  inject,
+  ChangeDetectorRef,
+} from '@angular/core';
 import {
   OutletContextData,
   SearchBoxComponentService,
@@ -56,7 +62,7 @@ export class TrendingSearchesComponent implements OnInit, OnDestroy {
         return this.trendingSearchesService
           .getTrendingSearches()
           .pipe(map((data) => (data ? data.slice(0, maxSearches) : [])));
-        })
+      })
     );
   }
 
