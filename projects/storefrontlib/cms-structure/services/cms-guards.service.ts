@@ -93,13 +93,10 @@ export class CmsGuardsService {
     return getLastValueSync(
       guard$.pipe(
         map((guard) => {
-          if (isCanActivate(guard)) {
-            return wrapIntoObservable(guard.canActivate(route, state)).pipe(
-              first()
-            );
-          } else {
+          if (!isCanActivate(guard)) {
             throw new Error('Invalid CanActivate guard in cmsMapping');
           }
+          return wrapIntoObservable(guard.canActivate(route, state));
         })
       )
     );

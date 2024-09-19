@@ -129,18 +129,25 @@ export class CmsRoutesImplService {
    * even when they are provided only in a child injector of a lazy-loaded module.
    */
   private wrapCmsGuardsRecursively(routes: Route[]): Route[] {
-    return routes.map((route) => {
+    return [...routes].map((route) => {
+      let children;
+      let canActivate;
+
       if (route.children) {
-        route.children = this.wrapCmsGuardsRecursively(route.children);
+        children = this.wrapCmsGuardsRecursively(route.children);
       }
 
       if (route?.canActivate?.length) {
-        route.canActivate = route.canActivate.map((guard) =>
+        canActivate = route.canActivate.map((guard) =>
           this.wrapCmsGuard(guard)
         );
       }
 
-      return route;
+      return {
+        ...route,
+        canActivate,
+        children,
+      };
     });
   }
 
