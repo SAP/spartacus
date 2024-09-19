@@ -12,10 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import {
-  OpfDynamicScript,
-  OpfResourceLoaderService,
-} from '@spartacus/opf/base/root';
+import { OpfDynamicScript } from '@spartacus/opf/base/root';
 import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service';
 
 @Component({
@@ -25,7 +22,6 @@ import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service
 })
 export class OpfCtaElementComponent implements AfterViewInit {
   protected sanitizer = inject(DomSanitizer);
-  protected opfResourceLoaderService = inject(OpfResourceLoaderService);
   protected opfCtaScriptsService = inject(OpfCtaScriptsService);
   htmlString: string;
   _ctaScriptHtml: OpfDynamicScript;
@@ -48,12 +44,4 @@ export class OpfCtaElementComponent implements AfterViewInit {
   renderHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
-
-  // protected removeScriptTags(html: string) {
-  //   const element = new DOMParser().parseFromString(html, 'text/html');
-  //   Array.from(element.getElementsByTagName('script')).forEach((script) => {
-  //     html = html.replace(script.outerHTML, '');
-  //   });
-  //   return html;
-  // }
 }
