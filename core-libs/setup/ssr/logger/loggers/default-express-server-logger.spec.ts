@@ -369,7 +369,7 @@ describe('DefaultExpressServerLogger', () => {
           `[cause]: { level2: { level3: [Object] } }`
         );
         expect(debugSpy.mock.lastCall?.[0]).toContain(
-          `[cause]: {\\n    level2: {\\n      level3: {\\n        level4: {\\n          level5: {\\n            level6: {\\n              level7: { level8: { level9: { level10string: 'level10string' } } }\\n            }\\n          }\\n        }\\n      }\\n    }\\n  }\\n}`
+          `[cause]: {\\n    level2: {\\n      level3: {\\n        level4: {\\n          level5: {\\n            level6: {\\n              level7: {\\n                level8: { level9: { level10string: 'level10string' } }\\n              }\\n            }\\n          }\\n        }\\n      }\\n    }\\n  }\\n}`
         );
       });
     });

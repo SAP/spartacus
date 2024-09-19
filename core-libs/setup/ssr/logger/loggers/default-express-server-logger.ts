@@ -66,10 +66,11 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
   ): string {
     const logObject = { message, context: this.mapContext(context) };
 
+    let indentation = 0;
     if (isDevMode()) {
       // In dev mode, we want a *human-readable* string representation of the log object
       // that can be printed in the console.
-      return formatWithOptions(getLoggerInspectOptions(), logObject);
+      indentation = 2;
     }
 
     // In prod mode, we want a *single-line* JSON which is machine-readable - easy to parse for monitoring tools.
@@ -81,7 +82,8 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
        */
       (_key: string, value: any) => {
         return value instanceof Error ? this.stringifyError(value) : value;
-      }
+      },
+      indentation
     );
   }
 
