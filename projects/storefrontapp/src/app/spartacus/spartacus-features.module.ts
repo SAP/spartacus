@@ -56,6 +56,7 @@ import {
   ScrollToTopModule,
   SearchBoxModule,
   SiteContextSelectorModule,
+  SiteThemeSwitcherModule,
   StockNotificationModule,
   TabParagraphContainerModule,
   USE_MY_ACCOUNT_V2_CONSENT,
@@ -185,6 +186,7 @@ if (environment.cpq) {
     PDFModule,
     ScrollToTopModule,
     VideoModule,
+    SiteThemeSwitcherModule,
 
     // User Core
     UserModule,
@@ -345,6 +347,7 @@ if (environment.cpq) {
         a11yEmptyWishlistHeading: true,
         a11yScreenReaderBloatFix: true,
         a11yUseButtonsForBtnLinks: true,
+        a11yCarouselArrowKeysNavigation: true,
         a11yNotificationsOnConsentChange: true,
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
@@ -360,11 +363,15 @@ if (environment.cpq) {
         a11yRepeatedCancelOrderError: true,
         a11yAddedToCartActiveDialog: true,
         a11yNgSelectMobileReadout: true,
+        a11yDeliveryMethodFieldset: true,
+        a11yShowMoreReviewsBtnFocus: true,
         a11yQuickOrderAriaControls: true,
         a11yRemoveStatusLoadedRole: true,
         a11yDialogsHeading: true,
         a11yDialogTriggerRefocus: false,
+        a11ySearchBoxFocusOnEscape: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
+        useSiteThemeService: false,
       };
       return appFeatureToggles;
     }),

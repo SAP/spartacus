@@ -422,6 +422,12 @@ export interface FeatureTogglesInterface {
   a11yUseButtonsForBtnLinks?: boolean;
 
   /**
+   * `ProductImageZoomProductImagesComponent`, `ProductImageZoomThumbnailsComponent` - enable
+   * arrow keys navigation for the carousel
+   */
+  a11yCarouselArrowKeysNavigation?: boolean;
+
+  /**
    * `AnonymousConsentDialogComponent` - after consent was given/withdrawn the notification
    * will be displayed
    * `ConsentManagementComponent` - improve stability of notifications announcements by VoiceOver
@@ -499,6 +505,16 @@ export interface FeatureTogglesInterface {
   a11yNgSelectMobileReadout?: boolean;
 
   /**
+   * When enabled, the form in 'PickupOptionsComponent' will be wrapped in a fieldset and contain a legend.
+   */
+  a11yDeliveryMethodFieldset?: boolean;
+
+  /**
+   * In 'ProductReviewsComponent' the 'show more/less reviews' button will no longer loose focus on activation.
+   */
+  a11yShowMoreReviewsBtnFocus?: boolean;
+
+  /**
    * Fixes `aria-controls` attribute in the 'QuickOrderFormComponent' combobox.
    */
   a11yQuickOrderAriaControls?: boolean;
@@ -521,6 +537,11 @@ export interface FeatureTogglesInterface {
   a11yDialogTriggerRefocus?: boolean;
 
   /**
+   * `SearchBoxComponent` should no longer lose focus after closing the popup the esc key.
+   */
+  a11ySearchBoxFocusOnEscape?: boolean;
+
+  /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
    * into a request body, instead of query params.
    * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
@@ -532,6 +553,16 @@ export interface FeatureTogglesInterface {
    * customization buttons in the BottomHeaderSlot in SmartEdit.
    */
   cmsBottomHeaderSlotUsingFlexStyles?: boolean;
+
+  /**
+   * 1. It uses the new `SiteThemeService` as the source of truth for the "site theme" value
+   * (this value can change over time, e.g. when selecting new value in the new `SiteThemeSwitcherComponent`).
+   * Previously the "site theme" could be set only on the page start (via the static config `config.context.theme` or via CMS, when using the feature of the "automatic site-context configuration").
+   * 2. Now, when no custom theme is selected, the default theme value is an empty string `''`,
+   * unless you configure it differently via the global config `config.context.theme` (or via CMS).
+   * Previously, there the non-defined theme had a value `undefined`.
+   */
+  useSiteThemeService?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -597,6 +628,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yEmptyWishlistHeading: false,
   a11yScreenReaderBloatFix: false,
   a11yUseButtonsForBtnLinks: false,
+  a11yCarouselArrowKeysNavigation: false,
   a11yNotificationsOnConsentChange: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,
@@ -610,10 +642,14 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRepeatedCancelOrderError: false,
   a11yAddedToCartActiveDialog: false,
   a11yNgSelectMobileReadout: false,
+  a11yDeliveryMethodFieldset: false,
+  a11yShowMoreReviewsBtnFocus: false,
   a11yQuickOrderAriaControls: false,
   a11yRemoveStatusLoadedRole: false,
   a11yDialogsHeading: false,
   a11yDialogTriggerRefocus: false,
+  a11ySearchBoxFocusOnEscape: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
+  useSiteThemeService: false,
 };

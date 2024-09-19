@@ -17,6 +17,9 @@ $modal-min-width-asm: 95% !important;
   background-color: rgba(0, 0, 0, 0.5);
   &-header {
     padding: $modal-header-padding;
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+    }
   }
   &-body {
     padding: 16px 30px 30px;
@@ -24,6 +27,14 @@ $modal-min-width-asm: 95% !important;
   &-content {
     border-radius: $modal-content-border-radius;
     border: none;
+    @include cx-highContrastTheme {
+      color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+      border: 1px solid var(--cx-color-text);
+      .close {
+        color: var(--cx-color-text);
+      }
+    }
   }
   .close {
     font-size: 38px;
@@ -81,6 +92,14 @@ $modal-min-width-asm: 95% !important;
 .cx-modal-content {
   background-color: var(--cx-color-inverse);
   width: 100%;
+  @include cx-highContrastTheme {
+    color: var(--cx-color-text);
+    background-color: var(--cx-color-background);
+    border: 1px solid var(--cx-color-text);
+    .close {
+      color: var(--cx-color-text);
+    }
+  }
 }
 
 .cx-modal-footer {

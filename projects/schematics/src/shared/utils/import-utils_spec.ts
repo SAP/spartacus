@@ -77,7 +77,7 @@ describe('Import utils', () => {
     lazy: true,
   };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     tree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',

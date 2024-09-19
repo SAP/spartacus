@@ -47,7 +47,7 @@ describe('Logger utils', () => {
     debug: true,
   };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',

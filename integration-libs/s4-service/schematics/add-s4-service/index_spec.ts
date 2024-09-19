@@ -5,25 +5,20 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
   CHECKOUT_B2B_FEATURE_NAME,
   CHECKOUT_BASE_FEATURE_NAME,
+  checkoutWrapperModulePath,
+  generateDefaultWorkspace,
+  LibraryOptions as SpartacusS4ServiceOptions,
   ORDER_FEATURE_NAME,
+  orderWrapperModulePath,
   S4_SERVICE_FEATURE_NAME,
+  s4ServiceFeatureModulePath,
   SPARTACUS_CHECKOUT_B2B,
   SPARTACUS_CHECKOUT_BASE,
   SPARTACUS_ORDER,
   SPARTACUS_S4_SERVICE,
   SPARTACUS_SCHEMATICS,
-  SpartacusOptions,
-  LibraryOptions as SpartacusS4ServiceOptions,
-  checkoutWrapperModulePath,
-  orderWrapperModulePath,
-  s4ServiceFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -36,24 +31,7 @@ describe('Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add'
     collectionPath
   );
   let appTree: UnitTestTree;
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
+
   const libraryNoFeaturesOptions: SpartacusS4ServiceOptions = {
     project: 'schematics-test',
     lazy: true,
@@ -75,14 +53,8 @@ describe('Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add'
     ...libraryNoFeaturesOptions,
     features: [S4_SERVICE_FEATURE_NAME],
   };
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      path.join(
-        __dirname,
-        '../../../../projects/schematics/src/collection.json'
-      )
-    );
+
+  async function generateWorkspace() {
     schematicRunner.registerCollection(
       SPARTACUS_CHECKOUT_BASE,
       path.join(
@@ -104,26 +76,12 @@ describe('Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add'
         '../../../../feature-libs/order/schematics/collection.json'
       )
     );
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
+    return (appTree = await generateDefaultWorkspace(schematicRunner, appTree));
+  }
+
   describe('Without features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateWorkspace();
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
@@ -136,7 +94,8 @@ describe('Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add'
   });
   describe('S4-Service feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateWorkspace();
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           checkoutFeatureOptions,
@@ -189,7 +148,8 @@ describe('Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add'
       });
     });
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateWorkspace();
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...checkoutFeatureOptions, lazy: false },

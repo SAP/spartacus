@@ -15,7 +15,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureConfigService, useFeatureStyles } from '@spartacus/core';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
 
 /**
@@ -54,6 +54,10 @@ export class PickupOptionsComponent implements OnChanges {
   pickupOptionsForm = new FormGroup({
     pickupOption: new FormControl<PickupOption | null>(null),
   });
+
+  constructor() {
+    useFeatureStyles('a11yDeliveryMethodFieldset');
+  }
 
   ngOnChanges(): void {
     if (this.disableControls) {
