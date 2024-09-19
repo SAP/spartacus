@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { OrderEntry, OrderEntryGroup } from '@spartacus/cart/base/root';
 import { HierarchyNode } from '../hierarchy-node';
 import { TitleNode } from '../hierarchy-node-title';
