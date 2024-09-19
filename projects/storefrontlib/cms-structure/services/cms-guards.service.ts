@@ -14,7 +14,7 @@ import {
   wrapIntoObservable,
 } from '@spartacus/core';
 import { concat, Observable, of } from 'rxjs';
-import { endWith, first, map, skipWhile } from 'rxjs/operators';
+import { endWith, first, skipWhile } from 'rxjs/operators';
 import { CmsComponentsService } from './cms-components.service';
 import { CanActivate, GuardsComposer } from './guards-composer';
 
