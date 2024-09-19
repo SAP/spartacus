@@ -236,7 +236,6 @@ export class OpfDynamicCtaService {
 
   protected productChangedListener(): void {
     //// need event listener detecting 'pdp counter changed' event and get its qty value.
-    // this.dispatchProductEvents(this.scriptIdentifiers, 1);
   }
 
   protected cartChangedListener(): void {

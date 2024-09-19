@@ -344,7 +344,6 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     this.getGlobalFunctionContainer(domain).scriptReady = (
       scriptIdentifier: string
     ): void => {
-      console.log('flo', scriptIdentifier);
       this.ngZone.run(() => {
         this.opfCtaFacade.emitScriptReadyEvent(scriptIdentifier);
       });
