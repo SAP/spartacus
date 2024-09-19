@@ -25,6 +25,7 @@ import * as path from 'path';
 import postcss from 'postcss-scss';
 import semver from 'semver';
 import ts from 'typescript';
+import { chalk } from '../chalk';
 import {
   PACKAGE_JSON,
   PUBLISHING_VERSION,
@@ -43,7 +44,6 @@ import {
   reportProgress,
   success,
 } from './index';
-import {chalk} from "../chalk";
 
 // ------------ Utilities ------------
 
@@ -293,10 +293,13 @@ function filterLocalRelativeImports(
   Object.values(libraries).forEach((lib) => {
     lib.tsImports = Object.values(lib.tsImports)
       .filter((imp) => !imp.importPath.startsWith('.'))
-      .reduce((acc, curr) => {
-        acc[curr.importPath] = curr;
-        return acc;
-      }, {} as LibraryWithDependencies['tsImports']);
+      .reduce(
+        (acc, curr) => {
+          acc[curr.importPath] = curr;
+          return acc;
+        },
+        {} as LibraryWithDependencies['tsImports']
+      );
     lib.scssImports = Object.values(lib.scssImports)
       .filter((imp) => {
         if (
@@ -325,10 +328,13 @@ function filterLocalRelativeImports(
         }
         return true;
       })
-      .reduce((acc, curr) => {
-        acc[curr.importPath] = curr;
-        return acc;
-      }, {} as LibraryWithDependencies['scssImports']);
+      .reduce(
+        (acc, curr) => {
+          acc[curr.importPath] = curr;
+          return acc;
+        },
+        {} as LibraryWithDependencies['scssImports']
+      );
   });
 }
 
@@ -378,6 +384,9 @@ function filterNativeNodeAPIs(
     'worker_threads',
     'zlib',
   ];
+  // Node apis might be possibly prefixed with `node:`, e.g. `node:fs`
+  const prefixedNodeAPIs = nodeAPIs.map((nodeAPI) => `node:${nodeAPI}`);
+  const allNodeAPIs = [...nodeAPIs, ...prefixedNodeAPIs];
 
   if (!options.fix) {
     reportProgress('Checking imports of Node.js APIs');
@@ -386,7 +395,7 @@ function filterNativeNodeAPIs(
     Object.values(libraries).forEach((lib) => {
       lib.tsImports = Object.values(lib.tsImports)
         .filter((imp) => {
-          if (nodeAPIs.includes(imp.importPath)) {
+          if (allNodeAPIs.includes(imp.importPath)) {
             // Don't run the check in fix mode
             if (!options.fix) {
               // Don't allow to use node api outside of schematics files
@@ -415,10 +424,13 @@ function filterNativeNodeAPIs(
           }
           return true;
         })
-        .reduce((acc, curr) => {
-          acc[curr.importPath] = curr;
-          return acc;
-        }, {} as LibraryWithDependencies['tsImports']);
+        .reduce(
+          (acc, curr) => {
+            acc[curr.importPath] = curr;
+            return acc;
+          },
+          {} as LibraryWithDependencies['tsImports']
+        );
     });
     if (!errorsFound) {
       success();
@@ -473,10 +485,13 @@ function filterLocalAbsolutePathFiles(
           }
           return true;
         })
-        .reduce((acc, curr) => {
-          acc[curr.importPath] = curr;
-          return acc;
-        }, {} as LibraryWithDependencies['tsImports']);
+        .reduce(
+          (acc, curr) => {
+            acc[curr.importPath] = curr;
+            return acc;
+          },
+          {} as LibraryWithDependencies['tsImports']
+        );
     });
     if (!errorsFound) {
       success();
@@ -703,10 +718,13 @@ function filterOutSpecOnlyDependencies(
         }
         return true;
       })
-      .reduce((acc, curr) => {
-        acc[curr.dependency] = curr;
-        return acc;
-      }, {} as LibraryWithDependencies['externalDependenciesForPackageJson']);
+      .reduce(
+        (acc, curr) => {
+          acc[curr.dependency] = curr;
+          return acc;
+        },
+        {} as LibraryWithDependencies['externalDependenciesForPackageJson']
+      );
   });
 }
 
