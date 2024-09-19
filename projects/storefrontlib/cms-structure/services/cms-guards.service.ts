@@ -85,21 +85,17 @@ export class CmsGuardsService {
     guardClass: any,
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> | any {
-    const guard$ = this.unifiedInjector.get<{
-      canActivate: CanActivateFn;
-    }>(guardClass);
-
-    return getLastValueSync(
-      guard$.pipe(
-        map((guard) => {
-          if (!isCanActivate(guard)) {
-            throw new Error('Invalid CanActivate guard in cmsMapping');
-          }
-          return wrapIntoObservable(guard.canActivate(route, state));
-        })
-      )
+  ): Observable<boolean | UrlTree> {
+    const guard = getLastValueSync(
+      this.unifiedInjector.get<{
+        canActivate: CanActivateFn;
+      }>(guardClass)
     );
+    if (isCanActivate(guard)) {
+      return wrapIntoObservable(guard.canActivate(route, state)).pipe(first());
+    } else {
+      throw new Error('Invalid CanActivate guard in cmsMapping');
+    }
   }
 }
 
