@@ -4,5 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './get-logger-inspect-options';
 export * from './loggers/index';
 export * from './services/index';
