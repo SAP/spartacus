@@ -1,5 +1,3 @@
-// PRIVATE API
-
 import { isDevMode } from '@angular/core';
 import { InspectOptions } from 'node:util';
 
