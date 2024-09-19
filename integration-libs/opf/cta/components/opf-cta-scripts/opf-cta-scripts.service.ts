@@ -5,11 +5,10 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { CmsService, EventService, WindowRef } from '@spartacus/core';
+import { CmsService } from '@spartacus/core';
 import { Observable, Subscription, of, throwError } from 'rxjs';
 import { concatMap, filter, finalize, map, take, tap } from 'rxjs/operators';
 
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   OpfBaseFacade,
   OpfDynamicScript,
@@ -20,7 +19,7 @@ import {
   CtaScriptsLocation,
   CtaScriptsRequest,
   CtaScriptsResponse,
-  CtaOnsiteMessageLocations as DynamicCtaLocations,
+  DynamicCtaLocations,
   OpfCtaFacade,
 } from '@spartacus/opf/cta/root';
 
@@ -28,7 +27,6 @@ import {
   OpfDynamicCtaService,
   OpfStaticCtaService,
 } from '@spartacus/opf/cta/core';
-import { CurrentProductService } from '@spartacus/storefront';
 
 @Injectable({
   providedIn: 'root',
@@ -38,21 +36,12 @@ export class OpfCtaScriptsService {
   protected opfCtaFacade = inject(OpfCtaFacade);
   protected opfResourceLoaderService = inject(OpfResourceLoaderService);
   protected cmsService = inject(CmsService);
-  protected currentProductService = inject(CurrentProductService);
-  protected activeCartFacade = inject(ActiveCartFacade);
   protected opfDynamicCtaService = inject(OpfDynamicCtaService);
   protected opfStaticCtaService = inject(OpfStaticCtaService);
-  protected winRef = inject(WindowRef);
-  protected eventService = inject(EventService);
+
   protected subList: Array<Subscription> = [];
 
-  CtaOnsiteMessageLocations: Array<CtaScriptsLocation> = [
-    CtaScriptsLocation.CART_MESSAGING,
-    CtaScriptsLocation.PDP_MESSAGING,
-  ];
-
   getCtaHtmlslList(): Observable<OpfDynamicScript[]> {
-    console.log('getCtaHtmlslList1');
     let isDynamicCtaLocation = false;
     return this.fillCtaScriptRequest().pipe(
       concatMap((ctaScriptsRequest) => {
@@ -69,147 +58,140 @@ export class OpfCtaScriptsService {
           this.opfDynamicCtaService.initiateEvents();
         }
       }),
-      // concatMap((scriptslist) => this.runCtaScripts(scriptslist)),
       finalize(() => {
-        console.log('finalize');
-        this.clearResources();
+        this.opfResourceLoaderService.clearAllProviderResources();
         isDynamicCtaLocation && this.opfDynamicCtaService.stopEvents();
       })
     );
   }
 
-  protected clearResources() {
-    console.log('clearResources');
-    this.opfResourceLoaderService.clearAllProviderResources();
-  }
-
   protected fetchCtaScripts(
     ctaScriptsRequest: CtaScriptsRequest
   ): Observable<OpfDynamicScript[]> {
-    return of([
-      {
-        jsUrls: [
-          { url: 'https://eu-library.playground.klarnaservices.com/lib.js' },
-        ],
-        html: `<klarna-placement
-        id='klarna-onsite-message-${this.opfDynamicCtaService.scriptIdentifiers.length}'
-        data-key="credit-promotion-badge"
-       >
-        </klarna-placement>
-        <script>
-        (function(){
-          console.log('klarna: klarna onsite messaging test');
-            var scriptIdentifier = '${this.opfDynamicCtaService.scriptIdentifiers.length}';
-               console.log('flo identifier',scriptIdentifier);
-                 var totalAmount = 0;
-          var messageInstance = window.document.getElementById('klarna-onsite-message-'+scriptIdentifier);
-         console.log('flo messageInstance',messageInstance);
-          function refreshMessageContent() {
-           console.log('Onsite: refreshMessageContent with',totalAmount * 100);
-              if (messageInstance) {
-                  // messageInstance.innerText('data-purchase-amount', totalAmount * 100);
-                  messageInstance.innerText = 'Klarna CTA #' + scriptIdentifier + ' - total:'+totalAmount +' USD';
-                  window.KlarnaOnsiteService = window.KlarnaOnsiteService || [];
-                  window.KlarnaOnsiteService.push({ eventName: 'refresh-placements' });
-              }
-          }
+    // return of([
+    //   {
+    //     jsUrls: [
+    //       { url: 'https://eu-library.playground.klarnaservices.com/lib.js' },
+    //     ],
+    //     html: `<klarna-placement
+    //     id='klarna-onsite-message-${this.opfDynamicCtaService.scriptIdentifiers.length}'
+    //     data-key="credit-promotion-badge"
+    //    >
+    //     </klarna-placement>
+    //     <script>
+    //     (function(){
+    //       console.log('klarna: klarna onsite messaging test');
+    //         var scriptIdentifier = '${this.opfDynamicCtaService.scriptIdentifiers.length}';
+    //            console.log('flo identifier',scriptIdentifier);
+    //              var totalAmount = 0;
+    //       var messageInstance = window.document.getElementById('klarna-onsite-message-'+scriptIdentifier);
+    //      console.log('flo messageInstance',messageInstance);
+    //       function refreshMessageContent() {
+    //        console.log('Onsite: refreshMessageContent with',totalAmount * 100);
+    //           if (messageInstance) {
+    //               // messageInstance.innerText('data-purchase-amount', totalAmount * 100);
+    //               messageInstance.innerText = 'Klarna CTA #' + scriptIdentifier + ' - total:'+totalAmount +' USD';
+    //               window.KlarnaOnsiteService = window.KlarnaOnsiteService || [];
+    //               window.KlarnaOnsiteService.push({ eventName: 'refresh-placements' });
+    //           }
+    //       }
 
-          function handleProductTotalAmountChanged(event) {
-          console.log("klarna handleProductTotalAmountChanged",event.detail.productInfo);
-              if (event && event.detail && event.detail.productInfo && event.detail.productInfo.length > 0
-                  && event.detail.scriptIdentifiers && event.detail.scriptIdentifiers.includes(scriptIdentifier)) {
-                 
-                  totalAmount = event.detail.productInfo
-                      .map(product => product.price.sellingPrice * product.quantity)
-                      .reduce((accumulator, currentValue) => accumulator + currentValue);
-                  refreshMessageContent();
-              }
-          }
+    //       function handleProductTotalAmountChanged(event) {
+    //       console.log("klarna handleProductTotalAmountChanged",event.detail.productInfo);
+    //           if (event && event.detail && event.detail.productInfo && event.detail.productInfo.length > 0
+    //               && event.detail.scriptIdentifiers && event.detail.scriptIdentifiers.includes(scriptIdentifier)) {
 
-          function handleCartChanged(event) {
-           console.log('Onsite: handleCartChanged1');
-              if (event && event.detail && event.detail.cart) {
-                console.log('Onsite: handleCartChanged2',event.detail.cart);
-                  totalAmount = event.detail.cart.total || event.detail.cart.subTotal || event.detail.cart.sellingSubTotal;
-                  refreshMessageContent();
-              }
-          }
+    //               totalAmount = event.detail.productInfo
+    //                   .map(product => product.price.sellingPrice * product.quantity)
+    //                   .reduce((accumulator, currentValue) => accumulator + currentValue);
+    //               refreshMessageContent();
+    //           }
+    //       }
 
-          if (typeof window.addEventListener != 'undefined') {
-              window.addEventListener('productTotalAmountChanged',handleProductTotalAmountChanged,false);
-              window.addEventListener('cartChanged',handleCartChanged,false);
-          } else {
-              window.attachEvent('productTotalAmountChanged',handleProductTotalAmountChanged);
-              window.attachEvent('cartChanged',handleCartChanged);
-          }
-          //Upscale.payments.global.scriptReady(scriptIdentifier);
-          window.Opf.payments.global.scriptReady(scriptIdentifier);
-            })();
-        </script>`,
-      },
-      {
-        jsUrls: [
-          { url: 'https://cdn.snigelweb.com/adengine/w3schools.com/loader.js' },
-        ],
-        html: `<h2>Second CTA Element Test<h2>
-        <script> console.log("second script")</script>`,
-      },
-      {
-        html: `<klarna-placement
-        id='ali-onsite-message-${this.opfDynamicCtaService.scriptIdentifiers.length}'
-        data-key="credit-promotion-badge"
-       >
-        </klarna-placement>
-        <script>
-        (function(){
-          console.log('AliExpress: AliExpress onsite messaging test');
-            var scriptIdentifier = '${this.opfDynamicCtaService.scriptIdentifiers.length}';
-               console.log('flo identifier',scriptIdentifier);
-                 var totalAmount = 0;
-          var messageInstance = window.document.getElementById('ali-onsite-message-'+scriptIdentifier);
-         console.log('flo messageInstance',messageInstance);
-          function refreshMessageContent() {
-           console.log('AliExpress: refreshMessageContent with',totalAmount * 100);
-              if (messageInstance) {
-                  // messageInstance.innerText('data-purchase-amount', totalAmount * 100);
-                  messageInstance.innerText = 'AliExpress CTA #' + scriptIdentifier + ' - total:'+totalAmount +' USD';
-                  window.KlarnaOnsiteService = window.KlarnaOnsiteService || [];
-                  window.KlarnaOnsiteService.push({ eventName: 'refresh-placements' });
-              }
-          }
+    //       function handleCartChanged(event) {
+    //        console.log('Onsite: handleCartChanged1');
+    //           if (event && event.detail && event.detail.cart) {
+    //             console.log('Onsite: handleCartChanged2',event.detail.cart);
+    //               totalAmount = event.detail.cart.total || event.detail.cart.subTotal || event.detail.cart.sellingSubTotal;
+    //               refreshMessageContent();
+    //           }
+    //       }
 
-          function handleProductTotalAmountChanged(event) {
-              if (event && event.detail && event.detail.productInfo && event.detail.productInfo.length > 0
-                  && event.detail.scriptIdentifiers && event.detail.scriptIdentifiers.includes(scriptIdentifier)) {
-                  totalAmount = event.detail.productInfo
-                      .map(product => product.price.sellingPrice * product.quantity)
-                      .reduce((accumulator, currentValue) => accumulator + currentValue);
-                  refreshMessageContent();
-              }
-          }
+    //       if (typeof window.addEventListener != 'undefined') {
+    //           window.addEventListener('productTotalAmountChanged',handleProductTotalAmountChanged,false);
+    //           window.addEventListener('cartChanged',handleCartChanged,false);
+    //       } else {
+    //           window.attachEvent('productTotalAmountChanged',handleProductTotalAmountChanged);
+    //           window.attachEvent('cartChanged',handleCartChanged);
+    //       }
+    //       //Upscale.payments.global.scriptReady(scriptIdentifier);
+    //       window.Opf.payments.global.scriptReady(scriptIdentifier);
+    //         })();
+    //     </script>`,
+    //   },
+    //   {
+    //     jsUrls: [
+    //       { url: 'https://cdn.snigelweb.com/adengine/w3schools.com/loader.js' },
+    //     ],
+    //     html: `<h2>CTA: Buy Now, Pay Later!<h2>
+    //     <script> console.log("second script")</script>`,
+    //   },
+    //   {
+    //     html: `<klarna-placement
+    //     id='ali-onsite-message-${this.opfDynamicCtaService.scriptIdentifiers.length}'
+    //     data-key="credit-promotion-badge"
+    //    >
+    //     </klarna-placement>
+    //     <script>
+    //     (function(){
+    //       console.log('AliExpress: AliExpress onsite messaging test');
+    //         var scriptIdentifier = '${this.opfDynamicCtaService.scriptIdentifiers.length}';
+    //            console.log('flo identifier',scriptIdentifier);
+    //              var totalAmount = 0;
+    //       var messageInstance = window.document.getElementById('ali-onsite-message-'+scriptIdentifier);
+    //      console.log('flo messageInstance',messageInstance);
+    //       function refreshMessageContent() {
+    //        console.log('AliExpress: refreshMessageContent with',totalAmount * 100);
+    //           if (messageInstance) {
+    //               // messageInstance.innerText('data-purchase-amount', totalAmount * 100);
+    //               messageInstance.innerText = 'AliExpress CTA #' + scriptIdentifier + ' - total:'+totalAmount +' USD';
+    //               window.KlarnaOnsiteService = window.KlarnaOnsiteService || [];
+    //               window.KlarnaOnsiteService.push({ eventName: 'refresh-placements' });
+    //           }
+    //       }
 
-          function handleCartChanged(event) {
-           console.log('AliExpress: handleCartChanged1');
-              if (event && event.detail && event.detail.cart) {
-                console.log('Onsite: handleCartChanged2',event.detail.cart);
-                  totalAmount = event.detail.cart.total || event.detail.cart.subTotal || event.detail.cart.sellingSubTotal;
-                  refreshMessageContent();
-              }
-          }
+    //       function handleProductTotalAmountChanged(event) {
+    //           if (event && event.detail && event.detail.productInfo && event.detail.productInfo.length > 0
+    //               && event.detail.scriptIdentifiers && event.detail.scriptIdentifiers.includes(scriptIdentifier)) {
+    //               totalAmount = event.detail.productInfo
+    //                   .map(product => product.price.sellingPrice * product.quantity)
+    //                   .reduce((accumulator, currentValue) => accumulator + currentValue);
+    //               refreshMessageContent();
+    //           }
+    //       }
 
-          if (typeof window.addEventListener != 'undefined') {
-              window.addEventListener('productTotalAmountChanged',handleProductTotalAmountChanged,false);
-              window.addEventListener('cartChanged',handleCartChanged,false);
-          } else {
-              window.attachEvent('productTotalAmountChanged',handleProductTotalAmountChanged);
-              window.attachEvent('cartChanged',handleCartChanged);
-          }
-          //Upscale.payments.global.scriptReady(scriptIdentifier);
-          window.Opf.payments.global.scriptReady(scriptIdentifier);
-            })();
-        </script>`,
-      },
-    ]);
+    //       function handleCartChanged(event) {
+    //        console.log('AliExpress: handleCartChanged1');
+    //           if (event && event.detail && event.detail.cart) {
+    //             console.log('Onsite: handleCartChanged2',event.detail.cart);
+    //               totalAmount = event.detail.cart.total || event.detail.cart.subTotal || event.detail.cart.sellingSubTotal;
+    //               refreshMessageContent();
+    //           }
+    //       }
+
+    //       if (typeof window.addEventListener != 'undefined') {
+    //           window.addEventListener('productTotalAmountChanged',handleProductTotalAmountChanged,false);
+    //           window.addEventListener('cartChanged',handleCartChanged,false);
+    //       } else {
+    //           window.attachEvent('productTotalAmountChanged',handleProductTotalAmountChanged);
+    //           window.attachEvent('cartChanged',handleCartChanged);
+    //       }
+    //       //Upscale.payments.global.scriptReady(scriptIdentifier);
+    //       window.Opf.payments.global.scriptReady(scriptIdentifier);
+    //         })();
+    //     </script>`,
+    //   },
+    // ]);
     return this.opfCtaFacade.getCtaScripts(ctaScriptsRequest).pipe(
       concatMap((ctaScriptsResponse: CtaScriptsResponse) => {
         if (!ctaScriptsResponse?.value?.length) {
@@ -284,25 +266,6 @@ export class OpfCtaScriptsService {
       : throwError(() => 'Invalid Script Location');
   }
 
-  // protected fillCtaRequestforPagesWithOrder(
-  //   scriptLocation: CtaScriptsLocation
-  // ): Observable<CtaScriptsRequest> {
-  //   return this.getOrderDetails(scriptLocation).pipe(
-  //     map((order) => {
-  //       if (!order?.paymentInfo?.id) {
-  //         throw new Error('OrderPaymentInfoId missing');
-  //       }
-  //       const ctaScriptsRequest: CtaScriptsRequest = {
-  //         cartId: order?.paymentInfo?.id,
-  //         ctaProductItems: this.getProductItems(order as Order),
-  //         scriptLocations: [scriptLocation],
-  //       };
-
-  //       return ctaScriptsRequest;
-  //     })
-  //   );
-  // }
-
   protected getScriptLocation(): Observable<CtaScriptsLocation | undefined> {
     const cmsToCtaLocationMap: Record<CmsPageLocation, CtaScriptsLocation> = {
       [CmsPageLocation.ORDER_PAGE]:
@@ -322,16 +285,6 @@ export class OpfCtaScriptsService {
     );
   }
 
-  // protected getOrderDetails(scriptsLocation: CtaScriptsLocation) {
-  //   const order$ =
-  //     scriptsLocation === CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE
-  //       ? this.orderDetailsService.getOrderDetails()
-  //       : this.orderHistoryService.getOrderDetails();
-  //   return order$.pipe(
-  //     filter((order) => !!order?.entries)
-  //   ) as Observable<Order>;
-  // }
-
   protected getPaymentAccountIds() {
     return this.opfBaseFacade.getActiveConfigurationsState().pipe(
       filter(
@@ -340,19 +293,4 @@ export class OpfCtaScriptsService {
       map((state) => state.data?.map((val) => val.id) as number[])
     );
   }
-
-  // protected getProductItems(
-  //   order: Order
-  // ): { productId: string; quantity: number }[] | [] {
-  //   return (order.entries as OrderEntry[])
-  //     .filter((item) => {
-  //       return !!item?.product?.code && !!item?.quantity;
-  //     })
-  //     .map((item) => {
-  //       return {
-  //         productId: item.product?.code as string,
-  //         quantity: item.quantity as number,
-  //       };
-  //     });
-  // }
 }

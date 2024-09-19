@@ -40,7 +40,7 @@ export enum CtaScriptsLocation {
   ORDER_HISTORY_PAYMENT_GUIDE = 'ORDER_HISTORY_PAYMENT_GUIDE',
 }
 
-export const CtaOnsiteMessageLocations: Array<CtaScriptsLocation> = [
+export const DynamicCtaLocations: Array<CtaScriptsLocation> = [
   CtaScriptsLocation.CART_MESSAGING,
   CtaScriptsLocation.PDP_MESSAGING,
 ];
