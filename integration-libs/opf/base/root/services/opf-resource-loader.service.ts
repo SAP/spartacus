@@ -70,9 +70,8 @@ export class OpfResourceLoaderService extends ScriptLoader {
     src: string,
     resolve: (value: void | PromiseLike<void>) => void
   ) {
-    console.log(`Error while loading external ${src} resource.`);
+    console.error(`Error while loading external ${src} resource.`);
     resolve();
-    // return throwError(`Error while loading external ${src} resource.`);
   }
 
   protected isResourceLoadingCompleted(resources: OpfDynamicScriptResource[]) {
