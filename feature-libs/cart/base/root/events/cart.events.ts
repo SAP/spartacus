@@ -128,6 +128,10 @@ export class CartUiEventAddToCart extends CxEvent {
   quantity: number;
   numberOfEntriesBeforeAdd: number;
   pickupStoreName?: string;
+  /**
+   * Since the event can be used to open a dialog, we need to know which element triggered it.
+   * This way we can refocus on it after the dialog is closed.
+   */
   triggerElementRef?: ElementRef;
 }
 

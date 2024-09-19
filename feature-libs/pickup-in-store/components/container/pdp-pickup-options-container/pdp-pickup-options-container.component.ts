@@ -56,7 +56,12 @@ function isProductWithCode(
   templateUrl: 'pdp-pickup-options-container.component.html',
 })
 export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
-  // TODO: Remoce element reference once 'a11yDialogTriggerRefocus' feature flag is removed.
+  // TODO: Remove element reference once 'a11yDialogTriggerRefocus' feature flag is removed.
+  /**
+   * @deprecated since 2211.28.0
+   * This reference does not point to any element and will be removed at earliest convinience.
+   * The 'triggerElement' is passed through 'PickupOptionChange' event instead.
+   */
   @ViewChild('open') element: ElementRef;
   subscription = new Subscription();
 
@@ -164,6 +169,10 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   }
 
   // TODO: Make argument required once 'a11yDialogTriggerRefocus' feature flag is removed.
+  /**
+   * @deprecated since 2211.28.0 - The use of TriggerElement param will become mandatory.
+   * @param triggerElement - The reference of element that triggered the dialog. Used to refocus on it after the dialog is closed.
+   */
   openDialog(triggerElement?: ElementRef): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.PICKUP_IN_STORE,
@@ -179,7 +188,17 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     }
   }
 
-  // TODO: Remove 'PickupOprion' argument type once 'a11yDialogTriggerRefocus' feature flag is removed.
+  // TODO: Remove 'PickupOption' argument type once 'a11yDialogTriggerRefocus' feature flag is removed.
+  /**
+   * @deprecated since 2211.28.0 - Use event param instead of option.
+   * @param event - Object containing the selected option and the element that triggered the change.
+   */
+  onPickupOptionChange(option: PickupOption): void;
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  onPickupOptionChange(event: {
+    option: PickupOption;
+    triggerElement: ElementRef;
+  }): void;
   onPickupOptionChange(
     event: { option: PickupOption; triggerElement: ElementRef } | PickupOption
   ): void {

@@ -44,7 +44,7 @@ export class PickupOptionsComponent implements OnChanges {
   // TODO: Remove the undefined type when the `a11yDialogTriggerRefocus` feature flag is removed.
   @Output() pickupLocationChange = new EventEmitter<ElementRef | undefined>();
 
-  @ViewChild('pikupOptionsDialogTrigger') triggerElement: ElementRef;
+  @ViewChild('dialogTriggerEl') triggerElement: ElementRef;
 
   private featureConfigService = inject(FeatureConfigService);
 

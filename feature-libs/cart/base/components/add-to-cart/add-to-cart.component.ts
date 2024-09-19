@@ -57,7 +57,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    */
   @Input() product: Product;
 
-  @ViewChild('addToCartDialogTrigger') addToCartDialogTrigger: ElementRef;
+  /**
+   * Element responsible for opening the modal. The reference is used to refocus the modal after it closes.
+   */
+  @ViewChild('addToCartDialogTriggerEl') addToCartDialogTriggerEl: ElementRef;
 
   maxQuantity: number;
 
@@ -231,7 +234,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     newEvent.numberOfEntriesBeforeAdd = numberOfEntriesBeforeAdd;
     newEvent.pickupStoreName = storeName;
     if (this.featureConfigService.isEnabled('a11yDialogTriggerRefocus')) {
-      newEvent.triggerElementRef = this.addToCartDialogTrigger;
+      newEvent.triggerElementRef = this.addToCartDialogTriggerEl;
     }
     return newEvent;
   }
