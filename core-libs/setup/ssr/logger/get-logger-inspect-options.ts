@@ -43,8 +43,8 @@ const PRODUCTION_LOGGER_INSPECT_OPTIONS: InspectOptions = {
  * They are meant to be passed to `inspect()` or `formatWithOptions()` functions from the `node:util` module
  * for logging purposes.
  *
- * - In dev mode, it's optimized for human-readable output (multi-line).
- * - In prod mode, it's optimized for machine-readable output (single line)
+ * - In dev mode, it's optimized for human-readable output (multi-line output).
+ * - In prod mode, it's optimized for machine-readable output (single-line output)
  */
 export function getLoggerInspectOptions(): InspectOptions {
   return {
