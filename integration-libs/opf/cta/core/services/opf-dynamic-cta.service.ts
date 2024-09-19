@@ -184,16 +184,12 @@ export class OpfDynamicCtaService {
       .pipe(
         take(1),
         map((cart: Cart) => {
-          console.log('flo cart', cart);
           return { total: cart.totalPrice?.value };
         }),
         tap((cartTotalPrice) => {
           const window = this.winRef.nativeWindow as any;
           const dispatchEvent = window?.dispatchEvent;
-
-          console.log('dispatchEvents1');
           if (dispatchEvent) {
-            console.log('dispatchEvents2', scriptIdentifiers);
             dispatchEvent(
               new CustomEvent('cartChanged', {
                 detail: { cart: cartTotalPrice, scriptIdentifiers },
@@ -205,32 +201,28 @@ export class OpfDynamicCtaService {
       .subscribe();
   }
 
-  protected dispatchProductEvents(scriptIdentifiers: Array<string>): void {
-    console.log('dispatchProductEvents enter');
+  protected dispatchProductEvents(
+    scriptIdentifiers: Array<string>,
+    quantity = 1
+  ): void {
     this.currentProductService
       .getProduct()
       .pipe(
         take(1),
         map((product: Product | null) => {
-          console.log('flo product', product);
           return [
             {
               price: {
                 sellingPrice: product?.price?.value,
               },
-              quantity: 1,
+              quantity, // hard-coded until 'pdp counter change' event gets implemented
             },
           ];
         }),
         tap((productInfo) => {
           const window = this.winRef.nativeWindow as any;
           const dispatchEvent = window?.dispatchEvent;
-
-          console.log('dispatchProductEvents1:', {
-            detail: { productInfo, scriptIdentifiers },
-          });
           if (dispatchEvent) {
-            console.log('dispatchProductEvents2', scriptIdentifiers);
             dispatchEvent(
               new CustomEvent('productTotalAmountChanged', {
                 detail: { productInfo, scriptIdentifiers },
@@ -242,23 +234,18 @@ export class OpfDynamicCtaService {
       .subscribe();
   }
 
-  productChangedListener(): void {
-    //// need event listener detecting pdp counter change event and get its qty value.
+  protected productChangedListener(): void {
+    //// need event listener detecting 'pdp counter changed' event and get its qty value.
+    // this.dispatchProductEvents(this.scriptIdentifiers, 1);
   }
 
-  cartChangedListener(): void {
+  protected cartChangedListener(): void {
     const sub = merge(
       this.eventService.get(CartUpdateEntrySuccessEvent),
       this.eventService.get(CartAddEntrySuccessEvent),
       this.eventService.get(CartRemoveEntrySuccessEvent)
     ).subscribe({
-      next: (
-        cartEvent:
-          | CartUpdateEntrySuccessEvent
-          | CartAddEntrySuccessEvent
-          | CartRemoveEntrySuccessEvent
-      ) => {
-        console.log('CartSuccessEvent', cartEvent);
+      next: () => {
         this.dispatchCartEvents(this.scriptIdentifiers);
       },
     });

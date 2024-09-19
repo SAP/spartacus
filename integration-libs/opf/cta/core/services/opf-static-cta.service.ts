@@ -36,7 +36,9 @@ export class OpfStaticCtaService {
     );
   }
 
-  protected getOrderDetails(scriptsLocation: CtaScriptsLocation) {
+  protected getOrderDetails(
+    scriptsLocation: CtaScriptsLocation
+  ): Observable<Order> {
     const order$ =
       scriptsLocation === CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE
         ? this.orderDetailsService.getOrderDetails()

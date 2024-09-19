@@ -16,6 +16,7 @@ import {
   OpfDynamicScript,
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
+import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service';
 
 @Component({
   selector: 'cx-opf-cta-element',
@@ -25,6 +26,7 @@ import {
 export class OpfCtaElementComponent implements AfterViewInit {
   protected sanitizer = inject(DomSanitizer);
   protected opfResourceLoaderService = inject(OpfResourceLoaderService);
+  protected opfCtaScriptsService = inject(OpfCtaScriptsService);
   htmlString: string;
   _ctaScriptHtml: OpfDynamicScript;
 
@@ -35,45 +37,23 @@ export class OpfCtaElementComponent implements AfterViewInit {
   @Input() set ctaScriptHtml(value: OpfDynamicScript) {
     this._ctaScriptHtml = value;
 
-    this.htmlString = value.html ? this.removeScriptTags(value.html) : '';
+    this.htmlString = value.html
+      ? this.opfCtaScriptsService.removeScriptTags(value.html)
+      : '';
   }
 
   ngAfterViewInit(): void {
-    this.loadAndRunScript(this.ctaScriptHtml);
+    this.opfCtaScriptsService.loadAndRunScript(this.ctaScriptHtml);
   }
   renderHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
-  protected loadAndRunScript(
-    script: OpfDynamicScript
-  ): Promise<OpfDynamicScript | undefined> {
-    const html = script?.html;
-
-    return new Promise(
-      (resolve: (value: OpfDynamicScript | undefined) => void) => {
-        this.opfResourceLoaderService
-          .loadProviderResources(script.jsUrls, script.cssUrls)
-          .then(() => {
-            if (html) {
-              this.opfResourceLoaderService.executeScriptFromHtml(html);
-              resolve(script);
-            } else {
-              resolve(undefined);
-            }
-          })
-          .catch(() => {
-            resolve(undefined);
-          });
-      }
-    );
-  }
-
-  protected removeScriptTags(html: string) {
-    const element = new DOMParser().parseFromString(html, 'text/html');
-    Array.from(element.getElementsByTagName('script')).forEach((script) => {
-      html = html.replace(script.outerHTML, '');
-    });
-    return html;
-  }
+  // protected removeScriptTags(html: string) {
+  //   const element = new DOMParser().parseFromString(html, 'text/html');
+  //   Array.from(element.getElementsByTagName('script')).forEach((script) => {
+  //     html = html.replace(script.outerHTML, '');
+  //   });
+  //   return html;
+  // }
 }
