@@ -8,7 +8,7 @@ import { isDevMode } from '@angular/core';
 import { Request } from 'express';
 import { formatWithOptions } from 'node:util';
 import { getRequestContext } from '../../optimized-engine/request-context';
-import { DEFAULT_LOGGER_INSPECT_OPTIONS } from '../default-logger-inspect-options';
+import { getLoggerInspectOptions } from '../get-logger-inspect-options';
 import {
   ExpressServerLogger,
   ExpressServerLoggerContext,
@@ -66,22 +66,23 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
   ): string {
     const logObject = { message, context: this.mapContext(context) };
 
-    /**
-     * Replaces Error instances with their stringified representation.
-     * This is necessary, because by default `JSON.stringify()` would convert Error instances to empty object strings `{}`.
-     */
-    const replacer = (_key: string, value: any) => {
-      return value instanceof Error ? this.stringifyError(value) : value;
-    };
-
     if (isDevMode()) {
-      // In dev mode, we indent JSON properties for better readability
-      return JSON.stringify(logObject, replacer, 2);
+      // In dev mode, we want a *human-readable* string representation of the log object
+      // that can be printed in the console.
+      return formatWithOptions(getLoggerInspectOptions(), logObject);
     }
 
-    // In prod mode, we want JSON to be a single line to allow for easier parsing by monitoring tools.
-    // The monitoring tools can then decide how to pretty-print the JSON in their UI.
-    return JSON.stringify(logObject, replacer);
+    // In prod mode, we want a *single-line* JSON which is machine-readable - easy to parse for monitoring tools.
+    // The monitoring tools can then decide how to display in their UI the JSON's properties.
+    return JSON.stringify(
+      logObject,
+      /**
+       * Replaces Error instances with their stringified representation.
+       */
+      (_key: string, value: any) => {
+        return value instanceof Error ? this.stringifyError(value) : value;
+      }
+    );
   }
 
   /**
@@ -121,12 +122,12 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
   }
 
   /**
-   * Maps an Error object into a pretty string (with message, stack, optionally cause, etc.).
+   * Converts an Error object into a detailed string (with message, stack, cause, etc.).
    *
    * Otherwise, the Error instance would not be visible in the logs after passing through `JSON.stringify()`.
    * For more, see https://stackoverflow.com/a/50738205/11734692
    */
   protected stringifyError(error: unknown): string {
-    return formatWithOptions(DEFAULT_LOGGER_INSPECT_OPTIONS, error);
+    return formatWithOptions(getLoggerInspectOptions(), error);
   }
 }
