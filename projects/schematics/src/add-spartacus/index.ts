@@ -328,7 +328,7 @@ function verifyAppModuleExists(options: SpartacusOptions): Rule {
 1. remove your application code
 2. make sure to pass the flag "--standalone=false" to the command "ng new". For more, see https://angular.io/cli/new#options
 3. try again installing Spartacus with a command "ng add @spartacus/schematics" ...
-        
+
 Note: Since version 17, Angular's command "ng new" by default creates an app without a file "app.module.ts" (in a so-called "standalone" mode). But Spartacus installer requires this file to be present.
 `
       );

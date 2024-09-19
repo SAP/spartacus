@@ -25,11 +25,16 @@
 
       cx-hamburger-menu {
         button {
-          @include media-breakpoint-down(sm) {
-            padding-inline-start: 0px;
-          }
-          padding-block-start: 0px;
+          padding-inline-start: 5px;
+          padding-inline-end: 5px;
+          padding-block-start: 5px;
           padding-block-end: 0px;
+          margin-inline-start: 12px;
+          margin-inline-end: 10px;
+          @include media-breakpoint-down(xs) {
+            margin-inline-start: -5px;
+            padding-inline-start: 5px;
+          }
 
           .hamburger-inner {
             &,

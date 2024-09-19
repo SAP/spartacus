@@ -5,20 +5,15 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
   CART_BASE_FEATURE_NAME,
+  cartBaseWrapperModulePath,
   CPQ_QUOTE_FEATURE_NAME,
+  generateDefaultWorkspace,
+  LibraryOptions as SpartacusCpqQuoteOptions,
+  orderFeatureModulePath,
   SPARTACUS_CART_BASE,
   SPARTACUS_CPQ_QUOTE,
   SPARTACUS_SCHEMATICS,
-  LibraryOptions as SpartacusCpqQuoteOptions,
-  SpartacusOptions,
-  cartBaseWrapperModulePath,
-  orderFeatureModulePath,
   userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -34,27 +29,6 @@ describe('Spartacus Cpq-quote', () => {
   );
 
   let appTree: UnitTestTree;
-
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
 
   const libraryNoFeaturesOptions: SpartacusCpqQuoteOptions = {
     project: 'schematics-test',
@@ -72,14 +46,7 @@ describe('Spartacus Cpq-quote', () => {
     features: [CPQ_QUOTE_FEATURE_NAME],
   };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      path.join(
-        __dirname,
-        '../../../../projects/schematics/src/collection.json'
-      )
-    );
+  async function generateWorkspace() {
     schematicRunner.registerCollection(
       SPARTACUS_CART_BASE,
       path.join(
@@ -87,30 +54,12 @@ describe('Spartacus Cpq-quote', () => {
         '../../../../feature-libs/checkout/schematics/collection.json'
       )
     );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
+    return (appTree = await generateDefaultWorkspace(schematicRunner, appTree));
+  }
 
   describe('Without features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateWorkspace();
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
@@ -125,7 +74,8 @@ describe('Spartacus Cpq-quote', () => {
 
   describe('CPQ-QUOTE feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateWorkspace();
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           cartBaseFeatureOptions,
@@ -176,7 +126,8 @@ describe('Spartacus Cpq-quote', () => {
   });
 
   describe('eager loading', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateWorkspace();
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         { ...cartBaseFeatureOptions, lazy: false },
