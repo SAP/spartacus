@@ -10,6 +10,7 @@ import {
   CurrencyService,
   EventService,
   LanguageService,
+  Product,
   WindowRef,
 } from '@spartacus/core';
 import {
@@ -19,8 +20,20 @@ import {
   OpfCtaFacade,
 } from '@spartacus/opf/cta/root';
 import { OpfGlobalFunctionsFacade } from '@spartacus/opf/global-functions/root';
-import { GlobalFunctionsDomain } from '@spartacus/opf/payment/root';
-import { combineLatest, map, merge, Subscription, take, tap } from 'rxjs';
+import {
+  GlobalFunctionsDomain,
+  KeyValuePair,
+} from '@spartacus/opf/payment/root';
+import { CurrentProductService } from '@spartacus/storefront';
+import {
+  combineLatest,
+  map,
+  merge,
+  Observable,
+  Subscription,
+  take,
+  tap,
+} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -33,22 +46,24 @@ export class OpfDynamicCtaService {
   protected languageService = inject(LanguageService);
   protected activeCartFacade = inject(ActiveCartFacade);
   protected opfCtaFacade = inject(OpfCtaFacade);
+  protected currentProductService = inject(CurrentProductService);
 
   protected subList: Array<Subscription> = [];
   isOnsiteMessagingInit = false;
   scriptIdentifiers: Array<string> = [];
+  isCartPage: boolean;
 
   fillCtaRequestforCartPage(
     scriptLocation: CtaScriptsLocation,
     paymentAccountIds: number[]
   ) {
+    this.isCartPage = true;
     return combineLatest({
       cart: this.activeCartFacade.takeActive(),
-      language: this.languageService.getActive(),
-      currency: this.currencyService.getActive(),
+      additionalData: this.fillAdditionalData(),
     }).pipe(
       take(1),
-      map(({ cart, language, currency }) => {
+      map(({ cart, additionalData }) => {
         return {
           paymentAccountIds: paymentAccountIds,
           scriptLocations: [scriptLocation],
@@ -58,21 +73,54 @@ export class OpfDynamicCtaService {
               quantity: entry.quantity,
             } as CtaProductItem;
           }),
-          additionalData: [
-            {
-              key: 'locale',
-              value: language,
-            },
-            {
-              key: 'currency',
-              value: currency,
-            },
-            {
-              key: 'scriptIdentifier',
-              value: this.getNewScriptIdentifier(),
-            },
-          ],
+          additionalData,
         } as CtaScriptsRequest;
+      })
+    );
+  }
+
+  fillCtaRequestforProductPage(
+    scriptLocation: CtaScriptsLocation,
+    paymentAccountIds: number[]
+  ) {
+    this.isCartPage = false;
+    return combineLatest({
+      product: this.currentProductService.getProduct(),
+      additionalData: this.fillAdditionalData(),
+    }).pipe(
+      take(1),
+      map(({ product, additionalData }) => {
+        return {
+          ctaProductItems: [{ productId: product?.code, quantity: 1 }],
+          paymentAccountIds: paymentAccountIds,
+          scriptLocations: [scriptLocation],
+          additionalData,
+        } as CtaScriptsRequest;
+      })
+    );
+  }
+
+  protected fillAdditionalData(): Observable<Array<KeyValuePair>> {
+    return combineLatest({
+      language: this.languageService.getActive(),
+      currency: this.currencyService.getActive(),
+    }).pipe(
+      take(1),
+      map(({ language, currency }) => {
+        return [
+          {
+            key: 'locale',
+            value: language,
+          },
+          {
+            key: 'currency',
+            value: currency,
+          },
+          {
+            key: 'scriptIdentifier',
+            value: this.getNewScriptIdentifier(),
+          },
+        ];
       })
     );
   }
@@ -81,7 +129,10 @@ export class OpfDynamicCtaService {
     if (!this.isOnsiteMessagingInit) {
       this.registerScriptReadyEvent();
       this.listenScriptReadyEvent();
-      this.cartChangedListener();
+
+      this.isCartPage && this.cartChangedListener();
+      !this.isCartPage && this.productChangedListener();
+
       this.isOnsiteMessagingInit = true;
     }
   }
@@ -90,25 +141,15 @@ export class OpfDynamicCtaService {
     if (this.isOnsiteMessagingInit) {
       this.subList.forEach((sub) => sub.unsubscribe());
       this.subList = [];
-      // this.globalFunctionsFacade.removeGlobalFunctions(
-      //   GlobalFunctionsDomain.GLOBAL
-      // );
+      this.globalFunctionsFacade.removeGlobalFunctions(
+        GlobalFunctionsDomain.GLOBAL
+      );
       this.isOnsiteMessagingInit = false;
     }
   }
 
-  protected removeScriptTags(htmls: string[]) {
-    return htmls.map((html) => {
-      const element = new DOMParser().parseFromString(html, 'text/html');
-      Array.from(element.getElementsByTagName('script')).forEach((script) => {
-        html = html.replace(script.outerHTML, '');
-      });
-      return html;
-    });
-  }
-
   protected getNewScriptIdentifier(): string {
-    this.scriptIdentifiers.push(String(this.scriptIdentifiers.length));
+    this.scriptIdentifiers.push(String(this.scriptIdentifiers.length + 1));
     return String(
       this.scriptIdentifiers[this.scriptIdentifiers.length - 1]
     ).padStart(4, '0');
@@ -122,23 +163,16 @@ export class OpfDynamicCtaService {
   }
 
   protected listenScriptReadyEvent() {
-    console.log('listenScriptEvent1');
     const sub = this.opfCtaFacade.listenScriptReadyEvent().subscribe({
       next: (id: string) => {
-        console.log('listenScriptReadyEvent next', id);
-        this.dispatchEvents([id]);
-      },
-      error: (error: any) => {
-        console.log('listenScriptReadyEvent error', error);
-      },
-      complete: () => {
-        console.log('listenScriptReadyEvent completed:');
+        this.isCartPage && this.dispatchCartEvents([id]);
+        !this.isCartPage && this.dispatchProductEvents([id]);
       },
     });
     this.subList.push(sub);
   }
 
-  protected dispatchEvents(scriptIdentifiers: Array<string>): void {
+  protected dispatchCartEvents(scriptIdentifiers: Array<string>): void {
     this.activeCartFacade
       .takeActive()
       .pipe(
@@ -162,11 +196,48 @@ export class OpfDynamicCtaService {
           }
         })
       )
-      .subscribe({
-        complete: () => {
-          console.log('dispatchEvents sub completed:');
-        },
-      });
+      .subscribe();
+  }
+
+  protected dispatchProductEvents(scriptIdentifiers: Array<string>): void {
+    console.log('dispatchProductEvents enter');
+    this.currentProductService
+      .getProduct()
+      .pipe(
+        take(1),
+        map((product: Product | null) => {
+          console.log('flo product', product);
+          return [
+            {
+              price: {
+                sellingPrice: product?.price?.value,
+              },
+              quantity: 1,
+            },
+          ];
+        }),
+        tap((productInfo) => {
+          const window = this.winRef.nativeWindow as any;
+          const dispatchEvent = window?.dispatchEvent;
+
+          console.log('dispatchProductEvents1:', {
+            detail: { productInfo, scriptIdentifiers },
+          });
+          if (dispatchEvent) {
+            console.log('dispatchProductEvents2', scriptIdentifiers);
+            dispatchEvent(
+              new CustomEvent('productTotalAmountChanged', {
+                detail: { productInfo, scriptIdentifiers },
+              })
+            );
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  productChangedListener(): void {
+    //// need event listener detecting pdp counter change event and get its qty value.
   }
 
   cartChangedListener(): void {
@@ -182,13 +253,7 @@ export class OpfDynamicCtaService {
           | CartRemoveEntrySuccessEvent
       ) => {
         console.log('CartSuccessEvent', cartEvent);
-        this.dispatchEvents(this.scriptIdentifiers);
-      },
-      error: (error) => {
-        console.log('CartSuccessEvent error:', error);
-      },
-      complete: () => {
-        console.log('CartSuccessEvent completed:');
+        this.dispatchCartEvents(this.scriptIdentifiers);
       },
     });
     this.subList.push(sub);

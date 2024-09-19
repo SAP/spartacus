@@ -68,6 +68,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         break;
       case GlobalFunctionsDomain.GLOBAL:
         this.registerCtaScriptReady(domain);
+        break;
       default:
         break;
     }
