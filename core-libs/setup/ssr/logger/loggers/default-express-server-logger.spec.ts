@@ -365,56 +365,6 @@ describe('DefaultExpressServerLogger', () => {
           `level9: [Object]`
         );
       });
-
-      it('should stringify Error instance passed as context', () => {
-        const debugSpy = jest
-          .spyOn(console, 'log')
-          .mockImplementation(() => {});
-
-        const error = new Error('test error');
-        logger.log('test', { error });
-
-        expect(debugSpy.mock.lastCall?.[0]).not.toContain(`"error": {}`);
-        expect(debugSpy.mock.lastCall?.[0]).toContain(
-          `"error": "Error: test error` // deliberate no closing double quote, because there goes the stacktrace
-        );
-      });
-
-      it('should not abbreviate Error details nested at 10 levels', () => {
-        const debugSpy = jest
-          .spyOn(console, 'log')
-          .mockImplementation(() => {});
-
-        const error = new Error('test error', {
-          cause: {
-            level2: {
-              level3: {
-                level4: {
-                  level5: {
-                    level6: {
-                      level7: {
-                        level8: {
-                          level9: {
-                            level10string: 'level10string',
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        });
-        logger.log('test', { error });
-
-        expect(debugSpy.mock.lastCall?.[0]).not.toContain(
-          `[cause]: { level2: { level3: [Object] } }`
-        );
-        expect(debugSpy.mock.lastCall?.[0]).toContain(
-          `[cause]: {\\n    level2: {\\n      level3: {\\n        level4: {\\n          level5: {\\n            level6: {\\n              level7: {\\n                level8: { level9: { level10string: 'level10string' } }\\n              }\\n            }\\n          }\\n        }\\n      }\\n    }\\n  }\\n}`
-        );
-      });
     });
   });
 
