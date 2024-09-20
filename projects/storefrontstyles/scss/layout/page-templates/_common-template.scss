@@ -18,6 +18,9 @@ cx-page-layout {
     > * {
       flex: 1 1 var(--cx-flex-basis, 100%);
     }
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+    }
   }
 
   &.footer {
@@ -27,6 +30,10 @@ cx-page-layout {
     }
 
     color: var(--cx-color, var(--cx-color-inverse));
+
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+    }
   }
 }
 

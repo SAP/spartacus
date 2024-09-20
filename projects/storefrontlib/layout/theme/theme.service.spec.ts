@@ -1,7 +1,12 @@
 import { Component, ComponentRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { SiteContextConfig } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  SiteContextConfig,
+  SiteThemeService,
+} from '@spartacus/core';
 import { ThemeService } from './theme.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'cx-test',
@@ -9,11 +14,28 @@ import { ThemeService } from './theme.service';
 })
 class TestComponent {}
 
+class MockSiteThemeService {
+  getActive() {
+    return of('basic-theme');
+  }
+}
+
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 describe('ThemeService', () => {
   let service: ThemeService;
   let componentRef: ComponentRef<TestComponent>;
+  let featureConfig: FeatureConfigService;
+  let mockSiteThemeService: MockSiteThemeService;
+  let mockFeatureConfigService: MockFeatureConfigService;
 
   beforeEach(() => {
+    mockSiteThemeService = new MockSiteThemeService();
+    mockFeatureConfigService = new MockFeatureConfigService();
     TestBed.configureTestingModule({
       providers: [
         ThemeService,
@@ -21,11 +43,15 @@ describe('ThemeService', () => {
           provide: SiteContextConfig,
           useValue: { context: { theme: ['test-theme'] } },
         },
+        { provide: SiteThemeService, useValue: mockSiteThemeService },
+        { provide: FeatureConfigService, useValue: mockFeatureConfigService },
       ],
       declarations: [TestComponent],
     }).compileComponents();
 
     service = TestBed.inject(ThemeService);
+    mockSiteThemeService = TestBed.inject(SiteThemeService);
+    featureConfig = TestBed.inject(FeatureConfigService);
     componentRef = TestBed.createComponent(TestComponent).componentRef;
   });
 
@@ -33,17 +59,22 @@ describe('ThemeService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call setTheme only once', () => {
+  it('should set new theme ', () => {
     spyOn(service, 'setTheme');
+    spyOn(featureConfig, 'isEnabled').and.returnValue(true);
+    spyOn(mockSiteThemeService, 'getActive').and.returnValue(
+      of('custom-theme')
+    );
 
     service.init(componentRef);
-    expect(service.setTheme).toHaveBeenCalledWith('test-theme');
+    expect(mockSiteThemeService.getActive).toHaveBeenCalled();
+    expect(service.setTheme).toHaveBeenCalledWith('custom-theme');
   });
 
   it('should set theme to component', () => {
     service.init(componentRef);
     expect(
-      componentRef.location.nativeElement.classList.contains('test-theme')
+      componentRef.location.nativeElement.classList.contains('basic-theme')
     ).toBeTruthy();
 
     service.setTheme('new-theme');
@@ -51,7 +82,18 @@ describe('ThemeService', () => {
       componentRef.location.nativeElement.classList.contains('new-theme')
     ).toBeTruthy();
     expect(
-      componentRef.location.nativeElement.classList.contains('test-theme')
+      componentRef.location.nativeElement.classList.contains('basic-theme')
     ).toBeFalsy();
+
+    service.setTheme('');
+    expect(
+      componentRef.location.nativeElement.classList.contains('new-theme')
+    ).toBeFalsy();
+  });
+
+  it('should clean up subscriptions on destroy', () => {
+    spyOn(service['subscription'], 'unsubscribe').and.callThrough();
+    service.ngOnDestroy();
+    expect(service['subscription'].unsubscribe).toHaveBeenCalled();
   });
 });

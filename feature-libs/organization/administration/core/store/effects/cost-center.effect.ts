@@ -12,7 +12,7 @@ import {
   EntitiesModel,
   LoggerService,
   StateUtils,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable, from, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
@@ -44,7 +44,7 @@ export class CostCenterEffects {
             of(
               new CostCenterActions.LoadCostCenterFail({
                 costCenterCode,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -80,7 +80,7 @@ export class CostCenterEffects {
             of(
               new CostCenterActions.LoadCostCentersFail({
                 params: payload.params,
-                error: normalizeHttpError(error, this.logger),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -109,7 +109,7 @@ export class CostCenterEffects {
               from([
                 new CostCenterActions.CreateCostCenterFail({
                   costCenterCode: payload.costCenter.code ?? '',
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -139,7 +139,7 @@ export class CostCenterEffects {
               from([
                 new CostCenterActions.UpdateCostCenterFail({
                   costCenterCode: payload.costCenter.code ?? '',
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -185,7 +185,7 @@ export class CostCenterEffects {
                     new CostCenterActions.LoadAssignedBudgetsFail({
                       costCenterCode,
                       params,
-                      error: normalizeHttpError(error, this.logger),
+                      error: tryNormalizeHttpError(error, this.logger),
                     })
                   )
                 )
@@ -219,7 +219,7 @@ export class CostCenterEffects {
               from([
                 new CostCenterActions.AssignBudgetFail({
                   budgetCode,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -252,7 +252,7 @@ export class CostCenterEffects {
               from([
                 new CostCenterActions.UnassignBudgetFail({
                   budgetCode,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])

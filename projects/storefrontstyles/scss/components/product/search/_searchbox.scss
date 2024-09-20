@@ -295,4 +295,37 @@
       }
     }
   }
+
+  @include cx-highContrastTheme {
+    border: 1px solid var(--cx-color-dark);
+    label {
+      background-color: var(--cx-color-background);
+      input {
+        background-color: var(--cx-color-background);
+        color: var(--cx-color-text);
+      }
+      input:focus {
+        outline-style: none;
+        box-shadow: none;
+      }
+    }
+    .suggestions {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    .results {
+      border: 1px solid var(--cx-color-text);
+      a {
+        &:hover,
+        &:focus {
+          background: var(--cx-color-text);
+          color: var(--cx-color-background);
+        }
+      }
+    }
+    .products {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+  }
 }

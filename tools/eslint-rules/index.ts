@@ -24,6 +24,11 @@ import {
   RULE_NAME as useProvideDefaultFeatureTogglesFactoryName,
 } from './rules/use-provide-default-feature-toggles-factory';
 
+import {
+  rule as noNgrxFailActionWithoutErrorActionImplementation,
+  RULE_NAME as noNgrxFailActionWithoutErrorActionImplementationName,
+} from './rules/no-ngrx-fail-action-without-error-action-implementation';
+
 /**
  * Import your custom workspace rules at the top of this file.
  *
@@ -55,5 +60,7 @@ module.exports = {
     [useProvideDefaultFeatureTogglesName]: useProvideDefaultFeatureToggles,
     [useProvideDefaultFeatureTogglesFactoryName]:
       useProvideDefaultFeatureTogglesFactory,
+    [noNgrxFailActionWithoutErrorActionImplementationName]:
+      noNgrxFailActionWithoutErrorActionImplementation,
   },
 };

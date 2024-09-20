@@ -154,7 +154,7 @@ describe('UserInterestsService', () => {
   });
 
   it('should be able to get a product interest adding error flag', () => {
-    store.dispatch(new UserActions.AddProductInterestFail('error'));
+    store.dispatch(new UserActions.AddProductInterestFail(new Error('error')));
     service
       .getAddProductInterestError()
       .subscribe((data) => expect(data).toEqual(true))

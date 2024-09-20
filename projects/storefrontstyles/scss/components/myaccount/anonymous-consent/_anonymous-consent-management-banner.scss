@@ -44,4 +44,10 @@
   .anonymous-consent-banner-hidden {
     display: none;
   }
+
+  @include cx-highContrastTheme {
+    .anonymous-consent-banner {
+      background-color: var(--cx-color-background);
+    }
+  }
 }
