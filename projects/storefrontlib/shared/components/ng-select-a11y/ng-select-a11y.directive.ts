@@ -73,14 +73,13 @@ export class NgSelectA11yDirective implements AfterViewInit {
       this.featureConfigService.isEnabled('a11yNgSelectMobileReadout') &&
       inputElement.readOnly
     ) {
-      const selectObserver = new MutationObserver((changes, observer) => {
-        this.appendValueToAriaLabel(changes, observer, divCombobox);
-      });
-
       this.breakpointService
         ?.isDown(BREAKPOINT.md)
         .pipe(filter(Boolean), take(1))
         .subscribe(() => {
+          const selectObserver = new MutationObserver((changes, observer) => {
+            this.appendValueToAriaLabel(changes, observer, divCombobox);
+          });
           selectObserver.observe(this.elementRef.nativeElement, {
             subtree: true,
             characterData: true,
