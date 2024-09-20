@@ -24,7 +24,7 @@ export const defaultPageMetaConfig: PageMetaConfig = {
       {
         property: 'description',
         method: 'resolveDescription',
-        disabledInCsr: true,
+        disabledInCsr: false,
       },
       {
         property: 'image',
@@ -39,7 +39,7 @@ export const defaultPageMetaConfig: PageMetaConfig = {
       {
         property: 'canonicalUrl',
         method: 'resolveCanonicalUrl',
-        disabledInCsr: true,
+        disabledInCsr: false,
       },
     ],
     canonicalUrl: {
