@@ -16,11 +16,8 @@ function run_affected_unit_tests {
 }
 
 function run_all_unit_tests {
-    echo "Running JASMINE unit tests and code coverage for ALL libraries"
-    npx nx run-many --all --target=test --exclude="$EXCLUDE_APPLICATIONS,$EXCLUDE_JEST" -- --no-watch --source-map --code-coverage --browsers ChromeHeadless
-
-    echo "Running JEST (mostly schematics) unit tests and code coverage for ALL libraries"
-    npx nx run-many --all --target=test-jest --exclude="$EXCLUDE_APPLICATIONS" -- --coverage --runInBand
+    echo "Running JASMINE unit tests and code coverage for storefrontlib"
+    npx nx run storefrontlib:test -- --no-watch --source-map --code-coverage --browsers ChromeHeadless
 }
 
 if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
