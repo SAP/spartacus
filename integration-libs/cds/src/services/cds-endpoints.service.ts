@@ -24,6 +24,7 @@ export class CdsEndpointsService {
       endpoint = this.cdsConfig.cds.endpoints[endpoint];
     }
 
+    // TODO: not needed for CAS. Does it matter? Or can we skip evaluating the feature toggle here
     if (!urlParams['tenant']) {
       urlParams['tenant'] = this.cdsConfig.cds.tenant;
     }

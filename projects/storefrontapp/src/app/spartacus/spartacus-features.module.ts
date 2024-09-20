@@ -371,6 +371,7 @@ if (environment.cpq) {
         a11ySearchBoxFocusOnEscape: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,
+        cdsCasEnabled: false,
       };
       return appFeatureToggles;
     }),

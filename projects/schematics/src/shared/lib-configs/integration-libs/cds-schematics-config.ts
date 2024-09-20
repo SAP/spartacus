@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { defaultCdsConfigFactory } from '@spartacus/cds';
 import { CDS_CONFIG } from '../../constants';
 import {
   CDS_FEATURE_NAME,
@@ -56,6 +57,7 @@ export const CDS_SCHEMATICS_CONFIG: SchematicConfig = {
 function buildCdsConfig(
   options: SpartacusCdsOptions
 ): AdditionalFeatureConfiguration<SpartacusCdsOptions> {
+  const strategyProductsEndpoint = defaultCdsConfigFactory().cds?.endpoints?.strategyProducts
   const customConfig: AdditionalProviders[] = [
     {
       import: [
@@ -69,7 +71,7 @@ function buildCdsConfig(
         tenant: '${options.tenant || 'TENANT_PLACEHOLDER'}',
         baseUrl: '${options.baseUrl || 'BASE_URL_PLACEHOLDER'}',
         endpoints: {
-          strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
+          strategyProducts: ${strategyProductsEndpoint},
         },
         merchandising: {
           defaultCarouselViewportThreshold: 80,

@@ -557,6 +557,12 @@ export interface FeatureTogglesInterface {
    * Previously, there the non-defined theme had a value `undefined`.
    */
   useSiteThemeService?: boolean;
+
+  /**
+   * CDS/ISS is integrated into CAS. CAS uses different URL fomats for its services. This feature toggle can be use to
+   * switch the CDS modules to make use of the CAS URLs.
+   */
+  cdsCasEnabled?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -645,4 +651,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
   useSiteThemeService: false,
+  cdsCasEnabled: false,
 };

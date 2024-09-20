@@ -5,12 +5,13 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { Observable, switchMap, take } from 'rxjs';
 import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
 import { MerchandisingStrategyAdapter } from '../../connectors/strategy/merchandising-strategy.adapter';
 import { StrategyProducts } from '../../model/strategy-products.model';
 import { StrategyRequest } from './../../../cds-models/cds-strategy-request.model';
+import { BaseSiteService } from '@spartacus/core';
 
 const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
 
@@ -18,6 +19,9 @@ const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
 export class CdsMerchandisingStrategyAdapter
   implements MerchandisingStrategyAdapter
 {
+
+  protected baseSiteService = inject(BaseSiteService);
+
   constructor(
     private cdsEndpointsService: CdsEndpointsService,
     protected http: HttpClient
@@ -34,15 +38,22 @@ export class CdsMerchandisingStrategyAdapter
         strategyRequest.headers.consentReference
       );
     }
-    return this.http.get(
-      this.cdsEndpointsService.getUrl(
-        STRATEGY_PRODUCTS_ENDPOINT_KEY,
-        {
-          strategyId,
-        },
-        strategyRequest.queryParams
-      ),
-      { headers }
+    return this.baseSiteService.getActive().pipe(
+      take(1),
+      switchMap((baseSite) =>
+        this.http.get(
+          this.cdsEndpointsService.getUrl(
+            STRATEGY_PRODUCTS_ENDPOINT_KEY,
+            // TODO: different for non CAS. Does it matter? Or can we skip evaluating the feature toggle here
+            {
+              baseSite,
+              strategyId,
+            },
+            strategyRequest.queryParams
+          ),
+          { headers }
+        )
+      )
     );
   }
 }
