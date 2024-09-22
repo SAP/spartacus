@@ -24,6 +24,7 @@
         text-align: start;
         border: none;
         background-color: transparent;
+        margin: 5px;
 
         @include media-breakpoint-up(md) {
           flex-basis: 200px;
@@ -63,6 +64,7 @@
         &:hover {
           color: var(--cx-color-primary-accent);
           text-decoration: none;
+          margin: 5px;
         }
 
         &.active:after,
