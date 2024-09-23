@@ -155,8 +155,7 @@
     "serve": {
       "executor": "@angular-builders/custom-webpack:dev-server",
       "options": {
-        "buildTarget": "storefrontapp:build",
-        "disableHostCheck": true
+        "buildTarget": "storefrontapp:build"
       },
       "configurations": {
         "production": {
