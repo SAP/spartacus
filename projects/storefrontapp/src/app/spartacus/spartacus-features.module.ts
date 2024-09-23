@@ -272,7 +272,7 @@ if (environment.estimatedDeliveryDate) {
         formErrorsDescriptiveMessages: true,
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
-        showBillingAddressInDigitalPayments: false,
+        showBillingAddressInDigitalPayments: true,
         showDownloadProposalButton: false,
         showPromotionsInPDP: false,
         recentSearches: false,
