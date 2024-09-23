@@ -8,12 +8,21 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
+
+import {
+  OpfDynamicCtaService,
+  OpfStaticCtaService,
+} from '@spartacus/opf/cta/core';
 import { OpfCtaElementModule } from '../opf-cta-element';
 import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
+import { OpfCtaScriptsService } from './opf-cta-scripts.service';
 
 @NgModule({
   declarations: [OpfCtaScriptsComponent],
   providers: [
+    OpfCtaScriptsService,
+    OpfDynamicCtaService,
+    OpfStaticCtaService,
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         OpfCtaScriptsComponent: {

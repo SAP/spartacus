@@ -10,9 +10,7 @@ import { CtaScriptsLocation, CtaScriptsRequest } from '@spartacus/opf/cta/root';
 import { Order, OrderFacade, OrderHistoryFacade } from '@spartacus/order/root';
 import { filter, map, Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class OpfStaticCtaService {
   protected orderDetailsService = inject(OrderFacade);
   protected orderHistoryService = inject(OrderHistoryFacade);

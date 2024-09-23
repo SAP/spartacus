@@ -41,9 +41,7 @@ import {
   tap,
 } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class OpfDynamicCtaService {
   protected globalFunctionsFacade = inject(OpfGlobalFunctionsFacade);
   protected winRef = inject(WindowRef);

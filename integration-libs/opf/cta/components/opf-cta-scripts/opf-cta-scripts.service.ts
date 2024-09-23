@@ -28,9 +28,7 @@ import {
   OpfStaticCtaService,
 } from '@spartacus/opf/cta/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class OpfCtaScriptsService {
   protected opfBaseFacade = inject(OpfBaseFacade);
   protected opfCtaFacade = inject(OpfCtaFacade);
@@ -41,7 +39,7 @@ export class OpfCtaScriptsService {
 
   protected subList: Array<Subscription> = [];
 
-  removeScriptTags(html: string) {
+  removeScriptTags(html: string): string {
     const element = new DOMParser().parseFromString(html, 'text/html');
     Array.from(element.getElementsByTagName('script')).forEach((script) => {
       html = html.replace(script.outerHTML, '');
