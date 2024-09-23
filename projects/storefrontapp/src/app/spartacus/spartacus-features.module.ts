@@ -289,7 +289,7 @@ if (environment.cpq) {
         showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
-        showBillingAddressInDigitalPayments: false,
+        showBillingAddressInDigitalPayments: true,
         showDownloadProposalButton: true,
         showPromotionsInPDP: false,
         recentSearches: false,
