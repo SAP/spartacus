@@ -111,10 +111,11 @@ export class OpfDynamicCtaService {
     }).pipe(
       take(1),
       map(({ language, currency }) => {
+        console.log('language', language);
         return [
           {
             key: 'locale',
-            value: language,
+            value: 'en-GB',
           },
           {
             key: 'currency',
