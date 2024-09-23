@@ -20,16 +20,8 @@ import {
 } from '@spartacus/core';
 import { Order, OrderFacade } from '@spartacus/order/root';
 
-import { combineLatest, EMPTY, from, Observable, throwError } from 'rxjs';
-import {
-  catchError,
-  concatMap,
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
+import { combineLatest, EMPTY, from, Observable, of, throwError } from 'rxjs';
+import { catchError, concatMap, map, switchMap, tap } from 'rxjs/operators';
 
 import {
   defaultError,
@@ -88,24 +80,10 @@ export class OpfPaymentHostedFieldsService {
       submitRequest.encryptedToken = encryptedToken;
     }
 
-    return combineLatest([
-      this.userIdService.getUserId(),
-      this.activeCartFacade.getActiveCartId(),
-    ]).pipe(
-      filter(
-        ([userId, activeCartId]: [string, string]) => !!activeCartId && !!userId
-      ),
-      switchMap(([userId, activeCartId]: [string, string]) => {
-        submitRequest.cartId = activeCartId;
-        return this.cartAccessCodeFacade.getCartAccessCode(
-          userId,
-          activeCartId
-        );
-      }),
-      take(1),
-      concatMap(({ accessCode: otpKey }) =>
+    return this.getCartAccessCode(submitRequest).pipe(
+      concatMap(([request, { accessCode: otpKey }]) =>
         this.opfPaymentConnector.submitPayment(
-          submitRequest,
+          request,
           otpKey,
           paymentSessionId
         )
@@ -148,25 +126,10 @@ export class OpfPaymentHostedFieldsService {
       additionalData,
       paymentSessionId,
     };
-
-    return combineLatest([
-      this.userIdService.getUserId(),
-      this.activeCartFacade.getActiveCartId(),
-    ]).pipe(
-      filter(
-        ([userId, activeCartId]: [string, string]) => !!activeCartId && !!userId
-      ),
-      switchMap(([userId, activeCartId]: [string, string]) => {
-        submitCompleteRequest.cartId = activeCartId;
-        return this.cartAccessCodeFacade.getCartAccessCode(
-          userId,
-          activeCartId
-        );
-      }),
-      take(1),
-      concatMap(({ accessCode: otpKey }) =>
+    return this.getCartAccessCode(submitCompleteRequest).pipe(
+      concatMap(([request, { accessCode: otpKey }]) =>
         this.opfPaymentConnector.submitCompletePayment(
-          submitCompleteRequest,
+          request,
           otpKey,
           paymentSessionId
         )
@@ -185,7 +148,7 @@ export class OpfPaymentHostedFieldsService {
           error,
           returnPath
         );
-        return throwError(error);
+        return throwError(() => error);
       }),
       backOff({
         /**
@@ -236,5 +199,23 @@ export class OpfPaymentHostedFieldsService {
         )
       );
     }
+  }
+  protected getCartAccessCode(
+    submitRequest: SubmitRequest | SubmitCompleteRequest
+  ): Observable<
+    [SubmitRequest | SubmitCompleteRequest, { accessCode: string }]
+  > {
+    return combineLatest([
+      this.userIdService.takeUserId(),
+      this.activeCartFacade.takeActiveCartId(),
+    ]).pipe(
+      switchMap(([userId, activeCartId]: [string, string]) => {
+        submitRequest.cartId = activeCartId;
+        return combineLatest([
+          of(submitRequest),
+          this.cartAccessCodeFacade.getCartAccessCode(userId, activeCartId),
+        ]);
+      })
+    );
   }
 }
