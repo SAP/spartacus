@@ -51,7 +51,8 @@ export async function startSsrServer({
   timeout = DEFAULT_SSR_TIMEOUT,
 }: SsrServerOptions = {}) {
   child = childProcess.spawn(
-    `NODE_TLS_REJECT_UNAUTHORIZED=0 SSR_CACHE=${cache} SSR_TIMEOUT=${timeout} PORT=${port} npm run serve:ssr --prefix ../../> .ssr.log`,
+    // `2>&1` - redirect stderr to stdout, so also `console.error` and `console.warn` messages are captured in the log file
+    `NODE_TLS_REJECT_UNAUTHORIZED=0 SSR_CACHE=${cache} SSR_TIMEOUT=${timeout} PORT=${port} npm run serve:ssr --prefix ../../> .ssr.log 2>&1`,
     { detached: true, shell: true }
   );
 
