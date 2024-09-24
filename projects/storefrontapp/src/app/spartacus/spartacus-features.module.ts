@@ -341,7 +341,6 @@ if (environment.cpq) {
         a11ySemanticPaginationLabel: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
         a11yMyAccountLinkOutline: true,
-        a11yCloseProductImageBtnFocus: true,
         a11yNotificationPreferenceFieldset: true,
         a11yImproveContrast: true,
         a11yEmptyWishlistHeading: true,
