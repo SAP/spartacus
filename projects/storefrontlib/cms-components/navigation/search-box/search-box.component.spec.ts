@@ -1,10 +1,17 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
+  FeatureConfigService,
   I18nTestingModule,
   PageType,
   ProductSearchService,
@@ -98,6 +105,12 @@ class MockRoutingService implements Partial<RoutingService> {
   getRouterState = () => routerState$.asObservable();
 }
 
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 describe('SearchBoxComponent', () => {
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
@@ -168,6 +181,10 @@ describe('SearchBoxComponent', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();
@@ -287,6 +304,20 @@ describe('SearchBoxComponent', () => {
         expect(searchBoxComponent.getTabIndex(true)).toBe(0);
         expect(searchBoxComponent.getTabIndex(false)).toBe(0);
       });
+
+      it('should focus the search input if search box is closed with the escape key press', fakeAsync(() => {
+        fixture.detectChanges();
+        searchBoxComponent.searchBoxActive = true;
+        const mockSearchInput = fixture.debugElement.query(
+          By.css('.searchbox > input')
+        ).nativeElement;
+        spyOn(mockSearchInput, 'focus');
+
+        searchBoxComponent.onEscape();
+        tick();
+
+        expect(mockSearchInput.focus).toHaveBeenCalled();
+      }));
     });
 
     it('should contain 1 product after search', () => {

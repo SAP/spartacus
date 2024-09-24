@@ -131,4 +131,10 @@
   .align-btn {
     margin-top: 0px !important;
   }
+
+  @include cx-highContrastTheme {
+    .cx-sort-dropdown {
+      color: var(--cx-color-text);
+    }
+  }
 }
