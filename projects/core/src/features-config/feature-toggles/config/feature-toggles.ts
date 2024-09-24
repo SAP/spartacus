@@ -219,6 +219,7 @@ export interface FeatureTogglesInterface {
 
   /**
    * Fixes unnecessarily expanded focus indicator in 'ProductListItemComponent' and 'AddToSavedCartComponent'.
+   * Modifies dialog styles to stop the focus indicator from expanding when 'close' button is focused.
    */
   a11yExpandedFocusIndicator?: boolean;
 
@@ -371,12 +372,6 @@ export interface FeatureTogglesInterface {
    * In `LoginComponent` the outline of "My Account" link when focused will not cover the user name
    */
   a11yMyAccountLinkOutline?: boolean;
-
-  /**
-   * When enabled focus outline on the close button inside `ProductImageZoomDialogComponent`
-   * will be fully visible
-   */
-  a11yCloseProductImageBtnFocus?: boolean;
 
   /**
    * Improve colour contrast in the demonstration theme Santorini
@@ -616,7 +611,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPreventSRFocusOnHiddenElements: false,
   a11yMyAccountLinkOutline: false,
-  a11yCloseProductImageBtnFocus: false,
   a11yNotificationPreferenceFieldset: false,
   a11yImproveContrast: false,
   a11yEmptyWishlistHeading: false,

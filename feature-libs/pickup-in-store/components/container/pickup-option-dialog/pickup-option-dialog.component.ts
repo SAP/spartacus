@@ -12,6 +12,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { useFeatureStyles } from '@spartacus/core';
 import {
   AugmentedPointOfService,
   cartWithIdAndUserId,
@@ -69,6 +70,7 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
     protected pickupOptionFacade: PickupOptionFacade
   ) {
     // Intentional empty constructor
+    useFeatureStyles('a11yExpandedFocusIndicator');
   }
 
   @HostListener('click', ['$event'])
