@@ -17,7 +17,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'orgUnit.name' | cxTranslate
+          label: 'orgUnit.name' | cxTranslate,
         }"
         [control]="form.get('name')"
       ></cx-form-errors>
@@ -44,7 +44,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'orgUnit.uid' | cxTranslate
+          label: 'orgUnit.uid' | cxTranslate,
         }"
         [control]="form.get('uid')"
       ></cx-form-errors>
@@ -75,7 +75,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'orgUnit.approvalProcess' | cxTranslate
+          label: 'orgUnit.approvalProcess' | cxTranslate,
         }"
         [control]="form.get('approvalProcess.code')"
       ></cx-form-errors>
@@ -107,7 +107,7 @@
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
-            label: 'orgUnit.form.parentOrgUnit' | cxTranslate
+            label: 'orgUnit.form.parentOrgUnit' | cxTranslate,
           }"
           [control]="form.get('parentOrgUnit.uid')"
         ></cx-form-errors>

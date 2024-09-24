@@ -37,7 +37,7 @@ export function denormalizeCustomB2BSearch<T>(
 ): LoaderState<EntitiesModel<T>> {
   const serializedList: any = entityLoaderStateSelector(
     list,
-    params ? serializeSearchConfig(params, id) : id ?? ALL
+    params ? serializeSearchConfig(params, id) : (id ?? ALL)
   );
   if (!serializedList.value || !serializedList.value.ids) {
     return serializedList;

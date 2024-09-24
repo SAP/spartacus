@@ -93,7 +93,7 @@ export class OccEndpointsService {
     const baseUrl =
       baseUrlProperties.baseUrl === false
         ? ''
-        : this.config?.backend?.occ?.baseUrl ?? '';
+        : (this.config?.backend?.occ?.baseUrl ?? '');
     const prefix = baseUrlProperties.prefix === false ? '' : this.getPrefix();
     const baseSite =
       baseUrlProperties.baseSite === false ? '' : this.activeBaseSite;
