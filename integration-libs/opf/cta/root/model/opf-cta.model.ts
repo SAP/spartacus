@@ -60,3 +60,14 @@ export interface CtaScript {
   paymentAccountId: number;
   dynamicScript: OpfDynamicScript;
 }
+
+export enum CtaEvent {
+  OPF_CART_CHANGED = 'opfCartChanged',
+  OPF_PRODUCT_AMOUNT_CHANGED = 'opfProductAmountChanged',
+}
+
+declare module '@spartacus/opf/payment/root' {
+  interface GlobalOpfPaymentMethods {
+    scriptReady?(scriptIdentifier: string): void;
+  }
+}
