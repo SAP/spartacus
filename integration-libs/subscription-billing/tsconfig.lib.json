@@ -13,7 +13,8 @@
     "skipLibCheck": true,
     "lib": ["dom", "esnext"],
     "paths": {
-      "@spartacus/core": ["dist/core"]
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true
