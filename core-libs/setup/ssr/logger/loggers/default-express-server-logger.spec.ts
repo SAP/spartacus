@@ -116,6 +116,52 @@ describe('DefaultExpressServerLogger', () => {
           ]
         `);
       });
+
+      it('should stringify Error instance passed as context', () => {
+        const debugSpy = jest
+          .spyOn(console, 'log')
+          .mockImplementation(() => {});
+
+        const error = new Error('test error');
+        logger.log('test', { error });
+
+        expect(debugSpy.mock.lastCall?.[0]).toContain(
+          `"error":"Error: test error` // deliberate no closing double quote, because there goes the stacktrace
+        );
+      });
+
+      it('should not abbreviate Error details nested at 10 levels', () => {
+        const debugSpy = jest
+          .spyOn(console, 'log')
+          .mockImplementation(() => {});
+
+        const error = new Error('test error', {
+          cause: {
+            level2: {
+              level3: {
+                level4: {
+                  level5: {
+                    level6: {
+                      level7: {
+                        level8: {
+                          level9: {
+                            level10string: 'level10string',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        });
+        logger.log('test', { error });
+
+        expect(debugSpy.mock.lastCall?.[0]).toContain(
+          `{ level10string: 'level10string' }`
+        );
+      });
     });
 
     describe('is dev mode', () => {
@@ -131,26 +177,26 @@ describe('DefaultExpressServerLogger', () => {
         logger.log('test', { request });
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
-          [
-            "{
-            "message": "test",
-            "context": {
-              "timestamp": "2023-05-26T00:00:00.000Z",
-              "request": {
-                "url": "test",
-                "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z",
-                "traceContext": {
-                  "version": "00",
-                  "traceId": "d745f6735b44e81c0ae5410cb1fc8a0c",
-                  "parentId": "1b527c3828976b39",
-                  "traceFlags": "01"
-                }
-              }
-            }
-          }",
-          ]
-        `);
+[
+  "{
+  message: 'test',
+  context: {
+    timestamp: '2023-05-26T00:00:00.000Z',
+    request: {
+      url: 'test',
+      uuid: 'test',
+      timeReceived: 2023-05-26T00:00:00.000Z,
+      traceContext: {
+        version: '00',
+        traceId: 'd745f6735b44e81c0ae5410cb1fc8a0c',
+        parentId: '1b527c3828976b39',
+        traceFlags: '01'
+      }
+    }
+  }
+}",
+]
+`);
       });
 
       it('should warn proper shape of the JSON', () => {
@@ -161,26 +207,26 @@ describe('DefaultExpressServerLogger', () => {
         logger.warn('test', { request });
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
-          [
-            "{
-            "message": "test",
-            "context": {
-              "timestamp": "2023-05-26T00:00:00.000Z",
-              "request": {
-                "url": "test",
-                "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z",
-                "traceContext": {
-                  "version": "00",
-                  "traceId": "d745f6735b44e81c0ae5410cb1fc8a0c",
-                  "parentId": "1b527c3828976b39",
-                  "traceFlags": "01"
-                }
-              }
-            }
-          }",
-          ]
-        `);
+[
+  "{
+  message: 'test',
+  context: {
+    timestamp: '2023-05-26T00:00:00.000Z',
+    request: {
+      url: 'test',
+      uuid: 'test',
+      timeReceived: 2023-05-26T00:00:00.000Z,
+      traceContext: {
+        version: '00',
+        traceId: 'd745f6735b44e81c0ae5410cb1fc8a0c',
+        parentId: '1b527c3828976b39',
+        traceFlags: '01'
+      }
+    }
+  }
+}",
+]
+`);
       });
 
       it('should error proper shape of the JSON', () => {
@@ -191,26 +237,26 @@ describe('DefaultExpressServerLogger', () => {
         logger.error('test', { request });
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
-          [
-            "{
-            "message": "test",
-            "context": {
-              "timestamp": "2023-05-26T00:00:00.000Z",
-              "request": {
-                "url": "test",
-                "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z",
-                "traceContext": {
-                  "version": "00",
-                  "traceId": "d745f6735b44e81c0ae5410cb1fc8a0c",
-                  "parentId": "1b527c3828976b39",
-                  "traceFlags": "01"
-                }
-              }
-            }
-          }",
-          ]
-        `);
+[
+  "{
+  message: 'test',
+  context: {
+    timestamp: '2023-05-26T00:00:00.000Z',
+    request: {
+      url: 'test',
+      uuid: 'test',
+      timeReceived: 2023-05-26T00:00:00.000Z,
+      traceContext: {
+        version: '00',
+        traceId: 'd745f6735b44e81c0ae5410cb1fc8a0c',
+        parentId: '1b527c3828976b39',
+        traceFlags: '01'
+      }
+    }
+  }
+}",
+]
+`);
       });
 
       it('should info proper shape of the JSON', () => {
@@ -221,26 +267,26 @@ describe('DefaultExpressServerLogger', () => {
         logger.info('test', { request });
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
-          [
-            "{
-            "message": "test",
-            "context": {
-              "timestamp": "2023-05-26T00:00:00.000Z",
-              "request": {
-                "url": "test",
-                "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z",
-                "traceContext": {
-                  "version": "00",
-                  "traceId": "d745f6735b44e81c0ae5410cb1fc8a0c",
-                  "parentId": "1b527c3828976b39",
-                  "traceFlags": "01"
-                }
-              }
-            }
-          }",
-          ]
-        `);
+[
+  "{
+  message: 'test',
+  context: {
+    timestamp: '2023-05-26T00:00:00.000Z',
+    request: {
+      url: 'test',
+      uuid: 'test',
+      timeReceived: 2023-05-26T00:00:00.000Z,
+      traceContext: {
+        version: '00',
+        traceId: 'd745f6735b44e81c0ae5410cb1fc8a0c',
+        parentId: '1b527c3828976b39',
+        traceFlags: '01'
+      }
+    }
+  }
+}",
+]
+`);
       });
 
       it('should debug proper shape of the JSON', () => {
@@ -249,28 +295,75 @@ describe('DefaultExpressServerLogger', () => {
           .mockImplementation(() => {});
 
         logger.debug('test', { request });
-
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
-          [
-            "{
-            "message": "test",
-            "context": {
-              "timestamp": "2023-05-26T00:00:00.000Z",
-              "request": {
-                "url": "test",
-                "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z",
-                "traceContext": {
-                  "version": "00",
-                  "traceId": "d745f6735b44e81c0ae5410cb1fc8a0c",
-                  "parentId": "1b527c3828976b39",
-                  "traceFlags": "01"
-                }
-              }
-            }
-          }",
-          ]
-        `);
+[
+  "{
+  message: 'test',
+  context: {
+    timestamp: '2023-05-26T00:00:00.000Z',
+    request: {
+      url: 'test',
+      uuid: 'test',
+      timeReceived: 2023-05-26T00:00:00.000Z,
+      traceContext: {
+        version: '00',
+        traceId: 'd745f6735b44e81c0ae5410cb1fc8a0c',
+        parentId: '1b527c3828976b39',
+        traceFlags: '01'
+      }
+    }
+  }
+}",
+]
+`);
+      });
+
+      it('should stringify Error instance passed as context', () => {
+        const debugSpy = jest
+          .spyOn(console, 'log')
+          .mockImplementation(() => {});
+
+        const error = new Error('test error');
+        logger.log('test', { error });
+
+        expect(debugSpy.mock.lastCall?.[0]).toContain(
+          `error: Error: test error`
+        );
+      });
+
+      it('should not abbreviate Error details nested at 10 levels', () => {
+        const debugSpy = jest
+          .spyOn(console, 'log')
+          .mockImplementation(() => {});
+
+        const error = new Error('test error', {
+          cause: {
+            level2: {
+              level3: {
+                level4: {
+                  level5: {
+                    level6: {
+                      level7: {
+                        level8: {
+                          level9: {
+                            level10string: 'level10string',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        });
+        logger.log('test', { error });
+
+        expect(debugSpy.mock.lastCall?.[0]).toContain(
+          // Note: The "error" property is already nested within the "context" property,
+          // That's why effectively 9 levels of nesting inside the Error object are shown in the output
+          `level9: [Object]`
+        );
       });
     });
   });

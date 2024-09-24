@@ -12,7 +12,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { NotificationPreference, UserInterestsService } from '@spartacus/core';
+import {
+  NotificationPreference,
+  useFeatureStyles,
+  UserInterestsService,
+} from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { FocusConfig } from '../../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { LaunchDialogService } from '../../../../layout/index';
@@ -46,7 +50,9 @@ export class StockNotificationDialogComponent implements OnInit, OnDestroy {
     private interestsService: UserInterestsService,
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef
-  ) {}
+  ) {
+    useFeatureStyles('a11yExpandedFocusIndicator');
+  }
 
   close(reason?: any) {
     this.launchDialogService.closeDialog(reason);

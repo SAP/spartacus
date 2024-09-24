@@ -47,7 +47,7 @@ export class ProductImageZoomDialogComponent {
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef
   ) {
-    useFeatureStyles('a11yCloseProductImageBtnFocus');
+    useFeatureStyles('a11yExpandedFocusIndicator');
   }
 
   close(reason = ''): void {

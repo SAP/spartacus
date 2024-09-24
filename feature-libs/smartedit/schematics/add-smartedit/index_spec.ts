@@ -5,17 +5,12 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
+  generateDefaultWorkspace,
   SMARTEDIT_FEATURE_NAME,
+  smartEditFeatureModulePath,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_SMARTEDIT,
-  SpartacusOptions,
   SpartacusSmartEditOptions,
-  smartEditFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -30,27 +25,6 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
-
   const libraryNoFeaturesOptions: SpartacusSmartEditOptions = {
     project: 'schematics-test',
     lazy: true,
@@ -62,35 +36,9 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
     features: [SMARTEDIT_FEATURE_NAME],
   };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
-
   describe('Without features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateDefaultWorkspace(schematicRunner, appTree);
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
@@ -130,7 +78,8 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
 
   describe('SmartEdit feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           smarteditFeatureOptions,
@@ -152,7 +101,8 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...smarteditFeatureOptions, lazy: false },
@@ -167,7 +117,8 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
     });
 
     describe('with storefrontPreviewRoute config', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           {
@@ -185,7 +136,8 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
     });
 
     describe('with allowOrigin config', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           {
