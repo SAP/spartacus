@@ -15,7 +15,7 @@
       class="btn-link cx-action-link"
       [routerLink]="
         {
-          cxRoute: 'orders'
+          cxRoute: 'orders',
         } | cxUrl
       "
     >
@@ -89,7 +89,7 @@
                         'myAccountV2Orders.purchasedOn'
                           | cxTranslate
                             : {
-                                value: order.placed | cxDate: 'd, MMMM, yyyy'
+                                value: order.placed | cxDate: 'd, MMMM, yyyy',
                               }
                       }}
                     </div>
@@ -121,7 +121,7 @@
                     [routerLink]="
                       {
                         cxRoute: 'orderDetails',
-                        params: order
+                        params: order,
                       } | cxUrl
                     "
                   >
@@ -136,7 +136,7 @@
                     [routerLink]="
                       {
                         cxRoute: 'orderReturn',
-                        params: order
+                        params: order,
                       } | cxUrl
                     "
                   >

@@ -11,8 +11,8 @@
         a11ySearchBoxMobileFocusEnabled ? getTabIndex(isMobile | async) : null
       "
       [attr.aria-label]="'searchBox.placeholder' | cxTranslate"
-      (click)="search(searchInput.value)"
       (focus)="a11ySearchBoxMobileFocusEnabled ? null : open()"
+      (click)="open()"
       (input)="search(searchInput.value)"
       (blur)="close($any($event))"
       (keydown.tab)="
@@ -137,6 +137,44 @@
       </ng-container>
     </ng-container>
   </div>
+  <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
+    <div class="message" *ngIf="result?.suggestions?.length">
+      {{ 'searchBox.suggestions' | cxTranslate }}
+    </div>
+  </ng-container>
+  <ul
+    class="suggestions"
+    attr.aria-label="{{ 'searchBox.ariaLabelSuggestions' | cxTranslate }}"
+    role="listbox"
+  >
+    <li *ngFor="let suggestion of result.suggestions">
+      <a
+        role="option"
+        [innerHTML]="suggestion | cxHighlight: searchInput.value"
+        [routerLink]="
+          {
+            cxRoute: 'search',
+            params: { query: suggestion },
+          } | cxUrl
+        "
+        (keydown.arrowup)="focusPreviousChild($any($event))"
+        (keydown.arrowdown)="focusNextChild($any($event))"
+        (keydown.enter)="close($any($event), true)"
+        (keydown.escape)="close($any($event), true)"
+        (blur)="close($event)"
+        (mousedown)="preventDefault($event)"
+        (click)="
+          dispatchSuggestionEvent({
+            freeText: searchInput.value,
+            selectedSuggestion: suggestion,
+            searchSuggestions: result.suggestions ?? [],
+          });
+          updateChosenWord(suggestion)
+        "
+      >
+      </a>
+    </li>
+  </ul>
 
   <!--  RECENT SEARCHES-->
   <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
@@ -146,7 +184,7 @@
       [cxOutletContext]="{
         search: searchInput.value,
         searchBoxActive: searchBoxActive,
-        maxRecentSearches: config.maxRecentSearches
+        maxRecentSearches: config.maxRecentSearches,
       }"
     ></ng-template>
   </ng-container>

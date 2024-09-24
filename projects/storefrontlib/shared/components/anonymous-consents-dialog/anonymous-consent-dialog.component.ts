@@ -9,10 +9,10 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
+  inject,
   OnDestroy,
   OnInit,
   Optional,
-  inject,
 } from '@angular/core';
 import {
   AnonymousConsent,
@@ -82,6 +82,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
       }
     }
     useFeatureStyles('a11yUseButtonsForBtnLinks');
+    useFeatureStyles('a11yExpandedFocusIndicator');
   }
 
   ngOnInit(): void {

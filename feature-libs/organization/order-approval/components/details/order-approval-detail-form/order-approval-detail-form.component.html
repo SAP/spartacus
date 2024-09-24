@@ -20,7 +20,7 @@
                 : {
                     orderCode: orderApproval?.order?.code,
                     orderTotal:
-                      orderApproval?.order?.totalPriceWithTax?.formattedValue
+                      orderApproval?.order?.totalPriceWithTax?.formattedValue,
                   }
           }}
         </div>
@@ -50,7 +50,7 @@
               label:
                 'orderApprovalDetails.form.comment_' +
                   approvalDecision +
-                  '.label' | cxTranslate
+                  '.label' | cxTranslate,
             }"
             [control]="approvalForm.get('comment')"
           ></cx-form-errors>
