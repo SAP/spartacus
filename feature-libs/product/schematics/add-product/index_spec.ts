@@ -5,24 +5,19 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
+  generateDefaultWorkspace,
+  LibraryOptions as SpartacusProductOptions,
   PRODUCT_BULK_PRICING_FEATURE_NAME,
   PRODUCT_FUTURE_STOCK_FEATURE_NAME,
   PRODUCT_IMAGE_ZOOM_FEATURE_NAME,
   PRODUCT_VARIANTS_FEATURE_NAME,
-  SPARTACUS_CONFIGURATION_MODULE,
-  SPARTACUS_PRODUCT,
-  SPARTACUS_SCHEMATICS,
-  SpartacusOptions,
-  LibraryOptions as SpartacusProductOptions,
   productBulkPricingFeatureModulePath,
   productFutureStockFeatureModulePath,
   productImageZoomFeatureModulePath,
   productVariantsFeatureModulePath,
+  SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_PRODUCT,
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -37,27 +32,6 @@ describe('Spartacus Product schematics: ng-add', () => {
   );
 
   let appTree: UnitTestTree;
-
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
 
   const libraryNoFeaturesOptions: SpartacusProductOptions = {
     project: 'schematics-test',
@@ -85,35 +59,9 @@ describe('Spartacus Product schematics: ng-add', () => {
     features: [PRODUCT_FUTURE_STOCK_FEATURE_NAME],
   };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
-
   describe('Without features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateDefaultWorkspace(schematicRunner, appTree);
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
@@ -156,7 +104,8 @@ describe('Spartacus Product schematics: ng-add', () => {
 
   describe('BulkPricing feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           bulkPricingOptions,
@@ -192,7 +141,8 @@ describe('Spartacus Product schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...bulkPricingOptions, lazy: false },
@@ -209,7 +159,8 @@ describe('Spartacus Product schematics: ng-add', () => {
 
   describe('Variants feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           variantsOptions,
@@ -236,7 +187,8 @@ describe('Spartacus Product schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...variantsOptions, lazy: false },
@@ -253,7 +205,8 @@ describe('Spartacus Product schematics: ng-add', () => {
 
   describe('ImageZoom feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           imageZoomOptions,
@@ -280,7 +233,8 @@ describe('Spartacus Product schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...imageZoomOptions, lazy: false },
@@ -297,7 +251,8 @@ describe('Spartacus Product schematics: ng-add', () => {
 
   describe('FutureStock feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           futureStockOptions,
@@ -333,7 +288,8 @@ describe('Spartacus Product schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...futureStockOptions, lazy: false },
