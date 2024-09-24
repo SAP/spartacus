@@ -9,6 +9,7 @@
     "overage": "From {{ from }} to Unlimited: {{ price }} per {{ usage }}",
     "overagePlus": "From {{ from }} to Unlimited: {{ fixed }} plus {{ price }} per {{ usage }}",
     "usage": "From {{ from }} to {{ to }}: {{ price }} per {{ usage }}",
+    "usagePlus": "From {{ from }} to {{ to }}: {{ fixed }} plus {{ price }} per {{ usage }}",
     "volumeMessage": "* You will be charged as per the highest applicable tier",
     "tierMessage": "* You will be charged as per each applicable tier",
     "priceForEveryBlock": "{{ price }} for every {{ block }}"
