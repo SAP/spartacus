@@ -1,5 +1,6 @@
-import { FeatureToggles, PageMetaConfig } from '@spartacus/core';
 import { inject } from '@angular/core';
+import { PageMetaConfig } from './page-meta.config';
+import { FeatureToggles } from '../../../features-config';
 
 export function defaultPageMetaFactory(): PageMetaConfig {
   const featureToggles = inject(FeatureToggles);
