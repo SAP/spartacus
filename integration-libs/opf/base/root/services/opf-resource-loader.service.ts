@@ -67,10 +67,8 @@ export class OpfResourceLoaderService extends ScriptLoader {
   }
 
   protected handleLoadingResourceError(
-    src: string,
     resolve: (value: void | PromiseLike<void>) => void
   ) {
-    console.error(`Error while loading external ${src} resource.`);
     resolve();
   }
 
@@ -113,7 +111,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
           this.markResourceAsLoaded(resource, resources, resolve);
         },
         errorCallback: () => {
-          this.handleLoadingResourceError(resource.url as string, resolve);
+          this.handleLoadingResourceError(resolve);
         },
       });
     } else {
@@ -131,7 +129,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
         src: resource.url,
         callback: () => this.markResourceAsLoaded(resource, resources, resolve),
         errorCallback: () => {
-          this.handleLoadingResourceError(resource.url as string, resolve);
+          this.handleLoadingResourceError(resolve);
         },
       });
     } else {
