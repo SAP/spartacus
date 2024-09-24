@@ -4,5 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './opf-cta-global-functions.service';
 export * from './opf-dynamic-cta.service';
 export * from './opf-static-cta.service';

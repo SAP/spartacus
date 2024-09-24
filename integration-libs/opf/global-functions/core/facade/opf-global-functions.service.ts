@@ -66,9 +66,6 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         this.registerSubmitCompleteRedirect(domain, paymentSessionId, vcr);
         this.registerGetRedirectParams(domain, paramsMap ?? []);
         break;
-      case GlobalFunctionsDomain.GLOBAL:
-        this.registerCtaScriptReady(domain);
-        break;
       default:
         break;
     }
@@ -338,15 +335,6 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         OpfPage.CHECKOUT_REVIEW_PAGE,
         vcr
       );
-    };
-  }
-  protected registerCtaScriptReady(domain: GlobalFunctionsDomain): void {
-    this.getGlobalFunctionContainer(domain).scriptReady = (
-      scriptIdentifier: string
-    ): void => {
-      this.ngZone.run(() => {
-        this.opfCtaFacade.emitScriptReadyEvent(scriptIdentifier);
-      });
     };
   }
 }
