@@ -33,9 +33,9 @@ export class OpfCtaElementComponent implements AfterViewInit {
   @Input() set ctaScriptHtml(value: OpfDynamicScript) {
     this._ctaScriptHtml = value;
 
-    this.htmlString = value.html
-      ? this.opfCtaScriptsService.removeScriptTags(value.html)
-      : '';
+    this.htmlString = value.html ?? '';
+    // ? this.opfCtaScriptsService.removeScriptTags(value.html)
+    // : '';
   }
 
   ngAfterViewInit(): void {
