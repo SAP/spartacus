@@ -15,7 +15,7 @@
 import { execSync } from 'child_process';
 import { Command } from 'commander';
 import { readFileSync } from 'fs';
-import glob from 'glob';
+import * as glob from 'glob';
 import { NG_PACKAGE_JSON, PACKAGE_JSON } from './const';
 import { manageDependencies } from './manage-dependencies';
 import { manageTsConfigs } from './tsconfig-paths';
