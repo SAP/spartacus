@@ -1,0 +1,19 @@
+<div *ngIf="component.data$ | async as data">
+  <div *ngIf="jsLoaded$ | async as loadResult">
+    <div *ngIf="loadResult; else errorBlock">
+      <div *ngIf="language$ | async as lang">
+        <div [attr.id]="data.containerID">
+          {{ displayScreenSet(data, lang) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <!-- Error block shown if jsTest$ emits false  -->
+<ng-template #errorBlock>
+  <div class="js-error">
+    {{ 'errorHandlers.scriptFailedToLoad' | cxTranslate }}
+    {{ 'errorHandlers.refreshThePage' | cxTranslate }}
+  </div>
+</ng-template>

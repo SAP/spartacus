@@ -4,5 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './cdc-js.service';
-export * from './sapcdcscreenset-js.service'
+export * from './sapcdcscreen-set.module';
+export * from './sapcdcscreen-set.component';
+

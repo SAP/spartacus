@@ -25,6 +25,7 @@ import { CdcJsService } from './service/cdc-js.service';
 import { CdcConfigInitializer } from './config/cdc-config-initializer';
 import { CdcAuthConfigInitializer } from './config/cdc-auth-config-initializer';
 import { CdcAuthHttpHeaderService } from './service/cdc-auth-http-header.service';
+import { SAPCDCScreenSetService } from './service';
 
 export function cdcJsFactory(
   cdcJsService: CdcJsService,
@@ -44,7 +45,7 @@ export function defaultCdcComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [CDC_FEATURE]: {
-        cmsComponents: ['GigyaRaasComponent'],
+        cmsComponents: ['GigyaRaasComponent','SAPCDCScreenSetComponent'],
       },
       // by default core is bundled together with components
       [CDC_CORE_FEATURE]: CDC_FEATURE,
@@ -82,7 +83,7 @@ export function initCdcAuthConfigFactory(
     {
       provide: APP_INITIALIZER,
       useFactory: cdcJsFactory,
-      deps: [CdcJsService, ConfigInitializerService],
+      deps: [CdcJsService, ConfigInitializerService,SAPCDCScreenSetService],
       multi: true,
     },
     {
