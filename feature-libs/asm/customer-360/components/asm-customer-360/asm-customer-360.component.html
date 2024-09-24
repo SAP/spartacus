@@ -76,7 +76,7 @@
                       date:
                         customerOverview.signedUpAt
                         | cxDate
-                          : asmCustomer360Config?.asmCustomer360?.dateFormat
+                          : asmCustomer360Config?.asmCustomer360?.dateFormat,
                     }
             }}
           </div>
@@ -120,7 +120,7 @@
               (click)="
                 navigateTo({
                   cxRoute: 'orderDetails',
-                  params: { code: customerOverview.latestOrderCode }
+                  params: { code: customerOverview.latestOrderCode },
                 })
               "
             >
@@ -146,7 +146,7 @@
               (click)="
                 navigateTo({
                   cxRoute: 'supportTicketDetails',
-                  params: { ticketCode: customerOverview.latestOpenedTicketId }
+                  params: { ticketCode: customerOverview.latestOpenedTicketId },
                 })
               "
             >
