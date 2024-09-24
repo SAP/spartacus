@@ -42,7 +42,6 @@ export interface GlobalOpfPaymentMethods {
   throwPaymentError?(errorOptions?: ErrorDialogOptions): void;
   startLoadIndicator?(): void;
   stopLoadIndicator?(): void;
-  scriptReady?(scriptIdentifier: string): void;
 }
 
 export interface PaymentBrowserInfo {
