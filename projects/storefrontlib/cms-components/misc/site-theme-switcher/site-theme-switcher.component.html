@@ -1,0 +1,18 @@
+<label *ngIf="items$ | async as themes">
+  <span> {{ 'siteThemeSwitcher.theme' | cxTranslate }}:</span>
+  <select (change)="activeItem = $any($event).target.value">
+    <option
+      [attr.aria-label]="
+        theme.i18nNameKey ? (theme.i18nNameKey | cxTranslate) : theme.className
+      "
+      *ngFor="let theme of themes"
+      value="{{ theme.className }}"
+      [selected]="(activeItem$ | async) === theme.className"
+    >
+      {{
+        theme.i18nNameKey ? (theme.i18nNameKey | cxTranslate) : theme.className
+      }}
+    </option>
+  </select>
+  <cx-icon [type]="iconTypes.CARET_DOWN" class="small" />
+</label>

@@ -2,16 +2,30 @@
   <h2 *ngIf="title">{{ title }}</h2>
 
   <div class="carousel-panel" [ngClass]="'size-' + size">
-    <button
-      *ngIf="size < items.length"
-      class="previous"
-      (click)="activeSlide = activeSlide - size"
-      [disabled]="activeSlide === 0"
-      [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
-      [attr.title]="'carousel.previousSlide' | cxTranslate"
-    >
-      <cx-icon [type]="previousIcon"></cx-icon>
-    </button>
+    <ng-container *cxFeature="'a11yFocusableCarouselControls'">
+      <button
+        *ngIf="size < items.length"
+        class="previous"
+        (click)="activeSlide === 0 ? null : (activeSlide = activeSlide - size)"
+        [attr.aria-disabled]="activeSlide === 0"
+        [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
+        [attr.title]="'carousel.previousSlide' | cxTranslate"
+      >
+        <cx-icon [type]="previousIcon"></cx-icon>
+      </button>
+    </ng-container>
+    <ng-container *cxFeature="'!a11yFocusableCarouselControls'">
+      <button
+        *ngIf="size < items.length"
+        class="previous"
+        (click)="activeSlide = activeSlide - size"
+        [disabled]="activeSlide === 0"
+        [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
+        [attr.title]="'carousel.previousSlide' | cxTranslate"
+      >
+        <cx-icon [type]="previousIcon"></cx-icon>
+      </button>
+    </ng-container>
 
     <div class="slides">
       <ng-container *ngFor="let _ of items; let i = index">
@@ -27,6 +41,7 @@
               *ngIf="item | async as data"
               class="item"
               [class.active]="i === activeSlide"
+              (keydown)="onItemKeydown($event, size)"
             >
               <ng-container
                 *ngTemplateOutlet="template; context: { item: data }"
@@ -42,8 +57,12 @@
       <button
         *ngIf="size < items.length"
         class="next"
-        (click)="activeSlide = activeSlide + size"
-        [disabled]="activeSlide > items.length - size - 1"
+        (click)="
+          activeSlide > items.length - size - 1
+            ? null
+            : (activeSlide = activeSlide + size)
+        "
+        [attr.aria-disabled]="activeSlide > items.length - size - 1"
         [attr.aria-label]="'carousel.nextSlide' | cxTranslate"
         [attr.title]="'carousel.nextSlide' | cxTranslate"
       >
@@ -65,15 +84,19 @@
     </ng-container>
   </div>
 
-  <div *ngIf="!hideIndicators && size < items.length" class="indicators">
+  <div
+    *ngIf="!hideIndicators && size < items.length"
+    role="tablist"
+    class="indicators"
+  >
     <ng-container *ngFor="let _ of items; let i = index">
       <!-- TODO: (CXSPA-6904) - Remove feature flag next major release -->
       <ng-container *cxFeature="'a11yFocusableCarouselControls'">
         <button
           *ngIf="i % size === 0"
           (click)="activeSlide = i"
-          [disabled]="i === activeSlide"
-          [attr.aria-current]="i === activeSlide"
+          [attr.aria-selected]="i === activeSlide"
+          [attr.aria-disabled]="i === activeSlide"
           [attr.aria-label]="
             'carousel.slideNumber'
               | cxTranslate
@@ -84,8 +107,13 @@
           "
           [attr.title]="
             'carousel.slideNumber'
-              | cxTranslate: { currentSlideNumber: getSlideNumber(size, i) }
+              | cxTranslate
+                : {
+                    currentSlideNumber: getSlideNumber(size, i),
+                    numberOfSlides: size
+                  }
           "
+          role="tab"
         >
           <cx-icon [type]="indicatorIcon" aria-hidden="true"></cx-icon>
         </button>

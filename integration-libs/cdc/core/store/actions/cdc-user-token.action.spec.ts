@@ -22,13 +22,14 @@ describe('CDC User Token Actions', () => {
   describe('LoadUserTokenFail Action', () => {
     it('should create the action', () => {
       const data = {
-        error: 'anError',
+        error: new Error('anError'),
         initActionPayload: 'payload',
       } as any;
 
       const action = new CdcAuthActions.LoadCdcUserTokenFail(data);
 
       expect({ ...action }).toEqual({
+        error: data.error,
         type: CdcAuthActions.LOAD_CDC_USER_TOKEN_FAIL,
         payload: data,
       });

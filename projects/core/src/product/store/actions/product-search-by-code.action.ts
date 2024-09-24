@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { ErrorAction } from '../../../error-handling';
 import { Product } from '../../../model/product.model';
 import { StateUtils } from '../../../state/utils';
 import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
@@ -42,7 +43,10 @@ export class ProductSearchLoadByCodeSuccess extends EntityScopedLoaderActions.En
   }
 }
 
-export class ProductSearchLoadByCodeFail extends EntityScopedLoaderActions.EntityScopedFailAction {
+export class ProductSearchLoadByCodeFail
+  extends EntityScopedLoaderActions.EntityScopedFailAction
+  implements ErrorAction
+{
   readonly type = PRODUCT_SEARCH_LOAD_BY_CODE_FAIL;
   constructor(payload: { code: string; scope: string; error: any }) {
     super(

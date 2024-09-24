@@ -4,12 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StaticProvider } from '@angular/core';
+import { Provider, StaticProvider } from '@angular/core';
 import {
   LoggerService,
+  MULTI_ERROR_HANDLER,
   SERVER_REQUEST_ORIGIN,
   SERVER_REQUEST_URL,
 } from '@spartacus/core';
+
+import { PropagatingToServerErrorHandler } from '../error-handling/multi-error-handlers';
 import { getRequestOrigin } from '../express-utils/express-request-origin';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import { serverLoggerServiceFactory } from '../logger';
@@ -21,7 +24,7 @@ import { serverRequestUrlFactory } from './server-request-url';
 /**
  * Returns the providers used for SSR and pre-rendering processes.
  */
-export function provideServer(options?: ServerOptions): StaticProvider[] {
+export function provideServer(options?: ServerOptions): Provider[] {
   return [
     {
       provide: SERVER_REQUEST_ORIGIN,
@@ -34,6 +37,11 @@ export function provideServer(options?: ServerOptions): StaticProvider[] {
     {
       provide: LoggerService,
       useFactory: serverLoggerServiceFactory,
+    },
+    {
+      provide: MULTI_ERROR_HANDLER,
+      useExisting: PropagatingToServerErrorHandler,
+      multi: true,
     },
   ];
 }

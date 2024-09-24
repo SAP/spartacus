@@ -4,21 +4,16 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
-  CUSTOMER_TICKETING_FEATURE_NAME,
-  SPARTACUS_CUSTOMER_TICKETING,
-  SPARTACUS_SCHEMATICS,
-  LibraryOptions as SpartacusCustomerTicketingOptions,
-  SpartacusOptions,
-  customerTicketingFeatureModulePath,
-} from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
+import {
+  CUSTOMER_TICKETING_FEATURE_NAME,
+  customerTicketingFeatureModulePath,
+  generateDefaultWorkspace,
+  LibraryOptions as SpartacusCustomerTicketingOptions,
+  SPARTACUS_CUSTOMER_TICKETING,
+  SPARTACUS_SCHEMATICS,
+} from '@spartacus/schematics';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/customer-ticketing.scss';
@@ -31,27 +26,6 @@ describe('Spartacus Customer Ticketing schematics: ng-add', () => {
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
-
   const libraryNoFeaturesOptions: SpartacusCustomerTicketingOptions = {
     project: 'schematics-test',
     lazy: true,
@@ -63,35 +37,10 @@ describe('Spartacus Customer Ticketing schematics: ng-add', () => {
     features: [CUSTOMER_TICKETING_FEATURE_NAME],
   };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
-
   describe('Without features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateDefaultWorkspace(schematicRunner, appTree);
+
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
@@ -131,7 +80,8 @@ describe('Spartacus Customer Ticketing schematics: ng-add', () => {
 
   describe('Customer Ticketing feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           customerTicketingFeatureOptions,
@@ -158,7 +108,8 @@ describe('Spartacus Customer Ticketing schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...customerTicketingFeatureOptions, lazy: false },

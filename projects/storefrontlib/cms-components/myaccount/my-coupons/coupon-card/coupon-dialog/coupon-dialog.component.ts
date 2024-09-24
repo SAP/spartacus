@@ -12,7 +12,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CustomerCoupon } from '@spartacus/core';
+import { CustomerCoupon, useFeatureStyles } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { FocusConfig, LaunchDialogService } from '../../../../../layout/index';
@@ -44,7 +44,9 @@ export class CouponDialogComponent implements OnDestroy, OnInit {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef
-  ) {}
+  ) {
+    useFeatureStyles('a11yExpandedFocusIndicator');
+  }
 
   ngOnInit(): void {
     this.subscription.add(
