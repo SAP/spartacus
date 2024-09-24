@@ -25,7 +25,7 @@ import createSpy = jasmine.createSpy;
       class="confirm-btn"
       [cxAtMessage]="[
         'checkoutOrderConfirmation.thankYou' | cxTranslate,
-        'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate
+        'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate,
       ]"
     >
       Action

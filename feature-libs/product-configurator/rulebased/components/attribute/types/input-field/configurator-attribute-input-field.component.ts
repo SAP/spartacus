@@ -131,7 +131,7 @@ export class ConfiguratorAttributeInputFieldComponent
    */
   get isRequired(): boolean {
     return this.isUserInput(this.attribute)
-      ? this.attribute.required ?? false
+      ? (this.attribute.required ?? false)
       : false;
   }
   /**
@@ -173,8 +173,8 @@ export class ConfiguratorAttributeInputFieldComponent
   protected calculateDebounceTime(): number {
     if (this.isDateBased(this.attribute)) {
       return this.debounceForDateActive
-        ? this.config.productConfigurator?.updateDebounceTime?.date ??
-            this.FALLBACK_DEBOUNCE_TIME_DATE
+        ? (this.config.productConfigurator?.updateDebounceTime?.date ??
+            this.FALLBACK_DEBOUNCE_TIME_DATE)
         : 0;
     } else {
       return (
