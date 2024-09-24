@@ -1,8 +1,19 @@
 <button
+  *cxFeature="'allyCounterFocus'"
+  type="button"
+  (click)="decrement()"
+  [attr.aria-disabled]="control.disabled || control.value <= min"
+  [cxFocus]="{ key: 'decrement' }"
+  attr.aria-label="{{ 'itemCounter.removeOne' | cxTranslate }}"
+  title="{{ 'itemCounter.removeOne' | cxTranslate }}"
+>
+  -
+</button>
+<button
+  *cxFeature="'!allyCounterFocus'"
   type="button"
   (click)="decrement()"
   [disabled]="control.disabled || control.value <= min"
-  [tabindex]="control.disabled || control.value <= min ? -1 : 0"
   [cxFocus]="{ key: 'decrement' }"
   attr.aria-label="{{ 'itemCounter.removeOne' | cxTranslate }}"
   title="{{ 'itemCounter.removeOne' | cxTranslate }}"

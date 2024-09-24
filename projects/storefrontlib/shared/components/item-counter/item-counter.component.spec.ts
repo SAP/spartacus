@@ -9,6 +9,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from './item-counter.component';
+import { MockFeatureDirective } from '../../test/mock-feature-directive';
 
 const form = new UntypedFormGroup({
   quantity: new UntypedFormControl('1'),
@@ -21,7 +22,7 @@ describe('ItemCounterComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
-      declarations: [ItemCounterComponent],
+      declarations: [ItemCounterComponent, MockFeatureDirective],
     }).compileComponents();
   }));
 
