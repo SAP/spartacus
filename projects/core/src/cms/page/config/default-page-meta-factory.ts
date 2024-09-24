@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { inject } from '@angular/core';
 import { PageMetaConfig } from './page-meta.config';
 import { FeatureToggles } from '../../../features-config';
