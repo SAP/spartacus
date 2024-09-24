@@ -5,17 +5,13 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import {
-  AuthConfig,
-  BaseSiteService,
-  ConfigInitializer,
-} from '@spartacus/core';
+import { AuthConfig, ConfigInitializer } from '@spartacus/core';
 import { Observable, lastValueFrom } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-
+import { CdcBaseSiteService } from '../service/cdc-base-site.service';
 @Injectable({ providedIn: 'root' })
 export class CdcAuthConfigInitializer implements ConfigInitializer {
-  protected baseSiteService = inject(BaseSiteService);
+  protected baseSiteService = inject(CdcBaseSiteService);
   readonly scopes = ['authentication'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
   /**

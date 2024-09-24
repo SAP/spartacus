@@ -112,13 +112,6 @@ export interface BaseStore {
   defaultLanguage?: Language;
 }
 
-export interface CdcSiteConfig {
-  oidcOpIssuerURI: string;
-  oidcRpClientId: string;
-  scopes: string[];
-  siteApiKey?: string;
-}
-
 export interface BaseSite {
   channel?: string;
   defaultLanguage?: Language;
@@ -135,7 +128,6 @@ export interface BaseSite {
   baseStore?: BaseStore;
   requiresAuthentication?: boolean;
   isolated?: boolean;
-  cdcSiteConfig?: CdcSiteConfig;
   captchaConfig?: CaptchaConfig;
 }
 

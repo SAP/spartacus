@@ -6,15 +6,16 @@
 
 import { Injectable, inject } from '@angular/core';
 import { CdcConfig } from '@spartacus/cdc/root';
-import { BaseSiteService, ConfigInitializer } from '@spartacus/core';
+import { ConfigInitializer } from '@spartacus/core';
 import { Observable, lastValueFrom } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { CdcBaseSiteService } from '../service/cdc-base-site.service';
 
 @Injectable({ providedIn: 'root' })
 export class CdcConfigInitializer implements ConfigInitializer {
   readonly scopes = ['cdc'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
-  protected baseSiteService = inject(BaseSiteService);
+  protected baseSiteService = inject(CdcBaseSiteService);
   /**
    * Emits the Cdc config basing on the current base site data.
    *

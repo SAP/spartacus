@@ -88,22 +88,11 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   protected errorIsInvalidToken(errResponse: HttpErrorResponse): boolean {
-    const authHeader = errResponse.headers.get('www-authenticate');
-    if (!this.authConfigService.getOAuthLibConfig().disablePKCE && authHeader) {
-      const parts = authHeader.split(',').map((part) => part.trim());
-      const errorPart = parts.find((part) => part.startsWith('Bearer error='));
-      const errorDetails = errorPart
-        ? errorPart.split('=')[1].replace(/"/g, '')
-        : '';
-
-      return errorDetails === 'invalid_token' ?? false;
-    } else {
-      return (
-        (errResponse.url?.includes(this.authConfigService.getTokenEndpoint()) &&
-          errResponse.error.error === 'invalid_token') ??
-        false
-      );
-    }
+    return (
+      (errResponse.url?.includes(this.authConfigService.getTokenEndpoint()) &&
+        errResponse.error.error === 'invalid_token') ??
+      false
+    );
   }
 
   protected errorIsInvalidGrant(errResponse: HttpErrorResponse): boolean {
@@ -115,9 +104,6 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   protected isExpiredToken(resp: HttpErrorResponse): boolean {
-    if (!this.authConfigService.getOAuthLibConfig().disablePKCE) {
-      return resp.error?.errors?.[0]?.type === 'AccessDeniedError';
-    }
     return resp.error?.errors?.[0]?.type === 'InvalidTokenError';
   }
 }

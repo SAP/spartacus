@@ -38,11 +38,10 @@ export function checkOAuthParamsInUrl(
     isPlatformBrowser(platformId)
       ? lastValueFrom(
           configInit.getStable().pipe(
-            switchMap(() => {
-              authService.refreshAuthConfig();
+            switchMap(() =>
               // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
-              return authService.checkOAuthParamsInUrl();
-            })
+              authService.checkOAuthParamsInUrl()
+            )
           )
         )
       : Promise.resolve(); // Do nothing in SSR
