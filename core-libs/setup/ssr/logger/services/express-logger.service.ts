@@ -8,6 +8,7 @@ import { Injectable, inject } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
 import { formatWithOptions } from 'util';
 import { REQUEST } from '../../tokens/express.tokens';
+import { getLoggerInspectOptions } from '../get-logger-inspect-options';
 import { EXPRESS_SERVER_LOGGER } from '../loggers';
 
 /**
@@ -53,9 +54,7 @@ export class ExpressLoggerService implements LoggerService {
 
   protected formatLogMessage(message?: any, ...optionalParams: any[]): string {
     return formatWithOptions(
-      // Prevent automatically breaking a long string message into multiple lines.
-      // Otherwise, multi-line logs would be treated on the server as separate log
-      { breakLength: Infinity },
+      getLoggerInspectOptions(),
       message,
       ...optionalParams
     );
