@@ -16,6 +16,7 @@ export const SUBSCRIPTION_BILLING_FOLDER_NAME = 'subscription-billing';
 export const SUBSCRIPTION_BILLING_MODULE = 'SubscriptionBillingModule';
 export const SUBSCRIPTION_BILLING_MODULE_NAME = 'SubscriptionBilling';
 export const SUBSCRIPTION_BILLING_ROOT_MODULE = 'SubscriptionBillingRootModule';
+export const SUBSCRIPTION_BILLING_SCSS_FILE_NAME = 'subscription-billing.scss';
 export const SUBSCRIPTION_BILLING_FEATURE_NAME_CONSTANT =
   'SUBSCRIPTION_BILLING_FEATURE';
 export const SUBSCRIPTION_BILLING_TRANSLATIONS =
@@ -39,6 +40,10 @@ export const SUBSCRIPTION_BILLING_SCHEMATICS_CONFIG: SchematicConfig = {
   rootModule: {
     importPath: SPARTACUS_SUBSCRIPTION_BILLING_ROOT,
     name: SUBSCRIPTION_BILLING_ROOT_MODULE,
+  },
+  styles: {
+    scssFileName: SUBSCRIPTION_BILLING_SCSS_FILE_NAME,
+    importStyle: SPARTACUS_SUBSCRIPTION_BILLING,
   },
   i18n: {
     resources: SUBSCRIPTION_BILLING_TRANSLATIONS,

@@ -5,10 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-
+import { SubscriptionProductModule } from './product/subscription-product.module';
 @NgModule({
-  declarations: [],
-  imports: [],
-  providers: [],
+  imports: [SubscriptionProductModule],
 })
 export class SubscriptionBillingRootModule {}

@@ -1,3 +1,16 @@
 {
-  "subscription-pdp": {}
+  "subscriptionProduct": {
+    "minimumTerm": "Minimum Term: {{ term }}",
+    "renewalTerm": "Renewal Term: {{ term }}",
+    "usageCharges": "Usage Charges",
+    "includedQuantity": "Included Quantity: {{ quantity }}",
+    "includedRatio": "Included Ratio: {{ ratio }}",
+    "pricePerUsage": " {{ price }} per {{ usage }} ",
+    "overage": "From {{ from }} to Unlimited: {{ price }} per {{ usage }}",
+    "overagePlus": "From {{ from }} to Unlimited: {{ fixed }} plus {{ price }} per {{ usage }}",
+    "usage": "From {{ from }} to {{ to }}: {{ price }} per {{ usage }}",
+    "volumeMessage": "* You will be charged as per the highest applicable tier",
+    "tierMessage": "* You will be charged as per each applicable tier",
+    "priceForEveryBlock": "{{ price }} for every {{ block }}"
+  }
 }

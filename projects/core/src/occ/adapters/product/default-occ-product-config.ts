@@ -24,6 +24,8 @@ export const defaultOccProductConfig: OccConfig = {
           stock: 'products/${productCode}?fields=stock(DEFAULT)',
           list_item:
             'products/${productCode}?fields=code,name,price(formattedValue),images(DEFAULT),baseProduct',
+          subscriptionPrice:
+            'products/${productCode}?fields=price(formattedValue),sapPricePlan,sapSubscriptionTerm',
         },
 
         productReviews: 'products/${productCode}/reviews',

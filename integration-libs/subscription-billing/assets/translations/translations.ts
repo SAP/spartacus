@@ -13,5 +13,5 @@ export const subscriptionBillingTranslations: TranslationResources = {
 
 export const subscriptionBillingTranslationChunksConfig: TranslationChunksConfig =
   {
-    cdc: ['subscription-pdp'],
+    subscriptionBilling: ['subscriptionProduct'],
   };

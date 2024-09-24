@@ -1,0 +1,5 @@
+@import './product/subscription-product-price';
+@import './product/subscription-product-usage-charge';
+
+$subscription-billing-components-allowlist: cx-subscription-product-price,
+  cx-subscription-product-usage-charge !default;
