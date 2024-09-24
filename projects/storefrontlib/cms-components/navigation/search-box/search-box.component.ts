@@ -69,18 +69,13 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Input('queryText')
   set queryText(value: string) {
     if (value) {
+      this.updateChosenWord(value);
       this.search(value);
     }
   }
 
   @HostBinding('class.search-box-v2') get searchBoxV2() {
     return this.isEnabledFeature(SearchBoxFeatures.SEARCH_BOX_V2);
-  }
-
-  @HostListener('onload', ['$event'])
-  documentReload(event: UIEvent) {
-    console.log(event);
-    // this.close(event)
   }
 
   get hasSearchBoxV2(): boolean {
@@ -107,7 +102,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     if (
       (this.featureConfigService?.isEnabled('a11ySearchBoxFocusOnEscape') &&
         this.winRef.document.activeElement !==
-          this.searchInput.nativeElement) ||
+          this.searchInput?.nativeElement) ||
       this.searchBoxActive
     ) {
       setTimeout(() => {
@@ -186,7 +181,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   );
 
   results$: Observable<SearchResults> = this.config$.pipe(
-    switchMap((config) => this.searchBoxComponentService.getResults(config))
+    switchMap((config) => this.searchBoxComponentService.getResults(config)),
   );
 
   items$: Observable<any> = this.results$.pipe(
