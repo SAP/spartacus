@@ -46,13 +46,15 @@ describe('OpfPaymentHostedFieldsService', () => {
   };
 
   const mockActiveCartFacade = {
-    getActiveCartId: jasmine
-      .createSpy('getActiveCartId')
+    takeActiveCartId: jasmine
+      .createSpy('takeActiveCartId')
       .and.returnValue(of('mockActiveCartId')),
   };
 
   const mockUserIdService = {
-    getUserId: jasmine.createSpy('getUserId').and.returnValue(of('mockUserId')),
+    takeUserId: jasmine
+      .createSpy('takeUserId')
+      .and.returnValue(of('mockUserId')),
   };
 
   const mockRoutingService = {
@@ -132,8 +134,8 @@ describe('OpfPaymentHostedFieldsService', () => {
 
   describe('submitPayment', () => {
     it('should submit payment and handle success', (done) => {
-      mockUserIdService.getUserId.and.returnValue(of('mockUserId'));
-      mockActiveCartFacade.getActiveCartId.and.returnValue(
+      mockUserIdService.takeUserId.and.returnValue(of('mockUserId'));
+      mockActiveCartFacade.takeActiveCartId.and.returnValue(
         of('mockActiveCartId')
       );
       mockOpfPaymentConnector.submitPayment.and.returnValue(
@@ -172,8 +174,8 @@ describe('OpfPaymentHostedFieldsService', () => {
 
   describe('submitCompletePayment', () => {
     it('should submit complete payment and handle success', (done) => {
-      mockUserIdService.getUserId.and.returnValue(of('mockUserId'));
-      mockActiveCartFacade.getActiveCartId.and.returnValue(
+      mockUserIdService.takeUserId.and.returnValue(of('mockUserId'));
+      mockActiveCartFacade.takeActiveCartId.and.returnValue(
         of('mockActiveCartId')
       );
       mockOpfPaymentConnector.submitCompletePayment.and.returnValue(
