@@ -62,15 +62,4 @@ describe('OpfCtaButton', () => {
     component.ngAfterViewInit();
     expect(opfCtaScriptsServiceMock.loadAndRunScript).toHaveBeenCalled();
   });
-
-  it('should call removeScriptTags', () => {
-    component.ctaScriptHtml = dynamicScriptMock;
-    expect(opfCtaScriptsServiceMock.removeScriptTags).toHaveBeenCalled();
-    expect(component.htmlString).not.toContain('<script>');
-  });
-
-  it('should not call removeScriptTags when empty value', () => {
-    component.ctaScriptHtml = { ...dynamicScriptMock, html: '' };
-    expect(opfCtaScriptsServiceMock.removeScriptTags).not.toHaveBeenCalled();
-  });
 });

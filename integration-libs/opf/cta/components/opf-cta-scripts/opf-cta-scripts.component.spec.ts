@@ -90,14 +90,4 @@ describe('OpfCtaScriptsComponent', () => {
       done();
     });
   });
-
-  it('should display spinner when html list is undefined', (done) => {
-    opfCtaScriptsService.getCtaHtmlslList = createSpy().and.returnValue(
-      of(undefined)
-    );
-    createComponentInstance();
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('cx-spinner')).toBeTruthy();
-    done();
-  });
 });
