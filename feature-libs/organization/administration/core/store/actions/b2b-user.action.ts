@@ -120,7 +120,7 @@ export class LoadB2BUserSuccess extends StateUtils.EntitySuccessAction {
       B2B_USER_ENTITIES,
       Array.isArray(payload)
         ? payload.map((orgUnitCustomer) => orgUnitCustomer?.customerId ?? '')
-        : payload?.customerId ?? ''
+        : (payload?.customerId ?? '')
     );
   }
 }
