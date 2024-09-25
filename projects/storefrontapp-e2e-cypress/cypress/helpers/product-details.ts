@@ -59,7 +59,7 @@ export function verifyShowReviewsLink() {
     .click();
   cy.get(`${tabsHeaderList}`)
     .contains(/reviews/i)
-    .should('be.focused')
+    .should('be.focused');
 }
 
 export function verifyTextInTabs() {
