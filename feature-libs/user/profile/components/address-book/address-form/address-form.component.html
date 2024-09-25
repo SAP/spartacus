@@ -24,14 +24,14 @@
             placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
             (change)="countrySelected($event)"
             [cxNgSelectA11y]="{
-              ariaLabel: 'addressForm.country' | cxTranslate
+              ariaLabel: 'addressForm.country' | cxTranslate,
             }"
           >
           </ng-select>
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
             [translationParams]="{
-              label: 'addressForm.country' | cxTranslate
+              label: 'addressForm.country' | cxTranslate,
             }"
             [control]="addressForm.get('country.isocode')"
           ></cx-form-errors>
@@ -60,7 +60,7 @@
             bindValue="code"
             [placeholder]="'addressForm.title' | cxTranslate"
             [cxNgSelectA11y]="{
-              ariaLabel: 'addressForm.title' | cxTranslate
+              ariaLabel: 'addressForm.title' | cxTranslate,
             }"
           >
           </ng-select>
@@ -84,7 +84,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'addressForm.firstName.label' | cxTranslate
+          label: 'addressForm.firstName.label' | cxTranslate,
         }"
         [control]="addressForm.get('firstName')"
       ></cx-form-errors>
@@ -110,7 +110,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'addressForm.lastName.label' | cxTranslate
+          label: 'addressForm.lastName.label' | cxTranslate,
         }"
         [control]="addressForm.get('lastName')"
       ></cx-form-errors>
@@ -136,7 +136,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'addressForm.address1' | cxTranslate
+          label: 'addressForm.address1' | cxTranslate,
         }"
         [control]="addressForm.get('line1')"
       ></cx-form-errors>
@@ -176,7 +176,7 @@
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
-            label: 'addressForm.city.label' | cxTranslate
+            label: 'addressForm.city.label' | cxTranslate,
           }"
           [control]="addressForm.get('town')"
         ></cx-form-errors>
@@ -202,7 +202,7 @@
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
-            label: 'addressForm.zipCode.label' | cxTranslate
+            label: 'addressForm.zipCode.label' | cxTranslate,
           }"
           [control]="addressForm.get('postalCode')"
         ></cx-form-errors>
@@ -232,7 +232,7 @@
               placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
               id="region-select"
               [cxNgSelectA11y]="{
-                ariaLabel: 'addressForm.state' | cxTranslate
+                ariaLabel: 'addressForm.state' | cxTranslate,
               }"
             >
             </ng-select>

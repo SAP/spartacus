@@ -110,7 +110,7 @@ context('Product carousel', () => {
           );
 
           cypressButton.then((button) => {
-            if (!button.is(':disabled')) {
+            if (!button.is('[aria-disabled="true"]')) {
               cypressButton.click();
               clickNextButton();
             }
