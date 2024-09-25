@@ -1,5 +1,5 @@
 <div
-  *ngIf="ctaScriptHtml && loader; else loading"
+  *ngIf="ctaScriptHtml; else loading"
   [innerHTML]="renderHtml(ctaScriptHtml.html)"
 ></div>
 <ng-template #loading>
