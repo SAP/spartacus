@@ -23,6 +23,8 @@ const defaultBaseSite = [
   'apparel-uk',
   'apparel-uk-spa',
   'apparel-uk-standalone',
+  'automobile-spa',
+  'automobile'
 ];
 const baseSite = environment.epdVisualization
   ? ['electronics-epdvisualization-spa'].concat(defaultBaseSite)
