@@ -6,7 +6,10 @@
       <button
         *ngIf="size < items.length"
         class="previous"
-        (click)="$event.stopPropagation();activeSlide === 0 ? null : (activeSlide = activeSlide - size)"
+        (click)="
+          $event.stopPropagation();
+          activeSlide === 0 ? null : (activeSlide = activeSlide - size)
+        "
         [attr.aria-disabled]="activeSlide === 0"
         [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
         [attr.title]="'carousel.previousSlide' | cxTranslate"
@@ -22,7 +25,7 @@
       <button
         *ngIf="size < items.length"
         class="previous"
-        (click)="$event.stopPropagation();activeSlide = activeSlide - size"
+        (click)="$event.stopPropagation(); activeSlide = activeSlide - size"
         [disabled]="activeSlide === 0"
         [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
         [attr.title]="'carousel.previousSlide' | cxTranslate"
@@ -61,7 +64,8 @@
       <button
         *ngIf="size < items.length"
         class="next"
-        (click)="$event.stopPropagation();
+        (click)="
+          $event.stopPropagation();
           activeSlide > items.length - size - 1
             ? null
             : (activeSlide = activeSlide + size)

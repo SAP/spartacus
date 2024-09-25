@@ -181,7 +181,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   );
 
   results$: Observable<SearchResults> = this.config$.pipe(
-    switchMap((config) => this.searchBoxComponentService.getResults(config)),
+    switchMap((config) => this.searchBoxComponentService.getResults(config))
   );
 
   items$: Observable<any> = this.results$.pipe(
