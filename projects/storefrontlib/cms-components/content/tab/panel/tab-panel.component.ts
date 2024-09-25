@@ -4,13 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Tab, TAB_MODE } from '../tab.model';
 
 @Component({
   selector: 'cx-tab-panel',
   templateUrl: './tab-panel.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabPanelComponent {
   TAB_MODE = TAB_MODE;

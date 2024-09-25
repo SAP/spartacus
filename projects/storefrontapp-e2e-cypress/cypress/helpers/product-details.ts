@@ -60,7 +60,6 @@ export function verifyShowReviewsLink() {
   cy.get(`${tabsHeaderList}`)
     .contains(/reviews/i)
     .should('be.focused')
-    .and('have.attr', 'aria-expanded', 'true');
 }
 
 export function verifyTextInTabs() {

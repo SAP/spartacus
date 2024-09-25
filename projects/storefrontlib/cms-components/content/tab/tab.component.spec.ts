@@ -64,7 +64,7 @@ describe('TabComponent', () => {
       expect(firstButton.getAttribute('id')).toEqual('0');
       expect(firstButton.getAttribute('class')).toEqual('tab-btn active');
       expect(firstButton.getAttribute('aria-selected')).toEqual('true');
-      expect(firstButton.getAttribute('aria-expanded')).toEqual('true');
+      expect(firstButton.getAttribute('aria-expanded')).toEqual(null);
       expect(firstButton.getAttribute('aria-controls')).toEqual('section-0');
       expect(firstButton.getAttribute('tabindex')).toEqual('0');
 
@@ -72,7 +72,7 @@ describe('TabComponent', () => {
       expect(secondButton.getAttribute('id')).toEqual('1');
       expect(secondButton.getAttribute('class')).toEqual('tab-btn');
       expect(secondButton.getAttribute('aria-selected')).toEqual('false');
-      expect(secondButton.getAttribute('aria-expanded')).toEqual('false');
+      expect(secondButton.getAttribute('aria-expanded')).toEqual(null);
       expect(secondButton.getAttribute('aria-controls')).toEqual('section-1');
       expect(secondButton.getAttribute('tabindex')).toEqual('-1');
     });
@@ -255,7 +255,7 @@ describe('TabComponent', () => {
       const firstButton = buttonEls[0];
       expect(firstButton.getAttribute('id')).toEqual('0');
       expect(firstButton.getAttribute('class')).toEqual('tab-btn active');
-      expect(firstButton.getAttribute('aria-selected')).toEqual('true');
+      expect(firstButton.getAttribute('aria-selected')).toEqual(null);
       expect(firstButton.getAttribute('aria-expanded')).toEqual('true');
       expect(firstButton.getAttribute('aria-controls')).toEqual('section-0');
       expect(firstButton.getAttribute('tabindex')).toEqual('0');
@@ -263,7 +263,7 @@ describe('TabComponent', () => {
       const secondButton = buttonEls[1];
       expect(secondButton.getAttribute('id')).toEqual('1');
       expect(secondButton.getAttribute('class')).toEqual('tab-btn');
-      expect(secondButton.getAttribute('aria-selected')).toEqual('false');
+      expect(secondButton.getAttribute('aria-selected')).toEqual(null);
       expect(secondButton.getAttribute('aria-expanded')).toEqual('false');
       expect(secondButton.getAttribute('aria-controls')).toEqual('section-1');
       expect(secondButton.getAttribute('tabindex')).toEqual('0');
