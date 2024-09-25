@@ -6,7 +6,7 @@
         context: {
           overviewGroups: configuration.overview?.groups,
           level: 1,
-          idPrefix: ''
+          idPrefix: '',
         }
       "
     ></ng-container>
@@ -40,7 +40,7 @@
           'configurator.a11y.group'
             | cxTranslate
               : {
-                  group: group.groupDescription
+                  group: group.groupDescription,
                 }
         }}
       </span>
@@ -83,7 +83,7 @@
             context: {
               overviewGroups: group.subGroups,
               level: level + 1,
-              idPrefix: getPrefixId(idPrefix, group.id)
+              idPrefix: getPrefixId(idPrefix, group.id),
             }
           "
         ></ng-container>
