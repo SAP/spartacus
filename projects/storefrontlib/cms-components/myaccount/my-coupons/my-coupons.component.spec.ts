@@ -15,6 +15,7 @@ import {
   FeaturesConfig,
   I18nTestingModule,
 } from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
@@ -174,6 +175,7 @@ describe('MyCouponsComponent', () => {
         MockCxIconComponent,
         MockPaginationComponent,
         MockSortingComponent,
+        MockFeatureDirective,
       ],
       providers: [
         { provide: CustomerCouponService, useValue: customerCouponService },

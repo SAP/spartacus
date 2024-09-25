@@ -2,18 +2,20 @@
   <!-- TODO: (CXSPA-5916) Remove feature flags next major -->
   <ng-container *cxFeature="'a11yStoreFinderOverflow'">
     <div class="cx-container">
-      <article class="cx-store">
-        <h2 aria-hidden="true">{{ location.displayName || location.name }}</h2>
-        <p *ngIf="location.address" class="cx-store-description-address">
-          {{ location.address.line1 }} {{ location.address.line2 }} <br />
-          {{
-            getFormattedStoreAddress([
-              location.address.town,
-              location.address.postalCode,
-              location.address.country.isocode
-            ])
-          }}
-        </p>
+      <div class="cx-store">
+        <h2>{{ location.displayName || location.name }}</h2>
+        <div *ngIf="location.address" class="cx-store-description-address">
+          <div>{{ location.address.line1 }} {{ location.address.line2 }}</div>
+          <div>
+            {{
+              getFormattedStoreAddress([
+                location.address.town,
+                location.address.postalCode,
+                location.address.country.isocode,
+              ])
+            }}
+          </div>
+        </div>
 
         <section class="cx-contact">
           <ul class="cx-list">
@@ -46,19 +48,19 @@
             {{ 'storeFinder.storeFeatures' | cxTranslate }}
           </h3>
 
-          <article>
+          <div>
             <div
               *ngFor="let feature of location.features?.entry"
               class="cx-feature-item"
             >
               {{ feature.value }}
             </div>
-          </article>
+          </div>
         </div>
-      </article>
-      <article class="cx-storeMap" *ngIf="!disableMap">
+      </div>
+      <div class="cx-storeMap" *ngIf="!disableMap">
         <cx-store-finder-map [locations]="[location]"></cx-store-finder-map>
-      </article>
+      </div>
     </div>
   </ng-container>
 
@@ -77,7 +79,7 @@
                 getFormattedStoreAddress([
                   location.address.town,
                   location.address.postalCode,
-                  location.address.country.isocode
+                  location.address.country.isocode,
                 ])
               }}
             </p>

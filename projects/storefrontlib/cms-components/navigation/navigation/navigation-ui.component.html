@@ -83,9 +83,12 @@
         </ng-container>
         <ng-container *cxFeature="'a11yNavigationUiKeyboardControls'">
           <button
+            aria-level="4"
+            [attr.role]="(isDesktop$ | async) && depth ? 'heading' : 'button'"
             [attr.aria-haspopup]="true"
             [attr.aria-expanded]="false"
             [attr.aria-label]="node.title"
+            [attr.aria-controls]="node.title"
             (click)="toggleOpen($any($event))"
             (mouseenter)="onMouseEnter($event)"
             (keydown.space)="onSpace($any($event))"
@@ -114,7 +117,11 @@
     </ng-template>
 
     <!-- we add a wrapper to allow for better layout handling in CSS -->
-    <div class="wrapper" *ngIf="node.children && node.children.length > 0">
+    <div
+      [id]="node.title"
+      class="wrapper"
+      *ngIf="node.children && node.children.length > 0"
+    >
       <ul
         class="childs"
         [attr.depth]="getTotalDepth(node)"

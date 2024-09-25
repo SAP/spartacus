@@ -5,6 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
+import { ErrorAction } from '../../../error-handling';
 import { Country } from '../../../model/address.model';
 
 export const LOAD_DELIVERY_COUNTRIES = '[User] Load Delivery Countries';
@@ -15,18 +16,24 @@ export const LOAD_DELIVERY_COUNTRIES_SUCCESS =
 
 export class LoadDeliveryCountries implements Action {
   readonly type = LOAD_DELIVERY_COUNTRIES;
+
   constructor() {
     // Intentional empty constructor
   }
 }
 
-export class LoadDeliveryCountriesFail implements Action {
+export class LoadDeliveryCountriesFail implements ErrorAction {
+  public error: any;
   readonly type = LOAD_DELIVERY_COUNTRIES_FAIL;
-  constructor(public payload: any) {}
+
+  constructor(public payload: any) {
+    this.error = payload;
+  }
 }
 
 export class LoadDeliveryCountriesSuccess implements Action {
   readonly type = LOAD_DELIVERY_COUNTRIES_SUCCESS;
+
   constructor(public payload: Country[]) {}
 }
 

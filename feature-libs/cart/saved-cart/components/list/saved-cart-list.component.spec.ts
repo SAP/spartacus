@@ -23,6 +23,7 @@ import {
   LaunchDialogService,
   SiteContextComponentService,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, Subscription, interval, map, of, take } from 'rxjs';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
@@ -109,7 +110,7 @@ describe('SavedCartListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [SavedCartListComponent, MockUrlPipe],
+      declarations: [SavedCartListComponent, MockUrlPipe, MockFeatureDirective],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },

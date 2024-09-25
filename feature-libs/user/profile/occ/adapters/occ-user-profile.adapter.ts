@@ -5,13 +5,14 @@
  */
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import {
   ConverterService,
   InterceptorUtil,
   LoggerService,
   Occ,
   OccEndpointsService,
+  USE_CAPTCHA_TOKEN,
   USE_CLIENT_TOKEN,
   normalizeHttpError,
 } from '@spartacus/core';
@@ -26,6 +27,7 @@ import {
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { CaptchaApiConfig, CaptchaRenderer } from '@spartacus/storefront';
 
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 const CONTENT_TYPE_URLENCODED_HEADER = {
@@ -35,6 +37,8 @@ const CONTENT_TYPE_URLENCODED_HEADER = {
 @Injectable()
 export class OccUserProfileAdapter implements UserProfileAdapter {
   protected logger = inject(LoggerService);
+  protected captchaConfig = inject(CaptchaApiConfig, { optional: true });
+  protected injector = inject(Injector, { optional: true });
 
   constructor(
     protected http: HttpClient,
@@ -61,6 +65,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       ...CONTENT_TYPE_JSON_HEADER,
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    headers = this.appendCaptchaToken(headers);
     user = this.converter.convert(user, USER_SIGN_UP_SERIALIZER);
 
     return this.http.post<User>(url, user, { headers }).pipe(
@@ -77,7 +82,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       ...CONTENT_TYPE_URLENCODED_HEADER,
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-
+    headers = this.appendCaptchaToken(headers);
     const httpParams: HttpParams = new HttpParams()
       .set('guid', guid)
       .set('password', password);
@@ -184,5 +189,23 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       map((titleList) => titleList.titles ?? []),
       this.converter.pipeableMany(TITLE_NORMALIZER)
     );
+  }
+
+  protected appendCaptchaToken(currentHeaders: HttpHeaders): HttpHeaders {
+    if (this.injector && this.captchaConfig?.captchaRenderer) {
+      const provider = this.injector.get<CaptchaRenderer>(
+        this.captchaConfig.captchaRenderer
+      );
+      const isCaptchaEnabled = provider
+        .getCaptchaConfig()
+        .subscribe((config) => {
+          return config.enabled;
+        });
+
+      if (provider?.getToken() && isCaptchaEnabled) {
+        return currentHeaders.append(USE_CAPTCHA_TOKEN, provider.getToken());
+      }
+    }
+    return currentHeaders;
   }
 }

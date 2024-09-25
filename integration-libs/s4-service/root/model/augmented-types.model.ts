@@ -5,9 +5,14 @@
  */
 
 import '@spartacus/checkout/base/root';
-import { OccEndpoint } from '@spartacus/core';
+import { Config, OccEndpoint } from '@spartacus/core';
 import '@spartacus/order/root';
-import { ServiceDateTime } from './checkout-service-details.model';
+import {
+  serviceCancellable,
+  ServiceDateTime,
+} from './checkout-service-details.model';
+import { Injectable } from '@angular/core';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 
 export abstract class ServiceOrderConfiguration {
   serviceOrderConfiguration?: {
@@ -26,6 +31,8 @@ export interface CheckoutServiceOrderOccEndpoints {
 declare module '@spartacus/order/root' {
   interface Order {
     servicedAt?: ServiceDateTime;
+    serviceCancellable?: serviceCancellable;
+    serviceReschedulable?: boolean;
   }
 }
 
@@ -44,4 +51,16 @@ declare module '@spartacus/core' {
   interface Product {
     productTypes?: string;
   }
+}
+
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
+export abstract class S4ServiceDeliveryModeConfig {
+  s4ServiceDeliveryMode?: DeliveryMode;
+}
+
+declare module '@spartacus/core' {
+  export interface Config extends S4ServiceDeliveryModeConfig {}
 }

@@ -46,7 +46,7 @@ describe('add-ssr', () => {
     features: [],
   };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',

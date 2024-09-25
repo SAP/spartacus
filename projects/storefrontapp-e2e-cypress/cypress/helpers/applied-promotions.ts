@@ -65,7 +65,7 @@ export function selectShippingAddress() {
 }
 
 export function selectDeliveryMethod() {
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Options');
   cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('button.btn-primary').click();
 }

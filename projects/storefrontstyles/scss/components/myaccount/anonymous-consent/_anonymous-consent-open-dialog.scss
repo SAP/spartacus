@@ -23,4 +23,10 @@
       color: var(--cx-color-inverse);
     }
   }
+
+  @include cx-highContrastTheme-light {
+    .btn-link {
+      color: var(--cx-color-primary);
+    }
+  }
 }

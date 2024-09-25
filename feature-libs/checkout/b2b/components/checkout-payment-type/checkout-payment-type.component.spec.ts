@@ -11,6 +11,7 @@ import {
   I18nTestingModule,
   QueryState,
 } from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
@@ -87,7 +88,11 @@ describe('CheckoutOnePaymentTypeComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [CheckoutPaymentTypeComponent, MockSpinnerComponent],
+      declarations: [
+        CheckoutPaymentTypeComponent,
+        MockSpinnerComponent,
+        MockFeatureDirective,
+      ],
       providers: [
         {
           provide: CheckoutPaymentTypeFacade,

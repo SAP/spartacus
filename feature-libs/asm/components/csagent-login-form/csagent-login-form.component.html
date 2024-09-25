@@ -18,7 +18,7 @@
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
       [translationParams]="{
-        label: 'asm.loginForm.userId.label' | cxTranslate
+        label: 'asm.loginForm.userId.label' | cxTranslate,
       }"
       [control]="csAgentLoginForm.get('userId')"
     ></cx-form-errors>
@@ -45,7 +45,7 @@
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
       [translationParams]="{
-        label: 'asm.loginForm.password.label' | cxTranslate
+        label: 'asm.loginForm.password.label' | cxTranslate,
       }"
       [control]="csAgentLoginForm.get('password')"
     ></cx-form-errors>

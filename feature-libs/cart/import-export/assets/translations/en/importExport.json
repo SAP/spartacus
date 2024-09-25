@@ -19,6 +19,7 @@
     "importProductsNewSavedCartSubtitle": "Add products by importing a .CSV file and creating a new saved cart.",
     "importProductFileDetails": "Text file should contain list of products with required columns separated by comma: SKU and quantity.",
     "selectFile": "Select File",
+    "selectedSuccessfully": "CSV file has been successfully selected.",
     "savedCartName": "Saved Cart Name",
     "savedCartDescription": "Saved Cart Description",
     "optional": "optional",

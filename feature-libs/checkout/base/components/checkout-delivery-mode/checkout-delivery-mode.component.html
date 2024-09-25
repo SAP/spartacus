@@ -1,7 +1,15 @@
 <fieldset *cxFeature="'a11yDeliveryModeRadiogroup'" role="radiogroup">
-  <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
-    {{ 'checkoutMode.deliveryMethod' | cxTranslate }}
-  </legend>
+  <ng-container *cxFeature="'!showDeliveryOptionsTranslation'">
+    <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
+      {{ 'checkoutMode.deliveryMethod' | cxTranslate }}
+    </legend>
+  </ng-container>
+
+  <ng-container *cxFeature="'showDeliveryOptionsTranslation'">
+    <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
+      {{ 'checkoutMode.deliveryOptions' | cxTranslate }}
+    </legend>
+  </ng-container>
 
   <ng-container
     *ngIf="
@@ -10,7 +18,11 @@
       else loading
     "
   >
-    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <div
+      *cxFeature="'!a11yRemoveStatusLoadedRole'"
+      role="status"
+      [attr.aria-label]="'common.loaded' | cxTranslate"
+    ></div>
     <div [formGroup]="mode" class="cx-delivery-mode-wrapper">
       <div class="form-check" *ngFor="let mode of supportedDeliveryModes">
         <input
@@ -50,7 +62,7 @@
       <ng-template
         [cxOutlet]="CartOutlets.DELIVERY_MODE"
         [cxOutletContext]="{
-          item: activeCartFacade.getActive() | async
+          item: activeCartFacade.getActive() | async,
         }"
       >
       </ng-template>
@@ -70,7 +82,11 @@
       else loading
     "
   >
-    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <div
+      *cxFeature="'!a11yRemoveStatusLoadedRole'"
+      role="status"
+      [attr.aria-label]="'common.loaded' | cxTranslate"
+    ></div>
     <div [formGroup]="mode" class="cx-delivery-mode-wrapper">
       <div role="radiogroup">
         <div class="form-check" *ngFor="let mode of supportedDeliveryModes">
@@ -105,7 +121,7 @@
       <ng-template
         [cxOutlet]="CartOutlets.DELIVERY_MODE"
         [cxOutletContext]="{
-          item: activeCartFacade.getActive() | async
+          item: activeCartFacade.getActive() | async,
         }"
       >
       </ng-template>
@@ -122,7 +138,7 @@
     [cxOutlet]="CartOutlets.CART_ITEM_LIST"
     [cxOutletContext]="{
       items: activeCartFacade.getDeliveryEntries() | async,
-      readonly: true
+      readonly: true,
     }"
   >
   </ng-template>

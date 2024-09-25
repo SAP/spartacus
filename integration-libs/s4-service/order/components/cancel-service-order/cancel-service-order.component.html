@@ -1,0 +1,45 @@
+<form [formGroup]="form" (ngSubmit)="cancelServiceOrder()">
+  <div class="form-group">
+    <label for="reasonTextarea"
+      >{{ 'cancelService.cancelReason' | cxTranslate }}
+      <span class="optional">{{
+        'cancelService.optional' | cxTranslate
+      }}</span></label
+    >
+    <textarea
+      id="reasonTextarea"
+      class="form-control"
+      formControlName="cancelReason"
+      rows="5"
+      (input)="updateCharacterLeft()"
+    ></textarea>
+    <div class="characters-left">
+      <span>{{
+        'cancelService.charactersLeft' | cxTranslate: { count: characterLeft }
+      }}</span>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-xs-12 col-md-6 col-lg-6">
+      <button
+        type="button"
+        class="btn btn-secondary btn-block back-button"
+        *ngIf="order$ | async as order"
+        [routerLink]="
+          {
+            cxRoute: 'orderDetails',
+            params: order,
+          } | cxUrl
+        "
+      >
+        {{ 'common.back' | cxTranslate }}
+      </button>
+    </div>
+    <div class="col-xs-12 col-md-6 col-lg-6">
+      <button type="submit" class="btn btn-primary btn-block">
+        {{ 'cancelService.SubmitRequest' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</form>

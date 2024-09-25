@@ -4,12 +4,35 @@
     (esc)="close('Escape clicked')"
     class="cx-saved-cart-form-dialog"
     role="dialog"
+    aria-labelledby="dialogTitle"
   >
     <form [formGroup]="form" class="cx-saved-cart-form-container">
       <!-- Modal Header -->
       <div class="modal-header cx-saved-cart-form-header">
         <ng-container [ngSwitch]="layoutOption">
-          <div class="cx-saved-cart-form-title modal-title">
+          <h3
+            *cxFeature="'a11yDialogsHeading'"
+            id="dialogTitle"
+            class="cx-saved-cart-form-title modal-title"
+          >
+            <ng-container *ngSwitchCase="savedCartFormType.EDIT">
+              {{ 'savedCartDialog.editSavedCart' | cxTranslate }}
+            </ng-container>
+            <ng-container *ngSwitchCase="savedCartFormType.DELETE">
+              {{ 'savedCartDialog.deleteSavedCart' | cxTranslate }}
+            </ng-container>
+            <ng-container *ngSwitchCase="savedCartFormType.SAVE">
+              {{ 'savedCartDialog.saveForLater' | cxTranslate }}
+            </ng-container>
+            <ng-container *ngSwitchCase="savedCartFormType.RESTORE">
+              {{ 'savedCartDialog.restoreSavedCart' | cxTranslate }}
+            </ng-container>
+          </h3>
+          <div
+            *cxFeature="'!a11yDialogsHeading'"
+            id="dialogTitle"
+            class="cx-saved-cart-form-title modal-title"
+          >
             <ng-container *ngSwitchCase="savedCartFormType.EDIT">
               {{ 'savedCartDialog.editSavedCart' | cxTranslate }}
             </ng-container>
@@ -30,6 +53,8 @@
           [disabled]="isLoading$ | async"
           class="cx-saved-cart-form-close close"
           type="button"
+          title="{{ 'common.close' | cxTranslate }}"
+          [attr.aria-label]="'common.close' | cxTranslate"
         >
           <span aria-hidden="true">
             <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
@@ -186,14 +211,23 @@
             <p class="cx-saved-cart-form-subtitle">
               {{ 'savedCartDialog.itemsSavedForLater' | cxTranslate }}
             </p>
+            <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
+              {{ 'formLegend.required' | cxTranslate }}
+            </p>
           </ng-container>
 
           <div class="cx-saved-cart-form-row">
             <ng-container>
               <label>
-                <span class="cx-saved-carts-label label-content">{{
-                  'savedCartDialog.savedCartName' | cxTranslate
-                }}</span>
+                <span class="cx-saved-carts-label label-content"
+                  >{{ 'savedCartDialog.savedCartName' | cxTranslate }}
+                  <abbr
+                    *cxFeature="'a11yRequiredAsterisks'"
+                    class="text-decoration-none"
+                    title="{{ 'common.required' | cxTranslate }}"
+                    >*</abbr
+                  ></span
+                >
                 <input
                   required="true"
                   [maxLength]="nameMaxLength"
@@ -207,7 +241,7 @@
                 <cx-form-errors
                   *cxFeature="'formErrorsDescriptiveMessages'"
                   [translationParams]="{
-                    label: 'savedCartDialog.savedCartName' | cxTranslate
+                    label: 'savedCartDialog.savedCartName' | cxTranslate,
                   }"
                   [control]="form.get('name')"
                 ></cx-form-errors>
@@ -239,7 +273,7 @@
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
                 [translationParams]="{
-                  label: 'savedCartDialog.savedCartDescription' | cxTranslate
+                  label: 'savedCartDialog.savedCartDescription' | cxTranslate,
                 }"
                 [control]="form.get('description')"
               ></cx-form-errors>

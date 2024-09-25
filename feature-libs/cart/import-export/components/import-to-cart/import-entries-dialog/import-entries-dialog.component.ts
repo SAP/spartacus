@@ -53,7 +53,7 @@ export class ImportEntriesDialogComponent {
     );
 
   constructor(protected launchDialogService: LaunchDialogService) {
-    useFeatureStyles('a11yVisibleFocusOverflows');
+    useFeatureStyles('a11yExpandedFocusIndicator');
   }
 
   isNewCartForm(context: AddOrderEntriesContext) {

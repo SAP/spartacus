@@ -5,6 +5,7 @@
   (esc)="dismissModal('Escape clicked')"
   role="dialog"
   aria-modal="true"
+  aria-labelledby="dialogTitle"
 >
   <div
     class="cx-modal-content"
@@ -12,7 +13,21 @@
   >
     <!-- Modal Header -->
     <div class="cx-dialog-header modal-header">
-      <div class="cx-dialog-title modal-title">
+      <h3
+        *cxFeature="'a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+      >
+        {{
+          confirmationContext.title
+            | cxTranslate: { code: confirmationContext.quote.code }
+        }}
+      </h3>
+      <div
+        *cxFeature="'!a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+      >
         {{
           confirmationContext.title
             | cxTranslate: { code: confirmationContext.quote.code }
@@ -21,6 +36,7 @@
       <button
         type="button"
         class="close"
+        title="{{ confirmationContext.a11y.close | cxTranslate }}"
         [attr.aria-label]="confirmationContext.a11y.close | cxTranslate"
         (click)="dismissModal('Cross click')"
       >
@@ -68,7 +84,7 @@
               | cxTranslate
                 : {
                     expirationTime:
-                      confirmationContext.quote.expirationTime | cxDate
+                      confirmationContext.quote.expirationTime | cxDate,
                   }
           }}
         </p>

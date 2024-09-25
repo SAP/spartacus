@@ -3,7 +3,10 @@
   <div
     role="search"
     [attr.aria-label]="'asm.bindCart.assignCartId' | cxTranslate"
-    class="cx-asm-assignCart"
+    [ngClass]="{
+      'cx-asm-assignCart': !isShowStyleChangesInASM,
+      'cx-asm-assignCart-input-show-no-button': isShowStyleChangesInASM,
+    }"
     [class.active]="valid$ | async"
     (click)="cartIdElement.focus()"
   >
@@ -16,6 +19,7 @@
       [attr.aria-label]="'asm.bindCart.enterCartId' | cxTranslate"
     />
     <button
+      *ngIf="!isShowStyleChangesInASM"
       class="cx-asm-reset"
       [attr.aria-label]="'asm.bindCart.resetCartId' | cxTranslate"
       [class.visible]="cartId.value?.length > 0"

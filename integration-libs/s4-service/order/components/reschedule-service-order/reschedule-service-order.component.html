@@ -1,0 +1,97 @@
+<form [formGroup]="form" (submit)="rescheduleServiceOrder()">
+  <div class="cx-reschedule-service-form-fields">
+    <div class="cx-section-header d-none d-lg-block d-xl-block">
+      <h2>{{ 'rescheduleService.headerLabel' | cxTranslate }}</h2>
+    </div>
+
+    <div class="cx-section-content">
+      <p>{{ 'rescheduleService.contentLabel' | cxTranslate }}</p>
+      <div class="row">
+        <label
+          class="col-md-6"
+          [attr.aria-label]="'rescheduleService.datePickerLabel' | cxTranslate"
+        >
+          <span class="label-content">
+            {{ 'rescheduleService.datePickerLabel' | cxTranslate }}
+          </span>
+          <cx-date-picker
+            [control]="$any(form.get('scheduleDate'))"
+            [min]="(minServiceDate$ | async) ?? undefined"
+            label="rescheduleService.datePickerLabel"
+          />
+        </label>
+
+        <label
+          class="col-md-6"
+          [attr.aria-label]="'rescheduleService.timePickerLabel' | cxTranslate"
+        >
+          <span class="label-content">
+            {{ 'rescheduleService.timePickerLabel' | cxTranslate }}
+          </span>
+          <select
+            *ngIf="scheduleTimes$ | async as scheduleTimes"
+            class="form-control"
+            formControlName="scheduleTime"
+            (change)="setScheduleTime($event)"
+          >
+            <option
+              *ngFor="let time of scheduleTimes"
+              [value]="time"
+              [selected]="form.get('scheduleTime')?.value === time"
+            >
+              {{ time }}
+            </option>
+          </select>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="cx-reschedule-service-details">
+    <ng-template
+      *ngIf="order$ | async as order"
+      [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+      [cxOutletContext]="{
+        items: order.entries,
+        readonly: true,
+      }"
+    >
+    </ng-template>
+  </div>
+
+  <div class="cx-reschedule-service-actions">
+    <div class="row">
+      <div class="col-sm-12 col-xl-6">
+        <button
+          type="button"
+          class="btn btn-secondary btn-block"
+          *ngIf="order$ | async as order"
+          [routerLink]="
+            {
+              cxRoute: 'orderDetails',
+              params: order,
+            } | cxUrl
+          "
+          [attr.aria-label]="'rescheduleService.backButtonLabel' | cxTranslate"
+        >
+          {{ 'rescheduleService.backButtonLabel' | cxTranslate }}
+        </button>
+      </div>
+      <div class="col-sm-12 col-xl-6">
+        <button
+          type="submit"
+          class="btn btn-primary btn-block"
+          [disabled]="!(form.valid && form.dirty)"
+          [attr.aria-label]="
+            'rescheduleService.submitButtonLabel' | cxTranslate
+          "
+        >
+          {{ 'rescheduleService.submitButtonLabel' | cxTranslate }}
+        </button>
+      </div>
+      <div class="col-12">
+        <p class="text-center">{{ 'rescheduleService.note' | cxTranslate }}</p>
+      </div>
+    </div>
+  </div>
+</form>

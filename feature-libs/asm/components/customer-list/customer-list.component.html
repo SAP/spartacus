@@ -34,7 +34,7 @@
             *ngTemplateOutlet="
               total;
               context: {
-                customerSearchPage: customerSearchPage$ | async
+                customerSearchPage: customerSearchPage$ | async,
               }
             "
           >
@@ -141,7 +141,7 @@
                             context: {
                               customerEntry: customerEntry,
                               column: column,
-                              showHeader: false
+                              showHeader: false,
                             }
                           "
                         ></ng-template>
@@ -165,7 +165,7 @@
                                 context: {
                                   customerEntry: customerEntry,
                                   column: column,
-                                  showHeader: true
+                                  showHeader: true,
                                 }
                               "
                             ></ng-template>
@@ -186,7 +186,7 @@
                                 context: {
                                   customerEntry: customerEntry,
                                   column: column,
-                                  showHeader: true
+                                  showHeader: true,
                                 }
                               "
                             ></ng-template>
@@ -209,7 +209,7 @@
                             context: {
                               customerEntry: customerEntry,
                               column: column,
-                              showHeader: true
+                              showHeader: true,
                             }
                           "
                         ></ng-template>
@@ -407,7 +407,7 @@
       placeholder="{{ 'asm.customerList.tableSort.sortBy' | cxTranslate }}"
       [cxNgSelectA11y]="{
         ariaLabel: sortCode,
-        ariaControls: 'asm-cusomer-list-table'
+        ariaControls: 'asm-cusomer-list-table',
       }"
     ></cx-sorting>
   </label>
@@ -458,7 +458,7 @@
       bindValue="uid"
       [cxNgSelectA11y]="{
         ariaLabel: getGroupName(customerListsPage, selectedUserGroupId),
-        ariaControls: 'asm-cusomer-list-table'
+        ariaControls: 'asm-cusomer-list-table',
       }"
     >
     </ng-select>
@@ -471,6 +471,7 @@
     class="close"
     attr.aria-label="{{ 'common.close' | cxTranslate }}"
     (click)="closeModal('Cross click')"
+    title="{{ 'common.close' | cxTranslate }}"
   >
     <span aria-hidden="true">
       <cx-icon [type]="iconTypes.CLOSE"></cx-icon>

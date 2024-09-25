@@ -1,0 +1,53 @@
+<ng-container *ngIf="product$ | async as product">
+  <div class="variant-generic-selector">
+    <ng-container *ngFor="let category of categories">
+      <label>
+        <span>
+          {{ getCategoryName(category) }}
+        </span>
+
+        <div
+          *ngIf="category.hasImages; else noImages"
+          role="list"
+          [attr.aria-label]="category.name"
+          class="image-variant-container"
+        >
+          <div *ngFor="let option of category.variantOptions" role="listitem">
+            <button
+              type="button"
+              class="image-variant"
+              [ngClass]="{ active: option?.code === product.code }"
+              [attr.aria-label]="onAriaLabel(option, category.name) | async"
+              (click)="changeVariant(option.code)"
+              [cxFocus]="{ key: option.code }"
+            >
+              <cx-media [container]="option.image" role="img" />
+            </button>
+          </div>
+        </div>
+      </label>
+
+      <ng-template #noImages>
+        <div class="select-variant-container">
+          <ng-select
+            [clearable]="false"
+            [searchable]="false"
+            [items]="category.variantOptions"
+            [(ngModel)]="selectedProductCode"
+            (change)="changeVariant($event.code)"
+            [cxNgSelectA11y]="{
+              ariaLabel:
+                ('multiDimensionalSelector.variantThumbnailTitle'
+                | cxTranslate
+                  : {
+                      category: category.name,
+                    }),
+            }"
+            bindValue="code"
+            bindLabel="value"
+          />
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+</ng-container>

@@ -5,6 +5,7 @@
  */
 
 import {
+  ErrorAction,
   ListModel,
   OrderApprovalPermissionType,
   SearchConfig,
@@ -45,13 +46,18 @@ export const LOAD_PERMISSION_TYPES_SUCCESS =
 
 export class LoadPermission extends StateUtils.EntityLoadAction {
   readonly type = LOAD_PERMISSION;
+
   constructor(public payload: { userId: string; permissionCode: string }) {
     super(PERMISSION_ENTITIES, payload.permissionCode);
   }
 }
 
-export class LoadPermissionFail extends StateUtils.EntityFailAction {
+export class LoadPermissionFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_PERMISSION_FAIL;
+
   constructor(public payload: { permissionCode: string; error: any }) {
     super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
   }
@@ -59,18 +65,20 @@ export class LoadPermissionFail extends StateUtils.EntityFailAction {
 
 export class LoadPermissionSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_PERMISSION_SUCCESS;
+
   constructor(public payload: Permission | Permission[]) {
     super(
       PERMISSION_ENTITIES,
       Array.isArray(payload)
         ? payload.map((permission) => permission?.code ?? '')
-        : payload?.code ?? ''
+        : (payload?.code ?? '')
     );
   }
 }
 
 export class LoadPermissions extends StateUtils.EntityLoadAction {
   readonly type = LOAD_PERMISSIONS;
+
   constructor(
     public payload: {
       userId: string;
@@ -81,8 +89,12 @@ export class LoadPermissions extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadPermissionsFail extends StateUtils.EntityFailAction {
+export class LoadPermissionsFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_PERMISSIONS_FAIL;
+
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       PERMISSION_LIST,
@@ -94,6 +106,7 @@ export class LoadPermissionsFail extends StateUtils.EntityFailAction {
 
 export class LoadPermissionsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_PERMISSIONS_SUCCESS;
+
   constructor(
     public payload: {
       page: ListModel;
@@ -106,13 +119,18 @@ export class LoadPermissionsSuccess extends StateUtils.EntitySuccessAction {
 
 export class CreatePermission extends StateUtils.EntityLoadAction {
   readonly type = CREATE_PERMISSION;
+
   constructor(public payload: { userId: string; permission: Permission }) {
     super(PERMISSION_ENTITIES, payload.permission.code ?? null);
   }
 }
 
-export class CreatePermissionFail extends StateUtils.EntityFailAction {
+export class CreatePermissionFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = CREATE_PERMISSION_FAIL;
+
   constructor(public payload: { permissionCode: string; error: any }) {
     super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
   }
@@ -120,6 +138,7 @@ export class CreatePermissionFail extends StateUtils.EntityFailAction {
 
 export class CreatePermissionSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_PERMISSION_SUCCESS;
+
   constructor(public payload: Permission) {
     super(PERMISSION_ENTITIES, payload.code ?? null, payload);
   }
@@ -127,6 +146,7 @@ export class CreatePermissionSuccess extends StateUtils.EntitySuccessAction {
 
 export class UpdatePermission extends StateUtils.EntityLoadAction {
   readonly type = UPDATE_PERMISSION;
+
   constructor(
     public payload: {
       userId: string;
@@ -138,8 +158,12 @@ export class UpdatePermission extends StateUtils.EntityLoadAction {
   }
 }
 
-export class UpdatePermissionFail extends StateUtils.EntityFailAction {
+export class UpdatePermissionFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = UPDATE_PERMISSION_FAIL;
+
   constructor(public payload: { permissionCode: string; error: any }) {
     super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
   }
@@ -147,6 +171,7 @@ export class UpdatePermissionFail extends StateUtils.EntityFailAction {
 
 export class UpdatePermissionSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_PERMISSION_SUCCESS;
+
   constructor(public payload: Permission) {
     super(PERMISSION_ENTITIES, payload.code ?? '', payload);
   }
@@ -154,13 +179,18 @@ export class UpdatePermissionSuccess extends StateUtils.EntitySuccessAction {
 
 export class LoadPermissionTypes extends StateUtils.EntityLoadAction {
   readonly type = LOAD_PERMISSION_TYPES;
+
   constructor() {
     super(PERMISSION_TYPES_LIST, PERMISSION_TYPES);
   }
 }
 
-export class LoadPermissionTypesFail extends StateUtils.EntityFailAction {
+export class LoadPermissionTypesFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_PERMISSION_TYPES_FAIL;
+
   constructor(public payload: any) {
     super(PERMISSION_TYPES_LIST, PERMISSION_TYPES, payload.error);
   }
@@ -168,6 +198,7 @@ export class LoadPermissionTypesFail extends StateUtils.EntityFailAction {
 
 export class LoadPermissionTypesSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_PERMISSION_TYPES_SUCCESS;
+
   constructor(public payload: OrderApprovalPermissionType[]) {
     super(PERMISSION_TYPES_LIST, PERMISSION_TYPES);
   }

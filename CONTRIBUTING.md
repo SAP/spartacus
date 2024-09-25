@@ -170,6 +170,10 @@ Submit the form to us through one of the following methods:
 
   The "guidelines and standards" requirement could fill entire books and still lack a 100% clear definition, but rest assured that you will receive feedback if something is not right. That being said, please consult the [Contributor's Guide](https://sap.github.io/spartacus-docs/contributors-guide/).
 
+### Contribution of generated AI content
+
+To contribute generated AI content, please read the following [guide](https://github.com/SAP/.github/blob/main/CONTRIBUTING_USING_GENAI.md)
+
 ### Contribution Process
 
   1. Make sure the change would be welcome, as described above.

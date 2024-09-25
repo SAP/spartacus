@@ -41,7 +41,7 @@
           role="columnheader"
           [cxOutlet]="CartOutlets.CPQ_QUOTE"
           [cxOutletContext]="{
-            items: item
+            items: item,
           }"
         ></ng-template>
       </div>
@@ -95,7 +95,7 @@
     role="cell"
     [cxOutlet]="CartOutlets.CPQ_QUOTE_MODULE"
     [cxOutletContext]="{
-      items: item
+      items: item,
     }"
   ></ng-template>
 
@@ -154,8 +154,8 @@
             $implicit: {
               loading: quantityControl.disabled,
               item: this.item,
-              options: this.options
-            }
+              options: this.options,
+            },
           }
         "
       ></ng-container>
