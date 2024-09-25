@@ -60,3 +60,8 @@ export interface CtaScript {
   paymentAccountId: number;
   dynamicScript: OpfDynamicScript;
 }
+
+export enum CtaEvent {
+  OPF_CART_CHANGED = 'opfCartChanged',
+  OPF_PRODUCT_AMOUNT_CHANGED = 'opfProductAmountChanged',
+}

@@ -23,25 +23,16 @@ import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service
 export class OpfCtaElementComponent implements AfterViewInit {
   protected sanitizer = inject(DomSanitizer);
   protected opfCtaScriptsService = inject(OpfCtaScriptsService);
-  htmlString: string;
-  _ctaScriptHtml: OpfDynamicScript;
+  loader = true;
 
-  get ctaScriptHtml(): OpfDynamicScript {
-    return this._ctaScriptHtml;
-  }
-
-  @Input() set ctaScriptHtml(value: OpfDynamicScript) {
-    this._ctaScriptHtml = value;
-
-    this.htmlString = value.html ?? '';
-    // ? this.opfCtaScriptsService.removeScriptTags(value.html)
-    // : '';
-  }
+  @Input() ctaScriptHtml: OpfDynamicScript;
 
   ngAfterViewInit(): void {
-    this.opfCtaScriptsService.loadAndRunScript(this.ctaScriptHtml);
+    this.opfCtaScriptsService.loadAndRunScript(this.ctaScriptHtml).then(() => {
+      this.loader = false;
+    });
   }
-  renderHtml(html: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(html);
+  renderHtml(html?: string): SafeHtml {
+    return html ? this.sanitizer.bypassSecurityTrustHtml(html) : '';
   }
 }

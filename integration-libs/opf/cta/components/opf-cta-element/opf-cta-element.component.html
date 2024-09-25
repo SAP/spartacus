@@ -1,1 +1,9 @@
-<div *ngIf="ctaScriptHtml" [innerHTML]="renderHtml(htmlString)"></div>
+<div
+  *ngIf="ctaScriptHtml && loader; else loading"
+  [innerHTML]="renderHtml(ctaScriptHtml.html)"
+></div>
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

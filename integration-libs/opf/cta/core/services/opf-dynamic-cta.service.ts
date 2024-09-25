@@ -20,6 +20,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import {
+  CtaEvent,
   CtaProductItem,
   CtaScriptsLocation,
   CtaScriptsRequest,
@@ -186,11 +187,11 @@ export class OpfDynamicCtaService {
           return { total: cart.totalPrice?.value };
         }),
         tap((cartTotalPrice) => {
-          const window = this.winRef.nativeWindow as any;
+          const window = this.winRef.nativeWindow;
           const dispatchEvent = window?.dispatchEvent;
           if (dispatchEvent) {
             dispatchEvent(
-              new CustomEvent('cartChanged', {
+              new CustomEvent(CtaEvent.OPF_CART_CHANGED, {
                 detail: { cart: cartTotalPrice, scriptIdentifiers },
               })
             );
@@ -223,7 +224,7 @@ export class OpfDynamicCtaService {
           const dispatchEvent = window?.dispatchEvent;
           if (dispatchEvent) {
             dispatchEvent(
-              new CustomEvent('productTotalAmountChanged', {
+              new CustomEvent(CtaEvent.OPF_PRODUCT_AMOUNT_CHANGED, {
                 detail: { productInfo, scriptIdentifiers },
               })
             );
