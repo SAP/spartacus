@@ -30,7 +30,7 @@ export class OpfCtaElementComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.opfCtaScriptsService.loadAndRunScript(this.ctaScriptHtml);
   }
-  renderHtml(html?: string): SafeHtml {
-    return html ? this.sanitizer.bypassSecurityTrustHtml(html) : '';
+  renderHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 }
