@@ -361,7 +361,6 @@ describe('SearchBoxComponent', () => {
       expect(result).toBe(0);
     });
 
-
     describe('UI tests', () => {
       it('should contain an input text field', () => {
         expect(fixture.debugElement.query(By.css('input'))).not.toBeNull();
