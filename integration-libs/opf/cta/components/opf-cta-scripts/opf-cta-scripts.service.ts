@@ -98,74 +98,15 @@ export class OpfCtaScriptsService {
   protected fetchCtaScripts(
     ctaScriptsRequest: CtaScriptsRequest
   ): Observable<OpfDynamicScript[]> {
-    // return of();
-    const test: OpfDynamicScript = {
-      jsUrls: [
-        { url: 'https://eu-library.playground.klarnaservices.com/lib.js' },
-      ],
-      html: `<div style="border-radius: 10px;background:pink;color: black; font-size: 20px;border-style: solid; padding:10px;margin:10px;text-align:center"><klarna-placement
-      id='klarna-onsite-message-${this.opfDynamicCtaService.scriptIdentifiers.length}'
-      data-key="credit-promotion-badge"
-     >
-      </klarna-placement></div>
-      <script>
-      (function(){
-        console.log('klarna: klarna onsite messaging test');
-          var scriptIdentifier = '${this.opfDynamicCtaService.scriptIdentifiers.length}';
-               var totalAmount = 0;
-        var messageInstance = window.document.getElementById('klarna-onsite-message-'+scriptIdentifier);
-       console.log('klarna messageInstance',messageInstance);
-        function refreshMessageContent() {
-         console.log('Onsite: refreshMessageContent with',totalAmount * 100);
-            if (messageInstance) {
-             messageInstance.setAttribute('data-purchase-amount', totalAmount * 100);
-                // messageInstance.innerText('data-purchase-amount', totalAmount * 100);
-                messageInstance.innerText = 'Klarna CTA #' + scriptIdentifier + ' - total: '+totalAmount +'USD';
-                window.KlarnaOnsiteService = window.KlarnaOnsiteService || [];
-                window.KlarnaOnsiteService.push({ eventName: 'refresh-placements' });
-            }
-        }
-        function handleProductTotalAmountChanged(event) {
-        console.log("klarna handleProductTotalAmountChanged",event.detail.productInfo);
-            if (event && event.detail && event.detail.productInfo && event.detail.productInfo.length > 0
-                && event.detail.scriptIdentifiers && event.detail.scriptIdentifiers.includes(scriptIdentifier)) {
-               
-                totalAmount = event.detail.productInfo
-                    .map(product => product.price.sellingPrice * product.quantity)
-                    .reduce((accumulator, currentValue) => accumulator + currentValue);
-                refreshMessageContent();
-            }
-        }
-        function handleCartChanged(event) {
-         console.log('Onsite: handleCartChanged1');
-            if (event && event.detail && event.detail.cart) {
-              console.log('Onsite: handleCartChanged2',event.detail.cart);
-                totalAmount = event.detail.cart.total || event.detail.cart.subTotal || event.detail.cart.sellingSubTotal;
-                refreshMessageContent();
-            }
-        }
-        if (typeof window.addEventListener != 'undefined') {
-            window.addEventListener('productTotalAmountChanged',handleProductTotalAmountChanged,false);
-            window.addEventListener('cartChanged',handleCartChanged,false);
-        } else {
-            window.attachEvent('productTotalAmountChanged',handleProductTotalAmountChanged);
-            window.attachEvent('cartChanged',handleCartChanged);
-        }
-        //Upscale.payments.global.scriptReady(scriptIdentifier);
-        window.Opf.payments.global.scriptReady(scriptIdentifier);
-          })();
-      </script>`,
-    };
-
     return this.opfCtaFacade.getCtaScripts(ctaScriptsRequest).pipe(
       concatMap((ctaScriptsResponse: CtaScriptsResponse) => {
         if (!ctaScriptsResponse?.value?.length) {
           return throwError(() => 'Invalid CTA Scripts Response');
         }
-        // const dynamicScripts = ctaScriptsResponse.value.map(
-        //   (ctaScript) => ctaScript.dynamicScript
-        // );
-        return of([test]);
+        const dynamicScripts = ctaScriptsResponse.value.map(
+          (ctaScript) => ctaScript.dynamicScript
+        );
+        return of(dynamicScripts);
       }),
       take(1)
     );
