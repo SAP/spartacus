@@ -8,8 +8,9 @@ import {
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { ItemCounterComponent } from './item-counter.component';
+import { MockKeyboardFocusDirective } from '@spartacus/storefront';
 import { MockFeatureDirective } from '../../test/mock-feature-directive';
+import { ItemCounterComponent } from './item-counter.component';
 
 const form = new UntypedFormGroup({
   quantity: new UntypedFormControl('1'),
@@ -22,7 +23,11 @@ describe('ItemCounterComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
-      declarations: [ItemCounterComponent, MockFeatureDirective],
+      declarations: [
+        ItemCounterComponent,
+        MockFeatureDirective,
+        MockKeyboardFocusDirective,
+      ],
     }).compileComponents();
   }));
 
@@ -213,7 +218,7 @@ describe('ItemCounterComponent', () => {
         By.css('button')
       );
       expect(
-        (<HTMLButtonElement>button[0].nativeElement).disabled
+        (<HTMLButtonElement>button[0].nativeElement).ariaDisabled
       ).toBeTruthy();
     });
   });
