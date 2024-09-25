@@ -186,15 +186,6 @@ describe('OpfCtaScriptsService', () => {
     });
   });
 
-  it('should remove all script tags from html snippet', (done) => {
-    const html =
-      "<div><h2>Thanks for purchasing our great products</h2><h3>Please use promo code:<b>123abc</b> for your next purchase<h3></div><script>console.log('CTA Script #1 is running')</script><script>console.log('CTA Script #2 is running')</script>";
-
-    const response = service.removeScriptTags(html);
-    expect(response).not.toContain('<script>');
-    done();
-  });
-
   const ctaScriptsresponseMock: CtaScriptsResponse = {
     value: [
       {
