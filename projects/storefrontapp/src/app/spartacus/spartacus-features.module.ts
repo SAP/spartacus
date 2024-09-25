@@ -371,6 +371,8 @@ if (environment.cpq) {
         a11ySearchBoxFocusOnEscape: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,
+        enableConsecutiveCharactersPasswordRequirement: true,
+        enablePasswordsCannotMatchInPasswordUpdateForm: true,
       };
       return appFeatureToggles;
     }),

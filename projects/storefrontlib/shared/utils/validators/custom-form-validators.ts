@@ -11,12 +11,14 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 import {
+  CONSECUTIVE_CHARACTERS,
   EMAIL_PATTERN,
   MIN_ONE_DIGIT_PATTERN,
   MIN_ONE_SPECIAL_CHARACTER_PATTERN,
   MIN_ONE_UPPER_CASE_CHARACTER_PATTERN,
   MIN_SIX_CHARACTERS_PATTERN,
   PASSWORD_PATTERN,
+  STRONG_PASSWORD_PATTERN,
 } from '@spartacus/core';
 
 export class CustomFormValidators {
@@ -54,6 +56,29 @@ export class CustomFormValidators {
     const password = control.value as string;
 
     return password && (!password.length || password.match(PASSWORD_PATTERN))
+      ? null
+      : { cxInvalidPassword: true };
+  }
+
+  // TODO: (CXSPA-7567) Remove after removing formErrorsDescriptiveMessages feature toggle
+  /**
+   * Checks control's value with predefined password regexp
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @deprecated Use passwordValidators instead
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses 'cxInvalidPassword' validator error
+   * @memberof CustomFormValidators
+   */
+  static strongPasswordValidator(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const password = control.value as string;
+
+    return password &&
+      (!password.length || password.match(STRONG_PASSWORD_PATTERN))
       ? null
       : { cxInvalidPassword: true };
   }
@@ -140,6 +165,28 @@ export class CustomFormValidators {
       (!password.length || password.match(MIN_SIX_CHARACTERS_PATTERN))
       ? null
       : { cxMinSixCharactersLength: true };
+  }
+
+  /**
+   * Validates that the control's value does not contain consecutive identical characters.
+   *
+   * NOTE: Use this as a control validator.
+   *
+   * @static
+   * @param {AbstractControl} control The form control to validate.
+   * @returns {(ValidationErrors | null)} Returns an error object with the key 'cxNoConsecutiveCharacters'
+   * if the value contains consecutive characters, or null if the validation passes.
+   * @memberof CustomFormValidators
+   */
+  static noConsecutiveCharacters(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const password = control.value as string;
+
+    return password &&
+      (!password.length || password.match(CONSECUTIVE_CHARACTERS))
+      ? { cxNoConsecutiveCharacters: true }
+      : null;
   }
 
   /**
@@ -377,9 +424,9 @@ export function controlsMustMatch(
     return;
   }
 
-  const isTrue = cannotMatch
+  const shouldSetError = cannotMatch
     ? firstControl.value === secondControl.value
     : firstControl.value !== secondControl.value;
 
-  secondControl.setErrors(isTrue ? { [errorName]: true } : null);
+  secondControl.setErrors(shouldSetError ? { [errorName]: true } : null);
 }

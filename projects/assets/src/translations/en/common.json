@@ -180,6 +180,7 @@
       "cxMinOneSpecialCharacter": "Password must contain at least one special character",
       "cxMinSixCharactersLength": "Password must contain at least 6 characters",
       "cxContainsSpecialCharacters": "Password cannot contain special characters",
+      "cxNoConsecutiveCharacters": "Password cannot contain consecutive identical characters",
       "date": {
         "required": "Field {{label}} is required",
         "min": "Field {{label}} cannot be before {{min}}",
