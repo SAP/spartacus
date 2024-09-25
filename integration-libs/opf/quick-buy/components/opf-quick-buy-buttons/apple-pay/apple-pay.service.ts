@@ -26,6 +26,7 @@ import {
   ApplePayTransactionInput,
   OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
   OpfQuickBuyDeliveryType,
+  OpfQuickBuyFacade,
   OpfQuickBuyLocation,
   QuickBuyTransactionDetails,
 } from '@spartacus/opf/quick-buy/root';
@@ -43,6 +44,7 @@ export class ApplePayService {
   protected opfQuickBuyTransactionService = inject(
     OpfQuickBuyTransactionService
   );
+  protected opfQuickBuyFacade = inject(OpfQuickBuyFacade);
   protected paymentInProgress = false;
 
   protected initialTransactionDetails: QuickBuyTransactionDetails = {
@@ -351,9 +353,7 @@ export class ApplePayService {
   private verifyApplePaySession(
     request: ApplePaySessionVerificationRequest
   ): Observable<ApplePaySessionVerificationResponse> {
-    // return this.opfPaymentFacade.getApplePayWebSession(request);
-    console.log(request);
-    return of({} as ApplePaySessionVerificationResponse);
+    return this.opfQuickBuyFacade.getApplePayWebSession(request);
   }
 
   protected recordDeliveryAddress(addrId: string): void {
