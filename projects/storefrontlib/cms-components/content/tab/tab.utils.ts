@@ -19,4 +19,8 @@ export function wrapIntoBounds(index: number, max: number, min = 0): number {
   }
 
   return index;
-}
+if (index < min) {
+    return max;
+  } else if (index > max) {
+    return min;
+  }
