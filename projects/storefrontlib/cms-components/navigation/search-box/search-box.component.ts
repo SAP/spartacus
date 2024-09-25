@@ -181,7 +181,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   );
 
   results$: Observable<SearchResults> = this.config$.pipe(
-    switchMap((config) => this.searchBoxComponentService.getResults(config))
+    switchMap((config) =>
+      this.searchBoxComponentService
+        .getResults(config)
+        .pipe(tap((res) => console.log(res)))
+    )
   );
 
   items$: Observable<any> = this.results$.pipe(
@@ -236,7 +240,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Closes the searchBox and opens the search result page.
    */
   search(query: string): void {
-    this.searchBoxComponentService.search(query, this.config);
+    if (!query.length) {
+      this.searchBoxComponentService.clearResults();
+    } else {
+      this.searchBoxComponentService.search(query, this.config);
+    }
+
     // force the searchBox to open
     this.open();
   }

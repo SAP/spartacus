@@ -19,6 +19,23 @@
   // when there are results and the searchbox is active
   // we display the searchbox
   &.searchbox-is-active {
+    // the searchbox requires an overlay over the page (except for the header)
+    // we do this with an overlay under the header, on top of the rest of the page
+    header,
+    .header {
+      position: relative;
+      z-index: 100;
+    }
+    cx-searchbox {
+      &.search-box-v2 {
+        .results {
+          display: flex;
+          @include media-breakpoint-down(sm) {
+            display: block;
+          }
+        }
+      }
+    }
     &.has-searchbox-results {
       cx-searchbox {
         .results {
@@ -32,14 +49,6 @@
             }
           }
         }
-      }
-
-      // the searchbox requires an overlay over the page (except for the header)
-      // we do this with an overlay under the header, on top of the rest of the page
-      header,
-      .header {
-        position: relative;
-        z-index: 100;
       }
       cx-storefront {
         &:before {
@@ -248,6 +257,9 @@
           display: block;
         }
       }
+    }
+    .trending-searches-container {
+      display: none;
     }
 
     .recent-searches,
