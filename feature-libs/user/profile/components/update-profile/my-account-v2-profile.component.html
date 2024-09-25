@@ -49,7 +49,7 @@
           formControlName="titleCode"
           id="title-select"
           [cxNgSelectA11y]="{
-            ariaLabel: 'myAccountV2UserProfile.title' | cxTranslate
+            ariaLabel: 'myAccountV2UserProfile.title' | cxTranslate,
           }"
         >
           <ng-option
@@ -74,7 +74,7 @@
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
-            label: 'updateProfileForm.firstName.label' | cxTranslate
+            label: 'updateProfileForm.firstName.label' | cxTranslate,
           }"
           [control]="form.get('firstName')"
         ></cx-form-errors>
@@ -100,7 +100,7 @@
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
-            label: 'updateProfileForm.lastName.label' | cxTranslate
+            label: 'updateProfileForm.lastName.label' | cxTranslate,
           }"
           [control]="form.get('lastName')"
         ></cx-form-errors>
@@ -127,7 +127,7 @@
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
-            label: 'updateProfileForm.customerId' | cxTranslate
+            label: 'updateProfileForm.customerId' | cxTranslate,
           }"
           [control]="form.get('customerId')"
         ></cx-form-errors>

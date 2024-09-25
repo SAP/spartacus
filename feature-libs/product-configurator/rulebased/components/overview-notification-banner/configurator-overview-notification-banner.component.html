@@ -18,14 +18,14 @@
               cxRoute: 'configure' + routerData.owner.configuratorType,
               params: {
                 entityKey: routerData.owner.id,
-                ownerType: routerData.owner.type
-              }
+                ownerType: routerData.owner.type,
+              },
             } | cxUrl
           "
           [queryParams]="{
             resolveIssues: true,
             skipConflicts: skipConflictsOnIssueNavigation$ | async,
-            productCode: routerData.productCode
+            productCode: routerData.productCode,
           }"
           cxAutoFocus
         >
@@ -51,13 +51,13 @@
               cxRoute: 'configure' + routerData.owner.configuratorType,
               params: {
                 entityKey: routerData.owner.id,
-                ownerType: routerData.owner.type
-              }
+                ownerType: routerData.owner.type,
+              },
             } | cxUrl
           "
           [queryParams]="{
             resolveIssues: true,
-            productCode: routerData.productCode
+            productCode: routerData.productCode,
           }"
           cxAutoFocus
         >

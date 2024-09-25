@@ -6,7 +6,7 @@
     [formControl]="attributeInputForm"
     class="form-control"
     [ngClass]="{
-      'cx-required-error-msg ': (showRequiredErrorMessage$ | async)
+      'cx-required-error-msg ': (showRequiredErrorMessage$ | async),
     }"
     [class.ng-invalid]="isRequired && isUserInputEmpty"
     [attr.aria-describedby]="
@@ -22,7 +22,7 @@
     maxlength="{{ attribute.maxlength }}"
     [attr.aria-label]="getAriaLabelComplete()"
     [cxFocus]="{
-      key: createAttributeIdForConfigurator(attribute)
+      key: createAttributeIdForConfigurator(attribute),
     }"
   />
 </div>
