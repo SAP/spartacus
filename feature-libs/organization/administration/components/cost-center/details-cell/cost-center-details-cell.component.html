@@ -7,7 +7,7 @@
         [routerLink]="
           {
             cxRoute: 'orgCostCenterDetails',
-            params: model
+            params: model,
           } | cxUrl
         "
       >
@@ -51,7 +51,7 @@
         [routerLink]="
           {
             cxRoute: 'orgUnitDetails',
-            params: model.unit
+            params: model.unit,
           } | cxUrl
         "
       >
@@ -68,7 +68,7 @@
     placement: 'auto',
     class: 'my-company-popover',
     appendToBody: true,
-    displayCloseButton: true
+    displayCloseButton: true,
   }"
 >
   {{ model.name }}

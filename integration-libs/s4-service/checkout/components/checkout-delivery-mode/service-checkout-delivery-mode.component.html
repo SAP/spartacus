@@ -64,7 +64,7 @@
       <ng-template
         [cxOutlet]="CartOutlets.DELIVERY_MODE"
         [cxOutletContext]="{
-          item: activeCartFacade.getActive() | async
+          item: activeCartFacade.getActive() | async,
         }"
       >
       </ng-template>
@@ -125,7 +125,7 @@
       <ng-template
         [cxOutlet]="CartOutlets.DELIVERY_MODE"
         [cxOutletContext]="{
-          item: activeCartFacade.getActive() | async
+          item: activeCartFacade.getActive() | async,
         }"
       >
       </ng-template>
@@ -142,7 +142,7 @@
     [cxOutlet]="CartOutlets.CART_ITEM_LIST"
     [cxOutletContext]="{
       items: activeCartFacade.getDeliveryEntries() | async,
-      readonly: true
+      readonly: true,
     }"
   >
   </ng-template>

@@ -23,7 +23,7 @@
             }}</label>
             <div
               [ngClass]="
-                message.rightAlign ?? false
+                (message.rightAlign ?? false)
                   ? 'cx-message-right-align-text'
                   : 'cx-message-left-align-text'
               "
@@ -38,7 +38,7 @@
                         date:
                           (message.createdAt
                             | cxDate: messagingConfigs?.dateFormat) ??
-                          dateFormat
+                          dateFormat,
                       }
               "
             >

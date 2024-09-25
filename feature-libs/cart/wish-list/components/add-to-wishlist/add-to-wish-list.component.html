@@ -11,6 +11,7 @@
             "
           >
             <button
+              #removeFromWishlistButton
               class="btn btn-tertiary button-remove"
               (click)="remove(entry)"
               [disabled]="loading$ | async"
@@ -24,6 +25,7 @@
           </div>
           <ng-template #addItem>
             <button
+              #addToWishlistButton
               class="btn btn-tertiary button-add"
               (click)="add(product)"
               [disabled]="loading$ | async"

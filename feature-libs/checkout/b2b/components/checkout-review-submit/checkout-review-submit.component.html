@@ -48,7 +48,7 @@
           [attr.title]="'checkoutReview.editPaymentType' | cxTranslate"
           [routerLink]="
             {
-              cxRoute: getCheckoutStepUrl(checkoutStepTypePaymentType)
+              cxRoute: getCheckoutStepUrl(checkoutStepTypePaymentType),
             } | cxUrl
           "
           ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
@@ -69,7 +69,7 @@
           [attr.title]="'checkoutReview.editPaymentType' | cxTranslate"
           [routerLink]="
             {
-              cxRoute: getCheckoutStepUrl(checkoutStepTypePaymentType)
+              cxRoute: getCheckoutStepUrl(checkoutStepTypePaymentType),
             } | cxUrl
           "
           ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
@@ -93,7 +93,7 @@
             "
             [routerLink]="
               {
-                cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress)
+                cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
               } | cxUrl
             "
             ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
@@ -119,7 +119,7 @@
           "
           [routerLink]="
             {
-              cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress)
+              cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
             } | cxUrl
           "
           ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
@@ -141,7 +141,7 @@
           [cxOutlet]="cartOutlets.DELIVERY_MODE"
           [cxOutletContext]="{
             item: cart$ | async,
-            readonly: true
+            readonly: true,
           }"
         >
         </ng-template>
@@ -210,7 +210,7 @@
         [cxOutletContext]="{
           items: entries,
           readonly: true,
-          promotionLocation: promotionLocation
+          promotionLocation: promotionLocation,
         }"
       >
       </ng-template>
