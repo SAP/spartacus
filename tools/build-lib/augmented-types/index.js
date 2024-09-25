@@ -6,8 +6,8 @@ var __awaiter =
       return value instanceof P
         ? value
         : new P(function (resolve) {
-            resolve(value);
-          });
+          resolve(value);
+        });
     }
     return new (P || (P = Promise))(function (resolve, reject) {
       function fulfilled(value) {
@@ -40,7 +40,7 @@ const path = require('path');
 const rxjs_1 = require('rxjs');
 const operators_1 = require('rxjs/operators');
 const util_1 = require('util');
-const glob = (0, util_1.promisify)(globModule);
+const glob = (0, util_1.promisify)(globModule.glob);
 const DELIMITER_START = '/** AUGMENTABLE_TYPES_START */';
 const DELIMITER_END = '/** AUGMENTABLE_TYPES_END */';
 exports.default = (0, architect_1.createBuilder)(augmentedTypesBuilder);
