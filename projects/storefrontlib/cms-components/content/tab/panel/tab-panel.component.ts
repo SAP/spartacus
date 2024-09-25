@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Tab, TAB_MODE } from '../tab.model';
 
 @Component({
   selector: 'cx-tab-panel',
   templateUrl: './tab-panel.component.html',
-changeDetection: ChangeDetectionStrategy.OnPush // Optimizes performance by reducing unnecessary checks
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class TabPanelComponent {
   TAB_MODE = TAB_MODE;
 
@@ -19,5 +20,9 @@ export class TabPanelComponent {
    */
   @Input() tab: Tab;
 
-  @Input() mode: TAB_MODE;
+  /**
+   * In which layout to set the component (ie. Tab or Accordian).
+   * Defaults to "Tab" mode.
+   */
+  @Input() mode: TAB_MODE = TAB_MODE.TAB;
 }

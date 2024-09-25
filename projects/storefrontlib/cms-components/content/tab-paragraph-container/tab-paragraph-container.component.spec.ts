@@ -198,7 +198,7 @@ describe('TabParagraphContainerComponent', () => {
   it('should be able to get ariaLabel', () => {
     fixture.detectChanges();
     expect(component.ariaLabel).toEqual(
-      'TabPanelContainer.tabPanelContainerRegion'
+      'TabPanelContainer.tabPanelContainerRegionGroup'
     );
   });
 });

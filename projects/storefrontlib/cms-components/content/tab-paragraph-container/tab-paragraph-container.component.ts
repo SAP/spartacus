@@ -72,7 +72,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   components$: Observable<any[]> = this.componentData.data$.pipe(
     distinctUntilChanged((x, y) => x?.components === y?.components),
     tap((data: CMSTabParagraphContainer) => {
-      this.ariaLabel = `${data?.uid}.tabPanelContainerRegion`;
+      this.ariaLabel = `${data?.uid}.tabPanelContainerRegionGroup`;
     }),
     switchMap((data) =>
       combineLatest(
@@ -102,7 +102,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
         // Update tablist label with name from CMS
         tap(() => {
           this.tabConfig$.next({
-            label: `${data?.uid}.tabPanelContainerRegion`,
+            label: `${data?.uid}.tabPanelContainerRegionGroup`,
             ...defaultTabConfig,
           });
         })
