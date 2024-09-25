@@ -28,9 +28,7 @@ export class OpfCtaElementComponent implements AfterViewInit {
   @Input() ctaScriptHtml: OpfDynamicScript;
 
   ngAfterViewInit(): void {
-    this.opfCtaScriptsService.loadAndRunScript(this.ctaScriptHtml).then(() => {
-      this.loader = false;
-    });
+    this.opfCtaScriptsService.loadAndRunScript(this.ctaScriptHtml);
   }
   renderHtml(html?: string): SafeHtml {
     return html ? this.sanitizer.bypassSecurityTrustHtml(html) : '';

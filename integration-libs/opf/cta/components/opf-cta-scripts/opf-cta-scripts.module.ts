@@ -7,7 +7,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { SpinnerModule } from '@spartacus/storefront';
 
 import {
   OpfDynamicCtaService,
@@ -32,6 +31,6 @@ import { OpfCtaScriptsService } from './opf-cta-scripts.service';
     }),
   ],
   exports: [OpfCtaScriptsComponent],
-  imports: [CommonModule, OpfCtaElementModule, SpinnerModule],
+  imports: [CommonModule, OpfCtaElementModule],
 })
 export class OpfCtaScriptsModule {}
