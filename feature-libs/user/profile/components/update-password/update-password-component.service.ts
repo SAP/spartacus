@@ -35,6 +35,7 @@ export class UpdatePasswordComponentService {
   protected passwordValidators = this.featureConfigService?.isEnabled(
     'formErrorsDescriptiveMessages'
   )
+
     ? this.featureConfigService.isEnabled(
         'enableConsecutiveCharactersPasswordRequirement'
       )

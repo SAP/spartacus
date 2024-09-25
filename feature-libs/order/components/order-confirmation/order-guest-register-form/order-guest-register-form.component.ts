@@ -30,6 +30,7 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
   protected passwordValidators = this.featureConfigService?.isEnabled(
     'formErrorsDescriptiveMessages'
   )
+
     ? this.featureConfigService.isEnabled(
         'enableConsecutiveCharactersPasswordRequirement'
       )

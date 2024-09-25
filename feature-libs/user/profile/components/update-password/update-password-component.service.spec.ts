@@ -1,8 +1,13 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
 import {
   AuthRedirectService,
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -42,6 +47,7 @@ describe('UpdatePasswordComponentService', () => {
   let globalMessageService: GlobalMessageService;
   let authRedirectService: AuthRedirectService;
   let authService: AuthService;
+  let featureConfigService: FeatureConfigService;
 
   let oldPassword: AbstractControl;
   let newPassword: AbstractControl;
@@ -77,6 +83,9 @@ describe('UpdatePasswordComponentService', () => {
   });
 
   beforeEach(() => {
+    featureConfigService = TestBed.inject(FeatureConfigService);
+    spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+
     service = TestBed.inject(UpdatePasswordComponentService);
     userPasswordFacade = TestBed.inject(UserPasswordFacade);
     routingService = TestBed.inject(RoutingService);
@@ -98,16 +107,16 @@ describe('UpdatePasswordComponentService', () => {
       service['busy$'].next(true);
       let result;
       service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeTrue();
-      expect(service.form.disabled).toBeTrue();
+      expect(result).toBeTruthy();
+      expect(service.form.disabled).toBeTruthy();
     });
 
     it('should return false', () => {
       service['busy$'].next(false);
       let result;
       service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeFalse();
-      expect(service.form.disabled).toBeFalse();
+      expect(result).toBeFalsy();
+      expect(service.form.disabled).toBeFalsy();
     });
   });
 
@@ -173,6 +182,26 @@ describe('UpdatePasswordComponentService', () => {
         expect(globalMessageService.add).not.toHaveBeenCalled();
         expect(routingService.go).not.toHaveBeenCalled();
         expect(authService.coreLogout).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('password validators', () => {
+      it('should have new validators when feature flag isEnabled', () => {
+        const newPasswordControl = service.form.get(
+          'newPassword'
+        ) as UntypedFormControl;
+        const validators = newPasswordControl.validator
+          ? newPasswordControl.validator({} as any)
+          : [];
+
+        expect(newPasswordControl).toBeTruthy();
+        expect(validators).toEqual({
+          required: true,
+          cxMinOneDigit: true,
+          cxMinOneUpperCaseCharacter: true,
+          cxMinOneSpecialCharacter: true,
+          cxMinSixCharactersLength: true,
+        });
       });
     });
   });
