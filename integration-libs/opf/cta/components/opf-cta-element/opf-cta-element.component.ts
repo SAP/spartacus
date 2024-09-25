@@ -9,6 +9,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnInit,
   inject,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -20,22 +21,15 @@ import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service
   templateUrl: './opf-cta-element.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpfCtaElementComponent implements AfterViewInit {
+export class OpfCtaElementComponent implements AfterViewInit, OnInit {
   protected sanitizer = inject(DomSanitizer);
   protected opfCtaScriptsService = inject(OpfCtaScriptsService);
   htmlString: string;
-  _ctaScriptHtml: OpfDynamicScript;
 
-  get ctaScriptHtml(): OpfDynamicScript {
-    return this._ctaScriptHtml;
-  }
+  @Input() ctaScriptHtml: OpfDynamicScript;
 
-  @Input() set ctaScriptHtml(value: OpfDynamicScript) {
-    this._ctaScriptHtml = value;
-
-    this.htmlString = value.html
-      ? this.opfCtaScriptsService.removeScriptTags(value.html)
-      : '';
+  ngOnInit(): void {
+    this.htmlString = this.ctaScriptHtml.html ?? '';
   }
 
   ngAfterViewInit(): void {
