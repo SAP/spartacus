@@ -789,6 +789,18 @@
       "@spartacus/opf/payment/root": [
         "integration-libs/opf/payment/root/public_api"
       ],
+      "@spartacus/opf/quick-buy/components": [
+        "integration-libs/opf/quick-buy/components/public_api"
+      ],
+      "@spartacus/opf/quick-buy/core": [
+        "integration-libs/opf/quick-buy/core/public_api"
+      ],
+      "@spartacus/opf/quick-buy": [
+        "integration-libs/opf/quick-buy/public_api"
+      ],
+      "@spartacus/opf/quick-buy/root": [
+        "integration-libs/opf/quick-buy/root/public_api"
+      ],
       "@spartacus/opps": [
         "integration-libs/opps/public_api"
       ],
