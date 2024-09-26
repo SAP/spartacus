@@ -24,7 +24,8 @@ const cds1: CdsConfig = {
     baseUrl: 'https://api.stage.context.cloud.sap',
     endpoints: {
       strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
-      searchIntelligence: '/search-intelligence/${tenant}/trends',
+      searchIntelligence:
+        '/search-intelligence/v1/sites/${cdsSiteId}/trendingSearches',
     },
     merchandising: {
       defaultCarouselViewportThreshold: 80,
@@ -51,7 +52,8 @@ const cds2 = {
     baseUrl: 'A_CDS_BASE_URL',
     endpoints: {
       strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
-      searchIntelligence: '/search-intelligence/${tenant}/trends',
+      searchIntelligence:
+        '/search-intelligence/v1/sites/${cdsSiteId}/trendingSearches',
     },
     merchandising: {
       defaultCarouselViewportThreshold: 80,
