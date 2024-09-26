@@ -32,7 +32,6 @@ export class ResetPasswordComponentService {
   protected passwordValidators = this.featureConfigService?.isEnabled(
     'formErrorsDescriptiveMessages'
   )
-
     ? this.featureConfigService.isEnabled(
         'enableConsecutiveCharactersPasswordRequirement'
       )
