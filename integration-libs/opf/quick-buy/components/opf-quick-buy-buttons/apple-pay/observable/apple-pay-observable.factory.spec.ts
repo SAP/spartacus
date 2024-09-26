@@ -1,10 +1,11 @@
 /*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { TestBed } from '@angular/core/testing';
-import { ApplePayObservableConfig } from '@spartacus/opf/base/root';
+import { ApplePayObservableConfig } from '@spartacus/opf/quick-buy/root';
 import { Observable, of, throwError } from 'rxjs';
 import { ApplePaySessionFactory } from '../apple-pay-session/apple-pay-session.factory';
 import { ApplePayObservableFactory } from './apple-pay-observable.factory';

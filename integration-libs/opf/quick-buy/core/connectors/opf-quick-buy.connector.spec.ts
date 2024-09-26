@@ -67,7 +67,8 @@ describe('OpfQuickBuyConnector', () => {
       .subscribe((res) => (result = res));
     expect(result).toEqual(mockGetApplePayWebSessionResponse);
     expect(adapter.getApplePayWebSession).toHaveBeenCalledWith(
-      mockGetApplePayWebSessionRequest
+      mockGetApplePayWebSessionRequest,
+      mockAccessCode
     );
   });
 });

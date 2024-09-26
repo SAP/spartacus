@@ -7,19 +7,6 @@
 import { Cart } from '@spartacus/cart/base/root';
 import { PointOfService, Product } from '@spartacus/core';
 
-declare module '@spartacus/opf/base/root' {
-  interface ActiveConfiguration {
-    digitalWalletQuickBuy?: OpfQuickBuyDigitalWallet[];
-  }
-}
-
-declare module '@spartacus/opf/payment/root' {
-  enum PaymentMethod {
-    APPLE_PAY = 'APPLE_PAY',
-    GOOGLE_PAY = 'GOOGLE_PAY',
-  }
-}
-
 export interface OpfQuickBuyDigitalWallet {
   description?: string;
   provider?: OpfProviderType;
