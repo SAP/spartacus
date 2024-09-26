@@ -43,7 +43,8 @@ const mockCDSConfig: CdsConfig = {
     baseUrl: 'https://api.stage.context.cloud.sap',
     endpoints: {
       strategyProducts: '',
-      searchIntelligence: '/search-intelligence/${tenant}/trends',
+      searchIntelligence:
+        '/search-intelligence/v1/sites/${cdsSiteId}/trendingSearches',
     },
   },
 };
@@ -98,7 +99,9 @@ describe('TrendingSearchesService', () => {
     tick(0); // simulate the end of the observable chain
 
     const mockRequest = httpMock.expectOne((req) =>
-      req.url.includes('/search-intelligence/storksfront/trends')
+      req.url.includes(
+        'storksfront-main.api.stage.context.cloud.sap/search-intelligence/v1/sites/main/trendingSearches'
+      )
     );
     mockRequest.flush({ searchPhrases: mockSearchPhrases });
 
@@ -122,7 +125,9 @@ describe('TrendingSearchesService', () => {
     }
 
     httpMock.expectNone((req) =>
-      req.url.includes('/search-intelligence/storksfront/trends')
+      req.url.includes(
+        'storksfront-main.api.stage.context.cloud.sap/search-intelligence/v1/sites/main/trendingSearches'
+      )
     );
 
     trendingSearchesService.ngOnDestroy();

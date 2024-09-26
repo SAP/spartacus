@@ -58,9 +58,9 @@ export class TrendingSearchesService implements OnDestroy {
       .pipe(take(1))
       .subscribe((cdsSiteId) => {
         if (cdsSiteId) {
-          const originalEndpointUrl = this.cdsEndpointsService.getUrl(
-            TRENDING_SEARCHES_ENDPOINT_KEY
-          );
+          const originalEndpointUrl = this.cdsEndpointsService
+            .getUrl(TRENDING_SEARCHES_ENDPOINT_KEY)
+            .replaceAll('${cdsSiteId}', cdsSiteId);
           const httpsPrefix = `https://${this.cdsConfig.cds.tenant}-${cdsSiteId}.`;
           const modifiedUrl = originalEndpointUrl.replace(
             /https:\/\//g,

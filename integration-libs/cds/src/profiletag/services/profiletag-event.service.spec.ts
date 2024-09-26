@@ -18,7 +18,8 @@ const mockCDSConfig: CdsConfig = {
     baseUrl: 'example.com',
     endpoints: {
       strategyProducts: 'example',
-      searchIntelligence: '/search-intelligence/${tenant}/trends',
+      searchIntelligence:
+        '/search-intelligence/v1/sites/${cdsSiteId}/trendingSearches',
     },
     profileTag: {
       javascriptUrl: 'https:tag.static.eu.context.cloud.sap',
