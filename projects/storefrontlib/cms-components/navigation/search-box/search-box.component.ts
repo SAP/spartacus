@@ -184,7 +184,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     switchMap((config) =>
       this.searchBoxComponentService
         .getResults(config)
-        .pipe(tap((res) => console.log(res)))
     )
   );
 
@@ -240,11 +239,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Closes the searchBox and opens the search result page.
    */
   search(query: string): void {
-    if (!query.length) {
-      this.searchBoxComponentService.clearResults();
-    } else {
-      this.searchBoxComponentService.search(query, this.config);
-    }
+    this.searchBoxComponentService.search(query, this.config);
 
     // force the searchBox to open
     this.open();

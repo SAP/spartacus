@@ -294,7 +294,7 @@ if (environment.cpq) {
         showBillingAddressInDigitalPayments: false,
         showDownloadProposalButton: false,
         showPromotionsInPDP: false,
-        searchBoxV2: true,
+        searchBoxV2: false,
         recentSearches: true,
         trendingSearches: false,
         pdfInvoicesSortByInvoiceDate: false,

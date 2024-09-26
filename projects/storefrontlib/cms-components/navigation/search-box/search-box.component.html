@@ -12,7 +12,7 @@
       "
       [attr.aria-label]="'searchBox.placeholder' | cxTranslate"
       (focus)="a11ySearchBoxMobileFocusEnabled ? null : open()"
-      (click)="open()"
+      (click)="search(searchInput.value)"
       (input)="search(searchInput.value)"
       (blur)="close($any($event))"
       (keydown.tab)="
