@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -32,6 +32,7 @@ import {
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 
+@Injectable()
 export class OpfQuickBuyTransactionService {
   protected baseSiteService = inject(BaseSiteService);
   protected activeCartFacade = inject(ActiveCartFacade);
