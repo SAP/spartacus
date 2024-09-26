@@ -348,6 +348,7 @@ if (environment.cpq) {
         a11yEmptyWishlistHeading: true,
         a11yScreenReaderBloatFix: true,
         a11yUseButtonsForBtnLinks: true,
+        a11yTabComponent: true,
         a11yCarouselArrowKeysNavigation: true,
         a11yNotificationsOnConsentChange: true,
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:

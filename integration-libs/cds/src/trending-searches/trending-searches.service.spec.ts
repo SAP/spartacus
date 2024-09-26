@@ -87,6 +87,7 @@ describe('TrendingSearchesService', () => {
         cdsSiteId: 'main',
       },
     };
+    trendingSearchesService['addTrendingSearchesListener']();
     trendingSearchesService['getTrendingSearches']().subscribe(
       (searchPhrases) => {
         expect(searchPhrases).toEqual(mockSearchPhrases);
@@ -100,6 +101,8 @@ describe('TrendingSearchesService', () => {
       req.url.includes('/search-intelligence/storksfront/trends')
     );
     mockRequest.flush({ searchPhrases: mockSearchPhrases });
+
+    trendingSearchesService.ngOnDestroy();
   }));
 
   it('should not emit trending searches when not available', fakeAsync(() => {
@@ -108,6 +111,7 @@ describe('TrendingSearchesService', () => {
         cdsSiteId: undefined,
       },
     };
+    trendingSearchesService['addTrendingSearchesListener']();
     trendingSearchesService['getTrendingSearches']().subscribe(() => {
       // should not happen
     });
@@ -120,5 +124,7 @@ describe('TrendingSearchesService', () => {
     httpMock.expectNone((req) =>
       req.url.includes('/search-intelligence/storksfront/trends')
     );
+
+    trendingSearchesService.ngOnDestroy();
   }));
 });

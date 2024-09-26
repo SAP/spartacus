@@ -33,8 +33,8 @@ export class UpdatePasswordComponentService {
   protected passwordValidators = this.featureConfigService?.isEnabled(
     'formErrorsDescriptiveMessages'
   )
-    ? [CustomFormValidators.passwordValidator]
-    : CustomFormValidators.passwordValidators;
+    ? CustomFormValidators.passwordValidators
+    : [CustomFormValidators.passwordValidator];
 
   constructor(
     protected userPasswordService: UserPasswordFacade,

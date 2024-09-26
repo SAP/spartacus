@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CdsEndpointsService } from '../services';
 import { CdsConfig } from '../config';
@@ -16,6 +16,7 @@ import {
   map,
   Observable,
   of,
+  ReplaySubject,
   take,
   takeWhile,
 } from 'rxjs';
@@ -26,12 +27,21 @@ const TRENDING_SEARCHES_ENDPOINT_KEY = 'searchIntelligence';
 @Injectable({
   providedIn: 'root',
 })
-export class TrendingSearchesService {
+export class TrendingSearchesService implements OnDestroy {
   protected httpClient = inject(HttpClient);
   protected cdsEndpointsService = inject(CdsEndpointsService);
   protected cdsConfig = inject(CdsConfig);
   protected baseSiteService = inject(BaseSiteService);
   protected winRef = inject(WindowRef);
+  protected interval: any;
+  private readonly trendingSearchesSource = new ReplaySubject<
+    SearchPhrases[]
+  >();
+  private trendingSearches$ = this.trendingSearchesSource.asObservable();
+
+  constructor() {
+    this.addTrendingSearchesListener();
+  }
 
   private checkAvailability() {
     return interval(250).pipe(
@@ -43,27 +53,41 @@ export class TrendingSearchesService {
     );
   }
 
-  getTrendingSearches(): Observable<SearchPhrases[]> {
-    return new Observable((observer) => {
-      this.checkAvailability()
-        .pipe(take(1))
-        .subscribe((cdsSiteId) => {
-          if (cdsSiteId) {
-            const originalEndpointUrl = this.cdsEndpointsService.getUrl(
-              TRENDING_SEARCHES_ENDPOINT_KEY
-            );
-            const httpsPrefix = `https://${this.cdsConfig.cds.tenant}-${cdsSiteId}.`;
-            const modifiedUrl = originalEndpointUrl.replace(
-              /https:\/\//g,
-              httpsPrefix
-            );
+  private addTrendingSearchesListener() {
+    this.checkAvailability()
+      .pipe(take(1))
+      .subscribe((cdsSiteId) => {
+        if (cdsSiteId) {
+          const originalEndpointUrl = this.cdsEndpointsService.getUrl(
+            TRENDING_SEARCHES_ENDPOINT_KEY
+          );
+          const httpsPrefix = `https://${this.cdsConfig.cds.tenant}-${cdsSiteId}.`;
+          const modifiedUrl = originalEndpointUrl.replace(
+            /https:\/\//g,
+            httpsPrefix
+          );
 
+          const fetchTrendingSearches = () => {
             this.httpClient.get<any>(modifiedUrl).subscribe((data) => {
-              observer.next(data?.searchPhrases);
-              observer.complete();
+              this.trendingSearchesSource.next(data?.searchPhrases);
             });
-          }
-        });
-    });
+          };
+          fetchTrendingSearches();
+          this.interval = setInterval(
+            () => fetchTrendingSearches(),
+            15 * 60000
+          );
+        }
+      });
+  }
+
+  getTrendingSearches(): Observable<SearchPhrases[]> {
+    return this.trendingSearches$;
+  }
+
+  ngOnDestroy() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
   }
 }

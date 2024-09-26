@@ -1,0 +1,60 @@
+<ng-container *ngIf="mode$ | async as mode">
+  <!-- Tab List is the list of buttons to open tabs -->
+  <div
+    [attr.role]="mode === TAB_MODE.ACCORDIAN ? 'presentation' : 'tablist'"
+    [attr.aria-label]="config.label | cxTranslate"
+    [class]="mode.toLowerCase()"
+  >
+    <ng-container *ngFor="let tab of tabs; let i = index">
+      <button
+        class="tab-btn"
+        [attr.role]="mode === TAB_MODE.ACCORDIAN ? 'button' : 'tab'"
+        (click)="select(i, mode)"
+        (keydown)="handleKeydownEvent(i, tabs, mode, $event)"
+        [attr.aria-selected]="mode === TAB_MODE.ACCORDIAN ? null : isOpen(i)"
+        [attr.aria-expanded]="mode === TAB_MODE.TAB ? null : isOpen(i)"
+        [attr.aria-controls]="'section-' + i"
+        [attr.tabindex]="getTabIndex(i, mode)"
+        [attr.id]="tab.id"
+        [attr.title]="getTitle(mode, i)"
+        [class.active]="isOpen(i)"
+        #tabHeader
+      >
+        {{ tab.headerKey ? (tab.headerKey | cxTranslate) : tab.header }}
+        <span
+          *ngIf="mode === TAB_MODE.ACCORDIAN"
+          class="tab-icon"
+          aria-hidden="true"
+        >
+          {{ isOpen(i) ? '–' : '+' }}
+        </span>
+      </button>
+
+      <!-- Show tab panels under selected button in Accordian mode -->
+      <ng-container
+        *ngIf="mode === TAB_MODE.ACCORDIAN"
+        [ngTemplateOutlet]="tabPanel"
+        [ngTemplateOutletContext]="{ tabNum: i }"
+      ></ng-container>
+    </ng-container>
+  </div>
+
+  <!-- Show selected tab panel under all buttons in Tab mode -->
+  <ng-container *ngIf="mode === TAB_MODE.TAB">
+    <ng-container
+      *ngFor="let tab of tabs; let i = index"
+      [ngTemplateOutlet]="tabPanel"
+      [ngTemplateOutletContext]="{ tabNum: i }"
+    >
+    </ng-container>
+  </ng-container>
+
+  <!-- Tab Panel shows the content of the given tab -->
+  <ng-template #tabPanel let-tabNum="tabNum">
+    <cx-tab-panel
+      [tab]="tabs[tabNum]"
+      [mode]="mode"
+      *ngIf="isOpen(tabNum)"
+    ></cx-tab-panel>
+  </ng-template>
+</ng-container>

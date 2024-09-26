@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import {
   AuthService,
+  FeatureConfigService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -76,5 +77,55 @@ describe('OrderGuestRegisterFormComponent', () => {
       password
     );
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+  });
+
+  describe('password validators', () => {
+    let featureConfigService: FeatureConfigService;
+
+    it('should have new validators when feature flag is enabled', () => {
+      featureConfigService = TestBed.inject(FeatureConfigService);
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+
+      fixture = TestBed.createComponent(OrderGuestRegisterFormComponent);
+      component = fixture.componentInstance;
+
+      fixture.detectChanges();
+
+      const passwordControl = component.guestRegisterForm.get(
+        'password'
+      ) as UntypedFormControl;
+      const validators = passwordControl.validator
+        ? passwordControl.validator({} as any)
+        : [];
+
+      expect(passwordControl).toBeTruthy();
+      expect(validators).toEqual({
+        required: true,
+        cxMinOneDigit: true,
+        cxMinOneUpperCaseCharacter: true,
+        cxMinOneSpecialCharacter: true,
+        cxMinSixCharactersLength: true,
+      });
+    });
+
+    it('should have old validators when feature flag is not enabled', () => {
+      featureConfigService = TestBed.inject(FeatureConfigService);
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+
+      fixture = TestBed.createComponent(OrderGuestRegisterFormComponent);
+      component = fixture.componentInstance;
+
+      fixture.detectChanges();
+
+      const passwordControl = component.guestRegisterForm.get(
+        'password'
+      ) as UntypedFormControl;
+      const validators = passwordControl.validator
+        ? passwordControl.validator({} as any)
+        : [];
+
+      expect(passwordControl).toBeTruthy();
+      expect(validators).toEqual({ required: true, cxInvalidPassword: true });
+    });
   });
 });
