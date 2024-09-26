@@ -7,7 +7,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { ApplePayComponent } from './apple-pay.component';
 import { ApplePayService } from './apple-pay.service';
 
@@ -15,6 +14,6 @@ import { ApplePayService } from './apple-pay.service';
   imports: [CommonModule],
   declarations: [ApplePayComponent],
   exports: [ApplePayComponent],
-  providers: [ApplePayService, OpfQuickBuyTransactionService],
+  providers: [ApplePayService],
 })
 export class OpfApplePayModule {}

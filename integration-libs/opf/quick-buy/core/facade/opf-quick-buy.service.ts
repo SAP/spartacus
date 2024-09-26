@@ -34,7 +34,9 @@ import {
 } from 'rxjs';
 import { OpfQuickBuyConnector } from '../connectors';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OpfQuickBuyService implements OpfQuickBuyFacade {
   protected applePaySessionCommand: Command<
     {

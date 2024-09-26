@@ -32,7 +32,9 @@ import {
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OpfQuickBuyTransactionService {
   protected baseSiteService = inject(BaseSiteService);
   protected activeCartFacade = inject(ActiveCartFacade);
