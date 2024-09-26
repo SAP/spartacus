@@ -44,7 +44,7 @@ export class OrderConfirmationThankYouMessageComponent
       tap((order) => {
         this.isGuestCustomer =
           order && 'guestCustomer' in order
-            ? order.guestCustomer ?? false
+            ? (order.guestCustomer ?? false)
             : false;
         this.orderGuid = order?.guid;
       })
