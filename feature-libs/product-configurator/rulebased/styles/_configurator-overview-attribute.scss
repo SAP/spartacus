@@ -44,7 +44,7 @@
     z-index: -6;
     @include cx-highContrastTheme {
       z-index: 0;
-    } 
+    }
 
     @include media-breakpoint-up(md) {
       width: 30%;
