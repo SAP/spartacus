@@ -417,6 +417,13 @@ export interface FeatureTogglesInterface {
   a11yUseButtonsForBtnLinks?: boolean;
 
   /**
+   * Enables the use of TabComponent in the PLP and PDP page to replace some functionality
+   * of the FacetListComponent and TabParagraphComponent to make then keyboard accessible
+   * and responsive in tab and accordion stles.
+   */
+  a11yTabComponent?: boolean;
+
+  /**
    * `ProductImageZoomProductImagesComponent`, `ProductImageZoomThumbnailsComponent` - enable
    * arrow keys navigation for the carousel
    */
@@ -621,6 +628,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yEmptyWishlistHeading: false,
   a11yScreenReaderBloatFix: false,
   a11yUseButtonsForBtnLinks: false,
+  a11yTabComponent: false,
   a11yCarouselArrowKeysNavigation: false,
   a11yNotificationsOnConsentChange: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,

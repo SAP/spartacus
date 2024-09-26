@@ -227,6 +227,7 @@ $useAccordionOnly: false !default;
   } @else {
     @extend %pdpFlat !optional;
   }
+  @extend %cx-tab !optional;
 
   .active {
     background-color: var(--cx-color-inverse);
