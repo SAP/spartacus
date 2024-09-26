@@ -494,6 +494,7 @@
       ],
       "@spartacus/opf/quick-buy/core": ["../../dist/opf/quick-buy/core"],
       "@spartacus/opf/quick-buy": ["../../dist/opf/quick-buy"],
+      "@spartacus/opf/quick-buy/opf-api": ["../../dist/opf/quick-buy/opf-api"],
       "@spartacus/opf/quick-buy/root": ["../../dist/opf/quick-buy/root"],
       "@spartacus/opps": ["../../dist/opps"],
       "@spartacus/opps/root": ["../../dist/opps/root"],

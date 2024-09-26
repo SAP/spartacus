@@ -684,6 +684,9 @@
       "@spartacus/opf/quick-buy": [
         "../../integration-libs/opf/quick-buy/public_api"
       ],
+      "@spartacus/opf/quick-buy/opf-api": [
+        "../../integration-libs/opf/quick-buy/opf-api/public_api"
+      ],
       "@spartacus/opf/quick-buy/root": [
         "../../integration-libs/opf/quick-buy/root/public_api"
       ],
