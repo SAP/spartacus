@@ -564,6 +564,24 @@ export interface FeatureTogglesInterface {
    * Previously, there the non-defined theme had a value `undefined`.
    */
   useSiteThemeService?: boolean;
+
+  /**
+   * Enables the requirement that passwords cannot contain consecutive identical characters.
+   *
+   * When set to `true`, the app will enforce that passwords must not have consecutive
+   * identical characters (e.g., "aa", "11", or "$$" are not allowed).
+   */
+  enableConsecutiveCharactersPasswordRequirement?: boolean;
+
+  /**
+   * Enables a validation that prevents new passwords from matching the current password
+   * in the password update form.
+   *
+   * When set to `true`, the user will not be allowed to reuse their current password
+   * when updating their password. The app will check that the new password does not match
+   * the old password.
+   */
+  enablePasswordsCannotMatchInPasswordUpdateForm?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -653,4 +671,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
   useSiteThemeService: false,
+  enableConsecutiveCharactersPasswordRequirement: false,
+  enablePasswordsCannotMatchInPasswordUpdateForm: false,
 };
