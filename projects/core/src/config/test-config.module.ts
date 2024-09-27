@@ -98,8 +98,7 @@ export class TestConfigModule {
         }),
         // eslint-disable-next-line @nx/workspace/use-provide-default-config-factory -- deliberately providing a high priority FeatureConfig
         provideConfigFactory(() => {
-          const testConfig = inject(TEST_CONFIG) ?? {};
-          return testConfig;
+          return inject(TEST_CONFIG) ?? {};
         }),
       ],
     };
