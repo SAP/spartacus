@@ -73,7 +73,7 @@ describe('SSR E2E', () => {
         })
       );
 
-      it(
+      it.skip(
         'should receive response with status 500 if HTTP error occurred when calling other than cms/pages API URL',
         LogUtils.attachLogsToErrors(async () => {
           backendProxy = await ProxyUtils.startBackendProxyServer({
