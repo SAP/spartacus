@@ -67,16 +67,15 @@ export function getRawLogs(): string[] {
  * Note: Non-JSON log entries are also included in the returned array.
  */
 export function getRawLogsPretty(): string[] {
-  return getRawLogs()
-    .map((line) => {
-      try {
-        return JSON.parse(line);
-      } catch (_e) {
-        // If the line is not a valid JSON, return it as a string
-        return line;
-      }
-    })
-    .map((objectOrString) => inspect(objectOrString, { depth: null }));
+  return getRawLogs().map((line) => {
+    try {
+      const object = JSON.parse(line);
+      return inspect(object, { depth: null });
+    } catch (_e) {
+      // If the line is not a valid JSON, return it as a string
+      return line;
+    }
+  });
 }
 
 /**
