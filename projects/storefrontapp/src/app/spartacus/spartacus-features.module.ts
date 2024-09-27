@@ -372,6 +372,7 @@ if (environment.cpq) {
         a11ySearchBoxFocusOnEscape: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,
+        enableByDefaultMetaDescriptionAndCanonicalUrlInCsr: true,
       };
       return appFeatureToggles;
     }),

@@ -5,10 +5,10 @@
  */
 
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { provideDefaultConfig } from '../../config/config-providers';
-import { defaultPageMetaConfig } from './config/default-page-meta.config';
+import { provideDefaultConfigFactory } from '../../config/config-providers';
 import { ContentPageMetaResolver } from './content-page-meta.resolver';
 import { PageMetaResolver } from './page-meta.resolver';
+import { defaultPageMetaFactory } from './config/default-page-meta-factory';
 
 @NgModule({
   providers: [
@@ -23,7 +23,7 @@ export class PageMetaModule {
   static forRoot(): ModuleWithProviders<PageMetaModule> {
     return {
       ngModule: PageMetaModule,
-      providers: [provideDefaultConfig(defaultPageMetaConfig)],
+      providers: [provideDefaultConfigFactory(defaultPageMetaFactory)],
     };
   }
 }

@@ -564,6 +564,14 @@ export interface FeatureTogglesInterface {
    * Previously, there the non-defined theme had a value `undefined`.
    */
   useSiteThemeService?: boolean;
+
+  /**
+   * When enabled, the default page meta configuration will apply by default
+   * a meta description and canonical URL for client-side rendered (CSR) pages.
+   * This makes sure that meta tags such as the description and the canonical URL
+   * are consistently applied to all pages that are rendered on the client side.
+   */
+  enableByDefaultMetaDescriptionAndCanonicalUrlInCsr?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -653,4 +661,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
   useSiteThemeService: false,
+  enableByDefaultMetaDescriptionAndCanonicalUrlInCsr: false,
 };
