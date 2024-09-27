@@ -4,10 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/**
- * 2024 SAP SE or an SAP affiliate company. All rights reserved.
- */
-
 import { Component, Input } from '@angular/core';
 import { TitleNode } from './title-node.model';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';

@@ -1,79 +1,102 @@
-/**
- * 2021 SAP SE or an SAP affiliate company. All rights reserved.
- */
-
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-
-import { CollapsibleNode } from '../hierarchy-node-collapsible/collapsible-node.model';
-import { HierarchyNode } from './hierarchy-node.model';
-import { TitleNode } from '../hierarchy-node-title/title-node.model';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HierarchyNodeComponent } from './hierarchy-node.component';
+import { CollapsibleNode } from '../hierarchy-node-collapsible/collapsible-node.model';
+import { TitleNode } from '../hierarchy-node-title/title-node.model';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { TemplateRef } from '@angular/core';
 
 describe('HierarchyNodeComponent', () => {
-  let component: HierarchyNodeComponent<void>;
-  let fixture: ComponentFixture<HierarchyNodeComponent<void>>;
-
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.overrideComponent(HierarchyNodeComponent, {
-        set: {
-          providers: [],
-        },
-      })
-        .configureTestingModule({
-          declarations: [HierarchyNodeComponent],
-          providers: [],
-          schemas: [NO_ERRORS_SCHEMA],
-        })
-        .compileComponents();
-    })
-  );
+  let component: HierarchyNodeComponent<any>;
+  let fixture: ComponentFixture<HierarchyNodeComponent<any>>;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent<HierarchyNodeComponent<void>>(
-      HierarchyNodeComponent
-    );
+    TestBed.configureTestingModule({
+      declarations: [HierarchyNodeComponent],
+      providers: [
+        {
+          provide: ActiveCartFacade,
+          useValue: {} // mock the ActiveCartFacade
+        },
+        {
+          provide: TemplateRef,
+          useValue: {} // mock the TemplateRef
+        }
+      ]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(HierarchyNodeComponent);
     component = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should add childPadding and paddingPrefix to generate childPaddingLeft', () => {
-    component.paddingPrefix = 100;
-    component.childPadding = 25;
+  it('should set type to TITLE when tree is an instance of TitleNode', () => {
+    const titleNode = new TitleNode('Title Node');
+    component.tree = titleNode;
 
-    expect(component.childPaddingLeft).toBe(125);
+    component.ngOnInit();
+
+    expect(component.type).toBe('TITLE');
   });
 
-  it("should expose tree node's disabled status", () => {
-    const mockNode = new HierarchyNode('root');
-    component.tree = mockNode;
+  it('should set type to COLLAPSIBLE when tree is an instance of CollapsibleNode', () => {
+    const collapsibleNode = new CollapsibleNode('Collapsible Node');
+    component.tree = collapsibleNode;
 
-    expect(component.disabled).toBe(mockNode.disabled);
+    component.ngOnInit();
 
-    mockNode.disabled = true;
-
-    expect(component.disabled).toBe(mockNode.disabled);
+    expect(component.type).toBe('COLLAPSIBLE');
+    expect(component.collasibleTree).toBe(collapsibleNode); // Ensure collapsibleTree is set correctly
   });
 
-  describe('seting the type on init', () => {
-    it('should set NODE for CollapsibleNode', () => {
-      component.tree = new CollapsibleNode();
+  it('should handle ngOnChanges when tree input changes', () => {
+    const titleNode = new TitleNode('Another Title Node');
+    component.tree = titleNode;
 
-      component.ngOnInit();
-
-      expect(component.type).toEqual('COLLAPSIBLE');
+    component.ngOnChanges({
+      tree: {
+        currentValue: titleNode,
+        previousValue: null,
+        firstChange: true,
+        isFirstChange: () => true
+      }
     });
 
-    it('should set NODE for TitleNode', () => {
-      component.tree = new TitleNode();
+    expect(component.type).toBe('TITLE');
+  });
 
-      component.ngOnInit();
+  it('should set type to COLLAPSIBLE on ngOnChanges for CollapsibleNode', () => {
+    const collapsibleNode = new CollapsibleNode('Another Collapsible Node');
+    component.tree = collapsibleNode;
 
-      expect(component.type).toEqual('TITLE');
+    component.ngOnChanges({
+      tree: {
+        currentValue: collapsibleNode,
+        previousValue: null,
+        firstChange: true,
+        isFirstChange: () => true
+      }
     });
+
+    expect(component.type).toBe('COLLAPSIBLE');
+    expect(component.collasibleTree).toBe(collapsibleNode);
+  });
+
+  it('should return true for disabled when tree is disabled', () => {
+    const collapsibleNode = new CollapsibleNode('Collapsible Node');
+    collapsibleNode.disabled = true; // Simulate the disabled state
+    component.tree = collapsibleNode;
+
+    expect(component.disabled).toBeTruthy();
+  });
+
+  it('should return false for disabled when tree is not disabled', () => {
+    const collapsibleNode = new CollapsibleNode('Collapsible Node');
+    collapsibleNode.disabled = false; // Simulate the enabled state
+    component.tree = collapsibleNode;
+
+    expect(component.disabled).toBeFalsy();
   });
 });

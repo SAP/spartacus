@@ -4,9 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/**
- * 2021 SAP SE or an SAP affiliate company. All rights reserved.
- */
 
 import { HierarchyNode } from '../hierarchy-node/hierarchy-node.model';
 
