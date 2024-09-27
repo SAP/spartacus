@@ -24,36 +24,79 @@ export function clearSsrLogFile(): void {
   fs.writeFileSync(SSR_LOG_PATH, '');
 }
 
-/**
- * Returns all text in the log as a single string.
- */
-export function getLogText(): string {
-  return fs.readFileSync(SSR_LOG_PATH).toString();
+export enum LOG_FORMAT {
+  ONLY_MESSAGES = 'ONLY_MESSAGES',
+  ONLY_JSON_OBJECTS = 'ONLY_JSON_OBJECTS',
+  WITH_PRETTY_JSONS = 'WITH_PRETTY_JSONS',
+  RAW = 'RAW',
 }
 
-/**
- * Reads log and returns them as string array.
- */
-export function getLogObjects(): object[] {
+export function getLogs(logFormat: LOG_FORMAT): (string | object)[] {
   const data = fs.readFileSync(SSR_LOG_PATH).toString();
   return (
     data
       .toString()
       .split('\n')
-      // We're interested only in JSON logs from Spartacus SSR app.
-      // We ignore plain text logs coming from other sources, like `Node Express server listening on http://localhost:4200`
-      .filter((text: string) => text.charAt(0) === '{')
+      // Try to parse JSONs:
       .map((text: any) => {
-        return JSON.parse(text);
+        if (text.charAt(0) === '{') {
+          try {
+            const object = JSON.parse(text);
+            return object;
+          } catch (error) {
+            console.warn(
+              'Encountered a line starting with `{` in logs that could not be parsed as a JSON object. Please make sure to build Spartacus SSR in prod mode - to get single line JSON logs. Dev mode would produce multi-line JSON logs that cannot be parsed.'
+            );
+            // If parsing fails, we return the original text.
+            return text;
+          }
+        } else {
+          // If a line is not a JSON object, we return it as is.
+          // It can be anything like 'Node Express server listening on ...'
+          return text;
+        }
       })
+      // Format parsed JSONs (but leave simple strings as is):
+      .map((textOrObject: object | string) => {
+        if (typeof textOrObject === 'object') {
+          if (logFormat === LOG_FORMAT.WITH_PRETTY_JSONS) {
+            return inspect(textOrObject, { depth: null });
+          }
+          if (logFormat === LOG_FORMAT.ONLY_MESSAGES) {
+            return (textOrObject as { message: string }).message;
+          }
+          if (logFormat === LOG_FORMAT.RAW) {
+            return JSON.stringify(textOrObject);
+          }
+          // if logFormat === LOG_FORMAT.WITH_JSONS_AS_OBJECTS:
+          return textOrObject;
+        } else {
+          if (
+            [LOG_FORMAT.ONLY_MESSAGES, LOG_FORMAT.ONLY_JSON_OBJECTS].includes(
+              logFormat
+            )
+          ) {
+            return undefined;
+          }
+          return textOrObject;
+        }
+      })
+      .filter((x): x is string | object => typeof x !== 'undefined')
   );
 }
 
 /**
- * Reads log and returns messages as string array.
+ * Returns only `message` property from JSON logs. Non-JSON logs are skipped.
  */
-export function getLogMessages(): string[] {
-  return getLogObjects().map((log) => (log as any).message);
+export function getLogsMessages(): string[] {
+  return getLogs(LOG_FORMAT.ONLY_MESSAGES) as string[];
+}
+
+/**
+ * Returns only JSON parsed as objects. Non-JSON logs are skipped.
+ */
+export function getLogsObjects(): object[] {
+  return getLogs(LOG_FORMAT.ONLY_JSON_OBJECTS) as object[];
 }
 
 /**
@@ -106,8 +149,10 @@ export function attachLogsToErrors(
     try {
       await testFn();
     } catch (error: unknown) {
-      const readableLogs = inspect(LogUtils.getLogObjects(), { depth: null });
-      const ssrLogs = `(more context below)\n--- SSR LOGS START ---\n${readableLogs}\n--- SSR LOGS END ---`;
+      const readableLogs = LogUtils.getLogs(
+        LogUtils.LOG_FORMAT.WITH_PRETTY_JSONS
+      ).join('\n');
+      const ssrLogs = `(more context below)\n--- SSR LOGS (with JSONs pretty-printed) ---\n${readableLogs}\n--- SSR LOGS END ---`;
 
       if (error instanceof Error) {
         // Error's `cause` property is the only property printed by Jest

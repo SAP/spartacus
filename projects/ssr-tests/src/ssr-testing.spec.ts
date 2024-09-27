@@ -1,5 +1,4 @@
 import { Server } from 'http';
-import { expectLogMessages } from './matchers/matchers';
 import * as HttpUtils from './utils/http.utils';
 import * as LogUtils from './utils/log.utils';
 import * as ProxyUtils from './utils/proxy.utils';
@@ -33,10 +32,11 @@ describe('SSR E2E', () => {
             await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
           expect(response.statusCode).toEqual(200);
 
-          expectLogMessages().toContainLogs([
-            `Rendering started (${REQUEST_PATH})`,
-            `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`,
-          ]);
+          const logsMessages = LogUtils.getLogsMessages();
+          expect(logsMessages).toContain(`Rendering started (${REQUEST_PATH})`);
+          expect(logsMessages).toContain(
+            `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`
+          );
         })
       );
 
@@ -101,14 +101,18 @@ describe('SSR E2E', () => {
           response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
           expect(response.statusCode).toEqual(200);
 
-          expectLogMessages().toContainLogs([
-            `Rendering started (${REQUEST_PATH})`,
-            `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`,
-          ]);
+          const logsMessages = LogUtils.getLogsMessages();
+          expect(logsMessages).toContain(`Rendering started (${REQUEST_PATH})`);
+          expect(logsMessages).toContain(
+            `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`
+          );
 
           response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
           expect(response.statusCode).toEqual(200);
-          expectLogMessages().toContain(`Render from cache (${REQUEST_PATH})`);
+          const logsMessages2 = LogUtils.getLogsMessages();
+          expect(logsMessages2).toContain(
+            `Render from cache (${REQUEST_PATH})`
+          );
         }),
         2 * SsrUtils.DEFAULT_SSR_TIMEOUT // increase timeout for this test as it calls the SSR server twice
       );
@@ -130,7 +134,8 @@ describe('SSR E2E', () => {
 
           response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
           expect(response.statusCode).toEqual(404);
-          expectLogMessages().not.toContain(
+          const logsMessages = LogUtils.getLogsMessages();
+          expect(logsMessages).not.toContain(
             `Render from cache (${REQUEST_PATH})`
           );
         }),
