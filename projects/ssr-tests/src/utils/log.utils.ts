@@ -116,7 +116,7 @@ export async function waitUntilLogContainsText(
   checkInterval = 500
 ): Promise<true> {
   return new Promise((resolve) => {
-    if (doesLogContainText(text)) {
+    if (getRawLogs().some((log) => log.includes(text))) {
       return resolve(true);
     }
     return setTimeout(
@@ -124,14 +124,6 @@ export async function waitUntilLogContainsText(
       checkInterval
     );
   });
-}
-
-/**
- * Returns true if log contains string.
- */
-export function doesLogContainText(text: string): boolean {
-  const data = fs.readFileSync(SSR_LOG_PATH).toString();
-  return data.includes(text);
 }
 
 /**
