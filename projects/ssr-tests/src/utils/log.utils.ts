@@ -25,13 +25,13 @@ export function clearSsrLogFile(): void {
   fs.writeFileSync(SSR_LOG_PATH, '');
 }
 
-export enum LOG_FORMAT {
-  ONLY_MESSAGES = 'ONLY_MESSAGES',
-  ONLY_JSON_OBJECTS = 'ONLY_JSON_OBJECTS',
-  WITH_PRETTY_JSONS = 'WITH_PRETTY_JSONS',
-  RAW = 'RAW',
-}
-
+/**
+ * Validates that all lines starting with `{` are valid JSON objects.
+ * Otherwise it throws an error.
+ *
+ * Note: multi-line JSONs (printed by SSR in dev mode) cannot be parsed by `JSON.parse`.
+ *       That's why we need to to run SSR in prod mode to get single line JSON logs.
+ */
 function validateJsonsInLogs(logs: string[]): void {
   logs.forEach((text) => {
     if (text.charAt(0) === '{') {
