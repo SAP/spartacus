@@ -75,10 +75,9 @@ export class OpfCtaScriptsService {
 
         return this.fetchCtaScripts(ctaScriptsRequest);
       }),
-      tap((scripts) => {
-        if (scripts.length && isDynamicCtaLocation) {
-          this.opfDynamicCtaService.initiateEvents();
-        }
+      tap((scriptsResponse) => {
+        isDynamicCtaLocation = !!scriptsResponse.length && isDynamicCtaLocation;
+        isDynamicCtaLocation && this.opfDynamicCtaService.initiateEvents();
       }),
       finalize(() => {
         this.opfResourceLoaderService.clearAllProviderResources();

@@ -54,9 +54,9 @@ export class OpfDynamicCtaService {
   protected currentProductService = inject(CurrentProductService);
 
   protected subList: Array<Subscription> = [];
-  isOnsiteMessagingInit = false;
-  scriptIdentifiers: Array<string> = [];
-  isCartPage: boolean;
+  protected isOnsiteMessagingInit = false;
+  protected scriptIdentifiers: Array<string> = [];
+  protected isCartPage: boolean;
 
   fillCtaRequestforCartPage(
     scriptLocation: CtaScriptsLocation,
