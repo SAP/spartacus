@@ -22,9 +22,9 @@ import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
   I18nConfig,
   OccConfig,
-  provideConfig,
   RoutingConfig,
   TestConfigModule,
+  provideConfig,
 } from '@spartacus/core';
 import { StoreFinderConfig } from '@spartacus/storefinder/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
@@ -63,7 +63,7 @@ if (!environment.production) {
     provideConfig(<OccConfig>{
       backend: {
         occ: {
-          baseUrl: environment.occBaseUrl,
+          baseUrl: 'http://localhost:9002',
           prefix: environment.occApiPrefix,
         },
       },
