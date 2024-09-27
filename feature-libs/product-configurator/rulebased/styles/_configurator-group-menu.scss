@@ -132,6 +132,10 @@
 
         &.cx-menu-conflict {
           background-color: mix(#ffffff, theme-color('warning'), 78%);
+          @include cx-highContrastTheme-dark {
+            color: var(--cx-color-light);
+          }
+        
         }
       }
 
