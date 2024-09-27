@@ -68,7 +68,7 @@ export class LoadOrderApprovalSuccess extends StateUtils.EntitySuccessAction {
       ORDER_APPROVAL_ENTITIES,
       Array.isArray(payload)
         ? payload.map((orderApproval) => orderApproval.code ?? '')
-        : payload.code ?? ''
+        : (payload.code ?? '')
     );
   }
 }

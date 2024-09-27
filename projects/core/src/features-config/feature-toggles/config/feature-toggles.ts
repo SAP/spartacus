@@ -219,6 +219,7 @@ export interface FeatureTogglesInterface {
 
   /**
    * Fixes unnecessarily expanded focus indicator in 'ProductListItemComponent' and 'AddToSavedCartComponent'.
+   * Modifies dialog styles to stop the focus indicator from expanding when 'close' button is focused.
    */
   a11yExpandedFocusIndicator?: boolean;
 
@@ -373,12 +374,6 @@ export interface FeatureTogglesInterface {
   a11yMyAccountLinkOutline?: boolean;
 
   /**
-   * When enabled focus outline on the close button inside `ProductImageZoomDialogComponent`
-   * will be fully visible
-   */
-  a11yCloseProductImageBtnFocus?: boolean;
-
-  /**
    * Improve colour contrast in the demonstration theme Santorini
    * to comply with accessibility standards. On activation, colour
    * assignations for all UI elements will change and previous keyboard
@@ -420,6 +415,13 @@ export interface FeatureTogglesInterface {
    * `StoreSearchComponent`, `AddToSavedCartComponent`, `PickupOptionsComponent`
    */
   a11yUseButtonsForBtnLinks?: boolean;
+
+  /**
+   * Enables the use of TabComponent in the PLP and PDP page to replace some functionality
+   * of the FacetListComponent and TabParagraphComponent to make then keyboard accessible
+   * and responsive in tab and accordion stles.
+   */
+  a11yTabComponent?: boolean;
 
   /**
    * `ProductImageZoomProductImagesComponent`, `ProductImageZoomThumbnailsComponent` - enable
@@ -531,6 +533,11 @@ export interface FeatureTogglesInterface {
   a11yDialogsHeading?: boolean;
 
   /**
+   * The 'AddToWishListComponent' will restore focus to the button after adding or removing an item from the wishlist.
+   */
+  a11yAddToWishlistFocus?: boolean;
+
+  /**
    * `SearchBoxComponent` should no longer lose focus after closing the popup the esc key.
    */
   a11ySearchBoxFocusOnEscape?: boolean;
@@ -616,12 +623,12 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPreventSRFocusOnHiddenElements: false,
   a11yMyAccountLinkOutline: false,
-  a11yCloseProductImageBtnFocus: false,
   a11yNotificationPreferenceFieldset: false,
   a11yImproveContrast: false,
   a11yEmptyWishlistHeading: false,
   a11yScreenReaderBloatFix: false,
   a11yUseButtonsForBtnLinks: false,
+  a11yTabComponent: false,
   a11yCarouselArrowKeysNavigation: false,
   a11yNotificationsOnConsentChange: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
@@ -641,6 +648,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yQuickOrderAriaControls: false,
   a11yRemoveStatusLoadedRole: false,
   a11yDialogsHeading: false,
+  a11yAddToWishlistFocus: false,
   a11ySearchBoxFocusOnEscape: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,

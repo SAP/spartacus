@@ -205,7 +205,7 @@ export class OrgUnitService {
     unit: B2BUnitNode
   ): B2BUnitNode[] {
     return unit.id === orginitId
-      ? unit.children ?? []
+      ? (unit.children ?? [])
       : (unit.children ?? []).flatMap((child) =>
           this.findUnitChildrenInTree(orginitId, child)
         );

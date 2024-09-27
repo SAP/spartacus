@@ -110,7 +110,7 @@ export class LoadUserGroupSuccess extends StateUtils.EntitySuccessAction {
       USER_GROUP_ENTITIES,
       Array.isArray(payload)
         ? payload.map((userGroup) => userGroup?.uid ?? '')
-        : payload?.uid ?? ''
+        : (payload?.uid ?? '')
     );
   }
 }
