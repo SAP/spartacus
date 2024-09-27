@@ -29,8 +29,9 @@ describe('SSR E2E', () => {
           backendProxy = await ProxyUtils.startBackendProxyServer({
             target: BACKEND_BASE_URL,
           });
-          const response: any =
-            await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+          const response: any = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
           expect(response.statusCode).toEqual(200);
 
           const logsMessages = LogUtils.getLogsMessages();
@@ -47,9 +48,9 @@ describe('SSR E2E', () => {
           backendProxy = await ProxyUtils.startBackendProxyServer({
             target: BACKEND_BASE_URL,
           });
-          const response = await HttpUtils.sendRequestToSsrServer(
-            REQUEST_PATH + 'not-existing-page'
-          );
+          const response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH + 'not-existing-page',
+          });
           expect(response.statusCode).toEqual(404);
         })
       );
@@ -65,7 +66,9 @@ describe('SSR E2E', () => {
               }
             },
           });
-          const response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+          const response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
           expect(response.statusCode).toEqual(404);
         })
       );
@@ -81,7 +84,9 @@ describe('SSR E2E', () => {
               }
             },
           });
-          const response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+          const response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
           expect(response.statusCode).toEqual(500);
         })
       );
@@ -179,10 +184,11 @@ describe('SSR E2E', () => {
         });
         expect(response.statusCode).toEqual(200);
 
-        expectLogMessages().toContainLogs([
-          `Rendering started (${REQUEST_PATH})`,
-          `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`,
-        ]);
+        const logsMessages = LogUtils.getLogsMessages();
+        expect(logsMessages).toContain(`Rendering started (${REQUEST_PATH})`);
+        expect(logsMessages).toContain(
+          `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`
+        );
       });
 
       it('should receive response with 200 even when page does not exist', async () => {
