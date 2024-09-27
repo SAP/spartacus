@@ -39,7 +39,9 @@ function validateJsonsInLogs(logs: string[]): void {
         JSON.parse(text);
       } catch (error) {
         throw new Error(
-          '(validateJsonsInLogs) Encountered a line starting with `{` in logs that could not be parsed as a JSON object. Please make sure to build Spartacus SSR in prod mode - to get single line JSON logs. Dev mode would produce multi-line JSON logs that cannot be parsed.'
+          `Encountered in SSR Logs a line starting with \`{\` that could not be parsed as JSON.
+          Perhaps its a multi-line JSON log from SSR dev mode.
+          Please make sure to build Spartacus SSR in prod mode - to get single line JSONs that can be parsed in tests.`
         );
       }
     }
