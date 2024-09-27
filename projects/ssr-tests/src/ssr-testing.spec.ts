@@ -1,3 +1,4 @@
+import { TestConfig } from '@spartacus/core';
 import { Server } from 'http';
 import * as HttpUtils from './utils/http.utils';
 import * as LogUtils from './utils/log.utils';
@@ -12,7 +13,7 @@ describe('SSR E2E', () => {
   const REQUEST_PATH = '/contact'; // path to the page that is less "busy" than the homepage
 
   afterEach(async () => {
-    backendProxy.close();
+    backendProxy?.close();
     await SsrUtils.killSsrServer();
   });
 
@@ -98,7 +99,9 @@ describe('SSR E2E', () => {
             target: BACKEND_BASE_URL,
           });
           let response: HttpUtils.SsrResponse;
-          response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+          response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
           expect(response.statusCode).toEqual(200);
 
           const logsMessages = LogUtils.getLogsMessages();
@@ -107,7 +110,9 @@ describe('SSR E2E', () => {
             `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`
           );
 
-          response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+          response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
           expect(response.statusCode).toEqual(200);
           const logsMessages2 = LogUtils.getLogsMessages();
           expect(logsMessages2).toContain(
@@ -129,10 +134,14 @@ describe('SSR E2E', () => {
             },
           });
           let response: HttpUtils.SsrResponse;
-          response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+          response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
           expect(response.statusCode).toEqual(404);
 
-          response = await HttpUtils.sendRequestToSsrServer(REQUEST_PATH);
+          response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
           expect(response.statusCode).toEqual(404);
           const logsMessages = LogUtils.getLogsMessages();
           expect(logsMessages).not.toContain(
@@ -141,6 +150,67 @@ describe('SSR E2E', () => {
         }),
         2 * SsrUtils.DEFAULT_SSR_TIMEOUT // increase timeout for this test as it calls the SSR server twice
       );
+    });
+  });
+
+  describe('WITHOUT SSR error handling', () => {
+    let testConfig: TestConfig;
+
+    beforeEach(() => {
+      testConfig = {
+        features: {
+          propagateErrorsToServer: false,
+        },
+      };
+    });
+
+    describe('Common behavior', () => {
+      beforeEach(async () => {
+        await SsrUtils.startSsrServer();
+      });
+
+      it('should receive success response with request', async () => {
+        backendProxy = await ProxyUtils.startBackendProxyServer({
+          target: BACKEND_BASE_URL,
+        });
+        const response: any = await HttpUtils.sendRequestToSsrServer({
+          path: REQUEST_PATH,
+          testConfig,
+        });
+        expect(response.statusCode).toEqual(200);
+
+        expectLogMessages().toContainLogs([
+          `Rendering started (${REQUEST_PATH})`,
+          `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`,
+        ]);
+      });
+
+      it('should receive response with 200 even when page does not exist', async () => {
+        backendProxy = await ProxyUtils.startBackendProxyServer({
+          target: BACKEND_BASE_URL,
+        });
+        const response = await HttpUtils.sendRequestToSsrServer({
+          path: REQUEST_PATH + 'not-existing-page',
+          testConfig,
+        });
+        expect(response.statusCode).toEqual(200);
+      });
+
+      it('should receive response with status 500 even if HTTP error occurred when calling backend API URL', async () => {
+        backendProxy = await ProxyUtils.startBackendProxyServer({
+          target: BACKEND_BASE_URL,
+          callback: (proxyRes, req) => {
+            if (req.url?.includes('cms/components')) {
+              proxyRes.statusCode = 400;
+            }
+          },
+        });
+        const response = await HttpUtils.sendRequestToSsrServer({
+          path: REQUEST_PATH,
+          testConfig,
+        });
+        expect(response.statusCode).toEqual(200);
+      });
     });
   });
 });
