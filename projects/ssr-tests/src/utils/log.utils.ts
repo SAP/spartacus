@@ -153,7 +153,8 @@ export function attachLogsToErrors(
         // besides `message` that we can utilize for attaching logs.
         // No other custom properties are printed by Jest.
         // See their source code of their function `formatExecError`:
-        // https://github.com/jestjs/jest/blob/bd1c6db7c15c23788ca3e09c919138e48dd3b28a/packages/jest-message-util/src/index.ts#L235
+        // https://github.com/jestjs/jest/blob/bd1c6db7c15c23788ca3e09c919138e48dd3b28a/packages/jest-message-util/src/index.ts#L436
+
         error.cause = ssrLogs;
       } else {
         throw new Error(error as string, { cause: ssrLogs });
