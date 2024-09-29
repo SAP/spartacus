@@ -11,7 +11,7 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { defer, merge, Observable, of } from 'rxjs';
+import { Observable, defer, merge, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import {
   ComponentCreateEvent,
@@ -68,12 +68,13 @@ export class ProductIntroComponent {
         const tabsComponent = this.getTabsComponent();
         const reviewsTab =
           tabsComponent && this.getTabByLabel(reviewsTabLabel, tabsComponent);
-
         if (reviewsTab) {
-          this.clickTabIfInactive(reviewsTab);
           setTimeout(() => {
-            reviewsTab.scrollIntoView({ behavior: 'smooth' });
-            reviewsTab.focus({ preventScroll: true });
+            this.clickTabIfInactive(reviewsTab);
+            requestAnimationFrame(() => {
+              reviewsTab.focus({ preventScroll: true });
+              reviewsTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
           });
         }
       })
