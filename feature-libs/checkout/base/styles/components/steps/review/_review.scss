@@ -162,10 +162,10 @@
 
     .cx-item-list-items tr {
       td:nth-of-type(1){
-        padding-left: 1.25rem;
+        padding-inline-start: 1.25rem;
       }
       td:nth-last-of-type(1){
-        padding-right: 1.25rem;
+        padding-inline-end: 1.25rem;
       }
     }
   }
