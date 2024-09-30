@@ -6,11 +6,10 @@
 
 import { Provider } from '@angular/core';
 import { OpfQuickBuyFacade } from '@spartacus/opf/quick-buy/root';
-import { OpfQuickBuyTransactionService } from '../services';
 import { OpfQuickBuyService } from './opf-quick-buy.service';
 
 export const facadeProviders: Provider[] = [
-  OpfQuickBuyTransactionService,
+  OpfQuickBuyService,
   {
     provide: OpfQuickBuyFacade,
     useExisting: OpfQuickBuyService,
