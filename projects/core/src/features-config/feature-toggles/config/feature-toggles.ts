@@ -584,11 +584,12 @@ export interface FeatureTogglesInterface {
   enablePasswordsCannotMatchInPasswordUpdateForm?: boolean;
 
   /**
-   * Enables or disables the resolution of all page meta resolvers in a Client-Side Rendering (CSR) environment.
+   * Enables *all* page meta resolvers in Client-Side Rendering (CSR),
+   * ignoring the configuration option set for specific resolvers
+   * `config.pageMeta.resolvers[index].disabledInCsr`.
    *
-   * When set to `true`, all page meta resolvers will be activated during client-side rendering,
-   * allowing the app to dynamically resolve metadata (such as title, description, etc.) based on the current page.
-   * This can be useful in CSR apps where page metadata needs to be updated without a full server-side refresh.
+   * Note: The config option `disabledInCsr` is now deprecated and will be removed
+   *       in the future together with this feature toggle.
    */
   allPageMetaResolversEnabledInCsr?: boolean;
 }
