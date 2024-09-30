@@ -12,7 +12,12 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
-import { AuthService, I18nTestingModule, Product } from '@spartacus/core';
+import {
+  AuthService,
+  FeatureConfigService,
+  I18nTestingModule,
+  Product,
+} from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -93,6 +98,12 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 @Directive({
   selector: '[cxAtMessage]',
 })
@@ -123,6 +134,7 @@ describe('AddToWishListComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(AddToWishListComponent, {
@@ -237,6 +249,38 @@ describe('AddToWishListComponent', () => {
         expect(wishList).toEqual([]);
         done();
       });
+    });
+  });
+
+  describe('restoreFocus', () => {
+    it('should refocus on removeFromWishlistButton', () => {
+      component.removeFromWishlistButton = {
+        nativeElement: {
+          focus: jasmine.createSpy('focus'),
+        },
+      };
+      component.loading$ = of(false);
+
+      component['restoreFocus']();
+
+      expect(
+        component.removeFromWishlistButton.nativeElement.focus
+      ).toHaveBeenCalled();
+    });
+
+    it('should refocus on addToWishlistButton', () => {
+      component.addToWishlistButton = {
+        nativeElement: {
+          focus: jasmine.createSpy('focus'),
+        },
+      } as any;
+
+      component.loading$ = of(false);
+      component['restoreFocus']();
+
+      expect(
+        component.addToWishlistButton.nativeElement.focus
+      ).toHaveBeenCalled();
     });
   });
 });
