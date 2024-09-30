@@ -29,7 +29,7 @@ import {
   Tab,
   TabConfig,
   TAB_MODE,
-} from 'projects/storefrontlib/cms-components/content/tab/tab.model';
+} from '../../../../content/tab/tab.model';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import {
