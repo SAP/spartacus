@@ -536,9 +536,10 @@ export interface FeatureTogglesInterface {
   a11ySearchBoxFocusOnEscape?: boolean;
 
   /**
-   * On activating remove button when count is 2, it must not lose focus in `ItemCounterComponent'.
+   * In `ItemCounterComponenet`, Remove button no longer lose focus after activating when count is 2.
+   * Add button no longer lose focus after activating when count is `max - 1`.
    */
-  allyCounterFocus?: boolean;
+  allyItemCounterFocus?: boolean;
 
   /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
@@ -647,7 +648,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRemoveStatusLoadedRole: false,
   a11yDialogsHeading: false,
   a11ySearchBoxFocusOnEscape: false,
-  allyCounterFocus: false,
+  allyItemCounterFocus: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
   useSiteThemeService: false,

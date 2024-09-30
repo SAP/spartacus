@@ -160,7 +160,9 @@ describe('ItemCounterComponent', () => {
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
       );
-      expect((<HTMLButtonElement>button[1].nativeElement).disabled).toBeFalsy();
+      expect(
+        (<HTMLButtonElement>button[1].nativeElement).ariaDisabled
+      ).toBeFalsy();
     });
 
     it('should disable increase button if max number is reached', () => {
@@ -171,7 +173,7 @@ describe('ItemCounterComponent', () => {
         By.css('button')
       );
       expect(
-        (<HTMLButtonElement>button[1].nativeElement).disabled
+        (<HTMLButtonElement>button[1].nativeElement).ariaDisabled
       ).toBeTruthy();
     });
   });
@@ -207,7 +209,9 @@ describe('ItemCounterComponent', () => {
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
       );
-      expect((<HTMLButtonElement>button[0].nativeElement).disabled).toBeFalsy();
+      expect(
+        (<HTMLButtonElement>button[0].nativeElement).ariaDisabled
+      ).toBeFalsy();
     });
 
     it('should disable decrease button if min number is reached', () => {
