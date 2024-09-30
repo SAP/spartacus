@@ -24,6 +24,7 @@
     "typescript": "^5.2.2"
   },
   "ssr-tests": {
+    "@spartacus/core": "2211.29.0-2",
     "http-proxy": "^1.18.1"
   },
   "storefrontapp-e2e-cypress": {},

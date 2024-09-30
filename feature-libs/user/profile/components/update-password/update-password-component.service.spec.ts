@@ -10,6 +10,7 @@ import {
   FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorModel,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -203,6 +204,30 @@ describe('UpdatePasswordComponentService', () => {
           cxMinSixCharactersLength: true,
         });
       });
+    });
+  });
+
+  describe('onError', () => {
+    it('should handle AccessDeniedError', () => {
+      const httpError = new HttpErrorModel();
+      httpError.details = [{ type: 'AccessDeniedError' }];
+
+      service['onError'](httpError);
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'updatePasswordForm.accessDeniedError',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    });
+
+    it('should not show AccessDeniedError', () => {
+      const httpError = new HttpErrorModel();
+
+      service['onError'](httpError);
+
+      expect(globalMessageService.add).not.toHaveBeenCalled();
     });
   });
 });
