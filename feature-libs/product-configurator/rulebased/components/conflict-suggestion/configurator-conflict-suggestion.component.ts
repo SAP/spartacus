@@ -5,6 +5,9 @@
  */
 
 import {
+  ICON_TYPE,
+} from '@spartacus/storefront';
+import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
@@ -23,6 +26,7 @@ export class ConfiguratorConflictSuggestionComponent {
   @Input() suggestionNumber: number;
 
   groupType = Configurator.GroupType;
+  iconTypes = ICON_TYPE;
 
   @HostBinding('tabindex') tabindex = '0';
   @HostBinding('role') role = 'note';
