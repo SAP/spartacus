@@ -253,7 +253,7 @@ describe('OpfCtaScriptsService', () => {
       });
   });
 
-  it('should not execute script when html from script response is empty', (done) => {
+  it('should not execute script when resource loading failed', (done) => {
     opfResourceLoaderServiceMock.loadProviderResources.and.returnValue(
       Promise.reject()
     );
