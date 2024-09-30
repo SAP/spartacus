@@ -13,6 +13,7 @@
       -moz-appearance: textfield;
     }
   }
+
   &.readonly {
     button {
       display: none;
@@ -77,8 +78,10 @@
       font-weight: var(--cx-font-weight-bold);
     }
 
-    &:disabled {
+    &:disabled,
+    &[aria-disabled='true'] {
       color: var(--cx-color-light);
+      cursor: not-allowed;
     }
 
     @include forFeature('a11yImproveContrast') {
@@ -90,13 +93,15 @@
       &:focus {
         box-shadow: 0 0 0 0;
       }
-      &:disabled {
+      &:disabled,
+      &[aria-disabled='true'] {
         color: var(--cx-color-dark);
       }
     }
   }
 
-  :disabled {
+  :disabled,
+  &[aria-disabled='true'] {
     cursor: not-allowed;
   }
 
@@ -106,7 +111,8 @@
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
     }
-    input:disabled {
+    input:disabled,
+    input[aria-disabled='true'] {
       color: var(--cx-color-text);
       background-color: var(--cx-color-background);
     }

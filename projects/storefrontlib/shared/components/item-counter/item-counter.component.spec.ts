@@ -161,8 +161,10 @@ describe('ItemCounterComponent', () => {
         By.css('button')
       );
       expect(
-        (<HTMLButtonElement>button[1].nativeElement).ariaDisabled
-      ).toBeFalsy();
+        (<HTMLButtonElement>button[1].nativeElement).getAttribute(
+          'aria-disabled'
+        )
+      ).toBe('false');
     });
 
     it('should disable increase button if max number is reached', () => {
@@ -173,8 +175,10 @@ describe('ItemCounterComponent', () => {
         By.css('button')
       );
       expect(
-        (<HTMLButtonElement>button[1].nativeElement).ariaDisabled
-      ).toBeTruthy();
+        (<HTMLButtonElement>button[1].nativeElement).getAttribute(
+          'aria-disabled'
+        )
+      ).toBe('true');
     });
   });
 
@@ -210,8 +214,10 @@ describe('ItemCounterComponent', () => {
         By.css('button')
       );
       expect(
-        (<HTMLButtonElement>button[0].nativeElement).ariaDisabled
-      ).toBeFalsy();
+        (<HTMLButtonElement>button[0].nativeElement).getAttribute(
+          'aria-disabled'
+        )
+      ).toBe('false');
     });
 
     it('should disable decrease button if min number is reached', () => {
@@ -222,8 +228,10 @@ describe('ItemCounterComponent', () => {
         By.css('button')
       );
       expect(
-        (<HTMLButtonElement>button[0].nativeElement).ariaDisabled
-      ).toBeTruthy();
+        (<HTMLButtonElement>button[0].nativeElement).getAttribute(
+          'aria-disabled'
+        )
+      ).toBe('true');
     });
   });
 
