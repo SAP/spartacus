@@ -6,9 +6,9 @@
   tabindex="0"
 >
   <div class="cx-message-content">
-    <div class="cx-message-header">
-      <span class="cx-message-icon">
-        <cx-icon [type]="getIconType"></cx-icon>
+    <div role="presentation" class="cx-message-header">
+      <span role="presentation" class="cx-message-icon">
+        <cx-icon role="presentation" [type]="getIconType"></cx-icon>
       </span>
 
       <span class="cx-message-text">
@@ -45,6 +45,7 @@
         (click)="closeMessage.emit()"
         [attr.aria-label]="'common.close' | cxTranslate"
         [cxAtMessage]="'common.close' | cxTranslate"
+        title="{{ 'common.close' | cxTranslate }}"
         class="close"
         type="button"
       >

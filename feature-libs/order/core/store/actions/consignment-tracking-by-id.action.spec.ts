@@ -52,6 +52,7 @@ describe('Consignment Tracking By Id Actions', () => {
           'order1,cons1',
           'error'
         ),
+        error: 'error',
       });
     });
   });

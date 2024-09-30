@@ -16,12 +16,12 @@
           ></cx-card>
           <div class="cx-review-summary-edit-step">
             <a
-              [attr.aria-label]="
+              [attr.title]="
                 'checkoutReview.editDeliveryAddressDetails' | cxTranslate
               "
               [routerLink]="
                 {
-                  cxRoute: deliveryAddressStepRoute
+                  cxRoute: deliveryAddressStepRoute,
                 } | cxUrl
               "
               ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
@@ -39,9 +39,7 @@
           ></cx-card>
           <div class="cx-review-summary-edit-step">
             <a
-              [attr.aria-label]="
-                'checkoutReview.editDeliveryMode' | cxTranslate
-              "
+              [attr.title]="'checkoutReview.editDeliveryMode' | cxTranslate"
               [routerLink]="{ cxRoute: deliveryModeStepRoute } | cxUrl"
             >
               <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
@@ -57,7 +55,7 @@
         [cxOutlet]="cartOutlets.CART_ITEM_LIST"
         [cxOutletContext]="{
           items: entries,
-          readonly: true
+          readonly: true,
         }"
       >
       </ng-template>

@@ -33,7 +33,7 @@
             *ngFor="let location of locations?.stores; let i = index"
             id="{{ 'item-' + i }}"
             [ngClass]="{
-              'cx-selected-item': selectedStoreIndex === i
+              'cx-selected-item': selectedStoreIndex === i,
             }"
             class="cx-list-items"
           >
@@ -74,7 +74,7 @@
             role="tab"
             [ngClass]="{
               'nav-link': true,
-              active: isDisplayModeActive(mode?.value)
+              active: isDisplayModeActive(mode?.value),
             }"
             [attr.aria-controls]="'tab-' + mode?.value + '-panel'"
             [attr.aria-selected]="isDisplayModeActive(mode?.value)"
@@ -105,7 +105,7 @@
                     *ngFor="let location of locations?.stores; let i = index"
                     id="{{ 'item-' + i }}"
                     [ngClass]="{
-                      'cx-selected-item': selectedStoreIndex === i
+                      'cx-selected-item': selectedStoreIndex === i,
                     }"
                     class="cx-list-items"
                   >

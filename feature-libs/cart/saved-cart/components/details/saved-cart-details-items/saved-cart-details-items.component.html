@@ -1,6 +1,10 @@
 <ng-container *ngIf="savedCart$ | async as cart">
   <ng-container *ngIf="cart?.entries?.length > 0; else emptyCartItems">
-    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <div
+      *cxFeature="'!a11yRemoveStatusLoadedRole'"
+      role="status"
+      [attr.aria-label]="'common.loaded' | cxTranslate"
+    ></div>
     <div class="cart-details-wrapper">
       <ng-template
         [cxOutlet]="CartOutlets.CART_ITEM_LIST"
@@ -13,8 +17,8 @@
             displayAddToCart: true,
             addToCartString: (buyItAgainTranslation$ | async),
             optionalBtn: addToCartBtn,
-            cartType: CartType.SELECTIVE
-          }
+            cartType: CartType.SELECTIVE,
+          },
         }"
       >
       </ng-template>

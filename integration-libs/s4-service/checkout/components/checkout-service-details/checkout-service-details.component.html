@@ -1,19 +1,70 @@
 <h2
   class="cx-checkout-title d-none d-lg-block d-xl-block"
-  [attr.aria-label]="'serviceOrderCheckout.heading' | cxTranslate"
+  [attr.aria-label]="
+    'serviceOrderCheckout.serviceLocationHeading' | cxTranslate
+  "
 >
-  {{ 'serviceOrderCheckout.heading' | cxTranslate }}
+  {{ 'serviceOrderCheckout.serviceLocationHeading' | cxTranslate }}
 </h2>
-
-<ng-container *ngIf="serviceProducts$ | async as products">
-  <ng-container *ngIf="products.length === 0; else showScheduler">
-    <span
-      [attr.aria-label]="'serviceOrderCheckout.clickContinue' | cxTranslate"
+<div
+  class="cx-service-location-text"
+  [attr.aria-label]="'serviceOrderCheckout.address' | cxTranslate"
+>
+  {{ 'serviceOrderCheckout.address' | cxTranslate }}
+</div>
+<h2
+  class="cx-checkout-title d-none d-lg-block d-xl-block"
+  [attr.aria-label]="
+    'serviceOrderCheckout.serviceScheduleHeading' | cxTranslate
+  "
+>
+  {{ 'serviceOrderCheckout.serviceScheduleHeading' | cxTranslate }}
+</h2>
+<form [formGroup]="this.form">
+  <div class="row">
+    <label
+      class="col"
+      [attr.aria-label]="'serviceOrderCheckout.datePickerLabel' | cxTranslate"
     >
-      {{ 'serviceOrderCheckout.clickContinue' | cxTranslate }}
-    </span>
-  </ng-container>
-</ng-container>
+      <div>
+        {{ 'serviceOrderCheckout.datePickerLabel' | cxTranslate }}
+      </div>
+      <div>
+        <cx-date-picker
+          [control]="$any(form.get('scheduleDate'))"
+          [min]="(minServiceDate$ | async) ?? undefined"
+          label="serviceOrderCheckout.datePickerLabel"
+        >
+        </cx-date-picker>
+      </div>
+    </label>
+
+    <label
+      class="col"
+      [attr.aria-label]="'serviceOrderCheckout.timePickerLabel' | cxTranslate"
+    >
+      <div>
+        {{ 'serviceOrderCheckout.timePickerLabel' | cxTranslate }}
+      </div>
+      <div>
+        <select
+          *ngIf="scheduleTimes$ | async as scheduleTimes"
+          class="form-control"
+          formControlName="scheduleTime"
+          (change)="setScheduleTime($event)"
+        >
+          <option
+            *ngFor="let time of scheduleTimes"
+            [value]="time"
+            [selected]="form.get('scheduleTime')?.value === time"
+          >
+            {{ time }}
+          </option>
+        </select>
+      </div>
+    </label>
+  </div>
+</form>
 
 <div class="row cx-checkout-btns">
   <section class="col-md-12 col-lg-6">
@@ -36,49 +87,3 @@
     </button>
   </section>
 </div>
-
-<ng-template #showScheduler>
-  <form [formGroup]="this.form">
-    <label
-      class="row"
-      [attr.aria-label]="'serviceOrderCheckout.datePickerLabel' | cxTranslate"
-    >
-      <div class="pl-4 col-8">
-        {{ 'serviceOrderCheckout.datePickerLabel' | cxTranslate }}
-      </div>
-      <div class="col-4">
-        <cx-date-picker
-          [control]="$any(form.get('scheduleDate'))"
-          [min]="(minServiceDate$ | async) ?? undefined"
-          label="serviceOrderCheckout.datePickerLabel"
-        >
-        </cx-date-picker>
-      </div>
-    </label>
-
-    <label
-      class="row"
-      [attr.aria-label]="'serviceOrderCheckout.timePickerLabel' | cxTranslate"
-    >
-      <div class="pl-4 col-8">
-        {{ 'serviceOrderCheckout.timePickerLabel' | cxTranslate }}
-      </div>
-      <div class="col-4">
-        <select
-          *ngIf="scheduleTimes$ | async as scheduleTimes"
-          class="form-control"
-          formControlName="scheduleTime"
-          (change)="setScheduleTime($event)"
-        >
-          <option
-            *ngFor="let time of scheduleTimes"
-            [value]="time"
-            [selected]="form.get('scheduleTime')?.value === time"
-          >
-            {{ time }}
-          </option>
-        </select>
-      </div>
-    </label>
-  </form>
-</ng-template>

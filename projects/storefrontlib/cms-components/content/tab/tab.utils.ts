@@ -12,9 +12,7 @@
 export function wrapIntoBounds(index: number, max: number, min = 0): number {
   if (index < min) {
     return max;
-  }
-
-  if (index > max) {
+  } else if (index > max) {
     return min;
   }
 

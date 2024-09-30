@@ -2,7 +2,7 @@
   <fieldset>
     <legend style="display: none">{{ attribute.label }}</legend>
     <div id="{{ createAttributeIdForConfigurator(attribute) }}">
-      <div class="form-check">
+      <div class="form-check" *ngIf="changedPrices$ | async as changedPrices">
         <div class="cx-value-label-pair">
           <input
             id="{{
@@ -15,27 +15,21 @@
             class="form-check-input"
             [value]="attributeValue.valueCode"
             [cxFocus]="{
-              key: attribute.name + '-' + attributeValue.name
+              key: attribute.name + '-' + attributeValue.name,
             }"
-            (change)="onSelect()"
+            (change)="onSelect(attributeValue.valueCode)"
             [formControl]="attributeCheckBoxForm"
             name="{{ createAttributeIdForConfigurator(attribute) }}"
             [attr.aria-label]="
-              attributeValue.valuePrice &&
-              attributeValue.valuePrice?.value !== 0
-                ? ('configurator.a11y.valueOfAttributeFullWithPrice'
-                  | cxTranslate
-                    : {
-                        value: attributeValue.valueDisplay,
-                        attribute: attribute.label,
-                        price: attributeValue.valuePrice.formattedValue
-                      })
-                : ('configurator.a11y.valueOfAttributeFull'
-                  | cxTranslate
-                    : {
-                        value: attributeValue.valueDisplay,
-                        attribute: attribute.label
-                      })
+              getAriaLabelGeneric(
+                attribute,
+                enrichValueWithPrice(attributeValue, changedPrices)
+              )
+            "
+            [attr.aria-live]="
+              isLastSelected(attribute.name, attributeValue.valueCode)
+                ? 'polite'
+                : null
             "
             [attr.aria-describedby]="
               createAttributeUiKey('label', attribute.name)
@@ -81,7 +75,11 @@
         </div>
         <div class="cx-value-price">
           <cx-configurator-price
-            [formula]="extractValuePriceFormulaParameters(attributeValue)"
+            [formula]="
+              extractValuePriceFormulaParameters(
+                enrichValueWithPrice(attributeValue, changedPrices)
+              )
+            "
           ></cx-configurator-price>
         </div>
       </div>

@@ -49,7 +49,7 @@
     @include forFeature('a11ySortingOptionsTruncation') {
       & ng-select {
         @include media-breakpoint-up(lg) {
-          width: 14rem;
+          width: 15rem;
         }
       }
     }
@@ -130,5 +130,11 @@
 
   .align-btn {
     margin-top: 0px !important;
+  }
+
+  @include cx-highContrastTheme {
+    .cx-sort-dropdown {
+      color: var(--cx-color-text);
+    }
   }
 }

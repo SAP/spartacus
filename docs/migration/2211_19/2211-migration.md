@@ -27,7 +27,7 @@ Follow the [Angular guidelines for upgrading from v16 to v17](https://update.ang
 Please also update other 3rd part dependencies from Angular ecosystem to versions compatible with Angular 17, e.g. `@ng-select/ng-select@12`, `@ngrx/store@17`, `ngx-infinite-scroll@17`:
 
 ```bash
-ng update @angular/core@17 @angular/cli@17 @ng-select/ng-select@12 @ngrx/store@17 ngx-infinite-scroll@17 --force
+ng update @angular/core@17 @angular/cli@17 @ng-select/ng-select@12 @ngrx/store@17 ngx-infinite-scroll@17 rxjs@7.8.1 --force
 git add .
 git commit -m "update angular 17 and 3rd party deps angular 17 compatible"
 ```
@@ -46,6 +46,12 @@ git add .
 git commit -m "add @angular-devkit/schematics@17 to dev dependencies"
 ```
 
+If `@angular-devkit/core` is not listed under the `devDependencies` in the `package.json` file, please execute the following commands:
+```bash
+npm i @angular-devkit/core@17 --save-dev --force             
+git add .
+git commit -m "add @angular-devkit/core@17 to dev dependencies"
+```
 ### Run Spartacus update
 
 After successfully updating the application to Angular 17, execute this command to initiate the Spartacus update process.

@@ -4,16 +4,29 @@
   (esc)="dismissDialog('Escape clicked')"
   role="dialog"
   aria-modal="true"
+  aria-labelledby="dialogTitle"
 >
   <div class="cx-modal-content">
     <!-- Modal Header -->
     <div class="cx-dialog-header modal-header">
-      <div class="cx-dialog-title modal-title">
+      <h3
+        *cxFeature="'a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+      >
+        {{ 'dpPaymentForm.confirmation.heading' | cxTranslate }}
+      </h3>
+      <div
+        *cxFeature="'!a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+      >
         {{ 'dpPaymentForm.confirmation.heading' | cxTranslate }}
       </div>
       <button
         type="button"
         class="close"
+        title="{{ 'common.close' | cxTranslate }}"
         [attr.aria-label]="'common.close' | cxTranslate"
         (click)="dismissDialog('Cross click')"
       >

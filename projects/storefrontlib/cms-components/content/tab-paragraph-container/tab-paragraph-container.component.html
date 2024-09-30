@@ -17,7 +17,15 @@
             component.title | cxTranslate: { param: tabTitleParams[i] | async }
           }}
 
-          <span class="accordion-icon" aria-hidden="true"></span>
+          <span
+            title="{{
+              i === activeTabNum
+                ? ('common.collapse' | cxTranslate)
+                : ('common.expand' | cxTranslate)
+            }}"
+            class="accordion-icon"
+            aria-hidden="true"
+          ></span>
         </button>
 
         <div

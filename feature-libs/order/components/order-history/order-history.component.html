@@ -1,7 +1,7 @@
 <ng-container
   *ngIf="{
     orderHistory: orders$ | async,
-    replenishmentOrder: hasReplenishmentOrder$ | async
+    replenishmentOrder: hasReplenishmentOrder$ | async,
   } as type"
 >
   <ng-container *ngIf="type.orderHistory">
@@ -103,9 +103,10 @@
                     [routerLink]="
                       {
                         cxRoute: 'orderDetails',
-                        params: order
+                        params: order,
                       } | cxUrl
                     "
+                    [queryParams]="getQueryParams(order)"
                     class="cx-order-history-value"
                   >
                     {{ order?.code }}</a
@@ -121,9 +122,10 @@
                       [routerLink]="
                         {
                           cxRoute: 'orderDetails',
-                          params: order
+                          params: order,
                         } | cxUrl
                       "
+                      [queryParams]="getQueryParams(order)"
                       class="cx-order-history-value"
                     >
                       {{ order.purchaseOrderNumber }}</a
@@ -138,9 +140,10 @@
                       [routerLink]="
                         {
                           cxRoute: 'orderDetails',
-                          params: order
+                          params: order,
                         } | cxUrl
                       "
+                      [queryParams]="getQueryParams(order)"
                       class="cx-order-history-value"
                     >
                       {{ order.costCenter?.name }}</a
@@ -156,9 +159,10 @@
                     [routerLink]="
                       {
                         cxRoute: 'orderDetails',
-                        params: order
+                        params: order,
                       } | cxUrl
                     "
+                    [queryParams]="getQueryParams(order)"
                     class="cx-order-history-value"
                     >{{ order?.placed | cxDate: 'longDate' }}</a
                   >
@@ -171,9 +175,10 @@
                     [routerLink]="
                       {
                         cxRoute: 'orderDetails',
-                        params: order
+                        params: order,
                       } | cxUrl
                     "
+                    [queryParams]="getQueryParams(order)"
                     class="cx-order-history-value"
                   >
                     {{
@@ -190,9 +195,10 @@
                     [routerLink]="
                       {
                         cxRoute: 'orderDetails',
-                        params: order
+                        params: order,
                       } | cxUrl
                     "
+                    [queryParams]="getQueryParams(order)"
                     class="cx-order-history-value"
                   >
                     {{ order?.total.formattedValue }}</a

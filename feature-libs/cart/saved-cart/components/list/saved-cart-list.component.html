@@ -1,6 +1,10 @@
 <ng-container *ngIf="savedCarts$ | async as savedCarts">
   <ng-container *ngIf="!(isLoading$ | async); else loading">
-    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <div
+      *cxFeature="'!a11yRemoveStatusLoadedRole'"
+      role="status"
+      [attr.aria-label]="'common.loaded' | cxTranslate"
+    ></div>
     <div class="cx-saved-cart-list-header">
       <h2>
         {{
@@ -49,7 +53,7 @@
                 [routerLink]="
                   {
                     cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
+                    params: { savedCartId: savedCart?.code },
                   } | cxUrl
                 "
                 class="cx-saved-cart-list-value"
@@ -65,7 +69,7 @@
                 [routerLink]="
                   {
                     cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
+                    params: { savedCartId: savedCart?.code },
                   } | cxUrl
                 "
                 class="cx-saved-cart-list-value"
@@ -80,7 +84,7 @@
                 [routerLink]="
                   {
                     cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
+                    params: { savedCartId: savedCart?.code },
                   } | cxUrl
                 "
                 class="cx-saved-cart-list-value"
@@ -95,7 +99,7 @@
                 [routerLink]="
                   {
                     cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
+                    params: { savedCartId: savedCart?.code },
                   } | cxUrl
                 "
                 class="cx-saved-cart-list-value"
@@ -111,7 +115,7 @@
                 [routerLink]="
                   {
                     cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
+                    params: { savedCartId: savedCart?.code },
                   } | cxUrl
                 "
                 class="cx-saved-cart-list-value"

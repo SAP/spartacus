@@ -1,9 +1,16 @@
-<div class="cx-image-zoom-dialog" role="dialog" [cxFocus]="focusConfig">
+<div
+  class="cx-image-zoom-dialog"
+  role="dialog"
+  (esc)="close('Escape clicked')"
+  [cxFocus]="focusConfig"
+  [attr.aria-label]="'productImageZoomDialog.zoomedInImage' | cxTranslate"
+>
   <div class="cx-dialog-content">
     <div class="cx-dialog-header">
       <button
         type="button"
         class="close"
+        title="{{ 'productImageZoomDialog.close' | cxTranslate }}"
         [attr.aria-label]="'productImageZoomDialog.close' | cxTranslate"
         (click)="close('cross click')"
       >

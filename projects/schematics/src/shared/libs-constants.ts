@@ -131,6 +131,12 @@ export const SPARTACUS_IMAGE_ZOOM_ASSETS = `@spartacus/product/image-zoom/assets
 export const SPARTACUS_VARIANTS = `@spartacus/product/variants`;
 export const SPARTACUS_VARIANTS_ROOT = `@spartacus/product/variants/root`;
 export const SPARTACUS_VARIANTS_ASSETS = `@spartacus/product/variants/assets`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL = `@spartacus/product-multi-dimensional`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_LIST = `@spartacus/product-multi-dimensional/list`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_LIST_ROOT = `@spartacus/product-multi-dimensional/list/root`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR = `@spartacus/product-multi-dimensional/selector`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR_ROOT = `@spartacus/product-multi-dimensional/selector/root`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR_CONFIGURATOR_ASSETS = `@spartacus/product-multi-dimensional/selector/assets`;
 export const SPARTACUS_FUTURE_STOCK = `@spartacus/product/future-stock`;
 export const SPARTACUS_FUTURE_STOCK_ROOT = `@spartacus/product/future-stock/root`;
 export const SPARTACUS_FUTURE_STOCK_ASSETS = `@spartacus/product/future-stock/assets`;
@@ -223,6 +229,10 @@ export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
+export const SPARTACUS_OMF = '@spartacus/omf';
+export const SPARTACUS_OMF_ROOT = '@spartacus/omf/root';
+export const SPARTACUS_OMF_ORDER = '@spartacus/omf/order';
+
 export const SPARTACUS_OPPS = '@spartacus/opps';
 export const SPARTACUS_OPPS_ROOT = '@spartacus/opps/root';
 
@@ -279,7 +289,10 @@ export const PRODUCT_BULK_PRICING_FEATURE_NAME = 'Bulk-Pricing';
 export const PRODUCT_IMAGE_ZOOM_FEATURE_NAME = 'Image-Zoom';
 export const PRODUCT_VARIANTS_FEATURE_NAME = 'Product-Variants';
 export const PRODUCT_FUTURE_STOCK_FEATURE_NAME = 'Future-Stock';
-
+export const PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE_NAME =
+  'Product-Multi-Dimensional-List';
+export const PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE_NAME =
+  'Product-Multi-Dimensional-Selector';
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME =
   'Textfield-Configurator';
 export const PRODUCT_CONFIGURATOR_VC_FEATURE_NAME = 'VC-Configurator';
@@ -325,6 +338,8 @@ export const S4_SERVICE_FEATURE_NAME = 's4-service';
 
 export const OPPS_FEATURE_NAME = 'OPPS';
 
+export const OMF_FEATURE_NAME = 'OMF';
+
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 /***** Feature name end *****/
 
@@ -335,7 +350,7 @@ export const PICKUP_IN_STORE_MODULE = 'PickupInStoreModule';
 export const PICKUP_IN_STORE_ROOT_MODULE = 'PickupInStoreRootModule';
 /***** Feature name end *****/
 
-export const CPQ_QUOTE_FEATURE_NAME = 'Cpq-Quote';
+export const CPQ_QUOTE_FEATURE_NAME = 'cpq-quote';
 export const SPARTACUS_CPQ_QUOTE = `@spartacus/cpq-quote`;
 export const SPARTACUS_CPQ_QUOTE_ROOT = `@spartacus/cpq-quote/root`;
 export const SPARTACUS_CPQ_QUOTE_ASSETS = `@spartacus/cpq-quote/assets`;

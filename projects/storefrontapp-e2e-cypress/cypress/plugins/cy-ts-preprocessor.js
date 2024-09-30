@@ -3,6 +3,23 @@ const wp = require('@cypress/webpack-preprocessor');
 const webpackOptions = {
   resolve: {
     extensions: ['.ts', '.js'],
+    fallback: {
+      fs: false,
+      tls: false,
+      net: false,
+      path: false,
+      zlib: false,
+      http: false,
+      https: false,
+      stream: false,
+      crypto: false,
+      util: false,
+      url: false,
+      assert: false,
+      domain: false,
+      os: false,
+      child_process: false,
+    },
   },
   module: {
     rules: [
@@ -20,6 +37,7 @@ const webpackOptions = {
       },
     ],
   },
+  target: 'node',
 };
 
 const options = {

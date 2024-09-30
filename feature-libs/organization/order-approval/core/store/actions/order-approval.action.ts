@@ -5,6 +5,7 @@
  */
 
 import {
+  ErrorAction,
   ListModel,
   PROCESS_FEATURE,
   SearchConfig,
@@ -42,13 +43,18 @@ export const MAKE_DECISION_RESET =
 
 export class LoadOrderApproval extends StateUtils.EntityLoadAction {
   readonly type = LOAD_ORDER_APPROVAL;
+
   constructor(public payload: { userId: string; orderApprovalCode: string }) {
     super(ORDER_APPROVAL_ENTITIES, payload.orderApprovalCode);
   }
 }
 
-export class LoadOrderApprovalFail extends StateUtils.EntityFailAction {
+export class LoadOrderApprovalFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_ORDER_APPROVAL_FAIL;
+
   constructor(public payload: { orderApprovalCode: string; error: any }) {
     super(ORDER_APPROVAL_ENTITIES, payload.orderApprovalCode, payload.error);
   }
@@ -56,18 +62,20 @@ export class LoadOrderApprovalFail extends StateUtils.EntityFailAction {
 
 export class LoadOrderApprovalSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_ORDER_APPROVAL_SUCCESS;
+
   constructor(public payload: OrderApproval | OrderApproval[]) {
     super(
       ORDER_APPROVAL_ENTITIES,
       Array.isArray(payload)
         ? payload.map((orderApproval) => orderApproval.code ?? '')
-        : payload.code ?? ''
+        : (payload.code ?? '')
     );
   }
 }
 
 export class LoadOrderApprovals extends StateUtils.EntityLoadAction {
   readonly type = LOAD_ORDER_APPROVALS;
+
   constructor(
     public payload: {
       userId: string;
@@ -81,8 +89,12 @@ export class LoadOrderApprovals extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadOrderApprovalsFail extends StateUtils.EntityFailAction {
+export class LoadOrderApprovalsFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_ORDER_APPROVALS_FAIL;
+
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       ORDER_APPROVAL_LIST,
@@ -94,6 +106,7 @@ export class LoadOrderApprovalsFail extends StateUtils.EntityFailAction {
 
 export class LoadOrderApprovalsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_ORDER_APPROVALS_SUCCESS;
+
   constructor(
     public payload: {
       page: ListModel;
@@ -109,6 +122,7 @@ export class LoadOrderApprovalsSuccess extends StateUtils.EntitySuccessAction {
 
 export class MakeDecision extends StateUtils.EntityLoadAction {
   readonly type = MAKE_DECISION;
+
   constructor(
     public payload: {
       userId: string;
@@ -120,15 +134,24 @@ export class MakeDecision extends StateUtils.EntityLoadAction {
   }
 }
 
-export class MakeDecisionFail extends StateUtils.EntityFailAction {
+export class MakeDecisionFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = MAKE_DECISION_FAIL;
+
   constructor(public payload: { orderApprovalCode: string; error: any }) {
-    super(PROCESS_FEATURE, ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID, payload);
+    super(
+      PROCESS_FEATURE,
+      ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
+      payload.error
+    );
   }
 }
 
 export class MakeDecisionSuccess extends StateUtils.EntitySuccessAction {
   readonly type = MAKE_DECISION_SUCCESS;
+
   constructor(
     public payload: {
       orderApprovalCode: string;
@@ -141,6 +164,7 @@ export class MakeDecisionSuccess extends StateUtils.EntitySuccessAction {
 
 export class MakeDecisionReset extends StateUtils.EntityLoaderResetAction {
   readonly type = MAKE_DECISION_RESET;
+
   constructor() {
     super(PROCESS_FEATURE, ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID);
   }

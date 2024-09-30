@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -12,8 +11,8 @@ import {
   inject,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { Title } from '@spartacus/user/profile/root';
 import { User } from '@spartacus/user/account/root';
+import { Title } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 

@@ -102,7 +102,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
         // Update tablist label with name from CMS
         tap(() => {
           this.tabConfig$.next({
-            label: `${data?.uid}.tabPanelContainerRegion`,
+            label: `${data?.uid}.tabPanelContainerRegionGroup`,
             ...defaultTabConfig,
           });
         })

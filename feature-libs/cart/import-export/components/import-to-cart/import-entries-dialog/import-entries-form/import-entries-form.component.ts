@@ -28,6 +28,7 @@ import {
 import { of, Subject } from 'rxjs';
 import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
+import { GlobalMessageType } from '@spartacus/core';
 
 @Component({
   selector: 'cx-import-entries-form',
@@ -38,6 +39,7 @@ export class ImportEntriesFormComponent implements OnInit {
   form: UntypedFormGroup;
   loadedFile: string[][] | null;
   formSubmitSubject$ = new Subject();
+  globalMessageType = GlobalMessageType;
 
   @Output()
   submitEvent = new EventEmitter<{

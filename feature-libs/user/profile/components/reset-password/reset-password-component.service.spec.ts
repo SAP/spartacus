@@ -1,6 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import {
+  AbstractControl,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
+import {
+  FeatureConfigService,
   FeaturesConfigModule,
   GlobalMessageService,
   GlobalMessageType,
@@ -49,6 +54,7 @@ describe('ResetPasswordComponentService', () => {
   let globalMessageService: GlobalMessageService;
   let passwordConfirm: AbstractControl;
   let password: AbstractControl;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -78,6 +84,9 @@ describe('ResetPasswordComponentService', () => {
   });
 
   beforeEach(() => {
+    featureConfigService = TestBed.inject(FeatureConfigService);
+    spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+
     service = TestBed.inject(ResetPasswordComponentService);
 
     userPasswordService = TestBed.inject(UserPasswordFacade);
@@ -212,6 +221,26 @@ describe('ResetPasswordComponentService', () => {
       expect(userPasswordService.reset).not.toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
       expect(routingService.go).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('password validators', () => {
+    it('should have new validators when feature flag isEnabled', () => {
+      const passwordControl = service.form.get(
+        'password'
+      ) as UntypedFormControl;
+      const validators = passwordControl.validator
+        ? passwordControl.validator({} as any)
+        : [];
+
+      expect(passwordControl).toBeTruthy();
+      expect(validators).toEqual({
+        required: true,
+        cxMinOneDigit: true,
+        cxMinOneUpperCaseCharacter: true,
+        cxMinOneSpecialCharacter: true,
+        cxMinSixCharactersLength: true,
+      });
     });
   });
 });

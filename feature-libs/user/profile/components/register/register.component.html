@@ -2,7 +2,11 @@
   class="cx-page-section container"
   *ngIf="!(isLoading$ | async); else loading"
 >
-  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+  <div
+    *cxFeature="'!a11yRemoveStatusLoadedRole'"
+    role="status"
+    [attr.aria-label]="'common.loaded' | cxTranslate"
+  ></div>
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="cx-section">
@@ -26,7 +30,7 @@
                 formControlName="titleCode"
                 id="title-select"
                 [cxNgSelectA11y]="{
-                  ariaLabel: 'register.title' | cxTranslate
+                  ariaLabel: 'register.title' | cxTranslate,
                 }"
               >
               </ng-select>
@@ -54,7 +58,7 @@
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
                 [translationParams]="{
-                  label: 'register.firstName.label' | cxTranslate
+                  label: 'register.firstName.label' | cxTranslate,
                 }"
                 [control]="registerForm.get('firstName')"
               ></cx-form-errors>
@@ -87,7 +91,7 @@
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
                 [translationParams]="{
-                  label: 'register.lastName.label' | cxTranslate
+                  label: 'register.lastName.label' | cxTranslate,
                 }"
                 [control]="registerForm.get('lastName')"
               ></cx-form-errors>
@@ -120,7 +124,7 @@
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
                 [translationParams]="{
-                  label: 'register.emailAddress.label' | cxTranslate
+                  label: 'register.emailAddress.label' | cxTranslate,
                 }"
                 [control]="registerForm.get('email')"
               ></cx-form-errors>
@@ -161,7 +165,7 @@
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
                 [translationParams]="{
-                  label: 'register.password.label' | cxTranslate
+                  label: 'register.password.label' | cxTranslate,
                 }"
                 [control]="registerForm.get('password')"
               ></cx-form-errors>
@@ -198,7 +202,7 @@
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
                 [translationParams]="{
-                  label: 'register.confirmPassword.label' | cxTranslate
+                  label: 'register.confirmPassword.label' | cxTranslate,
                 }"
                 [control]="registerForm.get('passwordconf')"
               ></cx-form-errors>
@@ -281,7 +285,7 @@
                 <cx-form-errors
                   *cxFeature="'formErrorsDescriptiveMessages'"
                   [translationParams]="{
-                    label: 'register.termsAndConditions' | cxTranslate
+                    label: 'register.termsAndConditions' | cxTranslate,
                   }"
                   [control]="registerForm.get('termsandconditions')"
                 ></cx-form-errors>
@@ -293,6 +297,10 @@
               </label>
             </div>
           </div>
+          <cx-captcha (confirmed)="captchaConfirmed()"></cx-captcha>
+          <cx-form-errors
+            [control]="registerForm.get('captcha')"
+          ></cx-form-errors>
           <button type="submit" class="btn btn-block btn-primary">
             {{ 'register.register' | cxTranslate }}
           </button>

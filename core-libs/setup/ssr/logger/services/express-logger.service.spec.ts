@@ -1,3 +1,10 @@
+jest.mock('@angular/core', () => {
+  return {
+    ...jest.requireActual('@angular/core'),
+    isDevMode: jest.fn(),
+  };
+});
+import { isDevMode } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Request } from 'express';
 import { REQUEST } from '../../tokens/express.tokens';
@@ -80,6 +87,53 @@ describe('ExpressLoggerService', () => {
       const result = loggerService['formatLogMessage']('some %s', 'test');
 
       expect(result).toEqual('some test');
+    });
+
+    describe('should format log message with options', () => {
+      describe('in PROD mode', () => {
+        beforeEach(() => {
+          (isDevMode as jest.Mock).mockReturnValue(false);
+        });
+
+        it('should NOT break properties to separate lines, even if output would exceed 80 characters', () => {
+          const a_81_times = 'a'.repeat(81);
+          const b_81_times = 'b'.repeat(81);
+
+          const message = {
+            a: a_81_times,
+            b: b_81_times,
+          };
+          const result = loggerService['formatLogMessage'](message);
+
+          expect(result).toMatchInlineSnapshot(
+            `"{ a: '${a_81_times}', b: '${b_81_times}' }"`
+          );
+        });
+      });
+    });
+
+    describe('in DEV mode', () => {
+      beforeEach(() => {
+        (isDevMode as jest.Mock).mockReturnValue(true);
+      });
+
+      it('should break properties to separate lines, even if output would exceed 80 characters', () => {
+        const a_81_times = 'a'.repeat(81);
+        const b_81_times = 'b'.repeat(81);
+
+        const message = {
+          a: a_81_times,
+          b: b_81_times,
+        };
+        const result = loggerService['formatLogMessage'](message);
+
+        expect(result).toMatchInlineSnapshot(`
+"{
+  a: '${a_81_times}',
+  b: '${b_81_times}'
+}"
+`);
+      });
     });
   });
 });

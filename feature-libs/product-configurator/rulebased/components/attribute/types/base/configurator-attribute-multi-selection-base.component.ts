@@ -10,11 +10,11 @@ import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -34,6 +34,10 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
+    this.initPriceChangedEvent(
+      attributeComponentContext.isPricingAsync,
+      attributeComponentContext.attribute.key
+    );
   }
 
   /**
@@ -122,24 +126,6 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
       },
       priceTotal: this.attribute.attributePriceTotal,
       isLightedUp: true,
-    };
-  }
-
-  /**
-   * Extract corresponding value price formula parameters.
-   * For the multi-selection attribute types the complete price formula should be displayed at the value level.
-   *
-   * @param {Configurator.Value} value - Configurator value
-   * @return {ConfiguratorPriceComponentOptions} - New price formula
-   */
-  extractValuePriceFormulaParameters(
-    value: Configurator.Value
-  ): ConfiguratorPriceComponentOptions {
-    return {
-      quantity: value.quantity,
-      price: value.valuePrice,
-      priceTotal: value.valuePriceTotal,
-      isLightedUp: value.selected,
     };
   }
 }

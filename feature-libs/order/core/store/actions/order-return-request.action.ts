@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { ErrorAction, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   ReturnRequest,
   ReturnRequestEntryInputList,
@@ -54,6 +54,7 @@ export const RESET_CANCEL_RETURN_PROCESS =
 
 export class CreateOrderReturnRequest extends StateUtils.LoaderLoadAction {
   readonly type = CREATE_ORDER_RETURN_REQUEST;
+
   constructor(
     public payload: {
       userId: string;
@@ -64,8 +65,12 @@ export class CreateOrderReturnRequest extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class CreateOrderReturnRequestFail extends StateUtils.LoaderFailAction {
+export class CreateOrderReturnRequestFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = CREATE_ORDER_RETURN_REQUEST_FAIL;
+
   constructor(public payload: any) {
     super(RETURN_REQUEST_DETAILS, payload);
   }
@@ -73,6 +78,7 @@ export class CreateOrderReturnRequestFail extends StateUtils.LoaderFailAction {
 
 export class CreateOrderReturnRequestSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = CREATE_ORDER_RETURN_REQUEST_SUCCESS;
+
   constructor(public payload: ReturnRequest) {
     super(RETURN_REQUEST_DETAILS);
   }
@@ -80,6 +86,7 @@ export class CreateOrderReturnRequestSuccess extends StateUtils.LoaderSuccessAct
 
 export class LoadOrderReturnRequest extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_ORDER_RETURN_REQUEST;
+
   constructor(
     public payload: {
       userId: string;
@@ -90,8 +97,12 @@ export class LoadOrderReturnRequest extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadOrderReturnRequestFail extends StateUtils.LoaderFailAction {
+export class LoadOrderReturnRequestFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_ORDER_RETURN_REQUEST_FAIL;
+
   constructor(public payload: any) {
     super(RETURN_REQUEST_DETAILS, payload);
   }
@@ -99,6 +110,7 @@ export class LoadOrderReturnRequestFail extends StateUtils.LoaderFailAction {
 
 export class LoadOrderReturnRequestSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_ORDER_RETURN_REQUEST_SUCCESS;
+
   constructor(public payload: ReturnRequest) {
     super(RETURN_REQUEST_DETAILS);
   }
@@ -106,6 +118,7 @@ export class LoadOrderReturnRequestSuccess extends StateUtils.LoaderSuccessActio
 
 export class CancelOrderReturnRequest extends StateUtils.EntityLoadAction {
   readonly type = CANCEL_ORDER_RETURN_REQUEST;
+
   constructor(
     public payload: {
       userId: string;
@@ -117,8 +130,12 @@ export class CancelOrderReturnRequest extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CancelOrderReturnRequestFail extends StateUtils.EntityFailAction {
+export class CancelOrderReturnRequestFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = CANCEL_ORDER_RETURN_REQUEST_FAIL;
+
   constructor(public payload: any) {
     super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID, payload);
   }
@@ -126,6 +143,7 @@ export class CancelOrderReturnRequestFail extends StateUtils.EntityFailAction {
 
 export class CancelOrderReturnRequestSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CANCEL_ORDER_RETURN_REQUEST_SUCCESS;
+
   constructor() {
     super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID);
   }
@@ -133,6 +151,7 @@ export class CancelOrderReturnRequestSuccess extends StateUtils.EntitySuccessAct
 
 export class LoadOrderReturnRequestList extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_ORDER_RETURN_REQUEST_LIST;
+
   constructor(
     public payload: {
       userId: string;
@@ -145,8 +164,12 @@ export class LoadOrderReturnRequestList extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadOrderReturnRequestListFail extends StateUtils.LoaderFailAction {
+export class LoadOrderReturnRequestListFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_ORDER_RETURN_REQUEST_LIST_FAIL;
+
   constructor(public payload: any) {
     super(RETURN_REQUESTS, payload);
   }
@@ -154,6 +177,7 @@ export class LoadOrderReturnRequestListFail extends StateUtils.LoaderFailAction 
 
 export class LoadOrderReturnRequestListSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_ORDER_RETURN_REQUEST_LIST_SUCCESS;
+
   constructor(public payload: ReturnRequestList) {
     super(RETURN_REQUESTS);
   }
@@ -161,6 +185,7 @@ export class LoadOrderReturnRequestListSuccess extends StateUtils.LoaderSuccessA
 
 export class ClearOrderReturnRequest extends StateUtils.LoaderResetAction {
   readonly type = CLEAR_ORDER_RETURN_REQUEST;
+
   constructor() {
     super(RETURN_REQUEST_DETAILS);
   }
@@ -168,6 +193,7 @@ export class ClearOrderReturnRequest extends StateUtils.LoaderResetAction {
 
 export class ClearOrderReturnRequestList extends StateUtils.LoaderResetAction {
   readonly type = CLEAR_ORDER_RETURN_REQUEST_LIST;
+
   constructor() {
     super(RETURN_REQUESTS);
   }
@@ -175,6 +201,7 @@ export class ClearOrderReturnRequestList extends StateUtils.LoaderResetAction {
 
 export class ResetCancelReturnProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_CANCEL_RETURN_PROCESS;
+
   constructor() {
     super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID);
   }

@@ -17,6 +17,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Tab, TabConfig, TAB_MODE } from './tab.model';
 import { wrapIntoBounds } from './tab.utils';
+import { TranslationService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-tab',
@@ -27,14 +28,17 @@ export class TabComponent implements OnInit {
   @Input() tabs: Tab[] | any;
   @Input() config: TabConfig | any;
 
-  TAB_MODE = TAB_MODE;
+  readonly TAB_MODE = TAB_MODE;
 
   openTabs$: BehaviorSubject<number[]>;
   mode$: Observable<TAB_MODE>;
 
   @ViewChildren('tabHeader') tabHeaders: QueryList<any>;
 
-  constructor(protected breakpointService: BreakpointService) {}
+  constructor(
+    protected breakpointService: BreakpointService,
+    protected translationService: TranslationService
+  ) {}
 
   ngOnInit(): void {
     this.openTabs$ = new BehaviorSubject<number[]>(this.config?.openTabs ?? []);
@@ -149,6 +153,26 @@ export class TabComponent implements OnInit {
       mode === 'ACCORDIAN'
       ? 0
       : -1;
+  }
+
+  getTitle(mode: TAB_MODE, index: number) {
+    const tab = this.tabs[index];
+
+    // Not required in Tab mode.
+    if (mode === TAB_MODE.TAB) {
+      return null;
+    }
+
+    return (
+      // Show expanded or collapsed.
+      (this.isOpen(index) ? 'Collapse' : 'Expand') +
+      ' ' +
+      // Show the translation key for header if available.
+      // Otherwise fallback to header string value.
+      (tab.headerKey
+        ? this.translationService.translate(tab.headerKey)
+        : tab.header)
+    );
   }
 
   protected getOpenTabs(): number[] {

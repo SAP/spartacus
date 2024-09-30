@@ -90,19 +90,9 @@ export class CheckoutServiceDetailsService
   getSelectedServiceDetailsState(): Observable<
     QueryState<ServiceDateTime | undefined>
   > {
-    return this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
-      switchMap((state) => {
-        return this.getServiceProducts().pipe(
-          map((products) => {
-            if (products.length > 0) {
-              return { ...state, data: state.data?.servicedAt };
-            } else {
-              return { ...state, data: undefined };
-            }
-          })
-        );
-      })
-    );
+    return this.checkoutQueryFacade
+      .getCheckoutDetailsState()
+      .pipe(map((state) => ({ ...state, data: state.data?.servicedAt })));
   }
 
   getServiceProducts(): Observable<string[]> {
@@ -118,6 +108,24 @@ export class CheckoutServiceDetailsService
           })
           .filter((name): name is string => name !== '');
       })
+    );
+  }
+  hasNonServiceItems(): Observable<boolean> {
+    //Note: Pick up option is not applicable for Service Products
+    return combineLatest([
+      this.activeCartFacade.getDeliveryEntries(),
+      this.getServiceProducts(),
+    ]).pipe(
+      take(1),
+      map(([allEntries, serviceEntries]) => {
+        return allEntries.length - serviceEntries.length > 0;
+      })
+    );
+  }
+
+  hasServiceItems(): Observable<boolean> {
+    return this.getServiceProducts().pipe(
+      map((products) => products.length > 0)
     );
   }
 }

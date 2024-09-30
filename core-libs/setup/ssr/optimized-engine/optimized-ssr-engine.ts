@@ -74,6 +74,11 @@ export class OptimizedSsrEngine {
           ...defaultSsrOptimizationOptions,
           // overrides the default options
           ...ssrOptions,
+          // merge feature toggles
+          ssrFeatureToggles: {
+            ...defaultSsrOptimizationOptions.ssrFeatureToggles,
+            ...ssrOptions.ssrFeatureToggles,
+          },
         }
       : undefined;
 
@@ -205,8 +210,8 @@ export class OptimizedSsrEngine {
    */
   protected getTimeout(request: Request): number {
     return this.getRenderingStrategy(request) === RenderingStrategy.ALWAYS_SSR
-      ? this.ssrOptions?.forcedSsrTimeout ?? 60000
-      : this.ssrOptions?.timeout ?? 0;
+      ? (this.ssrOptions?.forcedSsrTimeout ?? 60000)
+      : (this.ssrOptions?.timeout ?? 0);
   }
 
   /**
@@ -292,11 +297,7 @@ export class OptimizedSsrEngine {
         clearTimeout(requestTimeout);
         callback(err, html);
 
-        this.log(
-          `Request is resolved with the SSR rendering result (${request?.originalUrl})`,
-          true,
-          { request }
-        );
+        this.logForRenderResult(err, html, request);
 
         // store the render only if caching is enabled
         if (this.ssrOptions?.cache) {
@@ -474,5 +475,28 @@ export class OptimizedSsrEngine {
 
       renderCallback(err, html);
     });
+  }
+
+  /**
+   * Logs the result of the render.
+   */
+  private logForRenderResult(
+    err: unknown | undefined,
+    html: string | undefined,
+    request: Request
+  ): void {
+    if (html) {
+      this.log(
+        `Request is resolved with the SSR rendering result (${request?.originalUrl})`,
+        true,
+        { request }
+      );
+    }
+    if (err) {
+      this.logger.error(
+        `Request is resolved with the SSR rendering error (${request?.originalUrl})`,
+        { request, error: err }
+      );
+    }
   }
 }
