@@ -20,7 +20,7 @@ import { PopoverModule } from './popover.module';
         placement: 'top',
         appendToBody: true,
         displayCloseButton: true,
-        autoPositioning: false
+        autoPositioning: false,
       }"
       (openPopover)="open()"
       (closePopover)="close()"

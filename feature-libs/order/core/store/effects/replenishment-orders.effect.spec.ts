@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import { ReplenishmentOrderList } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -75,8 +75,9 @@ describe('Replenishment Orders effect', () => {
     });
 
     it('should handle failures for load user Replenishment Orders', () => {
+      const error = new Error('error');
       spyOn(replenishmentOrderHistoryConnector, 'loadHistory').and.returnValue(
-        throwError(() => 'Error')
+        throwError(() => error)
       );
 
       const action = new OrderActions.LoadUserReplenishmentOrders({
@@ -85,7 +86,7 @@ describe('Replenishment Orders effect', () => {
       });
 
       const completion = new OrderActions.LoadUserReplenishmentOrdersFail(
-        normalizeHttpError('Error', new MockLoggerService())
+        tryNormalizeHttpError(error, new MockLoggerService())
       );
 
       actions$ = hot('-a', { a: action });

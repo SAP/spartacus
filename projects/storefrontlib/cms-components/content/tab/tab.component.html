@@ -16,13 +16,7 @@
         [attr.aria-controls]="'section-' + i"
         [attr.tabindex]="getTabIndex(i, mode)"
         [attr.id]="tab.id"
-        [attr.title]="
-          mode === TAB_MODE.TAB
-            ? null
-            : (isOpen(i) ? 'Collapse' : 'Expand') +
-              ' ' +
-              (tab.headerKey ? (tab.headerKey | cxTranslate) : tab.header)
-        "
+        [attr.title]="getTitle(mode, i)"
         [class.active]="isOpen(i)"
         #tabHeader
       >

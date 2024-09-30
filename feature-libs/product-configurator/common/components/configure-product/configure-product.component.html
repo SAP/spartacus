@@ -1,5 +1,5 @@
 <ng-container *ngIf="product$ | async as product">
-  <ng-container *ngIf="product.configurable">
+  <ng-container *ngIf="product.configurable && !isReadOnlyBaseProduct(product)">
     <!-- TODO: (CXSPA-7252) - Remove feature flag next major release -->
     <ng-container *cxFeature="'a11yUseButtonsForBtnLinks'">
       <button
@@ -20,15 +20,15 @@
             cxRoute: 'configure' + product.configuratorType,
             params: {
               ownerType: ownerTypeProduct,
-              entityKey: product.code
-            }
+              entityKey: product.code,
+            },
           } | cxUrl
         "
         [queryParams]="{
           displayRestartDialog: isDisplayRestartDialog(
             product.configuratorType
           ),
-          productCode: product.code
+          productCode: product.code,
         }"
         class="btn btn-primary btn-block"
         cxAutoFocus

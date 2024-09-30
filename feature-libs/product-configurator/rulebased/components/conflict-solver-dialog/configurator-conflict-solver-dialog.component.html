@@ -1,4 +1,9 @@
-<div class="cx-modal-container" role="dialog" aria-modal="true">
+<div
+  class="cx-modal-container"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="dialogTitle"
+>
   <!-- For screen reader purposes (not visual)-->
   <div
     class="cx-visually-hidden"
@@ -12,7 +17,20 @@
   <div class="cx-modal-content" [cxFocus]="focusConfig">
     <!-- Modal Header -->
     <div class="cx-dialog-header modal-header">
-      <div class="cx-dialog-title modal-title" tabindex="0">
+      <h3
+        *cxFeature="'a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+        tabindex="0"
+      >
+        {{ 'configurator.header.resolveIssue' | cxTranslate }}
+      </h3>
+      <div
+        *cxFeature="'!a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+        tabindex="0"
+      >
         {{ 'configurator.header.resolveIssue' | cxTranslate }}
       </div>
       <button
@@ -21,6 +39,7 @@
         attr.aria-label="{{
           'configurator.a11y.closeConflictSolverModal' | cxTranslate
         }}"
+        title="{{ 'configurator.a11y.closeConflictSolverModal' | cxTranslate }}"
         (click)="dismissModal('Close conflict solver dialog')"
       >
         <span aria-hidden="true">

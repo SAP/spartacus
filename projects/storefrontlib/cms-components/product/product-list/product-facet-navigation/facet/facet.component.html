@@ -12,8 +12,16 @@
     *cxFeature="'!a11yTabComponent'"
   >
     {{ facet.name }}
-    <cx-icon class="collapse-icon" [type]="collapseIcon"></cx-icon>
-    <cx-icon class="expand-icon" [type]="expandIcon"></cx-icon>
+    <cx-icon
+      title="{{ 'common.collapse' | cxTranslate }}"
+      class="collapse-icon"
+      [type]="collapseIcon"
+    ></cx-icon>
+    <cx-icon
+      title="{{ 'common.expand' | cxTranslate }}"
+      class="expand-icon"
+      [type]="expandIcon"
+    ></cx-icon>
   </button>
 
   <div>

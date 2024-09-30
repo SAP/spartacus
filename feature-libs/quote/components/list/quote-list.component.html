@@ -4,7 +4,11 @@
     tabindex="-1"
     [attr.aria-label]="'quote.list.regionTitle' | cxTranslate"
   >
-    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <div
+      *cxFeature="'!a11yRemoveStatusLoadedRole'"
+      role="status"
+      [attr.aria-label]="'common.loaded' | cxTranslate"
+    ></div>
     <ng-container *ngIf="quotesState.data; else ghostList">
       <ng-container
         *ngIf="
@@ -67,7 +71,7 @@
               [routerLink]="
                 {
                   cxRoute: 'quoteDetails',
-                  params: { quoteId: quote.code }
+                  params: { quoteId: quote.code },
                 } | cxUrl
               "
               (keydown.enter)="row.click()"

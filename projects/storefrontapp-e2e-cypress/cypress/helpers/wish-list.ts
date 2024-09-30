@@ -46,7 +46,7 @@ export const WishListUser = {
   registrationData: {
     firstName: 'Winston',
     lastName: 'Rumfoord',
-    password: 'Password123.',
+    password: 'Pas!sword123.',
     titleCode: 'mr',
     email: generateMail(randomString(), true),
   },
@@ -235,7 +235,7 @@ export function checkoutFromWishList(checkoutProducts: TestProduct[]) {
   goToCartAndCheckout(checkoutProducts);
   proceedToCheckout();
   fillAddressForm();
-  checkout.verifyDeliveryMethod();
+  checkout.verifyDeliveryOptions();
   fillPaymentForm();
   placeOrderWithProducts(checkoutProducts);
   verifyOrderConfirmationPage(checkoutProducts);
@@ -272,7 +272,7 @@ function proceedToCheckout() {
 
 function fillAddressForm(shippingAddressData: AddressData = user) {
   /**
-   * Delivery mode PUT intercept is not in verifyDeliveryMethod()
+   * Delivery mode PUT intercept is not in verifyDeliveryOptions()
    * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
    */
   const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();

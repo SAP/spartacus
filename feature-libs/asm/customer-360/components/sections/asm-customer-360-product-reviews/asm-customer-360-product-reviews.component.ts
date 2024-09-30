@@ -89,10 +89,10 @@ export class AsmCustomer360ProductReviewsComponent implements OnInit {
 
   protected getLongDate(date: Date) {
     return date
-      ? this.datePipe.transform(
+      ? (this.datePipe.transform(
           date,
           this.asmCustomer360Config?.asmCustomer360?.dateTimeFormat
-        ) ?? ''
+        ) ?? '')
       : '';
   }
 }

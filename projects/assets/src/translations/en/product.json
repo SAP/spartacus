@@ -98,7 +98,8 @@
       "deliveryTab": "Shipping",
       "SparePartsTabComponent": " Spare Parts"
     },
-    "tabPanelContainerRegion": "Group with more product details"
+    "tabPanelContainerRegion": "Tab group with more product details",
+    "tabPanelContainerRegionGroup": "Group with more product details"
   },
   "addToWishList": {
     "add": "Add to Wish List",

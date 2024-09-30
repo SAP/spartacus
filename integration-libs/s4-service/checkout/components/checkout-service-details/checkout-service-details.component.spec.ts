@@ -40,8 +40,9 @@ class MockCheckoutServiceDetailsFacade {
     return of({ success: true });
   }
 }
-class MockCheckoutServiceSchedulePickerService {
-  // implements Partial<CheckoutServiceSchedulePickerService>
+class MockCheckoutServiceSchedulePickerService
+  implements Partial<CheckoutServiceSchedulePickerService>
+{
   getMinDateForService = createSpy().and.returnValue(of('2024-06-25'));
   getScheduledServiceTimes = createSpy().and.returnValue(
     of(['8:30', '9:30', '10:30'])
@@ -106,8 +107,15 @@ describe('CheckoutServiceDetailsComponent', () => {
     component.ngOnInit();
     expect(component.form?.get('scheduleDate')?.value).toEqual('27/06/2024');
     expect(component.form?.get('scheduleTime')?.value).toEqual('09:30');
-    expect(pickerService.convertDateTimeToReadableString).toHaveBeenCalled();
     expect(pickerService.getServiceDetailsFromDateTime).toHaveBeenCalled();
+  });
+  it('should call ngOnInit and set minimum date and earliest time, if no value was previously selected', () => {
+    component.minServiceDate$ = of('2030-12-12');
+    component.selectedServiceDetails$ = of('');
+    component.scheduleTimes$ = of(['13:13', '14:14', '15:15']);
+    component.ngOnInit();
+    expect(component.form?.get('scheduleDate')?.value).toEqual('2030-12-12');
+    expect(component.form?.get('scheduleTime')?.value).toEqual('13:13');
   });
   it('should get back button text', () => {
     component.back();
@@ -156,6 +164,20 @@ describe('CheckoutServiceDetailsComponent', () => {
     ).and.returnValue(throwError('Throwing Error message'));
     component.next();
     expect(checkoutStepService.next).not.toHaveBeenCalled();
+    expect(messageService.add).toHaveBeenCalled();
+  });
+  it('should throw error if we pass inappropriate scheduledAt', () => {
+    spyOn(
+      checkoutServiceDetailsFacade,
+      'setServiceScheduleSlot'
+    ).and.returnValue(throwError('Throwing Error message'));
+    (pickerService.convertToDateTime as jasmine.Spy).and.returnValue('');
+    component.form = new UntypedFormBuilder().group({});
+    component.next();
+    expect(pickerService.convertToDateTime).toHaveBeenCalledWith('', '');
+    expect(
+      checkoutServiceDetailsFacade.setServiceScheduleSlot
+    ).toHaveBeenCalledWith('');
     expect(messageService.add).toHaveBeenCalled();
   });
 });

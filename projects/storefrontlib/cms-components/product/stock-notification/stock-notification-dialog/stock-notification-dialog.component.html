@@ -3,10 +3,22 @@
   role="dialog"
   [cxFocus]="focusConfig"
   (esc)="close('Escape clicked')"
+  aria-labelledby="dialogTitle"
 >
   <div class="cx-stock-notification-container">
     <div class="cx-dialog-header cx-modal-header">
-      <div class="cx-dialog-title modal-title">
+      <h3
+        *cxFeature="'a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+      >
+        {{ 'stockNotification.subscriptionDialog.header' | cxTranslate }}
+      </h3>
+      <div
+        *cxFeature="'!a11yDialogsHeading'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+      >
         {{ 'stockNotification.subscriptionDialog.header' | cxTranslate }}
       </div>
       <button
@@ -22,6 +34,7 @@
 
     <ng-container *ngIf="subscribeSuccess$ | async; else loading">
       <div
+        *cxFeature="'!a11yRemoveStatusLoadedRole'"
         role="status"
         [attr.aria-label]="'common.loaded' | cxTranslate"
       ></div>

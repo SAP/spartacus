@@ -1,5 +1,9 @@
 <section *ngIf="!(isLoading$ | async); else loading">
-  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+  <div
+    *cxFeature="'!a11yRemoveStatusLoadedRole'"
+    role="status"
+    [attr.aria-label]="'common.loaded' | cxTranslate"
+  ></div>
 
   <form [formGroup]="registerForm" (ngSubmit)="submit()">
     <label>
@@ -18,7 +22,8 @@
           'userRegistrationForm.fields.titleCode.placeholder' | cxTranslate
         }}"
         [cxNgSelectA11y]="{
-          ariaLabel: 'userRegistrationForm.fields.titleCode.label' | cxTranslate
+          ariaLabel:
+            'userRegistrationForm.fields.titleCode.label' | cxTranslate,
         }"
       >
       </ng-select>
@@ -43,7 +48,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'userRegistrationForm.fields.firstName.label' | cxTranslate
+          label: 'userRegistrationForm.fields.firstName.label' | cxTranslate,
         }"
         [control]="registerForm.get('firstName')"
       ></cx-form-errors>
@@ -73,7 +78,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'userRegistrationForm.fields.lastName.label' | cxTranslate
+          label: 'userRegistrationForm.fields.lastName.label' | cxTranslate,
         }"
         [control]="registerForm.get('lastName')"
       ></cx-form-errors>
@@ -101,7 +106,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'userRegistrationForm.fields.companyName.label' | cxTranslate
+          label: 'userRegistrationForm.fields.companyName.label' | cxTranslate,
         }"
         [control]="registerForm.get('companyName')"
       ></cx-form-errors>
@@ -130,7 +135,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'userRegistrationForm.fields.email.label' | cxTranslate
+          label: 'userRegistrationForm.fields.email.label' | cxTranslate,
         }"
         [control]="registerForm.get('email')"
       ></cx-form-errors>
@@ -162,7 +167,8 @@
             'userRegistrationForm.fields.country.placeholder' | cxTranslate
           }}"
           [cxNgSelectA11y]="{
-            ariaLabel: 'userRegistrationForm.fields.country.label' | cxTranslate
+            ariaLabel:
+              'userRegistrationForm.fields.country.label' | cxTranslate,
           }"
         >
         </ng-select>
@@ -171,7 +177,7 @@
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
-            label: 'userRegistrationForm.fields.country.label' | cxTranslate
+            label: 'userRegistrationForm.fields.country.label' | cxTranslate,
           }"
           [control]="registerForm.get('country.isocode')"
         ></cx-form-errors>
@@ -200,7 +206,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'userRegistrationForm.fields.addressLine.label' | cxTranslate
+          label: 'userRegistrationForm.fields.addressLine.label' | cxTranslate,
         }"
         [control]="registerForm.get('line1')"
       ></cx-form-errors>
@@ -259,7 +265,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'userRegistrationForm.fields.postalCode.label' | cxTranslate
+          label: 'userRegistrationForm.fields.postalCode.label' | cxTranslate,
         }"
         [control]="registerForm.get('postalCode')"
       ></cx-form-errors>
@@ -288,7 +294,7 @@
           }}"
           id="region-select"
           [cxNgSelectA11y]="{
-            ariaLabel: 'userRegistrationForm.fields.state.label' | cxTranslate
+            ariaLabel: 'userRegistrationForm.fields.state.label' | cxTranslate,
           }"
         >
         </ng-select>
@@ -297,7 +303,7 @@
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
-            label: 'userRegistrationForm.fields.state.label' | cxTranslate
+            label: 'userRegistrationForm.fields.state.label' | cxTranslate,
           }"
           [control]="registerForm.get('region.isocode')"
         ></cx-form-errors>
@@ -326,7 +332,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'userRegistrationForm.fields.phoneNumber.label' | cxTranslate
+          label: 'userRegistrationForm.fields.phoneNumber.label' | cxTranslate,
         }"
         [control]="registerForm.get('phoneNumber')"
       ></cx-form-errors>
@@ -354,7 +360,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'userRegistrationForm.fields.message.label' | cxTranslate
+          label: 'userRegistrationForm.fields.message.label' | cxTranslate,
         }"
         [control]="registerForm.get('message')"
       ></cx-form-errors>

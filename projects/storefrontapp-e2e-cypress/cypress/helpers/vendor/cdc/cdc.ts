@@ -524,7 +524,7 @@ export function getSampleB2BUser() {
     firstName: 'Spartacus',
     lastName: 'B2BAdmin',
     fullName: 'Spartacus B2BAdmin',
-    password: 'Password123.',
+    password: 'Pas!sword123.',
     email: 'spartacusb2b@sapcx.com',
     phone: '555 555 555',
     cellphone: '555 555 555',

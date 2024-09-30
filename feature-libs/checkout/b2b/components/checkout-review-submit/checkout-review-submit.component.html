@@ -45,10 +45,10 @@
       <cx-card [content]="getPoNumberCard(poNumber$ | async) | async"></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
-          [attr.aria-label]="'checkoutReview.editPaymentType' | cxTranslate"
+          [attr.title]="'checkoutReview.editPaymentType' | cxTranslate"
           [routerLink]="
             {
-              cxRoute: getCheckoutStepUrl(checkoutStepTypePaymentType)
+              cxRoute: getCheckoutStepUrl(checkoutStepTypePaymentType),
             } | cxUrl
           "
           ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
@@ -66,10 +66,10 @@
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
-          [attr.aria-label]="'checkoutReview.editPaymentType' | cxTranslate"
+          [attr.title]="'checkoutReview.editPaymentType' | cxTranslate"
           [routerLink]="
             {
-              cxRoute: getCheckoutStepUrl(checkoutStepTypePaymentType)
+              cxRoute: getCheckoutStepUrl(checkoutStepTypePaymentType),
             } | cxUrl
           "
           ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
@@ -88,12 +88,12 @@
         ></cx-card>
         <div class="cx-review-summary-edit-step">
           <a
-            [attr.aria-label]="
+            [attr.title]="
               'checkoutReview.editDeliveryAddressDetails' | cxTranslate
             "
             [routerLink]="
               {
-                cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress)
+                cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
               } | cxUrl
             "
             ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
@@ -114,12 +114,12 @@
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
-          [attr.aria-label]="
+          [attr.title]="
             'checkoutReview.editDeliveryAddressDetails' | cxTranslate
           "
           [routerLink]="
             {
-              cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress)
+              cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
             } | cxUrl
           "
           ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
@@ -141,7 +141,7 @@
           [cxOutlet]="cartOutlets.DELIVERY_MODE"
           [cxOutletContext]="{
             item: cart$ | async,
-            readonly: true
+            readonly: true,
           }"
         >
         </ng-template>
@@ -149,7 +149,7 @@
 
       <div class="cx-review-summary-edit-step">
         <a
-          [attr.aria-label]="'checkoutReview.editDeliveryMode' | cxTranslate"
+          [attr.title]="'checkoutReview.editDeliveryMode' | cxTranslate"
           [routerLink]="
             { cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryMode) }
               | cxUrl
@@ -172,7 +172,7 @@
       </div>
       <div class="cx-review-summary-edit-step">
         <a
-          [attr.aria-label]="'checkoutReview.editPaymentDetails' | cxTranslate"
+          [attr.title]="'checkoutReview.editPaymentDetails' | cxTranslate"
           [routerLink]="
             { cxRoute: getCheckoutStepUrl(checkoutStepTypePaymentDetails) }
               | cxUrl
@@ -210,7 +210,7 @@
         [cxOutletContext]="{
           items: entries,
           readonly: true,
-          promotionLocation: promotionLocation
+          promotionLocation: promotionLocation,
         }"
       >
       </ng-template>

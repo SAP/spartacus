@@ -78,4 +78,17 @@
       z-index: 1;
     }
   }
+  @include cx-highContrastTheme {
+    a {
+      border-color: var(--cx-color-dark);
+    }
+    a:last-child {
+      border-color: var(--cx-color-dark);
+    }
+  }
+  @include cx-highContrastTheme-dark {
+    a.current {
+      color: var(--cx-color-medium);
+    }
+  }
 }

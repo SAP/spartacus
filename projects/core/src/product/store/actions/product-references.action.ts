@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { ErrorModel } from '../../../model/misc.model';
+import { ErrorAction } from '../../../error-handling';
 import { ProductReference } from '../../../model/product.model';
 
 export const LOAD_PRODUCT_REFERENCES = '[Product] Load Product References Data';
@@ -17,6 +17,7 @@ export const CLEAN_PRODUCT_REFERENCES = '[Product] Clean Product References';
 
 export class LoadProductReferences implements Action {
   readonly type = LOAD_PRODUCT_REFERENCES;
+
   constructor(
     public payload: {
       productCode: string;
@@ -26,13 +27,26 @@ export class LoadProductReferences implements Action {
   ) {}
 }
 
-export class LoadProductReferencesFail implements Action {
+export class LoadProductReferencesFail implements ErrorAction {
   readonly type = LOAD_PRODUCT_REFERENCES_FAIL;
-  constructor(public payload?: ErrorModel) {}
+  public error: any;
+
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(payload: any);
+  /**
+   * @deprecated Please pass the argument `payload` (i.e. the error object).
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor();
+  constructor(public payload?: any) {
+    this.error = payload;
+  }
 }
 
 export class LoadProductReferencesSuccess implements Action {
   readonly type = LOAD_PRODUCT_REFERENCES_SUCCESS;
+
   constructor(
     public payload: {
       productCode: string;

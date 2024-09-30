@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
   CheckoutQueryFacade,
   CheckoutState,
@@ -10,7 +10,7 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutServiceDetailsConnector } from '../connector';
 import { CheckoutServiceDetailsService } from './checkout-service-details.service';
@@ -51,6 +51,9 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
         },
       },
     ]);
+  }
+  getDeliveryEntries(): Observable<OrderEntry[]> {
+    return of([]);
   }
 }
 
@@ -134,30 +137,6 @@ describe(`CheckoutServiceDetailsService`, () => {
           done();
         });
     });
-    it(`should return undefined service detail if no service products are available in cart`, (done) => {
-      checkoutQuery.getCheckoutDetailsState = createSpy().and.returnValue(
-        of(<QueryState<CheckoutState>>{
-          loading: false,
-          error: false,
-          data: {
-            servicedAt: mockData,
-          },
-        })
-      );
-      spyOn(cartService, 'getEntries').and.returnValue(of([]));
-
-      service
-        .getSelectedServiceDetailsState()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(<QueryState<ServiceDateTime | undefined>>{
-            loading: false,
-            error: false,
-            data: undefined,
-          });
-          done();
-        });
-    });
   });
 
   describe(`setServiceScheduleSlot`, () => {
@@ -199,6 +178,48 @@ describe(`CheckoutServiceDetailsService`, () => {
     spyOn(cartService, 'getEntries').and.callThrough();
     service.getServiceProducts().subscribe((result) => {
       expect(result).toEqual(['service 1']);
+      done();
+    });
+  });
+  it(`should return true if the current cart has non-service products`, (done) => {
+    const orderEntries: OrderEntry[] = [
+      { orderCode: 'deliveryEntry1' },
+      { orderCode: 'deliveryEntry2' },
+    ];
+    spyOn(cartService, 'getDeliveryEntries').and.returnValue(of(orderEntries));
+    spyOn(service, 'getServiceProducts').and.returnValue(of(['service 1']));
+    service.hasNonServiceItems().subscribe((result) => {
+      expect(result).toEqual(true);
+      done();
+    });
+  });
+  it(`should return false if the current cart has no non-service products`, (done) => {
+    const orderEntries: OrderEntry[] = [
+      { orderCode: 'deliveryEntry1' },
+      { orderCode: 'deliveryEntry2' },
+    ];
+    spyOn(cartService, 'getDeliveryEntries').and.returnValue(of(orderEntries));
+    spyOn(service, 'getServiceProducts').and.returnValue(
+      of(['service 1', 'service 2'])
+    );
+    service.hasNonServiceItems().subscribe((result) => {
+      expect(result).toEqual(false);
+      done();
+    });
+  });
+  it(`should return true if the current cart has service products`, (done) => {
+    spyOn(service, 'getServiceProducts').and.returnValue(
+      of(['service 1', 'service 2'])
+    );
+    service.hasServiceItems().subscribe((result) => {
+      expect(result).toEqual(true);
+      done();
+    });
+  });
+  it(`should return false if the current cart has no service products`, (done) => {
+    spyOn(service, 'getServiceProducts').and.returnValue(of([]));
+    service.hasServiceItems().subscribe((result) => {
+      expect(result).toEqual(false);
       done();
     });
   });

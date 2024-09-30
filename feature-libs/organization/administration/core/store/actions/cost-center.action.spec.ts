@@ -13,7 +13,7 @@ const costCenter: CostCenter = {
   code: costCenterCode,
 };
 const userId = 'xxx@xxx.xxx';
-const error = 'anError';
+const error = { message: 'anError' };
 const params = { currentPage: 2 };
 const query = '?pageSize=&currentPage=2&sort=';
 
@@ -46,6 +46,7 @@ describe('CostCenter Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: CostCenterActions.LOAD_COST_CENTER_FAIL,
           payload: { costCenterCode, error },
           meta: StateUtils.entityFailMeta(
@@ -127,15 +128,14 @@ describe('CostCenter Actions', () => {
       it('should create the action', () => {
         const action = new CostCenterActions.LoadCostCentersFail({
           params,
-          error: { error },
+          error,
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: CostCenterActions.LOAD_COST_CENTERS_FAIL,
-          payload: { params, error: { error } },
-          meta: StateUtils.entityFailMeta(COST_CENTER_LIST, query, {
-            error,
-          }),
+          payload: { params, error },
+          meta: StateUtils.entityFailMeta(COST_CENTER_LIST, query, error),
         });
       });
     });
@@ -180,6 +180,7 @@ describe('CostCenter Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: CostCenterActions.CREATE_COST_CENTER_FAIL,
           payload: {
             costCenterCode,
@@ -237,6 +238,7 @@ describe('CostCenter Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: CostCenterActions.UPDATE_COST_CENTER_FAIL,
           payload: {
             costCenterCode,
@@ -298,6 +300,7 @@ describe('CostCenter Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: CostCenterActions.LOAD_ASSIGNED_BUDGETS_FAIL,
           payload: {
             costCenterCode,
@@ -362,6 +365,7 @@ describe('CostCenter Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: CostCenterActions.ASSIGN_BUDGET_FAIL,
           payload: {
             budgetCode,
@@ -413,6 +417,7 @@ describe('CostCenter Actions', () => {
         });
 
         expect({ ...action }).toEqual({
+          error,
           type: CostCenterActions.UNASSIGN_BUDGET_FAIL,
           payload: {
             budgetCode,

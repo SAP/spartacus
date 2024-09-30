@@ -4,14 +4,25 @@
       class="link cx-action-link"
       [routerLink]="
         {
-          cxRoute: 'savedCarts'
+          cxRoute: 'savedCarts',
         } | cxUrl
       "
       cxAutoFocus
     >
       <span>{{ 'addToSavedCart.savedCarts' | cxTranslate }}</span>
     </a>
+    <button
+      *cxFeature="'a11yUseButtonsForBtnLinks'"
+      #element
+      class="link cx-action-link"
+      [class.disabled]="disableSaveCartForLater$ | async"
+      (click)="saveCart(cart)"
+      cxAutoFocus
+    >
+      <span>{{ 'addToSavedCart.saveCartForLater' | cxTranslate }}</span>
+    </button>
     <a
+      *cxFeature="'!a11yUseButtonsForBtnLinks'"
       #element
       tabindex="0"
       class="link cx-action-link"

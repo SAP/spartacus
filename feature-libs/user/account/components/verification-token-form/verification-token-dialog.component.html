@@ -3,6 +3,7 @@
   role="dialog"
   [cxFocus]="focusConfig"
   (esc)="closeModal(VERIFICATION_TOKEN_DIALOG_ACTION.OK)"
+  aria-labelledby="verification-token-dialog-title"
 >
   <div class="cx-modal-content">
     <!-- Modal Header -->
@@ -11,7 +12,18 @@
         <span class="info-icon">
           <cx-icon type="INFO"></cx-icon>
         </span>
-        <span id="verification-token-dialog-title" class="title modal-title">
+        <h3
+          *cxFeature="'a11yDialogsHeading'"
+          id="verification-token-dialog-title"
+          class="title modal-title"
+        >
+          {{ 'verificationTokenDialog.title' | cxTranslate }}
+        </h3>
+        <span
+          *cxFeature="'!a11yDialogsHeading'"
+          id="verification-token-dialog-title"
+          class="title modal-title"
+        >
           {{ 'verificationTokenDialog.title' | cxTranslate }}
         </span>
       </div>

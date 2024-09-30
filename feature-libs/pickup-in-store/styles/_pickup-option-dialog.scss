@@ -26,6 +26,9 @@
           @include type('3');
           margin-inline-start: var(--cx-margin-left, 0.875rem);
         }
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
       }
 
       .cx-dialog-body {
@@ -34,6 +37,19 @@
     }
     .modal-body {
       padding-top: 0.75rem;
+    }
+  }
+  @include cx-highContrastTheme {
+    .cx-dialog-content {
+      color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+      border: 1px solid var(--cx-color-text);
+      .cx-dialog-body {
+        background-color: var(--cx-color-background);
+      }
+      .close {
+        color: var(--cx-color-text);
+      }
     }
   }
 }

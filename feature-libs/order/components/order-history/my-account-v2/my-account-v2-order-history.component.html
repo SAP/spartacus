@@ -30,9 +30,10 @@
               [routerLink]="
                 {
                   cxRoute: 'orderDetails',
-                  params: order
+                  params: order,
                 } | cxUrl
               "
+              [queryParams]="getQueryParams(order)"
             >
               {{ 'orderHistory.orderId' | cxTranslate }} {{ order?.code }}</a
             >

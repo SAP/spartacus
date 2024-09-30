@@ -24,6 +24,7 @@ import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/co
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 
 const VALUE_NAME_2 = 'val2';
 
@@ -79,6 +80,12 @@ class MockConfigUtilsService {
   }
 }
 
+class MockConfiguratorAttributePriceChangeService {
+  getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
+    return of([]);
+  }
+}
+
 describe('ConfigAttributeRadioButtonComponent', () => {
   let component: ConfiguratorAttributeRadioButtonComponent;
   let htmlElem: HTMLElement;
@@ -86,15 +93,29 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   const ownerKey = 'theOwnerKey';
   const name = 'attributeName';
   const groupId = 'theGroupId';
-  const initialSelectedValue = 'initialSelectedValue';
+  const initialSelectedValue = '1';
 
-  const value1 = createValue('1', 'val1', true);
-  const value2 = createValue('2', VALUE_NAME_2, false);
-  const value3 = createValue('3', 'val3', false);
-
-  const values: Configurator.Value[] = [value1, value2, value3];
+  let value1: Configurator.Value;
+  let value2: Configurator.Value;
+  let value3: Configurator.Value;
+  let values: Configurator.Value[];
 
   beforeEach(waitForAsync(() => {
+    value1 = createValue('1', 'val1', true);
+    value2 = createValue('2', VALUE_NAME_2, false);
+    value3 = createValue('3', 'val3', false);
+    values = [value1, value2, value3];
+
+    TestBed.overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
+      set: {
+        providers: [
+          {
+            provide: ConfiguratorAttributePriceChangeService,
+            useClass: MockConfiguratorAttributePriceChangeService,
+          },
+        ],
+      },
+    });
     TestBed.configureTestingModule({
       declarations: [
         ConfiguratorAttributeRadioButtonComponent,
@@ -339,6 +360,30 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         'aria-hidden',
         'true',
         VALUE_NAME_2
+      );
+    });
+
+    it('selected value should have aria-live tag if delta rendering is active', () => {
+      component.listenForPriceChanges = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        0,
+        'aria-live',
+        'polite'
+      );
+    });
+
+    it('selected value should not have aria-live tag if delta rendering is not active', () => {
+      component.listenForPriceChanges = false;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'input[aria-live]'
       );
     });
   });
