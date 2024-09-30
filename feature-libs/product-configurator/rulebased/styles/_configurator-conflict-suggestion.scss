@@ -1,9 +1,10 @@
+@use 'sass:map';
 %cx-configurator-conflict-suggestion {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  background-color: mix(#ffffff, theme-color('light'), 90%);
+  background-color: mix(#ffffff, map.get($theme-colors, 'light'), 90%);
   border: 1px solid var(--cx-color-light);
   border-radius: 2px;
   padding-inline-start: 15px;

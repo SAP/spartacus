@@ -1,6 +1,7 @@
+@use 'sass:map';
+
 @import '../../theme';
 @import '../../mixins';
-
 // None of the styles here below are customizable at component level
 // analyze how deep we want to customize these
 
@@ -16,11 +17,11 @@
   }
 
   > .active {
-    background-color: theme-color('primary');
+    background-color: map.get($theme-colors, 'primary');
   }
 
   > li {
-    background-color: theme-color('light');
+    background-color: map.get($theme-colors, 'light');
     width: 12px;
     height: 12px;
     border-radius: 50%;

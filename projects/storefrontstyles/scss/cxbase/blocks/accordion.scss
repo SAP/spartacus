@@ -1,18 +1,21 @@
+@use 'sass:map';
+
 @import '../../theme';
 @import '../../functions';
 @import '../../mixins';
+
 .accordion {
   .card {
     margin-bottom: 20px;
     border: none;
     &-header {
-      background-color: theme-color('background');
+      background-color: map.get($theme-colors, 'background');
       padding: 25px 20px;
       border: none;
       h5 {
         font-size: $font-size-base * 1.375;
         font-weight: 600;
-        color: theme-color('text');
+        color: map.get($theme-colors, 'text');
 
         @include forFeature('a11yImproveContrast') {
           @include type('3');
@@ -38,7 +41,7 @@
             }
           }
           &[aria-expanded='true'] {
-            color: theme-color('primary');
+            color: map.get($theme-colors, 'primary');
             &:after {
               content: '\2013';
             }

@@ -1,3 +1,4 @@
+@use 'sass:map';
 @import '../../theme';
 @import '../../mixins';
 @import 'bootstrap/scss/alert';
@@ -40,7 +41,7 @@
   }
 
   &-success {
-    background-color: mix(#ffffff, theme-color('success'), 80%);
+    background-color: mix(#ffffff, map.get($theme-colors, 'success'), 80%);
     border: var(--cx-border, none);
     .alert-icon {
       cx-icon {
@@ -50,7 +51,7 @@
   }
 
   &-danger {
-    background-color: mix(#ffffff, theme-color('danger'), 85%);
+    background-color: mix(#ffffff, map.get($theme-colors, 'danger'), 85%);
     border: var(--cx-border, none);
     .alert-icon {
       cx-icon {
@@ -60,7 +61,7 @@
   }
 
   &-info {
-    background-color: mix(#ffffff, theme-color('info'), 80%);
+    background-color: mix(#ffffff, map.get($theme-colors, 'info'), 80%);
     border: var(--cx-border, none);
     .alert-icon {
       cx-icon {
@@ -70,7 +71,7 @@
   }
 
   &-warning {
-    background-color: mix(#ffffff, theme-color('warning'), 78%);
+    background-color: mix(#ffffff, map.get($theme-colors, 'warning'), 78%);
     border: var(--cx-border, none);
     .alert-icon {
       cx-icon {

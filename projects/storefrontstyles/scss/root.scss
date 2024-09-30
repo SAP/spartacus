@@ -24,6 +24,12 @@
 
   --cx-border-style: solid;
 
+  --bs-font-sans-serif: 'Open Sans', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+
+  --bs-body-font-family: var(--bs-font-sans-serif);
+
   body {
     text-align: start;
   }

@@ -1,3 +1,4 @@
+@use 'sass:map';
 %cx-configuration-conflict-and-error-messages {
   &:not(:empty) {
     display: flex;
@@ -46,7 +47,7 @@
       }
 
       &-error {
-        background-color: mix(#ffffff, theme-color('danger'), 85%);
+        background-color: mix(#ffffff, map.get($theme-colors, 'danger'), 85%);
         border: var(--cx-border, none);
         .alert-icon {
           cx-icon {
@@ -57,7 +58,7 @@
       }
 
       &-invalid-warning {
-        background-color: mix(#ffffff, theme-color('warning'), 78%);
+        background-color: mix(#ffffff, map.get($theme-colors, 'warning'), 78%);
         border: var(--cx-border, none);
         .alert-icon {
           cx-icon {

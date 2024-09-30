@@ -1,3 +1,4 @@
+@use 'sass:map';
 %cx-configurator-overview-notification-banner {
   display: none;
 
@@ -14,7 +15,7 @@
       }
     }
     .cx-conflict-notification-banner {
-      background-color: mix(#ffffff, theme-color('warning'), 78%);
+      background-color: mix(#ffffff, map.get($theme-colors, 'warning'), 78%);
       .cx-icon {
         color: var(--cx-color-warning);
       }

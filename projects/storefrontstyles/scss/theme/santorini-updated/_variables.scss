@@ -7,6 +7,7 @@
 //   3) Set new values for component variables - app/__/_.scss
 // You cannot:
 //   1) Add new variables
+@use 'sass:map';
 @import '../../cxbase/functions';
 
 //fonts (see _fonts.scss to import)
@@ -126,9 +127,9 @@ $alert-padding-y: 20px;
 $alert-border-radius: 0;
 
 $input-placeholder-color: lighten($body-color, 50);
-$input-border-color: theme-color('light');
-$input-focus-border-color: theme-color('dark');
-$input-focus-bg: theme-color('background');
+$input-border-color: map.get($theme-colors, 'light');
+$input-focus-border-color: map.get($theme-colors, 'dark');
+$input-focus-bg: map.get($theme-colors, 'background');
 
 $custom-select-bg: color('white');
 $custom-select-border-color: $input-border-color;

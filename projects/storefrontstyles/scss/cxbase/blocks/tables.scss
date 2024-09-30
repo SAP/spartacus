@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @import '../../theme';
 
 .table {
@@ -12,7 +14,7 @@
       font-size: $small-font-size;
       font-weight: $font-weight-semi;
       text-transform: uppercase;
-      color: theme-color('secondary');
+      color: map.get($theme-colors, 'secondary');
 
       @include forFeature('a11yImproveContrast') {
         @include type('6');
@@ -39,7 +41,7 @@
       tr {
         min-height: 74px;
         &:hover {
-          background-color: theme-color('background');
+          background-color: map.get($theme-colors, 'background');
         }
       }
     }
@@ -68,7 +70,7 @@
       content: ' ';
       height: 18px;
       width: 2px;
-      background-color: theme-color('secondary');
+      background-color: map.get($theme-colors, 'secondary');
       top: 30%;
     }
     &:before {

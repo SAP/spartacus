@@ -1,8 +1,14 @@
+@use 'sass:map';
+
 %cx-avatar {
   .cx-avatar {
     height: 4.375rem;
     min-width: 4.375rem;
-    background-color: mix(theme-color('inverse'), theme-color('primary'), 90%);
+    background-color: mix(
+      map.get($theme-colors, 'inverse'),
+      map.get($theme-colors, 'primary'),
+      90%
+    );
     border-radius: 50%;
     justify-content: center;
     align-items: center;

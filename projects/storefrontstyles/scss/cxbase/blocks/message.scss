@@ -1,3 +1,4 @@
+@use 'sass:map';
 @import '../../theme';
 @import '../../mixins';
 
@@ -80,7 +81,7 @@
   }
 
   &-success {
-    background-color: mix(#ffffff, theme-color('success'), 80%);
+    background-color: mix(#ffffff, map.get($theme-colors, 'success'), 80%);
     border: 1px solid var(--cx-color-success);
 
     .cx-message-icon {
@@ -91,7 +92,7 @@
   }
 
   &-danger {
-    background-color: mix(#ffffff, theme-color('danger'), 85%);
+    background-color: mix(#ffffff, map.get($theme-colors, 'danger'), 85%);
     border: 1px solid var(--cx-color-danger);
 
     .cx-message-icon {
@@ -102,7 +103,7 @@
   }
 
   &-info {
-    background-color: mix(#ffffff, theme-color('info'), 80%);
+    background-color: mix(#ffffff, map.get($theme-colors, 'info'), 80%);
     border: 1px solid var(--cx-color-info);
 
     .cx-message-icon {
@@ -113,7 +114,7 @@
   }
 
   &-warning {
-    background-color: mix(#ffffff, theme-color('warning'), 78%);
+    background-color: mix(#ffffff, map.get($theme-colors, 'warning'), 78%);
     border: 1px solid var(--cx-color-warning);
 
     .cx-message-icon {

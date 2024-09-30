@@ -1,3 +1,4 @@
+@use 'sass:map';
 %cx-review-submit {
   @include media-breakpoint-down(md) {
     padding: 20px 0;
@@ -46,7 +47,7 @@
       justify-content: space-between;
 
       @include media-breakpoint-down(md) {
-        background-color: theme-color('inverse');
+        background-color: map.get($theme-colors, 'inverse');
         border-style: solid;
         border-width: 1px;
         border-color: var(--cx-color-light);

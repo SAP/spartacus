@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 %cx-configurator-update-message {
   position: absolute;
   width: 100%;
@@ -16,7 +18,7 @@
     padding-inline-end: 10px;
     padding-block-start: 10px;
     padding-block-end: 10px;
-    background-color: mix(#ffffff, theme-color('info'), 80%);
+    background-color: mix(#ffffff, map.get($theme-colors, 'info'), 80%);
     position: sticky;
 
     &.visible {

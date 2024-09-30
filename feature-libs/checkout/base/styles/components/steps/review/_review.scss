@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 %cx-checkout-review-shipping,
 %cx-checkout-review-payment,
 %cx-checkout-review-overview,
@@ -49,7 +51,7 @@
 
     .cx-review-summary-payment-card {
       margin: 30px;
-      background-color: theme-color('inverse');
+      background-color: map.get($theme-colors, 'inverse');
       width: 45%;
       flex-grow: 1;
       border: 1px solid var(--cx-color-medium);
