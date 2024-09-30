@@ -67,8 +67,7 @@ describe('OpfStaticCtaService', () => {
         CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE
       )
       .subscribe({
-        next: (val) => {
-          expect(val).toContain('yo OrderPaymentInfoId missing');
+        next: () => {
           fail();
           done();
         },
