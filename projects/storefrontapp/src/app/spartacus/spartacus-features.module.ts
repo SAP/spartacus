@@ -374,6 +374,7 @@ if (environment.cpq) {
         useSiteThemeService: false,
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
+        allPageMetaResolversEnabledInCsr: true,
       };
       return appFeatureToggles;
     }),
