@@ -57,10 +57,11 @@ describe('SSR E2E', () => {
       it('should receive response with status 404 if HTTP error occurred when calling cms/pages API URL', async () => {
         backendProxy = await ProxyUtils.startBackendProxyServer({
           target: BACKEND_BASE_URL,
-          callback: (proxyRes, req) => {
+          responseInterceptor: ({ res, req, body }) => {
             if (req.url?.includes('cms/pages')) {
-              proxyRes.statusCode = 404;
+              res.statusCode = 404;
             }
+            res.end(body);
           },
         });
         const response = await HttpUtils.sendRequestToSsrServer({
@@ -72,10 +73,11 @@ describe('SSR E2E', () => {
       it('should receive response with status 500 if HTTP error occurred when calling other than cms/pages API URL', async () => {
         backendProxy = await ProxyUtils.startBackendProxyServer({
           target: BACKEND_BASE_URL,
-          callback: (proxyRes, req) => {
+          responseInterceptor: ({ res, req, body }) => {
             if (req.url?.includes('cms/components')) {
-              proxyRes.statusCode = 404;
+              res.statusCode = 404;
             }
+            res.end(body);
           },
         });
         const response = await HttpUtils.sendRequestToSsrServer({
@@ -121,10 +123,11 @@ describe('SSR E2E', () => {
         async () => {
           backendProxy = await ProxyUtils.startBackendProxyServer({
             target: BACKEND_BASE_URL,
-            callback: (proxyRes, req) => {
+            responseInterceptor: ({ res, req, body }) => {
               if (req.url?.includes('cms/pages')) {
-                proxyRes.statusCode = 404;
+                res.statusCode = 404;
               }
+              res.end(body);
             },
           });
           let response: HttpUtils.SsrResponse;
@@ -192,10 +195,11 @@ describe('SSR E2E', () => {
       it('should receive response with status 500 even if HTTP error occurred when calling backend API URL', async () => {
         backendProxy = await ProxyUtils.startBackendProxyServer({
           target: BACKEND_BASE_URL,
-          callback: (proxyRes, req) => {
+          responseInterceptor: ({ res, req, body }) => {
             if (req.url?.includes('cms/components')) {
-              proxyRes.statusCode = 400;
+              res.statusCode = 400;
             }
+            res.end(body);
           },
         });
         const response = await HttpUtils.sendRequestToSsrServer({
