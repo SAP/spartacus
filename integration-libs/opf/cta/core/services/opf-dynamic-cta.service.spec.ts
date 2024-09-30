@@ -14,7 +14,6 @@ import { of } from 'rxjs';
 import { OpfDynamicCtaService } from './opf-dynamic-cta.service';
 
 describe('OpfDynamicCtaService', () => {
-  // let winRef: WindowRef;
   let service: OpfDynamicCtaService;
   let globalFunctionsFacadeMock: jasmine.SpyObj<OpfGlobalFunctionsFacade>;
   let eventServiceMock: jasmine.SpyObj<EventService>;
@@ -136,10 +135,10 @@ describe('OpfDynamicCtaService', () => {
       });
   });
 
-  it('should not start cartListener on pdp page initiateEvents', (done) => {
+  it('should not start cartListener on pdp initiateEvents', (done) => {
     service
       .fillCtaRequestforProductPage(
-        CtaScriptsLocation.CART_MESSAGING,
+        CtaScriptsLocation.PDP_MESSAGING,
         mockAccountIds
       )
       .subscribe(() => {

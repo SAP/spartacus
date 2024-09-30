@@ -231,7 +231,7 @@ describe('OpfCtaScriptsService', () => {
     });
   });
 
-  it('should execute script from script response', (done) => {
+  it('should execute script from script response html', (done) => {
     service.loadAndRunScript(dynamicScriptMock).then((scriptResponse) => {
       expect(
         opfResourceLoaderServiceMock.executeScriptFromHtml

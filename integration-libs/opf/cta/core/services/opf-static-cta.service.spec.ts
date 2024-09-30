@@ -11,7 +11,6 @@ describe('OpfStaticCtaService', () => {
   let orderHistoryFacadeMock: jasmine.SpyObj<OrderHistoryFacade>;
 
   beforeEach(() => {
-    // window.onbeforeunload = () => 'Oh no!';
     orderFacadeMock = jasmine.createSpyObj('OrderFacade', ['getOrderDetails']);
     orderHistoryFacadeMock = jasmine.createSpyObj('OrderHistoryFacade', [
       'getOrderDetails',
@@ -25,7 +24,6 @@ describe('OpfStaticCtaService', () => {
       ],
     });
     service = TestBed.inject(OpfStaticCtaService);
-
     orderHistoryFacadeMock.getOrderDetails.and.returnValue(of(mockOrder));
     orderFacadeMock.getOrderDetails.and.returnValue(of(mockOrder));
   });
@@ -64,7 +62,6 @@ describe('OpfStaticCtaService', () => {
     orderFacadeMock.getOrderDetails.and.returnValue(
       of({ ...mockOrder, paymentInfo: undefined })
     );
-
     service
       .fillCtaRequestforPagesWithOrder(
         CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE
