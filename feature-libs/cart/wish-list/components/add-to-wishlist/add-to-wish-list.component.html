@@ -17,7 +17,7 @@
               [disabled]="loading$ | async"
               [cxAtMessage]="'addToWishList.removedFromWishList' | cxTranslate"
             >
-              <cx-icon [type]="iconTypes.HEART"></cx-icon>
+              <cx-icon aria-hidden="true" [type]="iconTypes.HEART"></cx-icon>
               <span class="button-text">{{
                 'addToWishList.remove' | cxTranslate
               }}</span>
@@ -31,7 +31,10 @@
               [disabled]="loading$ | async"
               [cxAtMessage]="'addToWishList.addedToWishList' | cxTranslate"
             >
-              <cx-icon [type]="iconTypes.EMPTY_HEART"></cx-icon>
+              <cx-icon
+                aria-hidden="true"
+                [type]="iconTypes.EMPTY_HEART"
+              ></cx-icon>
               <span class="button-text">{{
                 'addToWishList.add' | cxTranslate
               }}</span>
@@ -51,7 +54,7 @@
               [disabled]="loading$ | async"
               [cxAtMessage]="'addToWishList.removedFromWishList' | cxTranslate"
             >
-              <cx-icon [type]="iconTypes.HEART"></cx-icon>
+              <cx-icon aria-hidden="true" [type]="iconTypes.HEART"></cx-icon>
               <span class="button-text">{{
                 'addToWishList.remove' | cxTranslate
               }}</span>
@@ -64,7 +67,10 @@
               [disabled]="loading$ | async"
               [cxAtMessage]="'addToWishList.addedToWishList' | cxTranslate"
             >
-              <cx-icon [type]="iconTypes.EMPTY_HEART"></cx-icon>
+              <cx-icon
+                aria-hidden="true"
+                [type]="iconTypes.EMPTY_HEART"
+              ></cx-icon>
               <span class="button-text">{{
                 'addToWishList.add' | cxTranslate
               }}</span>
@@ -82,7 +88,7 @@
       class="btn btn-link button-add-link cx-action-link"
       [routerLink]="{ cxRoute: 'login' } | cxUrl"
     >
-      <cx-icon [type]="iconTypes.EMPTY_HEART"></cx-icon>
+      <cx-icon aria-hidden="true" [type]="iconTypes.EMPTY_HEART"></cx-icon>
       <span class="button-text">{{
         'addToWishList.anonymous' | cxTranslate
       }}</span>
