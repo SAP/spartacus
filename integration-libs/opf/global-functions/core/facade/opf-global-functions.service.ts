@@ -16,6 +16,7 @@ import {
   ErrorDialogOptions,
   defaultErrorDialogOptions,
 } from '@spartacus/opf/base/root';
+import { OpfCtaFacade } from '@spartacus/opf/cta/root';
 import {
   GlobalFunctionsDomain,
   GlobalFunctionsInput,
@@ -30,7 +31,7 @@ import {
   PaymentMethod,
 } from '@spartacus/opf/payment/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Observable, lastValueFrom } from 'rxjs';
+import { Observable, Subject, lastValueFrom } from 'rxjs';
 import { finalize, take } from 'rxjs/operators';
 
 @Injectable()
@@ -39,10 +40,13 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   protected ngZone = inject(NgZone);
   protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected launchDialogService = inject(LaunchDialogService);
-
+  protected opfCtaFacade = inject(OpfCtaFacade);
   protected loaderSpinnerCpntRef: void | Observable<
     ComponentRef<any> | undefined
   >;
+  protected _readyForScriptEvent: Subject<string> = new Subject();
+  readyForScriptEvent$: Observable<string> =
+    this._readyForScriptEvent.asObservable();
 
   registerGlobalFunctions({
     domain,
@@ -61,6 +65,9 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       case GlobalFunctionsDomain.REDIRECT:
         this.registerSubmitCompleteRedirect(domain, paymentSessionId, vcr);
         this.registerGetRedirectParams(domain, paramsMap ?? []);
+        break;
+      case GlobalFunctionsDomain.GLOBAL:
+        this.registerCtaScriptReady(domain);
         break;
       default:
         break;
@@ -173,7 +180,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
 
   protected registerSubmit(
     domain: GlobalFunctionsDomain,
-    paymentSessionId: string,
+    paymentSessionId?: string,
     vcr?: ViewContainerRef
   ): void {
     this.getGlobalFunctionContainer(domain).submit = ({
@@ -331,6 +338,15 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         OpfPage.CHECKOUT_REVIEW_PAGE,
         vcr
       );
+    };
+  }
+  protected registerCtaScriptReady(domain: GlobalFunctionsDomain): void {
+    this.getGlobalFunctionContainer(domain).scriptReady = (
+      scriptIdentifier: string
+    ): void => {
+      this.ngZone.run(() => {
+        this.opfCtaFacade.emitScriptReadyEvent(scriptIdentifier);
+      });
     };
   }
 }

@@ -5,20 +5,10 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { CmsService, Product, isNotNullable } from '@spartacus/core';
-import { Order, OrderFacade, OrderHistoryFacade } from '@spartacus/order/root';
-import { Observable, from, of, throwError } from 'rxjs';
-import {
-  concatMap,
-  filter,
-  finalize,
-  map,
-  reduce,
-  switchMap,
-  take,
-} from 'rxjs/operators';
+import { CmsService } from '@spartacus/core';
+import { Observable, Subscription, of, throwError } from 'rxjs';
+import { concatMap, filter, finalize, map, take, tap } from 'rxjs/operators';
 
-import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   OpfBaseFacade,
   OpfDynamicScript,
@@ -29,210 +19,27 @@ import {
   CtaScriptsLocation,
   CtaScriptsRequest,
   CtaScriptsResponse,
+  DynamicCtaLocations,
   OpfCtaFacade,
 } from '@spartacus/opf/cta/root';
 
-import { CurrentProductService } from '@spartacus/storefront';
+import {
+  OpfDynamicCtaService,
+  OpfStaticCtaService,
+} from '@spartacus/opf/cta/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class OpfCtaScriptsService {
   protected opfBaseFacade = inject(OpfBaseFacade);
   protected opfCtaFacade = inject(OpfCtaFacade);
-  protected orderDetailsService = inject(OrderFacade);
-  protected orderHistoryService = inject(OrderHistoryFacade);
   protected opfResourceLoaderService = inject(OpfResourceLoaderService);
   protected cmsService = inject(CmsService);
-  protected currentProductService = inject(CurrentProductService);
+  protected opfDynamicCtaService = inject(OpfDynamicCtaService);
+  protected opfStaticCtaService = inject(OpfStaticCtaService);
 
-  getCtaHtmlslList(): Observable<string[]> {
-    return this.fillCtaScriptRequest().pipe(
-      switchMap((ctaScriptsRequest) => this.fetchCtaScripts(ctaScriptsRequest)),
-      switchMap((scriptslist) => this.runCtaScripts(scriptslist)),
-      finalize(() => {
-        this.clearResources();
-      })
-    );
-  }
+  protected subList: Array<Subscription> = [];
 
-  protected clearResources() {
-    this.opfResourceLoaderService.clearAllProviderResources();
-  }
-
-  protected fetchCtaScripts(
-    ctaScriptsRequest: CtaScriptsRequest
-  ): Observable<OpfDynamicScript[]> {
-    return this.opfCtaFacade.getCtaScripts(ctaScriptsRequest).pipe(
-      concatMap((ctaScriptsResponse: CtaScriptsResponse) => {
-        if (!ctaScriptsResponse?.value?.length) {
-          return throwError('Invalid CTA Scripts Response');
-        }
-        const dynamicScripts = ctaScriptsResponse.value.map(
-          (ctaScript) => ctaScript.dynamicScript
-        );
-        return of(dynamicScripts);
-      }),
-      take(1)
-    );
-  }
-
-  protected fillCtaScriptRequest() {
-    let paymentAccountIds: number[];
-
-    return this.getPaymentAccountIds().pipe(
-      concatMap((accIds) => {
-        paymentAccountIds = accIds;
-        return this.getScriptLocation();
-      }),
-      concatMap((scriptsLocation: CtaScriptsLocation | undefined) => {
-        return this.fillRequestForTargetPage(
-          scriptsLocation,
-          paymentAccountIds
-        );
-      })
-    );
-  }
-
-  protected fillRequestForTargetPage(
-    scriptsLocation: CtaScriptsLocation | undefined,
-    paymentAccountIds: number[]
-  ): Observable<CtaScriptsRequest> {
-    if (!scriptsLocation) {
-      return throwError('Invalid Script Location');
-    }
-    const toBeImplementedException = () => throwError('to be implemented');
-    const locationToFunctionMap: Record<
-      CtaScriptsLocation,
-      () => Observable<CtaScriptsRequest>
-    > = {
-      [CtaScriptsLocation.PDP_QUICK_BUY]: () =>
-        this.fillCtaRequestforPDP(scriptsLocation, paymentAccountIds),
-      [CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE]: () =>
-        this.fillCtaRequestforPagesWithOrder(scriptsLocation),
-      [CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE]: () =>
-        this.fillCtaRequestforPagesWithOrder(scriptsLocation),
-      [CtaScriptsLocation.CART_MESSAGING]: toBeImplementedException,
-      [CtaScriptsLocation.CART_QUICK_BUY]: toBeImplementedException,
-      [CtaScriptsLocation.CHECKOUT_QUICK_BUY]: toBeImplementedException,
-      [CtaScriptsLocation.PDP_MESSAGING]: toBeImplementedException,
-    };
-
-    const selectedFunction = locationToFunctionMap[scriptsLocation];
-
-    return selectedFunction
-      ? selectedFunction()
-      : throwError('Invalid Script Location');
-  }
-
-  protected fillCtaRequestforPagesWithOrder(
-    scriptLocation: CtaScriptsLocation
-  ): Observable<CtaScriptsRequest> {
-    return this.getOrderDetails(scriptLocation).pipe(
-      map((order) => {
-        if (!order?.paymentInfo?.id) {
-          throw new Error('OrderPaymentInfoId missing');
-        }
-        const ctaScriptsRequest: CtaScriptsRequest = {
-          cartId: order?.paymentInfo?.id,
-          ctaProductItems: this.getProductItems(order as Order),
-          scriptLocations: [scriptLocation],
-        };
-
-        return ctaScriptsRequest;
-      })
-    );
-  }
-
-  protected fillCtaRequestforPDP(
-    scriptLocation: CtaScriptsLocation,
-    paymentAccountIds: number[]
-  ) {
-    return this.currentProductService.getProduct().pipe(
-      filter(isNotNullable),
-      map((product: Product) => {
-        return {
-          orderId: undefined,
-          ctaProductItems: [{ productId: product?.code, quantity: 1 }],
-          paymentAccountIds: paymentAccountIds,
-          scriptLocations: [scriptLocation],
-        } as CtaScriptsRequest;
-      })
-    );
-  }
-
-  protected runCtaScripts(scripts: OpfDynamicScript[]) {
-    return from(scripts).pipe(
-      concatMap((script) => from(this.loadAndRunScript(script))),
-      reduce((loadedList: string[], script) => {
-        if (script?.html) {
-          loadedList.push(script.html);
-        }
-        return loadedList;
-      }, []),
-      map((list) => {
-        if (!list.length) {
-          return [];
-        }
-        return this.removeScriptTags(list);
-      })
-    );
-  }
-
-  protected getScriptLocation(): Observable<CtaScriptsLocation | undefined> {
-    const cmsToCtaLocationMap: Record<CmsPageLocation, CtaScriptsLocation> = {
-      [CmsPageLocation.ORDER_PAGE]:
-        CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE,
-      [CmsPageLocation.ORDER_CONFIRMATION_PAGE]:
-        CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE,
-      [CmsPageLocation.PDP_PAGE]: CtaScriptsLocation.PDP_QUICK_BUY,
-      [CmsPageLocation.CART_PAGE]: CtaScriptsLocation.CART_QUICK_BUY,
-    };
-    return this.cmsService.getCurrentPage().pipe(
-      take(1),
-      map((page) =>
-        page.pageId
-          ? cmsToCtaLocationMap[page.pageId as CmsPageLocation]
-          : undefined
-      )
-    );
-  }
-
-  protected getOrderDetails(scriptsLocation: CtaScriptsLocation) {
-    const order$ =
-      scriptsLocation === CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE
-        ? this.orderDetailsService.getOrderDetails()
-        : this.orderHistoryService.getOrderDetails();
-    return order$.pipe(
-      filter((order) => !!order?.entries)
-    ) as Observable<Order>;
-  }
-
-  protected getPaymentAccountIds() {
-    return this.opfBaseFacade.getActiveConfigurationsState().pipe(
-      filter(
-        (state) => !state.loading && !state.error && Boolean(state.data?.length)
-      ),
-      map((state) => state.data?.map((val) => val.id) as number[])
-    );
-  }
-
-  protected getProductItems(
-    order: Order
-  ): { productId: string; quantity: number }[] | [] {
-    return (order.entries as OrderEntry[])
-      .filter((item) => {
-        return !!item?.product?.code && !!item?.quantity;
-      })
-      .map((item) => {
-        return {
-          productId: item.product?.code as string,
-          quantity: item.quantity as number,
-        };
-      });
-  }
-
-  protected loadAndRunScript(
+  loadAndRunScript(
     script: OpfDynamicScript
   ): Promise<OpfDynamicScript | undefined> {
     const html = script?.html;
@@ -256,13 +63,131 @@ export class OpfCtaScriptsService {
     );
   }
 
-  protected removeScriptTags(htmls: string[]) {
-    return htmls.map((html) => {
-      const element = new DOMParser().parseFromString(html, 'text/html');
-      Array.from(element.getElementsByTagName('script')).forEach((script) => {
-        html = html.replace(script.outerHTML, '');
-      });
-      return html;
-    });
+  getCtaHtmlslList(): Observable<OpfDynamicScript[]> {
+    let isDynamicCtaLocation = false;
+    return this.fillCtaScriptRequest().pipe(
+      concatMap((ctaScriptsRequest) => {
+        isDynamicCtaLocation =
+          !!ctaScriptsRequest?.scriptLocations?.length &&
+          !!ctaScriptsRequest?.scriptLocations.map((location) =>
+            DynamicCtaLocations.includes(location)
+          );
+
+        return this.fetchCtaScripts(ctaScriptsRequest);
+      }),
+      tap((scriptsResponse) => {
+        isDynamicCtaLocation = !!scriptsResponse.length && isDynamicCtaLocation;
+        isDynamicCtaLocation && this.opfDynamicCtaService.initiateEvents();
+      }),
+      finalize(() => {
+        this.opfResourceLoaderService.clearAllProviderResources();
+        isDynamicCtaLocation && this.opfDynamicCtaService.stopEvents();
+      })
+    );
+  }
+
+  protected fetchCtaScripts(
+    ctaScriptsRequest: CtaScriptsRequest
+  ): Observable<OpfDynamicScript[]> {
+    return this.opfCtaFacade.getCtaScripts(ctaScriptsRequest).pipe(
+      concatMap((ctaScriptsResponse: CtaScriptsResponse) => {
+        if (!ctaScriptsResponse?.value?.length) {
+          return throwError(() => 'Invalid CTA Scripts Response');
+        }
+        const dynamicScripts = ctaScriptsResponse.value.map(
+          (ctaScript) => ctaScript.dynamicScript
+        );
+        return of(dynamicScripts);
+      }),
+      take(1)
+    );
+  }
+
+  protected fillCtaScriptRequest(): Observable<CtaScriptsRequest> {
+    let paymentAccountIds: number[];
+
+    return this.getPaymentAccountIds().pipe(
+      concatMap((accIds) => {
+        paymentAccountIds = accIds;
+        return this.getScriptLocation();
+      }),
+      concatMap((scriptsLocation: CtaScriptsLocation | undefined) => {
+        return this.fillRequestForTargetPage(
+          scriptsLocation,
+          paymentAccountIds
+        );
+      })
+    );
+  }
+
+  protected fillRequestForTargetPage(
+    scriptsLocation: CtaScriptsLocation | undefined,
+    paymentAccountIds: number[]
+  ): Observable<CtaScriptsRequest> {
+    if (!scriptsLocation) {
+      return throwError(() => 'Invalid Script Location');
+    }
+    const toBeImplementedException = () =>
+      throwError(() => 'to be implemented');
+    const locationToFunctionMap: Record<
+      CtaScriptsLocation,
+      () => Observable<CtaScriptsRequest>
+    > = {
+      [CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE]: () =>
+        this.opfStaticCtaService.fillCtaRequestforPagesWithOrder(
+          scriptsLocation
+        ),
+      [CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE]: () =>
+        this.opfStaticCtaService.fillCtaRequestforPagesWithOrder(
+          scriptsLocation
+        ),
+      [CtaScriptsLocation.CART_MESSAGING]: () =>
+        this.opfDynamicCtaService.fillCtaRequestforCartPage(
+          scriptsLocation,
+          paymentAccountIds
+        ),
+      [CtaScriptsLocation.PDP_MESSAGING]: () =>
+        this.opfDynamicCtaService.fillCtaRequestforProductPage(
+          scriptsLocation,
+          paymentAccountIds
+        ),
+      [CtaScriptsLocation.CART_QUICK_BUY]: toBeImplementedException,
+      [CtaScriptsLocation.CHECKOUT_QUICK_BUY]: toBeImplementedException,
+      [CtaScriptsLocation.PDP_QUICK_BUY]: toBeImplementedException,
+    };
+
+    const selectedFunction = locationToFunctionMap[scriptsLocation];
+
+    return selectedFunction
+      ? selectedFunction()
+      : throwError(() => 'Invalid Script Location');
+  }
+
+  protected getScriptLocation(): Observable<CtaScriptsLocation | undefined> {
+    const cmsToCtaLocationMap: Record<CmsPageLocation, CtaScriptsLocation> = {
+      [CmsPageLocation.ORDER_PAGE]:
+        CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE,
+      [CmsPageLocation.ORDER_CONFIRMATION_PAGE]:
+        CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE,
+      [CmsPageLocation.PDP_PAGE]: CtaScriptsLocation.PDP_MESSAGING,
+      [CmsPageLocation.CART_PAGE]: CtaScriptsLocation.CART_MESSAGING,
+    };
+    return this.cmsService.getCurrentPage().pipe(
+      take(1),
+      map((page) =>
+        page.pageId
+          ? cmsToCtaLocationMap[page.pageId as CmsPageLocation]
+          : undefined
+      )
+    );
+  }
+
+  protected getPaymentAccountIds() {
+    return this.opfBaseFacade.getActiveConfigurationsState().pipe(
+      filter(
+        (state) => !state.loading && !state.error && Boolean(state.data?.length)
+      ),
+      map((state) => state.data?.map((val) => val.id) as number[])
+    );
   }
 }

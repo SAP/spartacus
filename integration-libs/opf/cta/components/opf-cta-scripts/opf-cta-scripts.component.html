@@ -1,4 +1,4 @@
-<ng-container *ngIf="ctaHtmls$ | async as ctaHtmls; else loading">
+<ng-container *ngIf="ctaHtmls$ | async as ctaHtmls">
   <ng-container *ngIf="ctaHtmls?.length">
     <cx-opf-cta-element
       *ngFor="let ctaHtml of ctaHtmls"
@@ -6,8 +6,3 @@
     ></cx-opf-cta-element>
   </ng-container>
 </ng-container>
-<ng-template #loading>
-  <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
-  </div>
-</ng-template>

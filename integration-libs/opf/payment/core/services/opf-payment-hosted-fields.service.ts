@@ -85,7 +85,7 @@ export class OpfPaymentHostedFieldsService {
         this.opfPaymentConnector.submitPayment(
           request,
           otpKey,
-          paymentSessionId
+          paymentSessionId as string
         )
       ),
       concatMap((response: SubmitResponse) =>

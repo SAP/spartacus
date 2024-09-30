@@ -8,7 +8,6 @@ import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { ScriptLoader } from '@spartacus/core';
 
-import { throwError } from 'rxjs';
 import {
   OpfDynamicScriptResource,
   OpfDynamicScriptResourceType,
@@ -67,8 +66,10 @@ export class OpfResourceLoaderService extends ScriptLoader {
     return super.hasScript(src);
   }
 
-  protected handleLoadingResourceError(src?: string) {
-    return throwError(`Error while loading external ${src} resource.`);
+  protected handleLoadingResourceError(
+    resolve: (value: void | PromiseLike<void>) => void
+  ) {
+    resolve();
   }
 
   protected isResourceLoadingCompleted(resources: OpfDynamicScriptResource[]) {
@@ -110,7 +111,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
           this.markResourceAsLoaded(resource, resources, resolve);
         },
         errorCallback: () => {
-          this.handleLoadingResourceError(resource.url);
+          this.handleLoadingResourceError(resolve);
         },
       });
     } else {
@@ -128,7 +129,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
         src: resource.url,
         callback: () => this.markResourceAsLoaded(resource, resources, resolve),
         errorCallback: () => {
-          this.handleLoadingResourceError(resource.url);
+          this.handleLoadingResourceError(resolve);
         },
       });
     } else {
