@@ -25,10 +25,12 @@ export class ApplePayObservableFactory {
   initApplePayEventsHandler(config: ApplePayObservableConfig): Observable<any> {
     return new Observable<any>((observer) => {
       let session: ApplePaySession;
+      console.log('config', config);
       try {
         session = this.applePaySessionFactory.startApplePaySession(
           config.request
         ) as ApplePaySession;
+        console.log('session', session);
       } catch (err) {
         observer.error(err);
         return;
