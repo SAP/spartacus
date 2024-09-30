@@ -38,19 +38,19 @@ const userGiveConsentRegistrationTest: SampleUser = {
   firstName: 'John',
   lastName: 'Doe',
   email: generateMail(randomString(), true),
-  password: 'Password123!',
+  password: 'Pas!sword123!',
 };
 const userTransferConsentTest: SampleUser = {
   firstName: 'Cypress',
   lastName: 'AnonymousUser',
   email: generateMail(randomString(), true),
-  password: 'Password123!',
+  password: 'Pas!sword123!',
 };
 const userFromConfigTest: SampleUser = {
   firstName: 'x',
   lastName: 'x',
   email: generateMail(randomString(), true),
-  password: 'Password123!',
+  password: 'Pas!sword123!',
 };
 
 export function anonoymousConsentConfig(

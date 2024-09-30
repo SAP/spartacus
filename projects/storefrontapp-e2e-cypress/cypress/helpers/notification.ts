@@ -113,7 +113,7 @@ export function disableNotificationChannelV2() {
 }
 
 export function updateEmail(): String {
-  const password = 'Password123.';
+  const password = 'Pas!sword123.';
   const newUid = generateMail(randomString(), true);
 
   navigateToUpdateEmailPage();

@@ -1,8 +1,9 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "./",
     "module": "CommonJs",
     "types": ["jest"],
+    "lib": ["ES2023"],
     "declaration": true,
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
