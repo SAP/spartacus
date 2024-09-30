@@ -582,6 +582,15 @@ export interface FeatureTogglesInterface {
    * the old password.
    */
   enablePasswordsCannotMatchInPasswordUpdateForm?: boolean;
+
+  /**
+   * Enables or disables the resolution of all page meta resolvers in a Client-Side Rendering (CSR) environment.
+   *
+   * When set to `true`, all page meta resolvers will be activated during client-side rendering,
+   * allowing the app to dynamically resolve metadata (such as title, description, etc.) based on the current page.
+   * This can be useful in CSR apps where page metadata needs to be updated without a full server-side refresh.
+   */
+  allPageMetaResolversEnabledInCsr?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -673,4 +682,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useSiteThemeService: false,
   enableConsecutiveCharactersPasswordRequirement: false,
   enablePasswordsCannotMatchInPasswordUpdateForm: false,
+  allPageMetaResolversEnabledInCsr: false,
 };
