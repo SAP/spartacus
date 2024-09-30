@@ -7,6 +7,7 @@ import {
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { EMPTY, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
@@ -83,6 +84,7 @@ describe('TabParagraphContainerComponent', () => {
         TabParagraphContainerComponent,
         ComponentWrapperDirective,
         OutletDirective,
+        MockFeatureDirective,
       ],
       providers: [
         WindowRef,

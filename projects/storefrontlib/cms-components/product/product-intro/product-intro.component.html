@@ -6,7 +6,7 @@
     <!-- TODO: (CXSPA-7603) - Remove feature flag next major release. -->
     <ng-container *cxFeature="'a11yLinkBtnsToTertiaryBtns'">
       <button
-        *ngIf="areReviewsAvailable$ | async"
+        *ngIf="product?.averageRating"
         class="btn btn-tertiary"
         (click)="showReviews()"
         [attr.aria-label]="
