@@ -74,7 +74,9 @@ describe('OrderDetailActionsComponent', () => {
 
   it('should display return button when order is returnable', () => {
     fixture.detectChanges();
-    const element: DebugElement = el.queryAll(By.css('a.btn-secondary'))[0];
+    const element: DebugElement = el.queryAll(
+      By.css('button.btn-secondary')
+    )[0];
 
     expect(element.nativeElement.textContent).toContain(
       'orderDetails.cancellationAndReturn.returnAction'
@@ -85,7 +87,9 @@ describe('OrderDetailActionsComponent', () => {
     mockOrder.returnable = false;
 
     fixture.detectChanges();
-    const element: DebugElement = el.queryAll(By.css('a.btn-secondary'))[0];
+    const element: DebugElement = el.queryAll(
+      By.css('button.btn-secondary')
+    )[0];
 
     expect(element).toBeUndefined();
   });
