@@ -20,7 +20,7 @@
 
 import { execSync } from 'child_process';
 import fs, { readFileSync } from 'fs';
-import * as glob from 'glob';
+const glob = require('glob');
 import * as path from 'path';
 import postcss from 'postcss-scss';
 import semver from 'semver';
