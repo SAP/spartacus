@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Optional,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   EventService,
   FeatureConfigService,
@@ -34,10 +29,7 @@ export class ProductIntroComponent {
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
 
-  //TODO: (CXSPA-8044) - remove feature flag next major release.
-  @Optional() protected featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  protected featureConfigService = inject(FeatureConfigService);
 
   /**
    * Observable that checks the reviews component availability on the page.
@@ -75,7 +67,6 @@ export class ProductIntroComponent {
   /**
    * Scroll to views component on page and click "Reviews" tab
    */
-  //TODO: (CXSPA-8044) - remove feature flag next major release.
   showReviews() {
     // Use translated label for Reviews tab reference
     this.translationService
