@@ -10,9 +10,10 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { useFeatureStyles } from '@spartacus/core';
+import { useFeatureStyles, FeatureConfigService } from '@spartacus/core';
 import {
   AugmentedPointOfService,
   cartWithIdAndUserId,
@@ -48,18 +49,27 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   cartId: string;
   userId: string;
 
-  readonly focusConfig: FocusConfig = {
-    trap: true,
-    block: true,
-    autofocus: 'input',
-    focusOnEscape: true,
-  };
-
   readonly ICON_TYPE = ICON_TYPE;
   /** The reason given closing the dialog window without selecting a location */
   readonly CLOSE_WITHOUT_SELECTION = 'CLOSE_WITHOUT_SELECTION';
   /** The reason given closing the dialog window after selecting a location */
   readonly LOCATION_SELECTED = 'LOCATION_SELECTED';
+
+  private featureConfigService = inject(FeatureConfigService);
+
+  get focusConfig(): FocusConfig {
+    const useTrapTab = this.featureConfigService.isEnabled(
+      'a11yUseTrapTabInsteadOfTrapInDialogs'
+    );
+
+    return {
+      trap: !useTrapTab,
+      trapTabOnly: useTrapTab,
+      block: true,
+      autofocus: 'input',
+      focusOnEscape: true,
+    };
+  }
 
   constructor(
     protected activeCartFacade: ActiveCartFacade,
