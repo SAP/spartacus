@@ -13,6 +13,6 @@ declare module '@spartacus/core' {
 
 declare module '@spartacus/core' {
   const enum ProductScope {
-    SUBSCRIPTION_PRICE = 'subscriptionPrice',
+    SUBSCRIPTION = 'subscription',
   }
 }

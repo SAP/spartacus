@@ -1,19 +1,22 @@
 <div class="cx-usage-charge">
   {{ 'subscriptionProduct.usageCharges' | cxTranslate }}
 
-  <div *ngIf="getTierUsageCharges()" class="cx-tierusage">
+  <div *ngIf="getTierUsageCharges().length > 0" class="cx-tierusage">
     <ng-container *ngTemplateOutlet="showTierUsageCharges"></ng-container>
   </div>
 
-  <div *ngIf="getVolumeUsageCharges()" class="cx-volumeusage">
+  <div *ngIf="getVolumeUsageCharges().length > 0" class="cx-volumeusage">
     <ng-container *ngTemplateOutlet="showVolumeUsageCharges"></ng-container>
   </div>
 
-  <div *ngIf="getPercentageUsageCharges()" class="cx-percentageusage">
+  <div
+    *ngIf="getPercentageUsageCharges().length > 0"
+    class="cx-percentageusage"
+  >
     <ng-container *ngTemplateOutlet="showPercentageUsageCharges"></ng-container>
   </div>
 
-  <div *ngIf="getPerUnitUsageCharges()" class="cx-perunitusage">
+  <div *ngIf="getPerUnitUsageCharges().length > 0" class="cx-perunitusage">
     <ng-container *ngTemplateOutlet="showBlockUsageCharges"></ng-container>
   </div>
 </div>
@@ -48,8 +51,9 @@
               : {
                   price: usageChargeEntry.price?.formattedValue,
                   block:
-                    usageCharge.blockSize ??
-                    '' + usageCharge?.usageUnit?.namePlural
+                    usageCharge.blockSize +
+                    ' ' +
+                    usageCharge?.usageUnit?.namePlural
                 }
         }}
       </div>

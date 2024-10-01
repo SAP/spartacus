@@ -1,23 +1,20 @@
 <ng-container *ngIf="product$ | async as product">
   <div
     class="cx-sappriceplan"
-    *ngIf="
-      product.sapSubscriptionTerm && product.sapPricePlan;
-      else showGenericProductPrice
-    "
+    *ngIf="isCurrentProductSubscription(product); else showGenericProductPrice"
   >
     <div>
-      {{ product.sapPricePlan.name }}
+      {{ product.sapPricePlan?.name }}
     </div>
     <div
       class="cx-sappriceplan-onetime"
-      *ngIf="product.sapPricePlan.oneTimeCharges"
+      *ngIf="product.sapPricePlan?.oneTimeCharges"
     >
       <ng-container *ngTemplateOutlet="showOneTimeCharges"></ng-container>
     </div>
     <div
       class="cx-sappriceplan-recurring"
-      *ngIf="product.sapPricePlan.recurringCharges"
+      *ngIf="product.sapPricePlan?.recurringCharges"
     >
       <ng-container *ngTemplateOutlet="showRecurringCharges"></ng-container>
     </div>

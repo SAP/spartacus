@@ -4,11 +4,13 @@ import {
   provideOutlet,
   ProductDetailOutlets,
   OutletPosition,
+  CurrentProductService,
 } from '@spartacus/storefront';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { SubscriptionProductUsageChargeComponent } from './product-price/subscription-product-usage-charge.component';
 import { CommonModule } from '@angular/common';
 import { defaultOccSubscriptionBillingConfig } from './occ/config/default-occ-subscription-billing-config';
+import { CurrentSubscriptionProductService } from './services/current-subscription-product.service';
 
 const componentList = [
   SubscriptionProductPriceComponent,
@@ -24,6 +26,10 @@ const componentList = [
       position: OutletPosition.REPLACE,
       component: SubscriptionProductPriceComponent,
     }),
+    {
+      provide: CurrentProductService,
+      useExisting: CurrentSubscriptionProductService,
+    },
   ],
   exports: componentList,
   declarations: componentList,
