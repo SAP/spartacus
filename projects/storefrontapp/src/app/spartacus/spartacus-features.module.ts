@@ -309,6 +309,7 @@ if (environment.cpq) {
         a11yOrderConfirmationHeadingOrder: true,
         a11yStarRating: true,
         a11yViewChangeAssistiveMessage: true,
+        a11yPreventHorizontalScroll: true,
         a11yReorderDialog: true,
         a11yPopoverFocus: true,
         a11yScheduleReplenishment: true,
@@ -324,6 +325,7 @@ if (environment.cpq) {
         a11yReplenishmentOrderFieldset: true,
         a11yListOversizedFocus: true,
         a11yStoreFinderOverflow: true,
+        a11yMobileFocusOnFirstNavigationItem: true,
         a11yCartSummaryHeadingOrder: true,
         a11ySearchBoxMobileFocus: true,
         a11yFacetKeyboardNavigation: true,
@@ -331,6 +333,7 @@ if (environment.cpq) {
         a11yCartItemsLinksStyles: true,
         a11yHideSelectBtnForSelectedAddrOrPayment: true,
         a11yFocusableCarouselControls: true,
+        a11yUseTrapTabInsteadOfTrapInDialogs: true,
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
         a11yKeyboardAccessibleZoom: true,
@@ -346,6 +349,7 @@ if (environment.cpq) {
         a11yEmptyWishlistHeading: true,
         a11yScreenReaderBloatFix: true,
         a11yUseButtonsForBtnLinks: true,
+        a11yTabComponent: true,
         a11yCarouselArrowKeysNavigation: true,
         a11yNotificationsOnConsentChange: true,
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
@@ -371,6 +375,9 @@ if (environment.cpq) {
         a11ySearchBoxFocusOnEscape: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,
+        enableConsecutiveCharactersPasswordRequirement: true,
+        enablePasswordsCannotMatchInPasswordUpdateForm: true,
+        allPageMetaResolversEnabledInCsr: true,
       };
       return appFeatureToggles;
     }),

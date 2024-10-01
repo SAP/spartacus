@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { CanActivateFn, RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   FeatureConfigService,
-  UnifiedInjector,
   getLastValueSync,
+  UnifiedInjector,
   wrapIntoObservable,
 } from '@spartacus/core';
-import { Observable, concat, of } from 'rxjs';
+import { concat, Observable, of } from 'rxjs';
 import { endWith, first, skipWhile } from 'rxjs/operators';
 import { CmsComponentsService } from './cms-components.service';
 import { CanActivate, GuardsComposer } from './guards-composer';
