@@ -4,9 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Optional,
+  inject,
+} from '@angular/core';
 import {
   EventService,
+  FeatureConfigService,
   Product,
   TranslationService,
   WindowRef,
@@ -27,6 +33,11 @@ import { CurrentProductService } from '../current-product.service';
 export class ProductIntroComponent {
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
+
+  //TODO: (CXSPA-8044) - remove feature flag next major release.
+  @Optional() protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   /**
    * Observable that checks the reviews component availability on the page.
@@ -64,6 +75,7 @@ export class ProductIntroComponent {
   /**
    * Scroll to views component on page and click "Reviews" tab
    */
+  //TODO: (CXSPA-8044) - remove feature flag next major release.
   showReviews() {
     // Use translated label for Reviews tab reference
     this.translationService
@@ -73,12 +85,24 @@ export class ProductIntroComponent {
         const reviewsTab =
           tabsComponent && this.getTabByLabel(reviewsTabLabel, tabsComponent);
         if (reviewsTab) {
+          this.clickTabIfInactive(reviewsTab);
           setTimeout(() => {
-            this.clickTabIfInactive(reviewsTab);
-            requestAnimationFrame(() => {
-              reviewsTab.focus({ preventScroll: true });
+            if (
+              this.featureConfigService?.isEnabled(
+                'a11yScrollToReviewByShowReview'
+              )
+            ) {
+              requestAnimationFrame(() => {
+                reviewsTab.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start',
+                });
+                reviewsTab.focus({ preventScroll: true });
+              });
+            } else {
               reviewsTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
+              reviewsTab.focus({ preventScroll: true });
+            }
           });
         }
       })

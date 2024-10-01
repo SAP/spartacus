@@ -370,6 +370,7 @@ if (environment.cpq) {
         a11yDialogsHeading: true,
         a11yAddToWishlistFocus: true,
         a11ySearchBoxFocusOnEscape: true,
+        a11yScrollToReviewByShowReview: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,
         enableConsecutiveCharactersPasswordRequirement: true,
