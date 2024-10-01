@@ -187,6 +187,11 @@ export interface FeatureTogglesInterface {
   a11yViewChangeAssistiveMessage?: boolean;
 
   /**
+   * Prevent horizontal scroll appearing on smaller screens for `CartItemListComponent`, `AddedToCartDialogComponent`
+   */
+  a11yPreventHorizontalScroll?: boolean;
+
+  /**
    * Refocuses inside of 'ReorderDialogComponent' after its content updates.
    */
   a11yReorderDialog?: boolean;
@@ -626,6 +631,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yOrderConfirmationHeadingOrder: false,
   a11yStarRating: false,
   a11yViewChangeAssistiveMessage: false,
+  a11yPreventHorizontalScroll: false,
   a11yReorderDialog: false,
   a11yPopoverFocus: false,
   a11yScheduleReplenishment: false,

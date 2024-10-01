@@ -309,6 +309,7 @@ if (environment.cpq) {
         a11yOrderConfirmationHeadingOrder: true,
         a11yStarRating: true,
         a11yViewChangeAssistiveMessage: true,
+        a11yPreventHorizontalScroll: true,
         a11yReorderDialog: true,
         a11yPopoverFocus: true,
         a11yScheduleReplenishment: true,
