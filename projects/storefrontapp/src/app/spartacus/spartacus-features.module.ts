@@ -325,6 +325,7 @@ if (environment.cpq) {
         a11yReplenishmentOrderFieldset: true,
         a11yListOversizedFocus: true,
         a11yStoreFinderOverflow: true,
+        a11yMobileFocusOnFirstNavigationItem: true,
         a11yCartSummaryHeadingOrder: true,
         a11ySearchBoxMobileFocus: true,
         a11yFacetKeyboardNavigation: true,
