@@ -9,8 +9,6 @@ import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { SubscriptionProductUsageChargeComponent } from './product-price/subscription-product-usage-charge.component';
 import { CommonModule } from '@angular/common';
 import { defaultOccSubscriptionBillingConfig } from './occ/config/default-occ-subscription-billing-config';
-// import { MockInterceptor } from '../dummy/dummy-http-interceptor';
-// import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 const componentList = [
   SubscriptionProductPriceComponent,
@@ -20,11 +18,6 @@ const componentList = [
 @NgModule({
   imports: [CommonModule, I18nModule],
   providers: [
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: MockInterceptor,
-    //   multi: true,
-    // },
     provideDefaultConfig(defaultOccSubscriptionBillingConfig),
     provideOutlet({
       id: ProductDetailOutlets.PRICE,
