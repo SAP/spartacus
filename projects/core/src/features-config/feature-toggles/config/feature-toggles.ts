@@ -582,6 +582,16 @@ export interface FeatureTogglesInterface {
    * the old password.
    */
   enablePasswordsCannotMatchInPasswordUpdateForm?: boolean;
+
+  /**
+   * Enables *all* page meta resolvers in Client-Side Rendering (CSR),
+   * ignoring the configuration option set for specific resolvers
+   * `config.pageMeta.resolvers[index].disabledInCsr`.
+   *
+   * Note: The config option `disabledInCsr` is now deprecated and will be removed
+   *       in the future together with this feature toggle.
+   */
+  allPageMetaResolversEnabledInCsr?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -673,4 +683,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useSiteThemeService: false,
   enableConsecutiveCharactersPasswordRequirement: false,
   enablePasswordsCannotMatchInPasswordUpdateForm: false,
+  allPageMetaResolversEnabledInCsr: false,
 };
