@@ -326,7 +326,7 @@ if (environment.cpq) {
         a11yStoreFinderOverflow: true,
         a11yCartSummaryHeadingOrder: true,
         a11ySearchBoxMobileFocus: true,
-        a11yFacetKeyboardNavigation: false,
+        a11yFacetKeyboardNavigation: true,
         a11yUnitsListKeyboardControls: true,
         a11yCartItemsLinksStyles: true,
         a11yHideSelectBtnForSelectedAddrOrPayment: true,

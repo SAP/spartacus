@@ -34,8 +34,6 @@
     <ng-template #facetsRef *ngFor="let facet of facets">
       <cx-facet
         [facet]="facet"
-        [class.expanded]="isExpanded(facet) | async"
-        [class.collapsed]="isCollapsed(facet) | async"
         role="group"
         attr.aria-label="{{
           'productFacetNavigation.ariaLabelItemsAvailable'

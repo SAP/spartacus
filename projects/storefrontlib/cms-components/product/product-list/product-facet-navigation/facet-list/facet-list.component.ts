@@ -24,12 +24,8 @@ import {
   QueryList,
   TemplateRef,
 } from '@angular/core';
-import { Facet, FeatureConfigService } from '@spartacus/core';
-import {
-  Tab,
-  TabConfig,
-  TAB_MODE,
-} from '../../../../content/tab/tab.model';
+import { Facet, FeatureConfigService, useFeatureStyles } from '@spartacus/core';
+import { Tab, TabConfig, TAB_MODE } from '../../../../content/tab/tab.model';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import {
@@ -107,7 +103,9 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
     protected elementRef: ElementRef,
     protected renderer: Renderer2,
     protected changeDetectorRef: ChangeDetectorRef
-  ) {}
+  ) {
+    useFeatureStyles('a11yTabComponent');
+  }
 
   ngOnInit(): void {
     // TODO: (CXSPA-7321) - Remove feature flag next major release
@@ -121,24 +119,19 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // Renders facets on first PLP load on desktop
     this.facetsRef.changes
-      .pipe(
-        take(1),
-        filter((changes) => !!changes)
-      )
-      .subscribe(() => this.renderFacets());
+      .pipe(filter((changes) => !!changes))
+      .subscribe(() => {
+        this.renderFacets();
+      });
   }
 
   renderFacets(): void {
     this.facetList$.pipe(take(1)).subscribe((list) => {
       const facets = list.facets;
-      const tabs = [];
-
-      for (let i = 0; i < facets?.length; i++) {
-        tabs.push({
-          header: facets[i].name ?? 'unnamed',
-          content: this.facetsRef?.get(i),
-        });
-      }
+      const tabs = facets.map((facet, i) => ({
+        header: facet.name,
+        content: this.facetsRef?.get(i),
+      }));
 
       this.tabs$.next(tabs);
       this.changeDetectorRef.detectChanges();

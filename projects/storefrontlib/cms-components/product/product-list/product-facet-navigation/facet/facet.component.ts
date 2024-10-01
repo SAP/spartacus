@@ -140,9 +140,6 @@ export class FacetComponent implements AfterViewInit {
       case 'ArrowLeft':
         this.onArrowLeft(event);
         break;
-      case 'ArrowRight':
-        this.onArrowRight(event);
-        break;
       case 'ArrowDown':
         this.onArrowDown(event, targetIndex);
         break;
@@ -152,34 +149,21 @@ export class FacetComponent implements AfterViewInit {
     }
   }
 
-  onArrowRight(event: Event): void {
-    if (!this.isExpanded) {
-      this.toggleGroup(event as UIEvent);
-    }
-  }
-
   onArrowLeft(event: Event): void {
-    if (this.isExpanded) {
-      this.toggleGroup(event as UIEvent);
-      this.facetHeader.nativeElement.focus();
-    }
+    event.preventDefault();
+    const parent: any =
+      this.values.get(0)?.nativeElement.parentElement?.parentElement
+        ?.parentElement?.parentElement?.previousElementSibling;
+    parent?.focus();
   }
 
   onArrowDown(event: Event, targetIndex: number): void {
-    if (this.isExpanded) {
-      event.preventDefault();
-      if (event.target === this.facetHeader.nativeElement) {
-        this.values?.first?.nativeElement.focus();
-        return;
-      }
-      this.values.get(targetIndex + 1)?.nativeElement.focus();
-    }
+    event.preventDefault();
+    this.values.get(targetIndex + 1)?.nativeElement.focus();
   }
 
   onArrowUp(event: Event, targetIndex: number): void {
-    if (this.isExpanded) {
-      event.preventDefault();
-      this.values.get(targetIndex - 1)?.nativeElement.focus();
-    }
+    event.preventDefault();
+    this.values.get(targetIndex - 1)?.nativeElement.focus();
   }
 }
