@@ -139,9 +139,9 @@
       @include media-breakpoint-down(sm) {
         position: absolute;
         left: 0;
-        top: 57px;
+        top: 72px;
         width: 100%;
-        background-color: var(--cx-color-secondary);
+        background-color: var(--cx-color-light);
         padding: 6px 16px;
         height: 48px;
         border-bottom: 1px solid var(--cx-color-light);
@@ -192,7 +192,7 @@
           position: relative;
           left: 140px;
           z-index: 20;
-          top: 44px;
+          top: 59px;
           margin-top: 0;
           @include forFeature('a11yImproveContrast') {
             z-index: 1001;
@@ -221,7 +221,7 @@
     }
 
     @include media-breakpoint-down(sm) {
-      top: 105px;
+      top: 120px;
       z-index: 10;
     }
 
@@ -264,6 +264,7 @@
 
     .recent-searches,
     .trending-searches {
+      margin-bottom: 20px;
       ul {
         display: flex;
         flex-wrap: wrap;
@@ -351,7 +352,7 @@
       padding: 5px 8px;
       z-index: 1;
       @include forFeature('a11yImproveContrast') {
-        @include type('8');
+        @include type('6');
       }
       @include media-breakpoint-down(sm) {
         right: 12px;
@@ -408,9 +409,18 @@
         margin-bottom: 0;
         @include media-breakpoint-down(sm) {
           width: 100%;
+          margin-bottom: 20px;
         }
         &:focus {
           background-color: pink;
+        }
+        a {
+          max-width: unset;
+          &:hover,
+          &:focus {
+            color: var(--cx-color-primary);
+            text-decoration: underline;
+          }
         }
       }
 
@@ -429,11 +439,21 @@
         ul {
           border-top: none;
         }
+        a {
+          max-width: unset;
+          &:hover {
+            color: var(--cx-color-primary);
+            text-decoration: underline;
+          }
+        }
       }
       .trending-searches-container {
         display: none;
         &:has(.trending-searches) {
           width: 20%;
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+          }
         }
         cx-trending-searches {
           flex-wrap: wrap;
@@ -448,6 +468,13 @@
           }
           ul {
             border-top: none;
+          }
+          a {
+            max-width: unset;
+            &:hover {
+              color: var(--cx-color-primary);
+              text-decoration: underline;
+            }
           }
         }
       }
@@ -485,6 +512,12 @@
           h3.cx-product-name {
             text-overflow: ellipsis;
             overflow: hidden;
+          }
+          a {
+            &:hover {
+              color: var(--cx-color-primary);
+              text-decoration: underline;
+            }
           }
         }
         @include media-breakpoint-down(sm) {

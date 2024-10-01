@@ -127,7 +127,7 @@
   <!--  TRENDING SEARCHES-->
   <div
     class="trending-searches-container"
-    [class.d-flex]="searchInput?.value?.length === 0"
+    [class.d-block]="searchInput?.value?.length === 0"
   >
     <ng-container *ngIf="searchBoxFeatures.TRENDING_SEARCHES_FEATURE">
       <ng-container *cxFeature="searchBoxFeatures.TRENDING_SEARCHES_FEATURE">
