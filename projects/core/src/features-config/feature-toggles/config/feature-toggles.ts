@@ -272,6 +272,11 @@ export interface FeatureTogglesInterface {
   a11yStoreFinderOverflow?: boolean;
 
   /**
+   * `StorefrontComponent` focuses on the first navigation item after hamburger menu expansion
+   */
+  a11yMobileFocusOnFirstNavigationItem?: boolean;
+
+  /**
    * Corrects heading order inside 'OrderSummaryComponent' template.
    */
   a11yCartSummaryHeadingOrder?: boolean;
@@ -647,6 +652,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yReplenishmentOrderFieldset: false,
   a11yListOversizedFocus: false,
   a11yStoreFinderOverflow: false,
+  a11yMobileFocusOnFirstNavigationItem: false,
   a11yCartSummaryHeadingOrder: false,
   a11ySearchBoxMobileFocus: false,
   a11yFacetKeyboardNavigation: false,
