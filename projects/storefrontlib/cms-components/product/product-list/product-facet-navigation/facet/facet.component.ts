@@ -154,7 +154,7 @@ export class FacetComponent implements AfterViewInit {
     const parent: any =
       this.values.get(0)?.nativeElement.parentElement?.parentElement
         ?.parentElement?.parentElement?.previousElementSibling;
-    parent?.focus();
+    parent?.click();
   }
 
   onArrowDown(event: Event, targetIndex: number): void {
