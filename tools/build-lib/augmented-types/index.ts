@@ -17,7 +17,7 @@ import * as path from 'path';
 import { from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { promisify } from 'util';
-const glob = promisify(globModule);
+const glob = promisify(globModule.glob);
 
 const DELIMITER_START = '/** AUGMENTABLE_TYPES_START */';
 const DELIMITER_END = '/** AUGMENTABLE_TYPES_END */';
