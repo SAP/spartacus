@@ -36,6 +36,7 @@
     "placeOrder": "Place Order",
     "termsAndConditions": "Terms & Conditions",
     "editDeliveryAddressDetails": "Edit delivery address details, opens Delivery Address page",
+    "editBillingDetails": "Edit billing address, opens Payment Details page",
     "editPaymentDetails": "Edit payment details, opens Payment Details page",
     "editPaymentType": "Edit payment method, opens Method of Payment page",
     "editDeliveryMode": "Edit delivery mode, opens Delivery Mode page",

@@ -53,6 +53,7 @@
     "confirmThatRead": "I am confirming that I have read and agreed with the",
     "selectTitle": "Select Title",
     "passwordMinRequirements": "Here's a quick guide for a secure password: Use at least 8 characters with a mix of upper and lowercase letters, numbers, and symbols.",
+    "passwordStrengthRequirements": "Here's a quick guide for a secure password: Use at least 8 characters with a mix of upper and lowercase letters, numbers, and symbols. Make sure not to use the same character consecutively.",
     "bothPasswordMustMatch": "Both password must match",
     "titleRequired": "Title is required.",
     "postRegisterMessage": "Please log in with provided credentials."

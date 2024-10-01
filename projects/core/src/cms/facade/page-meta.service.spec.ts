@@ -21,6 +21,7 @@ import {
 } from '../page';
 import { CmsService } from './cms.service';
 import { PageMetaService } from './page-meta.service';
+import { FeatureConfigService } from '@spartacus/core';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -152,6 +153,7 @@ class PageWithAllResolvers
 describe('PageMetaService', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
+  let featureConfigService: FeatureConfigService;
 
   describe('browser', () => {
     let resolver: PageWithAllResolvers;
@@ -174,7 +176,8 @@ describe('PageMetaService', () => {
           },
         ],
       });
-
+      featureConfigService = TestBed.inject(FeatureConfigService);
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
       service = TestBed.inject(PageMetaService);
       cmsService = TestBed.inject(CmsService);
 

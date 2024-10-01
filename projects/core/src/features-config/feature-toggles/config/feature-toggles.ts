@@ -417,6 +417,13 @@ export interface FeatureTogglesInterface {
   a11yUseButtonsForBtnLinks?: boolean;
 
   /**
+   * Enables the use of TabComponent in the PLP and PDP page to replace some functionality
+   * of the FacetListComponent and TabParagraphComponent to make then keyboard accessible
+   * and responsive in tab and accordion stles.
+   */
+  a11yTabComponent?: boolean;
+
+  /**
    * `ProductImageZoomProductImagesComponent`, `ProductImageZoomThumbnailsComponent` - enable
    * arrow keys navigation for the carousel
    */
@@ -557,6 +564,34 @@ export interface FeatureTogglesInterface {
    * Previously, there the non-defined theme had a value `undefined`.
    */
   useSiteThemeService?: boolean;
+
+  /**
+   * Enables the requirement that passwords cannot contain consecutive identical characters.
+   *
+   * When set to `true`, the app will enforce that passwords must not have consecutive
+   * identical characters (e.g., "aa", "11", or "$$" are not allowed).
+   */
+  enableConsecutiveCharactersPasswordRequirement?: boolean;
+
+  /**
+   * Enables a validation that prevents new passwords from matching the current password
+   * in the password update form.
+   *
+   * When set to `true`, the user will not be allowed to reuse their current password
+   * when updating their password. The app will check that the new password does not match
+   * the old password.
+   */
+  enablePasswordsCannotMatchInPasswordUpdateForm?: boolean;
+
+  /**
+   * Enables *all* page meta resolvers in Client-Side Rendering (CSR),
+   * ignoring the configuration option set for specific resolvers
+   * `config.pageMeta.resolvers[index].disabledInCsr`.
+   *
+   * Note: The config option `disabledInCsr` is now deprecated and will be removed
+   *       in the future together with this feature toggle.
+   */
+  allPageMetaResolversEnabledInCsr?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -621,6 +656,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yEmptyWishlistHeading: false,
   a11yScreenReaderBloatFix: false,
   a11yUseButtonsForBtnLinks: false,
+  a11yTabComponent: false,
   a11yCarouselArrowKeysNavigation: false,
   a11yNotificationsOnConsentChange: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
@@ -645,4 +681,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
   useSiteThemeService: false,
+  enableConsecutiveCharactersPasswordRequirement: false,
+  enablePasswordsCannotMatchInPasswordUpdateForm: false,
+  allPageMetaResolversEnabledInCsr: false,
 };
