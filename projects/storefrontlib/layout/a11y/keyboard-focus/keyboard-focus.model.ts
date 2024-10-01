@@ -113,6 +113,11 @@ export type TrapFocusType =
 export interface TrapFocusConfig extends TabFocusConfig {
   /** traps the focus */
   trap?: TrapFocusType;
+
+  /**
+   * Indicates that up and down arrow keyboard events should be ignored. Works only if 'trap' is truthy.
+   */
+  ignoreUpDownArrowKeys?: boolean;
 }
 
 export interface LockFocusConfig extends TrapFocusConfig {

@@ -18,9 +18,14 @@ class CustomFocusDirective extends TrapFocusDirective {
     <div cxTrapFocus id="a"></div>
     <div [cxTrapFocus]="{ trap: true }" id="b"></div>
     <div [cxTrapFocus]="{ trap: false }" id="c"></div>
+    <div [cxTrapFocus]="ignoreUpDownArrowKeysConfig" id="d"></div>
   `,
 })
-class MockComponent {}
+class MockComponent {
+  ignoreUpDownArrowKeysConfig: TrapFocusConfig = {
+    trap: true,
+  };
+}
 
 class MockTrapFocusService {
   hasFocusableChildren() {
@@ -51,6 +56,16 @@ describe('TrapFocusDirective', () => {
   const event = {
     preventDefault: () => {},
     stopPropagation: () => {},
+  };
+
+  const arrowDownEvent = {
+    ...event,
+    code: 'ArrowDown',
+  };
+
+  const arrowUpEvent = {
+    ...event,
+    code: 'ArrowUp',
   };
 
   describe('configuration', () => {
@@ -101,6 +116,38 @@ describe('TrapFocusDirective', () => {
       host.triggerEventHandler('keydown.tab', event);
       host.triggerEventHandler('keydown.shift.tab', event);
       expect(service.moveFocus).toHaveBeenCalledTimes(0);
+    });
+
+    it('should move focus on ArrowUp and ArrowDown arrow events when ignoreUpDownArrowKeys config is disabled', () => {
+      const host = fixture.debugElement.query(By.css('#d'));
+      spyOn(service, 'moveFocus').and.callThrough();
+      fixture.detectChanges();
+
+      host.triggerEventHandler('keydown.tab', event);
+      host.triggerEventHandler('keydown.shift.tab', event);
+      host.triggerEventHandler('keydown.arrowdown', arrowDownEvent);
+      host.triggerEventHandler('keydown.arrowup', arrowUpEvent);
+      host.triggerEventHandler('keydown.arrowdown', arrowDownEvent);
+      expect(service.moveFocus).toHaveBeenCalledTimes(5);
+    });
+
+    it('should not move focus on ArrowUp and ArrowDown arrow events when ignoreUpDownArrowKeys config is enabled', () => {
+      fixture.componentRef.instance.ignoreUpDownArrowKeysConfig = {
+        trap: true,
+        ignoreUpDownArrowKeys: true,
+      };
+      fixture.detectChanges();
+
+      const host = fixture.debugElement.query(By.css('#d'));
+      spyOn(service, 'moveFocus').and.callThrough();
+      fixture.detectChanges();
+
+      host.triggerEventHandler('keydown.tab', event);
+      host.triggerEventHandler('keydown.shift.tab', event);
+      host.triggerEventHandler('keydown.arrowdown', arrowDownEvent);
+      host.triggerEventHandler('keydown.arrowup', arrowUpEvent);
+      host.triggerEventHandler('keydown.arrowdown', arrowDownEvent);
+      expect(service.moveFocus).toHaveBeenCalledTimes(2);
     });
   });
 });
