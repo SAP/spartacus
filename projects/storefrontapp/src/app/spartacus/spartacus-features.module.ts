@@ -331,6 +331,7 @@ if (environment.cpq) {
         a11yCartItemsLinksStyles: true,
         a11yHideSelectBtnForSelectedAddrOrPayment: true,
         a11yFocusableCarouselControls: true,
+        a11yUseTrapTabInsteadOfTrapInDialogs: true,
         cmsGuardsServiceUseGuardsComposer: true,
         cartQuickOrderRemoveListeningToFailEvent: true,
         a11yKeyboardAccessibleZoom: true,
