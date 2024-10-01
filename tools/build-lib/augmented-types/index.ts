@@ -94,7 +94,7 @@ async function propagateAugmentableTypes(
   logger: logging.LoggerApi
 ) {
   // grab all package.json files
-  const files = await glob(libPath + '/**/package.json');
+  const files = await glob(libPath + '/**/package.json', {});
 
   for (const packageJsonFile of files) {
     try {
