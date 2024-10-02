@@ -10,7 +10,8 @@
     </div>
 
     <div class="col-xs-12 col-md-4 col-lg-3">
-      <button
+      <a
+        role="button"
         *ngIf="order.cancellable"
         [routerLink]="
           {
@@ -21,9 +22,10 @@
         class="btn btn-block btn-secondary"
       >
         {{ 'orderDetails.cancellationAndReturn.cancelAction' | cxTranslate }}
-      </button>
+      </a>
 
-      <button
+      <a
+        role="button"
         *ngIf="order.returnable"
         [routerLink]="
           {
@@ -34,7 +36,7 @@
         class="btn btn-block btn-secondary"
       >
         {{ 'orderDetails.cancellationAndReturn.returnAction' | cxTranslate }}
-      </button>
+      </a>
     </div>
   </div>
 </ng-container>

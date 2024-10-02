@@ -74,9 +74,7 @@ describe('OrderDetailActionsComponent', () => {
 
   it('should display return button when order is returnable', () => {
     fixture.detectChanges();
-    const elements: DebugElement[] = el.queryAll(
-      By.css('button.btn-secondary')
-    );
+    const elements: DebugElement[] = el.queryAll(By.css('a.btn-secondary'));
 
     const returnButton = elements.find((element) =>
       element.nativeElement.textContent.includes(
@@ -90,9 +88,7 @@ describe('OrderDetailActionsComponent', () => {
     mockOrder.returnable = false;
 
     fixture.detectChanges();
-    const elements: DebugElement[] = el.queryAll(
-      By.css('button.btn-secondary')
-    );
+    const elements: DebugElement[] = el.queryAll(By.css('a.btn-secondary'));
 
     const cancelButton = elements.find((element) =>
       element.nativeElement.textContent.includes(
