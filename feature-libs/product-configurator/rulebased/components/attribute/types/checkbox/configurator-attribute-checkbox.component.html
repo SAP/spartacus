@@ -15,7 +15,7 @@
             class="form-check-input"
             [value]="attributeValue.valueCode"
             [cxFocus]="{
-              key: attribute.name + '-' + attributeValue.name
+              key: attribute.name + '-' + attributeValue.name,
             }"
             (change)="onSelect(attributeValue.valueCode)"
             [formControl]="attributeCheckBoxForm"

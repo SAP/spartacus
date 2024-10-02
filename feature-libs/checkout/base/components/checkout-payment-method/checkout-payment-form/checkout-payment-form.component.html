@@ -33,7 +33,7 @@
                   formControlName="code"
                   id="card-type-select"
                   [cxNgSelectA11y]="{
-                    ariaLabel: 'paymentForm.paymentType' | cxTranslate
+                    ariaLabel: 'paymentForm.paymentType' | cxTranslate,
                   }"
                 >
                 </ng-select>
@@ -42,7 +42,7 @@
                 <cx-form-errors
                   *cxFeature="'formErrorsDescriptiveMessages'"
                   [translationParams]="{
-                    label: 'paymentForm.paymentType' | cxTranslate
+                    label: 'paymentForm.paymentType' | cxTranslate,
                   }"
                   [control]="paymentForm.get('cardType.code')"
                 ></cx-form-errors>
@@ -76,7 +76,7 @@
             <cx-form-errors
               *cxFeature="'formErrorsDescriptiveMessages'"
               [translationParams]="{
-                label: 'paymentForm.accountHolderName.label' | cxTranslate
+                label: 'paymentForm.accountHolderName.label' | cxTranslate,
               }"
               [control]="paymentForm.get('accountHolderName')"
             ></cx-form-errors>
@@ -105,7 +105,7 @@
             <cx-form-errors
               *cxFeature="'formErrorsDescriptiveMessages'"
               [translationParams]="{
-                label: 'paymentForm.cardNumber' | cxTranslate
+                label: 'paymentForm.cardNumber' | cxTranslate,
               }"
               [control]="paymentForm.get('cardNumber')"
             ></cx-form-errors>
@@ -139,7 +139,7 @@
                     ariaLabel:
                       'paymentForm.expirationMonth'
                       | cxTranslate
-                        : { selected: paymentForm.get('expiryMonth')?.value }
+                        : { selected: paymentForm.get('expiryMonth')?.value },
                   }"
                 >
                 </ng-select>
@@ -148,7 +148,7 @@
                 <cx-form-errors
                   *cxFeature="'formErrorsDescriptiveMessages'"
                   [translationParams]="{
-                    label: 'paymentForm.expirationDate' | cxTranslate
+                    label: 'paymentForm.expirationDate' | cxTranslate,
                   }"
                   [control]="paymentForm.get('expiryMonth')"
                 ></cx-form-errors>
@@ -170,7 +170,7 @@
                     ariaLabel:
                       'paymentForm.expirationYear'
                       | cxTranslate
-                        : { selected: paymentForm.get('expiryYear')?.value }
+                        : { selected: paymentForm.get('expiryYear')?.value },
                   }"
                   formControlName="expiryYear"
                 >
@@ -180,7 +180,7 @@
                 <cx-form-errors
                   *cxFeature="'formErrorsDescriptiveMessages'"
                   [translationParams]="{
-                    label: 'paymentForm.expirationDate' | cxTranslate
+                    label: 'paymentForm.expirationDate' | cxTranslate,
                   }"
                   [control]="paymentForm.get('expiryYear')"
                 ></cx-form-errors>
@@ -223,7 +223,7 @@
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
                 [translationParams]="{
-                  label: 'paymentForm.securityCode' | cxTranslate
+                  label: 'paymentForm.securityCode' | cxTranslate,
                 }"
                 [control]="paymentForm.get('cvn')"
               ></cx-form-errors>
@@ -322,7 +322,7 @@
                         formControlName="isocode"
                         id="country-payment-select"
                         [cxNgSelectA11y]="{
-                          ariaLabel: 'addressForm.country' | cxTranslate
+                          ariaLabel: 'addressForm.country' | cxTranslate,
                         }"
                       >
                       </ng-select>
@@ -331,7 +331,7 @@
                       <cx-form-errors
                         *cxFeature="'formErrorsDescriptiveMessages'"
                         [translationParams]="{
-                          label: 'addressForm.country' | cxTranslate
+                          label: 'addressForm.country' | cxTranslate,
                         }"
                         [control]="billingAddressForm.get('country.isocode')"
                       ></cx-form-errors>
@@ -363,7 +363,7 @@
                   <cx-form-errors
                     *cxFeature="'formErrorsDescriptiveMessages'"
                     [translationParams]="{
-                      label: 'addressForm.firstName.label' | cxTranslate
+                      label: 'addressForm.firstName.label' | cxTranslate,
                     }"
                     [control]="billingAddressForm.get('firstName')"
                   ></cx-form-errors>
@@ -393,7 +393,7 @@
                   <cx-form-errors
                     *cxFeature="'formErrorsDescriptiveMessages'"
                     [translationParams]="{
-                      label: 'addressForm.lastName.label' | cxTranslate
+                      label: 'addressForm.lastName.label' | cxTranslate,
                     }"
                     [control]="billingAddressForm.get('lastName')"
                   ></cx-form-errors>
@@ -423,7 +423,7 @@
                   <cx-form-errors
                     *cxFeature="'formErrorsDescriptiveMessages'"
                     [translationParams]="{
-                      label: 'addressForm.address1' | cxTranslate
+                      label: 'addressForm.address1' | cxTranslate,
                     }"
                     [control]="billingAddressForm.get('line1')"
                   ></cx-form-errors>
@@ -467,7 +467,7 @@
                     <cx-form-errors
                       *cxFeature="'formErrorsDescriptiveMessages'"
                       [translationParams]="{
-                        label: 'addressForm.city.label' | cxTranslate
+                        label: 'addressForm.city.label' | cxTranslate,
                       }"
                       [control]="billingAddressForm.get('town')"
                     ></cx-form-errors>
@@ -497,7 +497,7 @@
                     <cx-form-errors
                       *cxFeature="'formErrorsDescriptiveMessages'"
                       [translationParams]="{
-                        label: 'addressForm.zipCode.label' | cxTranslate
+                        label: 'addressForm.zipCode.label' | cxTranslate,
                       }"
                       [control]="billingAddressForm.get('postalCode')"
                     ></cx-form-errors>
@@ -536,7 +536,7 @@
                           }}"
                           id="region-select"
                           [cxNgSelectA11y]="{
-                            ariaLabel: 'addressForm.state' | cxTranslate
+                            ariaLabel: 'addressForm.state' | cxTranslate,
                           }"
                         >
                         </ng-select>
@@ -545,7 +545,7 @@
                         <cx-form-errors
                           *cxFeature="'formErrorsDescriptiveMessages'"
                           [translationParams]="{
-                            label: 'addressForm.state' | cxTranslate
+                            label: 'addressForm.state' | cxTranslate,
                           }"
                           [control]="
                             billingAddressForm.get('region.isocodeShort')

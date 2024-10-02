@@ -187,6 +187,11 @@ export interface FeatureTogglesInterface {
   a11yViewChangeAssistiveMessage?: boolean;
 
   /**
+   * Prevent horizontal scroll appearing on smaller screens for `CartItemListComponent`, `AddedToCartDialogComponent`
+   */
+  a11yPreventHorizontalScroll?: boolean;
+
+  /**
    * Refocuses inside of 'ReorderDialogComponent' after its content updates.
    */
   a11yReorderDialog?: boolean;
@@ -219,6 +224,7 @@ export interface FeatureTogglesInterface {
 
   /**
    * Fixes unnecessarily expanded focus indicator in 'ProductListItemComponent' and 'AddToSavedCartComponent'.
+   * Modifies dialog styles to stop the focus indicator from expanding when 'close' button is focused.
    */
   a11yExpandedFocusIndicator?: boolean;
 
@@ -266,6 +272,11 @@ export interface FeatureTogglesInterface {
   a11yStoreFinderOverflow?: boolean;
 
   /**
+   * `StorefrontComponent` focuses on the first navigation item after hamburger menu expansion
+   */
+  a11yMobileFocusOnFirstNavigationItem?: boolean;
+
+  /**
    * Corrects heading order inside 'OrderSummaryComponent' template.
    */
   a11yCartSummaryHeadingOrder?: boolean;
@@ -309,6 +320,13 @@ export interface FeatureTogglesInterface {
   a11yFocusableCarouselControls?: boolean;
 
   /**
+   * Enables only Tab/Shift+Tab keyboard navigation in dialogs and preserved default scrolling behaviour of up/down keys.
+   * Components:
+   * - `PickupOptionDialogComponent`
+   */
+  a11yUseTrapTabInsteadOfTrapInDialogs?: boolean;
+
+  /**
    * In `CmsGuardsService`, it uses the `GuardsComposer` instead of
    * calling its own deprecated method `canActivateGuard()`.
    */
@@ -338,7 +356,7 @@ export interface FeatureTogglesInterface {
   /**
    * Stops the focus indicator from overflowing and being obstructed by other elements.
    * Modifies the 'visible-focus' mixin. Includes style changes for:
-   * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent
+   * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent, 'SkipLinkComponent'
    */
   a11yVisibleFocusOverflows?: boolean;
 
@@ -371,12 +389,6 @@ export interface FeatureTogglesInterface {
    * In `LoginComponent` the outline of "My Account" link when focused will not cover the user name
    */
   a11yMyAccountLinkOutline?: boolean;
-
-  /**
-   * When enabled focus outline on the close button inside `ProductImageZoomDialogComponent`
-   * will be fully visible
-   */
-  a11yCloseProductImageBtnFocus?: boolean;
 
   /**
    * Improve colour contrast in the demonstration theme Santorini
@@ -420,6 +432,13 @@ export interface FeatureTogglesInterface {
    * `StoreSearchComponent`, `AddToSavedCartComponent`, `PickupOptionsComponent`
    */
   a11yUseButtonsForBtnLinks?: boolean;
+
+  /**
+   * Enables the use of TabComponent in the PLP and PDP page to replace some functionality
+   * of the FacetListComponent and TabParagraphComponent to make then keyboard accessible
+   * and responsive in tab and accordion stles.
+   */
+  a11yTabComponent?: boolean;
 
   /**
    * `ProductImageZoomProductImagesComponent`, `ProductImageZoomThumbnailsComponent` - enable
@@ -531,6 +550,11 @@ export interface FeatureTogglesInterface {
   a11yDialogsHeading?: boolean;
 
   /**
+   * The 'AddToWishListComponent' will restore focus to the button after adding or removing an item from the wishlist.
+   */
+  a11yAddToWishlistFocus?: boolean;
+
+  /**
    * `SearchBoxComponent` should no longer lose focus after closing the popup the esc key.
    */
   a11ySearchBoxFocusOnEscape?: boolean;
@@ -563,6 +587,34 @@ export interface FeatureTogglesInterface {
    * Previously, there the non-defined theme had a value `undefined`.
    */
   useSiteThemeService?: boolean;
+
+  /**
+   * Enables the requirement that passwords cannot contain consecutive identical characters.
+   *
+   * When set to `true`, the app will enforce that passwords must not have consecutive
+   * identical characters (e.g., "aa", "11", or "$$" are not allowed).
+   */
+  enableConsecutiveCharactersPasswordRequirement?: boolean;
+
+  /**
+   * Enables a validation that prevents new passwords from matching the current password
+   * in the password update form.
+   *
+   * When set to `true`, the user will not be allowed to reuse their current password
+   * when updating their password. The app will check that the new password does not match
+   * the old password.
+   */
+  enablePasswordsCannotMatchInPasswordUpdateForm?: boolean;
+
+  /**
+   * Enables *all* page meta resolvers in Client-Side Rendering (CSR),
+   * ignoring the configuration option set for specific resolvers
+   * `config.pageMeta.resolvers[index].disabledInCsr`.
+   *
+   * Note: The config option `disabledInCsr` is now deprecated and will be removed
+   *       in the future together with this feature toggle.
+   */
+  allPageMetaResolversEnabledInCsr?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -590,6 +642,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yOrderConfirmationHeadingOrder: false,
   a11yStarRating: false,
   a11yViewChangeAssistiveMessage: false,
+  a11yPreventHorizontalScroll: false,
   a11yReorderDialog: false,
   a11yPopoverFocus: false,
   a11yScheduleReplenishment: false,
@@ -605,6 +658,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yReplenishmentOrderFieldset: false,
   a11yListOversizedFocus: false,
   a11yStoreFinderOverflow: false,
+  a11yMobileFocusOnFirstNavigationItem: false,
   a11yCartSummaryHeadingOrder: false,
   a11ySearchBoxMobileFocus: false,
   a11yFacetKeyboardNavigation: false,
@@ -612,6 +666,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartItemsLinksStyles: false,
   a11yHideSelectBtnForSelectedAddrOrPayment: false,
   a11yFocusableCarouselControls: false,
+  a11yUseTrapTabInsteadOfTrapInDialogs: false,
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: false,
   a11yKeyboardAccessibleZoom: false,
@@ -622,12 +677,12 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPreventSRFocusOnHiddenElements: false,
   a11yMyAccountLinkOutline: false,
-  a11yCloseProductImageBtnFocus: false,
   a11yNotificationPreferenceFieldset: false,
   a11yImproveContrast: false,
   a11yEmptyWishlistHeading: false,
   a11yScreenReaderBloatFix: false,
   a11yUseButtonsForBtnLinks: false,
+  a11yTabComponent: false,
   a11yCarouselArrowKeysNavigation: false,
   a11yNotificationsOnConsentChange: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
@@ -647,9 +702,13 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yQuickOrderAriaControls: false,
   a11yRemoveStatusLoadedRole: false,
   a11yDialogsHeading: false,
+  a11yAddToWishlistFocus: false,
   a11ySearchBoxFocusOnEscape: false,
   a11yItemCounterFocus: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
   useSiteThemeService: false,
+  enableConsecutiveCharactersPasswordRequirement: false,
+  enablePasswordsCannotMatchInPasswordUpdateForm: false,
+  allPageMetaResolversEnabledInCsr: false,
 };

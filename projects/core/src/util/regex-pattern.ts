@@ -19,3 +19,8 @@ export const MIN_ONE_SPECIAL_CHARACTER_PATTERN =
   /^(?=.*?[!@#$%^*()_\-+{};:.,]).*$/;
 
 export const MIN_SIX_CHARACTERS_PATTERN = /^.{6,}$/;
+
+export const CONSECUTIVE_CHARACTERS = /(.)\1+/;
+
+export const STRONG_PASSWORD_PATTERN =
+  /^(?!.*(.)\1)(?=.*?[A-Z])(?=.*?\d)(?=.*?[!@#$%^*()_\-+{};:.,]).{6,}$/;

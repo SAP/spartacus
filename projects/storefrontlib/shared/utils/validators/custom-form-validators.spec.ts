@@ -16,11 +16,13 @@ describe('FormValidationService', () => {
   let minOneDigitError: ValidationErrors;
   let minOneSpecialCharacterError: ValidationErrors;
   let minSixCharactersLengthError: ValidationErrors;
+  let noConsecutiveCharactersError: ValidationErrors;
   let starRatingEmpty: ValidationErrors;
   let budgetNegative: ValidationErrors;
   let specialCharacters: ValidationErrors;
   let patternError: ValidationErrors;
   let passwordsMustMatchErrorName: string;
+  let passwordsCannotMatchErrorName: string;
   let emailsMustMatchErrorName: string;
   let form: UntypedFormGroup;
 
@@ -63,6 +65,10 @@ describe('FormValidationService', () => {
       cxMinSixCharactersLength: true,
     };
 
+    noConsecutiveCharactersError = {
+      cxNoConsecutiveCharacters: true,
+    };
+
     starRatingEmpty = {
       cxStarRatingEmpty: true,
     };
@@ -80,6 +86,7 @@ describe('FormValidationService', () => {
     };
 
     passwordsMustMatchErrorName = 'cxPasswordsMustMatch';
+    passwordsCannotMatchErrorName = 'cxPasswordsCannotMatch';
     emailsMustMatchErrorName = 'cxEmailsMustMatch';
   });
 
@@ -265,6 +272,29 @@ describe('FormValidationService', () => {
     });
   });
 
+  describe('no consecutive identical characters validator', () => {
+    const validPasswords = ['Test12', 'TEST12@', 'test123Test!@#'];
+    const invalidPasswords = ['tess1', 'Tess12', 'Tee!#%', 'Tee1!'];
+
+    validPasswords.forEach((validPassword: string) => {
+      it(`should allow password ${validPassword}`, () => {
+        form.get('password').setValue(validPassword);
+        expect(
+          CustomFormValidators.noConsecutiveCharacters(form.get('password'))
+        ).toBeNull();
+      });
+    });
+
+    invalidPasswords.forEach((invalidPassword: string) => {
+      it(`should reject password '${invalidPassword}'`, function () {
+        form.get('password').setValue(invalidPassword);
+        expect(
+          CustomFormValidators.noConsecutiveCharacters(form.get('password'))
+        ).toEqual(noConsecutiveCharactersError);
+      });
+    });
+  });
+
   describe('Emails must match validator', () => {
     it('should not return error, when emails match', () => {
       form.get('email').setValue('test@test.com');
@@ -313,6 +343,36 @@ describe('FormValidationService', () => {
     });
   });
 
+  describe('Passwords cannot match validator', () => {
+    it('should not return error, when passwords do not match', () => {
+      form.get('password').setValue('Test123!');
+      form.get('passwordconf').setValue('Test123@');
+
+      CustomFormValidators.passwordsCannotMatch(
+        'password',
+        'passwordconf'
+      )(form);
+
+      expect(
+        form.get('passwordconf').hasError(passwordsCannotMatchErrorName)
+      ).toEqual(false);
+    });
+
+    it('should return error, when passwords match', () => {
+      form.get('password').setValue('Test123!');
+      form.get('passwordconf').setValue('Test123!');
+
+      CustomFormValidators.passwordsCannotMatch(
+        'password',
+        'passwordconf'
+      )(form);
+
+      expect(
+        form.get('passwordconf').hasError(passwordsCannotMatchErrorName)
+      ).toEqual(true);
+    });
+  });
+
   describe('Star rating validator', () => {
     const invalidValues = [null, 'a', 0, 1000];
     const validValues = [1, 2, 3, 4, 5];
@@ -357,6 +417,16 @@ describe('FormValidationService', () => {
       controlsMustMatch(form, 'password', 'passwordconf', testErrorName);
 
       expect(form.get('passwordconf').hasError(testErrorName)).toEqual(false);
+    });
+
+    it('should set error if values match', () => {
+      const testErrorName = 'testErrorName';
+
+      form.get('password').setValue('firstPassword');
+      form.get('passwordconf').setValue('firstPassword');
+      controlsMustMatch(form, 'password', 'passwordconf', testErrorName, true);
+
+      expect(form.get('passwordconf').hasError(testErrorName)).toEqual(true);
     });
 
     it('should not set error if another error exists', () => {
