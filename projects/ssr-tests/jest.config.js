@@ -31,4 +31,5 @@ module.exports = {
       lines: 90,
     },
   },
+  testEnvironment: './src/environments/custom-test-environment.ts',
 };
