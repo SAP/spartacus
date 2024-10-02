@@ -5,6 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { SkipLink } from '../config/skip-link.config';
 import { SkipLinkService } from '../service/skip-link.service';
@@ -17,7 +18,9 @@ import { SkipLinkService } from '../service/skip-link.service';
 export class SkipLinkComponent {
   skipLinks$: Observable<SkipLink[]> = this.skipLinkService.getSkipLinks();
 
-  constructor(private skipLinkService: SkipLinkService) {}
+  constructor(private skipLinkService: SkipLinkService) {
+    useFeatureStyles('a11yVisibleFocusOverflows');
+  }
 
   scrollToTarget(skipLink: SkipLink): void {
     this.skipLinkService.scrollToTarget(skipLink);
