@@ -57,6 +57,5 @@ function addCauseToError({ error, cause }: { error: any; cause: any }) {
 
 function getSsrLogs() {
   const readableLogs = getRawLogsPretty().join('\n');
-  const ssrLogs = `(more context below)\n--- SSR LOGS (with JSONs pretty-printed) ---\n${readableLogs}\n--- SSR LOGS END ---`;
-  return ssrLogs;
+  return `(more context below)\n--- SSR LOGS (with JSONs pretty-printed) ---\n${readableLogs}\n--- SSR LOGS END ---`;
 }
