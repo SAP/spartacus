@@ -112,4 +112,4 @@ else
 #    else
         npm run e2e:run:ci"${SUITE}"
 #    fi
-#fi
+fi
