@@ -42,6 +42,7 @@ export interface GlobalOpfPaymentMethods {
   throwPaymentError?(errorOptions?: ErrorDialogOptions): void;
   startLoadIndicator?(): void;
   stopLoadIndicator?(): void;
+  scriptReady?(scriptIdentifier: string): void;
 }
 
 export interface PaymentBrowserInfo {
@@ -69,7 +70,7 @@ export interface SubmitRequest {
 
 export interface SubmitInput {
   additionalData: Array<KeyValuePair>;
-  paymentSessionId: string;
+  paymentSessionId?: string;
   cartId: string;
   callbackArray: [MerchantCallback, MerchantCallback, MerchantCallback];
   returnPath?: string;

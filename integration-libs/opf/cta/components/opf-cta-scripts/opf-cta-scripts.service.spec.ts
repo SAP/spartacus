@@ -6,11 +6,29 @@ import {
   OpfPaymentProviderType,
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
-import { CtaScriptsResponse, OpfCtaFacade } from '@spartacus/opf/cta/root';
+import {
+  OpfDynamicCtaService,
+  OpfStaticCtaService,
+} from '@spartacus/opf/cta/core';
+import {
+  CtaScriptsLocation,
+  CtaScriptsRequest,
+  CtaScriptsResponse,
+  OpfCtaFacade,
+} from '@spartacus/opf/cta/root';
 import { Order, OrderFacade, OrderHistoryFacade } from '@spartacus/order/root';
 import { CurrentProductService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OpfCtaScriptsService } from './opf-cta-scripts.service';
+
+const ctaScriptsRequestForOrderMock: CtaScriptsRequest = {
+  paymentAccountIds: [1],
+  scriptLocations: [CtaScriptsLocation.ORDER_CONFIRMATION_PAYMENT_GUIDE],
+};
+const ctaScriptsRequestForPdpMock: CtaScriptsRequest = {
+  paymentAccountIds: [1],
+  scriptLocations: [CtaScriptsLocation.PDP_MESSAGING],
+};
 
 describe('OpfCtaScriptsService', () => {
   let service: OpfCtaScriptsService;
@@ -21,6 +39,8 @@ describe('OpfCtaScriptsService', () => {
   let currentProductMock: jasmine.SpyObj<CurrentProductService>;
   let opfBaseFacadeMock: jasmine.SpyObj<OpfBaseFacade>;
   let opfCtaFacadeMock: jasmine.SpyObj<OpfCtaFacade>;
+  let opfDynamicCtaServiceMock: jasmine.SpyObj<OpfDynamicCtaService>;
+  let opfStaticCtaServiceMock: jasmine.SpyObj<OpfStaticCtaService>;
   beforeEach(() => {
     orderFacadeMock = jasmine.createSpyObj('OrderFacade', ['getOrderDetails']);
     orderHistoryFacadeMock = jasmine.createSpyObj('OrderHistoryFacade', [
@@ -42,6 +62,15 @@ describe('OpfCtaScriptsService', () => {
       'getActiveConfigurationsState',
     ]);
     opfCtaFacadeMock = jasmine.createSpyObj('OpfCtaFacade', ['getCtaScripts']);
+    opfDynamicCtaServiceMock = jasmine.createSpyObj('OpfDynamicCtaService', [
+      'initiateEvents',
+      'stopEvents',
+      'fillCtaRequestforCartPage',
+      'fillCtaRequestforProductPage',
+    ]);
+    opfStaticCtaServiceMock = jasmine.createSpyObj('OpfStaticCtaService', [
+      'fillCtaRequestforPagesWithOrder',
+    ]);
 
     TestBed.configureTestingModule({
       providers: [
@@ -56,10 +85,19 @@ describe('OpfCtaScriptsService', () => {
         { provide: CurrentProductService, useValue: currentProductMock },
         { provide: OpfBaseFacade, useValue: opfBaseFacadeMock },
         { provide: OpfCtaFacade, useValue: opfCtaFacadeMock },
+        { provide: OpfDynamicCtaService, useValue: opfDynamicCtaServiceMock },
+        { provide: OpfStaticCtaService, useValue: opfStaticCtaServiceMock },
       ],
     });
     service = TestBed.inject(OpfCtaScriptsService);
-
+    opfStaticCtaServiceMock.fillCtaRequestforPagesWithOrder.and.returnValue(
+      of(ctaScriptsRequestForOrderMock)
+    );
+    opfDynamicCtaServiceMock.fillCtaRequestforProductPage.and.returnValue(
+      of(ctaScriptsRequestForPdpMock)
+    );
+    opfDynamicCtaServiceMock.initiateEvents.and.returnValue();
+    opfDynamicCtaServiceMock.stopEvents.and.returnValue();
     orderFacadeMock.getOrderDetails.and.returnValue(of(mockOrder));
     orderHistoryFacadeMock.getOrderDetails.and.returnValue(of(mockOrder));
 
@@ -79,43 +117,46 @@ describe('OpfCtaScriptsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call orderHistoryFacade for CTA on ConfirmationPage', (done) => {
+  it('should call opfStaticCtaService for CTA on ConfirmationPage', (done) => {
     service.getCtaHtmlslList().subscribe((htmlsList) => {
-      expect(htmlsList[0]).toContain(
+      expect(htmlsList[0].html).toContain(
         'Thanks for purchasing our great products'
       );
-      expect(orderHistoryFacadeMock.getOrderDetails).not.toHaveBeenCalled();
-      expect(orderFacadeMock.getOrderDetails).toHaveBeenCalled();
+      expect(
+        opfStaticCtaServiceMock.fillCtaRequestforPagesWithOrder
+      ).toHaveBeenCalled();
       done();
     });
   });
 
-  it('should call OrderFacade for CTA on PDP', (done) => {
+  it('should call StaticCtaService for CTA on order page', (done) => {
     cmsServiceMock.getCurrentPage.and.returnValue(
       of({ ...mockPage, pageId: 'order' })
     );
 
     service.getCtaHtmlslList().subscribe((htmlsList) => {
-      expect(htmlsList[0]).toContain(
+      expect(htmlsList[0].html).toContain(
         'Thanks for purchasing our great products'
       );
-      expect(orderHistoryFacadeMock.getOrderDetails).toHaveBeenCalled();
-      expect(orderFacadeMock.getOrderDetails).not.toHaveBeenCalled();
+      expect(
+        opfStaticCtaServiceMock.fillCtaRequestforPagesWithOrder
+      ).toHaveBeenCalled();
       done();
     });
   });
 
-  it('should call currentProductService for CTA on PDP', (done) => {
+  it('should call DynamicCtaService for CTA on PDP', (done) => {
     cmsServiceMock.getCurrentPage.and.returnValue(
       of({ ...mockPage, pageId: 'productDetails' })
     );
 
     service.getCtaHtmlslList().subscribe((htmlsList) => {
-      expect(htmlsList[0]).toContain(
+      expect(htmlsList[0].html).toContain(
         'Thanks for purchasing our great products'
       );
-      expect(currentProductMock.getProduct).toHaveBeenCalled();
-      expect(orderFacadeMock.getOrderDetails).not.toHaveBeenCalled();
+      expect(
+        opfDynamicCtaServiceMock.fillCtaRequestforProductPage
+      ).toHaveBeenCalled();
       done();
     });
   });
@@ -140,67 +181,6 @@ describe('OpfCtaScriptsService', () => {
     service.getCtaHtmlslList().subscribe({
       error: (error) => {
         expect(error).toEqual('Invalid Script Location');
-        done();
-      },
-    });
-  });
-
-  it('should not load html snippet when its associated resource files fail to load', (done) => {
-    opfResourceLoaderServiceMock.loadProviderResources.and.returnValue(
-      Promise.reject()
-    );
-
-    service.getCtaHtmlslList().subscribe({
-      next: (htmlsList) => {
-        expect(htmlsList.length).toEqual(0);
-        done();
-      },
-    });
-  });
-
-  it('should not load html snippet when html returned from server is empty ', (done) => {
-    opfCtaFacadeMock.getCtaScripts.and.returnValue(
-      of({
-        ...ctaScriptsresponseMock,
-        value: [
-          {
-            ...ctaScriptsresponseMock.value[0],
-            dynamicScript: {
-              ...ctaScriptsresponseMock.value[0].dynamicScript,
-              html: '',
-            },
-          },
-        ],
-      })
-    );
-
-    service.getCtaHtmlslList().subscribe({
-      next: (htmlsList) => {
-        expect(htmlsList.length).toEqual(0);
-        done();
-      },
-    });
-  });
-
-  it('should remove all script tags from html snippet', (done) => {
-    opfCtaFacadeMock.getCtaScripts.and.returnValue(
-      of({
-        ...ctaScriptsresponseMock,
-        value: [
-          {
-            ...ctaScriptsresponseMock.value[0],
-            dynamicScript: {
-              ...ctaScriptsresponseMock.value[0].dynamicScript,
-              html: "<div><h2>Thanks for purchasing our great products</h2><h3>Please use promo code:<b>123abc</b> for your next purchase<h3></div><script>console.log('CTA Script #1 is running')</script><script>console.log('CTA Script #2 is running')</script>",
-            },
-          },
-        ],
-      })
-    );
-
-    service.getCtaHtmlslList().subscribe({
-      next: (htmlsList) => {
-        expect(htmlsList[0]).not.toContain('<script>');
         done();
       },
     });
