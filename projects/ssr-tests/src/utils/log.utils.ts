@@ -126,3 +126,43 @@ export async function waitUntilLogContainsText(
     );
   });
 }
+
+/**
+ * A higher-order function that wraps a test callback and includes SSR logs
+ * in any error thrown during the test execution. The logs are put into the `cause`
+ * property of the Error.
+ *
+ * @param testFn - The original test function to be wrapped.
+ * @returns A new function that can be passed to Jest's `it()` or `test()`.
+ *
+ * @example
+ * it('should perform SSR correctly', attachLogsToErrors(async () => {
+ *   // Your test code here
+ * }));
+ */
+export function attachLogsToErrors(
+  testFn: () => Promise<void> | void
+): () => Promise<void> {
+  return async () => {
+    try {
+      await testFn();
+    } catch (error: unknown) {
+      const readableLogs = getRawLogsPretty().join('\n');
+      const ssrLogs = `(more context below)\n--- SSR LOGS (with JSONs pretty-printed) ---\n${readableLogs}\n--- SSR LOGS END ---`;
+
+      if (error instanceof Error) {
+        // Error's `cause` property is the only property printed by Jest
+        // besides `message` that we can utilize for attaching logs.
+        // No other custom properties are printed by Jest.
+        // See their source code of their function `formatExecError`:
+        // https://github.com/jestjs/jest/blob/bd1c6db7c15c23788ca3e09c919138e48dd3b28a/packages/jest-message-util/src/index.ts#L436
+
+        error.cause = ssrLogs;
+      } else {
+        throw new Error(error as string, { cause: ssrLogs });
+      }
+
+      throw error;
+    }
+  };
+}
