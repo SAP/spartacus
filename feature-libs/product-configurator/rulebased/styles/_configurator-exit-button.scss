@@ -18,4 +18,18 @@
       }
     }
   }
+
+  @include cx-highContrastTheme {
+    .btn-tertiary {
+      color: var(--cx-color-primary);
+
+      &:hover {
+        color: var(--cx-color-primary);
+      }
+
+      &:focus {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
 }
