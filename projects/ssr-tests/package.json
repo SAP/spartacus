@@ -1,6 +1,6 @@
 {
   "name": "ssr-tests",
-  "version": "2211.29.0-2",
+  "version": "2211.29.0",
   "private": true,
   "description": "Spartacus SSR Tests",
   "keywords": [
@@ -17,7 +17,7 @@
     "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@spartacus/core": "2211.29.0-2",
+    "@spartacus/core": "2211.29.0",
     "http-proxy": "^1.18.1"
   }
 }
