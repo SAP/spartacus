@@ -33,32 +33,9 @@ jobs:
           script: |
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
         if: ${{ github.run_attempt > 1 }}
-  ssr_tests:
-    needs: [no_retries]
-    name: SSR Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v2
-        with:
-          path: | 
-            node_modules
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: npm ci
-      - name: Build SSR Server
-        run: npm run build:libs && npm run build && npm run build:ssr:local-http-backend
-      - name: Run SSR tests
-        run: npm run test:ssr:ci --verbose
+  
   merge_checks_result:
-    needs: [ssr_tests]
+    needs: []
     name: MC - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}

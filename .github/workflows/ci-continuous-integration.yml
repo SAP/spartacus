@@ -20,6 +20,29 @@ concurrency:
 
 name: Continuous Integration
 jobs:
+  ssr_tests:
+    name: SSR Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Package installation
+        run: npm ci
+      - name: Build SSR Server
+        run: npm run build:libs && npm run build && npm run build:ssr:local-http-backend
+      - name: Run SSR tests
+        run: npm run test:ssr:ci --verbose
   unit_tests:
     name: CI - Unit tests
     runs-on: ubuntu-latest
@@ -88,7 +111,7 @@ jobs:
         run: |
           ci-scripts/validate-lint.sh
   ci_result:
-    needs: [unit_tests, sonarqube_scan, linting]
+    needs: [ssr_tests, unit_tests, sonarqube_scan, linting]
     name: CI - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}
