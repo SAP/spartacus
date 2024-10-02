@@ -23,61 +23,73 @@ describe('SSR E2E', () => {
         await SsrUtils.startSsrServer();
       });
 
-      it('should receive success response with request', async () => {
-        backendProxy = await ProxyUtils.startBackendProxyServer({
-          target: BACKEND_BASE_URL,
-        });
-        const response: any = await HttpUtils.sendRequestToSsrServer({
-          path: REQUEST_PATH,
-        });
-        expect(response.statusCode).toEqual(200);
+      it(
+        'should receive success response with request',
+        LogUtils.attachLogsToErrors(async () => {
+          backendProxy = await ProxyUtils.startBackendProxyServer({
+            target: BACKEND_BASE_URL,
+          });
+          const response: any = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
+          expect(response.statusCode).toEqual(200);
 
-        const logsMessages = LogUtils.getLogsMessages();
-        expect(logsMessages).toContain(`Rendering started (${REQUEST_PATH})`);
-        expect(logsMessages).toContain(
-          `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`
-        );
-      });
+          const logsMessages = LogUtils.getLogsMessages();
+          expect(logsMessages).toContain(`Rendering started (${REQUEST_PATH})`);
+          expect(logsMessages).toContain(
+            `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`
+          );
+        })
+      );
 
-      it('should receive response with 404 when page does not exist', async () => {
-        backendProxy = await ProxyUtils.startBackendProxyServer({
-          target: BACKEND_BASE_URL,
-        });
-        const response = await HttpUtils.sendRequestToSsrServer({
-          path: REQUEST_PATH + 'not-existing-page',
-        });
-        expect(response.statusCode).toEqual(404);
-      });
+      it(
+        'should receive response with 404 when page does not exist',
+        LogUtils.attachLogsToErrors(async () => {
+          backendProxy = await ProxyUtils.startBackendProxyServer({
+            target: BACKEND_BASE_URL,
+          });
+          const response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH + 'not-existing-page',
+          });
+          expect(response.statusCode).toEqual(404);
+        })
+      );
 
-      it('should receive response with status 404 if HTTP error occurred when calling cms/pages API URL', async () => {
-        backendProxy = await ProxyUtils.startBackendProxyServer({
-          target: BACKEND_BASE_URL,
-          callback: (proxyRes, req) => {
-            if (req.url?.includes('cms/pages')) {
-              proxyRes.statusCode = 404;
-            }
-          },
-        });
-        const response = await HttpUtils.sendRequestToSsrServer({
-          path: REQUEST_PATH,
-        });
-        expect(response.statusCode).toEqual(404);
-      });
+      it(
+        'should receive response with status 404 if HTTP error occurred when calling cms/pages API URL',
+        LogUtils.attachLogsToErrors(async () => {
+          backendProxy = await ProxyUtils.startBackendProxyServer({
+            target: BACKEND_BASE_URL,
+            callback: (proxyRes, req) => {
+              if (req.url?.includes('cms/pages')) {
+                proxyRes.statusCode = 404;
+              }
+            },
+          });
+          const response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
+          expect(response.statusCode).toEqual(404);
+        })
+      );
 
-      it.skip('should receive response with status 500 if HTTP error occurred when calling other than cms/pages API URL', async () => {
-        backendProxy = await ProxyUtils.startBackendProxyServer({
-          target: BACKEND_BASE_URL,
-          callback: (proxyRes, req) => {
-            if (req.url?.includes('cms/components')) {
-              proxyRes.statusCode = 404;
-            }
-          },
-        });
-        const response = await HttpUtils.sendRequestToSsrServer({
-          path: REQUEST_PATH,
-        });
-        expect(response.statusCode).toEqual(500);
-      });
+      it.skip(
+        'should receive response with status 500 if HTTP error occurred when calling other than cms/pages API URL',
+        LogUtils.attachLogsToErrors(async () => {
+          backendProxy = await ProxyUtils.startBackendProxyServer({
+            target: BACKEND_BASE_URL,
+            callback: (proxyRes, req) => {
+              if (req.url?.includes('cms/components')) {
+                proxyRes.statusCode = 404;
+              }
+            },
+          });
+          const response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
+          expect(response.statusCode).toEqual(500);
+        })
+      );
     });
 
     describe('With caching enabled', () => {
@@ -87,7 +99,7 @@ describe('SSR E2E', () => {
 
       it(
         'should take the response from cache for the next request if previous render succeeded',
-        async () => {
+        LogUtils.attachLogsToErrors(async () => {
           backendProxy = await ProxyUtils.startBackendProxyServer({
             target: BACKEND_BASE_URL,
           });
@@ -111,13 +123,13 @@ describe('SSR E2E', () => {
           expect(logsMessages2).toContain(
             `Render from cache (${REQUEST_PATH})`
           );
-        },
+        }),
         2 * SsrUtils.DEFAULT_SSR_TIMEOUT // increase timeout for this test as it calls the SSR server twice
       );
 
       it(
         'should render for the next request if previous render failed',
-        async () => {
+        LogUtils.attachLogsToErrors(async () => {
           backendProxy = await ProxyUtils.startBackendProxyServer({
             target: BACKEND_BASE_URL,
             callback: (proxyRes, req) => {
@@ -140,7 +152,7 @@ describe('SSR E2E', () => {
           expect(logsMessages).not.toContain(
             `Render from cache (${REQUEST_PATH})`
           );
-        },
+        }),
         2 * SsrUtils.DEFAULT_SSR_TIMEOUT // increase timeout for this test as it calls the SSR server twice
       );
     });
