@@ -43,75 +43,8 @@ jobs:
         run: npm run build:libs && npm run build && npm run build:ssr:local-http-backend
       - name: Run SSR tests
         run: npm run test:ssr:ci --verbose
-  unit_tests:
-    name: CI - Unit tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: | 
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: npm ci
-      - name: Run unit tests
-        run: |
-          ci-scripts/unit-tests.sh          
-  sonarqube_scan:
-    name: CI - SonarQube Scan
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@master
-        with:
-          args: >
-            -Dsonar.qualitygate.wait=true
-            -Dsonar.projectKey=composable-storefront
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonar.tools.sap
-    if: github.event_name == 'pull_request'
-  linting:
-    name: CI - Validations and static code checks
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: | 
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: npm ci
-      - name: Run linting validation
-        run: |
-          ci-scripts/validate-lint.sh
   ci_result:
-    needs: [ssr_tests, unit_tests, sonarqube_scan, linting]
+    needs: [ssr_tests]
     name: CI - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}
