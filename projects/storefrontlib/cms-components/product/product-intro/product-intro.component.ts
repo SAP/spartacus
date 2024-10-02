@@ -29,7 +29,7 @@ export class ProductIntroComponent {
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
 
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   /**
    * Observable that checks the reviews component availability on the page.
