@@ -59,6 +59,10 @@
   .cx-code {
     color: var(--cx-color-secondary);
     margin-top: 0.5em;
+
+    @include forFeature('a11yPreventHorizontalScroll') {
+      overflow-wrap: anywhere;
+    }
   }
 
   .cx-link {

@@ -12,6 +12,9 @@
     padding-inline-end: 10px;
 
     z-index: -6;
+    @include cx-highContrastTheme {
+      z-index: 0;
+    }
 
     @include media-breakpoint-up(md) {
       width: 40%;
@@ -25,6 +28,9 @@
     color: var(--cx-color-secondary);
 
     z-index: -6;
+    @include cx-highContrastTheme {
+      z-index: 0;
+    }
 
     @include media-breakpoint-up(md) {
       width: 30%;
@@ -36,6 +42,9 @@
     color: var(--cx-color-secondary);
     width: 50%;
     z-index: -6;
+    @include cx-highContrastTheme {
+      z-index: 0;
+    }
 
     @include media-breakpoint-up(md) {
       width: 30%;

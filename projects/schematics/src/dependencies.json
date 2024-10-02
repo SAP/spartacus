@@ -25,9 +25,9 @@
   },
   "ssr-tests": {
     "@spartacus/core": "2211.29.0-2",
+    "http-proxy": "^1.18.1",
     "jest-circus": "^29.0.0",
-    "jest-environment-node": "^29.0.0",
-    "http-proxy": "^1.18.1"
+    "jest-environment-node": "^29.0.0"
   },
   "storefrontapp-e2e-cypress": {},
   "@spartacus/storefront": {
