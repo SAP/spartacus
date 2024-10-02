@@ -369,7 +369,7 @@ if (environment.cpq) {
         a11yRemoveStatusLoadedRole: true,
         a11yDialogsHeading: true,
         a11ySearchBoxFocusOnEscape: true,
-        allyItemCounterFocus: true,
+        a11yItemCounterFocus: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,
       };

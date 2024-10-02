@@ -539,7 +539,7 @@ export interface FeatureTogglesInterface {
    * In `ItemCounterComponenet`, Remove button no longer lose focus after activating when count is 2.
    * Add button no longer lose focus after activating when count is `max - 1`.
    */
-  allyItemCounterFocus?: boolean;
+  a11yItemCounterFocus?: boolean;
 
   /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
@@ -648,7 +648,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRemoveStatusLoadedRole: false,
   a11yDialogsHeading: false,
   a11ySearchBoxFocusOnEscape: false,
-  allyItemCounterFocus: false,
+  a11yItemCounterFocus: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
   useSiteThemeService: false,

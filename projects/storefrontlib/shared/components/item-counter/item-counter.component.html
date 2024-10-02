@@ -1,5 +1,5 @@
 <button
-  *cxFeature="'allyItemCounterFocus'"
+  *cxFeature="'a11yItemCounterFocus'"
   type="button"
   (click)="decrement()"
   [attr.aria-disabled]="control.disabled || control.value <= min"
@@ -10,10 +10,11 @@
   -
 </button>
 <button
-  *cxFeature="'!allyItemCounterFocus'"
+  *cxFeature="'!a11yItemCounterFocus'"
   type="button"
   (click)="decrement()"
   [disabled]="control.disabled || control.value <= min"
+  [tabindex]="control.disabled || control.value <= min ? -1 : 0"
   [cxFocus]="{ key: 'decrement' }"
   attr.aria-label="{{ 'itemCounter.removeOne' | cxTranslate }}"
   title="{{ 'itemCounter.removeOne' | cxTranslate }}"
@@ -34,7 +35,7 @@
   attr.aria-label="{{ 'itemCounter.quantity' | cxTranslate }}"
 />
 <button
-  *cxFeature="'allyItemCounterFocus'"
+  *cxFeature="'a11yItemCounterFocus'"
   type="button"
   (click)="increment()"
   [attr.aria-disabled]="control.disabled || control.value >= max"
@@ -45,7 +46,7 @@
   +
 </button>
 <button
-  *cxFeature="'!allyItemCounterFocus'"
+  *cxFeature="'!a11yItemCounterFocus'"
   type="button"
   (click)="increment()"
   [disabled]="control.disabled || control.value >= max"

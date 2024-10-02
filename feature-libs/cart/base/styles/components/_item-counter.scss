@@ -78,10 +78,16 @@
       font-weight: var(--cx-font-weight-bold);
     }
 
-    &:disabled,
-    &[aria-disabled='true'] {
+    &:disabled {
       color: var(--cx-color-light);
       cursor: not-allowed;
+    }
+
+    @include forFeature('a11yItemCounterFocus') {
+      &[aria-disabled='true'] {
+        color: var(--cx-color-light);
+        cursor: not-allowed;
+      }
     }
 
     @include forFeature('a11yImproveContrast') {
@@ -93,16 +99,25 @@
       &:focus {
         box-shadow: 0 0 0 0;
       }
-      &:disabled,
-      &[aria-disabled='true'] {
+      &:disabled {
         color: var(--cx-color-dark);
+      }
+      @include forFeature('a11yItemCounterFocus') {
+        &[aria-disabled='true'] {
+          color: var(--cx-color-dark);
+        }
       }
     }
   }
 
-  :disabled,
-  &[aria-disabled='true'] {
+  :disabled {
     cursor: not-allowed;
+  }
+
+  @include forFeature('a11yItemCounterFocus') {
+    &[aria-disabled='true'] {
+      cursor: not-allowed;
+    }
   }
 
   @include cx-highContrastTheme {
@@ -111,10 +126,15 @@
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
     }
-    input:disabled,
-    input[aria-disabled='true'] {
+    input:disabled {
       color: var(--cx-color-text);
       background-color: var(--cx-color-background);
+    }
+    @include forFeature('a11yItemCounterFocus') {
+      [aria-disabled='true'] {
+        color: var(--cx-color-text);
+        background-color: var(--cx-color-background);
+      }
     }
   }
 }
