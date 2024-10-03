@@ -5,7 +5,12 @@
  *
  */
 
-import { fakeAsync, TestBed, tick, discardPeriodicTasks } from '@angular/core/testing';
+import {
+  fakeAsync,
+  TestBed,
+  tick,
+  discardPeriodicTasks,
+} from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -90,11 +95,11 @@ describe('TrendingSearchesService', () => {
     };
 
     let emittedSearchPhrases: SearchPhrases[] | undefined;
-    const subscription = trendingSearchesService.getTrendingSearches().subscribe(
-      (searchPhrases) => {
+    const subscription = trendingSearchesService
+      .getTrendingSearches()
+      .subscribe((searchPhrases) => {
         emittedSearchPhrases = searchPhrases;
-      }
-    );
+      });
 
     tick(250);
 
@@ -121,9 +126,11 @@ describe('TrendingSearchesService', () => {
     };
 
     let emitted = false;
-    const subscription = trendingSearchesService.getTrendingSearches().subscribe(() => {
-      emitted = true;
-    });
+    const subscription = trendingSearchesService
+      .getTrendingSearches()
+      .subscribe(() => {
+        emitted = true;
+      });
 
     for (let i = 0; i < 100; i++) {
       tick(250);
