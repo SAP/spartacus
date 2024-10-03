@@ -38,10 +38,12 @@ export class OpfCtaService implements OpfCtaFacade {
     return this.ctaScriptsCommand.execute({ ctaScriptsRequest });
   }
   emitScriptReadyEvent(scriptIdentifier: string) {
+    console.log('spa emitScriptReadyEvent');
     this._readyForScriptEvent.next(scriptIdentifier);
   }
 
   listenScriptReadyEvent(): Observable<string> {
+    console.log('spa listenScriptReadyEvent');
     return this.readyForScriptEvent$;
   }
 }
