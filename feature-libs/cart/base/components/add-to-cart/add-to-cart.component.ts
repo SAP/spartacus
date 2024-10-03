@@ -167,9 +167,17 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    */
   getInventory(): string {
     if(this.featureToggles.realTimeStockDispaly){
-    let qty = this.loadrealtimestock(this.productCode);
-      const quantityDisplay = qty ? qty : '';
+      let qty = this.loadrealtimestock(this.productCode);
+      const parsedResponse = JSON.parse(qty);
+      const availabilityItems = parsedResponse.availabilityItems;
+      if (availabilityItems && availabilityItems.length > 0) {
+        const unitAvailabilities = availabilityItems[0].unitAvailabilities;
+        if (unitAvailabilities && unitAvailabilities.length > 0) {
+          const quantity = unitAvailabilities[0].quantity;
+      const quantityDisplay = quantity ? quantity : '';
       return this.inventoryThreshold ? quantityDisplay + '+' : quantityDisplay;
+        }
+      }
 
     }
     if (this.hasStock) {
@@ -186,9 +194,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    let productUrl = this.occEndpoints.buildUrl('unit', {
          urlParams: { productCode: productCode }
    });
-   this.http.get(productUrl).pipe(map((sapUnit)=>{
+   this.http.get(productUrl).pipe(map((sapCode)=>{
     let availabilityUrl = this.occEndpoints.buildUrl('productAvailabilities', {
-      urlParams: {productCode: productCode, sapUnit: sapUnit}
+      urlParams: {productCode: productCode, sapCode: sapCode}
     });
     console.log(productUrl);
     console.log(availabilityUrl);
