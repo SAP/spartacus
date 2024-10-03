@@ -21,7 +21,6 @@ import {
 import {
   CaptchaModule,
   FormErrorsModule,
-  NgSelectA11yModule,
   PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -40,7 +39,6 @@ import { RegisterComponent } from './register.component';
     SpinnerModule,
     FormErrorsModule,
     NgSelectModule,
-    NgSelectA11yModule,
     PasswordVisibilityToggleModule,
     FeaturesConfigModule,
   ],
