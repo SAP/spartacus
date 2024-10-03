@@ -378,6 +378,7 @@ if (environment.cpq) {
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
         allPageMetaResolversEnabledInCsr: true,
+        realTimeStockDispaly: false,
       };
       return appFeatureToggles;
     }),

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -29,6 +30,8 @@ import {
   FeatureConfigService,
   Product,
   isNotNullable,
+  OccEndpointsService,
+  FeatureToggles
 } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -54,6 +57,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    *  a reference to the product model to fetch the stock data.
    */
   @Input() product: Product;
+  protected occEndpoints: OccEndpointsService;
+  protected http: HttpClient;
 
   maxQuantity: number;
 
@@ -80,6 +85,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   @Optional() featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
+
+  private featureToggles = inject(FeatureToggles);
 
   /**
    * We disable the dialog launch on quantity input,
@@ -159,6 +166,12 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    * When out of stock, display no numerical value.
    */
   getInventory(): string {
+    if(this.featureToggles.realTimeStockDispaly){
+    let qty = this.loadrealtimestock(this.productCode);
+      const quantityDisplay = qty ? qty : '';
+      return this.inventoryThreshold ? quantityDisplay + '+' : quantityDisplay;
+
+    }
     if (this.hasStock) {
       const quantityDisplay = this.maxQuantity
         ? this.maxQuantity.toString()
@@ -168,6 +181,24 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       return '';
     }
   }
+  loadrealtimestock(productCode: string): string{
+    if(this.featureToggles.realTimeStockDispaly){
+   let productUrl = this.occEndpoints.buildUrl('unit', {
+         urlParams: { productCode: productCode }
+   });
+   this.http.get(productUrl).pipe(map((sapUnit)=>{
+    let availabilityUrl = this.occEndpoints.buildUrl('productAvailabilities', {
+      urlParams: {productCode: productCode, sapUnit: sapUnit}
+    });
+    console.log(productUrl);
+    console.log(availabilityUrl);
+    return this.http.get(availabilityUrl);
+   }));
+  }
+  return '';
+
+  }
+
 
   updateCount(value: number): void {
     this.quantity = value;
