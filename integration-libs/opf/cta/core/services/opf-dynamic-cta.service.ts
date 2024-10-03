@@ -167,6 +167,13 @@ export class OpfDynamicCtaService {
     });
   }
 
+  removeScriptReadyEvent() {
+    this.globalFunctionsFacade.registerGlobalFunctions({
+      paymentSessionId: '',
+      domain: GlobalFunctionsDomain.GLOBAL,
+    });
+  }
+
   protected listenScriptReadyEvent() {
     const sub = this.opfCtaFacade.listenScriptReadyEvent().subscribe({
       next: (id: string) => {
