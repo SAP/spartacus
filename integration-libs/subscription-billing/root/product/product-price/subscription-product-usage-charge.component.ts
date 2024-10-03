@@ -16,19 +16,28 @@ export class SubscriptionProductUsageChargeComponent {
   @Input() product: Product;
 
   getPerUnitUsageCharges(): PerUnitUsageCharge[] {
-    return this.product.sapPricePlan?.perUnitUsageCharges ?? [];
+    return this.product?.sapPricePlan?.perUnitUsageCharges ?? [];
   }
   getIncludedQuantity(charge: PerUnitUsageCharge): string {
-    return charge.includedQty + ' ' + charge.usageUnit?.namePlural;
+    if (charge.includedQty) {
+      return (
+        charge.includedQty +
+        ' ' +
+        (charge.includedQty > 1
+          ? charge.usageUnit?.namePlural
+          : charge.usageUnit?.name)
+      );
+    }
+    return '';
   }
   getPercentageUsageCharges(): PercentageUsageCharge[] {
-    return this.product.sapPricePlan?.percentageUsageCharges ?? [];
+    return this.product?.sapPricePlan?.percentageUsageCharges ?? [];
   }
   getTierUsageCharges(): TierUsageCharge[] {
-    return this.product.sapPricePlan?.tierUsageCharges ?? [];
+    return this.product?.sapPricePlan?.tierUsageCharges ?? [];
   }
   getVolumeUsageCharges(): VolumeUsageCharge[] {
-    return this.product.sapPricePlan?.volumeUsageCharges ?? [];
+    return this.product?.sapPricePlan?.volumeUsageCharges ?? [];
   }
   getLastTierValue(tierUsageChargeEntries: TierUsageChargeEntry[]): number {
     return (

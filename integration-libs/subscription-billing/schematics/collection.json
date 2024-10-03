@@ -3,7 +3,7 @@
   "schematics": {
     "ng-add": {
       "factory": "./add-subscription-billing/index#addSubscriptionBillingFeature",
-      "description": "Add and configure Spartacus' Segment feature",
+      "description": "Add and configure Spartacus' Subscription Billing feature",
       "schema": "./add-subscription-billing/schema.json",
       "private": true,
       "hidden": true,
@@ -11,7 +11,7 @@
     },
     "add": {
       "factory": "./add-subscription-billing/index#addSubscriptionBillingFeature",
-      "description": "Add and configure Spartacus' Segment feature",
+      "description": "Add and configure Spartacus' Subscription Billing feature",
       "schema": "./add-subscription-billing/schema.json"
     }
   }

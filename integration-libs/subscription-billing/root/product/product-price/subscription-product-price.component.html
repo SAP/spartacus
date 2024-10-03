@@ -8,13 +8,13 @@
     </div>
     <div
       class="cx-sappriceplan-onetime"
-      *ngIf="product.sapPricePlan?.oneTimeCharges"
+      *ngIf="getOneTimeCharges(product).length > 0"
     >
       <ng-container *ngTemplateOutlet="showOneTimeCharges"></ng-container>
     </div>
     <div
       class="cx-sappriceplan-recurring"
-      *ngIf="product.sapPricePlan?.recurringCharges"
+      *ngIf="getRecurringCharges(product).length > 0"
     >
       <ng-container *ngTemplateOutlet="showRecurringCharges"></ng-container>
     </div>
@@ -26,7 +26,7 @@
   <ng-template #showOneTimeCharges>
     <div
       class="cx-sappriceplan-onetimecharges"
-      *ngFor="let charge of product.sapPricePlan?.oneTimeCharges"
+      *ngFor="let charge of getOneTimeCharges(product)"
     >
       <div [attr.aria-label]="'productSummary.newItemPrice' | cxTranslate">
         {{ charge.price?.formattedValue }}
@@ -40,7 +40,7 @@
   <ng-template #showRecurringCharges>
     <div
       class="cx-sappriceplan-recurringcharges"
-      *ngFor="let charge of product.sapPricePlan?.recurringCharges"
+      *ngFor="let charge of getRecurringCharges(product)"
     >
       <div [attr.aria-label]="'productSummary.newItemPrice' | cxTranslate">
         {{ charge.price?.formattedValue }}

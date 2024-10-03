@@ -3,6 +3,7 @@ import { Product, ProductScope } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { SubscriptionProductService } from '../services/subscription-product.service';
 import { CurrentProductService } from '@spartacus/storefront';
+import { OneTimeCharge, RecurringCharge } from '../../model';
 
 @Component({
   selector: 'cx-subscription-product-price',
@@ -16,5 +17,13 @@ export class SubscriptionProductPriceComponent {
 
   isCurrentProductSubscription(product: Product): boolean {
     return this.productService.isSubscription(product);
+  }
+
+  getOneTimeCharges(product: Product): OneTimeCharge[] {
+    return product.sapPricePlan?.oneTimeCharges ?? [];
+  }
+
+  getRecurringCharges(product: Product): RecurringCharge[] {
+    return product.sapPricePlan?.recurringCharges ?? [];
   }
 }
