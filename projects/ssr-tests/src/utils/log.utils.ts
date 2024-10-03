@@ -38,10 +38,13 @@ function validateJsonsInLogs(rawLogs: string[]): void {
       try {
         JSON.parse(logLine);
       } catch (_e) {
-        const surroundingLogs = rawLogs.slice(
-          Math.max(rawLogs.indexOf(logLine) - 2, 0),
-          rawLogs.indexOf(logLine) + 3
-        );
+        const surroundingLinesRadius = 2;
+        const surroundingLines = getSurroundingLines({
+          allLines: rawLogs,
+          line: logLine,
+          radius: surroundingLinesRadius,
+        });
+
         console.warn(
           `
           Encountered in SSR Logs a line starting with \`{\` that could not be parsed as JSON.
@@ -51,7 +54,7 @@ function validateJsonsInLogs(rawLogs: string[]): void {
           
           For specific context, see 5 raw log lines below (2 previous lines, current line, 2 next lines):
 \`\`\`
-${surroundingLogs.join('\n')}
+${surroundingLines.join('\n')}
 \`\`\`
 
           For general context, see full raw logs below:
@@ -64,6 +67,29 @@ ${rawLogs.join('\n')}
       }
     }
   }
+}
+
+/**
+ * Returns the given line with surrounding lines.
+ * e.g. if the radius is 2, the function will return the given line
+ * and the 2 lines before and 2 lines after it. In other words, it returns an array of 5 lines.
+ */
+function getSurroundingLines({
+  allLines,
+  line,
+  radius,
+}: {
+  allLines: string[];
+  line: string;
+  radius: number;
+}): string[] {
+  const logLineIndex = allLines.indexOf(line);
+  const surroundingStartIndex = Math.max(0, logLineIndex - radius);
+  const surroundingEndIndex = Math.min(
+    allLines.length,
+    logLineIndex + radius + 1
+  );
+  return allLines.slice(surroundingStartIndex, surroundingEndIndex);
 }
 
 /**
