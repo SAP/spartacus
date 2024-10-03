@@ -52,14 +52,9 @@ function validateJsonsInLogs(rawLogs: string[]): void {
           Please make sure to build Spartacus SSR in prod mode prior to running SSR Tests
           to get single line JSONs that can be parsed in tests.
           
-          For specific context, see 5 raw log lines below (2 previous lines, current line, 2 next lines):
+          For specific context, see ${surroundingLinesRadius * 2 + 1} raw log lines below (previous ${surroundingLinesRadius} lines, current line, next ${surroundingLinesRadius} lines):
 \`\`\`
 ${surroundingLines.join('\n')}
-\`\`\`
-
-          For general context, see full raw logs below:
-\`\`\`
-${rawLogs.join('\n')}
 \`\`\`
 `
         );
