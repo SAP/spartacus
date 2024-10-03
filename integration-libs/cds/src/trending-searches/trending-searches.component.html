@@ -1,4 +1,4 @@
-<ng-container *ngIf="contextObservable | async as results">
+<ng-container *ngIf="searchPhrases$ | async as searchPhrases">
   <ng-container *ngIf="searchPhrases?.length">
     <div class="message">
       {{ 'cdsTrendingSearches.trendingSearches' | cxTranslate }}

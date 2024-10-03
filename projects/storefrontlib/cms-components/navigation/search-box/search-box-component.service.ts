@@ -31,8 +31,8 @@ export class SearchBoxComponentService {
   chosenWord = new ReplaySubject<string>();
   sharedEvent = new ReplaySubject<KeyboardEvent>();
 
-  private enableRecentSearches: boolean = false;
-  private enableTrendingSearches: boolean = false;
+  protected enableRecentSearches: boolean = false;
+  protected enableTrendingSearches: boolean = false;
 
   constructor(
     public searchService: SearchboxService,
