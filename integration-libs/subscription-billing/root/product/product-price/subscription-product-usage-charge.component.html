@@ -1,29 +1,35 @@
-<div class="cx-usage-charge">
+<div class="subscription-usage-charge">
   {{ 'subscriptionProduct.usageCharges' | cxTranslate }}
 
-  <div *ngIf="getTierUsageCharges().length > 0" class="cx-tierusage">
+  <div *ngIf="getTierUsageCharges().length > 0" class="subscription-tierusage">
     <ng-container *ngTemplateOutlet="showTierUsageCharges"></ng-container>
   </div>
 
-  <div *ngIf="getVolumeUsageCharges().length > 0" class="cx-volumeusage">
+  <div
+    *ngIf="getVolumeUsageCharges().length > 0"
+    class="subscription-volumeusage"
+  >
     <ng-container *ngTemplateOutlet="showVolumeUsageCharges"></ng-container>
   </div>
 
   <div
     *ngIf="getPercentageUsageCharges().length > 0"
-    class="cx-percentageusage"
+    class="subscription-percentageusage"
   >
     <ng-container *ngTemplateOutlet="showPercentageUsageCharges"></ng-container>
   </div>
 
-  <div *ngIf="getPerUnitUsageCharges().length > 0" class="cx-perunitusage">
+  <div
+    *ngIf="getPerUnitUsageCharges().length > 0"
+    class="subscription-perunitusage"
+  >
     <ng-container *ngTemplateOutlet="showBlockUsageCharges"></ng-container>
   </div>
 </div>
 
 <ng-template #showBlockUsageCharges>
   <div
-    class="cx-perunitusage-charge"
+    class="subscription-perunitusage-charge"
     *ngFor="let usageCharge of getPerUnitUsageCharges()"
   >
     <div *ngIf="usageCharge.includedQty ?? 0 > 0">
@@ -63,7 +69,7 @@
 
 <ng-template #showVolumeUsageCharges>
   <div
-    class="cx-volumeusage-charge"
+    class="subscription-volumeusage-charge"
     *ngFor="let usageCharge of getVolumeUsageCharges()"
   >
     <div *ngFor="let usageChargeEntry of usageCharge.tierUsageChargeEntries">
@@ -105,7 +111,7 @@
 
 <ng-template #showTierUsageCharges>
   <div
-    class="cx-tierusage-charge"
+    class="subscription-tierusage-charge"
     *ngFor="let usageCharge of getTierUsageCharges()"
   >
     <div *ngFor="let usageChargeEntry of usageCharge.tierUsageChargeEntries">
@@ -144,7 +150,7 @@
 
 <ng-template #showPercentageUsageCharges>
   <div
-    class="cx-percentageusage-charge"
+    class="subscription-percentageusage-charge"
     *ngFor="let usageCharge of getPercentageUsageCharges()"
   >
     <ng-container
