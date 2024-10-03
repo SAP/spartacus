@@ -1,7 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Address,
   CostCenter,
   Currency,
+  PaymentDetails,
   PointOfService,
   Price,
   Principal,
@@ -91,6 +98,7 @@ export interface Cart {
   totalTax?: Price;
   totalUnitCount?: number;
   user?: Principal;
+  quoteCode?: string;
 }
 
 export interface CartModification {
@@ -107,6 +115,34 @@ export interface CartItemComponentOptions {
   optionalBtn?: any;
   displayAddToCart?: boolean;
   addToCartString?: string;
+  cartType?: CartType;
+}
+/**
+ * A key that identifies an 'abstract order', that in OO terms can be understood
+ * as a common super class of cart, saved cart, order and quote.
+ *
+ * The attribute `id` is absent for the Cart type, because there exists only one active cart
+ * which can be identified as the `current` one.
+ * For the other types (SavedCart, Order and Quote) the attribute `id` is mandatory
+ * in order to identify the abstract order.
+ */
+export type AbstractOrderKey =
+  | { type: AbstractOrderType.CART }
+  | { type: AbstractOrderType.ORDER; id: string }
+  | { type: AbstractOrderType.QUOTE; id: string }
+  | { type: AbstractOrderType.SAVED_CART; id: string };
+
+/**
+ * The possible types of 'abstract orders'.
+ */
+export enum AbstractOrderType {
+  /**
+   * Active cart
+   */
+  CART = 'Cart',
+  ORDER = 'Order',
+  QUOTE = 'Quote',
+  SAVED_CART = 'SavedCart',
 }
 
 export interface OrderEntry {
@@ -152,27 +188,6 @@ export interface DeliveryMode {
   deliveryCost?: Price;
   description?: string;
   name?: string;
-}
-
-export interface CardType {
-  code?: string;
-  name?: string;
-}
-export interface PaymentDetails {
-  accountHolderName?: string;
-  billingAddress?: Address;
-  cardNumber?: string;
-  cardType?: CardType;
-  cvn?: string;
-  defaultPayment?: boolean;
-  expiryMonth?: string;
-  expiryYear?: string;
-  id?: string;
-  issueNumber?: string;
-  saved?: boolean;
-  startMonth?: string;
-  startYear?: string;
-  subscriptionId?: string;
 }
 
 export enum CartType {

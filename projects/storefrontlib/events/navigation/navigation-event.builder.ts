@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { RouterNavigatedAction, ROUTER_NAVIGATED } from '@ngrx/router-store';

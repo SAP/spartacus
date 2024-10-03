@@ -15,11 +15,7 @@
         <!-- Select Form and Pagination Top -->
         <div class="cx-replenishment-order-history-sort top row">
           <label
-            class="
-              cx-replenishment-order-history-form-group
-              form-group
-              col-sm-12 col-md-4 col-lg-4
-            "
+            class="cx-replenishment-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4"
           >
             <span>{{ 'orderHistory.sortBy' | cxTranslate }}</span>
             <cx-sorting
@@ -46,7 +42,13 @@
         <table
           id="replenishment-order-history-table"
           class="table cx-replenishment-order-history-table"
+          role="table"
         >
+          <caption class="cx-visually-hidden">
+            {{
+              'orderHistory.orderHistory' | cxTranslate
+            }}
+          </caption>
           <thead class="cx-replenishment-order-history-thead-mobile">
             <th scope="col">
               <span class="cx-replenishment-order-history-ellipses">
@@ -78,14 +80,19 @@
                 {{ 'orderHistory.total' | cxTranslate }}
               </span>
             </th>
-            <th scope="col"></th>
+            <th scope="col">
+              <span class="cx-replenishment-order-history-ellipses">
+                {{ 'orderHistory.actions' | cxTranslate }}
+              </span>
+            </th>
           </thead>
           <tbody>
             <tr
+              role="row"
               *ngFor="let order of replenishmentOrders.replenishmentOrders"
               (click)="goToOrderDetail(order)"
             >
-              <td class="cx-replenishment-order-history-code">
+              <td class="cx-replenishment-order-history-code" role="cell">
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.replenishmentOrderId' | cxTranslate }}
                 </div>
@@ -93,7 +100,7 @@
                   [routerLink]="
                     {
                       cxRoute: 'replenishmentDetails',
-                      params: order
+                      params: order,
                     } | cxUrl
                   "
                   class="cx-replenishment-order-history-value"
@@ -101,7 +108,7 @@
                   {{ order?.replenishmentOrderCode }}</a
                 >
               </td>
-              <td>
+              <td role="cell">
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.purchaseOrderNumber' | cxTranslate }}
                 </div>
@@ -109,13 +116,10 @@
                   [routerLink]="
                     {
                       cxRoute: 'replenishmentDetails',
-                      params: order
+                      params: order,
                     } | cxUrl
                   "
-                  class="
-                    cx-replenishment-order-history-value
-                    cx-purchase-order-number
-                  "
+                  class="cx-replenishment-order-history-value cx-purchase-order-number"
                 >
                   {{
                     order?.purchaseOrderNumber?.length > 0
@@ -124,7 +128,7 @@
                   }}
                 </a>
               </td>
-              <td>
+              <td role="cell">
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.startOn' | cxTranslate }}
                 </div>
@@ -132,7 +136,7 @@
                   [routerLink]="
                     {
                       cxRoute: 'replenishmentDetails',
-                      params: order
+                      params: order,
                     } | cxUrl
                   "
                   class="cx-replenishment-order-history-value"
@@ -140,7 +144,7 @@
                   {{ order?.firstDate | cxDate: 'M/d/yyyy' }}</a
                 >
               </td>
-              <td class="cx-replenishment-order-history-frequency">
+              <td class="cx-replenishment-order-history-frequency" role="cell">
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.frequency' | cxTranslate }}
                 </div>
@@ -148,15 +152,15 @@
                   [routerLink]="
                     {
                       cxRoute: 'replenishmentDetails',
-                      params: order
+                      params: order,
                     } | cxUrl
                   "
                   class="cx-replenishment-order-history-value"
                 >
-                  {{ order?.trigger.displayTimeTable | slice: 0:-12 }}
+                  {{ order?.trigger.displayTimeTable | slice: 0 : -12 }}
                 </a>
               </td>
-              <td>
+              <td role="cell">
                 <div class="d-md-none cx-replenishment-order-history-label">
                   {{ 'orderHistory.nextOrderDate' | cxTranslate }}
                 </div>
@@ -165,12 +169,10 @@
                   [routerLink]="
                     {
                       cxRoute: 'replenishmentDetails',
-                      params: order
+                      params: order,
                     } | cxUrl
                   "
-                  class="
-                    cx-replenishment-order-history-value cx-next-order-date
-                  "
+                  class="cx-replenishment-order-history-value cx-next-order-date"
                 >
                   {{
                     order?.active
@@ -187,7 +189,7 @@
                   [routerLink]="
                     {
                       cxRoute: 'replenishmentDetails',
-                      params: order
+                      params: order,
                     } | cxUrl
                   "
                   class="cx-replenishment-order-history-value"
@@ -195,13 +197,13 @@
                   {{ order?.totalPriceWithTax.formattedValue }}</a
                 >
               </td>
-              <td class="cx-replenishment-order-history-cancel">
+              <td class="cx-replenishment-order-history-cancel" role="cell">
                 <div
                   class="d-md-none cx-replenishment-order-history-label"
                 ></div>
                 <button
                   (click)="openDialog($event, order?.replenishmentOrderCode)"
-                  class="cx-order-cancel btn btn-link"
+                  class="cx-order-cancel btn btn-secondary"
                   #element
                   *ngIf="order?.active"
                 >

@@ -1,17 +1,25 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   CmsConfig,
   ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
-  provideConfig,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   FileUploadModule,
   FormErrorsModule,
   IconModule,
   KeyboardFocusModule,
+  MessageComponentModule,
 } from '@spartacus/storefront';
 import { defaultImportEntriesLayoutConfig } from './default-import-entries-layout.config';
 import { ImportEntriesDialogComponent } from './import-entries-dialog/import-entries-dialog.component';
@@ -30,6 +38,8 @@ import { ImportOrderEntriesComponent } from './import-entries/import-order-entri
     KeyboardFocusModule,
     FileUploadModule,
     I18nModule,
+    MessageComponentModule,
+    FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ImportOrderEntriesComponent: {
@@ -37,6 +47,7 @@ import { ImportOrderEntriesComponent } from './import-entries/import-order-entri
         },
       },
     }),
+    FeaturesConfigModule,
   ],
   declarations: [
     ImportOrderEntriesComponent,
@@ -52,6 +63,6 @@ import { ImportOrderEntriesComponent } from './import-entries/import-order-entri
     ImportEntriesSummaryComponent,
     ImportToNewSavedCartFormComponent,
   ],
-  providers: [provideConfig(defaultImportEntriesLayoutConfig)],
+  providers: [provideDefaultConfig(defaultImportEntriesLayoutConfig)],
 })
 export class ImportOrderEntriesModule {}

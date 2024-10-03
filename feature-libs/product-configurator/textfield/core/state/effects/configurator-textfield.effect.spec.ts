@@ -6,7 +6,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
 import { CartModification } from '@spartacus/cart/base/root';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -43,10 +43,19 @@ const cartModification: CartModification = {
   statusMessage: '',
 };
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('ConfiguratorTextfieldEffect', () => {
   let createMock: jasmine.Spy;
   let readFromCartEntryMock: jasmine.Spy;
   let readFromOrderEntryMock: jasmine.Spy;
+
   let addToCartMock: jasmine.Spy;
   let updateCartEntryMock: jasmine.Spy;
 
@@ -62,6 +71,7 @@ describe('ConfiguratorTextfieldEffect', () => {
     readFromOrderEntryMock = jasmine
       .createSpy()
       .and.returnValue(of(productConfiguration));
+
     addToCartMock = jasmine.createSpy().and.returnValue(of(cartModification));
     updateCartEntryMock = jasmine
       .createSpy()
@@ -71,6 +81,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       addToCart = addToCartMock;
       readConfigurationForCartEntry = readFromCartEntryMock;
       readConfigurationForOrderEntry = readFromOrderEntryMock;
+
       updateConfigurationForCartEntry = updateCartEntryMock;
     }
 
@@ -91,6 +102,7 @@ describe('ConfiguratorTextfieldEffect', () => {
           provide: ConfiguratorTextfieldConnector,
           useClass: MockConnector,
         },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
@@ -123,7 +135,7 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('should emit a fail action in case something goes wrong', () => {
-    createMock.and.returnValue(throwError(errorResponse));
+    createMock.and.returnValue(throwError(() => errorResponse));
     const payloadInput = {
       productCode: productCode,
       owner: ConfiguratorModelUtils.createInitialOwner(),
@@ -134,7 +146,7 @@ describe('ConfiguratorTextfieldEffect', () => {
 
     const completionFailure =
       new ConfiguratorTextfieldActions.CreateConfigurationFail(
-        normalizeHttpError(errorResponse)
+        normalizeHttpError(errorResponse, new MockLoggerService())
       );
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completionFailure });
@@ -164,7 +176,7 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('should emit a fail action in case read from cart leads to an error', () => {
-    readFromCartEntryMock.and.returnValue(throwError(errorResponse));
+    readFromCartEntryMock.and.returnValue(throwError(() => errorResponse));
     const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
       {
         owner: ConfiguratorModelUtils.createInitialOwner(),
@@ -175,7 +187,7 @@ describe('ConfiguratorTextfieldEffect', () => {
 
     const completionFailure =
       new ConfiguratorTextfieldActions.ReadCartEntryConfigurationFail(
-        normalizeHttpError(errorResponse)
+        normalizeHttpError(errorResponse, new MockLoggerService())
       );
     actions$ = hot('-a', { a: action });
     const expectedObs = cold('-b', { b: completionFailure });
@@ -207,7 +219,7 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('should emit a fail action in case read from order entry leads to an error', () => {
-    readFromOrderEntryMock.and.returnValue(throwError(errorResponse));
+    readFromOrderEntryMock.and.returnValue(throwError(() => errorResponse));
     const payloadInput: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
       {
         owner: ConfiguratorModelUtils.createInitialOwner(),
@@ -218,7 +230,7 @@ describe('ConfiguratorTextfieldEffect', () => {
 
     const completionFailure =
       new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationFail(
-        normalizeHttpError(errorResponse)
+        normalizeHttpError(errorResponse, new MockLoggerService())
       );
     actions$ = cold('-a', { a: action });
     const expectedObs = cold('-b', { b: completionFailure });
@@ -266,7 +278,7 @@ describe('ConfiguratorTextfieldEffect', () => {
     });
 
     it('should emit AddToCartFail in case add to cart call is not successful', () => {
-      addToCartMock.and.returnValue(throwError(errorResponse));
+      addToCartMock.and.returnValue(throwError(() => errorResponse));
       const payloadInput = {
         userId: userId,
         cartId: cartId,
@@ -276,7 +288,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       };
       const action = new ConfiguratorTextfieldActions.AddToCart(payloadInput);
       const cartAddEntryFail = new ConfiguratorTextfieldActions.AddToCartFail(
-        normalizeHttpError(errorResponse)
+        normalizeHttpError(errorResponse, new MockLoggerService())
       );
 
       actions$ = hot('-a', { a: action });
@@ -317,7 +329,7 @@ describe('ConfiguratorTextfieldEffect', () => {
     });
 
     it('should emit CartUpdateEntryFail in case update cart entry is not successful', () => {
-      updateCartEntryMock.and.returnValue(throwError(errorResponse));
+      updateCartEntryMock.and.returnValue(throwError(() => errorResponse));
       const payloadInput: ConfiguratorTextfield.UpdateCartEntryParameters = {
         userId: userId,
         cartId: cartId,
@@ -330,7 +342,7 @@ describe('ConfiguratorTextfieldEffect', () => {
         );
       const cartUpdateFail =
         new ConfiguratorTextfieldActions.UpdateCartEntryConfigurationFail(
-          normalizeHttpError(errorResponse)
+          normalizeHttpError(errorResponse, new MockLoggerService())
         );
 
       actions$ = hot('-a', { a: action });

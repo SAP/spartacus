@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ListModel, StateUtils } from '@spartacus/core';
 import { UserGroup } from '../../model/user-group.model';
 import { B2BUserActions } from '../actions/index';

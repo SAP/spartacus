@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
 import { CheckoutStep } from '../model/checkout-step.model';
@@ -30,6 +36,10 @@ export abstract class CheckoutConfig {
      * Allow for guest checkout.
      */
     guest?: boolean;
+    /**
+     * Use delivery address saved in cart for pre-filling delivery address form.
+     */
+    guestUseSavedAddress?: boolean;
   };
 }
 

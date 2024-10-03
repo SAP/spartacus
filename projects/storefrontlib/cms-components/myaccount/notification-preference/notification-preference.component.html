@@ -1,7 +1,51 @@
 <ng-container *ngIf="preferences$ | async as preferences">
   <div *ngIf="preferences.length > 0; else loading">
-    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
-    <div class="row d-flex justify-content-center">
+    <div
+      *cxFeature="'!a11yRemoveStatusLoadedRole'"
+      role="status"
+      [attr.aria-label]="'common.loaded' | cxTranslate"
+    ></div>
+    <!-- TODO: (CXSPA-7414) - Remove feature flag next major release. -->
+    <div
+      *cxFeature="'a11yNotificationPreferenceFieldset'"
+      class="row d-flex justify-content-center"
+    >
+      <div class="col-md-8">
+        <fieldset>
+          <legend class="pref-header">
+            {{ 'notificationPreference.message' | cxTranslate }}
+          </legend>
+          <ng-container *ngFor="let preference of preferences">
+            <div *ngIf="preference.visible" class="form-check pref-channel">
+              <input
+                class="form-check-input cx-np-checkbox"
+                role="checkbox"
+                type="checkbox"
+                id="{{ preference.channel }}"
+                [checked]="preference.enabled"
+                (change)="updatePreference(preference)"
+                [disabled]="isLoading$ | async"
+              />
+              <label for="{{ preference.channel }}" class="form-check-label">
+                {{
+                  'notificationPreference.' + preference.channel | cxTranslate
+                }}
+                {{ preference.value }}
+              </label>
+            </div>
+          </ng-container>
+        </fieldset>
+        <p class="pref-note">
+          <strong>{{ 'notificationPreference.note' | cxTranslate }}</strong
+          >{{ 'notificationPreference.noteMessage' | cxTranslate }}
+        </p>
+      </div>
+    </div>
+
+    <div
+      *cxFeature="'!a11yNotificationPreferenceFieldset'"
+      class="row d-flex justify-content-center"
+    >
       <div class="col-md-8">
         <div class="pref-header">
           {{ 'notificationPreference.message' | cxTranslate }}

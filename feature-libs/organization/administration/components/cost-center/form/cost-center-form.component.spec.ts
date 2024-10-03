@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Currency, CurrencyService, I18nTestingModule } from '@spartacus/core';
@@ -9,19 +13,20 @@ import {
 } from '@spartacus/organization/administration/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { CostCenterItemService } from '../services/cost-center-item.service';
 import { CostCenterFormComponent } from './cost-center-form.component';
 
-const mockForm = new FormGroup({
-  name: new FormControl(),
-  code: new FormControl(),
-  currency: new FormGroup({
-    isocode: new FormControl(),
+const mockForm = new UntypedFormGroup({
+  name: new UntypedFormControl(),
+  code: new UntypedFormControl(),
+  currency: new UntypedFormGroup({
+    isocode: new UntypedFormControl(),
   }),
-  unit: new FormGroup({
-    uid: new FormControl(),
+  unit: new UntypedFormGroup({
+    uid: new UntypedFormControl(),
   }),
 });
 
@@ -56,7 +61,11 @@ describe('CostCenterFormComponent', () => {
         NgSelectModule,
         FormTestingModule,
       ],
-      declarations: [CostCenterFormComponent, FormErrorsComponent],
+      declarations: [
+        CostCenterFormComponent,
+        FormErrorsComponent,
+        MockFeatureDirective,
+      ],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },

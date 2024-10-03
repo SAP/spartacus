@@ -1,5 +1,12 @@
-import { Injectable, isDevMode } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, inject, isDevMode } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -8,13 +15,15 @@ import {
   map,
   mergeMap,
   switchMap,
+  take,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { AuthActions, AuthService, UserIdService } from '../../../auth/index';
+import { LoggerService } from '../../../logger';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/anonymous-consent-templates.connector';
 import { AnonymousConsentsService } from '../../facade/index';
@@ -22,6 +31,8 @@ import { AnonymousConsentsActions } from '../actions/index';
 
 @Injectable()
 export class AnonymousConsentsEffects {
+  protected logger = inject(LoggerService);
+
   checkConsentVersions$: Observable<
     | AnonymousConsentsActions.LoadAnonymousConsentTemplates
     | AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail
@@ -37,7 +48,7 @@ export class AnonymousConsentsEffects {
             map((newConsents) => {
               if (!newConsents) {
                 if (isDevMode()) {
-                  console.warn(
+                  this.logger.warn(
                     'No consents were loaded. Please check the Spartacus documentation as this could be a back-end configuration issue.'
                   );
                 }
@@ -66,7 +77,7 @@ export class AnonymousConsentsEffects {
             catchError((error) =>
               of(
                 new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                  normalizeHttpError(error)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )
@@ -108,7 +119,7 @@ export class AnonymousConsentsEffects {
               catchError((error) =>
                 of(
                   new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                    normalizeHttpError(error)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -195,6 +206,7 @@ export class AnonymousConsentsEffects {
       ),
       concatMap(() =>
         this.userConsentService.getConsentsResultSuccess().pipe(
+          take(1),
           withLatestFrom(
             this.userIdService.getUserId(),
             this.userConsentService.getConsents(),
@@ -227,10 +239,7 @@ export class AnonymousConsentsEffects {
                 );
               }
             }
-            if (actions.length > 0) {
-              return actions;
-            }
-            return EMPTY;
+            return actions.length > 0 ? actions : EMPTY;
           })
         )
       )

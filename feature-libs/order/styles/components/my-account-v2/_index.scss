@@ -1,0 +1,23 @@
+@import './my-account-v2-order';
+
+$myaccount-view-order-allowlist: cx-my-account-v2-orders !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $myaccount-view-order-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $myaccount-view-order-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

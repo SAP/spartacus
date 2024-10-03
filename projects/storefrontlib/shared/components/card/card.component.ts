@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 
@@ -22,6 +28,7 @@ export interface Card {
   deleteMsg?: string;
   label?: string;
   role?: string;
+  customClass?: string;
 }
 
 @Component({
@@ -59,6 +66,9 @@ export class CardComponent implements OnInit {
 
   @Input()
   truncateText = false;
+
+  @Input()
+  truncateParagraphText = false;
 
   @Input()
   charactersLimit = 100;
@@ -104,7 +114,16 @@ export class CardComponent implements OnInit {
     return (action as CardLinkAction).link !== undefined;
   }
 
-  constructor() {}
+  trackByIndex(index: number): number {
+    return index;
+  }
 
-  ngOnInit() {}
+  constructor() {
+    // Intentional empty constructor
+  }
+
+  /* eslint @angular-eslint/no-empty-lifecycle-method: 1 */
+  ngOnInit() {
+    // Intentional empty method
+  }
 }

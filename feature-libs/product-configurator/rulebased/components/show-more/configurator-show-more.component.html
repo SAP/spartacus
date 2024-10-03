@@ -1,16 +1,18 @@
-<ng-container *ngIf="text">
+<ng-container
+  *ngIf="text && config.features?.productConfiguratorAttributeTypesV2"
+>
   <span
     [attr.aria-label]="
       'configurator.a11y.itemDescription'
         | cxTranslate
           : {
-              item: productName
+              item: productName,
             }
     "
     [innerHTML]="textToShow"
   ></span>
 
-  <button (click)="toggleShowMore()" *ngIf="showMore" tabindex="-1">
+  <button (click)="toggleShowMore()" *ngIf="showMore" tabindex="{{ tabIndex }}">
     <ng-container *ngIf="showHiddenText; else less"
       >&nbsp;... {{ 'configurator.button.less' | cxTranslate }}</ng-container
     >

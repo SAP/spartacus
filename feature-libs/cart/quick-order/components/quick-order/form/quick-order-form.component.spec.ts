@@ -1,10 +1,13 @@
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import {
-  QuickOrderFacade,
   QuickOrderConfig,
+  QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
+  FeaturesConfig,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -12,11 +15,10 @@ import {
   Translatable,
   WindowRef,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { QuickOrderFormComponent } from './quick-order-form.component';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
-import { By } from '@angular/platform-browser';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
+import { QuickOrderFormComponent } from './quick-order-form.component';
 
 const mockProductCode: string = 'mockCode';
 const mockProductCode2: string = 'mockCode2';
@@ -82,13 +84,23 @@ describe('QuickOrderFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-      declarations: [QuickOrderFormComponent, MockCxIconComponent],
+      declarations: [
+        QuickOrderFormComponent,
+        MockCxIconComponent,
+        MockFeatureDirective,
+      ],
       providers: [
         ChangeDetectorRef,
         WindowRef,
         QuickOrderConfig,
         { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
+          },
+        },
       ],
     }).compileComponents();
 

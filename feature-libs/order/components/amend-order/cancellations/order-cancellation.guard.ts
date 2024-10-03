@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { SemanticPathService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -8,7 +14,7 @@ import { OrderCancellationService } from './order-cancellation.service';
 @Injectable({
   providedIn: 'root',
 })
-export class OrderCancellationGuard implements CanActivate {
+export class OrderCancellationGuard {
   constructor(
     protected orderAmendService: OrderCancellationService,
     protected semanticPathService: SemanticPathService,

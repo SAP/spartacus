@@ -1,8 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GeoPoint } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { GeoPoint, useFeatureStyles } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-store-finder-grid',
@@ -19,7 +25,9 @@ export class StoreFinderGridComponent implements OnInit {
   constructor(
     private storeFinderService: StoreFinderService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    useFeatureStyles('a11yStoreFinderAlerts');
+  }
 
   ngOnInit() {
     this.isLoading$ = this.storeFinderService.getStoresLoading();

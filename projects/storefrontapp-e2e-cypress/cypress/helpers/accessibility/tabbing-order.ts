@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { user } from '../../sample-data/checkout-flow';
 import { focusableSelectors } from '../../support/utils/a11y-tab';
 import { register as authRegister } from '../auth-forms';
@@ -70,6 +76,7 @@ export function verifyTabElement(tabElement: TabElement) {
       regexpCheck(tabElement.value as string);
       return;
     }
+    case TabbingOrderTypes.H3:
     case TabbingOrderTypes.BUTTON: {
       cy.focused().should('contain', tabElement.value);
       return;
@@ -94,10 +101,6 @@ export function verifyTabElement(tabElement: TabElement) {
       cy.focused()
         .should('have.attr', 'type', 'radio')
         .should('have.attr', 'formcontrolname', tabElement.value);
-      return;
-    }
-    case TabbingOrderTypes.H3: {
-      cy.focused().should('contain', tabElement.value);
       return;
     }
     case TabbingOrderTypes.CX_MEDIA: {
@@ -199,6 +202,6 @@ export function checkoutNextStep(url: string) {
   cy.get('.btn.btn-block.btn-primary')
     .filter(':not(:disabled)')
     .first()
-    .click({ force: true });
-  cy.wait(`@${nextStep}`);
+    .click();
+  cy.wait(`@${nextStep}`).its('response.statusCode').should('eq', 200);
 }

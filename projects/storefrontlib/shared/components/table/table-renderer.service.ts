@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ComponentFactoryResolver, Injectable, Type } from '@angular/core';
 import { OutletService } from '../../../cms-structure/outlet/outlet.service';
 import { TableConfig } from './config/table.config';

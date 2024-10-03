@@ -1,48 +1,71 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
+  inject,
   OnInit,
-  Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
+import { Config, useFeatureStyles } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+
 @Component({
   selector: 'cx-configurator-attribute-multi-selection-image',
   templateUrl: './configurator-attribute-multi-selection-image.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorAttributePriceChangeService],
 })
 export class ConfiguratorAttributeMultiSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
+  attribute: Configurator.Attribute;
+  ownerKey: string;
+  expMode: boolean;
 
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+  iconTypes = ICON_TYPE;
+  protected config = inject(Config);
 
   constructor(
-    protected configUtilsService: ConfiguratorStorefrontUtilsService
+    protected configUtilsService: ConfiguratorStorefrontUtilsService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super();
+
+    this.attribute = attributeComponentContext.attribute;
+    this.ownerKey = attributeComponentContext.owner.key;
+    this.expMode = attributeComponentContext.expMode;
+    this.initPriceChangedEvent(
+      attributeComponentContext.isPricingAsync,
+      attributeComponentContext.attribute.key
+    );
+
+    useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
 
-  attributeCheckBoxForms = new Array<FormControl>();
+  attributeCheckBoxForms = new Array<UntypedFormControl>();
 
   ngOnInit() {
     const values = this.attribute.values;
     if (values) {
       for (const value of values) {
-        let attributeCheckBoxForm: FormControl;
+        let attributeCheckBoxForm: UntypedFormControl;
         if (value.selected) {
-          attributeCheckBoxForm = new FormControl(true);
+          attributeCheckBoxForm = new UntypedFormControl(true);
         } else {
-          attributeCheckBoxForm = new FormControl(false);
+          attributeCheckBoxForm = new UntypedFormControl(false);
         }
         this.attributeCheckBoxForms.push(attributeCheckBoxForm);
       }
@@ -63,26 +86,19 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
         this.attributeCheckBoxForms,
         this.attribute
       );
-
-    const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
+    if (this.listenForPriceChanges) {
+      this.configUtilsService.setLastSelected(
+        this.attribute.name,
+        selectedValues[index].valueCode
+      );
+    }
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         values: selectedValues,
       },
-    };
-
-    this.selectionChange.emit(event);
-  }
-
-  extractValuePriceFormulaParameters(
-    value: Configurator.Value
-  ): ConfiguratorPriceComponentOptions | undefined {
-    return {
-      quantity: value.quantity,
-      price: value.valuePrice,
-      priceTotal: value.valuePriceTotal,
-      isLightedUp: value.selected,
-    };
+      Configurator.UpdateType.ATTRIBUTE
+    );
   }
 }

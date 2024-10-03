@@ -1,10 +1,12 @@
-import { Injectable, isDevMode } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  UrlTree,
-} from '@angular/router';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { inject, Injectable, isDevMode, OnDestroy } from '@angular/core';
+import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -12,23 +14,56 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { RoutingConfigService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { LoggerService, RoutingConfigService } from '@spartacus/core';
+import { Observable, of, Subscription } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutStepsSetGuard implements CanActivate {
+export class CheckoutStepsSetGuard implements OnDestroy {
+  protected subscription: Subscription;
+  protected logger = inject(LoggerService);
+
   constructor(
     protected checkoutStepService: CheckoutStepService,
     protected routingConfigService: RoutingConfigService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected router: Router
-  ) {}
+    protected router: Router,
+    protected activeCartFacade: ActiveCartFacade
+  ) {
+    this.subscription = this.activeCartFacade
+      .hasDeliveryItems()
+      .pipe(distinctUntilChanged())
+      .subscribe((hasDeliveryItems) => {
+        this.checkoutStepService.disableEnableStep(
+          CheckoutStepType.DELIVERY_ADDRESS,
+          !hasDeliveryItems
+        );
+        this.checkoutStepService.disableEnableStep(
+          CheckoutStepType.DELIVERY_MODE,
+          !hasDeliveryItems
+        );
+
+        this.setStepNameMultiLine(
+          CheckoutStepType.PAYMENT_DETAILS,
+          hasDeliveryItems
+        );
+        this.setStepNameMultiLine(
+          CheckoutStepType.REVIEW_ORDER,
+          hasDeliveryItems
+        );
+      });
+  }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
     let currentIndex = -1;
@@ -53,7 +88,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
           return this.isStepSet(steps[currentIndex - 1]);
         } else {
           if (isDevMode()) {
-            console.warn(
+            this.logger.warn(
               `Missing step with route '${currentRouteUrl}' in checkout configuration or this step is disabled.`
             );
           }
@@ -73,6 +108,14 @@ export class CheckoutStepsSetGuard implements CanActivate {
           return this.isDeliveryModeSet(step);
         }
         case CheckoutStepType.PAYMENT_DETAILS: {
+          if (
+            this.checkoutStepService.getCheckoutStep(
+              CheckoutStepType.DELIVERY_MODE
+            )?.disabled
+          ) {
+            this.checkoutDeliveryModesFacade.setDeliveryMode('pickup');
+          }
+
           return this.isPaymentDetailsSet(step);
         }
         case CheckoutStepType.REVIEW_ORDER: {
@@ -127,5 +170,19 @@ export class CheckoutStepsSetGuard implements CanActivate {
     return this.router.parseUrl(
       this.routingConfigService.getRouteConfig(routeName)?.paths?.[0] as string
     );
+  }
+
+  protected setStepNameMultiLine(
+    stepType: CheckoutStepType,
+    value: boolean
+  ): void {
+    const step = this.checkoutStepService.getCheckoutStep(stepType);
+    if (step) {
+      step.nameMultiLine = value;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

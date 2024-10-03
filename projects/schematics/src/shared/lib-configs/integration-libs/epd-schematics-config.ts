@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { EPD_VISUALIZATION_CONFIG } from '../../constants';
 import {
   EPD_VISUALIZATION_FEATURE_NAME,
@@ -69,7 +75,7 @@ function buildCdsConfig(
       content: `<${EPD_VISUALIZATION_CONFIG}>{
         epdVisualization: {
           ui5: {
-            bootstrapUrl: "https://sapui5.hana.ondemand.com/1.98.0/resources/sap-ui-core.js"
+            bootstrapUrl: "https://ui5.sap.com/1.108/resources/sap-ui-core.js"
           },
 
           apis: {

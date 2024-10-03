@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
@@ -10,7 +16,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
@@ -29,7 +35,7 @@ export class CsAgentAuthService {
     protected userIdService: UserIdService,
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected store: Store,
-    protected userProfileFacade: UserProfileFacade
+    protected userAccountFacade: UserAccountFacade
   ) {}
 
   /**
@@ -42,6 +48,13 @@ export class CsAgentAuthService {
     password: string
   ): Promise<void> {
     let userToken: AuthToken | undefined;
+    // Start emulation for currently logged in user
+    let customerId: string | undefined;
+    this.userAccountFacade
+      .get()
+      .subscribe((user) => (customerId = user?.customerId))
+      .unsubscribe();
+
     this.authStorageService
       .getToken()
       .subscribe((token) => (userToken = token))
@@ -53,12 +66,6 @@ export class CsAgentAuthService {
         userId,
         password
       );
-      // Start emulation for currently logged in user
-      let customerId: string | undefined;
-      this.userProfileFacade
-        .get()
-        .subscribe((user) => (customerId = user?.customerId))
-        .unsubscribe();
       this.store.dispatch(new AuthActions.Logout());
 
       if (customerId !== undefined && userToken !== undefined) {

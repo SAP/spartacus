@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectorRef, Injectable, OnDestroy } from '@angular/core';
 import {
   GlobalMessageService,
@@ -19,7 +25,7 @@ import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';
 import { VisualPickingProductListService } from './product-list/visual-picking-product-list.service';
 
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class VisualPickingTabService implements OnDestroy {
   constructor(
@@ -91,6 +97,15 @@ export class VisualPickingTabService implements OnDestroy {
   private visualizationLoadInfoChangeSubscription: Subscription;
   private getProductReferencesSubscription: Subscription;
   private getFilteredProductReferencesSubscription: Subscription;
+
+  private _selectedProductCodes: string[] = [];
+  public get selectedProductCodes() {
+    return this._selectedProductCodes;
+  }
+  public set selectedProductCodes(selectedProducts: string[]) {
+    this._selectedProductCodes = selectedProducts;
+    this.changeDetectorRef.detectChanges();
+  }
 
   /**
    * When true, error messages will be shown when visualization load/lookup failures occur.

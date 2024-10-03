@@ -1,6 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { CartItemContextSource } from '@spartacus/cart/base/components';
 import {
   CartItemContext,
@@ -46,7 +46,7 @@ class MockConfigureCartEntryComponent {
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
-  quantityControl$ = new ReplaySubject<FormControl>(1);
+  quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
   location$ = new BehaviorSubject<PromotionLocation>(
     PromotionLocation.ActiveCart
   );
@@ -71,24 +71,22 @@ describe('ConfigureIssuesNotificationComponent', () => {
       entryNumber: 0,
     });
     mockCartItemContext.readonly$?.next(testData.readOnly);
-    mockCartItemContext.quantityControl$?.next(new FormControl());
+    mockCartItemContext.quantityControl$?.next(new UntypedFormControl());
   }
   describe('with cart item context', () => {
-    beforeEach(
-      waitForAsync(() => {
-        TestBed.configureTestingModule({
-          declarations: [
-            ConfiguratorIssuesNotificationComponent,
-            MockTranslatePipe,
-            MockCxIconComponent,
-            MockConfigureCartEntryComponent,
-          ],
-          providers: [
-            { provide: CartItemContext, useClass: MockCartItemContext },
-          ],
-        }).compileComponents();
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorIssuesNotificationComponent,
+          MockTranslatePipe,
+          MockCxIconComponent,
+          MockConfigureCartEntryComponent,
+        ],
+        providers: [
+          { provide: CartItemContext, useClass: MockCartItemContext },
+        ],
+      }).compileComponents();
+    }));
 
     beforeEach(() => {
       fixture = TestBed.createComponent(
@@ -117,7 +115,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
     });
 
     it('should expose quantityControl$', (done) => {
-      const quantityControl = new FormControl();
+      const quantityControl = new UntypedFormControl();
       component.quantityControl$.pipe(take(1)).subscribe((value) => {
         expect(value).toBe(quantityControl);
         done();
@@ -184,7 +182,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
 
     describe('shouldShowButton', () => {
       beforeEach(() => {
-        const quantityControl = new FormControl();
+        const quantityControl = new UntypedFormControl();
 
         mockCartItemContext.quantityControl$?.next(quantityControl);
         mockCartItemContext.item$?.next({
@@ -194,6 +192,49 @@ describe('ConfigureIssuesNotificationComponent', () => {
           product: { configurable: true },
         });
       });
+
+      describe('readonly$', () => {
+        beforeEach(() => {
+          mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+        });
+
+        it('should expose readonly$ as false in case readonly$ is undefined', () => {
+          mockCartItemContext.readonly$?.next(undefined);
+          fixture.detectChanges();
+          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
+            htmlElem,
+            'cx-configure-cart-entry'
+          );
+
+          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
+          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+        });
+
+        it('should expose readonly$ as false in case readonly$ is null', () => {
+          mockCartItemContext.readonly$?.next(null);
+          fixture.detectChanges();
+          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
+            htmlElem,
+            'cx-configure-cart-entry'
+          );
+
+          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
+          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+        });
+
+        it('should expose readonly$ as false in case readonly$ is false', () => {
+          mockCartItemContext.readonly$?.next(false);
+          fixture.detectChanges();
+          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
+            htmlElem,
+            'cx-configure-cart-entry'
+          );
+
+          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
+          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+        });
+      });
+
       it('should prevent the rendering of "edit configuration" if context is SaveForLater', () => {
         mockCartItemContext.location$?.next(PromotionLocation.SaveForLater);
         fixture.detectChanges();
@@ -214,6 +255,19 @@ describe('ConfigureIssuesNotificationComponent', () => {
           htmlElementAfterChanges.querySelectorAll('cx-configure-cart-entry')
             .length
         ).toBe(1);
+      });
+
+      it('should prevent the rendering of "edit configuration" in case readonly$ is true', () => {
+        mockCartItemContext.location$?.next(PromotionLocation.ActiveCart);
+        mockCartItemContext.readonly$?.next(true);
+
+        fixture.detectChanges();
+
+        const htmlElementAfterChanges = fixture.nativeElement;
+        expect(
+          htmlElementAfterChanges.querySelectorAll('.cx-configure-cart-entry')
+            .length
+        ).toBe(0);
       });
     });
 
@@ -239,19 +293,17 @@ describe('ConfigureIssuesNotificationComponent', () => {
     });
   });
   describe('without cart item context', () => {
-    beforeEach(
-      waitForAsync(() => {
-        TestBed.configureTestingModule({
-          declarations: [
-            ConfiguratorIssuesNotificationComponent,
-            MockTranslatePipe,
-            MockCxIconComponent,
-            MockConfigureCartEntryComponent,
-          ],
-          providers: [{ provide: CartItemContext, useValue: null }],
-        }).compileComponents();
-      })
-    );
+    beforeEach(waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorIssuesNotificationComponent,
+          MockTranslatePipe,
+          MockCxIconComponent,
+          MockConfigureCartEntryComponent,
+        ],
+        providers: [{ provide: CartItemContext, useValue: null }],
+      }).compileComponents();
+    }));
 
     beforeEach(() => {
       fixture = TestBed.createComponent(

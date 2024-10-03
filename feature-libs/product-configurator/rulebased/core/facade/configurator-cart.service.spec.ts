@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -9,7 +8,6 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
   QueryState,
   StateUtils,
   UserIdService,
@@ -36,6 +34,7 @@ import { ConfiguratorCartService } from './configurator-cart.service';
 let OWNER_CART_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_PRODUCT = ConfiguratorModelUtils.createInitialOwner();
+
 const CART_CODE = '0000009336';
 const CART_ENTRY_ID = '3';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
@@ -43,6 +42,7 @@ const ORDER_ID = '0000011';
 const ORDER_ENTRY_NUMBER = 2;
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';
+const USER_ID = 'ab3f7a08-690a-4616-b1fe-4f0847fcb79f';
 
 const cart: Cart = {
   code: CART_CODE,
@@ -50,16 +50,19 @@ const cart: Cart = {
   user: { uid: OCC_USER_ID_ANONYMOUS },
   entries: [
     {
+      entryNumber: 1,
       statusSummaryList: [
         { status: OrderEntryStatus.Success, numberOfIssues: 1 },
       ],
     },
     {
+      entryNumber: 2,
       statusSummaryList: [
         { status: OrderEntryStatus.Error, numberOfIssues: 0 },
       ],
     },
     {
+      entryNumber: 3,
       statusSummaryList: [{ status: OrderEntryStatus.Info, numberOfIssues: 3 }],
     },
   ],
@@ -89,7 +92,7 @@ class MockCheckoutQueryFacade {
 
 class MockUserIdService {
   getUserId(): Observable<string> {
-    return of(OCC_USER_ID_ANONYMOUS);
+    return of(USER_ID);
   }
 }
 
@@ -98,43 +101,37 @@ describe('ConfiguratorCartService', () => {
   let store: Store<StateWithConfigurator>;
   let configuratorUtils: CommonConfiguratorUtilsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      cartObs = of(cart);
-      isStableObs = of(true);
-      checkoutLoadingObs = of({ loading: true, error: false, data: undefined });
-      TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
-        providers: [
-          ConfiguratorCartService,
+  beforeEach(waitForAsync(() => {
+    cartObs = of(cart);
+    isStableObs = of(true);
+    checkoutLoadingObs = of({ loading: true, error: false, data: undefined });
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
+      providers: [
+        ConfiguratorCartService,
 
-          {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartService,
-          },
-          {
-            provide: CheckoutQueryFacade,
-            useClass: MockCheckoutQueryFacade,
-          },
-          {
-            provide: UserIdService,
-            useClass: MockUserIdService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
+        },
+        {
+          provide: CheckoutQueryFacade,
+          useClass: MockCheckoutQueryFacade,
+        },
+        {
+          provide: UserIdService,
+          useClass: MockUserIdService,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.inject(
-      ConfiguratorCartService as Type<ConfiguratorCartService>
-    );
-    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    serviceUnderTest = TestBed.inject(ConfiguratorCartService);
+    store = TestBed.inject(Store);
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     OWNER_CART_ENTRY = {
       id: CART_ENTRY_ID,
       type: CommonConfigurator.OwnerType.CART_ENTRY,
@@ -180,12 +177,18 @@ describe('ConfiguratorCartService', () => {
     });
 
     it('should dispatch ReadCartEntryConfiguration action in case configuration is not present so far', () => {
+      checkoutLoadingObs = of({
+        loading: false,
+        error: false,
+        data: undefined,
+      });
+
       const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
         {
           owner: OWNER_CART_ENTRY,
           cartEntryNumber: OWNER_CART_ENTRY.id,
           cartId: CART_GUID,
-          userId: OCC_USER_ID_ANONYMOUS,
+          userId: USER_ID,
         };
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
         {
@@ -295,7 +298,7 @@ describe('ConfiguratorCartService', () => {
           owner: OWNER_ORDER_ENTRY,
           orderEntryNumber: '' + ORDER_ENTRY_NUMBER,
           orderId: ORDER_ID,
-          userId: OCC_USER_ID_CURRENT,
+          userId: USER_ID,
         };
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
         {
@@ -321,11 +324,12 @@ describe('ConfiguratorCartService', () => {
       );
     });
   });
+
   describe('addToCart', () => {
-    it('should get cart, create addToCartParameters and call addToCart action', () => {
+    it('should get cart, create addToCartParameters and call addToCart action without setting quantity', () => {
       const addToCartParams: Configurator.AddToCartParameters = {
         cartId: CART_GUID,
-        userId: OCC_USER_ID_ANONYMOUS,
+        userId: USER_ID,
         productCode: PRODUCT_CODE,
         quantity: 1,
         configId: CONFIG_ID,
@@ -340,12 +344,32 @@ describe('ConfiguratorCartService', () => {
         new ConfiguratorActions.AddToCart(addToCartParams)
       );
     });
+
+    it('should get cart, create addToCartParameters and call addToCart action with setting quantity', () => {
+      const addToCartParams: Configurator.AddToCartParameters = {
+        cartId: CART_GUID,
+        userId: USER_ID,
+        productCode: PRODUCT_CODE,
+        quantity: 100,
+        configId: CONFIG_ID,
+        owner: OWNER_PRODUCT,
+      };
+
+      spyOn(store, 'dispatch').and.callThrough();
+
+      serviceUnderTest.addToCart(PRODUCT_CODE, CONFIG_ID, OWNER_PRODUCT, 100);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.AddToCart(addToCartParams)
+      );
+    });
   });
+
   describe('updateCartEntry', () => {
     it('should create updateParameters and call updateCartEntry action', () => {
       const params: Configurator.UpdateConfigurationForCartEntryParameters = {
         cartId: CART_GUID,
-        userId: OCC_USER_ID_ANONYMOUS,
+        userId: USER_ID,
         cartEntryNumber: productConfiguration.owner.id,
         configuration: productConfiguration,
       };
@@ -401,6 +425,66 @@ describe('ConfiguratorCartService', () => {
       });
       expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
         cold('aa', { a: false })
+      );
+    });
+  });
+
+  describe('getEntry', () => {
+    it('should return undefined because a list of entries is undefined', () => {
+      const cartEmpty: Cart = {
+        ...cart,
+        entries: undefined,
+      };
+
+      cartObs = cold('y', {
+        y: cartEmpty,
+      });
+
+      expect(serviceUnderTest.getEntry('4')).toBeObservable(
+        cold('a', { a: undefined })
+      );
+    });
+
+    it('should return undefined because a list of entries is empty', () => {
+      const cartEmpty: Cart = {
+        ...cart,
+        entries: [],
+      };
+
+      cartObs = cold('y', {
+        y: cartEmpty,
+      });
+
+      expect(serviceUnderTest.getEntry('4')).toBeObservable(
+        cold('a', { a: undefined })
+      );
+    });
+
+    it('should return an empty list of entries because the list of entries does not contain a searched entry', () => {
+      const newestCart: Cart = {
+        ...cart,
+      };
+
+      cartObs = cold('y', {
+        y: newestCart,
+      });
+
+      expect(serviceUnderTest.getEntry('5')).toBeObservable(
+        cold('a', { a: undefined })
+      );
+    });
+
+    it('should return a searched entry', () => {
+      const newestCart: Cart = {
+        ...cart,
+      };
+
+      cartObs = cold('y', {
+        y: newestCart,
+      });
+
+      expect(serviceUnderTest.getEntry('2')).toBeObservable(
+        cold('a', { a: newestCart.entries ? newestCart.entries[1] : {} })
       );
     });
   });

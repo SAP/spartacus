@@ -1,10 +1,8 @@
-@import '../../theme';
-
 .table {
   width: 100%;
 
   thead {
-    border-bottom: 1px solid var(--cx-color-light);
+    border-bottom: 1px solid var(--cx-color-medium);
 
     th {
       border-bottom: 0 none;
@@ -13,12 +11,16 @@
       font-weight: $font-weight-semi;
       text-transform: uppercase;
       color: theme-color('secondary');
+
+      @include forFeature('a11yImproveContrast') {
+        @include type('6');
+      }
     }
   }
 
   tr {
     width: 100%;
-    border-bottom: 1px solid var(--cx-color-light);
+    border-bottom: 1px solid var(--cx-color-medium);
 
     @include media-breakpoint-down(sm) {
       &:first-child {

@@ -1,3 +1,8 @@
+<div *ngIf="!attribute.visible" class="cx-hidden-msg">
+  <cx-icon [type]="iconTypes.WARNING" aria-hidden="true"></cx-icon>
+  {{ 'configurator.attribute.notVisibleAttributeMsg' | cxTranslate }}
+</div>
+
 <label
   id="{{ createAttributeUiKey('label', attribute.name) }}"
   [class.cx-required-error]="showRequiredMessageForDomainAttribute$ | async"
@@ -11,18 +16,25 @@
   ><span
     [class.cx-required-icon]="attribute.required"
     [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
-    >{{ attribute.label }}</span
+    >{{ getLabel(expMode, attribute.label, attribute.name) }}</span
   ></label
 >
+<cx-configurator-show-more
+  *ngIf="attribute.description"
+  [text]="attribute.description"
+  [textSize]="getAttributeDescriptionLength()"
+  [productName]="getLabel(expMode, attribute.label, attribute.name)"
+  [tabIndex]="0"
+></cx-configurator-show-more>
 <div
   *ngIf="attribute.hasConflicts"
   class="cx-conflict-msg"
   id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
-  [attr.aria-live]="isAttributeGroup() ? 'assertive' : 'off'"
-  [attr.aria-atomic]="isAttributeGroup() ? true : false"
-  [attr.role]="isAttributeGroup() ? 'alert' : null"
+  [attr.aria-live]="isConflictResolutionActive() ? 'assertive' : 'off'"
+  [attr.aria-atomic]="isConflictResolutionActive() ? true : false"
+  [attr.role]="isConflictResolutionActive() ? 'alert' : null"
   [attr.aria-label]="
-    isAttributeGroup()
+    isConflictResolutionActive()
       ? ('configurator.a11y.conflictDetected' | cxTranslate)
       : ''
   "
@@ -35,10 +47,11 @@
   <ng-container *ngIf="isAttributeGroup(); else conflictGroup">
     <ng-container *ngIf="isNavigationToConflictEnabled(); else withoutLink">
       <a
-        class="cx-conflict-msg link cx-action-link"
+        class="link cx-action-link"
         (click)="navigateToGroup()"
         (keydown.enter)="navigateToGroup()"
         tabindex="0"
+        role="link"
         [attr.aria-label]="
           'configurator.a11y.navigateToConflict'
             | cxTranslate: { attribute: attribute.label }
@@ -67,10 +80,12 @@
 
 <ng-template #conflictGroup>
   <a
-    class="cx-conflict-msg link cx-action-link"
+    *ngIf="isNavigationToGroupEnabled"
+    class="link cx-action-link"
     (click)="navigateToGroup()"
     (keydown.enter)="navigateToGroup()"
     tabindex="0"
+    role="link"
   >
     {{ getConflictMessageKey() | cxTranslate }}
   </a>

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   chain,
   noop,
@@ -5,7 +11,12 @@ import {
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
-import { ArrowFunction, CallExpression, SyntaxKind } from 'ts-morph';
+import {
+  ArrayLiteralExpression,
+  ArrowFunction,
+  CallExpression,
+  SyntaxKind,
+} from 'ts-morph';
 import {
   featureFeatureModuleMapping,
   getKeyByMappingValueOrThrow,
@@ -292,12 +303,7 @@ function updateFeatureModule(options: SpartacusWrapperOptions): Rule {
         if (!ngImports) {
           continue;
         }
-        for (const element of ngImports.getElements()) {
-          if (element.getText() === wrapperModuleClassName) {
-            ngImports.removeElement(element);
-            break;
-          }
-        }
+        removeNgImportWrapperElements(ngImports, wrapperModuleClassName);
 
         saveAndFormat(featureModule);
         break;
@@ -315,6 +321,18 @@ function updateFeatureModule(options: SpartacusWrapperOptions): Rule {
     );
     return chain(rules);
   };
+
+  function removeNgImportWrapperElements(
+    ngImports: ArrayLiteralExpression,
+    wrapperModuleClassName: string
+  ) {
+    for (const element of ngImports.getElements()) {
+      if (element.getText() === wrapperModuleClassName) {
+        ngImports.removeElement(element);
+        break;
+      }
+    }
+  }
 }
 
 /**

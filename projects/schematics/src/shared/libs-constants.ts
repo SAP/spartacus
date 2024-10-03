@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /***** Scopes start *****/
 export const SPARTACUS_SCOPE = `@spartacus/`;
 
@@ -25,8 +31,17 @@ export const SPARTACUS_ASM = `@spartacus/asm`;
 export const SPARTACUS_ASM_ROOT = `@spartacus/asm/root`;
 export const SPARTACUS_ASM_ASSETS = `@spartacus/asm/assets`;
 
+export const SPARTACUS_ASM_CUSTOMER_360 = `@spartacus/asm/customer-360`;
+export const SPARTACUS_ASM_CUSTOMER_360_ROOT = `@spartacus/asm/customer-360/root`;
+export const SPARTACUS_ASM_CUSTOMER_360_ASSETS = `@spartacus/asm/customer-360/assets`;
+
+export const SPARTACUS_PICKUP_IN_STORE = '@spartacus/pickup-in-store';
+export const SPARTACUS_PICKUP_IN_STORE_ASSETS = `@spartacus/pickup-in-store/assets`;
+export const SPARTACUS_PICKUP_IN_STORE_ROOT = `@spartacus/pickup-in-store/root`;
+
 export const SPARTACUS_CART = `@spartacus/cart`;
 export const SPARTACUS_CART_BASE = `@spartacus/cart/base`;
+export const SPARTACUS_CART_BASE_COMPONENTS = `@spartacus/cart/base/components`;
 export const SPARTACUS_CART_BASE_ROOT = `@spartacus/cart/base/root`;
 export const SPARTACUS_CART_BASE_ASSETS = `@spartacus/cart/base/assets`;
 export const MINI_CART_ENTRY_POINT = `@spartacus/cart/base/components/mini-cart`;
@@ -79,6 +94,7 @@ export const SPARTACUS_CHECKOUT_OLD_COMPONENTS = `@spartacus/checkout/components
 export const SPARTACUS_ORDER = `@spartacus/order`;
 export const SPARTACUS_ORDER_ROOT = `@spartacus/order/root`;
 export const SPARTACUS_ORDER_ASSETS = `@spartacus/order/assets`;
+export const SPARTACUS_ORDER_COMPONENTS = `@spartacus/order/components`;
 
 export const SPARTACUS_ORGANIZATION = `@spartacus/organization`;
 export const SPARTACUS_ADMINISTRATION = `@spartacus/organization/administration`;
@@ -89,6 +105,19 @@ export const SPARTACUS_ORGANIZATION_ADMINISTRATION_ASSETS = `@spartacus/organiza
 export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL = `@spartacus/organization/order-approval`;
 export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL_ROOT = `@spartacus/organization/order-approval/root`;
 export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL_ASSETS = `@spartacus/organization/order-approval/assets`;
+export const SPARTACUS_ORGANIZATION_USER_REGISTRATION = `@spartacus/organization/user-registration`;
+export const SPARTACUS_ORGANIZATION_USER_REGISTRATION_ROOT = `@spartacus/organization/user-registration/root`;
+export const SPARTACUS_ORGANIZATION_USER_REGISTRATION_ASSETS = `@spartacus/organization/user-registration/assets`;
+export const SPARTACUS_ORGANIZATION_UNIT_ORDER = `@spartacus/organization/unit-order`;
+export const SPARTACUS_ORGANIZATION_UNIT_ORDER_ROOT = `@spartacus/organization/unit-order/root`;
+export const SPARTACUS_ORGANIZATION_UNIT_ORDER_ASSETS = `@spartacus/organization/unit-order/assets`;
+
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY = `@spartacus/organization/account-summary`;
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_ROOT = `@spartacus/organization/account-summary/root`;
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_CORE = `@spartacus/organization/account-summary/core`;
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_COMPONENTS = `@spartacus/organization/account-summary/components`;
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_ASSETS = `@spartacus/organization/account-summary/assets`;
+export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_OCC = `@spartacus/organization/account-summary/occ`;
 
 export const SPARTACUS_PRODUCT = `@spartacus/product`;
 export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS = `@spartacus/product/variants/components`;
@@ -102,6 +131,19 @@ export const SPARTACUS_IMAGE_ZOOM_ASSETS = `@spartacus/product/image-zoom/assets
 export const SPARTACUS_VARIANTS = `@spartacus/product/variants`;
 export const SPARTACUS_VARIANTS_ROOT = `@spartacus/product/variants/root`;
 export const SPARTACUS_VARIANTS_ASSETS = `@spartacus/product/variants/assets`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL = `@spartacus/product-multi-dimensional`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_LIST = `@spartacus/product-multi-dimensional/list`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_LIST_ROOT = `@spartacus/product-multi-dimensional/list/root`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR = `@spartacus/product-multi-dimensional/selector`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR_ROOT = `@spartacus/product-multi-dimensional/selector/root`;
+export const SPARTACUS_PRODUCT_MULTI_DIMENSIONAL_SELECTOR_CONFIGURATOR_ASSETS = `@spartacus/product-multi-dimensional/selector/assets`;
+export const SPARTACUS_FUTURE_STOCK = `@spartacus/product/future-stock`;
+export const SPARTACUS_FUTURE_STOCK_ROOT = `@spartacus/product/future-stock/root`;
+export const SPARTACUS_FUTURE_STOCK_ASSETS = `@spartacus/product/future-stock/assets`;
+
+export const SPARTACUS_PDF_INVOICES = `@spartacus/pdf-invoices`;
+export const SPARTACUS_PDF_INVOICES_ROOT = `@spartacus/pdf-invoices/root`;
+export const SPARTACUS_PDF_INVOICES_ASSETS = `@spartacus/pdf-invoices/assets`;
 
 export const SPARTACUS_PRODUCT_CONFIGURATOR = `@spartacus/product-configurator`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `@spartacus/product-configurator/common`;
@@ -115,6 +157,14 @@ export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_CPQ = `@spartacus/product-
 export const SPARTACUS_QUALTRICS = `@spartacus/qualtrics`;
 export const SPARTACUS_QUALTRICS_COMPONENTS = `@spartacus/qualtrics/components`;
 export const SPARTACUS_QUALTRICS_ROOT = `@spartacus/qualtrics/root`;
+
+export const SPARTACUS_REQUESTED_DELIVERY_DATE = `@spartacus/requested-delivery-date`;
+export const SPARTACUS_REQUESTED_DELIVERY_DATE_ROOT = `@spartacus/requested-delivery-date/root`;
+export const SPARTACUS_REQUESTED_DELIVERY_DATE_ASSETS = `@spartacus/requested-delivery-date/assets`;
+
+export const SPARTACUS_ESTIMATED_DELIVERY_DATE = `@spartacus/estimated-delivery-date`;
+export const SPARTACUS_ESTIMATED_DELIVERY_DATE_ROOT = `@spartacus/estimated-delivery-date/root`;
+export const SPARTACUS_ESTIMATED_DELIVERY_DATE_ASSETS = `@spartacus/estimated-delivery-date/assets`;
 
 export const SPARTACUS_SMARTEDIT = `@spartacus/smartedit`;
 export const SPARTACUS_SMARTEDIT_ROOT = `@spartacus/smartedit/root`;
@@ -148,8 +198,19 @@ export const SPARTACUS_USER_PROFILE_ROOT = `@spartacus/user/profile/root`;
 
 export const SPARTACUS_CDS = `@spartacus/cds`;
 
+export const SPARTACUS_CDS_ASSETS = `@spartacus/cds/assets`;
+
+export const SPARTACUS_CDP = `@spartacus/cdp`;
+export const SPARTACUS_CDP_CUSTOMER_TICKETING =
+  '@spartacus/cdp/customer-ticketing';
+
 export const SPARTACUS_CDC = `@spartacus/cdc`;
 export const SPARTACUS_CDC_ROOT = `@spartacus/cdc/root`;
+export const SPARTACUS_CDC_ASSETS = `@spartacus/cdc/assets`;
+export const SPARTACUS_CDC_USER_ACCOUNT = `@spartacus/cdc/user-account`;
+export const SPARTACUS_CDC_USER_PROFILE = `@spartacus/cdc/user-profile`;
+export const SPARTACUS_CDC_ORGANIZATION_ADMINISTRATION = `@spartacus/cdc/organization/administration`;
+export const SPARTACUS_CDC_ORGANIZATION_REGISTRATION = `@spartacus/cdc/organization/user-registration`;
 
 export const SPARTACUS_DIGITAL_PAYMENTS = `@spartacus/digital-payments`;
 export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/assets`;
@@ -158,6 +219,37 @@ export const SPARTACUS_EPD_VISUALIZATION = `@spartacus/epd-visualization`;
 export const SPARTACUS_EPD_VISUALIZATION_ROOT = `@spartacus/epd-visualization/root`;
 export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/assets`;
 
+export const SPARTACUS_QUOTE = '@spartacus/quote';
+export const SPARTACUS_QUOTE_CART_GUARD =
+  '@spartacus/quote/components/cart-guard';
+export const SPARTACUS_QUOTE_REQUEST =
+  '@spartacus/quote/components/request-button';
+export const SPARTACUS_QUOTE_ROOT = `@spartacus/quote/root`;
+export const SPARTACUS_QUOTE_ASSETS = `@spartacus/quote/assets`;
+
+export const SPARTACUS_S4OM = '@spartacus/s4om';
+export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
+export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
+
+export const SPARTACUS_OMF = '@spartacus/omf';
+export const SPARTACUS_OMF_ROOT = '@spartacus/omf/root';
+export const SPARTACUS_OMF_ORDER = '@spartacus/omf/order';
+
+export const SPARTACUS_OPPS = '@spartacus/opps';
+export const SPARTACUS_OPPS_ROOT = '@spartacus/opps/root';
+
+export const SPARTACUS_SEGMENT_REFS = '@spartacus/segment-refs';
+export const SPARTACUS_SEGMENT_REFS_ROOT = `@spartacus/segment-refs/root`;
+
+export const SPARTACUS_S4_SERVICE = '@spartacus/s4-service';
+export const SPARTACUS_S4_SERVICE_ASSETS = `@spartacus/s4-service/assets`;
+export const SPARTACUS_S4_SERVICE_ROOT = `@spartacus/s4-service/root`;
+export const SPARTACUS_S4_SERVICE_CHECKOUT = `@spartacus/s4-service/checkout`;
+export const SPARTACUS_S4_SERVICE_ORDER = `@spartacus/s4-service/order`;
+
+export const SPARTACUS_CUSTOMER_TICKETING_ROOT = `@spartacus/customer-ticketing/root`;
+export const SPARTACUS_CUSTOMER_TICKETING_ASSETS = `@spartacus/customer-ticketing/assets`;
+export const SPARTACUS_CUSTOMER_TICKETING = '@spartacus/customer-ticketing';
 /***** Scopes end *****/
 
 /***** File structure start *****/
@@ -170,6 +262,7 @@ export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
 
 /***** Feature name start *****/
 export const ASM_FEATURE_NAME = 'ASM';
+export const ASM_CUSTOMER_360_FEATURE_NAME = 'ASM-Customer-360';
 
 export const CART_BASE_FEATURE_NAME = 'Cart';
 export const CART_IMPORT_EXPORT_FEATURE_NAME = 'Import-Export';
@@ -187,16 +280,31 @@ export const ORDER_FEATURE_NAME = 'Order';
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME = 'Administration';
 export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME = 'Order-Approval';
 
+export const ORGANIZATION_USER_REGISTRATION_FEATURE_NAME =
+  'Organization-User-Registration';
+
+export const ORGANIZATION_UNIT_ORDER_FEATURE_NAME = 'Unit-Order';
+
+export const ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME = 'Account-Summary';
+
 export const PRODUCT_BULK_PRICING_FEATURE_NAME = 'Bulk-Pricing';
 export const PRODUCT_IMAGE_ZOOM_FEATURE_NAME = 'Image-Zoom';
 export const PRODUCT_VARIANTS_FEATURE_NAME = 'Product-Variants';
-
+export const PRODUCT_FUTURE_STOCK_FEATURE_NAME = 'Future-Stock';
+export const PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE_NAME =
+  'Product-Multi-Dimensional-List';
+export const PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE_NAME =
+  'Product-Multi-Dimensional-Selector';
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME =
   'Textfield-Configurator';
 export const PRODUCT_CONFIGURATOR_VC_FEATURE_NAME = 'VC-Configurator';
 export const PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME = 'CPQ-Configurator';
 
 export const QUALTRICS_FEATURE_NAME = 'Qualtrics';
+
+export const REQUESTED_DELIVERY_DATE_FEATURE_NAME = 'Requested-Delivery-Date';
+
+export const ESTIMATED_DELIVERY_DATE_FEATURE_NAME = 'Estimated-Delivery-Date';
 
 export const SMARTEDIT_FEATURE_NAME = 'SmartEdit';
 
@@ -206,14 +314,45 @@ export const TRACKING_PERSONALIZATION_FEATURE_NAME = 'Personalization';
 export const TRACKING_TMS_GTM_FEATURE_NAME = 'TMS-GTM';
 export const TRACKING_TMS_AEP_FEATURE_NAME = 'TMS-AEPL';
 
+export const PDF_INVOICES_FEATURE_NAME = 'PDF-Invoices';
+
 export const USER_ACCOUNT_FEATURE_NAME = 'User-Account';
 export const USER_PROFILE_FEATURE_NAME = 'User-Profile';
 
 export const CDC_FEATURE_NAME = 'CDC';
+export const CDC_B2B_FEATURE_NAME = 'CDC-B2B';
+
+export const CDP_FEATURE_NAME = 'CDP';
 
 export const CDS_FEATURE_NAME = 'CDS';
+
+export const QUOTE_FEATURE_NAME = 'Quote';
 
 export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 
 export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
+
+export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
+
+export const SEGMENT_REFS_FEATURE_NAME = 'Segment-Refs';
+
+export const S4_SERVICE_FEATURE_NAME = 's4-service';
+
+export const OPPS_FEATURE_NAME = 'OPPS';
+
+export const OMF_FEATURE_NAME = 'OMF';
+
+export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 /***** Feature name end *****/
+
+/***** Feature name start *****/
+export const PICKUP_IN_STORE_FEATURE_NAME = 'Pickup-In-Store';
+export const PICKUP_IN_STORE_FEATURE = 'Pickup-In-Store';
+export const PICKUP_IN_STORE_MODULE = 'PickupInStoreModule';
+export const PICKUP_IN_STORE_ROOT_MODULE = 'PickupInStoreRootModule';
+/***** Feature name end *****/
+
+export const CPQ_QUOTE_FEATURE_NAME = 'cpq-quote';
+export const SPARTACUS_CPQ_QUOTE = `@spartacus/cpq-quote`;
+export const SPARTACUS_CPQ_QUOTE_ROOT = `@spartacus/cpq-quote/root`;
+export const SPARTACUS_CPQ_QUOTE_ASSETS = `@spartacus/cpq-quote/assets`;

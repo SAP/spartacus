@@ -1,11 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
 } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserRole, Title } from '@spartacus/core';
+import {
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { B2BUser, B2BUserRole, B2BUserRight, Title } from '@spartacus/core';
 import {
   B2BUnitNode,
   B2BUserService,
@@ -36,7 +46,7 @@ import { UserItemService } from '../services/user-item.service';
   ],
 })
 export class UserFormComponent implements OnInit {
-  form: FormGroup | null = this.itemService.getForm();
+  form: UntypedFormGroup | null = this.itemService.getForm();
 
   /**
    * Initialize the business unit for the user.
@@ -63,6 +73,7 @@ export class UserFormComponent implements OnInit {
   titles$: Observable<Title[]> = this.userProfileFacade.getTitles();
 
   availableRoles: B2BUserRole[] = this.b2bUserService.getAllRoles();
+  availableRights: B2BUserRight[] = this.b2bUserService.getAllRights();
 
   constructor(
     protected itemService: ItemService<B2BUser>,
@@ -78,17 +89,17 @@ export class UserFormComponent implements OnInit {
   updateRoles(event: MouseEvent) {
     const { checked, value } = event.target as HTMLInputElement;
     if (checked) {
-      this.roles.push(new FormControl(value));
+      this.roles.push(new UntypedFormControl(value));
     } else {
       this.roles.removeAt(this.roles.value.indexOf(value));
     }
   }
 
-  get roles(): FormArray {
-    return this.form?.get('roles') as FormArray;
+  get roles(): UntypedFormArray {
+    return this.form?.get('roles') as UntypedFormArray;
   }
 
-  get isAssignedToApprovers(): FormControl {
-    return this.form?.get('isAssignedToApprovers') as FormControl;
+  get isAssignedToApprovers(): UntypedFormControl {
+    return this.form?.get('isAssignedToApprovers') as UntypedFormControl;
   }
 }

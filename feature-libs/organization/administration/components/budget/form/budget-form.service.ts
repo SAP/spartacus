@@ -1,7 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
@@ -18,18 +24,18 @@ export class BudgetFormService extends FormService<Budget> {
   }
 
   protected build() {
-    const form = new FormGroup({});
+    const form = new UntypedFormGroup({});
     form.setControl(
       'code',
-      new FormControl('', [
+      new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.noSpecialCharacters,
       ])
     );
-    form.setControl('name', new FormControl('', Validators.required));
+    form.setControl('name', new UntypedFormControl('', Validators.required));
     form.setControl(
       'startDate',
-      new FormControl('', [
+      new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.patternValidation((date) =>
           this.datePickerService.isValidFormat(date)
@@ -38,7 +44,7 @@ export class BudgetFormService extends FormService<Budget> {
     );
     form.setControl(
       'endDate',
-      new FormControl('', [
+      new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.patternValidation((date) =>
           this.datePickerService.isValidFormat(date)
@@ -47,7 +53,7 @@ export class BudgetFormService extends FormService<Budget> {
     );
     form.setControl(
       'budget',
-      new FormControl('', [
+      new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.mustBePositive,
       ])
@@ -55,14 +61,14 @@ export class BudgetFormService extends FormService<Budget> {
 
     form.setControl(
       'currency',
-      new FormGroup({
-        isocode: new FormControl(undefined, Validators.required),
+      new UntypedFormGroup({
+        isocode: new UntypedFormControl(undefined, Validators.required),
       })
     );
     form.setControl(
       'orgUnit',
-      new FormGroup({
-        uid: new FormControl(undefined, Validators.required),
+      new UntypedFormGroup({
+        uid: new UntypedFormControl(undefined, Validators.required),
       })
     );
     form.setValidators(

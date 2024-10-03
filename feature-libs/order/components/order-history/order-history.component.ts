@@ -1,4 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { Params } from '@angular/router';
 import {
   isNotUndefined,
   RoutingService,
@@ -28,16 +35,22 @@ export class OrderHistoryComponent implements OnDestroy {
 
   private PAGE_SIZE = 5;
   sortType: string;
+  hasPONumber: boolean | undefined;
 
   orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
     .getOrderHistoryList(this.PAGE_SIZE)
     .pipe(
       tap((orders: OrderHistoryList | undefined) => {
-        if (orders?.pagination?.sort) {
-          this.sortType = orders.pagination.sort;
-        }
+        this.setOrderHistoryParams(orders);
       })
     );
+
+  setOrderHistoryParams(orders: OrderHistoryList | undefined) {
+    if (orders?.pagination?.sort) {
+      this.sortType = orders.pagination.sort;
+    }
+    this.hasPONumber = orders?.orders?.[0]?.purchaseOrderNumber !== undefined;
+  }
 
   hasReplenishmentOrder$: Observable<boolean> =
     this.replenishmentOrderHistoryFacade
@@ -79,10 +92,19 @@ export class OrderHistoryComponent implements OnDestroy {
   }
 
   goToOrderDetail(order: Order): void {
-    this.routing.go({
-      cxRoute: 'orderDetails',
-      params: order,
-    });
+    this.routing.go(
+      {
+        cxRoute: 'orderDetails',
+        params: order,
+      },
+      {
+        queryParams: this.getQueryParams(order),
+      }
+    );
+  }
+
+  getQueryParams(order: Order): Params | null {
+    return this.orderHistoryFacade.getQueryParams(order);
   }
 
   getSortLabels(): Observable<{ byDate: string; byOrderNumber: string }> {

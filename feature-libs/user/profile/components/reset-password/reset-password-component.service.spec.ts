@@ -1,6 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import {
+  AbstractControl,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
+import {
+  FeatureConfigService,
+  FeaturesConfigModule,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -48,6 +54,7 @@ describe('ResetPasswordComponentService', () => {
   let globalMessageService: GlobalMessageService;
   let passwordConfirm: AbstractControl;
   let password: AbstractControl;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -56,6 +63,7 @@ describe('ResetPasswordComponentService', () => {
         I18nTestingModule,
         FormErrorsModule,
         PasswordVisibilityToggleModule,
+        FeaturesConfigModule,
       ],
       providers: [
         ResetPasswordComponentService,
@@ -76,6 +84,9 @@ describe('ResetPasswordComponentService', () => {
   });
 
   beforeEach(() => {
+    featureConfigService = TestBed.inject(FeatureConfigService);
+    spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+
     service = TestBed.inject(ResetPasswordComponentService);
 
     userPasswordService = TestBed.inject(UserPasswordFacade);
@@ -174,7 +185,7 @@ describe('ResetPasswordComponentService', () => {
           const error = new HttpErrorModel();
           error.details = [{ message: 'error message' }];
           spyOn(userPasswordService, 'reset').and.returnValue(
-            throwError(error)
+            throwError(() => error)
           );
           service.resetPassword(resetToken);
           expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -184,13 +195,17 @@ describe('ResetPasswordComponentService', () => {
         });
 
         it('should not show error message', () => {
-          spyOn(userPasswordService, 'reset').and.returnValue(throwError(null));
+          spyOn(userPasswordService, 'reset').and.returnValue(
+            throwError(() => null)
+          );
           service.resetPassword(resetToken);
           expect(globalMessageService.add).not.toHaveBeenCalled();
         });
 
         it('should not show error message', () => {
-          spyOn(userPasswordService, 'reset').and.returnValue(throwError({}));
+          spyOn(userPasswordService, 'reset').and.returnValue(
+            throwError(() => ({}))
+          );
           service.resetPassword(resetToken);
           expect(globalMessageService.add).not.toHaveBeenCalled();
         });
@@ -198,12 +213,34 @@ describe('ResetPasswordComponentService', () => {
     });
 
     it('should not reset invalid form', () => {
-      spyOn(userPasswordService, 'reset').and.returnValue(throwError({}));
+      spyOn(userPasswordService, 'reset').and.returnValue(
+        throwError(() => ({}))
+      );
       passwordConfirm.setValue('Diff123!');
       service.resetPassword(resetToken);
       expect(userPasswordService.reset).not.toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
       expect(routingService.go).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('password validators', () => {
+    it('should have new validators when feature flag isEnabled', () => {
+      const passwordControl = service.form.get(
+        'password'
+      ) as UntypedFormControl;
+      const validators = passwordControl.validator
+        ? passwordControl.validator({} as any)
+        : [];
+
+      expect(passwordControl).toBeTruthy();
+      expect(validators).toEqual({
+        required: true,
+        cxMinOneDigit: true,
+        cxMinOneUpperCaseCharacter: true,
+        cxMinOneSpecialCharacter: true,
+        cxMinSixCharactersLength: true,
+      });
     });
   });
 });

@@ -6,11 +6,15 @@ import {
   Input,
   Renderer2,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { of } from 'rxjs';
+import {
+  FeatureConfigService,
+  FeaturesConfig,
+  I18nTestingModule,
+} from '@spartacus/core';
+import { EMPTY, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import {
   FacetCollapseState,
@@ -19,6 +23,8 @@ import {
 } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 import { FacetListComponent } from './facet-list.component';
+import { KeyboardFocusService } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-icon',
@@ -52,7 +58,7 @@ class MockFacetService {
   facetList$ = of(mockFacetList);
 
   getState() {
-    return of();
+    return EMPTY;
   }
   toggleExpand() {}
 }
@@ -63,25 +69,34 @@ describe('FacetListComponent', () => {
   let element: DebugElement;
   let service: FacetService;
   let renderer: Renderer2;
+  let focusService: KeyboardFocusService;
+  let featureConfigService: FeatureConfigService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [
-          FacetListComponent,
-          MockIconComponent,
-          MockFacetComponent,
-          MockKeyboadFocusDirective,
-        ],
-        providers: [{ provide: FacetService, useClass: MockFacetService }],
-      })
-        .overrideComponent(FacetListComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [
+        FacetListComponent,
+        MockIconComponent,
+        MockFacetComponent,
+        MockKeyboadFocusDirective,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: FacetService, useClass: MockFacetService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
+          },
+        },
+      ],
     })
-  );
+      .overrideComponent(FacetListComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetListComponent);
@@ -90,6 +105,8 @@ describe('FacetListComponent', () => {
     component.isDialog = false;
     renderer = fixture.componentRef.injector.get<Renderer2>(Renderer2 as any);
     service = TestBed.inject(FacetService);
+    focusService = TestBed.inject(KeyboardFocusService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
     fixture.detectChanges();
   });
 
@@ -238,6 +255,78 @@ describe('FacetListComponent', () => {
       const el = element.queryAll(By.css('cx-facet'));
       const e = el[0];
       expect(e.nativeElement.classList).toContain('expanded');
+    });
+  });
+
+  describe('handleDialogFocus', () => {
+    beforeEach(() => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+    });
+
+    it('should not set focus if not a dialog', () => {
+      spyOn(focusService, 'get');
+      component.isDialog = false;
+      (component as any).handleDialogFocus([]);
+      expect(focusService.get).not.toHaveBeenCalled();
+    });
+
+    it('should not set focus if focusKey is not set', () => {
+      spyOn(focusService, 'clear');
+      spyOn(focusService, 'get').and.returnValue(null);
+      component.isDialog = true;
+      (component as any).handleDialogFocus([]);
+      expect(focusService.clear).not.toHaveBeenCalled();
+    });
+
+    it('should not change focus if focused facet is found', () => {
+      spyOn(focusService, 'clear');
+      spyOn(focusService, 'get').and.returnValue('facet-B');
+      component.isDialog = true;
+      (component as any).handleDialogFocus([
+        { name: 'facet-A', values: [{ name: 'facet-B' }] },
+      ]);
+      expect(focusService.clear).not.toHaveBeenCalled();
+    });
+
+    it('should focus on back to results button if no facets are present', () => {
+      spyOn(focusService, 'clear');
+      spyOn(focusService, 'get').and.returnValue('facet-B');
+      component.isDialog = true;
+      component.backToResultsBtn = {
+        nativeElement: { focus: jasmine.createSpy('focus') },
+      } as any;
+      (component as any).handleDialogFocus([]);
+      expect(component.backToResultsBtn.nativeElement.focus).toHaveBeenCalled();
+      expect(focusService.clear).toHaveBeenCalled();
+    });
+
+    it('should set focus to the first available facet if no focused facet is found', () => {
+      spyOn(focusService, 'set');
+      spyOn(focusService, 'get').and.returnValue('facet-D');
+      component.isDialog = true;
+      (component as any).handleDialogFocus([
+        { name: 'facet-A', values: [{ name: 'facet-A' }] },
+      ]);
+      expect(focusService.set).toHaveBeenCalledWith('facet-A');
+    });
+  });
+
+  describe('enableFocusHandlingOnFacetListChanges', () => {
+    it('should handle facet list focus when feature is enabled', () => {
+      spyOn(<any>component, 'handleDialogFocus');
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+
+      (component as any).enableFocusHandlingOnFacetListChanges();
+
+      expect((component as any).handleDialogFocus).toHaveBeenCalled();
+    });
+
+    it('should add the subscription to the subscriptions collection', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      spyOn((component as any).subscriptions, 'add');
+      (component as any).enableFocusHandlingOnFacetListChanges();
+
+      expect((component as any).subscriptions.add).toHaveBeenCalled();
     });
   });
 });

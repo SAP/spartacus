@@ -4,15 +4,20 @@ import {
   DebugElement,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
@@ -28,54 +33,62 @@ const isBusySubject = new BehaviorSubject(false);
 class MockUpdatePasswordService
   implements Partial<UpdatePasswordComponentService>
 {
-  form: FormGroup = new FormGroup({
-    oldPassword: new FormControl(),
-    newPassword: new FormControl(),
-    newPasswordConfirm: new FormControl(),
+  form: UntypedFormGroup = new UntypedFormGroup({
+    oldPassword: new UntypedFormControl(),
+    newPassword: new UntypedFormControl(),
+    newPasswordConfirm: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
   updatePassword = createSpy().and.stub();
   resetForm = createSpy().and.stub();
 }
 
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
+}
+
 describe('UpdatePasswordComponent', () => {
   let component: UpdatePasswordComponent;
   let fixture: ComponentFixture<UpdatePasswordComponent>;
   let el: DebugElement;
-
+  let routingService: RoutingService;
   let service: UpdatePasswordComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          RouterTestingModule,
-          UrlTestingModule,
-          PasswordVisibilityToggleModule,
-        ],
-        declarations: [UpdatePasswordComponent, MockCxSpinnerComponent],
-        providers: [
-          {
-            provide: UpdatePasswordComponentService,
-            useClass: MockUpdatePasswordService,
-          },
-        ],
-      })
-        .overrideComponent(UpdatePasswordComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        PasswordVisibilityToggleModule,
+      ],
+      declarations: [
+        UpdatePasswordComponent,
+        MockCxSpinnerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        {
+          provide: UpdatePasswordComponentService,
+          useClass: MockUpdatePasswordService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
     })
-  );
+      .overrideComponent(UpdatePasswordComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdatePasswordComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     service = TestBed.inject(UpdatePasswordComponentService);
+    routingService = TestBed.inject(RoutingService);
 
     fixture.detectChanges();
   });
@@ -127,6 +140,13 @@ describe('UpdatePasswordComponent', () => {
     it('should call the service method on submit', () => {
       component.onSubmit();
       expect(service.updatePassword).toHaveBeenCalled();
+    });
+
+    it('should navigate to home on cancel', () => {
+      spyOn(routingService, 'go');
+      const cancelBtn = el.query(By.css('button.btn-secondary'));
+      cancelBtn.triggerEventHandler('click');
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
     });
   });
 });

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
@@ -13,19 +19,26 @@ import {
   userProfileTranslations,
 } from '@spartacus/user/profile/assets';
 import {
+  USE_MY_ACCOUNT_V2_EMAIL,
+  USE_MY_ACCOUNT_V2_PASSWORD,
+  USE_MY_ACCOUNT_V2_PROFILE,
+} from '@spartacus/user/profile/components';
+import {
   UserProfileRootModule,
   USER_PROFILE_FEATURE,
 } from '@spartacus/user/profile/root';
+import { environment } from '../../../../environments/environment';
 
 @NgModule({
-  declarations: [],
   imports: [UserAccountRootModule, UserProfileRootModule],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
         [USER_ACCOUNT_FEATURE]: {
           module: () =>
-            import('@spartacus/user/account').then((m) => m.UserAccountModule),
+            import('./user-account-wrapper.module').then(
+              (m) => m.UserAccountWrapperModule
+            ),
         },
       },
     }),
@@ -40,10 +53,24 @@ import {
       featureModules: {
         [USER_PROFILE_FEATURE]: {
           module: () =>
-            import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+            import('./user-profile-wrapper.module').then(
+              (m) => m.UserProfileWrapperModule
+            ),
         },
       },
     }),
+    {
+      provide: USE_MY_ACCOUNT_V2_PROFILE,
+      useValue: environment.myAccountV2,
+    },
+    {
+      provide: USE_MY_ACCOUNT_V2_EMAIL,
+      useValue: environment.myAccountV2,
+    },
+    {
+      provide: USE_MY_ACCOUNT_V2_PASSWORD,
+      useValue: environment.myAccountV2,
+    },
     provideConfig(<I18nConfig>{
       i18n: {
         resources: userProfileTranslations,

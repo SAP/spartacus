@@ -9,7 +9,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
-import { NGUNIVERSAL_EXPRESS_ENGINE, UTF_8 } from '../shared/constants';
+import { ANGULAR_SSR } from '../shared/constants';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
 import { getPathResultsForFile } from '../shared/utils/file-utils';
 
@@ -32,10 +32,10 @@ describe('add-ssr', () => {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
-    routing: false,
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
 
   const defaultOptions: SpartacusOptions = {
@@ -46,36 +46,31 @@ describe('add-ssr', () => {
     features: [],
   };
 
-  beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runSchematicAsync(
-        'add-spartacus',
-        { ...defaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runSchematicAsync(
-        'add-ssr',
-        { ...defaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+  beforeAll(async () => {
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      { ...defaultOptions, name: 'schematics-test' },
+      appTree
+    );
+
+    appTree = await schematicRunner.runSchematic(
+      'add-ssr',
+      { ...defaultOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('package.json', () => {
@@ -85,39 +80,37 @@ describe('add-ssr', () => {
       const depPackageList = Object.keys(packageObj.dependencies);
 
       expect(depPackageList.includes('@angular/platform-server')).toBe(true);
-      expect(depPackageList.includes(NGUNIVERSAL_EXPRESS_ENGINE)).toBe(true);
+      expect(depPackageList.includes(ANGULAR_SSR)).toBe(true);
       expect(depPackageList.includes('@spartacus/setup')).toBe(true);
-    });
-
-    it('should contain additional build scripts', async () => {
-      const buffer = appTree.read('package.json');
-      expect(buffer).toBeTruthy();
-      if (buffer) {
-        const packageJsonFileObject = JSON.parse(buffer.toString(UTF_8));
-        expect(packageJsonFileObject.scripts['build:ssr']).toBeTruthy();
-        expect(packageJsonFileObject.scripts['serve:ssr']).toBeTruthy();
-      }
     });
   });
 
-  describe('app.server.module.ts', () => {
-    it('should contain ServerTransferStateModule import', async () => {
-      const appServerModulePath = getPathResultsForFile(
-        appTree,
-        'app.server.module.ts',
-        '/src'
-      )[0];
-      const buffer = appTree.read(appServerModulePath);
-      expect(buffer).toBeTruthy();
-      if (buffer) {
-        const appServerModule = buffer.toString(UTF_8);
-        expect(
-          appServerModule.includes('ServerTransferStateModule')
-        ).toBeTruthy();
-        expect(
-          appServerModule.includes('@angular/platform-server')
-        ).toBeTruthy();
-      }
+  describe('angular.json', () => {
+    it('should be configured properly', async () => {
+      const angularJson = appTree.readContent('/angular.json');
+      const angularObj = JSON.parse(angularJson);
+      expect(angularObj).toMatchSnapshot();
+    });
+  });
+
+  describe('server.ts', () => {
+    it('should be configured properly', async () => {
+      const serverTs = appTree.readContent('/server.ts');
+      expect(serverTs).toMatchSnapshot();
+    });
+  });
+
+  describe('app.module.server.ts', () => {
+    it('should be updated', () => {
+      const content = appTree.readContent('./src/app/app.module.server.ts');
+      expect(content).toMatchSnapshot();
+    });
+  });
+
+  describe('app.module.ts', () => {
+    it('should be updated', () => {
+      const content = appTree.readContent('./src/app/app.module.ts');
+      expect(content).toMatchSnapshot();
     });
   });
 
@@ -128,31 +121,8 @@ describe('add-ssr', () => {
         'index.html',
         '/src'
       )[0];
-      const buffer = appTree.read(indexHtmlPath);
-      expect(buffer).toBeTruthy();
-      if (buffer) {
-        const indexHtmlFile = buffer.toString(UTF_8);
-        expect(
-          indexHtmlFile.includes('meta name="occ-backend-base-url"')
-        ).toBeTruthy();
-      }
-    });
-  });
-
-  describe('app.module.ts', () => {
-    it('should contain BrowserTransferStateModule import', async () => {
-      const appModulePath = getPathResultsForFile(
-        appTree,
-        'app.module.ts',
-        '/src'
-      )[0];
-      const buffer = appTree.read(appModulePath);
-      expect(buffer).toBeTruthy();
-      if (buffer) {
-        const appModule = buffer.toString('utf-8');
-        expect(appModule.includes('BrowserTransferStateModule')).toBeTruthy();
-        expect(appModule.includes('@angular/platform-browser')).toBeTruthy();
-      }
+      const indexHtml = appTree.readContent(indexHtmlPath);
+      expect(indexHtml).toMatchSnapshot();
     });
   });
 });

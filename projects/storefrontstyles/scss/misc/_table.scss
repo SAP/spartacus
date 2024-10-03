@@ -19,18 +19,26 @@
   }
 
   tr {
-    border-bottom: 1px solid var(--cx-color-light);
+    border-top: 1px solid var(--cx-color-medium);
     padding: 1.25rem 0;
   }
 
   th {
     vertical-align: bottom;
-    text-transform: uppercase;
+    text-transform: capitalize;
     text-align: center;
     color: var(--cx-color-secondary);
     font-weight: var(--cx-font-weight-bold);
     font-size: var(--cx-font-size, 0.875rem);
     white-space: nowrap;
+
+    @include forFeature('a11yImproveContrast') {
+      @include type('6');
+    }
+
+    &:nth-last-of-type(1) {
+      padding-inline-end: 16px;
+    }
   }
 
   .cx-mobile-header {
@@ -72,6 +80,11 @@
 
     .cx-mobile-only {
       display: flex;
+    }
+  }
+  @include cx-highContrastTheme {
+    tr {
+      border-color: var(--cx-color-dark);
     }
   }
 }

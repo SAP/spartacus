@@ -11,7 +11,9 @@ import {
   RoutingService,
   Translatable,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { OutletModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsItemsComponent } from './saved-cart-details-items.component';
 
@@ -48,7 +50,7 @@ class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
 
 class MockEventService implements Partial<EventService> {
   get(): Observable<any> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -78,46 +80,44 @@ describe('SavedCartDetailsItemsComponent', () => {
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [StoreModule.forRoot({}), I18nTestingModule],
-        declarations: [SavedCartDetailsItemsComponent],
-        providers: [
-          {
-            provide: SavedCartFacade,
-            useClass: MockSavedCartFacade,
-          },
-          {
-            provide: EventService,
-            useClass: MockEventService,
-          },
-          {
-            provide: SavedCartDetailsService,
-            useClass: MockSavedCartDetailsService,
-          },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [StoreModule.forRoot({}), I18nTestingModule, OutletModule],
+      declarations: [SavedCartDetailsItemsComponent, MockFeatureDirective],
+      providers: [
+        {
+          provide: SavedCartFacade,
+          useClass: MockSavedCartFacade,
+        },
+        {
+          provide: EventService,
+          useClass: MockEventService,
+        },
+        {
+          provide: SavedCartDetailsService,
+          useClass: MockSavedCartDetailsService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(SavedCartDetailsItemsComponent);
-      component = fixture.componentInstance;
+    fixture = TestBed.createComponent(SavedCartDetailsItemsComponent);
+    component = fixture.componentInstance;
 
-      savedCartFacade = TestBed.inject(SavedCartFacade);
-      eventService = TestBed.inject(EventService);
-      globalMessageService = TestBed.inject(GlobalMessageService);
-      routingService = TestBed.inject(RoutingService);
+    savedCartFacade = TestBed.inject(SavedCartFacade);
+    eventService = TestBed.inject(EventService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    routingService = TestBed.inject(RoutingService);
 
-      spyOn(routingService, 'go').and.callThrough();
-      spyOn(globalMessageService, 'add').and.callThrough();
-      spyOn(savedCartFacade, 'deleteSavedCart').and.callThrough();
+    spyOn(routingService, 'go').and.callThrough();
+    spyOn(globalMessageService, 'add').and.callThrough();
+    spyOn(savedCartFacade, 'deleteSavedCart').and.callThrough();
 
-      cart$.next(mockSavedCart);
+    cart$.next(mockSavedCart);
 
-      fixture.detectChanges();
-    })
-  );
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

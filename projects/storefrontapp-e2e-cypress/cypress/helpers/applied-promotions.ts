@@ -1,3 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { interceptGet } from '../support/utils/intercept';
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { registerCartPageRoute } from './cart';
 import { verifyAndPlaceOrder } from './checkout-as-persistent-user';
@@ -32,11 +39,10 @@ export function checkForAppliedPromotions() {
 }
 
 export function addProductToCart() {
-  cy.intercept(
-    `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*`
-  ).as('cart_refresh');
+  interceptGet(
+    'cart_refresh',
+    '/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*'
+  );
   cy.get('cx-add-to-cart')
     .findByText(/Add To Cart/i)
     .click();
@@ -49,7 +55,7 @@ export function goToCartDetailsView() {
 
 export function selectShippingAddress() {
   cy.findByText(/proceed to checkout/i).click();
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .find('.cx-summary-amount')
     .should('not.be.empty');
@@ -59,7 +65,7 @@ export function selectShippingAddress() {
 }
 
 export function selectDeliveryMethod() {
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Options');
   cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('button.btn-primary').click();
 }

@@ -1,11 +1,12 @@
-import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ImageGroup, Product, I18nTestingModule } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { I18nTestingModule, ImageGroup, Product } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
-import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
+import { EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 const firstImage = {
   zoom: {
@@ -59,7 +60,7 @@ const mockDataWitoutPrimaryPictures: Product = {
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -68,7 +69,7 @@ class MockCurrentProductService {
   template: '',
 })
 class MockMediaComponent {
-  @Input() container;
+  @Input() container: any;
 }
 
 @Component({
@@ -82,10 +83,20 @@ class MockMediaComponent {
   `,
 })
 class MockCarouselComponent {
-  @Input() items;
-  @Input() itemWidth;
-  @Input() template;
-  @Input() hideIndicators;
+  @Input() items: any;
+  @Input() itemWidth: any;
+  @Input() template: any;
+  @Input() hideIndicators: any;
+}
+
+@Component({
+  selector: 'cx-product-image-zoom-trigger',
+  template: ``,
+})
+class MockProductImageZoomTriggerComponent {
+  @Input() expandImage: any;
+  @Input() galleryIndex: any;
+  @Output() dialogClose = new EventEmitter<void>();
 }
 
 describe('ProductImagesComponent', () => {
@@ -93,26 +104,26 @@ describe('ProductImagesComponent', () => {
   let fixture: ComponentFixture<ProductImageZoomProductImagesComponent>;
   let currentProductService: CurrentProductService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          ProductImageZoomProductImagesComponent,
-          MockMediaComponent,
-          MockCarouselComponent,
-        ],
-        providers: [
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        ProductImageZoomProductImagesComponent,
+        MockMediaComponent,
+        MockCarouselComponent,
+        MockProductImageZoomTriggerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+      ],
+    }).compileComponents();
 
-      currentProductService = TestBed.inject(CurrentProductService);
-    })
-  );
+    currentProductService = TestBed.inject(CurrentProductService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);
@@ -141,25 +152,19 @@ describe('ProductImagesComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it(
-      'should have 2 thumbnails',
-      waitForAsync(() => {
-        let items: Observable<Product>[];
-        component.thumbs$.subscribe((i) => (items = i));
-        expect(items.length).toBe(2);
-      })
-    );
+    it('should have 2 thumbnails', waitForAsync(() => {
+      let items: Observable<Product>[];
+      component.thumbs$.subscribe((i) => (items = i));
+      expect(items.length).toBe(2);
+    }));
 
-    it(
-      'should have thumb with url in first product',
-      waitForAsync(() => {
-        let thumbs: Observable<Product>[];
-        component.thumbs$.subscribe((i) => (thumbs = i));
-        let thumb: any;
-        thumbs[0].subscribe((p) => (thumb = p));
-        expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
-      })
-    );
+    it('should have thumb with url in first product', waitForAsync(() => {
+      let thumbs: Observable<Product>[];
+      component.thumbs$.subscribe((i) => (thumbs = i));
+      let thumb: any;
+      thumbs[0].subscribe((p) => (thumb = p));
+      expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
+    }));
 
     describe('UI test', () => {
       it('should have cx-carousel element', () => {
@@ -167,15 +172,12 @@ describe('ProductImagesComponent', () => {
         expect(carousel).toBeTruthy();
       });
 
-      it(
-        'should have 2 rendered templates',
-        waitForAsync(() => {
-          const el = fixture.debugElement.queryAll(
-            By.css('cx-carousel cx-media')
-          );
-          expect(el.length).toEqual(2);
-        })
-      );
+      it('should have 2 rendered templates', waitForAsync(() => {
+        const el = fixture.debugElement.queryAll(
+          By.css('cx-carousel cx-media')
+        );
+        expect(el.length).toEqual(2);
+      }));
     });
   });
 
@@ -200,14 +202,11 @@ describe('ProductImagesComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it(
-      'should not have thumbnails in case there is only one GALLERY image',
-      waitForAsync(() => {
-        let items: Observable<Product>[];
-        component.thumbs$.subscribe((i) => (items = i));
-        expect(items.length).toBe(0);
-      })
-    );
+    it('should not have thumbnails in case there is only one GALLERY image', waitForAsync(() => {
+      let items: Observable<Product>[];
+      component.thumbs$.subscribe((i) => (items = i));
+      expect(items.length).toBe(0);
+    }));
 
     describe('(UI test)', () => {
       it('should not render cx-carousel for one GALLERY image', () => {

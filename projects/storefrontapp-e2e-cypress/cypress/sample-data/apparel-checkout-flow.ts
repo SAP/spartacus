@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { generateMail, randomString } from '../helpers/user';
 import { SampleCartProduct, SampleProduct, SampleUser } from './checkout-flow';
 
@@ -8,7 +14,7 @@ export function getApparelCheckoutUser() {
     firstName: 'Cypress',
     lastName: 'Customer',
     fullName: 'Cypress Customer',
-    password: 'Pw4all.',
+    password: 'Pw4al!l.',
     email: generateMail(randomString(), true),
     phone: '44 7911 123456',
     address: {
@@ -22,8 +28,8 @@ export function getApparelCheckoutUser() {
       card: 'Visa',
       number: '4111111111111111',
       expires: {
-        month: '07',
-        year: '2022',
+        month: '12',
+        year: '2027',
       },
       cvv: '123',
     },

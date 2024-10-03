@@ -1,7 +1,7 @@
 <a
-  [attr.aria-label]="
-    'miniCart.item' | cxTranslate: { count: quantity$ | async }
-  "
+  *ngIf="{ quantity: quantity$ | async } as data"
+  [attr.aria-label]="'miniCart.item' | cxTranslate: { count: data.quantity }"
+  [title]="'miniCart.item' | cxTranslate: { count: data.quantity }"
   [routerLink]="{ cxRoute: 'cart' } | cxUrl"
 >
   <cx-icon [type]="iconTypes.CART"></cx-icon>

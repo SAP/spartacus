@@ -1,13 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
-import { StrategyProducts } from '../model/strategy-products.model';
-import { MerchandisingStrategyConnector } from './../connectors/strategy/merchandising-strategy.connector';
-import { MerchandisingSiteContext } from './../model/merchandising-site-context.model';
-import { MerchandisingUserContext } from './../model/merchandising-user-context.model';
-import { CdsMerchandisingProductService } from './cds-merchandising-product.service';
-import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-context.service';
-import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
-import { CdsMerchandisingSearchContextService } from './cds-merchandising-search-context.service';
+import {
+  CdsMerchandisingProductService,
+  CdsMerchandisingSiteContextService,
+  CdsMerchandisingUserContextService,
+  MerchandisingSiteContext,
+  MerchandisingStrategyConnector,
+  MerchandisingUserContext,
+  StrategyProducts,
+  StrategyResponse,
+} from '@spartacus/cds';
+import { EMPTY, Observable, of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 const CONSENT_REFERENCE = '75b75543-950f-4e53-a36c-ab8737a0974a';
@@ -37,17 +39,12 @@ class MockStrategyConnector {
 
 class SiteContextServiceStub {
   getSiteContext(): Observable<MerchandisingSiteContext> {
-    return of();
+    return EMPTY;
   }
 }
 class UserContextServiceStub {
   getUserContext(): Observable<MerchandisingUserContext> {
-    return of();
-  }
-}
-class SearchContextServiceStub {
-  getSearchPhrase(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -56,7 +53,6 @@ describe('CdsMerchandisingProductService', () => {
   let strategyConnector: MerchandisingStrategyConnector;
   let siteContextService: CdsMerchandisingSiteContextService;
   let userContextService: CdsMerchandisingUserContextService;
-  let searchContextService: CdsMerchandisingSearchContextService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -73,10 +69,6 @@ describe('CdsMerchandisingProductService', () => {
           provide: CdsMerchandisingSiteContextService,
           useClass: SiteContextServiceStub,
         },
-        {
-          provide: CdsMerchandisingSearchContextService,
-          useClass: SearchContextServiceStub,
-        },
       ],
     });
     cdsMerchandisingPrductService = TestBed.inject(
@@ -85,7 +77,6 @@ describe('CdsMerchandisingProductService', () => {
     strategyConnector = TestBed.inject(MerchandisingStrategyConnector);
     siteContextService = TestBed.inject(CdsMerchandisingSiteContextService);
     userContextService = TestBed.inject(CdsMerchandisingUserContextService);
-    searchContextService = TestBed.inject(CdsMerchandisingSearchContextService);
   });
 
   it('should be created', () => {
@@ -116,18 +107,16 @@ describe('CdsMerchandisingProductService', () => {
     spyOn(userContextService, 'getUserContext').and.returnValue(
       of(userContext)
     );
-    spyOn(searchContextService, 'getSearchPhrase').and.returnValue(
-      of(undefined)
-    );
 
-    let actualStartegyProducts: StrategyProducts;
+    let actualStrategyProducts: StrategyResponse;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
       .subscribe((productsForStrategy) => {
-        actualStartegyProducts = productsForStrategy;
+        actualStrategyProducts = productsForStrategy;
       })
       .unsubscribe();
-    expect(actualStartegyProducts).toEqual(strategyProducts);
+    expect(actualStrategyProducts.products).toEqual(strategyProducts);
+    expect(actualStrategyProducts.request).toEqual(strategyRequest);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       strategyRequest
@@ -159,18 +148,16 @@ describe('CdsMerchandisingProductService', () => {
     spyOn(userContextService, 'getUserContext').and.returnValue(
       of(userContext)
     );
-    spyOn(searchContextService, 'getSearchPhrase').and.returnValue(
-      of(undefined)
-    );
 
-    let actualStartegyProducts: StrategyProducts;
+    let actualStrategyProducts: StrategyResponse;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
       .subscribe((productsForStrategy) => {
-        actualStartegyProducts = productsForStrategy;
+        actualStrategyProducts = productsForStrategy;
       })
       .unsubscribe();
-    expect(actualStartegyProducts).toEqual(strategyProducts);
+    expect(actualStrategyProducts.products).toEqual(strategyProducts);
+    expect(actualStrategyProducts.request).toEqual(strategyRequest);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       strategyRequest
@@ -195,6 +182,7 @@ describe('CdsMerchandisingProductService', () => {
     };
     const userContext: MerchandisingUserContext = {
       category: '574',
+      searchPhrase: searchPhrase,
     };
     spyOn(siteContextService, 'getSiteContext').and.returnValue(
       of(siteContext)
@@ -202,18 +190,16 @@ describe('CdsMerchandisingProductService', () => {
     spyOn(userContextService, 'getUserContext').and.returnValue(
       of(userContext)
     );
-    spyOn(searchContextService, 'getSearchPhrase').and.returnValue(
-      of(searchPhrase)
-    );
 
-    let actualStartegyProducts: StrategyProducts;
+    let actualStartegyProducts: StrategyResponse;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
       .subscribe((productsForStrategy) => {
         actualStartegyProducts = productsForStrategy;
       })
       .unsubscribe();
-    expect(actualStartegyProducts).toEqual(strategyProducts);
+    expect(actualStartegyProducts.products).toEqual(strategyProducts);
+    expect(actualStartegyProducts.request).toEqual(strategyRequest);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       strategyRequest
@@ -242,18 +228,16 @@ describe('CdsMerchandisingProductService', () => {
     spyOn(userContextService, 'getUserContext').and.returnValue(
       of({ products: ['123456'] })
     );
-    spyOn(searchContextService, 'getSearchPhrase').and.returnValue(
-      of(undefined)
-    );
 
-    let actualStrategyProducts: StrategyProducts;
+    let actualStrategyProducts: StrategyResponse;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
       .subscribe((productsForStrategy) => {
         actualStrategyProducts = productsForStrategy;
       })
       .unsubscribe();
-    expect(actualStrategyProducts).toEqual(strategyProducts);
+    expect(actualStrategyProducts.products).toEqual(strategyProducts);
+    expect(actualStrategyProducts.request).toEqual(strategyRequest);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       strategyRequest

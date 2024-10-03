@@ -12,7 +12,20 @@
         formControlName="name"
         (blur)="createCodeWithName(form.get('name'), form.get('code'))"
       />
-      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'orgBudget.name' | cxTranslate,
+        }"
+        [control]="form.get('name')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('name')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -26,7 +39,20 @@
         placeholder="{{ 'orgBudget.code' | cxTranslate }}"
         formControlName="code"
       />
-      <cx-form-errors [control]="form.get('code')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'orgBudget.code' | cxTranslate,
+        }"
+        [control]="form.get('code')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('code')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -38,12 +64,25 @@
         [max]="form.get('endDate')?.value"
         [required]="true"
         (update)="form.get('endDate')?.updateValueAndValidity()"
+        label="orgBudget.startDate"
       ></cx-date-picker>
     </label>
 
     <label>
       <span class="label-content">{{ 'orgBudget.endDate' | cxTranslate }}</span>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-date-picker
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [control]="$any(form.get('endDate'))"
+        [min]="form.get('startDate')?.value"
+        [required]="true"
+        (update)="form.get('startDate')?.updateValueAndValidity()"
+        label="orgBudget.endDate"
+      ></cx-date-picker>
+
+      <cx-date-picker
+        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="$any(form.get('endDate'))"
         [min]="form.get('startDate')?.value"
         [required]="true"
@@ -68,7 +107,19 @@
         [placeholder]="'orgBudget.currency' | cxTranslate"
       >
       </ng-select>
-      <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'orgBudget.currency' | cxTranslate,
+        }"
+        [control]="form.get('currency.isocode')"
+      ></cx-form-errors>
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('currency.isocode')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -81,7 +132,20 @@
         formControlName="budget"
         min="0"
       />
-      <cx-form-errors [control]="form.get('budget')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'orgBudget.amount' | cxTranslate,
+        }"
+        [control]="form.get('budget')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('budget')"
+      ></cx-form-errors>
     </label>
 
     <label
@@ -104,7 +168,20 @@
         [placeholder]="'orgBudget.businessUnits' | cxTranslate"
       >
       </ng-select>
-      <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'orgBudget.businessUnits' | cxTranslate,
+        }"
+        [control]="form.get('orgUnit.uid')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('orgUnit.uid')"
+      ></cx-form-errors>
     </label>
   </ng-container>
 </cx-org-form>

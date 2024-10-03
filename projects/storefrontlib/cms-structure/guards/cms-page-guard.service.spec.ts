@@ -10,12 +10,12 @@ import {
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
+import { CmsComponentsService } from '@spartacus/storefront';
 import { NEVER, of } from 'rxjs';
 import { CmsGuardsService } from '../services/cms-guards.service';
 import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';
 import { CmsPageGuardService } from './cms-page-guard.service';
-import { CmsComponentsService } from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
 
 const NOT_FOUND_ROUTE_NAME = 'notFound';
@@ -32,6 +32,7 @@ class MockCmsService implements Partial<CmsService> {
   getPageIndex = () => of('');
   setPageFailIndex = () => {};
 }
+
 class MockCmsRoutesService implements Partial<CmsRoutesService> {
   handleCmsRoutesInGuard = () => true;
 }

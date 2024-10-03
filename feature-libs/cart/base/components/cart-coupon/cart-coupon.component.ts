@@ -1,5 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
@@ -9,8 +19,9 @@ import {
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponService,
+  FeatureConfigService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 @Component({
@@ -19,7 +30,7 @@ import { map, tap } from 'rxjs/operators';
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
   MAX_CUSTOMER_COUPON_PAGE = 100;
-  couponForm: FormGroup;
+  couponForm: UntypedFormGroup;
   cartIsLoading$: Observable<boolean>;
   cart$: Observable<Cart>;
   cartId: string;
@@ -31,9 +42,13 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   couponBoxIsActive = false;
 
+  @Optional() protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
+
   constructor(
     protected cartVoucherService: CartVoucherFacade,
-    protected formBuilder: FormBuilder,
+    protected formBuilder: UntypedFormBuilder,
     protected customerCouponService: CustomerCouponService,
     protected activeCartService: ActiveCartFacade
   ) {}
@@ -56,7 +71,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
         ([cart, activeCardId, customerCoupons]: [
           Cart,
           string,
-          CustomerCouponSearchResult
+          CustomerCouponSearchResult,
         ]) => {
           this.cartId = activeCardId;
           this.getApplicableCustomerCoupons(
@@ -74,8 +89,16 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
     this.cartVoucherService.resetAddVoucherProcessingState();
 
+    // TODO: (CXSPA-7479) Remove feature flags next major
+    const shouldHaveRequiredValidator = !this.featureConfigService?.isEnabled(
+      'a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
+    );
+
     this.couponForm = this.formBuilder.group({
-      couponCode: ['', [Validators.required]],
+      couponCode: [
+        '',
+        shouldHaveRequiredValidator ? [Validators.required] : [],
+      ],
     });
 
     // TODO(#7241): Replace process subscriptions with event listeners and drop process for ADD_VOUCHER

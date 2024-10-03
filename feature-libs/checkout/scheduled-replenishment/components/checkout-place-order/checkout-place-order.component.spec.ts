@@ -1,8 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import {
   DaysOfWeek,
   OrderFacade,
@@ -11,8 +15,12 @@ import {
   ScheduledReplenishmentOrderFacade,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import {
+  AtMessageModule,
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '@spartacus/storefront';
+import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 import { CheckoutScheduledReplenishmentPlaceOrderComponent } from './checkout-place-order.component';
 import createSpy = jasmine.createSpy;
@@ -32,14 +40,14 @@ const mockReplenishmentOrderFormData$ =
   );
 
 class MockOrderFacade implements Partial<OrderFacade> {
-  placeOrder = createSpy().and.returnValue(of());
+  placeOrder = createSpy().and.returnValue(EMPTY);
   clearPlacedOrder = createSpy();
 }
 
 class MockScheduledReplenishmentOrderFacade
   implements Partial<ScheduledReplenishmentOrderFacade>
 {
-  scheduleReplenishmentOrder = createSpy().and.returnValue(of());
+  scheduleReplenishmentOrder = createSpy().and.returnValue(EMPTY);
 }
 
 class MockCheckoutReplenishmentFormService
@@ -56,7 +64,7 @@ class MockCheckoutReplenishmentFormService
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy().and.returnValue(of(true).toPromise());
+  go = createSpy().and.returnValue(Promise.resolve(true));
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -74,7 +82,7 @@ class MockUrlPipe implements PipeTransform {
 describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
   let component: CheckoutScheduledReplenishmentPlaceOrderComponent;
   let fixture: ComponentFixture<CheckoutScheduledReplenishmentPlaceOrderComponent>;
-  let controls: FormGroup['controls'];
+  let controls: UntypedFormGroup['controls'];
 
   let orderFacade: OrderFacade;
   let checkoutReplenishmentFormService: CheckoutReplenishmentFormService;
@@ -82,30 +90,37 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
   let launchDialogService: LaunchDialogService;
   let scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
-        declarations: [
-          MockUrlPipe,
-          CheckoutScheduledReplenishmentPlaceOrderComponent,
-        ],
-        providers: [
-          { provide: OrderFacade, useClass: MockOrderFacade },
-          {
-            provide: CheckoutReplenishmentFormService,
-            useClass: MockCheckoutReplenishmentFormService,
-          },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: ScheduledReplenishmentOrderFacade,
-            useClass: MockScheduledReplenishmentOrderFacade,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        AtMessageModule,
+      ],
+      declarations: [
+        MockUrlPipe,
+        CheckoutScheduledReplenishmentPlaceOrderComponent,
+      ],
+      providers: [
+        { provide: OrderFacade, useClass: MockOrderFacade },
+        {
+          provide: CheckoutReplenishmentFormService,
+          useClass: MockCheckoutReplenishmentFormService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: ScheduledReplenishmentOrderFacade,
+          useClass: MockScheduledReplenishmentOrderFacade,
+        },
+        {
+          provide: GlobalMessageService,
+          useValue: {},
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

@@ -1,14 +1,23 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
+import { LoggerService } from '../../../logger';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { CustomerCouponConnector } from '../../connectors/customer-coupon/customer-coupon.connector';
 import * as fromCustomerCouponsAction from '../actions/customer-coupon.action';
 
 @Injectable()
 export class CustomerCouponEffects {
+  protected logger = inject(LoggerService);
+
   loadCustomerCoupons$: Observable<fromCustomerCouponsAction.CustomerCouponAction> =
     createEffect(() =>
       this.actions$.pipe(
@@ -34,7 +43,7 @@ export class CustomerCouponEffects {
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.LoadCustomerCouponsFail(
-                    normalizeHttpError(error)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -63,7 +72,7 @@ export class CustomerCouponEffects {
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.SubscribeCustomerCouponFail(
-                    normalizeHttpError(error)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -92,7 +101,7 @@ export class CustomerCouponEffects {
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(
-                    normalizeHttpError(error)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -121,7 +130,36 @@ export class CustomerCouponEffects {
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.ClaimCustomerCouponFail(
-                    normalizeHttpError(error)
+                    tryNormalizeHttpError(error, this.logger)
+                  )
+                )
+              )
+            );
+        })
+      )
+    );
+
+  disclaimCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(fromCustomerCouponsAction.DISCLAIM_CUSTOMER_COUPON),
+        map(
+          (action: fromCustomerCouponsAction.DisclaimCustomerCoupon) =>
+            action.payload
+        ),
+        mergeMap((payload) => {
+          return this.customerCouponConnector
+            .disclaimCustomerCoupon(payload.userId, payload.couponCode)
+            .pipe(
+              map((data) => {
+                return new fromCustomerCouponsAction.DisclaimCustomerCouponSuccess(
+                  data
+                );
+              }),
+              catchError((error) =>
+                of(
+                  new fromCustomerCouponsAction.DisclaimCustomerCouponFail(
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )

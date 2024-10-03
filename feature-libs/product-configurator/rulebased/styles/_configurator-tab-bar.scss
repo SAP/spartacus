@@ -30,7 +30,7 @@
       }
 
       a {
-        color: black;
+        color: var(--cx-color-text);
         cursor: pointer;
         padding: 0.5rem 0 0 0;
         text-align: center;
@@ -41,6 +41,9 @@
 
         @include media-breakpoint-down(sm) {
           inline-size: 50%;
+          @include forFeature('a11yMobileVisibleFocus') {
+            outline-offset: -2px !important;
+          }
         }
 
         @include media-breakpoint-down(sm) {
@@ -71,7 +74,7 @@
 
         &.active,
         &:hover {
-          color: var(--cx-color-primary);
+          color: var(--cx-color-primary-accent);
           text-decoration: none;
         }
 
@@ -86,7 +89,7 @@
         }
 
         &:not(.active):hover:after {
-          opacity: 0.5;
+          opacity: 1;
         }
       }
     }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   LoadStatus,
@@ -7,11 +13,12 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { filter, first, switchMap, take } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
 import { MessageService } from '../message/services/message.service';
+import { BaseItem } from '../organization.model';
 import { CellComponent } from '../table/cell.component';
 import { SubListService } from './sub-list.service';
 
@@ -24,7 +31,7 @@ import { SubListService } from './sub-list.service';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AssignCellComponent<T> extends CellComponent {
+export class AssignCellComponent<T extends BaseItem> extends CellComponent {
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
     protected organizationItemService: ItemService<T>,
@@ -67,7 +74,7 @@ export class AssignCellComponent<T> extends CellComponent {
       (this.organizationSubListService as SubListService<T>).assign?.(
         key,
         linkKey
-      ) ?? of()
+      ) ?? EMPTY
     );
   }
 
@@ -79,7 +86,7 @@ export class AssignCellComponent<T> extends CellComponent {
       (this.organizationSubListService as SubListService<T>).unassign?.(
         key,
         linkKey
-      ) ?? of()
+      ) ?? EMPTY
     );
   }
 

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Config } from '../../../config/config-tokens';
 
@@ -41,9 +47,11 @@ export interface PageMetaResolverConfig {
   method: string;
 
   /**
-   * Disables specific resolvers in CSR mode. Some of the resolvers are
-   * not needed in CSR app, as they're only used for crawlers who will
-   * be served from SSR rendered pages.
+   * Disables specific resolvers in CSR mode.
+   *
+   * @deprecated since 2211.31 - this option will be removed in the future together
+   *              with the feature toggle `allPageMetaResolversEnabledInCsr`
+   *              (then all resolvers will be enabled in CSR).
    */
   disabledInCsr?: boolean;
 }

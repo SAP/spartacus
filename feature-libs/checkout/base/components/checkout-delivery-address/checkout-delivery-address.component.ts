@@ -1,4 +1,16 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Optional,
+  inject,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -7,14 +19,15 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  getLastValueSync,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   TranslationService,
   UserAddressService,
+  getLastValueSync,
 } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { Card, getAddressNumbers } from '@spartacus/storefront';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -22,6 +35,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { CheckoutConfigService } from '../services';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 export interface CardWithAddress {
@@ -35,6 +49,10 @@ export interface CardWithAddress {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutDeliveryAddressComponent implements OnInit {
+  protected checkoutConfigService = inject(CheckoutConfigService);
+  @Optional() protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
   protected busy$ = new BehaviorSubject<boolean>(false);
 
   cards$: Observable<CardWithAddress[]>;
@@ -42,6 +60,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   addressFormOpened = false;
   doneAutoSelect = false;
+
+  selectedAddress?: Address;
 
   get isGuestCheckout(): boolean {
     return !!getLastValueSync(this.activeCartFacade.isGuestCart());
@@ -82,12 +102,21 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     selected: any,
     textDefaultDeliveryAddress: string,
     textShipToThisAddress: string,
-    textSelected: string
+    textSelected: string,
+    textPhone: string,
+    textMobile: string
   ): Card {
+    // TODO: (CXSPA-6956) - Remove feature flag in next major release
+    const hideSelectActionForSelected = this.featureConfigService?.isEnabled(
+      'a11yHideSelectBtnForSelectedAddrOrPayment'
+    );
     let region = '';
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
     }
+
+    const numbers = getAddressNumbers(address, textPhone, textMobile);
+    const isSelected: boolean = selected && selected.id === address.id;
 
     return {
       role: 'region',
@@ -98,10 +127,13 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         address.line2,
         address.town + ', ' + region + address.country?.isocode,
         address.postalCode,
-        address.phone,
+        numbers,
       ],
-      actions: [{ name: textShipToThisAddress, event: 'send' }],
-      header: selected && selected.id === address.id ? textSelected : '',
+      actions:
+        hideSelectActionForSelected && isSelected
+          ? []
+          : [{ name: textShipToThisAddress, event: 'send' }],
+      header: isSelected ? textSelected : '',
       label: address.defaultAddress
         ? 'addressBook.defaultDeliveryAddress'
         : 'addressBook.additionalDeliveryAddress',
@@ -124,11 +156,20 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   addAddress(address: Address | undefined): void {
+    if (
+      !address &&
+      this.shouldUseAddressSavedInCart() &&
+      this.selectedAddress
+    ) {
+      this.next();
+    }
+
     if (!address) {
       return;
     }
 
     this.busy$.next(true);
+    this.doneAutoSelect = true;
 
     this.checkoutDeliveryAddressFacade
       .createAndSetAddress(address)
@@ -144,6 +185,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         },
         error: () => {
           this.onError();
+          this.doneAutoSelect = false;
         },
       });
   }
@@ -174,29 +216,41 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   protected createCards(): Observable<CardWithAddress[]> {
-    return combineLatest([
+    const addresses$ = combineLatest([
       this.getSupportedAddresses(),
       this.selectedAddress$,
+    ]);
+    const translations$ = combineLatest([
       this.translationService.translate(
         'checkoutAddress.defaultDeliveryAddress'
       ),
       this.translationService.translate('checkoutAddress.shipToThisAddress'),
       this.translationService.translate('addressCard.selected'),
-    ]).pipe(
-      tap(([addresses, selected]) =>
+      this.translationService.translate('addressCard.phoneNumber'),
+      this.translationService.translate('addressCard.mobileNumber'),
+    ]);
+
+    return combineLatest([addresses$, translations$]).pipe(
+      tap(([[addresses, selected]]) =>
         this.selectDefaultAddress(addresses, selected)
       ),
-      map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
-        addresses.map((address) => ({
-          address,
-          card: this.getCardContent(
+      map(
+        ([
+          [addresses, selected],
+          [textDefault, textShipTo, textSelected, textPhone, textMobile],
+        ]) =>
+          addresses?.map((address) => ({
             address,
-            selected,
-            textDefault,
-            textShipTo,
-            textSelected
-          ),
-        }))
+            card: this.getCardContent(
+              address,
+              selected,
+              textDefault,
+              textShipTo,
+              textSelected,
+              textPhone,
+              textMobile
+            ),
+          }))
       )
     );
   }
@@ -215,6 +269,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         this.setAddress(selected);
       }
       this.doneAutoSelect = true;
+    } else if (selected && this.shouldUseAddressSavedInCart()) {
+      this.selectedAddress = selected;
     }
   }
 
@@ -268,5 +324,9 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   protected onError(): void {
     this.busy$.next(false);
+  }
+
+  protected shouldUseAddressSavedInCart(): boolean {
+    return !!this.checkoutConfigService?.shouldUseAddressSavedInCart();
   }
 }

@@ -1,5 +1,10 @@
-import { PaymentDetails } from '@spartacus/cart/base/root';
-import { Address, CxEvent } from '@spartacus/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Address, CxEvent, PaymentDetails } from '@spartacus/core';
 
 /**
  * Emit this event to force checkout details reload

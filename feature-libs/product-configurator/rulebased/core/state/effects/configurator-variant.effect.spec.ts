@@ -4,7 +4,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorType,
@@ -47,6 +47,14 @@ const variants: Configurator.Variant[] = [
 
 let configuratorCoreConfig: ConfiguratorCoreConfig;
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('ConfiguratorVariantEffect', () => {
   let searchVariantsMock: jasmine.Spy;
 
@@ -59,6 +67,7 @@ describe('ConfiguratorVariantEffect', () => {
     configuratorCoreConfig = {
       productConfigurator: { enableVariantSearch: true },
     };
+    productConfiguration.owner.configuratorType = ConfiguratorType.VARIANT;
 
     class MockConnector {
       searchVariants = searchVariantsMock;
@@ -86,6 +95,7 @@ describe('ConfiguratorVariantEffect', () => {
           provide: ConfiguratorCoreConfig,
           useValue: configuratorCoreConfig,
         },
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
@@ -123,6 +133,16 @@ describe('ConfiguratorVariantEffect', () => {
     expect(configEffects.searchVariants$).toBeObservable(expected);
   });
 
+  it('should not emit anything for wrong configurator type', () => {
+    const action = new ConfiguratorActions.SearchVariants(productConfiguration);
+    productConfiguration.owner.configuratorType = ConfiguratorType.CPQ;
+
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-');
+
+    expect(configEffects.searchVariants$).toBeObservable(expected);
+  });
+
   it('should not emit anything if variant search configuration is incomplete', () => {
     const action = new ConfiguratorActions.SearchVariants(productConfiguration);
 
@@ -145,17 +165,58 @@ describe('ConfiguratorVariantEffect', () => {
   });
 
   it('should emit a fail action in case something goes wrong', () => {
-    searchVariantsMock.and.returnValue(throwError(errorResponse));
+    searchVariantsMock.and.returnValue(throwError(() => errorResponse));
 
     const action = new ConfiguratorActions.SearchVariants(productConfiguration);
 
     const completionFailure = new ConfiguratorActions.SearchVariantsFail({
       ownerKey: productConfiguration.owner.key,
-      error: normalizeHttpError(errorResponse),
+      error: normalizeHttpError(errorResponse, new MockLoggerService()),
     });
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completionFailure });
 
     expect(configEffects.searchVariants$).toBeObservable(expected);
+  });
+
+  describe('searchVariantsInCaseNotActive', () => {
+    it('should emit success in case it is called with the variant feature not enabled (in order to reset loading status)', () => {
+      const action = new ConfiguratorActions.SearchVariants(
+        productConfiguration
+      );
+      if (configuratorCoreConfig.productConfigurator) {
+        configuratorCoreConfig.productConfigurator.enableVariantSearch = false;
+      }
+      const completion = new ConfiguratorActions.SearchVariantsSuccess({
+        ownerKey: productConfiguration.owner.key,
+        variants: [],
+      });
+      actions$ = cold('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(configEffects.searchVariantsInCaseNotActive$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should emit success in case it is called with the variant feature enabled but for wrong configurator type (in order to reset loading status)', () => {
+      const action = new ConfiguratorActions.SearchVariants(
+        productConfiguration
+      );
+      action.payload.owner.configuratorType = ConfiguratorType.CPQ;
+      if (configuratorCoreConfig.productConfigurator) {
+        configuratorCoreConfig.productConfigurator.enableVariantSearch = true;
+      }
+      const completion = new ConfiguratorActions.SearchVariantsSuccess({
+        ownerKey: productConfiguration.owner.key,
+        variants: [],
+      });
+      actions$ = cold('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(configEffects.searchVariantsInCaseNotActive$).toBeObservable(
+        expected
+      );
+    });
   });
 });

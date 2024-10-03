@@ -1,13 +1,24 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CurrencyService, I18nModule, UrlModule } from '@spartacus/core';
+import {
+  CurrencyService,
+  FeaturesConfigModule,
+  I18nModule,
+  UrlModule,
+} from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { ItemActiveModule } from '../../shared/item-active.module';
 import { FormModule } from '../../shared/form/form.module';
+import { ItemActiveModule } from '../../shared/item-active.module';
 import { CostCenterFormComponent } from './cost-center-form.component';
 
 @NgModule({
@@ -21,6 +32,7 @@ import { CostCenterFormComponent } from './cost-center-form.component';
     ReactiveFormsModule,
     FormErrorsModule,
     ItemActiveModule,
+    FeaturesConfigModule,
   ],
   declarations: [CostCenterFormComponent],
   exports: [CostCenterFormComponent],

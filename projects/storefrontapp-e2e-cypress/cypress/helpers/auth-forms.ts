@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /* Use this methods if you need to test UI for login/register (eg. form validation).
  If you only need to be logged in to check other feature use `requireLoggedIn` command */
 
@@ -17,7 +23,7 @@ export function fillRegistrationForm(
   cy.log(`🛒 Registering user ${email} from the registration page`);
   cy.get('cx-register form').should('be.visible');
   cy.get('cx-register form').within(() => {
-    cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
+    cy.get('[formcontrolname="titleCode"]').ngSelect('Mr');
     cy.get('[formcontrolname="firstName"]').type(firstName);
     cy.get('[formcontrolname="lastName"]').type(lastName);
     cy.get('[formcontrolname="email"]').type(email);
@@ -44,6 +50,20 @@ export function fillLoginForm({ username, password }: LoginUser) {
   });
 }
 
+export function fillKymaLoginForm({ username, password }: LoginUser) {
+  cy.origin(
+    `${Cypress.env('API_URL')}`,
+    { args: { username, password } },
+    ({ username, password }) => {
+      cy.get('form[id="loginForm"]').within(() => {
+        cy.get('input[name="username"]').clear().type(username);
+        cy.get('input[name="password"]').clear().type(password);
+        cy.get('input[type=submit]').click();
+      });
+    }
+  );
+}
+
 export function register(
   user: SampleUser,
   giveRegistrationConsent = false,
@@ -55,6 +75,24 @@ export function register(
     cy.get('button[type="submit"]').click();
     cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
   });
+}
+
+export function registerWithCaptcha(
+  user: SampleUser,
+  giveRegistrationConsent = false,
+  hiddenConsent?
+) {
+  fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
+  const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.get('button[type="submit"]').click();
+  // Register a user without confirming captcha will have an error.
+  cy.get('cx-form-errors.control-invalid').should('exist');
+  // Confirming captcha
+  cy.get('.mock-captcha').click();
+  cy.contains('label', 'Verified', { timeout: 10000 }).should('be.visible');
+  cy.get('cx-form-errors.control-invalid').should('not.exist');
+  cy.get('button[type="submit"]').click();
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function login(username: string, password: string) {

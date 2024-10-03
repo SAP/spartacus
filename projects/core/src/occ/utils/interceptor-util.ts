@@ -1,7 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpHeaders, HttpRequest } from '@angular/common/http';
 
 export const USE_CLIENT_TOKEN = 'cx-use-client-token';
 export const USE_CUSTOMER_SUPPORT_AGENT_TOKEN = 'cx-use-csagent-token';
+export const USE_CAPTCHA_TOKEN = 'sap-commerce-cloud-captcha-token';
 
 export class InterceptorUtil {
   static createHeader<T>(

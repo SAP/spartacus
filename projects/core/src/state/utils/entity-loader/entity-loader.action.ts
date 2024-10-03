@@ -1,5 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
-import { entityMeta, EntityMeta } from '../entity/entity.action';
+import { ErrorAction } from '../../../error-handling';
+import { EntityId, entityMeta, EntityMeta } from '../entity/entity.action';
 import {
   failMeta,
   LoaderMeta,
@@ -22,7 +29,7 @@ export interface EntityLoaderAction extends Action {
 
 export function entityLoadMeta(
   entityType: string,
-  id: string | string[] | null
+  id: EntityId
 ): EntityLoaderMeta {
   return {
     ...loadMeta(entityType),
@@ -32,7 +39,22 @@ export function entityLoadMeta(
 
 export function entityFailMeta(
   entityType: string,
-  id: string | string[] | null,
+  id: EntityId,
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  error: any
+): EntityLoaderMeta;
+/**
+ * @deprecated Please pass the argument `error`.
+ *             It will become mandatory along with removing
+ *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+ */
+export function entityFailMeta(
+  entityType: string,
+  id: EntityId
+): EntityLoaderMeta;
+export function entityFailMeta(
+  entityType: string,
+  id: EntityId,
   error?: any
 ): EntityLoaderMeta {
   return {
@@ -43,7 +65,7 @@ export function entityFailMeta(
 
 export function entitySuccessMeta(
   entityType: string,
-  id: string | string[] | null
+  id: EntityId
 ): EntityLoaderMeta {
   return {
     ...successMeta(entityType),
@@ -53,7 +75,7 @@ export function entitySuccessMeta(
 
 export function entityResetMeta(
   entityType: string,
-  id?: string | string[] | null
+  id?: EntityId
 ): EntityLoaderMeta {
   return {
     ...resetMeta(entityType),
@@ -64,16 +86,27 @@ export function entityResetMeta(
 export class EntityLoadAction implements EntityLoaderAction {
   type = ENTITY_LOAD_ACTION;
   readonly meta: EntityLoaderMeta;
-  constructor(entityType: string, id: string | string[] | null) {
+  constructor(entityType: string, id: EntityId) {
     this.meta = entityLoadMeta(entityType, id);
   }
 }
 
-export class EntityFailAction implements EntityLoaderAction {
+export class EntityFailAction implements EntityLoaderAction, ErrorAction {
   type = ENTITY_FAIL_ACTION;
   readonly meta: EntityLoaderMeta;
-  constructor(entityType: string, id: string | string[] | null, error?: any) {
+  public error: any;
+
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(entityType: string, id: EntityId, error: any);
+  /**
+   * @deprecated Please pass the argument `error`.
+   *             It will become mandatory along with removing
+   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
+   */
+  constructor(entityType: string, id: EntityId);
+  constructor(entityType: string, id: EntityId, error?: any) {
     this.meta = entityFailMeta(entityType, id, error);
+    this.error = error;
   }
 }
 
@@ -82,7 +115,7 @@ export class EntitySuccessAction implements EntityLoaderAction {
   readonly meta: EntityLoaderMeta;
   constructor(
     entityType: string,
-    id: string | string[] | null,
+    id: EntityId,
     public payload?: any
   ) {
     this.meta = entitySuccessMeta(entityType, id);
@@ -92,7 +125,7 @@ export class EntitySuccessAction implements EntityLoaderAction {
 export class EntityLoaderResetAction implements EntityLoaderAction {
   type = ENTITY_RESET_ACTION;
   readonly meta: EntityLoaderMeta;
-  constructor(entityType: string, id: string | string[] | null) {
+  constructor(entityType: string, id: EntityId) {
     this.meta = entityResetMeta(entityType, id);
   }
 }

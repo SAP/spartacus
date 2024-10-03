@@ -1,19 +1,28 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { getLocaleId } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
+  inject,
   isDevMode,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { TranslationService } from '@spartacus/core';
+import { UntypedFormControl } from '@angular/forms';
+import { LoggerService, TranslationService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { timer } from 'rxjs';
 import { debounce, take } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import {
   ConfiguratorAttributeNumericInputFieldService,
@@ -39,15 +48,25 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   locale: string;
   iconType = ICON_TYPE;
   intervals: ConfiguratorAttributeNumericInterval[] = [];
+  language: string;
 
-  @Input() language: string;
+  protected logger = inject(LoggerService);
 
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
     protected config: ConfiguratorUISettingsConfig,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {
-    super(config);
+    super(
+      config,
+      attributeComponentContext,
+      configuratorCommonsService,
+      configuratorStorefrontUtilsService
+    );
+    this.language = attributeComponentContext.language;
   }
 
   /**
@@ -61,7 +80,45 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     return wrongFormat;
   }
 
+  /**
+   * Do we need to display a validation message concerning intervals
+   */
+  mustDisplayIntervalMessage(): boolean {
+    const intervalNotMet: boolean =
+      (this.attributeInputForm.dirty || this.attributeInputForm.touched) &&
+      this.attributeInputForm.errors?.intervalNotMet;
+    return intervalNotMet;
+  }
+
   ngOnInit() {
+    this.initializeValidation();
+
+    if (this.attribute.userInput) {
+      this.attributeInputForm.setValue(this.attribute.userInput);
+    }
+
+    if (
+      this.ownerType === CommonConfigurator.OwnerType.CART_ENTRY &&
+      this.attribute.required &&
+      this.attribute.incomplete &&
+      !this.attributeInputForm.value
+    ) {
+      this.attributeInputForm.markAsTouched();
+    }
+
+    this.sub = this.attributeInputForm.valueChanges
+      .pipe(
+        debounce(() =>
+          timer(
+            this.config.productConfigurator?.updateDebounceTime?.input ??
+              this.FALLBACK_DEBOUNCE_TIME
+          )
+        )
+      )
+      .subscribe(() => this.onChange());
+  }
+
+  protected initializeValidation() {
     //locales are available as 'languages' in the commerce backend
     this.locale = this.getInstalledLocale(this.language);
 
@@ -82,20 +139,39 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       numTotalLength = defaultSettings.numTotalLength;
       negativeAllowed = defaultSettings.negativeAllowed;
       if (isDevMode()) {
-        console.warn(
+        this.logger.warn(
           'Meta data for numeric attribute not present, falling back to defaults'
         );
       }
     }
+    if (this.attribute.intervalInDomain) {
+      this.intervals =
+        this.configAttributeNumericInputFieldService.getIntervals(
+          this.attribute.values
+        );
+    }
 
-    this.attributeInputForm = new FormControl('', [
+    const numberFormatValidator =
       this.configAttributeNumericInputFieldService.getNumberFormatValidator(
         this.locale,
         numDecimalPlaces,
         numTotalLength,
         negativeAllowed
+      );
+
+    const validatorArray = [
+      numberFormatValidator,
+      this.configAttributeNumericInputFieldService.getIntervalValidator(
+        this.locale,
+        numDecimalPlaces,
+        numTotalLength,
+        negativeAllowed,
+        this.intervals,
+        this.attribute.userInput
       ),
-    ]);
+    ];
+
+    this.attributeInputForm = new UntypedFormControl('', validatorArray);
 
     this.numericFormatPattern =
       this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
@@ -104,36 +180,6 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         negativeAllowed,
         this.locale
       );
-    if (this.attribute.userInput) {
-      this.attributeInputForm.setValue(this.attribute.userInput);
-    }
-
-    if (
-      this.ownerType === CommonConfigurator.OwnerType.CART_ENTRY &&
-      this.attribute.required &&
-      this.attribute.incomplete &&
-      !this.attributeInputForm.value
-    ) {
-      this.attributeInputForm.markAsTouched();
-    }
-
-    if (this.attribute.intervalInDomain) {
-      this.intervals =
-        this.configAttributeNumericInputFieldService.getIntervals(
-          this.attribute.values
-        );
-    }
-
-    this.sub = this.attributeInputForm.valueChanges
-      .pipe(
-        debounce(() =>
-          timer(
-            this.config.productConfigurator?.updateDebounceTime?.input ??
-              this.FALLBACK_DEBOUNCE_TIME
-          )
-        )
-      )
-      .subscribe(() => this.onChange());
   }
 
   ngOnDestroy() {
@@ -229,65 +275,96 @@ export class ConfiguratorAttributeNumericInputFieldComponent
           .subscribe((text) => (intervalText = text));
         return intervalText;
       }
-      this.translation
-        .translate('configurator.a11y.numericIntervalStandard', {
-          minValue: formattedMinValue,
-          maxValue: formattedMaxValue,
-        })
-        .pipe(take(1))
-        .subscribe((text) => (intervalText = text));
+      intervalText = this.getTextForRealInterval(
+        formattedMinValue,
+        formattedMaxValue,
+        intervalText,
+        interval
+      );
+    } else {
+      intervalText = this.getTextForPartialInterval(
+        interval,
+        intervalText,
+        formattedMinValue,
+        formattedMaxValue
+      );
+    }
+    return intervalText;
+  }
 
-      if (!interval.minValueIncluded || !interval.maxValueIncluded) {
-        if (!interval.minValueIncluded && !interval.maxValueIncluded) {
-          intervalText += ' ';
-          intervalText += this.getAdditionalIntervalText(
-            'configurator.a11y.numericIntervalStandardOpen'
-          );
-        } else {
-          if (!interval.minValueIncluded) {
-            intervalText += ' ';
-            intervalText += this.getAdditionalIntervalText(
-              'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
-            );
-          }
-          if (!interval.maxValueIncluded) {
-            intervalText += ' ';
-            intervalText += this.getAdditionalIntervalText(
-              'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
-            );
-          }
-        }
+  protected getTextForPartialInterval(
+    interval: ConfiguratorAttributeNumericInterval,
+    intervalText: string,
+    formattedMinValue: string,
+    formattedMaxValue: string
+  ) {
+    if (interval.minValue) {
+      if (interval.minValueIncluded) {
+        intervalText = this.getInfiniteIntervalText(
+          'configurator.a11y.numericInfiniteIntervalMinValueIncluded',
+          formattedMinValue
+        );
+      } else {
+        intervalText = this.getInfiniteIntervalText(
+          'configurator.a11y.numericInfiniteIntervalMinValue',
+          formattedMinValue
+        );
       }
     } else {
-      if (interval.minValue) {
-        if (interval.minValueIncluded) {
+      if (interval.maxValue) {
+        if (interval.maxValueIncluded) {
           intervalText = this.getInfiniteIntervalText(
-            'configurator.a11y.numericInfiniteIntervalMinValueIncluded',
-            formattedMinValue
+            'configurator.a11y.numericInfiniteIntervalMaxValueIncluded',
+            formattedMaxValue
           );
         } else {
           intervalText = this.getInfiniteIntervalText(
-            'configurator.a11y.numericInfiniteIntervalMinValue',
-            formattedMinValue
+            'configurator.a11y.numericInfiniteIntervalMaxValue',
+            formattedMaxValue
           );
-        }
-      } else {
-        if (interval.maxValue) {
-          if (interval.maxValueIncluded) {
-            intervalText = this.getInfiniteIntervalText(
-              'configurator.a11y.numericInfiniteIntervalMaxValueIncluded',
-              formattedMaxValue
-            );
-          } else {
-            intervalText = this.getInfiniteIntervalText(
-              'configurator.a11y.numericInfiniteIntervalMaxValue',
-              formattedMaxValue
-            );
-          }
         }
       }
     }
     return intervalText;
+  }
+
+  protected getTextForRealInterval(
+    formattedMinValue: string,
+    formattedMaxValue: string,
+    intervalText: string,
+    interval: ConfiguratorAttributeNumericInterval
+  ) {
+    let textToReturn = intervalText;
+    this.translation
+      .translate('configurator.a11y.numericIntervalStandard', {
+        minValue: formattedMinValue,
+        maxValue: formattedMaxValue,
+      })
+      .pipe(take(1))
+      .subscribe((text) => (textToReturn = text));
+
+    if (!interval.minValueIncluded || !interval.maxValueIncluded) {
+      if (!interval.minValueIncluded && !interval.maxValueIncluded) {
+        textToReturn += ' ';
+        textToReturn += this.getAdditionalIntervalText(
+          'configurator.a11y.numericIntervalStandardOpen'
+        );
+      } else {
+        if (!interval.minValueIncluded) {
+          textToReturn += ' ';
+          textToReturn += this.getAdditionalIntervalText(
+            'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
+          );
+        }
+        if (!interval.maxValueIncluded) {
+          textToReturn += ' ';
+          textToReturn += this.getAdditionalIntervalText(
+            'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
+          );
+        }
+      }
+    }
+    return textToReturn;
   }
 
   protected getAdditionalIntervalText(key: string): string {
@@ -326,7 +403,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
   protected reportMissingLocaleData(lang: string): void {
     if (isDevMode()) {
-      console.warn(
+      this.logger.warn(
         `ConfigAttributeNumericInputFieldComponent: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
       );
     }

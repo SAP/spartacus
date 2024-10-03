@@ -1,24 +1,42 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nModule,
-  provideDefaultConfig,
   UrlModule,
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  SpinnerModule,
   NgSelectA11yModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
+import { USE_MY_ACCOUNT_V2_PROFILE } from './use-my-account-v2-profile';
+
+const myAccountV2ProfileMapping: CmsConfig = {
+  cmsComponents: {
+    UpdateProfileComponent: {
+      component: MyAccountV2ProfileComponent,
+    },
+  },
+};
 
 @NgModule({
   imports: [
@@ -32,7 +50,10 @@ import { UpdateProfileComponent } from './update-profile.component';
     UrlModule,
     NgSelectModule,
     NgSelectA11yModule,
+    FeaturesConfigModule,
   ],
+  declarations: [UpdateProfileComponent, MyAccountV2ProfileComponent],
+  exports: [UpdateProfileComponent, MyAccountV2ProfileComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -49,7 +70,9 @@ import { UpdateProfileComponent } from './update-profile.component';
         },
       },
     }),
+    provideDefaultConfigFactory(() =>
+      inject(USE_MY_ACCOUNT_V2_PROFILE) ? myAccountV2ProfileMapping : {}
+    ),
   ],
-  declarations: [UpdateProfileComponent],
 })
 export class UpdateProfileModule {}

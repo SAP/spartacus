@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
 import { EntityState } from './entity-state';
 import { EntityAction } from './entity.action';
@@ -30,24 +36,7 @@ export function entityReducer<T, V extends Action = Action>(
 
       // remove selected entities
       if (action.meta.entityRemove) {
-        if (action.meta.entityId === null) {
-          return initialEntityState;
-        } else {
-          let removed = false;
-          const newEntities = Object.keys(state.entities).reduce(
-            (acc: any, cur) => {
-              if (ids.includes(cur)) {
-                removed = true;
-              } else {
-                acc[cur] = state.entities[cur];
-              }
-              return acc;
-            },
-            {}
-          );
-
-          return removed ? { entities: newEntities } : state;
-        }
+        return removeSelectedEntities(action, state, ids);
       }
 
       partitionPayload =
@@ -78,4 +67,29 @@ export function entityReducer<T, V extends Action = Action>(
 
     return state;
   };
+
+  function removeSelectedEntities(
+    action: EntityAction,
+    state: EntityState<T>,
+    ids: string | string[]
+  ) {
+    if (action?.meta?.entityId === null) {
+      return initialEntityState;
+    } else {
+      let removed = false;
+      const newEntities = Object.keys(state.entities).reduce(
+        (acc: any, cur) => {
+          if (ids.includes(cur)) {
+            removed = true;
+          } else {
+            acc[cur] = state.entities[cur];
+          }
+          return acc;
+        },
+        {}
+      );
+
+      return removed ? { entities: newEntities } : state;
+    }
+  }
 }

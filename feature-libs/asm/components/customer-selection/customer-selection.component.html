@@ -1,50 +1,253 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="customerSelectionForm">
+<form
+  *cxFeature="'showSearchingCustomerByOrderInASM'"
+  (ngSubmit)="onSubmit()"
+  [formGroup]="customerSelectionForm"
+>
+  <span class="searchLabel">{{
+    'asm.customerSearch.customer' | cxTranslate
+  }}</span>
   <label>
     <input
       required="true"
       #searchTerm
       type="text"
       formControlName="searchTerm"
-      placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
+      [attr.aria-label]="
+        'asm.customerSearch.searchCustomer.label' | cxTranslate
+      "
+      placeholder="{{
+        'asm.customerSearch.searchCustomer.label' | cxTranslate
+      }}"
+      (keydown.arrowdown)="focusFirstItem($event)"
+      (keydown.end)="setSelectionEnd($event)"
     />
-    <cx-form-errors
-      [control]="customerSelectionForm.get('searchTerm')"
-    ></cx-form-errors>
+
+    <div *ngIf="searchResults | async as results" #resultList>
+      <div
+        *ngIf="
+          isNoResultMessageInfoVisible(results, searchByCustomer, searchTerm)
+        "
+        class="cx-message cx-message-info selection-message-info"
+      >
+        <div class="cx-message-content">
+          <div class="cx-message-header">
+            <span class="cx-message-icon">
+              <cx-icon
+                class="cx-icon fas fa-info-circle"
+                ng-reflect-type="INFO"
+              ></cx-icon>
+            </span>
+            <span class="cx-message-text"
+              >{{ 'asm.customerSearch.noCustomerMatchResult' | cxTranslate }}
+            </span>
+            <span
+              #createCustomerLink
+              class="linkStyleLabel"
+              (click)="createCustomer()"
+            >
+              {{ 'asm.customerSearch.createCustomer' | cxTranslate }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="isSearchResultsVisible(results, searchByCustomer)"
+        class="asm-results"
+      >
+        <button
+          #searchResultItem
+          *ngFor="let result of results.entries; let i = index"
+          [tabindex]="activeFocusedButtonIndex === i ? 0 : -1"
+          [attr.aria-selected]="activeFocusedButtonIndex === i"
+          [class.active]="activeFocusedButtonIndex === i"
+          (keydown.arrowup)="focusPreviousChild($event)"
+          (keydown.arrowdown)="focusNextChild($event)"
+          (keydown.arrowright)="focusInputText($event)"
+          (keydown.arrowleft)="focusInputText($event)"
+          (keydown.enter)="selectCustomerFromList($event, result)"
+          (keydown.escape)="closeResults($event)"
+          (keydown.home)="focusInputText($event)"
+          (keydown.end)="focusInputText($event)"
+          (click)="selectCustomerFromList($event, result)"
+        >
+          <div class="result-name">{{ result.name }}</div>
+          <div class="result-id">
+            <span>{{ result.uid }}</span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <div class="asm-results" *ngIf="isLoading && searchByCustomer">
+      <cx-dot-spinner
+        aria-hidden="false"
+        [attr.aria-label]="'common.loading' | cxTranslate"
+      ></cx-dot-spinner>
+    </div>
   </label>
-  <button type="submit">
+  <span class="searchLabel">{{
+    'asm.customerSearch.orderID' | cxTranslate
+  }}</span>
+
+  <label>
+    <input
+      required="true"
+      #searchOrder
+      type="text"
+      formControlName="searchOrder"
+      [attr.aria-label]="'asm.customerSearch.searchOrder.label' | cxTranslate"
+      placeholder="{{ 'asm.customerSearch.searchOrder.label' | cxTranslate }}"
+      (keydown.arrowdown)="focusFirstItem($event)"
+      (keydown.end)="setOrderSearchSelectionEnd($event)"
+    />
+    <div *ngIf="searchResults | async as results" #resultList>
+      <div
+        *ngIf="
+          isNoResultMessageInfoVisible(results, searchByOrder, searchOrder)
+        "
+        class="cx-message cx-message-info selection-message-info"
+      >
+        <div class="cx-message-content">
+          <div class="cx-message-header">
+            <span class="cx-message-icon">
+              <cx-icon
+                class="cx-icon fas fa-info-circle"
+                ng-reflect-type="INFO"
+              ></cx-icon>
+            </span>
+            <span class="cx-message-text">
+              {{ 'asm.customerSearch.noOrderMatchResult' | cxTranslate }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="isSearchResultsVisible(results, searchByOrder)"
+        class="asm-results"
+      >
+        <button
+          #searchResultItem
+          *ngFor="let result of results.entries; let i = index"
+          [tabindex]="activeFocusedButtonIndex === i ? 0 : -1"
+          [attr.aria-selected]="activeFocusedButtonIndex === i"
+          [class.active]="activeFocusedButtonIndex === i"
+          (keydown.arrowup)="focusPreviousChild($event)"
+          (keydown.arrowdown)="focusNextChild($event)"
+          (keydown.arrowright)="focusOrderSearchInputText($event)"
+          (keydown.arrowleft)="focusOrderSearchInputText($event)"
+          (keydown.enter)="selectCustomerFromList($event, result)"
+          (keydown.escape)="closeOrderSearchResults($event)"
+          (keydown.home)="focusOrderSearchInputText($event)"
+          (keydown.end)="focusOrderSearchInputText($event)"
+          (click)="selectCustomerFromList($event, result)"
+        >
+          <div class="result-name">{{ searchOrder.value }}</div>
+          <div class="result-id">
+            <span>{{ result.name }}</span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <div class="asm-results" *ngIf="isLoading && searchByOrder">
+      <cx-dot-spinner
+        aria-hidden="false"
+        [attr.aria-label]="'common.loading' | cxTranslate"
+      ></cx-dot-spinner>
+    </div>
+  </label>
+
+  <button
+    type="submit"
+    [class.active]="selectedCustomer"
+    [disabled]="!selectedCustomer"
+  >
     {{ 'asm.customerSearch.submit' | cxTranslate }}
   </button>
 </form>
 
-<div *ngIf="searchResults | async as results" class="asm-results" #resultList>
-  <button
-    *ngFor="let result of results.entries"
-    (click)="selectCustomerFromList(result)"
-  >
-    <span class="result-name">{{ result.name }}</span>
-    <span class="result-id">{{ result.uid }}</span>
-  </button>
-  <button
-    (click)="closeResults()"
-    *ngIf="
-      !(searchResultsLoading$ | async) &&
-      searchTerm.value.length >= 3 &&
-      !!results.entries &&
-      results.entries.length <= 0
-    "
-  >
-    {{ 'asm.customerSearch.noMatch' | cxTranslate }}
-  </button>
-</div>
+<div *cxFeature="'!showSearchingCustomerByOrderInASM'">
+  <form (ngSubmit)="onSubmit()" [formGroup]="customerSelectionForm">
+    <label>
+      <input
+        required="true"
+        #searchTerm
+        type="text"
+        formControlName="searchTerm"
+        [attr.aria-label]="'asm.customerSearch.searchTerm.label' | cxTranslate"
+        placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
+        (keydown.arrowdown)="focusFirstItem($event)"
+        (keydown.end)="setSelectionEnd($event)"
+      />
 
-<div class="asm-results" *ngIf="searchResultsLoading$ | async">
-  <div
-    class="spinner"
-    aria-hidden="false"
-    [attr.aria-label]="'common.loading' | cxTranslate"
-  >
-    <div></div>
-    <div></div>
-    <div></div>
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'asm.customerSearch.searchTerm.label' | cxTranslate,
+        }"
+        [control]="customerSelectionForm.get('searchTerm')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="customerSelectionForm.get('searchTerm')"
+      ></cx-form-errors>
+    </label>
+    <button type="submit" [class.active]="selectedCustomer">
+      {{ 'asm.customerSearch.submit' | cxTranslate }}
+    </button>
+  </form>
+
+  <div *ngIf="searchResults | async as results" class="asm-results" #resultList>
+    <button
+      #searchResultItem
+      *ngFor="let result of results.entries; let i = index"
+      [tabindex]="activeFocusedButtonIndex === i ? 0 : -1"
+      [attr.aria-selected]="activeFocusedButtonIndex === i"
+      [class.active]="activeFocusedButtonIndex === i"
+      (keydown.arrowup)="focusPreviousChild($event)"
+      (keydown.arrowdown)="focusNextChild($event)"
+      (keydown.arrowright)="focusInputText($event)"
+      (keydown.arrowleft)="focusInputText($event)"
+      (keydown.enter)="selectCustomerFromList($event, result)"
+      (keydown.escape)="closeResults($event)"
+      (keydown.home)="focusInputText($event)"
+      (keydown.end)="focusInputText($event)"
+      (click)="selectCustomerFromList($event, result)"
+    >
+      <span class="result-name">{{ result.name }}</span>
+      <span class="result-id">{{ result.uid }}</span>
+    </button>
+
+    <button
+      #searchResultItem
+      (click)="createCustomer()"
+      (keydown.escape)="closeResults($event)"
+      (keydown.arrowright)="focusInputText($event)"
+      (keydown.arrowleft)="focusInputText($event)"
+      (keydown.home)="focusInputText($event)"
+      (keydown.end)="focusInputText($event)"
+      [class.active]="activeFocusedButtonIndex === 0"
+      [attr.aria-selected]="activeFocusedButtonIndex === 0"
+      *ngIf="
+        !(searchResultsLoading$ | async) &&
+        searchTerm.value.length >= 3 &&
+        !!results.entries &&
+        results.entries.length <= 0
+      "
+    >
+      <span>{{ 'asm.customerSearch.noMatchResult' | cxTranslate }}</span>
+      <span #createCustomerLink class="linkStyleLabel">{{
+        'asm.customerSearch.createCustomer' | cxTranslate
+      }}</span>
+    </button>
+  </div>
+
+  <div class="asm-results" *ngIf="searchResultsLoading$ | async">
+    <cx-dot-spinner
+      aria-hidden="false"
+      [attr.aria-label]="'common.loading' | cxTranslate"
+    ></cx-dot-spinner>
   </div>
 </div>

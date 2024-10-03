@@ -20,7 +20,8 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 import createSpy = jasmine.createSpy;
 
@@ -38,7 +39,7 @@ class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
   createAndSetAddress = createSpy().and.returnValue(of({}));
-  setDeliveryAddress = createSpy().and.returnValue(of());
+  setDeliveryAddress = createSpy().and.returnValue(EMPTY);
   getDeliveryAddressState = createSpy().and.returnValue(
     of({ loading: false, error: false, data: undefined })
   );
@@ -80,7 +81,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  clearCheckoutDeliveryMode = createSpy().and.returnValue(of());
+  clearCheckoutDeliveryMode = createSpy().and.returnValue(EMPTY);
 }
 
 const mockAddress1: Address = {
@@ -143,6 +144,8 @@ class MockCardComponent {
   content: Card;
   @Input()
   fitToContainer: boolean;
+  @Input()
+  index: number;
 }
 
 describe('B2BCheckoutDeliveryAddressComponent', () => {
@@ -156,62 +159,61 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
   let globalMessageService: GlobalMessageService;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          B2BCheckoutDeliveryAddressComponent,
-          MockAddressFormComponent,
-          MockCardComponent,
-          MockSpinnerComponent,
-        ],
-        providers: [
-          { provide: UserAddressService, useClass: MockUserAddressService },
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          {
-            provide: CheckoutDeliveryAddressFacade,
-            useClass: MockCheckoutDeliveryAddressFacade,
-          },
-          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: CheckoutPaymentTypeFacade,
-            useClass: MockPaymentTypeService,
-          },
-          {
-            provide: UserCostCenterService,
-            useClass: MockUserCostCenterService,
-          },
-          {
-            provide: CheckoutCostCenterFacade,
-            useClass: MockCheckoutCostCenterService,
-          },
-          {
-            provide: CheckoutDeliveryModesFacade,
-            useClass: MockCheckoutDeliveryModesFacade,
-          },
-        ],
-      })
-        .overrideComponent(B2BCheckoutDeliveryAddressComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
-
-      checkoutDeliveryAddressFacade = TestBed.inject(
-        CheckoutDeliveryAddressFacade
-      );
-      activeCartFacade = TestBed.inject(ActiveCartFacade);
-      checkoutStepService = TestBed.inject(
-        CheckoutStepService as Type<CheckoutStepService>
-      );
-      userAddressService = TestBed.inject(UserAddressService);
-      userCostCenterService = TestBed.inject(UserCostCenterService);
-      globalMessageService = TestBed.inject(GlobalMessageService);
-      checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        B2BCheckoutDeliveryAddressComponent,
+        MockAddressFormComponent,
+        MockCardComponent,
+        MockSpinnerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useClass: MockCheckoutDeliveryAddressFacade,
+        },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: CheckoutPaymentTypeFacade,
+          useClass: MockPaymentTypeService,
+        },
+        {
+          provide: UserCostCenterService,
+          useClass: MockUserCostCenterService,
+        },
+        {
+          provide: CheckoutCostCenterFacade,
+          useClass: MockCheckoutCostCenterService,
+        },
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesFacade,
+        },
+      ],
     })
-  );
+      .overrideComponent(B2BCheckoutDeliveryAddressComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+
+    checkoutDeliveryAddressFacade = TestBed.inject(
+      CheckoutDeliveryAddressFacade
+    );
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
+    checkoutStepService = TestBed.inject(
+      CheckoutStepService as Type<CheckoutStepService>
+    );
+    userAddressService = TestBed.inject(UserAddressService);
+    userCostCenterService = TestBed.inject(UserCostCenterService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(B2BCheckoutDeliveryAddressComponent);
@@ -357,7 +359,9 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       undefined,
       'default',
       'shipTo',
-      'selected'
+      'selected',
+      'P',
+      'M'
     );
     expect(card.title).toEqual('');
     expect(card.textBold).toEqual('John Doe');
@@ -456,7 +460,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
   describe('UI back button', () => {
     const getBackBtn = () =>
       fixture.debugElement
-        .queryAll(By.css('.btn-action'))
+        .queryAll(By.css('.btn-secondary'))
         .find((el) => el.nativeElement.innerText === 'common.back');
 
     it('should call "back" function after being clicked', () => {
@@ -494,7 +498,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
   describe('UI new address form', () => {
     const getAddNewAddressBtn = () =>
       fixture.debugElement
-        .queryAll(By.css('.btn-action'))
+        .queryAll(By.css('.btn-secondary'))
         .find(
           (el) => el.nativeElement.innerText === 'checkoutAddress.addNewAddress'
         );

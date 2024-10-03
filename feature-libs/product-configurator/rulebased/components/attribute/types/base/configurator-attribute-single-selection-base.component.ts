@@ -1,11 +1,20 @@
-import { Directive, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Directive } from '@angular/core';
+import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
@@ -15,17 +24,48 @@ import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-bas
 export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends ConfiguratorAttributeBaseComponent {
   loading$ = new BehaviorSubject<boolean>(false);
 
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Input() language: string;
-  @Input() ownerType: string;
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+  attribute: Configurator.Attribute;
+  ownerKey: string;
+  ownerType: string;
+  language: string;
+  expMode: boolean;
+
+  showRequiredErrorMessage$: Observable<boolean> = of(false);
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {
     super();
+
+    this.attribute = attributeComponentContext.attribute;
+    this.ownerKey = attributeComponentContext.owner.key;
+    this.ownerType = attributeComponentContext.owner.type;
+    this.language = attributeComponentContext.language;
+    this.expMode = attributeComponentContext.expMode;
+
+    this.showRequiredErrorMessage$ = this.configuratorStorefrontUtilsService
+      .isCartEntryOrGroupVisited(
+        attributeComponentContext.owner,
+        attributeComponentContext.group.id
+      )
+      .pipe(
+        map(
+          (result) =>
+            (result &&
+              this.isRequiredErrorMsg(this.attribute) &&
+              this.isDropDown(this.attribute) &&
+              this.isNoValueSelected(this.attribute)) ||
+            false
+        )
+      );
+    this.initPriceChangedEvent(
+      attributeComponentContext.isPricingAsync,
+      attributeComponentContext.attribute.key
+    );
   }
 
   /**
@@ -54,17 +94,14 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
   onSelect(value: string): void {
     this.loading$.next(true);
-
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         selectedSingleValue: value,
       },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE,
-    };
-
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.ATTRIBUTE
+    );
   }
 
   onSelectAdditionalValue(event: ConfigFormUpdateEvent): void {
@@ -73,26 +110,28 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     if (userInput) {
       this.loading$.next(true);
       event.changedAttribute.selectedSingleValue = userInput;
-      this.selectionChange.emit(event);
+      this.configuratorCommonsService.updateConfiguration(
+        event.ownerKey,
+        event.changedAttribute,
+        Configurator.UpdateType.ATTRIBUTE
+      );
     }
   }
 
   onHandleQuantity(quantity: number): void {
     this.loading$.next(true);
 
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         quantity,
       },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-    };
-
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.ATTRIBUTE_QUANTITY
+    );
   }
 
-  onChangeQuantity(eventObject: any, form?: FormControl): void {
+  onChangeQuantity(eventObject: any, form?: UntypedFormControl): void {
     if (!eventObject) {
       if (form) {
         form.setValue('0');
@@ -103,7 +142,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     }
   }
 
-  protected getInitialQuantity(form?: FormControl): number {
+  protected getInitialQuantity(form?: UntypedFormControl): number {
     const quantity: number = this.attribute.quantity ?? 0;
     if (form) {
       return form.value !== '0' ? quantity : 0;
@@ -119,7 +158,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(
-    form?: FormControl
+    form?: UntypedFormControl
   ): ConfiguratorAttributeQuantityComponentOptions {
     const initialQuantity = this.getInitialQuantity(form);
     const disableQuantityActions$ = this.loading$.pipe(
@@ -159,13 +198,11 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    */
   extractValuePriceFormulaParameters(
     value?: Configurator.Value
-  ): ConfiguratorPriceComponentOptions | undefined {
-    if (value) {
-      return {
-        price: value.valuePrice,
-        isLightedUp: value.selected,
-      };
-    }
+  ): ConfiguratorPriceComponentOptions {
+    return {
+      price: value?.valuePrice,
+      isLightedUp: value ? value.selected : false,
+    };
   }
 
   protected getSelectedValuePrice(): Configurator.PriceDetails | undefined {
@@ -187,12 +224,12 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   getAriaLabel(
-    value: Configurator.Value,
+    value: Configurator.Value | undefined,
     attribute: Configurator.Attribute
   ): string {
-    let ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
+    const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
     if (this.isWithAdditionalValues(this.attribute)) {
-      let ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
+      const ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
       return ariaLabel + ' ' + ariaLabelWithAdditionalValue;
     } else {
       return ariaLabel;
@@ -209,45 +246,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   getAriaLabelWithoutAdditionalValue(
-    value: Configurator.Value,
+    value: Configurator.Value | undefined,
     attribute: Configurator.Attribute
   ): string {
-    let ariaLabel = '';
-    if (value.valuePrice && value.valuePrice?.value !== 0) {
-      if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
-        this.translation
-          .translate(
-            'configurator.a11y.selectedValueOfAttributeFullWithPrice',
-            {
-              value: value.valueDisplay,
-              attribute: attribute.label,
-              price: value.valuePriceTotal.formattedValue,
-            }
-          )
-          .pipe(take(1))
-          .subscribe((text) => (ariaLabel = text));
-      } else {
-        this.translation
-          .translate(
-            'configurator.a11y.selectedValueOfAttributeFullWithPrice',
-            {
-              value: value.valueDisplay,
-              attribute: attribute.label,
-              price: value.valuePrice.formattedValue,
-            }
-          )
-          .pipe(take(1))
-          .subscribe((text) => (ariaLabel = text));
-      }
-    } else {
-      this.translation
-        .translate('configurator.a11y.selectedValueOfAttributeFull', {
-          value: value.valueDisplay,
-          attribute: attribute.label,
-        })
-        .pipe(take(1))
-        .subscribe((text) => (ariaLabel = text));
-    }
-    return ariaLabel;
+    return this.getAriaLabelGeneric(attribute, value, true);
   }
 }

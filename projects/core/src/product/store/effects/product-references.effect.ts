@@ -1,13 +1,21 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { ErrorModel } from '../../../model/misc.model';
 import { ProductReferencesConnector } from '../../connectors/references/product-references.connector';
 import { ProductActions } from '../actions/index';
+import { LoggerService } from '../../../logger';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 
 @Injectable()
 export class ProductReferencesEffects {
+  protected logger = inject(LoggerService);
   loadProductReferences$: Observable<
     | ProductActions.LoadProductReferencesSuccess
     | ProductActions.LoadProductReferencesFail
@@ -25,11 +33,11 @@ export class ProductReferencesEffects {
                 list: data,
               });
             }),
-            catchError((_error) =>
+            catchError((error) =>
               of(
-                new ProductActions.LoadProductReferencesFail({
-                  message: payload.productCode,
-                } as ErrorModel)
+                new ProductActions.LoadProductReferencesFail(
+                  tryNormalizeHttpError(error, this.logger)
+                )
               )
             )
           );

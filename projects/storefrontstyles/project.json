@@ -1,0 +1,15 @@
+{
+  "name": "storefrontstyles",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "projects/storefrontstyles",
+  "targets": {
+    "test-jest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test",
+        "cwd": "projects/storefrontstyles"
+      }
+    }
+  },
+  "tags": ["type:style"]
+}

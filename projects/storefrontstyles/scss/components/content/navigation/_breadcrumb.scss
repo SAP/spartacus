@@ -10,18 +10,41 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
   background-color: var(--cx-color-background);
 
   padding: var(--cx-spatial-base);
+
+  box-shadow: inset 0px 10px 7px -12px var(--cx-color-dark);
+
+  @include media-breakpoint-up(lg) {
+    box-shadow: none;
+  }
+
+  @include forFeature('a11yImproveContrast') {
+    color: var(--cx-color-text);
+  }
+
   h1 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
     text-transform: capitalize;
+
+    // TODO: (CXSPA-6003) Remove feature flags next major
+    @include forFeature('a11yTruncatedTextForResponsiveView') {
+      @include media-breakpoint-only(xs) {
+        white-space: wrap;
+        @include type('4');
+      }
+    }
   }
 
   nav {
-    font-size: var(--cx-font-size, 0.875rem);
+    @include forFeature('a11yImproveContrast') {
+      // complements reboot to remove focus-ring from unfocused elements
+      &[tabindex='-1']:focus {
+        box-shadow: 0 0 0 0 !important;
+      }
+    }
     padding: 5px 0;
-
     display: flex;
     justify-content: center;
 
@@ -38,7 +61,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
       margin: 0;
 
       li {
-        display: inline;
+        display: flex;
         color: var(--cx-color-secondary);
 
         &:not(:last-child):after {
@@ -48,6 +71,15 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
           text-transform: capitalize;
           color: inherit;
           padding: 0px 5px;
+
+          @include forFeature('a11yImproveContrast') {
+            color: var(--cx-color-primary);
+
+            &:focus {
+              outline-offset: -4px;
+              box-shadow: inset 0 0 0 2px var(--cx-color-inverse);
+            }
+          }
         }
       }
     }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export namespace CommonConfigurator {
   /**
    * Specifies the owner of a product configuration
@@ -35,6 +41,7 @@ export namespace CommonConfigurator {
     orderEntryNumber?: string;
     owner: CommonConfigurator.Owner;
   }
+
   /**
    * Possible types of owners: Product, cart or order entry
    */
@@ -42,6 +49,8 @@ export namespace CommonConfigurator {
     PRODUCT = 'product',
     CART_ENTRY = 'cartEntry',
     ORDER_ENTRY = 'orderEntry',
+    QUOTE_ENTRY = 'quoteEntry',
+    SAVED_CART_ENTRY = 'savedCartEntry',
   }
 }
 
@@ -53,6 +62,12 @@ export const enum ConfiguratorType {
   VARIANT = 'CPQCONFIGURATOR',
   TEXTFIELD = 'TEXTFIELD',
 }
+
+/**
+ * Configurator types including this postfix are
+ * treated as view-only
+ */
+export const ReadOnlyPostfix = '_READ_ONLY';
 
 /**
  * Statuses that can occur in the generic configuration

@@ -14,6 +14,8 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.component';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
@@ -28,12 +30,12 @@ const mockRouterState: any = {
   },
 };
 
-const config: Configurator.Configuration = {
+let config: Configurator.Configuration;
+const defaultConfig: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
     '1234-56-7890',
     ConfiguratorModelUtils.createInitialOwner()
   ),
-
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
@@ -54,6 +56,8 @@ const config: Configurator.Configuration = {
       formattedValue: '22.900 €',
     },
   },
+
+  pricingEnabled: true,
 };
 
 let routerStateObservable: Observable<RouterState>;
@@ -62,7 +66,6 @@ class MockRoutingService {
     return routerStateObservable;
   }
 }
-
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return of(config);
@@ -72,36 +75,41 @@ class MockConfiguratorCommonsService {
 describe('ConfigPriceSummaryComponent', () => {
   let component: ConfiguratorPriceSummaryComponent;
   let fixture: ComponentFixture<ConfiguratorPriceSummaryComponent>;
+  let htmlElem: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      routerStateObservable = of(mockRouterState);
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [ConfiguratorPriceSummaryComponent],
-        providers: [
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
+  beforeEach(waitForAsync(() => {
+    routerStateObservable = of(mockRouterState);
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        ConfiguratorPriceSummaryComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
 
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorPriceSummaryComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorPriceSummaryComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
   beforeEach(() => {
+    config = { ...defaultConfig };
     fixture = TestBed.createComponent(ConfiguratorPriceSummaryComponent);
     component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
+    fixture.detectChanges();
   });
 
   it('should create component', () => {
@@ -117,5 +125,66 @@ describe('ConfigPriceSummaryComponent', () => {
         );
       })
       .unsubscribe();
+  });
+
+  it('should render price summary container', () => {
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-price-summary-container'
+    );
+  });
+
+  it('should not render price summary container in case pricing not enabled', () => {
+    config.pricingEnabled = false;
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-price-summary-container'
+    );
+  });
+
+  it('should render selected and options price when no setting specified', () => {
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-selected-options'
+    );
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-base-price'
+    );
+  });
+
+  it('should render selected and options price when requested', () => {
+    config.hideBasePriceAndSelectedOptions = false;
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-selected-options'
+    );
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-base-price'
+    );
+  });
+
+  it('should not render selected and options price when requested', () => {
+    config.hideBasePriceAndSelectedOptions = true;
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-selected-options'
+    );
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-base-price'
+    );
   });
 });

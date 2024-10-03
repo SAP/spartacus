@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Rule,
   SchematicContext,
@@ -62,6 +68,7 @@ function configureSpartacusModules(
         namedImports: [BASE_STOREFRONT_MODULE],
       },
       content: BASE_STOREFRONT_MODULE,
+      order: 0,
     });
     addModuleExport(sourceFile, {
       import: {

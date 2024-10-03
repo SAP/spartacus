@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { ConfigurationInfo } from '@spartacus/product-configurator/common';
@@ -14,7 +20,9 @@ export class OccConfiguratorTextfieldAddToCartSerializer
       OccConfiguratorTextfield.AddToCartParameters
     >
 {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
   /**
    * Converts addToCart parameters into the OCC format
    * @param source Add to cart parameters in generic format

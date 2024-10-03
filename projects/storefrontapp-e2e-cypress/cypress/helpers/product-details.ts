@@ -1,8 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { addProductToCart as addToCart } from './applied-promotions';
 
 export const summaryContainer = `cx-product-summary`;
 export const infoContainer = `cx-product-intro`;
-export const tabsContainer = 'cx-tab-paragraph-container';
+export const tabsContainer = 'cx-tab';
 export const tabsHeaderList = `${tabsContainer} > div > button`;
 export const activeTabContainer = `${tabsContainer} .active .container`;
 export const shippingTabActive = `${tabsContainer} .active cx-paragraph`;
@@ -48,13 +54,12 @@ export function verifyCorrectTabs() {
 }
 
 export function verifyShowReviewsLink() {
-  cy.get(`${infoContainer} .cx-action-link`)
+  cy.get(`${infoContainer}`)
     .contains(/show reviews/i)
     .click();
   cy.get(`${tabsHeaderList}`)
     .contains(/reviews/i)
-    .should('be.focused')
-    .and('have.attr', 'aria-expanded', 'true');
+    .should('be.focused');
 }
 
 export function verifyTextInTabs() {
@@ -80,7 +85,8 @@ export function verifyTextInTabs() {
 }
 
 export function verifyContentInReviewTab() {
-  cy.get(tabsHeaderList).eq(2).click();
+  // Double click to close and open on accordian view.
+  cy.get(tabsHeaderList).eq(2).click().click();
   cy.get(reviewList).should('have.length', 5);
   cy.get(writeAReviewButton).should('be.visible');
 }
@@ -124,6 +130,43 @@ export function verifyQuantityInCart() {
   cy.get('cx-added-to-cart-dialog cx-cart-item');
   cy.get(atcModalCloseButton).click();
   cy.get(headerCartButton).should('contain', '5');
+}
+
+/**
+ * Verify arrow keys, HOME/END keys and SPACE key.
+ */
+export function verifyTabKeyboardNavigation(accordian = false) {
+  it('should navigate tab component with keyboard', () => {
+    cy.reload();
+    cy.get('cx-tab button').eq(0).click();
+    cy.focused().contains('Product Details').type('{downArrow}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Specs').type('{rightArrow}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Reviews').type('{leftArrow}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Specs').type('{upArrow}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Product Details').type('{upArrow}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Shipping').type('{downArrow}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Product Details').type('{end}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Shipping').type('{home}');
+    verifySpaceBarKeyForAccordian();
+    cy.focused().contains('Product Details');
+
+    function verifySpaceBarKeyForAccordian() {
+      if (accordian) {
+        cy.get('cx-tab-panel').should('not.exist');
+        cy.focused().type(' ');
+        cy.get('cx-tab-panel').should('exist');
+        cy.focused().type(' ');
+        cy.get('cx-tab-panel').should('not.exist');
+      }
+    }
+  });
 }
 
 export function selectProductStyleVariant() {

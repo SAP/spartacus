@@ -1,95 +1,38 @@
-<ng-container *cxFeatureLevel="'!4.1'">
-  <div id="{{ createAttributeIdForConfigurator(attribute) }}">
-    <div class="form-check">
-      <input
-        id="{{
-          createAttributeValueIdForConfigurator(
-            attribute,
-            attribute?.values[0].valueCode
-          )
-        }}"
-        type="checkbox"
-        class="form-check-input"
-        [value]="attribute?.values[0].valueCode"
-        [cxFocus]="{ key: attribute.name + '-' + attribute?.values[0].name }"
-        (change)="onSelect()"
-        [formControl]="attributeCheckBoxForm"
-        name="{{ createAttributeIdForConfigurator(attribute) }}"
-        [attr.aria-label]="
-          'configurator.a11y.valueOfAttributeFull'
-            | cxTranslate
-              : {
-                  value: attribute?.values[0].valueDisplay,
-                  attribute: attribute.label
-                }
-        "
-        [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
-      />
-      <label
-        id="{{
-          createValueUiKey(
-            'label',
-            attribute.name,
-            attribute?.values[0].valueCode
-          )
-        }}"
-        for="{{
-          createAttributeValueIdForConfigurator(
-            attribute,
-            attribute?.values[0].valueCode
-          )
-        }}"
-        aria-hidden="true"
-        class="form-check-label"
-        >{{ attribute?.values[0].valueDisplay }}</label
-      >
-    </div>
-  </div>
-</ng-container>
-
-<ng-container *cxFeatureLevel="'4.1'">
+<ng-container>
   <fieldset>
     <legend style="display: none">{{ attribute.label }}</legend>
     <div id="{{ createAttributeIdForConfigurator(attribute) }}">
-      <div class="form-check">
+      <div class="form-check" *ngIf="changedPrices$ | async as changedPrices">
         <div class="cx-value-label-pair">
           <input
             id="{{
               createAttributeValueIdForConfigurator(
                 attribute,
-                attribute?.values[0].valueCode
+                attributeValue.valueCode
               )
             }}"
             type="checkbox"
             class="form-check-input"
-            [value]="attribute?.values[0].valueCode"
+            [value]="attributeValue.valueCode"
             [cxFocus]="{
-              key: attribute.name + '-' + attribute?.values[0].name
+              key: attribute.name + '-' + attributeValue.name,
             }"
-            (change)="onSelect()"
+            (change)="onSelect(attributeValue.valueCode)"
             [formControl]="attributeCheckBoxForm"
             name="{{ createAttributeIdForConfigurator(attribute) }}"
             [attr.aria-label]="
-              attribute?.values[0].valuePrice &&
-              attribute?.values[0].valuePrice?.value !== 0
-                ? ('configurator.a11y.valueOfAttributeFullWithPrice'
-                  | cxTranslate
-                    : {
-                        value: attribute?.values[0].valueDisplay,
-                        attribute: attribute.label,
-                        price: attribute?.values[0].valuePrice.formattedValue
-                      })
-                : ('configurator.a11y.valueOfAttributeFull'
-                  | cxTranslate
-                    : {
-                        value: attribute?.values[0].valueDisplay,
-                        attribute: attribute.label
-                      })
+              getAriaLabelGeneric(
+                attribute,
+                enrichValueWithPrice(attributeValue, changedPrices)
+              )
+            "
+            [attr.aria-live]="
+              isLastSelected(attribute.name, attributeValue.valueCode)
+                ? 'polite'
+                : null
             "
             [attr.aria-describedby]="
-              createAttributeUiKey('label', attribute.name) +
-              ' ' +
-              createAttributeUiKey('attribute-msg', attribute.name)
+              createAttributeUiKey('label', attribute.name)
             "
           />
           <label
@@ -97,23 +40,46 @@
               createValueUiKey(
                 'label',
                 attribute.name,
-                attribute?.values[0].valueCode
+                attributeValue.valueCode
               )
             }}"
             for="{{
               createAttributeValueIdForConfigurator(
                 attribute,
-                attribute?.values[0].valueCode
+                attributeValue.valueCode
               )
             }}"
             aria-hidden="true"
             class="form-check-label"
-            >{{ attribute?.values[0].valueDisplay }}</label
+            >{{
+              getLabel(
+                expMode,
+                attributeValue.valueDisplay,
+                attributeValue.valueCode
+              )
+            }}</label
           >
+          <cx-configurator-show-more
+            *ngIf="attributeValue.description"
+            [text]="attributeValue.description"
+            [textSize]="getValueDescriptionLength()"
+            [productName]="
+              getLabel(
+                expMode,
+                attributeValue.valueDisplay,
+                attributeValue.valueCode
+              )
+            "
+            [tabIndex]="0"
+          ></cx-configurator-show-more>
         </div>
         <div class="cx-value-price">
           <cx-configurator-price
-            [formula]="extractValuePriceFormulaParameters(attribute?.values[0])"
+            [formula]="
+              extractValuePriceFormulaParameters(
+                enrichValueWithPrice(attributeValue, changedPrices)
+              )
+            "
           ></cx-configurator-price>
         </div>
       </div>

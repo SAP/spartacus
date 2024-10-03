@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Directive, ElementRef, HostListener, OnInit } from '@angular/core';
 import { MOVE_FOCUS, TrapFocusConfig } from '../keyboard-focus.model';
 import { TabFocusDirective } from '../tab/tab-focus.directive';
@@ -17,7 +23,8 @@ export class TrapFocusDirective extends TabFocusDirective implements OnInit {
   @HostListener('keydown.arrowdown', ['$event'])
   @HostListener('keydown.tab', ['$event'])
   handleTrapDown = (event: KeyboardEvent) => {
-    if (!!this.config.trap) {
+    const isTabPressed = event.key === 'Tab';
+    if (!!this.config.trap || (this.config.trapTabOnly && isTabPressed)) {
       this.moveFocus(event, MOVE_FOCUS.NEXT);
     }
   };
@@ -25,7 +32,8 @@ export class TrapFocusDirective extends TabFocusDirective implements OnInit {
   @HostListener('keydown.arrowup', ['$event'])
   @HostListener('keydown.shift.tab', ['$event'])
   handleTrapUp = (event: KeyboardEvent) => {
-    if (!!this.config.trap) {
+    const isTabPressed = event.key === 'Tab';
+    if (!!this.config.trap || (this.config.trapTabOnly && isTabPressed)) {
       this.moveFocus(event, MOVE_FOCUS.PREV);
     }
   };

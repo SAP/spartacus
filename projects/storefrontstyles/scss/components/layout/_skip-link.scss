@@ -8,7 +8,9 @@
   height: 100%;
   // backdrop - fade out
   background-color: rgba(0, 0, 0, 0);
-  transition: top 0s 0.3s ease, background-color 0.3s ease;
+  transition:
+    top 0s 0.3s ease,
+    background-color 0.3s ease;
   > div {
     display: contents;
   }
@@ -32,6 +34,11 @@
       opacity: 1;
       // ensure the button is at the top in case the user starts using the mouse
       z-index: 12;
+
+      @include forFeature('a11yVisibleFocusOverflows') {
+        // Offset of the visible focus outline. It needs to be visible at all times.
+        top: 4px;
+      }
     }
   }
 }

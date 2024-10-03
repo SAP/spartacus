@@ -1,15 +1,16 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { DatePickerComponent } from './date-picker.component';
 
 @Component({
   selector: 'cx-form-errors',
 })
 class MockFormErrorComponent {
-  @Input() control: FormControl;
+  @Input() control: UntypedFormControl;
   @Input() translationParams: any;
 }
 
@@ -22,13 +23,17 @@ describe('DatePickerComponent', () => {
   let component: DatePickerComponent;
   let fixture: ComponentFixture<DatePickerComponent>;
 
-  let control: FormControl;
+  let control: UntypedFormControl;
   let inputEl: DebugElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule],
-      declarations: [DatePickerComponent, MockFormErrorComponent],
+      declarations: [
+        DatePickerComponent,
+        MockFormErrorComponent,
+        MockFeatureDirective,
+      ],
     }).compileComponents();
   });
 
@@ -36,7 +41,7 @@ describe('DatePickerComponent', () => {
     fixture = TestBed.createComponent(DatePickerComponent);
     component = fixture.componentInstance;
 
-    control = new FormControl('min');
+    control = new UntypedFormControl('min');
 
     component.control = control;
     fixture.detectChanges();

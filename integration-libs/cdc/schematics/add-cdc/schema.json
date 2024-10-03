@@ -24,7 +24,24 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["CDC"]
+      "items": {
+        "enum": ["CDC", "CDC-B2B"],
+        "type": "string"
+      },
+      "x-prompt": {
+        "message": "Which feature would you like to set up from the CDC library?",
+        "type": "list",
+        "items": [
+          {
+            "value": "CDC",
+            "label": "CDC for B2C"
+          },
+          {
+            "value": "CDC-B2B",
+            "label": "CDC for B2B"
+          }
+        ]
+      }
     },
     "javascriptUrl": {
       "type": "string",

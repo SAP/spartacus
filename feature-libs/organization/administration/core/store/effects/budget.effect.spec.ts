@@ -3,7 +3,12 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
+import {
+  LoggerService,
+  OccConfig,
+  SearchConfig,
+  normalizeHttpError,
+} from '@spartacus/core';
 import {
   Budget,
   BudgetConnector,
@@ -24,7 +29,7 @@ const httpErrorResponse = new HttpErrorResponse({
   statusText: 'Unknown error',
   url: '/xxx',
 });
-const error = normalizeHttpError(httpErrorResponse);
+
 const budgetCode = 'testCode';
 const userId = 'testUser';
 const budget: Budget = {
@@ -49,6 +54,15 @@ class MockBudgetConnector {
   create = createSpy().and.returnValue(of(budget));
   update = createSpy().and.returnValue(of(budget));
 }
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
 
 describe('Budget Effects', () => {
   let actions$: Observable<BudgetActions.BudgetAction>;
@@ -83,6 +97,7 @@ describe('Budget Effects', () => {
       providers: [
         { provide: BudgetConnector, useClass: MockBudgetConnector },
         { provide: OccConfig, useValue: mockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
         fromEffects.BudgetEffects,
         provideMockActions(() => actions$),
       ],
@@ -106,7 +121,7 @@ describe('Budget Effects', () => {
 
     it('should return LoadBudgetFail action if budget not updated', () => {
       budgetConnector.get = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new BudgetActions.LoadBudget({ userId, budgetCode });
       const completion = new BudgetActions.LoadBudgetFail({
@@ -140,7 +155,7 @@ describe('Budget Effects', () => {
 
     it('should return LoadBudgetsFail action if budgets not loaded', () => {
       budgetConnector.getList = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new BudgetActions.LoadBudgets({ userId, params });
       const completion = new BudgetActions.LoadBudgetsFail({ error, params });
@@ -166,7 +181,7 @@ describe('Budget Effects', () => {
 
     it('should return CreateBudgetFail action if budget not created', () => {
       budgetConnector.create = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new BudgetActions.CreateBudget({ userId, budget });
       const completion1 = new BudgetActions.CreateBudgetFail({
@@ -204,7 +219,7 @@ describe('Budget Effects', () => {
 
     it('should return UpdateBudgetFail action if budget not created', () => {
       budgetConnector.update = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new BudgetActions.UpdateBudget({
         userId,

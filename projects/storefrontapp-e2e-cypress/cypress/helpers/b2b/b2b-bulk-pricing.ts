@@ -1,4 +1,10 @@
-import { waitForProductPage } from '../checkout-flow';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { verifyReviewOrderPage, waitForProductPage } from '../checkout-flow';
 import * as b2bCheckout from './b2b-checkout';
 
 export function visitProduct(productCode) {
@@ -77,7 +83,7 @@ export function loginB2bUser() {
 
 export function placeOrder() {
   cy.get(
-    'cx-added-to-cart-dialog .cx-dialog-buttons a.btn.btn-secondary'
+    'cx-added-to-cart-dialog .cx-dialog-buttons button.btn.btn-secondary'
   ).click();
 
   b2bCheckout.enterPONumber();
@@ -85,7 +91,7 @@ export function placeOrder() {
   b2bCheckout.selectAccountShippingAddress();
   b2bCheckout.selectAccountDeliveryMode();
 
-  cy.get('.cx-review-title').should('contain', 'Review');
+  verifyReviewOrderPage();
 
   cy.get('input[formcontrolname="termsAndConditions"]').check();
 

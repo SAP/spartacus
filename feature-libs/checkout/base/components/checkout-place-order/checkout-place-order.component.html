@@ -4,6 +4,7 @@
       <input
         formControlName="termsAndConditions"
         class="scaled-input form-check-input"
+        required="true"
         type="checkbox"
       />
       <span class="form-check-label">
@@ -16,6 +17,15 @@
         >
           {{ 'checkoutReview.termsAndConditions' | cxTranslate }}
         </a>
+        <abbr
+          *cxFeature="'a11yRequiredAsterisks'"
+          class="text-decoration-none"
+          title="{{ 'common.required' | cxTranslate }}"
+          >*</abbr
+        >
+        <cx-form-errors
+          [control]="checkoutSubmitForm.get('termsAndConditions')"
+        ></cx-form-errors>
       </span>
     </label>
   </div>

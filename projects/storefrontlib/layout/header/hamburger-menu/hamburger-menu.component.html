@@ -4,8 +4,17 @@
   (click)="toggle()"
   [class.is-active]="isExpanded | async"
   [attr.aria-expanded]="isExpanded | async"
-  [attr.aria-label]="'common.menu' | cxTranslate"
-  aria-controls="header-account-container, header-categories-container, header-locale-container"
+  [attr.aria-label]="
+    (isExpanded | async)
+      ? ('common.close' | cxTranslate)
+      : ('common.menu' | cxTranslate)
+  "
+  [attr.title]="
+    (isExpanded | async)
+      ? ('common.close' | cxTranslate)
+      : ('common.menu' | cxTranslate)
+  "
+  aria-controls="cx-header"
 >
   <span class="hamburger-box">
     <span class="hamburger-inner"></span>

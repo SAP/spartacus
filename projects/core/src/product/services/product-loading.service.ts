@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
@@ -9,7 +15,6 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  mapTo,
   shareReplay,
   tap,
   withLatestFrom,
@@ -208,7 +213,7 @@ export class ProductLoadingService {
 
       const timestampRefresh$ = timestamp$.pipe(
         delay(maxAge, scheduler),
-        mapTo(true),
+        map(() => true),
         withdrawOn(loadStart$)
       );
 

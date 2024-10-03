@@ -20,7 +20,7 @@
     >
       {{ location.displayName || location.name }}
     </a>
-    <div class="cx-store-address" *ngIf="location.address" aria-hidden="true">
+    <div class="cx-store-address" *ngIf="location.address">
       <div class="cx-store-address-street">
         {{ location.address.line1 }} {{ location.address.line2 }}
       </div>
@@ -28,7 +28,7 @@
         getFormattedStoreAddress([
           location.address.town,
           location.address.postalCode,
-          location.address.country.isocode
+          location.address.country.isocode,
         ])
       }}
       <div
@@ -38,12 +38,19 @@
         {{ location.formattedDistance }}
       </div>
     </div>
+    <ng-template
+      [cxOutlet]="StoreFinderOutlets.PREFERRED_STORE"
+      [cxOutletContext]="{
+        displayName: location.displayName,
+        name: location.name,
+      }"
+    ></ng-template>
+
     <a
-      aria-hidden="true"
       href="{{ getDirections(location) }}"
       target="_blank"
       rel="noopener noreferrer"
-      class="btn btn-sm btn-action btn-block cx-button"
+      class="btn btn-sm btn-secondary btn-block cx-button"
       (click)="$event.stopPropagation()"
       [attr.aria-label]="'storeFinder.ariaLabelGetDirections' | cxTranslate"
       >{{ 'storeFinder.getDirections' | cxTranslate }}</a

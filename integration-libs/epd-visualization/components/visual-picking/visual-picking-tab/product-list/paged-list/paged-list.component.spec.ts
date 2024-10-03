@@ -2,8 +2,9 @@ import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { LoggerService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { PagedListComponent } from './paged-list.component';
 
 @Component({
@@ -44,19 +45,17 @@ describe('PagedList Component', () => {
   let template: any;
   let headerTemplateFixture: ComponentFixture<MockHeaderTemplateComponent>;
   let headerTemplate: any;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
-        declarations: [
-          PagedListComponent,
-          MockCxIconComponent,
-          MockHeaderTemplateComponent,
-          MockTemplateComponent,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [
+        PagedListComponent,
+        MockCxIconComponent,
+        MockHeaderTemplateComponent,
+        MockTemplateComponent,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PagedListComponent);
@@ -79,19 +78,21 @@ describe('PagedList Component', () => {
     });
 
     it('should log an error when there is no header template given', () => {
-      spyOn(console, 'error');
+      const logger = TestBed.inject(LoggerService);
+      spyOn(logger, 'error');
       component.template = template;
       component.ngOnInit();
-      expect(console.error).toHaveBeenCalledWith(
+      expect(logger.error).toHaveBeenCalledWith(
         'No template reference provided to render the header for the `cx-epd-visualization-paged-list`'
       );
     });
 
     it('should log an error when there is no template given', () => {
-      spyOn(console, 'error');
+      const logger = TestBed.inject(LoggerService);
+      spyOn(logger, 'error');
       component.headerTemplate = headerTemplate;
       component.ngOnInit();
-      expect(console.error).toHaveBeenCalledWith(
+      expect(logger.error).toHaveBeenCalledWith(
         'No template reference provided to render the items for the `cx-epd-visualization-paged-list`'
       );
     });
@@ -148,7 +149,7 @@ describe('PagedList Component', () => {
     describe('list title', () => {
       beforeEach(() => {
         component.itemsPerSlide = 1;
-        component.items = [of()];
+        component.items = [EMPTY];
       });
 
       it('should have h3 with title', () => {
@@ -176,7 +177,7 @@ describe('PagedList Component', () => {
     describe('list buttons', () => {
       beforeEach(() => {
         component.itemsPerSlide = 4;
-        component.items = [of(), of(), of(), of(), of()];
+        component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
         component.ngOnInit();
         fixture.detectChanges();
       });
@@ -275,7 +276,7 @@ describe('PagedList Component', () => {
     describe('list with 5 items divided by 2 slides', () => {
       beforeEach(() => {
         component.itemsPerSlide = 4;
-        component.items = [of(), of(), of(), of(), of()];
+        component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
         component.ngOnInit();
         fixture.detectChanges();
       });
@@ -302,7 +303,7 @@ describe('PagedList Component', () => {
       beforeEach(() => {
         component.itemsPerSlide = 3;
         component.title = 'test list with title';
-        component.items = [of(), of(), of(), of(), of(), of(), of()];
+        component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
         component.ngOnInit();
         fixture.detectChanges();
       });
@@ -329,7 +330,7 @@ describe('PagedList Component', () => {
       beforeEach(() => {
         component.itemsPerSlide = 3;
         component.title = 'test list with title';
-        component.items = [of(), of(), of()];
+        component.items = [EMPTY, EMPTY, EMPTY];
         component.ngOnInit();
         fixture.detectChanges();
       });

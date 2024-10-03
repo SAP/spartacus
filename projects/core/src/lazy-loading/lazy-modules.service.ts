@@ -1,33 +1,32 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Compiler,
   Injectable,
-  InjectFlags,
   Injector,
   NgModuleFactory,
   NgModuleRef,
   OnDestroy,
+  inject,
 } from '@angular/core';
 import {
-  combineLatest,
-  ConnectableObservable,
-  from,
+  Connectable,
   Observable,
+  ReplaySubject,
+  Subscription,
+  combineLatest,
+  connectable,
+  from,
   of,
   queueScheduler,
-  Subscription,
-  throwError,
 } from 'rxjs';
-import {
-  catchError,
-  concatMap,
-  map,
-  observeOn,
-  publishReplay,
-  switchMap,
-  switchMapTo,
-  tap,
-} from 'rxjs/operators';
+import { concatMap, map, observeOn, switchMap, tap } from 'rxjs/operators';
 import { EventService } from '../event/event.service';
+import { LoggerService } from '../logger';
 import { CombinedInjector } from '../util/combined-injector';
 import { createFrom } from '../util/create-from';
 import { ModuleInitializedEvent } from './events/module-initialized-event';
@@ -40,15 +39,20 @@ import { MODULE_INITIALIZER } from './tokens';
   providedIn: 'root',
 })
 export class LazyModulesService implements OnDestroy {
+  protected logger = inject(LoggerService);
+
   /**
    * Expose lazy loaded module references
    */
-  readonly modules$: Observable<NgModuleRef<any>> = this.events
-    .get(ModuleInitializedEvent)
-    .pipe(
-      map((event) => event.moduleRef),
-      publishReplay()
-    );
+  readonly modules$: Observable<NgModuleRef<any>> = connectable(
+    this.events
+      .get(ModuleInitializedEvent)
+      .pipe(map((event) => event.moduleRef)),
+    {
+      connector: () => new ReplaySubject(),
+      resetOnDisconnect: false,
+    }
+  );
 
   private readonly dependencyModules = new Map<any, NgModuleRef<any>>();
   private readonly eventSubscription: Subscription;
@@ -59,7 +63,7 @@ export class LazyModulesService implements OnDestroy {
     protected events: EventService
   ) {
     this.eventSubscription = (
-      this.modules$ as ConnectableObservable<NgModuleRef<any>>
+      this.modules$ as Connectable<NgModuleRef<any>>
     ).connect();
   }
 
@@ -149,20 +153,21 @@ export class LazyModulesService implements OnDestroy {
     const moduleInits: any[] = moduleRef.injector.get<any[]>(
       MODULE_INITIALIZER,
       [],
-      InjectFlags.Self
+      { self: true }
     );
     const asyncInitPromises: Promise<any>[] =
       this.runModuleInitializerFunctions(moduleInits);
     if (asyncInitPromises.length) {
       return from(Promise.all(asyncInitPromises)).pipe(
-        catchError((error) => {
-          console.error(
-            'MODULE_INITIALIZER promise was rejected while lazy loading a module.',
-            error
-          );
-          return throwError(error);
+        tap({
+          error: (error) => {
+            this.logger.error(
+              'MODULE_INITIALIZER promise was rejected while lazy loading a module.',
+              error
+            );
+          },
         }),
-        switchMapTo(of(moduleRef))
+        switchMap(() => of(moduleRef))
       );
     } else {
       return of(moduleRef);
@@ -194,7 +199,7 @@ export class LazyModulesService implements OnDestroy {
       }
       return initPromises;
     } catch (error) {
-      console.error(
+      this.logger.error(
         `MODULE_INITIALIZER init function throwed an error. `,
         error
       );

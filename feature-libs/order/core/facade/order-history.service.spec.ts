@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
 import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
-import { Observable, of, throwError } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions/index';
 import { ORDER_FEATURE, StateWithOrder } from '../store/order-state';
 import * as fromStoreReducers from '../store/reducers/index';
@@ -18,7 +18,7 @@ const mockReplenishmentOrderCode = 'test-repl-code';
 
 class MockRoutingService {
   getRouterState(): Observable<any> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -174,7 +174,7 @@ describe('OrderHistoryService', () => {
 
   it('should NOT load order list data when user is anonymous', () => {
     spyOn(userIdService, 'takeUserId').and.callFake(() => {
-      return throwError('Error');
+      return throwError(() => 'Error');
     });
 
     userOrderService.loadOrderList(10, 1, 'byDate');
@@ -256,5 +256,28 @@ describe('OrderHistoryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new OrderActions.ResetCancelOrderProcess()
     );
+  });
+
+  it('should be able to get order details loading flag', () => {
+    store.dispatch(
+      new OrderActions.LoadOrderDetails({
+        userId: 'current',
+        orderCode: 'test',
+      })
+    );
+    userOrderService
+      .getOrderDetailsLoading()
+      .subscribe((data) => expect(data).toEqual(true))
+      .unsubscribe();
+  });
+  describe('getQueryParams', () => {
+    it('should always return null even if guid is present', () => {
+      const param = userOrderService.getQueryParams({ guid: '123' });
+      expect(param).toEqual(null);
+    });
+    it('should always return if no guid exists', () => {
+      const param = userOrderService.getQueryParams({ code: '123' });
+      expect(param).toEqual(null);
+    });
   });
 });

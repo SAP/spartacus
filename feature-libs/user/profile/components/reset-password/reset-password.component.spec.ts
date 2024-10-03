@@ -1,10 +1,15 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
 import { ResetPasswordComponent } from './reset-password.component';
@@ -17,9 +22,9 @@ class MockResetPasswordService
   implements Partial<ResetPasswordComponentService>
 {
   resetToken$ = tokenSubject;
-  form: FormGroup = new FormGroup({
-    password: new FormControl(),
-    passwordConfirm: new FormControl(),
+  form: UntypedFormGroup = new UntypedFormGroup({
+    password: new UntypedFormControl(),
+    passwordConfirm: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
   resetPassword = createSpy().and.stub();
@@ -32,26 +37,24 @@ describe('ResetPasswordComponent', () => {
   let el: DebugElement;
   let service: ResetPasswordComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          SpinnerModule,
-        ],
-        declarations: [ResetPasswordComponent],
-        providers: [
-          {
-            provide: ResetPasswordComponentService,
-            useClass: MockResetPasswordService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        SpinnerModule,
+      ],
+      declarations: [ResetPasswordComponent, MockFeatureDirective],
+      providers: [
+        {
+          provide: ResetPasswordComponentService,
+          useClass: MockResetPasswordService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResetPasswordComponent);

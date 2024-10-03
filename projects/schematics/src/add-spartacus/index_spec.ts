@@ -8,6 +8,8 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { defaultFeatureToggles } from '../../../core/src/features-config/feature-toggles/config/feature-toggles';
 import {
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
@@ -20,100 +22,152 @@ import { Schema as SpartacusOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('add-spartacus', () => {
-  const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
-    collectionPath
+const schematicRunner = new SchematicTestRunner(
+  SPARTACUS_SCHEMATICS,
+  collectionPath
+);
+
+let appTree: UnitTestTree;
+
+const workspaceOptions: WorkspaceOptions = {
+  name: 'workspace',
+  newProjectRoot: 'projects',
+  version: '0.5.0',
+};
+
+const appOptions: ApplicationOptions = {
+  name: 'schematics-test',
+  inlineStyle: false,
+  inlineTemplate: false,
+  style: Style.Scss,
+  skipTests: false,
+  standalone: false,
+};
+
+const defaultOptions: SpartacusOptions = {
+  project: 'schematics-test',
+  occPrefix: 'xxx',
+  baseSite: 'electronics',
+  baseUrl: 'https://localhost:9002',
+  lazy: true,
+  features: [],
+};
+
+const newLineRegEx = /(?:\\[rn]|[\r\n]+)+/g;
+
+async function generateWorkspace() {
+  appTree = await schematicRunner.runExternalSchematic(
+    '@schematics/angular',
+    'workspace',
+    workspaceOptions
   );
 
-  let appTree: UnitTestTree;
+  appTree = await schematicRunner.runExternalSchematic(
+    '@schematics/angular',
+    'application',
+    appOptions,
+    appTree
+  );
+}
 
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    newProjectRoot: 'projects',
-    version: '0.5.0',
-  };
+describe('add-spartacus', () => {
+  beforeAll(async () => {
+    await generateWorkspace();
+  });
 
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    routing: false,
-    style: Style.Scss,
-    skipTests: false,
-  };
-
-  const defaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    occPrefix: 'xxx',
-    baseSite: 'electronics',
-    baseUrl: 'https://localhost:9002',
-    lazy: true,
-    features: [],
-  };
-
-  const newLineRegEx = /(?:\\[rn]|[\r\n]+)+/g;
-
-  beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
+  describe('default setup', () => {
+    let tree: UnitTestTree;
+    beforeAll(async () => {
+      tree = await schematicRunner.runSchematic(
+        'add-spartacus',
+        defaultOptions,
         appTree
-      )
-      .toPromise();
-  });
+      );
+    });
+    it('should add spartacus deps', async () => {
+      const packageJson = tree.readContent('/package.json');
+      const packageObj = JSON.parse(packageJson);
+      const depPackageList = Object.keys(packageObj.dependencies);
+      expect(depPackageList.includes(SPARTACUS_CORE)).toBe(true);
+      expect(depPackageList.includes(SPARTACUS_STOREFRONTLIB)).toBe(true);
+      expect(depPackageList.includes(SPARTACUS_STYLES)).toBe(true);
+    });
 
-  it('should add spartacus deps', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-      .toPromise();
-    const packageJson = tree.readContent('/package.json');
-    const packageObj = JSON.parse(packageJson);
-    const depPackageList = Object.keys(packageObj.dependencies);
-    expect(depPackageList.includes(SPARTACUS_CORE)).toBe(true);
-    expect(depPackageList.includes(SPARTACUS_STOREFRONTLIB)).toBe(true);
-    expect(depPackageList.includes(SPARTACUS_STYLES)).toBe(true);
-  });
+    it('should import necessary modules in app.module', async () => {
+      const appModule = tree.readContent(
+        '/projects/schematics-test/src/app/app.module.ts'
+      );
 
-  it('Import necessary modules in app.module', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-      .toPromise();
-    const appModule = tree.readContent(
-      '/projects/schematics-test/src/app/app.module.ts'
-    );
+      expect(appModule).toContain(
+        `import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";`
+      );
+      expect(appModule).toContain(
+        `import { AppRoutingModule } from "@spartacus/storefront";`
+      );
+      expect(appModule).toContain(`import { StoreModule } from "@ngrx/store";`);
+      expect(appModule).toContain(
+        `import { EffectsModule } from "@ngrx/effects";`
+      );
+      expect(appModule).toContain(
+        `import { SpartacusModule } from './spartacus/spartacus.module';`
+      );
 
-    const appModuleImports = [
-      `import { HttpClientModule } from "@angular/common/http";`,
-      `import { AppRoutingModule } from "@spartacus/storefront";`,
-      `import { StoreModule } from "@ngrx/store";`,
-      `import { EffectsModule } from "@ngrx/effects";`,
-      `import { SpartacusModule } from './spartacus/spartacus.module';`,
-    ];
+      expect(appModule).toContain(
+        'provideHttpClient(withFetch(), withInterceptorsFromDi())'
+      );
+    });
 
-    appModuleImports.forEach((appImport) =>
-      expect(appModule.includes(appImport)).toBe(true)
-    );
+    it('should remove local app-routing.module generated by Angular schematics', async () => {
+      const appModule = tree.readContent(
+        '/projects/schematics-test/src/app/app.module.ts'
+      );
+
+      expect(appModule).not.toContain(`./app-routing.module`);
+      expect(
+        tree.exists('/projects/schematics-test/src/app/app-routing.module.ts')
+      ).toBe(false);
+    });
+
+    it('Should add provideFeatureToggles in SpartacusFeaturesModule', async () => {
+      const featureModuleContent = tree.readContent(
+        `/projects/schematics-test/${spartacusFeaturesModulePath}`
+      );
+
+      expect(featureModuleContent).toContain(`provideFeatureToggles({`);
+
+      const featureTogglesKeys = Object.keys(defaultFeatureToggles);
+      featureTogglesKeys.forEach((key) => {
+        expect(featureModuleContent).toContain(`"${key}": true`);
+      });
+    });
+
+    it('Import Spartacus styles to styles.scss', async () => {
+      const stylesFile = tree.readContent(
+        '/projects/schematics-test/src/styles.scss'
+      );
+      expect(stylesFile.includes(`@import '@spartacus/styles/index';`)).toBe(
+        true
+      );
+    });
   });
 
   describe('Setup configuration', () => {
+    let tree: UnitTestTree;
+    beforeAll(async () => {
+      await generateWorkspace();
+      tree = await schematicRunner.runSchematic(
+        'add-spartacus',
+        {
+          ...defaultOptions,
+          baseUrl: 'test-url',
+          occPrefix: '/occ/v2/',
+          featureLevel: '5.5',
+        },
+        appTree
+      );
+    });
+
     it('should set baseUrl', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync(
-          'add-spartacus',
-          { ...defaultOptions, baseUrl: 'test-url' },
-          appTree
-        )
-        .toPromise();
       const appModule = tree.readContent(
         `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
       );
@@ -121,67 +175,48 @@ describe('add-spartacus', () => {
     });
 
     it('should set occPrefix', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync(
-          'add-spartacus',
-          { ...defaultOptions, occPrefix: '/occ/v2/' },
-          appTree
-        )
-        .toPromise();
       const appModule = tree.readContent(
         `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
       );
       expect(appModule.includes(`prefix: '/occ/v2/'`)).toBe(true);
     });
 
-    it('should not set occPrefix', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync('add-spartacus', { ...defaultOptions }, appTree)
-        .toPromise();
+    it('should set feature level', async () => {
       const appModule = tree.readContent(
         `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
       );
-      expect(appModule.includes(`prefix: '/occ/v2/'`)).toBe(false);
+      expect(appModule.includes(`level: '5.5'`)).toBe(true);
     });
 
-    it('should set feature level', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync(
-          'add-spartacus',
-          { ...defaultOptions, featureLevel: '1.5' },
-          appTree
-        )
-        .toPromise();
-      const appModule = tree.readContent(
-        `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
-      );
-      expect(appModule.includes(`level: '1.5'`)).toBe(true);
+    it('should create the styles config file.', async () => {
+      expect(
+        tree.exists('/projects/schematics-test/src/styles-config.scss')
+      ).toBe(true);
     });
 
     it('should set styleVersion based on featureLevel', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync(
-          'add-spartacus',
-          { ...defaultOptions, featureLevel: '5.5' },
-          appTree
-        )
-        .toPromise();
       const appModule = tree.readContent(
-        '/projects/schematics-test/src/styles.scss'
+        '/projects/schematics-test/src/styles-config.scss'
       );
       expect(appModule.includes(`$styleVersion: 5.5`)).toBe(true);
+    });
+
+    it('Main styles should import the styles config.', async () => {
+      const mainStylesContent = tree.readContent(
+        '/projects/schematics-test/src/styles.scss'
+      );
+      expect(mainStylesContent.includes("@import 'styles-config';")).toBe(true);
     });
 
     describe('context config', () => {
       describe('baseSite', () => {
         it('should set a single baseSite', async () => {
-          const tree = await schematicRunner
-            .runSchematicAsync(
-              'add-spartacus',
-              { ...defaultOptions, baseSite: 'test-site' },
-              appTree
-            )
-            .toPromise();
+          const tree = await schematicRunner.runSchematic(
+            'add-spartacus',
+            { ...defaultOptions, baseSite: 'test-site' },
+            appTree
+          );
+
           const appModule = tree.readContent(
             `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
           );
@@ -189,17 +224,16 @@ describe('add-spartacus', () => {
         });
 
         it('should set multiple baseSites', async () => {
-          const tree = await schematicRunner
-            .runSchematicAsync(
-              'add-spartacus',
-              {
-                ...defaultOptions,
-                baseSite:
-                  'electronics-spa,apparel-uk-spa,apparel-uk,electronics,apparel-de',
-              },
-              appTree
-            )
-            .toPromise();
+          const tree = await schematicRunner.runSchematic(
+            'add-spartacus',
+            {
+              ...defaultOptions,
+              baseSite:
+                'electronics-spa,apparel-uk-spa,apparel-uk,electronics,apparel-de',
+            },
+            appTree
+          );
+
           const appModule = tree.readContent(
             `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
           );
@@ -213,16 +247,16 @@ describe('add-spartacus', () => {
       });
 
       it('should enable auto-base site by omitting context property in config', async () => {
-        const tree = await schematicRunner
-          .runSchematicAsync(
-            'add-spartacus',
-            {
-              ...defaultOptions,
-              baseSite: '',
-            },
-            appTree
-          )
-          .toPromise();
+        await generateWorkspace();
+        const tree = await schematicRunner.runSchematic(
+          'add-spartacus',
+          {
+            ...defaultOptions,
+            baseSite: '',
+          },
+          appTree
+        );
+
         const appModule = tree.readContent(
           `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
@@ -232,50 +266,33 @@ describe('add-spartacus', () => {
     });
 
     describe('currency', () => {
-      it('should set the default currency when not provided', async () => {
-        const tree = await schematicRunner
-          .runSchematicAsync(
-            'add-spartacus',
-            {
-              ...defaultOptions,
-            },
-            appTree
-          )
-          .toPromise();
-        const appModule = tree.readContent(
-          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+      it('should set the single currency', async () => {
+        const tree = await schematicRunner.runSchematic(
+          'add-spartacus',
+          {
+            ...defaultOptions,
+            currency: 'rsd',
+          },
+          appTree
         );
 
-        expect(appModule.includes(`currency: ['USD']`)).toBe(true);
-      });
-      it('should set the single currency', async () => {
-        const tree = await schematicRunner
-          .runSchematicAsync(
-            'add-spartacus',
-            {
-              ...defaultOptions,
-              currency: 'rsd',
-            },
-            appTree
-          )
-          .toPromise();
         const appModule = tree.readContent(
           `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
         expect(appModule.includes(`currency: ['RSD']`)).toBe(true);
       });
+
       it('should set multiple currencies', async () => {
-        const tree = await schematicRunner
-          .runSchematicAsync(
-            'add-spartacus',
-            {
-              ...defaultOptions,
-              currency: 'CAD,rsd',
-            },
-            appTree
-          )
-          .toPromise();
+        const tree = await schematicRunner.runSchematic(
+          'add-spartacus',
+          {
+            ...defaultOptions,
+            currency: 'CAD,rsd',
+          },
+          appTree
+        );
+
         const appModule = tree.readContent(
           `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
@@ -283,34 +300,18 @@ describe('add-spartacus', () => {
         expect(appModule.includes(`currency: ['CAD', 'RSD']`)).toBe(true);
       });
     });
+
     describe('language', () => {
-      it('should set the default language when not provided', async () => {
-        const tree = await schematicRunner
-          .runSchematicAsync(
-            'add-spartacus',
-            {
-              ...defaultOptions,
-            },
-            appTree
-          )
-          .toPromise();
-        const appModule = tree.readContent(
-          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+      it('should set the single language', async () => {
+        const tree = await schematicRunner.runSchematic(
+          'add-spartacus',
+          {
+            ...defaultOptions,
+            language: 'RS',
+          },
+          appTree
         );
 
-        expect(appModule.includes(`language: ['en']`)).toBe(true);
-      });
-      it('should set the single language', async () => {
-        const tree = await schematicRunner
-          .runSchematicAsync(
-            'add-spartacus',
-            {
-              ...defaultOptions,
-              language: 'RS',
-            },
-            appTree
-          )
-          .toPromise();
         const appModule = tree.readContent(
           `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
@@ -318,16 +319,15 @@ describe('add-spartacus', () => {
         expect(appModule.includes(`language: ['rs']`)).toBe(true);
       });
       it('should set multiple languages', async () => {
-        const tree = await schematicRunner
-          .runSchematicAsync(
-            'add-spartacus',
-            {
-              ...defaultOptions,
-              language: 'EN,RS',
-            },
-            appTree
-          )
-          .toPromise();
+        const tree = await schematicRunner.runSchematic(
+          'add-spartacus',
+          {
+            ...defaultOptions,
+            language: 'EN,RS',
+          },
+          appTree
+        );
+
         const appModule = tree.readContent(
           `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
@@ -337,27 +337,16 @@ describe('add-spartacus', () => {
     });
 
     describe('urlParameters', () => {
-      it('should not set the urlParameters, if not provided', async () => {
-        const tree = await schematicRunner
-          .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-          .toPromise();
-        const appModule = tree.readContent(
-          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+      it('should set the provided urlParameters', async () => {
+        const tree = await schematicRunner.runSchematic(
+          'add-spartacus',
+          {
+            ...defaultOptions,
+            urlParameters: 'baseSite,language,currency',
+          },
+          appTree
         );
 
-        expect(appModule.includes(`urlParameters: ['`)).toBe(false);
-      });
-      it('should set the provided urlParameters', async () => {
-        const tree = await schematicRunner
-          .runSchematicAsync(
-            'add-spartacus',
-            {
-              ...defaultOptions,
-              urlParameters: 'baseSite,language,currency',
-            },
-            appTree
-          )
-          .toPromise();
         const appModule = tree.readContent(
           `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
@@ -372,20 +361,19 @@ describe('add-spartacus', () => {
 
     describe('baseSite, language, currency and urlParameters', () => {
       it('should combine all context params properly', async () => {
-        const tree = await schematicRunner
-          .runSchematicAsync(
-            'add-spartacus',
-            {
-              ...defaultOptions,
-              baseSite:
-                'electronics-spa,apparel-uk-spa,apparel-uk,electronics,apparel-de',
-              currency: 'CAD,rsd',
-              language: 'EN,RS',
-              urlParameters: 'baseSite,language,currency',
-            },
-            appTree
-          )
-          .toPromise();
+        const tree = await schematicRunner.runSchematic(
+          'add-spartacus',
+          {
+            ...defaultOptions,
+            baseSite:
+              'electronics-spa,apparel-uk-spa,apparel-uk,electronics,apparel-de',
+            currency: 'CAD,rsd',
+            language: 'EN,RS',
+            urlParameters: 'baseSite,language,currency',
+          },
+          appTree
+        );
+
         const appModule = tree.readContent(
           `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
@@ -404,44 +392,73 @@ describe('add-spartacus', () => {
         ).toBe(true);
       });
     });
-  });
 
-  it('Import Spartacus styles to styles.scss', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-      .toPromise();
-    const stylesFile = tree.readContent(
-      '/projects/schematics-test/src/styles.scss'
-    );
-    expect(stylesFile.includes(`@import '~@spartacus/styles/index';`)).toBe(
-      true
-    );
+    describe('should not', () => {
+      let tree: UnitTestTree;
+      beforeAll(async () => {
+        await generateWorkspace();
+        tree = await schematicRunner.runSchematic(
+          'add-spartacus',
+          { ...defaultOptions },
+          appTree
+        );
+      });
+
+      it('set the urlParameters, if not provided', async () => {
+        const appModule = tree.readContent(
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+        );
+
+        expect(appModule.includes(`urlParameters: ['`)).toBe(false);
+      });
+
+      it('set language when not provided', async () => {
+        const appModule = tree.readContent(
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+        );
+
+        expect(appModule.includes(`language: `)).toBe(false);
+      });
+
+      it('set occPrefix', async () => {
+        const appModule = tree.readContent(
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+        );
+        expect(appModule.includes(`prefix: '/occ/v2/'`)).toBe(false);
+      });
+
+      it('have no currency when not provided', async () => {
+        const appModule = tree.readContent(
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+        );
+
+        expect(appModule.includes(`currency: `)).toBe(false);
+      });
+    });
   });
 
   it('Add theme to styles.scss', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync(
-        'add-spartacus',
-        { ...defaultOptions, theme: 'santorini' },
-        appTree
-      )
-      .toPromise();
+    const tree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      { ...defaultOptions, theme: 'santorini' },
+      appTree
+    );
+
     const stylesFile = tree.readContent(
       '/projects/schematics-test/src/styles.scss'
     );
     expect(
-      stylesFile.includes(`@import '~@spartacus/styles/scss/theme/santorini';`)
+      stylesFile.includes(`@import '@spartacus/styles/scss/theme/santorini';`)
     ).toBe(true);
   });
 
   it('Overwrite app.component with cx-storefront', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync(
-        'add-spartacus',
-        { ...defaultOptions, overwriteAppComponent: true },
-        appTree
-      )
-      .toPromise();
+    const tree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      { ...defaultOptions, overwriteAppComponent: true },
+      appTree
+    );
+
     const appComponentTemplate = tree
       .readContent('/projects/schematics-test/src/app/app.component.html')
       .replace(newLineRegEx, '');
@@ -450,13 +467,12 @@ describe('add-spartacus', () => {
   });
 
   it('Add cx-storefront component to your app.component', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync(
-        'add-spartacus',
-        { ...defaultOptions, overwriteAppComponent: false },
-        appTree
-      )
-      .toPromise();
+    const tree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      { ...defaultOptions, overwriteAppComponent: false },
+      appTree
+    );
+
     const appComponentTemplate = tree.readContent(
       '/projects/schematics-test/src/app/app.component.html'
     );
@@ -467,9 +483,12 @@ describe('add-spartacus', () => {
 
   describe('Update index.html', () => {
     it('should not add meta tags by default', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-        .toPromise();
+      const tree = await schematicRunner.runSchematic(
+        'add-spartacus',
+        defaultOptions,
+        appTree
+      );
+
       const indexHtmlFile = tree.readContent(
         '/projects/schematics-test/src/index.html'
       );
@@ -482,13 +501,12 @@ describe('add-spartacus', () => {
     });
 
     it('should add meta tags', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync(
-          'add-spartacus',
-          { ...defaultOptions, useMetaTags: true },
-          appTree
-        )
-        .toPromise();
+      const tree = await schematicRunner.runSchematic(
+        'add-spartacus',
+        { ...defaultOptions, useMetaTags: true },
+        appTree
+      );
+
       const indexHtmlFile = tree.readContent(
         '/projects/schematics-test/src/index.html'
       );
@@ -505,13 +523,12 @@ describe('add-spartacus', () => {
     });
 
     it('should set baseUrl in meta tag', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync(
-          'add-spartacus',
-          { ...defaultOptions, useMetaTags: true, baseUrl: 'test-url' },
-          appTree
-        )
-        .toPromise();
+      const tree = await schematicRunner.runSchematic(
+        'add-spartacus',
+        { ...defaultOptions, useMetaTags: true, baseUrl: 'test-url' },
+        appTree
+      );
+
       const indexHtmlFile = tree.readContent(
         '/projects/schematics-test/src/index.html'
       );
@@ -529,13 +546,18 @@ describe('add-spartacus', () => {
 
   describe('when invoked twice', () => {
     it('should not duplicate imports, exports nor declarations arrays', async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'add-spartacus',
+        defaultOptions,
+        appTree
+      );
+
       // run it again
-      appTree = await schematicRunner
-        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'add-spartacus',
+        defaultOptions,
+        appTree
+      );
 
       const featureModuleContent = appTree.readContent(
         `/projects/schematics-test/${spartacusFeaturesModulePath}`
@@ -555,13 +577,18 @@ describe('add-spartacus', () => {
     });
 
     it('should not duplicate providers arrays', async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'add-spartacus',
+        defaultOptions,
+        appTree
+      );
+
       // run it again
-      appTree = await schematicRunner
-        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'add-spartacus',
+        defaultOptions,
+        appTree
+      );
 
       const configurationModule = appTree.readContent(
         '/projects/schematics-test/src/app/spartacus/spartacus-configuration.module.ts'
@@ -581,5 +608,97 @@ describe('add-spartacus', () => {
           ?.length ?? -1;
       expect(nonProvideConfigOccurrences).toBe(1);
     });
+  });
+});
+
+describe('add-spartacus on Angular app without routing', () => {
+  let tree: UnitTestTree;
+  beforeAll(async () => {
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      { ...appOptions, routing: false }, // disable "routing" for `ng new`
+      appTree
+    );
+    tree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      defaultOptions,
+      appTree
+    );
+  });
+
+  it('should import necessary modules in app.module', async () => {
+    const appModule = tree.readContent(
+      '/projects/schematics-test/src/app/app.module.ts'
+    );
+
+    expect(appModule).toContain(
+      `import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";`
+    );
+    expect(appModule).toContain(
+      `import { AppRoutingModule } from "@spartacus/storefront";`
+    );
+    expect(appModule).toContain(`import { StoreModule } from "@ngrx/store";`);
+    expect(appModule).toContain(
+      `import { EffectsModule } from "@ngrx/effects";`
+    );
+    expect(appModule).toContain(
+      `import { SpartacusModule } from './spartacus/spartacus.module';`
+    );
+
+    expect(appModule).toContain(
+      'provideHttpClient(withFetch(), withInterceptorsFromDi())'
+    );
+  });
+
+  it('should remove local app-routing.module generated by Angular schematics', async () => {
+    const appModule = tree.readContent(
+      '/projects/schematics-test/src/app/app.module.ts'
+    );
+
+    expect(appModule).not.toContain(`./app-routing.module`);
+    expect(
+      tree.exists('/projects/schematics-test/src/app/app-routing.module.ts')
+    ).toBe(false);
+  });
+});
+
+describe('add-spartacus - check if app is standalone', () => {
+  it('should throw an error if app.module.ts not found', async () => {
+    let standaloneAppTree: UnitTestTree;
+
+    standaloneAppTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+    standaloneAppTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      { ...appOptions, standalone: true },
+      standaloneAppTree
+    );
+
+    await expect(
+      schematicRunner.runSchematic(
+        'add-spartacus',
+        defaultOptions,
+        standaloneAppTree
+      )
+    ).rejects.toMatchInlineSnapshot(`
+      [Error: File "app.module.ts" not found. Please re-create your application:
+      1. remove your application code
+      2. make sure to pass the flag "--standalone=false" to the command "ng new". For more, see https://angular.io/cli/new#options
+      3. try again installing Spartacus with a command "ng add @spartacus/schematics" ...
+
+      Note: Since version 17, Angular's command "ng new" by default creates an app without a file "app.module.ts" (in a so-called "standalone" mode). But Spartacus installer requires this file to be present.
+      ]
+    `);
   });
 });

@@ -4,15 +4,29 @@
     else loading
   "
 >
-  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+  <div
+    *cxFeature="'!a11yRemoveStatusLoadedRole'"
+    role="status"
+    [attr.aria-label]="'common.loaded' | cxTranslate"
+  ></div>
+  <!-- TODO: (CXSPA-7581) - Remove feature flag next major release -->
+  <ng-container *cxFeature="'a11yStoreFinderAlerts'">
+    <div *ngIf="locations?.length" class="col-12 m-3">
+      <span role="alert">{{
+        'storeFinder.ariaLabelCountriesCount'
+          | cxTranslate: { count: locations?.length }
+      }}</span>
+    </div>
+  </ng-container>
   <div class="cx-count container">
     <div class="row" *ngIf="locations?.length">
-      <div class="cx-visually-hidden">
+      <div *cxFeature="'!a11yStoreFinderAlerts'" class="cx-visually-hidden">
         {{
           'storeFinder.ariaLabelCountriesCount'
             | cxTranslate: { count: locations?.length }
         }}
       </div>
+
       <div
         *ngFor="let country of locations"
         class="cx-set col-sm-6 col-md-4 col-lg-4 col-xl-3"
@@ -22,6 +36,7 @@
           class="btn-link"
           role="button"
           [attr.aria-label]="country.name + '(' + country.count + ')'"
+          (keydown.space)="navigateToLocation(country.isoCode, $event)"
         >
           <h2 class="cx-title" aria-hidden="true">
             <span

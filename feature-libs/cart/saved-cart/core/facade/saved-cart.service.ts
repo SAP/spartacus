@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { isSelectiveCart, StateWithMultiCart } from '@spartacus/cart/base/core';
@@ -21,7 +27,6 @@ import {
   filter,
   map,
   observeOn,
-  pluck,
   shareReplay,
   startWith,
   tap,
@@ -49,16 +54,16 @@ export class SavedCartService implements SavedCartFacade {
    * Loads a single saved cart
    */
   loadSavedCart(cartId: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         return this.store.dispatch(
           new SavedCartActions.LoadSavedCart({ userId, cartId })
         );
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**
@@ -114,16 +119,16 @@ export class SavedCartService implements SavedCartFacade {
    * Loads a list of saved carts
    */
   loadSavedCarts(): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         return this.store.dispatch(
           new SavedCartActions.LoadSavedCarts({ userId })
         );
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**
@@ -139,7 +144,7 @@ export class SavedCartService implements SavedCartFacade {
           this.loadSavedCarts();
         }
       }),
-      pluck(0),
+      map(([savedCartList, _]) => savedCartList),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }
@@ -208,8 +213,8 @@ export class SavedCartService implements SavedCartFacade {
    * @param cartId
    */
   restoreSavedCart(cartId: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         return this.store.dispatch(
           new SavedCartActions.RestoreSavedCart({
             userId,
@@ -217,10 +222,10 @@ export class SavedCartService implements SavedCartFacade {
           })
         );
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**
@@ -280,14 +285,14 @@ export class SavedCartService implements SavedCartFacade {
    * @param cartId
    */
   deleteSavedCart(cartId: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         return this.multiCartService.deleteCart(cartId, userId);
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**
@@ -303,8 +308,8 @@ export class SavedCartService implements SavedCartFacade {
     saveCartName?: string;
     saveCartDescription?: string;
   }): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         return this.store.dispatch(
           new SavedCartActions.SaveCart({
             userId,
@@ -314,10 +319,10 @@ export class SavedCartService implements SavedCartFacade {
           })
         );
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**
@@ -383,8 +388,8 @@ export class SavedCartService implements SavedCartFacade {
     saveCartName?: string;
     saveCartDescription?: string;
   }): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         return this.store.dispatch(
           new SavedCartActions.EditSavedCart({
             userId,
@@ -394,10 +399,10 @@ export class SavedCartService implements SavedCartFacade {
           })
         );
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**
@@ -406,16 +411,16 @@ export class SavedCartService implements SavedCartFacade {
    * @param cartId
    */
   cloneSavedCart(cartId: string, saveCartName?: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         return this.store.dispatch(
           new SavedCartActions.CloneSavedCart({ userId, cartId, saveCartName })
         );
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**

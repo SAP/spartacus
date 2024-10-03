@@ -1,12 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   CartAddEntryFailEvent,
+  CartAddEntrySuccessEvent,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
-import { ModalRef, ModalService } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
-import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { Observable, ReplaySubject, Subscription, race } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { AddedToCartDialogComponentData } from './added-to-cart-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +22,9 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 export class AddedToCartDialogEventListener implements OnDestroy {
   protected subscription = new Subscription();
 
-  protected modalRef: ModalRef;
-
   constructor(
     protected eventService: EventService,
-    protected modalService: ModalService
+    protected launchDialogService: LaunchDialogService
   ) {
     this.onAddToCart();
   }
@@ -29,32 +35,54 @@ export class AddedToCartDialogEventListener implements OnDestroy {
         this.openModal(event);
       })
     );
-
     this.subscription.add(
       this.eventService.get(CartAddEntryFailEvent).subscribe((event) => {
         this.closeModal(event);
       })
     );
   }
-
+  /**
+   * Opens modal based on CartUiEventAddToCart.
+   * @param event Signals that a product has been added to the cart.
+   */
   protected openModal(event: CartUiEventAddToCart): void {
-    this.modalRef = this.modalService.open(AddedToCartDialogComponent, {
-      centered: true,
-      size: 'lg',
-    });
-    const modalInstance = this.modalRef.componentInstance;
-    modalInstance.init(
-      event.productCode,
-      event.quantity,
-      event.numberOfEntriesBeforeAdd
+    const addToCartData: AddedToCartDialogComponentData = {
+      productCode: event.productCode,
+      quantity: event.quantity,
+      numberOfEntriesBeforeAdd: event.numberOfEntriesBeforeAdd,
+      pickupStoreName: event.pickupStoreName,
+      addingEntryResult$: this.createCompletionObservable(),
+    };
+
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.ADDED_TO_CART,
+      undefined,
+      undefined,
+      addToCartData
     );
+
+    if (dialog) {
+      dialog.pipe(take(1)).subscribe();
+    }
   }
 
-  protected closeModal(event: CartAddEntryFailEvent): void {
-    if (this.modalService.getActiveModal() === this.modalRef) {
-      const modalInstance = this.modalRef.componentInstance;
-      modalInstance.dismissModal(event.error);
-    }
+  protected createCompletionObservable(): Observable<
+    CartAddEntryFailEvent | CartAddEntrySuccessEvent
+  > {
+    // We subscribe early to result events using ReplaySubject(1)
+    // to ensure no missed emissions even if the modal subscribes late.
+    const addingEntryResult$ = new ReplaySubject<
+      CartAddEntrySuccessEvent | CartAddEntryFailEvent
+    >(1);
+    race([
+      this.eventService.get(CartAddEntrySuccessEvent),
+      this.eventService.get(CartAddEntryFailEvent),
+    ]).subscribe((completionEvent) => addingEntryResult$.next(completionEvent));
+    return addingEntryResult$;
+  }
+
+  protected closeModal(reason?: any): void {
+    this.launchDialogService.closeDialog(reason);
   }
 
   ngOnDestroy(): void {

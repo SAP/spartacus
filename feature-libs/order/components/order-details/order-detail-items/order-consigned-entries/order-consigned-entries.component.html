@@ -1,23 +1,34 @@
 <div *ngFor="let consignment of consignments" class="cx-list row">
-  <div class="cx-list-header col-12">
-    <div class="cx-list-status">
-      <span *ngIf="consignment">
-        {{ 'orderDetails.deliveryStatus_' + consignment?.status | cxTranslate }}
-      </span>
-    </div>
-    <div *ngIf="consignment?.statusDate" class="cx-list-date">
-      <div>{{ consignment?.statusDate | cxDate }}</div>
-    </div>
+  <ng-template
+    [cxOutlet]="OrderOutlets.ORDER_CONSIGNMENT"
+    [cxOutletContext]="{ item: consignment, order: order }"
+  >
+    <div class="cx-list-header col-12">
+      <div class="cx-list-status">
+        <span *ngIf="consignment">
+          {{
+            'orderDetails.deliveryStatus_' + consignment?.status | cxTranslate
+          }}
+        </span>
+      </div>
+      <div *ngIf="consignment?.statusDate" class="cx-list-date">
+        <div>{{ consignment?.statusDate | cxDate }}</div>
+      </div>
 
-    <cx-consignment-tracking
-      [orderCode]="order.code"
-      [consignment]="consignment"
-      *cxFeature="'consignmentTracking'"
-    >
-    </cx-consignment-tracking>
-  </div>
+      <cx-consignment-tracking
+        [orderCode]="order.code"
+        [consignment]="consignment"
+        *cxFeature="'consignmentTracking'"
+      >
+      </cx-consignment-tracking>
+    </div>
+  </ng-template>
   <div class="cx-list-item col-12">
     <ng-template
+      [cxAbstractOrderContext]="{
+        id: order.code,
+        type: abstractOrderType.ORDER,
+      }"
       [cxOutlet]="CartOutlets.CART_ITEM_LIST"
       [cxOutletContext]="{
         items: consignment.entries,
@@ -26,8 +37,8 @@
         options: {
           displayAddToCart: enableAddToCart,
           addToCartString: buyItAgainTranslation,
-          optionalBtn: addToCartBtn
-        }
+          optionalBtn: addToCartBtn,
+        },
       }"
     >
     </ng-template>
@@ -40,6 +51,7 @@
     [product]="ctx.item.product"
     [showQuantity]="false"
     [options]="ctx.options"
+    [pickupStore]="ctx.item.deliveryPointOfService?.name"
     class="add-to-cart"
   >
   </cx-add-to-cart>

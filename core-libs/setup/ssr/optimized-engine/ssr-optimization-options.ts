@@ -1,4 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Request } from 'express';
+import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
+import { RenderingEntry } from './rendering-cache.model';
+import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
+import { defaultRenderingStrategyResolverOptions } from './rendering-strategy-resolver-options';
 
 export interface SsrOptimizationOptions {
   /**
@@ -24,6 +34,8 @@ export interface SsrOptimizationOptions {
    * Can also be use when `cache` option is set to false. It will then limit the
    * number of renders that timeouts and are kept in temporary cache, waiting
    * to be served with next request.
+   *
+   * Default value is set to 3000.
    */
   cacheSize?: number;
 
@@ -47,7 +59,10 @@ export interface SsrOptimizationOptions {
   renderKeyResolver?: (req: Request) => string;
 
   /**
-   * Allows defining custom rendering strategy per request
+   * This function allows for the definition of a custom rendering strategy on a per-request basis.
+   * By default, we provide a defaultRenderingStrategyResolver,
+   * which has a default parameter defaultRenderingStrategyResolverOptions.
+   * This default option disables server-side rendering (SSR) on pages such as 'checkout' and 'my-account'.
    *
    * @param req
    */
@@ -100,9 +115,64 @@ export interface SsrOptimizationOptions {
   reuseCurrentRendering?: boolean;
 
   /**
-   * Enable detailed logs for troubleshooting problems
+   * @deprecated - This flag is not used anymore since v2211.27.
+   *
+   * Now all the information about the traffic and rendering is logged unconditionally:
+   * - receiving requests
+   * - responding to requests (either with HTML result, error or fallback to CSR)
+   * - start and end of renders
+   * - timeout of renders (due to passing `maxRenderTime`)
    */
   debug?: boolean;
+
+  /**
+   * Config for improving logged messages with context and JSON structure.
+   *
+   * It enhances the logs in SSR by adding context, including the request's details,
+   * and structuring them as JSON.
+   *
+   * The `logger` property is optional and accepts:
+   * - `ExpressServerLogger`: Interprets the given `ExpressServerLogger` as a custom logger
+   *
+   * By default, the DefaultExpressServerLogger is used.
+   */
+  logger?: ExpressServerLogger;
+
+  /**
+   * When caching is enabled, this function tells whether the given rendering result
+   * (html or error) should be cached.
+   *
+   * By default, all html rendering results are cached. By default, also all errors are cached
+   * unless the separate option `avoidCachingErrors` is enabled.
+   */
+  shouldCacheRenderingResult?: ({
+    options,
+    entry,
+  }: {
+    options: SsrOptimizationOptions;
+    entry: Pick<RenderingEntry, 'err' | 'html'>;
+  }) => boolean;
+
+  /**
+   * Toggles providing granular adaptation to breaking changes in OptimizedSsrEngine.
+   * They are temporary and will be removed in the future.
+   * Each toggle has its own lifespan.
+   *
+   * Note: They are related only to the `OptimizedSsrEngine`. In particular, they
+   * are different from Spartacus's regular feature toggles provided in the Angular app.
+   */
+  ssrFeatureToggles?: {
+    /**
+     * Determines if rendering errors should be skipped from caching.
+     *
+     * It's recommended to set to `true` (i.e. errors are skipped from caching),
+     * which will become the default behavior, when this feature toggle is removed.
+     *
+     * It only affects the default `shouldCacheRenderingResult`.
+     * Custom implementations of `shouldCacheRenderingResult` may ignore this setting.
+     */
+    avoidCachingErrors?: boolean;
+  };
 }
 
 export enum RenderingStrategy {
@@ -110,3 +180,33 @@ export enum RenderingStrategy {
   DEFAULT = 0,
   ALWAYS_SSR = 1,
 }
+
+/**
+ * Deeply required type for `featureToggles` property.
+ */
+type DeepRequired<T> = {
+  [P in keyof T]-?: DeepRequired<T[P]>;
+};
+
+export const defaultSsrOptimizationOptions: SsrOptimizationOptions &
+  // To not forget adding default values, when adding new feature toggles in the type in the future
+  DeepRequired<Pick<SsrOptimizationOptions, 'ssrFeatureToggles'>> = {
+  cacheSize: 3000,
+  concurrency: 10,
+  timeout: 3_000,
+  forcedSsrTimeout: 60_000,
+  maxRenderTime: 300_000,
+  reuseCurrentRendering: true,
+  renderingStrategyResolver: defaultRenderingStrategyResolver(
+    defaultRenderingStrategyResolverOptions
+  ),
+  logger: new DefaultExpressServerLogger(),
+  shouldCacheRenderingResult: ({ options, entry }) =>
+    !(
+      options.ssrFeatureToggles?.avoidCachingErrors === true &&
+      Boolean(entry.err)
+    ),
+  ssrFeatureToggles: {
+    avoidCachingErrors: false,
+  },
+};

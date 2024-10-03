@@ -1,15 +1,24 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { LoggerService } from '../../../logger';
 import { EntitiesModel } from '../../../model/misc.model';
 import { CostCenter } from '../../../model/org-unit.model';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { UserCostCenterConnector } from '../../connectors/cost-center/user-cost-center.connector';
 import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserCostCenterEffects {
+  protected logger = inject(LoggerService);
+
   loadActiveCostCenters$: Observable<UserActions.UserCostCenterAction> =
     createEffect(() =>
       this.actions$.pipe(
@@ -25,7 +34,7 @@ export class UserCostCenterEffects {
             catchError((error) =>
               of(
                 new UserActions.LoadActiveCostCentersFail(
-                  normalizeHttpError(error)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )

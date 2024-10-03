@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CheckoutStep } from '@spartacus/checkout/base/root';
+import { CheckoutStep, CheckoutStepState } from '@spartacus/checkout/base/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
@@ -35,5 +41,15 @@ export class CheckoutProgressComponent {
 
   isDisabled(index: number): boolean {
     return index > this.activeStepIndex;
+  }
+
+  getStepState(index: number): CheckoutStepState {
+    if (this.isDisabled(index)) {
+      return CheckoutStepState.DISABLED;
+    }
+    if (this.isActive(index)) {
+      return CheckoutStepState.SELECTED;
+    }
+    return CheckoutStepState.COMPLETED;
   }
 }

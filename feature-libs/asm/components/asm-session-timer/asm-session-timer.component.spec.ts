@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Injectable,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -6,7 +11,7 @@ import {
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-import { AsmConfig } from '@spartacus/asm/core';
+import { AsmConfig } from '@spartacus/asm/root';
 import {
   I18nTestingModule,
   OCC_USER_ID_ANONYMOUS,
@@ -31,7 +36,7 @@ class MockUserIdService implements Partial<UserIdService> {
     return of('');
   }
 }
-
+@Injectable()
 class MockAsmComponentService implements Partial<AsmComponentService> {
   logoutCustomerSupportAgentAndCustomer(): void {}
 }
@@ -57,24 +62,22 @@ describe('AsmSessionTimerComponent', () => {
   let routingService: RoutingService;
   let userIdService: UserIdService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [AsmSessionTimerComponent, MockFormatTimerPipe],
-        providers: [
-          {
-            provide: ChangeDetectorRef,
-            useValue: { markForCheck: createSpy('markForCheck') },
-          },
-          { provide: AsmConfig, useValue: MockAsmConfig },
-          { provide: AsmComponentService, useClass: MockAsmComponentService },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: UserIdService, useClass: MockUserIdService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [AsmSessionTimerComponent, MockFormatTimerPipe],
+      providers: [
+        {
+          provide: ChangeDetectorRef,
+          useValue: { markForCheck: createSpy('markForCheck') },
+        },
+        { provide: AsmConfig, useValue: MockAsmConfig },
+        { provide: AsmComponentService, useClass: MockAsmComponentService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: UserIdService, useClass: MockUserIdService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmSessionTimerComponent);

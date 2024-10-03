@@ -7,7 +7,8 @@ import {
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
+import { EMPTY, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
@@ -62,7 +63,7 @@ const mockTabComponentData3 = {
 };
 
 const MockCmsService = {
-  getComponentData: () => of(),
+  getComponentData: () => EMPTY,
 };
 
 const MockCmsComponentData = <CmsComponentData<CMSTabParagraphContainer>>{
@@ -75,26 +76,25 @@ describe('TabParagraphContainerComponent', () => {
   let cmsService: CmsService;
   let windowRef: WindowRef;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          TestComponent,
-          TabParagraphContainerComponent,
-          ComponentWrapperDirective,
-          OutletDirective,
-        ],
-        providers: [
-          WindowRef,
-          { provide: CmsComponentData, useValue: MockCmsComponentData },
-          { provide: CmsService, useValue: MockCmsService },
-          { provide: CmsConfig, useValue: MockCmsModuleConfig },
-          { provide: LayoutConfig, useValue: MockLayoutConfig },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        TestComponent,
+        TabParagraphContainerComponent,
+        ComponentWrapperDirective,
+        OutletDirective,
+        MockFeatureDirective,
+      ],
+      providers: [
+        WindowRef,
+        { provide: CmsComponentData, useValue: MockCmsComponentData },
+        { provide: CmsService, useValue: MockCmsService },
+        { provide: CmsConfig, useValue: MockCmsModuleConfig },
+        { provide: LayoutConfig, useValue: MockLayoutConfig },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TabParagraphContainerComponent);

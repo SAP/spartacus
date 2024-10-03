@@ -14,7 +14,7 @@
       margin-inline-start: 0px;
       margin-inline-end: 0px;
       margin-block-start: 0px;
-      margin-block-end: 15px;
+      margin-block-end: 0px;
     }
 
     .cx-group-title {
@@ -22,6 +22,29 @@
       background-color: var(--cx-color-background);
       border: 1px solid var(--cx-color-light);
       border-radius: 2px;
+
+      cx-hamburger-menu {
+        button {
+          padding-inline-start: 5px;
+          padding-inline-end: 5px;
+          padding-block-start: 5px;
+          padding-block-end: 0px;
+          margin-inline-start: 12px;
+          margin-inline-end: 10px;
+          @include media-breakpoint-down(xs) {
+            margin-inline-start: -5px;
+            padding-inline-start: 5px;
+          }
+
+          .hamburger-inner {
+            &,
+            &::before,
+            &::after {
+              background-color: var(--cx-color-primary);
+            }
+          }
+        }
+      }
     }
 
     .cx-ghost-group-title {

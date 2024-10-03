@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { isMobile } from '../helpers/viewport-context';
 
 declare global {
@@ -26,7 +32,7 @@ Cypress.Commands.add(
   ({ option }: { option: string }) => {
     if (isMobile()) {
       // below click is exactly the same as clickHamburger() but we cannot import it here
-      cy.get('cx-hamburger-menu [aria-label="Menu"]').click({ force: true });
+      cy.get('cx-hamburger-menu button').click({ force: true });
       cy.contains('button', 'My Account').click({ force: true });
     }
 

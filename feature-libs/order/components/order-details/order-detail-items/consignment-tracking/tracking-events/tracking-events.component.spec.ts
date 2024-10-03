@@ -1,11 +1,15 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { I18nTestingModule } from '@spartacus/core';
 import { ConsignmentTracking, OrderHistoryFacade } from '@spartacus/order/root';
-import { SpinnerModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import {
+  IconTestingModule,
+  KeyboardFocusTestingModule,
+  LaunchDialogService,
+  SpinnerModule,
+} from '@spartacus/storefront';
+import { EMPTY, Observable, of } from 'rxjs';
 import { TrackingEventsComponent } from './tracking-events.component';
 
 const shipDate = new Date('2019-02-11T13:05:12+0000');
@@ -16,6 +20,13 @@ const shipDate = new Date('2019-02-11T13:05:12+0000');
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  get data$(): Observable<any> {
+    return of(undefined);
+  }
+
+  closeDialog(_reason: string): void {}
+}
 
 describe('TrackingEventsComponent', () => {
   let component: TrackingEventsComponent;
@@ -24,20 +35,25 @@ describe('TrackingEventsComponent', () => {
   const userOrderService = jasmine.createSpyObj('UserOrderService', [
     'clearConsignmentTracking',
   ]);
-  const ngbActiveModal = jasmine.createSpyObj('NgbActiveModal', ['dismiss']);
+  let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [NgbModule, SpinnerModule, I18nTestingModule],
-        declarations: [TrackingEventsComponent, MockTranslateUrlPipe],
-        providers: [
-          { provide: NgbActiveModal, useValue: ngbActiveModal },
-          { provide: OrderHistoryFacade, useValue: userOrderService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        SpinnerModule,
+        I18nTestingModule,
+        KeyboardFocusTestingModule,
+        IconTestingModule,
+      ],
+      declarations: [TrackingEventsComponent, MockTranslateUrlPipe],
+      providers: [
+        { provide: OrderHistoryFacade, useValue: userOrderService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+      ],
+    }).compileComponents();
+
+    launchDialogService = TestBed.inject(LaunchDialogService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TrackingEventsComponent);
@@ -45,7 +61,6 @@ describe('TrackingEventsComponent', () => {
     component = fixture.componentInstance;
     component.shipDate = shipDate;
     userOrderService.clearConsignmentTracking.and.stub();
-    ngbActiveModal.dismiss.and.stub();
   });
 
   it('should create', () => {
@@ -54,21 +69,21 @@ describe('TrackingEventsComponent', () => {
   });
 
   it('should show loading spinner', () => {
-    component.tracking$ = of();
+    component.tracking$ = EMPTY;
     fixture.detectChanges();
-    expect(el.query(By.css('.tracking-loading'))).toBeTruthy();
+    expect(el.query(By.css('.cx-tracking-loading'))).toBeTruthy();
   });
 
   it('should show no tracking', () => {
-    component.tracking$ = of<ConsignmentTracking>({
+    component.tracking$ = of({
       trackingID: '1234567890',
-    });
+    } as ConsignmentTracking);
     fixture.detectChanges();
-    expect(el.query(By.css('.no-tracking-heading'))).toBeTruthy();
+    expect(el.query(By.css('.cx-no-tracking-heading'))).toBeTruthy();
   });
 
   it('should show tracking info', () => {
-    component.tracking$ = of<ConsignmentTracking>({
+    component.tracking$ = of({
       carrierDetails: {
         code: 'MockCarrier',
         name: 'MockCarrier',
@@ -94,16 +109,30 @@ describe('TrackingEventsComponent', () => {
           referenceCode: 'IN_TRANSIT',
         },
       ],
-    });
+    } as ConsignmentTracking);
     fixture.detectChanges();
-    expect(el.query(By.css('.shipment-heading'))).toBeTruthy();
-    expect(el.queryAll(By.css('.event-body')).length).toBe(3);
+    expect(el.query(By.css('.cx-shipment-heading'))).toBeTruthy();
+    expect(el.queryAll(By.css('.cx-tracking-event-body')).length).toBe(3);
   });
 
   it('should be able to close dialog', () => {
+    spyOn(launchDialogService, 'closeDialog').and.stub();
     fixture.detectChanges();
     el.query(By.css('.btn-dismiss')).nativeElement.click();
-    expect(ngbActiveModal.dismiss).toHaveBeenCalledWith('Cross click');
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith('Cross click');
     expect(userOrderService.clearConsignmentTracking).toHaveBeenCalled();
+  });
+
+  it('should emit handleClick event', () => {
+    spyOn(component, 'handleClick').and.callThrough();
+    spyOn(component, 'close');
+
+    expect(component.handleClick).toHaveBeenCalledTimes(0);
+
+    el.nativeElement.click();
+    fixture.detectChanges();
+
+    expect(component.handleClick).toHaveBeenCalledTimes(1);
+    expect(component.close).toHaveBeenCalledWith('Cross click');
   });
 });

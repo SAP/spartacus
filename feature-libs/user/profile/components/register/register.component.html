@@ -2,15 +2,23 @@
   class="cx-page-section container"
   *ngIf="!(isLoading$ | async); else loading"
 >
-  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+  <div
+    *cxFeature="'!a11yRemoveStatusLoadedRole'"
+    role="status"
+    [attr.aria-label]="'common.loaded' | cxTranslate"
+  ></div>
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="cx-section">
+        <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
+        <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
+          {{ 'formLegend.required' | cxTranslate }}
+        </p>
         <form (ngSubmit)="submitForm()" [formGroup]="registerForm">
           <div class="form-group">
             <label>
               <span class="label-content">{{
-                'register.title' | cxTranslate
+                'register.titleOptional' | cxTranslate
               }}</span>
               <ng-select
                 [clearable]="false"
@@ -22,7 +30,7 @@
                 formControlName="titleCode"
                 id="title-select"
                 [cxNgSelectA11y]="{
-                  ariaLabel: 'register.title' | cxTranslate
+                  ariaLabel: 'register.title' | cxTranslate,
                 }"
               >
               </ng-select>
@@ -31,9 +39,10 @@
 
           <div class="form-group">
             <label>
-              <span class="label-content">{{
-                'register.firstName.label' | cxTranslate
-              }}</span>
+              <span class="label-content"
+                >{{ 'register.firstName.label' | cxTranslate }}
+                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+              ></span>
               <input
                 required="true"
                 class="form-control"
@@ -44,7 +53,18 @@
                 }}"
                 formControlName="firstName"
               />
+
+              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
+                *cxFeature="'formErrorsDescriptiveMessages'"
+                [translationParams]="{
+                  label: 'register.firstName.label' | cxTranslate,
+                }"
+                [control]="registerForm.get('firstName')"
+              ></cx-form-errors>
+
+              <cx-form-errors
+                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="registerForm.get('firstName')"
               ></cx-form-errors>
             </label>
@@ -52,9 +72,10 @@
 
           <div class="form-group">
             <label>
-              <span class="label-content">{{
-                'register.lastName.label' | cxTranslate
-              }}</span>
+              <span class="label-content"
+                >{{ 'register.lastName.label' | cxTranslate }}
+                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+              ></span>
               <input
                 required="true"
                 class="form-control"
@@ -65,7 +86,18 @@
                 }}"
                 formControlName="lastName"
               />
+
+              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
+                *cxFeature="'formErrorsDescriptiveMessages'"
+                [translationParams]="{
+                  label: 'register.lastName.label' | cxTranslate,
+                }"
+                [control]="registerForm.get('lastName')"
+              ></cx-form-errors>
+
+              <cx-form-errors
+                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="registerForm.get('lastName')"
               ></cx-form-errors>
             </label>
@@ -73,9 +105,10 @@
 
           <div class="form-group">
             <label>
-              <span class="label-content">{{
-                'register.emailAddress.label' | cxTranslate
-              }}</span>
+              <span class="label-content"
+                >{{ 'register.emailAddress.label' | cxTranslate }}
+                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+              ></span>
               <input
                 required="true"
                 class="form-control"
@@ -86,7 +119,18 @@
                 }}"
                 formControlName="email"
               />
+
+              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
+                *cxFeature="'formErrorsDescriptiveMessages'"
+                [translationParams]="{
+                  label: 'register.emailAddress.label' | cxTranslate,
+                }"
+                [control]="registerForm.get('email')"
+              ></cx-form-errors>
+
+              <cx-form-errors
+                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="registerForm.get('email')"
               ></cx-form-errors>
             </label>
@@ -94,9 +138,10 @@
 
           <div class="form-group">
             <label>
-              <span class="label-content">{{
-                'register.password.label' | cxTranslate
-              }}</span>
+              <span class="label-content"
+                >{{ 'register.password.label' | cxTranslate }}
+                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+              ></span>
               <input
                 required="true"
                 class="form-control"
@@ -109,9 +154,24 @@
                 [attr.aria-label]="
                   'register.password.placeholder' | cxTranslate
                 "
+                aria-describedby="password-input-hint"
                 cxPasswordVisibilitySwitch
               />
+              <p class="input-hint" id="password-input-hint">
+                {{ 'register.passwordMinRequirements' | cxTranslate }}
+              </p>
+
+              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
+                *cxFeature="'formErrorsDescriptiveMessages'"
+                [translationParams]="{
+                  label: 'register.password.label' | cxTranslate,
+                }"
+                [control]="registerForm.get('password')"
+              ></cx-form-errors>
+
+              <cx-form-errors
+                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="registerForm.get('password')"
               ></cx-form-errors>
             </label>
@@ -119,9 +179,10 @@
 
           <div class="form-group">
             <label>
-              <span class="label-content">{{
-                'register.confirmPassword.label' | cxTranslate
-              }}</span>
+              <span class="label-content"
+                >{{ 'register.confirmPassword.label' | cxTranslate }}
+                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+              ></span>
               <input
                 required="true"
                 class="form-control"
@@ -136,7 +197,18 @@
                 "
                 cxPasswordVisibilitySwitch
               />
+
+              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
+                *cxFeature="'formErrorsDescriptiveMessages'"
+                [translationParams]="{
+                  label: 'register.confirmPassword.label' | cxTranslate,
+                }"
+                [control]="registerForm.get('passwordconf')"
+              ></cx-form-errors>
+
+              <cx-form-errors
+                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="registerForm.get('passwordconf')"
               ></cx-form-errors>
             </label>
@@ -159,6 +231,33 @@
             </div>
           </div>
 
+          <div
+            formArrayName="additionalConsents"
+            class="form-group"
+            *ngIf="additionalRegistrationConsents as consents"
+          >
+            <div
+              class="form-check"
+              *ngFor="let control of additionalConsents.controls; let i = index"
+            >
+              <div *ngIf="consents[i]?.template?.id as id">
+                <label>
+                  <input
+                    type="checkbox"
+                    [required]="consents[i].required"
+                    [name]="id"
+                    (change)="updateAdditionalConsents($any($event), i)"
+                    [formControlName]="i"
+                  />
+                  <span class="form-check-label">
+                    {{ consents[i].template.description }}
+                  </span>
+                  <cx-form-errors [control]="control"></cx-form-errors>
+                </label>
+              </div>
+            </div>
+          </div>
+
           <div class="form-group">
             <div class="form-check">
               <label>
@@ -177,13 +276,31 @@
                   >
                     {{ 'register.termsAndConditions' | cxTranslate }}
                   </a>
+                  <ng-template
+                    [ngTemplateOutlet]="requiredAsterisk"
+                  ></ng-template>
                 </span>
+
+                <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
+                  *cxFeature="'formErrorsDescriptiveMessages'"
+                  [translationParams]="{
+                    label: 'register.termsAndConditions' | cxTranslate,
+                  }"
+                  [control]="registerForm.get('termsandconditions')"
+                ></cx-form-errors>
+
+                <cx-form-errors
+                  *cxFeature="'!formErrorsDescriptiveMessages'"
                   [control]="registerForm.get('termsandconditions')"
                 ></cx-form-errors>
               </label>
             </div>
           </div>
+          <cx-captcha (confirmed)="captchaConfirmed()"></cx-captcha>
+          <cx-form-errors
+            [control]="registerForm.get('captcha')"
+          ></cx-form-errors>
           <button type="submit" class="btn btn-block btn-primary">
             {{ 'register.register' | cxTranslate }}
           </button>
@@ -197,6 +314,15 @@
     </div>
   </div>
 </section>
+
+<ng-template #requiredAsterisk>
+  <abbr
+    *cxFeature="'a11yRequiredAsterisks'"
+    class="text-decoration-none"
+    title="{{ 'common.required' | cxTranslate }}"
+    >*</abbr
+  >
+</ng-template>
 
 <ng-template #loading>
   <div class="cx-spinner"><cx-spinner></cx-spinner></div>

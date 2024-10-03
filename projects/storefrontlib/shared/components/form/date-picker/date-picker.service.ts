@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 
 /**
@@ -52,7 +58,7 @@ export class DatePickerService {
       .replace('yyyy', '')
       .replace('mm', '')
       .replace('dd', '')
-      .substr(0, 1);
+      .substring(0, 1);
 
     const dateParts = value.split(delimiter);
 

@@ -1,11 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
+import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
@@ -24,7 +31,6 @@ export class AuthService {
    * Indicates whether the access token is being refreshed
    */
   refreshInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
-
   /**
    * Indicates whether the logout is being performed
    */
@@ -36,7 +42,8 @@ export class AuthService {
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected authStorageService: AuthStorageService,
     protected authRedirectService: AuthRedirectService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected authMultisiteIsolationService?: AuthMultisiteIsolationService
   ) {}
 
   /**
@@ -80,11 +87,43 @@ export class AuthService {
    * @param password
    */
   async loginWithCredentials(userId: string, password: string): Promise<void> {
+    let uid = userId;
+    if (this.authMultisiteIsolationService) {
+      uid = await lastValueFrom(
+        this.authMultisiteIsolationService.decorateUserId(uid)
+      );
+    }
+
     try {
       await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
-        userId,
+        uid,
         password
       );
+
+      // OCC specific user id handling. Customize when implementing different backend
+      this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+
+      this.store.dispatch(new AuthActions.Login());
+
+      this.authRedirectService.redirect();
+    } catch {}
+  }
+
+  /**
+   * Loads a new user token with otp tokenCode and otp tokenId.
+   * @param tokenId
+   * @param tokenCode
+   */
+  async otpLoginWithCredentials(
+    tokenId: string,
+    tokenCode: string
+  ): Promise<void> {
+    try {
+      await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
+        tokenId,
+        tokenCode
+      );
+
       // OCC specific user id handling. Customize when implementing different backend
       this.userIdService.setUserId(OCC_USER_ID_CURRENT);
 

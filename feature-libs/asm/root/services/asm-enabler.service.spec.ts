@@ -49,7 +49,7 @@ const mockLaunchConfig: LayoutConfig = {
   launch: {
     ASM: {
       outlet: 'cx-outlet-test',
-      component: {},
+      component: class Foo {},
     },
   },
 };
@@ -91,6 +91,15 @@ describe('AsmEnablerService', () => {
   describe('Open ASM based on URL parameter', () => {
     it('should add UI when ?asm=true', () => {
       spyOn(location, 'path').and.returnValue('/any/url?asm=true');
+      spyOn(<any>asmEnablerService, 'addUi').and.stub();
+      asmEnablerService.load();
+      expect((<any>asmEnablerService).addUi).toHaveBeenCalled();
+    });
+
+    it('should add UI when assisted-service/emulate? shows in the url', () => {
+      spyOn(location, 'path').and.returnValue(
+        '/any/assisted-service/emulate?customerId=1234'
+      );
       spyOn(<any>asmEnablerService, 'addUi').and.stub();
       asmEnablerService.load();
       expect((<any>asmEnablerService).addUi).toHaveBeenCalled();

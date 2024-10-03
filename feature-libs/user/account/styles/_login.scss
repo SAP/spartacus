@@ -1,4 +1,6 @@
 %cx-login {
+  color: var(--cx-color-text);
+
   @include media-breakpoint-down(md) {
     > a {
       padding: 1rem;
@@ -7,7 +9,7 @@
   }
 
   .cx-login-greet {
-    color: var(--cx-color-inverse);
+    color: var(--cx-color-text);
     @include type('7');
     font-weight: var(--cx-font-weight-semi);
 
@@ -23,7 +25,20 @@
       nav > ul > li > button {
         padding-top: 4px;
         padding-bottom: 0;
+
+        // TODO: (CXSPA-7205) - Remove feature flag next major release
+        @include forFeature('a11yMyAccountLinkOutline') {
+          padding-top: 0;
+          margin-top: 4px;
+          outline-offset: 1px;
+        }
       }
+    }
+  }
+
+  @include cx-highContrastTheme {
+    .cx-login-greet {
+      background-color: var(--cx-color-background);
     }
   }
 }

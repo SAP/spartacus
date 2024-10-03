@@ -8,6 +8,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { of } from 'rxjs';
 import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
 import createSpy = jasmine.createSpy;
@@ -31,6 +32,7 @@ class MockGuestRegisterFormComponent {
 
 class MockOrderFacade implements Partial<OrderFacade> {
   getOrderDetails = createSpy().and.returnValue(of(mockOrder));
+  clearPlacedOrder() {}
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -48,23 +50,22 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
   let orderFacade: OrderFacade;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          OrderConfirmationThankYouMessageComponent,
-          MockAddtoHomeScreenBannerComponent,
-          MockGuestRegisterFormComponent,
-        ],
-        providers: [
-          { provide: OrderFacade, useClass: MockOrderFacade },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: TranslationService, useClass: MockTranslationService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        OrderConfirmationThankYouMessageComponent,
+        MockAddtoHomeScreenBannerComponent,
+        MockGuestRegisterFormComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [
+        { provide: OrderFacade, useClass: MockOrderFacade },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

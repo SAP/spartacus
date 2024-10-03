@@ -1,5 +1,6 @@
 %cx-epd-visualization-viewer-toolbar-button {
   display: inline-block;
+  pointer-events: none;
 
   @include media-breakpoint-down(sm) {
     width: auto;
@@ -32,6 +33,7 @@
     width: 65px;
     padding: inherit;
     border-radius: 0.25em;
+    pointer-events: all;
 
     font-size: var(--cx-font-size, 0.9rem) !important;
     font-weight: var(--cx-font-weight-semi);
@@ -49,7 +51,12 @@
     }
   }
 
+  .btn.disabled {
+    pointer-events: none;
+  }
+
   .btn-link {
+    color: var(--cx-color-text) !important;
     text-decoration: none !important;
     font-size: $small-font-size;
 
@@ -60,6 +67,10 @@
         display: none;
       }
     }
+  }
+
+  button:disabled {
+    color: var(--cx-color-dark) !important;
   }
 
   .checked {

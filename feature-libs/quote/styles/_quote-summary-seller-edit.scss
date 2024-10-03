@@ -1,0 +1,28 @@
+%cx-quote-summary-seller-edit {
+  .cx-seller-edit-body {
+    padding: 20px;
+    background: var(--cx-color-background);
+    border: 1px solid var(--cx-color-medium);
+    margin-block-start: 1rem;
+
+    .cx-discount-input {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+
+      .btn-secondary {
+        max-width: 6.5rem;
+        height: fit-content;
+      }
+    }
+
+    .cx-validation-msg {
+      color: var(--cx-color-danger);
+      font-size: 14px;
+
+      cx-icon {
+        padding-inline-end: 5px;
+      }
+    }
+  }
+}

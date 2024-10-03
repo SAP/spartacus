@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export * from './config-factory';
 export * from './config-initializer/index';
 export * from './config-providers';
@@ -12,6 +18,9 @@ export * from './config-validator/index';
 export { ConfigModule } from './config.module';
 export * from './services/configuration.service';
 export {
+  TEST_CONFIG,
+  TEST_CONFIG_COOKIE_NAME,
+  TestConfig,
   TestConfigModule,
   TestConfigModuleOptions,
 } from './test-config.module';

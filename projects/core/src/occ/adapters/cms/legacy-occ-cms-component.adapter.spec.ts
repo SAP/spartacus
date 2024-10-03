@@ -4,10 +4,10 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CMS_COMPONENT_NORMALIZER } from 'projects/core/src/cms/connectors/component/converters';
-import { CmsComponent, PageType } from 'projects/core/src/model/cms.model';
-import { PageContext } from 'projects/core/src/routing/models/page-context.model';
+import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
 import { CmsStructureConfigService } from '../../../cms/services';
+import { CmsComponent, PageType } from '../../../model/cms.model';
+import { PageContext } from '../../../routing/models/page-context.model';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
@@ -33,7 +33,7 @@ const pageContext: PageContext = {
   type: PageType.PRODUCT_PAGE,
 };
 
-const spyOnPostEndpoint = `/cms/components?productCode=123`;
+const spyOnPostEndpoint = `userId/anonymous/cms/components?productCode=123`;
 
 describe('LegacyOccCmsComponentAdapter', () => {
   let service: LegacyOccCmsComponentAdapter;
@@ -72,7 +72,7 @@ describe('LegacyOccCmsComponentAdapter', () => {
 
     const testRequest = mockHttpRequest(
       'POST',
-      '/cms/components?productCode=123'
+      'userId/anonymous/cms/components?productCode=123'
     );
 
     assertPostTestRequestBody(testRequest);

@@ -1,11 +1,25 @@
-import { ViewportScroller } from '@angular/common';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { DOCUMENT, ViewportScroller } from '@angular/common';
 import {
   ApplicationRef,
   ComponentRef,
   Injectable,
   Injector,
+  inject,
 } from '@angular/core';
-import { Router, Scroll } from '@angular/router';
+import {
+  EventType,
+  NavigationEnd,
+  NavigationSkipped,
+  ROUTER_CONFIGURATION,
+  Router,
+  Scroll,
+} from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, pairwise } from 'rxjs/operators';
 import { OnNavigateConfig } from './config';
@@ -14,10 +28,23 @@ import { OnNavigateConfig } from './config';
   providedIn: 'root',
 })
 export class OnNavigateService {
+  protected readonly routerConfiguration =
+    inject(ROUTER_CONFIGURATION, { optional: true }) || {};
+
   protected subscription: Subscription;
 
   get hostComponent(): ComponentRef<any> {
     return this.injector.get(ApplicationRef)?.components?.[0];
+  }
+
+  get selectedHostElement(): HTMLElement | undefined {
+    const toSelect =
+      this.config?.enableResetViewOnNavigate?.selectedHostElement;
+    return toSelect
+      ? <HTMLElement>(
+          this.injector.get(DOCUMENT)?.getElementsByTagName?.(toSelect)?.[0]
+        )
+      : undefined;
   }
 
   constructor(
@@ -45,6 +72,9 @@ export class OnNavigateService {
     this.subscription?.unsubscribe();
 
     if (enable) {
+      // Disable automatic scroll restoration to avoid race conditions
+      this.viewportScroller.setHistoryScrollRestoration('manual');
+
       this.subscription = this.router.events
         .pipe(
           filter((event): event is Scroll => event instanceof Scroll),
@@ -57,7 +87,7 @@ export class OnNavigateService {
           const position = currentRoute.position;
           if (position) {
             // allow the pages to be repainted before scrolling to proper position
-            setTimeout(() => this.viewportScroller.scrollToPosition(position));
+            this.scrollToPosition(currentRoute, position);
           } else {
             if (
               this.config.enableResetViewOnNavigate?.ignoreQueryString &&
@@ -70,15 +100,56 @@ export class OnNavigateService {
               return;
             }
 
-            setTimeout(
-              () => this.viewportScroller.scrollToPosition([0, 0]),
-              100
-            );
+            this.scrollToPosition(currentRoute, position);
           }
 
-          this.hostComponent?.location?.nativeElement.focus();
+          this.focusOnHostElement();
         });
     }
+  }
+
+  /**
+   * Focus on selectedHostElement if set in config.
+   * Otherwise, focuses on hostComponent.
+   */
+  protected focusOnHostElement() {
+    if (this.selectedHostElement) {
+      this.selectedHostElement?.focus();
+    } else {
+      this.hostComponent?.location?.nativeElement.focus();
+    }
+  }
+
+  /**
+   * Scrolls to a specified position or anchor based on the current route and configuration.
+   * @param currentRoute The current route containing scroll information.
+   * @param position The target scroll position as [x, y] coordinates, or null.
+   */
+  private scrollToPosition(
+    currentRoute: Scroll,
+    position: [number, number] | null
+  ): void {
+    const scrollTo = (
+      anchor: string | null,
+      scrollPosition: [number, number]
+    ) => {
+      if (anchor && this.routerConfiguration.anchorScrolling === 'enabled') {
+        this.viewportScroller.scrollToAnchor(anchor);
+      } else {
+        this.viewportScroller.scrollToPosition(scrollPosition);
+      }
+    };
+
+    const defaultPosition: [number, number] = [0, 0];
+
+    setTimeout(
+      () => {
+        const anchor = currentRoute.anchor;
+        const positionToScroll = position || defaultPosition;
+        scrollTo(anchor, positionToScroll);
+      },
+      position ? 0 : 100
+    );
   }
 
   /**
@@ -89,8 +160,10 @@ export class OnNavigateService {
    */
   private isChildRoute(route: Scroll): boolean {
     return (
-      this.config.enableResetViewOnNavigate?.ignoreRoutes?.some((configRoute) =>
-        route.routerEvent.urlAfterRedirects.split('/').includes(configRoute)
+      this.config.enableResetViewOnNavigate?.ignoreRoutes?.some(
+        (configRoute) =>
+          this.isNavigationEnd(route.routerEvent) &&
+          route.routerEvent.urlAfterRedirects.split('/').includes(configRoute)
       ) ?? false
     );
   }
@@ -103,9 +176,26 @@ export class OnNavigateService {
    * @returns boolean depending on the previous and current route are equal without the query strings
    */
   private isPathEqual(previousRoute: Scroll, currentRoute: Scroll): boolean {
+    if (
+      !this.isNavigationEnd(previousRoute.routerEvent) ||
+      !this.isNavigationEnd(currentRoute.routerEvent)
+    ) {
+      return false;
+    }
+
     return (
       previousRoute.routerEvent.urlAfterRedirects.split('?')[0] ===
       currentRoute.routerEvent.urlAfterRedirects.split('?')[0]
     );
+  }
+
+  /**
+   * Verifies if router event is a navigation end event
+   * @private
+   */
+  private isNavigationEnd(
+    event: NavigationEnd | NavigationSkipped
+  ): event is NavigationEnd {
+    return event.type === EventType.NavigationEnd;
   }
 }

@@ -1,11 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { getDefaultDeliveryModeCode } from './utils/delivery-modes';
 
 declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Selects a default delivery method for a cart.
-       * Returns delivery method object.
+       * Selects a default delivery options for a cart.
+       * Returns delivery options object.
        *
        * @memberof Cypress.Chainable
        *

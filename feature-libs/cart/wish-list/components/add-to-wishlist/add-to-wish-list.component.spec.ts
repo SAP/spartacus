@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
+  Directive,
   Input,
   Pipe,
   PipeTransform,
@@ -11,8 +12,14 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
-import { AuthService, I18nTestingModule, Product } from '@spartacus/core';
+import {
+  AuthService,
+  FeatureConfigService,
+  I18nTestingModule,
+  Product,
+} from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 import createSpy = jasmine.createSpy;
@@ -91,32 +98,50 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
+@Directive({
+  selector: '[cxAtMessage]',
+})
+class MockAtMessageDirective {
+  @Input() cxAtMessage: string | string[] | undefined;
+}
+
 describe('AddToWishListComponent', () => {
   let component: AddToWishListComponent;
   let fixture: ComponentFixture<AddToWishListComponent>;
   let wishListFacade: WishListFacade;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [AddToWishListComponent, MockIconComponent, MockUrlPipe],
-        providers: [
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: WishListFacade, useClass: MockWishListService },
-          {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
-          },
-        ],
-      })
-        .overrideComponent(AddToWishListComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [
+        AddToWishListComponent,
+        MockIconComponent,
+        MockUrlPipe,
+        MockAtMessageDirective,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: WishListFacade, useClass: MockWishListService },
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      ],
     })
-  );
+      .overrideComponent(AddToWishListComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddToWishListComponent);
@@ -224,6 +249,38 @@ describe('AddToWishListComponent', () => {
         expect(wishList).toEqual([]);
         done();
       });
+    });
+  });
+
+  describe('restoreFocus', () => {
+    it('should refocus on removeFromWishlistButton', () => {
+      component.removeFromWishlistButton = {
+        nativeElement: {
+          focus: jasmine.createSpy('focus'),
+        },
+      };
+      component.loading$ = of(false);
+
+      component['restoreFocus']();
+
+      expect(
+        component.removeFromWishlistButton.nativeElement.focus
+      ).toHaveBeenCalled();
+    });
+
+    it('should refocus on addToWishlistButton', () => {
+      component.addToWishlistButton = {
+        nativeElement: {
+          focus: jasmine.createSpy('focus'),
+        },
+      } as any;
+
+      component.loading$ = of(false);
+      component['restoreFocus']();
+
+      expect(
+        component.addToWishlistButton.nativeElement.focus
+      ).toHaveBeenCalled();
     });
   });
 });

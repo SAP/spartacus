@@ -760,6 +760,12 @@ describe('OrgUnitService', () => {
     });
   });
 
+  describe('isUpdatingUnitAllowed()', () => {
+    it('should return if updating a unit is allowed in current scenario', () => {
+      expect(service.isUpdatingUnitAllowed()).toEqual(true);
+    });
+  });
+
   describe('getErrorState', () => {
     it('getErrorState() should be able to get status error', () => {
       let errorState: boolean;

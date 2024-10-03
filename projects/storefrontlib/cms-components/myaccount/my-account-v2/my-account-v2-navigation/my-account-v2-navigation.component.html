@@ -1,0 +1,7 @@
+<cx-navigation-ui
+  *ngIf="node$ | async as node"
+  [node]="node"
+  [flyout]="false"
+  [ngClass]="(styleClass$ | async) ?? ''"
+  [navAriaLabel]="name$ | async"
+></cx-navigation-ui>

@@ -17,29 +17,28 @@ class MockOrderFacade implements Partial<OrderFacade> {
       ],
     })
   );
+  clearPlacedOrder() {}
 }
 
 describe('OrderConfirmationItemsComponent', () => {
   let component: OrderConfirmationItemsComponent;
   let fixture: ComponentFixture<OrderConfirmationItemsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, PromotionsModule],
-        declarations: [OrderConfirmationItemsComponent],
-        providers: [
-          { provide: OrderFacade, useClass: MockOrderFacade },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '1.3' },
-            },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, PromotionsModule],
+      declarations: [OrderConfirmationItemsComponent],
+      providers: [
+        { provide: OrderFacade, useClass: MockOrderFacade },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
           },
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderConfirmationItemsComponent);

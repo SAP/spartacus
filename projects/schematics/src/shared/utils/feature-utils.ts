@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   chain,
   externalSchematic,
@@ -114,7 +120,7 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
      * force-install the dependent features.
      */
     const featuresToInstall = options.internal?.existingSpartacusApplication
-      ? options.features ?? []
+      ? (options.features ?? [])
       : features;
 
     const rules: Rule[] = [];
@@ -124,7 +130,7 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
       if (!schematicsConfiguration) {
         throw new SchematicsException(
           `[Internal] No feature config found for ${feature}. ` +
-            `Please check if  the schematics config is added to projects/schematics/src/shared/schematics-config-mappings.ts`
+            `Please check if the schematics config is added to projects/schematics/src/shared/schematics-config-mappings.ts`
         );
       }
 
@@ -303,9 +309,7 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
       return noop();
     }
 
-    if (options.debug) {
-      context.logger.info(`⌛️ Analyzing application...`);
-    }
+    logDebugInfo(`⌛️ Analyzing application...`);
 
     for (const targetFeature of options.features ?? []) {
       const targetFeatureConfig =
@@ -327,11 +331,10 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
           wrapperOptions.markerModuleName,
           markerFeatureConfig
         );
-        if (!markerModuleConfig) {
-          continue;
-        }
-
-        if (markerModuleExists(options, tree, markerModuleConfig)) {
+        if (
+          !markerModuleConfig ||
+          markerModuleExists(options, tree, markerModuleConfig)
+        ) {
           continue;
         }
 
@@ -359,8 +362,12 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
       }
     }
 
-    if (options.debug) {
-      context.logger.info(`✅  Application analysis complete.`);
+    logDebugInfo(`✅  Application analysis complete.`);
+
+    function logDebugInfo(message: string) {
+      if (options.debug) {
+        context.logger.info(message);
+      }
     }
   };
 }

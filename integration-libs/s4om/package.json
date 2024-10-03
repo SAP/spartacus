@@ -1,0 +1,39 @@
+{
+  "name": "@spartacus/s4om",
+  "version": "2211.29.0-2",
+  "description": "S/4HANA Order Management (b2b feature)",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "s4om"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build:schematics": "npm run clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean:schematics": "../../node_modules/.bin/rimraf --glob \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "test:schematics": "npm --prefix ../../projects/schematics/ run clean && npm run clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+  },
+  "dependencies": {
+    "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^17.0.5",
+    "@angular/common": "^17.0.5",
+    "@angular/core": "^17.0.5",
+    "@spartacus/cart": "2211.29.0-2",
+    "@spartacus/core": "2211.29.0-2",
+    "@spartacus/pdf-invoices": "2211.29.0-2",
+    "@spartacus/requested-delivery-date": "2211.29.0-2",
+    "@spartacus/schematics": "2211.29.0-2",
+    "@spartacus/storefront": "2211.29.0-2",
+    "@spartacus/styles": "2211.29.0-2",
+    "rxjs": "^7.8.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json"
+}

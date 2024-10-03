@@ -1,23 +1,26 @@
+import { LoggerService } from '../../logger';
 import { validateConfig } from './config-validator';
 
 describe('config validator', () => {
+  const logger = new LoggerService();
+  beforeEach(() => {
+    spyOn(logger, 'warn');
+  });
+
   it('should not warn if there is no validators', () => {
-    spyOn(console, 'warn');
-    validateConfig({}, []);
-    expect(console.warn).not.toHaveBeenCalled();
+    validateConfig({}, [], logger);
+    expect(logger.warn).not.toHaveBeenCalled();
   });
 
   it('should warn if there is a validation error', () => {
-    spyOn(console, 'warn');
-    validateConfig({}, [(_c) => 'error']);
-    expect(console.warn).toHaveBeenCalledWith('error');
+    validateConfig({}, [(_c) => 'error'], logger);
+    expect(logger.warn).toHaveBeenCalledWith('error');
   });
 
   it('should warn only for errors', () => {
-    spyOn(console, 'warn');
     const mockInvalid = (_c) => 'error';
     const mockValidValidator = (_c) => {};
-    validateConfig({}, [mockInvalid, mockValidValidator, mockInvalid]);
-    expect(console.warn).toHaveBeenCalledTimes(2);
+    validateConfig({}, [mockInvalid, mockValidValidator, mockInvalid], logger);
+    expect(logger.warn).toHaveBeenCalledTimes(2);
   });
 });

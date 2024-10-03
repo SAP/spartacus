@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,6 +13,7 @@ import {
 import {
   Cart,
   CartOutlets,
+  CartType,
   DeleteCartSuccessEvent as DeleteSavedCartSuccessEvent,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
@@ -19,7 +26,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { mapTo, switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 
 @Component({
@@ -31,7 +38,7 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   readonly CartOutlets = CartOutlets;
-
+  readonly CartType = CartType;
   CartLocation = PromotionLocation;
 
   buyItAgainTranslation$: Observable<string>;
@@ -63,7 +70,10 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.eventSercvice
         .get(DeleteSavedCartSuccessEvent)
-        .pipe(take(1), mapTo(true))
+        .pipe(
+          take(1),
+          map(() => true)
+        )
         .subscribe((success) => this.onDeleteComplete(success))
     );
 

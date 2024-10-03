@@ -6,7 +6,7 @@ import {
   PipeTransform,
   TemplateRef,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -16,7 +16,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { MerchandisingMetadata, MerchandisingProduct } from '../../model/index';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
@@ -137,7 +137,7 @@ const MockCmsMerchandisingCarouselComponent = <CmsComponentData<any>>{
 class MockMerchandisingCarouselComponentService {
   sendCarouselViewEvent = createSpy(
     'MerchandisingCarouselComponentService.sendCarouselViewEvent'
-  ).and.callFake(() => of());
+  ).and.callFake(() => EMPTY);
 
   getMerchandisingCarouselModel(): Observable<MerchandisingCarouselModel> {
     return of(merchandisingCarouselModel);
@@ -156,7 +156,7 @@ class RoutingServiceStub {
 
 class IntersectionServiceStub {
   isIntersected(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -165,134 +165,105 @@ describe('MerchandisingCarouselComponent', () => {
   let componentService: MerchandisingCarouselComponentService;
   let fixture: ComponentFixture<MerchandisingCarouselComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
-        declarations: [
-          MerchandisingCarouselComponent,
-          MockCarouselComponent,
-          MockAttributesDirective,
-          MockMediaComponent,
-          MockUrlPipe,
-        ],
-        providers: [
-          {
-            provide: CmsComponentData,
-            useValue: MockCmsMerchandisingCarouselComponent,
-          },
-          {
-            provide: MerchandisingCarouselComponentService,
-            useClass: MockMerchandisingCarouselComponentService,
-          },
-          {
-            provide: RoutingService,
-            useClass: RoutingServiceStub,
-          },
-          {
-            provide: IntersectionService,
-            useClass: IntersectionServiceStub,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [
+        MerchandisingCarouselComponent,
+        MockCarouselComponent,
+        MockAttributesDirective,
+        MockMediaComponent,
+        MockUrlPipe,
+      ],
+      providers: [
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsMerchandisingCarouselComponent,
+        },
+        {
+          provide: MerchandisingCarouselComponentService,
+          useClass: MockMerchandisingCarouselComponentService,
+        },
+        {
+          provide: RoutingService,
+          useClass: RoutingServiceStub,
+        },
+        {
+          provide: IntersectionService,
+          useClass: IntersectionServiceStub,
+        },
+      ],
+    }).compileComponents();
 
-      fixture = TestBed.createComponent(MerchandisingCarouselComponent);
-      component = fixture.componentInstance;
-      componentService = TestBed.inject(MerchandisingCarouselComponentService);
-      fixture.detectChanges();
-    })
-  );
+    fixture = TestBed.createComponent(MerchandisingCarouselComponent);
+    component = fixture.componentInstance;
+    componentService = TestBed.inject(MerchandisingCarouselComponentService);
+    fixture.detectChanges();
+  }));
 
-  it(
-    'should be created',
-    waitForAsync(() => {
-      expect(component).toBeTruthy();
-    })
-  );
+  it('should be created', waitForAsync(() => {
+    expect(component).toBeTruthy();
+  }));
 
-  it(
-    'should have a title',
-    waitForAsync(() => {
-      let actualTitle: string;
-      component.merchandisingCarouselModel$.subscribe(
-        (carouselModel) => (actualTitle = carouselModel.title)
-      );
-      expect(actualTitle).toBe(mockComponentData.title);
-    })
-  );
+  it('should have a title', waitForAsync(() => {
+    let actualTitle: string;
+    component.merchandisingCarouselModel$.subscribe(
+      (carouselModel) => (actualTitle = carouselModel.title)
+    );
+    expect(actualTitle).toBe(mockComponentData.title);
+  }));
 
-  it(
-    'should have a background color',
-    waitForAsync(() => {
-      let actualBackgroundColor: string;
-      component.merchandisingCarouselModel$.subscribe(
-        (carouselModel) =>
-          (actualBackgroundColor = <string>carouselModel.backgroundColor)
-      );
-      expect(actualBackgroundColor).toBe(mockComponentData.backgroundColour);
-    })
-  );
+  it('should have a background color', waitForAsync(() => {
+    let actualBackgroundColor: string;
+    component.merchandisingCarouselModel$.subscribe(
+      (carouselModel) =>
+        (actualBackgroundColor = <string>carouselModel.backgroundColor)
+    );
+    expect(actualBackgroundColor).toBe(mockComponentData.backgroundColour);
+  }));
 
-  it(
-    'should have a text color',
-    waitForAsync(() => {
-      let actualTextColor: string;
-      component.merchandisingCarouselModel$.subscribe(
-        (carouselModel) => (actualTextColor = <string>carouselModel.textColor)
-      );
-      expect(actualTextColor).toBe(mockComponentData.textColour);
-    })
-  );
+  it('should have a text color', waitForAsync(() => {
+    let actualTextColor: string;
+    component.merchandisingCarouselModel$.subscribe(
+      (carouselModel) => (actualTextColor = <string>carouselModel.textColor)
+    );
+    expect(actualTextColor).toBe(mockComponentData.textColour);
+  }));
 
-  it(
-    'should have MerchandisingProducts populated',
-    waitForAsync(() => {
-      let actualCarouselMetadata: MerchandisingMetadata;
-      const actualCarouselProducts: MerchandisingProduct[] = [];
-      component.merchandisingCarouselModel$.subscribe(
-        (merchandisingProducts) => {
-          actualCarouselMetadata = merchandisingProducts.metadata;
-          merchandisingProducts.items$.forEach((observableProduct) =>
-            observableProduct.subscribe((product) =>
-              actualCarouselProducts.push(product)
-            )
-          );
-        }
+  it('should have MerchandisingProducts populated', waitForAsync(() => {
+    let actualCarouselMetadata: MerchandisingMetadata;
+    const actualCarouselProducts: MerchandisingProduct[] = [];
+    component.merchandisingCarouselModel$.subscribe((merchandisingProducts) => {
+      actualCarouselMetadata = merchandisingProducts.metadata;
+      merchandisingProducts.items$.forEach((observableProduct) =>
+        observableProduct.subscribe((product) =>
+          actualCarouselProducts.push(product)
+        )
       );
-      expect(actualCarouselMetadata).toEqual(
-        merchandisingCarouselModel.metadata
-      );
-      expect(actualCarouselProducts).toEqual(
-        merchandisingCarouselModelProducts
-      );
-    })
-  );
+    });
+    expect(actualCarouselMetadata).toEqual(merchandisingCarouselModel.metadata);
+    expect(actualCarouselProducts).toEqual(merchandisingCarouselModelProducts);
+  }));
 
-  it(
-    'should have 2 items',
-    waitForAsync(() => {
-      let items: Observable<Product>[];
-      component.merchandisingCarouselModel$.subscribe(
-        (actualMerchandisingCarouselModel) =>
-          (items = actualMerchandisingCarouselModel.items$)
-      );
-      expect(items.length).toBe(2);
-    })
-  );
+  it('should have 2 items', waitForAsync(() => {
+    let items: Observable<Product>[];
+    component.merchandisingCarouselModel$.subscribe(
+      (actualMerchandisingCarouselModel) =>
+        (items = actualMerchandisingCarouselModel.items$)
+    );
+    expect(items.length).toBe(2);
+  }));
 
-  it(
-    'should have product code 111 in first product',
-    waitForAsync(() => {
-      let items: Observable<Product>[];
-      component.merchandisingCarouselModel$.subscribe(
-        (actualMerchandisingCarouselModel) =>
-          (items = actualMerchandisingCarouselModel.items$)
-      );
-      let product: Product;
-      items[0].subscribe((p) => (product = p));
-      expect(product).toEqual(merchandisingCarouselModelProducts[0]);
-    })
-  );
+  it('should have product code 111 in first product', waitForAsync(() => {
+    let items: Observable<Product>[];
+    component.merchandisingCarouselModel$.subscribe(
+      (actualMerchandisingCarouselModel) =>
+        (items = actualMerchandisingCarouselModel.items$)
+    );
+    let product: Product;
+    items[0].subscribe((p) => (product = p));
+    expect(product).toEqual(merchandisingCarouselModelProducts[0]);
+  }));
 
   describe('merchandisingCarouselModel$', () => {
     let intersectionService: IntersectionService;
@@ -318,66 +289,51 @@ describe('MerchandisingCarouselComponent', () => {
   });
 
   describe('UI test', () => {
-    it(
-      'should have 2 rendered templates',
-      waitForAsync(() => {
-        const el = fixture.debugElement.queryAll(
-          By.css('.data-cx-merchandising-product')
-        );
-        expect(el.length).toBe(2);
-      })
-    );
+    it('should have 2 rendered templates', waitForAsync(() => {
+      const el = fixture.debugElement.queryAll(
+        By.css('.data-cx-merchandising-product')
+      );
+      expect(el.length).toBe(2);
+    }));
 
-    it(
-      'should render product name in template',
-      waitForAsync(() => {
-        const el = fixture.debugElement.queryAll(
-          By.css('.data-cx-merchandising-product + a h4')
-        );
-        expect(el[0].nativeElement).toBeTruthy();
-        expect(el[0].nativeElement.innerText).toBe('product 1');
-        expect(el[1].nativeElement).toBeTruthy();
-        expect(el[1].nativeElement.innerText).toBe('product 2');
-      })
-    );
+    it('should render product name in template', waitForAsync(() => {
+      const el = fixture.debugElement.queryAll(
+        By.css('.data-cx-merchandising-product + a h4')
+      );
+      expect(el[0].nativeElement).toBeTruthy();
+      expect(el[0].nativeElement.innerText).toBe('product 1');
+      expect(el[1].nativeElement).toBeTruthy();
+      expect(el[1].nativeElement.innerText).toBe('product 2');
+    }));
 
-    it(
-      'should render product price in template',
-      waitForAsync(() => {
-        const el = fixture.debugElement.queryAll(
-          By.css('.data-cx-merchandising-product + a .price')
-        );
+    it('should render product price in template', waitForAsync(() => {
+      const el = fixture.debugElement.queryAll(
+        By.css('.data-cx-merchandising-product + a .price')
+      );
 
-        expect(el[0].nativeElement).toBeTruthy();
-        expect(el[0].nativeElement.innerText).toBe('100.00');
-        expect(el[2].nativeElement).toBeTruthy();
-        expect(el[2].nativeElement.innerText).toBe('200.00');
-      })
-    );
+      expect(el[0].nativeElement).toBeTruthy();
+      expect(el[0].nativeElement.innerText).toBe('100.00');
+      expect(el[2].nativeElement).toBeTruthy();
+      expect(el[2].nativeElement.innerText).toBe('200.00');
+    }));
 
-    it(
-      'should only render product primary image for the first item',
-      waitForAsync(() => {
-        const el = fixture.debugElement.queryAll(
-          By.css('.data-cx-merchandising-product + a')
-        );
-        expect(el[0].query(By.css('cx-media'))).toBeTruthy();
-        expect(el[1].query(By.css('cx-media'))).toBeFalsy();
-      })
-    );
+    it('should only render product primary image for the first item', waitForAsync(() => {
+      const el = fixture.debugElement.queryAll(
+        By.css('.data-cx-merchandising-product + a')
+      );
+      expect(el[0].query(By.css('cx-media'))).toBeTruthy();
+      expect(el[1].query(By.css('cx-media'))).toBeFalsy();
+    }));
 
-    it(
-      'should render product stock information in template',
-      waitForAsync(() => {
-        const el = fixture.debugElement.queryAll(
-          By.css('.data-cx-merchandising-product + a .price')
-        );
+    it('should render product stock information in template', waitForAsync(() => {
+      const el = fixture.debugElement.queryAll(
+        By.css('.data-cx-merchandising-product + a .price')
+      );
 
-        expect(el[1].nativeElement).toBeTruthy();
-        expect(el[1].nativeElement.innerText).toBe('inStock : 10');
-        expect(el[3].nativeElement).toBeTruthy();
-        expect(el[3].nativeElement.innerText).toBe('outOfStock');
-      })
-    );
+      expect(el[1].nativeElement).toBeTruthy();
+      expect(el[1].nativeElement.innerText).toBe('inStock : 10');
+      expect(el[3].nativeElement).toBeTruthy();
+      expect(el[3].nativeElement.innerText).toBe('outOfStock');
+    }));
   });
 });

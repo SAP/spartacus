@@ -8,14 +8,14 @@ import {
   RoutingService,
   ScriptLoader,
 } from '@spartacus/core';
-import { defaultSmartEditConfig } from 'feature-libs/smartedit/root/config/default-smart-edit-config';
-import { SmartEditConfig } from 'feature-libs/smartedit/root/config/smart-edit-config';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
+import { defaultSmartEditConfig } from '../../root/config/default-smart-edit-config';
+import { SmartEditConfig } from '../../root/config/smart-edit-config';
 import { SmartEditService } from './smart-edit.service';
 
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
-    return of();
+    return EMPTY;
   }
   refreshLatestPage() {}
   refreshPageById() {}
@@ -23,13 +23,13 @@ class MockCmsService {
 }
 class MockRoutingService {
   getRouterState(): Observable<any> {
-    return of();
+    return EMPTY;
   }
   go() {}
 }
 class MockBaseSiteService {
   get(): Observable<BaseSite> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -67,11 +67,6 @@ describe('SmartEditService', () => {
 
   it('should SmartEditService is injected', () => {
     expect(service).toBeTruthy();
-  });
-
-  it('should be able to load webApplicationInjector.js', () => {
-    service['loadScript']();
-    expect(scriptLoader.embedScript).toHaveBeenCalled();
   });
 
   describe('should add page contract', () => {

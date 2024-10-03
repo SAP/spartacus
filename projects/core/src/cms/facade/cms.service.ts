@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, of, queueScheduler, using } from 'rxjs';
@@ -6,7 +12,6 @@ import {
   filter,
   map,
   observeOn,
-  pluck,
   shareReplay,
   switchMap,
   take,
@@ -70,6 +75,10 @@ export class CmsService {
     uid: string,
     pageContext?: PageContext
   ): Observable<T> {
+    if (uid === '') {
+      return of(null) as Observable<T>;
+    }
+
     const context = serializePageContext(pageContext, true);
     if (!this.components[uid]) {
       // create the component data structure, if it doesn't already exist
@@ -254,8 +263,7 @@ export class CmsService {
         }
         return Boolean(entity.success || (entity.error && !entity.loading));
       }),
-      pluck('success'),
-      map((success) => !!success),
+      map((loaderState) => !!loaderState.success),
       catchError(() => of(false))
     );
   }

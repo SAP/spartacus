@@ -1,14 +1,23 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
+  inject,
   isDevMode,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
+import { LoggerService } from '@spartacus/core';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
 
@@ -16,35 +25,40 @@ import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/config
   selector: 'cx-configurator-attribute-checkbox-list',
   templateUrl: './configurator-attribute-checkbox-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorAttributePriceChangeService],
 })
 export class ConfiguratorAttributeCheckBoxListComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent
   implements OnInit
 {
-  attributeCheckBoxForms = new Array<FormControl>();
+  attributeCheckBoxForms = new Array<UntypedFormControl>();
 
-  @Input() group: string;
+  group: string;
+
+  protected logger = inject(LoggerService);
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
-    protected quantityService: ConfiguratorAttributeQuantityService
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
-    super(quantityService);
+    super(
+      quantityService,
+      attributeComponentContext,
+      configuratorCommonsService
+    );
+    this.group = attributeComponentContext.group.id;
   }
 
   ngOnInit(): void {
-    const disabled = !this.allowZeroValueQuantity;
-
     for (const value of this.attribute.values ?? []) {
       let attributeCheckBoxForm;
 
       if (value.selected) {
-        attributeCheckBoxForm = new FormControl({
-          value: true,
-          disabled: disabled,
-        });
+        attributeCheckBoxForm = new UntypedFormControl(true);
       } else {
-        attributeCheckBoxForm = new FormControl(false);
+        attributeCheckBoxForm = new UntypedFormControl(false);
       }
       this.attributeCheckBoxForms.push(attributeCheckBoxForm);
     }
@@ -54,23 +68,23 @@ export class ConfiguratorAttributeCheckBoxListComponent
     return this.quantityService.allowZeroValueQuantity(this.attribute);
   }
 
-  onSelect(): void {
+  onSelect(valueCode?: string): void {
     const selectedValues =
       this.configUtilsService.assembleValuesForMultiSelectAttributes(
         this.attributeCheckBoxForms,
         this.attribute
       );
-
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
+    if (valueCode && this.listenForPriceChanges) {
+      this.configUtilsService.setLastSelected(this.attribute.name, valueCode);
+    }
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         values: selectedValues,
       },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE,
-    };
-
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.ATTRIBUTE
+    );
   }
 
   onChangeValueQuantity(
@@ -80,7 +94,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
   ): void {
     if (eventObject === 0) {
       this.attributeCheckBoxForms[formIndex].setValue(false);
-      this.onSelect();
+      this.onSelect(valueCode);
       return;
     }
 
@@ -93,7 +107,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
 
     if (!value) {
       if (isDevMode()) {
-        console.warn('no value for event:', eventObject);
+        this.logger.warn('no value for event:', eventObject);
       }
 
       return;
@@ -101,16 +115,14 @@ export class ConfiguratorAttributeCheckBoxListComponent
 
     value.quantity = eventObject;
 
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         values: [value],
       },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.VALUE_QUANTITY,
-    };
-
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.VALUE_QUANTITY
+    );
   }
 
   onChangeQuantity(eventObject: any): void {

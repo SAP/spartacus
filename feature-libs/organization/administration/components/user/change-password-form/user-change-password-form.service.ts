@@ -1,6 +1,16 @@
-import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { User } from '@spartacus/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, inject } from '@angular/core';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { FeatureConfigService, User } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { FormService } from '../../shared/form/form.service';
 
@@ -8,27 +18,29 @@ import { FormService } from '../../shared/form/form.service';
   providedIn: 'root',
 })
 export class UserChangePasswordFormService extends FormService<any> {
+  private featureConfigService = inject(FeatureConfigService);
+
   /**
    * @override
    * Adds the password and confirmPassword field. Also adds the customerId field,
    * so that the customerId can be used during persistent.
    */
   protected build() {
-    const form = new FormGroup({});
-    form.setControl('customerId', new FormControl(''));
+    // TODO: (CXSPA-7315) Remove feature toggle in the next major
+    const passwordValidators = this.featureConfigService?.isEnabled(
+      'formErrorsDescriptiveMessages'
+    )
+      ? [CustomFormValidators.passwordValidator]
+      : CustomFormValidators.passwordValidators;
+    const form = new UntypedFormGroup({});
+    form.setControl('customerId', new UntypedFormControl(''));
     form.setControl(
       'password',
-      new FormControl('', [
-        Validators.required,
-        CustomFormValidators.passwordValidator,
-      ])
+      new UntypedFormControl('', [Validators.required, ...passwordValidators])
     );
     form.setControl(
       'confirmPassword',
-      new FormControl('', [
-        Validators.required,
-        CustomFormValidators.passwordValidator,
-      ])
+      new UntypedFormControl('', [Validators.required, ...passwordValidators])
     );
     form.setValidators(
       CustomFormValidators.passwordsMustMatch('password', 'confirmPassword')
@@ -36,7 +48,7 @@ export class UserChangePasswordFormService extends FormService<any> {
     this.form = form;
   }
 
-  getForm(item?: User): FormGroup | null {
+  getForm(item?: User): UntypedFormGroup | null {
     // we need do cleanup, to avoid have filled form after next open of that
     this.form = null;
     return super.getForm(item);

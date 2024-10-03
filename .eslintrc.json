@@ -2,23 +2,18 @@
   "root": true,
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
-        "project": [
-          "tsconfig.eslint.json"
-        ],
+        "project": ["tsconfig.eslint.json"],
         "createDefaultProgram": true
       },
       "extends": [
-        "plugin:@angular-eslint/ng-cli-compat",
-        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "./tools/eslint-plugins/legacy-ng-cli-compat",
+        "./tools/eslint-plugins/legacy-ng-cli-compat--formatting-add-on"
       ],
-      "plugins": [
-        "deprecation"
-      ],
+      "plugins": ["deprecation", "@typescript-eslint", "@nx"],
       "rules": {
         "@angular-eslint/no-host-metadata-property": "off",
         "@typescript-eslint/no-empty-interface": "off",
@@ -73,23 +68,57 @@
         "id-blacklist": "off",
         "id-match": "off",
         "max-len": "off",
-        "linebreak-style": [
+        "linebreak-style": ["error", "unix"],
+        "no-underscore-dangle": "off",
+        "@nx/enforce-module-boundaries": [
           "error",
-          "unix"
+          {
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"],
+                "notDependOnLibsWithTags": ["type:app"]
+              },
+              {
+                "sourceTag": "type:feature",
+                "notDependOnLibsWithTags": ["type:integration"]
+              },
+              {
+                "sourceTag": "type:ui",
+                "notDependOnLibsWithTags": ["type:feature"]
+              },
+              {
+                "sourceTag": "scope:core",
+                "notDependOnLibsWithTags": ["type:ui", "type:feature"]
+              }
+            ]
+          }
         ],
-        "no-underscore-dangle": "off"
+        "no-console": "error"
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {
         "@angular-eslint/template/no-negated-async": "off",
         "@angular-eslint/template/eqeqeq": "error"
+      }
+    },
+    {
+      "files": ["*.module.ts"],
+      "rules": {
+        "@nx/workspace/use-provide-default-config": "error",
+        "@nx/workspace/use-provide-default-config-factory": "error",
+        "@nx/workspace/use-provide-default-feature-toggles": "error",
+        "@nx/workspace/use-provide-default-feature-toggles-factory": "error"
+      }
+    },
+    {
+      "files": ["*.action*.ts"],
+      "rules": {
+        "@nx/workspace/no-ngrx-fail-action-without-error-action-implementation": "error"
       }
     }
   ]

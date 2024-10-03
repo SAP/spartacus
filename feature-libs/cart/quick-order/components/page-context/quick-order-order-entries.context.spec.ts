@@ -5,8 +5,8 @@ import {
   ProductImportStatus,
 } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { ProductConnector } from '@spartacus/core';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { LoggerService, ProductConnector } from '@spartacus/core';
+import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { QuickOrderOrderEntriesContext } from './quick-order-order-entries.context';
 import createSpy = jasmine.createSpy;
 
@@ -57,7 +57,7 @@ const canAdd$ = new BehaviorSubject<boolean>(true);
 
 class MockProductConnector implements Partial<ProductConnector> {
   get(_code) {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -71,6 +71,7 @@ describe('QuickOrderOrderEntriesContext', () => {
   let service: QuickOrderOrderEntriesContext;
   let quickOrderFacade: QuickOrderFacade;
   let productConnector: ProductConnector;
+  let logger: LoggerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -82,6 +83,7 @@ describe('QuickOrderOrderEntriesContext', () => {
     service = TestBed.inject(QuickOrderOrderEntriesContext);
     quickOrderFacade = TestBed.inject(QuickOrderFacade);
     productConnector = TestBed.inject(ProductConnector);
+    logger = TestBed.inject(LoggerService);
   });
 
   it('should be created', () => {
@@ -202,11 +204,11 @@ describe('QuickOrderOrderEntriesContext', () => {
     it('should catch unknown identifier error', () => {
       canAdd$.next(true);
       productConnector.get = createSpy().and.returnValue(
-        throwError({
+        throwError(() => ({
           error: {
             errors: [{ type: 'UnknownIdentifierError' }],
           },
-        })
+        }))
       );
 
       const unableToAddProductsData: ProductData[] = [
@@ -238,13 +240,15 @@ describe('QuickOrderOrderEntriesContext', () => {
 
     it('should catch unknown errors', () => {
       canAdd$.next(true);
-      productConnector.get = createSpy().and.returnValue(throwError({}));
+      productConnector.get = createSpy().and.returnValue(
+        throwError(() => ({}))
+      );
 
       const unableToAddProductsData: ProductData[] = [
         { productCode: unhandledItemErrorId, quantity: 1 },
       ];
       const results = [];
-      spyOn(console, 'warn').and.stub();
+      spyOn(logger, 'warn').and.stub();
 
       service
         .addEntries(unableToAddProductsData)
@@ -266,7 +270,7 @@ describe('QuickOrderOrderEntriesContext', () => {
           statusCode: ProductImportStatus.UNKNOWN_ERROR,
         },
       ]);
-      expect(console.warn).toHaveBeenCalledWith(
+      expect(logger.warn).toHaveBeenCalledWith(
         'Unrecognized cart add entry action type while mapping messages',
         {}
       );

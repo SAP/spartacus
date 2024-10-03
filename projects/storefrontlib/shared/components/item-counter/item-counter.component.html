@@ -3,7 +3,9 @@
   (click)="decrement()"
   [disabled]="control.disabled || control.value <= min"
   [tabindex]="control.disabled || control.value <= min ? -1 : 0"
+  [cxFocus]="{ key: 'decrement' }"
   attr.aria-label="{{ 'itemCounter.removeOne' | cxTranslate }}"
+  title="{{ 'itemCounter.removeOne' | cxTranslate }}"
 >
   -
 </button>
@@ -16,14 +18,17 @@
   [readonly]="readonly"
   [tabindex]="readonly ? -1 : 0"
   [formControl]="control"
+  (keyup.enter)="updateValue()"
+  [cxFocus]="{ key: 'qty' }"
   attr.aria-label="{{ 'itemCounter.quantity' | cxTranslate }}"
 />
 <button
   type="button"
   (click)="increment()"
   [disabled]="control.disabled || control.value >= max"
-  tabindex="0"
+  [cxFocus]="{ key: 'increment' }"
   attr.aria-label="{{ 'itemCounter.addOneMore' | cxTranslate }}"
+  title="{{ 'itemCounter.addOneMore' | cxTranslate }}"
 >
   +
 </button>

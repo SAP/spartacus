@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -27,12 +33,12 @@ import { ProductScrollComponent } from './container/product-scroll/product-scrol
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductViewComponent } from './product-view/product-view.component';
+import { ProductListService } from './product-list.service';
 
 @NgModule({
   imports: [
     AtMessageModule,
     CommonModule,
-    FeaturesConfigModule,
     I18nModule,
     IconModule,
     InfiniteScrollModule,
@@ -45,8 +51,10 @@ import { ProductViewComponent } from './product-view/product-view.component';
     SpinnerModule,
     StarRatingModule,
     UrlModule,
+    FeaturesConfigModule,
   ],
   providers: [
+    ProductListService,
     provideDefaultConfig(<ViewConfig>defaultViewConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

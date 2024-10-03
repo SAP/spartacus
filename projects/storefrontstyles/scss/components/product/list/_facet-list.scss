@@ -83,6 +83,34 @@ body.modal-open {
         display: none;
       }
     }
+
+    .list-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.625rem 0.4rem 0 0.4rem;
+      h4 {
+        padding: 0;
+      }
+      .close {
+        opacity: 1;
+        &:hover {
+          color: var(--cx-color-primary);
+        }
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      .list-header {
+        display: none;
+      }
+    }
+
+    .cx-facet-list-footer {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
   }
 
   &.dialog {

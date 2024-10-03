@@ -1,7 +1,13 @@
-import { SampleProduct } from '../../sample-data/checkout-flow';
-import * as sampleData from '../../sample-data/b2b-checkout';
-import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/tabbing-order.config';
+import * as sampleData from '../../sample-data/b2b-checkout';
+import { SampleProduct } from '../../sample-data/checkout-flow';
+import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
 import { waitForPage } from '../checkout-flow';
 
 export const ADD_TO_CART_ENDPOINT_ALIAS = 'addEntry';
@@ -97,21 +103,19 @@ export function clearList() {
 export function removeFirstRow() {
   cy.get(`cx-quick-order .cx-quick-order-table-row`)
     .first()
-    .find('button.link.cx-action-link')
+    .find('button.btn-tertiary')
     .click();
 }
 
 export function removeManyRows(quantity: number = 1) {
   for (let i = 0; i < quantity; i++) {
-    cy.get(`cx-quick-order .cx-quick-order-table-row`)
-      .first()
-      .find('button.link.cx-action-link')
-      .click();
+    removeFirstRow();
   }
 }
 
 export function restoreDeletedEntry() {
-  cy.get('.quick-order-deletions-message .cx-message-text button')
+  cy.get('.quick-order-deletions-message button')
+    .contains('UNDO')
     .should('exist')
     .click();
 }
@@ -254,4 +258,8 @@ export function verifyCartPageTabbingOrder() {
 
 export function verifyQuickOrderPageTabbingOrder() {
   tabbingOrder('cx-quick-order', config.quickOrder);
+}
+
+export function verifyInputHasFocus() {
+  cy.get('.quick-order-form-input input').should('be.focused');
 }

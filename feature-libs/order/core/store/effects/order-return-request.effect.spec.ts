@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { LoggerService } from '@spartacus/core';
 import {
   ReturnRequest,
   ReturnRequestEntryInputList,
@@ -35,6 +36,15 @@ const mockCancelReturnRequest = {
   returnRequestModification: {},
 };
 
+const error = new Error('error');
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('Order Return Request effect', () => {
   let orderReturnRequestEffect: fromOrderReturnRequestEffect.OrderReturnRequestEffect;
   let orderHistoryConnector: OrderHistoryConnector;
@@ -48,6 +58,7 @@ describe('Order Return Request effect', () => {
         fromOrderReturnRequestEffect.OrderReturnRequestEffect,
         { provide: OrderHistoryAdapter, useValue: {} },
         provideMockActions(() => actions$),
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
@@ -82,7 +93,7 @@ describe('Order Return Request effect', () => {
 
     it('should handle failures for create order return request', () => {
       spyOn(orderHistoryConnector, 'return').and.returnValue(
-        throwError('Error')
+        throwError(() => error)
       );
 
       const action = new OrderActions.CreateOrderReturnRequest({
@@ -90,9 +101,7 @@ describe('Order Return Request effect', () => {
         returnRequestInput,
       });
 
-      const completion = new OrderActions.CreateOrderReturnRequestFail(
-        undefined
-      );
+      const completion = new OrderActions.CreateOrderReturnRequestFail(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -127,16 +136,14 @@ describe('Order Return Request effect', () => {
 
     it('should handle failures for load return request list', () => {
       spyOn(orderHistoryConnector, 'getReturnRequestList').and.returnValue(
-        throwError('Error')
+        throwError(() => error)
       );
       const action = new OrderActions.LoadOrderReturnRequestList({
         userId: 'test@sap.com',
         pageSize: 5,
       });
 
-      const completion = new OrderActions.LoadOrderReturnRequestListFail(
-        undefined
-      );
+      const completion = new OrderActions.LoadOrderReturnRequestListFail(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -171,7 +178,7 @@ describe('Order Return Request effect', () => {
 
     it('should handle failures for load an order return request', () => {
       spyOn(orderHistoryConnector, 'getReturnRequestDetail').and.returnValue(
-        throwError('Error')
+        throwError(() => error)
       );
 
       const action = new OrderActions.LoadOrderReturnRequest({
@@ -179,7 +186,7 @@ describe('Order Return Request effect', () => {
         returnRequestCode: 'test',
       });
 
-      const completion = new OrderActions.LoadOrderReturnRequestFail(undefined);
+      const completion = new OrderActions.LoadOrderReturnRequestFail(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -212,16 +219,14 @@ describe('Order Return Request effect', () => {
 
     it('should handle failures for cancel return request', () => {
       spyOn(orderHistoryConnector, 'cancelReturnRequest').and.returnValue(
-        throwError('Error')
+        throwError(() => error)
       );
 
       const action = new OrderActions.CancelOrderReturnRequest(
         mockCancelReturnRequest
       );
 
-      const completion = new OrderActions.CancelOrderReturnRequestFail(
-        undefined
-      );
+      const completion = new OrderActions.CancelOrderReturnRequestFail(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

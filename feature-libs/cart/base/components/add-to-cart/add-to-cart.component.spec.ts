@@ -1,9 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  TestBedStatic,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,10 +19,11 @@ import {
 import {
   CmsComponentData,
   CurrentProductService,
+  OutletModule,
   ProductListItemContext,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { AddToCartComponent } from './add-to-cart.component';
 
 const config$ = new BehaviorSubject<CmsAddToCartComponent>({
@@ -75,27 +72,31 @@ class MockProductListItemContext implements Partial<ProductListItemContext> {
 }
 
 class MockActiveCartService {
-  addEntry(_productCode: string, _quantity: number): void {}
+  addEntry(
+    _productCode: string,
+    _quantity: number,
+    _pickupStore?: string
+  ): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
-    return of();
+    return EMPTY;
   }
   isStable(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getActive(): Observable<Cart> {
-    return of();
+    return EMPTY;
   }
   getEntries(): Observable<OrderEntry[]> {
     return of([]);
   }
   getLastEntry(_productCode: string): Observable<OrderEntry> {
-    return of();
+    return EMPTY;
   }
 }
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -124,7 +125,7 @@ describe('AddToCartComponent', () => {
 
   const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
-  function configureTestingModule(): TestBedStatic {
+  function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
@@ -132,6 +133,7 @@ describe('AddToCartComponent', () => {
         SpinnerModule,
         I18nTestingModule,
         ReactiveFormsModule,
+        OutletModule,
       ],
       declarations: [AddToCartComponent, MockItemCounterComponent],
       providers: [
@@ -169,7 +171,7 @@ describe('AddToCartComponent', () => {
   }
 
   function getTextFromAddToCartButton(): string {
-    return getButton().nativeElement.innerText;
+    return getButton().query(By.css('span')).nativeElement.innerText;
   }
 
   function getButton(): DebugElement {
@@ -234,12 +236,16 @@ describe('AddToCartComponent', () => {
         addToCartComponent.ngOnInit();
         expect(addToCartComponent.productCode).toEqual(mockProduct.code);
         addToCartComponent.quantity = 5;
+        addToCartComponent.addToCartForm.controls['quantity'].setValue(5);
 
         //Product 2
         currentProduct.next(mockProduct2);
         expect(addToCartComponent.productCode).toEqual(mockProduct2.code);
         //Quantity is expected to be reset to 1 since it is a new product page
         expect(addToCartComponent.quantity).toEqual(1);
+        expect(addToCartComponent.addToCartForm.get('quantity')?.value).toEqual(
+          1
+        );
       });
 
       it('should disable input when the product has no stock', () => {
@@ -264,7 +270,11 @@ describe('AddToCartComponent', () => {
       addToCartComponent.quantity = 1;
 
       addToCartComponent.addToCart();
-      expect(activeCartFacade.addEntry).toHaveBeenCalledWith(productCode, 1);
+      expect(activeCartFacade.addEntry).toHaveBeenCalledWith(
+        productCode,
+        1,
+        undefined
+      );
     });
 
     describe('addToCart ', () => {
@@ -283,7 +293,20 @@ describe('AddToCartComponent', () => {
         addToCartComponent.addToCart();
         expect(activeCartFacade.addEntry).toHaveBeenCalledWith(
           mockProductCode,
-          1
+          1,
+          undefined
+        );
+      });
+      it('should add pickup item to cart', () => {
+        addToCartComponent.addToCartForm.get('quantity')?.setValue(1);
+        addToCartComponent.productCode = mockProductCode;
+        addToCartComponent.pickupStore = 'testStore';
+        spyOn(activeCartFacade, 'addEntry').and.stub();
+        addToCartComponent.addToCart();
+        expect(activeCartFacade.addEntry).toHaveBeenCalledWith(
+          mockProductCode,
+          1,
+          'testStore'
         );
       });
       it('should dispatch the add to cart UI event', () => {

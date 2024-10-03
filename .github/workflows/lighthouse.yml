@@ -1,15 +1,15 @@
 on:
-  push:
+  pull_request:
+    types: [ready_for_review]
     branches:
       - develop
-      - epic/**
-      - release/**
-      - integration-libs/**
-  pull_request:
-    types: [opened, synchronize]
+      - develop-*
+      - release-*
+  workflow_dispatch:
+    # empty as it is used only to manually trigger the workflow
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-  NODE_VERSION: '16'
+  NODE_VERSION: '20'
 
 concurrency: 
   group: lighthouse-${{ github.head_ref || github.run_id }}
@@ -21,14 +21,14 @@ jobs:
     name: Lighthouse score validation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Cache node_modules
         id: cache-node-modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: | 
             node_modules
@@ -36,10 +36,8 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Install angular CLI
-        run: npm install -g @angular/cli@v13-lts
       - name: Package installation
-        run: yarn --frozen-lockfile
+        run: npm ci
       - name: Run lighthouse score validation
         run: |
           ci-scripts/lhci.sh

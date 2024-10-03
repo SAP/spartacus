@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Currency, CurrencyService, I18nTestingModule } from '@spartacus/core';
@@ -8,25 +12,26 @@ import {
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { FormErrorsComponent } from '@spartacus/storefront';
+import { FocusDirective, FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { BudgetItemService } from '../services/budget-item.service';
 import { BudgetFormComponent } from './budget-form.component';
 
-const mockForm = new FormGroup({
-  name: new FormControl(),
-  code: new FormControl(),
-  startDate: new FormControl(),
-  endDate: new FormControl(),
-  currency: new FormGroup({
-    isocode: new FormControl(),
+const mockForm = new UntypedFormGroup({
+  name: new UntypedFormControl(),
+  code: new UntypedFormControl(),
+  startDate: new UntypedFormControl(),
+  endDate: new UntypedFormControl(),
+  currency: new UntypedFormGroup({
+    isocode: new UntypedFormControl(),
   }),
-  orgUnit: new FormGroup({
-    uid: new FormControl(),
+  orgUnit: new UntypedFormGroup({
+    uid: new UntypedFormControl(),
   }),
-  budget: new FormControl(),
+  budget: new UntypedFormControl(),
 });
 
 const activeUnitList$: BehaviorSubject<B2BUnitNode[]> = new BehaviorSubject([]);
@@ -51,9 +56,10 @@ class MockItemService {
   template: '',
 })
 class MockDatePickerComponent {
-  @Input() control: FormControl;
-  @Input() min: FormControl;
-  @Input() max: FormControl;
+  @Input() control: UntypedFormControl;
+  @Input() min: UntypedFormControl;
+  @Input() max: UntypedFormControl;
+  @Input() required?: boolean;
 }
 
 describe('BudgetFormComponent', () => {
@@ -75,6 +81,8 @@ describe('BudgetFormComponent', () => {
         BudgetFormComponent,
         FormErrorsComponent,
         MockDatePickerComponent,
+        FocusDirective,
+        MockFeatureDirective,
       ],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
@@ -135,70 +143,70 @@ describe('BudgetFormComponent', () => {
   describe('autoSelect uid', () => {
     beforeEach(() => {
       component.form = mockForm;
-      component.form.get('orgUnit.uid').setValue(null);
+      component.form.get('orgUnit.uid')?.setValue(null);
     });
 
     it('should auto-select unit if only one is available', () => {
       activeUnitList$.next([{ id: 'test' }]);
       fixture.detectChanges();
-      expect(component.form.get('orgUnit.uid').value).toEqual('test');
+      expect(component.form?.get('orgUnit.uid')?.value).toEqual('test');
     });
 
     it('should not auto-select unit if more than one is available', () => {
       activeUnitList$.next([{ id: 'test1' }, { id: 'test2' }]);
       fixture.detectChanges();
-      expect(component.form.get('orgUnit.uid').value).toBeNull();
+      expect(component.form?.get('orgUnit.uid')?.value).toBeNull();
     });
 
     it('should not auto-select unit if there is no unit', () => {
       activeUnitList$.next(undefined);
       fixture.detectChanges();
-      expect(component.form.get('orgUnit.uid').value).toBeNull();
+      expect(component.form?.get('orgUnit.uid')?.value).toBeNull();
     });
   });
 
   describe('autoSelect currency', () => {
     beforeEach(() => {
       component.form = mockForm;
-      component.form.get('currency.isocode').setValue(null);
+      component.form.get('currency.isocode')?.setValue(null);
     });
 
     it('should auto-select currency if only one is available', () => {
       currencies$.next([{ isocode: 'test' }]);
       fixture.detectChanges();
-      expect(component.form.get('currency.isocode').value).toEqual('test');
+      expect(component.form?.get('currency.isocode')?.value).toEqual('test');
     });
 
     it('should not auto-select currency if more than one is available', () => {
       currencies$.next([{ isocode: 'test' }, { isocode: 'test' }]);
       fixture.detectChanges();
-      expect(component.form.get('currency.isocode').value).toBeNull();
+      expect(component.form?.get('currency.isocode')?.value).toBeNull();
     });
   });
 
   describe('createCodeWithName', () => {
     it('should set code field value if empty based on provided name value', () => {
       component.form = mockForm;
-      component.form.get('name').patchValue('Unit Test Value');
-      component.form.get('code').patchValue(undefined);
+      component.form.get('name')?.patchValue('Unit Test Value');
+      component.form.get('code')?.patchValue(undefined);
       component.createCodeWithName(
         component.form.get('name'),
         component.form.get('code')
       );
 
-      expect(component.form.get('code').value).toEqual('unit-test-value');
+      expect(component.form.get('code')?.value).toEqual('unit-test-value');
     });
 
     it('should prevent setting code if value is provided for this field', () => {
       component.form = mockForm;
-      component.form.get('name').patchValue('Unit Test Value');
-      component.form.get('code').patchValue('test code');
+      component.form.get('name')?.patchValue('Unit Test Value');
+      component.form.get('code')?.patchValue('test code');
       component.createCodeWithName(
         component.form.get('name'),
         component.form.get('code')
       );
 
-      expect(component.form.get('code').value).toEqual('test code');
+      expect(component.form.get('code')?.value).toEqual('test code');
     });
   });
 });

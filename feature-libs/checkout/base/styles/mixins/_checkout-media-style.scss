@@ -1,16 +1,16 @@
 @mixin checkout-media-style() {
   @include media-breakpoint-down(md) {
     display: block;
-    background-color: var(--cx-color-background);
+    background-color: var(--cx-color-transparent);
   }
 
   .col-md-12 {
     @include media-breakpoint-down(md) {
-      padding: 0 4.375rem;
+      padding: 0 0.813rem;
     }
 
     @include media-breakpoint-down(sm) {
-      padding: 0 2.25rem;
+      padding: 0 0.875rem;
     }
   }
 
@@ -31,7 +31,7 @@
       padding: 1.25rem 0;
     }
 
-    .btn-action {
+    .btn-secondary {
       @include media-breakpoint-down(md) {
         margin: 0 0 1rem;
       }
@@ -39,19 +39,23 @@
   }
 
   .cx-checkout-title {
-    text-transform: capitalize;
-    margin-top: 0;
     margin-inline-end: auto;
-    margin-bottom: 0;
     margin-inline-start: auto;
-    padding: 2.375rem 0 1.75rem 0;
-    @include type('3');
-    font-weight: var(--cx-font-weight-normal);
+    padding-inline-end: 0;
+    @include type('4');
+    background-color: var(--cx-color-transparent);
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 0.438rem;
+    margin-bottom: 0.5rem;
+    padding-inline-start: 0;
   }
 
   .cx-checkout-body {
     display: flex;
     align-items: stretch;
+    margin: 0;
+
     &.row {
       @include media-breakpoint-down(md) {
         padding: 0;
@@ -63,10 +67,7 @@
     margin-bottom: 1.25rem;
 
     @include media-breakpoint-down(md) {
-      padding-inline-start: 3.5rem;
-    }
-    @include media-breakpoint-down(sm) {
-      padding-inline-start: 1.5rem;
+      padding-inline-start: 0;
     }
   }
 

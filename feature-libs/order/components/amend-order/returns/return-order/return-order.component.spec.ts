@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -9,9 +9,9 @@ import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { ReturnOrderComponent } from './return-order.component';
 
-const mockForm = new FormGroup({
-  orderCode: new FormControl('123'),
-  entries: new FormControl([]),
+const mockForm = new UntypedFormGroup({
+  orderCode: new UntypedFormControl('123'),
+  entries: new UntypedFormControl([]),
 });
 
 class MockOrderAmendService {
@@ -35,7 +35,7 @@ class MockCancelOrReturnItemsComponent {
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;
-  @Input() amendOrderForm: FormGroup;
+  @Input() amendOrderForm: UntypedFormGroup;
   @Input() backRoute: string;
   @Input() forwardRoute: string;
 }
@@ -44,21 +44,19 @@ describe('ReturnOrderComponent', () => {
   let component: ReturnOrderComponent;
   let fixture: ComponentFixture<ReturnOrderComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, FormErrorsModule],
-        providers: [
-          { provide: OrderAmendService, useClass: MockOrderAmendService },
-        ],
-        declarations: [
-          ReturnOrderComponent,
-          MockAmendOrderActionComponent,
-          MockCancelOrReturnItemsComponent,
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, FormErrorsModule],
+      providers: [
+        { provide: OrderAmendService, useClass: MockOrderAmendService },
+      ],
+      declarations: [
+        ReturnOrderComponent,
+        MockAmendOrderActionComponent,
+        MockCancelOrReturnItemsComponent,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReturnOrderComponent);

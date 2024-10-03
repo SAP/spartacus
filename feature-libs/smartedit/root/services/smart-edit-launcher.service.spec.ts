@@ -1,15 +1,19 @@
 import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { FeatureModulesService, ScriptLoader } from '@spartacus/core';
 import { defaultSmartEditConfig } from '../config/default-smart-edit-config';
 import { SmartEditConfig } from '../config/smart-edit-config';
 import { SmartEditLauncherService } from './smart-edit-launcher.service';
-import { FeatureModulesService } from '@spartacus/core';
+import { of } from 'rxjs';
 
 class MockLocation {
   path() {
     return '';
   }
+}
+
+class MockScriptLoader {
+  public embedScript(): void {}
 }
 
 class MockFeatureModulesService implements Partial<FeatureModulesService> {
@@ -20,6 +24,7 @@ class MockFeatureModulesService implements Partial<FeatureModulesService> {
 describe('SmartEditLauncherService', () => {
   let smartEditLauncherService: SmartEditLauncherService;
   let location: Location;
+  let scriptLoader: ScriptLoader;
   let featureModules: FeatureModulesService;
 
   beforeEach(() => {
@@ -27,12 +32,14 @@ describe('SmartEditLauncherService', () => {
       providers: [
         { provide: Location, useClass: MockLocation },
         { provide: SmartEditConfig, useValue: defaultSmartEditConfig },
+        { provide: ScriptLoader, useClass: MockScriptLoader },
         { provide: FeatureModulesService, useClass: MockFeatureModulesService },
       ],
     });
 
     smartEditLauncherService = TestBed.inject(SmartEditLauncherService);
     location = TestBed.inject(Location);
+    scriptLoader = TestBed.inject(ScriptLoader);
     featureModules = TestBed.inject(FeatureModulesService);
   });
 
@@ -74,5 +81,15 @@ describe('SmartEditLauncherService', () => {
       smartEditLauncherService.load();
       expect(featureModules.resolveFeature).toHaveBeenCalledWith('smartEdit');
     });
+  });
+
+  it('should be able to load webApplicationInjector.js', () => {
+    spyOn(location, 'path').and.returnValue(
+      '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
+    );
+    spyOn(scriptLoader, 'embedScript').and.callThrough();
+
+    smartEditLauncherService.load();
+    expect(scriptLoader.embedScript).toHaveBeenCalled();
   });
 });

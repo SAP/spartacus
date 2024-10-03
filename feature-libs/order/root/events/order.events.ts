@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CxEvent } from '@spartacus/core';
 import { Order } from '../model/order.model';
 import { ReplenishmentOrder } from '../model/replenishment-order.model';
@@ -49,4 +55,18 @@ export class ReplenishmentOrderScheduledEvent extends OrderEvent {
    * Replenishment Order
    */
   replenishmentOrder: ReplenishmentOrder;
+}
+
+/**
+ * Indicates that a user has click on 'Download Invoices' button on Order details page
+ */
+export class DownloadOrderInvoicesEvent extends CxEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'DownloadOrderInvoicesEvent';
+  /**
+   * Order
+   */
+  order: Order;
 }

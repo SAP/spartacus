@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,18 +11,28 @@ import {
   EventEmitter,
   HostBinding,
   HostListener,
+  inject,
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { WindowRef } from '@spartacus/core';
-import { Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+import { FeatureConfigService, WindowRef } from '@spartacus/core';
+import { Subject, Subscription } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  take,
+} from 'rxjs/operators';
+import { BREAKPOINT, BreakpointService } from '../../../layout';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
+
+const ARIA_EXPANDED_ATTR = 'aria-expanded';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -58,18 +74,29 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   private openNodes: HTMLElement[] = [];
   private subscriptions = new Subscription();
   private resize = new EventEmitter();
+  protected arrowControls: Subject<KeyboardEvent> = new Subject();
 
   @HostListener('window:resize')
   onResize() {
-    this.resize.next();
+    this.resize.next(undefined);
   }
+
+  @HostListener('document:keyDown.arrowUp', ['$event'])
+  @HostListener('document:keyDown.arrowDown', ['$event'])
+  onArrow(e: KeyboardEvent) {
+    this.arrowControls.next(e);
+  }
+
+  protected breakpointService = inject(BreakpointService);
+  isDesktop$ = this.breakpointService.isUp(BREAKPOINT.lg);
 
   constructor(
     private router: Router,
     private renderer: Renderer2,
     private elemRef: ElementRef,
     protected hamburgerMenuService: HamburgerMenuService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {
     this.subscriptions.add(
       this.router.events
@@ -111,13 +138,20 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       typeof navNode.url === 'string' &&
       this.winRef.nativeWindow?.location.href.includes(navNode.url)
     ) {
-      this.elemRef.nativeElement
-        .querySelectorAll('li.is-open:not(.back), li.is-opened')
-        .forEach((el: any) => {
-          this.renderer.removeClass(el, 'is-open');
-          this.renderer.removeClass(el, 'is-opened');
-        });
-      this.reinitializeMenu();
+      // TODO: (CXSPA-5919) Remove feature flag next major release
+      if (
+        this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
+      ) {
+        this.reinitializeMenu();
+      } else {
+        this.elemRef.nativeElement
+          .querySelectorAll('li.is-open:not(.back), li.is-opened')
+          .forEach((el: any) => {
+            this.renderer.removeClass(el, 'is-open');
+            this.renderer.removeClass(el, 'is-opened');
+          });
+        this.reinitializeMenu();
+      }
       this.hamburgerMenuService.toggle();
     }
   }
@@ -126,9 +160,43 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * This method performs the actions required to reset the state of the menu and reset any visual components.
    */
   reinitializeMenu(): void {
-    if (this.openNodes?.length > 0) {
-      this.clear();
+    const a11yKeyboardControlsEnabled = this.featureConfigService?.isEnabled(
+      'a11yNavigationUiKeyboardControls'
+    );
+    const a11yNavMenuExpandStateReadout = this.featureConfigService?.isEnabled(
+      'a11yNavMenuExpandStateReadout'
+    );
+    // TODO: (CXSPA-5919) Remove feature flag next major release
+    if (a11yKeyboardControlsEnabled || a11yNavMenuExpandStateReadout) {
+      const listItems = this.elemRef.nativeElement.querySelectorAll(
+        'li.is-open:not(.back), li.is-opened'
+      );
+
+      if (a11yNavMenuExpandStateReadout) {
+        listItems.forEach((el: HTMLElement) => {
+          Array.from(el.children)
+            .filter((childNode) => childNode?.tagName === 'BUTTON')
+            .forEach((childNode) => {
+              this.renderer.setAttribute(
+                childNode,
+                ARIA_EXPANDED_ATTR,
+                'false'
+              );
+            });
+        });
+      }
+      if (a11yKeyboardControlsEnabled) {
+        listItems.forEach((el: HTMLElement) => {
+          this.renderer.removeClass(el, 'is-open');
+          this.renderer.removeClass(el, 'is-opened');
+        });
+        this.clear();
+        this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
+        this.updateClasses();
+      }
+    } else if (this.openNodes?.length > 0) {
       this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
+      this.clear();
     }
   }
 
@@ -137,7 +205,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       Array.from(parentNode.children)
         .filter((childNode) => childNode?.tagName === 'BUTTON')
         .forEach((childNode) => {
-          this.renderer.setAttribute(childNode, 'aria-expanded', 'false');
+          this.renderer.setAttribute(childNode, ARIA_EXPANDED_ATTR, 'false');
         });
     });
   }
@@ -158,7 +226,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       }
     } else {
       this.openNodes.push(parentNode);
-      this.renderer.setAttribute(node, 'aria-expanded', 'true');
+      this.renderer.setAttribute(node, ARIA_EXPANDED_ATTR, 'true');
     }
 
     this.updateClasses();
@@ -167,13 +235,70 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
+  /**
+   * Opens dropdown and starts keyboard navigation
+   */
+  onSpace(event: UIEvent): void {
+    this.hamburgerMenuService.isExpanded
+      .pipe(take(1))
+      .subscribe((isExpanded) => {
+        if (isExpanded) {
+          this.toggleOpen(event);
+          return;
+        }
+        if (!this.openNodes.length) {
+          this.toggleOpen(event);
+          return;
+        }
+        event.preventDefault();
+      });
+    this.focusOnNode(event);
+    this.setupArrowControls();
+  }
+
+  /**
+   * Subscribes to arrow keys and enables navigation between dropdown items
+   */
+  setupArrowControls(): void {
+    this.subscriptions.add(
+      this.arrowControls.subscribe((e) => {
+        e.preventDefault();
+        const parentElement = (<HTMLElement>e.target).parentElement
+          ?.parentElement;
+        const nextLink = parentElement?.nextElementSibling?.querySelector('a');
+        const previousLink =
+          parentElement?.previousElementSibling?.querySelector('a');
+        e.code === 'ArrowDown' ? nextLink?.focus() : previousLink?.focus();
+      })
+    );
+  }
+
+  /**
+   * Focuses on the first focusable element in the dropdown
+   */
+  focusOnNode(event: UIEvent): void {
+    const firstFocusableElement =
+      (<HTMLElement>event.target).nextElementSibling?.querySelector('button') ||
+      (<HTMLElement>event.target).nextElementSibling?.querySelector('a');
+    firstFocusableElement?.focus();
+  }
+
   back(): void {
     if (this.openNodes[this.openNodes.length - 1]) {
       this.renderer.removeClass(
         this.openNodes[this.openNodes.length - 1],
         'is-open'
       );
-      this.openNodes.pop();
+      if (
+        this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
+      ) {
+        const removedNode = this.openNodes.pop();
+        setTimeout(() => {
+          (removedNode?.querySelector('[tabindex="0"]') as HTMLElement).focus();
+        }, 0);
+      } else {
+        this.openNodes.pop();
+      }
       this.updateClasses();
     }
   }
@@ -258,5 +383,15 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     });
 
     this.isOpen = this.openNodes.length > 0;
+  }
+
+  /**
+   * Resores default tabbing order for non flyout navigation.
+   */
+  getTabIndex(node: NavigationNode, depth: number): 0 | -1 {
+    if (!this.flyout) {
+      return 0;
+    }
+    return depth > 0 && !node?.children ? -1 : 0;
   }
 }

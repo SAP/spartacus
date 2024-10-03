@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   MOVE_FOCUS,
@@ -34,11 +40,12 @@ export class TrapFocusService extends TabFocusService {
     const focusable: HTMLElement[] = this.findFocusable(host);
 
     let index = focusable.findIndex((v) => v === event.target) + increment;
+    const trap = config.trap || config.trapTabOnly;
 
     const shouldMoveFocus =
       (index >= 0 && index < focusable.length) ||
-      (index < 0 && this.getTrapStart(config.trap)) ||
-      (index >= focusable.length && this.getTrapEnd(config.trap));
+      (index < 0 && this.getTrapStart(trap)) ||
+      (index >= focusable.length && this.getTrapEnd(trap));
 
     if (shouldMoveFocus) {
       if (index >= focusable.length) {

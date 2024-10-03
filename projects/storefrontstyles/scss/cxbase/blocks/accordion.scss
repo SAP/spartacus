@@ -1,4 +1,3 @@
-@import '../../theme';
 @import '../../functions';
 @import '../../mixins';
 .accordion {
@@ -13,6 +12,11 @@
         font-size: $font-size-base * 1.375;
         font-weight: 600;
         color: theme-color('text');
+
+        @include forFeature('a11yImproveContrast') {
+          @include type('3');
+        }
+
         .btn {
           text-align: start;
           text-decoration: none !important;

@@ -1,4 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { InjectionToken } from '@angular/core';
+import { CartModificationList } from '@spartacus/cart/base/root';
 import { Converter } from '@spartacus/core';
 import { ConsignmentTracking } from '../model/consignment-tracking.model';
 import {
@@ -21,6 +28,10 @@ export const ORDER_NORMALIZER = new InjectionToken<Converter<any, Order>>(
 export const REPLENISHMENT_ORDER_NORMALIZER = new InjectionToken<
   Converter<any, ReplenishmentOrder>
 >('ReplenishmentOrderNormalizer');
+
+export const REORDER_ORDER_NORMALIZER = new InjectionToken<
+  Converter<any, CartModificationList>
+>('ReorderOrderNormalizer');
 
 export const ORDER_HISTORY_NORMALIZER = new InjectionToken<
   Converter<any, OrderHistoryList>

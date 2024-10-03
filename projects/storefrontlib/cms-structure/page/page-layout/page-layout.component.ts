@@ -1,4 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { useFeatureStyles } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { PageLayoutService } from './page-layout.service';
@@ -33,5 +40,7 @@ export class PageLayoutComponent {
       distinctUntilChanged()
     );
 
-  constructor(protected pageLayoutService: PageLayoutService) {}
+  constructor(protected pageLayoutService: PageLayoutService) {
+    useFeatureStyles('a11yOrganizationsBanner');
+  }
 }

@@ -25,6 +25,7 @@ import { ConfiguratorPriceComponentOptions } from '../../price/configurator-pric
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
+import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 
 const product: Product = {
   name: 'Product Name',
@@ -151,39 +152,41 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     return configValue;
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          ReactiveFormsModule,
-          RouterTestingModule,
-          UrlTestingModule,
-          MediaModule,
-        ],
-        declarations: [
-          ConfiguratorAttributeProductCardComponent,
-          ConfiguratorShowMoreComponent,
-          ItemCounterComponent,
-          MockConfiguratorPriceComponent,
-          MockFocusDirective,
-          MockConfiguratorAttributeQuantityComponent,
-        ],
-        providers: [
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeProductCardComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        MediaModule,
+      ],
+      declarations: [
+        ConfiguratorAttributeProductCardComponent,
+        ConfiguratorShowMoreComponent,
+        ItemCounterComponent,
+        MockConfiguratorPriceComponent,
+        MockFocusDirective,
+        MockConfiguratorAttributeQuantityComponent,
+      ],
+      providers: [
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useValue: {},
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeProductCardComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -628,26 +631,28 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   });
 
   describe('isValueCodeDefined', () => {
-    it('should return true when value code equals zero', () => {
-      expect(component.isValueCodeDefined('0')).toBe(false);
+    it('should return `false` when value code equals `###RETRACT_VALUE_CODE##`', () => {
+      expect(component.isValueCodeDefined(Configurator.RetractValueCode)).toBe(
+        false
+      );
     });
 
-    it('should return true when value code is null', () => {
+    it('should return `false` when value code is `null`', () => {
       expect(component.isValueCodeDefined(null)).toBe(false);
     });
 
-    it('should return true when value code is undefined', () => {
+    it('should return `false` when value code is `undefined`', () => {
       expect(component.isValueCodeDefined(undefined)).toBe(false);
     });
 
-    it('should return true when value code is defined', () => {
+    it('should return `true` when value code is defined', () => {
       expect(component.isValueCodeDefined('888')).toBe(true);
     });
   });
 
   describe('if "No Option Selected" is selected / not selected for not required single-selection-bundle', () => {
     it('should not show "Deselect" button', () => {
-      value.valueCode = '0';
+      value.valueCode = Configurator.RetractValueCode;
       setProductBoundValueAttributes(component);
       fixture.detectChanges();
 
@@ -659,7 +664,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should show "Select" button', () => {
-      value.valueCode = '0';
+      value.valueCode = Configurator.RetractValueCode;
       setProductBoundValueAttributes(component, false);
       fixture.detectChanges();
 
@@ -1005,8 +1010,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it("should return 'configurator.a11y.selectNoItemOfAttribute' if there is valueCode=0 for the productBoundValue", () => {
-      component.productCardOptions.productBoundValue.valueCode = '0';
+    it("should return 'configurator.a11y.selectNoItemOfAttribute' if there is valueCode=`###RETRACT_VALUE_CODE###` for the productBoundValue", () => {
+      component.productCardOptions.productBoundValue.valueCode =
+        Configurator.RetractValueCode;
       const itemIndex = component.productCardOptions.itemIndex + 1;
       expect(component.getAriaLabelSingleUnselected(product)).toBe(
         'configurator.a11y.selectNoItemOfAttribute attribute:' +

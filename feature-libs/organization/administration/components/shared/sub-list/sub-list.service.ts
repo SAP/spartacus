@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { EntitiesModel } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
@@ -5,13 +11,13 @@ import {
   ResponsiveTableConfiguration,
   TableLayout,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { ListService } from '../list/list.service';
 import { BaseItem } from '../organization.model';
 
 @Injectable()
 export abstract class SubListService<
-  T extends BaseItem
+  T extends BaseItem,
 > extends ListService<T> {
   /**
    * The default table structure for sub lists is only showing tables with vertical layout.
@@ -27,14 +33,14 @@ export abstract class SubListService<
 
   // TODO: abstract
   assign?(_key: string, ..._args: any): Observable<OrganizationItemStatus<T>> {
-    return of();
+    return EMPTY;
   }
 
   unassign?(
     _key: string,
     ..._args: any
   ): Observable<OrganizationItemStatus<T>> {
-    return of();
+    return EMPTY;
   }
 
   /**

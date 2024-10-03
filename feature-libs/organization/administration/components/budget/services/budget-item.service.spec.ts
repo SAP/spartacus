@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import {
   Budget,
@@ -7,7 +7,7 @@ import {
   LoadStatus,
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { BudgetFormService } from '../form/budget-form.service';
 import { BudgetItemService } from './budget-item.service';
 import { CurrentBudgetService } from './current-budget.service';
@@ -21,13 +21,13 @@ class MockRoutingService {
 
 const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 
-const form = new FormGroup({});
-form.addControl('name', new FormControl('foo bar'));
-form.addControl('code', new FormControl('new code'));
+const form = new UntypedFormGroup({});
+form.addControl('name', new UntypedFormControl('foo bar'));
+form.addControl('code', new UntypedFormControl('new code'));
 
 class MockBudgetService {
   get() {
-    return of();
+    return EMPTY;
   }
   loadBudget() {}
   update() {}
@@ -40,7 +40,7 @@ class MockBudgetService {
 class MockBudgetFormService {}
 class MockCurrentBudgetService {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(of());
+  load = createSpy('load').and.returnValue(EMPTY);
   error$ = of(false);
 }
 

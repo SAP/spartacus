@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { TabbingOrderConfig, TabbingOrderTypes } from './tabbing-order.model';
 
 export const tabbingOrderConfig: TabbingOrderConfig = {
@@ -161,6 +167,31 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
+  registerWithCaptcha: [
+    { value: 'titleCode', type: TabbingOrderTypes.NG_SELECT },
+    { value: 'firstName', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'lastName', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'email', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'password', type: TabbingOrderTypes.FORM_FIELD },
+    { value: '', type: TabbingOrderTypes.BUTTON },
+    { value: 'passwordconf', type: TabbingOrderTypes.FORM_FIELD },
+    { value: '', type: TabbingOrderTypes.BUTTON },
+    {
+      value: 'newsletter',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'termsandconditions',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    { value: 'Terms & Conditions', type: TabbingOrderTypes.LINK },
+    { value: 'captcha', type: TabbingOrderTypes.CX_CAPTCHA },
+    { value: 'Register', type: TabbingOrderTypes.BUTTON },
+    {
+      value: 'I already have an account. Sign In',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
   resetPassword: [
     { value: 'userEmail', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
@@ -172,10 +203,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Configuration',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Overview',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -202,8 +229,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Next',
       type: TabbingOrderTypes.BUTTON,
     },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'Add to Cart',
       type: TabbingOrderTypes.BUTTON,
     },
   ],
@@ -211,10 +239,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   productConfigurationOverview: [
     {
       value: 'show more',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Configuration',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -226,22 +250,46 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Add to Cart',
+      value: 'Menu',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Basics',
+      type: TabbingOrderTypes.LINK,
+    },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
+    {
       type: TabbingOrderTypes.BUTTON,
     },
   ],
   cart: [
     {
+      value: 'Saved Carts',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Save Cart For Later',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
     },
+    { type: TabbingOrderTypes.RADIO },
+    { type: TabbingOrderTypes.RADIO },
+    { value: 'Select Store', type: TabbingOrderTypes.LINK },
     { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Save For Later', type: TabbingOrderTypes.LINK },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
-    {
-      value: 'Proceed to Checkout',
-      type: TabbingOrderTypes.BUTTON,
-    },
+    { value: 'Clear Cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Import Products', type: TabbingOrderTypes.LINK },
+    { value: 'Export Product to CSV', type: TabbingOrderTypes.LINK },
     {
       value: 'couponCode',
       type: TabbingOrderTypes.FORM_FIELD,
@@ -250,6 +298,85 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Apply',
       type: TabbingOrderTypes.BUTTON,
     },
+    {
+      value: 'productCode',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    {
+      value: 'Add',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Proceed to Checkout',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+  savedCartModal: [
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.TEXT_AREA,
+    },
+    {
+      value: 'Cancel',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Save',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+  savedCartListing: [
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+
+    {
+      value: '$3.45',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Make Cart Active',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Import Products', type: TabbingOrderTypes.LINK },
+  ],
+  savedCartDetails: [
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
+      type: TabbingOrderTypes.LINK,
+    },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
+    { value: 'Add To Active Cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Import Products', type: TabbingOrderTypes.LINK },
+    { value: 'Export Product to CSV', type: TabbingOrderTypes.LINK },
+    { value: 'Delete Saved Cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Make cart active', type: TabbingOrderTypes.BUTTON },
   ],
   saveForLater: [
     {
@@ -282,6 +409,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
   ],
   notificationPreference: [
+    { value: 'Email', type: TabbingOrderTypes.CHECKBOX_WITH_LABEL },
+  ],
+  myAccountV2NotificationPreference: [
     { value: 'Email', type: TabbingOrderTypes.CHECKBOX_WITH_LABEL },
   ],
   updateEmail: [
@@ -410,6 +540,56 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
       value: 'I approve to this sample STORE USER INFORMATION consent',
+    },
+  ],
+  myAccountV2ConsentManagement: [
+    {
+      type: TabbingOrderTypes.LINK,
+      value: 'Disable all',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: 'Enable all',
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+  ],
+  myAccountV2Password: [
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cancel',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Save',
+      type: TabbingOrderTypes.BUTTON,
     },
   ],
   addToCart: [
@@ -672,6 +852,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Unit-Level Orders',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Wish List',
       type: TabbingOrderTypes.LINK,
     },
@@ -735,7 +919,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Delivery mode', type: TabbingOrderTypes.LINK },
     { value: 'Payment details', type: TabbingOrderTypes.LINK },
     { value: 'Edit delivery address', type: TabbingOrderTypes.LINK },
-    { value: 'Edit delivery method', type: TabbingOrderTypes.LINK },
+    { value: 'Edit delivery options', type: TabbingOrderTypes.LINK },
     { value: 'Edit payment method', type: TabbingOrderTypes.LINK },
     {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
@@ -749,18 +933,27 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Place Order', type: TabbingOrderTypes.BUTTON },
   ],
   productPage: [
-    {
-      value: 'FUN Flash Single Use Camera, 27+12 pic',
-      type: TabbingOrderTypes.CX_MEDIA,
-    },
-    {
-      value: 'FUN Flash Single Use Camera, 27+12 pic',
-      type: TabbingOrderTypes.CX_MEDIA,
-    },
-    { value: 'Show reviews', type: TabbingOrderTypes.LINK },
-    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'Expand image', type: TabbingOrderTypes.BUTTON },
+    { value: 'Show reviews', type: TabbingOrderTypes.BUTTON },
+    { value: '-', type: TabbingOrderTypes.BUTTON },
+    { value: '', type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
+    { value: 'pickupOption', type: TabbingOrderTypes.RADIO },
+    { value: 'pickupOption', type: TabbingOrderTypes.RADIO },
+    { value: 'Select Store', type: TabbingOrderTypes.LINK },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     { value: 'add to wish list', type: TabbingOrderTypes.LINK },
+  ],
+  productPageModal: [
+    { value: 'CLOSE', type: TabbingOrderTypes.GENERIC_BUTTON },
+    { value: 'Find a Store', type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'Find Stores', type: TabbingOrderTypes.BUTTON },
+    { value: 'USE MY LOCATION', type: TabbingOrderTypes.LINK },
+    { value: 'VIEW ALL STORES', type: TabbingOrderTypes.LINK },
+    {
+      value: 'Hide out of stock options',
+      type: TabbingOrderTypes.GENERIC_CHECKBOX,
+    },
   ],
   headerMobileNotLoggedIn: [
     {
@@ -1121,6 +1314,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Orders',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Unit-Level Orders',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -2194,6 +2391,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   asmNotLoggedIn: [
     {
+      type: TabbingOrderTypes.LINK,
+      value: 'Hide ASM',
+    },
+    {
       type: TabbingOrderTypes.BUTTON,
       value: '',
     },
@@ -2202,6 +2403,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
     },
     {
       type: TabbingOrderTypes.BUTTON,
@@ -2210,46 +2414,141 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   asmNoSelectedUser: [
     {
-      type: TabbingOrderTypes.BUTTON,
-      value: '',
+      type: TabbingOrderTypes.LINK,
+      value: 'Customers',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: 'Hide ASM',
     },
     {
       type: TabbingOrderTypes.BUTTON,
-      value: '',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
     },
     {
       type: TabbingOrderTypes.FORM_FIELD,
       value: 'searchTerm',
     },
     {
+      type: TabbingOrderTypes.FORM_FIELD,
+      value: 'searchOrder',
+    },
+    {
       type: TabbingOrderTypes.BUTTON,
       value: 'Start Session',
-    },
-    {
-      type: TabbingOrderTypes.BUTTON,
-      value: 'Linda Wolf',
-    },
-    {
-      type: TabbingOrderTypes.BUTTON,
-      value: 'Linda Wolf',
     },
   ],
   asmWithSelectedUser: [
     {
-      type: TabbingOrderTypes.BUTTON,
-      value: '',
+      type: TabbingOrderTypes.LINK,
+      value: 'Customers',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: 'Hide ASM',
     },
     {
       type: TabbingOrderTypes.BUTTON,
-      value: '',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
     },
     {
       type: TabbingOrderTypes.FORM_FIELD,
       value: 'searchTerm',
     },
     {
+      type: TabbingOrderTypes.FORM_FIELD,
+      value: 'searchOrder',
+    },
+    {
       type: TabbingOrderTypes.BUTTON,
       value: 'Start Session',
     },
+  ],
+  asmWithCustomerLists: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Create New Customer',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Cancel',
+    },
+  ],
+  asmWithCreateCustomerForm: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: 'Create',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Cancel',
+    },
+  ],
+  asmInactiveCartSaveDialog: [
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: '',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: 'Save for Later',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Cancel',
+    },
+  ],
+  asmCustomer360CouponList: [
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON },
+  ],
+  asmCustomer360CustomerCouponList: [
+    { type: TabbingOrderTypes.BUTTON, value: 'Available' },
+    { type: TabbingOrderTypes.BUTTON, value: 'Sent' },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+    // uncomment the following line to test againt S4,S7
+    { type: TabbingOrderTypes.BUTTON, value: ' Assign to Customer ' },
+  ],
+  otpLogin: [
+    { value: 'userId', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'password', type: TabbingOrderTypes.FORM_FIELD },
+    { value: '', type: TabbingOrderTypes.LINK },
+    { value: 'Forgot password?', type: TabbingOrderTypes.LINK },
+    { value: 'Sign In', type: TabbingOrderTypes.BUTTON },
+  ],
+  verifyToken: [
+    { value: 'tokenCode', type: TabbingOrderTypes.FORM_FIELD },
+    { value: "Didn't receive the code?", type: TabbingOrderTypes.LINK },
+    { value: 'Verify', type: TabbingOrderTypes.BUTTON },
+    { value: 'Back', type: TabbingOrderTypes.LINK },
   ],
 };

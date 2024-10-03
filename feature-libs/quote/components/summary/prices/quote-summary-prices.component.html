@@ -1,0 +1,57 @@
+<ng-container *ngIf="quoteDetails$ | async as quoteDetails">
+  <div class="cx-price-heading">
+    {{ 'quote.summary.prices.title' | cxTranslate }}
+  </div>
+  <div class="cx-price-row">
+    <div class="cx-price-label">
+      {{ 'quote.summary.prices.subtotal' | cxTranslate }}
+    </div>
+    <div class="cx-price-amount">
+      {{ quoteDetails.totalPrice?.formattedValue }}
+    </div>
+  </div>
+  <div
+    *ngIf="hasNonZeroPriceValue(quoteDetails.productDiscounts)"
+    class="cx-price-row cx-price-savings"
+  >
+    <div class="cx-price-label">
+      {{ 'quote.summary.prices.productDiscount' | cxTranslate }}
+    </div>
+    <div class="cx-price-amount">
+      {{ quoteDetails.productDiscounts?.formattedValue }}
+    </div>
+  </div>
+  <div
+    *ngIf="hasNonZeroPriceValue(quoteDetails.orderDiscounts)"
+    class="cx-price-row cx-price-savings"
+  >
+    <div class="cx-price-label">
+      {{ 'quote.summary.prices.orderDiscount' | cxTranslate }}
+    </div>
+    <div class="cx-price-amount">
+      {{ quoteDetails.orderDiscounts?.formattedValue }}
+    </div>
+  </div>
+  <div
+    *ngIf="hasNonZeroPriceValue(quoteDetails.quoteDiscounts)"
+    class="cx-price-row cx-price-savings"
+  >
+    <div class="cx-price-label">
+      {{ 'quote.summary.prices.quoteDiscount' | cxTranslate }}
+    </div>
+    <div class="cx-price-amount">
+      {{ quoteDetails.quoteDiscounts?.formattedValue }}
+    </div>
+  </div>
+  <div class="cx-price-row cx-price-total">
+    <div class="cx-price-label">
+      {{ 'quote.summary.prices.total' | cxTranslate }}
+    </div>
+    <div class="cx-price-amount">
+      {{ quoteDetails.totalPrice?.formattedValue }}
+    </div>
+  </div>
+  <div class="cx-price-footer">
+    *{{ 'quote.summary.prices.hint' | cxTranslate }}
+  </div>
+</ng-container>

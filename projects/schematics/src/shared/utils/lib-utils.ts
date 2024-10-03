@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   chain,
@@ -15,6 +21,7 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import { SourceFile } from 'ts-morph';
 import {
   CMS_CONFIG,
   I18N_CONFIG,
@@ -60,7 +67,12 @@ import {
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import {
+  getRelativeStyleConfigImportPath,
+  getStylesConfigFilePath,
+} from './styling-utils';
+import {
   getDefaultProjectNameFromWorkspace,
+  getProject,
   getSourceRoot,
   getWorkspace,
   scaffoldStructure,
@@ -368,51 +380,7 @@ function addFeatureModule<T extends LibraryOptions>(
           continue;
         }
 
-        const configFeatures = ([] as Module[]).concat(config.featureModule);
-        for (let i = 0; i < configFeatures.length; i++) {
-          const featureModule = configFeatures[i];
-
-          // if it's already in a wrapper module
-          if (findFeatureModule(featureModule, appSourceFiles)) {
-            break;
-          }
-
-          let content = `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
-            featureModules: {`;
-          if (options.lazy) {
-            let lazyLoadingChunkName = config.moduleName;
-            if (config.lazyLoadingChunk) {
-              const namedImportsContent =
-                config.lazyLoadingChunk.namedImports[i];
-              lazyLoadingChunkName = `[${namedImportsContent}]`;
-              createImports(sourceFile, config.lazyLoadingChunk);
-            }
-            content =
-              content +
-              `${lazyLoadingChunkName}: {
-                module: () =>
-                  import('${featureModule.importPath}').then((m) => m.${featureModule.name}),
-              },`;
-
-            addModuleProvider(sourceFile, {
-              import: [
-                {
-                  moduleSpecifier: SPARTACUS_CORE,
-                  namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
-                },
-              ],
-              content: content + `}})`,
-            });
-          } else {
-            addModuleImport(sourceFile, {
-              import: {
-                moduleSpecifier: featureModule.importPath,
-                namedImports: [featureModule.name],
-              },
-              content: featureModule.content || featureModule.name,
-            });
-          }
-        }
+        addToFeatureModule(sourceFile, appSourceFiles);
 
         saveAndFormat(sourceFile);
         break;
@@ -420,6 +388,56 @@ function addFeatureModule<T extends LibraryOptions>(
     }
     return tree;
   };
+
+  function addToFeatureModule(
+    sourceFile: SourceFile,
+    appSourceFiles: SourceFile[]
+  ) {
+    const configFeatures = ([] as Module[]).concat(config.featureModule);
+    for (let i = 0; i < configFeatures.length; i++) {
+      const featureModule = configFeatures[i];
+
+      // if it's already in a wrapper module
+      if (findFeatureModule(featureModule, appSourceFiles)) {
+        break;
+      }
+
+      let content = `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
+            featureModules: {`;
+      if (options.lazy) {
+        let lazyLoadingChunkName = config.moduleName;
+        if (config.lazyLoadingChunk) {
+          const namedImportsContent = config.lazyLoadingChunk.namedImports[i];
+          lazyLoadingChunkName = `[${namedImportsContent}]`;
+          createImports(sourceFile, config.lazyLoadingChunk);
+        }
+        content =
+          content +
+          `${lazyLoadingChunkName}: {
+                module: () =>
+                  import('${featureModule.importPath}').then((m) => m.${featureModule.name}),
+              },`;
+
+        addModuleProvider(sourceFile, {
+          import: [
+            {
+              moduleSpecifier: SPARTACUS_CORE,
+              namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
+            },
+          ],
+          content: content + `}})`,
+        });
+      } else {
+        addModuleImport(sourceFile, {
+          import: {
+            moduleSpecifier: featureModule.importPath,
+            namedImports: [featureModule.name],
+          },
+          content: featureModule.content || featureModule.name,
+        });
+      }
+    }
+  }
 }
 
 export function addFeatureTranslations<T extends LibraryOptions>(
@@ -615,24 +633,39 @@ export function addLibraryStyles(
     const libraryScssPath = `${getSourceRoot(tree, {
       project: project,
     })}/styles/spartacus/${stylingConfig.scssFileName}`;
-    const toAdd = `@import "${stylingConfig.importStyle}";`;
-
+    const libraryStylesImport = `@import "${stylingConfig.importStyle}";`;
     if (tree.exists(libraryScssPath)) {
       const initialContent = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
       let content = initialContent;
 
-      if (!content.includes(toAdd)) {
-        content += `\n${toAdd}`;
+      if (!content.includes(libraryStylesImport)) {
+        content += `\n${libraryStylesImport}`;
       }
-
       // prevent the unnecessary Angular logs about the files being updated
       if (initialContent !== content) {
         tree.overwrite(libraryScssPath, content);
       }
       return tree;
     }
+    const styleConfigFilePath = getStylesConfigFilePath(
+      getSourceRoot(tree, {
+        project: project,
+      })
+    );
+    let libraryScssFileContent = '';
 
-    tree.create(libraryScssPath, toAdd);
+    if (tree.exists(styleConfigFilePath)) {
+      const styleConfigImportPath = getRelativeStyleConfigImportPath(
+        getProject(tree, project),
+        libraryScssPath
+      );
+      const stylesConfigImport = `@import "${styleConfigImportPath}";`;
+      libraryScssFileContent += `${stylesConfigImport}\n`;
+    }
+
+    libraryScssFileContent += `${libraryStylesImport}\n`;
+
+    tree.create(libraryScssPath, libraryScssFileContent);
 
     const { path, workspace: angularJson } = getWorkspace(tree);
     const architect = angularJson.projects[project].architect;
@@ -719,7 +752,7 @@ export function addPackageJsonDependencies(
  * Adds libraries dependencies to package.json
  */
 export function addPackageJsonDependenciesForLibrary<
-  OPTIONS extends LibraryOptions
+  OPTIONS extends LibraryOptions,
 >(dependencies: Record<string, string>, _options: OPTIONS): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);

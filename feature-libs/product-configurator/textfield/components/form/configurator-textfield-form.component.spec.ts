@@ -64,6 +64,12 @@ class MockConfiguratorTextfieldService {
       p: productConfig,
     });
   }
+
+  readConfigurationForQuoteEntry(): Observable<ConfiguratorTextfield.Configuration> {
+    return cold('-p', {
+      p: productConfig,
+    });
+  }
 }
 
 describe('TextfieldFormComponent', () => {
@@ -71,33 +77,31 @@ describe('TextfieldFormComponent', () => {
   let fixture: ComponentFixture<ConfiguratorTextfieldFormComponent>;
   let textfieldService: ConfiguratorTextfieldService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          ReactiveFormsModule,
-          NgSelectModule,
-          PageLayoutModule,
-        ],
-        declarations: [
-          ConfiguratorTextfieldFormComponent,
-          ConfiguratorTextfieldInputFieldComponent,
-          ConfiguratorTextfieldAddToCartButtonComponent,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorTextfieldService,
-            useClass: MockConfiguratorTextfieldService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        PageLayoutModule,
+      ],
+      declarations: [
+        ConfiguratorTextfieldFormComponent,
+        ConfiguratorTextfieldInputFieldComponent,
+        ConfiguratorTextfieldAddToCartButtonComponent,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorTextfieldService,
+          useClass: MockConfiguratorTextfieldService,
+        },
+      ],
+    }).compileComponents();
+  }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTextfieldFormComponent);
     component = fixture.componentInstance;

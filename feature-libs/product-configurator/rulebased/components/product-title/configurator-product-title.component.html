@@ -5,31 +5,31 @@
     </div>
     <button (click)="triggerDetails()" [attr.aria-expanded]="showMore">
       <ng-container *ngIf="!showMore">
-        <div
-          class="cx-toggle-details-link-text"
-          [attr.aria-label]="
-            'configurator.a11y.showMoreProductInfo'
-              | cxTranslate: { product: product.name }
-          "
-        >
+        <div class="cx-toggle-details-link-text">
           <span aria-hidden="true">{{
             'configurator.header.showMore' | cxTranslate
           }}</span>
         </div>
-        <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
+        <cx-icon
+          [attr.aria-label]="
+            'configurator.a11y.showMoreProductInfo'
+              | cxTranslate: { product: product.name }
+          "
+          [type]="iconTypes.CARET_DOWN"
+        ></cx-icon>
       </ng-container>
 
       <ng-container *ngIf="showMore">
-        <div
-          class="cx-toggle-details-link-text"
+        <div class="cx-toggle-details-link-text" aria-hidden="true">
+          {{ 'configurator.header.showLess' | cxTranslate }}
+        </div>
+        <cx-icon
           [attr.aria-label]="
             'configurator.a11y.showLessProductInfo'
               | cxTranslate: { product: product.name }
           "
-        >
-          {{ 'configurator.header.showLess' | cxTranslate }}
-        </div>
-        <cx-icon [type]="iconTypes.CARET_UP"></cx-icon>
+          [type]="iconTypes.CARET_UP"
+        ></cx-icon>
       </ng-container>
     </button>
     <div class="cx-details" [class.open]="showMore">
@@ -69,6 +69,82 @@
             {{ product.description }}
           </span>
         </div>
+
+        <ng-container *ngIf="expMode | async">
+          <ng-container *ngIf="configuration$ | async as configuration">
+            <ng-container *ngIf="configuration.kbKey">
+              <div class="cx-kb-key-details">
+                <ng-container *ngIf="configuration.kbKey.kbName">
+                  <div class="cx-kb-pair">
+                    <span
+                      class="cx-label"
+                      [attr.aria-label]="
+                        'configurator.a11y.kbKeyName'
+                          | cxTranslate: { name: configuration.kbKey.kbName }
+                      "
+                    >
+                      {{ 'configurator.header.kbKeyName' | cxTranslate }}
+                    </span>
+                    <span class="cx-value">
+                      {{ configuration.kbKey.kbName }}
+                    </span>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="configuration.kbKey.kbLogsys">
+                  <div class="cx-kb-pair">
+                    <span
+                      class="cx-label"
+                      [attr.aria-label]="
+                        'configurator.a11y.kbKeyLogsys'
+                          | cxTranslate
+                            : { logsys: configuration.kbKey.kbLogsys }
+                      "
+                    >
+                      {{ 'configurator.header.kbKeyLogsys' | cxTranslate }}
+                    </span>
+                    <span class="cx-value">
+                      {{ configuration.kbKey.kbLogsys }}
+                    </span>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="configuration.kbKey.kbVersion">
+                  <div class="cx-kb-pair">
+                    <span
+                      class="cx-label"
+                      [attr.aria-label]="
+                        'configurator.a11y.kbKeyVersion'
+                          | cxTranslate
+                            : { version: configuration.kbKey.kbVersion }
+                      "
+                    >
+                      {{ 'configurator.header.kbKeyVersion' | cxTranslate }}
+                    </span>
+                    <span class="cx-value">
+                      {{ configuration.kbKey.kbVersion }}
+                    </span>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="configuration.kbKey.kbBuildNumber">
+                  <div class="cx-kb-pair">
+                    <span
+                      class="cx-label"
+                      [attr.aria-label]="
+                        'configurator.a11y.kbKeyBuildNr'
+                          | cxTranslate
+                            : { number: configuration.kbKey.kbBuildNumber }
+                      "
+                    >
+                      {{ 'configurator.header.kbKeyBuildNr' | cxTranslate }}
+                    </span>
+                    <span class="cx-value">
+                      {{ configuration.kbKey.kbBuildNumber }}
+                    </span>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-container>
+          </ng-container>
+        </ng-container>
       </div>
     </div>
   </div>

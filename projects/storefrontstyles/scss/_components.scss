@@ -13,8 +13,10 @@ $content-components-allowlist: () !default;
 $misc-components-allowlist: () !default;
 $pwa-components-allowlist: () !default;
 $cds-components-allowlist: () !default;
+$digital-payments-components-allowlist: () !default;
 $epd-visualization-components-allowlist: () !default;
 $myaccount-components-allowlist: () !default;
+$cpq-quote-allowlist: () !default;
 
 $selectors: mergeAll(
   (
@@ -26,7 +28,9 @@ $selectors: mergeAll(
     $myaccount-components-allowlist,
     $pwa-components-allowlist,
     $cds-components-allowlist,
-    $epd-visualization-components-allowlist
+    $digital-payments-components-allowlist,
+    $epd-visualization-components-allowlist,
+    $cpq-quote-allowlist
   )
 );
 

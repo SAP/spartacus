@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Directive,
   ElementRef,
@@ -17,7 +23,10 @@ export class AttributesDirective implements OnChanges {
     this._attributesNamePrefix = attributesNamePrefix;
   }
 
-  constructor(private renderer: Renderer2, private elementRef: ElementRef) {}
+  constructor(
+    private renderer: Renderer2,
+    private elementRef: ElementRef
+  ) {}
 
   ngOnChanges(): void {
     if (this.cxAttributes) {

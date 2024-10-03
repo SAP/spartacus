@@ -45,10 +45,10 @@ describe('Workspace utils', () => {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
-    routing: false,
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
+    standalone: false,
   };
   const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
@@ -56,25 +56,25 @@ describe('Workspace utils', () => {
     features: [],
   };
 
-  beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-      .toPromise();
+  beforeAll(async () => {
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      defaultOptions,
+      appTree
+    );
   });
 
   describe('getSourceRoot', () => {
@@ -88,14 +88,13 @@ describe('Workspace utils', () => {
     it('should return data about project', async () => {
       const workspaceInfo = getWorkspace(appTree);
       expect(workspaceInfo.path).toEqual('/angular.json');
-      expect(workspaceInfo.workspace.defaultProject).toEqual(appOptions.name);
     });
   });
 
   describe('getAngularJsonFile', () => {
     it('should return workspace', async () => {
       const workspace = getAngularJsonFile(appTree);
-      expect(workspace.defaultProject).toEqual(appOptions.name);
+      expect(workspace).not.toBeUndefined();
     });
 
     it('should throw an error if Angular not found', async () => {

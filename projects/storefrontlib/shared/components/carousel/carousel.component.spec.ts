@@ -1,19 +1,20 @@
-import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, Input, TemplateRef } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, Product } from '@spartacus/core';
+import { I18nTestingModule, LoggerService, Product } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
+import { MockFeatureDirective } from '../../test/mock-feature-directive';
 
 class MockCarouselService {
   getItemsPerSlide(
     _nativeElement: HTMLElement,
     _itemWidth: number
   ): Observable<number> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -47,22 +48,19 @@ describe('Carousel Component', () => {
   let service: CarouselService;
 
   let templateFixture: ComponentFixture<MockTemplateComponent>;
-  let template;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          CarouselComponent,
-          MockCxIconComponent,
-          MockTemplateComponent,
-        ],
-        providers: [
-          { provide: CarouselService, useClass: MockCarouselService },
-        ],
-      }).compileComponents();
-    })
-  );
+  let template: TemplateRef<any>;
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        CarouselComponent,
+        MockCxIconComponent,
+        MockTemplateComponent,
+        MockFeatureDirective,
+      ],
+      providers: [{ provide: CarouselService, useClass: MockCarouselService }],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CarouselComponent);
@@ -80,9 +78,10 @@ describe('Carousel Component', () => {
     });
 
     it('should log an error when there is no render template given', () => {
-      spyOn(console, 'error');
+      const logger = TestBed.inject(LoggerService);
+      spyOn(logger, 'error');
       component.ngOnInit();
-      expect(console.error).toHaveBeenCalledWith(
+      expect(logger.error).toHaveBeenCalledWith(
         'No template reference provided to render the carousel items for the `cx-carousel`'
       );
     });
@@ -134,7 +133,7 @@ describe('Carousel Component', () => {
     describe('carousel title', () => {
       beforeEach(() => {
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(1));
-        component.items = [of()];
+        component.items = [EMPTY];
       });
 
       it('should have h2 with title', () => {
@@ -162,7 +161,7 @@ describe('Carousel Component', () => {
     describe('carousel buttons', () => {
       beforeEach(() => {
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
-        component.items = [of(), of(), of(), of(), of()];
+        component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
         component.ngOnInit();
         fixture.detectChanges();
       });
@@ -179,7 +178,7 @@ describe('Carousel Component', () => {
 
       it('should have disabled previous button on slide 1', () => {
         const el = fixture.debugElement.query(
-          By.css('button.previous[disabled]')
+          By.css('button.previous[aria-disabled="true"]')
         );
         expect(el.nativeElement).toBeTruthy();
       });
@@ -193,20 +192,24 @@ describe('Carousel Component', () => {
         const el = fixture.debugElement.query(By.css('button.next'));
         (<HTMLElement>el.nativeElement).click();
         fixture.detectChanges();
-        expect(el.nativeElement.disabled).toBe(true);
+        expect(el.nativeElement.getAttribute('aria-disabled')).toBe('true');
       });
 
       it('should enabled previous button after clicking on next button', () => {
         const prevButton = fixture.debugElement.query(
           By.css('button.previous')
         );
-        expect(prevButton.nativeElement.disabled).toBe(true);
+        expect(prevButton.nativeElement.getAttribute('aria-disabled')).toBe(
+          'true'
+        );
 
         const nextButton = fixture.debugElement.query(By.css('button.next'));
         (<HTMLElement>nextButton.nativeElement).click();
 
         fixture.detectChanges();
-        expect(prevButton.nativeElement.disabled).toBe(false);
+        expect(prevButton.nativeElement.getAttribute('aria-disabled')).toBe(
+          'false'
+        );
       });
 
       it('should toggle disabled state of previous/next buttons after navigating to next slide', () => {
@@ -217,8 +220,12 @@ describe('Carousel Component', () => {
         (<HTMLElement>nextButton.nativeElement).click();
 
         fixture.detectChanges();
-        expect(prevButton.nativeElement.disabled).toBe(false);
-        expect(nextButton.nativeElement.disabled).toBe(true);
+        expect(prevButton.nativeElement.getAttribute('aria-disabled')).toBe(
+          'false'
+        );
+        expect(nextButton.nativeElement.getAttribute('aria-disabled')).toBe(
+          'true'
+        );
       });
 
       it('should have 2 indicators', () => {
@@ -232,7 +239,7 @@ describe('Carousel Component', () => {
         const el = fixture.debugElement.queryAll(
           By.css('div.indicators button')
         );
-        expect(el[0].nativeElement.disabled).toEqual(true);
+        expect(el[0].nativeElement.getAttribute('aria-disabled')).toBe('true');
       });
 
       it('should have enabled indicator', () => {
@@ -246,19 +253,30 @@ describe('Carousel Component', () => {
         const indicators = fixture.debugElement.queryAll(
           By.css('div.indicators button')
         );
+
+        expect(indicators[0].nativeElement.getAttribute('aria-disabled')).toBe(
+          'true'
+        );
+        expect(indicators[1].nativeElement.getAttribute('aria-disabled')).toBe(
+          'false'
+        );
+
         indicators[1].nativeElement.click();
 
         fixture.detectChanges();
-
-        expect(indicators[0].nativeElement.disabled).toBe(true);
-        expect(indicators[1].nativeElement.disabled).toBe(false);
+        expect(indicators[0].nativeElement.getAttribute('aria-disabled')).toBe(
+          'false'
+        );
+        expect(indicators[1].nativeElement.getAttribute('aria-disabled')).toBe(
+          'true'
+        );
       });
     });
 
     describe('carousel with 5 items divided by 2 slides', () => {
       beforeEach(() => {
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
-        component.items = [of(), of(), of(), of(), of()];
+        component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
         component.ngOnInit();
         fixture.detectChanges();
       });
@@ -296,7 +314,16 @@ describe('Carousel Component', () => {
       beforeEach(() => {
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(3));
         component.title = 'test carousel with title';
-        component.items = [of(), of(), of(), of(), of(), of(), of(), of()];
+        component.items = [
+          EMPTY,
+          EMPTY,
+          EMPTY,
+          EMPTY,
+          EMPTY,
+          EMPTY,
+          EMPTY,
+          EMPTY,
+        ];
         component.ngOnInit();
         fixture.detectChanges();
       });
@@ -334,7 +361,7 @@ describe('Carousel Component', () => {
       beforeEach(() => {
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(3));
         component.title = 'test carousel with title';
-        component.items = [of(), of(), of()];
+        component.items = [EMPTY, EMPTY, EMPTY];
         component.ngOnInit();
         fixture.detectChanges();
       });
@@ -406,6 +433,162 @@ describe('Carousel Component', () => {
 
     it('should return the 6th slide', () => {
       expect(component.getSlideNumber(5, 27)).toBe(6);
+    });
+  });
+
+  describe('keyboard navigation', () => {
+    let nativeElement: HTMLElement;
+    const sizeMock = 4;
+    beforeEach(() => {
+      component.template = template;
+      nativeElement = fixture.nativeElement;
+
+      for (let i = 0; i < 10; i++) {
+        const element = document.createElement('div');
+        element.setAttribute('cxFocusableCarouselItem', '');
+        element.addEventListener(
+          'keydown',
+          (e) => component.onItemKeydown(e, sizeMock),
+          { once: true }
+        );
+        nativeElement.appendChild(element);
+      }
+      fixture.detectChanges();
+    });
+
+    describe('onItemKeydown', () => {
+      it('should call focusNextPrevItem with +1 when ArrowRight is pressed', () => {
+        spyOn(<any>component, 'focusNextPrevItem');
+        const keyboardEvent = new KeyboardEvent('keydown', {
+          key: 'ArrowRight',
+        });
+
+        const targetElement = nativeElement.querySelector(
+          '[cxFocusableCarouselItem]'
+        );
+        targetElement?.dispatchEvent(keyboardEvent);
+
+        expect(component['focusNextPrevItem']).toHaveBeenCalledWith(
+          targetElement,
+          1,
+          sizeMock
+        );
+      });
+
+      it('should call focusNextPrevItem with -1 when ArrowLeft is pressed', () => {
+        spyOn(<any>component, 'focusNextPrevItem');
+        const keyboardEvent = new KeyboardEvent('keydown', {
+          key: 'ArrowLeft',
+        });
+
+        const targetElement = nativeElement.querySelector(
+          '[cxFocusableCarouselItem]'
+        );
+        targetElement?.dispatchEvent(keyboardEvent);
+
+        expect(component['focusNextPrevItem']).toHaveBeenCalledWith(
+          targetElement,
+          -1,
+          sizeMock
+        );
+      });
+
+      it('should not handle keydown events other than ArrowRight or ArrowLeft', () => {
+        spyOn(<any>component, 'focusNextPrevItem');
+        const keyboardEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+
+        const targetElement = nativeElement.querySelector(
+          '[cxFocusableCarouselItem]'
+        );
+        targetElement?.dispatchEvent(keyboardEvent);
+
+        expect(component['focusNextPrevItem']).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('focusNextPrevItem', () => {
+      let focusableElements: NodeListOf<HTMLElement>;
+      beforeEach(() => {
+        nativeElement = fixture.nativeElement;
+        component.activeSlide = 0;
+        fixture.detectChanges();
+        focusableElements = nativeElement.querySelectorAll(
+          '[cxFocusableCarouselItem]'
+        );
+      });
+
+      it('should focus the next item within the current slide', () => {
+        const initialIndex = 0;
+        const targetIndex = 1;
+        spyOn(focusableElements[targetIndex], 'focus');
+
+        component['focusNextPrevItem'](
+          focusableElements[initialIndex],
+          1,
+          sizeMock
+        );
+
+        expect(focusableElements[targetIndex].focus).toHaveBeenCalled();
+        expect(component.activeSlide).toBe(0);
+      });
+
+      it('should update the active slide and focus next item when crossing boundary', () => {
+        const initialIndex = 3;
+        const targetIndex = 4;
+
+        spyOn(focusableElements[targetIndex], 'addEventListener');
+
+        component['focusNextPrevItem'](
+          focusableElements[initialIndex],
+          1,
+          sizeMock
+        );
+
+        expect(
+          focusableElements[targetIndex].addEventListener
+        ).toHaveBeenCalledWith('transitionend', jasmine.any(Function), {
+          once: true,
+        });
+        expect(component.activeSlide).toBe(4);
+      });
+
+      it('should handle transitionend event to focus the target element', (done) => {
+        const initialIndex = 3;
+        const targetIndex = 4;
+        const focusableElements = nativeElement.querySelectorAll(
+          '[cxFocusableCarouselItem]'
+        );
+        const targetElement = focusableElements[targetIndex] as HTMLElement;
+        spyOn(targetElement, 'focus');
+
+        component['focusNextPrevItem'](
+          focusableElements[initialIndex],
+          1,
+          sizeMock
+        );
+
+        const event = new Event('transitionend');
+        targetElement.dispatchEvent(event);
+
+        setTimeout(() => {
+          expect(targetElement.focus).toHaveBeenCalled();
+          done();
+        }, 100);
+      });
+
+      it('should not change focus if attempting to navigate out of bounds', () => {
+        const initialIndex = 0;
+        spyOn(focusableElements[initialIndex], 'focus');
+
+        component['focusNextPrevItem'](
+          focusableElements[initialIndex],
+          -1,
+          sizeMock
+        );
+
+        expect(focusableElements[initialIndex].focus).not.toHaveBeenCalled();
+        expect(component.activeSlide).toBe(0);
+      });
     });
   });
 });

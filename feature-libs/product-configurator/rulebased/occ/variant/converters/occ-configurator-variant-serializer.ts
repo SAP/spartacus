@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { OccConfigurator } from '../variant-configurator-occ.models';
@@ -8,6 +14,9 @@ export class OccConfiguratorVariantSerializer
   implements
     Converter<Configurator.Configuration, OccConfigurator.Configuration>
 {
+  /**
+   * @deprecated since 6.2
+   */
   static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
 
   convert(
@@ -59,10 +68,7 @@ export class OccConfiguratorVariantSerializer
   }
 
   protected isRetractValue(attribute: Configurator.Attribute): boolean {
-    return (
-      attribute.selectedSingleValue ===
-      OccConfiguratorVariantSerializer.RETRACT_VALUE_CODE
-    );
+    return attribute.selectedSingleValue === Configurator.RetractValueCode;
   }
 
   protected getRetractedValue(
@@ -87,34 +93,43 @@ export class OccConfiguratorVariantSerializer
     attribute: Configurator.Attribute,
     occAttributes: OccConfigurator.Attribute[]
   ): void {
+    const uiType = attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED;
     const targetAttribute: OccConfigurator.Attribute = {
       key: attribute.name,
       name: attribute.name,
       langDepName: attribute.label,
       required: attribute.required,
       retractTriggered: attribute.retractTriggered,
-      type: this.convertCharacteristicType(
-        attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
-      ),
+      type: this.convertCharacteristicType(uiType),
     };
+    const singleValueTypes = [
+      Configurator.UiType.RADIOBUTTON,
+      Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
+      Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT,
+      Configurator.UiType.DROPDOWN,
+      Configurator.UiType.SINGLE_SELECTION_IMAGE,
+    ];
 
-    if (
-      attribute.uiType === Configurator.UiType.DROPDOWN ||
-      attribute.uiType === Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT ||
-      attribute.uiType === Configurator.UiType.RADIOBUTTON ||
-      attribute.uiType === Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT ||
-      attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
-    ) {
+    const multiValueTypes = [
+      Configurator.UiType.CHECKBOXLIST,
+      Configurator.UiType.CHECKBOX,
+      Configurator.UiType.MULTI_SELECTION_IMAGE,
+    ];
+
+    const inputTypesSetValue = [
+      Configurator.UiType.STRING,
+      Configurator.UiType.SAP_DATE,
+    ];
+
+    const inputTypesSetFormattedValue = [Configurator.UiType.NUMERIC];
+
+    if (singleValueTypes.includes(uiType)) {
       this.retractValue(attribute, targetAttribute);
-    } else if (attribute.uiType === Configurator.UiType.STRING) {
+    } else if (inputTypesSetValue.includes(uiType)) {
       targetAttribute.value = attribute.userInput;
-    } else if (attribute.uiType === Configurator.UiType.NUMERIC) {
+    } else if (inputTypesSetFormattedValue.includes(uiType)) {
       targetAttribute.formattedValue = attribute.userInput;
-    } else if (
-      attribute.uiType === Configurator.UiType.CHECKBOXLIST ||
-      attribute.uiType === Configurator.UiType.CHECKBOX ||
-      attribute.uiType === Configurator.UiType.MULTI_SELECTION_IMAGE
-    ) {
+    } else if (multiValueTypes.includes(uiType)) {
       const domainValues: OccConfigurator.Value[] = [];
       if (attribute.values) {
         attribute.values.forEach((value) => {
@@ -137,6 +152,24 @@ export class OccConfiguratorVariantSerializer
   }
 
   convertCharacteristicType(type: Configurator.UiType): OccConfigurator.UiType {
+    const singleValueTypes = [
+      Configurator.UiType.RADIOBUTTON,
+      Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
+      Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT,
+      Configurator.UiType.DROPDOWN,
+      Configurator.UiType.SINGLE_SELECTION_IMAGE,
+    ];
+
+    if (singleValueTypes.includes(type)) {
+      return this.convertCharacteristicTypeSingleValue(type);
+    } else {
+      return this.convertCharacteristicTypeMultiValueAndInput(type);
+    }
+  }
+
+  protected convertCharacteristicTypeSingleValue(
+    type: Configurator.UiType
+  ): OccConfigurator.UiType {
     let uiType: OccConfigurator.UiType;
     switch (type) {
       case Configurator.UiType.RADIOBUTTON: {
@@ -155,12 +188,32 @@ export class OccConfiguratorVariantSerializer
         uiType = OccConfigurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
         break;
       }
+      case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
+        uiType = OccConfigurator.UiType.SINGLE_SELECTION_IMAGE;
+        break;
+      }
+      default: {
+        uiType = OccConfigurator.UiType.NOT_IMPLEMENTED;
+      }
+    }
+    return uiType;
+  }
+
+  protected convertCharacteristicTypeMultiValueAndInput(
+    type: Configurator.UiType
+  ): OccConfigurator.UiType {
+    let uiType: OccConfigurator.UiType;
+    switch (type) {
       case Configurator.UiType.STRING: {
         uiType = OccConfigurator.UiType.STRING;
         break;
       }
       case Configurator.UiType.NUMERIC: {
         uiType = OccConfigurator.UiType.NUMERIC;
+        break;
+      }
+      case Configurator.UiType.SAP_DATE: {
+        uiType = OccConfigurator.UiType.SAP_DATE;
         break;
       }
       case Configurator.UiType.CHECKBOX: {
@@ -173,10 +226,6 @@ export class OccConfiguratorVariantSerializer
       }
       case Configurator.UiType.MULTI_SELECTION_IMAGE: {
         uiType = OccConfigurator.UiType.MULTI_SELECTION_IMAGE;
-        break;
-      }
-      case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
-        uiType = OccConfigurator.UiType.SINGLE_SELECTION_IMAGE;
         break;
       }
       default: {

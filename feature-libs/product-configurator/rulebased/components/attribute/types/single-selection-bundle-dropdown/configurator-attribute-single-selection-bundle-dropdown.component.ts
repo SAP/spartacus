@@ -1,12 +1,18 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { FormControl } from '@angular/forms';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { UntypedFormControl } from '@angular/forms';
+import { TranslationService, useFeatureStyles } from '@spartacus/core';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 
 @Component({
@@ -19,10 +25,29 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit
 {
-  attributeDropDownForm = new FormControl('');
-  selectionValue: Configurator.Value;
+  readonly RETRACT_VALUE_CODE = Configurator.RetractValueCode;
+  attributeDropDownForm = new UntypedFormControl('');
+  selectionValue?: Configurator.Value;
+  group: string;
 
-  @Input() group: string;
+  constructor(
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected translation: TranslationService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+  ) {
+    super(
+      quantityService,
+      translation,
+      attributeComponentContext,
+      configuratorCommonsService,
+      configuratorStorefrontUtilsService
+    );
+
+    this.group = attributeComponentContext.group.id;
+    useFeatureStyles('productConfiguratorAttributeTypesV2');
+  }
 
   ngOnInit() {
     this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
@@ -35,6 +60,21 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
       }
     }
   }
+  /**
+   * Returns selected value. We assume that when this method is called,
+   * a selection has been made before. In case this assumption is false,
+   * an error is thrown
+   * @returns selected value
+   */
+  get selectedValue(): Configurator.Value {
+    let selectedValue: Configurator.Value;
+    if (this.selectionValue) {
+      selectedValue = this.selectionValue;
+    } else {
+      throw new Error('selectedValue called without a defined selectionValue');
+    }
+    return selectedValue;
+  }
 
   /**
    * Extract corresponding product card parameters
@@ -44,7 +84,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extractProductCardParameters(): ConfiguratorAttributeProductCardComponentOptions {
     return {
       hideRemoveButton: true,
-      productBoundValue: this.selectionValue,
+      productBoundValue: this.selectedValue,
       singleDropdown: true,
       withQuantity: false,
       loading$: this.loading$,
@@ -53,5 +93,28 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
       itemCount: 0,
       itemIndex: 0,
     };
+  }
+
+  /**
+   * Verifies whether a selection value is defined and its value code is not a retract one.
+   *
+   * @returns {boolean} - 'True' if a selection value is defined and its value code is not a retract one, otherwise 'false'.
+   */
+  isNotRetractValue(): boolean {
+    return (
+      (this.selectionValue &&
+        this.selectionValue?.valueCode !== Configurator.RetractValueCode) ??
+      false
+    );
+  }
+
+  /**
+   * Verifies whether a value code is a retract one.
+   *
+   * @param {string} valueCode - Value code
+   * @returns {boolean} - 'True' if a value code is a retract one, otherwise 'false'.
+   */
+  isRetractValue(valueCode: string): boolean {
+    return valueCode === Configurator.RetractValueCode;
   }
 }

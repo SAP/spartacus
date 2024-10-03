@@ -1,13 +1,14 @@
 import { TestBed } from '@angular/core/testing';
+import { LoggerService } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { TableConfig } from './config/table.config';
 import { TableLayout, TableStructure } from './table.model';
 import { TableService } from './table.service';
 
 class MockBreakpointService {
   get breakpoint$(): Observable<BREAKPOINT> {
-    return of();
+    return EMPTY;
   }
   get breakpoints(): BREAKPOINT[] {
     return [
@@ -231,12 +232,16 @@ describe('TableService', () => {
 
         it('should generate random table structure', () => {
           let result: TableStructure;
-          spyOn(console, 'warn').and.stub();
+          const logger = TestBed.inject(LoggerService);
+          spyOn(logger, 'warn').and.stub();
           tableService
             .buildStructure('unknown')
             .subscribe((structure) => (result = structure));
 
           expect(result.cells.length).toEqual(5);
+          expect(logger.warn).toHaveBeenCalledWith(
+            'No data available for "unknown", a random structure is generated (with hidden table headers).'
+          );
         });
       });
     });

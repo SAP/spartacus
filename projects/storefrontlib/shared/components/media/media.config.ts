@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
 import { ImageLoadingStrategy, MediaFormatSize } from './media.model';
@@ -34,6 +40,16 @@ export abstract class MediaConfig {
    * img element.
    */
   imageLoadingStrategy?: ImageLoadingStrategy;
+
+  /**
+   * As of v7.0, Spartacus started using the <picture> element by default when a srcset is available.
+   *
+   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture for more
+   * information.
+   *
+   * If this breaks your project, you may set this option to true and use the legacy component instead.
+   */
+  useLegacyMediaComponent?: boolean;
 }
 
 declare module '@spartacus/core' {

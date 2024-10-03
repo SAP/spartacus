@@ -1,0 +1,16 @@
+{
+  "dpPaymentForm": {
+    "redirect": "You will soon be redirected to third party page for card registration",
+    "callback": "Please Wait... Fetching payment details...",
+    "cancelledOrFailed": "Card registration failed or cancelled",
+    "error": {
+      "redirect": "Unable to initiate operation. Please try again",
+      "paymentFetch": "Unable to fetch payment details. Please try again.",
+      "unknown": "Unknown error occurred while fetching payment. Please contact support"
+    },
+    "confirmation": {
+      "heading": "You Have Unsaved Changes.",
+      "text": "If you close this dialog, you wil lose all the changes you have made. Are you sure you wish to close?"
+    }
+  }
+}

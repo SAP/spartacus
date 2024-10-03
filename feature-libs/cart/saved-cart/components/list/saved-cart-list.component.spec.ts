@@ -1,4 +1,5 @@
 import {
+  DebugElement,
   ElementRef,
   Pipe,
   PipeTransform,
@@ -12,9 +13,18 @@ import {
   SavedCartFacade,
   SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import {
+  FeaturesConfig,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  SiteContextComponentService,
+} from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { EMPTY, Observable, Subscription, interval, map, of, take } from 'rxjs';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
 const mockCart1: Cart = {
@@ -50,7 +60,7 @@ class MockSavedCartFacade implements Partial<SavedCartFacade> {
   }
   restoreSavedCart(_cartId: string): void {}
   getRestoreSavedCartProcessSuccess(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getSavedCartListProcessLoading(): Observable<boolean> {
     return of(false);
@@ -68,13 +78,23 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
+class MockSiteContextComponentService
+  implements Partial<SiteContextComponentService>
+{
+  getActiveItem = () =>
+    interval(100).pipe(
+      map(() => 'en'),
+      take(2)
+    );
+}
+
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -84,15 +104,27 @@ describe('SavedCartListComponent', () => {
   let savedCartFacade: SavedCartFacade | MockSavedCartFacade;
   let routingService: RoutingService | MockRoutingService;
   let launchDialogService: LaunchDialogService;
+  let siteContextComponentService: SiteContextComponentService;
+  let el: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [SavedCartListComponent, MockUrlPipe],
+      declarations: [SavedCartListComponent, MockUrlPipe, MockFeatureDirective],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
+        {
+          provide: SiteContextComponentService,
+          useClass: MockSiteContextComponentService,
+        },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
+          },
+        },
       ],
     }).compileComponents();
   });
@@ -101,22 +133,30 @@ describe('SavedCartListComponent', () => {
     savedCartFacade = TestBed.inject(SavedCartFacade);
     routingService = TestBed.inject(RoutingService);
     launchDialogService = TestBed.inject(LaunchDialogService);
+    siteContextComponentService = TestBed.inject(SiteContextComponentService);
 
     spyOn(launchDialogService, 'openDialog').and.stub();
 
     fixture = TestBed.createComponent(SavedCartListComponent);
 
     component = fixture.componentInstance;
+    el = fixture.debugElement;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should display header', () => {
+    fixture.detectChanges();
+    expect(el.query(By.css('h2')).nativeElement.innerText).toContain(
+      'savedCartList.savedCarts'
+    );
+  });
+
   it('should render proper number of carts when user contains saved carts', () => {
     component.savedCarts$ = savedCartFacade.getList();
     fixture.detectChanges();
-    const el = fixture.debugElement;
     expect(el.query(By.css('.cx-saved-cart-list-table'))).not.toBeNull();
     expect(el.queryAll(By.css('.cx-saved-cart-list-cart-id')).length).toEqual(
       mockCarts.length
@@ -161,5 +201,61 @@ describe('SavedCartListComponent', () => {
         layoutOption: SavedCartFormType.RESTORE,
       }
     );
+  });
+
+  describe('observeAndReloadSavedCartOnContextChange()', () => {
+    it('should not call getActiveItem() if context is empty array', () => {
+      spyOn(Object, 'values').and.returnValue([]);
+      const getActiveItemSpy = spyOn(
+        siteContextComponentService,
+        'getActiveItem'
+      ).and.callThrough();
+
+      component.ngOnInit();
+
+      expect(getActiveItemSpy).not.toHaveBeenCalled();
+    });
+
+    it('should add subscription if context is not empty array', () => {
+      const subSpy = spyOn(Subscription.prototype, 'add').and.callThrough();
+
+      component.ngOnInit();
+
+      expect(subSpy).toHaveBeenCalled();
+    });
+
+    it('should not add subscription if context is empty array', () => {
+      spyOn(Object, 'values').and.returnValue([]);
+      const subSpy = spyOn(Subscription.prototype, 'add').and.callThrough();
+
+      component.ngOnInit();
+
+      expect(subSpy).not.toHaveBeenCalled();
+    });
+
+    it('should reload saved carts if context changed', () => {
+      const loadSavedCartsSpy = spyOn(
+        savedCartFacade,
+        'loadSavedCarts'
+      ).and.callThrough();
+
+      component.ngOnInit();
+
+      fixture.detectChanges();
+
+      expect(loadSavedCartsSpy).toHaveBeenCalledTimes(2);
+    });
+
+    it('should not reload saved carts if context did not changed', () => {
+      spyOn(siteContextComponentService, 'getActiveItem').and.returnValue(of());
+      const loadSavedCartsSpy = spyOn(
+        savedCartFacade,
+        'loadSavedCarts'
+      ).and.callThrough();
+
+      component.ngOnInit();
+
+      expect(loadSavedCartsSpy).toHaveBeenCalledTimes(1);
+    });
   });
 });

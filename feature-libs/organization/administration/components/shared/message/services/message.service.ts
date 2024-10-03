@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
@@ -8,11 +14,11 @@ const DEFAULT_INFO_TIMEOUT = 3000;
 @Injectable()
 export class MessageService<
   O extends MessageEventData = MessageEventData,
-  T extends MessageData<O> = MessageData<O>
+  T extends MessageData<O> = MessageData<O>,
 > {
-  protected data$: ReplaySubject<T> = new ReplaySubject();
+  protected data$: ReplaySubject<T | undefined> = new ReplaySubject();
 
-  get(): Observable<T> {
+  get(): Observable<T | undefined> {
     return this.data$;
   }
 
@@ -45,6 +51,6 @@ export class MessageService<
   }
 
   clear(): void {
-    this.data$.next();
+    this.data$.next(undefined);
   }
 }

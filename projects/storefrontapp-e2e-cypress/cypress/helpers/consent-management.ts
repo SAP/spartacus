@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as alerts from './global-message';
 
 export const CONSENT_MANAGEMENT = '/my-account/consents';
@@ -21,9 +27,21 @@ export function giveConsent() {
   alerts.getSuccessAlert().should('contain', 'Consent successfully given');
 }
 
+export function checkConsentGivenDate() {
+  cy.get('span[class="description"]').contains('Approved on');
+}
+
 export function withdrawConsent() {
   cy.get('input[type="checkbox"]').first().should('be.checked');
   cy.get('input[type="checkbox"]').first().uncheck();
+  cy.get('input[type="checkbox"]').first().should('not.be.checked');
+
+  alerts.getSuccessAlert().should('contain', 'Consent successfully withdrawn');
+}
+
+export function withdrawConsentV2() {
+  cy.get('input[type="checkbox"]').first().should('be.checked');
+  cy.get('input[type="checkbox"]').first().uncheck({ force: true });
   cy.get('input[type="checkbox"]').first().should('not.be.checked');
 
   alerts.getSuccessAlert().should('contain', 'Consent successfully withdrawn');
@@ -46,5 +64,20 @@ export function consentManagementTest() {
 
   it('should successfully withdraw a consent', () => {
     withdrawConsent();
+  });
+}
+
+export function myAccountV2consentManagementTest() {
+  it('should be able to go to Consent Management Page', () => {
+    verifyConsentManagementPage();
+  });
+
+  it('should successfully give a consent and show give data', () => {
+    giveConsent();
+    checkConsentGivenDate();
+  });
+
+  it('should successfully withdraw a consent', () => {
+    withdrawConsentV2();
   });
 }

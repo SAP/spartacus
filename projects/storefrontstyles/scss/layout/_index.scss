@@ -13,6 +13,8 @@
 @import './page-templates/error-page';
 @import './page-templates/account-page';
 @import './page-templates/search-results-grid';
+@import './page-templates/order-confirmation-page';
+@import './page-templates/myaccount-v2-page';
 
 %CheckoutLoginPageTemplate {
   @extend %LoginPageTemplate !optional;

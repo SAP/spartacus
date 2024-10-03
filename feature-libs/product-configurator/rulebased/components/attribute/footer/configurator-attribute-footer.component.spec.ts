@@ -6,14 +6,17 @@ import {
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import {
+  ICON_TYPE,
   IconLoaderService,
   IconModule,
-  ICON_TYPE,
 } from '@spartacus/storefront';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-footer.component';
 
 export class MockIconFontLoaderService {
@@ -30,74 +33,101 @@ export class MockIconFontLoaderService {
   getFlipDirection(): void {}
 }
 
-const isCartEntryOrGroupVisited = true;
+let showRequiredMessageForUserInput: boolean;
 class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
+    return of(showRequiredMessageForUserInput);
   }
 }
 
+function createComponentWithData(
+  isCartEntryOrGroupVisited: boolean = true
+): ConfiguratorAttributeFooterComponent {
+  showRequiredMessageForUserInput = isCartEntryOrGroupVisited;
+
+  fixture = TestBed.createComponent(ConfiguratorAttributeFooterComponent);
+  component = fixture.componentInstance;
+  htmlElem = fixture.nativeElement;
+  component.attribute = currentAttribute;
+
+  component.owner = owner;
+  component.groupId = 'testGroup';
+  component.attribute.required = true;
+  component.attribute.incomplete = true;
+  component.attribute.uiType = Configurator.UiType.STRING;
+  component.attribute.userInput = '';
+
+  fixture.detectChanges();
+  return component;
+}
+
+let component: ConfiguratorAttributeFooterComponent;
+let fixture: ComponentFixture<ConfiguratorAttributeFooterComponent>;
+let htmlElem: HTMLElement;
 const attributeName = '123';
 const attrLabel = 'attLabel';
+
+const currentAttribute: Configurator.Attribute = {
+  name: attributeName,
+  label: attrLabel,
+  uiType: Configurator.UiType.RADIOBUTTON,
+};
+
+const owner = ConfiguratorModelUtils.createOwner(
+  CommonConfigurator.OwnerType.CART_ENTRY,
+  'PRODUCT_CODE'
+);
+
 describe('ConfigAttributeFooterComponent', () => {
-  let classUnderTest: ConfiguratorAttributeFooterComponent;
-  let fixture: ComponentFixture<ConfiguratorAttributeFooterComponent>;
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, IconModule],
+      declarations: [
+        ConfiguratorAttributeFooterComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
 
-  const currentAttribute: Configurator.Attribute = {
-    name: attributeName,
-    label: attrLabel,
-    uiType: Configurator.UiType.RADIOBUTTON,
-  };
-  let htmlElem: HTMLElement;
-
-  const owner = ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.CART_ENTRY,
-    'PRODUCT_CODE'
-  );
-
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, IconModule],
-        declarations: [ConfiguratorAttributeFooterComponent],
-        providers: [
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeFooterComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeFooterComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ConfiguratorAttributeFooterComponent);
-    classUnderTest = fixture.componentInstance;
-    htmlElem = fixture.nativeElement;
-    classUnderTest.attribute = currentAttribute;
-
-    classUnderTest.owner = owner;
-    classUnderTest.groupId = 'testGroup';
-    classUnderTest.attribute.required = true;
-    classUnderTest.attribute.incomplete = true;
-    classUnderTest.attribute.uiType = Configurator.UiType.STRING;
-    classUnderTest.attribute.userInput = '';
-    fixture.detectChanges();
+  it('should render an empty component because showRequiredMessageForUserInput$ is `false`', () => {
+    createComponentWithData(false).ngOnInit();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-required-error-msg'
+    );
   });
 
-  it('should create', () => {
-    expect(classUnderTest).toBeTruthy();
+  it('should render a required message for release version less than 6.2', () => {
+    createComponentWithData().ngOnInit();
+    expect(component).toBeTruthy();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-required-error-msg'
+    );
   });
 
   it('should render a required message if attribute has no value, yet.', () => {
-    fixture.detectChanges();
+    createComponentWithData();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -106,7 +136,8 @@ describe('ConfigAttributeFooterComponent', () => {
   });
 
   it('should render a required message because the group has already been visited.', () => {
-    classUnderTest.owner.type = CommonConfigurator.OwnerType.PRODUCT;
+    createComponentWithData();
+    component.owner.type = CommonConfigurator.OwnerType.PRODUCT;
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -116,8 +147,9 @@ describe('ConfigAttributeFooterComponent', () => {
   });
 
   it('should render a required message because user input is an empty string.', () => {
+    createComponentWithData();
     currentAttribute.userInput = '  ';
-    classUnderTest.ngOnInit();
+    component.ngOnInit();
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -127,8 +159,9 @@ describe('ConfigAttributeFooterComponent', () => {
   });
 
   it("shouldn't render a required message if attribute is not required.", () => {
+    createComponentWithData();
     currentAttribute.required = false;
-    classUnderTest.ngOnInit();
+    component.ngOnInit();
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
@@ -138,8 +171,9 @@ describe('ConfigAttributeFooterComponent', () => {
   });
 
   it("shouldn't render a required message if attribute is complete.", () => {
+    createComponentWithData();
     currentAttribute.incomplete = false;
-    classUnderTest.ngOnInit();
+    component.ngOnInit();
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
@@ -149,8 +183,9 @@ describe('ConfigAttributeFooterComponent', () => {
   });
 
   it("shouldn't render a required message if UI type is another.", () => {
+    createComponentWithData();
     currentAttribute.uiType = Configurator.UiType.CHECKBOX;
-    classUnderTest.ngOnInit();
+    component.ngOnInit();
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
@@ -160,8 +195,9 @@ describe('ConfigAttributeFooterComponent', () => {
   });
 
   it("shouldn't render a required message because user input is set.", () => {
+    createComponentWithData();
     currentAttribute.userInput = 'test';
-    classUnderTest.ngOnInit();
+    component.ngOnInit();
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
@@ -170,73 +206,162 @@ describe('ConfigAttributeFooterComponent', () => {
     );
   });
 
-  describe('isUserInputEmpty()', () => {
+  describe('needsDropDownMsg', () => {
+    beforeEach(() => {
+      createComponentWithData();
+    });
+
+    it('should not display drop-down message because attribute is not required', () => {
+      component.attribute.required = false;
+      fixture.detectChanges();
+      expect(component['needsDropDownMsg']()).toBe(false);
+    });
+
+    it('should not display drop-down message because attribute is complete', () => {
+      component.attribute.incomplete = false;
+      fixture.detectChanges();
+      expect(component['needsDropDownMsg']()).toBe(false);
+    });
+
+    it('should not display drop-down message for another UI type', () => {
+      component.attribute.uiType = Configurator.UiType.CHECKBOX;
+      fixture.detectChanges();
+      expect(component['needsDropDownMsg']()).toBe(false);
+    });
+
+    it('should not display drop-down message because the list of values is undefined', () => {
+      component.attribute.values = undefined;
+      fixture.detectChanges();
+      expect(component['needsDropDownMsg']()).toBe(false);
+    });
+
+    it('should not display drop-down message for UI type `DROPDOWN` because there is a selected value', () => {
+      component.attribute.uiType = Configurator.UiType.DROPDOWN;
+      component.attribute.values = [
+        ConfiguratorTestUtils.createValue(
+          Configurator.RetractValueCode,
+          undefined
+        ),
+        ConfiguratorTestUtils.createValue('123', 10, true),
+        ConfiguratorTestUtils.createValue('456', 15),
+        ConfiguratorTestUtils.createValue('789', 20),
+      ];
+      fixture.detectChanges();
+      expect(component['needsDropDownMsg']()).toBe(false);
+      component.attribute.values = undefined;
+      fixture.detectChanges();
+    });
+
+    it('should display drop-down message for UI type `DROPDOWN`', () => {
+      component.attribute.uiType = Configurator.UiType.DROPDOWN;
+      fixture.detectChanges();
+      expect(component['needsDropDownMsg']()).toBe(true);
+    });
+
+    it('should display drop-down message for UI type `DROPDOWN_PRODUCT`', () => {
+      component.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
+      fixture.detectChanges();
+      expect(component['needsDropDownMsg']()).toBe(true);
+    });
+
+    it('should display drop-down message for UI type `DROPDOWN` because the selected value has a code `###RETRACT_VALUE_CODE###`', () => {
+      component.attribute.uiType = Configurator.UiType.DROPDOWN;
+      component.attribute.values = [
+        ConfiguratorTestUtils.createValue(
+          Configurator.RetractValueCode,
+          undefined,
+          true
+        ),
+        ConfiguratorTestUtils.createValue('123', 10),
+        ConfiguratorTestUtils.createValue('456', 15),
+        ConfiguratorTestUtils.createValue('789', 20),
+      ];
+      fixture.detectChanges();
+      expect(component['needsDropDownMsg']()).toBe(true);
+      component.attribute.values = undefined;
+      fixture.detectChanges();
+    });
+  });
+
+  describe('isUserInputEmpty', () => {
+    beforeEach(() => {
+      createComponentWithData();
+    });
+
     it('should return false because user input is undefined', () => {
       currentAttribute.userInput = undefined;
-      expect(
-        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
-      ).toBe(false);
+      expect(component.isUserInputEmpty(component.attribute.userInput)).toBe(
+        false
+      );
     });
 
     it('should return true because user input contains a number of whitespaces', () => {
       currentAttribute.userInput = '   ';
-      expect(
-        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
-      ).toBe(true);
+      expect(component.isUserInputEmpty(component.attribute.userInput)).toBe(
+        true
+      );
     });
 
     it('should return true because user input contains an empty string', () => {
       currentAttribute.userInput = '';
-      expect(
-        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
-      ).toBe(true);
+      expect(component.isUserInputEmpty(component.attribute.userInput)).toBe(
+        true
+      );
     });
 
     it('should return false because user input is defined and contains a string', () => {
       currentAttribute.userInput = 'user input string';
-      expect(
-        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
-      ).toBe(false);
+      expect(component.isUserInputEmpty(component.attribute.userInput)).toBe(
+        false
+      );
     });
   });
 
-  describe('needsUserInputMessage()', () => {
+  describe('needsUserInputMsg', () => {
+    beforeEach(() => {
+      createComponentWithData();
+    });
+
     it('should not display user input message because attribute is not required', () => {
-      classUnderTest.attribute.required = false;
+      component.attribute.required = false;
       fixture.detectChanges();
-      expect(classUnderTest['needsUserInputMessage']()).toBe(false);
+      expect(component['needsUserInputMsg']()).toBe(false);
     });
 
     it('should not display user input message because attribute is complete', () => {
-      classUnderTest.attribute.incomplete = false;
+      component.attribute.incomplete = false;
       fixture.detectChanges();
-      expect(classUnderTest['needsUserInputMessage']()).toBe(false);
+      expect(component['needsUserInputMsg']()).toBe(false);
     });
 
     it('should not display user input message because attribute user input is not empty', () => {
-      classUnderTest.attribute.userInput = ' test ';
+      component.attribute.userInput = ' test ';
       fixture.detectChanges();
-      expect(classUnderTest['needsUserInputMessage']()).toBe(false);
+      expect(component['needsUserInputMsg']()).toBe(false);
     });
 
     it('should not display user input message for another UI type', () => {
-      classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOX;
+      component.attribute.uiType = Configurator.UiType.CHECKBOX;
       fixture.detectChanges();
-      expect(classUnderTest['needsUserInputMessage']()).toBe(false);
+      expect(component['needsUserInputMsg']()).toBe(false);
     });
 
     it('should display user input message for UI type `STRING`', () => {
-      expect(classUnderTest['needsUserInputMessage']()).toBe(true);
+      expect(component['needsUserInputMsg']()).toBe(true);
     });
 
     it('should display user input message for UI type `NUMERIC`', () => {
-      classUnderTest.attribute.uiType = Configurator.UiType.NUMERIC;
+      component.attribute.uiType = Configurator.UiType.NUMERIC;
       fixture.detectChanges();
-      expect(classUnderTest['needsUserInputMessage']()).toBe(true);
+      expect(component['needsUserInputMsg']()).toBe(true);
     });
   });
 
   describe('Accessibility', () => {
+    beforeEach(() => {
+      createComponentWithData(true);
+    });
+
     it("should contain div element with class name 'cx-required-error-msg' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,

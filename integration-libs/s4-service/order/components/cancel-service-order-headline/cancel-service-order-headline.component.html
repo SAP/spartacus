@@ -1,0 +1,40 @@
+<p
+  class="cx-checkout-title d-none d-lg-block d-xl-block text-center"
+  [attr.aria-label]="'cancelService.heading' | cxTranslate"
+>
+  {{ 'cancelService.heading' | cxTranslate }}
+</p>
+
+<ng-container *ngIf="order$ | async as order">
+  <div class="mt-3 mb-3 service-table" *ngIf="order.entries?.length">
+    <h3 class="service-header">{{ 'cancelService.Services' | cxTranslate }}</h3>
+    <div class="m-4">
+      <table class="table table-bordered border-0">
+        <thead class="thead-padding">
+          <tr>
+            <th>{{ 'cancelService.ServiceDate' | cxTranslate }}</th>
+            <th>{{ 'cancelService.ServiceTime' | cxTranslate }}</th>
+            <th>{{ 'cancelService.ServiceLocation' | cxTranslate }}</th>
+          </tr>
+        </thead>
+        <tbody class="tbody-padding">
+          <tr class="service-row">
+            <td>{{ order.servicedAt | date: 'MM/dd/yyyy' }}</td>
+            <td>{{ order.servicedAt | date: 'HH:mm' }}</td>
+            <td>{{ order.deliveryAddress?.town }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <ng-container *ngIf="order.entries?.length">
+    <ng-template
+      [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+      [cxOutletContext]="{
+        items: order.entries,
+        readonly: true,
+      }"
+    >
+    </ng-template>
+  </ng-container>
+</ng-container>

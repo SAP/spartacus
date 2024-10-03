@@ -1,22 +1,37 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  ElementRef,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
   Optional,
+  ViewChild,
+  inject,
 } from '@angular/core';
 import {
   CmsSearchBoxComponent,
+  FeatureConfigService,
   PageType,
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { BREAKPOINT, BreakpointService } from '../../../layout/';
 import { SearchBoxComponentService } from './search-box-component.service';
+import { SearchBoxFeatures } from './search-box-features.model';
+import { SearchBoxOutlets } from './search-box-outlets.model';
 import {
   SearchBoxProductSelectedEvent,
   SearchBoxSuggestionSelectedEvent,
@@ -30,7 +45,10 @@ const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   maxProducts: 5,
   maxSuggestions: 5,
   displayProductImages: true,
+  recentSearches: true,
+  maxRecentSearches: 5,
 };
+const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
 
 @Component({
   selector: 'cx-searchbox',
@@ -38,6 +56,8 @@ const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
+  readonly searchBoxOutlets = SearchBoxOutlets;
+  readonly searchBoxFeatures = SearchBoxFeatures;
   @Input() config: SearchBoxConfig;
 
   /**
@@ -50,15 +70,58 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     }
   }
 
+  @ViewChild('searchInput') searchInput: any;
+
+  @ViewChild('searchButton') searchButton: ElementRef<HTMLElement>;
+
+  @HostListener('keydown.escape')
+  onEscape() {
+    if (
+      (this.featureConfigService?.isEnabled('a11ySearchBoxFocusOnEscape') &&
+        this.winRef.document.activeElement !==
+          this.searchInput.nativeElement) ||
+      this.searchBoxActive
+    ) {
+      setTimeout(() => {
+        this.searchInput.nativeElement.focus();
+      });
+    }
+  }
+
   iconTypes = ICON_TYPE;
+
+  searchBoxActive: boolean = false;
 
   /**
    * In some occasions we need to ignore the close event,
    * for example when we click inside the search result section.
    */
   private ignoreCloseEvent = false;
+
   chosenWord = '';
-  public subscription: Subscription;
+
+  protected subscriptions = new Subscription();
+
+  get isMobile(): Observable<boolean> | undefined {
+    return this.breakpointService?.isDown(BREAKPOINT.sm);
+  }
+
+  // TODO: (CXSPA-6929) - Remove getter next major release.
+  /** Temporary getter, not ment for public use */
+  get a11ySearchBoxMobileFocusEnabled(): boolean {
+    return (
+      this.featureConfigService?.isEnabled('a11ySearchBoxMobileFocus') || false
+    );
+  }
+
+  // TODO: (CXSPA-6929) - Make dependencies no longer optional next major release
+  @Optional() changeDetecorRef = inject(ChangeDetectorRef, { optional: true });
+
+  @Optional() breakpointService = inject(BreakpointService, { optional: true });
+
+  @Optional() featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
@@ -100,7 +163,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
-    this.subscription = this.routingService
+    const routeStateSubscription = this.routingService
       .getRouterState()
       .pipe(filter((data) => !data.nextState))
       .subscribe((data) => {
@@ -109,9 +172,38 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
             data.state.context?.id === 'search' &&
             data.state.context?.type === PageType.CONTENT_PAGE
           )
-        )
+        ) {
           this.chosenWord = '';
+        }
       });
+
+    this.subscriptions.add(routeStateSubscription);
+
+    const chosenWordSubscription =
+      this.searchBoxComponentService.chosenWord.subscribe((chosenWord) => {
+        this.updateChosenWord(chosenWord);
+      });
+
+    this.subscriptions.add(chosenWordSubscription);
+
+    const UIEventSubscription =
+      this.searchBoxComponentService.sharedEvent.subscribe(
+        (event: KeyboardEvent) => {
+          this.propagateEvent(event);
+        }
+      );
+
+    this.subscriptions.add(UIEventSubscription);
+  }
+
+  /**
+   * The Searchbox should not be focusable while not visible.
+   */
+  getTabIndex(isMobile: boolean | null): number {
+    if (isMobile) {
+      return this.searchBoxActive ? 0 : -1;
+    }
+    return 0;
   }
 
   /**
@@ -127,7 +219,20 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Opens the type-ahead searchBox
    */
   open(): void {
-    this.searchBoxComponentService.toggleBodyClass('searchbox-is-active', true);
+    // TODO: (CXSPA-6929) - Remove feature flag next major release
+    if (this.a11ySearchBoxMobileFocusEnabled) {
+      if (!this.searchBoxActive) {
+        this.searchBoxComponentService.toggleBodyClass(
+          SEARCHBOX_IS_ACTIVE,
+          true
+        );
+        this.searchBoxActive = true;
+        this.searchInput?.nativeElement.focus();
+      }
+    } else {
+      this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
+      this.searchBoxActive = true;
+    }
   }
 
   /**
@@ -161,12 +266,16 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   protected blurSearchBox(event: UIEvent): void {
-    this.searchBoxComponentService.toggleBodyClass(
-      'searchbox-is-active',
-      false
-    );
-    if (event && event.target) {
-      (<HTMLElement>event.target).blur();
+    this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
+    this.searchBoxActive = false;
+    // TODO: (CXSPA-6929) - Remove feature flag next major release
+    if (this.a11ySearchBoxMobileFocusEnabled) {
+      this.changeDetecorRef?.detectChanges();
+      this.searchButton?.nativeElement.focus();
+    } else {
+      if (event && event.target) {
+        (<HTMLElement>event.target).blur();
+      }
     }
   }
 
@@ -184,7 +293,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * to focus the input again when it's already open.
    * */
   avoidReopen(event: UIEvent): void {
-    if (this.searchBoxComponentService.hasBodyClass('searchbox-is-active')) {
+    if (this.searchBoxComponentService.hasBodyClass(SEARCHBOX_IS_ACTIVE)) {
       this.close(event);
       event.preventDefault();
     }
@@ -194,7 +303,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   private getResultElements(): HTMLElement[] {
     return Array.from(
       this.winRef.document.querySelectorAll(
-        '.products > li a, .suggestions > li a'
+        '.products > li a, .suggestions > li a, .recent-searches > li a'
       )
     );
   }
@@ -210,6 +319,27 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   private getFocusedIndex(): number {
     return this.getResultElements().indexOf(this.getFocusedElement());
+  }
+
+  private propagateEvent(event: KeyboardEvent) {
+    if (event.code) {
+      switch (event.code) {
+        case 'Escape':
+        case 'Enter':
+          this.close(event, true);
+          return;
+        case 'ArrowUp':
+          this.focusPreviousChild(event);
+          return;
+        case 'ArrowDown':
+          this.focusNextChild(event);
+          return;
+        default:
+          return;
+      }
+    } else if (event.type === 'blur') {
+      this.close(event);
+    }
   }
 
   // Focus on previous item in results list
@@ -288,6 +418,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.subscriptions?.unsubscribe();
   }
 }

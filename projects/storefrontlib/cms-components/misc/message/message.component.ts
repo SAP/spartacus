@@ -1,11 +1,25 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 @Component({
   selector: 'cx-message',
   templateUrl: './message.component.html',
 })
-export class MessageComponent {
+export class MessageComponent implements AfterViewInit {
   @Input()
   text: string;
 
@@ -35,7 +49,11 @@ export class MessageComponent {
 
   iconTypes = ICON_TYPE;
 
-  constructor() {}
+  @ViewChild('messageContainer') messageContainer: ElementRef;
+
+  constructor() {
+    // Intentional empty constructor
+  }
 
   get getCssClassesForMessage(): Record<string, boolean> {
     return {
@@ -57,6 +75,12 @@ export class MessageComponent {
         return ICON_TYPE.INFO;
       default:
         return ICON_TYPE.SUCCESS;
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.accordionText || this.actionButtonText) {
+      this.messageContainer?.nativeElement.focus();
     }
   }
 }

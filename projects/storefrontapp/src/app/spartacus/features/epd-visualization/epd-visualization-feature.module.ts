@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
@@ -14,12 +20,11 @@ const epdVisualizationConfig: EpdVisualizationConfig = {
   epdVisualization: {
     apis: {
       baseUrl:
-        'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com',
+        'https://epd-acc-eu20-consumer.visualization.eu20.acc.epd.dev.sap',
     },
 
     ui5: {
-      bootstrapUrl:
-        'https://sapui5.hana.ondemand.com/1.98.0/resources/sap-ui-core.js',
+      bootstrapUrl: 'https://ui5.sap.com/1.108/resources/sap-ui-core.js',
     },
   },
 };

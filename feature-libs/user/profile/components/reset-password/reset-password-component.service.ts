@@ -1,6 +1,17 @@
-import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { inject, Injectable } from '@angular/core';
 import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -14,6 +25,29 @@ import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class ResetPasswordComponentService {
+  // TODO: (CXSPA-7315) Remove feature toggle in the next major
+  // TODO: (CXSPA-8550) Remove feature toggle
+  private featureConfigService = inject(FeatureConfigService);
+
+  protected passwordValidators = this.featureConfigService?.isEnabled(
+    'formErrorsDescriptiveMessages'
+  )
+    ? this.featureConfigService.isEnabled(
+        'enableConsecutiveCharactersPasswordRequirement'
+      )
+      ? [
+          ...CustomFormValidators.passwordValidators,
+          CustomFormValidators.noConsecutiveCharacters,
+        ]
+      : CustomFormValidators.passwordValidators
+    : [
+        this.featureConfigService.isEnabled(
+          'enableConsecutiveCharactersPasswordRequirement'
+        )
+          ? CustomFormValidators.strongPasswordValidator
+          : CustomFormValidators.passwordValidator,
+      ];
+
   constructor(
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
@@ -32,13 +66,13 @@ export class ResetPasswordComponentService {
       map((routerState: RouterState) => routerState.state.queryParams['token'])
     );
 
-  form: FormGroup = new FormGroup(
+  form: UntypedFormGroup = new UntypedFormGroup(
     {
-      password: new FormControl('', [
+      password: new UntypedFormControl('', [
         Validators.required,
-        CustomFormValidators.passwordValidator,
+        ...this.passwordValidators,
       ]),
-      passwordConfirm: new FormControl('', Validators.required),
+      passwordConfirm: new UntypedFormControl('', Validators.required),
     },
     {
       validators: CustomFormValidators.passwordsMustMatch(
@@ -62,7 +96,7 @@ export class ResetPasswordComponentService {
 
     this.busy$.next(true);
 
-    const password = (this.form.get('password') as FormControl).value;
+    const password = (this.form.get('password') as UntypedFormControl).value;
 
     this.userPasswordService.reset(token, password).subscribe({
       next: () => this.onSuccess(),

@@ -5,19 +5,14 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
   cartBaseFeatureModulePath,
-  checkoutWrapperModulePath,
   CHECKOUT_BASE_FEATURE_NAME,
-  digitalPaymentsFeatureModulePath,
+  checkoutWrapperModulePath,
   DIGITAL_PAYMENTS_FEATURE_NAME,
+  digitalPaymentsFeatureModulePath,
+  generateDefaultWorkspace,
   LibraryOptions as SpartacusDigitalPaymentsOptions,
   orderFeatureModulePath,
-  SpartacusOptions,
   SPARTACUS_CHECKOUT,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_SCHEMATICS,
@@ -36,27 +31,6 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    routing: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
-
   const libraryNoFeaturesOptions: SpartacusDigitalPaymentsOptions = {
     project: 'schematics-test',
     lazy: true,
@@ -73,14 +47,7 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
     features: [DIGITAL_PAYMENTS_FEATURE_NAME],
   };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      path.join(
-        __dirname,
-        '../../../../projects/schematics/src/collection.json'
-      )
-    );
+  async function generateWorkspace() {
     schematicRunner.registerCollection(
       SPARTACUS_CHECKOUT,
       path.join(
@@ -88,37 +55,17 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
         '../../../../feature-libs/checkout/schematics/collection.json'
       )
     );
-
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
-        'ng-add',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
-  });
+    return (appTree = await generateDefaultWorkspace(schematicRunner, appTree));
+  }
 
   describe('Without features', () => {
-    beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
-        .toPromise();
+    beforeAll(async () => {
+      appTree = await generateWorkspace();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        libraryNoFeaturesOptions,
+        appTree
+      );
     });
 
     it('should not create any of the feature modules', () => {
@@ -128,13 +75,19 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
 
   describe('Digital-Payments feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', checkoutFeatureOptions, appTree)
-          .toPromise();
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', digitalPaymentsFeatureOptions, appTree)
-          .toPromise();
+      beforeAll(async () => {
+        appTree = await generateWorkspace();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          checkoutFeatureOptions,
+          appTree
+        );
+
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          digitalPaymentsFeatureOptions,
+          appTree
+        );
       });
 
       it('should install necessary Spartacus libraries', async () => {
@@ -178,21 +131,19 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...checkoutFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...digitalPaymentsFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+      beforeAll(async () => {
+        appTree = await generateWorkspace();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...checkoutFeatureOptions, lazy: false },
+          appTree
+        );
+
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...digitalPaymentsFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {

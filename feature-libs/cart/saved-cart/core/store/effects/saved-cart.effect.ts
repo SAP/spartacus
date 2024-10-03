@@ -1,12 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CartActions, CartConnector } from '@spartacus/cart/base/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  normalizeHttpError,
+  LoggerService,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
@@ -15,6 +22,8 @@ import { SavedCartActions } from '../actions/index';
 
 @Injectable()
 export class SavedCartEffects {
+  protected logger = inject(LoggerService);
+
   loadSavedCart$: Observable<
     | CartActions.LoadCartSuccess
     | SavedCartActions.LoadSavedCartFail
@@ -40,7 +49,7 @@ export class SavedCartEffects {
               new SavedCartActions.LoadSavedCartFail({
                 userId,
                 cartId,
-                error: normalizeHttpError(error),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -69,7 +78,7 @@ export class SavedCartEffects {
             of(
               new SavedCartActions.LoadSavedCartsFail({
                 userId,
-                error: normalizeHttpError(error),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -93,21 +102,25 @@ export class SavedCartEffects {
       switchMap(([{ userId, cartId }, activeCart]) => {
         const actions: any[] = [];
 
-        if ((activeCart?.entries ?? []).length > 0) {
-          if (activeCart.code) {
-            /**
-             * Instead of calling the SaveCartAction, we are calling the edit saved cart
-             * because we do not want to clear the state when we swap carts between active and saved cart
-             */
-            actions.push(
-              new SavedCartActions.EditSavedCart({
-                userId,
-                cartId: activeCart.code,
-                saveCartName: '',
-                saveCartDescription: '',
-              })
-            );
-          }
+        //We must not swap carts in case the active cart is linked to a quote.
+        //In that case the quote cart is available from the linked quote
+        if (
+          (activeCart?.entries ?? []).length > 0 &&
+          !activeCart.quoteCode &&
+          activeCart.code
+        ) {
+          /**
+           * Instead of calling the SaveCartAction, we are calling the edit saved cart
+           * because we do not want to clear the state when we swap carts between active and saved cart
+           */
+          actions.push(
+            new SavedCartActions.EditSavedCart({
+              userId,
+              cartId: activeCart.code,
+              saveCartName: '',
+              saveCartDescription: '',
+            })
+          );
         }
 
         return this.savedCartConnector.restoreSavedCart(userId, cartId).pipe(
@@ -115,7 +128,8 @@ export class SavedCartEffects {
             this.globalMessageService.add(
               {
                 key:
-                  (activeCart?.entries ?? []).length > 0
+                  (activeCart?.entries ?? []).length > 0 &&
+                  !activeCart.quoteCode
                     ? 'savedCartList.swapCartWithActiveCart'
                     : 'savedCartList.swapCartNoActiveCart',
                 params: {
@@ -141,7 +155,7 @@ export class SavedCartEffects {
               new SavedCartActions.RestoreSavedCartFail({
                 userId,
                 cartId,
-                error: normalizeHttpError(error),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -187,7 +201,7 @@ export class SavedCartEffects {
                   cartId,
                   saveCartName,
                   saveCartDescription,
-                  error: normalizeHttpError(error),
+                  error: tryNormalizeHttpError(error, this.logger),
                 })
               )
             )
@@ -231,7 +245,7 @@ export class SavedCartEffects {
                   cartId,
                   saveCartName,
                   saveCartDescription,
-                  error: normalizeHttpError(error),
+                  error: tryNormalizeHttpError(error, this.logger),
                 })
               )
             )
@@ -274,7 +288,7 @@ export class SavedCartEffects {
                   userId,
                   cartId,
                   saveCartName,
-                  error: normalizeHttpError(error),
+                  error: tryNormalizeHttpError(error, this.logger),
                 })
               )
             )

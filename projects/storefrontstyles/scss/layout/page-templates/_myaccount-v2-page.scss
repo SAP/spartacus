@@ -1,0 +1,19 @@
+%MyAccountViewPageTemplate {
+  max-width: var(--cx-page-width-max);
+  margin: auto;
+  cx-page-slot {
+    cx-banner {
+      margin: 2rem 0rem 0.5rem 0rem;
+      border: 1px solid var(--cx-color-medium);
+    }
+  }
+  .LeftContentSlot {
+    float: left;
+    max-width: 25%;
+  }
+
+  .RightContentSlot {
+    float: left;
+    max-width: 75%;
+  }
+}

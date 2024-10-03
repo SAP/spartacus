@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export * from './config-utils';
 export * from './dependency-utils';
 export * from './feature-utils';
@@ -14,3 +20,4 @@ export * from './project-tsconfig-paths';
 export * from './schematics-config-utils';
 export * from './test-utils';
 export * from './workspace-utils';
+export * from './generate-default-workspace';

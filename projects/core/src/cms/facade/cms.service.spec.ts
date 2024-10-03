@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageType } from '../../model/cms.model';
 import { PageContext, RoutingService } from '../../routing/index';
@@ -17,13 +17,13 @@ import createSpy = jasmine.createSpy;
 
 class MockRoutingService {
   getPageContext(): Observable<PageContext> {
-    return of();
+    return EMPTY;
   }
   isNavigating(): Observable<boolean> {
     return of(false);
   }
   getNextPageContext(): Observable<PageContext> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -73,6 +73,16 @@ describe('CmsService', () => {
 
   describe('getComponentData', () => {
     describe('when pageContext is NOT provided', () => {
+      describe('when uid is empty', () => {
+        it('should emit null', inject([CmsService], (service: CmsService) => {
+          let result;
+          service.getComponentData('').subscribe((res) => {
+            result = res;
+          });
+          expect(result).toBeNull();
+        }));
+      });
+
       it('should use the current page context and dispatch LoadCmsComponent', inject(
         [CmsService],
         (service: CmsService) => {
@@ -116,6 +126,16 @@ describe('CmsService', () => {
       ));
     });
     describe('when pageContext is provided', () => {
+      describe('when uid is empty', () => {
+        it('should emit null', inject([CmsService], (service: CmsService) => {
+          let result;
+          service.getComponentData('').subscribe((res) => {
+            result = res;
+          });
+          expect(result).toBeNull();
+        }));
+      });
+
       it('should use the provided page context and dispatch LoadCmsComponent', inject(
         [CmsService],
         (service: CmsService) => {

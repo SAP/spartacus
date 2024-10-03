@@ -159,35 +159,33 @@ describe('ProductScrollComponent', () => {
   let fixture: ComponentFixture<ProductScrollComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ProductScrollComponent,
-          ProductGridItemComponent,
-          MockProductListItemComponent,
-          MockUrlPipe,
-          MediaComponent,
-          MockStarRatingComponent,
-          MockAddToCartComponent,
-          MockStyleIconsComponent,
-          MockFeatureLevelDirective,
-        ],
-        imports: [
-          InfiniteScrollModule,
-          I18nTestingModule,
-          SpinnerModule,
-          RouterTestingModule,
-        ],
-        providers: [
-          {
-            provide: ProductListComponentService,
-            useClass: MockProductListComponentService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ProductScrollComponent,
+        ProductGridItemComponent,
+        MockProductListItemComponent,
+        MockUrlPipe,
+        MediaComponent,
+        MockStarRatingComponent,
+        MockAddToCartComponent,
+        MockStyleIconsComponent,
+        MockFeatureLevelDirective,
+      ],
+      imports: [
+        InfiniteScrollModule,
+        I18nTestingModule,
+        SpinnerModule,
+        RouterTestingModule,
+      ],
+      providers: [
+        {
+          provide: ProductListComponentService,
+          useClass: MockProductListComponentService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductScrollComponent);
@@ -264,7 +262,7 @@ describe('ProductScrollComponent', () => {
 
         fixture.detectChanges();
 
-        expect(el.query(By.css('.btn-action'))).toBeNull();
+        expect(el.query(By.css('.btn-secondary'))).toBeNull();
       });
 
       it('should display buttons when limit is reached', () => {
@@ -283,7 +281,7 @@ describe('ProductScrollComponent', () => {
         expect(component.isMaxProducts).toBeTruthy();
         expect(component.isLastPage).toBeFalsy();
 
-        const buttons = el.queryAll(By.css('.btn-action'));
+        const buttons = el.queryAll(By.css('.btn-secondary'));
         expect(buttons[0].nativeElement.innerHTML.trim()).toEqual(backToTopBtn);
         expect(buttons[1].nativeElement.innerHTML.trim()).toEqual(showMoreBtn);
       });
@@ -315,7 +313,7 @@ describe('ProductScrollComponent', () => {
 
         fixture.detectChanges();
 
-        const buttons = el.queryAll(By.css('.btn-action'));
+        const buttons = el.queryAll(By.css('.btn-secondary'));
         expect(buttons[0].nativeElement.innerHTML.trim()).toEqual(backToTopBtn);
         expect(buttons[1].nativeElement.innerHTML.trim()).toEqual(showMoreBtn);
       });
@@ -330,7 +328,7 @@ describe('ProductScrollComponent', () => {
 
         fixture.detectChanges();
 
-        const buttons = el.queryAll(By.css('.btn-action'));
+        const buttons = el.queryAll(By.css('.btn-secondary'));
         expect(buttons[0].nativeElement.innerHTML.trim()).toEqual(showMoreBtn);
         expect(buttons[1]).toBeUndefined();
       });
@@ -347,7 +345,7 @@ describe('ProductScrollComponent', () => {
 
         fixture.detectChanges();
 
-        const buttons = el.queryAll(By.css('.btn-action'));
+        const buttons = el.queryAll(By.css('.btn-secondary'));
         expect(buttons[0].nativeElement.innerHTML.trim()).toEqual(backToTopBtn);
         expect(buttons[1]).toBeUndefined();
       });

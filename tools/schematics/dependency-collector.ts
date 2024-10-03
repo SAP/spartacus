@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { execSync } from 'child_process';
 import { Command } from 'commander';
 import fs from 'fs';
@@ -83,7 +89,7 @@ function compareFiles(options: {
       fs.unlinkSync(options.name);
     }
     console.error(
-      `The ${fileName} file is not up to date. Please re-generate it by running: yarn generate:deps`
+      `The ${fileName} file is not up to date. Please re-generate it by running: npm run generate:deps`
     );
     process.exit(1);
   }
@@ -99,7 +105,7 @@ function read(path: string): string {
 
 function format(path: string): void {
   execSync(
-    `node ./node_modules/prettier/bin-prettier.js --config ./.prettierrc ${path} --write`
+    `node ./node_modules/prettier/bin/prettier.cjs --config ./.prettierrc ${path} --write`
   );
 }
 

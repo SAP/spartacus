@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
@@ -17,18 +17,16 @@ describe('TruncateTextPopoverComponent', () => {
   let fixture: ComponentFixture<TruncateTextPopoverComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          TruncateTextPopoverModule,
-          RouterTestingModule,
-        ],
-        declarations: [TruncateTextPopoverComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        TruncateTextPopoverModule,
+        RouterTestingModule,
+      ],
+      declarations: [TruncateTextPopoverComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TruncateTextPopoverComponent);

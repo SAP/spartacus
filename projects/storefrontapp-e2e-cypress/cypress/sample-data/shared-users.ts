@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { AccountData } from '../support/require-logged-in.commands';
 
 export const standardUser: AccountData = {
@@ -5,7 +11,7 @@ export const standardUser: AccountData = {
   registrationData: {
     firstName: 'Cypress',
     lastName: 'User',
-    password: 'Password123.',
+    password: 'Pas!sword123.',
     titleCode: 'mr',
   },
 };

@@ -1,10 +1,15 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
 import { CartModification } from '@spartacus/cart/base/root';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -18,14 +23,24 @@ import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfigurator } from '../configurator-state';
 import { ConfiguratorSelectors } from '../selectors/index';
+import { ConfiguratorBasicEffectService } from './configurator-basic-effect.service';
+
+type readConfigurationForCartEntryResultType =
+  | ConfiguratorActions.ReadCartEntryConfigurationSuccess
+  | ConfiguratorActions.UpdatePriceSummary
+  | ConfiguratorActions.SearchVariants
+  | ConfiguratorActions.ReadCartEntryConfigurationFail;
 
 export const ERROR_MESSAGE_NO_ENTRY_NUMBER_FOUND =
   'Entry number is required in addToCart response';
+
 @Injectable()
 /**
  * Common configurator effects related to cart handling
  */
 export class ConfiguratorCartEffects {
+  protected logger = inject(LoggerService);
+
   addToCart$: Observable<
     | ConfiguratorActions.AddNextOwner
     | CartActions.CartAddEntrySuccess
@@ -69,10 +84,7 @@ export class ConfiguratorCartEffects {
                 cartId: payload.cartId,
                 productCode: payload.productCode,
                 quantity: payload.quantity,
-                error:
-                  error instanceof HttpErrorResponse
-                    ? normalizeHttpError(error)
-                    : error,
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -108,7 +120,7 @@ export class ConfiguratorCartEffects {
                     userId: payload.userId,
                     cartId: payload.cartId,
                     entryNumber: payload.cartEntryNumber,
-                    error: normalizeHttpError(error),
+                    error: tryNormalizeHttpError(error, this.logger),
                   })
                 )
               )
@@ -118,35 +130,46 @@ export class ConfiguratorCartEffects {
     )
   );
 
-  readConfigurationForCartEntry$: Observable<
-    | ConfiguratorActions.ReadCartEntryConfigurationSuccess
-    | ConfiguratorActions.UpdatePriceSummary
-    | ConfiguratorActions.SearchVariants
-    | ConfiguratorActions.ReadCartEntryConfigurationFail
-  > = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION),
-      switchMap((action: ConfiguratorActions.ReadCartEntryConfiguration) => {
-        const parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
-          action.payload;
-        return this.configuratorCommonsConnector
-          .readConfigurationForCartEntry(parameters)
-          .pipe(
-            switchMap((result: Configurator.Configuration) => [
-              new ConfiguratorActions.ReadCartEntryConfigurationSuccess(result),
-              new ConfiguratorActions.UpdatePriceSummary(result),
-              new ConfiguratorActions.SearchVariants(result),
-            ]),
-            catchError((error) => [
-              new ConfiguratorActions.ReadCartEntryConfigurationFail({
-                ownerKey: action.payload.owner.key,
-                error: normalizeHttpError(error),
+  readConfigurationForCartEntry$: Observable<readConfigurationForCartEntryResultType> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION),
+        switchMap((action: ConfiguratorActions.ReadCartEntryConfiguration) => {
+          const parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+            action.payload;
+          return this.configuratorCommonsConnector
+            .readConfigurationForCartEntry(parameters)
+            .pipe(
+              switchMap((result: Configurator.Configuration) => {
+                const updatePriceSummaryAction =
+                  new ConfiguratorActions.UpdatePriceSummary({
+                    ...result,
+                    interactionState: {
+                      currentGroup:
+                        this.configuratorBasicEffectService.getFirstGroupWithAttributes(
+                          result,
+                          !result.immediateConflictResolution
+                        ),
+                    },
+                  });
+                return [
+                  new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
+                    result
+                  ),
+                  updatePriceSummaryAction,
+                  new ConfiguratorActions.SearchVariants(result),
+                ];
               }),
-            ])
-          );
-      })
-    )
-  );
+              catchError((error) => [
+                new ConfiguratorActions.ReadCartEntryConfigurationFail({
+                  ownerKey: action.payload.owner.key,
+                  error: tryNormalizeHttpError(error, this.logger),
+                }),
+              ])
+            );
+        })
+      )
+    );
 
   readConfigurationForOrderEntry$: Observable<
     | ConfiguratorActions.ReadOrderEntryConfigurationSuccess
@@ -168,7 +191,7 @@ export class ConfiguratorCartEffects {
             catchError((error) => [
               new ConfiguratorActions.ReadOrderEntryConfigurationFail({
                 ownerKey: action.payload.owner.key,
-                error: normalizeHttpError(error),
+                error: tryNormalizeHttpError(error, this.logger),
               }),
             ])
           );
@@ -258,6 +281,7 @@ export class ConfiguratorCartEffects {
     protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
-    protected store: Store<StateWithConfigurator>
+    protected store: Store<StateWithConfigurator>,
+    protected configuratorBasicEffectService: ConfiguratorBasicEffectService
   ) {}
 }

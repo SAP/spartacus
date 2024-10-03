@@ -4,8 +4,9 @@ import { Action } from '@ngrx/store';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  normalizeHttpError,
+  LoggerService,
   Translatable,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
@@ -49,6 +50,14 @@ class MockGlobalMessageService {
   ): void {}
 }
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('ReplenishmentOrderDetailsEffect', () => {
   let connector: ReplenishmentOrderHistoryConnector;
   let effects: fromEffects.ReplenishmentOrderDetailsEffect;
@@ -67,6 +76,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         },
         fromEffects.ReplenishmentOrderDetailsEffect,
         provideMockActions(() => actions$),
+        { provide: LoggerService, useClass: MockLoggerService },
       ],
     });
 
@@ -95,14 +105,14 @@ describe('ReplenishmentOrderDetailsEffect', () => {
     });
 
     it('should return an error when it fails to load a replenishment order details', () => {
-      spyOn(connector, 'load').and.returnValue(throwError(mockError));
+      spyOn(connector, 'load').and.returnValue(throwError(() => mockError));
 
       const action = new OrderActions.LoadReplenishmentOrderDetails({
         userId: mockUserId,
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.LoadReplenishmentOrderDetailsFail(
-        normalizeHttpError(mockError)
+        tryNormalizeHttpError(mockError, new MockLoggerService())
       );
 
       actions$ = hot('-a', { a: action });
@@ -138,7 +148,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
 
     it('should return an error when it fails to cancel a replenishment order', () => {
       spyOn(connector, 'cancelReplenishmentOrder').and.returnValue(
-        throwError(mockError)
+        throwError(() => mockError)
       );
 
       const action = new OrderActions.CancelReplenishmentOrder({
@@ -146,7 +156,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
         replenishmentOrderCode: mockReplenishmentCode,
       });
       const completion = new OrderActions.CancelReplenishmentOrderFail(
-        normalizeHttpError(mockError)
+        tryNormalizeHttpError(mockError, new MockLoggerService())
       );
 
       actions$ = hot('-a', { a: action });

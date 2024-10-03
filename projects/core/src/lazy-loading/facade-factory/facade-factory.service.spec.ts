@@ -7,12 +7,13 @@ import {
 } from '@angular/core/testing';
 import {
   BehaviorSubject,
+  firstValueFrom,
   isObservable,
+  lastValueFrom,
   Observable,
   of,
   Subscription,
 } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { CmsConfig } from '../../cms/config/cms-config';
 import { EventService } from '../../event/event.service';
 import { getLastValueSync } from '../../util/rxjs/get-last-value-sync';
@@ -128,12 +129,12 @@ describe('FacadeFactoryService', () => {
     describe('async option', () => {
       it('should not delay initialization if set to false', async () => {
         const facade = service.create(testFacadeDescriptor);
-        const result = await facade.testProperty2.pipe(take(1)).toPromise();
+        const result = await firstValueFrom(facade.testProperty2);
         expect(result).toEqual('');
       });
       it('should delay initialization if set to true', async () => {
         const facade = service.create({ ...testFacadeDescriptor, async: true });
-        const result = await facade.testProperty2.pipe(take(1)).toPromise();
+        const result = await firstValueFrom(facade.testProperty2);
         expect(result).toEqual('async initialized');
       });
     });
@@ -164,7 +165,7 @@ describe('FacadeFactoryService', () => {
         tick(); // to finish running timers in the test implementation
       }));
       it('should proxy return observable from the method', async () => {
-        const result = await facade.testMethod('a', 1).toPromise();
+        const result = await lastValueFrom(facade.testMethod('a', 1));
         expect(result).toEqual('a1');
       });
       it('should call the method logic without subscribing', fakeAsync(() => {
@@ -184,12 +185,12 @@ describe('FacadeFactoryService', () => {
         expect(moduleInitializedEvent).toBeUndefined();
       }));
       it('should  trigger lazy load on subscribe', async () => {
-        await facade.testProperty.toPromise();
+        await lastValueFrom(facade.testProperty);
         expect(moduleInitializedEvent).toBeDefined();
         expect(moduleInitializedEvent.feature).toEqual(TEST_FEATURE_NAME);
       });
       it('should proxy return observable from the property', async () => {
-        const result = await facade.testProperty.toPromise();
+        const result = await lastValueFrom(facade.testProperty);
         expect(result).toEqual(333);
       });
     });

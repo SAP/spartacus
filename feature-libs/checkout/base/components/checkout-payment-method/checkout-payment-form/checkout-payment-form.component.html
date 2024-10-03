@@ -1,6 +1,14 @@
 <!-- FORM -->
 <ng-container *ngIf="!loading; else spinner">
-  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+  <div
+    *cxFeature="'!a11yRemoveStatusLoadedRole'"
+    role="status"
+    [attr.aria-label]="'common.loaded' | cxTranslate"
+  ></div>
+  <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
+  <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
+    {{ 'formLegend.required' | cxTranslate }}
+  </p>
   <form (ngSubmit)="next()" [formGroup]="paymentForm">
     <div class="row">
       <div class="col-md-12 col-xl-10">
@@ -8,9 +16,12 @@
           <ng-container *ngIf="cardTypes$ | async as cardTypes">
             <div *ngIf="cardTypes.length !== 0">
               <label>
-                <span class="label-content required">{{
-                  'paymentForm.paymentType' | cxTranslate
-                }}</span>
+                <span class="label-content required"
+                  >{{ 'paymentForm.paymentType' | cxTranslate }}
+                  <ng-template
+                    [ngTemplateOutlet]="requiredAsterisk"
+                  ></ng-template
+                ></span>
                 <ng-select
                   [inputAttrs]="{ required: 'true' }"
                   [searchable]="true"
@@ -22,11 +33,22 @@
                   formControlName="code"
                   id="card-type-select"
                   [cxNgSelectA11y]="{
-                    ariaLabel: 'paymentForm.paymentType' | cxTranslate
+                    ariaLabel: 'paymentForm.paymentType' | cxTranslate,
                   }"
                 >
                 </ng-select>
+
+                <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
+                  *cxFeature="'formErrorsDescriptiveMessages'"
+                  [translationParams]="{
+                    label: 'paymentForm.paymentType' | cxTranslate,
+                  }"
+                  [control]="paymentForm.get('cardType.code')"
+                ></cx-form-errors>
+
+                <cx-form-errors
+                  *cxFeature="'!formErrorsDescriptiveMessages'"
                   [control]="paymentForm.get('cardType.code')"
                 ></cx-form-errors>
               </label>
@@ -36,9 +58,10 @@
 
         <div class="form-group">
           <label>
-            <span class="label-content">{{
-              'paymentForm.accountHolderName.label' | cxTranslate
-            }}</span>
+            <span class="label-content"
+              >{{ 'paymentForm.accountHolderName.label' | cxTranslate }}
+              <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+            ></span>
             <input
               required="true"
               class="form-control"
@@ -48,7 +71,18 @@
               }}"
               formControlName="accountHolderName"
             />
+
+            <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
             <cx-form-errors
+              *cxFeature="'formErrorsDescriptiveMessages'"
+              [translationParams]="{
+                label: 'paymentForm.accountHolderName.label' | cxTranslate,
+              }"
+              [control]="paymentForm.get('accountHolderName')"
+            ></cx-form-errors>
+
+            <cx-form-errors
+              *cxFeature="'!formErrorsDescriptiveMessages'"
               [control]="paymentForm.get('accountHolderName')"
             ></cx-form-errors>
           </label>
@@ -56,16 +90,28 @@
 
         <div class="form-group">
           <label>
-            <span class="label-content">{{
-              'paymentForm.cardNumber' | cxTranslate
-            }}</span>
+            <span class="label-content"
+              >{{ 'paymentForm.cardNumber' | cxTranslate }}
+              <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+            ></span>
             <input
               required="true"
               type="text"
               class="form-control"
               formControlName="cardNumber"
             />
+
+            <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
             <cx-form-errors
+              *cxFeature="'formErrorsDescriptiveMessages'"
+              [translationParams]="{
+                label: 'paymentForm.cardNumber' | cxTranslate,
+              }"
+              [control]="paymentForm.get('cardNumber')"
+            ></cx-form-errors>
+
+            <cx-form-errors
+              *cxFeature="'!formErrorsDescriptiveMessages'"
               [control]="paymentForm.get('cardNumber')"
             ></cx-form-errors>
           </label>
@@ -76,6 +122,9 @@
             <fieldset class="cx-payment-form-exp-date">
               <legend class="label-content">
                 {{ 'paymentForm.expirationDate' | cxTranslate }}
+                <ng-template
+                  [ngTemplateOutlet]="requiredAsterisk"
+                ></ng-template>
               </legend>
               <label class="cx-payment-form-exp-date-wrapper">
                 <ng-select
@@ -90,11 +139,22 @@
                     ariaLabel:
                       'paymentForm.expirationMonth'
                       | cxTranslate
-                        : { selected: paymentForm.get('expiryMonth')?.value }
+                        : { selected: paymentForm.get('expiryMonth')?.value },
                   }"
                 >
                 </ng-select>
+
+                <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
+                  *cxFeature="'formErrorsDescriptiveMessages'"
+                  [translationParams]="{
+                    label: 'paymentForm.expirationDate' | cxTranslate,
+                  }"
+                  [control]="paymentForm.get('expiryMonth')"
+                ></cx-form-errors>
+
+                <cx-form-errors
+                  *cxFeature="'!formErrorsDescriptiveMessages'"
                   [control]="paymentForm.get('expiryMonth')"
                 ></cx-form-errors>
               </label>
@@ -110,12 +170,23 @@
                     ariaLabel:
                       'paymentForm.expirationYear'
                       | cxTranslate
-                        : { selected: paymentForm.get('expiryYear')?.value }
+                        : { selected: paymentForm.get('expiryYear')?.value },
                   }"
                   formControlName="expiryYear"
                 >
                 </ng-select>
+
+                <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
+                  *cxFeature="'formErrorsDescriptiveMessages'"
+                  [translationParams]="{
+                    label: 'paymentForm.expirationDate' | cxTranslate,
+                  }"
+                  [control]="paymentForm.get('expiryYear')"
+                ></cx-form-errors>
+
+                <cx-form-errors
+                  *cxFeature="'!formErrorsDescriptiveMessages'"
                   [control]="paymentForm.get('expiryYear')"
                 ></cx-form-errors>
               </label>
@@ -126,12 +197,18 @@
             <label>
               <span class="label-content">
                 {{ 'paymentForm.securityCode' | cxTranslate }}
+                <ng-template
+                  [ngTemplateOutlet]="requiredAsterisk"
+                ></ng-template>
                 <cx-icon
                   [type]="iconTypes.INFO"
                   class="cx-payment-form-tooltip"
                   placement="right"
                   title="{{ 'paymentForm.securityCodeTitle' | cxTranslate }}"
                   alt=""
+                  [attr.aria-label]="
+                    'paymentForm.securityCodeTitle' | cxTranslate
+                  "
                 ></cx-icon>
               </span>
               <input
@@ -141,7 +218,18 @@
                 id="cVVNumber"
                 formControlName="cvn"
               />
+
+              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
+                *cxFeature="'formErrorsDescriptiveMessages'"
+                [translationParams]="{
+                  label: 'paymentForm.securityCode' | cxTranslate,
+                }"
+                [control]="paymentForm.get('cvn')"
+              ></cx-form-errors>
+
+              <cx-form-errors
+                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="paymentForm.get('cvn')"
               ></cx-form-errors>
             </label>
@@ -164,7 +252,13 @@
         </div>
 
         <!-- BILLING -->
-        <div class="cx-payment-form-billing">
+        <div
+          *ngIf="
+            !useExtractedBillingAddressComponent;
+            else showExtractedBillingAddressForm
+          "
+          class="cx-payment-form-billing"
+        >
           <div class="cx-payment-form-billing-address">
             {{ 'paymentForm.billingAddress' | cxTranslate }}
           </div>
@@ -228,11 +322,22 @@
                         formControlName="isocode"
                         id="country-payment-select"
                         [cxNgSelectA11y]="{
-                          ariaLabel: 'addressForm.country' | cxTranslate
+                          ariaLabel: 'addressForm.country' | cxTranslate,
                         }"
                       >
                       </ng-select>
+
+                      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                       <cx-form-errors
+                        *cxFeature="'formErrorsDescriptiveMessages'"
+                        [translationParams]="{
+                          label: 'addressForm.country' | cxTranslate,
+                        }"
+                        [control]="billingAddressForm.get('country.isocode')"
+                      ></cx-form-errors>
+
+                      <cx-form-errors
+                        *cxFeature="'!formErrorsDescriptiveMessages'"
                         [control]="billingAddressForm.get('country.isocode')"
                       ></cx-form-errors>
                     </label>
@@ -253,7 +358,18 @@
                     }}"
                     formControlName="firstName"
                   />
+
+                  <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                   <cx-form-errors
+                    *cxFeature="'formErrorsDescriptiveMessages'"
+                    [translationParams]="{
+                      label: 'addressForm.firstName.label' | cxTranslate,
+                    }"
+                    [control]="billingAddressForm.get('firstName')"
+                  ></cx-form-errors>
+
+                  <cx-form-errors
+                    *cxFeature="'!formErrorsDescriptiveMessages'"
                     [control]="billingAddressForm.get('firstName')"
                   ></cx-form-errors>
                 </label>
@@ -272,7 +388,18 @@
                     }}"
                     formControlName="lastName"
                   />
+
+                  <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                   <cx-form-errors
+                    *cxFeature="'formErrorsDescriptiveMessages'"
+                    [translationParams]="{
+                      label: 'addressForm.lastName.label' | cxTranslate,
+                    }"
+                    [control]="billingAddressForm.get('lastName')"
+                  ></cx-form-errors>
+
+                  <cx-form-errors
+                    *cxFeature="'!formErrorsDescriptiveMessages'"
                     [control]="billingAddressForm.get('lastName')"
                   ></cx-form-errors>
                 </label>
@@ -291,7 +418,18 @@
                     }}"
                     formControlName="line1"
                   />
+
+                  <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                   <cx-form-errors
+                    *cxFeature="'formErrorsDescriptiveMessages'"
+                    [translationParams]="{
+                      label: 'addressForm.address1' | cxTranslate,
+                    }"
+                    [control]="billingAddressForm.get('line1')"
+                  ></cx-form-errors>
+
+                  <cx-form-errors
+                    *cxFeature="'!formErrorsDescriptiveMessages'"
                     [control]="billingAddressForm.get('line1')"
                   ></cx-form-errors>
                 </label>
@@ -324,7 +462,18 @@
                       }}"
                       formControlName="town"
                     />
+
+                    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                     <cx-form-errors
+                      *cxFeature="'formErrorsDescriptiveMessages'"
+                      [translationParams]="{
+                        label: 'addressForm.city.label' | cxTranslate,
+                      }"
+                      [control]="billingAddressForm.get('town')"
+                    ></cx-form-errors>
+
+                    <cx-form-errors
+                      *cxFeature="'!formErrorsDescriptiveMessages'"
                       [control]="billingAddressForm.get('town')"
                     ></cx-form-errors>
                   </label>
@@ -343,7 +492,18 @@
                       }}"
                       formControlName="postalCode"
                     />
+
+                    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                     <cx-form-errors
+                      *cxFeature="'formErrorsDescriptiveMessages'"
+                      [translationParams]="{
+                        label: 'addressForm.zipCode.label' | cxTranslate,
+                      }"
+                      [control]="billingAddressForm.get('postalCode')"
+                    ></cx-form-errors>
+
+                    <cx-form-errors
+                      *cxFeature="'!formErrorsDescriptiveMessages'"
                       [control]="billingAddressForm.get('postalCode')"
                     ></cx-form-errors>
                   </label>
@@ -376,11 +536,24 @@
                           }}"
                           id="region-select"
                           [cxNgSelectA11y]="{
-                            ariaLabel: 'addressForm.state' | cxTranslate
+                            ariaLabel: 'addressForm.state' | cxTranslate,
                           }"
                         >
                         </ng-select>
+
+                        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                         <cx-form-errors
+                          *cxFeature="'formErrorsDescriptiveMessages'"
+                          [translationParams]="{
+                            label: 'addressForm.state' | cxTranslate,
+                          }"
+                          [control]="
+                            billingAddressForm.get('region.isocodeShort')
+                          "
+                        ></cx-form-errors>
+
+                        <cx-form-errors
+                          *cxFeature="'!formErrorsDescriptiveMessages'"
                           [control]="
                             billingAddressForm.get('region.isocodeShort')
                           "
@@ -401,14 +574,14 @@
       <div class="col-md-12 col-lg-6">
         <button
           *ngIf="paymentMethodsCount === 0"
-          class="btn btn-block btn-action"
+          class="btn btn-block btn-secondary"
           (click)="back()"
         >
           {{ 'common.back' | cxTranslate }}
         </button>
         <button
           *ngIf="paymentMethodsCount > 0"
-          class="btn btn-block btn-action"
+          class="btn btn-block btn-secondary"
           (click)="close()"
         >
           {{ 'paymentForm.changePayment' | cxTranslate }}
@@ -423,6 +596,19 @@
   </form>
 </ng-container>
 
+<ng-template #requiredAsterisk>
+  <abbr
+    *cxFeature="'a11yRequiredAsterisks'"
+    class="text-decoration-none"
+    title="{{ 'common.required' | cxTranslate }}"
+    >*</abbr
+  >
+</ng-template>
+
 <ng-template #spinner>
   <cx-spinner></cx-spinner>
+</ng-template>
+
+<ng-template #showExtractedBillingAddressForm>
+  <cx-checkout-billing-address-form></cx-checkout-billing-address-form>
 </ng-template>

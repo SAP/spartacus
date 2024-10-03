@@ -1,22 +1,23 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   PointOfService,
   RoutingService,
 } from '@spartacus/core';
-import { StoreFinderStoreComponent } from './store-finder-store.component';
-import { ICON_TYPE, SpinnerModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import { ICON_TYPE, SpinnerModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { EMPTY } from 'rxjs';
+import { StoreFinderStoreComponent } from './store-finder-store.component';
 import createSpy = jasmine.createSpy;
 
 class MockStoreFinderService implements Partial<StoreFinderService> {
   getStoresLoading = createSpy('getStoresLoading');
   getFindStoreEntityById = createSpy('getFindStoreEntityById').and.returnValue(
-    of()
+    EMPTY
   );
   viewStoreById = createSpy('viewStoreById');
 }
@@ -52,29 +53,28 @@ describe('StoreFinderStoreComponent', () => {
   let fixture: ComponentFixture<StoreFinderStoreComponent>;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [SpinnerModule, RouterTestingModule, I18nTestingModule],
-        declarations: [
-          StoreFinderStoreComponent,
-          MockStoreFinderStoreDescriptionComponent,
-          MockCxIconComponent,
-        ],
-        providers: [
-          { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
-          {
-            provide: StoreFinderService,
-            useClass: MockStoreFinderService,
-          },
-          {
-            provide: ActivatedRoute,
-            useValue: mockActivatedRoute,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [SpinnerModule, RouterTestingModule, I18nTestingModule],
+      declarations: [
+        StoreFinderStoreComponent,
+        MockStoreFinderStoreDescriptionComponent,
+        MockCxIconComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
+        {
+          provide: StoreFinderService,
+          useClass: MockStoreFinderService,
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: mockActivatedRoute,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     routingService = TestBed.inject(RoutingService);

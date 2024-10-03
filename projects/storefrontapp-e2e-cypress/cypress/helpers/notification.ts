@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { login } from './auth-forms';
 import { waitForPage } from './checkout-flow';
 import { generateMail, randomString } from './user';
@@ -75,6 +81,17 @@ export function enableNotificationChannel() {
     .should('eq', 200);
 }
 
+export function enableNotificationChannelV2() {
+  navigateToNotificationPreferencePage();
+  const notificationPreferencesChange =
+    interceptNotificationPreferencesChange();
+
+  cy.get('[type="checkbox"]').first().check();
+  cy.wait(`@${notificationPreferencesChange}`)
+    .its('response.statusCode')
+    .should('eq', 200);
+}
+
 export function disableNotificationChannel() {
   const notificationPreferencesChange =
     interceptNotificationPreferencesChange();
@@ -85,8 +102,18 @@ export function disableNotificationChannel() {
     .should('eq', 200);
 }
 
+export function disableNotificationChannelV2() {
+  const notificationPreferencesChange =
+    interceptNotificationPreferencesChange();
+
+  cy.get('[type="checkbox"]').first().uncheck();
+  cy.wait(`@${notificationPreferencesChange}`)
+    .its('response.statusCode')
+    .should('eq', 200);
+}
+
 export function updateEmail(): String {
-  const password = 'Password123.';
+  const password = 'Pas!sword123.';
   const newUid = generateMail(randomString(), true);
 
   navigateToUpdateEmailPage();
@@ -95,6 +122,22 @@ export function updateEmail(): String {
   cy.get('cx-update-email [formcontrolname="confirmEmail"]').type(newUid);
   cy.get('cx-update-email [formcontrolname="password"]').type(password);
   cy.get('cx-update-email button').contains('Save').click();
+  login(newUid, password);
+  return newUid;
+}
+
+export function updateEmailV2(): String {
+  const password = 'Password123.';
+  const newUid = generateMail(randomString(), true);
+
+  navigateToUpdateEmailPage();
+
+  cy.get('.editButton').click();
+
+  cy.get('[formcontrolname="email"]').type(newUid);
+  cy.get('[formcontrolname="confirmEmail"]').type(newUid);
+  cy.get('[formcontrolname="password"]').type(password);
+  cy.get('button').contains('Save').click();
   login(newUid, password);
   return newUid;
 }
@@ -109,6 +152,18 @@ export function verifyEmailChannel(email: String) {
     cy.get('[type="checkbox"]').first().should('not.be.checked');
   });
 }
+
+export function verifyEmailChannelV2(email: String) {
+  navigateToNotificationPreferencePage();
+  cy.get('cx-my-account-v2-notification-preference').within(() => {
+    cy.get('.pref-channel .form-check-label').should(
+      'contain',
+      'Email: ' + email
+    );
+    cy.get('[type="checkbox"]').first().should('not.be.checked');
+  });
+}
+
 //stock notification
 export function verifyStockNotificationAsGuest() {
   navigateToPDP(normalProductCode);
@@ -228,7 +283,7 @@ export function navigateToPDPInCustomerInterest(productCode: string) {
   cy.get('.cx-product-interests-product-item').within(() => {
     cy.get('.cx-code').should('contain', productCode);
     cy.get(
-      '.cx-product-interests-product-image-link > .is-initialized > img'
+      '.cx-product-interests-product-image-link > .is-initialized > picture'
     ).click();
   });
 }
@@ -272,6 +327,16 @@ export function testEnableDisableNotification() {
     cy.get('[type="checkbox"]').first().should('be.checked');
 
     disableNotificationChannel();
+    cy.get('[type="checkbox"]').first().should('not.be.checked');
+  });
+}
+
+export function testEnableDisableMyAccountV2NotificationPreference() {
+  it('should enable/disable notification preference', () => {
+    enableNotificationChannelV2();
+    cy.get('[type="checkbox"]').first().should('be.checked');
+
+    disableNotificationChannelV2();
     cy.get('[type="checkbox"]').first().should('not.be.checked');
   });
 }

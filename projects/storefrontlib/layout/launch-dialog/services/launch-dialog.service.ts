@@ -1,22 +1,31 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ComponentRef,
   ElementRef,
+  inject,
   Inject,
   Injectable,
   isDevMode,
   ViewContainerRef,
 } from '@angular/core';
-import { resolveApplicable } from '@spartacus/core';
+import { LoggerService, resolveApplicable } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { LayoutConfig } from '../../config/layout-config';
-import { LaunchOptions, LAUNCH_CALLER } from '../config/launch-config';
+import { LAUNCH_CALLER, LaunchOptions } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class LaunchDialogService {
-  private _dialogClose = new BehaviorSubject<string | undefined>(undefined);
+  private _dialogClose = new BehaviorSubject<any | undefined>(undefined);
   private _dataSubject = new BehaviorSubject<any>(undefined);
+
+  protected logger = inject(LoggerService);
 
   get data$(): Observable<any> {
     return this._dataSubject.asObservable();
@@ -81,7 +90,7 @@ export class LaunchDialogService {
         return renderer.render(config, caller, vcr);
       }
     } else if (isDevMode()) {
-      console.warn('No configuration provided for caller ' + caller);
+      this.logger.warn('No configuration provided for caller ' + caller);
     }
   }
 
@@ -120,11 +129,11 @@ export class LaunchDialogService {
     }
   }
 
-  get dialogClose(): Observable<string | undefined> {
+  get dialogClose(): Observable<any | undefined> {
     return this._dialogClose.asObservable();
   }
 
-  closeDialog(reason: string) {
+  closeDialog(reason: any) {
     this._dialogClose.next(reason);
   }
 

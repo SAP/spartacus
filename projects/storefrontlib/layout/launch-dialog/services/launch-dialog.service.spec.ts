@@ -21,14 +21,14 @@ const mockLaunchConfig: LayoutConfig = {
   launch: {
     TEST_INLINE: {
       inline: true,
-      component: {},
+      component: class test {},
     },
     TEST_URL: {
       cxRoute: 'url',
     },
     TEST_DIALOG: {
       inline: true,
-      component: {},
+      component: class test {},
       dialogType: DIALOG_TYPE.DIALOG,
     },
   },

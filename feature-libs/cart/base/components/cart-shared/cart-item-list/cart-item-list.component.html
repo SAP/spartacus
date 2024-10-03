@@ -7,8 +7,14 @@
   <thead *ngIf="hasHeader">
     <tr role="row" class="cx-item-list-header">
       <th role="columnheader" class="cx-item-list-desc">
-        {{ 'cartItems.description' | cxTranslate }}
+        {{ 'cartItems.item' | cxTranslate }}
       </th>
+
+      <ng-template
+        role="columnheader"
+        [cxOutlet]="CartOutlets.CPQ_QUOTE_HEADING"
+        [cxOutletContext]="items"
+      ></ng-template>
       <th role="columnheader" class="cx-item-list-qty">
         {{ 'cartItems.quantity' | cxTranslate }}
       </th>

@@ -3,13 +3,14 @@ import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { AuthRedirectService, I18nTestingModule, User } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { EMPTY, of } from 'rxjs';
 import { CheckoutLoginComponent } from './checkout-login.component';
 import createSpy = jasmine.createSpy;
 
 class MockActiveCartService {
   addEmail = createSpy('MockCartService.addEmail');
-  getAssignedUser = createSpy().and.returnValue(of());
+  getAssignedUser = createSpy().and.returnValue(EMPTY);
   isGuestCart = createSpy().and.returnValue(false);
 }
 class MockRedirectAfterAuthService {
@@ -27,21 +28,19 @@ describe('CheckoutLoginComponent', () => {
   let email: AbstractControl;
   let emailConfirmation: AbstractControl;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-        declarations: [CheckoutLoginComponent],
-        providers: [
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          {
-            provide: AuthRedirectService,
-            useClass: MockRedirectAfterAuthService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+      declarations: [CheckoutLoginComponent, MockFeatureDirective],
+      providers: [
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: AuthRedirectService,
+          useClass: MockRedirectAfterAuthService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutLoginComponent);

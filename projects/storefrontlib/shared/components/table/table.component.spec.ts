@@ -2,7 +2,7 @@ import * as AngularCore from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { OutletModule } from 'projects/storefrontlib/cms-structure';
+import { OutletModule } from '../../../cms-structure';
 import { TableRendererService } from './table-renderer.service';
 import { TableComponent } from './table.component';
 import { Table, TableLayout } from './table.model';

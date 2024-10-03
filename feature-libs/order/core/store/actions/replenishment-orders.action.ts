@@ -1,4 +1,10 @@
-import { StateUtils } from '@spartacus/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { ErrorAction, StateUtils } from '@spartacus/core';
 import { ReplenishmentOrderList } from '@spartacus/order/root';
 import { REPLENISHMENT_ORDERS } from '../order-state';
 
@@ -13,6 +19,7 @@ export const CLEAR_USER_REPLENISHMENT_ORDERS =
 
 export class LoadUserReplenishmentOrders extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_USER_REPLENISHMENT_ORDERS;
+
   constructor(
     public payload: {
       userId: string;
@@ -25,8 +32,12 @@ export class LoadUserReplenishmentOrders extends StateUtils.LoaderLoadAction {
   }
 }
 
-export class LoadUserReplenishmentOrdersFail extends StateUtils.LoaderFailAction {
+export class LoadUserReplenishmentOrdersFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_USER_REPLENISHMENT_ORDERS_FAIL;
+
   constructor(public payload: any) {
     super(REPLENISHMENT_ORDERS, payload);
   }
@@ -34,6 +45,7 @@ export class LoadUserReplenishmentOrdersFail extends StateUtils.LoaderFailAction
 
 export class LoadUserReplenishmentOrdersSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_USER_REPLENISHMENT_ORDERS_SUCCESS;
+
   constructor(public payload: ReplenishmentOrderList) {
     super(REPLENISHMENT_ORDERS);
   }
@@ -41,6 +53,7 @@ export class LoadUserReplenishmentOrdersSuccess extends StateUtils.LoaderSuccess
 
 export class ClearUserReplenishmentOrders extends StateUtils.LoaderResetAction {
   readonly type = CLEAR_USER_REPLENISHMENT_ORDERS;
+
   constructor() {
     super(REPLENISHMENT_ORDERS);
   }

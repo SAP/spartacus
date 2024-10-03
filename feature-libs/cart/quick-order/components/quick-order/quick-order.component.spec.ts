@@ -7,6 +7,7 @@ import {
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
+  FeaturesConfig,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -17,7 +18,7 @@ import {
   CmsComponentData,
   MessageComponentModule,
 } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsQuickOrderComponent } from '../../core/models/cms.model';
 import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
@@ -130,6 +131,7 @@ const MockCmsComponentData = <CmsComponentData<any>>{
 })
 class MockQuickOrderFormComponent {
   @Input() isLoading: boolean;
+  @Input() limit: number;
 }
 
 @Component({
@@ -178,6 +180,12 @@ describe('QuickOrderComponent', () => {
           provide: CmsComponentData,
           useValue: MockCmsComponentData,
         },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
+          },
+        },
       ],
     }).compileComponents();
 
@@ -200,6 +208,12 @@ describe('QuickOrderComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display header', () => {
+    expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+      'quickOrderList.header'
+    );
   });
 
   it('should call service method clearDeletedEntries on component destroy', () => {

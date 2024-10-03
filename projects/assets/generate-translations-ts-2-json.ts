@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as fs from 'fs-extra';
 import { translations } from './src/translations/translations';
 
@@ -13,6 +19,7 @@ const getFileName = (lang: string, chunk: string) =>
   `${getLangDir(lang)}${chunk}.json`;
 
 if (!fs.existsSync(assetsDistDir)) {
+  /* eslint-disable-next-line no-console */
   console.log(
     `Cannot generate translations. Directory '${assetsDistDir}' does not exist.`
   );
@@ -31,5 +38,6 @@ if (!fs.existsSync(assetsDistDir)) {
       fs.writeFileSync(fileName, json, 'utf8');
     });
   });
+  /* eslint-disable-next-line no-console */
   console.log(`Translations generated in '${assetsDistDir}'`);
 }

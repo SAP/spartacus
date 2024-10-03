@@ -7,24 +7,26 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { ConsentManagementFormComponent } from './consent-management-form.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 describe('ConsentManagementFormComponent', () => {
   let component: ConsentManagementFormComponent;
   let fixture: ComponentFixture<ConsentManagementFormComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [ConsentManagementFormComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [ConsentManagementFormComponent, MockFeatureDirective],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConsentManagementFormComponent);
     component = fixture.componentInstance;
+    component.consentTemplate = {};
+    component.requiredConsents = [];
+    component.consent = null;
     el = fixture.debugElement;
 
     fixture.detectChanges();

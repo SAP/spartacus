@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /* eslint-disable */
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
@@ -15,10 +21,11 @@ import {
 
 // Unfortunately there's no typing for the `__karma__` variable. Just declare it as any.
 declare var __karma__: any;
-declare var require: any;
 
 // Prevent Karma from running prematurely.
-__karma__.loaded = function () {};
+__karma__.loaded = function () {
+  // Intentional empty function
+};
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
@@ -28,9 +35,5 @@ getTestBed().initTestEnvironment(
     teardown: { destroyAfterEach: false },
   }
 );
-// Then we find all the tests.
-const context = require.context('./', true, /\.spec\.ts$/);
-// And load the modules.
-context.keys().map(context);
 // Finally, start Karma to run the tests.
 __karma__.start();

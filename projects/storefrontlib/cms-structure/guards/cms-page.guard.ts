@@ -1,31 +1,41 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, inject } from '@angular/core';
+import { RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   CmsService,
-  isNotUndefined,
   ProtectedRoutesGuard,
   RouteLoadStrategy,
   RoutingConfigService,
   RoutingService,
+  isNotUndefined,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, first, switchMap, take } from 'rxjs/operators';
+import { BeforeCmsPageGuardService } from './before-cms-page-guard.service';
 import { CmsPageGuardService } from './cms-page-guard.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CmsPageGuard implements CanActivate {
+export class CmsPageGuard {
   static guardName = 'CmsPageGuard';
 
   constructor(
     protected routingService: RoutingService,
     protected cmsService: CmsService,
+    /** since 2211.24 not used anymore, but called indirectly via {@link BeforeCmsPageGuardService} */
     protected protectedRoutesGuard: ProtectedRoutesGuard,
     protected service: CmsPageGuardService,
     protected routingConfig: RoutingConfigService
   ) {}
+
+  protected beforeCmsPageGuardService = inject(BeforeCmsPageGuardService);
 
   /**
    * Tries to load the CMS page data for the anticipated route and returns:
@@ -42,7 +52,7 @@ export class CmsPageGuard implements CanActivate {
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
-    return this.protectedRoutesGuard.canActivate(route).pipe(
+    return this.beforeCmsPageGuardService.canActivate(route, state).pipe(
       switchMap((canActivate) =>
         canActivate === true
           ? this.routingService.getNextPageContext().pipe(

@@ -1,10 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   orderTranslationChunksConfig,
   orderTranslations,
 } from '@spartacus/order/assets';
-import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
+import {
+  USE_MY_ACCOUNT_V2_ORDER,
+  OrderRootModule,
+  ORDER_FEATURE,
+} from '@spartacus/order/root';
+import { environment } from '../../../../environments/environment';
 
 @NgModule({
   imports: [OrderRootModule],
@@ -12,10 +23,15 @@ import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
     provideConfig(<CmsConfig>{
       featureModules: {
         [ORDER_FEATURE]: {
-          module: () => import('@spartacus/order').then((m) => m.OrderModule),
+          module: () =>
+            import('./order-wrapper.module').then((m) => m.OrderWrapperModule),
         },
       },
     }),
+    {
+      provide: USE_MY_ACCOUNT_V2_ORDER,
+      useValue: environment.myAccountV2,
+    },
     provideConfig(<I18nConfig>{
       i18n: {
         resources: orderTranslations,

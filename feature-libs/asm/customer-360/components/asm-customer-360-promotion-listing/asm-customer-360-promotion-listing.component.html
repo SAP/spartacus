@@ -1,0 +1,104 @@
+<div class="cx-asm-customer-360-promotion-listing-heading" *ngIf="headerText">
+  <h4 class="cx-asm-customer-360-promotion-listing-heading-text">
+    {{ headerText }}
+  </h4>
+</div>
+<ng-content></ng-content>
+<div class="message-container">
+  <cx-message
+    *ngIf="showAlert"
+    [text]="'asmCustomer360.alertErrorMessage' | cxTranslate"
+    [type]="globalMessageType.MSG_TYPE_ERROR"
+    (closeMessage)="removeAlert.emit()"
+  ></cx-message>
+  <cx-message
+    *ngIf="showAlertForApplyAction"
+    [text]="'asmCustomer360.applyActionAlter' | cxTranslate"
+    [type]="globalMessageType.MSG_TYPE_ERROR"
+    (closeMessage)="removeAlertForApplyAction.emit()"
+  ></cx-message>
+</div>
+<table class="cx-asm-customer-360-promotion-listing">
+  <caption class="cx-visually-hidden">
+    {{
+      headerText
+    }}
+  </caption>
+  <thead class="cx-visually-hidden">
+    <tr>
+      <th role="columnheader">
+        {{ 'asmCustomer360.promotions.headerName' | cxTranslate }}
+      </th>
+      <th role="columnheader">
+        {{ 'asmCustomer360.promotions.headerAction' | cxTranslate }}
+      </th>
+    </tr>
+  </thead>
+  <ng-container *ngFor="let entry of entries">
+    <tr class="cx-asm-customer-360-promotion-listing-row">
+      <td>
+        <tr
+          class="cx-asm-customer-360-promotion-listing-subheader"
+          tabindex="-1"
+        >
+          {{
+            entry.code
+          }}
+        </tr>
+        <tr class="cx-asm-customer-360-promotion-listing-description">
+          {{
+            entry.name
+          }}
+        </tr>
+      </td>
+      <td>
+        <ng-container *ngIf="!entry.applied">
+          <button
+            *ngIf="showApplyButton"
+            class="cx-asm-customer-360-promotion-listing-apply-button"
+            (click)="apply.emit(entry)"
+          >
+            {{ applyButtonText }}
+          </button>
+        </ng-container>
+        <ng-container *ngIf="entry.applied">
+          <tr class="cx-asm-customer-360-promotion-listing-action">
+            <ng-container *ngIf="!isCustomerCoupon">
+              <td>
+                <cx-icon class="success" type="SUCCESS"></cx-icon>
+              </td>
+              <td class="cx-asm-customer-360-promotion-listing-applied">
+                {{ applied }}
+              </td>
+              <td
+                *ngIf="showRemoveButton"
+                class="cx-asm-customer-360-promotion-listing-action-separator"
+              >
+                |
+              </td>
+            </ng-container>
+            <td *ngIf="showRemoveButton">
+              <button
+                class="cx-asm-customer-360-promotion-listing-remove-button"
+                (click)="remove.emit(entry)"
+              >
+                {{ removeButtonText }}
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+      </td>
+    </tr>
+  </ng-container>
+</table>
+<hr
+  class="cx-asm-customer-360-promotion-listing-separator"
+  aria-hidden="true"
+  *ngIf="!showAlert"
+/>
+<div
+  class="cx-asm-customer-360-promotion-listing-empty"
+  *ngIf="entries?.length === 0 && !showAlert"
+>
+  {{ emptyStateText }}
+</div>

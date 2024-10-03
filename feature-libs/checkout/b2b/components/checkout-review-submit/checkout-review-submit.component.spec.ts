@@ -7,7 +7,6 @@ import {
   Cart,
   DeliveryMode,
   OrderEntry,
-  PaymentDetails,
   PaymentType,
 } from '@spartacus/cart/base/root';
 import {
@@ -27,10 +26,11 @@ import {
   CostCenter,
   Country,
   I18nTestingModule,
+  PaymentDetails,
   QueryState,
   UserCostCenterService,
 } from '@spartacus/core';
-import { Card, PromotionsModule } from '@spartacus/storefront';
+import { Card, OutletModule, PromotionsModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.component';
@@ -213,54 +213,53 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
   let component: B2BCheckoutReviewSubmitComponent;
   let fixture: ComponentFixture<B2BCheckoutReviewSubmitComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          PromotionsModule,
-          RouterTestingModule,
-          IconTestingModule,
-        ],
-        declarations: [
-          B2BCheckoutReviewSubmitComponent,
-          MockCardComponent,
-          MockUrlPipe,
-        ],
-        providers: [
-          {
-            provide: CheckoutDeliveryAddressFacade,
-            useClass: MockCheckoutDeliveryAddressService,
-          },
-          {
-            provide: CheckoutDeliveryModesFacade,
-            useClass: MockCheckoutDeliveryModesService,
-          },
-          {
-            provide: CheckoutPaymentFacade,
-            useClass: MockCheckoutPaymentService,
-          },
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          {
-            provide: CheckoutStepService,
-            useClass: MockCheckoutStepService,
-          },
-          {
-            provide: CheckoutPaymentTypeFacade,
-            useClass: MockCheckoutPaymentTypeFacade,
-          },
-          {
-            provide: CheckoutCostCenterFacade,
-            useClass: MockCheckoutCostCenterService,
-          },
-          {
-            provide: UserCostCenterService,
-            useClass: MockUserCostCenterService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        PromotionsModule,
+        RouterTestingModule,
+        IconTestingModule,
+        OutletModule,
+      ],
+      declarations: [
+        B2BCheckoutReviewSubmitComponent,
+        MockCardComponent,
+        MockUrlPipe,
+      ],
+      providers: [
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useClass: MockCheckoutDeliveryAddressService,
+        },
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesService,
+        },
+        {
+          provide: CheckoutPaymentFacade,
+          useClass: MockCheckoutPaymentService,
+        },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
+        },
+        {
+          provide: CheckoutPaymentTypeFacade,
+          useClass: MockCheckoutPaymentTypeFacade,
+        },
+        {
+          provide: CheckoutCostCenterFacade,
+          useClass: MockCheckoutCostCenterService,
+        },
+        {
+          provide: UserCostCenterService,
+          useClass: MockUserCostCenterService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(B2BCheckoutReviewSubmitComponent);

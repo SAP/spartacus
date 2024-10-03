@@ -1,17 +1,25 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
-import { ErrorModel } from '../../../model/misc.model';
 import { ProductReviewsConnector } from '../../connectors/reviews/product-reviews.connector';
 import { ProductActions } from '../actions/index';
 import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message/index';
+import { LoggerService } from '../../../logger';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 
 @Injectable()
 export class ProductReviewsEffects {
+  protected logger = inject(LoggerService);
   loadProductReviews$: Observable<
     | ProductActions.LoadProductReviewsSuccess
     | ProductActions.LoadProductReviewsFail
@@ -27,11 +35,11 @@ export class ProductReviewsEffects {
               list: data,
             });
           }),
-          catchError((_error) =>
+          catchError((error) =>
             of(
-              new ProductActions.LoadProductReviewsFail({
-                message: productCode,
-              } as ErrorModel)
+              new ProductActions.LoadProductReviewsFail(
+                tryNormalizeHttpError(error, this.logger)
+              )
             )
           )
         );
@@ -55,8 +63,12 @@ export class ProductReviewsEffects {
                 reviewResponse
               );
             }),
-            catchError((_error) =>
-              of(new ProductActions.PostProductReviewFail(payload.productCode))
+            catchError((error) =>
+              of(
+                new ProductActions.PostProductReviewFail(
+                  tryNormalizeHttpError(error, this.logger)
+                )
+              )
             )
           );
       })
@@ -71,6 +83,20 @@ export class ProductReviewsEffects {
           this.globalMessageService.add(
             { key: 'productReview.thankYouForReview' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        })
+      ),
+    { dispatch: false }
+  );
+
+  showGlobalMessageOnPostProductReviewFail$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ProductActions.POST_PRODUCT_REVIEW_FAIL),
+        tap(() => {
+          this.globalMessageService.add(
+            { key: 'productReview.postReviewFail' },
+            GlobalMessageType.MSG_TYPE_ERROR
           );
         })
       ),

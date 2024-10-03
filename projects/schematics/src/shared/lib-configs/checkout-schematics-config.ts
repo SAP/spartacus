@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CHECKOUT_B2B_FEATURE_NAME,
   CHECKOUT_BASE_FEATURE_NAME,
@@ -13,6 +19,7 @@ import {
   SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT,
   SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ASSETS,
   SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT,
+  USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
 import { SchematicConfig } from '../utils/lib-utils';
 
@@ -91,7 +98,11 @@ export const CHECKOUT_B2B_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: CHECKOUT_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CHECKOUT,
   },
-  dependencyFeatures: [ORDER_FEATURE_NAME, CHECKOUT_BASE_FEATURE_NAME],
+  dependencyFeatures: [
+    ORDER_FEATURE_NAME,
+    CHECKOUT_BASE_FEATURE_NAME,
+    USER_PROFILE_FEATURE_NAME,
+  ],
   importAfter: [
     {
       markerModuleName: CHECKOUT_BASE_MODULE,

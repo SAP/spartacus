@@ -1,20 +1,26 @@
+import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
-import { FormErrorsComponent } from '@spartacus/storefront';
+import { MessageService } from '@spartacus/organization/administration/components';
+import { FocusConfig, FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { UserItemService } from '../services/user-item.service';
 import { UserChangePasswordFormComponent } from './user-change-password-form.component';
 import { UserChangePasswordFormService } from './user-change-password-form.service';
-import { MessageService } from '@spartacus/organization/administration/components';
 
-const mockForm = new FormGroup({
-  password: new FormControl(),
-  confirmPassword: new FormControl(),
+const mockForm = new UntypedFormGroup({
+  password: new UntypedFormControl(),
+  confirmPassword: new UntypedFormControl(),
 });
 
 class MockUserItemService {
@@ -22,6 +28,14 @@ class MockUserItemService {
 }
 class MockUserChangePasswordFormService {
   getForm() {}
+}
+
+@Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
+  selector: '[cxFocus]',
+})
+export class MockKeyboadFocusDirective {
+  @Input('cxFocus') config: FocusConfig = {};
 }
 
 describe('UserChangePasswordFormComponent', () => {
@@ -38,7 +52,12 @@ describe('UserChangePasswordFormComponent', () => {
         NgSelectModule,
         CardTestingModule,
       ],
-      declarations: [UserChangePasswordFormComponent, FormErrorsComponent],
+      declarations: [
+        UserChangePasswordFormComponent,
+        FormErrorsComponent,
+        MockKeyboadFocusDirective,
+        MockFeatureDirective,
+      ],
       providers: [
         {
           provide: UserItemService,

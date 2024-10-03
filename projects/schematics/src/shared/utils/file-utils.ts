@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import type { Element, Node } from '@angular/compiler';
@@ -60,6 +66,7 @@ export interface ComponentProperty {
   /** comment describing the change to the property */
   comment: string;
 }
+
 export interface ComponentData {
   /** a component's selector, e.g. cx-start-rating */
   selector: string;
@@ -756,13 +763,14 @@ export function removeInjectImports(
 
   const importRemovalChange: Change[] = [];
 
-  if (shouldRemoveDecorator(constructorNode, INJECT_DECORATOR))
+  if (shouldRemoveDecorator(constructorNode, INJECT_DECORATOR)) {
     importRemovalChange.push(
       removeImport(source, {
         className: INJECT_DECORATOR,
         importPath: ANGULAR_CORE,
       })
     );
+  }
 
   /**
    * This is for the case when an injection token is the same as the import's type.
@@ -1026,11 +1034,17 @@ export function injectService(
   config.propertyType =
     config.propertyType ?? strings.classify(config.serviceName);
 
-  if (config.injectionToken) toInsert += `@Inject(${config.injectionToken}) `;
-  if (config.modifier !== 'no-modifier') toInsert += `${config.modifier} `;
+  if (config.injectionToken) {
+    toInsert += `@Inject(${config.injectionToken}) `;
+  }
+  if (config.modifier !== 'no-modifier') {
+    toInsert += `${config.modifier} `;
+  }
   toInsert += `${config.propertyName}: ${config.propertyType}`;
 
-  if (config.isArray) toInsert += '[]';
+  if (config.isArray) {
+    toInsert += '[]';
+  }
 
   return new InsertChange(config.path, position, toInsert);
 }
@@ -1271,13 +1285,17 @@ export function getMetadataProperty(
 export function getLineFromTSFile(
   host: Tree,
   path: string,
-  position: number
+  position: number,
+  linesToRemove = 1
 ): [number, number] {
   const tsFile = getTsSourceFile(host, path);
 
   const lac = tsFile.getLineAndCharacterOfPosition(position);
   const lineStart = tsFile.getPositionOfLineAndCharacter(lac.line, 0);
-  const nextLineStart = tsFile.getPositionOfLineAndCharacter(lac.line + 1, 0);
+  const nextLineStart = tsFile.getPositionOfLineAndCharacter(
+    lac.line + linesToRemove,
+    0
+  );
 
   return [lineStart, nextLineStart - lineStart];
 }
@@ -1285,5 +1303,6 @@ export function getLineFromTSFile(
 export function getServerTsPath(host: Tree): string | undefined {
   const projectName = getDefaultProjectNameFromWorkspace(host);
   const angularJson = getAngularJsonFile(host);
+
   return angularJson.projects[projectName].architect?.server?.options?.main;
 }

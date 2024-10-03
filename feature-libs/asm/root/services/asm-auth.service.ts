@@ -1,7 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   AuthActions,
+  AuthMultisiteIsolationService,
   AuthRedirectService,
   AuthService,
   AuthToken,
@@ -12,7 +19,7 @@ import {
   StateWithClientAuth,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, from, Observable, of } from 'rxjs';
+import { combineLatest, from, lastValueFrom, Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
@@ -31,7 +38,8 @@ export class AsmAuthService extends AuthService {
     protected authStorageService: AsmAuthStorageService,
     protected authRedirectService: AuthRedirectService,
     protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected authMultisiteIsolationService?: AuthMultisiteIsolationService
   ) {
     super(
       store,
@@ -39,7 +47,8 @@ export class AsmAuthService extends AuthService {
       oAuthLibWrapperService,
       authStorageService,
       authRedirectService,
-      routingService
+      routingService,
+      authMultisiteIsolationService
     );
   }
 
@@ -100,9 +109,8 @@ export class AsmAuthService extends AuthService {
    * To perform logout it is best to use `logout` method. Use this method with caution.
    */
   coreLogout(): Promise<any> {
-    return this.userIdService
-      .isEmulated()
-      .pipe(
+    return lastValueFrom(
+      this.userIdService.isEmulated().pipe(
         take(1),
         switchMap((isEmulated) => {
           if (isEmulated) {
@@ -115,7 +123,7 @@ export class AsmAuthService extends AuthService {
           }
         })
       )
-      .toPromise();
+    );
   }
 
   /**

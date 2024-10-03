@@ -3,7 +3,7 @@
     <a
       [ngClass]="{
         disabled: loading,
-        'img-missing': !entry?.product?.images?.PRIMARY
+        'img-missing': !entry?.product?.images?.PRIMARY,
       }"
       [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl"
       tabindex="-1"
@@ -58,7 +58,7 @@
     (click)="removeEntry()"
     [attr.aria-label]="'common.remove' | cxTranslate"
     [disabled]="loading"
-    class="link cx-action-link"
+    class="btn btn-tertiary"
   >
     {{ 'common.remove' | cxTranslate }}
   </button>

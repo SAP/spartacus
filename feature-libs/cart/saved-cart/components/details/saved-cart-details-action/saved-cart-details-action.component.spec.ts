@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFormType } from '@spartacus/cart/saved-cart/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsActionComponent } from './saved-cart-details-action.component';
 
@@ -15,7 +15,7 @@ const mockSavedCart: Cart = {
 
 class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
   getCartDetails(): Observable<Cart> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -25,7 +25,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 

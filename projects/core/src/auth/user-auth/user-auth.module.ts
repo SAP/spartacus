@@ -1,6 +1,18 @@
-import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import {
+  ModuleWithProviders,
+  NgModule,
+  PLATFORM_ID,
+  inject,
+} from '@angular/core';
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
+import { lastValueFrom } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { provideDefaultConfig } from '../../config/config-providers';
@@ -12,26 +24,27 @@ import { AuthService } from './facade/auth.service';
 import { interceptors } from './http-interceptors/index';
 import { AuthStatePersistenceService } from './services/auth-state-persistence.service';
 import { AuthStorageService } from './services/auth-storage.service';
+import { LOCATION_INITIALIZED_MULTI } from '../../routing/location-initialized-multi/location-initialized-multi';
 
 /**
  * Initialize the check for `token` or `code` in the url returned from the OAuth server.
  */
 export function checkOAuthParamsInUrl(
   authService: AuthService,
-  configInit: ConfigInitializerService
+  configInit: ConfigInitializerService,
+  platformId: Object
 ): () => Promise<void> {
-  const result = () =>
-    configInit
-      .getStable()
-      .pipe(
-        switchMap(() =>
-          // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
-          authService.checkOAuthParamsInUrl()
+  return () =>
+    isPlatformBrowser(platformId)
+      ? lastValueFrom(
+          configInit.getStable().pipe(
+            switchMap(() =>
+              // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
+              authService.checkOAuthParamsInUrl()
+            )
+          )
         )
-      )
-      .toPromise();
-
-  return result;
+      : Promise.resolve(); // Do nothing in SSR
 }
 
 export function authStatePersistenceFactory(
@@ -40,6 +53,23 @@ export function authStatePersistenceFactory(
   const result = () => authStatePersistenceService.initSync();
   return result;
 }
+
+/**
+ * Factory to ensure that auth is initialized and its state is synced between
+ * browser storage and in-memory storage.
+ * This is required to handle the OAuth callback.
+ */
+const authInitializedFactory = () => {
+  const authService = inject(AuthService);
+  const configInit = inject(ConfigInitializerService);
+  const platformId = inject(PLATFORM_ID);
+  const authStatePersistenceService = inject(AuthStatePersistenceService);
+
+  //We need to call it before checkOAuthParamsInUrl to ensure that in-memory storage is in sync with browser storage.
+  //In other case "nonce" value used in Implicit Flow will be undefined causing the error.
+  authStatePersistenceFactory(authStatePersistenceService)();
+  return checkOAuthParamsInUrl(authService, configInit, platformId);
+};
 
 /**
  * Authentication module for a user. Handlers requests for logged in users,
@@ -61,15 +91,8 @@ export class UserAuthModule {
           useExisting: AuthStorageService,
         },
         {
-          provide: APP_INITIALIZER,
-          useFactory: authStatePersistenceFactory,
-          deps: [AuthStatePersistenceService],
-          multi: true,
-        },
-        {
-          provide: APP_INITIALIZER,
-          useFactory: checkOAuthParamsInUrl,
-          deps: [AuthService, ConfigInitializerService],
+          provide: LOCATION_INITIALIZED_MULTI,
+          useFactory: authInitializedFactory,
           multi: true,
         },
       ],

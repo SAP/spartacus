@@ -1,8 +1,19 @@
 import { Component, DebugElement, ElementRef, Input } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, WindowRef } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  I18nTestingModule,
+  WindowRef,
+} from '@spartacus/core';
+import { BreakpointService } from 'projects/storefrontlib/layout';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
@@ -18,7 +29,7 @@ class MockIconComponent {
 
 @Component({
   selector: 'cx-generic-link',
-  template: '{{title}}',
+  template: '<a href={{url}}>{{title}}</a>',
 })
 class MockGenericLinkComponent {
   @Input() url: string | any[];
@@ -29,6 +40,19 @@ class MockGenericLinkComponent {
 class MockHamburgerMenuService {
   isExpanded = of(true);
   toggle(_forceCollapse?: boolean): void {}
+}
+
+// TODO: (CXSPA-5919) Remove mock next major release
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
+class MockBreakpointService {
+  isUp() {
+    return of(true);
+  }
 }
 
 const mockWinRef: WindowRef = {
@@ -98,6 +122,8 @@ describe('Navigation UI Component', () => {
         NavigationUIComponent,
         MockIconComponent,
         MockGenericLinkComponent,
+        // TODO: (CXSPA-5919) Remove feature directive next major
+        MockFeatureDirective,
       ],
       providers: [
         {
@@ -107,6 +133,14 @@ describe('Navigation UI Component', () => {
         {
           provide: WindowRef,
           useValue: mockWinRef,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
         },
       ],
     }).compileComponents();
@@ -305,5 +339,127 @@ describe('Navigation UI Component', () => {
       expect(navigationComponent.reinitializeMenu).toHaveBeenCalledWith();
       expect(hamburgerMenuService.toggle).toHaveBeenCalledWith();
     });
+
+    it('should remove topmost semantic list roles for non-flyout navigation', () => {
+      navigationComponent.flyout = false;
+      fixture.detectChanges();
+      const firstListElement: HTMLElement = element.query(
+        By.css('ul')
+      ).nativeElement;
+      const secondListElement: HTMLElement = element.query(
+        By.css('[depth="1"]')
+      ).nativeElement;
+
+      expect(firstListElement.getAttribute('role')).toBe('presentation');
+      Array.from(firstListElement.children).forEach((child) => {
+        expect(child.getAttribute('role')).toBe('presentation');
+      });
+
+      Array.from(secondListElement.children).forEach((child) => {
+        expect(child.getAttribute('role')).toBe('listitem');
+      });
+    });
+
+    it('should apply role="heading" to nested dropdown trigger button while on desktop', () => {
+      fixture.detectChanges();
+      const nestedTriggerButton = fixture.debugElement.query(
+        By.css('button[aria-label="Child 1"]')
+      ).nativeElement;
+      const rootTriggerButton = fixture.debugElement.query(
+        By.css('button[aria-label="Root 1"]')
+      ).nativeElement;
+
+      expect(nestedTriggerButton.getAttribute('role')).toEqual('heading');
+      expect(rootTriggerButton.getAttribute('role')).toEqual('button');
+    });
+  });
+
+  describe('Keyboard navigation', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
+    it('should toggle open when space key is pressed', () => {
+      const spy = spyOn(navigationComponent, 'toggleOpen');
+      const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
+      const dropDownButton = element.query(
+        By.css('button[aria-label="Sub child 1"]')
+      ).nativeElement;
+      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
+
+      navigationComponent.onSpace(spaceEvent);
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should move focus to the opened node', () => {
+      const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
+      const spy = spyOn(firstChild.nativeElement, 'focus');
+      const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
+      const dropDownButton = element.query(
+        By.css('button[aria-label="Sub child 1"]')
+      ).nativeElement;
+      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
+
+      navigationComponent.focusOnNode(spaceEvent);
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should move focus inside node on up/down arrow press', () => {
+      navigationComponent.toggleOpen = () => {};
+      const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
+      const secondChild = element.query(By.css('[href="/sub-sub-child-1b"]'));
+      const arrowDownEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowDown',
+      });
+      const arrowUpEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowUp',
+      });
+      const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
+      const dropDownButton = element.query(
+        By.css('button[aria-label="Sub child 1"]')
+      ).nativeElement;
+      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
+      Object.defineProperty(arrowDownEvent, 'target', {
+        value: firstChild.nativeElement,
+      });
+      Object.defineProperty(arrowUpEvent, 'target', {
+        value: secondChild.nativeElement,
+      });
+
+      navigationComponent.onSpace(spaceEvent);
+
+      navigationComponent['arrowControls'].next(arrowDownEvent);
+      expect(document.activeElement).toEqual(secondChild.nativeElement);
+      navigationComponent['arrowControls'].next(arrowUpEvent);
+      expect(document.activeElement).toEqual(firstChild.nativeElement);
+    });
+
+    it('should restore default tabbing order for non flyout navigation', () => {
+      const childNode = {
+        title: 'Child',
+        url: '/child',
+      };
+      navigationComponent.flyout = true;
+      expect(navigationComponent.getTabIndex(childNode, 1)).toEqual(-1);
+
+      navigationComponent.flyout = false;
+      expect(navigationComponent.getTabIndex(childNode, 1)).toEqual(0);
+    });
+
+    it('return focus to node header after navigating back', fakeAsync(() => {
+      const mockNode = document.createElement('li');
+      const mockHeader = document.createElement('a');
+      mockHeader.setAttribute('tabindex', '0');
+      mockNode.appendChild(mockHeader);
+      navigationComponent['openNodes'] = [mockNode];
+      spyOn(mockHeader, 'focus');
+
+      navigationComponent.back();
+      tick();
+
+      expect(mockHeader.focus).toHaveBeenCalled();
+    }));
   });
 });

@@ -1,15 +1,35 @@
 %cx-configurator-exit-button {
-  align-items: center;
-  font-weight: 600;
-  font-size: 15px;
-  margin-inline-start: 5px;
-  margin-inline-end: 5px;
+  @include forFeature('a11yImproveContrast') {
+    .btn-tertiary {
+      &:hover {
+        text-decoration: underline;
+      }
 
-  button {
-    border-radius: var(--cx-buttons-border-radius);
-    border: 2px solid white;
-    background-color: transparent;
-    height: 44px;
-    color: white;
+      @include media-breakpoint-up(lg) {
+        color: var(--cx-color-inverse);
+
+        &:hover {
+          color: var(--cx-color-inverse);
+        }
+
+        &:focus {
+          color: var(--cx-color-inverse);
+        }
+      }
+    }
+  }
+
+  @include cx-highContrastTheme {
+    .btn-tertiary {
+      color: var(--cx-color-primary);
+
+      &:hover {
+        color: var(--cx-color-primary);
+      }
+
+      &:focus {
+        color: var(--cx-color-primary);
+      }
+    }
   }
 }

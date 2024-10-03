@@ -1,8 +1,9 @@
 <label *ngIf="(items$ | async)?.length > 1 && (items$ | async) as items">
-  <span>{{ label$ | async }}</span>
+  <span>{{ label$ | async }}:</span>
   <select (change)="active = $any($event).target.value">
     <option
-      *ngFor="let item of items"
+      [attr.aria-label]="ariaLabel$(item.label, i, items.length) | async"
+      *ngFor="let item of items; index as i"
       value="{{ item.isocode }}"
       [selected]="(activeItem$ | async) === item.isocode"
     >

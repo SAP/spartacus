@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateTransferType, StorageSyncType } from '../config/state-config';
 
@@ -24,7 +30,7 @@ export function createShellObject<T, E>(
   }
 
   const shell = key.split(OBJECT_SEPARATOR).reduceRight((acc, previous) => {
-    return { [previous]: acc } as unknown as T;
+    return { [previous]: acc } as unknown as NonNullable<T>;
   }, value);
   return handleExclusions(key, excludeKeys, shell);
 }

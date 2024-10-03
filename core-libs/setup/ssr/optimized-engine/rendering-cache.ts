@@ -1,11 +1,11 @@
-import { SsrOptimizationOptions } from './ssr-optimization-options';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-export interface RenderingEntry {
-  html?: any;
-  err?: any;
-  time?: number;
-  rendering?: boolean;
-}
+import { RenderingEntry } from './rendering-cache.model';
+import { SsrOptimizationOptions } from './ssr-optimization-options';
 
 export class RenderingCache {
   protected renders = new Map<string, RenderingEntry>();
@@ -31,7 +31,15 @@ export class RenderingCache {
         this.renders.delete(this.renders.keys().next().value);
       }
     }
-    this.renders.set(key, entry);
+    // cache only if shouldCacheRenderingResult return true
+    if (
+      this.options?.shouldCacheRenderingResult?.({
+        options: this.options,
+        entry,
+      })
+    ) {
+      this.renders.set(key, entry);
+    }
   }
 
   get(key: string): RenderingEntry | undefined {

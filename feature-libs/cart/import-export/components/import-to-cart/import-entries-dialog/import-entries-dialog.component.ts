@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   AddOrderEntriesContext,
@@ -7,13 +13,14 @@ import {
   ProductImportStatus,
   ProductImportSummary,
 } from '@spartacus/cart/base/root';
+import { useFeatureStyles } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { finalize, pluck } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -41,9 +48,13 @@ export class ImportEntriesDialogComponent {
   });
 
   context$: Observable<AddOrderEntriesContext> =
-    this.launchDialogService.data$.pipe(pluck('orderEntriesContext'));
+    this.launchDialogService.data$.pipe(
+      map((data) => data.orderEntriesContext)
+    );
 
-  constructor(protected launchDialogService: LaunchDialogService) {}
+  constructor(protected launchDialogService: LaunchDialogService) {
+    useFeatureStyles('a11yExpandedFocusIndicator');
+  }
 
   isNewCartForm(context: AddOrderEntriesContext) {
     return context.type === OrderEntriesSource.NEW_SAVED_CART;

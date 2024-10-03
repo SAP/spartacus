@@ -1,16 +1,9 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { ModalOptions, ModalRef, ModalService } from '../../../shared/index';
-import { AnonymousConsentOpenDialogComponent } from './anonymous-consent-open-dialog.component';
 import { ElementRef, ViewContainerRef } from '@angular/core';
-import { of } from 'rxjs';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-
-class MockModalService {
-  open(_content: any, _options?: ModalOptions): ModalRef {
-    return undefined;
-  }
-}
+import { EMPTY } from 'rxjs';
+import { AnonymousConsentOpenDialogComponent } from './anonymous-consent-open-dialog.component';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
@@ -18,7 +11,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -27,24 +20,18 @@ describe('AnonymousConsentOpenDialogComponent', () => {
   let fixture: ComponentFixture<AnonymousConsentOpenDialogComponent>;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [AnonymousConsentOpenDialogComponent],
-        providers: [
-          {
-            provide: ModalService,
-            useClass: MockModalService,
-          },
-          {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [AnonymousConsentOpenDialogComponent],
+      providers: [
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AnonymousConsentOpenDialogComponent);

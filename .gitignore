@@ -3,6 +3,7 @@
 # compiled output
 /dist
 /tmp
+/temp
 /out-tsc
 /documentation
 
@@ -19,7 +20,7 @@ docs.zip
 
 # dependencies
 node_modules/
-package-lock.json
+yarn.lock
 
 # verdaccio storage
 scripts/install/storage
@@ -37,12 +38,16 @@ scripts/install/config.sh
 *.launch
 .settings/
 *.sublime-workspace
+*.swp
 
 # IDE - VSCode
 .vscode/settings.json
 
 # Coverage reports
 **/coverage
+
+# Unit test reports
+**/unit-tests-reports
 
 # misc
 /.angular/cache
@@ -57,10 +62,13 @@ npm-debug.log
 yarn-error.log
 testem.log
 debug.log
+prettier.log
 
 # System Files
 .DS_Store
 Thumbs.db
 
 **/git-ignore
+
+.nx/cache
 

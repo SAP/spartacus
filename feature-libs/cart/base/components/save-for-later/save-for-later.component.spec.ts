@@ -6,13 +6,10 @@ import {
   Cart,
   CartItemComponentOptions,
   OrderEntry,
+  PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import {
-  CmsService,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { CmsService, I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SaveForLaterComponent } from './save-for-later.component';
 @Component({
@@ -23,6 +20,7 @@ class MockCartItemListComponent {
   @Input() readonly = false;
   @Input() items: OrderEntry[];
   @Input() cartIsLoading: Observable<boolean>;
+  @Input() promotionLocation: PromotionLocation;
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,
@@ -48,19 +46,17 @@ describe('SaveForLaterComponent', () => {
     'getComponentData',
   ]);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [SaveForLaterComponent, MockCartItemListComponent],
-        imports: [FeaturesConfigModule, I18nTestingModule],
-        providers: [
-          { provide: CmsService, useValue: mockCmsService },
-          { provide: ActiveCartFacade, useValue: mockActiveCartService },
-          { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [SaveForLaterComponent, MockCartItemListComponent],
+      imports: [I18nTestingModule],
+      providers: [
+        { provide: CmsService, useValue: mockCmsService },
+        { provide: ActiveCartFacade, useValue: mockActiveCartService },
+        { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SaveForLaterComponent);
@@ -69,11 +65,15 @@ describe('SaveForLaterComponent', () => {
     mockSelectiveCartService.isStable.and.returnValue(of(true));
     mockActiveCartService.isStable.and.returnValue(of(true));
     mockActiveCartService.getActive.and.returnValue(
-      of<Cart>({ code: '00001', totalItems: 0 })
+      of({ code: '00001', totalItems: 0 } as Cart)
     );
     mockCmsService.getComponentData.and.returnValue(of({ content: 'content' }));
-    mockSelectiveCartService.getCart.and.returnValue(of<Cart>({ code: '123' }));
-    mockSelectiveCartService.getEntries.and.returnValue(of<OrderEntry[]>([{}]));
+    mockSelectiveCartService.getCart.and.returnValue(
+      of({ code: '123' } as Cart)
+    );
+    mockSelectiveCartService.getEntries.and.returnValue(
+      of([{}] as OrderEntry[])
+    );
   });
 
   it('should create', () => {
@@ -83,10 +83,10 @@ describe('SaveForLaterComponent', () => {
 
   it('should display save for later text with items', () => {
     mockSelectiveCartService.getCart.and.returnValue(
-      of<Cart>({
+      of({
         code: '123',
         totalItems: 5,
-      })
+      } as Cart)
     );
     fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('.cx-total'));
@@ -96,10 +96,10 @@ describe('SaveForLaterComponent', () => {
 
   it('should display empty cart info when cart is empty and save for later has items', () => {
     mockSelectiveCartService.getCart.and.returnValue(
-      of<Cart>({
+      of({
         code: '123',
         totalItems: 5,
-      })
+      } as Cart)
     );
     fixture.detectChanges();
     expect(

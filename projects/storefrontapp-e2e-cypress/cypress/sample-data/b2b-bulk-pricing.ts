@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const PRODUCT = '2221933';
 export const PRODUCT_NO_PRICING = '3881074';
 export const TEST_QUANTITY = '31';

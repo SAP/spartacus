@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import {
@@ -111,10 +117,7 @@ export class RoutingService {
    * The absolute url uses the origin of the current location.
    */
   getFullUrl(commands: UrlCommands, extras?: NavigationExtras) {
-    return `${this.winRef.document.location.origin}${this.getUrl(
-      commands,
-      extras
-    )}`;
+    return `${this.winRef.location.origin}${this.getUrl(commands, extras)}`;
   }
 
   /**

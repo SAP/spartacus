@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import { AuthService } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription, timer } from 'rxjs';
@@ -11,7 +17,11 @@ import {
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
 import { CpqConfiguratorAuthConfig } from './cpq-configurator-auth.config';
-
+/**
+ * @deprecated since 2211.25. Not needed for commerce based CPQ orchestration (which is the default communication flavour).
+ * Refer to configuration setting ConfiguratorCoreConfig.productConfigurator.cpqOverOcc = true.
+ * The other flavour (performing direct calls from composable storefront to CPQ) is technically no longer supported.
+ */
 @Injectable({ providedIn: 'root' })
 export class CpqAccessStorageService implements OnDestroy {
   protected readonly EXPIRED_TOKEN: CpqAccessData = {
@@ -29,15 +39,18 @@ export class CpqAccessStorageService implements OnDestroy {
   ngOnDestroy(): void {
     this.currentCpqAccessSubscription?.unsubscribe();
     this.currentAuthServiceSubscription?.unsubscribe();
+    this._cpqAccessDataErrorSubscription?.unsubscribe();
   }
 
   protected cpqAccessData$: Observable<CpqAccessData>;
   protected currentCpqAccessSubscription: Subscription;
   protected currentAuthServiceSubscription: Subscription;
   protected _cpqAccessData$: BehaviorSubject<CpqAccessData>;
+  protected _cpqAccessDataError = false;
+  protected _cpqAccessDataErrorSubscription: Subscription | undefined;
 
   getCpqAccessData(): Observable<CpqAccessData> {
-    if (!this.cpqAccessData$ || this._cpqAccessData$.hasError) {
+    if (!this.cpqAccessData$ || this._cpqAccessDataError) {
       this.initCpqAccessData();
     }
     return this.cpqAccessData$;
@@ -67,6 +80,11 @@ export class CpqAccessStorageService implements OnDestroy {
 
   protected initCpqAccessData() {
     this._cpqAccessData$ = new BehaviorSubject(this.EXPIRED_TOKEN);
+    this._cpqAccessDataError = false;
+    this._cpqAccessDataErrorSubscription?.unsubscribe();
+    this._cpqAccessDataErrorSubscription = this._cpqAccessData$.subscribe({
+      error: () => (this._cpqAccessDataError = true),
+    });
     this.cpqAccessData$ = this._cpqAccessData$.pipe(
       // Never expose expired tokens - either cache was invalidated with expired token,
       // or the cached one expired before a new one was fetched.

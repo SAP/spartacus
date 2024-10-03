@@ -1,7 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import deepEqual from 'deep-equal';
 import * as fs from 'fs';
-import { getElementCategory, getSignatureDoc, printStats } from './common';
-
+import * as common from './common';
 // --------------------------------------------------
 // Main Logic
 // --------------------------------------------------
@@ -10,6 +15,7 @@ const newApiFile = process.argv[3];
 
 const newApiData = JSON.parse(fs.readFileSync(newApiFile, 'utf-8'));
 const oldApiData = JSON.parse(fs.readFileSync(oldApiFile, 'utf-8'));
+const renamedApiLookupData = common.readRenamedApiLookupFile();
 
 console.log(`Comparing public API between:`);
 console.log(`old: ${oldApiFile}, ${oldApiData.length} entries`);
@@ -26,27 +32,45 @@ oldApiData.forEach((oldApiElement: any) => {
     );
     if (elementBreakingChanges?.length > 0) {
       addBreakingChanges(oldApiElement, elementBreakingChanges);
-      breakingChanges.push(oldApiElement);
+      breakingChanges.push(
+        createBreakingChangeDataEntry(oldApiElement, newApiElementMatch)
+      );
     }
   } else {
     // Old Element is not in new api
-    // Was it moved?
-    const newApiElementMoved = findMovedElementInApi(newApiData, oldApiElement);
+    // was it renamed?
+    let newApiElementMoved = common.findRenamedElementInApi(
+      newApiData,
+      renamedApiLookupData,
+      oldApiElement
+    );
+
+    // If no element found via rename lookup, try to detect a move by matching the name.
+    if (!newApiElementMoved) {
+      newApiElementMoved = findMovedElementInApi(newApiData, oldApiElement);
+    }
+
     if (newApiElementMoved) {
-      // element was moved
-      oldApiElement.isMoved = true;
-      oldApiElement.newName = '';
-      oldApiElement.newEntryPoint = newApiElementMoved.entryPoint;
-      (oldApiElement.newNamespace = newApiElementMoved.namespace ?? ''),
+      //element was moved and/or renamed
+
+      // handle rename
+      if (oldApiElement.name !== newApiElementMoved.name) {
+        addBreakingChanges(oldApiElement, [
+          {
+            ...getChangeDesc(oldApiElement, 'RENAMED'),
+          },
+        ]);
+      }
+
+      //handle move
+      if (oldApiElement.entryPoint !== newApiElementMoved.entryPoint) {
         addBreakingChanges(oldApiElement, [
           {
             ...getChangeDesc(oldApiElement, 'MOVED'),
-            to: {
-              entryPoint: newApiElementMoved.entryPoint,
-              namespace: newApiElementMoved.namespace ?? '',
-            },
           },
         ]);
+      }
+      // handle inner breaking changes
       const elementBreakingChanges = compareElements(
         oldApiElement,
         newApiElementMoved
@@ -56,26 +80,26 @@ oldApiData.forEach((oldApiElement: any) => {
       }
     } else {
       // it is removed
-      oldApiElement.isDeleted = true;
-      oldApiElement.deletedComment = `${oldApiElement.kind} ${
-        oldApiElement.namespace ? oldApiElement.namespace + '.' : ''
-      }${
-        oldApiElement.name
-      } has been removed and is no longer part of the public API.`;
-      oldApiElement.migrationComment = '';
       addBreakingChanges(oldApiElement, [
         {
           ...getChangeDesc(oldApiElement, 'DELETED'),
         },
       ]);
     }
-    breakingChanges.push(oldApiElement);
+    breakingChanges.push(
+      createBreakingChangeDataEntry(oldApiElement, newApiElementMoved)
+    );
   }
 });
 
-printStats(breakingChanges);
+common.printStats(breakingChanges);
 
-fs.writeFileSync(`data/breaking-changes.json`, JSON.stringify(breakingChanges));
+common.createFoldersForFilePath(common.BREAKING_CHANGES_FILE_PATH);
+
+fs.writeFileSync(
+  common.BREAKING_CHANGES_FILE_PATH,
+  JSON.stringify(breakingChanges)
+);
 
 // --------------------------------------------------
 // Functions
@@ -142,10 +166,8 @@ function getVariableBreakingChange(oldElement: any, newElement: any): any[] {
     return [
       {
         ...getChangeDesc(oldElement, 'CHANGED'),
-        oldType: oldElement.type,
-        newType: newElement.type,
-        previousStateDoc: `${oldElement.name}: ${oldElement.type}`,
-        currentStateDoc: `${newElement.name}: ${newElement.type}`,
+        old: extractApiElementCopy(oldElement),
+        new: newElement,
       },
     ];
   } else {
@@ -158,9 +180,6 @@ function getTypeAliasBreakingChange(oldElement: any, newElement: any): any[] {
     return [
       {
         ...getChangeDesc(oldElement, 'CHANGED'),
-        previousStateDoc: oldElement.members.join(',\n'),
-        currentStateDoc: newElement.members.join(',\n'),
-        new: newElement.members,
       },
     ];
   } else {
@@ -174,18 +193,11 @@ function getFunctionBreakingChange(oldElement: any, newElement: any): any[] {
   );
   const returnTypeChanged = oldElement.returnType !== newElement.returnType;
   if (paramBreakingChanges.length > 0 || returnTypeChanged) {
-    const oldElementCopy = { ...oldElement };
-    delete oldElementCopy.breakingChanges; // avoid circular references
-    const newElementCopy = { ...newElement };
-    delete newElementCopy.breakingChanges; // avoid circular references
-
     return [
       {
         ...getChangeDesc(oldElement, 'CHANGED'),
-        previousStateDoc: getSignatureDoc(oldElement),
-        currentStateDoc: getSignatureDoc(newElement),
-        oldElement: oldElementCopy,
-        newElement: newElementCopy,
+        old: extractApiElementCopy(oldElement),
+        new: newElement,
       },
     ];
   } else {
@@ -206,13 +218,7 @@ function getMembersBreakingChange(
     if (!newMember) {
       breakingChanges.push({
         ...getChangeDesc(oldMember, 'DELETED'),
-        isDeletedMember: true,
-        deletedMember: oldMember,
-        apiElementName: oldApiElement.name,
-        apiElementKind: oldApiElement.kind,
-        entryPoint: oldApiElement.entryPoint,
-        deletedComment: `// TODO:Spartacus - ${oldMember.kind} '${oldMember.name}' was removed from ${oldApiElement.kind} '${oldApiElement.name}'.`,
-        migrationComment: '',
+        old: oldMember,
       });
     } else {
       breakingChanges.push(...getMemberBreakingChange(oldMember, newMember));
@@ -263,22 +269,11 @@ function getParametersBreakingChange(oldMember: any, newMember: any): any[] {
     newMember.parameters
   );
   if (parametersHaveBreakingChange) {
-    const removedParams: any[] = paramDiff(oldMember, newMember);
-    const addedParams: any[] = paramDiff(newMember, oldMember);
-
     return [
       {
         ...getChangeDesc(oldMember, 'CHANGED'),
-        previousStateDoc: getSignatureDoc(oldMember),
-        currentStateDoc: getSignatureDoc(newMember),
-        details: {
-          kind: oldMember.kind,
-          name: oldMember.name,
-          oldParams: oldMember.parameters,
-          newParams: newMember.parameters,
-          removedParams,
-          addedParams,
-        },
+        old: oldMember,
+        new: newMember,
       },
     ];
   } else {
@@ -311,15 +306,6 @@ function isParametersBreakingChangeDetected(
   return false;
 }
 
-function paramDiff(oldMember: any, newMember: any): any[] {
-  return oldMember.parameters.filter(
-    (oldParameter: any) =>
-      !newMember.parameters.find((newParameter: any) =>
-        isIdenticalParams(oldParameter, newParameter)
-      )
-  );
-}
-
 function isIdenticalParams(oldParam: any, newParam: any) {
   return oldParam.name === newParam?.name && oldParam.type === newParam?.type;
 }
@@ -345,6 +331,7 @@ function addBreakingChanges(element: any, breakingChanges: any[]) {
 function addBreakingChangeContext(apiElement: any, breakingChanges: any[]) {
   return breakingChanges.map((breakingChange: any) => {
     breakingChange.topLevelApiElementName = apiElement.name;
+    breakingChange.topLevelApiElementKind = apiElement.kind;
     breakingChange.entryPoint = apiElement.entryPoint;
     return breakingChange;
   });
@@ -364,10 +351,6 @@ function getEnumBreakingChange(oldElement: any, newElement: any): any[] {
     return [
       {
         ...getChangeDesc(oldElement, 'CHANGED'),
-        previousStateDoc: oldElement.members.join(',\n'),
-        currentStateDoc: newElement.members.join(',\n'),
-        old: oldElement.members,
-        new: newElement.members,
       },
     ];
   } else {
@@ -392,11 +375,27 @@ function getChangeDesc(element: any, changeType: string): any {
     changeKind: element.kind,
     changeLabel: getChangeLabel(changeType),
     changeElementName: element.name,
-    changeElementCategory: getElementCategory(element),
+    changeElementCategory: common.getElementCategory(element),
   };
 }
 
 function getChangeLabel(changeType: string): string {
-  let label = changeType.toLowerCase();
+  const label = changeType.toLowerCase();
   return label.replace(/_/g, ' ');
+}
+
+function createBreakingChangeDataEntry(
+  oldApiElement: any,
+  newApiElement: any
+): any {
+  oldApiElement.newApiElement = newApiElement;
+  return oldApiElement;
+}
+
+function extractApiElementCopy(apiElement: any): any {
+  const apiElementCopy = { ...apiElement };
+  delete apiElementCopy.breakingChanges; // avoid circular references
+  delete apiElementCopy.newApiElement; // avoid circular references
+
+  return apiElementCopy;
 }

@@ -12,7 +12,6 @@ Note: This is a living document. Like the Spartacus code, this document will be 
 
 An easy way to start is by helping others who may have questions or need support. Look for such requests here:
 
-* Spartacus [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/zt-jekftqo0-HP6xt6IF~ffVB2cGG66fcQ)
 * [Stack Overflow posts tagged with 'spartacus'](https://stackoverflow.com/questions/tagged/spartacus)
 
 ----
@@ -170,6 +169,10 @@ Submit the form to us through one of the following methods:
 * The contribution follows the applicable guidelines and standards.
 
   The "guidelines and standards" requirement could fill entire books and still lack a 100% clear definition, but rest assured that you will receive feedback if something is not right. That being said, please consult the [Contributor's Guide](https://sap.github.io/spartacus-docs/contributors-guide/).
+
+### Contribution of generated AI content
+
+To contribute generated AI content, please read the following [guide](https://github.com/SAP/.github/blob/main/CONTRIBUTING_USING_GENAI.md)
 
 ### Contribution Process
 

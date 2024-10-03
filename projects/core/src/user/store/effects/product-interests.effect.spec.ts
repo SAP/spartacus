@@ -1,17 +1,17 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
-import * as fromInterestsEffect from './product-interests.effect';
-import { UserActions } from '../actions/index';
+import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { cold, hot } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 import {
   NotificationType,
   ProductInterestSearchResult,
 } from '../../../model/product-interest.model';
-import { cold, hot } from 'jasmine-marbles';
-import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
 import { UserInterestsAdapter } from '../../connectors/interests/user-interests.adapter';
+import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
+import { UserActions } from '../actions/index';
+import * as fromInterestsEffect from './product-interests.effect';
 
 const loadParams = {
   userId: 'qingyu@sap.com',
@@ -19,6 +19,7 @@ const loadParams = {
   currentPage: 1,
   sort: 'name:asc',
 };
+const error = new Error('error');
 
 describe('Product Interests Effect', () => {
   let actions$: Actions;
@@ -63,10 +64,10 @@ describe('Product Interests Effect', () => {
     });
     it('should be able to handle failures for load product interests', () => {
       spyOn(userInterestConnector, 'getInterests').and.returnValue(
-        throwError('Error')
+        throwError(() => error)
       );
       const action = new UserActions.LoadProductInterests(loadParams);
-      const completion = new UserActions.LoadProductInterestsFail(undefined);
+      const completion = new UserActions.LoadProductInterestsFail(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -141,10 +142,10 @@ describe('Product Interests Effect', () => {
 
     it('should be able to handle failures for remove product interest', () => {
       spyOn(userInterestConnector, 'removeInterest').and.returnValue(
-        throwError('Error')
+        throwError(() => error)
       );
       const action = new UserActions.RemoveProductInterest(delParams);
-      const completion = new UserActions.RemoveProductInterestFail(undefined);
+      const completion = new UserActions.RemoveProductInterestFail(error);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

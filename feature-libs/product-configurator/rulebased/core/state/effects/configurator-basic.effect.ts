@@ -1,8 +1,21 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { select, Store } from '@ngrx/store';
-import { normalizeHttpError } from '@spartacus/core';
-import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
+import { Store, select } from '@ngrx/store';
+import {
+  FeatureConfigService,
+  LoggerService,
+  tryNormalizeHttpError,
+} from '@spartacus/core';
+import {
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import {
   catchError,
@@ -10,7 +23,6 @@ import {
   map,
   mergeMap,
   switchMap,
-  switchMapTo,
   take,
 } from 'rxjs/operators';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
@@ -22,12 +34,21 @@ import { StateWithConfigurator } from '../configurator-state';
 import { ConfiguratorSelectors } from '../selectors/index';
 import { ConfiguratorBasicEffectService } from './configurator-basic-effect.service';
 
+type updateConfigurationSuccessResultType =
+  | ConfiguratorActions.UpdateConfigurationFinalizeSuccess
+  | ConfiguratorActions.UpdatePriceSummary
+  | ConfiguratorActions.SearchVariants
+  | ConfiguratorActions.ChangeGroup;
+
 @Injectable()
 /**
  * Common configurator effects, used for complex configurators like variant configurator
  * and CPQ
  */
 export class ConfiguratorBasicEffects {
+  protected logger = inject(LoggerService);
+  private featureConfigService = inject(FeatureConfigService);
+
   createConfiguration$: Observable<
     | ConfiguratorActions.CreateConfigurationSuccess
     | ConfiguratorActions.SearchVariants
@@ -37,7 +58,11 @@ export class ConfiguratorBasicEffects {
       ofType(ConfiguratorActions.CREATE_CONFIGURATION),
       mergeMap((action: ConfiguratorActions.CreateConfiguration) => {
         return this.configuratorCommonsConnector
-          .createConfiguration(action.payload)
+          .createConfiguration(
+            action.payload.owner,
+            action.payload.configIdTemplate,
+            action.payload.forceReset
+          )
           .pipe(
             switchMap((configuration: Configurator.Configuration) => {
               const currentGroup =
@@ -60,8 +85,8 @@ export class ConfiguratorBasicEffects {
             }),
             catchError((error) => [
               new ConfiguratorActions.CreateConfigurationFail({
-                ownerKey: action.payload.key,
-                error: normalizeHttpError(error),
+                ownerKey: action.payload.owner.key,
+                error: tryNormalizeHttpError(error, this.logger),
               }),
             ])
           );
@@ -90,7 +115,7 @@ export class ConfiguratorBasicEffects {
             catchError((error) => [
               new ConfiguratorActions.ReadConfigurationFail({
                 ownerKey: action.payload.configuration.owner.key,
-                error: normalizeHttpError(error),
+                error: tryNormalizeHttpError(error, this.logger),
               }),
             ])
           );
@@ -113,12 +138,16 @@ export class ConfiguratorBasicEffects {
           .updateConfiguration(payload)
           .pipe(
             map((configuration: Configurator.Configuration) => {
-              return new ConfiguratorActions.UpdateConfigurationSuccess(
-                configuration
-              );
+              return new ConfiguratorActions.UpdateConfigurationSuccess({
+                ...configuration,
+                interactionState: {
+                  isConflictResolutionMode:
+                    payload.interactionState.isConflictResolutionMode,
+                },
+              });
             }),
             catchError((error) => {
-              const errorPayload = normalizeHttpError(error);
+              const errorPayload = tryNormalizeHttpError(error, this.logger);
               return [
                 new ConfiguratorActions.UpdateConfigurationFail({
                   configuration: payload,
@@ -141,15 +170,21 @@ export class ConfiguratorBasicEffects {
         (action: { type: string; payload: Configurator.Configuration }) =>
           action.payload
       ),
+      filter((configuration) => configuration.pricingEnabled === true),
       mergeMap((payload) => {
         return this.configuratorCommonsConnector.readPriceSummary(payload).pipe(
           map((configuration: Configurator.Configuration) => {
             return new ConfiguratorActions.UpdatePriceSummarySuccess(
-              configuration
+              configuration,
+              {
+                isDeltaRendering: this.featureConfigService.isEnabled(
+                  'productConfiguratorDeltaRendering'
+                ),
+              }
             );
           }),
           catchError((error) => {
-            const errorPayload = normalizeHttpError(error);
+            const errorPayload = tryNormalizeHttpError(error, this.logger);
             return [
               new ConfiguratorActions.UpdatePriceSummaryFail({
                 ownerKey: payload.owner.key,
@@ -182,7 +217,7 @@ export class ConfiguratorBasicEffects {
               });
             }),
             catchError((error) => {
-              const errorPayload = normalizeHttpError(error);
+              const errorPayload = tryNormalizeHttpError(error, this.logger);
               return [
                 new ConfiguratorActions.GetConfigurationOverviewFail({
                   ownerKey: payload.owner.key,
@@ -195,86 +230,123 @@ export class ConfiguratorBasicEffects {
     )
   );
 
-  updateConfigurationSuccess$: Observable<
-    | ConfiguratorActions.UpdateConfigurationFinalizeSuccess
-    | ConfiguratorActions.UpdatePriceSummary
-    | ConfiguratorActions.SearchVariants
-    | ConfiguratorActions.ChangeGroup
+  updateOverview$: Observable<
+    | ConfiguratorActions.UpdateConfigurationOverviewSuccess
+    | ConfiguratorActions.UpdateConfigurationOverviewFail
   > = createEffect(() =>
     this.actions$.pipe(
-      ofType(ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS),
+      ofType(ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW),
       map(
-        (action: ConfiguratorActions.UpdateConfigurationSuccess) =>
+        (action: ConfiguratorActions.UpdateConfigurationOverview) =>
           action.payload
       ),
-      mergeMap((payload: Configurator.Configuration) => {
-        return this.store.pipe(
-          select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
-          take(1),
-          filter((hasPendingChanges) => hasPendingChanges === false),
-          switchMapTo(
-            this.store.pipe(
-              select(ConfiguratorSelectors.getCurrentGroup(payload.owner.key)),
-              take(1),
-              map((currentGroupId) => {
-                const groupIdFromPayload =
-                  this.configuratorBasicEffectService.getFirstGroupWithAttributes(
-                    payload
-                  );
-                const parentGroupFromPayload =
-                  this.configuratorGroupUtilsService.getParentGroup(
-                    payload.groups,
-                    this.configuratorGroupUtilsService.getGroupById(
-                      payload.groups,
-                      groupIdFromPayload
-                    ),
-                    undefined
-                  );
-                return {
-                  currentGroupId,
-                  groupIdFromPayload,
-                  parentGroupFromPayload,
-                };
-              }),
-              switchMap((container) => {
-                //changeGroup because in cases where a queue of updates exists with a group navigation in between,
-                //we need to ensure that the last update determines the current group.
-                const updateFinalizeSuccessAction =
-                  new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-                    payload
-                  );
-                const updatePriceSummaryAction =
-                  new ConfiguratorActions.UpdatePriceSummary({
-                    ...payload,
-                    interactionState: {
-                      currentGroup: container.groupIdFromPayload,
-                    },
-                  });
-                const searchVariantsAction =
-                  new ConfiguratorActions.SearchVariants(payload);
-                return container.currentGroupId === container.groupIdFromPayload
-                  ? [
-                      updateFinalizeSuccessAction,
-                      updatePriceSummaryAction,
-                      searchVariantsAction,
-                    ]
-                  : [
-                      updateFinalizeSuccessAction,
-                      updatePriceSummaryAction,
-                      searchVariantsAction,
-                      new ConfiguratorActions.ChangeGroup({
-                        configuration: payload,
-                        groupId: container.groupIdFromPayload,
-                        parentGroupId: container.parentGroupFromPayload?.id,
-                      }),
-                    ];
-              })
-            )
-          )
-        );
+      mergeMap((payload) => {
+        return this.configuratorCommonsConnector
+          .updateConfigurationOverview(payload)
+          .pipe(
+            map((overview: Configurator.Overview) => {
+              return new ConfiguratorActions.UpdateConfigurationOverviewSuccess(
+                {
+                  ownerKey: payload.owner.key,
+                  overview: overview,
+                }
+              );
+            }),
+            catchError((error) => {
+              const errorPayload = tryNormalizeHttpError(error, this.logger);
+              return [
+                new ConfiguratorActions.UpdateConfigurationOverviewFail({
+                  ownerKey: payload.owner.key,
+                  error: errorPayload,
+                }),
+              ];
+            })
+          );
       })
     )
   );
+
+  updateConfigurationSuccess$: Observable<updateConfigurationSuccessResultType> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS),
+        map(
+          (action: ConfiguratorActions.UpdateConfigurationSuccess) =>
+            action.payload
+        ),
+        mergeMap((payload: Configurator.Configuration) => {
+          return this.store.pipe(
+            select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
+            take(1),
+            filter((hasPendingChanges) => hasPendingChanges === false),
+            switchMap(() =>
+              this.store.pipe(
+                select(
+                  ConfiguratorSelectors.getCurrentGroup(payload.owner.key)
+                ),
+                take(1),
+                map((currentGroupId) => {
+                  // Group ids of conflict groups (Configurator.GroupType.CONFLICT_GROUP) always start with 'CONFLICT'
+                  const groupIdFromPayload =
+                    this.configuratorBasicEffectService.getFirstGroupWithAttributes(
+                      payload,
+                      payload.interactionState.isConflictResolutionMode
+                    );
+                  const parentGroupFromPayload =
+                    this.configuratorGroupUtilsService.getParentGroup(
+                      payload.groups,
+                      this.configuratorGroupUtilsService.getGroupById(
+                        payload.groups,
+                        groupIdFromPayload
+                      ),
+                      undefined
+                    );
+                  return {
+                    currentGroupId,
+                    groupIdFromPayload,
+                    parentGroupFromPayload,
+                  };
+                }),
+                switchMap((container) => {
+                  //changeGroup because in cases where a queue of updates exists with a group navigation in between,
+                  //we need to ensure that the last update determines the current group.
+                  const updateFinalizeSuccessAction =
+                    new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+                      payload
+                    );
+                  const updatePriceSummaryAction =
+                    new ConfiguratorActions.UpdatePriceSummary({
+                      ...payload,
+                      interactionState: {
+                        currentGroup: container.groupIdFromPayload,
+                      },
+                    });
+                  const searchVariantsAction =
+                    new ConfiguratorActions.SearchVariants(payload);
+                  return container.currentGroupId ===
+                    container.groupIdFromPayload
+                    ? [
+                        updateFinalizeSuccessAction,
+                        updatePriceSummaryAction,
+                        searchVariantsAction,
+                      ]
+                    : [
+                        updateFinalizeSuccessAction,
+                        updatePriceSummaryAction,
+                        searchVariantsAction,
+                        new ConfiguratorActions.ChangeGroup({
+                          configuration: payload,
+                          groupId: container.groupIdFromPayload,
+                          parentGroupId: container.parentGroupFromPayload?.id,
+                        }),
+                      ];
+                })
+              )
+            )
+          );
+        })
+      )
+    );
 
   updateConfigurationFail$: Observable<ConfiguratorActions.UpdateConfigurationFinalizeFail> =
     createEffect(() =>
@@ -330,6 +402,7 @@ export class ConfiguratorBasicEffects {
     | ConfiguratorActions.SetMenuParentGroup
     | ConfiguratorActions.ReadConfigurationFail
     | ConfiguratorActions.ReadConfigurationSuccess
+    | ConfiguratorActions.UpdatePriceSummary
   > = createEffect(() =>
     this.actions$.pipe(
       ofType(ConfiguratorActions.CHANGE_GROUP),
@@ -363,12 +436,18 @@ export class ConfiguratorBasicEffects {
                     new ConfiguratorActions.ReadConfigurationSuccess(
                       configuration
                     ),
+                    new ConfiguratorActions.UpdatePriceSummary({
+                      ...configuration,
+                      interactionState: {
+                        currentGroup: action.payload.groupId,
+                      },
+                    }),
                   ];
                 }),
                 catchError((error) => [
                   new ConfiguratorActions.ReadConfigurationFail({
                     ownerKey: action.payload.configuration.owner.key,
-                    error: normalizeHttpError(error),
+                    error: tryNormalizeHttpError(error, this.logger),
                   }),
                 ])
               );
@@ -377,6 +456,33 @@ export class ConfiguratorBasicEffects {
       })
     )
   );
+
+  removeProductBoundConfigurations$: Observable<ConfiguratorActions.RemoveConfiguration> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(ConfiguratorActions.REMOVE_PRODUCT_BOUND_CONFIGURATIONS),
+        switchMap(() => {
+          return this.store.pipe(
+            select(ConfiguratorSelectors.getConfigurationsState),
+            take(1),
+            map((configuratorState) => {
+              const entities = configuratorState.configurations.entities;
+
+              const ownerKeysToRemove: string[] = [];
+              for (const ownerKey in entities) {
+                if (ownerKey.includes(CommonConfigurator.OwnerType.PRODUCT)) {
+                  ownerKeysToRemove.push(ownerKey);
+                }
+              }
+
+              return new ConfiguratorActions.RemoveConfiguration({
+                ownerKey: ownerKeysToRemove,
+              });
+            })
+          );
+        })
+      )
+    );
 
   constructor(
     protected actions$: Actions,

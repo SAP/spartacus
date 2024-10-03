@@ -1,8 +1,30 @@
 %cx-delivery-mode {
   @include checkout-media-style();
 
+  border: 1px solid var(--cx-color-medium);
+  border-radius: 10px;
+  padding: 23px 30px 8px;
+  background-color: var(--cx-color-inverse);
+
   @include media-breakpoint-down(md) {
-    padding: 20px 0;
+    background-color: var(--cx-color-transparent);
+    margin-top: 32px;
+    padding: 23px 30px 8px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin: 2rem 0 2rem;
+  }
+
+  .cx-delivery-mode-wrapper {
+    background-color: var(--cx-color-inverse);
+    border: none;
+    border-radius: 0px;
+    padding: 0;
+
+    @include media-breakpoint-down(md) {
+      margin: 0;
+    }
   }
 
   .form-check {
@@ -35,6 +57,20 @@
         flex-basis: 100%;
         color: var(--cx-color-success);
       }
+
+      .cx-delivery-mode-description {
+        width: 100%;
+        display: block;
+        color: var(--cx-color-success);
+      }
+    }
+  }
+
+  @include cx-highContrastTheme {
+    border: 1px solid var(--cx-color-text);
+    background-color: var(--cx-color-background);
+    .cx-delivery-mode-wrapper {
+      background-color: var(--cx-color-background);
     }
   }
 }

@@ -1,8 +1,10 @@
-// This file is required by karma.conf.js and loads recursively all the .spec and framework files
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-// Zone.js and zone.js/testing should be imported as FIRST and in this ORDER:
-import 'zone.js';
-import 'zone.js/testing';
+// This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
 // Patching Object.defineProperty unlocks frozen JS symbols and makes possible to mock them.
 // Should be used with caution, and only if there is no other way to mock stuff (eg. by DI)
@@ -15,8 +17,6 @@ import {
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
 
-declare const require: any;
-
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
@@ -25,7 +25,3 @@ getTestBed().initTestEnvironment(
     teardown: { destroyAfterEach: false },
   }
 );
-// Then we find all the tests.
-const context = require.context('./', true, /\.spec\.ts$/);
-// And load the modules.
-context.keys().map(context);

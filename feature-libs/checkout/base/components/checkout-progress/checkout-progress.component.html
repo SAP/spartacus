@@ -13,10 +13,23 @@
           <a
             [routerLink]="{ cxRoute: step.routeName } | cxUrl"
             class="cx-link"
+            [attr.aria-current]="isActive(i) ? 'step' : null"
+            [attr.aria-disabled]="isDisabled(i) ? 'true' : null"
             [class.active]="isActive(i)"
             [class.disabled]="isDisabled(i)"
             [tabindex]="getTabIndex(i)"
-            [innerHTML]="step.name | cxTranslate | cxMultiLine"
+            [innerHTML]="
+              step.nameMultiLine !== false
+                ? (step.name | cxTranslate | cxMultiLine)
+                : (step.name | cxTranslate)
+            "
+            [attr.aria-label]="
+              'checkoutProgress.state.' + getStepState(i)
+                | cxTranslate
+                  : {
+                      step: step.name | cxTranslate,
+                    }
+            "
           >
           </a>
         </li>

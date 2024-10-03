@@ -9,19 +9,42 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import { StoreModule } from '@ngrx/store';
+import { Config, I18nTestingModule } from '@spartacus/core';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
+import { getConfiguratorReducers } from '../../../../core/state/reducers';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
+import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
 
-function createValue(code: string, name: string, isSelected: boolean) {
+function createValue(
+  code: string,
+  name: string,
+  isSelected: boolean,
+  withPrice?: boolean
+) {
   const value: Configurator.Value = {
     valueCode: code,
     valueDisplay: name,
     name: name,
     selected: isSelected,
+    valuePrice: withPrice
+      ? {
+          currencyIso: 'EUR',
+          value: 10,
+        }
+      : undefined,
   };
   return value;
 }
@@ -50,47 +73,70 @@ class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
-describe('ConfigAttributeDropDownComponent', () => {
+@Component({
+  selector: 'cx-configurator-show-more',
+  template: '',
+})
+class MockConfiguratorShowMoreComponent {
+  @Input() text: string;
+  @Input() textSize = 60;
+  @Input() productName: string;
+}
+
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+}
+
+let showRequiredErrorMessage: boolean;
+
+class MockConfigUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(showRequiredErrorMessage);
+  }
+}
+
+class MockConfig {
+  features = [{ productConfiguratorAttributeTypesV2: false }];
+}
+
+class MockConfiguratorAttributePriceChangeService {
+  getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
+    return of([]);
+  }
+}
+
+describe('ConfiguratorAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorAttributeDropDownComponent>;
+  let config: Config;
 
   const ownerKey = 'theOwnerKey';
-  const name = 'attributeName';
+  const name = 'group1@attribute_1_1';
   const groupId = 'theGroupId';
   const selectedValue = 'selectedValue';
 
-  const value1 = createValue('1', 'val1', true);
-  const value2 = createValue('2', 'val2', false);
-  const value3 = createValue('3', 'val3', false);
+  const value1 = createValue(
+    Configurator.RetractValueCode,
+    'Please select a value',
+    true,
+    true
+  );
+  const value2 = createValue('2', 'value_1_1', false);
+  const value3 = createValue('3', 'value_1_2', false);
 
   const values: Configurator.Value[] = [value1, value2, value3];
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeDropDownComponent,
-          MockFocusDirective,
-          MockConfiguratorAttributeQuantityComponent,
-          MockConfiguratorPriceComponent,
-        ],
-        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
-      })
-        .overrideComponent(ConfiguratorAttributeDropDownComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
-    })
-  );
+  function createComponentWithData(
+    isCartEntryOrGroupVisited: boolean = true
+  ): ConfiguratorAttributeDropDownComponent {
+    showRequiredErrorMessage = isCartEntryOrGroupVisited;
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeDropDownComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.attribute = {
+      key: name,
       name: name,
       label: name,
       attrCode: 444,
@@ -99,38 +145,169 @@ describe('ConfigAttributeDropDownComponent', () => {
       selectedSingleValue: selectedValue,
       quantity: 1,
       groupId: groupId,
+      required: true,
+      incomplete: true,
       values,
     };
     fixture.detectChanges();
-  });
+
+    config = TestBed.inject(Config);
+    (config.features ?? {}).productConfiguratorAttributeTypesV2 = false;
+    fixture.detectChanges();
+    return component;
+  }
+
+  beforeEach(waitForAsync(() => {
+    TestBed.overrideComponent(ConfiguratorAttributeDropDownComponent, {
+      set: {
+        providers: [
+          {
+            provide: ConfiguratorAttributePriceChangeService,
+            useClass: MockConfiguratorAttributePriceChangeService,
+          },
+        ],
+      },
+    });
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeDropDownComponent,
+        ConfiguratorAttributeInputFieldComponent,
+        ConfiguratorAttributeNumericInputFieldComponent,
+        MockFocusDirective,
+        MockConfiguratorAttributeQuantityComponent,
+        MockConfiguratorPriceComponent,
+        MockFeatureLevelDirective,
+        MockConfiguratorShowMoreComponent,
+      ],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+      ],
+      providers: [
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+        { provide: Config, useClass: MockConfig },
+      ],
+    })
+      .overrideComponent(ConfiguratorAttributeDropDownComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   it('should create', () => {
+    createComponentWithData();
     expect(component).toBeTruthy();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'select.cx-required-error-msg'
+    );
+  });
+
+  it('should render an empty component because showRequiredErrorMessage$ is `false`', () => {
+    createComponentWithData(false);
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'select.cx-required-error-msg'
+    );
+  });
+
+  it('should not render cx-value-label-pair div in case productConfiguratorAttributeTypesV2 feature flag is disabled', () => {
+    createComponentWithData();
+    (component.attribute.values ?? [{ description: '' }])[0].description =
+      'Here is a description at value level';
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-value-label-pair'
+    );
+  });
+
+  it('should render cx-value-label-pair div in case productConfiguratorAttributeTypesV2 feature flag is enabled', () => {
+    createComponentWithData();
+    (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-value-label-pair'
+    );
+  });
+
+  it('should not render description in case productConfiguratorAttributeTypesV2 feature flag is disabled', () => {
+    createComponentWithData();
+    (component.attribute.values ?? [{ description: '' }])[0].description =
+      'Here is a description at value level';
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-show-more'
+    );
+  });
+
+  it('should render description in case productConfiguratorAttributeTypesV2 feature flag is enabled', () => {
+    createComponentWithData();
+    (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
+    (component.attribute.values ?? [{ description: '' }])[0].description =
+      'Here is a description at value level';
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-show-more'
+    );
   });
 
   it('should set selectedSingleValue on init', () => {
+    createComponentWithData();
     expect(component.attributeDropDownForm.value).toEqual(selectedValue);
   });
 
-  it('should call emit of selectionChange onSelect', () => {
+  it('should call updateConfiguration on select', () => {
+    createComponentWithData();
     component.ownerKey = ownerKey;
-    spyOn(component.selectionChange, 'emit').and.callThrough();
+    spyOn(
+      component['configuratorCommonsService'],
+      'updateConfiguration'
+    ).and.callThrough();
     component.onSelect(component.attributeDropDownForm.value);
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        ownerKey: ownerKey,
-        changedAttribute: jasmine.objectContaining({
-          name: name,
-          uiType: Configurator.UiType.DROPDOWN,
-          groupId: groupId,
-          selectedSingleValue: component.attributeDropDownForm.value,
-        }),
-      })
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledWith(
+      ownerKey,
+      {
+        ...component.attribute,
+        selectedSingleValue: component.attributeDropDownForm.value,
+      },
+      Configurator.UpdateType.ATTRIBUTE
     );
   });
 
   describe('attribute level', () => {
-    it('should not display quantity and no price', () => {
+    beforeEach(() => {
+      createComponentWithData();
+    });
+
+    it('should not display quantity and price in case attribute does not carry quantity', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_NO_QTY;
       fixture.detectChanges();
@@ -142,7 +319,31 @@ describe('ConfigAttributeDropDownComponent', () => {
       );
     });
 
-    it('should display quantity and price', () => {
+    it('should display quantity and no price in case value price not present', () => {
+      component.attribute.quantity = 5;
+      component.attribute.attributePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '500.00$',
+        value: 500,
+      };
+      value1.selected = false;
+      value2.selected = true;
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-attribute-level-quantity-price cx-configurator-price'
+      );
+    });
+
+    it('should display quantity and price in case attribute carries quantity and selected value has price', () => {
       component.attribute.quantity = 5;
       component.attribute.attributePriceTotal = {
         currencyIso: '$',
@@ -150,18 +351,12 @@ describe('ConfigAttributeDropDownComponent', () => {
         value: 500,
       };
 
-      let value = component.attribute.values
-        ? component.attribute.values[0]
-        : undefined;
-      if (value) {
-        value.valuePrice = {
-          currencyIso: '$',
-          formattedValue: '$100.00',
-          value: 100,
-        };
-      } else {
-        fail('Value not available');
-      }
+      value2.selected = true;
+      value2.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
 
       fixture.detectChanges();
 
@@ -174,12 +369,16 @@ describe('ConfigAttributeDropDownComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'cx-configurator-price'
+        '.cx-attribute-level-quantity-price cx-configurator-price'
       );
     });
   });
 
   describe('value level', () => {
+    beforeEach(() => {
+      createComponentWithData();
+    });
+
     it('should not display quantity', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_NO_QTY;
@@ -192,18 +391,11 @@ describe('ConfigAttributeDropDownComponent', () => {
     });
 
     it('should display price formula', () => {
-      let value = component.attribute.values
-        ? component.attribute.values[0]
-        : undefined;
-      if (value) {
-        value.valuePrice = {
-          currencyIso: '$',
-          formattedValue: '$100.00',
-          value: 100,
-        };
-      } else {
-        fail('Value not available');
-      }
+      value1.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
 
       fixture.detectChanges();
 
@@ -215,7 +407,19 @@ describe('ConfigAttributeDropDownComponent', () => {
     });
   });
 
+  describe('getSelectedValueDescription', () => {
+    it('should return blank if no description provided at model level on any selected value', () => {
+      createComponentWithData();
+      component.attribute.values = [];
+      expect(component.getSelectedValueDescription()).toBe('');
+    });
+  });
+
   describe('Rendering for additional value', () => {
+    beforeEach(() => {
+      createComponentWithData();
+    });
+
     it('should provide input field for alpha numeric value ', () => {
       component.attribute.uiType =
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
@@ -244,6 +448,10 @@ describe('ConfigAttributeDropDownComponent', () => {
   });
 
   describe('Accessibility', () => {
+    beforeEach(() => {
+      createComponentWithData();
+    });
+
     it("should contain label element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -266,11 +474,16 @@ describe('ConfigAttributeDropDownComponent', () => {
         'form-control',
         0,
         'aria-describedby',
-        'cx-configurator--label--attributeName'
+        'cx-configurator--label--group1@attribute_1_1'
       );
     });
 
     it("should contain option elements with 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
+      value2.valuePrice = undefined;
+      value1.selected = false;
+      value2.selected = true;
+      value2.valuePrice = undefined;
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -287,18 +500,12 @@ describe('ConfigAttributeDropDownComponent', () => {
     });
 
     it("should contain option elements with 'aria-label' attribute for value with price that defines an accessible name to label the current element", () => {
-      let value = component.attribute.values
-        ? component.attribute.values[0]
-        : undefined;
-      if (value) {
-        value.valuePrice = {
-          currencyIso: '$',
-          formattedValue: '$100.00',
-          value: 100,
-        };
-      } else {
-        fail('Value not available');
-      }
+      value2.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -306,31 +513,24 @@ describe('ConfigAttributeDropDownComponent', () => {
         htmlElem,
         'option',
         undefined,
-        0,
+        1,
         'aria-label',
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           component.attribute.label +
           ' price:' +
-          value1.valuePrice?.formattedValue +
+          value2.valuePrice?.formattedValue +
           ' value:' +
-          value1.valueDisplay,
-        value1.valueDisplay
+          value2.valueDisplay,
+        value2.valueDisplay
       );
     });
 
     it("should contain option elements with 'aria-label' attribute for value with total price that defines an accessible name to label the current element", () => {
-      let value = component.attribute.values
-        ? component.attribute.values[0]
-        : undefined;
-      if (value) {
-        value.valuePriceTotal = {
-          currencyIso: '$',
-          formattedValue: '$100.00',
-          value: 100,
-        };
-      } else {
-        fail('Value not available');
-      }
+      value2.valuePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -338,15 +538,15 @@ describe('ConfigAttributeDropDownComponent', () => {
         htmlElem,
         'option',
         undefined,
-        0,
+        1,
         'aria-label',
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           component.attribute.label +
           ' price:' +
-          value1.valuePrice?.formattedValue +
+          value2.valuePrice?.formattedValue +
           ' value:' +
-          value1.valueDisplay,
-        value1.valueDisplay
+          value2.valueDisplay,
+        value2.valueDisplay
       );
     });
   });

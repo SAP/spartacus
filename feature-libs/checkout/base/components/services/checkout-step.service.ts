@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -77,7 +83,7 @@ export class CheckoutStepService {
   resetSteps(): void {
     this.allSteps = (this.checkoutConfig.checkout?.steps ?? [])
       .filter((step) => !step.disabled)
-      .map((x) => Object.assign({}, x));
+      .map((checkoutStep) => Object.assign({}, checkoutStep));
     this.steps$.next(this.allSteps);
   }
 

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Type } from '@angular/core';
 import { GlobalMessageType, Translatable } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -6,7 +12,7 @@ import { BaseMessageComponent } from './base-message.component';
 
 export class MessageData<
   O extends MessageEventData = MessageEventData,
-  T extends BaseMessageComponent = BaseMessageComponent
+  T extends BaseMessageComponent = BaseMessageComponent,
 > {
   /**
    * The message contains the `translatable` message that is rendered

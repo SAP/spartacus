@@ -8,16 +8,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.8.0
+        uses: styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@master
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
-          node-version: '16'
-      - name: Yarn
-        run: yarn
+          node-version: '20'
+      - name: NPM
+        run: npm i
       - name: Check configurations
-        run: yarn config:check
+        run: npm run config:check
         env:
           FORCE_COLOR: 2 # Support colors from chalk

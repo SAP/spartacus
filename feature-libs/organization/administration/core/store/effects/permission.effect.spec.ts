@@ -4,10 +4,11 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import {
-  normalizeHttpError,
+  LoggerService,
   OccConfig,
-  SearchConfig,
   OrderApprovalPermissionType,
+  SearchConfig,
+  normalizeHttpError,
 } from '@spartacus/core';
 import {
   OrganizationActions,
@@ -28,7 +29,7 @@ const httpErrorResponse = new HttpErrorResponse({
   statusText: 'Unknown error',
   url: '/xxx',
 });
-const error = normalizeHttpError(httpErrorResponse);
+
 const permissionCode = 'testCode';
 const userId = 'testUser';
 const permission: Permission = {
@@ -56,6 +57,16 @@ class MockPermissionConnector {
   update = createSpy().and.returnValue(of(permission));
   getTypes = createSpy().and.returnValue(of(permissionTypes));
 }
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
+const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
 
 describe('Permission Effects', () => {
   let actions$: Observable<PermissionActions.PermissionAction>;
@@ -90,6 +101,7 @@ describe('Permission Effects', () => {
       providers: [
         { provide: PermissionConnector, useClass: MockPermissionConnector },
         { provide: OccConfig, useValue: mockOccModuleConfig },
+        { provide: LoggerService, useClass: MockLoggerService },
         fromEffects.PermissionEffects,
         provideMockActions(() => actions$),
       ],
@@ -121,7 +133,7 @@ describe('Permission Effects', () => {
 
     it('should return LoadPermissionFail action if permission not updated', () => {
       permissionConnector.get = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new PermissionActions.LoadPermission({
         userId,
@@ -163,7 +175,7 @@ describe('Permission Effects', () => {
 
     it('should return LoadPermissionsFail action if permissions not loaded', () => {
       permissionConnector.getList = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new PermissionActions.LoadPermissions({ userId, params });
       const completion = new PermissionActions.LoadPermissionsFail({
@@ -200,7 +212,7 @@ describe('Permission Effects', () => {
 
     it('should return CreatePermissionFail action if permission not created', () => {
       permissionConnector.create = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new PermissionActions.CreatePermission({
         userId,
@@ -246,7 +258,7 @@ describe('Permission Effects', () => {
 
     it('should return UpdatePermissionFail action if permission not created', () => {
       permissionConnector.update = createSpy('update').and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new PermissionActions.UpdatePermission({
         userId,
@@ -285,7 +297,7 @@ describe('Permission Effects', () => {
 
     it('should return LoadPermissionTypesFail action if permission types are not updated', () => {
       permissionConnector.getTypes = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new PermissionActions.LoadPermissionTypes();
       const completion = new PermissionActions.LoadPermissionTypesFail({

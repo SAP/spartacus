@@ -1,8 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ArrowFunction,
   CallExpression,
   Identifier,
   ImportDeclaration,
+  ImportSpecifier,
   PropertyAccessExpression,
   SourceFile,
   ts as tsMorph,
@@ -10,6 +17,11 @@ import {
 import { CORE_SPARTACUS_SCOPES, SPARTACUS_SCOPE } from '../libs-constants';
 import { getSpartacusProviders } from './config-utils';
 import { Import } from './new-module-utils';
+
+export interface ImportSymbol {
+  node: string;
+  importPath: string;
+}
 
 /**
  * Checks if the provided import is a Spartacus library.
@@ -173,6 +185,42 @@ export function staticImportExists(
   }
 
   return false;
+}
+
+/**
+ * Removes the imports in the given source file.
+ */
+export function removeImports(
+  sourceFile: SourceFile,
+  symbolsToRemove: ImportSymbol[]
+): ImportSpecifier[] {
+  const removedImports: ImportSpecifier[] = [];
+
+  sourceFile.getImportDeclarations().forEach((id) => {
+    id
+      .getImportClause()
+      ?.getNamedImports()
+      .forEach((namedImport) => {
+        const importName = namedImport.getName();
+        const symbolToRemove = symbolsToRemove.find(
+          (symbol) =>
+            symbol.node === importName &&
+            symbol.importPath === id.getModuleSpecifierValue()
+        );
+
+        if (symbolToRemove) {
+          if ((id.getImportClause()?.getNamedImports()?.length || 0) > 1) {
+            namedImport.remove();
+          } else {
+            id.remove();
+          }
+
+          removedImports.push(namedImport);
+        }
+      });
+  });
+
+  return removedImports;
 }
 
 /**

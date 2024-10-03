@@ -19,7 +19,7 @@ import { ReplenishmentOrderHistoryService } from './replenishment-order-history.
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockReplenishmentOrderCode = 'test-repl-code';
-const mockError = 'test-error';
+const mockError = new Error('test-error');
 
 const mockReplenishmentOrder: ReplenishmentOrder = {
   active: true,
@@ -90,7 +90,7 @@ describe('UserReplenishmentOrderService', () => {
 
     it('should NOT be able to load replenishment order details when user is anonymous', () => {
       spyOn(userIdService, 'takeUserId').and.callFake(() => {
-        return throwError('Error');
+        return throwError(() => 'Error');
       });
 
       userReplenishmentOrderService.loadReplenishmentOrderDetails(
@@ -191,7 +191,7 @@ describe('UserReplenishmentOrderService', () => {
 
     it('should NOT be able to load replenishment order details when user is anonymous', () => {
       spyOn(userIdService, 'takeUserId').and.callFake(() => {
-        return throwError('Error');
+        return throwError(() => 'Error');
       });
 
       userReplenishmentOrderService.cancelReplenishmentOrder(

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { OutletPosition } from '../../../cms-structure/outlet/outlet.model';
 
 export interface LaunchConfig {
@@ -90,4 +96,7 @@ export const enum LAUNCH_CALLER {
   ANONYMOUS_CONSENT = 'ANONYMOUS_CONSENT',
   REPLENISHMENT_ORDER = 'REPLENISHMENT_ORDER',
   PLACE_ORDER_SPINNER = 'PLACE_ORDER_SPINNER',
+  SUGGESTED_ADDRESSES = 'SUGGESTED_ADDRESSES',
+  COUPON = 'COUPON',
+  STOCK_NOTIFICATION = 'STOCK_NOTIFICATION',
 }

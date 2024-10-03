@@ -2,6 +2,14 @@ import { HttpErrorModel } from '@spartacus/core';
 import { normalizeHttpError } from './normalize-http-error';
 import { isJaloError } from './occ-http-error-handlers';
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('occ-http-error-handlers', () => {
   describe('when the error is jalo error', () => {
     it('should return true', () => {
@@ -17,7 +25,7 @@ describe('occ-http-error-handlers', () => {
       const error: Partial<HttpErrorModel> = {
         details: [{ type: 'not a jalo error' }],
       };
-      const result = normalizeHttpError(error);
+      const result = normalizeHttpError(error, new MockLoggerService());
       expect(result).toBeFalsy();
     });
   });

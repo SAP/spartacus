@@ -7,6 +7,8 @@ import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 import { CSAgentLoginFormComponent } from './csagent-login-form.component';
 
 describe('CSAgentLoginFormComponent', () => {
@@ -19,19 +21,21 @@ describe('CSAgentLoginFormComponent', () => {
   const validUserId = 'asagent';
   const validPassword = 'testPass123!';
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          PasswordVisibilityToggleModule,
-        ],
-        declarations: [CSAgentLoginFormComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        PasswordVisibilityToggleModule,
+      ],
+      declarations: [
+        CSAgentLoginFormComponent,
+        DotSpinnerComponent,
+        MockFeatureDirective,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CSAgentLoginFormComponent);
@@ -88,7 +92,7 @@ describe('CSAgentLoginFormComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(el.query(By.css('div.spinner'))).toBeTruthy();
+    expect(el.query(By.css('cx-dot-spinner'))).toBeTruthy();
     expect(el.query(By.css('form'))).toBeFalsy();
   });
   it('should not display spinner when login is not running', () => {

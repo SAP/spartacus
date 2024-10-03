@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, NgModuleRef } from '@angular/core';
-import { defer, forkJoin, Observable, of, throwError } from 'rxjs';
+import { EMPTY, Observable, defer, forkJoin, of, throwError } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
 import { CmsConfig, FeatureModuleConfig } from '../cms/config/cms-config';
 import { LazyModulesService } from './lazy-modules.service';
@@ -40,7 +46,8 @@ export class FeatureModulesService {
       if (!this.features.has(featureName)) {
         if (!this.isConfigured(featureName)) {
           return throwError(
-            new Error('No module defined for Feature Module ' + featureName)
+            () =>
+              new Error('No module defined for Feature Module ' + featureName)
           );
         }
 
@@ -61,7 +68,7 @@ export class FeatureModulesService {
         );
       }
 
-      return this.features.get(featureName);
+      return this.features.get(featureName) ?? EMPTY;
     });
   }
 

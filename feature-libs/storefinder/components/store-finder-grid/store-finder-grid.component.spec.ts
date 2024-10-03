@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoutingService, TranslationService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { StoreFinderGridComponent } from './store-finder-grid.component';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { EMPTY, Observable } from 'rxjs';
+import { StoreFinderGridComponent } from './store-finder-grid.component';
 import createSpy = jasmine.createSpy;
 
 const countryIsoCode = 'CA';
@@ -23,7 +24,7 @@ class MockStoreFinderListItemComponent {
 
 class MockTranslationService implements Partial<TranslationService> {
   translate(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -35,7 +36,7 @@ const mockActivatedRoute = {
 
 class MockStoreFinderService implements Partial<StoreFinderService> {
   getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
-    of()
+    EMPTY
   );
   getStoresLoading = createSpy('getStoresLoading');
   callFindStoresAction = createSpy('callFindStoresAction');
@@ -51,23 +52,22 @@ describe('StoreFinderGridComponent', () => {
   let storeFinderService: StoreFinderService;
   let route: ActivatedRoute;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, SpinnerModule],
-        declarations: [
-          StoreFinderGridComponent,
-          MockStoreFinderListItemComponent,
-        ],
-        providers: [
-          { provide: StoreFinderService, useClass: MockStoreFinderService },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          { provide: RoutingService, useValue: mockRoutingService },
-          { provide: TranslationService, useClass: MockTranslationService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, SpinnerModule],
+      declarations: [
+        StoreFinderGridComponent,
+        MockStoreFinderListItemComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: StoreFinderService, useClass: MockStoreFinderService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: RoutingService, useValue: mockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderGridComponent);

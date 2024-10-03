@@ -1,21 +1,27 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
+  inject,
   isDevMode,
   OnInit,
 } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
-import {
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
-} from '../../../core';
+import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
 @Component({
@@ -27,31 +33,44 @@ export class ConfiguratorAttributeHeaderComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
-  @Input() attribute: Configurator.Attribute;
-  @Input() owner: CommonConfigurator.Owner;
-  @Input() groupId: string;
-  @Input() groupType: Configurator.GroupType;
+  attribute: Configurator.Attribute;
+  owner: CommonConfigurator.Owner;
+  groupId: string;
+  groupType: Configurator.GroupType;
+  expMode: boolean;
+  isNavigationToGroupEnabled: boolean;
 
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
+
+  protected logger = inject(LoggerService);
 
   constructor(
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configuratorUiSettings: ConfiguratorUISettingsConfig
+    protected configuratorUiSettings: ConfiguratorUISettingsConfig,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
   ) {
     super();
+    this.attribute = attributeComponentContext.attribute;
+    this.owner = attributeComponentContext.owner;
+    this.groupId = attributeComponentContext.group.id;
+    this.groupType =
+      attributeComponentContext.group.groupType ??
+      Configurator.GroupType.ATTRIBUTE_GROUP;
+    this.expMode = attributeComponentContext.expMode;
+    this.isNavigationToGroupEnabled =
+      attributeComponentContext.isNavigationToGroupEnabled ?? false;
   }
+
   ngOnInit(): void {
     /**
      * Show message that indicates that attribute is required in case attribute has a domain of values
      */
     this.showRequiredMessageForDomainAttribute$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(
-        map((result) => (result ? this.isRequiredAttributeWithDomain() : false))
-      );
+      .pipe(map((result) => result && this.needsRequiredAttributeErrorMsg()));
   }
 
   /**
@@ -66,7 +85,6 @@ export class ConfiguratorAttributeHeaderComponent
     } else if (this.isMultiSelection) {
       return 'configurator.attribute.multiSelectRequiredMessage';
     } else {
-      //input attribute types
       return 'configurator.attribute.singleSelectRequiredMessage';
     }
   }
@@ -88,9 +106,7 @@ export class ConfiguratorAttributeHeaderComponent
       case Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT:
       case Configurator.UiType.RADIOBUTTON_PRODUCT:
       case Configurator.UiType.CHECKBOX:
-      case Configurator.UiType.DROPDOWN:
       case Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT:
-      case Configurator.UiType.DROPDOWN_PRODUCT:
       case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
         return true;
       }
@@ -98,15 +114,30 @@ export class ConfiguratorAttributeHeaderComponent
     return false;
   }
 
-  protected isRequiredAttributeWithDomain(): boolean {
-    const uiType = this.attribute.uiType;
+  protected isAttributeWithoutErrorMsg(
+    uiType: Configurator.UiType | undefined
+  ): boolean {
+    switch (uiType) {
+      case Configurator.UiType.NOT_IMPLEMENTED:
+      case Configurator.UiType.STRING:
+      case Configurator.UiType.NUMERIC:
+      case Configurator.UiType.CHECKBOX:
+      case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.DROPDOWN_PRODUCT: {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  protected needsRequiredAttributeErrorMsg(): boolean {
+    return this.isRequiredAttributeWithoutErrorMsg();
+  }
+
+  protected isRequiredAttributeWithoutErrorMsg(): boolean {
     return (
-      (this.attribute.required &&
-        this.attribute.incomplete &&
-        uiType !== Configurator.UiType.NOT_IMPLEMENTED &&
-        uiType !== Configurator.UiType.STRING &&
-        uiType !== Configurator.UiType.NUMERIC) ??
-      false
+      this.isRequiredErrorMsg(this.attribute) &&
+      this.isAttributeWithoutErrorMsg(this.attribute.uiType)
     );
   }
 
@@ -123,6 +154,15 @@ export class ConfiguratorAttributeHeaderComponent
   }
 
   /**
+   * Verifies whether the conflict resolution is active.
+   *
+   * @return {boolean} - 'true' if the conflict resolution is active otherwise 'false'
+   */
+  isConflictResolutionActive(): boolean {
+    return this.isAttributeGroup() && this.isNavigationToGroupEnabled;
+  }
+
+  /**
    * Retrieves a certain conflict link key depending on the current group type for translation.
    *
    * @return {string} - the conflict link key
@@ -131,8 +171,8 @@ export class ConfiguratorAttributeHeaderComponent
     return this.groupType === Configurator.GroupType.CONFLICT_GROUP
       ? 'configurator.conflict.viewConfigurationDetails'
       : this.isNavigationToConflictEnabled()
-      ? 'configurator.conflict.viewConflictDetails'
-      : 'configurator.conflict.conflictDetected';
+        ? 'configurator.conflict.viewConflictDetails'
+        : 'configurator.conflict.conflictDetected';
   }
 
   /**
@@ -175,7 +215,9 @@ export class ConfiguratorAttributeHeaderComponent
           this.focusValue(this.attribute);
           this.scrollToAttribute(this.attribute.name);
         } else {
-          this.logWarning('Attribute was not found in any conflict group');
+          this.logError(
+            'Attribute was not found in any conflict group. Note that for this navigation, commerce 22.05 or later is required. Consider to disable setting "enableNavigationToConflict"'
+          );
         }
       });
   }
@@ -208,9 +250,9 @@ export class ConfiguratorAttributeHeaderComponent
       })?.id;
   }
 
-  protected logWarning(text: string): void {
+  protected logError(text: string): void {
     if (isDevMode()) {
-      console.warn(text);
+      this.logger.error(text);
     }
   }
 
@@ -244,13 +286,30 @@ export class ConfiguratorAttributeHeaderComponent
       )
       .subscribe(callback);
   }
+
   /**
-   * @returns true only if navigation to conflict groups is enabled.
+   * Verifies whether the navigation to a conflict group is enabled.
+   *
+   * @returns {boolean} true only if navigation to conflict groups is enabled.
    */
   isNavigationToConflictEnabled(): boolean {
     return (
-      this.configuratorUiSettings.productConfigurator
-        ?.enableNavigationToConflict ?? false
+      (this.isNavigationToGroupEnabled &&
+        this.configuratorUISettingsConfig.productConfigurator
+          ?.enableNavigationToConflict) ??
+      false
+    );
+  }
+
+  /**
+   * Retrieves the length of the attribute description.
+   *
+   * @returns - the length of the attribute description
+   */
+  getAttributeDescriptionLength(): number {
+    return (
+      this.configuratorUISettingsConfig.productConfigurator?.descriptions
+        ?.attributeDescriptionLength ?? 100
     );
   }
 }

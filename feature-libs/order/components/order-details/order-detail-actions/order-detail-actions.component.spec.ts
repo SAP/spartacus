@@ -2,11 +2,7 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  FeaturesConfig,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
@@ -32,29 +28,27 @@ describe('OrderDetailActionsComponent', () => {
   let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      mockOrderDetailsService = <OrderDetailsService>{
-        getOrderDetails() {
-          return of(mockOrder);
-        },
-      };
+  beforeEach(waitForAsync(() => {
+    mockOrderDetailsService = <OrderDetailsService>{
+      getOrderDetails() {
+        return of(mockOrder);
+      },
+    };
 
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule, FeaturesConfigModule],
-        providers: [
-          { provide: OrderDetailsService, useValue: mockOrderDetailsService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { cancellationAndReturn: true },
-            },
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      providers: [
+        { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { cancellationAndReturn: true },
           },
-        ],
-        declarations: [OrderDetailActionsComponent, MockUrlPipe],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+      declarations: [OrderDetailActionsComponent, MockUrlPipe],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailActionsComponent);
@@ -80,7 +74,7 @@ describe('OrderDetailActionsComponent', () => {
 
   it('should display return button when order is returnable', () => {
     fixture.detectChanges();
-    const element: DebugElement = el.queryAll(By.css('a.btn-action'))[0];
+    const element: DebugElement = el.queryAll(By.css('a.btn-secondary'))[0];
 
     expect(element.nativeElement.textContent).toContain(
       'orderDetails.cancellationAndReturn.returnAction'
@@ -91,7 +85,7 @@ describe('OrderDetailActionsComponent', () => {
     mockOrder.returnable = false;
 
     fixture.detectChanges();
-    const element: DebugElement = el.queryAll(By.css('a.btn-action'))[0];
+    const element: DebugElement = el.queryAll(By.css('a.btn-secondary'))[0];
 
     expect(element).toBeUndefined();
   });

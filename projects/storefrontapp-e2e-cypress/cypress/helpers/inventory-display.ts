@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { visitProductPage } from '../helpers/coupons/cart-coupon';
 import * as sampleData from '../sample-data/inventory-display';
 

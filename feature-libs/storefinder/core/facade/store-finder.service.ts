@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { Action, select, Store } from '@ngrx/store';
@@ -10,9 +16,9 @@ import {
   SearchConfig,
   WindowRef,
 } from '@spartacus/core';
+import { StoreEntities } from '@spartacus/storefinder/root';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
-import { StoreEntities } from '../model';
 import { StoreFinderActions } from '../store/actions/index';
 import { StoreFinderSelectors } from '../store/selectors/index';
 import { StateWithStoreFinder } from '../store/store-finder-state';
@@ -50,6 +56,7 @@ export class StoreFinderService implements OnDestroy {
 
   /**
    * Returns observable for store's entities
+   * CXSPA-4871: The return value of this method signature is wrong, should be StoreFinderSearchPage.
    */
   getFindStoresEntities(): Observable<StoreEntities> {
     return this.store.pipe(
@@ -234,5 +241,17 @@ export class StoreFinderService implements OnDestroy {
    */
   getStoreLongitude(location: PointOfService): number | undefined {
     return location?.geoPoint?.longitude;
+  }
+
+  /**
+   * Generates a link leading to the directions of the given store location
+   * @param location store location
+   * @returns URL for directions to the store
+   */
+  getDirections(location: PointOfService): string {
+    const url = 'https://www.google.com/maps/dir/Current+Location/';
+    const latitude = this.getStoreLatitude(location);
+    const longitude = this.getStoreLongitude(location);
+    return url + latitude + ',' + longitude;
   }
 }

@@ -1,5 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Permission } from '@spartacus/organization/administration/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
@@ -26,25 +36,25 @@ export class PermissionFormService
    * based on the for approval permission type.
    */
   protected build() {
-    const form = new FormGroup({});
+    const form = new UntypedFormGroup({});
     form.setControl(
       'code',
-      new FormControl('', [
+      new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.noSpecialCharacters,
       ])
     );
     form.setControl(
       'orgUnit',
-      new FormGroup({
-        uid: new FormControl(undefined, Validators.required),
+      new UntypedFormGroup({
+        uid: new UntypedFormControl(undefined, Validators.required),
       })
     );
 
     form.setControl(
       'orderApprovalPermissionType',
-      new FormGroup({
-        code: new FormControl(undefined, Validators.required),
+      new UntypedFormGroup({
+        code: new UntypedFormControl(undefined, Validators.required),
       })
     );
 
@@ -78,7 +88,7 @@ export class PermissionFormService
   /**
    * Amends the form structure based on the `PermissionType`.
    */
-  protected amend(form: FormGroup, code: PermissionType) {
+  protected amend(form: UntypedFormGroup, code: PermissionType) {
     if (code === PermissionType.EXCEEDED) {
       form.removeControl('periodRange');
       form.removeControl('currency');
@@ -89,13 +99,16 @@ export class PermissionFormService
       if (!form.get('currency')) {
         form.setControl(
           'currency',
-          new FormGroup({
-            isocode: new FormControl(undefined, Validators.required),
+          new UntypedFormGroup({
+            isocode: new UntypedFormControl(undefined, Validators.required),
           })
         );
       }
       if (!form.get('threshold')) {
-        form.setControl('threshold', new FormControl('', Validators.required));
+        form.setControl(
+          'threshold',
+          new UntypedFormControl('', Validators.required)
+        );
       }
     }
 
@@ -107,7 +120,7 @@ export class PermissionFormService
       if (!form.get('periodRange')) {
         form.setControl(
           'periodRange',
-          new FormControl('', Validators.required)
+          new UntypedFormControl('', Validators.required)
         );
       }
     }

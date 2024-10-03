@@ -11,12 +11,12 @@ import {
 import {
   CustomerCouponSearchResult,
   CustomerCouponService,
-  FeaturesConfigModule,
   I18nTestingModule,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
-import { of } from 'rxjs';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { EMPTY, of } from 'rxjs';
 import { CartCouponComponent } from './cart-coupon.component';
 
 @Component({
@@ -70,42 +70,41 @@ describe('CartCouponComponent', () => {
 
   const appliedVouchers: Voucher[] = [{ code: 'CustomerCoupon1' }];
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          ReactiveFormsModule,
-          FeaturesConfigModule,
-          FormErrorsModule,
-        ],
-        declarations: [CartCouponComponent, MockAppliedCouponsComponent],
-        providers: [
-          { provide: ActiveCartFacade, useValue: mockActiveCartService },
-          { provide: CartVoucherFacade, useValue: mockCartVoucherService },
-          {
-            provide: CustomerCouponService,
-            useValue: mockCustomerCouponService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
+      declarations: [
+        CartCouponComponent,
+        MockAppliedCouponsComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: ActiveCartFacade, useValue: mockActiveCartService },
+        { provide: CartVoucherFacade, useValue: mockCartVoucherService },
+        {
+          provide: CustomerCouponService,
+          useValue: mockCustomerCouponService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartCouponComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    mockActiveCartService.getActive.and.returnValue(of<Cart>({ code: '123' }));
-    mockActiveCartService.getActiveCartId.and.returnValue(of<string>('123'));
+    mockActiveCartService.getActive.and.returnValue(
+      of({ code: '123' } as Cart)
+    );
+    mockActiveCartService.getActiveCartId.and.returnValue(of('123'));
     mockActiveCartService.isStable.and.returnValue(of(true));
-    mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of());
-    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(of());
+    mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(EMPTY);
+    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(EMPTY);
     mockCartVoucherService.addVoucher.and.stub();
     mockCartVoucherService.resetAddVoucherProcessingState.and.stub();
     mockCartVoucherService.resetAddVoucherProcessingState.calls.reset();
-    mockCartVoucherService.getAddVoucherResultError.and.returnValue(of());
+    mockCartVoucherService.getAddVoucherResultError.and.returnValue(EMPTY);
     mockCustomerCouponService.loadCustomerCoupons.and.stub();
     mockCustomerCouponService.getCustomerCoupons.and.returnValue(of({}));
   });
@@ -205,7 +204,7 @@ describe('CartCouponComponent', () => {
 
   it('should not show applied customer coupon', () => {
     mockActiveCartService.getActive.and.returnValue(
-      of<Cart>({ appliedVouchers: appliedVouchers })
+      of({ appliedVouchers: appliedVouchers } as Cart)
     );
     mockCustomerCouponService.getCustomerCoupons.and.returnValue(
       of(couponsSearchResult)

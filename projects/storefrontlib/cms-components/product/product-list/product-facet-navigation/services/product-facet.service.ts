@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import {
@@ -8,7 +14,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, pluck, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { ProductListComponentService } from '../../container/product-list-component.service';
 import { FacetList } from '../facet.model';
 
@@ -26,7 +32,7 @@ export class ProductFacetService {
 
   protected readonly routeState$ = this.routing
     .getRouterState()
-    .pipe(pluck('state'));
+    .pipe(map((routerState) => routerState.state));
 
   /**
    * Returns the search results for the current page.
@@ -57,7 +63,7 @@ export class ProductFacetService {
         ({
           facets: result.facets,
           activeFacets: result.breadcrumbs,
-        } as FacetList)
+        }) as FacetList
     )
   );
 

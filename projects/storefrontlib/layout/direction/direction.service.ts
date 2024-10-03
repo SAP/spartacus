@@ -1,10 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   ConfigInitializerService,
   LanguageService,
   WindowRef,
 } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import { lastValueFrom, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { DirectionConfig } from './config/direction.config';
 import { Direction, DirectionMode } from './config/direction.model';
@@ -38,9 +44,8 @@ export class DirectionService implements OnDestroy {
    * Initializes the layout direction for the storefront.
    */
   initialize(): Promise<any> {
-    return this.configInit
-      .getStable('direction')
-      .pipe(
+    return lastValueFrom(
+      this.configInit.getStable('direction').pipe(
         tap((config: DirectionConfig) => {
           this.config = config?.direction;
           if (this.config?.detect) {
@@ -53,7 +58,7 @@ export class DirectionService implements OnDestroy {
           }
         })
       )
-      .toPromise();
+    );
   }
 
   /**

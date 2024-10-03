@@ -11,9 +11,8 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { cold } from 'jasmine-marbles';
+import { cold, getTestScheduler } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { TestScheduler } from 'rxjs/testing';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -55,7 +54,7 @@ const groups: Configurator.Group = {
   subGroups: [],
 };
 
-const configWithoutGroups: Configurator.Configuration = {
+const configWithSingleGroup: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
     'CONFIG_ID',
     ConfiguratorModelUtils.createOwner(
@@ -104,42 +103,40 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
-  beforeEach(
-    waitForAsync(() => {
-      routerStateObservable = of(ConfigurationTestData.mockRouterState);
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          ConfiguratorPreviousNextButtonsComponent,
-          MockFocusDirective,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    routerStateObservable = of(ConfigurationTestData.mockRouterState);
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        ConfiguratorPreviousNextButtonsComponent,
+        MockFocusDirective,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
@@ -170,9 +167,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
-  it("should not display 'previous' & 'next' buttons", () => {
+  it("should not display 'previous' & 'next' buttons in case configuration contains one group", () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(configWithoutGroups)
+      of(configWithSingleGroup)
     );
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
@@ -186,7 +183,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     );
     fixture.detectChanges();
     const prevBtn = fixture.debugElement.query(
-      By.css('.btn-action')
+      By.css('.cx-previous')
     ).nativeElement;
     expect(prevBtn.disabled).toBe(true);
   });
@@ -197,7 +194,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     );
     fixture.detectChanges();
     const prevBtn = fixture.debugElement.query(
-      By.css('.btn-action')
+      By.css('.cx-previous')
     ).nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
@@ -208,7 +205,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     );
     fixture.detectChanges();
     const lastBtn = fixture.debugElement.query(
-      By.css('.btn-secondary')
+      By.css('.cx-next')
     ).nativeElement;
     expect(lastBtn.disabled).toBe(true);
   });
@@ -219,7 +216,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     );
     fixture.detectChanges();
     const prevBtn = fixture.debugElement.query(
-      By.css('.btn-secondary')
+      By.css('.cx-next')
     ).nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
@@ -311,12 +308,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should call focusFirstAttribute', () => {
-    const testScheduler = new TestScheduler((actual, expected) => {
-      expect(actual).toEqual(expected);
-    });
     //we need to run the test in a test scheduler
     //because of the delay() in method focusFirstAttribute
-    testScheduler.run(() => {
+    getTestScheduler().run(({ cold, flush }) => {
       const configurationLoading = cold('-a-b', {
         a: true,
         b: false,
@@ -326,10 +320,11 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         'isConfigurationLoading'
       ).and.returnValue(configurationLoading);
       classUnderTest['focusFirstAttribute']();
+      flush();
+      expect(
+        configuratorStorefrontUtilsService.focusFirstAttribute
+      ).toHaveBeenCalledTimes(1);
     });
-    expect(
-      configuratorStorefrontUtilsService.focusFirstAttribute
-    ).toHaveBeenCalledTimes(1);
   });
 
   describe('Accessibility', () => {
@@ -338,7 +333,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         expect,
         htmlElem,
         'button',
-        'btn-action',
+        'cx-previous',
         0,
         'aria-label',
         'configurator.a11y.previous',
@@ -351,7 +346,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         expect,
         htmlElem,
         'button',
-        'btn-secondary',
+        'cx-next',
         0,
         'aria-label',
         'configurator.a11y.next',

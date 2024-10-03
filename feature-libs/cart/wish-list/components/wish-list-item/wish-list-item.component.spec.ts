@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
+  Directive,
   Injector,
   Input,
   Pipe,
@@ -71,29 +72,35 @@ const mockCartEntry: OrderEntry = {
   },
 };
 
+@Directive({
+  selector: '[cxAtMessage]',
+})
+class MockAtMessageDirective {
+  @Input() cxAtMessage: string | string[] | undefined;
+}
+
 describe('WishListItemComponent', () => {
   let component: WishListItemComponent;
   let fixture: ComponentFixture<WishListItemComponent>;
   let el: DebugElement;
   let componentInjector: Injector;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [
-          WishListItemComponent,
-          MockPictureComponent,
-          MockAddToCartComponent,
-          MockUrlPipe,
-        ],
-      })
-        .overrideComponent(WishListItemComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [
+        WishListItemComponent,
+        MockPictureComponent,
+        MockAddToCartComponent,
+        MockUrlPipe,
+        MockAtMessageDirective,
+      ],
     })
-  );
+      .overrideComponent(WishListItemComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WishListItemComponent);

@@ -1,13 +1,36 @@
-<a
-  *ngFor="let item of pages"
-  [class]="item.type"
-  [class.disabled]="isInactive(item)"
-  [class.current]="isCurrent(item)"
-  [routerLink]="pageRoute"
-  [queryParams]="getQueryParams(item)"
-  [tabIndex]="isInactive(item) ? -1 : 0"
-  (click)="pageChange(item)"
-  [attr.aria-label]="getAriaLabel(item.label, item.type)"
+<!-- TODO: (CXSPA-7289) - Remove feature flag next major release -->
+<ng-container *cxFeature="'a11ySemanticPaginationLabel'"
+  ><a
+    *ngFor="let item of pages"
+    [class]="item.type"
+    [class.disabled]="isInactive(item)"
+    [class.current]="isCurrent(item)"
+    [routerLink]="pageRoute"
+    [queryParams]="getQueryParams(item)"
+    [tabIndex]="isInactive(item) ? -1 : 0"
+    [attr.aria-current]="isCurrent(item)"
+    [attr.aria-disabled]="isInactive(item)"
+    (click)="pageChange(item)"
+    [attr.aria-label]="getAriaLabel$(item) | async"
+    [attr.title]="getAriaLabel$(item) | async"
+  >
+    {{ item.label }}
+  </a></ng-container
 >
-  {{ item.label }}
-</a>
+<ng-container *cxFeature="'!a11ySemanticPaginationLabel'"
+  ><a
+    *ngFor="let item of pages"
+    [class]="item.type"
+    [class.disabled]="isInactive(item)"
+    [class.current]="isCurrent(item)"
+    [routerLink]="pageRoute"
+    [queryParams]="getQueryParams(item)"
+    [tabIndex]="isInactive(item) ? -1 : 0"
+    [attr.aria-current]="isCurrent(item)"
+    [attr.aria-disabled]="isInactive(item)"
+    (click)="pageChange(item)"
+    [attr.aria-label]="getAriaLabel(item.label, item.type)"
+  >
+    {{ item.label }}
+  </a></ng-container
+>

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   EventService,
@@ -6,7 +12,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { defer, merge, Observable, of } from 'rxjs';
-import { filter, mapTo } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import {
   ComponentCreateEvent,
   ComponentDestroyEvent,
@@ -24,6 +30,10 @@ export class ProductIntroComponent {
 
   /**
    * Observable that checks the reviews component availability on the page.
+   *
+   * @deprecated This observable controlled whether we should show reviews based
+   * on the review component's existence. Instead, we are now using the "product.averageRating"
+   * to check whether reviews should exist. This observable with therefore be removed.
    */
   areReviewsAvailable$: Observable<boolean> = merge(
     // Check if reviews component is already defined:
@@ -32,11 +42,11 @@ export class ProductIntroComponent {
     // Observe EventService for reviews availability:
     this.eventService.get(ComponentCreateEvent).pipe(
       filter((event) => event.id === this.reviewsComponentId),
-      mapTo(true)
+      map(() => true)
     ),
     this.eventService.get(ComponentDestroyEvent).pipe(
       filter((event) => event.id === this.reviewsComponentId),
-      mapTo(false)
+      map(() => false)
     )
   );
 

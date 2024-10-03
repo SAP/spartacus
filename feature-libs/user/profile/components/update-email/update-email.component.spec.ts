@@ -4,7 +4,11 @@ import {
   DebugElement,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
@@ -13,6 +17,7 @@ import {
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';
 import { UpdateEmailComponent } from './update-email.component';
@@ -26,10 +31,10 @@ class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
 class MockUpdateEmailService implements Partial<UpdateEmailComponentService> {
-  form: FormGroup = new FormGroup({
-    email: new FormControl(),
-    confirmEmail: new FormControl(),
-    password: new FormControl(),
+  form: UntypedFormGroup = new UntypedFormGroup({
+    email: new UntypedFormControl(),
+    confirmEmail: new UntypedFormControl(),
+    password: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
   save = createSpy().and.stub();
@@ -43,31 +48,33 @@ describe('UpdateEmailComponent', () => {
 
   let service: UpdateEmailComponentService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          RouterTestingModule,
-          UrlTestingModule,
-          PasswordVisibilityToggleModule,
-        ],
-        declarations: [UpdateEmailComponent, MockCxSpinnerComponent],
-        providers: [
-          {
-            provide: UpdateEmailComponentService,
-            useClass: MockUpdateEmailService,
-          },
-        ],
-      })
-        .overrideComponent(UpdateEmailComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        RouterTestingModule,
+        UrlTestingModule,
+        PasswordVisibilityToggleModule,
+      ],
+      declarations: [
+        UpdateEmailComponent,
+        MockCxSpinnerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        {
+          provide: UpdateEmailComponentService,
+          useClass: MockUpdateEmailService,
+        },
+      ],
     })
-  );
+      .overrideComponent(UpdateEmailComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateEmailComponent);

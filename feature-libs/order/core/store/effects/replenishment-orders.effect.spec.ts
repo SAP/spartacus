@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import { ReplenishmentOrderList } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -18,6 +18,14 @@ const mockUserReplenishmentOrders: ReplenishmentOrderList = {
   sorts: [],
 };
 
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
+
 describe('Replenishment Orders effect', () => {
   let userReplenishmentOrdersEffect: fromEffect.ReplenishmentOrdersEffect;
   let replenishmentOrderHistoryConnector: ReplenishmentOrderHistoryConnector;
@@ -30,6 +38,7 @@ describe('Replenishment Orders effect', () => {
         ReplenishmentOrderHistoryConnector,
         fromEffect.ReplenishmentOrdersEffect,
         { provide: ReplenishmentOrderHistoryAdapter, useValue: {} },
+        { provide: LoggerService, useClass: MockLoggerService },
         provideMockActions(() => actions$),
       ],
     });
@@ -66,8 +75,9 @@ describe('Replenishment Orders effect', () => {
     });
 
     it('should handle failures for load user Replenishment Orders', () => {
+      const error = new Error('error');
       spyOn(replenishmentOrderHistoryConnector, 'loadHistory').and.returnValue(
-        throwError('Error')
+        throwError(() => error)
       );
 
       const action = new OrderActions.LoadUserReplenishmentOrders({
@@ -76,7 +86,7 @@ describe('Replenishment Orders effect', () => {
       });
 
       const completion = new OrderActions.LoadUserReplenishmentOrdersFail(
-        normalizeHttpError('Error')
+        tryNormalizeHttpError(error, new MockLoggerService())
       );
 
       actions$ = hot('-a', { a: action });

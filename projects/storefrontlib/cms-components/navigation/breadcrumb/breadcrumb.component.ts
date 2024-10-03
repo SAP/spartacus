@@ -1,11 +1,25 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import {
   CmsBreadcrumbsComponent,
+  FeatureConfigService,
   PageMetaService,
   TranslationService,
+  useFeatureStyles,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { PageTitleComponent } from '../page-header/page-title.component';
 
@@ -17,12 +31,27 @@ import { PageTitleComponent } from '../page-header/page-title.component';
 export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   crumbs$: Observable<any[]>;
 
+  protected router = inject(Router);
+  private featureConfigService = inject(FeatureConfigService);
+
+  ariaLive$: Observable<boolean> = this.featureConfigService.isEnabled(
+    'a11yRepeatedPageTitleFix'
+  )
+    ? this.router.events.pipe(
+        filter((e) => e instanceof NavigationEnd),
+        map(() => {
+          return document.activeElement !== document.body;
+        })
+      )
+    : of(true);
+
   constructor(
     public component: CmsComponentData<CmsBreadcrumbsComponent>,
     protected pageMetaService: PageMetaService,
     private translation: TranslationService
   ) {
     super(component, pageMetaService);
+    useFeatureStyles('a11yTruncatedTextForResponsiveView');
   }
 
   ngOnInit(): void {

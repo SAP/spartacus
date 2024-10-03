@@ -1,29 +1,30 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, PointOfService } from '@spartacus/core';
-import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
-import { StoreFinderListComponent } from './store-finder-list.component';
 import {
   GoogleMapRendererService,
   StoreFinderService,
 } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
+import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
+import { StoreFinderListComponent } from './store-finder-list.component';
+import { LocationDisplayMode } from './store-finder-list.model';
 import createSpy = jasmine.createSpy;
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 const location: PointOfService = {
   displayName: 'Test Store',
 };
 const stores: Array<PointOfService> = [location];
 const locations = { stores: stores, pagination: { currentPage: 0 } };
+const displayModes = LocationDisplayMode;
 
 class StoreFinderServiceMock implements Partial<StoreFinderService> {
   getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
-    of()
+    EMPTY
   );
   getStoresLoading = createSpy('getStoresLoading');
   callFindStoresAction = createSpy('callFindStoresAction');
@@ -48,28 +49,25 @@ describe('StoreFinderDisplayListComponent', () => {
   let storeFinderService: StoreFinderService;
   let googleMapRendererService: GoogleMapRendererService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          HttpClientTestingModule,
-          SpinnerModule,
-          I18nTestingModule,
-          NgbNavModule,
-        ],
-        schemas: [NO_ERRORS_SCHEMA],
-        declarations: [StoreFinderListComponent, StoreFinderMapComponent],
-        providers: [
-          {
-            provide: GoogleMapRendererService,
-            useClass: GoogleMapRendererServiceMock,
-          },
-          { provide: StoreFinderService, useClass: StoreFinderServiceMock },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        SpinnerModule,
+        I18nTestingModule,
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+      declarations: [StoreFinderListComponent, StoreFinderMapComponent],
+      providers: [
+        {
+          provide: GoogleMapRendererService,
+          useClass: GoogleMapRendererServiceMock,
+        },
+        { provide: StoreFinderService, useClass: StoreFinderServiceMock },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListComponent);
@@ -136,5 +134,18 @@ describe('StoreFinderDisplayListComponent', () => {
 
     component.hideStoreDetails();
     expect(component.isDetailsModeVisible).toBe(false);
+  });
+
+  it('should "setDisplayMode" switch active display mode', () => {
+    expect(component.activeDisplayMode).toBe(displayModes.LIST_VIEW);
+    component.setDisplayMode(displayModes.MAP_VIEW);
+    expect(component.activeDisplayMode).toBe(displayModes.MAP_VIEW);
+  });
+
+  it('should "isDisplayModeActive" return valid boolean flag', () => {
+    component.setDisplayMode(displayModes.MAP_VIEW);
+
+    expect(component.isDisplayModeActive(displayModes.MAP_VIEW)).toBeTruthy();
+    expect(component.isDisplayModeActive(displayModes.LIST_VIEW)).toBeFalsy();
   });
 });

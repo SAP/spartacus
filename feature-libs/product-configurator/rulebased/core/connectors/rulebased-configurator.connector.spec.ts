@@ -5,9 +5,11 @@ import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorCoreConfig } from '../config/configurator-core.config';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 import { RulebasedConfiguratorConnector } from './rulebased-configurator.connector';
@@ -16,9 +18,10 @@ import createSpy = jasmine.createSpy;
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';
+const CONFIG_ID_TEMPLATE = '1234-56-aaab';
 const USER_ID = 'theUser';
 const CART_ID = '98876';
-const CONFIGURATOR_TYPE = 'cpqconfig';
+const CONFIGURATOR_TYPE = 'configuratortype';
 
 const productConfiguration: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
@@ -57,6 +60,9 @@ const updateFromCartEntryParameters: Configurator.UpdateConfigurationForCartEntr
 const cartModification: CartModification = {};
 
 class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
+  public configuratorType: string;
+  public cpqOverOcc: boolean | undefined;
+
   readConfigurationForCartEntry = createSpy().and.callFake(() =>
     of(productConfiguration)
   );
@@ -87,6 +93,11 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
       of('updateConfiguration' + configuration.configId)
   );
 
+  updateConfigurationOverview = createSpy().and.callFake(
+    (ovInput: Configurator.Overview) =>
+      of('updateConfigurationOverview' + ovInput.configId)
+  );
+
   createConfiguration = createSpy().and.callFake(
     (owner: CommonConfigurator.Owner) => of('createConfiguration' + owner)
   );
@@ -95,7 +106,10 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
     of('addToCart' + configId)
   );
   getConfiguratorType(): string {
-    return CONFIGURATOR_TYPE;
+    return this.configuratorType ?? CONFIGURATOR_TYPE;
+  }
+  supportsCpqOverOcc?(): boolean {
+    return this.cpqOverOcc ?? false;
   }
 }
 
@@ -103,10 +117,35 @@ describe('RulebasedConfiguratorConnector', () => {
   let service: RulebasedConfiguratorConnector;
   let configuratorUtils: CommonConfiguratorUtilsService;
   let adapter: RulebasedConfiguratorAdapter[];
+  let configuratorCpqConfig: ConfiguratorCoreConfig;
 
   const GROUP_ID = 'GROUP1';
 
   const QUANTITY = 1;
+
+  const MockConfig: ConfiguratorCoreConfig = {
+    productConfigurator: {
+      cpqOverOcc: true,
+    },
+  };
+
+  function setCpqOverOcc(cpqOverOcc: boolean | undefined) {
+    (configuratorCpqConfig.productConfigurator ?? {}).cpqOverOcc = cpqOverOcc;
+  }
+
+  function createMockAdapter(
+    configuratorType?: string,
+    supportsCpqOverOcc?: boolean
+  ): RulebasedConfiguratorAdapter {
+    let adapter = new MockRulebasedConfiguratorAdapter();
+    adapter.configuratorType = configuratorType ?? CONFIGURATOR_TYPE;
+    if (supportsCpqOverOcc) {
+      adapter.cpqOverOcc = supportsCpqOverOcc;
+    } else {
+      adapter.supportsCpqOverOcc = undefined;
+    }
+    return adapter;
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -115,6 +154,10 @@ describe('RulebasedConfiguratorConnector', () => {
           provide: RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST,
           useClass: MockRulebasedConfiguratorAdapter,
           multi: true,
+        },
+        {
+          provide: ConfiguratorCoreConfig,
+          useValue: MockConfig,
         },
         {
           provide: RulebasedConfiguratorConnector,
@@ -131,45 +174,81 @@ describe('RulebasedConfiguratorConnector', () => {
     adapter = TestBed.inject(
       RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST
     );
+    configuratorCpqConfig = TestBed.inject(
+      ConfiguratorCoreConfig as Type<ConfiguratorCoreConfig>
+    );
     configuratorUtils.setOwnerKey(productConfiguration.owner);
+    setCpqOverOcc(false);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call adapter on createConfiguration', () => {
-    let result;
-    service
-      .createConfiguration(productConfiguration.owner)
-      .subscribe((res) => (result = res));
-    expect(result).toBe('createConfiguration' + productConfiguration.owner);
+  describe('createConfiguration', () => {
+    it('should call adapter', () => {
+      let result;
+      service
+        .createConfiguration(productConfiguration.owner)
+        .subscribe((res) => (result = res));
+      expect(result).toBe('createConfiguration' + productConfiguration.owner);
 
-    expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
-      productConfiguration.owner
-    );
-  });
-
-  it('should throw an error in case no adapter present for configurator type', () => {
-    expect(function () {
-      const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
-        CommonConfigurator.OwnerType.PRODUCT,
-        PRODUCT_CODE,
-        'unknown'
+      expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
+        productConfiguration.owner,
+        undefined,
+        false
       );
-      service.createConfiguration(ownerForUnknownConfigurator);
-    }).toThrow();
-  });
+    });
 
-  it('should not throw an error in case an adapter is present for owners configurator type', () => {
-    expect(function () {
-      const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
-        CommonConfigurator.OwnerType.PRODUCT,
-        PRODUCT_CODE,
-        CONFIGURATOR_TYPE
+    it('should forward configuration template ID', () => {
+      service
+        .createConfiguration(productConfiguration.owner, CONFIG_ID_TEMPLATE)
+        .subscribe();
+
+      expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
+        productConfiguration.owner,
+        CONFIG_ID_TEMPLATE,
+        false
       );
-      service.createConfiguration(ownerForUnknownConfigurator);
-    }).toBeDefined();
+    });
+
+    it('should forward forceReset flag', () => {
+      service
+        .createConfiguration(
+          productConfiguration.owner,
+          CONFIG_ID_TEMPLATE,
+          true
+        )
+        .subscribe();
+
+      expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
+        productConfiguration.owner,
+        CONFIG_ID_TEMPLATE,
+        true
+      );
+    });
+
+    it('should throw an error in case no adapter present for configurator type', () => {
+      expect(function () {
+        const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
+          CommonConfigurator.OwnerType.PRODUCT,
+          PRODUCT_CODE,
+          'unknown'
+        );
+        service.createConfiguration(ownerForUnknownConfigurator);
+      }).toThrow();
+    });
+
+    it('should not throw an error in case an adapter is present for owners configurator type', () => {
+      expect(function () {
+        const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
+          CommonConfigurator.OwnerType.PRODUCT,
+          PRODUCT_CODE,
+          CONFIGURATOR_TYPE
+        );
+        service.createConfiguration(ownerForUnknownConfigurator);
+      }).toBeDefined();
+    });
   });
 
   it('should call adapter on readConfigurationForCartEntry', () => {
@@ -277,5 +356,88 @@ describe('RulebasedConfiguratorConnector', () => {
     service.addToCart(parameters).subscribe((res) => (result = res));
     expect(adapter[0].addToCart).toHaveBeenCalledWith(parameters);
     expect(result).toBe('addToCart' + parameters);
+  });
+
+  describe('updateConfigurationOverview', () => {
+    it('should forward to adapter', () => {
+      const overview: Configurator.Overview = {
+        configId: productConfiguration.configId,
+        productCode: productConfiguration.productCode,
+      };
+      const configWithOverview: Configurator.Configuration = {
+        ...productConfiguration,
+        overview: overview,
+      };
+      let result;
+      service
+        .updateConfigurationOverview(configWithOverview)
+        .subscribe((res) => (result = res));
+      expect(adapter[0].updateConfigurationOverview).toHaveBeenCalledWith(
+        overview
+      );
+      expect(result).toBe(
+        'updateConfigurationOverview' + productConfiguration.configId
+      );
+    });
+    it('should retrieve overview if not available (exception case)', () => {
+      let result;
+      service
+        .updateConfigurationOverview(productConfiguration)
+        .subscribe((res) => (result = res));
+      expect(adapter[0].getConfigurationOverview).toHaveBeenCalledWith(
+        productConfiguration.configId
+      );
+      expect(result).toBe(
+        'getConfigurationOverview' + productConfiguration.configId
+      );
+    });
+  });
+
+  describe('isAdapterMatching', () => {
+    function isAdapterMatching(
+      adapter: RulebasedConfiguratorAdapter,
+      configuratorType: string
+    ): boolean {
+      // we use call here to avoid losing 'this'-context
+      return service['isAdapterMatching'].call(
+        service,
+        adapter,
+        configuratorType
+      );
+    }
+
+    it('should match if configurator types are the same', () => {
+      const adapter = createMockAdapter(ConfiguratorType.VARIANT);
+      expect(isAdapterMatching(adapter, ConfiguratorType.VARIANT)).toBe(true);
+    });
+
+    it("shouldn't match if configurator types aren't the same", () => {
+      const adapter = createMockAdapter(ConfiguratorType.VARIANT);
+      expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(false);
+    });
+
+    it("shouldn't match if CPQ configurator type with cpqOverOcc flag is requested, but adapter doesn't support it", () => {
+      setCpqOverOcc(true);
+      const adapter = createMockAdapter(ConfiguratorType.CPQ, false);
+      expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(false);
+    });
+
+    it("shouldn't match if CPQ configurator type without cpqOverOcc flag is requested, but adapter supports it", () => {
+      setCpqOverOcc(false);
+      const adapter = createMockAdapter(ConfiguratorType.CPQ, true);
+      expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(false);
+    });
+
+    it('should match if CPQ configurator type with cpqOverOcc flag is requested and adapter supports it', () => {
+      setCpqOverOcc(true);
+      const adapter = createMockAdapter(ConfiguratorType.CPQ, true);
+      expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(true);
+    });
+
+    it("should match if CPQ configurator type without cpqOverOcc flag is requested and adapter doesn't support it", () => {
+      setCpqOverOcc(false);
+      const adapter = createMockAdapter(ConfiguratorType.CPQ, false);
+      expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(true);
+    });
   });
 });

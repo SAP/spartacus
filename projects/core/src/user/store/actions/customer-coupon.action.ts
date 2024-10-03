@@ -1,3 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { ErrorAction } from '../../../error-handling';
 import {
   CustomerCoupon2Customer,
   CustomerCouponNotification,
@@ -19,6 +26,7 @@ import {
 import {
   CLAIM_CUSTOMER_COUPON_PROCESS_ID,
   CUSTOMER_COUPONS,
+  DISCLAIM_CUSTOMER_COUPON_PROCESS_ID,
   SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
   UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
 } from '../user-state';
@@ -50,6 +58,12 @@ export const RESET_UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS =
 export const CLAIM_CUSTOMER_COUPON = '[User] Claim Customer';
 export const CLAIM_CUSTOMER_COUPON_FAIL = '[User] Claim Customer Fail';
 export const CLAIM_CUSTOMER_COUPON_SUCCESS = '[User] Claim Customer Success';
+export const DISCLAIM_CUSTOMER_COUPON = '[User] Disclaim Customer';
+export const DISCLAIM_CUSTOMER_COUPON_FAIL = '[User] Disclaim Customer Fail';
+export const DISCLAIM_CUSTOMER_COUPON_SUCCESS =
+  '[User] Disclaim Customer Success';
+
+export const RESET_DISCLAIM_CUSTOMER_COUPON = '[User] Reset Disclaim Customer';
 
 export class LoadCustomerCoupons extends LoaderLoadAction {
   readonly type = LOAD_CUSTOMER_COUPONS;
@@ -65,7 +79,10 @@ export class LoadCustomerCoupons extends LoaderLoadAction {
   }
 }
 
-export class LoadCustomerCouponsFail extends LoaderFailAction {
+export class LoadCustomerCouponsFail
+  extends LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_CUSTOMER_COUPONS_FAIL;
   constructor(public payload: any) {
     super(CUSTOMER_COUPONS, payload);
@@ -99,7 +116,10 @@ export class SubscribeCustomerCoupon extends EntityLoadAction {
   }
 }
 
-export class SubscribeCustomerCouponFail extends EntityFailAction {
+export class SubscribeCustomerCouponFail
+  extends EntityFailAction
+  implements ErrorAction
+{
   readonly type = SUBSCRIBE_CUSTOMER_COUPON_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID, payload);
@@ -132,7 +152,10 @@ export class UnsubscribeCustomerCoupon extends EntityLoadAction {
   }
 }
 
-export class UnsubscribeCustomerCouponFail extends EntityFailAction {
+export class UnsubscribeCustomerCouponFail
+  extends EntityFailAction
+  implements ErrorAction
+{
   readonly type = UNSUBSCRIBE_CUSTOMER_COUPON_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID, payload);
@@ -165,7 +188,46 @@ export class ClaimCustomerCoupon extends EntityLoadAction {
   }
 }
 
-export class ClaimCustomerCouponFail extends EntityFailAction {
+export class DisclaimCustomerCoupon extends EntityLoadAction {
+  readonly type = DISCLAIM_CUSTOMER_COUPON;
+  constructor(
+    public payload: {
+      userId: string;
+      couponCode: string;
+    }
+  ) {
+    super(PROCESS_FEATURE, DISCLAIM_CUSTOMER_COUPON_PROCESS_ID);
+  }
+}
+
+export class ResetDisclaimCustomerCoupon extends EntityLoaderResetAction {
+  readonly type = RESET_DISCLAIM_CUSTOMER_COUPON;
+  constructor() {
+    super(PROCESS_FEATURE, DISCLAIM_CUSTOMER_COUPON_PROCESS_ID);
+  }
+}
+
+export class DisclaimCustomerCouponFail
+  extends EntityFailAction
+  implements ErrorAction
+{
+  readonly type = DISCLAIM_CUSTOMER_COUPON_FAIL;
+  constructor(public payload: any) {
+    super(PROCESS_FEATURE, DISCLAIM_CUSTOMER_COUPON_PROCESS_ID, payload);
+  }
+}
+
+export class DisclaimCustomerCouponSuccess extends EntitySuccessAction {
+  readonly type = DISCLAIM_CUSTOMER_COUPON_SUCCESS;
+  constructor(public payload: CustomerCoupon2Customer) {
+    super(PROCESS_FEATURE, DISCLAIM_CUSTOMER_COUPON_PROCESS_ID, payload);
+  }
+}
+
+export class ClaimCustomerCouponFail
+  extends EntityFailAction
+  implements ErrorAction
+{
   readonly type = CLAIM_CUSTOMER_COUPON_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, CLAIM_CUSTOMER_COUPON_PROCESS_ID, payload);
@@ -195,4 +257,8 @@ export type CustomerCouponAction =
   | ResetUnsubscribeCustomerCouponProcess
   | ClaimCustomerCoupon
   | ClaimCustomerCouponFail
-  | ClaimCustomerCouponSuccess;
+  | ClaimCustomerCouponSuccess
+  | DisclaimCustomerCoupon
+  | DisclaimCustomerCouponFail
+  | DisclaimCustomerCouponSuccess
+  | ResetDisclaimCustomerCoupon;

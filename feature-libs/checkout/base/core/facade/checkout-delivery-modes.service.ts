@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import {
@@ -21,8 +27,8 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable, throwError } from 'rxjs';
-import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutDeliveryModesConnector } from '../connectors/checkout-delivery-modes/checkout-delivery-modes.connector';
 
 @Injectable()
@@ -89,35 +95,35 @@ export class CheckoutDeliveryModesService
             this.checkoutDeliveryModesConnector
               .clearCheckoutDeliveryMode(userId, cartId)
               .pipe(
-                tap(() => {
-                  this.eventService.dispatch(
-                    {
-                      userId,
-                      cartId,
-                      /**
-                       * As we know the cart is not anonymous (precondition checked),
-                       * we can safely use the cartId, which is actually the cart.code.
-                       */
-                      cartCode: cartId,
-                    },
-                    CheckoutDeliveryModeClearedEvent
-                  );
-                }),
-                catchError((error) => {
-                  this.eventService.dispatch(
-                    {
-                      userId,
-                      cartId,
-                      /**
-                       * As we know the cart is not anonymous (precondition checked),
-                       * we can safely use the cartId, which is actually the cart.code.
-                       */
-                      cartCode: cartId,
-                    },
-                    CheckoutDeliveryModeClearedErrorEvent
-                  );
-
-                  return throwError(error);
+                tap({
+                  next: () => {
+                    this.eventService.dispatch(
+                      {
+                        userId,
+                        cartId,
+                        /**
+                         * As we know the cart is not anonymous (precondition checked),
+                         * we can safely use the cartId, which is actually the cart.code.
+                         */
+                        cartCode: cartId,
+                      },
+                      CheckoutDeliveryModeClearedEvent
+                    );
+                  },
+                  error: () => {
+                    this.eventService.dispatch(
+                      {
+                        userId,
+                        cartId,
+                        /**
+                         * As we know the cart is not anonymous (precondition checked),
+                         * we can safely use the cartId, which is actually the cart.code.
+                         */
+                        cartCode: cartId,
+                      },
+                      CheckoutDeliveryModeClearedErrorEvent
+                    );
+                  },
                 })
               )
           )
@@ -166,6 +172,7 @@ export class CheckoutDeliveryModesService
 
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
     return this.getSupportedDeliveryModesState().pipe(
+      filter((state) => !state.loading),
       map((state) => state.data ?? [])
     );
   }

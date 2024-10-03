@@ -1,15 +1,22 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { select, Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
 import {
-  isNotUndefined,
-  normalizeHttpError,
+  LoggerService,
   OCC_CART_ID_CURRENT,
   SiteContextActions,
+  isNotUndefined,
+  tryNormalizeHttpError,
   withdrawOn,
 } from '@spartacus/core';
-import { from, Observable, of } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -34,6 +41,8 @@ export class CartEffects {
       SiteContextActions.LANGUAGE_CHANGE
     )
   );
+
+  protected logger = inject(LoggerService);
 
   loadCart$: Observable<
     | CartActions.LoadCartFail
@@ -92,35 +101,7 @@ export class CartEffects {
                 }
                 return actions;
               }),
-              catchError((error) => {
-                if (error?.error?.errors) {
-                  const couponExpiredErrors = error.error.errors.filter(
-                    (err: any) => err.reason === 'invalid'
-                  );
-                  if (couponExpiredErrors.length > 0) {
-                    // Reload in case of expired coupon.
-                    return of(new CartActions.LoadCart({ ...payload }));
-                  }
-
-                  const cartNotFoundErrors = error.error.errors.filter(
-                    (err: any) =>
-                      isCartNotFoundError(err) ||
-                      err.reason === 'UnknownResourceError'
-                  );
-                  if (cartNotFoundErrors.length > 0) {
-                    // Remove cart as it doesn't exist on backend (selective cart always exists).
-                    return of(
-                      new CartActions.RemoveCart({ cartId: payload.cartId })
-                    );
-                  }
-                }
-                return of(
-                  new CartActions.LoadCartFail({
-                    ...payload,
-                    error: normalizeHttpError(error),
-                  })
-                );
-              })
+              catchError((error) => this.handleLoadCartError(payload, error))
             );
           })
         )
@@ -128,6 +109,33 @@ export class CartEffects {
       withdrawOn(this.contextChange$)
     )
   );
+
+  protected handleLoadCartError(payload: any, error: any) {
+    if (error?.error?.errors) {
+      const couponExpiredErrors = error.error.errors.filter(
+        (err: any) => err.reason === 'invalid'
+      );
+      if (couponExpiredErrors.length > 0) {
+        // Reload in case of expired coupon.
+        return of(new CartActions.LoadCart({ ...payload }));
+      }
+
+      const cartNotFoundErrors = error.error.errors.filter(
+        (err: any) =>
+          isCartNotFoundError(err) || err.reason === 'UnknownResourceError'
+      );
+      if (cartNotFoundErrors.length > 0) {
+        // Remove cart as it doesn't exist on backend (selective cart always exists).
+        return of(new CartActions.RemoveCart({ cartId: payload.cartId }));
+      }
+    }
+    return of(
+      new CartActions.LoadCartFail({
+        ...payload,
+        error: tryNormalizeHttpError(error, this.logger),
+      })
+    );
+  }
 
   createCart$: Observable<
     | CartActions.MergeCartSuccess
@@ -169,7 +177,7 @@ export class CartEffects {
               of(
                 new CartActions.CreateCartFail({
                   ...payload,
-                  error: normalizeHttpError(error),
+                  error: tryNormalizeHttpError(error, this.logger),
                 })
               )
             )
@@ -293,7 +301,7 @@ export class CartEffects {
               from([
                 new CartActions.AddEmailToCartFail({
                   ...payload,
-                  error: normalizeHttpError(error),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new CartActions.LoadCart({
                   userId: payload.userId,
@@ -324,7 +332,7 @@ export class CartEffects {
             from([
               new CartActions.DeleteCartFail({
                 ...payload,
-                error: normalizeHttpError(error),
+                error: tryNormalizeHttpError(error, this.logger),
               }),
               // Error might happen in higher backend layer and cart could still be removed.
               // When load fail with NotFound error then RemoveCart action will kick in and clear that cart in our state.

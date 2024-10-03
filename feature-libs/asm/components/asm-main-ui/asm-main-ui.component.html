@@ -13,6 +13,34 @@
     </div>
   </div>
   <div class="asm-bar-actions">
+    <div class="cx-asm-help-portal">
+      <a
+        href="https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/d1ca9a1517f847a5b57b4e08400807c1/2367ff04ccb649ac82a3795ecf72a804.html?locale=en-US"
+        target="_blank"
+        rel="noopener noreferrer"
+        role="button"
+      >
+        <cx-icon [type]="iconTypes.HELP"></cx-icon>
+        <span>{{ 'asm.helpPortalUrl' | cxTranslate }}</span></a
+      >
+    </div>
+
+    <div
+      class="cx-asm-customer-list"
+      *ngIf="customerSupportAgentLoggedIn$ | async"
+    >
+      <a
+        #customerListLink
+        tabindex="0"
+        role="button"
+        class="cx-asm-customer-list-link"
+        (click)="showCustomList()"
+      >
+        <cx-icon [type]="iconTypes.USER_FRIENDS"></cx-icon>
+        <span>{{ 'asm.customers' | cxTranslate }}</span></a
+      >
+    </div>
+
     <cx-asm-toggle-ui></cx-asm-toggle-ui>
 
     <cx-asm-session-timer
@@ -44,11 +72,32 @@
   >
     <ng-container *ngIf="customer$ | async; else showCustomerSelection">
       <cx-customer-emulation *ngIf="notCollapsed"></cx-customer-emulation>
+      <cx-message
+        *ngIf="notCollapsed && showCreateCustomerSuccessfullyAlert"
+        [text]="'asm.createCustomerSuccessfullyAlert' | cxTranslate"
+        [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
+        (closeMessage)="closeDialogConfirmationAlert()"
+      >
+      </cx-message>
+      <cx-message
+        *ngIf="showDeeplinkCartInfoAlert$ | async"
+        [text]="deeplinkCartAlertKey | cxTranslate"
+        [type]="globalMessageType.MSG_TYPE_INFO"
+        (closeMessage)="closeDeeplinkCartInfoAlert()"
+      >
+      </cx-message>
+      <cx-message
+        *ngIf="notCollapsed && showCustomerEmulationInfoAlert"
+        [text]="'asm.startCustomerEmulationAlertInfo' | cxTranslate"
+        [type]="globalMessageType.MSG_TYPE_INFO"
+        (closeMessage)="closeCustomerEmulationInfoAlert()"
+      >
+      </cx-message>
     </ng-container>
     <ng-template #showCustomerSelection>
       <cx-customer-selection
         *ngIf="notCollapsed"
-        (submitEvent)="startCustomerEmulationSession($event)"
+        (submitEvent)="startCustomerEmulationSession($event, $event.parameters)"
       ></cx-customer-selection>
     </ng-template>
   </ng-container>

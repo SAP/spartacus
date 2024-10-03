@@ -1,9 +1,19 @@
-import { NgSetupOptions } from '@nguniversal/express-engine';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { CommonEngineOptions, CommonEngineRenderOptions } from '@angular/ssr';
+import { NgSetupOptions } from '../engine/ng-express-engine';
 import {
   OptimizedSsrEngine,
   SsrCallbackFn,
 } from '../optimized-engine/optimized-ssr-engine';
-import { SsrOptimizationOptions } from '../optimized-engine/ssr-optimization-options';
+import {
+  SsrOptimizationOptions,
+  defaultSsrOptimizationOptions,
+} from '../optimized-engine/ssr-optimization-options';
 import { getServerRequestProviders } from '../providers/ssr-providers';
 
 export type NgExpressEngineInstance = (
@@ -13,7 +23,7 @@ export type NgExpressEngineInstance = (
 ) => void;
 
 export type NgExpressEngine = (
-  setupOptions: Readonly<NgSetupOptions>
+  setupOptions: Readonly<CommonEngineRenderOptions & CommonEngineOptions>
 ) => NgExpressEngineInstance;
 
 /**
@@ -36,10 +46,10 @@ export class NgExpressEngineDecorator {
 
 export function decorateExpressEngine(
   ngExpressEngine: NgExpressEngine,
-  optimizationOptions: SsrOptimizationOptions | null = {
-    concurrency: 20,
-    timeout: 3000,
-  }
+  optimizationOptions:
+    | SsrOptimizationOptions
+    | null
+    | undefined = defaultSsrOptimizationOptions
 ): NgExpressEngine {
   return function (setupOptions: NgSetupOptions) {
     const engineInstance = ngExpressEngine({

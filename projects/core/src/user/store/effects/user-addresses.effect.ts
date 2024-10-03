@@ -1,32 +1,43 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message/index';
+import { LoggerService } from '../../../logger';
 import { Address } from '../../../model/address.model';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { UserAddressService } from '../../facade/user-address.service';
 import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserAddressesEffects {
+  protected logger = inject(LoggerService);
+
   loadUserAddresses$: Observable<UserActions.UserAddressesAction> =
     createEffect(() =>
       this.actions$.pipe(
         ofType(UserActions.LOAD_USER_ADDRESSES),
         map((action: UserActions.LoadUserAddresses) => action.payload),
-        mergeMap((payload) => {
+        switchMap((payload) => {
           return this.userAddressConnector.getAll(payload).pipe(
             map((addresses: Address[]) => {
               return new UserActions.LoadUserAddressesSuccess(addresses);
             }),
             catchError((error) =>
               of(
-                new UserActions.LoadUserAddressesFail(normalizeHttpError(error))
+                new UserActions.LoadUserAddressesFail(
+                  tryNormalizeHttpError(error, this.logger)
+                )
               )
             )
           );
@@ -48,7 +59,9 @@ export class UserAddressesEffects {
               }),
               catchError((error) =>
                 of(
-                  new UserActions.AddUserAddressFail(normalizeHttpError(error))
+                  new UserActions.AddUserAddressFail(
+                    tryNormalizeHttpError(error, this.logger)
+                  )
                 )
               )
             );
@@ -65,25 +78,20 @@ export class UserAddressesEffects {
           return this.userAddressConnector
             .update(payload.userId, payload.addressId, payload.address)
             .pipe(
-              map((data) => {
-                // don't show the message if just setting address as default
-                if (
-                  payload.address &&
-                  Object.keys(payload.address).length === 1 &&
-                  payload.address.defaultAddress
-                ) {
-                  return new UserActions.LoadUserAddresses(payload.userId);
-                } else {
-                  return new UserActions.UpdateUserAddressSuccess(data);
-                }
+              map(() => {
+                return new UserActions.UpdateUserAddressSuccess(payload);
               }),
-              catchError((error) =>
-                of(
+              catchError((error) => {
+                this.showGlobalMessage(
+                  'addressForm.invalidAddress',
+                  GlobalMessageType.MSG_TYPE_ERROR
+                );
+                return of(
                   new UserActions.UpdateUserAddressFail(
-                    normalizeHttpError(error)
+                    tryNormalizeHttpError(error, this.logger)
                   )
-                )
-              )
+                );
+              })
             );
         })
       )
@@ -104,7 +112,7 @@ export class UserAddressesEffects {
               catchError((error) =>
                 of(
                   new UserActions.DeleteUserAddressFail(
-                    normalizeHttpError(error)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -137,9 +145,16 @@ export class UserAddressesEffects {
     () =>
       this.actions$.pipe(
         ofType(UserActions.UPDATE_USER_ADDRESS_SUCCESS),
-        tap(() => {
+        map((action: UserActions.UpdateUserAddressSuccess) => action.payload),
+        tap((payload) => {
           this.loadAddresses();
-          this.showGlobalMessage('addressForm.userAddressUpdateSuccess');
+          // don't show the message if just setting address as default
+          if (
+            Object.keys(payload?.address).length !== 1 ||
+            !payload?.address?.defaultAddress
+          ) {
+            this.showGlobalMessage('addressForm.userAddressUpdateSuccess');
+          }
         })
       ),
     { dispatch: false }
@@ -171,10 +186,10 @@ export class UserAddressesEffects {
   /**
    * Show global confirmation message with provided text
    */
-  private showGlobalMessage(text: string) {
+  private showGlobalMessage(key: string, type?: GlobalMessageType) {
     this.messageService.add(
-      { key: text },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      { key },
+      type ?? GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }
 

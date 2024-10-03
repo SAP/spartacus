@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Component,
   ElementRef,
@@ -7,8 +13,10 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
+import { FeatureConfigService, useFeatureStyles } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
@@ -30,7 +38,7 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
    * Holds the value of the counter, the state of the `FormControl`
    * can be managed outside of the item counter.
    */
-  @Input() control: FormControl;
+  @Input() control: UntypedFormControl;
 
   /**
    * This can be used in case an item has a minmum order quantity.
@@ -71,9 +79,19 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
    * Subscription responsible for auto-correcting control's value when it's invalid.
    */
   private sub: Subscription;
+  protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
+  constructor() {
+    useFeatureStyles('a11yVisibleFocusOverflows');
+  }
+
+  // TODO: (CXSPA-6034) Remove HostListener next major release
   @HostListener('click') handleClick() {
-    this.input.nativeElement.focus();
+    if (!this.featureConfigService?.isEnabled('a11yQuantityOrderTabbing')) {
+      this.input.nativeElement.focus();
+    }
   }
 
   ngOnInit() {
@@ -88,6 +106,16 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
     if (this.sub) {
       this.sub.unsubscribe();
     }
+  }
+
+  /**
+   * Updates the form control value with the input value.
+   * It is used to improve keyboard controls of the component.
+   */
+  updateValue(): void {
+    // Convert string value to number(prevents us from having '1' + 1 = '11' on increment)
+    this.control.setValue(+this.input.nativeElement.value);
+    this.control.markAsDirty();
   }
 
   increment() {

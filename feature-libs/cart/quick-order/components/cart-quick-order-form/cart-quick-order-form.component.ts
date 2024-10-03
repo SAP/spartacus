@@ -1,10 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
@@ -13,6 +24,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   EventService,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
@@ -25,7 +37,9 @@ import { first, map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
-  quickOrderForm: FormGroup;
+  private featureConfig = inject(FeatureConfigService);
+
+  quickOrderForm: UntypedFormGroup;
   cartIsLoading$: Observable<boolean> = this.activeCartService
     .isStable()
     .pipe(map((loaded) => !loaded));
@@ -39,7 +53,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected eventService: EventService,
-    protected formBuilder: FormBuilder,
+    protected formBuilder: UntypedFormBuilder,
     protected globalMessageService: GlobalMessageService
   ) {}
 
@@ -63,7 +77,11 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
     const quantity = this.quickOrderForm.get('quantity')?.value;
 
     this.watchAddEntrySuccessEvent();
-    this.watchAddEntryFailEvent();
+    if (
+      !this.featureConfig.isEnabled('cartQuickOrderRemoveListeningToFailEvent')
+    ) {
+      this.watchAddEntryFailEvent();
+    }
 
     if (productCode && quantity) {
       this.activeCartService.addEntry(productCode, quantity);
@@ -71,11 +89,22 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected buildForm(): void {
+    // TODO: (CXSPA-7479) Remove feature flags next major
+    const shouldHaveRequiredValidator = !this.featureConfig.isEnabled(
+      'a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
+    );
+
     this.quickOrderForm = this.formBuilder.group({
-      productCode: ['', [Validators.required]],
+      productCode: [
+        '',
+        shouldHaveRequiredValidator ? [Validators.required] : [],
+      ],
       quantity: [
         this.minQuantityValue,
-        { updateOn: 'blur', validators: [Validators.required] },
+        {
+          updateOn: 'blur',
+          validators: shouldHaveRequiredValidator ? [Validators.required] : [],
+        },
       ],
     });
   }
@@ -131,6 +160,16 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * @deprecated since 2211.24
+   *
+   * This method is no longer needed since BadRequestHandler.handleUnknownIdentifierError was introduced.
+   * If this method is used an unnecessary duplicated error message will appear in the UI.
+   * Therefore this method will be removed.
+   *
+   * You can enable the Feature Toggle 'cartQuickOrderRemoveListenToFailEvent'
+   * to stop calling this method by default.
+   */
   protected watchAddEntryFailEvent(): void {
     this.cartEventsSubscription.add(
       this.eventService

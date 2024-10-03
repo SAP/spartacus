@@ -5,6 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsBannerComponent,
   CmsService,
+  FeaturesConfig,
+  FeaturesConfigModule,
   Page,
   PageContext,
   SemanticPathService,
@@ -15,19 +17,31 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
 import { BannerComponent } from './banner.component';
 
+const media = {
+  code: '/images/theme/logo_hybris.jpg',
+  mime: 'image/svg+xml',
+  altText: 'hybris Accelerator',
+  url: '/medias/logo-hybris.jpg',
+};
+
 const mockBannerData: CmsBannerComponent = {
   uid: 'SiteLogoComponent',
   typeCode: 'SimpleBannerComponent',
   name: 'Site Logo Component',
   container: 'false',
   external: 'false',
-  media: {
-    code: '/images/theme/logo_hybris.jpg',
-    mime: 'image/svg+xml',
-    altText: 'hybris Accelerator',
-    url: '/medias/logo-hybris.jpg',
-  },
+  media,
   urlLink: '/logo',
+};
+
+const mockNoLinkBannerData: CmsBannerComponent = {
+  uid: 'SiteLogoComponent',
+  typeCode: 'SimpleBannerComponent',
+  name: 'Site Logo Component',
+  container: 'false',
+  external: 'false',
+  media,
+  urlLink: '',
 };
 
 const data$: BehaviorSubject<CmsBannerComponent> = new BehaviorSubject(
@@ -66,7 +80,7 @@ describe('BannerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, FeaturesConfigModule],
       declarations: [BannerComponent, MockMediaComponent, GenericLinkComponent],
       providers: [
         {
@@ -75,6 +89,12 @@ describe('BannerComponent', () => {
         },
         { provide: CmsService, useClass: MockCmsService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '6.3', a11yOrganizationsBanner: true },
+          },
+        },
       ],
     }).compileComponents();
 
@@ -148,6 +168,14 @@ describe('BannerComponent', () => {
         mockBannerDataWithCategory
       );
     });
+
+    it('should show content even there is no link', () => {
+      bannerComponent.routerLink = undefined;
+      data$.next(mockNoLinkBannerData);
+      fixture.detectChanges();
+
+      expect(el.query(By.css('.no-link'))).toBeTruthy();
+    });
   });
 
   describe('getTarget()', () => {
@@ -190,6 +218,80 @@ describe('BannerComponent', () => {
 
       // roll back for other tests
       data$.next(mockBannerData);
+    });
+  });
+
+  describe('getImageAltText()', () => {
+    it('should return alt text for single image', () => {
+      expect(bannerComponent.getImageAltText(mockBannerData)).toEqual(
+        'hybris Accelerator'
+      );
+    });
+
+    it('should return alt text for image group', () => {
+      const mockDataWithImageGroup: CmsBannerComponent = {
+        ...mockBannerData,
+        media: {
+          mobile: media,
+        },
+      };
+      expect(bannerComponent.getImageAltText(mockDataWithImageGroup)).toEqual(
+        'hybris Accelerator'
+      );
+    });
+
+    it('should return undefined if no media is present', () => {
+      const mockDataWithoutMedia: CmsBannerComponent = {
+        ...mockBannerData,
+        media: undefined,
+      };
+      expect(
+        bannerComponent.getImageAltText(mockDataWithoutMedia)
+      ).toBeUndefined();
+    });
+  });
+
+  describe('getLinkAriaLabel()', () => {
+    it('should prefer headline over image alt text', () => {
+      const mockDataWithHeadline: CmsBannerComponent = {
+        ...mockBannerData,
+        headline: 'Banner Headline',
+        media,
+      };
+      data$.next(mockDataWithHeadline);
+      fixture.detectChanges();
+      const linkElement = el.query(By.css('cx-generic-link')).nativeElement;
+      expect(linkElement.getAttribute('ng-reflect-aria-label')).toEqual(
+        'Banner Headline'
+      );
+    });
+
+    it('should use image alt text if no headline is provided', () => {
+      const mockDataWithAltTextOnly: CmsBannerComponent = {
+        ...mockBannerData,
+        headline: undefined,
+        media: {
+          mobile: media,
+        },
+      };
+      data$.next(mockDataWithAltTextOnly);
+      const linkElement = el.query(By.css('cx-generic-link')).nativeElement;
+      fixture.detectChanges();
+      expect(linkElement.getAttribute('ng-reflect-aria-label')).toEqual(
+        'hybris Accelerator'
+      );
+    });
+
+    it('should return undefined if neither headline nor alt text is available', () => {
+      const mockDataWithoutHeadlineOrAltText: CmsBannerComponent = {
+        ...mockBannerData,
+        headline: undefined,
+        media: undefined,
+      };
+      data$.next(mockDataWithoutHeadlineOrAltText);
+      fixture.detectChanges();
+      const linkElement = el.query(By.css('cx-generic-link')).nativeElement;
+      expect(linkElement.getAttribute('ng-reflect-aria-label')).toBeNull();
     });
   });
 });

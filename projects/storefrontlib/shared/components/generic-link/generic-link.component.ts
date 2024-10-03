@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { GenericLinkComponentService } from './generic-link-component.service';
@@ -47,6 +53,8 @@ export class GenericLinkComponent implements OnChanges {
   @Input() class: string;
   @Input() style: string | undefined;
   @Input() title: string;
+  @Input() ariaLabel?: string;
+  @Input() tabindex: 0 | -1 = 0;
 
   isExternalUrl(): boolean {
     return this.service.isExternalUrl(this.url);

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CmsPDFDocumentComponent } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -14,8 +20,9 @@ export class PDFComponent {
   url?: string;
   data$: Observable<CmsPDFDocumentComponent> = this.component.data$.pipe(
     tap((data) => {
-      if (data?.pdfFile?.url)
+      if (data?.pdfFile?.url) {
         this.url = this.mediaService.getMedia(data.pdfFile)?.src;
+      }
     })
   );
 
@@ -25,7 +32,9 @@ export class PDFComponent {
   ) {}
 
   addPdfExtension(title?: string) {
-    if (!title) return '';
+    if (!title) {
+      return '';
+    }
     const trimTitle = title.trim();
     return trimTitle.endsWith('.pdf') ? trimTitle : `${trimTitle}.pdf`;
   }

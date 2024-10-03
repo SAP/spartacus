@@ -1,10 +1,16 @@
-import { NgModule } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { FormErrorsComponent } from './form-errors.component';
-import { I18nModule } from '@spartacus/core';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
+  imports: [CommonModule, I18nModule, FeaturesConfigModule],
   declarations: [FormErrorsComponent],
   exports: [FormErrorsComponent],
 })

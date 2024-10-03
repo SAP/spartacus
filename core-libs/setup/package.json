@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/setup",
-  "version": "4.1.0-next.0",
+  "version": "2211.29.0-2",
   "description": "Includes features that makes Spartacus and it's setup easier and streamlined.",
   "keywords": [
     "spartacus",
@@ -12,19 +12,23 @@
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/core-libs/setup",
   "license": "Apache-2.0",
+  "scripts": {
+    "test": "../../node_modules/.bin/jest --config ./jest.config.js"
+  },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular/core": "^13.3.0",
-    "@spartacus/cart": "4.1.0-next.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/order": "4.2.0",
-    "@spartacus/user": "4.1.0-next.0"
+    "@angular/core": "^17.0.5",
+    "@angular/ssr": "^17.0.5",
+    "@spartacus/cart": "2211.29.0-2",
+    "@spartacus/core": "2211.29.0-2",
+    "@spartacus/order": "2211.29.0-2",
+    "@spartacus/user": "2211.29.0-2"
   },
   "optionalDependencies": {
-    "@nguniversal/express-engine": "^13.1.1",
-    "express": "^4.15.2"
+    "@angular/platform-server": "^17.0.5",
+    "express": "^4.21.0"
   },
   "publishConfig": {
     "access": "public"

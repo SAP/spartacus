@@ -33,25 +33,23 @@ describe('LoginFormComponentService', () => {
   let authService: AuthService;
   let winRef: WindowRef;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          RouterTestingModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        declarations: [],
-        providers: [
-          LoginFormComponentService,
-          { provide: WindowRef, useClass: MockWinRef },
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      declarations: [],
+      providers: [
+        LoginFormComponentService,
+        { provide: WindowRef, useClass: MockWinRef },
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     service = TestBed.inject(LoginFormComponentService);
@@ -75,7 +73,7 @@ describe('LoginFormComponentService', () => {
     it('should patch user id', () => {
       spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
         history: { state: { newUid: 'test.user@shop.com' } },
-      });
+      } as Window);
       service.isUpdating$.subscribe().unsubscribe();
       expect(service.form.value.userId).toEqual('test.user@shop.com');
     });

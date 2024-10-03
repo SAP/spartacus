@@ -1,6 +1,12 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import { ReplenishmentOrderList } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -9,6 +15,8 @@ import { OrderActions } from '../actions/index';
 
 @Injectable()
 export class ReplenishmentOrdersEffect {
+  protected logger = inject(LoggerService);
+
   loadUserReplenishmentOrders$: Observable<OrderActions.UserReplenishmentOrdersAction> =
     createEffect(() =>
       this.actions$.pipe(
@@ -33,7 +41,7 @@ export class ReplenishmentOrdersEffect {
               catchError((error) =>
                 of(
                   new OrderActions.LoadUserReplenishmentOrdersFail(
-                    normalizeHttpError(error)
+                    tryNormalizeHttpError(error, this.logger)
                   )
                 )
               )

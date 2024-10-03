@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -8,6 +14,7 @@ import {
   Order,
   OrderHistoryList,
 } from '../model/order.model';
+import { Params } from '@angular/router';
 
 export function orderHistoryFacadeFactory() {
   return facadeFactory({
@@ -28,6 +35,8 @@ export function orderHistoryFacadeFactory() {
       'getCancelOrderLoading',
       'getCancelOrderSuccess',
       'resetCancelOrderProcessState',
+      'getOrderDetailsLoading',
+      'getQueryParams',
     ],
     async: true,
   });
@@ -126,4 +135,14 @@ export abstract class OrderHistoryFacade {
    * Resets the cancel order process flags
    */
   abstract resetCancelOrderProcessState(): void;
+
+  /**
+   * Returns an order details loading flag
+   */
+  abstract getOrderDetailsLoading(): Observable<boolean>;
+
+  /**
+   * Returns query parameters needed for order details route
+   */
+  abstract getQueryParams(order: Order): Params | null;
 }

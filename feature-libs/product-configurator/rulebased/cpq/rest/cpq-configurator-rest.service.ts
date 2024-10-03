@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService } from '@spartacus/core';
@@ -9,10 +15,14 @@ import {
   CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
   CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
   CPQ_CONFIGURATOR_SERIALIZER,
-} from './converters/cpq-configurator.converters';
+} from '../common/converters/cpq-configurator.converters';
 import { CpqConfiguratorEndpointService } from './cpq-configurator-endpoint.service';
-import { Cpq } from './cpq.models';
-
+import { Cpq } from '../common/cpq.models';
+/**
+ * @deprecated since 2211.25. Not needed for commerce based CPQ orchestration (which is the default communication flavour).
+ * Refer to configuration setting ConfiguratorCoreConfig.productConfigurator.cpqOverOcc = true.
+ * The other flavour (performing direct calls from composable storefront to CPQ) is technically no longer supported.
+ */
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorRestService {
   constructor(

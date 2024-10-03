@@ -1,6 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { SampleUser } from '../sample-data/checkout-flow';
+import * as authForm from './auth-forms';
+import * as common from './common';
 import * as login from './login';
+import * as configurationCart from './product-configurator-cart';
 import * as configurationCartVc from './product-configurator-cart-vc';
-//import * as configurationCart from './product-configurator-cart';
 import * as productSearch from './product-search';
 import { verifyGlobalMessageAfterRegistration } from './register';
 
@@ -8,6 +17,11 @@ const nextBtnSelector =
   'cx-configurator-previous-next-buttons button:contains("Next")';
 const previousBtnSelector =
   'cx-configurator-previous-next-buttons button:contains("Previous")';
+
+const quantityStepperSelector =
+  '.cx-add-to-cart-btn-container .cx-quantity cx-item-counter';
+
+const quantitySelector = '.cx-add-to-cart-btn-container .cx-quantity-value';
 
 /**
  * ui types
@@ -73,36 +87,38 @@ export function checkCurrentGroupActive(currentGroup: string): void {
  * Clicks on 'previous' or 'next' button.
  *
  * @param {string} btnSelector - Button selector
- * @param {string} activeGroup - Name of the group that should be active after click
+ * @param {string} activeGroup - optional - name of the group that should be active after click
  */
 function clickOnPreviousOrNextBtn(
   btnSelector: string,
-  activeGroup: string
+  activeGroup?: string
 ): void {
   cy.get(btnSelector)
     .click()
     .then(() => {
       checkUpdatingMessageNotDisplayed();
-      checkCurrentGroupActive(activeGroup);
-      checkUpdatingMessageNotDisplayed();
+      if (activeGroup) {
+        checkCurrentGroupActive(activeGroup);
+        checkUpdatingMessageNotDisplayed();
+      }
     });
 }
 
 /**
  * Clicks on the next group Button and verifies that an element of the next group is displayed.
  *
- * @param {string} nextGroup - Expected next group name
+ * @param {string} nextGroup - optional - expected next group name
  */
-export function clickOnNextBtn(nextGroup: string): void {
+export function clickOnNextBtn(nextGroup?: string): void {
   clickOnPreviousOrNextBtn(nextBtnSelector, nextGroup);
 }
 
 /**
  * Clicks on the previous group Button and verifies that an element of the previous group is displayed.
  *
- * @param {string} previousGroup - Expected previous group name
+ * @param {string} previousGroup - optional - expected previous group name
  */
-export function clickOnPreviousBtn(previousGroup: string): void {
+export function clickOnPreviousBtn(previousGroup?: string): void {
   clickOnPreviousOrNextBtn(previousBtnSelector, previousGroup);
 }
 
@@ -161,7 +177,7 @@ export function checkAttributeDisplayed(
   uiType: uiType
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
-  cy.get(`#${attributeId}`).should('be.visible');
+  cy.get(`#${attributeId}`).scrollIntoView().should('be.visible');
 }
 
 /**
@@ -268,13 +284,13 @@ export function getAttributeLabelId(attributeName: string): string {
  * @param {string} attributeName - Attribute name
  * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
- * @param {string} value - Value
+ * @param {boolean} waitForUpdateMsg - optional, default is true. if set to false, will not wait for update message to disappear
  */
 export function selectAttribute(
   attributeName: string,
   uiType: uiType,
   valueName: string,
-  value?: string
+  waitForUpdateMsg: boolean = true
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.log('attributeId: ' + attributeId);
@@ -294,14 +310,16 @@ export function selectAttribute(
       cy.get(`#${labelId}`)
         .click({ force: true })
         .then(() => {
-          checkUpdatingMessageNotDisplayed();
+          if (waitForUpdateMsg) {
+            checkUpdatingMessageNotDisplayed();
+          }
         });
       break;
     case 'dropdown':
       cy.get(`#${attributeId} ng-select`).ngSelect(valueName);
       break;
     case 'input':
-      cy.get(`#${valueId}`).clear().type(value);
+      cy.get(`#${valueId}`).clear().type(valueName);
       break;
     case 'dropdownProduct':
       cy.get(`select#${attributeId}`).select(valueName);
@@ -313,7 +331,9 @@ export function selectAttribute(
       cy.get(btnLoc)
         .click({ force: true })
         .then(() => {
-          checkUpdatingMessageNotDisplayed();
+          if (waitForUpdateMsg) {
+            checkUpdatingMessageNotDisplayed();
+          }
           //Here we cannot check if the value is selected, as this method is also used
           //for de-selecting items
         });
@@ -324,7 +344,9 @@ export function selectAttribute(
       );
   }
 
-  checkUpdatingMessageNotDisplayed();
+  if (waitForUpdateMsg) {
+    checkUpdatingMessageNotDisplayed();
+  }
 }
 
 /**
@@ -348,9 +370,11 @@ export function checkValueSelected(
     );
   } else {
     if (uiType === 'dropdownProduct') {
-      if (valueName === '0') {
-        // no product card for 'no option selected'
-        cy.get(`#${valueId} .cx-product-card`).should('not.exist');
+      if (valueName.includes('RETRACT_VALUE_CODE')) {
+        // No product card for 'No option selected'
+        // The RETRACT_VALUE_CODE constant contains special sing, namely `#`, that should be masked accordingly `\\#`
+        const newValueId = valueId.replaceAll('#', '\\#');
+        cy.get(`#${newValueId} .cx-product-card`).should('not.exist');
       } else {
         cy.get(`#${valueId} .cx-product-card`).should('be.visible');
       }
@@ -450,7 +474,7 @@ export function clickOnGroupByGroupIndex(groupIndex: number): void {
  * Clicks the group menu.
  */
 export function clickHamburger(): void {
-  cy.get('cx-hamburger-menu [aria-label="Menu"]')
+  cy.get('cx-configurator-group-title cx-hamburger-menu button')
     .click()
     .then(() => {
       checkUpdatingMessageNotDisplayed();
@@ -461,52 +485,21 @@ export function clickHamburger(): void {
  * Verifies whether the group menu is displayed.
  */
 export function checkHamburgerDisplayed(): void {
-  cy.get('cx-hamburger-menu [aria-label="Menu"]').should('be.visible');
-}
-
-/**
- * Clicks on 'Add to cart' on the product details page.
- */
-export function clickOnAddToCartBtnOnPD(): void {
-  cy.get('cx-add-to-cart button.btn-primary')
-    .contains('Add to cart')
-    .click()
-    .then(() => {
-      cy.get('cx-added-to-cart-dialog').should('be.visible');
-      cy.get('div.cx-dialog-body').should('be.visible');
-      cy.get('div.cx-dialog-buttons a.btn-primary')
-        .contains('view cart')
-        .should('be.visible');
-      cy.get('div.cx-dialog-buttons a.btn-secondary')
-        .contains('proceed to checkout')
-        .should('be.visible');
-    });
-}
-
-/**
- * Clicks on 'View Cart' on the product details page.
- */
-export function clickOnViewCartBtnOnPD(): void {
-  cy.get('div.cx-dialog-buttons a.btn-primary')
-    .contains('view cart')
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', '/cart');
-      cy.get('h1').contains('Your Shopping Cart').should('be.visible');
-      cy.get('cx-cart-details').should('be.visible');
-    });
+  cy.get('cx-configurator-group-title cx-hamburger-menu button').should(
+    'be.visible'
+  );
 }
 
 /**
  * Clicks on 'Proceed to Checkout' on the product details page.
  */
 export function clickOnProceedToCheckoutBtnOnPD(): void {
-  cy.get('div.cx-dialog-buttons a.btn-secondary')
+  cy.get('div.cx-dialog-buttons button.btn-secondary')
     .contains('proceed to checkout')
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/checkout/delivery-address');
-      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
       cy.get('cx-delivery-address').should('be.visible');
     });
 }
@@ -540,21 +533,102 @@ export function searchForProduct(productName: string): void {
  *
  * @param {string} productName - Product name
  */
-export function completeOrderProcess(productName: string): void {
-  login.registerUser();
+export function completeOrderProcess(
+  productName: string,
+  navigateToOrderDetails: boolean = false
+): void {
+  const user: SampleUser = login.registerUser(true);
   verifyGlobalMessageAfterRegistration();
   const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
-  login.loginUser();
+  authForm.login(user.email, user.password);
   cy.wait(tokenAuthRequestAlias).its('response.statusCode').should('eq', 200);
   this.searchForProduct(productName);
-  this.clickOnAddToCartBtnOnPD();
+  common.clickOnAddToCartBtnOnPD();
   this.clickOnProceedToCheckoutBtnOnPD();
-  configurationCartVc.checkout();
-  //TODO: activate after 22.05
-  //configurationCart.navigateToOrderDetails();
+  configurationCartVc.completeCheckout(user);
+  if (navigateToOrderDetails) {
+    configurationCart.navigateToOrderDetails();
+  }
   //don't check the order history aspect because this part is flaky
-  //configuration.selectOrderByOrderNumberAlias();
+  // configurationCart.selectOrderByOrderNumberAlias();
   const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
   login.signOutUser();
   cy.wait(tokenRevocationRequestAlias);
+}
+
+/**
+ * Clicks on the exit configuration button.
+ */
+export function clickExitConfigurationBtn(): void {
+  cy.get('cx-configurator-exit-button button')
+    .click()
+    .then(() => {
+      cy.location('pathname').should('not.contain', '/configure/');
+    });
+}
+
+/**
+ * Verifies whether the quantity stepper is not displayed next to the add-to-cart button.
+ */
+export function checkQuantityStepperNotDisplayed() {
+  cy.get(quantityStepperSelector).should('not.exist');
+}
+
+/**
+ * Verifies that quantity is not displayed.
+ */
+export function checkQuantityNotDisplayed() {
+  cy.get(quantitySelector).should('not.exist');
+}
+
+/**
+ * Verifies whether a quantity value that is entered into the quantity stepper is equal to the expected value.
+ *
+ * @param {number} expectedValue - expected quantity value
+ */
+export function checkQuantityStepper(expectedValue: number) {
+  cy.get(quantityStepperSelector + ' input').should(
+    'have.value',
+    expectedValue.toString()
+  );
+}
+
+/**
+ * Verifies whether a quantity value that has been entered into the quantity stepper is equal to the expected value.
+ *
+ * @param {number} expectedValue - expected quantity value
+ */
+export function checkQuantity(expectedValue: number) {
+  cy.get(quantitySelector).then((elem) => {
+    expect(elem.text().trim()).to.equal(expectedValue.toString());
+  });
+}
+
+function changeQuantityValue(sign: string) {
+  cy.get(quantityStepperSelector + ' button')
+    .contains(sign)
+    .click();
+}
+
+/**
+ * Increase a quantity value of the quantity stepper.
+ */
+export function increaseQuantity() {
+  changeQuantityValue('+');
+}
+
+/**
+ * Decrease a quantity value of the quantity stepper.
+ */
+export function decreaseQuantity() {
+  changeQuantityValue('-');
+}
+
+/**
+ * Enter a new quantity value into the quantity stepper.
+ */
+export function enterQuantityValue(quantity: number) {
+  cy.get(quantityStepperSelector + ' input').type(
+    `{selectall}${quantity.toString()}{enter}`
+  );
 }

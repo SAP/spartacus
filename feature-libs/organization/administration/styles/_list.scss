@@ -73,8 +73,12 @@
   }
 }
 
+// TODO: (CXSPA-6624) - Remove feature flag + redundant code
 %organizationTitle {
   .title {
+    cx-popover {
+      text-transform: initial;
+    }
     h3 {
       button {
         border: none;
@@ -82,6 +86,23 @@
         cx-icon {
           pointer-events: none;
           color: var(--cx-color, var(--cx-color-info));
+        }
+      }
+    }
+  }
+  @include forFeature('a11yOrganizationListHeadingOrder') {
+    .title {
+      h2,
+      h3 {
+        @include type('3', 'normal');
+        text-transform: uppercase;
+        button {
+          border: none;
+          background-color: inherit;
+          cx-icon {
+            pointer-events: none;
+            color: var(--cx-color, var(--cx-color-info));
+          }
         }
       }
     }
@@ -170,11 +191,32 @@
       }
     }
   }
+  // TODO: (CXSPA-7155) - Remove feature flag next major release
+  @include forFeature('a11yOrganizationLinkableCells') {
+    cx-view {
+      &[position='0'] tr {
+        cursor: pointer;
+      }
+    }
+  }
 
   cx-view[position='0'] > cx-table.vertical {
     table {
       border-top: solid 1px var(--cx-color-light);
       border-bottom: solid 1px var(--cx-color-light);
+    }
+  }
+
+  @include cx-highContrastTheme {
+    cx-view {
+      .header {
+        background-color: var(--cx-color-background);
+      }
+      .main {
+        .details {
+          background-color: var(--cx-color-background);
+        }
+      }
     }
   }
 
@@ -236,6 +278,9 @@
 
       &:not(.current) {
         background-color: var(--cx-color-inverse);
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
       }
 
       &.disabled {
@@ -264,6 +309,14 @@
   cx-table {
     &.vertical-stacked tbody,
     &.vertical tr {
+      &:not(:last-child) {
+        @include cx-highContrastTheme {
+          border-bottom: solid 1px rgba(0, 0, 0, 0.125);
+        }
+        @include cx-highContrastTheme-dark {
+          border-bottom: solid 1px var(--cx-color-text);
+        }
+      }
       // highlight the items on hovering
       &:hover:not(.is-current) {
         background-color: var(--cx-color-background);
@@ -278,6 +331,12 @@
       &:focus-within {
         @include visible-focus();
         outline-offset: -2px;
+      }
+      // TODO: (CXSPA-6457) - Remove feature flag next major release
+      @include forFeature('a11yListOversizedFocus') {
+        & cx-org-active-link-cell a:focus {
+          outline: none;
+        }
       }
 
       .hide-focus-border {
@@ -303,6 +362,12 @@
           display: none;
         }
         tr {
+          // TODO: (CXSPA-6457) - Remove feature flag next major release
+          @include forFeature('a11yListOversizedFocus') {
+            &:focus-within {
+              outline: none;
+            }
+          }
           td {
             &.actions {
               width: 1px;
@@ -353,7 +418,12 @@
 
     td:last-child a {
       // last cell will have an icon, which is why we add additional padding
+      // TODO: (CXSPA-6457) - Remove feature flag next major release
       padding-inline-end: 40px;
+      @include forFeature('a11yListOversizedFocus') {
+        padding-inline-end: unset;
+        margin-inline-end: 40px;
+      }
     }
 
     td:last-child span {
@@ -404,11 +474,28 @@
           }
         }
       }
+      // TODO: (CXSPA-6804) - Remove feature flag next major release
+      @include forFeature('a11yUnitsListKeyboardControls') {
+        cx-org-active-link-cell a,
+        cx-org-toggle-link-cell a {
+          color: var(--cx-color-primary);
+          text-decoration: underline;
+        }
+      }
       a {
+        // TODO: (CXSPA-6804) - Remove feature flag next major release
+        @include forFeature('a11yUnitsListKeyboardControls') {
+          color: inherit;
+          text-decoration: none;
+        }
         display: flex;
         align-items: center;
         width: 100%;
+        // TODO: (CXSPA-6457) - Remove feature flag next major release
         min-height: 74px;
+        @include forFeature('a11yListOversizedFocus') {
+          min-height: unset;
+        }
 
         @include media-breakpoint-up(lg) {
           .text {
@@ -416,7 +503,7 @@
             padding-inline-start: 0;
           }
         }
-
+        // TODO: (CXSPA-6804) - Remove feature flag next major release
         &[tabindex='0'],
         &[tabindex='0']:hover {
           text-decoration: underline;
@@ -427,6 +514,19 @@
         &[tabindex='-1']:hover {
           color: inherit;
           text-decoration: none;
+        }
+        @include forFeature('a11yUnitsListKeyboardControls') {
+          &[tabindex='0'],
+          &[tabindex='0']:hover {
+            text-decoration: unset;
+            color: unset;
+          }
+
+          &[tabindex='-1'],
+          &[tabindex='-1']:hover {
+            color: unset;
+            text-decoration: unset;
+          }
         }
       }
     }

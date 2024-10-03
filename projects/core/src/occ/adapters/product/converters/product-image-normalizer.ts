@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { ImageGroup, Images } from '../../../../model/image.model';
 import { Product } from '../../../../model/product.model';
@@ -31,22 +37,17 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
     const images: Images = {};
     if (source) {
       for (const image of source) {
-        const isList = image.hasOwnProperty('galleryIndex');
+        const isList = this.hasGalleryIndex(image);
         if (image.imageType) {
           if (!images.hasOwnProperty(image.imageType)) {
             images[image.imageType] = isList ? [] : {};
           }
 
-          let imageContainer: ImageGroup;
-          if (isList) {
-            const imageGroups = images[image.imageType] as ImageGroup[];
-            if (!imageGroups[image.galleryIndex as number]) {
-              imageGroups[image.galleryIndex as number] = {};
-            }
-            imageContainer = imageGroups[image.galleryIndex as number];
-          } else {
-            imageContainer = images[image.imageType] as ImageGroup;
-          }
+          const imageContainer: ImageGroup = this.getImageContainer(
+            isList,
+            images,
+            image
+          );
 
           const targetImage = { ...image };
           targetImage.url = this.normalizeImageUrl(targetImage.url ?? '');
@@ -58,6 +59,28 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
     }
     return images;
   }
+
+  protected getImageContainer(
+    isList: boolean,
+    images: Images,
+    image: Occ.Image | any
+  ) {
+    if (isList) {
+      const imageGroups = this.getImageGroups(images, image);
+      return imageGroups[image.galleryIndex as number];
+    } else {
+      return images[image.imageType] as ImageGroup;
+    }
+  }
+
+  protected getImageGroups(images: Images, image: Occ.Image | any) {
+    const imageGroups = images[image.imageType] as ImageGroup[];
+    if (!imageGroups[image.galleryIndex as number]) {
+      imageGroups[image.galleryIndex as number] = {};
+    }
+    return imageGroups;
+  }
+
   /**
    * Traditionally, in an on-prem world, medias and other backend related calls
    * are hosted at the same platform, but in a cloud setup, applications are are
@@ -74,5 +97,10 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
         this.config.backend?.occ?.baseUrl ||
         '') + url
     );
+  }
+
+  private hasGalleryIndex(image: Occ.Image) {
+    const galleryIndex = image.galleryIndex ?? false;
+    return galleryIndex !== false;
   }
 }

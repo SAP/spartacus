@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { RouterState, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -39,11 +45,19 @@ export class ConfiguratorRouterExtractorService {
           skipConflicts:
             routingData.state.queryParams?.skipConflicts === 'true',
           forceReload: routingData.state.queryParams?.forceReload === 'true',
+          expMode: routingData.state.queryParams?.expMode === 'true',
+          displayRestartDialog:
+            routingData.state.queryParams?.displayRestartDialog === 'true',
+          configIdTemplate: routingData.state.queryParams?.configIdTemplate,
+          navigationId: routingData.navigationId,
           pageType:
             semanticRoute &&
             semanticRoute.includes(this.ROUTE_FRAGMENT_OVERVIEW)
               ? ConfiguratorRouter.PageType.OVERVIEW
               : ConfiguratorRouter.PageType.CONFIGURATION,
+          navigateToCheckout:
+            routingData.state.queryParams?.navigateToCheckout === 'true',
+          productCode: routingData.state.queryParams?.productCode,
         };
 
         return routerData;
@@ -91,7 +105,7 @@ export class ConfiguratorRouterExtractorService {
     } else if (semanticRoute.startsWith(this.ROUTE_FRAGMENT_CONFIGURE)) {
       return semanticRoute.split(this.ROUTE_FRAGMENT_CONFIGURE)[1];
     } else {
-      throw new Error('Not able to detemine configurator type');
+      throw new Error('Not able to determine configurator type');
     }
   }
 }

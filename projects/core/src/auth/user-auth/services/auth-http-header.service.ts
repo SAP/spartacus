@@ -1,13 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import {
-  combineLatest,
-  defer,
   EMPTY,
   Observable,
-  queueScheduler,
   Subject,
   Subscription,
+  combineLatest,
+  defer,
+  queueScheduler,
   using,
 } from 'rxjs';
 import {
@@ -42,7 +48,7 @@ export class AuthHttpHeaderService implements OnDestroy {
   /**
    * Starts the refresh of the access token
    */
-  protected refreshTokenTrigger$ = new Subject<AuthToken>();
+  protected refreshTokenTrigger$ = new Subject<AuthToken | undefined>();
 
   /**
    * Internal token streams which reads the latest from the storage.
@@ -137,8 +143,9 @@ export class AuthHttpHeaderService implements OnDestroy {
     token?: AuthToken
   ): HttpRequest<any> {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
+    const isBaseSitesRequest = this.isBaseSitesRequest(request);
     const isOccUrl = this.isOccUrl(request.url);
-    if (!hasAuthorizationHeader && isOccUrl) {
+    if (!hasAuthorizationHeader && isOccUrl && !isBaseSitesRequest) {
       return request.clone({
         setHeaders: {
           ...this.createAuthorizationHeader(token),
@@ -150,6 +157,12 @@ export class AuthHttpHeaderService implements OnDestroy {
 
   protected isOccUrl(url: string): boolean {
     return url.includes(this.occEndpoints.getBaseUrl());
+  }
+
+  protected isBaseSitesRequest(request: HttpRequest<any>): boolean {
+    return request.url.includes(
+      this.occEndpoints.getRawEndpointValue('baseSites')
+    );
   }
 
   protected getAuthorizationHeader(request: HttpRequest<any>): string | null {
@@ -263,7 +276,7 @@ export class AuthHttpHeaderService implements OnDestroy {
             token?.access_token === requestToken?.access_token &&
             !refreshTriggered
           ) {
-            this.refreshTokenTrigger$.next(token);
+            this.refreshTokenTrigger$.next(token as AuthToken);
           }
           refreshTriggered = true;
         }),

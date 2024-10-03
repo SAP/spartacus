@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,7 +12,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   Cart,
   DeleteCartEvent as DeleteSavedCartEvent,
@@ -22,6 +32,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   FocusConfig,
@@ -30,7 +41,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { combineLatest, merge, Observable, Subscription } from 'rxjs';
-import { map, mapTo, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 export interface SavedCartFormDialogOptions {
   cart: Cart;
@@ -45,7 +56,7 @@ export interface SavedCartFormDialogOptions {
 export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   savedCartFormType = SavedCartFormType;
-  form: FormGroup;
+  form: UntypedFormGroup;
   iconTypes = ICON_TYPE;
   cart: Cart;
   layoutOption: string | undefined;
@@ -87,7 +98,9 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     protected eventService: EventService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService
-  ) {}
+  ) {
+    useFeatureStyles('a11yVisibleFocusOverflows');
+  }
 
   ngOnInit(): void {
     this.resetSavedCartStates();
@@ -95,10 +108,14 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.savedCartService.getSaveCartProcessLoading();
 
     this.isDisableDeleteButton$ = merge(
-      this.eventService.get(DeleteSavedCartEvent).pipe(take(1), mapTo(true)),
-      this.eventService
-        .get(DeleteSavedCartFailEvent)
-        .pipe(take(1), mapTo(false))
+      this.eventService.get(DeleteSavedCartEvent).pipe(
+        take(1),
+        map(() => true)
+      ),
+      this.eventService.get(DeleteSavedCartFailEvent).pipe(
+        take(1),
+        map(() => false)
+      )
     );
 
     this.isDisableRestoreButton$ = combineLatest([
@@ -131,7 +148,10 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.eventService
         .get(DeleteSavedCartSuccessEvent)
-        .pipe(take(1), mapTo(true))
+        .pipe(
+          take(1),
+          map(() => true)
+        )
         .subscribe((success) => this.onComplete(success))
     );
 
@@ -261,20 +281,22 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   }
 
   protected build(cart?: Cart) {
-    const form = new FormGroup({});
+    const form = new UntypedFormGroup({});
     form.setControl(
       'name',
-      new FormControl('', [
+      new UntypedFormControl('', [
         Validators.required,
         Validators.maxLength(this.nameMaxLength),
       ])
     );
     form.setControl(
       'description',
-      new FormControl('', [Validators.maxLength(this.descriptionMaxLength)])
+      new UntypedFormControl('', [
+        Validators.maxLength(this.descriptionMaxLength),
+      ])
     );
-    form.setControl('isCloneSavedCart', new FormControl(''));
-    form.setControl('cloneName', new FormControl(''));
+    form.setControl('isCloneSavedCart', new UntypedFormControl(''));
+    form.setControl('cloneName', new UntypedFormControl(''));
     this.form = form;
     this.patchData(cart);
   }

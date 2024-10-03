@@ -1,0 +1,43 @@
+// Mixins
+@import './mixins/mixins';
+
+// Components
+@import './quote-comments';
+@import './quote-confirm-dialog';
+@import './quote-header-buyer-edit';
+@import './quote-header-overview';
+@import './quote-items';
+@import './quote-links';
+@import './quote-list';
+@import './quote-request-button';
+@import './quote-summary';
+@import './quote-summary-actions';
+@import './quote-summary-prices';
+@import './quote-summary-seller-edit';
+@import './layout/index';
+
+$quote-components-allowlist: cx-quote-confirm-dialog cx-quote-links
+  cx-quote-comments cx-quote-header-buyer-edit cx-quote-header-overview
+  cx-quote-summary cx-quote-summary-actions cx-quote-summary-prices
+  cx-quote-summary-seller-edit cx-quote-items cx-quote-list
+  cx-quote-request-button !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $quote-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $quote-components-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

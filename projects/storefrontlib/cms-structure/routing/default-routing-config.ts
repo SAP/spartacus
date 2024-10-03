@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { RoutesConfig, RoutingConfig } from '@spartacus/core';
 
 export const defaultStorefrontRoutesConfig: RoutesConfig = {
@@ -7,6 +13,11 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   // semantic links for login related pages
   login: {
     paths: ['login'],
+    protected: false,
+    authFlow: true,
+  },
+  verifyToken: {
+    paths: ['login/verify-token'],
     protected: false,
     authFlow: true,
   },

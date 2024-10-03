@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -5,7 +11,11 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   isNotNullable,
   Product,
@@ -20,7 +30,6 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { CustomFormValidators } from '../../../../shared/index';
 import { CurrentProductService } from '../../current-product.service';
 
 @Component({
@@ -38,7 +47,7 @@ export class ProductReviewsComponent {
   // TODO: configurable
   initialMaxListItems = 5;
   maxListItems: number;
-  reviewForm: FormGroup;
+  reviewForm: UntypedFormGroup;
 
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
@@ -59,7 +68,7 @@ export class ProductReviewsComponent {
   constructor(
     protected reviewService: ProductReviewService,
     protected currentProductService: CurrentProductService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     protected cd: ChangeDetectorRef
   ) {}
 
@@ -121,7 +130,7 @@ export class ProductReviewsComponent {
     this.reviewForm = this.fb.group({
       title: ['', Validators.required],
       comment: ['', Validators.required],
-      rating: [null, CustomFormValidators.starRatingEmpty],
+      rating: [null, Validators.required],
       reviewerName: '',
     });
   }

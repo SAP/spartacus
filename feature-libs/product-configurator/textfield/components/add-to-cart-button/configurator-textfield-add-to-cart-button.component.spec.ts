@@ -5,6 +5,7 @@ import {
   Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   RouterState,
@@ -80,33 +81,31 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     expect(seenText).toBe(buttonText);
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          ConfiguratorTextfieldAddToCartButtonComponent,
-          MockUrlPipe,
-        ],
-        providers: [
-          {
-            provide: ConfiguratorTextfieldService,
-            useClass: MockConfiguratorTextfieldService,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-        ],
-      })
-        .overrideComponent(ConfiguratorTextfieldAddToCartButtonComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [
+        ConfiguratorTextfieldAddToCartButtonComponent,
+        MockUrlPipe,
+      ],
+      providers: [
+        {
+          provide: ConfiguratorTextfieldService,
+          useClass: MockConfiguratorTextfieldService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorTextfieldAddToCartButtonComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

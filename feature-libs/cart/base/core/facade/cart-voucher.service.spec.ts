@@ -6,8 +6,8 @@ import {
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
+import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { Observable, of } from 'rxjs';
-import * as fromProcessReducers from '../../../../../projects/core/src/process/store/reducers/index';
 import { CartActions } from '../store/actions/index';
 import { CartVoucherService } from './cart-voucher.service';
 
@@ -76,9 +76,10 @@ describe('CartVoucherService', () => {
     });
 
     it('should return the error flag', () => {
+      const error = new Error('error');
       store.dispatch(
         new CartActions.CartAddVoucherFail({
-          error: 'error',
+          error,
           userId,
           cartId: cart.code,
           voucherId,

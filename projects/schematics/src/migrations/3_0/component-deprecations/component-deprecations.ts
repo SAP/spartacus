@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ComponentData } from '../../../shared/utils/file-utils';
 import { loadEsmModule } from '../../../shared/utils/load-esm-module';
@@ -41,9 +47,10 @@ export function migrate(): Rule {
   // - a wrapper function returning Promise<Rule>
   // - passing the resolved `angularCompiler` as an argument down to other helper functions
   return async (tree: Tree, context: SchematicContext): Promise<Rule> => {
-    const angularCompiler = await loadEsmModule<
-      typeof import('@angular/compiler')
-    >('@angular/compiler');
+    const angularCompiler =
+      await loadEsmModule<typeof import('@angular/compiler')>(
+        '@angular/compiler'
+      );
 
     return (): Tree => {
       return migrateComponentMigration(

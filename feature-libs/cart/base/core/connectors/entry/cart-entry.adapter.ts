@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CartModification } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 
@@ -9,12 +15,14 @@ export abstract class CartEntryAdapter {
    * @param cartId
    * @param productCode
    * @param quantity
+   * @param pickupStore
    */
   abstract add(
     userId: string,
     cartId: string,
     productCode: string,
-    quantity?: number
+    quantity?: number,
+    pickupStore?: string
   ): Observable<CartModification>;
 
   /**
@@ -29,8 +37,9 @@ export abstract class CartEntryAdapter {
     userId: string,
     cartId: string,
     entryNumber: string,
-    qty: number,
-    pickupStore?: string
+    qty?: number,
+    pickupStore?: string,
+    pickupToDelivery?: boolean
   ): Observable<CartModification>;
 
   /**

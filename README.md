@@ -2,15 +2,29 @@
 
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/spartacus)](https://api.reuse.software/info/github.com/SAP/spartacus)
 
+## Spartacus and Composable Storefront
+
+Hello and welcome!
+
+This README is part of the `develop` branch, which is an active development branch in the Spartacus repository. As such, the following text may contain references to work that is in progress and not yet officially released.
+
+Starting with version 2211.19, composable storefront has aligned its versioning with SAP Commerce Cloud. The previous release of composable storefront was version 6.8. For more information, see [Changes to Release Numbering and Update Policies for Composable Storefront Starting in February 2024](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/6c7b98dbe68f4a508cac17a207182f4c/5fea969613a341308e2519c5f2827331.html?locale=en-US&version=2211).
+
+Starting with version 5.0, “SAP Commerce Cloud, composable storefront” is the name for the official release of project “Spartacus” libraries published by SAP. The officially supported composable storefront is available to SAP Commerce Cloud customers. Documentation is available on the [SAP Help Portal](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT?locale=en-US).
+
+Composable storefront is based off the Spartacus open source code, and is included in the SAP Commerce Cloud license at no extra cost. Composable storefront has a roll-forward update policy.
+
+On-premise customers may still use Spartacus open source. For more information, see [Self-Publishing Spartacus Libraries Using the Open Source Code](docs/self-publishing-spartacus-libraries.md).
+
 ## What is Spartacus?
 
 Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.
 
-- Documentation is hosted on our dedicated [Spartacus Documentation site](https://sap.github.io/spartacus-docs/).
-- Try out a [sample Spartacus storefront](https://spartacus-demo.eastus.cloudapp.azure.com/electronics-spa/en/USD/) on our public demo site.
+- Documentation is available on the [SAP Help Portal](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT?locale=en-US).
+- Try out a [sample Spartacus storefront](https://composable-storefront-demo.eastus.cloudapp.azure.com/electronics-spa/en/USD/ ) on our public demo site.
 - Technical questions? Get in touch with us on [Stack Overflow](https://stackoverflow.com/questions/tagged/spartacus-storefront).
 - Non-technical questions? Join our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/zt-jekftqo0-HP6xt6IF~ffVB2cGG66fcQ).
-- For details on the 4.0 launch, see the [Release Information page](https://sap.github.io/spartacus-docs/release-information/) on our Spartacus documentation site.
+- For details on the 4.0 launch, see the [Release Information page](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/6c7b98dbe68f4a508cac17a207182f4c/5ebbd2c8478a4874863a6b217c0aa2ba.html) on the SAP Help Portal.
 
 Spartacus is...
 
@@ -33,15 +47,23 @@ Spartacus provides core storefront features such as:
 - Checkout
 - Order history
 
-See the [Release documentation](https://sap.github.io/spartacus-docs/release-information/) for more information.
+See the [Release documentation](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/6c7b98dbe68f4a508cac17a207182f4c/5ebbd2c8478a4874863a6b217c0aa2ba.html) on the SAP Help Portal for more information.
 
 ## Requirements
+
+If you are working with Spartacus 2211, see the 2211 Angular development environment requirements on the [SAP Help Portal](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/cfcf687ce2544bba9799aa6c8314ecd0/bf31098d779f4bdebb7a2d0591917363.html?locale=en-US&version=2211).
+
+If you are working with Spartacus 6.x, see the relevant 6.x Angular development environment requirements on the [SAP Help Portal](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/cfcf687ce2544bba9799aa6c8314ecd0/bf31098d779f4bdebb7a2d0591917363.html?locale=en-US&version=6.0).
+
+If you are working with Spartacus 5.x, see the relevant 5.x Angular development environment requirements on the [SAP Help Portal](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/cfcf687ce2544bba9799aa6c8314ecd0/bf31098d779f4bdebb7a2d0591917363.html?locale=en-US&version=5.0).
+
+For the back end requirements, see the [Composable Storefront Compatibility Matrix](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/6c7b98dbe68f4a508cac17a207182f4c/ba62c2c708ec4751a2612a512177419b.html?locale=en-US#loioab06abcf72954a1297910ca47b766c43).
 
 If you are working with Spartacus 4.x, your Angular development environment should include the following:
 
 - [Angular CLI](https://angular.io/): **12.0** or later, < 13.
-- node.js: 12 (12.16.1 or later) or 14.x.
 - yarn: v1.15 or later
+- node.js: Version **14.15** is required. Version 12.x reached end-of-life on April 30, 2022, and is no longer supported by Spartacus. It is strongly recommended that you migrate any existing Spartacus storefronts to Node.js 14 as soon as possible. If there are any issues with Spartacus and Node.js 14, please upgrade to the latest releases. If you continue to experience issues with Node.js 14, create a support ticket with SAP. Spartacus also supports version 16.x of Node.js, but this version is not yet supported in Commerce Cloud in the Public Cloud builder.
 
 If you are working with Spartacus 3.x, your Angular development environment should include the following:
 
@@ -63,7 +85,7 @@ If you are working with Spartacus 1.x, your Angular development environment shou
 
 For the back end, SAP Commerce Cloud version 1905 or higher is required, and SAP Commerce Cloud version 2005 or newer is recommended.
 
-**Note:** Some Spartacus features require API endpoints that are only available in newer versions of SAP Commerce Cloud. For more information, see [Feature Compatibility](https://sap.github.io/spartacus-docs/feature-release-versions/) in the Spartacus documentation.
+**Note:** Some Spartacus features require API endpoints that are only available in newer versions of SAP Commerce Cloud. For more information, see [Compatibility Matrix](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/6c7b98dbe68f4a508cac17a207182f4c/7f4265e58242466aba453632401cdff4.html) on the SAP Help Portal.
 
 ## Download and Installation
 
@@ -71,9 +93,9 @@ To get up and running with Spartacus, the recommended approach is to build your 
 
 Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs.
 
-To quickly add Spartacus libraries to an Angular application, you can use Spartacus schematics: `ng add @spartacus/schematics`. This will setup and install Spartacus libraries to your Angular project. Please check the [official Spartacus schematics documentation](https://sap.github.io/spartacus-docs/schematics/) for all the prerequisites and instruction on how to use Spartacus schematics.
+To quickly add Spartacus libraries to an Angular application, you can use Spartacus schematics: `ng add @spartacus/schematics`. This will setup and install Spartacus libraries to your Angular project. Please check the [official Spartacus schematics documentation](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/cfcf687ce2544bba9799aa6c8314ecd0/e38d45609de04412920a7fc9c13d41e3.html) for all the prerequisites and instruction on how to use Spartacus schematics.
 
-For complete setup instructions, see [Building the Spartacus Storefront from Libraries](https://sap.github.io/spartacus-docs/building-the-spartacus-storefront-from-libraries/).
+For complete setup instructions, see [Setting Up the Composable Storefront](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/cfcf687ce2544bba9799aa6c8314ecd0/ea187052be724bbf8796d1ba86131781.html) on the SAP Help Portal.
 
 ## Customizing and Extending Spartacus
 
@@ -86,6 +108,12 @@ Content for Spartacus pages is fetched from the SAP Commerce Cloud CMS (Content 
 The documentation for customizing and extending Spartacus is still under development and is being released as it becomes available.
 
 ## Spartacus application documentation
+
+### Version 5.x and newer
+
+See [Composable Storefront API](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/eaef8c61b6d9477daf75bff9ac1b7eb4/0016ac17fb464e77a10b5a1a36cda36a.html?locale=en-US).
+
+### Version 4.x and older
 
 The latest generated documentation for Spartacus application libraries (modules, classes, interfaces, and so on) is hosted here: [https://sap.github.io/spartacus/](https://sap.github.io/spartacus/)
 
@@ -111,14 +139,12 @@ Spartacus is provided "as-is" with no official lines of support.
 
 To get help from the Spartacus community:
 
-- For more general questions, post a question in the Help chat of our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/zt-jekftqo0-HP6xt6IF~ffVB2cGG66fcQ).
 - For developer questions, post a question to [Stack Overflow with the 'spartacus' tag](https://stackoverflow.com/questions/tagged/spartacus).
 
 ## Contributing
 
 Team Spartacus welcomes feedback, ideas, requests, and especially code contributions.
 
-- Post comments to our Feedback chat in our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/zt-jekftqo0-HP6xt6IF~ffVB2cGG66fcQ) channel.
 - Read the [Contributing document](CONTRIBUTING.md) and learn how to:
   - Help others
   - Report an issue
@@ -130,5 +156,6 @@ Many improvements are coming! All tasks will be posted to our GitHub issue track
 
 ## License
 
-Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+Copyright (c) 2024 SAP SE or an SAP affiliate company. All rights reserved.
 This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE](LICENSE) file.
+

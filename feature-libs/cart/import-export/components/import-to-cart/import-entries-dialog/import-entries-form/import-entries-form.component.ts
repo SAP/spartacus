@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,7 +12,11 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { OrderEntriesSource, ProductData } from '@spartacus/cart/base/root';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
 import {
@@ -18,6 +28,7 @@ import {
 import { of, Subject } from 'rxjs';
 import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
+import { GlobalMessageType } from '@spartacus/core';
 
 @Component({
   selector: 'cx-import-entries-form',
@@ -25,9 +36,10 @@ import { ImportProductsFromCsvService } from '../../import-products-from-csv.ser
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportEntriesFormComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
   loadedFile: string[][] | null;
   formSubmitSubject$ = new Subject();
+  globalMessageType = GlobalMessageType;
 
   @Output()
   submitEvent = new EventEmitter<{
@@ -87,11 +99,11 @@ export class ImportEntriesFormComponent implements OnInit {
     }
   }
 
-  protected buildForm(): FormGroup {
-    const form = new FormGroup({});
+  protected buildForm(): UntypedFormGroup {
+    const form = new UntypedFormGroup({});
     form.setControl(
       'file',
-      new FormControl(
+      new UntypedFormControl(
         '',
         [Validators.required, this.filesFormValidators.maxSize(this.maxSize)],
         [

@@ -2,31 +2,33 @@ on:
   push:
     branches:
       - develop
+      - develop-*
       - 'epic/**'
-      - 'release/**'
+      - release-*
 name: Cache node modules
 
 env:
-  NODE_VERSION: '16'
+  NODE_VERSION: '20'
+  CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
 
 jobs:
   cacheNodeModules:   
     name: Cache node_modules
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Installing root dependencies
-        run: yarn --frozen-lockfile
+        run: npm ci
       - name: Installing cypress dependencies
         working-directory: projects/storefrontapp-e2e-cypress
-        run: yarn --frozen-lockfile
+        run: npm ci
       - name: Cache node_modules
         id: cache-node-modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: | 
             node_modules

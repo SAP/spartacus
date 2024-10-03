@@ -1,4 +1,4 @@
-@import '~@spartacus/styles/scss/cxbase/blocks/modal';
+@import '@spartacus/styles/scss/cxbase/blocks/modal';
 
 cx-product-image-zoom-dialog {
   color: var(--cx-color-text);
@@ -38,6 +38,10 @@ cx-product-image-zoom-dialog {
         @media only screen and (max-width: 900px) and (orientation: landscape) {
           padding: 1rem;
         }
+
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
       }
       .cx-dialog-body {
         @extend .modal-body;
@@ -48,6 +52,19 @@ cx-product-image-zoom-dialog {
         @media only screen and (max-width: 900px) and (orientation: landscape) {
           padding: 0;
         }
+      }
+    }
+  }
+  @include cx-highContrastTheme {
+    .cx-dialog-content {
+      color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+      border: 1px solid var(--cx-color-text);
+      .cx-dialog-body {
+        background-color: var(--cx-color-background);
+      }
+      .close {
+        color: var(--cx-color-dark);
       }
     }
   }

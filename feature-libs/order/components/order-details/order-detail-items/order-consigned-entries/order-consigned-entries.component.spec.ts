@@ -3,13 +3,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PromotionLocation } from '@spartacus/cart/base/root';
-import {
-  FeaturesConfig,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
 import { Consignment, Order } from '@spartacus/order/root';
-import { CardModule } from '@spartacus/storefront';
+import { CardModule, OutletModule } from '@spartacus/storefront';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries.component';
 
 const mockProduct = { product: { code: 'test' } };
@@ -85,30 +81,28 @@ describe('OrderConsignedEntriesComponent', () => {
   let fixture: ComponentFixture<OrderConsignedEntriesComponent>;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          CardModule,
-          I18nTestingModule,
-          FeaturesConfigModule,
-          RouterTestingModule,
-        ],
-        providers: [
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '1.4', consignmentTracking: true },
-            },
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        CardModule,
+        I18nTestingModule,
+        RouterTestingModule,
+        OutletModule,
+      ],
+      providers: [
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.4', consignmentTracking: true },
           },
-        ],
-        declarations: [
-          OrderConsignedEntriesComponent,
-          MockConsignmentTrackingComponent,
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+      ],
+      declarations: [
+        OrderConsignedEntriesComponent,
+        MockConsignmentTrackingComponent,
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderConsignedEntriesComponent);
@@ -122,13 +116,6 @@ describe('OrderConsignedEntriesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should return getConsignmentProducts', () => {
-    const products = component.getConsignmentProducts(
-      mockOrder.consignments[0]
-    );
-    expect(products).toEqual([mockProduct]);
   });
 
   it('should order consignment entries be rendered', () => {

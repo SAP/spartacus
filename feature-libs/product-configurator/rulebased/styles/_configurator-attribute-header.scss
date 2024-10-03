@@ -3,8 +3,7 @@
   flex-direction: column;
   margin-inline-start: 17px;
   margin-inline-end: 17px;
-
-  margin-block-end: 17px;
+  margin-block-end: 0px;
 
   label {
     @include type('5');
@@ -20,7 +19,8 @@
 
   @include cx-configurator-required-error-msg();
 
-  .cx-conflict-msg {
+  .cx-conflict-msg,
+  .cx-hidden-msg {
     display: inline-flex;
 
     cx-icon {
@@ -28,10 +28,12 @@
       font-size: 20px;
       padding-inline-end: 5px;
     }
+  }
 
-    .cx-conflict-msg {
-      color: var(--cx-color-text);
+  .cx-conflict-msg {
+    .cx-action-link {
       font-size: 14px;
+      min-height: 0px;
     }
   }
 
@@ -39,7 +41,14 @@
     cursor: pointer;
   }
 
+  a.cx-action-link {
+    cursor: pointer;
+  }
+
   img {
     width: 25%;
+    padding-block-end: 5px;
+    padding-block-start: 5px;
+    display: block;
   }
 }

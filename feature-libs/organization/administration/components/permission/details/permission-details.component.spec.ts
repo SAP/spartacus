@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Permission } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of, Subject } from 'rxjs';
+import { EMPTY, of, Subject } from 'rxjs';
 import { DisableInfoModule } from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
@@ -15,12 +15,13 @@ import { MessageService } from '../../shared/message/services/message.service';
 import { PermissionDetailsComponent } from './permission-details.component';
 
 import createSpy = jasmine.createSpy;
+import { FocusDirective } from '@spartacus/storefront';
 
 const mockCode = 'p1';
 
 class MockPermissionItemService implements Partial<ItemService<Permission>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(of());
+  load = createSpy('load').and.returnValue(EMPTY);
   error$ = of(false);
 }
 
@@ -49,7 +50,11 @@ describe('PermissionDetailsComponent', () => {
         ToggleStatusModule,
         DisableInfoModule,
       ],
-      declarations: [PermissionDetailsComponent, ItemExistsDirective],
+      declarations: [
+        PermissionDetailsComponent,
+        ItemExistsDirective,
+        FocusDirective,
+      ],
       providers: [
         {
           provide: ItemService,

@@ -1,12 +1,19 @@
-import { Injectable, isDevMode } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { LoggerService, StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
@@ -16,6 +23,8 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCommonsService {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected store: Store<StateWithConfigurator>,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
@@ -82,25 +91,27 @@ export class ConfiguratorCommonsService {
    * available
    *
    * @param owner - Configuration owner
-   *
    * @returns {Observable<Configurator.Configuration>}
    */
   getOrCreateConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    configIdTemplate?: string
   ): Observable<Configurator.Configuration> {
     switch (owner.type) {
-      case CommonConfigurator.OwnerType.PRODUCT: {
-        return this.getOrCreateConfigurationForProduct(owner);
-      }
       case CommonConfigurator.OwnerType.CART_ENTRY: {
         return this.configuratorCartService.readConfigurationForCartEntry(
           owner
         );
       }
-      case CommonConfigurator.OwnerType.ORDER_ENTRY: {
+      case CommonConfigurator.OwnerType.ORDER_ENTRY:
+      case CommonConfigurator.OwnerType.QUOTE_ENTRY:
+      case CommonConfigurator.OwnerType.SAVED_CART_ENTRY: {
         return this.configuratorCartService.readConfigurationForOrderEntry(
           owner
         );
+      }
+      default: {
+        return this.getOrCreateConfigurationForProduct(owner, configIdTemplate);
       }
     }
   }
@@ -132,11 +143,13 @@ export class ConfiguratorCommonsService {
             take(1),
             tap((stable) => {
               if (isDevMode() && cart.code && !stable) {
-                console.warn('Cart is busy, no configuration updates possible');
+                this.logger.warn(
+                  'Cart is busy, no configuration updates possible'
+                );
               }
             }),
             filter((stable) => !cart.code || stable),
-            switchMapTo(
+            switchMap(() =>
               this.store.pipe(
                 select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
                 take(1)
@@ -160,7 +173,9 @@ export class ConfiguratorCommonsService {
 
   /**
    * Returns a configuration with an overview. Emits valid configurations which
-   * include the overview aspect
+   * include the overview aspect.
+   * When calling this function it is assumed that the configuration itself is already
+   * available (or its loading is triggered). If not, the function will return an empty observable.
    *
    * @param configuration - Configuration
    * @returns Observable of configurations including the overview
@@ -168,19 +183,49 @@ export class ConfiguratorCommonsService {
   getConfigurationWithOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    return this.store.pipe(
-      select(
-        ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
-      ),
-      filter((config) => this.configuratorUtils.isConfigurationCreated(config)),
-      tap((configurationState) => {
-        if (!this.hasConfigurationOverview(configurationState)) {
+    return this.filterNotLoadingAndCreatedConfiguration(
+      this.store.pipe(
+        select(
+          ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
+            configuration.owner.key
+          )
+        )
+      )
+    ).pipe(
+      tap((config) => {
+        if (!this.hasConfigurationOverview(config)) {
           this.store.dispatch(
             new ConfiguratorActions.GetConfigurationOverview(configuration)
           );
         }
       }),
       filter((config) => this.hasConfigurationOverview(config))
+    );
+  }
+
+  protected filterNotLoadingAndCreatedConfiguration(
+    loaderState$: Observable<StateUtils.LoaderState<Configurator.Configuration>>
+  ): Observable<Configurator.Configuration> {
+    return loaderState$.pipe(
+      filter((configurationState) => configurationState.loading === false),
+      filter((configurationState) =>
+        this.configuratorUtils.isConfigurationCreated(configurationState.value)
+      ),
+      map(
+        (configurationState) =>
+          configurationState.value as Configurator.Configuration
+      )
+    );
+  }
+
+  /**
+   * Updates configuration overview according to group and attribute filters
+   *
+   * @param configuration - Configuration. Can contain filters in its overview facet
+   */
+  updateConfigurationOverview(configuration: Configurator.Configuration): void {
+    this.store.dispatch(
+      new ConfiguratorActions.UpdateConfigurationOverview(configuration)
     );
   }
 
@@ -196,7 +241,31 @@ export class ConfiguratorCommonsService {
   }
 
   /**
-   * Checks if the configuration contains conflicts
+   * Dismisses conflict solver dialog
+   *
+   * @param owner - Configuration owner
+   */
+  dismissConflictSolverDialog(owner: CommonConfigurator.Owner): void {
+    this.store.dispatch(
+      new ConfiguratorActions.DissmissConflictDialoge(owner.key)
+    );
+  }
+
+  /**
+   * Check if we need to launch conflict solver dialog
+   *
+   * @param owner - Configuration owner
+   */
+  checkConflictSolverDialog(owner: CommonConfigurator.Owner): void {
+    this.store.dispatch(
+      new ConfiguratorActions.CheckConflictDialoge(owner.key)
+    );
+  }
+
+  /**
+   * Checks if the configuration contains conflicts that are displayed as conflict groups. Note
+   * that in case conflicts are displayed by the conflict solver dialog, they are not taken into
+   * account for this method
    *
    * @param owner - Configuration owner
    *
@@ -207,14 +276,35 @@ export class ConfiguratorCommonsService {
       map(
         (configuration) =>
           //We expect that the first group must always be the conflict group
+          configuration.immediateConflictResolution === false &&
           configuration.groups[0]?.groupType ===
-          Configurator.GroupType.CONFLICT_HEADER_GROUP
+            Configurator.GroupType.CONFLICT_HEADER_GROUP
       )
     );
   }
 
+  /**
+   * Forces the creation of a new default configuration for the given owner
+   * @param owner - Configuration owner
+   */
+  forceNewConfiguration(owner: CommonConfigurator.Owner): void {
+    this.store.dispatch(
+      new ConfiguratorActions.RemoveConfiguration({
+        ownerKey: owner.key,
+      })
+    );
+    this.store.dispatch(
+      new ConfiguratorActions.CreateConfiguration({
+        owner: owner,
+        configIdTemplate: undefined,
+        forceReset: true,
+      })
+    );
+  }
+
   protected getOrCreateConfigurationForProduct(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    configIdTemplate?: string
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(
@@ -232,7 +322,10 @@ export class ConfiguratorCommonsService {
           configurationState.error !== true
         ) {
           this.store.dispatch(
-            new ConfiguratorActions.CreateConfiguration(owner)
+            new ConfiguratorActions.CreateConfiguration({
+              owner,
+              configIdTemplate,
+            })
           );
         }
       }),
@@ -254,5 +347,14 @@ export class ConfiguratorCommonsService {
     configuration: Configurator.Configuration
   ): boolean {
     return configuration.overview !== undefined;
+  }
+
+  /**
+   * Removes product bound configurations that is linked to state
+   */
+  removeProductBoundConfigurations(): void {
+    this.store.dispatch(
+      new ConfiguratorActions.RemoveProductBoundConfigurations()
+    );
   }
 }

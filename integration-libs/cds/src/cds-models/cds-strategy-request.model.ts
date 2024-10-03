@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * A model class that is used when sending a request to the Context-Driven Services Merchandising Strategy service for returning
  * products for a carousel. There are a number of things that can affect which products are returned, based on the users current

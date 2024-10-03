@@ -1,8 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { AuthActions, ConsentService, isNotUndefined } from '@spartacus/core';
+import { AuthActions, ConsentService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, mapTo } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
 import { ConsentChangedPushEvent } from '../model/profile-tag.model';
 
@@ -20,9 +26,12 @@ export class ProfileTagLifecycleService {
     return this.consentService
       .getConsent(this.config.cds?.consentTemplateId ?? '')
       .pipe(
-        filter(isNotUndefined),
         map((profileConsent) => {
-          return this.consentService.isConsentGiven(profileConsent);
+          if (profileConsent) {
+            return this.consentService.isConsentGiven(profileConsent);
+          } else {
+            return false;
+          }
         }),
         map((granted) => {
           return new ConsentChangedPushEvent(granted);
@@ -33,7 +42,7 @@ export class ProfileTagLifecycleService {
   loginSuccessful(): Observable<boolean> {
     return this.actionsSubject.pipe(
       filter((action) => action.type === AuthActions.LOGIN),
-      mapTo(true)
+      map(() => true)
     );
   }
 }

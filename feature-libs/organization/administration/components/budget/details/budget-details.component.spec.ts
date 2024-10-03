@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Budget } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of, Subject } from 'rxjs';
+import { EMPTY, of, Subject } from 'rxjs';
 import {
   DisableInfoModule,
   ItemExistsDirective,
@@ -16,12 +16,13 @@ import { ItemService } from '../../shared/item.service';
 import { MessageTestingModule } from '../../shared/message/message.testing.module';
 import { BudgetDetailsComponent } from './budget-details.component';
 import createSpy = jasmine.createSpy;
+import { FocusDirective } from '@spartacus/storefront';
 
 const mockCode = 'b1';
 
 class MockBudgetItemService implements Partial<ItemService<Budget>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(of());
+  load = createSpy('load').and.returnValue(EMPTY);
   error$ = of(false);
 }
 
@@ -50,7 +51,11 @@ describe('BudgetDetailsComponent', () => {
         ToggleStatusModule,
         DisableInfoModule,
       ],
-      declarations: [BudgetDetailsComponent, ItemExistsDirective],
+      declarations: [
+        BudgetDetailsComponent,
+        ItemExistsDirective,
+        FocusDirective,
+      ],
       providers: [{ provide: ItemService, useClass: MockBudgetItemService }],
     })
       .overrideComponent(BudgetDetailsComponent, {

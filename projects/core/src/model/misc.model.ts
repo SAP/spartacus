@@ -1,3 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { B2BUnit } from '.';
 import { Address } from './address.model';
 
 export interface Currency {
@@ -35,6 +42,7 @@ export interface User {
   customerId?: string;
   deactivationDate?: Date;
   defaultAddress?: Address;
+  defaultPointOfServiceName?: string;
   displayUid?: string;
   firstName?: string;
   language?: Language;
@@ -44,6 +52,9 @@ export interface User {
   titleCode?: string;
   uid?: string;
   roles?: string[];
+  orgUnit?: B2BUnit;
+  lastCartId?: string;
+  hasOrder?: boolean;
 }
 
 export interface ListModel {
@@ -115,4 +126,17 @@ export interface BaseSite {
   urlPatterns?: string[];
   urlEncodingAttributes?: string[];
   baseStore?: BaseStore;
+  requiresAuthentication?: boolean;
+  isolated?: boolean;
+  captchaConfig?: CaptchaConfig;
+}
+
+export interface CaptchaConfig {
+  enabled: boolean;
+  publicKey?: string;
+}
+
+export interface SiteTheme {
+  i18nNameKey: string;
+  className: string;
 }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, NgZone, Renderer2, RendererFactory2 } from '@angular/core';
 import {
   BaseSiteService,
@@ -5,11 +11,10 @@ import {
   Page,
   PageType,
   RoutingService,
-  ScriptLoader,
   WindowRef,
 } from '@spartacus/core';
-import { SmartEditConfig } from '@spartacus/smartedit/root';
 import { filter, take } from 'rxjs/operators';
+import { SmartEditConfig } from '@spartacus/smartedit/root';
 
 @Injectable({
   providedIn: 'root',
@@ -28,12 +33,8 @@ export class SmartEditService {
     protected zone: NgZone,
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2,
-    protected config: SmartEditConfig,
-    protected scriptLoader: ScriptLoader
+    protected config: SmartEditConfig
   ) {
-    // load webApplicationInjector.js first
-    this.loadScript();
-
     if (winRef.nativeWindow) {
       const window = winRef.nativeWindow as any;
       // rerender components and slots after editing
@@ -72,20 +73,6 @@ export class SmartEditService {
             this.addPageContract(cmsPage);
           });
       });
-  }
-
-  /**
-   * load webApplicationInjector.js
-   */
-  protected loadScript(): void {
-    this.scriptLoader.embedScript({
-      src: 'assets/webApplicationInjector.js',
-      params: undefined,
-      attributes: {
-        id: 'text/smartedit-injector',
-        'data-smartedit-allow-origin': this.config.smartEdit?.allowOrigin,
-      },
-    });
   }
 
   /**

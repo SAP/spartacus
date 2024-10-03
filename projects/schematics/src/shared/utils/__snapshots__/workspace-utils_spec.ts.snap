@@ -1,100 +1,94 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Workspace utils getProject should return project 1`] = `
-Object {
-  "architect": Object {
-    "build": Object {
-      "builder": "@angular-devkit/build-angular:browser",
-      "configurations": Object {
-        "development": Object {
-          "buildOptimizer": false,
+{
+  "architect": {
+    "build": {
+      "builder": "@angular-devkit/build-angular:application",
+      "configurations": {
+        "development": {
           "extractLicenses": false,
-          "namedChunks": true,
           "optimization": false,
           "sourceMap": true,
-          "vendorChunk": true,
         },
-        "production": Object {
-          "budgets": Array [
-            Object {
-              "maximumError": "2.5mb",
+        "production": {
+          "budgets": [
+            {
+              "maximumError": "3.5mb",
               "maximumWarning": "500kb",
               "type": "initial",
             },
-            Object {
+            {
               "maximumError": "4kb",
               "maximumWarning": "2kb",
               "type": "anyComponentStyle",
-            },
-          ],
-          "fileReplacements": Array [
-            Object {
-              "replace": "src/environments/environment.ts",
-              "with": "src/environments/environment.prod.ts",
             },
           ],
           "outputHashing": "all",
         },
       },
       "defaultConfiguration": "production",
-      "options": Object {
-        "assets": Array [
+      "options": {
+        "assets": [
           "src/favicon.ico",
           "src/assets",
         ],
+        "browser": "src/main.ts",
         "index": "src/index.html",
         "inlineStyleLanguage": "scss",
-        "main": "src/main.ts",
         "outputPath": "dist/schematics-test",
-        "polyfills": "src/polyfills.ts",
-        "scripts": Array [],
-        "stylePreprocessorOptions": Object {
-          "includePaths": Array [
+        "polyfills": [
+          "zone.js",
+        ],
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": [
             "node_modules/",
           ],
         },
-        "styles": Array [
+        "styles": [
           "src/styles.scss",
         ],
         "tsConfig": "tsconfig.app.json",
       },
     },
-    "extract-i18n": Object {
+    "extract-i18n": {
       "builder": "@angular-devkit/build-angular:extract-i18n",
-      "options": Object {
-        "browserTarget": "schematics-test:build",
+      "options": {
+        "buildTarget": "schematics-test:build",
       },
     },
-    "serve": Object {
+    "serve": {
       "builder": "@angular-devkit/build-angular:dev-server",
-      "configurations": Object {
-        "development": Object {
-          "browserTarget": "schematics-test:build:development",
+      "configurations": {
+        "development": {
+          "buildTarget": "schematics-test:build:development",
         },
-        "production": Object {
-          "browserTarget": "schematics-test:build:production",
+        "production": {
+          "buildTarget": "schematics-test:build:production",
         },
       },
       "defaultConfiguration": "development",
     },
-    "test": Object {
+    "test": {
       "builder": "@angular-devkit/build-angular:karma",
-      "options": Object {
-        "assets": Array [
+      "options": {
+        "assets": [
           "src/favicon.ico",
           "src/assets",
         ],
         "inlineStyleLanguage": "scss",
-        "karmaConfig": "karma.conf.js",
-        "main": "src/test.ts",
-        "polyfills": "src/polyfills.ts",
-        "scripts": Array [],
-        "stylePreprocessorOptions": Object {
-          "includePaths": Array [
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing",
+        ],
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": [
             "node_modules/",
           ],
         },
-        "styles": Array [
+        "styles": [
           "src/styles.scss",
         ],
         "tsConfig": "tsconfig.spec.json",
@@ -104,12 +98,16 @@ Object {
   "prefix": "app",
   "projectType": "application",
   "root": "",
-  "schematics": Object {
-    "@schematics/angular:application": Object {
-      "strict": true,
-    },
-    "@schematics/angular:component": Object {
+  "schematics": {
+    "@schematics/angular:component": {
+      "standalone": false,
       "style": "scss",
+    },
+    "@schematics/angular:directive": {
+      "standalone": false,
+    },
+    "@schematics/angular:pipe": {
+      "standalone": false,
     },
   },
   "sourceRoot": "src",
@@ -117,99 +115,93 @@ Object {
 `;
 
 exports[`Workspace utils getProjectTargets should return project targets 1`] = `
-Object {
-  "build": Object {
-    "builder": "@angular-devkit/build-angular:browser",
-    "configurations": Object {
-      "development": Object {
-        "buildOptimizer": false,
+{
+  "build": {
+    "builder": "@angular-devkit/build-angular:application",
+    "configurations": {
+      "development": {
         "extractLicenses": false,
-        "namedChunks": true,
         "optimization": false,
         "sourceMap": true,
-        "vendorChunk": true,
       },
-      "production": Object {
-        "budgets": Array [
-          Object {
-            "maximumError": "2.5mb",
+      "production": {
+        "budgets": [
+          {
+            "maximumError": "3.5mb",
             "maximumWarning": "500kb",
             "type": "initial",
           },
-          Object {
+          {
             "maximumError": "4kb",
             "maximumWarning": "2kb",
             "type": "anyComponentStyle",
-          },
-        ],
-        "fileReplacements": Array [
-          Object {
-            "replace": "src/environments/environment.ts",
-            "with": "src/environments/environment.prod.ts",
           },
         ],
         "outputHashing": "all",
       },
     },
     "defaultConfiguration": "production",
-    "options": Object {
-      "assets": Array [
+    "options": {
+      "assets": [
         "src/favicon.ico",
         "src/assets",
       ],
+      "browser": "src/main.ts",
       "index": "src/index.html",
       "inlineStyleLanguage": "scss",
-      "main": "src/main.ts",
       "outputPath": "dist/schematics-test",
-      "polyfills": "src/polyfills.ts",
-      "scripts": Array [],
-      "stylePreprocessorOptions": Object {
-        "includePaths": Array [
+      "polyfills": [
+        "zone.js",
+      ],
+      "scripts": [],
+      "stylePreprocessorOptions": {
+        "includePaths": [
           "node_modules/",
         ],
       },
-      "styles": Array [
+      "styles": [
         "src/styles.scss",
       ],
       "tsConfig": "tsconfig.app.json",
     },
   },
-  "extract-i18n": Object {
+  "extract-i18n": {
     "builder": "@angular-devkit/build-angular:extract-i18n",
-    "options": Object {
-      "browserTarget": "schematics-test:build",
+    "options": {
+      "buildTarget": "schematics-test:build",
     },
   },
-  "serve": Object {
+  "serve": {
     "builder": "@angular-devkit/build-angular:dev-server",
-    "configurations": Object {
-      "development": Object {
-        "browserTarget": "schematics-test:build:development",
+    "configurations": {
+      "development": {
+        "buildTarget": "schematics-test:build:development",
       },
-      "production": Object {
-        "browserTarget": "schematics-test:build:production",
+      "production": {
+        "buildTarget": "schematics-test:build:production",
       },
     },
     "defaultConfiguration": "development",
   },
-  "test": Object {
+  "test": {
     "builder": "@angular-devkit/build-angular:karma",
-    "options": Object {
-      "assets": Array [
+    "options": {
+      "assets": [
         "src/favicon.ico",
         "src/assets",
       ],
       "inlineStyleLanguage": "scss",
-      "karmaConfig": "karma.conf.js",
-      "main": "src/test.ts",
-      "polyfills": "src/polyfills.ts",
-      "scripts": Array [],
-      "stylePreprocessorOptions": Object {
-        "includePaths": Array [
+      "polyfills": [
+        "zone.js",
+        "zone.js/testing",
+      ],
+      "scripts": [],
+      "stylePreprocessorOptions": {
+        "includePaths": [
           "node_modules/",
         ],
       },
-      "styles": Array [
+      "styles": [
         "src/styles.scss",
       ],
       "tsConfig": "tsconfig.spec.json",

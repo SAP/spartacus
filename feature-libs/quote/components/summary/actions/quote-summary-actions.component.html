@@ -1,0 +1,19 @@
+<ng-container *ngIf="quoteDetails$ | async as quoteDetails">
+  <ng-container *ngIf="cartDetails$ | async as cartDetails">
+    <ng-container *ngIf="areButtonsRendered(quoteDetails.allowedActions)">
+      <section [ngClass]="isFixedPosition ? 'fixed' : 'sticky'">
+        <button
+          #element
+          type="button"
+          *ngFor="let action of quoteDetails.allowedActions"
+          class="btn"
+          [ngClass]="getButtonStyle(quoteDetails.allowedActions, action)"
+          [disabled]="mustDisableAction(action.type, quoteDetails)"
+          (click)="onClick(action.type, quoteDetails, cartDetails)"
+        >
+          {{ 'quote.summary.actions.' + action.type | cxTranslate }}
+        </button>
+      </section>
+    </ng-container>
+  </ng-container>
+</ng-container>

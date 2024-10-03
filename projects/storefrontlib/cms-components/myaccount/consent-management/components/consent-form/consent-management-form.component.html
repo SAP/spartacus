@@ -5,14 +5,26 @@
       class="form-check-input"
       (change)="onConsentChange()"
       [checked]="consentGiven"
-      [disabled]="isRequired(consentTemplate?.id)"
+      [name]="consentTemplate.id"
+      [disabled]="disabled || isRequired(consentTemplate?.id)"
     />
     <span class="form-check-label cx-be-bold">
-      {{ consentTemplate?.name }}
+      <ng-container *ngIf="consentTemplate?.name">
+        {{ consentTemplate?.name }}
+        <br />
+      </ng-container>
     </span>
-    <br />
-    <span class="form-check-label">
+    <span
+      *cxFeature="'!a11yNotificationsOnConsentChange'"
+      class="form-check-label"
+    >
       {{ consentTemplate?.description }}
     </span>
   </label>
+  <span
+    *cxFeature="'a11yNotificationsOnConsentChange'"
+    class="form-check-label"
+  >
+    {{ consentTemplate?.description }}
+  </span>
 </div>

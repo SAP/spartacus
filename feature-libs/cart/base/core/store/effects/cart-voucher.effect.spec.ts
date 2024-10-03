@@ -4,8 +4,9 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import {
   GlobalMessageService,
-  normalizeHttpError,
+  LoggerService,
   OccConfig,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -23,6 +24,14 @@ const MockOccModuleConfig: OccConfig = {
     },
   },
 };
+
+class MockLoggerService {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
 
 class MockGlobalMessageService {
   add = createSpy();
@@ -45,6 +54,7 @@ describe('Cart Voucher effect', () => {
         fromEffects.CartVoucherEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: LoggerService, useClass: MockLoggerService },
         provideMockActions(() => actions$),
       ],
     });
@@ -82,7 +92,9 @@ describe('Cart Voucher effect', () => {
 
     it('should fail', () => {
       const error = new HttpErrorResponse({ error: 'error' });
-      cartVoucherConnector.add = createSpy().and.returnValue(throwError(error));
+      cartVoucherConnector.add = createSpy().and.returnValue(
+        throwError(() => error)
+      );
       const action = new CartActions.CartAddVoucher({
         userId,
         cartId,
@@ -92,7 +104,7 @@ describe('Cart Voucher effect', () => {
         userId,
         cartId,
         voucherId,
-        error: normalizeHttpError(error),
+        error: tryNormalizeHttpError(error, new MockLoggerService()),
       });
       const completion2 = new CartActions.CartProcessesDecrement(cartId);
       const completion3 = new CartActions.LoadCart({

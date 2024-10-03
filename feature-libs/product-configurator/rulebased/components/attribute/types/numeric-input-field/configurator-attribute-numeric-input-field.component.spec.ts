@@ -6,19 +6,27 @@ import {
 } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule, LanguageService } from '@spartacus/core';
-import { CommonConfigurator } from 'feature-libs/product-configurator/common';
-import { of } from 'rxjs';
+import {
+  FeaturesConfig,
+  I18nTestingModule,
+  LanguageService,
+} from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 import {
   ConfiguratorAttributeNumericInputFieldService,
@@ -43,15 +51,33 @@ class MockCxIconComponent {
 let DEBOUNCE_TIME: number;
 
 const userInput = '345.00';
+const NUMBER_DECIMAL_PLACES = 2;
+const ATTRIBUTE_NAME = 'attributeName';
+const VALUE_OUTSIDE_ALL_INTERVALS = '5';
 
 const attribute: Configurator.Attribute = {
-  name: 'attributeName',
-  label: 'attributeName',
+  name: ATTRIBUTE_NAME,
+  label: ATTRIBUTE_NAME,
   uiType: Configurator.UiType.NUMERIC,
   userInput: userInput,
-  numDecimalPlaces: 2,
+  numDecimalPlaces: NUMBER_DECIMAL_PLACES,
   numTotalLength: 10,
   negativeAllowed: false,
+};
+
+const attributeInterval: Configurator.Attribute = {
+  name: ATTRIBUTE_NAME,
+  label: ATTRIBUTE_NAME,
+  uiType: Configurator.UiType.NUMERIC,
+  userInput: userInput,
+  numDecimalPlaces: NUMBER_DECIMAL_PLACES,
+  numTotalLength: 10,
+  negativeAllowed: false,
+  intervalInDomain: true,
+  values: [
+    { valueCode: 'a', name: '7 - 11' },
+    { valueCode: 'b', name: '17' },
+  ],
 };
 
 const attributeWoNumericalMetadata: Configurator.Attribute = {
@@ -73,6 +99,16 @@ function checkForValidationMessage(
   expect(validationDiv).toBeDefined();
   expect(validationDiv.length).toBe(expectedMessages);
 }
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+}
+
+const isCartEntryOrGroupVisited = true;
+class MockConfigUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(isCartEntryOrGroupVisited);
+  }
+}
 
 describe('ConfigAttributeNumericInputFieldComponent', () => {
   let component: ConfiguratorAttributeNumericInputFieldComponent;
@@ -82,37 +118,62 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   const locale = 'en';
   let htmlElem: HTMLElement;
   let configuratorAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService;
+  let configuratorUISettingsConfig: ConfiguratorUISettingsConfig = {
+    ...defaultConfiguratorUISettingsConfig,
+    productConfigurator: {
+      ...defaultConfiguratorUISettingsConfig.productConfigurator,
+    },
+  };
 
-  beforeEach(
-    waitForAsync(() => {
-      mockLanguageService = {
-        getAll: () => of([]),
-        getActive: jasmine.createSpy().and.returnValue(of(locale)),
-        setActive: jasmine.createSpy(),
-      };
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeNumericInputFieldComponent,
-          MockFocusDirective,
-          MockCxIconComponent,
-        ],
-        imports: [ReactiveFormsModule, I18nTestingModule],
-        providers: [
-          { provide: LanguageService, useValue: mockLanguageService },
-          {
-            provide: ConfiguratorUISettingsConfig,
-            useValue: defaultConfiguratorUISettingsConfig,
+  beforeEach(waitForAsync(() => {
+    configuratorUISettingsConfig.productConfigurator =
+      defaultConfiguratorUISettingsConfig.productConfigurator;
+    mockLanguageService = {
+      getAll: () => of([]),
+      getActive: jasmine.createSpy().and.returnValue(of(locale)),
+      setActive: jasmine.createSpy(),
+    };
+    TestBed.configureTestingModule({
+      declarations: [
+        ConfiguratorAttributeNumericInputFieldComponent,
+        MockFocusDirective,
+        MockCxIconComponent,
+      ],
+      imports: [ReactiveFormsModule, I18nTestingModule],
+      providers: [
+        { provide: LanguageService, useValue: mockLanguageService },
+        {
+          provide: ConfiguratorUISettingsConfig,
+          useValue: configuratorUISettingsConfig,
+        },
+        {
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
+        },
+
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '*' },
           },
-        ],
-      })
-        .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+        },
+      ],
     })
-  );
+      .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -127,7 +188,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     component.language = locale;
     fixture.detectChanges();
     htmlElem = fixture.nativeElement;
-    spyOn(component.inputChange, 'emit');
     spyOn(
       configuratorAttributeNumericInputFieldService,
       'getPatternForValidationMessage'
@@ -135,6 +195,11 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     DEBOUNCE_TIME =
       defaultConfiguratorUISettingsConfig.productConfigurator
         ?.updateDebounceTime?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
+
+    spyOn(
+      component['configuratorCommonsService'],
+      'updateConfiguration'
+    ).and.callThrough();
   });
 
   function checkForValidity(
@@ -148,8 +213,29 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     checkForValidationMessage(component, fixture, htmlElem, isValid ? 0 : 1);
   }
 
+  function checkForIntervalValidity(
+    input: string,
+    numberOfValidationIssues: number
+  ) {
+    component.attribute = attributeInterval;
+    component.ngOnInit();
+    component.attributeInputForm.setValue(input);
+    checkForValidationMessage(
+      component,
+      fixture,
+      htmlElem,
+      numberOfValidationIssues
+    );
+  }
+
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should not consider empty required input field as invalid, despite that it will be marked as error on the UI, so that engine is still called', () => {
+    component.attribute.required = true;
+    fixture.detectChanges();
+    expect(component.attributeInputForm.valid).toBe(true);
   });
 
   describe('ngOnInit', () => {
@@ -170,7 +256,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       expect(
         configuratorAttributeNumericInputFieldService.getPatternForValidationMessage
       ).toHaveBeenCalledWith(
-        component.attribute.numDecimalPlaces,
+        NUMBER_DECIMAL_PLACES,
         component.attribute.numTotalLength,
         component.attribute.negativeAllowed,
         'en'
@@ -214,40 +300,60 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     });
   });
 
-  it('should display a validation issue if alphanumeric characters occur', () => {
-    checkForValidity('122A23', false, false);
+  describe('Validation', () => {
+    it('should display an issue if alphanumeric characters occur', () => {
+      checkForValidity('122A23', false, false);
+    });
+
+    it('should display an issue if negative sign is included but not allowed to', () => {
+      checkForValidity('-122323', false, false);
+    });
+
+    it('should display no issue if negative sign is included and allowed', () => {
+      checkForValidity('-122323', true, true);
+    });
+
+    it('should display an issue if input is too long', () => {
+      checkForValidity('123456789.34', false, false);
+    });
+
+    it('should display an issue if input is too long and negatives allowed', () => {
+      checkForValidity('123456789.34', true, false);
+    });
+
+    it('should display an issue if input length matches meta data exactly', () => {
+      checkForValidity('12345678.34', false, true);
+    });
+
+    it('should display an issue if input length matches meta data exactly and negatives are allowed', () => {
+      checkForValidity('12345678.34', true, true);
+    });
+
+    it('should display no issue for negative value if input length matches meta data exactly and negatives are allowed', () => {
+      checkForValidity('-12345678.34', true, true);
+    });
+
+    it('should display no issue for single minus if negatives are allowed', () => {
+      checkForValidity('-', true, true);
+    });
   });
 
-  it('should display a validation issue if negative sign is included but not allowed to', () => {
-    checkForValidity('-122323', false, false);
-  });
+  describe('Interval validation', () => {
+    it('should display an issue if input does not match interval', () => {
+      checkForIntervalValidity(VALUE_OUTSIDE_ALL_INTERVALS, 1);
+    });
 
-  it('should display no validation issue if negative sign is included and allowed', () => {
-    checkForValidity('-122323', true, true);
-  });
+    it('should display no issue if input in part of interval', () => {
+      checkForIntervalValidity('8', 0);
+    });
 
-  it('should display a validation issue if input is too long', () => {
-    checkForValidity('123456789.34', false, false);
-  });
+    it('should display no issue if input matches interval (in case for single valued interval', () => {
+      checkForIntervalValidity('17', 0);
+    });
 
-  it('should display a validation issue if input is too long and negatives allowed', () => {
-    checkForValidity('123456789.34', true, false);
-  });
-
-  it('should display no validation issue if input length matches meta data exactly', () => {
-    checkForValidity('12345678.34', false, true);
-  });
-
-  it('should display no validation issue if input length matches meta data exactly and negatives are allowed', () => {
-    checkForValidity('12345678.34', true, true);
-  });
-
-  it('should display no validation issue for negative value if input length matches meta data exactly and negatives are allowed', () => {
-    checkForValidity('-12345678.34', true, true);
-  });
-
-  it('should display no validation issue for single minus if negatives are allowed', () => {
-    checkForValidity('-', true, true);
+    it('should display only one issue if input breaks both validations', () => {
+      checkForIntervalValidity('A', 1);
+    });
   });
 
   it('should not set control value in case the model attribute does not carry a value', () => {
@@ -258,22 +364,43 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
   it('should raise event in case input was changed', () => {
     component.onChange();
-    expect(component.inputChange.emit).toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalled();
   });
 
   it('should raise no event in case input was changed and control is invalid', () => {
     component.ngOnInit();
     component.attributeInputForm.setValue('122A23');
     component.onChange();
-    expect(component.inputChange.emit).toHaveBeenCalledTimes(0);
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledTimes(0);
   });
 
   it('should delay emit inputValue for debounce period', fakeAsync(() => {
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalled();
+  }));
+
+  it('should delay emit inputValue for debounce period in case ui settings config is missing, because it falls back to default time', fakeAsync(() => {
+    configuratorUISettingsConfig.productConfigurator = undefined;
+    component.attributeInputForm.setValue('123');
+    fixture.detectChanges();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).not.toHaveBeenCalled();
+    tick(DEBOUNCE_TIME);
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalled();
   }));
 
   it('should only emit once with last value if inputValue is changed within debounce period', fakeAsync(() => {
@@ -283,14 +410,20 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     component.attributeInputForm.setValue('123456');
     fixture.detectChanges();
     tick(DEBOUNCE_TIME / 2);
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          userInput: '123456',
-        }),
-      })
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledWith(
+      'INITIAL',
+      {
+        ...component.attribute,
+        userInput: '123456',
+        selectedSingleValue: '123456',
+      },
+      Configurator.UpdateType.ATTRIBUTE
     );
   }));
 
@@ -301,7 +434,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     component.attributeInputForm.setValue('123456');
     fixture.detectChanges();
     tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalledTimes(2);
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledTimes(2);
   }));
 
   it('should not emit inputValue after destroy', fakeAsync(() => {
@@ -309,7 +444,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     fixture.detectChanges();
     component.ngOnDestroy();
     tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).not.toHaveBeenCalled();
   }));
 
   describe('Accessibility', () => {
@@ -317,6 +454,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       component.attribute.userInput = '123';
       fixture.detectChanges();
       component.ngOnInit();
+      htmlElem = fixture.debugElement.nativeElement;
       tick(DEBOUNCE_TIME);
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,

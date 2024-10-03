@@ -1,20 +1,30 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
+  Optional,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureConfigService,
   getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
+  PaymentDetails,
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
@@ -45,6 +55,9 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();
   protected deliveryAddress: Address | undefined;
   protected busy$ = new BehaviorSubject<boolean>(false);
+  @Optional() protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   cards$: Observable<{ content: Card; paymentMethod: PaymentDetails }[]>;
   iconTypes = ICON_TYPE;
@@ -281,6 +294,12 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     },
     selected: PaymentDetails | undefined
   ): Card {
+    // TODO: (CXSPA-6956) - Remove feature flag in next major release
+    const hideSelectActionForSelected = this.featureConfigService?.isEnabled(
+      'a11yHideSelectBtnForSelectedAddrOrPayment'
+    );
+    const isSelected = selected?.id === paymentDetails.id;
+
     return {
       role: 'region',
       title: paymentDetails.defaultPayment
@@ -289,11 +308,11 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       textBold: paymentDetails.accountHolderName,
       text: [paymentDetails.cardNumber ?? '', cardLabels.textExpires],
       img: this.getCardIcon(paymentDetails.cardType?.code as string),
-      actions: [{ name: cardLabels.textUseThisPayment, event: 'send' }],
-      header:
-        selected?.id === paymentDetails.id
-          ? cardLabels.textSelected
-          : undefined,
+      actions:
+        hideSelectActionForSelected && isSelected
+          ? []
+          : [{ name: cardLabels.textUseThisPayment, event: 'send' }],
+      header: isSelected ? cardLabels.textSelected : undefined,
       label: paymentDetails.defaultPayment
         ? 'paymentCard.defaultPaymentLabel'
         : 'paymentCard.additionalPaymentLabel',

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   CMS_FLEX_COMPONENT_TYPE,
@@ -114,20 +120,12 @@ export class OccCmsPageNormalizer
           const comp: ContentSlotComponentData = {
             uid: component.uid,
             typeCode: component.typeCode,
+            flexType: this.getFlexTypeFromComponent(component),
+            properties: this.getComponentProperties(component.properties),
           };
-          if (component.properties) {
-            comp.properties = component.properties;
-          }
 
-          if (component.typeCode === CMS_FLEX_COMPONENT_TYPE) {
-            comp.flexType = component.flexType;
-          } else if (component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE) {
-            comp.flexType = component.uid;
-          } else {
-            comp.flexType = component.typeCode;
-          }
           if (slot.position) {
-            let targetSlot = target.page?.slots?.[slot.position];
+            const targetSlot = target.page?.slots?.[slot.position];
             if (targetSlot) {
               if (!targetSlot.components) {
                 targetSlot.components = [];
@@ -138,6 +136,25 @@ export class OccCmsPageNormalizer
         }
       }
     }
+  }
+
+  /**
+   * Returns component properties if they exist
+   */
+  protected getComponentProperties(componentProperties: any): any {
+    return componentProperties ? componentProperties : undefined;
+  }
+
+  /**
+   * Returns the flex type based on the configuration of component properties
+   */
+  protected getFlexTypeFromComponent(component: Occ.Component | any): string {
+    if (component.typeCode === CMS_FLEX_COMPONENT_TYPE) {
+      return component.flexType;
+    } else if (component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE) {
+      return component.uid;
+    }
+    return component.typeCode;
   }
 
   /**
@@ -155,24 +172,22 @@ export class OccCmsPageNormalizer
     }
 
     for (const slot of source.contentSlots.contentSlot) {
-      if (Array.isArray(slot.components?.component)) {
-        for (const component of slot.components?.component ?? []) {
-          // while we're hoping to get this right from the backend api,
-          // the OCC api stills seems out of sync with the right model.
-          if (component.modifiedtime) {
-            component.modifiedTime = component.modifiedtime;
-            delete component.modifiedtime;
-          }
-
-          // we don't put properties into component state
-          if (component.properties) {
-            component.properties = undefined;
-          }
-          if (!target.components) {
-            target.components = [];
-          }
-          target.components.push(component);
+      for (const component of slot.components?.component ?? []) {
+        // while we're hoping to get this right from the backend api,
+        // the OCC api stills seems out of sync with the right model.
+        if (component.modifiedtime) {
+          component.modifiedTime = component.modifiedtime;
+          delete component.modifiedtime;
         }
+
+        // we don't put properties into component state
+        if (component.properties) {
+          component.properties = undefined;
+        }
+        if (!target.components) {
+          target.components = [];
+        }
+        target.components.push(component);
       }
     }
   }

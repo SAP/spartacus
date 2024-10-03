@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,9 +11,13 @@ import {
   Input,
   OnInit,
   Output,
+  inject,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -15,22 +25,27 @@ import {
 import {
   Address,
   AddressValidation,
+  CardType,
   Country,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
+  PaymentDetails,
   Region,
+  TranslationService,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
 import {
   Card,
   ICON_TYPE,
-  ModalRef,
-  ModalService,
-  SuggestedAddressDialogComponent,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  getAddressNumbers,
 } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, combineLatest } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { CheckoutBillingAddressFormService } from '../../checkout-billing-address';
 
 @Component({
   selector: 'cx-payment-form',
@@ -40,16 +55,35 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 export class CheckoutPaymentFormComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
-  suggestedAddressModalRef: ModalRef | null;
   months: string[] = [];
   years: number[] = [];
 
   cardTypes$: Observable<CardType[]>;
   deliveryAddress$: Observable<Address | undefined>;
+  /**
+   * @deprecated since 2211.25
+   * Use CheckoutBillingAddressFormComponent instead
+   */
   countries$: Observable<Country[]>;
+  /**
+   * @deprecated since 2211.25
+   * Use CheckoutBillingAddressFormComponent instead
+   */
   sameAsDeliveryAddress = true;
+  /**
+   * @deprecated since 2211.25
+   * Use CheckoutBillingAddressFormComponent instead
+   */
   regions$: Observable<Region[]>;
+  /**
+   * @deprecated since 2211.25
+   * Use CheckoutBillingAddressFormComponent instead
+   */
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  /**
+   * @deprecated since 2211.25
+   * Use CheckoutBillingAddressFormComponent instead
+   */
   showSameAsDeliveryAddressCheckbox$: Observable<boolean>;
 
   @Input()
@@ -73,7 +107,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
   @Output()
   setPaymentDetails = new EventEmitter<any>();
 
-  paymentForm: FormGroup = this.fb.group({
+  paymentForm: UntypedFormGroup = this.fb.group({
     cardType: this.fb.group({
       code: [null, Validators.required],
     }),
@@ -84,8 +118,11 @@ export class CheckoutPaymentFormComponent implements OnInit {
     cvn: ['', Validators.required],
     defaultPayment: [false],
   });
-
-  billingAddressForm: FormGroup = this.fb.group({
+  /**
+   * @deprecated since 2211.25
+   * Use CheckoutBillingAddressFormComponent instead
+   */
+  billingAddressForm: UntypedFormGroup = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
@@ -100,15 +137,21 @@ export class CheckoutPaymentFormComponent implements OnInit {
     postalCode: ['', Validators.required],
   });
 
+  protected featureConfig = inject(FeatureConfigService);
+  protected billingAddressService = inject(CheckoutBillingAddressFormService);
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
-    protected fb: FormBuilder,
-    protected modalService: ModalService,
-    protected userAddressService: UserAddressService
+    protected fb: UntypedFormBuilder,
+    protected userAddressService: UserAddressService,
+    protected launchDialogService: LaunchDialogService,
+    protected translationService: TranslationService
   ) {}
+  useExtractedBillingAddressComponent: boolean = this.featureConfig.isEnabled(
+    'useExtractedBillingAddressComponent'
+  );
 
   ngOnInit(): void {
     if (this.paymentDetails) {
@@ -188,48 +231,59 @@ export class CheckoutPaymentFormComponent implements OnInit {
     this.paymentForm.value.defaultPayment =
       !this.paymentForm.value.defaultPayment;
   }
-
+  /**
+   * @deprecated since 2211.25
+   * Use CheckoutBillingAddressFormComponent instead
+   */
   toggleSameAsDeliveryAddress(): void {
     this.sameAsDeliveryAddress = !this.sameAsDeliveryAddress;
   }
+  /**
+   * @deprecated since 2211.25
+   * Use CheckoutBillingAddressFormComponent instead
+   */
+  getAddressCardContent(address: Address): Observable<Card> {
+    return this.translationService
+      ? combineLatest([
+          this.translationService.translate('addressCard.phoneNumber'),
+          this.translationService.translate('addressCard.mobileNumber'),
+        ]).pipe(
+          map(([textPhone, textMobile]) => {
+            let region = '';
+            if (address.region && address.region.isocode) {
+              region = address.region.isocode + ', ';
+            }
+            const numbers = getAddressNumbers(address, textPhone, textMobile);
 
-  getAddressCardContent(address: Address): Card {
-    let region = '';
-    if (address.region && address.region.isocode) {
-      region = address.region.isocode + ', ';
-    }
-
-    return {
-      textBold: address.firstName + ' ' + address.lastName,
-      text: [
-        address.line1,
-        address.line2,
-        address.town + ', ' + region + address.country?.isocode,
-        address.postalCode,
-        address.phone,
-      ],
-    } as Card;
+            return {
+              textBold: address.firstName + ' ' + address.lastName,
+              text: [
+                address.line1,
+                address.line2,
+                address.town + ', ' + region + address.country?.isocode,
+                address.postalCode,
+                numbers,
+              ],
+            } as Card;
+          })
+        )
+      : EMPTY;
   }
-
+  /**
+   * @deprecated since 2211.25
+   * Use CheckoutBillingAddressFormComponent instead
+   */
+  //TODO: Add elementRef to trigger button when verifyAddress is used.
   openSuggestedAddress(results: AddressValidation): void {
-    if (!this.suggestedAddressModalRef) {
-      this.suggestedAddressModalRef = this.modalService.open(
-        SuggestedAddressDialogComponent,
-        { centered: true, size: 'lg' }
-      );
-      this.suggestedAddressModalRef.componentInstance.enteredAddress =
-        this.billingAddressForm.value;
-      this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
-        results.suggestedAddresses;
-      this.suggestedAddressModalRef.result
-        .then(() => {
-          this.suggestedAddressModalRef = null;
-        })
-        .catch(() => {
-          // this  callback is called when modal is closed with Esc key or clicking backdrop
-          this.suggestedAddressModalRef = null;
-        });
-    }
+    this.launchDialogService.openDialogAndSubscribe(
+      LAUNCH_CALLER.SUGGESTED_ADDRESSES,
+      undefined,
+      {
+        enteredAddress: this.billingAddressForm.value,
+        suggestedAddresses: results.suggestedAddresses,
+      }
+    );
+    //TODO: Add logic that handle dialog's actions. Scope of CXSPA-1276
   }
 
   close(): void {
@@ -239,7 +293,15 @@ export class CheckoutPaymentFormComponent implements OnInit {
   back(): void {
     this.goBack.emit();
   }
-
+  /**
+   *TODO: This method is not used, but should be. It triggers suggested addresses modal under the hood.
+   *
+   * See ticket CXSPA-1276
+   */
+  /**
+   * @deprecated since 2211.25
+   * Use CheckoutBillingAddressFormComponent instead
+   */
   verifyAddress(): void {
     if (this.sameAsDeliveryAddress) {
       this.next();
@@ -251,7 +313,10 @@ export class CheckoutPaymentFormComponent implements OnInit {
         });
     }
   }
-
+  /**
+   * @deprecated since 2211.25
+   * Use CheckoutBillingAddressFormComponent instead
+   */
   protected handleAddressVerificationResults(results: AddressValidation) {
     if (results.decision === 'ACCEPT') {
       this.next();
@@ -265,33 +330,55 @@ export class CheckoutPaymentFormComponent implements OnInit {
     }
   }
 
+  /**
+   * @deprecated since 2211.25
+   * Use CheckoutBillingAddressFormComponent instead
+   */
   countrySelected(country: Country): void {
     this.billingAddressForm.get('country.isocode')?.setValue(country.isocode);
     this.selectedCountry$.next(country.isocode as string);
   }
 
   next(): void {
+    const sameAsDeliveryAddress = this.useExtractedBillingAddressComponent
+      ? this.billingAddressService.isBillingAddressSameAsDeliveryAddress()
+      : this.sameAsDeliveryAddress;
+    const isBillingAddressFormValid = this.useExtractedBillingAddressComponent
+      ? this.billingAddressService.isBillingAddressFormValid()
+      : this.billingAddressForm.valid;
+    const billingAddressFormvalue = this.useExtractedBillingAddressComponent
+      ? this.billingAddressService.getBillingAddress()
+      : this.billingAddressForm.value;
+
     if (this.paymentForm.valid) {
-      if (this.sameAsDeliveryAddress) {
+      if (sameAsDeliveryAddress) {
         this.setPaymentDetails.emit({
           paymentDetails: this.paymentForm.value,
           billingAddress: null,
         });
       } else {
-        if (this.billingAddressForm.valid) {
+        if (isBillingAddressFormValid) {
           this.setPaymentDetails.emit({
             paymentDetails: this.paymentForm.value,
-            billingAddress: this.billingAddressForm.value,
+            billingAddress: billingAddressFormvalue,
           });
         } else {
-          this.billingAddressForm.markAllAsTouched();
+          this.useExtractedBillingAddressComponent
+            ? this.billingAddressService.markAllAsTouched()
+            : this.billingAddressForm.markAllAsTouched();
         }
       }
     } else {
       this.paymentForm.markAllAsTouched();
+      this.globalMessageService.add(
+        { key: 'formErrors.globalMessage' },
+        GlobalMessageType.MSG_TYPE_ASSISTIVE
+      );
 
-      if (!this.sameAsDeliveryAddress) {
-        this.billingAddressForm.markAllAsTouched();
+      if (!sameAsDeliveryAddress) {
+        this.useExtractedBillingAddressComponent
+          ? this.billingAddressService.markAllAsTouched()
+          : this.billingAddressForm.markAllAsTouched();
       }
     }
   }

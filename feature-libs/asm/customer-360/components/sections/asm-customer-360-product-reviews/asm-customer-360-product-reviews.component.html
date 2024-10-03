@@ -1,0 +1,11 @@
+<cx-asm-customer-360-table
+  [emptyStateText]="
+    'asmCustomer360.productReviews.emptyDescription' | cxTranslate
+  "
+  [headerText]="'asmCustomer360.productReviews.header' | cxTranslate"
+  sortProperty="dateAndStatus"
+  [columns]="reviewColumns"
+  [entries]="reviewEntries$ | async"
+  [pageSize]="(context.config$ | async)?.pageSize"
+  (selectItem)="navigateTo($event)"
+></cx-asm-customer-360-table>

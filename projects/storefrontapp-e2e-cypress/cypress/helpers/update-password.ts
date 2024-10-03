@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { login } from './auth-forms';
 import * as alerts from './global-message';
 import * as helper from './login';
@@ -5,13 +11,14 @@ import * as helper from './login';
 import { standardUser } from '../sample-data/shared-users';
 
 export const PAGE_TITLE_HOME = 'Homepage';
+export const PAGE_TITLE_LOGIN = 'Login';
 export const PAGE_URL_UPDATE_PASSWORD = '/my-account/update-password';
-export const newPassword = 'newPassword123!';
+export const newPassword = 'newPas!sword123!';
 
 import { signOutUser } from '../helpers/login';
 import { generateMail, randomString } from '../helpers/user';
 
-export function testUpdatePassword() {
+export function testUpdatePassword(myAccountV2?: boolean) {
   it('should update the password with success', () => {
     alerts.getSuccessAlert().should('not.exist');
     cy.get('[formcontrolname="oldPassword"]').type(
@@ -19,18 +26,21 @@ export function testUpdatePassword() {
     );
     cy.get('[formcontrolname="newPassword"]').type(newPassword);
     cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
-    cy.get('cx-update-password button.btn-primary').click();
-    cy.title().should('eq', PAGE_TITLE_HOME);
+    if (myAccountV2) {
+      cy.get('cx-my-account-v2-password button.btn-primary').click();
+    } else {
+      cy.get('cx-update-password button.btn-primary').click();
+    }
+    cy.title().should('eq', PAGE_TITLE_LOGIN);
     alerts.getSuccessAlert().should('exist');
+    cy.url().should('contain', '/login');
 
-    helper.signOutUser();
-    cy.visit('/login');
     login(standardUser.registrationData.email, newPassword);
     cy.get(helper.userGreetSelector).should('exist');
   });
 }
 
-export function testUpdatePasswordLoggedInUser() {
+export function testUpdatePasswordLoggedInUser(myAccountV2?: boolean) {
   describe('update password test for logged in user', () => {
     before(() => {
       standardUser.registrationData.email = generateMail(randomString(), true);
@@ -45,7 +55,7 @@ export function testUpdatePasswordLoggedInUser() {
       });
     });
 
-    testUpdatePassword();
+    testUpdatePassword(myAccountV2);
 
     afterEach(() => {
       cy.saveLocalStorage();

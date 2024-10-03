@@ -7,21 +7,24 @@
   (esc)="close($event)"
   (click)="block($event)"
 >
-  <h4>
-    {{ 'productList.filterBy.label' | cxTranslate }}
+  <div class="list-header">
+    <h4>
+      {{ 'productList.filterBy.label' | cxTranslate }}
+    </h4>
     <button
       type="button"
       class="close"
+      title="{{ 'common.close' | cxTranslate }}"
       [attr.aria-label]="'common.close' | cxTranslate"
       (click)="close()"
     >
       <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
     </button>
-  </h4>
+  </div>
 
-  <!-- 
-      Here we'd like to introduce configurable facet components, 
-      either by using specific configuration or generic sproutlets 
+  <!--
+      Here we'd like to introduce configurable facet components,
+      either by using specific configuration or generic sproutlets
   -->
   <cx-facet
     *ngFor="let facet of facets"
@@ -35,8 +38,21 @@
         | cxTranslate
           : {
               name: facet.name,
-              count: facet?.values?.length
+              count: facet?.values?.length,
             }
     }}"
   ></cx-facet>
+
+  <ng-container *cxFeature="'a11yFacetsDialogFocusHandling'">
+    <div *ngIf="isDialog" class="cx-facet-list-footer">
+      <button
+        #backToResultsBtn
+        class="btn btn-primary"
+        (click)="close()"
+        cxAutoFocus
+      >
+        {{ 'productFacetNavigation.backToResults' | cxTranslate }}
+      </button>
+    </div>
+  </ng-container>
 </section>

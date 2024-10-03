@@ -1,25 +1,37 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CmsConfig,
+  FeaturesConfigModule,
+  GlobalMessageService,
   I18nModule,
   NotAuthGuard,
-  provideDefaultConfig,
   UrlModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import {
+  CaptchaModule,
   FormErrorsModule,
-  SpinnerModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
+import { UserRegisterFacade } from '@spartacus/user/profile/root';
+import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 
 @NgModule({
   imports: [
+    CaptchaModule,
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
@@ -30,6 +42,7 @@ import { RegisterComponent } from './register.component';
     NgSelectModule,
     NgSelectA11yModule,
     PasswordVisibilityToggleModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -37,6 +50,17 @@ import { RegisterComponent } from './register.component';
         RegisterCustomerComponent: {
           component: RegisterComponent,
           guards: [NotAuthGuard],
+          providers: [
+            {
+              provide: RegisterComponentService,
+              useClass: RegisterComponentService,
+              deps: [
+                UserRegisterFacade,
+                GlobalMessageService,
+                UntypedFormBuilder,
+              ],
+            },
+          ],
         },
       },
     }),

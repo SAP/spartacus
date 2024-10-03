@@ -1,5 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
+
+import { FeatureConfigService } from '../../../../features-config';
+import { LoggerService } from '../../../../logger';
 import { Priority } from '../../../../util/applicable';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
@@ -12,6 +21,9 @@ import { HttpErrorHandler } from '../http-error.handler';
   providedIn: 'root',
 })
 export class UnknownErrorHandler extends HttpErrorHandler {
+  protected logger = inject(LoggerService);
+  private featureConfigService = inject(FeatureConfigService);
+
   responseStatus = HttpResponseStatus.UNKNOWN;
 
   /**
@@ -22,8 +34,21 @@ export class UnknownErrorHandler extends HttpErrorHandler {
   }
 
   handleError(_request: HttpRequest<any>, errorResponse: HttpErrorResponse) {
-    if (isDevMode() || this.isSsr()) {
-      console.warn(`An unknown http error occurred\n`, errorResponse.message);
+    const shouldLogError = this.featureConfigService.isEnabled(
+      'ssrStrictErrorHandlingForHttpAndNgrx'
+    )
+      ? isDevMode()
+      : isDevMode() || this.isSsr();
+
+    // Error is already handled and logged by the `HttpErrorHandlerInterceptor`,
+    // if `ssrStrictErrorHandlingForHttpAndNgrx` feature toggle is enabled.
+    // In the future, after removing the `ssrStrictErrorHandlingForHttpAndNgrx` feature toggle,
+    // error will be logged here only in dev mode.
+    if (shouldLogError) {
+      this.logger.warn(
+        `An unknown http error occurred\n`,
+        errorResponse.message
+      );
     }
   }
 

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * It's a hack to allow for spying on non-configurable properties of objects.
  * In particular, it allows to spy on simple functions imported from 3rd party libraries.

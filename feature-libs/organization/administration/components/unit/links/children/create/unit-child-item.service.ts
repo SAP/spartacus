@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { B2BUnit, RoutingService } from '@spartacus/core';
 import {
   OrganizationItemStatus,
@@ -24,7 +30,7 @@ export class UnitChildItemService extends UnitItemService {
   }
 
   save(
-    form: FormGroup,
+    form: UntypedFormGroup,
     key?: string
   ): Observable<OrganizationItemStatus<B2BUnit>> {
     // we enable the parentOrgUnit temporarily so that the underlying

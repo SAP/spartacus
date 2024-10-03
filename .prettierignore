@@ -3,3 +3,5 @@ feature-libs/smartedit/assets/webApplicationInjector.js
 **/*.md
 **/*.yml
 coverage
+
+/.nx/cache

@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
-import { OccRequestsOptimizerService } from './occ-requests-optimizer.service';
-import { ScopedDataWithUrl } from './occ-fields.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { of } from 'rxjs';
+import { TestBed } from '@angular/core/testing';
+import { lastValueFrom, of } from 'rxjs';
+import { ScopedDataWithUrl } from './occ-fields.service';
+import { OccRequestsOptimizerService } from './occ-requests-optimizer.service';
 
 describe('OccRequestsOptimizerService', () => {
   let service: OccRequestsOptimizerService;
@@ -34,10 +34,13 @@ describe('OccRequestsOptimizerService', () => {
       const result = service.scopedDataLoad(models, dataFactory);
       expect(result[0].scope).toEqual(models[0].scopedData.scope);
 
-      expect(await result[0].data$.toPromise()).toEqual({ ala: '1' });
+      expect(await lastValueFrom(result[0].data$)).toEqual({ ala: '1' });
 
       expect(result[1].scope).toEqual(models[1].scopedData.scope);
-      expect(await result[1].data$.toPromise()).toEqual({ ma: '2', kota: '3' });
+      expect(await lastValueFrom(result[1].data$)).toEqual({
+        ma: '2',
+        kota: '3',
+      });
     });
   });
 });

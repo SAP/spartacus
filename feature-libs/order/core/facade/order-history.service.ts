@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
@@ -18,6 +24,7 @@ import { map, take, tap } from 'rxjs/operators';
 import { OrderActions } from '../store/actions/index';
 import { CANCEL_ORDER_PROCESS_ID, StateWithOrder } from '../store/order-state';
 import { OrderSelectors } from '../store/selectors/index';
+import { Params } from '@angular/router';
 
 @Injectable()
 export class OrderHistoryService implements OrderHistoryFacade {
@@ -93,8 +100,8 @@ export class OrderHistoryService implements OrderHistoryFacade {
    * @param sort sort
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         let replenishmentOrderCode: string | undefined;
 
         this.routingService
@@ -116,10 +123,10 @@ export class OrderHistoryService implements OrderHistoryFacade {
           })
         );
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**
@@ -201,5 +208,16 @@ export class OrderHistoryService implements OrderHistoryFacade {
    */
   resetCancelOrderProcessState(): void {
     return this.store.dispatch(new OrderActions.ResetCancelOrderProcess());
+  }
+
+  /**
+   * Returns the order details loading flag
+   */
+  getOrderDetailsLoading(): Observable<boolean> {
+    return this.store.pipe(select(OrderSelectors.getOrderDetailsLoading));
+  }
+
+  getQueryParams(_order: Order): Params | null {
+    return null;
   }
 }

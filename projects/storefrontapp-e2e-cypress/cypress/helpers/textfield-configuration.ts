@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as cart from './cart';
 import Chainable = Cypress.Chainable;
 
@@ -45,7 +51,7 @@ export function goToProductDetailsPage(
  */
 export function clickOnConfigureButton(): void {
   cy.log("Click on 'Configure' button");
-  cy.get('cx-configure-product a')
+  cy.get('cx-configure-product button')
     .click()
     .then(() => {
       checkConfigurationPageIsDisplayed();
@@ -134,42 +140,6 @@ export function clickAddToCartButton(shopName: string): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', location);
-      cy.get('h1').contains('Your Shopping Cart').should('be.visible');
-    });
-}
-
-/**
- * Clicks 'Add to Cart' button on the product details page.
- */
-export function clickOnAddToCartBtnOnPD(): void {
-  cy.log("Clicks 'Add to Cart' button on the product details page");
-  cy.get('cx-add-to-cart button.btn-primary')
-    .contains('Add to cart')
-    .click()
-    .then(() => {
-      cy.get('cx-added-to-cart-dialog').should('be.visible');
-      cy.get('div.cx-dialog-body').should('be.visible');
-      cy.get('div.cx-dialog-buttons a.btn-primary')
-        .contains('view cart')
-        .should('be.visible');
-      cy.get('div.cx-dialog-buttons a.btn-secondary')
-        .contains('proceed to checkout')
-        .should('be.visible');
-    });
-}
-
-/**
- * Clicks on 'View Cart' on the product details page.
- */
-export function clickOnViewCartBtnOnPD(): void {
-  cy.log("Clicks on 'View Cart' on the product details page");
-  cy.get('div.cx-dialog-buttons a.btn-primary')
-    .contains('view cart')
-    .click()
-    .then(() => {
-      cy.log("Verify whether 'Your Shopping Cart' is visible");
-      cy.get('h1').contains('Your Shopping Cart').should('be.visible');
-      cy.log("Verify whether 'cx-cart-details' is visible");
       cy.get('cx-cart-details').should('be.visible');
     });
 }

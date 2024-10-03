@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export interface TranslationChunksConfig {
   [chunk: string]: string[];
 }
@@ -18,13 +24,9 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'carousel',
     'assistiveMessage',
     'passwordVisibility',
-  ],
-  address: [
-    'addressForm',
-    'addressBook',
-    'addressCard',
-    'addressSuggestion',
-    'addressMessages',
+    'generalErrors',
+    'chatMessaging',
+    'formLegend',
   ],
   payment: [
     'paymentForm',
@@ -65,4 +67,8 @@ export const translationChunksConfig: TranslationChunksConfig = {
   ],
   user: ['anonymousConsents', 'loginRegister', 'checkoutLogin', 'authMessages'],
   video: ['player'],
+  deliveryMode: ['setDeliveryMode'],
+  myAccountV2NotifiationPerference: ['myAccountV2NotifiationPerference'],
+  myAccountV2Consent: ['myAccountV2Consent'],
+  siteThemeSwitcher: ['siteThemeSwitcher'],
 };

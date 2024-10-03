@@ -126,15 +126,13 @@ cx-saved-cart-list {
       }
     }
 
-    .cx-saved-cart-list-make-cart-active {
-      .cx-saved-cart-make-active {
-        text-decoration: underline;
-        text-transform: capitalize;
-      }
-    }
-
     .cx-saved-cart-list-label {
       color: var(--cx-color-secondary);
+
+      // TODO: (CXSPA-5955) Remove feature flag next major
+      @include forFeature('a11ySavedCartsZoom') {
+        text-align: start;
+      }
 
       @include media-breakpoint-down(md) {
         font-size: var(--cx-font-size, 0.875rem);
@@ -156,24 +154,21 @@ cx-saved-cart-list {
   .cx-saved-cart-list-no-saved-carts {
     font-size: var(--cx-font-size, 1rem);
     font-weight: $font-weight-normal;
-
-    @include forVersion(4.1) {
-      min-height: 415px;
-    }
-    @include forVersion(4.2) {
-      min-height: auto;
-    }
+    min-height: auto;
 
     @include media-breakpoint-down(md) {
       padding-inline-start: 1.25rem;
       padding-inline-end: 1.25rem;
+      min-height: auto;
+    }
+  }
 
-      @include forVersion(4.1) {
-        min-height: 474px;
-      }
-
-      @include forVersion(4.2) {
-        min-height: auto;
+  // TODO: (CXSPA-5955) Remove feature flag next major
+  @include forFeature('a11ySavedCartsZoom') {
+    @include media-breakpoint-down(md) {
+      .cx-saved-cart-make-active {
+        min-height: unset;
+        padding: 0;
       }
     }
   }

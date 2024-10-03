@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Configurator } from '../../../core/model/configurator.model';
 
@@ -12,7 +18,7 @@ export class ConfiguratorAttributeQuantityService {
    * @returns {boolean} Quantity actions disabled?
    */
   disableQuantityActions(value: any): boolean {
-    return !value || value === '0';
+    return !value || value === '0' || value === Configurator.RetractValueCode;
   }
 
   /**

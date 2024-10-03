@@ -11,16 +11,15 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ControlContainer,
-  FormControl,
   ReactiveFormsModule,
+  UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartItemContext, PromotionLocation } from '@spartacus/cart/base/root';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
 import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
-import { ModalDirective } from 'projects/storefrontlib/shared/components/modal/modal.directive';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { CartItemComponent } from './cart-item.component';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
@@ -30,13 +29,6 @@ import { CartItemContextSource } from './model/cart-item-context-source.model';
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
-}
-
-@Directive({
-  selector: '[cxModal]',
-})
-class MockModalDirective implements Partial<ModalDirective> {
-  @Input() cxModal;
 }
 @Directive({
   selector: '[cxOutlet]',
@@ -95,6 +87,21 @@ const mockProduct = {
   },
 };
 
+@Component({
+  selector: 'cx-cart-item-validation-warning',
+  template: '',
+})
+class MockCartItemValidationWarningComponent {
+  @Input() code: string;
+}
+
+@Directive({
+  selector: '[cxAtMessage]',
+})
+class MockAtMessageDirective {
+  @Input() cxAtMessage: string | string[] | undefined;
+}
+
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let componentInjector: Injector;
@@ -106,34 +113,32 @@ describe('CartItemComponent', () => {
     'isLevel',
   ]);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FeaturesConfigModule,
-          OutletModule,
-        ],
-        declarations: [
-          CartItemComponent,
-          MockMediaComponent,
-          MockItemCounterComponent,
-          MockPromotionsComponent,
-          MockUrlPipe,
-          MockFeatureLevelDirective,
-          MockModalDirective,
-          MockOutletDirective,
-        ],
-        providers: [
-          {
-            provide: ControlContainer,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        I18nTestingModule,
+        OutletModule,
+      ],
+      declarations: [
+        CartItemComponent,
+        MockMediaComponent,
+        MockItemCounterComponent,
+        MockPromotionsComponent,
+        MockUrlPipe,
+        MockFeatureLevelDirective,
+        MockOutletDirective,
+        MockCartItemValidationWarningComponent,
+        MockAtMessageDirective,
+      ],
+      providers: [
+        {
+          provide: ControlContainer,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemComponent);
@@ -144,7 +149,7 @@ describe('CartItemComponent', () => {
       product: mockProduct,
       updateable: true,
     };
-    cartItemComponent.quantityControl = new FormControl('1');
+    cartItemComponent.quantityControl = new UntypedFormControl('1');
     cartItemComponent.quantityControl.markAsPristine();
     spyOn(cartItemComponent, 'removeItem').and.callThrough();
     fixture.detectChanges();
@@ -207,7 +212,7 @@ describe('CartItemComponent', () => {
 
     it('should push change of input "quantityControl" to context', () => {
       spyOn(cartItemContextSource.quantityControl$, 'next');
-      cartItemComponent.quantityControl = new FormControl(2);
+      cartItemComponent.quantityControl = new UntypedFormControl(2);
       cartItemComponent.ngOnChanges({
         quantityControl: {
           currentValue: cartItemComponent.quantityControl,

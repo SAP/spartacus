@@ -4,6 +4,7 @@ on:
       - 'release/4.**'
       - 'epic/**'
       - 'develop'
+      - 'develop-*'
 name: Installation
 jobs:
   install:
@@ -12,15 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.8.0
+        uses: styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '16'
-      - name: Yarn
-        run: yarn --frozen-lockfile
+          node-version: '20'
+      - name: NPM
+        run: npm ci
         env:
           FORCE_COLOR: 2 # Support colors from chalk
       - name: run installation script

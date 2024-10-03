@@ -1,36 +1,48 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
   InterceptorUtil,
-  Occ,
-  OccEndpointsService,
+  LoggerService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
+  Occ,
+  OccEndpointsService,
   USE_CLIENT_TOKEN,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { OrderHistoryAdapter } from '@spartacus/order/core';
 import {
+  CONSIGNMENT_TRACKING_NORMALIZER,
   CancellationRequestEntryInputList,
   ConsignmentTracking,
-  CONSIGNMENT_TRACKING_NORMALIZER,
-  Order,
-  OrderHistoryList,
   ORDER_HISTORY_NORMALIZER,
   ORDER_NORMALIZER,
   ORDER_RETURNS_NORMALIZER,
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
+  Order,
+  OrderHistoryList,
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
 } from '@spartacus/order/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
+const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 
 @Injectable()
 export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -101,12 +113,14 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
       urlParams: { userId, orderId: orderCode },
     });
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
 
-    return this.http
-      .post(url, cancelRequestInput, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
+    return this.http.post(url, cancelRequestInput, { headers }).pipe(
+      catchError((error: any) => {
+        throw normalizeHttpError(error, this.logger);
+      })
+    );
   }
 
   public createReturnRequest(
@@ -117,7 +131,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
       urlParams: { userId },
     });
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
 
     returnRequestInput = this.converter.convert(
@@ -126,7 +140,9 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
     );
 
     return this.http.post(url, returnRequestInput, { headers }).pipe(
-      catchError((error: any) => throwError(error)),
+      catchError((error: any) => {
+        throw normalizeHttpError(error, this.logger);
+      }),
       this.converter.pipeable(ORDER_RETURN_REQUEST_NORMALIZER)
     );
   }
@@ -180,11 +196,13 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
       urlParams: { userId, returnRequestCode },
     });
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
 
-    return this.http
-      .patch(url, returnRequestModification, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
+    return this.http.patch(url, returnRequestModification, { headers }).pipe(
+      catchError((error: any) => {
+        throw normalizeHttpError(error, this.logger);
+      })
+    );
   }
 }

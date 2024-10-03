@@ -1,14 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   ActiveCartFacade,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
   OrderEntry,
+  ProductData,
 } from '@spartacus/cart/base/root';
 import {
-  defaultQuickOrderConfig,
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
+  defaultQuickOrderConfig,
 } from '@spartacus/cart/quick-order/root';
 import {
   Config,
@@ -22,9 +29,9 @@ import {
 import {
   BehaviorSubject,
   Observable,
-  of,
   Subject,
   Subscription,
+  of,
   timer,
 } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
@@ -93,8 +100,13 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   /**
    * Get information about the possibility to add the next product
    */
-  canAdd(code?: string): Observable<boolean> {
-    if (code) {
+  canAdd(code?: string, productData?: ProductData[]): Observable<boolean> {
+    if (code && productData) {
+      return of(
+        this.isProductOnTheList(code) ||
+          !this.isLimitExceeded(code, productData)
+      );
+    } else if (code) {
       return of(this.isProductOnTheList(code) || !this.isLimitExceeded());
     } else {
       return of(!this.isLimitExceeded());
@@ -339,11 +351,11 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       const entryIndex = entries.findIndex(
         (item: OrderEntry) => item.product?.code === entry.product?.code
       );
-      let quantity = entries[entryIndex].quantity;
+      const quantity = entries[entryIndex].quantity;
 
       if (quantity && entry.quantity) {
         entries[entryIndex].quantity = quantity + entry?.quantity;
-        let newQuantity = entries[entryIndex].quantity;
+        const newQuantity = entries[entryIndex].quantity;
 
         if (newQuantity && entryStockLevel && newQuantity > entryStockLevel) {
           entries[entryIndex].quantity = entryStockLevel;
@@ -355,7 +367,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       this.entries$.next([...entries, ...[entry]]);
     }
 
-    this.productAdded$.next(entry.product?.code);
+    this.productAdded$.next(entry.product?.code as string);
   }
 
   /**
@@ -369,10 +381,44 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     );
   }
 
-  protected isLimitExceeded(): boolean {
+  protected isLimitExceeded(
+    code?: string,
+    productsData?: ProductData[]
+  ): boolean {
     const entries = this.entries$.getValue() || [];
 
-    return entries.length >= this.quickOrderListLimit;
+    /**
+     * Used to offset the amount of existing entries with the index of the missing
+     * entry to be added. We can use this offset to see if adding the missing product
+     * would hit the list limit before we attempt to add it.
+     */
+    const missingProductIndex =
+      code && productsData
+        ? this.getMissingProductIndex(entries, code, productsData)
+        : 0;
+
+    return (
+      entries.length + (missingProductIndex || 0) >= this.quickOrderListLimit
+    );
+  }
+
+  /**
+   * Get the index of the missing product in the productsData array identified by code
+   * from the entries array.
+   */
+  protected getMissingProductIndex(
+    entries: OrderEntry[],
+    code: string,
+    productsData: ProductData[]
+  ) {
+    const missingProducts =
+      productsData?.filter(
+        (product) =>
+          !entries
+            .map((entry) => entry.product?.code)
+            .includes(product.productCode)
+      ) || [];
+    return missingProducts.findIndex((product) => product.productCode === code);
   }
 
   private createQuickOrderResultEvent(

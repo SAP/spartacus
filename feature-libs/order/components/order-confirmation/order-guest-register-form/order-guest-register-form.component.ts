@@ -1,6 +1,20 @@
-import { Component, Input, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService, RoutingService } from '@spartacus/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Component, Input, OnDestroy, inject } from '@angular/core';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  AuthService,
+  FeatureConfigService,
+  RoutingService,
+} from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { Subscription } from 'rxjs';
@@ -10,16 +24,35 @@ import { Subscription } from 'rxjs';
   templateUrl: './order-guest-register-form.component.html',
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {
+  // TODO: (CXSPA-7315) Remove feature toggle in the next major
+  private featureConfigService = inject(FeatureConfigService);
+
+  protected passwordValidators = this.featureConfigService?.isEnabled(
+    'formErrorsDescriptiveMessages'
+  )
+    ? this.featureConfigService.isEnabled(
+        'enableConsecutiveCharactersPasswordRequirement'
+      )
+      ? [
+          ...CustomFormValidators.passwordValidators,
+          CustomFormValidators.noConsecutiveCharacters,
+        ]
+      : CustomFormValidators.passwordValidators
+    : [
+        this.featureConfigService.isEnabled(
+          'enableConsecutiveCharactersPasswordRequirement'
+        )
+          ? CustomFormValidators.strongPasswordValidator
+          : CustomFormValidators.passwordValidator,
+      ];
+
   @Input() guid: string;
   @Input() email: string;
 
   subscription: Subscription;
-  guestRegisterForm: FormGroup = this.fb.group(
+  guestRegisterForm: UntypedFormGroup = this.fb.group(
     {
-      password: [
-        '',
-        [Validators.required, CustomFormValidators.passwordValidator],
-      ],
+      password: ['', [Validators.required, ...this.passwordValidators]],
       passwordconf: ['', Validators.required],
     },
     {
@@ -34,7 +67,7 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
     protected userRegisterFacade: UserRegisterFacade,
     protected routingService: RoutingService,
     protected authService: AuthService,
-    protected fb: FormBuilder
+    protected fb: UntypedFormBuilder
   ) {}
 
   submit() {

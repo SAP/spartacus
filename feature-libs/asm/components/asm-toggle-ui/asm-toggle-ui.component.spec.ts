@@ -1,7 +1,8 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AsmService, AsmUi } from '@spartacus/asm/core';
+import { AsmService } from '@spartacus/asm/core';
+import { AsmUi } from '@spartacus/asm/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { AsmToggleUiComponent } from './asm-toggle-ui.component';
@@ -11,7 +12,7 @@ class MockAsmService {
     return of(mockAsmUi);
   }
 
-  updateAsmUiState(_asmUi): void {}
+  updateAsmUiState(_asmUi: unknown): void {}
 }
 
 const mockAsmUi: AsmUi = {
@@ -24,15 +25,13 @@ describe('AsmToggleuUiComponent', () => {
   let asmService: AsmService;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [AsmToggleUiComponent],
-        providers: [{ provide: AsmService, useClass: MockAsmService }],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [AsmToggleUiComponent],
+      providers: [{ provide: AsmService, useClass: MockAsmService }],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmToggleUiComponent);

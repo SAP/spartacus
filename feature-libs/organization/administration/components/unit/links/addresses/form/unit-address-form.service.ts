@@ -1,5 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   Address,
   Country,
@@ -24,28 +34,38 @@ export class UnitAddressFormService extends FormService<Address> {
   }
 
   protected build() {
-    const form = new FormGroup({});
-    form.setControl('id', new FormControl(''));
-    form.setControl('titleCode', new FormControl(''));
-    form.setControl('firstName', new FormControl('', Validators.required));
-    form.setControl('lastName', new FormControl('', Validators.required));
-    form.setControl('line1', new FormControl('', Validators.required));
-    form.setControl('line2', new FormControl(''));
-    form.setControl('town', new FormControl('', Validators.required));
+    const form = new UntypedFormGroup({});
+    form.setControl('id', new UntypedFormControl(''));
+    form.setControl('titleCode', new UntypedFormControl(''));
+    form.setControl(
+      'firstName',
+      new UntypedFormControl('', Validators.required)
+    );
+    form.setControl(
+      'lastName',
+      new UntypedFormControl('', Validators.required)
+    );
+    form.setControl('line1', new UntypedFormControl('', Validators.required));
+    form.setControl('line2', new UntypedFormControl(''));
+    form.setControl('town', new UntypedFormControl('', Validators.required));
     form.setControl(
       'country',
-      new FormGroup({
-        isocode: new FormControl(null, Validators.required),
+      new UntypedFormGroup({
+        isocode: new UntypedFormControl(null, Validators.required),
       })
     );
     form.setControl(
       'region',
-      new FormGroup({
-        isocode: new FormControl(null, Validators.required),
+      new UntypedFormGroup({
+        isocode: new UntypedFormControl(null, Validators.required),
       })
     );
-    form.setControl('postalCode', new FormControl('', Validators.required));
-    form.setControl('phone', new FormControl(''));
+    form.setControl(
+      'postalCode',
+      new UntypedFormControl('', Validators.required)
+    );
+    form.setControl('phone', new UntypedFormControl(''));
+    form.setControl('cellphone', new UntypedFormControl(''));
 
     this.form = form;
   }

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -7,6 +7,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  PaymentDetails,
   QueryState,
   UserAddressService,
   UserPaymentService,
@@ -213,7 +214,7 @@ describe('ExpressCheckoutService', () => {
 
       it('should return false if set delivery address error', (done) => {
         checkoutDeliveryAddressFacade.setDeliveryAddress =
-          createSpy().and.returnValue(throwError('err'));
+          createSpy().and.returnValue(throwError(() => 'err'));
 
         service
           .trySetDefaultCheckoutDetails()
@@ -269,7 +270,7 @@ describe('ExpressCheckoutService', () => {
 
       it('should return false if set payment method error', (done) => {
         checkoutPaymentService.setPaymentDetails = createSpy().and.returnValue(
-          throwError('err')
+          throwError(() => 'err')
         );
 
         service
@@ -310,7 +311,7 @@ describe('ExpressCheckoutService', () => {
 
       it('should return false if set delivery mode error', (done) => {
         checkoutDeliveryModesFacade.setDeliveryMode =
-          createSpy().and.returnValue(throwError('err'));
+          createSpy().and.returnValue(throwError(() => 'err'));
 
         service
           .trySetDefaultCheckoutDetails()

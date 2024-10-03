@@ -1,80 +1,86 @@
-import { Component, OnInit } from '@angular/core';
-import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
-import { Consignment, Order } from '@spartacus/order/root';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Component, inject } from '@angular/core';
 import {
-  CmsOrderDetailItemsComponent,
-  TranslationService,
-} from '@spartacus/core';
+  AbstractOrderType,
+  CartOutlets,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/cart/base/root';
+import { CmsOrderDetailItemsComponent } from '@spartacus/core';
+import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { MyAccountV2OrderConsignmentsService } from '../my-account-v2-order-consignments.service';
 import { OrderDetailsService } from '../order-details.service';
-import {
-  cancelledValues,
-  completedValues,
-} from './order-consigned-entries/order-consigned-entries.model';
 
 @Component({
   selector: 'cx-order-details-items',
   templateUrl: './order-detail-items.component.html',
 })
-export class OrderDetailItemsComponent implements OnInit {
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected component: CmsComponentData<CmsOrderDetailItemsComponent>,
-    protected translation: TranslationService
-  ) {}
-
+export class OrderDetailItemsComponent {
+  protected orderConsignmentsService = inject(
+    MyAccountV2OrderConsignmentsService
+  );
+  readonly OrderOutlets = OrderOutlets;
   readonly CartOutlets = CartOutlets;
+  readonly abstractOrderType = AbstractOrderType;
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
-  order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
-  others$: Observable<Consignment[] | undefined>;
-  completed$: Observable<Consignment[] | undefined>;
-  cancel$: Observable<Consignment[] | undefined>;
-  buyItAgainTranslation$: Observable<string>;
+
+  pickupConsignments: Consignment[] | undefined;
+  deliveryConsignments: Consignment[] | undefined;
+
+  pickupUnconsignedEntries: OrderEntry[] | undefined;
+  deliveryUnConsignedEntries: OrderEntry[] | undefined;
+
+  order$: Observable<Order> = this.orderDetailsService.getOrderDetails().pipe(
+    tap((order) => {
+      this.pickupConsignments = this.getGroupedConsignments(order, true);
+      this.deliveryConsignments = this.getGroupedConsignments(order, false);
+
+      this.pickupUnconsignedEntries = this.getUnconsignedEntries(order, true);
+      this.deliveryUnConsignedEntries = this.getUnconsignedEntries(
+        order,
+        false
+      );
+    })
+  );
+
   enableAddToCart$: Observable<boolean | undefined> = this.component.data$.pipe(
     map((data) => data.enableAddToCart)
   );
 
-  ngOnInit() {
-    this.others$ = this.getOtherStatus(...completedValues, ...cancelledValues);
-    this.completed$ = this.getExactStatus(completedValues);
-    this.cancel$ = this.getExactStatus(cancelledValues);
-    this.buyItAgainTranslation$ = this.translation.translate(
-      'addToCart.buyItAgain'
-    );
+  isOrderLoading$: Observable<boolean> =
+    typeof this.orderDetailsService.isOrderDetailsLoading === 'function'
+      ? this.orderDetailsService.isOrderDetailsLoading()
+      : of(false);
+
+  groupCartItems$: Observable<boolean | undefined> = this.component.data$.pipe(
+    map((data) => data.groupCartItems)
+  );
+
+  constructor(
+    protected orderDetailsService: OrderDetailsService,
+    protected component: CmsComponentData<CmsOrderDetailItemsComponent>
+  ) {}
+
+  protected getGroupedConsignments(
+    order: Order,
+    pickup: boolean
+  ): Consignment[] | undefined {
+    return this.orderConsignmentsService.getGroupedConsignments(order, pickup);
   }
 
-  private getExactStatus(
-    consignmentStatus: string[]
-  ): Observable<Consignment[] | undefined> {
-    return this.order$.pipe(
-      map((order) => {
-        if (Boolean(order.consignments)) {
-          return order.consignments?.filter(
-            (consignment) =>
-              consignment.status &&
-              consignmentStatus.includes(consignment.status)
-          );
-        }
-      })
-    );
-  }
-
-  private getOtherStatus(
-    ...consignmentStatus: string[]
-  ): Observable<Consignment[] | undefined> {
-    return this.order$.pipe(
-      map((order) => {
-        if (Boolean(order.consignments)) {
-          return order.consignments?.filter(
-            (consignment) =>
-              consignment.status &&
-              !consignmentStatus.includes(consignment.status)
-          );
-        }
-      })
-    );
+  protected getUnconsignedEntries(
+    order: Order,
+    pickup: boolean
+  ): OrderEntry[] | undefined {
+    return this.orderConsignmentsService.getUnconsignedEntries(order, pickup);
   }
 }

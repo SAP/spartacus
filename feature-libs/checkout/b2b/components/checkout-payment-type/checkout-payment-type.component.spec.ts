@@ -6,7 +6,12 @@ import { PaymentType } from '@spartacus/cart/base/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { I18nTestingModule, QueryState } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  I18nTestingModule,
+  QueryState,
+} from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
@@ -18,11 +23,27 @@ import createSpy = jasmine.createSpy;
 })
 class MockSpinnerComponent {}
 
+class MockGlobalMessageService {
+  add = createSpy();
+}
 class MockCheckoutPaymentTypeService
   implements Partial<CheckoutPaymentTypeFacade>
 {
   getPaymentTypes = createSpy().and.returnValue(of(mockPaymentTypes));
   setPaymentType = createSpy().and.returnValue(of('setPaymentType'));
+  getSelectedPaymentTypeState = createSpy().and.returnValue(
+    selectedPaymentType$.asObservable()
+  );
+  getPurchaseOrderNumberState = createSpy().and.returnValue(
+    of({ loading: false, error: false, data: 'test-po' })
+  );
+}
+
+class MockCheckoutOnePaymentTypeService
+  implements Partial<CheckoutPaymentTypeFacade>
+{
+  getPaymentTypes = createSpy().and.returnValue(of(mockDisableOnePaymentTypes));
+  setPaymentType = createSpy().and.returnValue(of(undefined));
   getSelectedPaymentTypeState = createSpy().and.returnValue(
     selectedPaymentType$.asObservable()
   );
@@ -45,8 +66,11 @@ const selectedPaymentType$ = new BehaviorSubject<QueryState<PaymentType>>({
   data: { code: 'ACCOUNT' },
 });
 const mockPaymentTypes: PaymentType[] = [
-  { code: 'card', displayName: 'card' },
-  { code: 'account', displayName: 'account' },
+  { code: 'CARD', displayName: 'Card' },
+  { code: 'ACCOUNT', displayName: 'Account' },
+];
+const mockDisableOnePaymentTypes: PaymentType[] = [
+  { code: 'CARD', displayName: 'Card' },
 ];
 
 const mockActivatedRoute = {
@@ -54,6 +78,63 @@ const mockActivatedRoute = {
     url: ['checkout', 'payment-type'],
   },
 };
+
+describe('CheckoutOnePaymentTypeComponent', () => {
+  let component: CheckoutPaymentTypeComponent;
+  let fixture: ComponentFixture<CheckoutPaymentTypeComponent>;
+
+  let checkoutStepService: CheckoutStepService;
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        CheckoutPaymentTypeComponent,
+        MockSpinnerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        {
+          provide: CheckoutPaymentTypeFacade,
+          useClass: MockCheckoutOnePaymentTypeService,
+        },
+        {
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
+        },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
+      ],
+    }).compileComponents();
+
+    checkoutStepService = TestBed.inject(
+      CheckoutStepService as Type<CheckoutStepService>
+    );
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should get payment type selected by default if one payment type is returned', (done) => {
+    component.typeSelected$.pipe(take(1)).subscribe((selectedPaymentType) => {
+      expect(selectedPaymentType).toEqual({
+        code: 'CARD',
+        displayName: 'Card',
+      });
+      expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.PAYMENT_DETAILS,
+        false
+      );
+      done();
+    });
+  });
+});
 
 describe('CheckoutPaymentTypeComponent', () => {
   let component: CheckoutPaymentTypeComponent;
@@ -63,32 +144,34 @@ describe('CheckoutPaymentTypeComponent', () => {
   let checkoutStepService: CheckoutStepService;
   let el: DebugElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [CheckoutPaymentTypeComponent, MockSpinnerComponent],
-        providers: [
-          {
-            provide: CheckoutPaymentTypeFacade,
-            useClass: MockCheckoutPaymentTypeService,
-          },
-          {
-            provide: CheckoutStepService,
-            useClass: MockCheckoutStepService,
-          },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [CheckoutPaymentTypeComponent, MockSpinnerComponent],
+      providers: [
+        {
+          provide: CheckoutPaymentTypeFacade,
+          useClass: MockCheckoutPaymentTypeService,
+        },
+        {
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
+        },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
+      ],
+    }).compileComponents();
 
-      checkoutPaymentTypeFacade = TestBed.inject(
-        CheckoutPaymentTypeFacade as Type<CheckoutPaymentTypeFacade>
-      );
-      checkoutStepService = TestBed.inject(
-        CheckoutStepService as Type<CheckoutStepService>
-      );
-    })
-  );
+    checkoutPaymentTypeFacade = TestBed.inject(
+      CheckoutPaymentTypeFacade as Type<CheckoutPaymentTypeFacade>
+    );
+    checkoutStepService = TestBed.inject(
+      CheckoutStepService as Type<CheckoutStepService>
+    );
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);

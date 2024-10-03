@@ -1,6 +1,13 @@
-import { Inject, Injectable, isDevMode } from '@angular/core';
-import { i18n } from 'i18next';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Inject, inject, Injectable, isDevMode } from '@angular/core';
+import { i18n, TOptions } from 'i18next';
 import { Observable } from 'rxjs';
+import { LoggerService } from '../../logger';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
 import { TranslationService } from '../translation.service';
@@ -11,6 +18,8 @@ export class I18nextTranslationService implements TranslationService {
   private readonly NON_BREAKING_SPACE = String.fromCharCode(160);
   protected readonly NAMESPACE_SEPARATOR = ':';
 
+  protected logger = inject(LoggerService);
+
   constructor(
     protected config: I18nConfig,
     protected translationChunk: TranslationChunkService,
@@ -19,7 +28,7 @@ export class I18nextTranslationService implements TranslationService {
   ) {}
 
   translate(
-    key: string,
+    key: string | string[],
     options: any = {},
     whitespaceUntilLoaded: boolean = false
   ): Observable<string> {
@@ -30,28 +39,48 @@ export class I18nextTranslationService implements TranslationService {
     // Otherwise, we the will trigger additional deferred change detection in a view that consumes the returned observable,
     // which together with `switchMap` operator may lead to an infinite loop.
 
-    const chunkName = this.translationChunk.getChunkNameForKey(key);
-    const namespacedKey = this.getNamespacedKey(key, chunkName);
+    const translationKeys = Array.isArray(key) ? key : [key];
+
+    const chunkNamesByKeys: Map<string, string> = new Map();
+    const namespacedKeys: string[] = [];
+
+    translationKeys.forEach((translationKey) => {
+      const chunkName =
+        this.translationChunk.getChunkNameForKey(translationKey);
+      const namespacedKey = this.getNamespacedKey(translationKey, chunkName);
+      namespacedKeys.push(namespacedKey);
+      chunkNamesByKeys.set(translationKey, chunkName);
+    });
 
     return new Observable<string>((subscriber) => {
       const translate = () => {
         if (!this.i18next.isInitialized) {
           return;
         }
-        if (this.i18next.exists(namespacedKey, options)) {
-          subscriber.next(this.i18next.t(namespacedKey, options));
-        } else {
-          if (whitespaceUntilLoaded) {
-            subscriber.next(this.NON_BREAKING_SPACE);
-          }
-          this.i18next.loadNamespaces(chunkName, () => {
-            if (!this.i18next.exists(namespacedKey, options)) {
-              this.reportMissingKey(key, chunkName);
-              subscriber.next(this.getFallbackValue(namespacedKey));
+
+        // make sure chunks are loaded
+        let namespacesLoaded = false;
+
+        // loadNamespaces has cache under the hood, so it won't load the same chunk twice
+        // when namespaces are already loaded, the callback will be called synchronously:
+        this.i18next.loadNamespaces(
+          Array.from(chunkNamesByKeys.values()),
+          () => {
+            namespacesLoaded = true;
+            if (this.i18next.exists(namespacedKeys, options)) {
+              subscriber.next(
+                this.i18next.t(namespacedKeys, options as TOptions)
+              );
             } else {
-              subscriber.next(this.i18next.t(namespacedKey, options));
+              this.reportMissingKey(chunkNamesByKeys);
+              subscriber.next(this.getFallbackValue(namespacedKeys));
             }
-          });
+          }
+        );
+
+        // if namespaces are not loaded yet, we can emit a non-breaking space
+        if (!namespacesLoaded && whitespaceUntilLoaded) {
+          subscriber.next(this.NON_BREAKING_SPACE);
         }
       };
 
@@ -66,17 +95,25 @@ export class I18nextTranslationService implements TranslationService {
   }
 
   /**
-   * Returns a fallback value in case when the given key is missing
-   * @param key
+   * Returns a fallback value in case when the all given keys are missing
    */
-  protected getFallbackValue(key: string): string {
-    return isDevMode() ? `[${key}]` : this.NON_BREAKING_SPACE;
+  protected getFallbackValue(keyOrKeys: string | string[]): string {
+    const formattedKey = Array.isArray(keyOrKeys)
+      ? keyOrKeys.join(', ')
+      : keyOrKeys;
+
+    return isDevMode() ? `[${formattedKey}]` : this.NON_BREAKING_SPACE;
   }
 
-  private reportMissingKey(key: string, chunkName: string) {
+  private reportMissingKey(chunkNamesByKeys: Map<string, string>) {
+    const keys = [...chunkNamesByKeys.keys()];
     if (isDevMode()) {
-      console.warn(
-        `Translation key missing '${key}' in the chunk '${chunkName}'`
+      this.logger.warn(
+        `Translation keys missing [${keys.join(', ')}]. Attempted to load ${[
+          ...chunkNamesByKeys,
+        ]
+          .map(([key, chunk]) => `'${key}' from chunk '${chunk}'`)
+          .join(', ')}.`
       );
     }
   }

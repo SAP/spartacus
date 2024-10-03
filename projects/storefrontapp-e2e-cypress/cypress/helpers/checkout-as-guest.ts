@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { getSampleUser, SampleUser, user } from '../sample-data/checkout-flow';
 import { assertAddressForm } from './address-book';
 import * as checkout from './checkout-flow';
@@ -47,7 +53,7 @@ export function testCheckoutAsGuest() {
     loginAsGuest(guestUser);
 
     checkout.fillAddressFormWithCheapProduct();
-    checkout.verifyDeliveryMethod();
+    checkout.verifyDeliveryOptions();
     checkout.fillPaymentFormWithCheapProduct();
     checkout.placeOrderWithCheapProduct();
     checkout.verifyOrderConfirmationPageWithCheapProduct();
@@ -92,5 +98,7 @@ export function createAccountFromGuest(password: string) {
     cy.get('[formcontrolname="passwordconf"]').clear().type(password);
     cy.get('button[type=submit]').click();
   });
-  cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
+
+  cy.wait(`@${homePage}`);
+  cy.get('cx-page-slot.Section1 cx-banner');
 }

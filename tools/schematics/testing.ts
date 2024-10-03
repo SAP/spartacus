@@ -1,9 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChildProcess, exec, execSync } from 'child_process';
 import { prompt } from 'enquirer';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
-import semver from 'semver';
+import { chalk } from '../chalk';
 
 const featureLibsFolders: string[] = [
   'asm',
@@ -11,13 +17,20 @@ const featureLibsFolders: string[] = [
   'order',
   'checkout',
   'organization',
+  'pdf-invoices',
+  'pickup-in-store',
   'product',
   'product-configurator',
+  'product-multi-dimensional',
   'qualtrics',
+  'requested-delivery-date',
+  'estimated-delivery-date',
   'smartedit',
   'storefinder',
   'tracking',
   'user',
+  'quote',
+  'customer-ticketing',
 ];
 
 const integrationLibsFolders: string[] = [
@@ -25,28 +38,44 @@ const integrationLibsFolders: string[] = [
   'cds',
   'digital-payments',
   'epd-visualization',
+  's4om',
+  'segment-refs',
+  'opps',
+  's4-service',
+  'cpq-quote',
 ];
 
 const commands = [
   'publish',
-  'publish (reload version)',
   'build projects/schematics',
   'build asm/schematics',
   'build cart/schematics',
   'build order/schematics',
   'build checkout/schematics',
+  'build quote/schematics',
   'build cdc/schematics',
+  'build s4-service/schematics',
   'build cds/schematics',
   'build digital-payments/schematics',
   'build epd-visualization/schematics',
   'build organization/schematics',
+  'build pdf-invoices/schematics',
+  'build pickup-in-store/schematics',
   'build product/schematics',
   'build product-configurator/schematics',
+  'build product-multi-dimensional/schematics',
+  'build s4om/schematics',
+  'build segment-refs/schematics',
+  'build opps/schematics',
   'build qualtrics/schematics',
+  'build requested-delivery-date/schematics',
+  'build estimated-delivery-date/schematics',
   'build smartedit/schematics',
   'build storefinder/schematics',
   'build tracking/schematics',
   'build user/schematics',
+  'build customer-ticketing/schematics',
+  'build cpq-quote/schematics',
   'build all libs',
   'test all schematics',
   'exit',
@@ -54,22 +83,32 @@ const commands = [
 type Command = typeof commands[number];
 
 const buildLibRegEx = new RegExp('build (.*?)/schematics');
-
-let currentVersion: semver.SemVer | null;
+const verdaccioUrl = 'http://localhost:4873/';
+const npmUrl = 'https://registry.npmjs.org/';
 
 function startVerdaccio(): ChildProcess {
-  console.log('Waiting for verdaccio to boot...');
   execSync('rm -rf ./scripts/install/storage');
+
+  console.log('Waiting for verdaccio to boot...');
   const res = exec('verdaccio --config ./scripts/install/config.yaml');
+  try {
+    execSync(`npx wait-on ${verdaccioUrl} --timeout 10000`);
+  } catch (_e) {
+    console.log(
+      chalk.red(
+        `\n❌ Couldn't boot verdaccio. Make sure to install it globally: \n> npm i -g verdaccio@4`
+      )
+    );
+    process.exit(1);
+  }
   console.log('Pointing npm to verdaccio');
-  execSync(`npm config set @spartacus:registry http://localhost:4873/`);
-  execSync(`npx wait-on http://localhost:4873/`);
+  execSync(`npm config set @spartacus:registry ${verdaccioUrl}`);
   return res;
 }
 
 function beforeExit(): void {
   console.log('Setting npm back to npmjs.org');
-  execSync(`npm config set @spartacus:registry https://registry.npmjs.org/`);
+  execSync(`npm config set @spartacus:registry ${npmUrl}`);
   if (verdaccioProcess) {
     try {
       console.log('Killing verdaccio');
@@ -78,16 +117,15 @@ function beforeExit(): void {
   }
 }
 
-function publishLibs(reload = false): void {
-  if (!currentVersion || reload) {
-    currentVersion = semver.parse(
-      JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
-    );
-  }
+function publishLibs(): void {
+  //Since migration to NPM, packages will be published with version that has been set in package.json files
+  //and before each subsequent release Verdaccio will be cleaned up so that there is no conflict due to the version of existing packages.
+  //Because of the strategy used by NPM to resolve peer dependencies, any upgrade of a package's version would also require upgrading the version of that package in all places where it is used as a peer dependency.
+  //This in turn would cause too much noise
 
-  // Bump version to publish
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  semver.inc(currentVersion!, 'patch');
+  //clear Verdaccio storage
+  execSync('rm -rf ./scripts/install/storage');
+
   // Packages released from it's source directory
   const files = [
     'projects/storefrontstyles/package.json',
@@ -96,33 +134,26 @@ function publishLibs(reload = false): void {
   const distFiles = glob.sync(`dist/!(node_modules)/package.json`);
 
   [...files, ...distFiles].forEach((packagePath) => {
-    // Update version in package
     const content = JSON.parse(fs.readFileSync(packagePath, 'utf-8'));
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    content.version = currentVersion!.version;
-    fs.writeFileSync(packagePath, JSON.stringify(content, undefined, 2));
 
     // Publish package
     const dir = path.dirname(packagePath);
     console.log(`\nPublishing ${content.name}`);
     execSync(
-      `yarn publish --cwd ${dir} --new-version ${
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        currentVersion!.version
-      } --registry=http://localhost:4873/ --no-git-tag-version`,
+      `cd ${dir} && npm publish --registry=${verdaccioUrl} --no-git-tag-version`,
       { stdio: 'inherit' }
     );
   });
 }
 
 function buildLibs(): void {
-  execSync('yarn build:libs', { stdio: 'inherit' });
+  execSync('npm run build:libs', { stdio: 'inherit' });
 }
 
 function buildSchematics(
   options: { publish: boolean } = { publish: false }
 ): void {
-  execSync('yarn build:schematics', { stdio: 'inherit' });
+  execSync('npm run build:schematics', { stdio: 'inherit' });
   if (options.publish) {
     publishLibs();
   }
@@ -138,13 +169,13 @@ function buildSchematicsAndPublish(buildCmd: string): void {
 
 function testAllSchematics(): void {
   try {
-    execSync('yarn --cwd projects/schematics run test --coverage', {
+    execSync('npm --prefix projects/schematics run test --coverage', {
       stdio: 'inherit',
     });
 
     featureLibsFolders.forEach((lib) =>
       execSync(
-        `yarn --cwd feature-libs/${lib} run test:schematics --coverage`,
+        `npm --prefix feature-libs/${lib} run test:schematics --coverage`,
         {
           stdio: 'inherit',
         }
@@ -152,7 +183,7 @@ function testAllSchematics(): void {
     );
     integrationLibsFolders.forEach((lib) =>
       execSync(
-        `yarn --cwd integration-libs/${lib} run test:schematics --coverage`,
+        `npm --prefix integration-libs/${lib} run test:schematics --coverage`,
         {
           stdio: 'inherit',
         }
@@ -170,9 +201,6 @@ async function executeCommand(command: Command): Promise<void> {
     case 'publish':
       publishLibs();
       break;
-    case 'publish (reload version)':
-      publishLibs(true);
-      break;
     case 'build projects/schematics':
       buildSchematics({ publish: true });
       break;
@@ -180,21 +208,33 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build cart/schematics':
     case 'build order/schematics':
     case 'build checkout/schematics':
+    case 'build quote/schematics':
+    case 'build cpq-quote/schematics':
     case 'build cdc/schematics':
+    case 'build s4-service/schematics':
     case 'build cds/schematics':
     case 'build digital-payments/schematics':
     case 'build epd-visualization/schematics':
     case 'build organization/schematics':
+    case 'build pdf-invoices/schematics':
+    case 'build pickup-in-store/schematics':
     case 'build product/schematics':
     case 'build product-configurator/schematics':
+    case 'build product-multi-dimensional/schematics':
     case 'build qualtrics/schematics':
+    case 'build requested-delivery-date/schematics':
+    case 'build estimated-delivery-date/schematics':
+    case 'build s4om/schematics':
+    case 'build segment-refs/schematics':
+    case 'build opps/schematics':
     case 'build smartedit/schematics':
     case 'build storefinder/schematics':
     case 'build tracking/schematics':
     case 'build user/schematics':
+    case 'build customer-ticketing/schematics':
       const lib =
         buildLibRegEx.exec(command)?.pop() ?? 'LIB-REGEX-DOES-NOT-MATCH';
-      buildSchematicsAndPublish(`yarn build:${lib}`);
+      buildSchematicsAndPublish(`npm run build:${lib}`);
       break;
     case 'build all libs':
       buildLibs();

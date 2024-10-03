@@ -5,8 +5,12 @@ import {
   ASM_ROOT_MODULE,
   ASM_SCHEMATICS_CONFIG,
   CART_BASE_ROOT_MODULE,
+  CDC_ADMINISTRATION_MODULE,
+  CDC_B2B_REGISTER_MODULE,
   CDC_MODULE,
   CDC_ROOT_MODULE,
+  CDC_USER_ACCOUNT_MODULE,
+  CDC_USER_PROFILE_MODULE,
   CHECKOUT_B2B_MODULE,
   CHECKOUT_B2B_ROOT_MODULE,
   CHECKOUT_B2B_SCHEMATICS_CONFIG,
@@ -19,10 +23,13 @@ import {
   MINI_CART_MODULE,
   ORDER_MODULE,
   ORDER_ROOT_MODULE,
+  S4OM_ROOT_MODULE,
 } from './lib-configs';
 import {
+  ASM_CUSTOMER_360_FEATURE_NAME,
   ASM_FEATURE_NAME,
   CART_BASE_FEATURE_NAME,
+  CDC_B2B_FEATURE_NAME,
   CDC_FEATURE_NAME,
   CDS_FEATURE_NAME,
   CHECKOUT_B2B_FEATURE_NAME,
@@ -30,10 +37,12 @@ import {
   CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
   DIGITAL_PAYMENTS_FEATURE_NAME,
   ORDER_FEATURE_NAME,
+  S4OM_FEATURE_NAME,
   SPARTACUS_ASM,
   SPARTACUS_CDC,
   SPARTACUS_CHECKOUT,
   SPARTACUS_ORDER,
+  SPARTACUS_S4OM,
 } from './libs-constants';
 import {
   generateMappings,
@@ -47,14 +56,21 @@ describe('schematics-config-mappings', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().libraryFeatureMapping;
 
-      expect(result.get(SPARTACUS_ASM)).toEqual([ASM_FEATURE_NAME]);
+      expect(result.get(SPARTACUS_ASM)).toEqual([
+        ASM_FEATURE_NAME,
+        ASM_CUSTOMER_360_FEATURE_NAME,
+      ]);
       expect(result.get(SPARTACUS_CHECKOUT)).toEqual([
         CHECKOUT_BASE_FEATURE_NAME,
         CHECKOUT_B2B_FEATURE_NAME,
         CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
       ]);
       expect(result.get(SPARTACUS_ORDER)).toEqual([ORDER_FEATURE_NAME]);
-      expect(result.get(SPARTACUS_CDC)).toEqual([CDC_FEATURE_NAME]);
+      expect(result.get(SPARTACUS_CDC)).toEqual([
+        CDC_FEATURE_NAME,
+        CDC_B2B_FEATURE_NAME,
+      ]);
+      expect(result.get(SPARTACUS_S4OM)).toEqual([S4OM_FEATURE_NAME]);
     });
   });
 
@@ -74,7 +90,18 @@ describe('schematics-config-mappings', () => {
         [CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE]
       );
       expect(result.get(ORDER_FEATURE_NAME)).toEqual([ORDER_MODULE]);
-      expect(result.get(CDC_FEATURE_NAME)).toEqual([CDC_MODULE]);
+      expect(result.get(CDC_FEATURE_NAME)).toEqual([
+        CDC_MODULE,
+        CDC_USER_ACCOUNT_MODULE,
+        CDC_USER_PROFILE_MODULE,
+      ]);
+      expect(result.get(CDC_B2B_FEATURE_NAME)).toEqual([
+        CDC_MODULE,
+        CDC_USER_ACCOUNT_MODULE,
+        CDC_USER_PROFILE_MODULE,
+        CDC_ADMINISTRATION_MODULE,
+        CDC_B2B_REGISTER_MODULE,
+      ]);
     });
   });
 
@@ -98,7 +125,9 @@ describe('schematics-config-mappings', () => {
       expect(result.get(ORDER_FEATURE_NAME)).toEqual([ORDER_ROOT_MODULE]);
       expect(result.get(CDC_FEATURE_NAME)).toEqual([CDC_ROOT_MODULE]);
       expect(result.get(CDS_FEATURE_NAME)).toEqual([]);
+      expect(result.get(CDC_B2B_FEATURE_NAME)).toEqual([CDC_ROOT_MODULE]);
       expect(result.get(DIGITAL_PAYMENTS_FEATURE_NAME)).toEqual([]);
+      expect(result.get(S4OM_FEATURE_NAME)).toEqual([S4OM_ROOT_MODULE]);
     });
   });
 

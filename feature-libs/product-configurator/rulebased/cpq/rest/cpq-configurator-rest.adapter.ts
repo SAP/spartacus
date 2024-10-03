@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
@@ -12,7 +18,11 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CpqConfiguratorOccService } from './../occ/cpq-configurator-occ.service';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
-
+/**
+ * @deprecated since 2211.25. Not needed for commerce based CPQ orchestration (which is the default communication flavour).
+ * Refer to configuration setting ConfiguratorCoreConfig.productConfigurator.cpqOverOcc = true.
+ * The other flavour (performing direct calls from composable storefront to CPQ) is technically no longer supported.
+ */
 @Injectable()
 export class CpqConfiguratorRestAdapter
   implements RulebasedConfiguratorAdapter
@@ -24,6 +34,10 @@ export class CpqConfiguratorRestAdapter
 
   getConfiguratorType(): string {
     return ConfiguratorType.CPQ;
+  }
+
+  supportsCpqOverOcc(): boolean {
+    return false;
   }
 
   createConfiguration(
@@ -64,6 +78,12 @@ export class CpqConfiguratorRestAdapter
         configResponse.owner = configuration.owner;
         return configResponse;
       })
+    );
+  }
+
+  updateConfigurationOverview(): Observable<Configurator.Overview> {
+    throw new Error(
+      'Update the configuration overview is not supported for the CPQ configurator'
     );
   }
 

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeaturesConfigModule } from '@spartacus/core';
 import { JsonLdDirective } from './json-ld.directive';
 
 @Component({ selector: 'cx-test-cmp', template: '' })
@@ -24,7 +23,7 @@ describe('JsonLdDirective', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestComponent, JsonLdDirective],
-      imports: [FeaturesConfigModule],
+      imports: [],
     });
   });
 
@@ -51,14 +50,19 @@ describe('JsonLdDirective', () => {
     expect(fixture.nativeElement.innerHTML).not.toContain('<script');
   });
 
-  // a single test for sanitization as more tests are created in the json-ld script factort
-  it('should sanitize malicious code', () => {
+  it('should encode malicious html code', () => {
     const template = `<span [cxJsonLd]="{foo: 'bar<script>alert(1)</script>'}">hello</span>`;
     spyOn(console, 'warn').and.stub();
     fixture = createTestComponent(template);
     fixture.detectChanges();
-    expect(fixture.nativeElement.innerHTML).toContain(
-      '<script type="application/ld+json">{"foo":"bar"}</script>'
-    );
+    expect(fixture.nativeElement.innerHTML).toContain('&lt;script&gt;');
+  });
+
+  it('should encode deep nested malicious html code', () => {
+    const template = `<span [cxJsonLd]="[{ foo: { bar: { deep: 'before <script>alert()</script>and after' } }},]"></span>`;
+    spyOn(console, 'warn').and.stub();
+    fixture = createTestComponent(template);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.innerHTML).toContain('&lt;script&gt;');
   });
 });

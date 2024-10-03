@@ -12,7 +12,20 @@
         formControlName="name"
         (blur)="createUidWithName(form.get('name'), form.get('uid'))"
       />
-      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'orgUnit.name' | cxTranslate,
+        }"
+        [control]="form.get('name')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('name')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -26,7 +39,20 @@
         placeholder="{{ 'orgUnit.uid' | cxTranslate }}"
         formControlName="uid"
       />
-      <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+      <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'orgUnit.uid' | cxTranslate,
+        }"
+        [control]="form.get('uid')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
+        [control]="form.get('uid')"
+      ></cx-form-errors>
     </label>
 
     <label formGroupName="approvalProcess" class="full-width">
@@ -44,7 +70,18 @@
         [placeholder]="'orgUnit.approvalProcess' | cxTranslate"
       >
       </ng-select>
+
+      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
+        *cxFeature="'formErrorsDescriptiveMessages'"
+        [translationParams]="{
+          label: 'orgUnit.approvalProcess' | cxTranslate,
+        }"
+        [control]="form.get('approvalProcess.code')"
+      ></cx-form-errors>
+
+      <cx-form-errors
+        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('approvalProcess.code')"
       ></cx-form-errors>
     </label>
@@ -65,7 +102,18 @@
           [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
         >
         </ng-select>
+
+        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
+          *cxFeature="'formErrorsDescriptiveMessages'"
+          [translationParams]="{
+            label: 'orgUnit.form.parentOrgUnit' | cxTranslate,
+          }"
+          [control]="form.get('parentOrgUnit.uid')"
+        ></cx-form-errors>
+
+        <cx-form-errors
+          *cxFeature="'!formErrorsDescriptiveMessages'"
           [control]="form.get('parentOrgUnit.uid')"
         ></cx-form-errors>
       </label>

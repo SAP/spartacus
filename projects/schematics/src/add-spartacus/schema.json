@@ -17,10 +17,13 @@
       "items": {
         "enum": [
           "ASM",
+          "ASM-Customer-360",
           "Import-Export",
           "Saved-Cart",
           "Quick-Order",
           "CDC",
+          "CDC-B2B",
+          "CDP",
           "CDS",
           "Cart",
           "WishList",
@@ -28,29 +31,48 @@
           "Checkout-B2B",
           "Checkout-Scheduled-Replenishment",
           "Order",
+          "OPPS",
           "Digital-Payments",
           "EPD-Visualization",
+          "Customer-Ticketing",
           "Administration",
           "Order-Approval",
+          "Organization-User-Registration",
+          "Unit-Order",
+          "Account-Summary",
           "Bulk-Pricing",
           "Image-Zoom",
+          "Future-Stock",
+          "PDF-Invoices",
           "Product-Variants",
+          "Product-Multi-Dimensional-Selector",
+          "Product-Multi-Dimensional-List",
           "VC-Configurator",
           "Textfield-Configurator",
           "CPQ-Configurator",
           "Qualtrics",
+          "Requested-Delivery-Date",
+          "Estimated-Delivery-Date",
+          "S4HANA-Order-Management",
+          "cpq-quote",
+          "s4-service",
+          "OMF",
           "SmartEdit",
           "Store-Finder",
           "Personalization",
+          "Segment-Refs",
           "TMS-GTM",
           "TMS-AEPL",
+          "Pickup-In-Store",
           "User-Account",
-          "User-Profile"
+          "User-Profile",
+          "Quote"
         ],
         "type": "string"
       },
       "default": [
         "ASM",
+        "ASM-Customer-360",
         "Cart",
         "WishList",
         "Checkout",
@@ -75,6 +97,10 @@
             "label": "Assisted Services Module"
           },
           {
+            "value": "ASM-Customer-360",
+            "label": "ASM Customer 360"
+          },
+          {
             "value": "Import-Export",
             "label": "Import/Export"
           },
@@ -88,7 +114,15 @@
           },
           {
             "value": "CDC",
-            "label": "Customer Data Cloud Integration"
+            "label": "Customer Data Cloud Integration - B2C"
+          },
+          {
+            "value": "CDC-B2B",
+            "label": "Customer Data Cloud Integration - B2B"
+          },
+          {
+            "value": "CDP",
+            "label": "Customer Data Platform Integration"
           },
           {
             "value": "CDS",
@@ -135,6 +169,18 @@
             "label": "Organization - Order Approval (b2b feature)"
           },
           {
+            "value": "Organization-User-Registration",
+            "label": "Organization - User Registration (b2b feature)"
+          },
+          {
+            "value": "Unit-Order",
+            "label": "Organization - Unit Order (b2b feature)"
+          },
+          {
+            "value": "Account-Summary",
+            "label": "Organization - Account Summary (b2b feature, requires Organization - Administration)"
+          },
+          {
             "value": "Bulk-Pricing",
             "label": "Product - Bulk Pricing (b2b feature)"
           },
@@ -143,8 +189,20 @@
             "label": "Product - Variants"
           },
           {
+            "value": "Product-Multi-Dimensional-Selector",
+            "label": "Product Multi-Dimensional - Selector"
+          },
+          {
+            "value": "Product-Multi-Dimensional-List",
+            "label": "Product Multi-Dimensional - PLP price range"
+          },
+          {
             "value": "Image-Zoom",
             "label": "Product - Image Zoom"
+          },
+          {
+            "value": "Future-Stock",
+            "label": "Product - Future Stock"
           },
           {
             "value": "VC-Configurator",
@@ -159,8 +217,36 @@
             "label": "Product Configurator - CPQ Configurator (b2b feature)"
           },
           {
+            "value": "PDF-Invoices",
+            "label": "PDF Invoices"
+          },
+          {
             "value": "Qualtrics",
             "label": "Qualtrics"
+          },
+          {
+            "value": "Requested-Delivery-Date",
+            "label": "Requested Delivery Date"
+          },
+          {
+            "value": "Estimated-Delivery-Date",
+            "label": "Estimated Delivery Date"
+          },
+          {
+            "value": "S4HANA-Order-Management",
+            "label": "S/4HANA Order Management (b2b feature)"
+          },
+          {
+            "value": "cpq-quote",
+            "label": "CPQ Quote Integration (b2b feature)"
+          },
+          {
+            "value": "s4-service",
+            "label": "S/4HANA Service Integration (b2b feature)"
+          },
+          {
+            "value": "OMF",
+            "label": "SAP Order Management Foundation Integration"
           },
           {
             "value": "SmartEdit",
@@ -175,6 +261,10 @@
             "label": "Tracking - Personalization"
           },
           {
+            "value": "Segment-Refs",
+            "label": "Segment Reference"
+          },
+          {
             "value": "TMS-GTM",
             "label": "Tracking - Tag Management System - Google Tag Manager"
           },
@@ -183,12 +273,28 @@
             "label": "Tracking - Tag Management System - Adobe Experience Platform Launch"
           },
           {
+            "value": "OPPS",
+            "label": "Omnichannel Promotion Pricing Service (OPPS) Integration"
+          },
+          {
             "value": "User-Account",
             "label": "User - Account"
           },
           {
             "value": "User-Profile",
             "label": "User - Profile"
+          },
+          {
+            "value": "Quote",
+            "label": "Quote"
+          },
+          {
+            "value": "Customer-Ticketing",
+            "label": "Customer Ticketing"
+          },
+          {
+            "value": "Pickup-In-Store",
+            "label": "Pickup in Store"
           }
         ]
       }
@@ -218,13 +324,11 @@
     },
     "currency": {
       "type": "string",
-      "description": "A comma-separated list of currencies to use in Spartacus",
-      "default": "USD"
+      "description": "A comma-separated list of currencies to use in Spartacus"
     },
     "language": {
       "type": "string",
-      "description": "A comma-separated list of languages to use in Spartacus",
-      "default": "en"
+      "description": "A comma-separated list of languages to use in Spartacus"
     },
     "urlParameters": {
       "type": "string",
@@ -242,11 +346,6 @@
       "type": "boolean",
       "description": "Overwrite the contents of app.component.html file with the <cx-storefront> tag.",
       "default": true
-    },
-    "pwa": {
-      "type": "boolean",
-      "description": "Add PWA support to the project.",
-      "default": false
     },
     "ssr": {
       "type": "boolean",

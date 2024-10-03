@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { BillingCountriesEffect } from './billing-countries.effect';
 import { ClearMiscsDataEffect } from './clear-miscs-data.effect';
 import { CustomerCouponEffects } from './customer-coupon.effect';

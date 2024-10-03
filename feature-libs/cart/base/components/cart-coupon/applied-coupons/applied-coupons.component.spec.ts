@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { AppliedCouponsComponent } from './applied-coupons.component';
 
@@ -41,21 +41,25 @@ describe('AppliedCouponsComponent', () => {
     'removeVoucher',
   ]);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          AppliedCouponsComponent,
-          MockCxIconComponent,
-          MockedCartCouponComponent,
-        ],
-        providers: [
-          { provide: CartVoucherFacade, useValue: mockCartVoucherService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        AppliedCouponsComponent,
+        MockCxIconComponent,
+        MockedCartCouponComponent,
+      ],
+      providers: [
+        { provide: CartVoucherFacade, useValue: mockCartVoucherService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
+          },
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MockedCartCouponComponent);

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,9 +18,22 @@ import {
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { getLastValueSync, isNotUndefined } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import {
+  getLastValueSync,
+  GlobalMessageService,
+  GlobalMessageType,
+  HttpErrorModel,
+  isNotUndefined,
+  OccHttpErrorType,
+} from '@spartacus/core';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  map,
+  tap,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'cx-payment-type',
@@ -28,6 +47,7 @@ export class CheckoutPaymentTypeComponent {
   protected busy$ = new BehaviorSubject<boolean>(false);
 
   typeSelected?: string;
+  paymentTypesError = false;
 
   isUpdating$ = combineLatest([
     this.busy$,
@@ -39,25 +59,70 @@ export class CheckoutPaymentTypeComponent {
     distinctUntilChanged()
   );
 
-  paymentTypes$: Observable<PaymentType[]> =
-    this.checkoutPaymentTypeFacade.getPaymentTypes();
-
-  typeSelected$: Observable<PaymentType> = this.checkoutPaymentTypeFacade
-    .getSelectedPaymentTypeState()
+  paymentTypes$: Observable<PaymentType[]> = this.checkoutPaymentTypeFacade
+    .getPaymentTypes()
     .pipe(
-      filter((state) => !state.loading),
-      map((state) => state.data),
-      filter(isNotUndefined),
-      distinctUntilChanged(),
-      tap((selected) => {
-        this.typeSelected = selected?.code;
-        this.checkoutStepService.resetSteps();
-        this.checkoutStepService.disableEnableStep(
-          CheckoutStepType.PAYMENT_DETAILS,
-          selected?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT
-        );
+      tap(() => (this.paymentTypesError = false)),
+      catchError((error: HttpErrorModel) => {
+        if (
+          error.details?.[0]?.type === OccHttpErrorType.CLASS_MISMATCH_ERROR
+        ) {
+          this.globalMessageService.add(
+            { key: 'httpHandlers.forbidden' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          this.paymentTypesError = true;
+        }
+        return of([]);
       })
     );
+
+  typeSelected$: Observable<PaymentType> = combineLatest([
+    this.checkoutPaymentTypeFacade.getSelectedPaymentTypeState().pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data)
+    ),
+    this.paymentTypes$,
+  ]).pipe(
+    map(
+      ([selectedPaymentType, availablePaymentTypes]: [
+        PaymentType | undefined,
+        PaymentType[],
+      ]) => {
+        if (
+          selectedPaymentType &&
+          availablePaymentTypes.find((availablePaymentType) => {
+            return availablePaymentType.code === selectedPaymentType.code;
+          })
+        ) {
+          return selectedPaymentType;
+        }
+        if (availablePaymentTypes.length) {
+          this.busy$.next(true);
+          this.checkoutPaymentTypeFacade
+            .setPaymentType(
+              availablePaymentTypes[0].code as string,
+              this.poNumberInputElement?.nativeElement?.value
+            )
+            .subscribe({
+              complete: () => this.onSuccess(),
+              error: () => this.onError(),
+            });
+          return availablePaymentTypes[0];
+        }
+        return undefined;
+      }
+    ),
+    filter(isNotUndefined),
+    distinctUntilChanged(),
+    tap((selected) => {
+      this.typeSelected = selected?.code;
+      this.checkoutStepService.disableEnableStep(
+        CheckoutStepType.PAYMENT_DETAILS,
+        selected?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT
+      );
+    })
+  );
 
   cartPoNumber$: Observable<string> = this.checkoutPaymentTypeFacade
     .getPurchaseOrderNumberState()
@@ -71,7 +136,8 @@ export class CheckoutPaymentTypeComponent {
   constructor(
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   changeType(code: string): void {

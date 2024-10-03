@@ -45,6 +45,13 @@ describe('ProductImageNormalizer', () => {
       },
       {
         altText: 'Test alt text',
+        format: 'cartIcon',
+        galleryIndex: null as any,
+        imageType: ImageType.PRIMARY,
+        url: '/test6',
+      },
+      {
+        altText: 'Test alt text',
         format: 'product',
         galleryIndex: 0,
         imageType: ImageType.GALLERY,
@@ -82,6 +89,13 @@ describe('ProductImageNormalizer', () => {
           format: 'zoom',
           imageType: ImageType.PRIMARY,
           url: 'https://hybris.com/test3.jpg',
+        },
+        cartIcon: {
+          altText: 'Test alt text',
+          format: 'cartIcon',
+          galleryIndex: null as any,
+          imageType: ImageType.PRIMARY,
+          url: baseUrl + '/test6',
         },
       },
       GALLERY: [

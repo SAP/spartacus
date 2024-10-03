@@ -1,45 +1,43 @@
 import {
   Component,
   DebugElement,
-  Directive,
   Input,
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
+  CartAddEntrySuccessEvent,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
 import {
-  FeaturesConfig,
-  FeaturesConfigModule,
+  ActivatedRouterStateSnapshot,
   I18nTestingModule,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
-  ModalDirective,
+  KeyboardFocusTestingModule,
+  LaunchDialogService,
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { ModalService } from 'projects/storefrontlib/shared/components/modal/modal.service';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { skip, take } from 'rxjs/operators';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
-@Directive({
-  selector: '[cxModal]',
-})
-class MockModalDirective implements Partial<ModalDirective> {
-  @Input() cxModal;
-}
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   updateEntry(_entryNumber: number, _quantity: number): void {}
@@ -51,15 +49,36 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
     return of({});
   }
+
   getLastEntry(_productCode: string): Observable<OrderEntry | undefined> {
     return of({});
   }
+
   isStable(): Observable<boolean> {
     return of(true);
   }
+
   getEntry(_productCode: string): Observable<OrderEntry | undefined> {
     return of({});
   }
+}
+
+const PRODUCT_CODE = 'CODE1111';
+const QUANTITY = 3;
+const NUMBER_ENTRIES_BEFORE_ADD = 2;
+const PICKUP_STORE_NAME = 'testStore';
+let numberOfEntriesBeforeAdd: number | undefined = NUMBER_ENTRIES_BEFORE_ADD;
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  get data$(): Observable<any> {
+    return of({
+      productCode: PRODUCT_CODE,
+      quantity: QUANTITY,
+      numberOfEntriesBeforeAdd: numberOfEntriesBeforeAdd,
+      pickupStoreName: PICKUP_STORE_NAME,
+    });
+  }
+
+  closeDialog(_reason: string): void {}
 }
 
 const mockOrderEntries: OrderEntry[] = [
@@ -67,14 +86,14 @@ const mockOrderEntries: OrderEntry[] = [
     quantity: 1,
     entryNumber: 1,
     product: {
-      code: 'CODE1111',
+      code: PRODUCT_CODE,
     },
   },
   {
     quantity: 2,
     entryNumber: 1,
     product: {
-      code: 'CODE1111',
+      code: PRODUCT_CODE,
     },
   },
 ];
@@ -87,12 +106,13 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-class MockModalService {
-  dismissActiveModal(): void {}
-}
+const routerState = new BehaviorSubject<RouterState>({
+  nextState: undefined,
+} as RouterState);
 
 class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = () => of({ nextState: undefined } as RouterState);
+  go = () => Promise.resolve(true);
+  getRouterState = () => routerState;
 }
 
 @Component({
@@ -103,7 +123,7 @@ class MockCartItemComponent {
   @Input() compact = false;
   @Input() item: Observable<OrderEntry>;
   @Input() readonly = false;
-  @Input() quantityControl: FormControl;
+  @Input() quantityControl: UntypedFormControl;
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
@@ -119,60 +139,52 @@ describe('AddedToCartDialogComponent', () => {
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
   let el: DebugElement;
   let activeCartFacade: ActiveCartFacade;
-  let mockModalService: MockModalService;
+  let launchDialogService: LaunchDialogService;
+  let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          FormsModule,
-          ReactiveFormsModule,
-          RouterTestingModule,
-          SpinnerModule,
-          I18nTestingModule,
-          PromotionsModule,
-          FeaturesConfigModule,
-        ],
-        declarations: [
-          AddedToCartDialogComponent,
-          MockCartItemComponent,
-          MockUrlPipe,
-          MockCxIconComponent,
-          MockModalDirective,
-        ],
-        providers: [
-          {
-            provide: ModalService,
-            useClass: MockModalService,
-          },
-          {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartService,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '1.3' },
-            },
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        SpinnerModule,
+        I18nTestingModule,
+        PromotionsModule,
+        KeyboardFocusTestingModule,
+      ],
+      declarations: [
+        AddedToCartDialogComponent,
+        MockCartItemComponent,
+        MockUrlPipe,
+        MockCxIconComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+      ],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddedToCartDialogComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     activeCartFacade = TestBed.inject(ActiveCartFacade);
-    mockModalService = TestBed.inject(ModalService);
+
+    launchDialogService = TestBed.inject(LaunchDialogService);
+    routingService = TestBed.inject(RoutingService);
 
     spyOn(activeCartFacade, 'updateEntry').and.callThrough();
-    spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
+
     component.entry$ = of(mockOrderEntries[0]);
     component.loaded$ = of(true);
     component.addedEntryWasMerged$ = of(false);
@@ -187,13 +199,12 @@ describe('AddedToCartDialogComponent', () => {
       component.quantity = -1;
       component.entry$ = EMPTY;
       component.addedEntryWasMerged$ = EMPTY;
-
       spyOn(activeCartFacade, 'getLastEntry').and.returnValue(
         cold('a', { a: mockOrderEntries[0] })
       );
 
       spyOn(component as any, 'getAddedEntryWasMerged').and.stub();
-      component.init('productCode', 3, 2);
+      component.ngOnInit();
 
       expect(component.quantity).toEqual(3);
       expect((component as any)['getAddedEntryWasMerged']).toHaveBeenCalledWith(
@@ -202,6 +213,16 @@ describe('AddedToCartDialogComponent', () => {
       expect(component.entry$).toBeObservable(
         cold('r', { r: mockOrderEntries[0] })
       );
+    });
+
+    it('should subscribe to routerState and close dialog when route changed', () => {
+      spyOn(component, 'dismissModal');
+      routerState.next({
+        nextState: { url: 'test' } as ActivatedRouterStateSnapshot,
+      } as RouterState);
+      component.ngOnInit();
+
+      expect(component.dismissModal).toHaveBeenCalledWith('dismiss');
     });
   });
 
@@ -289,7 +310,7 @@ describe('AddedToCartDialogComponent', () => {
     component.entry$ = entry$;
     component
       .getQuantityControl()
-      .pipe(skip(1))
+      .pipe(skip(1), take(1))
       .subscribe((control) => {
         expect(control.value).toEqual(50);
         done();
@@ -304,7 +325,7 @@ describe('AddedToCartDialogComponent', () => {
   it('should show added dialog title message in case new entry appears in cart', () => {
     component.entry$ = of(mockOrderEntries[0]);
     component.loaded$ = of(true);
-    spyOn(activeCartFacade, 'getEntries').and.returnValue(of(mockOrderEntries));
+    spyOn(activeCartFacade, 'getEntries').and.returnValue(of([]));
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
     expect(dialogTitleEl.textContent).toEqual(
@@ -326,34 +347,127 @@ describe('AddedToCartDialogComponent', () => {
 
   it('should not show cart entry', () => {
     component.loaded$ = of(false);
-    component.modalIsOpen = false;
     expect(el.query(By.css('cx-cart-item'))).toBeNull();
   });
 
   it('should show cart entry', () => {
     fixture.detectChanges();
     component.loaded$ = of(true);
-    component.modalIsOpen = false;
     expect(el.query(By.css('cx-cart-item'))).toBeDefined();
 
     component.loaded$ = of(true);
-    component.modalIsOpen = true;
     expect(el.query(By.css('cx-cart-item'))).toBeDefined();
 
     component.loaded$ = of(false);
-    component.modalIsOpen = true;
     expect(el.query(By.css('cx-cart-item'))).toBeDefined();
   });
 
   it('should close modal after removing cart item', (done) => {
+    spyOn(launchDialogService, 'closeDialog').and.stub();
     fixture.detectChanges();
     component
       .getQuantityControl()
       .pipe(take(1))
       .subscribe((control) => {
         control.setValue(0);
-        expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
+        expect(launchDialogService.closeDialog).toHaveBeenCalled();
         done();
       });
+  });
+
+  it('should closeModal when user click outside', () => {
+    const el = fixture.debugElement.nativeElement;
+    spyOn(component, 'dismissModal');
+
+    el.click();
+    expect(component.dismissModal).toHaveBeenCalledWith('Cross click');
+  });
+
+  describe('init()', () => {
+    it('should compile addedCartEntryWasMerged$ from quantity comparison', () => {
+      spyOn(activeCartFacade, 'getEntries').and.returnValue(
+        cold('a', { a: mockOrderEntries })
+      );
+      component.loaded$ = cold('t', { t: true });
+      component.init(PRODUCT_CODE, QUANTITY, NUMBER_ENTRIES_BEFORE_ADD);
+      expect(component.addedEntryWasMerged$).toBeObservable(
+        cold('t', { t: true })
+      );
+    });
+    it('should determine product from input in case addingEntryResult in not provided', () => {
+      spyOn(activeCartFacade, 'getLastEntry').and.callThrough();
+
+      component.init(PRODUCT_CODE, QUANTITY, NUMBER_ENTRIES_BEFORE_ADD);
+      component.entry$.subscribe(() => {
+        expect(activeCartFacade.getLastEntry).toHaveBeenCalledWith(
+          PRODUCT_CODE
+        );
+      });
+    });
+
+    it('should determine product from addingEntryResult in case provided', () => {
+      spyOn(activeCartFacade, 'getLastEntry').and.callThrough();
+      const mockSuccessEvent = new CartAddEntrySuccessEvent();
+      const replacedProductCode = 'NEW_PRODUCT_CODE';
+      mockSuccessEvent.entry = { product: { code: 'NEW_PRODUCT_CODE' } };
+      component.init(
+        PRODUCT_CODE,
+        QUANTITY,
+        NUMBER_ENTRIES_BEFORE_ADD,
+        undefined,
+        of(mockSuccessEvent)
+      );
+      component.entry$.subscribe(() => {
+        expect(activeCartFacade.getLastEntry).toHaveBeenCalledWith(
+          replacedProductCode
+        );
+      });
+    });
+
+    it('should fallback to events product code from addingEntryResult in case entries product code does not exist', () => {
+      spyOn(activeCartFacade, 'getLastEntry').and.callThrough();
+      const mockSuccessEvent = new CartAddEntrySuccessEvent();
+      mockSuccessEvent.productCode = PRODUCT_CODE;
+      component.init(
+        PRODUCT_CODE,
+        QUANTITY,
+        NUMBER_ENTRIES_BEFORE_ADD,
+        undefined,
+        of(mockSuccessEvent)
+      );
+      component.entry$.subscribe(() => {
+        expect(activeCartFacade.getLastEntry).toHaveBeenCalledWith(
+          PRODUCT_CODE
+        );
+      });
+    });
+  });
+
+  describe('onAction()', () => {
+    it('should redirect to the cart view on "View Cart" button click', () => {
+      spyOn(routingService, 'go');
+      spyOn(component, 'dismissModal');
+      fixture.detectChanges();
+      const viewCartBtn = el.query(
+        By.css('.cx-dialog-buttons button.btn-primary')
+      );
+      viewCartBtn.triggerEventHandler('click');
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
+      expect(component.dismissModal).toHaveBeenCalledWith('View Cart click');
+    });
+
+    it('should redirect to the checkout view on "Proceed to Checkout" button click', () => {
+      spyOn(routingService, 'go');
+      spyOn(component, 'dismissModal');
+      fixture.detectChanges();
+      const checkoutBtn = el.query(
+        By.css('.cx-dialog-buttons button.btn-secondary')
+      );
+      checkoutBtn.triggerEventHandler('click');
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'checkout' });
+      expect(component.dismissModal).toHaveBeenCalledWith(
+        'Proceed To Checkout click'
+      );
+    });
   });
 });

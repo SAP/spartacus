@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { Observable, of } from 'rxjs';
@@ -9,27 +10,33 @@ const cartMock: Cart = {
 
 class MockActiveCartService {
   getActive(): Observable<Cart> {
-    return of<Cart>(cartMock);
+    return of(cartMock);
   }
+}
+
+@Component({
+  selector: 'cx-order-summary',
+  template: '',
+})
+class MockOrderSummaryComponent {
+  @Input() cart: Cart;
 }
 
 describe('CartTotalsComponent', () => {
   let component: CartTotalsComponent;
   let fixture: ComponentFixture<CartTotalsComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [CartTotalsComponent],
-        providers: [
-          {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [CartTotalsComponent, MockOrderSummaryComponent],
+      providers: [
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartTotalsComponent);

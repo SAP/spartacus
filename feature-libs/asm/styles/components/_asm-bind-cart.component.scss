@@ -1,0 +1,169 @@
+%cx-asm-bind-cart {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  flex: 1;
+  width: 100%;
+
+  @media (max-width: 575px) {
+    > * {
+      margin-bottom: 12px;
+    }
+  }
+
+  button {
+    @media (min-width: 575px) {
+      margin-inline-start: 8px;
+    }
+
+    &.cx-asm-bindCartToCustomer {
+      background-color: #0070f2;
+      border: 1px solid #0070f2;
+      color: #ffffff;
+      opacity: 0.4;
+      transition: opacity 0.3s;
+      position: relative;
+
+      &.cx-asm-active {
+        opacity: 1;
+      }
+
+      cx-dot-spinner {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        display: none;
+      }
+
+      &.cx-bind-loading {
+        span {
+          opacity: 0;
+        }
+        cx-dot-spinner {
+          display: flex;
+        }
+      }
+    }
+  }
+
+  form {
+    display: flex;
+    align-items: center;
+    min-width: auto;
+    margin: 0;
+    flex: 1;
+    width: 100%;
+
+    @media (max-width: 575px) {
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+  }
+
+  label {
+    color: #556b82;
+  }
+
+  input {
+    border: none;
+    background-color: transparent;
+
+    &:focus {
+      box-shadow: none;
+      outline-style: none;
+    }
+  }
+  .cx-asm-assignCart {
+    border: 1px solid #eff1f2;
+    border-radius: 4px;
+    background-color: #eff1f2;
+    box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    margin-inline-start: 6px;
+    margin-inline-end: 15px;
+    max-width: 20rem;
+    padding-inline-end: 15px;
+
+    @media (max-width: 575px) {
+      margin-inline-end: 0;
+      margin-inline-start: 0;
+      min-width: 100%;
+      max-width: 100%;
+    }
+    &:focus,
+    &:focus-within,
+    &:active,
+    &.active {
+      background-color: #ffffff;
+      outline: none;
+    }
+    .cx-asm-reset {
+      visibility: hidden;
+      background-color: transparent;
+      border: none;
+      color: inherit;
+    }
+  }
+
+  .cx-asm-assignCart-input-show-no-button {
+    width: 20%;
+    display: flex;
+    align-items: center;
+
+    @media (max-width: 575px) {
+      margin-inline-end: 0;
+      margin-inline-start: 0;
+      min-width: 100%;
+      max-width: 100%;
+    }
+    input {
+      border: 0.0625rem solid $sapFiori_Button_Standard_Background;
+      border-bottom-color: $sapFiori_Button_border_bottom_color;
+      width: 100%;
+      border-radius: 0.25rem;
+      padding: 0 0.75rem;
+      height: 2.25rem;
+      display: flex;
+      align-items: center;
+      &.ng-invalid {
+        &.ng-dirty,
+        &.ng-touched {
+          border-color: $sapFiori_Button_Standard_Background;
+          border-bottom-color: $sapFiori_Button_border_bottom_color;
+          &:focus {
+            border: 0.125rem solid rgba(0, 100, 217, 1);
+            box-shadow: 0rem 0rem 0.0625rem rgba(120, 143, 166, 0.72);
+            outline: none;
+            background-color: $sapFiori_Button_Standard_Hover_Background;
+          }
+        }
+      }
+      &:focus {
+        border: 0.125rem solid rgba(0, 100, 217, 1);
+        box-shadow: 0rem 0rem 0.0625rem rgba(120, 143, 166, 0.72);
+        outline: none;
+        background-color: $sapFiori_Button_Standard_Hover_Background;
+      }
+      &:hover {
+        box-shadow: 0rem 0rem 0rem 0.0625rem rgba(104, 174, 255, 0.5) inset;
+      }
+    }
+
+    &:focus,
+    &:focus-within,
+    &:active,
+    &.active {
+      background-color: #ffffff;
+      outline: none;
+    }
+
+    .cx-asm-reset {
+      visibility: hidden;
+      background-color: transparent;
+      border: none;
+      color: inherit;
+    }
+  }
+}

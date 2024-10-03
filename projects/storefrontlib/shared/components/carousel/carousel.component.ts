@@ -1,12 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   Input,
   isDevMode,
   OnInit,
   TemplateRef,
 } from '@angular/core';
+import { LoggerService, useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
@@ -77,11 +85,18 @@ export class CarouselComponent implements OnInit {
   activeSlide: number;
   size$: Observable<number>;
 
-  constructor(protected el: ElementRef, protected service: CarouselService) {}
+  protected logger = inject(LoggerService);
+
+  constructor(
+    protected el: ElementRef,
+    protected service: CarouselService
+  ) {
+    useFeatureStyles('a11yFocusableCarouselControls');
+  }
 
   ngOnInit() {
     if (!this.template && isDevMode()) {
-      console.error(
+      this.logger.error(
         'No template reference provided to render the carousel items for the `cx-carousel`'
       );
       return;
@@ -91,8 +106,64 @@ export class CarouselComponent implements OnInit {
       .pipe(tap(() => (this.activeSlide = 0)));
   }
 
+  onItemKeydown(event: KeyboardEvent, size: number): void {
+    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+      event.preventDefault();
+      this.focusNextPrevItem(
+        event.target,
+        event.key === 'ArrowRight' ? 1 : -1,
+        size
+      );
+    }
+  }
+
+  /**
+   * Focuses the next or previous item in the carousel based on keyboard navigation.
+   *
+   * This method determines the next focusable carousel item, identified by the
+   * `cxFocusableCarouselItem` directive, based on the current focus and the direction
+   * given. It adjusts the carousel's active slide if the next focusable item is
+   * outside the currently visible items.
+   *
+   * @param currentItem - The currently focused carousel item.
+   * @param direction - The navigation direction (1 for right, -1 for left).
+   * @param size - The number of items per slide, used to determine slide change is needed
+   */
+  protected focusNextPrevItem(
+    currentItem: EventTarget | null,
+    direction: number,
+    size: number
+  ): void {
+    const focusableElements = this.el.nativeElement.querySelectorAll(
+      '[cxFocusableCarouselItem]'
+    );
+    const currentIndex = Array.from(focusableElements).indexOf(currentItem);
+    const nextIndex = currentIndex + direction;
+    if (nextIndex < 0 || nextIndex >= focusableElements.length) {
+      return;
+    }
+
+    const targetElement = focusableElements[nextIndex] as HTMLElement;
+    const shouldChangeSlide =
+      nextIndex < this.activeSlide || nextIndex >= this.activeSlide + size;
+    if (shouldChangeSlide) {
+      this.activeSlide = nextIndex - (nextIndex % size);
+      // After changing slides carousel items has CSS transition,
+      // which prevents them from being focused
+      targetElement.addEventListener(
+        'transitionend',
+        () => {
+          targetElement.focus();
+        },
+        { once: true }
+      );
+    } else {
+      targetElement.focus();
+    }
+  }
+
   getSlideNumber(size: number, currentIndex: number): number {
-    let normalizedCurrentIndex = currentIndex + 1;
+    const normalizedCurrentIndex = currentIndex + 1;
     return Math.ceil(normalizedCurrentIndex / size);
   }
 }

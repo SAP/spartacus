@@ -1,0 +1,50 @@
+<ng-container *ngIf="config">
+  <ng-container
+    *ngTemplateOutlet="
+      groups;
+      context: {
+        overviewGroups: config.overview.groups,
+        level: 1,
+        idPrefix: '',
+      }
+    "
+  ></ng-container>
+</ng-container>
+
+<ng-template
+  #groups
+  let-overviewGroups="overviewGroups"
+  let-level="level"
+  let-idPrefix="idPrefix"
+>
+  <ul>
+    <ng-container *ngFor="let group of overviewGroups">
+      <li [ngClass]="getGroupLevelStyleClasses(level)">
+        <button
+          id="{{ getMenuItemId(idPrefix, group.id) }}"
+          class="cx-menu-item"
+          [attr.aria-label]="
+            'configurator.a11y.groupName'
+              | cxTranslate: { group: group.groupDescription }
+          "
+          (click)="navigateToGroup(idPrefix, group.id)"
+        >
+          <span aria-hidden="true"> {{ group.groupDescription }}</span>
+          <cx-icon [type]="iconTypes.ARROW_LEFT" aria-hidden="true"></cx-icon>
+        </button>
+        <ng-container *ngIf="group.subGroups?.length > 0">
+          <ng-container
+            *ngTemplateOutlet="
+              groups;
+              context: {
+                overviewGroups: group.subGroups,
+                level: level + 1,
+                idPrefix: getPrefixId(idPrefix, group.id),
+              }
+            "
+          ></ng-container>
+        </ng-container>
+      </li>
+    </ng-container>
+  </ul>
+</ng-template>

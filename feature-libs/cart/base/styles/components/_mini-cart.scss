@@ -9,16 +9,12 @@
   a {
     display: flex;
     background: var(--cx-color-primary);
-
-    min-width: 70px;
+    min-width: 90px;
     height: 47px;
     padding: 10px;
-
     color: var(--cx-color-inverse);
     text-decoration: none;
     justify-content: space-around;
-
-    color: currentColor;
 
     &:hover {
       color: currentColor;
@@ -31,6 +27,10 @@
       padding-inline-start: 7px;
       font-size: var(--cx-font-size, 1.188rem);
       font-weight: var(--cx-font-weight-bold);
+
+      @include forFeature('a11yImproveContrast') {
+        @include type('3');
+      }
     }
 
     .total {
@@ -48,6 +48,12 @@
         padding-inline-end: 0;
         margin-bottom: -5px;
       }
+    }
+  }
+
+  @include cx-highContrastTheme-dark {
+    a {
+      color: var(--cx-color-medium);
     }
   }
 }

@@ -1,17 +1,23 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { BaseItem } from '../organization.model';
 
 @Injectable()
 export abstract class FormService<T> {
-  protected form: FormGroup | null;
+  protected form: UntypedFormGroup | null;
 
   /**
    * Builds the form structure.
    */
   protected abstract build(item?: T): void;
 
-  getForm(item?: T): FormGroup | null {
+  getForm(item?: T): UntypedFormGroup | null {
     if (this.form && !!item) {
       this.patchData(item);
       return this.form;

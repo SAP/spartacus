@@ -5,10 +5,11 @@
 
   color: var(--cx-color-text);
 
-  h4 {
+  div:first-child {
     flex: 100%;
     padding: 0 0 10px 0;
     margin: 0 0 20px 0;
+    font-size: 1.125rem;
 
     @include media-breakpoint-down(md) {
       display: none;
@@ -23,6 +24,10 @@
     color: var(--cx-color-text);
     font-size: var(--cx-font-size, 0.92rem);
     background: var(--cx-color-background);
+
+    @include forFeature('a11yImproveContrast') {
+      @include type('7');
+    }
 
     &:hover {
       background: var(--cx-color-light);

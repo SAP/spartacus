@@ -1,13 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   EntitiesModel,
-  normalizeHttpError,
+  LoggerService,
   OrderApprovalPermissionType,
   StateUtils,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
-import { from, Observable, of } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { PermissionConnector } from '../../connectors/permission/permission.connector';
 import { Permission } from '../../model/permission.model';
@@ -15,6 +22,8 @@ import { OrganizationActions, PermissionActions } from '../actions';
 
 @Injectable()
 export class PermissionEffects {
+  protected logger = inject(LoggerService);
+
   loadPermission$: Observable<
     | PermissionActions.LoadPermissionSuccess
     | PermissionActions.LoadPermissionFail
@@ -31,7 +40,7 @@ export class PermissionEffects {
             of(
               new PermissionActions.LoadPermissionFail({
                 permissionCode,
-                error: normalizeHttpError(error),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -67,7 +76,7 @@ export class PermissionEffects {
             of(
               new PermissionActions.LoadPermissionsFail({
                 params: payload.params,
-                error: normalizeHttpError(error),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -96,7 +105,7 @@ export class PermissionEffects {
               from([
                 new PermissionActions.CreatePermissionFail({
                   permissionCode: payload.permission.code ?? '',
-                  error: normalizeHttpError(error),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -126,7 +135,7 @@ export class PermissionEffects {
               from([
                 new PermissionActions.UpdatePermissionFail({
                   permissionCode: payload.permission.code ?? '',
-                  error: normalizeHttpError(error),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -153,7 +162,7 @@ export class PermissionEffects {
           catchError((error: HttpErrorResponse) =>
             of(
               new PermissionActions.LoadPermissionTypesFail({
-                error: normalizeHttpError(error),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )

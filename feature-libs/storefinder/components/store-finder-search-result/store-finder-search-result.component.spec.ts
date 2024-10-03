@@ -1,14 +1,15 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { StoreFinderSearchResultComponent } from './store-finder-search-result.component';
 import {
   StoreFinderConfig,
   StoreFinderService,
 } from '@spartacus/storefinder/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { Observable, of } from 'rxjs';
+import { StoreFinderSearchResultComponent } from './store-finder-search-result.component';
 
 class ActivatedRouteMock {
   paramsSubscriptionHandler: Function;
@@ -39,20 +40,18 @@ describe('StoreFinderListComponent', () => {
   let storeFinderService: StoreFinderService;
   let activatedRoute: ActivatedRoute | ActivatedRouteMock;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        schemas: [NO_ERRORS_SCHEMA],
-        declarations: [StoreFinderSearchResultComponent],
-        providers: [
-          { provide: StoreFinderService, useValue: mockStoreFinderService },
-          { provide: ActivatedRoute, useClass: ActivatedRouteMock },
-          { provide: StoreFinderConfig, useValue: mockStoreFinderConfig },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      schemas: [NO_ERRORS_SCHEMA],
+      declarations: [StoreFinderSearchResultComponent, MockFeatureDirective],
+      providers: [
+        { provide: StoreFinderService, useValue: mockStoreFinderService },
+        { provide: ActivatedRoute, useClass: ActivatedRouteMock },
+        { provide: StoreFinderConfig, useValue: mockStoreFinderConfig },
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderSearchResultComponent);

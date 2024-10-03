@@ -16,7 +16,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { OutletDirective, OutletModule } from '@spartacus/storefront';
-import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductListItemComponent } from './product-list-item.component';
@@ -94,37 +94,35 @@ describe('ProductListItemComponent in product-list', () => {
     },
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule, OutletModule],
-        declarations: [
-          ProductListItemComponent,
-          MockPictureComponent,
-          MockAddToCartComponent,
-          MockStarRatingComponent,
-          MockUrlPipe,
-          MockCxIconComponent,
-          MockFeatureLevelDirective,
-          MockOutletDirective,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-        ],
-      })
-        .overrideComponent(ProductListItemComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule, OutletModule],
+      declarations: [
+        ProductListItemComponent,
+        MockPictureComponent,
+        MockAddToCartComponent,
+        MockStarRatingComponent,
+        MockUrlPipe,
+        MockCxIconComponent,
+        MockFeatureDirective,
+        MockOutletDirective,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+      ],
     })
-  );
+      .overrideComponent(ProductListItemComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListItemComponent);

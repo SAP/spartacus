@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
 import { UsageId } from '../models/usage-ids/usage-id';
@@ -47,8 +53,8 @@ export interface Ui5Config {
 export interface VisualizationApiConfig {
   /**
    * This is the base URL that is used to access the EPD Visualization APIs.
-   * Use the origin portion of the URL for your EPD Fiori Launchpad.
-   * i.e. https://mytenantsubdomain.epd.cfapps.eu20.hana.ondemand.com
+   * Use the origin portion of the URL for your EPD Visualization Fiori Launchpad.
+   * i.e. https://mytenant.visualization.eu20.epd.cloud.sap
    */
   baseUrl: string;
 }

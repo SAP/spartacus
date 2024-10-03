@@ -1,10 +1,31 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LaunchDialogService } from '@spartacus/storefront';
-import { ProductImageZoomDialogComponent } from './product-image-zoom-dialog.component';
 import { I18nTestingModule } from '@spartacus/core';
+import {
+  ICON_TYPE,
+  KeyboardFocusTestingModule,
+  LaunchDialogService,
+} from '@spartacus/storefront';
+import { ProductImageZoomDialogComponent } from './product-image-zoom-dialog.component';
 
 class MockLaunchDialogService {
   closeDialog() {}
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
+@Component({
+  selector: 'cx-product-image-zoom-view',
+  template: '',
+})
+class MockProductImageZoomViewComponent {
+  @Input() galleryIndex: number;
 }
 
 describe('ProductImageZoomDialogComponent', () => {
@@ -14,14 +35,18 @@ describe('ProductImageZoomDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, KeyboardFocusTestingModule],
       providers: [
         {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,
         },
       ],
-      declarations: [ProductImageZoomDialogComponent],
+      declarations: [
+        ProductImageZoomDialogComponent,
+        MockCxIconComponent,
+        MockProductImageZoomViewComponent,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProductImageZoomDialogComponent);

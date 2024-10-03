@@ -1,0 +1,32 @@
+<td class="cx-center" *ngIf="!isFlagQuote">
+  <ng-container
+    *ngIf="
+      quoteDiscountData &&
+      quoteDiscountData.basePrice?.value !== undefined &&
+      quoteDiscountData.cpqDiscounts &&
+      quoteDiscountData.cpqDiscounts.length > 0
+    "
+  >
+    <ng-container *ngFor="let discount of quoteDiscountData.cpqDiscounts">
+      <span role="cell" class="cx-total cx-discount">
+        {{ discount.isoCode
+        }}{{
+          getDiscountedPrice(quoteDiscountData.basePrice?.value, discount.value)
+            | number: '1.2-2' : 'en-US'
+        }}
+      </span>
+    </ng-container>
+  </ng-container>
+  <!-- Iterate over quoteDiscountData.basePrice -->
+  <span
+    class="cx-formatted-value"
+    [ngClass]="{
+      'strike-through':
+        quoteDiscountData &&
+        quoteDiscountData.cpqDiscounts &&
+        quoteDiscountData.cpqDiscounts.length > 0,
+    }"
+  >
+    {{ quoteDiscountData?.basePrice?.formattedValue }}
+  </span>
+</td>

@@ -1,0 +1,43 @@
+%cx-quote-links {
+  &:not(:empty) {
+    section {
+      display: flex;
+      justify-content: flex-end;
+
+      @include media-breakpoint-up(md) {
+        padding-block-end: 1.25rem;
+      }
+
+      ul {
+        display: flex;
+        list-style: none;
+        margin: 0;
+
+        li {
+          padding: 0 1em;
+          text-align: center;
+          border-style: solid;
+          border-color: var(--cx-color-light);
+          border-width: 0 1px 0 0;
+        }
+      }
+    }
+  }
+}
+
+html[dir='ltr'] cx-quote-links {
+  ul li {
+    &:last-child {
+      border: none;
+      padding-inline-end: 0;
+    }
+  }
+}
+
+html[dir='rtl'] cx-quote-links {
+  ul li {
+    &:first-child {
+      border-width: 0;
+    }
+  }
+}

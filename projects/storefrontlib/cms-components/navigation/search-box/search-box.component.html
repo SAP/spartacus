@@ -1,16 +1,23 @@
 <div [attr.aria-label]="'searchBox.productSearch' | cxTranslate" role="search">
   <label class="searchbox" [class.dirty]="!!searchInput.value">
+    <!-- TODO: (CXSPA-6929) - Remove feature flag next major release -->
     <input
       #searchInput
       [placeholder]="'searchBox.placeholder' | cxTranslate"
       autocomplete="off"
       aria-describedby="initialDescription"
       aria-controls="results"
+      [attr.tabindex]="
+        a11ySearchBoxMobileFocusEnabled ? getTabIndex(isMobile | async) : null
+      "
       [attr.aria-label]="'searchBox.placeholder' | cxTranslate"
-      (focus)="open()"
+      (focus)="a11ySearchBoxMobileFocusEnabled ? null : open()"
       (click)="open()"
       (input)="search(searchInput.value)"
       (blur)="close($any($event))"
+      (keydown.tab)="
+        a11ySearchBoxMobileFocusEnabled ? close($any($event)) : null
+      "
       (keydown.escape)="close($any($event))"
       (keydown.enter)="
         close($any($event), true);
@@ -24,19 +31,25 @@
 
     <button
       [attr.aria-label]="'common.reset' | cxTranslate"
-      (mousedown)="clear(searchInput)"
-      (keydown.enter)="clear(searchInput)"
+      [title]="'common.reset' | cxTranslate"
+      (click)="clear(searchInput)"
       class="reset"
     >
       <cx-icon [type]="iconTypes.RESET"></cx-icon>
     </button>
 
-    <div role="presentation" class="search-icon">
+    <div
+      role="presentation"
+      class="search-icon"
+      [title]="'common.search' | cxTranslate"
+    >
       <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
     </div>
 
     <button
+      #searchButton
       [attr.aria-label]="'common.search' | cxTranslate"
+      [title]="'common.search' | cxTranslate"
       class="search"
       (click)="open()"
     >
@@ -57,7 +70,12 @@
     class="message"
     [innerHTML]="result.message"
   ></div>
-
+  <!--RESULT  SUGGESTIONS-->
+  <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
+    <div class="message" *ngIf="result?.suggestions?.length">
+      {{ 'searchBox.suggestions' | cxTranslate }}
+    </div>
+  </ng-container>
   <ul
     class="suggestions"
     attr.aria-label="{{ 'searchBox.ariaLabelSuggestions' | cxTranslate }}"
@@ -70,7 +88,7 @@
         [routerLink]="
           {
             cxRoute: 'search',
-            params: { query: suggestion }
+            params: { query: suggestion },
           } | cxUrl
         "
         (keydown.arrowup)="focusPreviousChild($any($event))"
@@ -83,7 +101,7 @@
           dispatchSuggestionEvent({
             freeText: searchInput.value,
             selectedSuggestion: suggestion,
-            searchSuggestions: result.suggestions ?? []
+            searchSuggestions: result.suggestions ?? [],
           });
           updateChosenWord(suggestion)
         "
@@ -92,6 +110,25 @@
     </li>
   </ul>
 
+  <!--  RECENT SEARCHES-->
+  <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
+    <ng-template
+      *ngIf="config.recentSearches"
+      [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES"
+      [cxOutletContext]="{
+        search: searchInput.value,
+        searchBoxActive: searchBoxActive,
+        maxRecentSearches: config.maxRecentSearches,
+      }"
+    ></ng-template>
+  </ng-container>
+
+  <!--RESULT  PRODUCTS-->
+  <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
+    <div class="message" *ngIf="result.products?.length">
+      {{ 'searchBox.products' | cxTranslate }}
+    </div>
+  </ng-container>
   <ul
     class="products"
     *ngIf="result.products"
@@ -104,7 +141,7 @@
         [routerLink]="
           {
             cxRoute: 'product',
-            params: product
+            params: product,
           } | cxUrl
         "
         [class.has-media]="config.displayProductImages"
@@ -117,7 +154,7 @@
         (click)="
           dispatchProductEvent({
             freeText: searchInput.value,
-            productCode: product.code
+            productCode: product.code,
           })
         "
       >

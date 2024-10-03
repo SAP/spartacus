@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Facet } from '@spartacus/core';
@@ -48,7 +54,7 @@ export class FacetService {
    */
   getState(facet: Facet): Observable<FacetCollapseState> {
     this.initialize(facet);
-    return facet.name ? this.facetState.get(facet.name) ?? of({}) : of({});
+    return facet.name ? (this.facetState.get(facet.name) ?? of({})) : of({});
   }
 
   /**

@@ -1,21 +1,34 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { CartAdapter } from '@spartacus/cart/base/core';
-import { Cart, CART_NORMALIZER } from '@spartacus/cart/base/root';
+import {
+  Cart,
+  CART_NORMALIZER,
+  SaveCartResult,
+} from '@spartacus/cart/base/root';
 import {
   ConverterService,
+  FeatureConfigService,
   InterceptorUtil,
   Occ,
-  OccEndpointsService,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
+  OccEndpointsService,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OccCartAdapter implements CartAdapter {
+  private featureConfigService = inject(FeatureConfigService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
@@ -28,8 +41,7 @@ export class OccCartAdapter implements CartAdapter {
         this.occEndpointsService.buildUrl('carts', { urlParams: { userId } })
       )
       .pipe(
-        pluck('carts'),
-        map((carts) => carts ?? []),
+        map((cartList) => cartList.carts ?? []),
         this.converterService.pipeableMany(CART_NORMALIZER)
       );
   }
@@ -57,7 +69,7 @@ export class OccCartAdapter implements CartAdapter {
   ): Observable<Cart> {
     const toAdd = JSON.stringify({});
 
-    let params = <any>{};
+    const params = <any>{};
 
     if (oldCartId) {
       params['oldCartId'] = oldCartId;
@@ -104,12 +116,23 @@ export class OccCartAdapter implements CartAdapter {
         saveCartDescription,
       },
     });
-    return this.http
-      .patch<Occ.Cart>(endpoint, cartId)
-      .pipe(
-        pluck('savedCartData'),
-        this.converterService.pipeable(CART_NORMALIZER)
-      );
+
+    let httpParams: HttpParams = new HttpParams();
+
+    if (
+      this.featureConfigService?.isEnabled(
+        'occCartNameAndDescriptionInHttpRequestBody'
+      )
+    ) {
+      httpParams = httpParams
+        .set('saveCartName', saveCartName)
+        .set('saveCartDescription', saveCartDescription);
+    }
+
+    return this.http.patch<Occ.Cart>(endpoint, httpParams).pipe(
+      map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
+      this.converterService.pipeable(CART_NORMALIZER)
+    );
   }
 
   addEmail(userId: string, cartId: string, email: string): Observable<{}> {

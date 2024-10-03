@@ -1,6 +1,17 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { SiteContext } from '@spartacus/core';
-import { Observable } from 'rxjs';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
+import { SiteContext, TranslationService } from '@spartacus/core';
+import { map, Observable } from 'rxjs';
 import { ICON_TYPE } from '../icon/icon.model';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextType } from './site-context.model';
@@ -11,6 +22,9 @@ import { SiteContextType } from './site-context.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SiteContextSelectorComponent {
+  /**
+   * @deprecated since 2011.21 removed unused property
+   */
   siteContextService: SiteContext<any>;
   iconTypes = ICON_TYPE;
   /**
@@ -18,6 +32,8 @@ export class SiteContextSelectorComponent {
    * not given, the context will be loaded from the backend.
    */
   @Input() context: SiteContextType;
+
+  protected translationService = inject(TranslationService);
 
   constructor(private componentService: SiteContextComponentService) {}
 
@@ -35,5 +51,13 @@ export class SiteContextSelectorComponent {
 
   get label$(): Observable<any> {
     return this.componentService.getLabel(this.context);
+  }
+
+  ariaLabel$(label: string, index: number, length: number): Observable<string> {
+    return this.translationService.translate('common.of').pipe(
+      map((translation) => {
+        return `${label}, ${index + 1} ${translation} ${length}`;
+      })
+    );
   }
 }

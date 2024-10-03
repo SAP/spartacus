@@ -1,4 +1,10 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -9,7 +15,8 @@ import {
   filter,
   map,
 } from 'rxjs/operators';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { LoggerService } from '../../../logger';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
 import { getActiveCurrency } from '../selectors/currencies.selectors';
@@ -17,6 +24,8 @@ import { StateWithSiteContext } from '../state';
 
 @Injectable()
 export class CurrenciesEffects {
+  protected logger = inject(LoggerService);
+
   loadCurrencies$: Observable<
     | SiteContextActions.LoadCurrenciesSuccess
     | SiteContextActions.LoadCurrenciesFail
@@ -32,7 +41,7 @@ export class CurrenciesEffects {
           catchError((error) =>
             of(
               new SiteContextActions.LoadCurrenciesFail(
-                normalizeHttpError(error)
+                tryNormalizeHttpError(error, this.logger)
               )
             )
           )

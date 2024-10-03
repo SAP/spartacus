@@ -1,77 +1,93 @@
 %cx-coupon-dialog {
-  .cx-dialog-item {
-    padding-inline-end: 1rem;
-  }
+  background-color: rgba(0, 0, 0, 0.5);
+  .cx-coupon-dialog {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+    @extend .modal-lg;
 
-  .cx-coupon-description {
-    padding: 1rem 0 1rem 0;
-  }
-
-  .cx-coupon-dialog-date {
-    p {
-      margin: 0rem;
-    }
-    padding: 0 0 1rem 0;
-  }
-  .cx-coupon-dialog-status {
-    padding: 1rem 0 1rem 0;
-    p {
-      margin: 0rem;
-    }
-    .cx-coupon-status {
-      text-transform: uppercase;
-      @include type('5');
-
-      &.effective {
-        color: var(--cx-color-success);
+    .cx-coupon-container {
+      @extend .modal-content;
+      .cx-dialog-item {
+        padding-inline-end: 1rem;
       }
-      &.expiresoon {
-        color: var(--cx-color-danger);
+
+      .cx-coupon-description {
+        padding: 1rem 0 1rem 0;
       }
-      &.presession {
-        color: var(--cx-color-warning);
+
+      .cx-coupon-dialog-date {
+        p {
+          margin: 0rem;
+        }
+        padding: 0 0 1rem 0;
       }
-    }
-  }
+      .cx-coupon-dialog-status {
+        padding: 1rem 0 1rem 0;
+        p {
+          margin: 0rem;
+        }
+        .cx-coupon-status {
+          text-transform: uppercase;
+          @include type('5');
 
-  .cx-dialog-header {
-    padding-top: 2rem;
-    padding-inline-end: 1.75rem;
-    padding-bottom: 0.85rem;
-    padding-inline-start: 1.75rem;
-    border-width: 0;
-  }
+          &.effective {
+            color: var(--cx-color-success);
+          }
+          &.expiresoon {
+            color: var(--cx-color-danger);
+          }
+          &.presession {
+            color: var(--cx-color-warning);
+          }
+        }
+      }
 
-  .cx-dialog-title {
-    @include type('3');
-  }
+      .cx-dialog-header {
+        padding-top: 2rem;
+        padding-inline-end: 1.75rem;
+        padding-bottom: 0.85rem;
+        padding-inline-start: 1.75rem;
+        border-width: 0;
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
+      }
 
-  .cx-dialog-body {
-    padding-top: 1rem;
-    padding-inline-end: 1rem;
-    padding-bottom: 0;
-    padding-inline-start: 1rem;
-    @include media-breakpoint-down(sm) {
-      padding: 0;
-    }
-  }
+      .cx-dialog-title {
+        @include type('3');
+      }
 
-  .cx-dialog-row {
-    margin: 0;
-    display: flex;
-    padding: 0 0.875rem 2.875rem;
-    max-width: 100%;
-    flex-wrap: wrap;
+      .cx-dialog-body {
+        padding-top: 1rem;
+        padding-inline-end: 1rem;
+        padding-bottom: 0;
+        padding-inline-start: 1rem;
+        @include media-breakpoint-down(sm) {
+          padding: 0;
+        }
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
+      }
 
-    @include media-breakpoint-down(sm) {
-      flex-direction: column;
-      padding: 0;
-    }
-  }
+      .cx-dialog-row {
+        margin: 0;
+        display: flex;
+        padding: 0 0.875rem 2.875rem;
+        max-width: 100%;
+        flex-wrap: wrap;
 
-  .cx-dialog-item {
-    @include media-breakpoint-down(sm) {
-      padding: 2rem;
+        @include media-breakpoint-down(sm) {
+          flex-direction: column;
+          padding: 0;
+        }
+      }
+
+      .cx-dialog-item {
+        @include media-breakpoint-down(sm) {
+          padding: 2rem;
+        }
+      }
     }
   }
 }

@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -15,6 +19,7 @@ import {
 } from '@spartacus/organization/administration/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { PermissionItemService } from '../services/permission-item.service';
@@ -22,18 +27,18 @@ import { PermissionFormComponent } from './permission-form.component';
 
 import createSpy = jasmine.createSpy;
 
-const mockForm = new FormGroup({
-  code: new FormControl(),
-  periodRange: new FormControl(),
-  threshold: new FormControl(),
-  orderApprovalPermissionType: new FormGroup({
-    code: new FormControl(),
+const mockForm = new UntypedFormGroup({
+  code: new UntypedFormControl(),
+  periodRange: new UntypedFormControl(),
+  threshold: new UntypedFormControl(),
+  orderApprovalPermissionType: new UntypedFormGroup({
+    code: new UntypedFormControl(),
   }),
-  currency: new FormGroup({
-    isocode: new FormControl(),
+  currency: new UntypedFormGroup({
+    isocode: new UntypedFormControl(),
   }),
-  orgUnit: new FormGroup({
-    uid: new FormControl(),
+  orgUnit: new UntypedFormGroup({
+    uid: new UntypedFormControl(),
   }),
 });
 
@@ -81,7 +86,11 @@ describe('PermissionFormComponent', () => {
         NgSelectModule,
         FormTestingModule,
       ],
-      declarations: [PermissionFormComponent, FormErrorsComponent],
+      declarations: [
+        PermissionFormComponent,
+        FormErrorsComponent,
+        MockFeatureDirective,
+      ],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },

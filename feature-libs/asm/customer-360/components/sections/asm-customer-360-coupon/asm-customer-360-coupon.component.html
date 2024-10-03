@@ -1,0 +1,17 @@
+<cx-asm-customer-360-promotion-listing
+  [emptyStateText]="'asmCustomer360.coupons.emptyDescription' | cxTranslate"
+  [headerText]="'asmCustomer360.coupons.headerText' | cxTranslate"
+  [entries]="entries$ | async"
+  [showAlert]="showErrorAlert$ | async"
+  [showAlertForApplyAction]="showErrorAlertForApplyAction$ | async"
+  (apply)="applyCouponToCustomer($event)"
+  (remove)="removeCouponToCustomer($event)"
+  (removeAlert)="closeErrorAlert()"
+  (removeAlertForApplyAction)="closeErrorAlertForApplyAction()"
+  [applyButtonText]="'asmCustomer360.coupons.applyButtonText' | cxTranslate"
+  [applied]="'asmCustomer360.coupons.applied' | cxTranslate"
+  [removeButtonText]="'asmCustomer360.coupons.removeButtonText' | cxTranslate"
+  [showRemoveButton]="true"
+  [showApplyButton]="true"
+>
+</cx-asm-customer-360-promotion-listing>

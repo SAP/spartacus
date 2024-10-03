@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cds",
-  "version": "4.0.0-rc.1",
+  "version": "2211.29.0-2",
   "description": "Context Driven Service library for Spartacus",
   "keywords": [
     "spartacus",
@@ -15,26 +15,26 @@
   "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/cds",
   "license": "Apache-2.0",
   "scripts": {
-    "build:schematics": "yarn clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
-    "clean:schematics": "../../node_modules/.bin/rimraf \"src/schematics/**/*.js\" \"src/schematics/**/*.js.map\" \"src/schematics/**/*.d.ts\"",
-    "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+    "build:schematics": "npm run clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean:schematics": "../../node_modules/.bin/rimraf --glob \"src/schematics/**/*.js\" \"src/schematics/**/*.js.map\" \"src/schematics/**/*.d.ts\"",
+    "test:schematics": "npm --prefix ../../projects/schematics/ run clean && npm run clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^13.3.0",
-    "@angular/common": "^13.3.0",
-    "@angular/core": "^13.3.0",
-    "@angular/router": "^13.3.0",
-    "@ngrx/store": "^13.0.2",
-    "@spartacus/cart": "4.1.0-next.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/order": "4.2.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/tracking": "4.1.0-next.0",
-    "rxjs": "^6.6.0"
+    "@angular-devkit/schematics": "^17.0.5",
+    "@angular/common": "^17.0.5",
+    "@angular/core": "^17.0.5",
+    "@angular/router": "^17.0.5",
+    "@ngrx/store": "^17.0.1",
+    "@spartacus/cart": "2211.29.0-2",
+    "@spartacus/core": "2211.29.0-2",
+    "@spartacus/order": "2211.29.0-2",
+    "@spartacus/schematics": "2211.29.0-2",
+    "@spartacus/storefront": "2211.29.0-2",
+    "@spartacus/tracking": "2211.29.0-2",
+    "rxjs": "^7.8.0"
   },
   "publishConfig": {
     "access": "public"

@@ -1,4 +1,10 @@
-import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { ErrorAction, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import {
   CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
@@ -24,6 +30,7 @@ export const CLEAR_CANCEL_REPLENISHMENT_ORDER =
 
 export class LoadReplenishmentOrderDetails extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_REPLENISHMENT_ORDER_DETAILS;
+
   constructor(
     public payload: {
       userId: string;
@@ -36,13 +43,18 @@ export class LoadReplenishmentOrderDetails extends StateUtils.LoaderLoadAction {
 
 export class LoadReplenishmentOrderDetailsSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_REPLENISHMENT_ORDER_DETAILS_SUCCESS;
+
   constructor(public payload: ReplenishmentOrder) {
     super(REPLENISHMENT_ORDER_DETAILS);
   }
 }
 
-export class LoadReplenishmentOrderDetailsFail extends StateUtils.LoaderFailAction {
+export class LoadReplenishmentOrderDetailsFail
+  extends StateUtils.LoaderFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_REPLENISHMENT_ORDER_DETAILS_FAIL;
+
   constructor(public payload: any) {
     super(REPLENISHMENT_ORDER_DETAILS, payload);
   }
@@ -50,6 +62,7 @@ export class LoadReplenishmentOrderDetailsFail extends StateUtils.LoaderFailActi
 
 export class ClearReplenishmentOrderDetails extends StateUtils.LoaderResetAction {
   readonly type = ClEAR_REPLENISHMENT_ORDER_DETAILS;
+
   constructor() {
     super(REPLENISHMENT_ORDER_DETAILS);
   }
@@ -57,6 +70,7 @@ export class ClearReplenishmentOrderDetails extends StateUtils.LoaderResetAction
 
 export class CancelReplenishmentOrder extends StateUtils.EntityLoadAction {
   readonly type = CANCEL_REPLENISHMENT_ORDER;
+
   constructor(
     public payload: {
       userId: string;
@@ -69,13 +83,18 @@ export class CancelReplenishmentOrder extends StateUtils.EntityLoadAction {
 
 export class CancelReplenishmentOrderSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CANCEL_REPLENISHMENT_ORDER_SUCCESS;
+
   constructor(public payload: ReplenishmentOrder) {
     super(PROCESS_FEATURE, CANCEL_REPLENISHMENT_ORDER_PROCESS_ID);
   }
 }
 
-export class CancelReplenishmentOrderFail extends StateUtils.EntityFailAction {
+export class CancelReplenishmentOrderFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = CANCEL_REPLENISHMENT_ORDER_FAIL;
+
   constructor(public payload: any) {
     super(PROCESS_FEATURE, CANCEL_REPLENISHMENT_ORDER_PROCESS_ID, payload);
   }
@@ -83,6 +102,7 @@ export class CancelReplenishmentOrderFail extends StateUtils.EntityFailAction {
 
 export class ClearCancelReplenishmentOrder extends StateUtils.EntityLoaderResetAction {
   readonly type = CLEAR_CANCEL_REPLENISHMENT_ORDER;
+
   constructor() {
     super(PROCESS_FEATURE, CANCEL_REPLENISHMENT_ORDER_PROCESS_ID);
   }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
@@ -83,6 +89,18 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     const headers = this.newHttpHeader();
 
     return this.http.post(url, { headers });
+  }
+
+  disclaimCustomerCoupon(
+    userId: string,
+    couponCode: string
+  ): Observable<CustomerCoupon2Customer> {
+    const url = this.occEndpoints.buildUrl('claimCoupon', {
+      urlParams: { userId, couponCode },
+    });
+    const headers = this.newHttpHeader();
+
+    return this.http.delete(url, { headers });
   }
 
   private newHttpHeader() {

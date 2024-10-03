@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,7 +19,7 @@ import {
   ICON_TYPE,
   KeyboardFocusService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
@@ -40,7 +46,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   loading$?: Observable<boolean>;
   attributeId: number;
   attributeLabel?: string;
-  attributeName?: string;
+  attributeName: string;
   itemCount: number;
   itemIndex: number;
 }
@@ -229,7 +235,9 @@ export class ConfiguratorAttributeProductCardComponent
    * @return {boolean} - 'true' if the value code is defined, otherwise 'false'
    */
   isValueCodeDefined(valueCode: string | null | undefined): boolean {
-    return valueCode && valueCode !== '0' ? true : false;
+    return valueCode && valueCode !== Configurator.RetractValueCode
+      ? true
+      : false;
   }
 
   protected transformToProductType(
@@ -258,7 +266,7 @@ export class ConfiguratorAttributeProductCardComponent
 
   getAriaLabelSingleUnselected(product: Product): string {
     let translatedText = '';
-    let index = this.productCardOptions.itemIndex + 1;
+    const index = this.productCardOptions.itemIndex + 1;
     if (
       this.isValueCodeDefined(
         this.productCardOptions?.productBoundValue?.valueCode
@@ -306,7 +314,7 @@ export class ConfiguratorAttributeProductCardComponent
 
   getAriaLabelSingleSelected(product: Product): string {
     let translatedText = '';
-    let index = this.productCardOptions.itemIndex + 1;
+    const index = this.productCardOptions.itemIndex + 1;
     if (
       this.hasPriceDisplay() &&
       this.productCardOptions.productBoundValue.valuePrice?.value !== 0
@@ -343,7 +351,7 @@ export class ConfiguratorAttributeProductCardComponent
 
   getAriaLabelSingleSelectedNoButton(product: Product): string {
     let translatedText = '';
-    let index = this.productCardOptions.itemIndex + 1;
+    const index = this.productCardOptions.itemIndex + 1;
     if (
       this.hasPriceDisplay() &&
       this.productCardOptions.productBoundValue.valuePrice?.value !== 0
@@ -377,7 +385,7 @@ export class ConfiguratorAttributeProductCardComponent
 
   getAriaLabelMultiSelected(product: Product): string {
     let translatedText = '';
-    let index = this.productCardOptions.itemIndex + 1;
+    const index = this.productCardOptions.itemIndex + 1;
     if (
       this.hasPriceDisplay() &&
       this.productCardOptions.productBoundValue.valuePrice?.value !== 0
@@ -414,7 +422,7 @@ export class ConfiguratorAttributeProductCardComponent
 
   getAriaLabelMultiUnselected(product: Product): string {
     let translatedText = '';
-    let index = this.productCardOptions.itemIndex + 1;
+    const index = this.productCardOptions.itemIndex + 1;
     if (
       this.hasPriceDisplay() &&
       this.productCardOptions.productBoundValue.valuePrice?.value !== 0

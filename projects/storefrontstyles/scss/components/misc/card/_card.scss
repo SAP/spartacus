@@ -1,6 +1,6 @@
 %cx-card {
   .cx-card-border {
-    border: 1px solid var(--cx-color-light);
+    border: 1px solid var(--cx-color-medium);
   }
 
   .cx-card-container {
@@ -9,6 +9,16 @@
 
   .cx-card-label-container {
     flex-grow: 2;
+    white-space: pre-line;
+  }
+
+  .cx-text-green {
+    color: var(--cx-color-success);
+    font-weight: var(--cx-font-weight-bold);
+  }
+
+  .cx-text-gray {
+    color: var(--cx-color-secondary);
   }
 
   .cx-card-title {
@@ -69,5 +79,14 @@
 
   button.link {
     margin-inline-start: 1rem;
+  }
+
+  @include cx-highContrastTheme {
+    .cx-card {
+      padding: 2px;
+    }
+    .card-body {
+      background-color: var(--cx-color-background);
+    }
   }
 }

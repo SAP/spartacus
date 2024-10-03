@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -11,18 +10,24 @@ import {
 import {
   Address,
   AddressValidation,
+  CardType,
   Country,
+  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
+  PaymentDetails,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
   ICON_TYPE,
-  ModalService,
+  LaunchDialogService,
+  NgSelectA11yModule,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { EMPTY, Observable, of } from 'rxjs';
+import { CheckoutBillingAddressFormService } from '../../checkout-billing-address';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 import createSpy = jasmine.createSpy;
 
@@ -117,7 +122,7 @@ class MockCxIconComponent {
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   loadSupportedCardTypes = createSpy();
-  getPaymentCardTypes = createSpy().and.returnValue(of());
+  getPaymentCardTypes = createSpy().and.returnValue(EMPTY);
   getSetPaymentDetailsResultProcess = createSpy().and.returnValue(
     of({ loading: false })
   );
@@ -129,7 +134,7 @@ class MockCheckoutDeliveryService
   getDeliveryAddressState = createSpy().and.returnValue(
     of({ loading: false, error: false, data: undefined })
   );
-  getAddressVerificationResults = createSpy().and.returnValue(of());
+  getAddressVerificationResults = createSpy().and.returnValue(EMPTY);
   verifyAddress = createSpy();
   clearAddressVerificationResults = createSpy();
 }
@@ -145,23 +150,32 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-const mockSuggestedAddressModalRef: any = {
-  componentInstance: {
-    enteredAddress: '',
-    suggestedAddresses: '',
-  },
-  result: new Promise((resolve) => {
-    return resolve(true);
-  }),
-};
-
-class MockModalService implements Partial<ModalService> {
-  open = createSpy().and.returnValue(mockSuggestedAddressModalRef);
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialogAndSubscribe() {
+    return EMPTY;
+  }
 }
-
 class MockUserAddressService implements Partial<UserAddressService> {
   getRegions = createSpy().and.returnValue(of([]));
   verifyAddress = createSpy().and.returnValue(of({}));
+}
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string): boolean {
+    return false;
+  }
+}
+class MockCheckoutBillingAddressFormService
+  implements Partial<CheckoutBillingAddressFormService>
+{
+  getBillingAddress(): Address {
+    return mockBillingAddress;
+  }
+  isBillingAddressSameAsDeliveryAddress(): boolean {
+    return true;
+  }
+  isBillingAddressFormValid(): boolean {
+    return true;
+  }
 }
 
 describe('CheckoutPaymentFormComponent', () => {
@@ -174,52 +188,57 @@ describe('CheckoutPaymentFormComponent', () => {
   let userAddressService: UserAddressService;
 
   let controls: {
-    payment: FormGroup['controls'];
-    billingAddress: FormGroup['controls'];
+    payment: UntypedFormGroup['controls'];
+    billingAddress: UntypedFormGroup['controls'];
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      mockCheckoutDeliveryService = new MockCheckoutDeliveryService();
-      mockCheckoutPaymentService = new MockCheckoutPaymentService();
-      mockUserPaymentService = new MockUserPaymentService();
-      mockGlobalMessageService = new MockGlobalMessageService();
+  beforeEach(waitForAsync(() => {
+    mockCheckoutDeliveryService = new MockCheckoutDeliveryService();
+    mockCheckoutPaymentService = new MockCheckoutPaymentService();
+    mockUserPaymentService = new MockUserPaymentService();
+    mockGlobalMessageService = new MockGlobalMessageService();
 
-      TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          I18nTestingModule,
-          FormErrorsModule,
-        ],
-        declarations: [
-          CheckoutPaymentFormComponent,
-          MockCardComponent,
-          MockBillingAddressFormComponent,
-          MockCxIconComponent,
-          MockSpinnerComponent,
-        ],
-        providers: [
-          { provide: ModalService, useClass: MockModalService },
-          {
-            provide: CheckoutPaymentFacade,
-            useValue: mockCheckoutPaymentService,
-          },
-          {
-            provide: CheckoutDeliveryAddressFacade,
-            useValue: mockCheckoutDeliveryService,
-          },
-          { provide: UserPaymentService, useValue: mockUserPaymentService },
-          { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-          { provide: UserAddressService, useClass: MockUserAddressService },
-        ],
-      })
-        .overrideComponent(CheckoutPaymentFormComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+    TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        NgSelectA11yModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      declarations: [
+        CheckoutPaymentFormComponent,
+        MockCardComponent,
+        MockBillingAddressFormComponent,
+        MockCxIconComponent,
+        MockSpinnerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: CheckoutPaymentFacade,
+          useValue: mockCheckoutPaymentService,
+        },
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useValue: mockCheckoutDeliveryService,
+        },
+        { provide: UserPaymentService, useValue: mockUserPaymentService },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        {
+          provide: CheckoutBillingAddressFormService,
+          useClass: MockCheckoutBillingAddressFormService,
+        },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      ],
     })
-  );
+      .overrideComponent(CheckoutPaymentFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPaymentFormComponent);
@@ -368,16 +387,18 @@ describe('CheckoutPaymentFormComponent', () => {
     expect(component.closeForm.emit).toHaveBeenCalled();
   });
 
-  it('should call getAddressCardContent(address)', () => {
-    const card = component.getAddressCardContent(mockAddress);
-    expect(card.textBold).toEqual('John Doe');
-    expect(card.text).toEqual([
-      'Toyosaki 2 create on cart',
-      'line2',
-      'town, JP-27, JP',
-      'zip',
-      undefined,
-    ]);
+  it('should call getAddressCardContent(address)', (done) => {
+    component.getAddressCardContent(mockAddress).subscribe((card) => {
+      expect(card?.textBold).toEqual('John Doe');
+      expect(card?.text).toEqual([
+        'Toyosaki 2 create on cart',
+        'line2',
+        'town, JP-27, JP',
+        'zip',
+        undefined,
+      ]);
+      done();
+    });
   });
 
   it('should call toggleSameAsDeliveryAddress()', () => {
@@ -510,10 +531,17 @@ describe('CheckoutPaymentFormComponent', () => {
         fixture.debugElement.queryAll(By.css('.form-check-input')).length
       ).toEqual(1);
     });
+
+    it('should show assitive message when form is submitted with errors', () => {
+      component.paymentForm.setErrors({ required: true });
+      component.next();
+      expect(mockGlobalMessageService.add).toHaveBeenCalled();
+    });
   });
 
   describe('UI close/back button', () => {
-    const getBackBtn = () => fixture.debugElement.query(By.css('.btn-action'));
+    const getBackBtn = () =>
+      fixture.debugElement.query(By.css('.btn-secondary'));
 
     it('should call "back" function after being clicked', () => {
       component.paymentMethodsCount = 0;

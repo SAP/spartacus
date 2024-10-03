@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { navigation } from './navigation';
 import * as configurationCart from './product-configurator-cart';
 import Chainable = Cypress.Chainable;
@@ -184,16 +190,16 @@ function checkDeliveryAddressDisplayed(): void {
   cy.get('cx-delivery-address').should('be.visible');
   cy.get('cx-delivery-address').within(() => {
     checkLoadingSpinnerNotDisplayed();
-    cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
-    cy.get('p.cx-checkout-text').contains('Select your Delivery Address');
+    cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+    cy.get('p.cx-checkout-text').contains('Address');
     cy.get('.cx-checkout-body').should('be.visible');
     cy.get('.cx-checkout-btns').should('be.visible');
     cy.get('.cx-checkout-body').within(() => {
       checkShipToThisAddressDisplayed();
     });
     cy.get('.cx-checkout-btns').within(() => {
-      cy.get('button.btn-action').should('be.visible');
-      cy.get('button.btn-action').contains('Back');
+      cy.get('button.btn-secondary').should('be.visible');
+      cy.get('button.btn-secondary').contains('Back');
       cy.get('button.btn-primary').should('be.visible');
       cy.get('button.btn-primary').contains('Continue');
     });
@@ -210,38 +216,6 @@ function checkShipToThisAddressDisplayed(): void {
     cy.get('.cx-card-body').should('be.visible');
     cy.get('.cx-card-container').should('be.visible');
     cy.get('.cx-card-actions').should('be.visible');
-    cy.get('.cx-card-actions').within(() => {
-      checkLoadingSpinnerNotDisplayed();
-      cy.get('button.link.cx-action-link').should('exist');
-      cy.get('button.link.cx-action-link').should('be.visible');
-      cy.get('button.link.cx-action-link').contains('Ship');
-      checkLoadingSpinnerNotDisplayed();
-    });
-  });
-}
-
-/**
- * Clicks on 'Ship to this address' button.
- */
-function clickOnShipToThisAddressBtn(): void {
-  cy.log("🛒 Click to the link 'Ship to this address'");
-  cy.get('.cx-delivery-address-card').should('be.visible');
-  cy.get('.cx-delivery-address-card').within(() => {
-    checkLoadingSpinnerNotDisplayed();
-    cy.get('.cx-card-actions').should('be.visible');
-    cy.get('.cx-card-actions').within(() => {
-      checkLoadingSpinnerNotDisplayed();
-      cy.get('button.link.cx-action-link').should('exist');
-      cy.get('button.link.cx-action-link').should('be.visible');
-      cy.get('button.link.cx-action-link').contains('Ship');
-      checkLoadingSpinnerNotDisplayed();
-      cy.get('button.link.cx-action-link')
-        .wait(Cypress.config('defaultCommandTimeout'))
-        .click()
-        .then(() => {
-          checkLoadingSpinnerNotDisplayed();
-        });
-    });
   });
 }
 
@@ -257,11 +231,10 @@ function proceedWithDeliveryAddress(): void {
     .then(() => {
       cy.wait('@deliveryAddress');
       cy.location('pathname').should('contain', '/checkout/delivery-address');
-      cy.get('a.cx-link.active').contains('DeliveryAddress');
+      cy.get('a.cx-link.active').contains('Ship');
       checkCostCenterDisplayed();
       checkDeliveryAddressDisplayed();
       checkShipToThisAddressDisplayed();
-      clickOnShipToThisAddressBtn();
     });
 }
 
@@ -281,7 +254,7 @@ function proceedWithDeliveryMode(): void {
       cy.get('a.cx-link.active').contains('DeliveryMode');
       cy.get('cx-delivery-mode').should('be.visible');
       cy.get('cx-delivery-mode').within(() => {
-        cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+        cy.get('.cx-checkout-title').should('contain', 'Delivery Options');
       });
     });
 }
@@ -309,11 +282,10 @@ function reviewOrder(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/checkout/review-order');
-      cy.get('a.cx-link.active').contains('ReviewOrder');
+      //cy.get('a.cx-link.active').contains('ReviewOrder');
       cy.get('cx-review-submit').should('be.visible');
       cy.get('.cx-review').should('be.visible');
       cy.get('.cx-review').should('contain', 'Review');
-      cy.get('.cx-review-title').should('be.visible');
       cy.get('cx-review-submit').should('be.visible');
       cy.get('.cx-review-cart-total').should('be.visible');
       cy.get('.cx-review-cart-item').should('be.visible');
@@ -328,6 +300,8 @@ function placeOrder(): void {
   cy.log('🛒 Place order');
   checkPlaceOrderBtnNotDisabled();
   cy.get('cx-place-order button.btn-primary')
+    .contains('Order')
+    .wait(Cypress.config('defaultCommandTimeout'))
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/order-confirmation');

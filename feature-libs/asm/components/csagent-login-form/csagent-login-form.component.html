@@ -3,25 +3,55 @@
   [formGroup]="csAgentLoginForm"
   *ngIf="!csAgentTokenLoading"
 >
+  <span class="label-content">
+    {{ 'asm.loginForm.userId.label' | cxTranslate }}
+  </span>
   <label>
     <input
       required="true"
       type="text"
       formControlName="userId"
-      placeholder="{{ 'asm.loginForm.userId.label' | cxTranslate }}"
+      [attr.aria-label]="'asm.loginForm.userId.label' | cxTranslate"
     />
-    <cx-form-errors [control]="csAgentLoginForm.get('userId')"></cx-form-errors>
+
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+    <cx-form-errors
+      *cxFeature="'formErrorsDescriptiveMessages'"
+      [translationParams]="{
+        label: 'asm.loginForm.userId.label' | cxTranslate,
+      }"
+      [control]="csAgentLoginForm.get('userId')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!formErrorsDescriptiveMessages'"
+      [control]="csAgentLoginForm.get('userId')"
+    ></cx-form-errors>
   </label>
 
+  <span class="label-content">
+    {{ 'asm.loginForm.password.label' | cxTranslate }}
+  </span>
   <label>
     <input
       required="true"
       type="password"
-      placeholder="{{ 'asm.loginForm.password.label' | cxTranslate }}"
       formControlName="password"
+      [attr.aria-label]="'asm.loginForm.password.label' | cxTranslate"
       cxPasswordVisibilitySwitch
     />
+
+    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
+      *cxFeature="'formErrorsDescriptiveMessages'"
+      [translationParams]="{
+        label: 'asm.loginForm.password.label' | cxTranslate,
+      }"
+      [control]="csAgentLoginForm.get('password')"
+    ></cx-form-errors>
+
+    <cx-form-errors
+      *cxFeature="'!formErrorsDescriptiveMessages'"
       [control]="csAgentLoginForm.get('password')"
     ></cx-form-errors>
   </label>
@@ -30,13 +60,8 @@
   </button>
 </form>
 
-<div
+<cx-dot-spinner
   *ngIf="csAgentTokenLoading"
-  class="spinner"
   aria-hidden="false"
   [attr.aria-label]="'common.loading' | cxTranslate"
->
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
+></cx-dot-spinner>

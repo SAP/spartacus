@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   BuilderContext,
   BuilderOutput,
@@ -76,7 +82,7 @@ async function augmentableTypesPostStep(
  * @param ngPackagerFile
  */
 async function getNgPackgrLibOutputPath(ngPackagerFile: string) {
-  let ngPackageData = JSON.parse(await fs.readFile(ngPackagerFile, 'utf8'));
+  const ngPackageData = JSON.parse(await fs.readFile(ngPackagerFile, 'utf8'));
   return path.join(path.dirname(ngPackagerFile), ngPackageData.dest);
 }
 
@@ -93,7 +99,7 @@ async function propagateAugmentableTypes(
   for (const packageJsonFile of files) {
     try {
       // get typings file from package.json
-      let packageData = JSON.parse(await fs.readFile(packageJsonFile, 'utf8'));
+      const packageData = JSON.parse(await fs.readFile(packageJsonFile, 'utf8'));
       const typingsFile = packageData.typings;
 
       if (!typingsFile) {
@@ -121,21 +127,21 @@ async function propagateAugmentableTypes(
         publicApiFileSource.indexOf(DELIMITER_END) + DELIMITER_END.length + 1;
 
       // extract augmentable types block
-      const augTypes = publicApiFileSource.substr(
+      const augTypes = publicApiFileSource.substring(
         augTypesStart,
-        augTypesEnd - augTypesStart
+        augTypesEnd
       );
       // remove augmentable types block from public api file
       publicApiFileSource =
-        publicApiFileSource.substr(0, augTypesStart) +
-        publicApiFileSource.substr(augTypesEnd);
+        publicApiFileSource.substring(0, augTypesStart) +
+        publicApiFileSource.substring(augTypesEnd);
 
       // incorporate augmentable types block into typings file
       const firstExportPos = typingsFileSource.indexOf('export *');
       typingsFileSource =
-        typingsFileSource.substr(0, firstExportPos) +
+        typingsFileSource.substring(0, firstExportPos) +
         augTypes +
-        typingsFileSource.substr(firstExportPos);
+        typingsFileSource.substring(firstExportPos);
 
       // write results
       await fs.writeFile(apiFilePath, publicApiFileSource, 'utf8');

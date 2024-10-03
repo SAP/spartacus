@@ -1,15 +1,23 @@
-import { address } from './address';
-import { common } from './common';
-import { myAccount } from './my-account';
-import { payment } from './payment';
-import { pdf } from './pdf';
-import { product } from './product';
-import { pwa } from './pwa';
-import { user } from './user';
-import { video } from './video';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import myAccountV2NotifiationPerference from './my-account-v2-notification-perference.json';
+import myAccountV2Consent from './my-account-v2-consent.json';
+import common from './common.json';
+import deliveryMode from './deliveryMode.json';
+import myAccount from './myAccount.json';
+import payment from './payment.json';
+import pdf from './pdf.json';
+import product from './product.json';
+import pwa from './pwa.json';
+import user from './user.json';
+import video from './video.json';
+import siteThemeSwitcher from './site-theme-switcher.json';
 
 export const en = {
-  address,
   common,
   myAccount,
   payment,
@@ -18,4 +26,8 @@ export const en = {
   user,
   video,
   pdf,
+  deliveryMode,
+  myAccountV2Consent,
+  myAccountV2NotifiationPerference,
+  siteThemeSwitcher,
 };

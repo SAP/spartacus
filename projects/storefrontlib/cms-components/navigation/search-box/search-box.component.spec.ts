@@ -1,17 +1,24 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
+  FeatureConfigService,
   I18nTestingModule,
   PageType,
   ProductSearchService,
-  RoutingService,
   RouterState,
+  RoutingService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, ReplaySubject, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
@@ -38,7 +45,7 @@ const mockSearchBoxComponentData: CmsSearchBoxComponent = {
 
 class MockCmsComponentData {
   get data$(): Observable<CmsSearchBoxComponent> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -98,6 +105,12 @@ class MockRoutingService implements Partial<RoutingService> {
   getRouterState = () => routerState$.asObservable();
 }
 
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 describe('SearchBoxComponent', () => {
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
@@ -112,6 +125,9 @@ describe('SearchBoxComponent', () => {
   class SearchBoxComponentServiceSpy
     implements Partial<SearchBoxComponentService>
   {
+    chosenWord = new ReplaySubject<string>();
+    sharedEvent = new ReplaySubject<KeyboardEvent>();
+
     launchSearchPage = jasmine.createSpy('launchSearchPage');
     getResults = jasmine.createSpy('search').and.callFake(() =>
       of(<SearchResults>{
@@ -135,42 +151,44 @@ describe('SearchBoxComponent', () => {
     clearResults() {}
   }
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          BrowserAnimationsModule,
-          RouterModule.forRoot([]),
-          I18nTestingModule,
-        ],
-        declarations: [
-          SearchBoxComponent,
-          MockUrlPipe,
-          MockHighlightPipe,
-          MockCxIconComponent,
-          MockMediaComponent,
-        ],
-        providers: [
-          {
-            provide: ProductSearchService,
-            useValue: {},
-          },
-          {
-            provide: CmsComponentData,
-            useClass: MockCmsComponentData,
-          },
-          {
-            provide: SearchBoxComponentService,
-            useClass: SearchBoxComponentServiceSpy,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        BrowserAnimationsModule,
+        RouterModule.forRoot([]),
+        I18nTestingModule,
+      ],
+      declarations: [
+        SearchBoxComponent,
+        MockUrlPipe,
+        MockHighlightPipe,
+        MockCxIconComponent,
+        MockMediaComponent,
+      ],
+      providers: [
+        {
+          provide: ProductSearchService,
+          useValue: {},
+        },
+        {
+          provide: CmsComponentData,
+          useClass: MockCmsComponentData,
+        },
+        {
+          provide: SearchBoxComponentService,
+          useClass: SearchBoxComponentServiceSpy,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   describe('Default config', () => {
     beforeEach(() => {
@@ -239,15 +257,12 @@ describe('SearchBoxComponent', () => {
         expect(fixture.debugElement.query(By.css('.results'))).toBeFalsy();
       });
 
-      it(
-        'should contain search results panel after search input',
-        waitForAsync(() => {
-          searchBoxComponent.queryText = 'test input';
-          fixture.detectChanges();
+      it('should contain search results panel after search input', waitForAsync(() => {
+        searchBoxComponent.queryText = 'test input';
+        fixture.detectChanges();
 
-          expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
-        })
-      );
+        expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
+      }));
 
       it('should contain 2 suggestion after search', () => {
         searchBoxComponent.queryText = 'te';
@@ -281,6 +296,28 @@ describe('SearchBoxComponent', () => {
         expect(box.value).toBe('');
         expect(box).toBe(getFocusedElement());
       });
+
+      it('should not be focusable while hidden on mobile', () => {
+        searchBoxComponent.searchBoxActive = false;
+        expect(searchBoxComponent.getTabIndex(true)).toBe(-1);
+        searchBoxComponent.searchBoxActive = true;
+        expect(searchBoxComponent.getTabIndex(true)).toBe(0);
+        expect(searchBoxComponent.getTabIndex(false)).toBe(0);
+      });
+
+      it('should focus the search input if search box is closed with the escape key press', fakeAsync(() => {
+        fixture.detectChanges();
+        searchBoxComponent.searchBoxActive = true;
+        const mockSearchInput = fixture.debugElement.query(
+          By.css('.searchbox > input')
+        ).nativeElement;
+        spyOn(mockSearchInput, 'focus');
+
+        searchBoxComponent.onEscape();
+        tick();
+
+        expect(mockSearchInput.focus).toHaveBeenCalled();
+      }));
     });
 
     it('should contain 1 product after search', () => {

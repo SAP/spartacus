@@ -1,13 +1,22 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { LoggerService } from '../../../logger';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
 import { ProductActions } from '../actions/index';
 
 @Injectable()
 export class ProductsSearchEffects {
+  protected logger = inject(LoggerService);
+
   searchProducts$: Observable<
     ProductActions.SearchProductsSuccess | ProductActions.SearchProductsFail
   > = createEffect(() =>
@@ -29,7 +38,7 @@ export class ProductsSearchEffects {
                 catchError((error) =>
                   of(
                     new ProductActions.SearchProductsFail(
-                      normalizeHttpError(error),
+                      tryNormalizeHttpError(error, this.logger),
                       action.auxiliary
                     )
                   )
@@ -63,7 +72,7 @@ export class ProductsSearchEffects {
             catchError((error) =>
               of(
                 new ProductActions.GetProductSuggestionsFail(
-                  normalizeHttpError(error)
+                  tryNormalizeHttpError(error, this.logger)
                 )
               )
             )

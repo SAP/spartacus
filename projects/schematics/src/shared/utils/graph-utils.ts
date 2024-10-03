@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import collectedDependencies from '../../dependencies.json';
 import { CORE_SPARTACUS_SCOPES, SPARTACUS_SCOPE } from '../libs-constants';
 import {
@@ -130,7 +136,8 @@ export function kahnsAlgorithm(graph: Graph): string[] {
 function createLibraryDependencyGraph(): Graph {
   const skip = CORE_SPARTACUS_SCOPES.concat(
     'storefrontapp-e2e-cypress',
-    'storefrontapp'
+    'storefrontapp',
+    'ssr-tests'
   );
 
   const spartacusLibraries = Object.keys(collectedDependencies).filter(

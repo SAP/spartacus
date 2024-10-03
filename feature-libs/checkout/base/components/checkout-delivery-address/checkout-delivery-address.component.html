@@ -1,10 +1,14 @@
 <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
-  {{ 'checkoutAddress.deliveryAddress' | cxTranslate }}
+  {{ 'checkoutAddress.shippingAddress' | cxTranslate }}
 </h2>
 
 <ng-container *ngIf="cards$ | async as cards">
   <ng-container *ngIf="!(isUpdating$ | async); else loading">
-    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <div
+      *cxFeature="'!a11yRemoveStatusLoadedRole'"
+      role="status"
+      [attr.aria-label]="'common.loaded' | cxTranslate"
+    ></div>
     <ng-container
       *ngIf="
         cards?.length && !addressFormOpened;
@@ -18,15 +22,14 @@
       <p class="cx-checkout-text">
         {{ 'checkoutAddress.selectYourDeliveryAddress' | cxTranslate }}
       </p>
-      <div class="cx-checkout-btns row">
-        <div class="col-sm-12 col-md-12 col-lg-6">
-          <button
-            class="btn btn-block btn-action"
-            (click)="showNewAddressForm()"
-          >
-            {{ 'checkoutAddress.addNewAddress' | cxTranslate }}
-          </button>
-        </div>
+
+      <div class="cx-checkout-btns cx-checkout-btns-top">
+        <button
+          class="btn btn-block btn-secondary"
+          (click)="showNewAddressForm()"
+        >
+          {{ 'checkoutAddress.addNewAddress' | cxTranslate }}
+        </button>
       </div>
 
       <div class="cx-checkout-body row">
@@ -49,9 +52,18 @@
         </div>
       </div>
 
+      <div class="cx-checkout-btns cx-checkout-btns-bottom">
+        <button
+          class="btn btn-block btn-secondary"
+          (click)="showNewAddressForm()"
+        >
+          {{ 'checkoutAddress.addNewAddress' | cxTranslate }}
+        </button>
+      </div>
+
       <div class="cx-checkout-btns row">
         <div class="col-md-12 col-lg-6">
-          <button class="cx-btn btn btn-block btn-action" (click)="back()">
+          <button class="cx-btn btn btn-block btn-secondary" (click)="back()">
             {{ backBtnText | cxTranslate }}
           </button>
         </div>
@@ -78,6 +90,7 @@
         <cx-address-form
           [showTitleCode]="true"
           [setAsDefaultField]="!isGuestCheckout"
+          [addressData]="selectedAddress"
           cancelBtnLabel="{{ backBtnText | cxTranslate }}"
           (backToAddress)="hideNewAddressForm(true)"
           (submitAddress)="addAddress($event)"

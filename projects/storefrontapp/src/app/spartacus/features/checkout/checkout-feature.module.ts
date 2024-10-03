@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule, Provider, Type } from '@angular/core';
 import {
   checkoutB2BTranslationChunksConfig,
@@ -64,6 +70,11 @@ if (environment.b2b) {
       i18n: {
         resources: checkoutTranslations,
         chunks: checkoutTranslationChunksConfig,
+      },
+    }),
+    provideConfig({
+      checkout: {
+        guest: true,
       },
     }),
     ...extensionProviders,

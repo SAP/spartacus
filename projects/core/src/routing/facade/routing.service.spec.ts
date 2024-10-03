@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import * as NgrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { WindowRef } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
 import { UrlCommands } from '../configurable-routes';
 import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
@@ -27,7 +27,7 @@ class MockSemanticPathService {
 }
 class MockRoutingParamsService {
   getParams(): Observable<{ [key: string]: string }> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -86,8 +86,10 @@ describe('RoutingService', () => {
       const commands = ['testString', { cxRoute: 'testRoute' }];
       const resultPath = ['testString', 'testPath'];
       spyOn(urlService, 'transform').and.returnValue(resultPath);
+      spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
       service.go(commands);
       expect(urlService.transform).toHaveBeenCalledWith(commands);
+      expect(router.navigate).toHaveBeenCalledWith(resultPath, undefined);
     });
   });
 
@@ -134,7 +136,7 @@ describe('RoutingService', () => {
         cxRoute: 'product',
         params: { code: '123' },
       });
-      expect(url).toEqual(`${winRef.document.location.origin}/product/123`);
+      expect(url).toEqual(`${winRef.location.origin}/product/123`);
     });
   });
 

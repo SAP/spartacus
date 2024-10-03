@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
   CmsBannerComponent,
@@ -76,5 +82,21 @@ export class BannerComponent {
         return data.media as ImageGroup;
       }
     }
+  }
+
+  getImageAltText(data: CmsBannerComponent): string | undefined {
+    const img = this.getImage(data);
+    if (!img) {
+      return;
+    }
+
+    // assuming all media formats share the same alt text
+    return 'url' in img ? img.altText : Object.values(img)[0]?.altText;
+  }
+
+  getLinkAriaLabel(data: CmsBannerComponent): string | undefined {
+    const imgAltText = this.getImageAltText(data);
+
+    return data.headline ?? imgAltText;
   }
 }

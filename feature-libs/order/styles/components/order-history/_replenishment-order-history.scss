@@ -108,10 +108,7 @@
         width: 15%;
 
         .cx-order-cancel {
-          text-decoration: underline;
-          text-transform: uppercase;
-          color: var(--cx-color-primary);
-          padding-inline-start: 0;
+          font-size: var(--cx-font-size, 0.875rem);
         }
 
         @include media-breakpoint-down(sm) {

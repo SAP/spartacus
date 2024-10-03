@@ -15,13 +15,15 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import {
+  Order,
   OrderHistoryFacade,
   OrderHistoryList,
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
+import { Params } from '@angular/router';
 
 const mockOrders: OrderHistoryList = {
   orders: [
@@ -36,6 +38,31 @@ const mockOrders: OrderHistoryList = {
       placed: new Date('2018-01-02'),
       statusDisplay: 'test2',
       total: { formattedValue: '2' },
+    },
+  ],
+  pagination: { totalResults: 1, totalPages: 2, sort: 'byDate' },
+  sorts: [{ code: 'byDate', selected: true }],
+};
+
+const mockPOOrders: OrderHistoryList = {
+  orders: [
+    {
+      code: '1',
+      placed: new Date('2018-01-01'),
+      statusDisplay: 'test',
+      total: { formattedValue: '1' },
+      purchaseOrderNumber: '001',
+      costCenter: {
+        code: 'Custom_Retail',
+        name: 'Custom Retail',
+      },
+    },
+    {
+      code: '2',
+      placed: new Date('2018-01-02'),
+      statusDisplay: 'test2',
+      total: { formattedValue: '2' },
+      purchaseOrderNumber: '002',
     },
   ],
   pagination: { totalResults: 1, totalPages: 2, sort: 'byDate' },
@@ -94,6 +121,9 @@ class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
   getOrderHistoryListLoaded(): Observable<boolean> {
     return of(true);
   }
+  getQueryParams(_order: Order): Params | null {
+    return null;
+  }
   loadOrderList(
     _pageSize: number,
     _currentPage?: number,
@@ -108,7 +138,7 @@ class MockRoutingService {
 
 class MockTranslationService {
   translate(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -126,31 +156,29 @@ describe('OrderHistoryComponent', () => {
   let orderHistoryFacade: OrderHistoryFacade;
   let routingService: RoutingService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [
-          OrderHistoryComponent,
-          MockUrlPipe,
-          MockPaginationComponent,
-          MockSortingComponent,
-        ],
-        providers: [
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
-          { provide: TranslationService, useClass: MockTranslationService },
-          {
-            provide: ReplenishmentOrderHistoryFacade,
-            useClass: MockReplenishmentOrderHistoryFacade,
-          },
-        ],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        OrderHistoryComponent,
+        MockUrlPipe,
+        MockPaginationComponent,
+        MockSortingComponent,
+      ],
+      providers: [
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
+        { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: ReplenishmentOrderHistoryFacade,
+          useClass: MockReplenishmentOrderHistoryFacade,
+        },
+      ],
+    }).compileComponents();
 
-      orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
-      routingService = TestBed.inject(RoutingService);
-    })
-  );
+    orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
+    routingService = TestBed.inject(RoutingService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderHistoryComponent);
@@ -159,6 +187,13 @@ describe('OrderHistoryComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should have a row tag in the table header', () => {
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.query(By.css('.cx-order-history-table thead tr'))
+    ).toBeTruthy();
   });
 
   it('should read order list', () => {
@@ -180,10 +215,15 @@ describe('OrderHistoryComponent', () => {
     );
     rows[1].triggerEventHandler('click', null);
 
-    expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'orderDetails',
-      params: mockOrders.orders[1],
-    });
+    expect(routingService.go).toHaveBeenCalledWith(
+      {
+        cxRoute: 'orderDetails',
+        params: mockOrders.orders[1],
+      },
+      {
+        queryParams: null,
+      }
+    );
   });
 
   it('should set correctly sort code', () => {
@@ -223,6 +263,31 @@ describe('OrderHistoryComponent', () => {
     expect(elements.length).toEqual(2);
     expect(component.sortType).toEqual('byDate');
   });
+
+  it('should display PO Number & Cost Center', () => {
+    mockOrderHistoryList$.next(mockOrders);
+    fixture.detectChanges();
+
+    const header = fixture.debugElement.query(
+      By.css('.cx-order-history-thead-mobile > tr[role="row"')
+    );
+    expect(header.children.length).toEqual(4);
+
+    mockOrderHistoryList$.next(mockPOOrders);
+    fixture.detectChanges();
+
+    const headerPO = fixture.debugElement.query(
+      By.css('.cx-order-history-thead-mobile > tr[role="row"]')
+    );
+    expect(headerPO.children.length).toEqual(6);
+    expect(headerPO.children[1].nativeElement.textContent.trim()).toEqual(
+      'orderHistory.PONumber'
+    );
+    expect(headerPO.children[2].nativeElement.textContent.trim()).toEqual(
+      'orderHistory.costCenter'
+    );
+  });
+
   it('should not have sortType if no orders and pagination are provided', () => {
     let orders: OrderHistoryList | undefined;
 

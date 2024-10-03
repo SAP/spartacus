@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { standardUser } from '../sample-data/shared-users';
 import { AccountData } from '../support/require-logged-in.commands';
 import { config } from '../support/utils/login';
@@ -76,32 +82,64 @@ export function revokeAccessToken() {
   });
 }
 
-export function testRedirectBackfterLogin() {
+export function testRedirectBackfterLogin(kyma = false) {
   it('should redirect back after the login', () => {
     const user = createUser();
     cy.visit(`/contact`);
 
     cy.get('cx-login').click();
-    cy.location('pathname').should('contain', '/login');
-    authForms.login(
-      user.registrationData.email,
-      user.registrationData.password
-    );
+
+    if (!kyma) {
+      cy.location('pathname').should('contain', '/login');
+      authForms.login(
+        user.registrationData.email,
+        user.registrationData.password
+      );
+    } else {
+      authForms.fillKymaLoginForm({
+        username: user.registrationData.email,
+        password: user.registrationData.password,
+      });
+    }
 
     cy.location('pathname').should('contain', '/contact');
   });
 }
 
-export function testRedirectAfterForcedLogin() {
+export function testRedirectAfterForcedLogin(kyma = false) {
   it('should redirect back after the forced login', () => {
     const user = createUser();
     cy.visit(`/my-account/address-book`);
-    cy.location('pathname').should('contain', '/login');
-    authForms.login(
-      user.registrationData.email,
-      user.registrationData.password
-    );
+
+    if (!kyma) {
+      cy.location('pathname').should('contain', '/login');
+      authForms.login(
+        user.registrationData.email,
+        user.registrationData.password
+      );
+    } else {
+      authForms.fillKymaLoginForm({
+        username: user.registrationData.email,
+        password: user.registrationData.password,
+      });
+    }
 
     cy.location('pathname').should('contain', '/my-account/address-book');
   });
+}
+
+/**
+ * Waits for the background work to complete after a cy.visit() call and the browser adds base parameters.
+ *
+ * Handling of authentication revocation can slow down page loads to the point that tests fail due to timeouts.
+ * When the background work completes after a cy.visit(), the base paramaters are added to the url and the page loads normally.
+ */
+export function visitAndWaitForRedirections(path: string) {
+  cy.visit(path);
+  cy.location('pathname', { timeout: 30000 }).should(
+    'contain',
+    `/${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
+      'BASE_CURRENCY'
+    )}`
+  );
 }

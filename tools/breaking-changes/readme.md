@@ -2,35 +2,60 @@
 
 To make sure we get an accurate diff, do not update the dependencies of this tool unless you are sure that we don't need to compare the results with data generated with a previous version of the dependencies.
 
+# Configuration
+
+Set the new version of Spartacus in the `common.ts` file.
+
+```
+export const NEW_VERSION = '2211.19';
+```
+
+This new version number will dictate, among other things, various input and output file paths for the files implicated in the process.
+
 # Produce the breaking change list
 
-- yarn install
+- Run `npm install`
 
 - run clone.sh
 This will clone the Spartacus repo in 2 folders ./src/old and ./src/new
 
-- checkout the approproate commit in ./src/old and ./src/new  
+- checkout the appropriate commit in ./src/old and ./src/new  
 These will be the 2 versions compared for breaking changes.
 
 - Build Spartacus libs
-In both ./src/old and ./src/new, run `yarn install` and `yarn build:libs`.
+In both ./src/old and ./src/new, run `npm install` and `npm run build:libs`. 
+(Note if old release is < 6.0, it is `yarn install` and `yarn build:libs`)
 
 
-- Extract the publiic API.
-Run `yarn extract-all` in the breaking change tool home folder (tools/breaking-changes/).  This will extract the public api in ./src/*/temp folder into many files. (one per entry point)
+- Extract the public API.
+Run `npm run extract-all` in the breaking change tool home folder (tools/breaking-changes/).  This will extract the public api in ./src/*/temp folder into many files. (one per entry point)
 
 - Parse the public API
-Run `yarn parse-all`.  This will parse the files in ./src/*/temp and produce a `./src/*/public-api.json` file containing all the public api.
+Run `npm run parse-all`.  This will parse the files in ./src/*/temp and produce a `./src/*/public-api.json` file containing all the public api.
 
 - Compare old and new public API
-Run `yarn compare`.  This compares both ./src/*/public-api.json files to create aa list ov breaking changes in `./data/breaking`
+Run `npm run compare`.  This compares both ./src/*/public-api.json files to create a list of breaking changes in `./data/*_0/breaking-changes.json`.  This step also requires this input file: `docs/migration/*_0/renamed-api.json`.  It contains manually created mappings about API element that were renamed.
+
+
 
 # Generate migration schematics code
+
+Note: Some of the doc/schematics generators below read from the manual input files as well as the breaking change file.
+Thes input files should be present:
+- tools/breaking-changes/data/*_0/breaking-changes.json   (created by comparing the API between 2 versions)
+- docs/migration/*_0/migration-comments-api-elements.json (structured manual doc input for top level api elements, mainly for deleted ones.)
+- docs/migration/*_0/migration-comments-members.json      (structured manual doc input for deleted or renamed class members)
+- docs/migration/*_0/renamed-api-mappings.json            (structured manual doc input for renamed public api elements)
+
+The 6.0 migration files can be taken as a template or en example: https://github.com/SAP/spartacus/tree/release/6.0.x/docs/migration/6_0
+
+The full documentation about those files can be found here: https://wiki.one.int.sap/wiki/x/9WSWtQ
 
 `gen-const` : generates the array of migration data for the constructor migration schematic in `projects/schematics/src/migrations/*_0/constructor-deprecations`
 
 
 `gen-deleted` : generates the array of migration data for the removed public api schematic in `projects/schematics/src/migrations/*_0/removed-public-api-deprecations`
+
 
 `gen-moved` : generates the array of migration data for the renamed public api schematic in `projects/schematics/src/migrations/*_0/rename-symbol`
 
@@ -46,31 +71,11 @@ Typically the documentation is placed in the folder `docs/migration`
 
 Some cases requires manual review to complete.  The preferable way to deal with those is to update the data in `breaking-changes.json`.  This way, the migration assets can be re-generated to reflect the changes.
 
-
-## Review Deleted Elements
-The API elements that were detected as deleted by the script need human intervention.  There are different cases:
-
-### The API element is deleted
-
-tl/dr: Add a migration comment in `breaking-changes.json`.
-
-The simple case is when the API element is indeed deleted.  In this case, we have to add a `migrationComment` in the corresponding entry in `breaking-changes.json`.  The migration comment is meant to help users understand why the item is deleted and most importantly what to use instead.
-
-### The API element is Renamed
-
-tl/dr: Flag the api element as renamed in `breaking-changes.json` and add any other breaking changes that the api element might contain.  Then regenrate deleted schematics , renamed schematics and docs. 
-
-The alternate case is when the API element was in fact renamed.  The renamed elements will be flagged as deleted by the script because there is no way the script can know that an item was renamed to something else. In this case we need to edit the corresponding entry in `breaking-changes.json` et express a rename instead of a deletion.
-
-Moreover, the renamed item, sinice it was considered deleted, was not comopared with it's new counterpart to fiind breaking changes.  Further breaking changes that might have been made to the API element have to be found manually.
-
-As a general note, rename API element sparingly.  They can cause alot of overhead in the breakiing change handling process.
-
 ## Manual review of the deprecated constructors.
 
-The deprecated construtors must define all the overloaded signatures as well as the constructor implementation. (as shown in the documentation https://sap.github.io/spartacus-docs/breaking-changes/#adding-new-constructor-dependencies-in-minor-versions)
+The deprecated constructors must define all the overloaded signatures as well as the constructor implementation. (as shown in the documentation https://sap.github.io/spartacus-docs/breaking-changes/#adding-new-constructor-dependencies-in-minor-versions)
 
-When overloaded signatures are defined in a class, the only thing that the api extractor will see are the overloaaded siignatures, and not the actual construtcor implementation. It can be good to manually review the constructor deprecations of the previous version to see if we have instances of constructors that don't list the overloaded signature.  If we do, we might need to add the missing constructor change in `breaking-changes.json`.
+When overloaded signatures are defined in a class, the only thing that the api extractor will see are the overloaded signatures, and not the actual constructor implementation. It can be good to manually review the constructor deprecations of the previous version to see if we have instances of constructors that don't list the overloaded signature.  If we do, we might need to add the missing constructor change in `breaking-changes.json`.
 
 If the constructor deprecation was done as expected, the script should handle them well and no manual update should be required.
 
@@ -80,6 +85,6 @@ It is common that we add optional attributes in the Config abstract classes.  Th
 
 ## Manual review of TypeAlias changes
 
-The script will report any change to TypeAlias kind of APII element.  
+The script will report any change to TypeAlias kind of API element.  
 There are typically not a high volume of TypeAlias changes.
-The manual rview should determine if the change is a breaking change or not.
+The manual review should determine if the change is a breaking change or not.

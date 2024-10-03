@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import Chainable = Cypress.Chainable;
 import * as authentication from './auth-forms';
 import * as globalMessage from './global-message';
@@ -51,24 +57,11 @@ export function goToCPQConfigurationPage(
 }
 
 /**
- * Navigates to the product detail page.
- *
- * @param {string} shopName - shop name
- * @param {string} productId - Product ID
- */
-export function goToPDPage(shopName: string, productId: string): void {
-  const location = `${shopName}/en/USD/product/${productId}/${productId}`;
-  cy.visit(location).then(() => {
-    cy.location('pathname').should('contain', location);
-    cy.get('.ProductDetailsPageTemplate').should('be.visible');
-  });
-}
-
-/**
  * Clicks on 'Add to Cart' button in catalog list.
  */
 export function clickOnConfigureBtnInCatalog(): void {
-  cy.get('cx-configure-product a')
+  cy.get('cx-configure-product button')
+    .contains('Configure')
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/product/entityKey/');
@@ -125,10 +118,11 @@ export function checkAttributeHeaderDisplayed(
 export function selectProductCard(
   cardType: cardType,
   attributeName: string,
-  valueName: string
+  valueName: string,
+  cpqOverOcc?: boolean
 ) {
   const uiType: configuration.uiType = convertCardTypeToUiType(cardType);
-  selectAttributeAndWait(attributeName, uiType, valueName);
+  selectAttributeAndWait(attributeName, uiType, valueName, cpqOverOcc);
   configuration.checkValueSelected(uiType, attributeName, valueName);
 }
 
@@ -141,10 +135,11 @@ export function selectProductCard(
 export function deSelectProductCard(
   cardType: cardType,
   attributeName: string,
-  valueName: string
+  valueName: string,
+  cpqOverOcc?: boolean
 ) {
   const uiType: configuration.uiType = convertCardTypeToUiType(cardType);
-  selectAttributeAndWait(attributeName, uiType, valueName);
+  selectAttributeAndWait(attributeName, uiType, valueName, cpqOverOcc);
   checkValueNotSelected(uiType, attributeName, valueName);
 }
 
@@ -174,17 +169,18 @@ export function convertCardTypeToUiType(cardType: cardType) {
  * @param {string} attributeName - Attribute name
  * @param {configuration.uiType} uiType - UI type
  * @param {string} valueName - Value name
- * @param {string} value - Value
  */
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
   valueName: string,
-  value?: string
+  cpqOverOcc?: boolean
 ): void {
-  configuration.selectAttribute(attributeName, uiType, valueName, value);
+  configuration.selectAttribute(attributeName, uiType, valueName);
   cy.wait('@updateConfig');
-  cy.wait('@readConfig');
+  if (!cpqOverOcc) {
+    cy.wait('@readConfig');
+  }
 }
 
 /**
@@ -226,7 +222,8 @@ export function setQuantity(
   uiType: configuration.uiType,
   quantity: number,
   attributeName: string,
-  valueName?: string
+  valueName?: string,
+  cpqOverOcc?: boolean
 ): void {
   let containerId = configuration.getAttributeId(attributeName, uiType);
   if (valueName) {
@@ -238,7 +235,9 @@ export function setQuantity(
   );
   configuration.checkUpdatingMessageNotDisplayed();
   cy.wait('@updateConfig');
-  cy.wait('@readConfig');
+  if (!cpqOverOcc) {
+    cy.wait('@readConfig');
+  }
 }
 
 /**
@@ -267,28 +266,21 @@ export function checkPrice(
 }
 
 /**
- * Returns nth group menu link
- *
- * @param {number} index
- * @returns {Chainable<JQuery<HTMLElement>>}
- */
-function getNthGroupMenu(index: number): Chainable<JQuery<HTMLElement>> {
-  return cy
-    .get('cx-configurator-group-menu:visible')
-    .within(() => cy.get('.cx-menu-item').not('.cx-menu-conflict').eq(index));
-}
-
-/**
  * Clicks on the group via its index in the group menu.
  *
  * @param {number} groupIndex - Group index
  */
 export function clickOnGroup(groupIndex: number): void {
-  getNthGroupMenu(groupIndex).within(() => {
-    cy.get('div.subGroupIndicator').within(($list) => {
-      cy.log('$list.children().length: ' + $list.children().length);
-      cy.wrap($list.children().length).as('subGroupIndicator');
-    });
+  cy.get('cx-configurator-group-menu:visible').within(() => {
+    cy.get('.cx-menu-item')
+      .not('.cx-menu-conflict')
+      .eq(groupIndex)
+      .within(() => {
+        cy.get('div.subGroupIndicator').within(($list) => {
+          cy.log('$list.children().length: ' + $list.children().length);
+          cy.wrap($list.children().length).as('subGroupIndicator');
+        });
+      });
   });
 
   cy.get('@subGroupIndicator').then((subGroupIndicator) => {

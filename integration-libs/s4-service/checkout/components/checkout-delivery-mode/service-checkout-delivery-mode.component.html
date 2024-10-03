@@ -1,0 +1,253 @@
+<fieldset *cxFeature="'a11yDeliveryModeRadiogroup'" role="radiogroup">
+  <ng-container
+    *ngTemplateOutlet="
+      displayServiceDelivery;
+      context: { a11yDeliveryModeRadiogroup: true }
+    "
+  ></ng-container>
+  <ng-container *cxFeature="'!showDeliveryOptionsTranslation'">
+    <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
+      {{ 'serviceOrderCheckout.productDeliveryMethods' | cxTranslate }}
+    </legend>
+  </ng-container>
+
+  <ng-container *cxFeature="'showDeliveryOptionsTranslation'">
+    <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
+      {{ 'serviceOrderCheckout.productDeliveryOptions' | cxTranslate }}
+    </legend>
+  </ng-container>
+
+  <ng-container
+    *ngIf="
+      !(isUpdating$ | async) &&
+        (supportedDeliveryModes$ | async) as supportedDeliveryModes;
+      else loading
+    "
+  >
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <div [formGroup]="mode" class="cx-delivery-mode-wrapper">
+      <div class="form-check" *ngFor="let mode of supportedDeliveryModes">
+        <input
+          [attr.aria-checked]="getAriaChecked(mode.code)"
+          class="form-check-input"
+          type="radio"
+          (change)="changeMode(mode.code, $event)"
+          (click)="changeMode(mode.code, $event)"
+          [value]="mode.code"
+          formControlName="deliveryModeId"
+          id="deliveryMode-{{ mode.code }}"
+          [attr.aria-label]="
+            mode.name +
+            ' ' +
+            mode.description +
+            ' ' +
+            mode.deliveryCost?.formattedValue
+          "
+        />
+        <label
+          class="cx-delivery-label form-check-label form-radio-label"
+          for="deliveryMode-{{ mode.code }}"
+          aria-hidden="true"
+        >
+          <div class="cx-delivery-mode">
+            {{ mode.name }}
+            <span class="cx-delivery-mode-description"
+              >({{ mode.description }})</span
+            >
+          </div>
+          <div class="cx-delivery-price">
+            {{ mode.deliveryCost?.formattedValue }}
+          </div>
+          <div class="cx-delivery-details"></div>
+        </label>
+      </div>
+      <ng-template
+        [cxOutlet]="CartOutlets.DELIVERY_MODE"
+        [cxOutletContext]="{
+          item: activeCartFacade.getActive() | async,
+        }"
+      >
+      </ng-template>
+    </div>
+  </ng-container>
+</fieldset>
+
+<ng-container *cxFeature="'!a11yDeliveryModeRadiogroup'">
+  <ng-container
+    *ngTemplateOutlet="
+      displayServiceDelivery;
+      context: { a11yDeliveryModeRadiogroup: false }
+    "
+  ></ng-container>
+  <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
+    {{ 'checkoutMode.productDeliveryMethods' | cxTranslate }}
+  </h2>
+
+  <ng-container
+    *ngIf="
+      !(isUpdating$ | async) &&
+        (supportedDeliveryModes$ | async) as supportedDeliveryModes;
+      else loading
+    "
+  >
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <div [formGroup]="mode" class="cx-delivery-mode-wrapper">
+      <div role="radiogroup">
+        <div class="form-check" *ngFor="let mode of supportedDeliveryModes">
+          <input
+            [attr.aria-checked]="getAriaChecked(mode.code)"
+            class="form-check-input"
+            role="radio"
+            type="radio"
+            id="deliveryMode-{{ mode.code }}"
+            (change)="changeMode(mode.code, $event)"
+            (click)="changeMode(mode.code, $event)"
+            [value]="mode.code"
+            formControlName="deliveryModeId"
+          />
+          <label
+            class="cx-delivery-label form-check-label form-radio-label"
+            for="deliveryMode-{{ mode.code }}"
+          >
+            <div class="cx-delivery-mode">
+              {{ mode.name }}
+              <span class="cx-delivery-mode-description"
+                >({{ mode.description }})</span
+              >
+            </div>
+            <div class="cx-delivery-price">
+              {{ mode.deliveryCost?.formattedValue }}
+            </div>
+            <div class="cx-delivery-details"></div>
+          </label>
+        </div>
+      </div>
+      <ng-template
+        [cxOutlet]="CartOutlets.DELIVERY_MODE"
+        [cxOutletContext]="{
+          item: activeCartFacade.getActive() | async,
+        }"
+      >
+      </ng-template>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-container *ngIf="activeCartFacade.hasPickupItems() | async">
+  <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
+    {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
+  </h2>
+
+  <ng-template
+    [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+    [cxOutletContext]="{
+      items: activeCartFacade.getDeliveryEntries() | async,
+      readonly: true,
+    }"
+  >
+  </ng-template>
+</ng-container>
+
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>
+
+<ng-container cxInnerComponentsHost></ng-container>
+
+<div class="row cx-checkout-btns">
+  <div class="col-md-12 col-lg-6">
+    <button class="btn btn-block btn-secondary" (click)="back()">
+      {{ backBtnText | cxTranslate }}
+    </button>
+  </div>
+  <div class="col-md-12 col-lg-6">
+    <button
+      class="btn btn-block btn-primary"
+      [disabled]="deliveryModeInvalid || (isSetDeliveryModeHttpError$ | async)"
+      (click)="next()"
+    >
+      {{ 'common.continue' | cxTranslate }}
+    </button>
+  </div>
+</div>
+
+<ng-template #displayDeliveryMode let-content="content">
+  <input
+    [attr.aria-checked]="getAriaChecked(content.code)"
+    class="form-check-input"
+    type="radio"
+    [checked]="true"
+    [value]="content.code"
+    id="deliveryMode-{{ content.code }}"
+    [attr.aria-label]="
+      content.name +
+      ' ' +
+      content.description +
+      ' ' +
+      content.deliveryCost?.formattedValue
+    "
+  />
+  <label
+    class="cx-delivery-label form-check-label form-radio-label"
+    for="deliveryMode-{{ content.code }}"
+    aria-hidden="true"
+  >
+    <div class="cx-delivery-mode">
+      {{ content.name }}
+      <span *ngIf="content.description" class="cx-delivery-mode-description"
+        >({{ content.description }})</span
+      >
+    </div>
+    <div class="cx-delivery-price">
+      {{ content.deliveryCost?.formattedValue }}
+    </div>
+    <div class="cx-delivery-details"></div>
+  </label>
+</ng-template>
+
+<ng-template
+  #displayServiceDelivery
+  let-a11yDeliveryModeRadiogroup="a11yDeliveryModeRadiogroup"
+>
+  <ng-container *ngIf="hasServiceProducts$ | async">
+    <ng-container *ngIf="a11yDeliveryModeRadiogroup">
+      <ng-container *cxFeature="'!showDeliveryOptionsTranslation'">
+        <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
+          {{ 'serviceOrderCheckout.serviceDeliveryMethod' | cxTranslate }}
+        </legend>
+      </ng-container>
+      <ng-container *cxFeature="'showDeliveryOptionsTranslation'">
+        <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
+          {{ 'serviceOrderCheckout.serviceDeliveryOption' | cxTranslate }}
+        </legend>
+      </ng-container>
+      <div class="cx-delivery-mode-wrapper">
+        <div class="form-check">
+          <ng-container
+            *ngTemplateOutlet="
+              displayDeliveryMode;
+              context: { content: serviceDeliveryConfig }
+            "
+          ></ng-container>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!a11yDeliveryModeRadiogroup">
+      <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
+        {{ 'checkoutMode.serviceDeliveryMethod' | cxTranslate }}
+      </h2>
+      <div class="cx-delivery-mode-wrapper">
+        <div class="form-check">
+          <ng-container
+            *ngTemplateOutlet="
+              displayDeliveryMode;
+              context: { content: serviceDeliveryConfig }
+            "
+          ></ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-template>

@@ -1,0 +1,211 @@
+<!-- BILLING -->
+<div class="cx-payment-form-billing">
+  <div class="cx-payment-form-billing-address">
+    {{ 'paymentForm.billingAddress' | cxTranslate }}
+  </div>
+
+  <!-- SAME AS SHIPPING CHECKBOX -->
+  <ng-container *ngIf="showSameAsDeliveryAddressCheckbox$ | async">
+    <div class="form-group">
+      <div class="form-check">
+        <label>
+          <input
+            type="checkbox"
+            class="form-check-input"
+            [checked]="sameAsDeliveryAddress"
+            (change)="toggleSameAsDeliveryAddress()"
+            [attr.aria-label]="
+              'paymentForm.billingAddressSameAsShipping' | cxTranslate
+            "
+          />
+          <span class="form-check-label">{{
+            'paymentForm.sameAsDeliveryAddress' | cxTranslate
+          }}</span>
+        </label>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- BILLING INFO COMPONENT -->
+  <ng-container
+    *ngIf="
+      sameAsDeliveryAddress && (deliveryAddress$ | async) as deliveryAddress;
+      else billingAddress
+    "
+  >
+    <cx-card [content]="getAddressCardContent(deliveryAddress)"></cx-card>
+  </ng-container>
+
+  <!-- TODO:#future-checkout do we really want this? We can always pass more inputs to the copied address form component to make it more modular -->
+  <ng-template #billingAddress>
+    <div [formGroup]="billingAddressForm">
+      <div class="form-group" formGroupName="country">
+        <ng-container *ngIf="countries$ | async as countries">
+          <div *ngIf="countries.length !== 0">
+            <label>
+              <span class="label-content required">{{
+                'addressForm.country' | cxTranslate
+              }}</span>
+              <ng-select
+                [inputAttrs]="{ required: 'true' }"
+                [searchable]="true"
+                [clearable]="false"
+                [items]="countries"
+                bindLabel="name"
+                bindValue="isocode"
+                placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+                (change)="countrySelected($event)"
+                formControlName="isocode"
+                id="country-payment-select"
+                [cxNgSelectA11y]="{
+                  ariaLabel: 'addressForm.country' | cxTranslate,
+                }"
+              >
+              </ng-select>
+              <cx-form-errors
+                [control]="billingAddressForm.get('country.isocode')"
+              ></cx-form-errors>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+      <div class="form-group">
+        <label>
+          <span class="label-content required">{{
+            'addressForm.firstName.label' | cxTranslate
+          }}</span>
+          <input
+            required="true"
+            class="form-control"
+            type="text"
+            placeholder="{{
+              'addressForm.firstName.placeholder' | cxTranslate
+            }}"
+            formControlName="firstName"
+          />
+          <cx-form-errors
+            [control]="billingAddressForm.get('firstName')"
+          ></cx-form-errors>
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          <span class="label-content required">{{
+            'addressForm.lastName.label' | cxTranslate
+          }}</span>
+          <input
+            required="true"
+            type="text"
+            class="form-control"
+            placeholder="{{ 'addressForm.lastName.placeholder' | cxTranslate }}"
+            formControlName="lastName"
+          />
+          <cx-form-errors
+            [control]="billingAddressForm.get('lastName')"
+          ></cx-form-errors>
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          <span class="label-content required">{{
+            'addressForm.address1' | cxTranslate
+          }}</span>
+          <input
+            required="true"
+            type="text"
+            class="form-control"
+            placeholder="{{ 'addressForm.streetAddress' | cxTranslate }}"
+            formControlName="line1"
+          />
+          <cx-form-errors
+            [control]="billingAddressForm.get('line1')"
+          ></cx-form-errors>
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          <span class="label-content">{{
+            'addressForm.address2' | cxTranslate
+          }}</span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="{{ 'addressForm.aptSuite' | cxTranslate }}"
+            formControlName="line2"
+          />
+        </label>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label>
+            <span class="label-content required">{{
+              'addressForm.city.label' | cxTranslate
+            }}</span>
+            <input
+              required="true"
+              type="text"
+              class="form-control"
+              placeholder="{{ 'addressForm.city.placeholder' | cxTranslate }}"
+              formControlName="town"
+            />
+            <cx-form-errors
+              [control]="billingAddressForm.get('town')"
+            ></cx-form-errors>
+          </label>
+        </div>
+        <div class="form-group col-md-6">
+          <label>
+            <span class="label-content required">{{
+              'addressForm.zipCode.label' | cxTranslate
+            }}</span>
+            <input
+              required="true"
+              type="text"
+              class="form-control"
+              placeholder="{{
+                'addressForm.zipCode.placeholder' | cxTranslate
+              }}"
+              formControlName="postalCode"
+            />
+            <cx-form-errors
+              [control]="billingAddressForm.get('postalCode')"
+            ></cx-form-errors>
+          </label>
+        </div>
+        <ng-container
+          *ngIf="regions$ | async as regions"
+          formGroupName="region"
+        >
+          <ng-container *ngIf="regions.length !== 0">
+            <div class="form-group col-md-6">
+              <label>
+                <span class="label-content required">{{
+                  'addressForm.state' | cxTranslate
+                }}</span>
+                <ng-select
+                  [inputAttrs]="{ required: 'true' }"
+                  class="region-select"
+                  formControlName="isocodeShort"
+                  [searchable]="true"
+                  [clearable]="false"
+                  [items]="regions"
+                  bindLabel="{{ regions[0].name ? 'name' : 'isocodeShort' }}"
+                  bindValue="{{ regions[0].name ? 'isocodeShort' : 'region' }}"
+                  placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+                  id="region-select"
+                  [cxNgSelectA11y]="{
+                    ariaLabel: 'addressForm.state' | cxTranslate,
+                  }"
+                >
+                </ng-select>
+                <cx-form-errors
+                  [control]="billingAddressForm.get('region.isocodeShort')"
+                ></cx-form-errors>
+              </label>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </ng-template>
+</div>

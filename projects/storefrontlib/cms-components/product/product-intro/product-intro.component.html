@@ -3,22 +3,41 @@
     <cx-star-rating [rating]="product?.averageRating ?? 0"></cx-star-rating>
 
     <div class="count">({{ product?.numberOfReviews }})</div>
-
-    <button
-      *ngIf="areReviewsAvailable$ | async"
-      class="btn btn-link cx-action-link"
-      (click)="showReviews()"
-      [attr.aria-label]="
-        'productSummary.showReviewsDetailed'
-          | cxTranslate
-            : {
-                rating: product?.averageRating | number: '1.0-1',
-                count: product?.numberOfReviews
-              }
-      "
-    >
-      {{ 'productSummary.showReviews' | cxTranslate }}
-    </button>
+    <!-- TODO: (CXSPA-7603) - Remove feature flag next major release. -->
+    <ng-container *cxFeature="'a11yLinkBtnsToTertiaryBtns'">
+      <button
+        *ngIf="product?.averageRating"
+        class="btn btn-tertiary"
+        (click)="showReviews()"
+        [attr.aria-label]="
+          'productSummary.showReviewsDetailed'
+            | cxTranslate
+              : {
+                  rating: product?.averageRating | number: '1.0-1',
+                  count: product?.numberOfReviews,
+                }
+        "
+      >
+        {{ 'productSummary.showReviews' | cxTranslate }}
+      </button>
+    </ng-container>
+    <ng-container *cxFeature="'!a11yLinkBtnsToTertiaryBtns'">
+      <button
+        *ngIf="areReviewsAvailable$ | async"
+        class="btn btn-link cx-action-link"
+        (click)="showReviews()"
+        [attr.aria-label]="
+          'productSummary.showReviewsDetailed'
+            | cxTranslate
+              : {
+                  rating: product?.averageRating | number: '1.0-1',
+                  count: product?.numberOfReviews,
+                }
+        "
+      >
+        {{ 'productSummary.showReviews' | cxTranslate }}
+      </button>
+    </ng-container>
   </div>
   <div class="rating" *ngIf="!product?.averageRating">
     {{ 'productDetails.noReviews' | cxTranslate }}

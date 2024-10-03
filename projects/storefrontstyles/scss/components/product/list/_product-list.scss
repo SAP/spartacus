@@ -10,6 +10,10 @@
     border-color: var(--cx-color-light);
     margin: 0 0 25px 0;
 
+    @include forFeature('a11yImproveContrast') {
+      border-color: var(--cx-color-medium);
+    }
+
     &:last-of-type {
       border: none;
     }
@@ -23,6 +27,10 @@
     border-style: solid;
     border-color: var(--cx-color-light);
 
+    @include forFeature('a11yImproveContrast') {
+      border-color: var(--cx-color-medium);
+    }
+
     @include media-breakpoint-down(md) {
       border: none;
     }
@@ -35,6 +43,31 @@
     &.bottom {
       border-width: 1px 0 0 0;
       padding: 25px 0 0px 0;
+    }
+
+    // TODO: (CXSPA-5926) Remove feaure flag next major release
+    @include forFeature('a11ySortingOptionsTruncation') {
+      & ng-select {
+        @include media-breakpoint-up(lg) {
+          width: 15rem;
+        }
+      }
+    }
+
+    // TODO: (CXSPA-6003) Remove feature flags next major
+    @include forFeature('a11yTruncatedTextForResponsiveView') {
+      @include media-breakpoint-only(xs) {
+        .row {
+          .col-auto:first-of-type {
+            padding-inline-start: 0;
+            padding-inline-end: 10px;
+          }
+          .col-auto:last-of-type {
+            padding-inline-end: 10px;
+            padding-inline-start: 0;
+          }
+        }
+      }
     }
   }
 
@@ -51,6 +84,15 @@
     height: 48px;
     align-items: center;
     display: flex;
+
+    // TODO: (CXSPA-6003) Remove feature flags next major
+    @include forFeature('a11yTruncatedTextForResponsiveView') {
+      @include media-breakpoint-only(xs) {
+        display: unset;
+        height: 80px;
+      }
+    }
+
     span {
       margin-inline-end: 0.5rem;
       flex: none;
@@ -88,5 +130,11 @@
 
   .align-btn {
     margin-top: 0px !important;
+  }
+
+  @include cx-highContrastTheme {
+    .cx-sort-dropdown {
+      color: var(--cx-color-text);
+    }
   }
 }

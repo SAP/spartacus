@@ -1,4 +1,12 @@
 %cx-added-to-cart-dialog {
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .cx-modal-content {
+    @include media-breakpoint-down(md) {
+      height: 100%;
+    }
+  }
+
   .cx-dialog-header {
     padding-top: 2rem;
     padding-inline-end: 1.75rem;
@@ -6,6 +14,9 @@
     padding-inline-start: 1.75rem;
     border-width: 0;
     display: flex;
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+    }
   }
 
   .cx-dialog-title {
@@ -14,7 +25,7 @@
   }
 
   .cx-dialog-body {
-    padding: 1rem 1rem 0 1rem;
+    padding: 1rem;
     @include media-breakpoint-down(sm) {
       padding: 0;
       background-color: var(--cx-color-inverse);
@@ -23,6 +34,9 @@
       max-width: 100%;
       padding: 0;
       flex: 0 0 100%;
+    }
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
     }
   }
 
@@ -67,6 +81,16 @@
       .cx-total {
         .cx-label {
           font-weight: var(--cx-font-weight-normal);
+        }
+      }
+
+      @include forFeature('a11yPreventHorizontalScroll') {
+        .cx-quantity {
+          @include media-breakpoint-down(xs) {
+            flex-direction: column;
+            align-items: start;
+            gap: 5px;
+          }
         }
       }
 
@@ -115,6 +139,13 @@
 
     .btn-primary {
       margin: 0 0 0.625rem 0;
+    }
+  }
+
+  .cx-dialog-pickup-store {
+    padding-inline-start: 4.063rem;
+    .cx-dialog-pickup-store-name {
+      font-weight: var(--cx-font-weight-semi);
     }
   }
 }

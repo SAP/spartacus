@@ -9,12 +9,14 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureConfigService,
+  FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 import createSpy = jasmine.createSpy;
@@ -33,7 +35,7 @@ class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
   createAndSetAddress = createSpy().and.returnValue(of({}));
-  setDeliveryAddress = createSpy().and.returnValue(of());
+  setDeliveryAddress = createSpy().and.returnValue(EMPTY);
   getDeliveryAddressState = createSpy().and.returnValue(
     of({ loading: false, error: false, data: undefined })
   );
@@ -90,6 +92,7 @@ class MockAddressFormComponent {
   @Input() cancelBtnLabel: string;
   @Input() showTitleCode: boolean;
   @Input() setAsDefaultField: boolean;
+  @Input() addressData: Address;
 }
 
 @Component({
@@ -109,12 +112,20 @@ class MockCardComponent {
   content: Card;
   @Input()
   fitToContainer: boolean;
+  @Input()
+  index: number;
 }
 
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  clearCheckoutDeliveryMode = createSpy().and.returnValue(of());
+  clearCheckoutDeliveryMode = createSpy().and.returnValue(EMPTY);
+}
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string) {
+    return true;
+  }
 }
 
 describe('CheckoutDeliveryAddressComponent', () => {
@@ -126,50 +137,60 @@ describe('CheckoutDeliveryAddressComponent', () => {
   let checkoutStepService: CheckoutStepService;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let globalMessageService: GlobalMessageService;
+  let featureConfig: FeatureConfigService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [
-          CheckoutDeliveryAddressComponent,
-          MockAddressFormComponent,
-          MockCardComponent,
-          MockSpinnerComponent,
-        ],
-        providers: [
-          { provide: UserAddressService, useClass: MockUserAddressService },
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          {
-            provide: CheckoutDeliveryAddressFacade,
-            useClass: MockCheckoutDeliveryAddressFacade,
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        CheckoutDeliveryAddressComponent,
+        MockAddressFormComponent,
+        MockCardComponent,
+        MockSpinnerComponent,
+      ],
+      providers: [
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useClass: MockCheckoutDeliveryAddressFacade,
+        },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesFacade,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '6.3' },
           },
-          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-          { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: CheckoutDeliveryModesFacade,
-            useClass: MockCheckoutDeliveryModesFacade,
-          },
-        ],
-      })
-        .overrideComponent(CheckoutDeliveryAddressComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
-
-      checkoutDeliveryAddressFacade = TestBed.inject(
-        CheckoutDeliveryAddressFacade
-      );
-      activeCartFacade = TestBed.inject(ActiveCartFacade);
-      checkoutStepService = TestBed.inject(
-        CheckoutStepService as Type<CheckoutStepService>
-      );
-      userAddressService = TestBed.inject(UserAddressService);
-      checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
-      globalMessageService = TestBed.inject(GlobalMessageService);
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
     })
-  );
+      .overrideComponent(CheckoutDeliveryAddressComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+
+    checkoutDeliveryAddressFacade = TestBed.inject(
+      CheckoutDeliveryAddressFacade
+    );
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
+    checkoutStepService = TestBed.inject(
+      CheckoutStepService as Type<CheckoutStepService>
+    );
+    userAddressService = TestBed.inject(UserAddressService);
+    checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    featureConfig = TestBed.inject(FeatureConfigService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutDeliveryAddressComponent);
@@ -259,6 +280,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
 
   it('should be able to add address', () => {
     component.addAddress({});
+    expect(component.doneAutoSelect).toBeTruthy();
     expect(
       checkoutDeliveryAddressFacade.createAndSetAddress
     ).toHaveBeenCalledWith({});
@@ -273,23 +295,56 @@ describe('CheckoutDeliveryAddressComponent', () => {
     expect(component['setAddress']).toHaveBeenCalledWith(mockAddress2);
   });
 
-  it('should be able to get card content', () => {
-    const card = component.getCardContent(
-      mockAddress1,
-      undefined,
-      'default',
-      'shipTo',
-      'selected'
-    );
-    expect(card.title).toEqual('');
-    expect(card.textBold).toEqual('John Doe');
-    expect(card.text).toEqual([
-      'first line',
-      'second line',
-      'town, JP-27, JP',
-      'zip',
-      undefined,
-    ]);
+  describe('getCardContent()', () => {
+    it('should be able to get card content', () => {
+      const card = component.getCardContent(
+        mockAddress1,
+        undefined,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+      expect(card.title).toEqual('');
+      expect(card.textBold).toEqual('John Doe');
+      expect(card.text).toEqual([
+        'first line',
+        'second line',
+        'town, JP-27, JP',
+        'zip',
+        undefined,
+      ]);
+    });
+
+    it('should not add select action for selected card', () => {
+      spyOn(featureConfig, 'isEnabled').and.returnValue(true);
+      const card = component.getCardContent(
+        mockAddress1,
+        mockAddress1,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+      expect(featureConfig.isEnabled).toHaveBeenCalled();
+      expect(card.actions?.length).toBe(0);
+    });
+
+    it('should add select action for selected card if feature flag is disabled', () => {
+      spyOn(featureConfig, 'isEnabled').and.returnValue(false);
+      const card = component.getCardContent(
+        mockAddress1,
+        mockAddress1,
+        'default',
+        'shipTo',
+        'selected',
+        'P',
+        'M'
+      );
+      expect(card.actions?.length).toBe(1);
+    });
   });
 
   describe('UI continue button', () => {
@@ -327,7 +382,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
   describe('UI back button', () => {
     const getBackBtn = () =>
       fixture.debugElement
-        .queryAll(By.css('.btn-action'))
+        .queryAll(By.css('.btn-secondary'))
         .find((el) => el.nativeElement.innerText === 'common.back');
 
     it('should call "back" function after being clicked', () => {
@@ -363,7 +418,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
   describe('UI new address form', () => {
     const getAddNewAddressBtn = () =>
       fixture.debugElement
-        .queryAll(By.css('.btn-action'))
+        .queryAll(By.css('.btn-secondary'))
         .find(
           (el) => el.nativeElement.innerText === 'checkoutAddress.addNewAddress'
         );

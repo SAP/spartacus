@@ -19,6 +19,9 @@
     background-color: var(--cx-color-inverse);
     border-bottom: solid 1px var(--cx-color-light);
     padding: 40px 30px 20px;
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+    }
 
     @include media-breakpoint-up(md) {
       height: 130px;
@@ -93,10 +96,22 @@
     margin: 40px;
     background-color: var(--cx-color-inverse);
     border: solid 1px var(--cx-color-light);
+    @include cx-highContrastTheme-light {
+      border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    @include cx-highContrastTheme-dark {
+      border: solid 1px var(--cx-color-text);
+    }
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+    }
 
     &.link-list {
       display: flex;
       flex-direction: column;
+      @include cx-highContrastTheme {
+        background-color: var(--cx-color-background);
+      }
       a {
         padding: 25px 30px;
         justify-content: flex-start;
@@ -104,6 +119,12 @@
 
         &:not(:last-child) {
           border-bottom: solid 1px var(--cx-color-light);
+          @include cx-highContrastTheme-light {
+            border-bottom: solid 1px rgba(0, 0, 0, 0.125);
+          }
+          @include cx-highContrastTheme-dark {
+            border-bottom: solid 1px var(--cx-color-text);
+          }
         }
         background-image: var(--list-bg);
         background-repeat: no-repeat;

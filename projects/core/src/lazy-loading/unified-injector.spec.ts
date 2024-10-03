@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UnifiedInjector } from './unified-injector';
+import { InjectionToken, Injector, NgModuleRef } from '@angular/core';
 import { LazyModulesService } from '@spartacus/core';
 import { of, ReplaySubject } from 'rxjs';
-import { InjectionToken, Injector, NgModuleRef } from '@angular/core';
 import { delay, take, tap, toArray } from 'rxjs/operators';
+import { UnifiedInjector } from './unified-injector';
 
 class MockLazyModulesService implements Partial<LazyModulesService> {
   modules$ = new ReplaySubject<NgModuleRef<any>>();
@@ -142,7 +142,6 @@ describe('UnifiedInjector', () => {
         .getMulti(TEST_MULTI_TOKEN)
         .pipe(take(2), toArray())
         .subscribe((instances) => {
-          console.log(instances);
           expect(instances).toEqual([
             ['root1', 'root2'],
             ['root1', 'root2', 'lazy1', 'lazy2'],

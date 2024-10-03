@@ -1,11 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   EntitiesModel,
-  normalizeHttpError,
-  StateUtils,
+  LoggerService,
   OCC_USER_ID_ANONYMOUS,
+  StateUtils,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap } from 'rxjs/operators';
@@ -15,6 +22,8 @@ import { OrderApprovalActions } from '../actions/index';
 
 @Injectable()
 export class OrderApprovalEffects {
+  protected logger = inject(LoggerService);
+
   loadOrderApproval$: Observable<
     | OrderApprovalActions.LoadOrderApprovalSuccess
     | OrderApprovalActions.LoadOrderApprovalFail
@@ -34,7 +43,7 @@ export class OrderApprovalEffects {
             of(
               new OrderApprovalActions.LoadOrderApprovalFail({
                 orderApprovalCode,
-                error: normalizeHttpError(error),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -71,7 +80,7 @@ export class OrderApprovalEffects {
             of(
               new OrderApprovalActions.LoadOrderApprovalsFail({
                 params: params,
-                error: normalizeHttpError(error),
+                error: tryNormalizeHttpError(error, this.logger),
               })
             )
           )
@@ -107,7 +116,7 @@ export class OrderApprovalEffects {
               of(
                 new OrderApprovalActions.MakeDecisionFail({
                   orderApprovalCode: orderApprovalCode,
-                  error: normalizeHttpError(error),
+                  error: tryNormalizeHttpError(error, this.logger),
                 })
               )
             )

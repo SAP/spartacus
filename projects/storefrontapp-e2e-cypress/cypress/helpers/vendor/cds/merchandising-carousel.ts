@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CURRENCY_USD,
   LANGUAGE_EN,
@@ -97,7 +103,6 @@ function verifyCarouselItemRendered(
   index: number
 ): void {
   const product = STRATEGY_RESPONSE.products[index];
-
   cy.wrap($carouselItem).within(() => {
     cy.get('.data-cx-merchandising-product').should(($productMetadata) => {
       expect($productMetadata)
@@ -112,7 +117,6 @@ function verifyCarouselItemRendered(
         )
         .equal(product.metadata['cypress-test-product-metadata']);
     });
-
     cy.get('a').within(() => {
       cy.root().should('have.attr', 'href');
       cy.get('h4').should('not.be.empty');
@@ -124,6 +128,7 @@ function verifyCarouselItemRendered(
 function verifyCarouselItemsRendered(
   $merchandisingCarousel: JQuery<HTMLElement>
 ): void {
+  cy.wait(5000);
   cy.wrap($merchandisingCarousel)
     .get('.item')
     .should('have.length', STRATEGY_RESPONSE.products.length)
@@ -140,6 +145,7 @@ function verifyMerchandisingCarouselRendersProducts(): void {
      * Limit our tests to the first carousel on the page by using first() and then within()
      */
     .first()
+    .scrollIntoView()
     .should('be.visible')
     .within(($merchandisingCarousel) => {
       verifyCarouselLevelMetadata($merchandisingCarousel);

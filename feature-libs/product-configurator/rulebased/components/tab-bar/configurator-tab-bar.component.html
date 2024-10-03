@@ -1,40 +1,40 @@
 <ng-container *ngIf="routerData$ | async as routerData">
   <ng-container *ngIf="configuration$ | async; else ghostTabBar">
     <ng-container *ngIf="!routerData.displayOnly">
-      <div class="cx-tab-bar">
+      <div
+        class="cx-tab-bar"
+        role="tablist"
+        *ngIf="pageType$ | async as pageType"
+      >
         <a
-          tabindex="0"
-          [class.active]="!(isOverviewPage$ | async)"
-          [routerLink]="
-            {
-              cxRoute: 'configure' + routerData.owner.configuratorType,
-              params: {
-                entityKey: routerData.owner.id,
-                ownerType: routerData.owner.type
-              }
-            } | cxUrl
-          "
+          #configTab
+          [tabindex]="getTabIndexForConfigTab(pageType)"
+          role="tab"
+          [class.active]="!isOverviewPage(pageType)"
+          [attr.aria-selected]="!isOverviewPage(pageType)"
+          (keydown)="switchTabOnArrowPress($event, '#configTab')"
+          (keydown.enter)="navigateToConfiguration(routerData)"
+          (keydown.space)="navigateToConfiguration(routerData)"
+          (click)="navigateToConfiguration(routerData)"
           [attr.aria-label]="
-            !(isOverviewPage$ | async)
+            !isOverviewPage(pageType)
               ? ('configurator.a11y.configurationPage' | cxTranslate)
               : ('configurator.a11y.configurationPageLink' | cxTranslate)
           "
           >{{ 'configurator.tabBar.configuration' | cxTranslate }}</a
         >
         <a
-          tabindex="0"
-          [class.active]="isOverviewPage$ | async"
-          [routerLink]="
-            {
-              cxRoute: 'configureOverview' + routerData.owner.configuratorType,
-              params: {
-                entityKey: routerData.owner.id,
-                ownerType: routerData.owner.type
-              }
-            } | cxUrl
-          "
+          #overviewTab
+          [tabindex]="getTabIndexForOverviewTab(pageType)"
+          role="tab"
+          [class.active]="isOverviewPage(pageType)"
+          [attr.aria-selected]="isOverviewPage(pageType)"
+          (keydown)="switchTabOnArrowPress($event, '#overviewTab')"
+          (keydown.enter)="navigateToOverview(routerData)"
+          (keydown.space)="navigateToOverview(routerData)"
+          (click)="navigateToOverview(routerData)"
           [attr.aria-label]="
-            (isOverviewPage$ | async)
+            isOverviewPage(pageType)
               ? ('configurator.a11y.overviewPage' | cxTranslate)
               : ('configurator.a11y.overviewPageLink' | cxTranslate)
           "

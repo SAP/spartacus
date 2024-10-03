@@ -1,34 +1,47 @@
 <ng-container *ngIf="savedCarts$ | async as savedCarts">
   <ng-container *ngIf="!(isLoading$ | async); else loading">
-    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <div
+      *cxFeature="'!a11yRemoveStatusLoadedRole'"
+      role="status"
+      [attr.aria-label]="'common.loaded' | cxTranslate"
+    ></div>
     <div class="cx-saved-cart-list-header">
-      <h3>
+      <h2>
         {{
           'savedCartList.savedCarts' | cxTranslate: { count: savedCarts.length }
         }}
-      </h3>
+      </h2>
     </div>
 
     <ng-container *ngIf="savedCarts?.length > 0; else noSavedCarts">
-      <table class="table cx-saved-cart-list-table">
-        <thead class="cx-saved-cart-list-thead-mobile">
-          <th scope="col">
+      <table role="table" class="table cx-saved-cart-list-table">
+        <thead role="row" class="cx-saved-cart-list-thead-mobile">
+          <th role="columnheader" scope="col">
             {{ 'savedCartList.cartName' | cxTranslate }}
           </th>
-          <th scope="col">{{ 'savedCartList.cartId' | cxTranslate }}</th>
-          <th scope="col">{{ 'savedCartList.dateSaved' | cxTranslate }}</th>
-          <th scope="col" class="cx-saved-cart-list-th-qty">
+          <th role="columnheader" scope="col">
+            {{ 'savedCartList.cartId' | cxTranslate }}
+          </th>
+          <th role="columnheader" scope="col">
+            {{ 'savedCartList.dateSaved' | cxTranslate }}
+          </th>
+          <th role="columnheader" scope="col" class="cx-saved-cart-list-th-qty">
             {{ 'savedCartList.quantity' | cxTranslate }}
           </th>
-          <th scope="col" class="cx-saved-cart-list-th-total">
+          <th
+            role="columnheader"
+            scope="col"
+            class="cx-saved-cart-list-th-total"
+          >
             {{ 'savedCartList.total' | cxTranslate }}
           </th>
-          <th scope="col">
+          <th role="columnheader" scope="col">
             {{ 'savedCartList.actions' | cxTranslate }}
           </th>
         </thead>
         <tbody>
           <tr
+            role="row"
             *ngFor="let savedCart of savedCarts"
             (click)="goToSavedCartDetails(savedCart)"
           >
@@ -40,7 +53,7 @@
                 [routerLink]="
                   {
                     cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
+                    params: { savedCartId: savedCart?.code },
                   } | cxUrl
                 "
                 class="cx-saved-cart-list-value"
@@ -56,7 +69,7 @@
                 [routerLink]="
                   {
                     cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
+                    params: { savedCartId: savedCart?.code },
                   } | cxUrl
                 "
                 class="cx-saved-cart-list-value"
@@ -71,7 +84,7 @@
                 [routerLink]="
                   {
                     cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
+                    params: { savedCartId: savedCart?.code },
                   } | cxUrl
                 "
                 class="cx-saved-cart-list-value"
@@ -86,7 +99,7 @@
                 [routerLink]="
                   {
                     cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
+                    params: { savedCartId: savedCart?.code },
                   } | cxUrl
                 "
                 class="cx-saved-cart-list-value"
@@ -102,7 +115,7 @@
                 [routerLink]="
                   {
                     cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
+                    params: { savedCartId: savedCart?.code },
                   } | cxUrl
                 "
                 class="cx-saved-cart-list-value"
@@ -111,10 +124,12 @@
               >
             </td>
             <td class="cx-saved-cart-list-make-cart-active">
-              <div class="cx-table-label-mobile cx-saved-cart-list-label"></div>
+              <div class="cx-table-label-mobile cx-saved-cart-list-label">
+                {{ 'savedCartList.actions' | cxTranslate }}
+              </div>
               <button
                 #element
-                class="link cx-action-link cx-saved-cart-make-active"
+                class="btn btn-tertiary cx-saved-cart-make-active"
                 (click)="openDialog($event, savedCart)"
               >
                 {{ 'savedCartList.makeCartActive' | cxTranslate }}

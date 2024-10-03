@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,6 +14,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
+import { Product, useFeatureStyles } from '@spartacus/core';
 import {
   ProductListItemContext,
   ProductListItemContextSource,
@@ -35,11 +42,15 @@ export class WishListItemComponent implements OnChanges {
 
   constructor(
     protected productListItemContextSource: ProductListItemContextSource
-  ) {}
+  ) {
+    useFeatureStyles('a11yCartItemsLinksStyles');
+  }
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.cartEntry) {
-      this.productListItemContextSource.product$.next(this.cartEntry.product);
+      this.productListItemContextSource.product$.next(
+        this.cartEntry.product as Product
+      );
     }
   }
 
