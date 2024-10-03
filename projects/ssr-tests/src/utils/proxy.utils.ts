@@ -56,7 +56,7 @@ export async function startBackendProxyServer(
   if (options.responseInterceptor) {
     proxy.on('proxyRes', (proxyRes, req, res) => {
       // We have to buffer the response body before passing it to the interceptor
-      let bodyBuffer: Buffer[] = [];
+      const bodyBuffer: Buffer[] = [];
       proxyRes.on('data', (chunk) => {
         bodyBuffer.push(chunk);
       });
