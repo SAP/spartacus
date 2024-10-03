@@ -53,7 +53,7 @@ export class TrendingSearchesService implements OnDestroy {
     );
   }
 
-  protected createEndpoint(cdsSiteId: string): string {
+  protected constructTrendingSearchUrl(cdsSiteId: string): string {
     const originalEndpointUrl = this.cdsEndpointsService
       .getUrl(TRENDING_SEARCHES_ENDPOINT_KEY)
       .replaceAll('${cdsSiteId}', cdsSiteId);
@@ -74,7 +74,7 @@ export class TrendingSearchesService implements OnDestroy {
   protected initTrendingSearches(): Observable<SearchPhrases[]> {
     return this.checkAvailability().pipe(
       switchMap((cdsSiteId) => {
-        const url = this.createEndpoint(cdsSiteId);
+        const url = this.constructTrendingSearchUrl(cdsSiteId);
         return timer(0, POLL_INTERVAL).pipe(
           switchMap(() => this.fetchTrendingSearches(url)),
           takeWhile(() => !this.destroy$.value)

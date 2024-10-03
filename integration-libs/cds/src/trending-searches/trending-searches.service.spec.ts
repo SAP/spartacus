@@ -5,7 +5,7 @@
  *
  */
 
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick, discardPeriodicTasks } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -88,15 +88,15 @@ describe('TrendingSearchesService', () => {
         cdsSiteId: 'main',
       },
     };
-    trendingSearchesService['addTrendingSearchesListener']();
-    trendingSearchesService['getTrendingSearches']().subscribe(
+
+    let emittedSearchPhrases: SearchPhrases[] | undefined;
+    const subscription = trendingSearchesService.getTrendingSearches().subscribe(
       (searchPhrases) => {
-        expect(searchPhrases).toEqual(mockSearchPhrases);
+        emittedSearchPhrases = searchPhrases;
       }
     );
-    tick(150); // simulate the interval
-    tick(150); // simulate the interval
-    tick(0); // simulate the end of the observable chain
+
+    tick(250);
 
     const mockRequest = httpMock.expectOne((req) =>
       req.url.includes(
@@ -105,7 +105,12 @@ describe('TrendingSearchesService', () => {
     );
     mockRequest.flush({ searchPhrases: mockSearchPhrases });
 
+    expect(emittedSearchPhrases).toEqual(mockSearchPhrases);
+
+    subscription.unsubscribe();
     trendingSearchesService.ngOnDestroy();
+
+    discardPeriodicTasks();
   }));
 
   it('should not emit trending searches when not available', fakeAsync(() => {
@@ -114,22 +119,21 @@ describe('TrendingSearchesService', () => {
         cdsSiteId: undefined,
       },
     };
-    trendingSearchesService['addTrendingSearchesListener']();
-    trendingSearchesService['getTrendingSearches']().subscribe(() => {
-      // should not happen
+
+    let emitted = false;
+    const subscription = trendingSearchesService.getTrendingSearches().subscribe(() => {
+      emitted = true;
     });
 
-    // simulate maximum intreval in checkAvailability
-    for (let i = 0; i <= 250; i++) {
-      tick(150);
+    for (let i = 0; i < 100; i++) {
+      tick(250);
     }
 
-    httpMock.expectNone((req) =>
-      req.url.includes(
-        'storksfront-main.api.stage.context.cloud.sap/search-intelligence/v1/sites/main/trendingSearches'
-      )
-    );
+    expect(emitted).toBeFalse();
 
+    subscription.unsubscribe();
     trendingSearchesService.ngOnDestroy();
+
+    discardPeriodicTasks();
   }));
 });
