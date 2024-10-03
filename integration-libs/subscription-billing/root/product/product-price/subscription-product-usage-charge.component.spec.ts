@@ -36,7 +36,9 @@ const mockPerUnit = [
     usageUnit: { namePlural: 'KGs', name: 'KG' },
   },
 ];
-const mockVolume = [{ volumeUsageChargeEntries: [] }];
+const mockVolume = [
+  { tierUsageChargeEntries: mockTierEntries1, overageUsageChargeEntries: [] },
+];
 const mockPercentage = [{ percentageUsageChargeEntries: [] }];
 const mockTier = [{ tierUsageChargeEntries: mockTierEntries1 }];
 

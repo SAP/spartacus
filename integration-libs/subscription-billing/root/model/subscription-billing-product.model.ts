@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import '@spartacus/core';
 import { Price } from '@spartacus/core';
 
 export interface SubscriptionTerm {
