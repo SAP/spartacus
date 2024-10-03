@@ -71,7 +71,7 @@ export class LoadPermissionSuccess extends StateUtils.EntitySuccessAction {
       PERMISSION_ENTITIES,
       Array.isArray(payload)
         ? payload.map((permission) => permission?.code ?? '')
-        : payload?.code ?? ''
+        : (payload?.code ?? '')
     );
   }
 }

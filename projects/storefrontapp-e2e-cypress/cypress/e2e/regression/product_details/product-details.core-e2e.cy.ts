@@ -14,12 +14,14 @@ context('Product details', { testIsolation: false }, () => {
     before(productDetails.configureDefaultProduct);
 
     productDetails.productDetailsTest();
+    productDetails.verifyTabKeyboardNavigation();
   });
 
   describe('Apparel', () => {
     before(productDetails.configureApparelProduct);
 
     productDetails.apparelProductDetailsTest();
+    productDetails.verifyTabKeyboardNavigation();
   });
 });
 
@@ -40,12 +42,14 @@ context(
       before(productDetails.configureDefaultProduct);
 
       productDetails.productDetailsTest();
+      productDetails.verifyTabKeyboardNavigation(true);
     });
 
     describe('Apparel', () => {
       before(productDetails.configureApparelProduct);
 
       productDetails.apparelProductDetailsTest();
+      productDetails.verifyTabKeyboardNavigation(true);
     });
   }
 );

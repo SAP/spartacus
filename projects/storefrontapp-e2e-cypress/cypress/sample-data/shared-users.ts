@@ -11,7 +11,7 @@ export const standardUser: AccountData = {
   registrationData: {
     firstName: 'Cypress',
     lastName: 'User',
-    password: 'Password123.',
+    password: 'Pas!sword123.',
     titleCode: 'mr',
   },
 };

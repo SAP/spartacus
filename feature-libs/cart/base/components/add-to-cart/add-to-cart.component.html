@@ -45,9 +45,6 @@
       ><cx-icon [type]="iconTypes.REPEAT"></cx-icon
     ></span>
     <span
-      attr.aria-label="{{
-        options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate)
-      }}"
       [ngClass]="
         options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate)
           ? 'buyItAgainLink'

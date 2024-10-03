@@ -45,6 +45,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService
   ) {
     useFeatureStyles('a11yExpandedFocusIndicator');
+    useFeatureStyles('a11yUseButtonsForBtnLinks');
   }
 
   ngOnInit(): void {

@@ -7,7 +7,7 @@
         [routerLink]="
           {
             cxRoute: 'orgUnitDetails',
-            params: { uid: model.id }
+            params: { uid: model.id },
           } | cxUrl
         "
       >
@@ -48,7 +48,7 @@
     placement: 'auto',
     class: 'my-company-popover',
     appendToBody: true,
-    displayCloseButton: true
+    displayCloseButton: true,
   }"
 >
   {{ model.name }}
