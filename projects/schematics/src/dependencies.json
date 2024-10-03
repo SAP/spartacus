@@ -24,7 +24,10 @@
     "typescript": "^5.2.2"
   },
   "ssr-tests": {
-    "http-proxy": "^1.18.1"
+    "@spartacus/core": "2211.29.0-2",
+    "http-proxy": "^1.18.1",
+    "jest-circus": "^29.0.0",
+    "jest-environment-node": "^29.0.0"
   },
   "storefrontapp-e2e-cypress": {},
   "@spartacus/storefront": {
@@ -43,7 +46,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/styles": {
-    "@fontsource/open-sans": "^4.5.14",
+    "@fontsource/open-sans": "~5.0.12",
     "@fortawesome/fontawesome-free": "6.5.1",
     "@ng-select/ng-select": "^12.0.4",
     "bootstrap": "^4.6.2"
@@ -483,7 +486,7 @@
     "@angular/router": "^17.0.5",
     "@angular/service-worker": "^17.0.5",
     "@angular/ssr": "^17.0.5",
-    "@fontsource/open-sans": "^4.5.14",
+    "@fontsource/open-sans": "~5.0.12",
     "@fortawesome/fontawesome-free": "6.5.1",
     "@ng-select/ng-select": "^12.0.4",
     "@ngrx/effects": "^17.0.1",

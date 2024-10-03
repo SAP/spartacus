@@ -178,7 +178,7 @@ describe('Carousel Component', () => {
 
       it('should have disabled previous button on slide 1', () => {
         const el = fixture.debugElement.query(
-          By.css('button.previous[disabled]')
+          By.css('button.previous[aria-disabled="true"]')
         );
         expect(el.nativeElement).toBeTruthy();
       });
@@ -192,20 +192,24 @@ describe('Carousel Component', () => {
         const el = fixture.debugElement.query(By.css('button.next'));
         (<HTMLElement>el.nativeElement).click();
         fixture.detectChanges();
-        expect(el.nativeElement.disabled).toBe(true);
+        expect(el.nativeElement.getAttribute('aria-disabled')).toBe('true');
       });
 
       it('should enabled previous button after clicking on next button', () => {
         const prevButton = fixture.debugElement.query(
           By.css('button.previous')
         );
-        expect(prevButton.nativeElement.disabled).toBe(true);
+        expect(prevButton.nativeElement.getAttribute('aria-disabled')).toBe(
+          'true'
+        );
 
         const nextButton = fixture.debugElement.query(By.css('button.next'));
         (<HTMLElement>nextButton.nativeElement).click();
 
         fixture.detectChanges();
-        expect(prevButton.nativeElement.disabled).toBe(false);
+        expect(prevButton.nativeElement.getAttribute('aria-disabled')).toBe(
+          'false'
+        );
       });
 
       it('should toggle disabled state of previous/next buttons after navigating to next slide', () => {
@@ -216,8 +220,12 @@ describe('Carousel Component', () => {
         (<HTMLElement>nextButton.nativeElement).click();
 
         fixture.detectChanges();
-        expect(prevButton.nativeElement.disabled).toBe(false);
-        expect(nextButton.nativeElement.disabled).toBe(true);
+        expect(prevButton.nativeElement.getAttribute('aria-disabled')).toBe(
+          'false'
+        );
+        expect(nextButton.nativeElement.getAttribute('aria-disabled')).toBe(
+          'true'
+        );
       });
 
       it('should have 2 indicators', () => {
@@ -231,7 +239,7 @@ describe('Carousel Component', () => {
         const el = fixture.debugElement.queryAll(
           By.css('div.indicators button')
         );
-        expect(el[0].nativeElement.disabled).toEqual(true);
+        expect(el[0].nativeElement.getAttribute('aria-disabled')).toBe('true');
       });
 
       it('should have enabled indicator', () => {
@@ -246,14 +254,22 @@ describe('Carousel Component', () => {
           By.css('div.indicators button')
         );
 
-        expect(indicators[0].nativeElement.disabled).toBe(true);
-        expect(indicators[1].nativeElement.disabled).toBe(false);
+        expect(indicators[0].nativeElement.getAttribute('aria-disabled')).toBe(
+          'true'
+        );
+        expect(indicators[1].nativeElement.getAttribute('aria-disabled')).toBe(
+          'false'
+        );
 
         indicators[1].nativeElement.click();
 
         fixture.detectChanges();
-        expect(indicators[0].nativeElement.disabled).toBe(false);
-        expect(indicators[1].nativeElement.disabled).toBe(true);
+        expect(indicators[0].nativeElement.getAttribute('aria-disabled')).toBe(
+          'false'
+        );
+        expect(indicators[1].nativeElement.getAttribute('aria-disabled')).toBe(
+          'true'
+        );
       });
     });
 

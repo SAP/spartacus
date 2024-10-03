@@ -17,6 +17,7 @@
       "placeholder": "New Password"
     },
     "passwordMinRequirements": "Here's a quick guide for a secure password: Use at least 8 characters with a mix of upper and lowercase letters, numbers, and symbols.",
+    "passwordStrengthRequirements": "Here's a quick guide for a secure password: Use at least 8 characters with a mix of upper and lowercase letters, numbers, and symbols. Make sure not to use the same character consecutively.",
     "confirmPassword": {
       "label": "Confirm New Password",
       "placeholder": "Confirm Password"

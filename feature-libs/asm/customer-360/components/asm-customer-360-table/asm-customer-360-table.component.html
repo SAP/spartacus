@@ -57,7 +57,7 @@
               column.headerTextAlign === CustomerTableTextAlign.START,
             'text-center':
               column.headerTextAlign === CustomerTableTextAlign.CENTER,
-            'text-end': column.headerTextAlign === CustomerTableTextAlign.END
+            'text-end': column.headerTextAlign === CustomerTableTextAlign.END,
           }"
           (click)="setSelectedTabIndex(columnIndex, 0)"
         >
@@ -96,7 +96,7 @@
           [ngClass]="{
             'text-start': column.textAlign === CustomerTableTextAlign.START,
             'text-center': column.textAlign === CustomerTableTextAlign.CENTER,
-            'text-end': column.textAlign === CustomerTableTextAlign.END
+            'text-end': column.textAlign === CustomerTableTextAlign.END,
           }"
         >
           <ng-container

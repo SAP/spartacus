@@ -26,8 +26,8 @@ context('Reset Password Page', () => {
     // The form is submitted without a change password token. An error message should appear and the page should not change.
     alerts.getErrorAlert().should('not.exist');
     cy.get('cx-reset-password form').within(() => {
-      cy.get('[formcontrolname="password"]').type('N3wPassword!');
-      cy.get('[formcontrolname="passwordConfirm"]').type('N3wPassword!');
+      cy.get('[formcontrolname="password"]').type('N3wPas!sword!');
+      cy.get('[formcontrolname="passwordConfirm"]').type('N3wPas!sword!');
       cy.get('button.btn-primary').click();
     });
     cy.url().should('match', /\/login\/pw\/change\?token\=123$/);
@@ -49,8 +49,8 @@ context('Reset Password Page', () => {
     alerts.getSuccessAlert().should('not.exist');
 
     cy.get('cx-reset-password form').within(() => {
-      cy.get('[formcontrolname="password"]').type('N3wPassword!');
-      cy.get('[formcontrolname="passwordConfirm"]').type('N3wPassword!');
+      cy.get('[formcontrolname="password"]').type('N3wPas!sword!');
+      cy.get('[formcontrolname="passwordConfirm"]').type('N3wPas!sword!');
       cy.get('button.btn-primary').click();
     });
     cy.url().should('match', /\/login$/);

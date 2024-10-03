@@ -78,7 +78,7 @@ export class LoadCostCenterSuccess extends StateUtils.EntitySuccessAction {
       COST_CENTER_ENTITIES,
       Array.isArray(payload)
         ? payload.map((costCenter) => costCenter?.code ?? '')
-        : payload?.code ?? ''
+        : (payload?.code ?? '')
     );
   }
 }

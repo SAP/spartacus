@@ -210,8 +210,8 @@ export class OptimizedSsrEngine {
    */
   protected getTimeout(request: Request): number {
     return this.getRenderingStrategy(request) === RenderingStrategy.ALWAYS_SSR
-      ? this.ssrOptions?.forcedSsrTimeout ?? 60000
-      : this.ssrOptions?.timeout ?? 0;
+      ? (this.ssrOptions?.forcedSsrTimeout ?? 60000)
+      : (this.ssrOptions?.timeout ?? 0);
   }
 
   /**

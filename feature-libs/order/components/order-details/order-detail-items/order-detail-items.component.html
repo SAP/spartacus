@@ -37,7 +37,7 @@
       [cxOutlet]="OrderOutlets.CONSIGNMENT_DELIVERY_INFO"
       [cxOutletContext]="{
         showItemList: false,
-        order: order
+        order: order,
       }"
     >
     </ng-template>
@@ -69,7 +69,7 @@
           <ng-template
             [cxAbstractOrderContext]="{
               id: order.code,
-              type: abstractOrderType.ORDER
+              type: abstractOrderType.ORDER,
             }"
             [cxOutlet]="CartOutlets.CART_ITEM_LIST"
             [cxOutletContext]="{
@@ -79,8 +79,8 @@
               options: {
                 displayAddToCart: enableAddToCart$ | async,
                 addToCartString: 'addToCart.buyItAgain' | cxTranslate,
-                optionalBtn: addToCartBtn
-              }
+                optionalBtn: addToCartBtn,
+              },
             }"
           >
           </ng-template>
@@ -95,7 +95,7 @@
           <ng-template
             [cxAbstractOrderContext]="{
               id: order.code,
-              type: abstractOrderType.ORDER
+              type: abstractOrderType.ORDER,
             }"
             [cxOutlet]="CartOutlets.CART_ITEM_LIST"
             [cxOutletContext]="{
@@ -105,8 +105,8 @@
               options: {
                 displayAddToCart: enableAddToCart$ | async,
                 addToCartString: 'addToCart.buyItAgain' | cxTranslate,
-                optionalBtn: addToCartBtn
-              }
+                optionalBtn: addToCartBtn,
+              },
             }"
           >
           </ng-template>
@@ -128,7 +128,7 @@
           <ng-template
             [cxAbstractOrderContext]="{
               id: order.code,
-              type: abstractOrderType.ORDER
+              type: abstractOrderType.ORDER,
             }"
             [cxOutlet]="CartOutlets.CART_ITEM_LIST"
             [cxOutletContext]="{
@@ -138,8 +138,8 @@
               options: {
                 displayAddToCart: enableAddToCart$ | async,
                 addToCartString: 'addToCart.buyItAgain' | cxTranslate,
-                optionalBtn: addToCartBtn
-              }
+                optionalBtn: addToCartBtn,
+              },
             }"
           >
           </ng-template>

@@ -5,7 +5,7 @@
     [attr.aria-label]="'asm.bindCart.assignCartId' | cxTranslate"
     [ngClass]="{
       'cx-asm-assignCart': !isShowStyleChangesInASM,
-      'cx-asm-assignCart-input-show-no-button': isShowStyleChangesInASM
+      'cx-asm-assignCart-input-show-no-button': isShowStyleChangesInASM,
     }"
     [class.active]="valid$ | async"
     (click)="cartIdElement.focus()"

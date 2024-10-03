@@ -28,7 +28,7 @@
         getFormattedStoreAddress([
           location.address.town,
           location.address.postalCode,
-          location.address.country.isocode
+          location.address.country.isocode,
         ])
       }}
       <div
@@ -42,7 +42,7 @@
       [cxOutlet]="StoreFinderOutlets.PREFERRED_STORE"
       [cxOutletContext]="{
         displayName: location.displayName,
-        name: location.name
+        name: location.name,
       }"
     ></ng-template>
 
