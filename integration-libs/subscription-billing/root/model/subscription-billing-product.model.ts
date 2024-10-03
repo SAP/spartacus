@@ -1,22 +1,11 @@
 import '@spartacus/core';
 import { Price } from '@spartacus/core';
 
-// IMPORTANT: re-visit this whole model with ASHOK once
-
 export interface SubscriptionTerm {
-  id?: string;
-  name?: string;
   renewalTerm?: TermType;
   minimumTerm?: TermType;
   billingPlan?: {
-    id?: string;
-    name?: string;
-    billingCycleDay?: number;
     billingTime?: BillingTime;
-    billingCycle?: {
-      id?: string;
-      name?: string;
-    };
   };
 }
 
@@ -25,6 +14,14 @@ export interface BillingTime {
   name?: string;
   description?: string;
   namePastTense?: string;
+}
+
+export interface TermType {
+  value?: number;
+  frequency?: {
+    id?: string;
+    name?: string;
+  };
 }
 
 export interface PricePlan {
@@ -37,67 +34,52 @@ export interface PricePlan {
   tierUsageCharges?: TierUsageCharge[];
 }
 
-export interface TermType {
-  value?: number;
-  frequency?: {
-    id?: string;
-    name?: string;
-  };
-}
-
-export interface RecurringCharge {
-  price?: Price;
-}
-
 export interface OneTimeCharge {
   price?: Price;
   name?: string;
   billingTime?: BillingTime;
 }
 
+export interface RecurringCharge {
+  price?: Price;
+}
+
 export interface PerUnitUsageCharge {
-  name?: string;
-  minBlocks?: number;
   usageUnit?: UsageUnit;
-  tierUsageChargeEntries?: TierUsageChargeEntry[];
-  overageUsageChargeEntries?: UsageChargeEntry[];
-  usageChargeType?: UsageChargeType;
   blockSize?: number;
   includedQty?: number;
-  ratio?: string;
   perUnitUsageChargeEntries?: UsageChargeEntry[];
 }
 
 export interface VolumeUsageCharge {
-  name?: string;
-  minBlocks?: number;
   usageUnit?: UsageUnit;
   tierUsageChargeEntries?: TierUsageChargeEntry[];
-  overageUsageChargeEntries?: UsageChargeEntry[];
-  volumeUsageChargeEntries?: UsageChargeEntry[];
+  overageUsageChargeEntries?: OverageUsageChargeEntry[];
 }
 
 export interface PercentageUsageCharge {
-  usageChargeType?: UsageChargeType;
   ratio?: string;
   percentageUsageChargeEntries?: UsageChargeEntry[];
   usageUnit?: UsageUnit;
 }
 
 export interface TierUsageCharge {
-  usageChargeType?: UsageChargeType;
-  includedQty?: number;
   usageUnit?: UsageUnit;
+  minBlocks?: number;
   tierUsageChargeEntries?: TierUsageChargeEntry[];
-  overageUsageChargeEntries?: UsageChargeEntry[];
+  overageUsageChargeEntries?: OverageUsageChargeEntry[];
 }
 
 export interface UsageChargeEntry {
   price?: Price;
+}
+
+export interface OverageUsageChargeEntry extends UsageChargeEntry {
   fixedPrice?: Price;
 }
 
 export interface TierUsageChargeEntry extends UsageChargeEntry {
+  fixedPrice?: Price;
   tierStart?: number;
   tierEnd?: number;
 }
@@ -106,10 +88,4 @@ export interface UsageUnit {
   id?: string;
   name?: string;
   namePlural?: string;
-}
-
-export interface UsageChargeType {
-  id?: string;
-  name?: string;
-  code?: string;
 }

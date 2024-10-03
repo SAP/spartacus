@@ -108,18 +108,6 @@
     class="cx-tierusage-charge"
     *ngFor="let usageCharge of getTierUsageCharges()"
   >
-    <div *ngIf="usageCharge.includedQty ?? 0 > 0">
-      {{
-        'subscriptionProduct.includedQuantity'
-          | cxTranslate
-            : {
-                quantity:
-                  usageCharge.includedQty ??
-                  '' + usageCharge.usageUnit?.namePlural
-              }
-      }}
-    </div>
-
     <div *ngFor="let usageChargeEntry of usageCharge.tierUsageChargeEntries">
       {{
         'subscriptionProduct.usage'
