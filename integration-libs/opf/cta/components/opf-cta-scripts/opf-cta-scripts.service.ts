@@ -65,6 +65,7 @@ export class OpfCtaScriptsService {
 
   getCtaHtmlslList(): Observable<OpfDynamicScript[]> {
     let isDynamicCtaLocation = false;
+    this.opfDynamicCtaService.registerScriptReadyEvent();
     return this.fillCtaScriptRequest().pipe(
       concatMap((ctaScriptsRequest) => {
         isDynamicCtaLocation =

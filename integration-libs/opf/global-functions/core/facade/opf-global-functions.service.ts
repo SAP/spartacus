@@ -341,10 +341,12 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     };
   }
   protected registerCtaScriptReady(domain: GlobalFunctionsDomain): void {
+    console.log('spa GF: registerCtaScriptReady');
     this.getGlobalFunctionContainer(domain).scriptReady = (
       scriptIdentifier: string
     ): void => {
       this.ngZone.run(() => {
+        console.log('spa GF: emit zone');
         this.opfCtaFacade.emitScriptReadyEvent(scriptIdentifier);
       });
     };
