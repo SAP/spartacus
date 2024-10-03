@@ -8,7 +8,7 @@ module.exports = {
   }),
   testMatch: ['**/+(*.)+(spec).+(ts)'],
   transform: {
-    '^.+\\.(ts|js|mjs|html|svg)$': ['ts-jest'],
+    '^.+\\.(ts|js|mjs)$': ['ts-jest'],
   },
 
   collectCoverage: false,
