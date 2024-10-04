@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   OutletContextData,
   SearchBoxComponentService,
@@ -19,6 +24,7 @@ const MAX_TRENDING_SEARCHES = 5;
 @Component({
   selector: 'cx-trending-searches',
   templateUrl: './trending-searches.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrendingSearchesComponent implements OnInit {
   public searchPhrases$: Observable<SearchPhrases[]>;
