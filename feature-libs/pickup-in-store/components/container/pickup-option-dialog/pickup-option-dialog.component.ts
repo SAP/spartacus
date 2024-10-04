@@ -29,7 +29,7 @@ import {
 } from '@spartacus/storefront';
 
 import { Observable, Subscription } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 
 /**
  * The dialog box to select the pickup location for a product.
@@ -164,25 +164,6 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
     if (reason === this.CLOSE_WITHOUT_SELECTION) {
-      this.intendedPickupLocationService
-        .getIntendedLocation(this.productCode)
-        .pipe(
-          filter(
-            (store: AugmentedPointOfService | undefined) =>
-              typeof store !== 'undefined'
-          ),
-          map((store) => store as AugmentedPointOfService),
-          filter((store) => !store.name),
-          take(1),
-          tap(() =>
-            this.intendedPickupLocationService.setPickupOption(
-              this.productCode,
-              'delivery'
-            )
-          )
-        )
-        .subscribe();
-      this.pickupOptionFacade.setPickupOption(this.entryNumber, 'delivery');
       return;
     }
     this.subscription.add(

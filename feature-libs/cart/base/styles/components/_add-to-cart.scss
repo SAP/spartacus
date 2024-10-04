@@ -29,4 +29,50 @@
   .buyItAgainLink {
     color: var(--cx-color-primary);
   }
+
+  .cx-invalid-message {
+    font-size: 14px;
+    margin: 6px 0;
+    padding-inline-start: 25px;
+    position: relative;
+    word-break: break-word;
+
+    @include forFeature('a11yImproveContrast') {
+      @include type('7');
+    }
+
+    &::before,
+    &::after {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      width: 20px;
+      height: 20px;
+    }
+
+    &::before {
+      content: '';
+      background-color: var(--cx-color-danger);
+      border-radius: 50%;
+    }
+
+    &::after {
+      content: '!';
+      // TODO: (CXSPA-7588) - Remove feature flag next major release
+      @include forFeature('a11yFormErrorMuteIcon') {
+        content: '!' / '';
+      }
+      color: var(--cx-color-inverse);
+      font-weight: var(--cx-font-weight-bold);
+      text-align: center;
+      line-height: 20px;
+    }
+
+    &:focus {
+      box-shadow: none;
+      -webkit-box-shadow: none;
+    }
+  }
 }

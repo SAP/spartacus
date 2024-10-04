@@ -8,8 +8,10 @@ import {
   Component,
   ElementRef,
   inject,
+  EventEmitter,
   OnDestroy,
   OnInit,
+  Output,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -63,6 +65,9 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
    * The 'triggerElement' is passed through 'PickupOptionChange' event instead.
    */
   @ViewChild('open') element: ElementRef;
+  @Output() intendedPickupChange = new EventEmitter<
+    AugmentedPointOfService | undefined
+  >();
   subscription = new Subscription();
 
   availableForPickup = false;
@@ -70,7 +75,6 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   pickupOption$: Observable<PickupOption>;
   intendedPickupLocation$: Observable<AugmentedPointOfService | undefined>;
   private productCode: string;
-  private displayNameIsSet = false;
 
   private featureConfigService = inject(FeatureConfigService);
   constructor(
@@ -135,8 +139,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
               })
             )
         )
-      ),
-      tap(() => (this.displayNameIsSet = true))
+      )
     );
 
     this.intendedPickupLocation$ = this.currentProductService.getProduct().pipe(
@@ -145,6 +148,10 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       switchMap((productCode) =>
         this.intendedPickupLocationService.getIntendedLocation(productCode)
       )
+    );
+
+    this.subscription.add(
+      this.intendedPickupLocation$.subscribe(this.intendedPickupChange)
     );
 
     this.subscription.add(
@@ -206,28 +213,16 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       this.featureConfigService.isEnabled('a11yDialogTriggerRefocus') &&
       typeof event === 'object'
     ) {
-      const { option, triggerElement = undefined } = event;
+      const { option } = event;
       this.intendedPickupLocationService.setPickupOption(
         this.productCode,
         option
       );
-      if (option === 'delivery') {
-        return;
-      }
-      if (!this.displayNameIsSet) {
-        this.openDialog(triggerElement);
-      }
     } else if (typeof event === 'string') {
       this.intendedPickupLocationService.setPickupOption(
         this.productCode,
         event
       );
-      if (event === 'delivery') {
-        return;
-      }
-      if (!this.displayNameIsSet) {
-        this.openDialog();
-      }
     }
   }
 }

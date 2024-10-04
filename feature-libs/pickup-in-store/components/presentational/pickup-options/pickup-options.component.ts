@@ -5,19 +5,34 @@
  */
 
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   inject,
   Input,
   OnChanges,
+  OnDestroy,
   Output,
   ViewChild,
+  TemplateRef,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FeatureConfigService, useFeatureStyles } from '@spartacus/core';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
+import { TabComponent } from 'projects/storefrontlib/cms-components/content/tab/tab.component';
+import {
+  TAB_MODE,
+  Tab,
+  TabConfig,
+} from 'projects/storefrontlib/cms-components/content/tab/tab.model';
+import { Subscription, take } from 'rxjs';
 
+enum PickupOptionsTabs {
+  'DELIVERY',
+  'PICKUP',
+}
 /**
  * The presentational component of a pair of radio buttons for pickup options for a product.
  */
@@ -25,7 +40,10 @@ import { PickupOption } from '@spartacus/pickup-in-store/root';
   selector: 'cx-pickup-options',
   templateUrl: './pickup-options.component.html',
 })
-export class PickupOptionsComponent implements OnChanges {
+export class PickupOptionsComponent
+  implements OnChanges, AfterViewInit, OnDestroy
+{
+  protected subscription = new Subscription();
   /** The selected option, either `'pickup'` or `'delivery'`. */
   @Input() selectedOption: PickupOption;
   /** The location to display in the pickup option. */
@@ -54,7 +72,17 @@ export class PickupOptionsComponent implements OnChanges {
   pickupOptionsForm = new FormGroup({
     pickupOption: new FormControl<PickupOption | null>(null),
   });
+  tabs: Tab[];
+  tabConfig: TabConfig = {
+    label: 'pickupOptions.legend',
+    openTabs: [PickupOptionsTabs.DELIVERY],
+  };
 
+  @ViewChild('deliveryTabPanel') deliveryTabPanel: TemplateRef<any>;
+  @ViewChild('pickupTabPanel') pickupTabPanel: TemplateRef<any>;
+  @ViewChild(TabComponent) tabComponent: TabComponent | undefined;
+
+  protected cdr = inject(ChangeDetectorRef);
   constructor() {
     useFeatureStyles('a11yDeliveryMethodFieldset');
   }
@@ -65,6 +93,46 @@ export class PickupOptionsComponent implements OnChanges {
     }
     this.pickupOptionsForm.markAllAsTouched();
     this.pickupOptionsForm.get('pickupOption')?.setValue(this.selectedOption);
+    this.onSelectedOptionChange();
+  }
+
+  protected onSelectedOptionChange() {
+    if (!this.tabComponent) return;
+    this.tabComponent.openTabs$.pipe(take(1)).subscribe((openTabs) => {
+      const openedTab = openTabs[0];
+      const shouldBeOpened =
+        this.selectedOption === 'delivery'
+          ? PickupOptionsTabs.DELIVERY
+          : PickupOptionsTabs.PICKUP;
+      if (openedTab !== shouldBeOpened) {
+        this.tabComponent?.select(shouldBeOpened, TAB_MODE.TAB);
+      }
+    });
+  }
+
+  ngAfterViewInit() {
+    this.tabs = [
+      {
+        header: 'Ship it',
+        content: this.deliveryTabPanel,
+        id: PickupOptionsTabs.DELIVERY,
+      },
+      {
+        header: 'Free Pickup In Store',
+        content: this.pickupTabPanel,
+        id: PickupOptionsTabs.PICKUP,
+      },
+    ];
+    this.cdr.detectChanges();
+    this.subscription.add(
+      this.tabComponent?.openTabs$.subscribe((openTabs) => {
+        // open tabs should have one tab opened for mode "TAB"
+        const openedTab = openTabs[0];
+        const selectedOption =
+          openedTab === PickupOptionsTabs.DELIVERY ? 'delivery' : 'pickup';
+        this.onPickupOptionChange(selectedOption);
+      })
+    );
   }
 
   /** Emit a new selected option. */
@@ -88,5 +156,9 @@ export class PickupOptionsComponent implements OnChanges {
     }
     // Return false to stop `onPickupOptionChange` being called after this
     return false;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
