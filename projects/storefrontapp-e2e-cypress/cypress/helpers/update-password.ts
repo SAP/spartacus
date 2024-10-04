@@ -13,7 +13,7 @@ import { standardUser } from '../sample-data/shared-users';
 export const PAGE_TITLE_HOME = 'Homepage';
 export const PAGE_TITLE_LOGIN = 'Login';
 export const PAGE_URL_UPDATE_PASSWORD = '/my-account/update-password';
-export const newPassword = 'newPassword123!';
+export const newPassword = 'newPas!sword123!';
 
 import { signOutUser } from '../helpers/login';
 import { generateMail, randomString } from '../helpers/user';

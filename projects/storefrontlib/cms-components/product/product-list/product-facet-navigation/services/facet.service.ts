@@ -54,7 +54,7 @@ export class FacetService {
    */
   getState(facet: Facet): Observable<FacetCollapseState> {
     this.initialize(facet);
-    return facet.name ? this.facetState.get(facet.name) ?? of({}) : of({});
+    return facet.name ? (this.facetState.get(facet.name) ?? of({})) : of({});
   }
 
   /**

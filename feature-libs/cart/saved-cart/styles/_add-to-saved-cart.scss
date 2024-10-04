@@ -9,6 +9,12 @@ cx-add-to-saved-cart {
     .cx-action-link {
       &:nth-child(n + 2) {
         margin-inline-end: 0;
+
+        @include forFeature('a11yUseButtonsForBtnLinks') {
+          display: flex;
+          align-items: start;
+        }
+
         &:before {
           content: '|';
           @include forFeature('a11yExpandedFocusIndicator') {
