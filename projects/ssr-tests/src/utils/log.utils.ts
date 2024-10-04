@@ -29,9 +29,6 @@ export function clearSsrLogFile(): void {
  * Returns raw logs as an array of strings.
  *
  * Note: Non-JSON log entries are also included in the returned array.
- *
- * It also validates whether each line starting with `{` is a valid JSON object.
- * Otherwise it throws an error.
  */
 export function getRawLogs(): string[] {
   const data = fs.readFileSync(SSR_LOG_PATH).toString();
