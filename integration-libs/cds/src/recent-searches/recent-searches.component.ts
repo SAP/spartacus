@@ -10,7 +10,6 @@ import {
   inject,
   OnInit,
   Optional,
-  OnDestroy,
 } from '@angular/core';
 import {
   OutletContextData,
@@ -18,7 +17,7 @@ import {
 } from '@spartacus/storefront';
 import { RecentSearchesService } from './recent-searches.service';
 import { map, tap } from 'rxjs/operators';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 
 export interface SearchBoxOutlet {
   search: string;
@@ -33,12 +32,11 @@ const MAX_RECENT_SEARCHES = 5;
   templateUrl: './recent-searches.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RecentSearchesComponent implements OnInit, OnDestroy {
+export class RecentSearchesComponent implements OnInit {
   public result$: Observable<string[]>;
   public outletContext$: Observable<SearchBoxOutlet>;
   protected recentSearchesService = inject(RecentSearchesService);
   protected searchBoxComponentService = inject(SearchBoxComponentService);
-  protected destroy$ = new Subject<void>();
 
   constructor(
     @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>
@@ -78,10 +76,5 @@ export class RecentSearchesComponent implements OnInit, OnDestroy {
       throw new Error('Missing Event');
     }
     this.searchBoxComponentService.shareEvent(event);
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }
