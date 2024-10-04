@@ -26,68 +26,6 @@ export function clearSsrLogFile(): void {
 }
 
 /**
- * Validates that all lines starting with `{` are valid JSON objects.
- * Otherwise it warns.
- *
- * Note: multi-line JSONs (printed by SSR in dev mode) cannot be parsed by `JSON.parse`.
- *       That's why we need to to run SSR in prod mode to get single line JSON logs.
- */
-function validateJsonsInLogs(rawLogs: string[]): void {
-  for (const logLine of rawLogs) {
-    if (logLine.charAt(0) === '{') {
-      try {
-        JSON.parse(logLine);
-      } catch (_e) {
-        const surroundingLinesRadius = 2;
-        const surroundingLines = getSurroundingLines({
-          allLines: rawLogs,
-          line: logLine,
-          radius: surroundingLinesRadius,
-        });
-
-        console.warn(
-          `
-          Encountered in SSR Logs a line starting with \`{\` that could not be parsed as JSON.
-          Perhaps its a multi-line JSON log from SSR dev mode.
-          Please make sure to build Spartacus SSR in prod mode prior to running SSR Tests
-          to get single line JSONs that can be parsed in tests.
-          
-          For specific context, see ${surroundingLinesRadius * 2 + 1} raw log lines below (previous ${surroundingLinesRadius} lines, current line, next ${surroundingLinesRadius} lines):
-\`\`\`
-${surroundingLines.join('\n')}
-\`\`\`
-`
-        );
-        break;
-      }
-    }
-  }
-}
-
-/**
- * Returns the given line with surrounding lines.
- * e.g. if the radius is 2, the function will return the given line
- * and the 2 lines before and 2 lines after it. In other words, it returns an array of 5 lines.
- */
-function getSurroundingLines({
-  allLines,
-  line,
-  radius,
-}: {
-  allLines: string[];
-  line: string;
-  radius: number;
-}): string[] {
-  const logLineIndex = allLines.indexOf(line);
-  const surroundingStartIndex = Math.max(0, logLineIndex - radius);
-  const surroundingEndIndex = Math.min(
-    allLines.length,
-    logLineIndex + radius + 1
-  );
-  return allLines.slice(surroundingStartIndex, surroundingEndIndex);
-}
-
-/**
  * Returns raw logs as an array of strings.
  *
  * Note: Non-JSON log entries are also included in the returned array.
@@ -98,7 +36,6 @@ function getSurroundingLines({
 export function getRawLogs(): string[] {
   const data = fs.readFileSync(SSR_LOG_PATH).toString();
   const logs = data.toString().split('\n');
-  validateJsonsInLogs(logs);
   return logs;
 }
 
