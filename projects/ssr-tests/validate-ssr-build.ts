@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * Verify that the SSR app under tests meets the following criteria:
  * 1. The app us built in prod mode.
