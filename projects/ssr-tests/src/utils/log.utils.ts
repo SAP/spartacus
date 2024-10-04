@@ -26,6 +26,29 @@ export function clearSsrLogFile(): void {
 }
 
 /**
+ * Validates that all lines starting with `{` are valid JSON objects.
+ * Otherwise it throws an error.
+ *
+ * Note: multi-line JSONs (printed by SSR in dev mode) cannot be parsed by `JSON.parse`.
+ *       That's why we need to to run SSR in prod mode to get single line JSON logs.
+ */
+function validateJsonsInLogs(logs: string[]): void {
+  logs.forEach((text) => {
+    if (text.charAt(0) === '{') {
+      try {
+        JSON.parse(text);
+      } catch (error) {
+        throw new Error(
+          `Encountered in SSR Logs a line starting with \`{\` that could not be parsed as JSON.
+          Perhaps its a multi-line JSON log from SSR dev mode.
+          Please make sure to build Spartacus SSR in prod mode - to get single line JSONs that can be parsed in tests.`
+        );
+      }
+    }
+  });
+}
+
+/**
  * Returns raw logs as an array of strings.
  *
  * Note: Non-JSON log entries are also included in the returned array.
@@ -36,6 +59,7 @@ export function clearSsrLogFile(): void {
 export function getRawLogs(): string[] {
   const data = fs.readFileSync(SSR_LOG_PATH).toString();
   const logs = data.toString().split('\n');
+  validateJsonsInLogs(logs);
   return logs;
 }
 
