@@ -15,32 +15,11 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import {
-  BaseSiteService,
-  RouterState,
-  RoutingService,
-  WindowRef,
-} from '@spartacus/core';
+import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { TrendingSearchesService } from './trending-searches.service';
 import { Observable, of } from 'rxjs';
 import { SearchPhrases } from './model';
 import { CdsConfig } from '@spartacus/cds';
-
-let routerStateObservable: any = null;
-
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
-
-const baseSite = 'main';
-
-class MockBaseSiteService {
-  getActive(): Observable<string> {
-    return of(baseSite);
-  }
-}
 
 const mockCDSConfig: CdsConfig = {
   cds: {
@@ -54,8 +33,14 @@ const mockCDSConfig: CdsConfig = {
   },
 };
 
+class MockBaseSiteService {
+  getActive(): Observable<string> {
+    return of('main');
+  }
+}
+
 describe('TrendingSearchesService', () => {
-  let trendingSearchesService: TrendingSearchesService;
+  let service: TrendingSearchesService;
   let httpMock: HttpTestingController;
   let windowRef: WindowRef;
 
@@ -63,62 +48,69 @@ describe('TrendingSearchesService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
+        TrendingSearchesService,
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: CdsConfig, useValue: mockCDSConfig },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
         WindowRef,
       ],
     });
 
-    trendingSearchesService = TestBed.inject(TrendingSearchesService);
+    service = TestBed.inject(TrendingSearchesService);
     httpMock = TestBed.inject(HttpTestingController);
     windowRef = TestBed.inject(WindowRef);
-  });
 
-  it('should be created', () => {
-    expect(trendingSearchesService).toBeTruthy();
-  });
-
-  it('should emit trending searches when available', fakeAsync(() => {
-    const mockSearchPhrases: SearchPhrases[] = [
-      { searchPhrase: 'beauty', count: 10 },
-      { searchPhrase: 'books', count: 15 },
-    ];
-
+    // Set up window mock
     (<any>windowRef.nativeWindow).Y_TRACKING = {
       config: {
         cdsSiteId: 'main',
       },
     };
+  });
 
-    let emittedSearchPhrases: SearchPhrases[] | undefined;
-    const subscription = trendingSearchesService
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should emit trending searches when available', fakeAsync(() => {
+    const mockSearchPhrases: SearchPhrases[] = [
+      { searchPhrase: 'test1', count: 10 },
+      { searchPhrase: 'test2', count: 15 },
+    ];
+
+    let result: SearchPhrases[] | undefined;
+    const subscription = service
       .getTrendingSearches()
       .subscribe((searchPhrases) => {
-        emittedSearchPhrases = searchPhrases;
+        result = searchPhrases;
       });
 
+    // Fast-forward through the availability check
     tick(250);
 
-    const mockRequest = httpMock.expectOne((req) =>
-      req.url.includes(
-        'storksfront-main.api.stage.context.cloud.sap/search-intelligence/v1/sites/main/trendingSearches'
-      )
+    // Handle the HTTP request
+    const req = httpMock.expectOne(
+      'https://storksfront-main.api.stage.context.cloud.sap/search-intelligence/v1/sites/main/trendingSearches'
     );
-    mockRequest.flush({ searchPhrases: mockSearchPhrases });
+    expect(req.request.method).toBe('GET');
+    req.flush({ searchPhrases: mockSearchPhrases });
 
-    expect(emittedSearchPhrases).toEqual(mockSearchPhrases);
+    // Verify the result
+    expect(result).toEqual(mockSearchPhrases);
 
+    // Clean up
     subscription.unsubscribe();
-    trendingSearchesService.ngOnDestroy();
+    service.ngOnDestroy();
 
+    // Discard any remaining periodic timers
     discardPeriodicTasks();
   }));
 
-  it('should not emit trending searches when not available', fakeAsync(() => {
+  it('should not emit when cdsSiteId is not available', fakeAsync(() => {
+    // Reset window mock
     (<any>windowRef.nativeWindow).Y_TRACKING = {
       config: {
         cdsSiteId: undefined,
@@ -126,11 +118,9 @@ describe('TrendingSearchesService', () => {
     };
 
     let emitted = false;
-    const subscription = trendingSearchesService
-      .getTrendingSearches()
-      .subscribe(() => {
-        emitted = true;
-      });
+    const subscription = service.getTrendingSearches().subscribe(() => {
+      emitted = true;
+    });
 
     for (let i = 0; i < 100; i++) {
       tick(250);
@@ -138,9 +128,11 @@ describe('TrendingSearchesService', () => {
 
     expect(emitted).toBeFalse();
 
+    // Clean up
     subscription.unsubscribe();
-    trendingSearchesService.ngOnDestroy();
+    service.ngOnDestroy();
 
+    // Discard any remaining periodic timers
     discardPeriodicTasks();
   }));
 });
