@@ -64,8 +64,7 @@ export class TrendingSearchesService implements OnDestroy {
   protected fetchTrendingSearches(url: string): Observable<SearchPhrases[]> {
     return this.httpClient.get<any>(url).pipe(
       map((data) => data?.searchPhrases),
-      catchError((error) => {
-        console.error('Error fetching trending searches:', error);
+      catchError(() => {
         return EMPTY;
       })
     );
