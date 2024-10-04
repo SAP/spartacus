@@ -49,9 +49,8 @@ const SSR_APP_PATH = path.join(
  * Advice to the user on how to build the SSR app in prod mode to use a local backend proxy.
  */
 const BUILD_COMMAND_ADVICE =
-  colorToYellow(`Please build the SSR app with the following command:
-
-> npm run build && npm run build:ssr:local-http-backend`);
+  colorToYellow('Please build the SSR app with the following command\n') +
+  colorToYellow('> npm run build && npm run build:ssr:local-http-backend\n');
 
 export default async function validateSsrBuild() {
   if (!fs.existsSync(SSR_APP_PATH)) {
