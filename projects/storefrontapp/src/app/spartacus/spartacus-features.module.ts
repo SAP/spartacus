@@ -375,6 +375,7 @@ if (environment.subscriptionBilling) {
         a11yQuickOrderAriaControls: true,
         a11yRemoveStatusLoadedRole: true,
         a11yDialogsHeading: true,
+        a11yDialogTriggerRefocus: true,
         a11yAddToWishlistFocus: true,
         a11ySearchBoxFocusOnEscape: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,

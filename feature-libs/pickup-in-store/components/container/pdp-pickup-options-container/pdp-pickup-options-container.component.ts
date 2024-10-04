@@ -7,12 +7,13 @@
 import {
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { FeatureConfigService, Product } from '@spartacus/core';
 
 import {
   AugmentedPointOfService,
@@ -26,8 +27,8 @@ import {
 } from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import {
@@ -55,6 +56,12 @@ function isProductWithCode(
   templateUrl: 'pdp-pickup-options-container.component.html',
 })
 export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
+  // TODO: Remove element reference once 'a11yDialogTriggerRefocus' feature flag is removed.
+  /**
+   * @deprecated since 2211.28.0
+   * This reference does not point to any element and will be removed at earliest convinience.
+   * The 'triggerElement' is passed through 'PickupOptionChange' event instead.
+   */
   @ViewChild('open') element: ElementRef;
   subscription = new Subscription();
 
@@ -65,6 +72,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   private productCode: string;
   private displayNameIsSet = false;
 
+  private featureConfigService = inject(FeatureConfigService);
   constructor(
     protected currentProductService: CurrentProductService,
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
@@ -160,10 +168,17 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  openDialog(): void {
+  // TODO: Make argument required once 'a11yDialogTriggerRefocus' feature flag is removed.
+  /**
+   * @deprecated since 2211.28.0 - The use of TriggerElement param will become mandatory.
+   * @param triggerElement - The reference of element that triggered the dialog. Used to refocus on it after the dialog is closed.
+   */
+  openDialog(triggerElement?: ElementRef): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.PICKUP_IN_STORE,
-      this.element,
+      this.featureConfigService.isEnabled('a11yDialogTriggerRefocus')
+        ? triggerElement
+        : this.element,
       this.vcr,
       { productCode: this.productCode }
     );
@@ -173,16 +188,46 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     }
   }
 
-  onPickupOptionChange(option: PickupOption) {
-    this.intendedPickupLocationService.setPickupOption(
-      this.productCode,
-      option
-    );
-    if (option === 'delivery') {
-      return;
-    }
-    if (!this.displayNameIsSet) {
-      this.openDialog();
+  // TODO: Remove 'PickupOption' argument type once 'a11yDialogTriggerRefocus' feature flag is removed.
+  /**
+   * @deprecated since 2211.28.0 - Use event param instead of option.
+   * @param event - Object containing the selected option and the element that triggered the change.
+   */
+  onPickupOptionChange(option: PickupOption): void;
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  onPickupOptionChange(event: {
+    option: PickupOption;
+    triggerElement: ElementRef;
+  }): void;
+  onPickupOptionChange(
+    event: { option: PickupOption; triggerElement: ElementRef } | PickupOption
+  ): void {
+    if (
+      this.featureConfigService.isEnabled('a11yDialogTriggerRefocus') &&
+      typeof event === 'object'
+    ) {
+      const { option, triggerElement = undefined } = event;
+      this.intendedPickupLocationService.setPickupOption(
+        this.productCode,
+        option
+      );
+      if (option === 'delivery') {
+        return;
+      }
+      if (!this.displayNameIsSet) {
+        this.openDialog(triggerElement);
+      }
+    } else if (typeof event === 'string') {
+      this.intendedPickupLocationService.setPickupOption(
+        this.productCode,
+        event
+      );
+      if (event === 'delivery') {
+        return;
+      }
+      if (!this.displayNameIsSet) {
+        this.openDialog();
+      }
     }
   }
 }
