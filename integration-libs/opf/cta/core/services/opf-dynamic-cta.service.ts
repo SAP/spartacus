@@ -132,7 +132,6 @@ export class OpfDynamicCtaService {
 
   initiateEvents() {
     if (!this.isOnsiteMessagingInit) {
-      this.registerScriptReadyEvent();
       this.listenScriptReadyEvent();
 
       this.isCartPage && this.cartChangedListener();
@@ -160,7 +159,7 @@ export class OpfDynamicCtaService {
     ).padStart(4, '0');
   }
 
-  protected registerScriptReadyEvent() {
+  registerScriptReadyEvent() {
     this.globalFunctionsFacade.registerGlobalFunctions({
       paymentSessionId: '',
       domain: GlobalFunctionsDomain.GLOBAL,

@@ -67,6 +67,7 @@ describe('OpfCtaScriptsService', () => {
       'stopEvents',
       'fillCtaRequestforCartPage',
       'fillCtaRequestforProductPage',
+      'registerScriptReadyEvent',
     ]);
     opfStaticCtaServiceMock = jasmine.createSpyObj('OpfStaticCtaService', [
       'fillCtaRequestforPagesWithOrder',
@@ -98,6 +99,7 @@ describe('OpfCtaScriptsService', () => {
     );
     opfDynamicCtaServiceMock.initiateEvents.and.returnValue();
     opfDynamicCtaServiceMock.stopEvents.and.returnValue();
+    opfDynamicCtaServiceMock.registerScriptReadyEvent.and.returnValue();
     orderFacadeMock.getOrderDetails.and.returnValue(of(mockOrder));
     orderHistoryFacadeMock.getOrderDetails.and.returnValue(of(mockOrder));
 
