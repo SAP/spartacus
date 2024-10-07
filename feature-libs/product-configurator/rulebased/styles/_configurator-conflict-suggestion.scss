@@ -5,6 +5,10 @@
   align-items: center;
   background-color: mix(#ffffff, theme-color('light'), 90%);
   border: 1px solid var(--cx-color-light);
+  @include cx-highContrastTheme {
+    border: 1px solid var(--cx-color-dark);
+    background: var(--cx-color-background) none;
+  }
   border-radius: 2px;
   padding-inline-start: 15px;
   padding-inline-end: 15px;

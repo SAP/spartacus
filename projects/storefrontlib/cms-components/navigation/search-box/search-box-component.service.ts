@@ -31,6 +31,9 @@ export class SearchBoxComponentService {
   chosenWord = new ReplaySubject<string>();
   sharedEvent = new ReplaySubject<KeyboardEvent>();
 
+  protected enableRecentSearches: boolean = false;
+  protected enableTrendingSearches: boolean = false;
+
   constructor(
     public searchService: SearchboxService,
     protected routingService: RoutingService,
@@ -45,11 +48,14 @@ export class SearchBoxComponentService {
    * products or suggestions.
    */
   search(query: string, config: SearchBoxConfig): void {
-    if (!query || query === '') {
+    if (
+      !this.enableRecentSearches &&
+      !this.enableTrendingSearches &&
+      (!query || query === '')
+    ) {
       this.clearResults();
       return;
     }
-
     if (
       config.minCharactersBeforeRequest &&
       query.length < config.minCharactersBeforeRequest
@@ -276,5 +282,13 @@ export class SearchBoxComponentService {
 
   shareEvent($event: KeyboardEvent) {
     this.sharedEvent.next($event);
+  }
+
+  setTrendingSearches(enabled: boolean = false) {
+    this.enableTrendingSearches = enabled;
+  }
+
+  setRecentSearches(enabled: boolean = false) {
+    this.enableRecentSearches = enabled;
   }
 }
