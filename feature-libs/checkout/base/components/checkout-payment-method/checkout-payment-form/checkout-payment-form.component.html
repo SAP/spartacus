@@ -599,9 +599,10 @@
 <ng-template #requiredAsterisk>
   <abbr
     *cxFeature="'a11yRequiredAsterisks'"
+    aria-hidden="true"
     class="text-decoration-none"
     title="{{ 'common.required' | cxTranslate }}"
-    ><span aria-hidden="true">*</span></abbr
+    >*</abbr
   >
 </ng-template>
 
