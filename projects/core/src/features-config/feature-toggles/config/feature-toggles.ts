@@ -361,7 +361,8 @@ export interface FeatureTogglesInterface {
   /**
    * Stops the focus indicator from overflowing and being obstructed by other elements.
    * Modifies the 'visible-focus' mixin. Includes style changes for:
-   * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent, 'SkipLinkComponent'
+   * `StarRatingComponent`, `AddToWishListComponent`, `StarRatingComponent`, `SkipLinkComponent`,
+   * `StoreComponent`, `SetPreferredStoreComponent`, `WishListComponent`
    */
   a11yVisibleFocusOverflows?: boolean;
 
