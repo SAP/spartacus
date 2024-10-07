@@ -182,7 +182,7 @@
         font-size: var(--cx-font-size, 1.563rem);
       }
 
-      &.reset cx-icon {
+      &.reset {
         &:before {
           font-size: 1.4rem;
         }
@@ -381,11 +381,13 @@
         user-select: none;
         max-width: 160px;
         display: block;
-        font-weight: normal;
+        cursor: pointer;
+        font-weight: 800;
 
         .highlight,
         .search-results-highlight {
-          font-weight: 800;
+          font-weight: normal;
+          font-style: normal;
         }
       }
 

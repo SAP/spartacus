@@ -181,10 +181,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   );
 
   results$: Observable<SearchResults> = this.config$.pipe(
-    switchMap((config) =>
-      this.searchBoxComponentService
-        .getResults(config)
-    )
+    switchMap((config) => this.searchBoxComponentService.getResults(config))
   );
 
   items$: Observable<any> = this.results$.pipe(
@@ -330,7 +327,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   // Return result list as HTMLElement array
-  private getResultElements(): HTMLElement[] {
+  protected getResultElements(): HTMLElement[] {
     return Array.from(
       this.winRef.document.querySelectorAll(
         '.products ul:not(.hidden) > li a, .suggestions ul  > li a, .recent-searches ul > li a,.trending-searches ul > li a, .carousel-panel .item.active > a, .products .carousel-panel > button:not([disabled])'
@@ -339,8 +336,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   // Return group list as HTMLElement array
-  private getGroupElements(): any[] {
-    const groups = [];
+  private getGroupElements(): HTMLElement[][] {
+    const groups: HTMLElement[][] = [];
     groups.push(
       Array.from(
         this.winRef.document.querySelectorAll(
@@ -356,7 +353,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     groups.push(
       Array.from(
         this.winRef.document.querySelectorAll(
-          '.trending-searches-container.d-flex .trending-searches ul > li a'
+          '.trending-searches-container.d-block .trending-searches ul > li a'
         )
       )
     );
@@ -381,7 +378,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     return groups.filter((group) => group.length);
   }
   // Return focused element as HTMLElement
-  private getFocusedElement(): HTMLElement {
+  protected getFocusedElement(): HTMLElement {
     return <HTMLElement>this.winRef.document.activeElement;
   }
 
@@ -389,11 +386,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.chosenWord = chosenWord;
   }
 
-  private getFocusedIndex(): number {
+  protected getFocusedIndex(): number {
     return this.getResultElements().indexOf(this.getFocusedElement());
   }
 
-  private getFocusedGroupIndex(): number {
+  protected getFocusedGroupIndex(): number {
     let indexGroup = 0;
     this.getGroupElements().map((group, index) => {
       if (group.indexOf(this.getFocusedElement()) !== -1) {
@@ -403,7 +400,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     return indexGroup;
   }
 
-  private propagateEvent(event: KeyboardEvent) {
+  protected propagateEvent(event: KeyboardEvent) {
     if (event.code) {
       switch (event.code) {
         case 'Escape':
@@ -467,66 +464,91 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   // Focus on previous item in results list
   focusPreviousGroup(event: UIEvent) {
-    event.preventDefault(); // Negate normal keyscroll
-    const [results, focusedGroupIndex] = [
-      this.getGroupElements(),
-      this.getFocusedGroupIndex(),
-    ];
+    event.preventDefault();  // Prevent default key scrolling behavior
 
-    // Focus on last index moving to first
-    if (results[focusedGroupIndex].length) {
-      if (focusedGroupIndex < 1) {
-        results[0][0].focus();
-      } else {
-        results[focusedGroupIndex - 1][0].focus();
-      }
+    const results = this.getGroupElements();  // Get all group elements
+    const focusedGroupIndex = this.getFocusedGroupIndex();  // Get the currently focused group index
+
+    // Check if there are any groups and if the focused index is valid
+    if (!results.length || focusedGroupIndex < 0 || focusedGroupIndex >= results.length) {
+      return; // Exit if no groups or invalid focused index
+    }
+
+    // Check if the current group contains any elements
+    const currentGroup = results[focusedGroupIndex];
+    if (currentGroup.length === 0) {
+      return; // If the current group is empty, exit the function
+    }
+
+    // Set focus on the appropriate group
+    const previousGroupIndex = focusedGroupIndex > 0 ? focusedGroupIndex - 1 : 0;
+    const previousGroup = results[previousGroupIndex];
+
+    // Check if the previous group contains any elements
+    if (previousGroup.length > 0) {
+      previousGroup[0].focus(); // Focus on the first element of the previous group
     }
   }
+
   // Focus on next item in results list
   focusNextGroup(event: UIEvent) {
-    this.open();
-    event.preventDefault(); // Negate normal keyscroll
-    const [results, focusedGroupIndex] = [
-      this.getGroupElements(),
-      this.getFocusedGroupIndex(),
-    ];
-    // Focus on first index moving to last
-    if (results.length) {
-      if (focusedGroupIndex >= results.length - 1) {
-        results[0][0].focus();
-      } else {
-        results[focusedGroupIndex + 1][0].focus();
+    this.open(); // Ensure the dropdown or UI is open before navigating
+    event.preventDefault(); // Prevent default key scrolling behavior
+
+    const results = this.getGroupElements(); // Get all group elements
+    const focusedGroupIndex = this.getFocusedGroupIndex(); // Get the current focused group index
+
+    // Check if there are any groups and if the focused index is valid
+    if (!results.length || focusedGroupIndex < 0 || focusedGroupIndex >= results.length) {
+      return; // Exit if no groups or invalid focused index
+    }
+
+    // Find the next group that contains elements
+    let nextGroupIndex = focusedGroupIndex + 1;
+
+    // Loop forward through groups until a non-empty group is found
+    while (nextGroupIndex < results.length && results[nextGroupIndex].length === 0) {
+      nextGroupIndex++; // Keep moving to the next group if current one is empty
+    }
+
+    // If no next group with elements was found, wrap around to the first group
+    if (nextGroupIndex >= results.length) {
+      nextGroupIndex = 0; // Move focus to the first group
+      if (results[nextGroupIndex].length === 0) {
+        return; // Exit if the first group is also empty
       }
     }
+
+    // Set focus on the first element of the next (or first) non-empty group
+    results[nextGroupIndex][0].focus();
   }
 
   carouseEventPropagator(event: KeyboardEvent) {
-    if (event) {
-      if (event.code) {
-        switch (event.code) {
-          case 'ArrowRight':
-            this.focusNextChild(event);
-            return;
-          case 'ArrowLeft': {
-            this.getGroupElements().forEach((group) => {
-              if (group.indexOf(this.getFocusedElement()) !== -1) {
-                if (group.indexOf(this.getFocusedElement()) === 0) {
-                  this.focusPreviousGroup(event);
-                } else {
-                  this.focusPreviousChild(event);
-                }
-              }
-            });
-
-            return;
+    if (!event || !event?.code) {
+      return;
+    }
+    switch (event.code) {
+      case 'ArrowRight':
+        this.focusNextChild(event);
+        return;
+      case 'ArrowLeft': {
+        this.getGroupElements().forEach((group) => {
+          if (group.indexOf(this.getFocusedElement()) !== -1) {
+            if (group.indexOf(this.getFocusedElement()) === 0) {
+              this.focusPreviousGroup(event);
+            } else {
+              this.focusPreviousChild(event);
+            }
           }
-          case 'ArrowUp':
-            this.focusNextGroup(event);
-            return;
-          default:
-            return;
-        }
+        });
+
+        return;
       }
+      case 'ArrowUp':
+        this.focusNextGroup(event);
+        return;
+      default:
+        return;
     }
   }
 

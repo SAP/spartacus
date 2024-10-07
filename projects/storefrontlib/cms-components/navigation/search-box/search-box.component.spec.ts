@@ -526,6 +526,151 @@ describe('SearchBoxComponent', () => {
           ).nativeElement
         ).toBe(getFocusedElement());
       });
+      describe('focusPreviousGroup', () => {
+        it('should prevent default key scrolling', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+
+          // Create a mock element with a focus method
+          const mockElement = jasmine.createSpyObj('HTMLDivElement', ['focus']);
+
+          // Mock getGroupElements to return arrays with mock elements
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            [mockElement],
+            ['element2'],
+          ]);
+          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(1);
+
+          searchBoxComponent.focusPreviousGroup(mockEvent);
+
+          // Check that focus was called on the mock element
+          expect(mockEvent.preventDefault).toHaveBeenCalled();
+          expect(mockElement.focus).toHaveBeenCalled();
+        });
+
+        it('should not change focus if there are no groups', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([]); // No groups
+          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(0);
+
+          const result = searchBoxComponent.focusPreviousGroup(mockEvent);
+
+          expect(result).toBeUndefined(); // Should return early
+        });
+
+        it('should not change focus if current group is empty', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            [],
+            ['element2'],
+          ]); // First group is empty
+          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(0);
+
+          const result = searchBoxComponent.focusPreviousGroup(mockEvent);
+
+          expect(result).toBeUndefined(); // Should return early
+        });
+
+        it('should focus on the previous group if valid', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          const mockElement = jasmine.createSpyObj('HTMLDivElement', ['focus']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            [mockElement],
+            ['element2'],
+          ]);
+          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(1);
+
+          searchBoxComponent.focusPreviousGroup(mockEvent);
+
+          expect(mockElement.focus).toHaveBeenCalled(); // Focus on the first element of the previous group
+        });
+
+        it('should focus on the first group when current group is the first', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          const mockElement = jasmine.createSpyObj('HTMLDivElement', ['focus']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            [mockElement],
+            ['element2'],
+          ]);
+          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(0);
+
+          searchBoxComponent.focusPreviousGroup(mockEvent);
+
+          expect(mockElement.focus).toHaveBeenCalled(); // Focus on the first element of the first group
+        });
+      });
+      describe('focusNextGroup', () => {
+
+        it('should prevent default key scrolling', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+
+          // Create a mock element with a focus method
+          const mockElement = jasmine.createSpyObj('HTMLDivElement', ['focus']);
+
+          // Mock getGroupElements to return arrays with mock elements
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            ['element1'],
+            [mockElement],
+          ]);
+          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(0); // First group focused
+
+          searchBoxComponent.focusNextGroup(mockEvent);
+
+          // Check that the default event was prevented and focus was called on the next element
+          expect(mockEvent.preventDefault).toHaveBeenCalled();
+          expect(mockElement.focus).toHaveBeenCalled(); // Focus on the first element of the next group
+        });
+
+        it('should not change focus if there are no groups', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([]); // No groups
+          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(0);
+
+          const result = searchBoxComponent.focusNextGroup(mockEvent);
+
+          expect(result).toBeUndefined(); // Should return early
+        });
+
+        it('should not change focus if all groups are empty', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            [],
+            [],
+          ]); // Both groups are empty
+          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(0);
+
+          const result = searchBoxComponent.focusNextGroup(mockEvent);
+
+          expect(result).toBeUndefined(); // Should return early
+        });
+
+        it('should focus on the next group if valid', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          const mockElement = jasmine.createSpyObj('HTMLDivElement', ['focus']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            ['element1'],
+            [mockElement],
+          ]);
+          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(0);
+
+          searchBoxComponent.focusNextGroup(mockEvent);
+
+          expect(mockElement.focus).toHaveBeenCalled(); // Focus on the first element of the next group
+        });
+
+        it('should wrap around and focus on the first group if last group is focused', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          const mockElement = jasmine.createSpyObj('HTMLDivElement', ['focus']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            [mockElement],
+            ['element2'],
+          ]);
+          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(1); // Last group
+
+          searchBoxComponent.focusNextGroup(mockEvent);
+
+          expect(mockElement.focus).toHaveBeenCalled(); // Focus on the first element of the first group
+        });
+      });
     });
 
     describe('Events', () => {
