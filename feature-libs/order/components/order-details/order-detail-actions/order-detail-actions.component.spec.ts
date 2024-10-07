@@ -74,27 +74,19 @@ describe('OrderDetailActionsComponent', () => {
 
   it('should display return button when order is returnable', () => {
     fixture.detectChanges();
-    const elements: DebugElement[] = el.queryAll(By.css('a.btn-secondary'));
+    const element: DebugElement = el.queryAll(By.css('a.btn-secondary'))[0];
 
-    const returnButton = elements.find((element) =>
-      element.nativeElement.textContent.includes(
-        'orderDetails.cancellationAndReturn.returnAction'
-      )
+    expect(element.nativeElement.textContent).toContain(
+      'orderDetails.cancellationAndReturn.returnAction'
     );
-    expect(returnButton).toBeTruthy();
   });
 
   it('should not display cancel button when order is not cancellable', () => {
     mockOrder.returnable = false;
 
     fixture.detectChanges();
-    const elements: DebugElement[] = el.queryAll(By.css('a.btn-secondary'));
+    const element: DebugElement = el.queryAll(By.css('a.btn-secondary'))[0];
 
-    const cancelButton = elements.find((element) =>
-      element.nativeElement.textContent.includes(
-        'orderDetails.cancellationAndReturn.cancelAction'
-      )
-    );
-    expect(cancelButton).toBeUndefined();
+    expect(element).toBeUndefined();
   });
 });
