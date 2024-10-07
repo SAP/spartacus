@@ -31,16 +31,23 @@ const appOptions: ApplicationOptions = {
   projectRoot: '',
   standalone: false,
 };
+
 const spartacusDefaultOptions: SpartacusOptions = {
   project: projectName,
   lazy: true,
   features: [],
 };
 
+let cachedAppTree: UnitTestTree;
+
 export async function generateDefaultWorkspace(
   schematicRunner: SchematicTestRunner,
   appTree: UnitTestTree
 ) {
+  if (cachedAppTree) {
+    return cachedAppTree.branch() as UnitTestTree;
+  }
+
   schematicRunner.registerCollection(
     SPARTACUS_SCHEMATICS,
     '../../projects/schematics/src/collection.json'
@@ -63,5 +70,9 @@ export async function generateDefaultWorkspace(
     { ...spartacusDefaultOptions, name: projectName },
     appTree
   );
+
+  // Save default workspace
+  cachedAppTree = appTree;
+
   return appTree;
 }

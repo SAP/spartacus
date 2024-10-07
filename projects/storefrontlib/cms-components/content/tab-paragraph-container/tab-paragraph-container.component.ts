@@ -10,6 +10,7 @@ import {
   Component,
   OnInit,
   QueryList,
+  TemplateRef,
   ViewChildren,
 } from '@angular/core';
 import {
@@ -17,10 +18,17 @@ import {
   CMSTabParagraphContainer,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
+import { Tab, TabConfig } from '../tab/tab.model';
+
+const defaultTabConfig = {
+  openTabs: [0],
+  breakpoint: BREAKPOINT.md,
+};
 
 @Component({
   selector: 'cx-tab-paragraph-container',
@@ -28,13 +36,32 @@ import { CmsComponentData } from '../../../cms-structure/page/model/index';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
+  /**
+   * @deprecated This method will be removed.
+   */
   activeTabNum = 0;
+  /**
+   * @deprecated This method will be removed.
+   */
   ariaLabel: string;
 
+  /**
+   * @deprecated This method will be removed.
+   */
   @ViewChildren(ComponentWrapperDirective)
   children!: QueryList<ComponentWrapperDirective>;
 
+  @ViewChildren('tabRef')
+  tabRefs: QueryList<TemplateRef<any>>;
+
+  /**
+   * @deprecated This method will be removed.
+   */
   tabTitleParams: (Observable<any> | null)[] = [];
+
+  tabConfig$: BehaviorSubject<TabConfig> = new BehaviorSubject<TabConfig>(
+    defaultTabConfig
+  );
 
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
@@ -71,10 +98,23 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
             })
           )
         )
+      ).pipe(
+        // Update tablist label with name from CMS
+        tap(() => {
+          this.tabConfig$.next({
+            label: `${data?.uid}.tabPanelContainerRegionGroup`,
+            ...defaultTabConfig,
+          });
+        })
       )
     )
   );
 
+  tabs$: Observable<Tab[]>;
+
+  /**
+   * @deprecated This method will be removed.
+   */
   select(tabNum: number, event?: MouseEvent): void {
     this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
     if (event && event?.target) {
@@ -88,6 +128,9 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     }
   }
 
+  /**
+   * @deprecated This method will be removed.
+   */
   ngOnInit(): void {
     this.activeTabNum =
       this.winRef?.nativeWindow?.history?.state?.activeTab ?? this.activeTabNum;
@@ -99,12 +142,29 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     if (this.children.length > 0) {
       this.getTitleParams(this.children);
     }
+
+    // Render the tabs after the templates have completed loading in the view.
+    this.tabs$ = combineLatest([this.components$, this.tabRefs.changes]).pipe(
+      map(([components, refs]) =>
+        components.map((component, index) => ({
+          headerKey: component.title,
+          content: refs.get(index),
+          id: index,
+        }))
+      )
+    );
   }
 
+  /**
+   * @deprecated This method will be removed.
+   */
   tabCompLoaded(componentRef: any): void {
     this.tabTitleParams.push(componentRef.instance.tabTitleParam$);
   }
 
+  /**
+   * @deprecated This method will be removed.
+   */
   protected getTitleParams(children: QueryList<ComponentWrapperDirective>) {
     children.forEach((comp) => {
       this.tabTitleParams.push(comp['cmpRef']?.instance.tabTitleParam$ ?? null);

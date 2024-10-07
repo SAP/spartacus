@@ -3,7 +3,7 @@
     *ngIf="{
       loading: loading$ | async,
       templateList: templateList$ | async,
-      allConsentsLoading: allConsentsLoading$ | async
+      allConsentsLoading: allConsentsLoading$ | async,
     } as data"
   >
     <ng-container *ngIf="data.templateList as templateList">

@@ -117,26 +117,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     if (this.resetMenuOnClose) {
       this.resetOnMenuCollapse();
     }
-    if (
-      this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
-    ) {
-      this.focusOnMenuExpansion();
-    }
-  }
-
-  /**
-   * Focus on the first focusable element in the hamburger menu when the menu is opened.
-   */
-  focusOnMenuExpansion(): void {
-    this.subscriptions.add(
-      this.hamburgerMenuService?.isExpanded.subscribe((isExpanded) => {
-        if (isExpanded && this.navAriaLabel?.includes('menu')) {
-          setTimeout(() => {
-            this.elemRef.nativeElement.querySelector('[tabindex="0"]').focus();
-          });
-        }
-      })
-    );
   }
 
   /**

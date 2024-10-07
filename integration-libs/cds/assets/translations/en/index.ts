@@ -5,6 +5,8 @@
  */
 
 import recentSearches from './recentSearches.json';
+import trendingSearches from './trendingSearches.json';
 export const en = {
   cdsRecentSearches: recentSearches,
+  cdsTrendingSearches: trendingSearches,
 };

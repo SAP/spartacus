@@ -18,7 +18,7 @@
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
       [translationParams]="{
-        label: 'loginForm.emailAddress.label' | cxTranslate
+        label: 'loginForm.emailAddress.label' | cxTranslate,
       }"
       [control]="form.get('userId')"
     ></cx-form-errors>
@@ -47,7 +47,7 @@
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
       [translationParams]="{
-        label: 'loginForm.password.label' | cxTranslate
+        label: 'loginForm.password.label' | cxTranslate,
       }"
       [control]="form.get('password')"
     ></cx-form-errors>

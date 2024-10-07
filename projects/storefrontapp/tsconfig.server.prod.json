@@ -489,6 +489,13 @@
       "@spartacus/opf/payment": ["../../dist/opf/payment"],
       "@spartacus/opf/payment/opf-api": ["../../dist/opf/payment/opf-api"],
       "@spartacus/opf/payment/root": ["../../dist/opf/payment/root"],
+      "@spartacus/opf/quick-buy/components": [
+        "../../dist/opf/quick-buy/components"
+      ],
+      "@spartacus/opf/quick-buy/core": ["../../dist/opf/quick-buy/core"],
+      "@spartacus/opf/quick-buy": ["../../dist/opf/quick-buy"],
+      "@spartacus/opf/quick-buy/opf-api": ["../../dist/opf/quick-buy/opf-api"],
+      "@spartacus/opf/quick-buy/root": ["../../dist/opf/quick-buy/root"],
       "@spartacus/opps": ["../../dist/opps"],
       "@spartacus/opps/root": ["../../dist/opps/root"],
       "@spartacus/s4-service/assets": ["../../dist/s4-service/assets"],

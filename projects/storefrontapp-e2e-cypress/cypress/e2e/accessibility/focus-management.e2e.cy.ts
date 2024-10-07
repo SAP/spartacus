@@ -23,4 +23,22 @@ describe('Focus managment for a11y', () => {
       });
     });
   });
+
+  context('Add to cart modal', () => {
+    it('Should re-focus the element triggering the modal after it closes', () => {
+      cy.visit(`/product/266685`);
+      cy.contains('Add to cart').click();
+      cy.get('[aria-label="Close Modal"]').click();
+      cy.contains('Add to cart').should('have.focus');
+    });
+  });
+
+  context('Pick up in store modal', () => {
+    it('Should re-focus the element triggering the modal after it closes', () => {
+      cy.visit(`/product/266685`);
+      cy.contains('Select Store').click();
+      cy.get('[aria-label="Close"]').click();
+      cy.contains('Select Store').should('have.focus');
+    });
+  });
 });

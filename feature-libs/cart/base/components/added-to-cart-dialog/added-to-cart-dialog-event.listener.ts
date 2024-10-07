@@ -56,7 +56,7 @@ export class AddedToCartDialogEventListener implements OnDestroy {
 
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.ADDED_TO_CART,
-      undefined,
+      event?.triggerElementRef,
       undefined,
       addToCartData
     );
