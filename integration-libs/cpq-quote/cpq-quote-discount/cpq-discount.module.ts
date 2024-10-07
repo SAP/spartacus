@@ -20,6 +20,7 @@ import { CartOutlets } from '@spartacus/cart/base/root';
 import { CpqQuoteService } from './cpq-qute.service';
 import { CpqQuoteSharedService } from './cpq-qute-shared.service';
 import { CartItemListComponentService } from '@spartacus/cart/base/components';
+import { FormatDiscountPipe } from './components/cpq-quote/formatDiscount.pipe';
 
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, IconModule],
@@ -28,6 +29,7 @@ import { CartItemListComponentService } from '@spartacus/cart/base/components';
     CpqQuoteHeadingComponent,
     CpqQuoteDiscountComponent,
     CpqQuoteOfferComponent,
+    FormatDiscountPipe,
   ],
   exports: [
     CpqQuoteHeadingComponent,
