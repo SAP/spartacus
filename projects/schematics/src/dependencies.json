@@ -432,6 +432,7 @@
     "@spartacus/storefront": "2211.29.0-2",
     "@spartacus/styles": "2211.29.0-2",
     "@spartacus/user": "2211.29.0-2",
+    "bootstrap": "^4.6.2",
     "rxjs": "^7.8.0"
   },
   "@spartacus/opps": {
