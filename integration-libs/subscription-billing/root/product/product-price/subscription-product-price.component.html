@@ -1,6 +1,6 @@
 <ng-container *ngIf="product$ | async as product">
   <div
-    class="subscription-info"
+    class="subscription"
     *ngIf="isCurrentProductSubscription(product); else showGenericProductPrice"
   >
     <div class="subscription-name">{{ product.sapPricePlan?.name }}:</div>

@@ -22,7 +22,7 @@ export const subscription_product_1 = {
   summary:
     'Customizable mobile service plan offering tailored pricing and configurations',
   sapSubscriptionTerm: {
-    name: 'SmartPhone Plan Advanced 2 GB 3 Months',
+    name: 'Advanced Mobile Plan',
     renewalTerm: {
       value: 3,
       frequency: {
@@ -52,7 +52,7 @@ export function verifySubscriptionProductDetails(product) {
   cy.get(`${infoContainer} .code`).should('contain', 'ID ' + product.code);
   cy.get(`${summaryContainer} .summary`).should('contain', product.summary);
   cy.get(
-    `${subscriptionPriceContainer} .subscription .subscription-plan-name`
+    `${subscriptionPriceContainer} .subscription .subscription-name`
   ).should('contain', product.sapSubscriptionTerm.name);
   cy.get(
     `${subscriptionPriceContainer} .subscription .subscription-minimumterm`
@@ -72,7 +72,7 @@ export function verifySubscriptionProductDetails(product) {
       ' ' +
       product.sapSubscriptionTerm.renewalTerm.frequency.name
   );
-  cy.get(`${susbscriptionUsageChargeContainer} .usage-charge`).should(
+  cy.get(`${susbscriptionUsageChargeContainer} .subscription-usage-charge .subscription-usage-charge-name`).should(
     'contain',
     'Usage Charges'
   );
