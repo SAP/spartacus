@@ -3,6 +3,6 @@
     [selectedOption]="pickupOption$ | async"
     [displayPickupLocation]="displayPickupLocation$ | async"
     (pickupOptionChange)="onPickupOptionChange($event)"
-    (pickupLocationChange)="openDialog()"
+    (pickupLocationChange)="openDialog($event)"
   ></cx-pickup-options>
 </ng-container>

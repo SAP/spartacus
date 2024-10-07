@@ -10,15 +10,14 @@ import {
   inject,
   OnInit,
   Optional,
-  OnDestroy,
 } from '@angular/core';
 import {
   OutletContextData,
   SearchBoxComponentService,
 } from '@spartacus/storefront';
 import { RecentSearchesService } from './recent-searches.service';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
 
 export interface SearchBoxOutlet {
   search: string;
@@ -33,38 +32,33 @@ const MAX_RECENT_SEARCHES = 5;
   templateUrl: './recent-searches.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RecentSearchesComponent implements OnInit, OnDestroy {
-  protected recentSearchesService = inject(RecentSearchesService);
-  protected searchBoxComponentService = inject(SearchBoxComponentService);
+export class RecentSearchesComponent implements OnInit {
   public result$: Observable<string[]>;
   public outletContext$: Observable<SearchBoxOutlet>;
-
-  protected destroy$ = new Subject<void>();
+  protected recentSearchesService = inject(RecentSearchesService);
+  protected searchBoxComponentService = inject(SearchBoxComponentService);
 
   constructor(
     @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>
   ) {}
 
   ngOnInit() {
-    this.result$ = this.outletContext?.context$.pipe(
-      switchMap((context: SearchBoxOutlet) =>
-        this.recentSearchesService.recentSearches$.pipe(
-          map((recentSearches: string[]) =>
-            recentSearches
-              .filter(
-                (phrase) =>
-                  phrase.toLowerCase().indexOf(context.search.toLowerCase()) >=
-                  0
-              )
-              .slice(0, context.maxRecentSearches ?? MAX_RECENT_SEARCHES)
+    this.result$ = combineLatest([
+      this.outletContext?.context$,
+      this.recentSearchesService.recentSearches$,
+    ]).pipe(
+      map(([context, recentSearches]: [SearchBoxOutlet, string[]]) =>
+        recentSearches
+          .filter(
+            (phrase) =>
+              phrase.toLowerCase().indexOf(context.search.toLowerCase()) >= 0
           )
-        )
-      )
+          .slice(0, context.maxRecentSearches ?? MAX_RECENT_SEARCHES)
+      ),
+      tap((results) => {
+        this.searchBoxComponentService.setRecentSearches(!!results.length);
+      })
     );
-
-    this.result$.pipe(takeUntil(this.destroy$)).subscribe((results) => {
-      this.searchBoxComponentService.setRecentSearches(!!results.length);
-    });
 
     this.outletContext$ = this.outletContext.context$;
   }
@@ -82,10 +76,5 @@ export class RecentSearchesComponent implements OnInit, OnDestroy {
       throw new Error('Missing Event');
     }
     this.searchBoxComponentService.shareEvent(event);
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

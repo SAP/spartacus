@@ -7,17 +7,16 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   inject,
-  ChangeDetectorRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   OutletContextData,
   SearchBoxComponentService,
 } from '@spartacus/storefront';
 import { TrendingSearchesService } from './trending-searches.service';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
-import { EMPTY, Subject } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { EMPTY, Observable } from 'rxjs';
 import { SearchBoxOutletTrendingSearches, SearchPhrases } from './model';
 
 const MAX_TRENDING_SEARCHES = 5;
@@ -25,45 +24,35 @@ const MAX_TRENDING_SEARCHES = 5;
 @Component({
   selector: 'cx-trending-searches',
   templateUrl: './trending-searches.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TrendingSearchesComponent implements OnInit, OnDestroy {
-  public searchPhrases: SearchPhrases[] = [];
-  protected destroy$ = new Subject<void>();
+export class TrendingSearchesComponent implements OnInit {
+  public searchPhrases$: Observable<SearchPhrases[]>;
 
   protected searchBoxComponentService = inject(SearchBoxComponentService);
   protected trendingSearchesService = inject(TrendingSearchesService);
-  protected changeDetectorRef = inject(ChangeDetectorRef);
   protected outletContext = inject(OutletContextData, {
     optional: true,
   }) as OutletContextData | null;
 
   ngOnInit() {
-    this.listenToContextChanges();
-  }
-
-  protected listenToContextChanges() {
-    this.getSearchPhrases()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((searchPhrases: SearchPhrases[]) => {
-        this.searchPhrases = searchPhrases;
+    this.searchPhrases$ = this.getSearchPhrases().pipe(
+      tap((searchPhrases) => {
         this.searchBoxComponentService.setTrendingSearches(
-          !!this.searchPhrases.length
+          !!searchPhrases.length
         );
-        this.changeDetectorRef.detectChanges();
-      });
+      })
+    );
   }
 
-  protected getSearchPhrases() {
+  protected getSearchPhrases(): Observable<SearchPhrases[]> {
     return this.contextObservable.pipe(
-      takeUntil(this.destroy$),
       switchMap((context: SearchBoxOutletTrendingSearches) => {
         const maxSearches =
           context?.maxTrendingSearches ?? MAX_TRENDING_SEARCHES;
-        return this.trendingSearchesService.getTrendingSearches().pipe(
-          map((data) => {
-            return data ? data.slice(0, maxSearches) : [];
-          })
-        );
+        return this.trendingSearchesService
+          .getTrendingSearches()
+          .pipe(map((data) => (data ? data.slice(0, maxSearches) : [])));
       })
     );
   }
@@ -77,10 +66,5 @@ export class TrendingSearchesComponent implements OnInit, OnDestroy {
       throw new Error('Missing Event');
     }
     this.searchBoxComponentService.shareEvent(event);
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

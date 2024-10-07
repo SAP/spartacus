@@ -43,6 +43,7 @@
           |
           <button
             *cxFeature="'a11yUseButtonsForBtnLinks'"
+            #dialogTriggerEl
             [attr.data-store-location-link]="
               displayPickupLocation ? 'change' : 'select'
             "
@@ -59,6 +60,7 @@
           <a
             *cxFeature="'!a11yUseButtonsForBtnLinks'"
             role="button"
+            #dialogTriggerEl
             [attr.data-store-location-link]="
               displayPickupLocation ? 'change' : 'select'
             "
@@ -119,6 +121,7 @@
           |
           <button
             *cxFeature="'a11yUseButtonsForBtnLinks'"
+            #dialogTriggerEl
             [attr.data-store-location-link]="
               displayPickupLocation ? 'change' : 'select'
             "
@@ -134,6 +137,7 @@
           </button>
           <a
             *cxFeature="'!a11yUseButtonsForBtnLinks'"
+            #dialogTriggerEl
             role="button"
             [attr.data-store-location-link]="
               displayPickupLocation ? 'change' : 'select'
