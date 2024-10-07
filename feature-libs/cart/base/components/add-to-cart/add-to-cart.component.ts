@@ -57,8 +57,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    *  a reference to the product model to fetch the stock data.
    */
   @Input() product: Product;
-  protected occEndpoints: OccEndpointsService;
-  protected http: HttpClient;
 
   maxQuantity: number;
 
@@ -113,6 +111,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected activeCartService: ActiveCartFacade,
     protected component: CmsComponentData<CmsAddToCartComponent>,
     protected eventService: EventService,
+    protected occEndpoints: OccEndpointsService,
+    protected http: HttpClient,
     @Optional() protected productListItemContext?: ProductListItemContext
   ) {}
 
@@ -164,18 +164,22 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    * When backoffice forces a product to be in stock, omit showing the stock level.
    * When product stock level is limited by a threshold value, append '+' at the end.
    * When out of stock, display no numerical value.
+   * CXSPA-8577: Bugfix for scenario where a user might want the live stocks to be displayed on PDP.
    */
   getInventory(): string {
     if(this.featureToggles.realTimeStockDispaly){
       let qty = this.loadrealtimestock(this.productCode);
+      console.log(qty);
       const parsedResponse = JSON.parse(qty);
       const availabilityItems = parsedResponse.availabilityItems;
       if (availabilityItems && availabilityItems.length > 0) {
         const unitAvailabilities = availabilityItems[0].unitAvailabilities;
-        if (unitAvailabilities && unitAvailabilities.length > 0) {
+        if (unitAvailabilities && unitAvailabilities.length > 0 && unitAvailabilities[0].status === 'IN_STOCK') {
           const quantity = unitAvailabilities[0].quantity;
-      const quantityDisplay = quantity ? quantity : '';
-      return this.inventoryThreshold ? quantityDisplay + '+' : quantityDisplay;
+          const quantityDisplay = quantity ? quantity : '';
+          return this.inventoryThreshold ? quantityDisplay + '+' : quantityDisplay;
+        } else {
+          return '';
         }
       }
 
@@ -190,21 +194,22 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     }
   }
   loadrealtimestock(productCode: string): string{
-    if(this.featureToggles.realTimeStockDispaly){
-   let productUrl = this.occEndpoints.buildUrl('unit', {
-         urlParams: { productCode: productCode }
-   });
-   this.http.get(productUrl).pipe(map((sapCode)=>{
-    let availabilityUrl = this.occEndpoints.buildUrl('productAvailabilities', {
-      urlParams: {productCode: productCode, sapCode: sapCode}
-    });
-    console.log(productUrl);
-    console.log(availabilityUrl);
-    return this.http.get(availabilityUrl);
-   }));
-  }
-  return '';
-
+    if (this.featureToggles.realTimeStockDispaly) {
+      let productUrl = this.occEndpoints.buildUrl('product', {
+        urlParams: { productCode: productCode },
+      });
+      this.http.get(productUrl).pipe(
+        map((sapCode) => {
+          let availabilityUrl = this.occEndpoints.buildUrl('product', {
+            queryParams: { productCode: productCode, sapCode: sapCode },
+          });
+          console.log(productUrl);
+          console.log(availabilityUrl);
+          return this.http.get(availabilityUrl);
+        })
+      );
+    }
+    return '';
   }
 
 
