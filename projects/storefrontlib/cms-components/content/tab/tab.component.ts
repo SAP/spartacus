@@ -5,15 +5,19 @@
  */
 
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  inject,
   Input,
+  OnDestroy,
   OnInit,
   QueryList,
   ViewChildren,
 } from '@angular/core';
 import { BreakpointService } from '../../../layout/breakpoint';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Tab, TabConfig, TAB_MODE } from './tab.model';
 import { wrapIntoBounds } from './tab.utils';
@@ -24,25 +28,51 @@ import { TranslationService } from '@spartacus/core';
   templateUrl: './tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TabComponent implements OnInit {
+export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
+  /**
+   * If you have nested templates that are subject to complex changes,
+   * it can be better to use this property instead with an Observable
+   * to set Tabs.
+   *
+   * Note: You should NOT set the `tabs` property if using this.
+   */
+  @Input() tabs$: Observable<Tab[] | any>;
   @Input() tabs: Tab[] | any;
   @Input() config: TabConfig | any;
 
   readonly TAB_MODE = TAB_MODE;
 
-  openTabs$: BehaviorSubject<number[]>;
-  mode$: Observable<TAB_MODE>;
+  protected breakpointService = inject(BreakpointService);
+  protected translationService = inject(TranslationService);
+  protected cd = inject(ChangeDetectorRef);
 
   @ViewChildren('tabHeader') tabHeaders: QueryList<any>;
 
-  constructor(
-    protected breakpointService: BreakpointService,
-    protected translationService: TranslationService
-  ) {}
+  openTabs$: BehaviorSubject<number[]>;
+  mode$: Observable<TAB_MODE>;
+  protected subscriptions = new Subscription();
 
   ngOnInit(): void {
     this.openTabs$ = new BehaviorSubject<number[]>(this.config?.openTabs ?? []);
     this.mode$ = this.getMode();
+  }
+
+  ngAfterViewInit(): void {
+    /**
+     * We subscribe to the tabs observable if added and use this to set
+     * the `tabs` property. The input `tabs` property should not be
+     * initialized. It will be overwritten by this otherwise.
+     */
+    this.subscriptions.add(
+      this.tabs$?.subscribe((tabs) => {
+        this.tabs = tabs;
+        this.cd.detectChanges();
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   /**

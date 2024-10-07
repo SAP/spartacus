@@ -20,7 +20,6 @@ import {
   inject,
   AfterViewInit,
   ViewChildren,
-  ChangeDetectorRef,
   QueryList,
   TemplateRef,
 } from '@angular/core';
@@ -57,7 +56,6 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
     this._isDialog = value;
     if (value) {
       this.renderer.addClass(document.body, 'modal-open');
-      this.renderFacets();
     }
   }
 
@@ -101,8 +99,7 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     protected facetService: FacetService,
     protected elementRef: ElementRef,
-    protected renderer: Renderer2,
-    protected changeDetectorRef: ChangeDetectorRef
+    protected renderer: Renderer2
   ) {
     useFeatureStyles('a11yTabComponent');
   }
@@ -112,20 +109,26 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.featureConfigService?.isEnabled('a11yFacetsDialogFocusHandling')) {
       this.enableFocusHandlingOnFacetListChanges();
     }
+
+    // Required to load facets when initial load in side panel.
+    this.updateTabs();
   }
 
   ngAfterViewInit(): void {
-    this.renderFacets();
+    // Required to render facets when opening filters dialog.
+    this.updateTabs();
 
-    // Renders facets on first PLP load on desktop
-    this.facetsRef.changes
-      .pipe(filter((changes) => !!changes))
-      .subscribe(() => {
-        this.renderFacets();
-      });
+    // Required to render facet changes (ie. select facet, etc)
+    this.subscriptions.add(
+      this.facetsRef.changes
+        .pipe(filter((changes) => !!changes))
+        .subscribe(() => {
+          this.updateTabs();
+        })
+    );
   }
 
-  renderFacets(): void {
+  updateTabs(): void {
     this.facetList$.pipe(take(1)).subscribe((list) => {
       const facets = list.facets;
       const tabs = facets.map((facet, i) => ({
@@ -134,7 +137,6 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
       }));
 
       this.tabs$.next(tabs);
-      this.changeDetectorRef.detectChanges();
     });
   }
 
