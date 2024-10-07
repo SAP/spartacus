@@ -4,10 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  PricePlan,
-  SubscriptionTerm,
-} from './subscription-billing-product.model';
+import { PricePlan, SubscriptionTerm } from './subscription-product.model';
 import '@spartacus/core';
 
 declare module '@spartacus/core' {
