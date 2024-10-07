@@ -18,7 +18,7 @@ import {
 } from '@angular/core';
 import { BreakpointService } from '../../../layout/breakpoint';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Tab, TabConfig, TAB_MODE } from './tab.model';
 import { wrapIntoBounds } from './tab.utils';
 import { TranslationService } from '@spartacus/core';
@@ -193,15 +193,19 @@ export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
       return null;
     }
 
+    let header = tab.header;
+    if (tab.headerKey) {
+      this.translationService
+        .translate(tab.headerKey)
+        .pipe(take(1))
+        .subscribe((val) => {
+          header = val;
+        });
+    }
+
     return (
       // Show expanded or collapsed.
-      (this.isOpen(index) ? 'Collapse' : 'Expand') +
-      ' ' +
-      // Show the translation key for header if available.
-      // Otherwise fallback to header string value.
-      (tab.headerKey
-        ? this.translationService.translate(tab.headerKey)
-        : tab.header)
+      (this.isOpen(index) ? 'Collapse' : 'Expand') + ' ' + header
     );
   }
 
