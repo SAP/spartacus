@@ -3,15 +3,15 @@
     "minimumTerm": "Minimum Term: {{ term }}",
     "renewalTerm": "Renewal Term: {{ term }}",
     "usageCharges": "Usage Charges",
+    "volumeUsage": "For {{ from }} to {{ to }}: {{ fixed }} plus {{ price }} per {{ usage }}",
+    "volumeOverageUsage": "For {{ from }} to Unlimited: {{ fixed }} plus {{ price }} per {{ usage }}",
+    "volumeUsageMessage": "*You will be charged as per the highest applicable tier",
+    "tierOverageUsage": "From {{ from }} to Unlimited: {{ price }} per {{ usage }}",
+    "tierUsageMessage": "*You will be charged as per each applicable tier",
+    "tierUsage": "From {{ from }} to {{ to }}: {{ price }} per {{ usage }}",
     "includedQuantity": "Included Quantity: {{ quantity }}",
-    "includedRatio": "Included Ratio: {{ ratio }}",
-    "pricePerUsage": " {{ price }} per {{ usage }} ",
-    "overage": "From {{ from }} to Unlimited: {{ price }} per {{ usage }}",
-    "overagePlus": "From {{ from }} to Unlimited: {{ fixed }} plus {{ price }} per {{ usage }}",
-    "usage": "From {{ from }} to {{ to }}: {{ price }} per {{ usage }}",
-    "usagePlus": "From {{ from }} to {{ to }}: {{ fixed }} plus {{ price }} per {{ usage }}",
-    "volumeMessage": "* You will be charged as per the highest applicable tier",
-    "tierMessage": "* You will be charged as per each applicable tier",
-    "priceForEveryBlock": "{{ price }} for every {{ block }}"
+    "oneBlockUsage": " {{ price }} per {{ usage }} ",
+    "multiBlockUsage": "{{ price }} for every {{ block }}",
+    "percentageUsage": "Included Ratio {{ ratio }} at {{ price }} per {{ usage }}"
   }
 }
