@@ -392,7 +392,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   protected getFocusedGroupIndex(): number {
     let indexGroup = 0;
-    this.getGroupElements().map((group, index) => {
+    this.getGroupElements().forEach((group, index) => {
       if (group.indexOf(this.getFocusedElement()) !== -1) {
         indexGroup = index;
       }
