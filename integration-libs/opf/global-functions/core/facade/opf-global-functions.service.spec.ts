@@ -14,7 +14,8 @@ import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { defaultErrorDialogOptions } from '@spartacus/opf/base/root';
 import { GlobalFunctionsDomain } from '@spartacus/opf/global-functions/root';
-import { OpfPaymentFacade, PaymentMethod } from '@spartacus/opf/payment/root';
+import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
+import { OpfProviderType } from '@spartacus/opf/quick-buy/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { OpfGlobalFunctionsService } from './opf-global-functions.service';
@@ -119,7 +120,7 @@ describe('OpfGlobalFunctionsService', () => {
         submitSuccess,
         submitPending,
         submitFailure,
-        paymentMethod: PaymentMethod.APPLE_PAY,
+        paymentMethod: OpfProviderType.APPLE_PAY,
       });
       expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
     });
@@ -145,7 +146,7 @@ describe('OpfGlobalFunctionsService', () => {
         submitSuccess,
         submitPending,
         submitFailure,
-        paymentMethod: PaymentMethod.APPLE_PAY,
+        paymentMethod: OpfProviderType.APPLE_PAY,
       });
       expect(opfPaymentFacadeMock.submitCompletePayment).toHaveBeenCalled();
     });

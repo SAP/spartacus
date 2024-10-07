@@ -85,9 +85,7 @@ export enum SubmitStatus {
   DELAYED = 'DELAYED',
 }
 export enum PaymentMethod {
-  APPLE_PAY = 'APPLE_PAY',
   CREDIT_CARD = 'CREDIT_CARD',
-  GOOGLE_PAY = 'GOOGLE_PAY',
 }
 export interface SubmitResponse {
   cartId: string;

@@ -35,6 +35,10 @@ import {
   OPF_PAYMENT_FEATURE,
   OpfPaymentRootModule,
 } from '@spartacus/opf/payment/root';
+import {
+  OPF_QUICK_BUY_FEATURE,
+  OpfQuickBuyRootModule,
+} from '@spartacus/opf/quick-buy/root';
 import { environment } from '../../../../environments/environment';
 
 const extensionProviders: Provider[] = [];
@@ -51,6 +55,7 @@ if (environment.b2b) {
     OpfCheckoutRootModule,
     OpfCtaRootModule,
     OpfGlobalFunctionsRootModule,
+    OpfQuickBuyRootModule,
   ],
   providers: [
     provideConfig({
@@ -76,6 +81,10 @@ if (environment.b2b) {
             import('@spartacus/opf/global-functions').then(
               (m) => m.OpfGlobalFunctionsModule
             ),
+        },
+        [OPF_QUICK_BUY_FEATURE]: {
+          module: () =>
+            import('@spartacus/opf/quick-buy').then((m) => m.OpfQuickBuyModule),
         },
       },
     }),
