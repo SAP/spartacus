@@ -13,4 +13,5 @@ export const cdsTranslations: TranslationResources = {
 
 export const cdsTranslationChunksConfig: TranslationChunksConfig = {
   cdsRecentSearches: ['cdsRecentSearches'],
+  cdsTrendingSearches: ['cdsTrendingSearches'],
 };

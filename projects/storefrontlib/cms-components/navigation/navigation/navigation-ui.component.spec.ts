@@ -448,18 +448,6 @@ describe('Navigation UI Component', () => {
       expect(navigationComponent.getTabIndex(childNode, 1)).toEqual(0);
     });
 
-    it('should focus on the first focusable element when the hamburger menu is expanded', fakeAsync(() => {
-      const firstFocusableElement =
-        element.nativeElement.querySelector('[tabindex="0"]');
-      spyOn(firstFocusableElement, 'focus');
-      navigationComponent.navAriaLabel = 'menu';
-
-      navigationComponent.focusOnMenuExpansion();
-      tick();
-
-      expect(firstFocusableElement.focus).toHaveBeenCalled();
-    }));
-
     it('return focus to node header after navigating back', fakeAsync(() => {
       const mockNode = document.createElement('li');
       const mockHeader = document.createElement('a');

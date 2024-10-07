@@ -135,9 +135,13 @@ export class CmsRoutesImplService {
       }
 
       if (route?.canActivate?.length) {
-        route.canActivate = route.canActivate.map((guard) =>
+        const canActivate = route.canActivate.map((guard) =>
           this.wrapCmsGuard(guard)
         );
+        return {
+          ...route,
+          canActivate,
+        };
       }
 
       return route;

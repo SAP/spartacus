@@ -9,7 +9,7 @@ import { login } from './auth-forms';
 import * as alerts from './global-message';
 import { generateMail, randomString } from './user';
 
-export const password = 'Password123.';
+export const password = 'Pas!sword123.';
 export const UPDATE_EMAIL_URL = '/my-account/update-email';
 
 export function registerAndLogin() {

@@ -11,6 +11,7 @@
  */
 
 import * as fs from 'fs';
+import { inspect } from 'util';
 
 /**
  * Path where SSR log file from server will be generated and read from.
@@ -25,28 +26,59 @@ export function clearSsrLogFile(): void {
 }
 
 /**
- * Returns all text in the log as a single string.
+ * Returns raw logs as an array of strings.
+ *
+ * Note: Non-JSON log entries are also included in the returned array.
  */
-export function getLogText(): string {
-  return fs.readFileSync(SSR_LOG_PATH).toString();
+export function getRawLogs(): string[] {
+  const data = fs.readFileSync(SSR_LOG_PATH).toString();
+  const logs = data.toString().split('\n');
+  return logs;
 }
 
 /**
- * Reads log and returns messages as string array.
+ * Returns raw logs as an array of strings, with JSON objects pretty-printed.
+ *
+ * Note: Non-JSON log entries are also included in the returned array.
  */
-export function getLogMessages(): string[] {
-  const data = fs.readFileSync(SSR_LOG_PATH).toString();
-  return (
-    data
-      .toString()
-      .split('\n')
-      // We're interested only in JSON logs from Spartacus SSR app.
-      // We ignore plain text logs coming from other sources, like `Node Express server listening on http://localhost:4200`
-      .filter((text: string) => text.charAt(0) === '{')
-      .map((text: any) => {
-        return JSON.parse(text).message;
-      })
-  );
+export function getRawLogsPretty(): string[] {
+  return getRawLogs().map((line) => {
+    try {
+      const object = JSON.parse(line);
+      return inspect(object, { depth: null });
+    } catch (_e) {
+      // If the line is not a valid JSON, return it as a string
+      return line;
+    }
+  });
+}
+
+/**
+ * Returns logs as an array of objects, parsed from JSON log entries.
+ *
+ * Note: Non-JSON log entries are skipped (e.g. 'Node is running on port 4000').
+ */
+export function getLogsObjects(): object[] {
+  return getRawLogs()
+    .map((log) => {
+      try {
+        return JSON.parse(log);
+      } catch (_e) {
+        return undefined;
+      }
+    })
+    .filter((x): x is object => x !== undefined);
+}
+
+/**
+ * Returns logs as an array of strings, being the `message` field of each parsed JSON log entry.
+ *
+ * Note: Non-JSON log entries are skipped (e.g. 'Node is running on port 4000').
+ */
+export function getLogsMessages(): string[] {
+  return getLogsObjects().map((log) => {
+    return (log as { message: string }).message;
+  });
 }
 
 /**
@@ -58,7 +90,7 @@ export async function waitUntilLogContainsText(
   checkInterval = 500
 ): Promise<true> {
   return new Promise((resolve) => {
-    if (doesLogContainText(text)) {
+    if (getRawLogs().some((log) => log.includes(text))) {
       return resolve(true);
     }
     return setTimeout(
@@ -66,12 +98,4 @@ export async function waitUntilLogContainsText(
       checkInterval
     );
   });
-}
-
-/**
- * Returns true if log contains string.
- */
-export function doesLogContainText(text: string): boolean {
-  const data = fs.readFileSync(SSR_LOG_PATH).toString();
-  return data.includes(text);
 }

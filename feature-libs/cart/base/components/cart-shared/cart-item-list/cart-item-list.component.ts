@@ -25,7 +25,11 @@ import {
   SelectiveCartFacade,
   CartOutlets,
 } from '@spartacus/cart/base/root';
-import { FeatureConfigService, UserIdService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  UserIdService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
@@ -93,7 +97,9 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected multiCartService: MultiCartFacade,
     protected cd: ChangeDetectorRef,
     @Optional() protected outlet?: OutletContextData<ItemListContext>
-  ) {}
+  ) {
+    useFeatureStyles('a11yPreventHorizontalScroll');
+  }
 
   ngOnInit(): void {
     this.subscription.add(this.getInputsFromContext());
