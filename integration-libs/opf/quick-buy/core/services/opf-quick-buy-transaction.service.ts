@@ -137,7 +137,7 @@ export class OpfQuickBuyTransactionService {
 
   getCurrentCartTotalPrice(): Observable<number | undefined> {
     return this.activeCartFacade
-      .getActive()
+      .takeActive()
       .pipe(map((cart: Cart) => cart.totalPrice?.value));
   }
 

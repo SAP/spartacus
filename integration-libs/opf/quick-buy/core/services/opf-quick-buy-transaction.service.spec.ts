@@ -302,11 +302,11 @@ describe('OpfQuickBuyTransactionService', () => {
       const mockTotalPrice = 100.5;
       const mockCart = { totalPrice: { value: mockTotalPrice } };
 
-      activeCartFacade.getActive.and.returnValue(of(mockCart));
+      activeCartFacade.takeActive.and.returnValue(of(mockCart));
 
       service.getCurrentCartTotalPrice().subscribe((totalPrice) => {
         expect(totalPrice).toEqual(mockTotalPrice);
-        expect(activeCartFacade.getActive).toHaveBeenCalled();
+        expect(activeCartFacade.takeActive).toHaveBeenCalled();
         done();
       });
     });
@@ -314,11 +314,11 @@ describe('OpfQuickBuyTransactionService', () => {
     it('should return undefined if the cart does not have a total price', (done) => {
       const mockCart = { totalPrice: undefined };
 
-      activeCartFacade.getActive.and.returnValue(of(mockCart));
+      activeCartFacade.takeActive.and.returnValue(of(mockCart));
 
       service.getCurrentCartTotalPrice().subscribe((totalPrice) => {
         expect(totalPrice).toBeUndefined();
-        expect(activeCartFacade.getActive).toHaveBeenCalled();
+        expect(activeCartFacade.takeActive).toHaveBeenCalled();
         done();
       });
     });
