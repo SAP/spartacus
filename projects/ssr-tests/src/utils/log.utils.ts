@@ -32,8 +32,7 @@ export function clearSsrLogFile(): void {
  */
 export function getRawLogs(): string[] {
   const data = fs.readFileSync(SSR_LOG_PATH).toString();
-  const logs = data.toString().split('\n');
-  return logs;
+  return data.toString().split('\n');
 }
 
 /**
