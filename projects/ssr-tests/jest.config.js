@@ -23,4 +23,5 @@ module.exports = {
     },
   },
   testEnvironment: './src/environments/custom-test-environment.ts',
+  globalSetup: './validate-ssr-build.ts',
 };

@@ -555,6 +555,12 @@ export interface FeatureTogglesInterface {
   a11yDialogsHeading?: boolean;
 
   /**
+   * When enabled, the focus will be returned to the trigger element after the dialog is closed.
+   * Affected components: 'AddtoCartComponent', 'PickupOptionsComponent'
+   */
+  a11yDialogTriggerRefocus?: boolean;
+
+  /**
    * The 'AddToWishListComponent' will restore focus to the button after adding or removing an item from the wishlist.
    */
   a11yAddToWishlistFocus?: boolean;
@@ -702,6 +708,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yQuickOrderAriaControls: false,
   a11yRemoveStatusLoadedRole: false,
   a11yDialogsHeading: false,
+  a11yDialogTriggerRefocus: false,
   a11yAddToWishlistFocus: false,
   a11ySearchBoxFocusOnEscape: false,
   occCartNameAndDescriptionInHttpRequestBody: false,

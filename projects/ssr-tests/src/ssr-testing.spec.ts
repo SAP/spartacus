@@ -66,11 +66,11 @@ describe('SSR E2E', () => {
           expect(response.statusCode).toEqual(404);
         });
 
-        it.skip('should receive response with status 500 if HTTP error occurred when calling other than cms/pages API URL', async () => {
+        it('should receive response with status 500 if HTTP error occurred when calling other than cms/pages API URL', async () => {
           backendProxy = await ProxyUtils.startBackendProxyServer({
             target: BACKEND_BASE_URL,
             responseInterceptor: ({ res, req, body }) => {
-              if (req.url?.includes('cms/pages')) {
+              if (req.url?.includes('cms/components')) {
                 res.statusCode = 404;
               }
               res.end(body);
