@@ -43,7 +43,7 @@ import { CarouselService } from './carousel.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarouselComponent implements OnInit, OnChanges {
-  @Output() keybordEvent = new BehaviorSubject<KeyboardEvent>(null);
+  @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);
   /**
    * The title is rendered as the carousel heading.
    */
