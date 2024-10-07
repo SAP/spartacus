@@ -72,6 +72,11 @@ export interface FeatureTogglesInterface {
   recentSearches?: boolean;
 
   /**
+   * In `SearchBoxComponent` it shows the trending searches.
+   */
+  trendingSearches?: boolean;
+
+  /**
    * In `InvoicesListComponent` it sorts invoices by the date of the invoice itself.
    * Previously the sorting was done by the date of creating an invoice entry.
    */
@@ -550,6 +555,12 @@ export interface FeatureTogglesInterface {
   a11yDialogsHeading?: boolean;
 
   /**
+   * When enabled, the focus will be returned to the trigger element after the dialog is closed.
+   * Affected components: 'AddtoCartComponent', 'PickupOptionsComponent'
+   */
+  a11yDialogTriggerRefocus?: boolean;
+
+  /**
    * The 'AddToWishListComponent' will restore focus to the button after adding or removing an item from the wishlist.
    */
   a11yAddToWishlistFocus?: boolean;
@@ -628,6 +639,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDownloadProposalButton: false,
   showPromotionsInPDP: true,
   recentSearches: true,
+  trendingSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: true,
   useProductCarouselBatchApi: false,
@@ -702,6 +714,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yQuickOrderAriaControls: false,
   a11yRemoveStatusLoadedRole: false,
   a11yDialogsHeading: false,
+  a11yDialogTriggerRefocus: false,
   a11yAddToWishlistFocus: false,
   a11ySearchBoxFocusOnEscape: false,
   a11yItemCounterFocus: false,

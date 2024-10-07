@@ -53,6 +53,7 @@ describe('RecentSearchesComponent', () => {
   const searchBoxComponentServiceMock = {
     changeSelectedWord: jasmine.createSpy('changeSelectedWord'),
     shareEvent: jasmine.createSpy('shareEvent'),
+    setRecentSearches: (enabled: boolean = false) => of(enabled),
   };
 
   beforeEach(async () => {

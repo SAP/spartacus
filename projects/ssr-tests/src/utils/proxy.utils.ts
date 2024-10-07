@@ -16,14 +16,31 @@ interface ProxyOptions {
    * The url to reroute requests to.
    */
   target: string;
-  /**
-   * Number of seconds to delay requests before sending.
-   */
-  delay?: number;
-  /**
-   * Callback to be executed if the request to the target got a response.
-   */
-  callback?: httpProxy.ProxyResCallback;
+
+  responseInterceptor?: (params: {
+    /**
+     * The body of the response from the upstream server.
+     *
+     * Note: we're exposing separately from the `proxyRes` object for convenience
+     *       (because extracting it manually from `proxyRes` is very cumbersome)
+     */
+    body: string;
+
+    /**
+     * The response from the upstream server.
+     */
+    proxyRes: http.IncomingMessage;
+
+    /**
+     * The request that was sent to the upstream server.
+     */
+    req: http.IncomingMessage;
+
+    /**
+     * The response that will be sent to the client.
+     */
+    res: http.ServerResponse;
+  }) => void;
 }
 
 /**
@@ -34,24 +51,36 @@ export async function startBackendProxyServer(
 ): Promise<http.Server> {
   const proxy = httpProxy.createProxyServer({
     secure: false,
+    selfHandleResponse: !!options.responseInterceptor,
   });
+  if (options.responseInterceptor) {
+    proxy.on('proxyRes', (proxyRes, req, res) => {
+      // We have to buffer the response body before passing it to the interceptor
+      const bodyBuffer: Buffer[] = [];
+      proxyRes.on('data', (chunk) => {
+        bodyBuffer.push(chunk);
+      });
+      proxyRes.on('end', () => {
+        const body = Buffer.concat(bodyBuffer).toString();
+
+        // Pass the body to the interceptor
+        if (options.responseInterceptor) {
+          options.responseInterceptor({
+            body,
+            proxyRes,
+            res,
+            req,
+          });
+        } else {
+          res.end(body);
+        }
+      });
+    });
+  }
+
   return new Promise((resolve) => {
     const server = http.createServer((req, res) => {
-      const forwardRequest = () =>
-        proxy.web(req, res, { target: options.target });
-
-      if (options.callback) {
-        // Add one-time listener for the proxy response that stays until `proxyRes` event is triggered next time.
-        proxy.once('proxyRes', options.callback);
-      }
-
-      if (options.delay) {
-        setTimeout(() => {
-          forwardRequest();
-        }, options.delay);
-      } else {
-        forwardRequest();
-      }
+      proxy.web(req, res, { target: options.target });
     });
 
     server.listen(9002, () => {
