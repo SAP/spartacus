@@ -72,6 +72,11 @@ export interface FeatureTogglesInterface {
   recentSearches?: boolean;
 
   /**
+   * In `SearchBoxComponent` it shows the trending searches.
+   */
+  trendingSearches?: boolean;
+
+  /**
    * In `InvoicesListComponent` it sorts invoices by the date of the invoice itself.
    * Previously the sorting was done by the date of creating an invoice entry.
    */
@@ -370,6 +375,12 @@ export interface FeatureTogglesInterface {
   a11yTruncatedTextForResponsiveView?: boolean;
 
   /**
+   * When enabled focus outline on the close button inside `ProductImageZoomDialogComponent`
+   * will be fully visible
+   */
+  a11yCloseProductImageBtnFocus?: boolean;
+
+  /**
    * Modifies getAriaLabel method in 'PaginationComponent' to return a sematic label.
    */
   a11ySemanticPaginationLabel?: boolean;
@@ -628,6 +639,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDownloadProposalButton: false,
   showPromotionsInPDP: true,
   recentSearches: true,
+  trendingSearches: false,
   pdfInvoicesSortByInvoiceDate: false,
   storeFrontLibCardParagraphTruncated: true,
   useProductCarouselBatchApi: false,
@@ -677,6 +689,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPreventSRFocusOnHiddenElements: false,
   a11yMyAccountLinkOutline: false,
+  a11yCloseProductImageBtnFocus: false,
   a11yNotificationPreferenceFieldset: false,
   a11yImproveContrast: false,
   a11yEmptyWishlistHeading: false,

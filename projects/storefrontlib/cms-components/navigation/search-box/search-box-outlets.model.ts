@@ -6,4 +6,5 @@
 
 export enum SearchBoxOutlets {
   RECENT_SEARCHES = 'SearchBoxOutlets.RECENT_SEARCHES',
+  TRENDING_SEARCHES = 'SearchBoxOutlets.TRENDING_SEARCHES',
 }
