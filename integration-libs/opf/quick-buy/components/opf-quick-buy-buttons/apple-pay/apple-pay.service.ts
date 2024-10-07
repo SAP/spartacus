@@ -18,13 +18,14 @@ import {
 } from 'rxjs/operators';
 
 import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
-import { OpfPaymentFacade, PaymentMethod } from '@spartacus/opf/payment/root';
+import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import {
   ApplePaySessionVerificationRequest,
   ApplePaySessionVerificationResponse,
   ApplePayTransactionInput,
   OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
+  OpfProviderType,
   OpfQuickBuyDeliveryType,
   OpfQuickBuyFacade,
   OpfQuickBuyLocation,
@@ -420,7 +421,7 @@ export class ApplePayService {
           additionalData: [],
           paymentSessionId: '',
           callbackArray: [() => {}, () => {}, () => {}],
-          paymentMethod: PaymentMethod.APPLE_PAY,
+          paymentMethod: OpfProviderType.APPLE_PAY as any,
           encryptedToken,
           cartId,
         });

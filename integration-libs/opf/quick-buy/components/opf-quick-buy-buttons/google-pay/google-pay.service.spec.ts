@@ -9,10 +9,11 @@ import { TestBed } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
 import { Address, PriceType } from '@spartacus/core';
 import { OpfResourceLoaderService } from '@spartacus/opf/base/root';
-import { OpfPaymentFacade, PaymentMethod } from '@spartacus/opf/payment/root';
+import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import {
   OPF_QUICK_BUY_ADDRESS_FIELD_PLACEHOLDER,
+  OpfProviderType,
   OpfQuickBuyLocation,
 } from '@spartacus/opf/quick-buy/root';
 import { CurrentProductService } from '@spartacus/storefront';
@@ -654,7 +655,7 @@ describe('OpfGooglePayService', () => {
             expect(submitPaymentArgs.cartId).toBe(mockCartId);
             expect(submitPaymentArgs.encryptedToken).toBe(encodedMockToken);
             expect(submitPaymentArgs.paymentMethod).toBe(
-              PaymentMethod.GOOGLE_PAY
+              OpfProviderType.GOOGLE_PAY
             );
             expect(
               mockQuickBuyTransactionService.getCurrentCartId

@@ -13,7 +13,7 @@ import {
   ActiveConfiguration,
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
-import { OpfPaymentFacade, PaymentMethod } from '@spartacus/opf/payment/root';
+import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import {
   OPF_QUICK_BUY_ADDRESS_FIELD_PLACEHOLDER,
@@ -360,7 +360,7 @@ export class OpfGooglePayService {
                     additionalData: [],
                     paymentSessionId: '',
                     callbackArray: [() => {}, () => {}, () => {}],
-                    paymentMethod: PaymentMethod.GOOGLE_PAY,
+                    paymentMethod: OpfProviderType.GOOGLE_PAY as any,
                     encryptedToken,
                     cartId,
                   });

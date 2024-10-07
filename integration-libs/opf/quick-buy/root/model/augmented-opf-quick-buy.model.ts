@@ -13,10 +13,3 @@ declare module '@spartacus/opf/base/root' {
     digitalWalletQuickBuy?: OpfQuickBuyDigitalWallet[];
   }
 }
-
-declare module '@spartacus/opf/payment/root' {
-  enum PaymentMethod {
-    APPLE_PAY = 'APPLE_PAY',
-    GOOGLE_PAY = 'GOOGLE_PAY',
-  }
-}
