@@ -1,56 +1,20 @@
 %cx-subscription-product-usage-charge {
   .subscription-usage-charge {
-    border: 2px solid red;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
+    margin: 20px 0px;
   }
-  .subscription-perunitusage {
-    border: 2px solid blue;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
+  .subscription-usage-charge-name {
+    font-weight: var(--cx-font-weight-bold);
   }
-  .subscription-volumeusage {
-    border: 2px solid blue;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
+  .subscription-usage-charge-entry {
+    border: 1px solid var(--cx-color-medium);
+    padding: 5px;
+    margin: 5px 0px;
+    display: inline-block;
+    border-radius: 5px;
   }
-  .subscription-tierusage {
-    border: 2px solid blue;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
-  }
-  .subscription-percentageusage {
-    border: 2px solid blue;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
-  }
-  .subscription-perunitusage-charge {
-    border: 2px solid greenyellow;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
-  }
-  .subscription-volumeusage-charge {
-    border: 2px solid greenyellow;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
-  }
-  .subscription-tierusage-charge {
-    border: 2px solid greenyellow;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
-  }
-  .subscription-percentageusage-charge {
-    border: 2px solid greenyellow;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
+  .subscription-message {
+    @include type('7');
+    color: var(--cx-color-secondary);
+    margin: 0 0 20px 0;
   }
 }

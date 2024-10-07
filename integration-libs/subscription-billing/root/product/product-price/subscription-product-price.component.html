@@ -1,21 +1,13 @@
 <ng-container *ngIf="product$ | async as product">
   <div
-    class="subscription"
+    class="subscription-info"
     *ngIf="isCurrentProductSubscription(product); else showGenericProductPrice"
   >
-    <div class="subscription-plan-name">
-      {{ product.sapPricePlan?.name }}
-    </div>
-    <div
-      class="subscription-onetime"
-      *ngIf="getOneTimeCharges(product).length > 0"
-    >
+    <div class="subscription-name">{{ product.sapPricePlan?.name }}:</div>
+    <div *ngIf="getOneTimeCharges(product).length > 0">
       <ng-container *ngTemplateOutlet="showOneTimeCharges"></ng-container>
     </div>
-    <div
-      class="subscription-recurring"
-      *ngIf="getRecurringCharges(product).length > 0"
-    >
+    <div *ngIf="getRecurringCharges(product).length > 0">
       <ng-container *ngTemplateOutlet="showRecurringCharges"></ng-container>
     </div>
     <ng-container *ngTemplateOutlet="showTerm"></ng-container>
@@ -25,37 +17,29 @@
   </div>
   <ng-template #showOneTimeCharges>
     <div
-      class="subscription-onetimecharges"
+      class="subscription-onetimecharge"
       *ngFor="let charge of getOneTimeCharges(product)"
     >
-      <div [attr.aria-label]="'productSummary.newItemPrice' | cxTranslate">
-        {{ charge.price?.formattedValue }}
-      </div>
       <div>
-        {{ charge.billingTime?.name }}
+        {{ charge.billingTime?.name }}: {{ charge.price?.formattedValue }}
       </div>
     </div>
   </ng-template>
 
   <ng-template #showRecurringCharges>
     <div
-      class="subscription-recurringcharges"
+      class="subscription-recurringcharge"
       *ngFor="let charge of getRecurringCharges(product)"
     >
-      <div [attr.aria-label]="'productSummary.newItemPrice' | cxTranslate">
-        {{ charge.price?.formattedValue }}
-      </div>
       <div>
-        {{ product.sapSubscriptionTerm?.billingPlan?.billingTime?.name }}
+        {{ product.sapSubscriptionTerm?.billingPlan?.billingTime?.name }}:
+        {{ charge.price?.formattedValue }}
       </div>
     </div>
   </ng-template>
 
   <ng-template #showTerm>
-    <div
-      class="subscription-minimumterm"
-      [attr.aria-label]="'subscriptionProduct.minimumTerm' | cxTranslate"
-    >
+    <div class="subscription-minimumterm">
       {{
         'subscriptionProduct.minimumTerm'
           | cxTranslate
@@ -63,14 +47,11 @@
                 term:
                   product.sapSubscriptionTerm?.minimumTerm?.value +
                   ' ' +
-                  product.sapSubscriptionTerm?.minimumTerm?.frequency?.name,
+                  product.sapSubscriptionTerm?.minimumTerm?.frequency?.name
               }
       }}
     </div>
-    <div
-      class="subscription-renewalterm"
-      [attr.aria-label]="'subscriptionProduct.renewalTerm' | cxTranslate"
-    >
+    <div class="subscription-renewalterm">
       {{
         'subscriptionProduct.renewalTerm'
           | cxTranslate
@@ -78,7 +59,7 @@
                 term:
                   product.sapSubscriptionTerm?.renewalTerm?.value +
                   ' ' +
-                  product.sapSubscriptionTerm?.renewalTerm?.frequency?.name,
+                  product.sapSubscriptionTerm?.renewalTerm?.frequency?.name
               }
       }}
     </div>

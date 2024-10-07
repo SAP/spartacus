@@ -17,6 +17,8 @@ import { SubscriptionProductUsageChargeComponent } from './product-price/subscri
 import { CommonModule } from '@angular/common';
 import { defaultOccSubscriptionBillingConfig } from './occ/config/default-occ-subscription-billing-config';
 import { CurrentSubscriptionProductService } from './services/current-subscription-product.service';
+import { MockInterceptor } from '../dummy/dummy-http-interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 const componentList = [
   SubscriptionProductPriceComponent,
@@ -35,6 +37,11 @@ const componentList = [
     {
       provide: CurrentProductService,
       useExisting: CurrentSubscriptionProductService,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useExisting: MockInterceptor,
+      multi: true,
     },
   ],
   exports: componentList,

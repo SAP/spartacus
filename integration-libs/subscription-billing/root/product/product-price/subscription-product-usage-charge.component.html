@@ -1,37 +1,27 @@
 <div class="subscription-usage-charge">
-  {{ 'subscriptionProduct.usageCharges' | cxTranslate }}
+  <div class="subscription-usage-charge-name">
+    {{ 'subscriptionProduct.usageCharges' | cxTranslate }}:
+  </div>
 
-  <div *ngIf="getTierUsageCharges().length > 0" class="subscription-tierusage">
+  <div *ngIf="getTierUsageCharges().length > 0">
     <ng-container *ngTemplateOutlet="showTierUsageCharges"></ng-container>
   </div>
 
-  <div
-    *ngIf="getVolumeUsageCharges().length > 0"
-    class="subscription-volumeusage"
-  >
+  <div *ngIf="getVolumeUsageCharges().length > 0">
     <ng-container *ngTemplateOutlet="showVolumeUsageCharges"></ng-container>
   </div>
 
-  <div
-    *ngIf="getPercentageUsageCharges().length > 0"
-    class="subscription-percentageusage"
-  >
+  <div *ngIf="getPercentageUsageCharges().length > 0">
     <ng-container *ngTemplateOutlet="showPercentageUsageCharges"></ng-container>
   </div>
 
-  <div
-    *ngIf="getPerUnitUsageCharges().length > 0"
-    class="subscription-perunitusage"
-  >
-    <ng-container *ngTemplateOutlet="showBlockUsageCharges"></ng-container>
+  <div *ngIf="getPerUnitUsageCharges().length > 0">
+    <ng-container *ngTemplateOutlet="showPerUnitUsageCharges"></ng-container>
   </div>
 </div>
 
-<ng-template #showBlockUsageCharges>
-  <div
-    class="subscription-perunitusage-charge"
-    *ngFor="let usageCharge of getPerUnitUsageCharges()"
-  >
+<ng-template #showPerUnitUsageCharges>
+  <ng-container *ngFor="let usageCharge of getPerUnitUsageCharges()">
     <div *ngIf="usageCharge.includedQty ?? 0 > 0">
       {{
         'subscriptionProduct.includedQuantity'
@@ -39,42 +29,45 @@
       }}
     </div>
 
-    <div *ngFor="let usageChargeEntry of usageCharge.perUnitUsageChargeEntries">
-      <div *ngIf="usageCharge.blockSize === 1">
+    <div
+      *ngFor="let usageChargeEntry of usageCharge.perUnitUsageChargeEntries"
+      class="subscription-usage-charge-entry"
+    >
+      <ng-container *ngIf="usageCharge.blockSize === 1">
         {{
-          'subscriptionProduct.pricePerUsage'
+          'subscriptionProduct.oneBlockUsage'
             | cxTranslate
               : {
                   price: usageChargeEntry.price?.formattedValue,
-                  usage: usageCharge.usageUnit?.name,
+                  usage: usageCharge.usageUnit?.name
                 }
         }}
-      </div>
-      <div *ngIf="usageCharge.blockSize ?? 0 > 1">
+      </ng-container>
+      <ng-container *ngIf="usageCharge.blockSize ?? 0 > 1">
         {{
-          'subscriptionProduct.priceForEveryBlock'
+          'subscriptionProduct.multiBlockUsage'
             | cxTranslate
               : {
                   price: usageChargeEntry.price?.formattedValue,
                   block:
                     usageCharge.blockSize +
                     ' ' +
-                    usageCharge?.usageUnit?.namePlural,
+                    usageCharge?.usageUnit?.namePlural
                 }
         }}
-      </div>
+      </ng-container>
     </div>
-  </div>
+  </ng-container>
 </ng-template>
 
 <ng-template #showVolumeUsageCharges>
-  <div
-    class="subscription-volumeusage-charge"
-    *ngFor="let usageCharge of getVolumeUsageCharges()"
-  >
-    <div *ngFor="let usageChargeEntry of usageCharge.tierUsageChargeEntries">
+  <ng-container *ngFor="let usageCharge of getVolumeUsageCharges()">
+    <div
+      *ngFor="let usageChargeEntry of usageCharge.tierUsageChargeEntries"
+      class="subscription-usage-charge-entry"
+    >
       {{
-        'subscriptionProduct.usagePlus'
+        'subscriptionProduct.volumeUsage'
           | cxTranslate
             : {
                 from:
@@ -85,13 +78,16 @@
                   usageChargeEntry.tierEnd + ' ' + usageCharge.usageUnit?.name,
                 fixed: usageChargeEntry.fixedPrice?.formattedValue,
                 price: usageChargeEntry.price?.formattedValue,
-                usage: usageCharge.usageUnit?.name,
+                usage: usageCharge.usageUnit?.name
               }
       }}
     </div>
-    <div *ngFor="let usageChargeEntry of usageCharge.overageUsageChargeEntries">
+    <div
+      *ngFor="let usageChargeEntry of usageCharge.overageUsageChargeEntries"
+      class="subscription-usage-charge-entry"
+    >
       {{
-        'subscriptionProduct.overagePlus'
+        'subscriptionProduct.volumeOverageUsage'
           | cxTranslate
             : {
                 from:
@@ -101,77 +97,75 @@
                   usageCharge.usageUnit?.name,
                 fixed: usageChargeEntry.fixedPrice?.formattedValue,
                 price: usageChargeEntry.price?.formattedValue,
-                usage: usageCharge.usageUnit?.namePlural,
+                usage: usageCharge.usageUnit?.name
               }
       }}
     </div>
-    {{ 'subscriptionProduct.volumeMessage' | cxTranslate }}
-  </div>
+    <div class="subscription-message">
+      {{ 'subscriptionProduct.volumeUsageMessage' | cxTranslate }}
+    </div>
+  </ng-container>
 </ng-template>
 
 <ng-template #showTierUsageCharges>
-  <div
-    class="subscription-tierusage-charge"
-    *ngFor="let usageCharge of getTierUsageCharges()"
-  >
-    <div *ngFor="let usageChargeEntry of usageCharge.tierUsageChargeEntries">
+  <ng-container *ngFor="let usageCharge of getTierUsageCharges()">
+    <div
+      *ngFor="let usageChargeEntry of usageCharge.tierUsageChargeEntries"
+      class="subscription-usage-charge-entry"
+    >
       {{
-        'subscriptionProduct.usage'
+        'subscriptionProduct.tierUsage'
           | cxTranslate
             : {
                 from:
-                  usageChargeEntry.tierStart ??
-                  '' + usageCharge.usageUnit?.name,
-                to:
-                  usageChargeEntry.tierEnd ?? '' + usageCharge.usageUnit?.name,
-                price: usageChargeEntry.price?.formattedValue,
-                usage: usageCharge.usageUnit?.name,
-              }
-      }}
-    </div>
-    <div *ngFor="let usageChargeEntry of usageCharge.overageUsageChargeEntries">
-      {{
-        'subscriptionProduct.overage'
-          | cxTranslate
-            : {
-                from:
-                  getLastTierValue(usageCharge.tierUsageChargeEntries ?? []) +
-                  1 +
+                  usageChargeEntry.tierStart +
                   ' ' +
                   usageCharge.usageUnit?.name,
+                to:
+                  usageChargeEntry.tierEnd + ' ' + usageCharge.usageUnit?.name,
                 price: usageChargeEntry.price?.formattedValue,
-                usage: usageCharge.usageUnit?.namePlural,
+                usage: usageCharge.usageUnit?.name
               }
       }}
     </div>
-    {{ 'subscriptionProduct.tierMessage' | cxTranslate }}
-  </div>
+    <div
+      *ngFor="let usageChargeEntry of usageCharge.overageUsageChargeEntries"
+      class="subscription-usage-charge-entry"
+    >
+      {{
+        'subscriptionProduct.tierOverageUsage'
+          | cxTranslate
+            : {
+                from:
+                  getLastTierValue(usageCharge?.tierUsageChargeEntries || []) +
+                  1 +
+                  (usageCharge?.usageUnit?.name || ''),
+                price: usageChargeEntry.price?.formattedValue,
+                usage: usageCharge.usageUnit?.name
+              }
+      }}
+    </div>
+    <div class="subscription-message">
+      {{ 'subscriptionProduct.tierUsageMessage' | cxTranslate }}
+    </div>
+  </ng-container>
 </ng-template>
 
 <ng-template #showPercentageUsageCharges>
-  <div
-    class="subscription-percentageusage-charge"
-    *ngFor="let usageCharge of getPercentageUsageCharges()"
-  >
-    <ng-container
+  <ng-container *ngFor="let usageCharge of getPercentageUsageCharges()">
+    <div
       *ngFor="let usageChargeEntry of usageCharge.percentageUsageChargeEntries"
+      class="subscription-usage-charge-entry"
     >
-      <div>
-        {{
-          'subscriptionProduct.includedRatio'
-            | cxTranslate: { ratio: usageCharge.ratio }
-        }}
-      </div>
-      <div>
-        {{
-          'subscriptionProduct.pricePerUsage'
-            | cxTranslate
-              : {
-                  price: usageChargeEntry.price?.formattedValue,
-                  usage: usageCharge.usageUnit?.name,
-                }
-        }}
-      </div>
-    </ng-container>
-  </div>
+      {{
+        'subscriptionProduct.percentageUsage'
+          | cxTranslate
+            : {
+                ratio: usageCharge.ratio,
+                price: usageChargeEntry.price?.formattedValue,
+                usage: usageCharge.usageUnit?.name
+              }
+      }}
+    </div>
+  </ng-container>
 </ng-template>

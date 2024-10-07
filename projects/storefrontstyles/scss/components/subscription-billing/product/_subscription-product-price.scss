@@ -1,44 +1,5 @@
 %cx-subscription-product-price {
-  .subscription {
-    border: 2px solid red;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
-  }
-  .subscription-onetimecharges {
-    border: 2px solid greenyellow;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
-  }
-  .subscription-recurringcharges {
-    border: 2px solid greenyellow;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
-  }
-  .subscription-minimumterm {
-    border: 2px solid red;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
-  }
-  .subscription-renewalterm {
-    border: 2px solid red;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
-  }
-  .subscription-recurring {
-    border: 2px solid red;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
-  }
-  .subscription-onetime {
-    border: 2px solid red;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 2px;
+  .subscription-name {
+    font-weight: var(--cx-font-weight-bold);
   }
 }
