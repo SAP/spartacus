@@ -94,26 +94,36 @@ describe('CpqQuoteDiscountComponent', () => {
     });
     it('should display the appliedValue data', () => {
       const discounts: CpqDiscounts[] = [
-          { appliedValue: 30, isoCode: 'USD', value: 15 },
+        { appliedValue: 30, isoCode: 'USD', value: 15 },
       ];
       mockCartItemContext.item$.next({
-          cpqDiscounts: discounts,
-          basePrice: { value: 100, formattedValue: 'USD100.00' }, // Ensure basePrice is set correctly
-          quantity: 1 // Ensure quantity is set
+        cpqDiscounts: discounts,
+        basePrice: { value: 100, formattedValue: 'USD100.00' }, // Ensure basePrice is set correctly
+        quantity: 1, // Ensure quantity is set
       });
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
       const discountsDisplayed = htmlElem.querySelectorAll('.cx-discount');
       expect(discountsDisplayed.length).toBe(discounts.length);
       for (let i = 0; i < discountsDisplayed.length; i++) {
-          const expectedDiscountedPrice = component.getDiscountedPrice(100, discounts[i].appliedValue, 1);
-          const formattedPrice = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(expectedDiscountedPrice ?? 0);
-          const expectedDisplayValue = `${discounts[i].isoCode}${formattedPrice}`; // e.g., 'USD70.00'
-          console.log(`Expected: ${expectedDisplayValue}, Actual: ${discountsDisplayed[i].textContent}`); // Debug log
-          expect(discountsDisplayed[i].textContent.trim()).toBe(expectedDisplayValue); // Check for exact match
+        const expectedDiscountedPrice = component.getDiscountedPrice(
+          100,
+          discounts[i].appliedValue,
+          1
+        );
+        const formattedPrice = new Intl.NumberFormat('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(expectedDiscountedPrice ?? 0);
+        const expectedDisplayValue = `${discounts[i].isoCode}${formattedPrice}`; // e.g., 'USD70.00'
+        console.log(
+          `Expected: ${expectedDisplayValue}, Actual: ${discountsDisplayed[i].textContent}`
+        ); // Debug log
+        expect(discountsDisplayed[i].textContent.trim()).toBe(
+          expectedDisplayValue
+        ); // Check for exact match
       }
-  });
-
+    });
   });
   describe('formattedValue', () => {
     it('should render formattedValue element if basePrice.formattedValue is defined', () => {

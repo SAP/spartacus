@@ -113,9 +113,14 @@ describe('CpqQuoteOfferComponent', () => {
       const basePrice = 100;
       const appliedDiscount = 20;
       const quantity = 1;
-      const expectedPercentage = (appliedDiscount / (basePrice * quantity)) * 100;
-      const result = component.getDiscountPercentage(basePrice, appliedDiscount, quantity);
+      const expectedPercentage =
+        (appliedDiscount / (basePrice * quantity)) * 100;
+      const result = component.getDiscountPercentage(
+        basePrice,
+        appliedDiscount,
+        quantity
+      );
       expect(result).toBe(expectedPercentage);
-  });
+    });
   });
 });
