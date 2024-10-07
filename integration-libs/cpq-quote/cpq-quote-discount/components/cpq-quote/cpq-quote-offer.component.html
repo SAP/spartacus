@@ -13,9 +13,12 @@
         'discountCaption'
           | cxTranslate
             : {
-                discount: discount?.value,
-              }
+              discount: getDiscountPercentage(quoteDiscountData.basePrice?.value, discount.appliedValue, quoteDiscountData.quantity)
+            | number: '1.0-0' : 'en-US'
+            }
       }}
-    </div></ng-container
+    </div>
+
+    </ng-container
   >
 </ng-container>

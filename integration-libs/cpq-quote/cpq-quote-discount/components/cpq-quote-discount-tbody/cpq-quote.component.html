@@ -11,7 +11,7 @@
       <span role="cell" class="cx-total cx-discount">
         {{ discount.isoCode
         }}{{
-          getDiscountedPrice(quoteDiscountData.basePrice?.value, discount.value)
+          getDiscountedPrice(quoteDiscountData.basePrice?.value, discount.appliedValue,quoteDiscountData.quantity)
             | number: '1.2-2' : 'en-US'
         }}
       </span>

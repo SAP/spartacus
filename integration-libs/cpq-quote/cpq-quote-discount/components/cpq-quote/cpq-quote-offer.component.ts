@@ -45,4 +45,14 @@ export class CpqQuoteOfferComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
+  getDiscountPercentage(
+    basePrice: number | undefined,
+    appliedDiscount: number | undefined,
+    quantity: number | undefined,
+  ): number | undefined {
+    if (basePrice !== undefined && appliedDiscount !== undefined && quantity !== undefined) {
+      const totalBasePrice = basePrice * quantity;
+      return (appliedDiscount / totalBasePrice) * 100;
+    }
+  }
 }

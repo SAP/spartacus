@@ -109,5 +109,13 @@ describe('CpqQuoteOfferComponent', () => {
       component.ngOnInit();
       expect(component.quoteDiscountData).toBeNull();
     });
+    it('should calculate the correct discount percentage', () => {
+      const basePrice = 100;
+      const appliedDiscount = 20;
+      const quantity = 1;
+      const expectedPercentage = (appliedDiscount / (basePrice * quantity)) * 100;
+      const result = component.getDiscountPercentage(basePrice, appliedDiscount, quantity);
+      expect(result).toBe(expectedPercentage);
+  });
   });
 });
