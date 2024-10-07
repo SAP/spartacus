@@ -523,7 +523,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     results[nextGroupIndex][0].focus();
   }
 
-  carouseEventPropagator(event: KeyboardEvent) {
+  carouselEventPropagator(event: KeyboardEvent | null) {
     if (!event || !event?.code) {
       return;
     }

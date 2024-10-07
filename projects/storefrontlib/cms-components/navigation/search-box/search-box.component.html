@@ -214,7 +214,7 @@
         [items]="items"
         [template]="carouselItem"
         itemWidth="160px"
-        (keybordEvent)="carouseEventPropagator($event)"
+        (keybordEvent)="carouselEventPropagator($event)"
       >
       </cx-carousel>
 
@@ -230,9 +230,9 @@
           [class.has-media]="config.displayProductImages"
           (keydown.enter)="close($any($event), true)"
           (keydown.escape)="close($any($event), true)"
-          (keydown.arrowleft)="carouseEventPropagator($any($event))"
-          (keydown.arrowright)="carouseEventPropagator($any($event))"
-          (keydown.arrowup)="carouseEventPropagator($any($event))"
+          (keydown.arrowleft)="carouselEventPropagator($any($event))"
+          (keydown.arrowright)="carouselEventPropagator($any($event))"
+          (keydown.arrowup)="carouselEventPropagator($any($event))"
           (mousedown)="preventDefault($event)"
           (click)="
             dispatchProductEvent({
