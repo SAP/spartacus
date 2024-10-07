@@ -31,7 +31,8 @@ import {
   Product,
   isNotNullable,
   OccEndpointsService,
-  FeatureToggles
+  FeatureToggles,
+  ProductScope
 } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -167,22 +168,27 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    * CXSPA-8577: Bugfix for scenario where a user might want the live stocks to be displayed on PDP.
    */
   getInventory(): string {
-    if(this.featureToggles.realTimeStockDispaly){
+    if (this.featureToggles.realTimeStockDispaly) {
       let qty = this.loadrealtimestock(this.productCode);
       console.log(qty);
       const parsedResponse = JSON.parse(qty);
       const availabilityItems = parsedResponse.availabilityItems;
       if (availabilityItems && availabilityItems.length > 0) {
         const unitAvailabilities = availabilityItems[0].unitAvailabilities;
-        if (unitAvailabilities && unitAvailabilities.length > 0 && unitAvailabilities[0].status === 'IN_STOCK') {
+        if (
+          unitAvailabilities &&
+          unitAvailabilities.length > 0 &&
+          unitAvailabilities[0].status === 'IN_STOCK'
+        ) {
           const quantity = unitAvailabilities[0].quantity;
           const quantityDisplay = quantity ? quantity : '';
-          return this.inventoryThreshold ? quantityDisplay + '+' : quantityDisplay;
+          return this.inventoryThreshold
+            ? quantityDisplay + '+'
+            : quantityDisplay;
         } else {
           return '';
         }
       }
-
     }
     if (this.hasStock) {
       const quantityDisplay = this.maxQuantity
@@ -197,11 +203,15 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (this.featureToggles.realTimeStockDispaly) {
       let productUrl = this.occEndpoints.buildUrl('product', {
         urlParams: { productCode: productCode },
+        scope: ProductScope.UNIT
       });
+      const res = this.http.get(productUrl);
+      console.log(res);
       this.http.get(productUrl).pipe(
         map((sapCode) => {
           let availabilityUrl = this.occEndpoints.buildUrl('product', {
             queryParams: { productCode: productCode, sapCode: sapCode },
+            scope: ProductScope.PRODUCT_AVAILABILITIES
           });
           console.log(productUrl);
           console.log(availabilityUrl);
