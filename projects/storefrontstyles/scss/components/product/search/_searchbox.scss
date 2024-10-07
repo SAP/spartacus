@@ -325,6 +325,9 @@
     input {
       @include media-breakpoint-down(sm) {
         background-color: var(--cx-color-light);
+        &:focus {
+          box-shadow: 0 -2px 0 $medium;
+        }
       }
     }
     .search-panel-close-btn {
@@ -369,7 +372,7 @@
         max-width: 160px;
         display: block;
         cursor: pointer;
-        font-weight: 800;
+        @include type('6');
 
         .highlight,
         .search-results-highlight {
@@ -381,7 +384,8 @@
       h3:not(.cx-product-name) {
         display: inline-block;
         padding-inline-start: 0;
-        @include type('6');
+        font-size: $font-size-base * 1.25; // 20px
+        @include weight('semi');
       }
       ul {
         padding-inline-start: 0;
