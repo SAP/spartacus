@@ -128,9 +128,6 @@ describe('OpfDynamicCtaService', () => {
       .subscribe(() => {
         service.initiateEvents();
         expect(eventServiceMock.get).toHaveBeenCalled();
-        expect(
-          globalFunctionsFacadeMock.registerGlobalFunctions
-        ).toHaveBeenCalled();
         done();
       });
   });
@@ -144,11 +141,15 @@ describe('OpfDynamicCtaService', () => {
       .subscribe(() => {
         service.initiateEvents();
         expect(eventServiceMock.get).not.toHaveBeenCalled();
-        expect(
-          globalFunctionsFacadeMock.registerGlobalFunctions
-        ).toHaveBeenCalled();
         done();
       });
+  });
+
+  it('should register ScriptReadyEvent global function', () => {
+    service.registerScriptReadyEvent();
+    expect(
+      globalFunctionsFacadeMock.registerGlobalFunctions
+    ).toHaveBeenCalled();
   });
 
   it('should remove global functions on stopEvents', (done) => {
