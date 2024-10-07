@@ -47,6 +47,12 @@
         text-transform: none;
         background: var(--cx-color-inverse) none;
 
+        @include cx-highContrastTheme {
+          border-bottom: solid 1px var(--cx-color-dark);
+          border-top: solid 1px var(--cx-color-dark);
+          background: var(--cx-color-background) none;
+        }
+
         @include media-breakpoint-down(sm) {
           position: sticky;
           top: 2px;
@@ -73,6 +79,10 @@
         text-transform: uppercase;
         border: solid 1px var(--cx-color-light);
         background-color: var(--cx-color-background);
+
+        @include cx-highContrastTheme {
+          border: solid 1px var(--cx-color-dark);
+        }
 
         @include media-breakpoint-down(sm) {
           position: sticky;

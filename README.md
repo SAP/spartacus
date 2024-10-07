@@ -21,7 +21,7 @@ On-premise customers may still use Spartacus open source. For more information, 
 Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.
 
 - Documentation is available on the [SAP Help Portal](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT?locale=en-US).
-- Try out a [sample Spartacus storefront](https://spartacus-demo.eastus.cloudapp.azure.com/electronics-spa/en/USD/) on our public demo site.
+- Try out a [sample Spartacus storefront](https://composable-storefront-demo.eastus.cloudapp.azure.com/electronics-spa/en/USD/ ) on our public demo site.
 - Technical questions? Get in touch with us on [Stack Overflow](https://stackoverflow.com/questions/tagged/spartacus-storefront).
 - Non-technical questions? Join our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/zt-jekftqo0-HP6xt6IF~ffVB2cGG66fcQ).
 - For details on the 4.0 launch, see the [Release Information page](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/6c7b98dbe68f4a508cac17a207182f4c/5ebbd2c8478a4874863a6b217c0aa2ba.html) on the SAP Help Portal.

@@ -19,7 +19,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'checkoutLogin.emailAddress.label' | cxTranslate
+          label: 'checkoutLogin.emailAddress.label' | cxTranslate,
         }"
         [control]="checkoutLoginForm.get('email')"
       ></cx-form-errors>
@@ -51,7 +51,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'checkoutLogin.confirmEmail.label' | cxTranslate
+          label: 'checkoutLogin.confirmEmail.label' | cxTranslate,
         }"
         [control]="checkoutLoginForm.get('emailConfirmation')"
       ></cx-form-errors>
