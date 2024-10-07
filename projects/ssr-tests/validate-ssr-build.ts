@@ -6,6 +6,7 @@
 
 /**
  * Verify that the SSR app under tests meets the following criteria:
+ *
  * 1. The app us built in prod mode.
  *
  *    Why it's needed:
@@ -20,12 +21,23 @@
  *      Some tests require mocking the behavior of the backend using a local backend http proxy.
  *      If the app is not calling a local backend proxy as a base OCC url, some tests will fail.
  *
+ * 3. No other process is already listening on the HTTP port used by the SSR server.
+ *
+ *    Why it's needed:
+ *      In tests we start a new SSR server process listening on a specific port.
+ *      If anything is listening on that port, the tests will fail.
  *
  * In this file we'll validate the build of the app before running the tests.
  */
 
 import * as fs from 'fs';
+import * as http from 'http';
 import * as path from 'path';
+
+/**
+ * The port the SSR server will listen on.
+ */
+const SSR_PORT = 4000;
 
 /**
  * String that always appears in the `main.js` file of the SSR app when built with a local backend proxy.
@@ -52,6 +64,22 @@ const BUILD_COMMAND_ADVICE =
   colorToYellow('Please build the SSR app with the following command\n') +
   colorToYellow('> npm run build && npm run build:ssr:local-http-backend\n');
 
+/**
+ * Advice to the user on how to kill the process listening on the port.
+ */
+export const KILL_PORT_ADVICE =
+  colorToYellow(
+    `Please kill the process listening on port ${SSR_PORT} to free the port for the SSR server.\n`
+  ) +
+  // include 2 commands that will work both on Mac and Linux for port 4000
+  colorToYellow('a) on Mac/Linux run:\n') +
+  colorToYellow(`   > kill -9 $(lsof -t -i :${SSR_PORT})\n`) +
+  colorToYellow(
+    'b) on Windows run 2 commands (to find PID and then to kill it): \n'
+  ) +
+  colorToYellow(`   > netstat -ano | findstr :${SSR_PORT}\n`) +
+  colorToYellow(`   > taskkill /f /pid <THE_PID__ABOVE> \n`);
+
 export default async function validateSsrBuild() {
   if (!fs.existsSync(SSR_APP_PATH)) {
     throw new Error(
@@ -77,8 +105,36 @@ SSR app is not using prod mode.
 ${BUILD_COMMAND_ADVICE}`
     );
   }
+
+  if (!(await isHttpPortFree(SSR_PORT))) {
+    throw new Error(
+      `
+Port ${SSR_PORT} is already in use.
+${KILL_PORT_ADVICE}`
+    );
+  }
 }
 
 function colorToYellow(text: string) {
   return `\x1b[33m${text}\x1b[0m`;
+}
+
+async function isHttpPortFree(port: number): Promise<boolean> {
+  return new Promise((resolve) => {
+    const server = http.createServer();
+
+    server.listen(port, () => {
+      server.close(() => {
+        resolve(true);
+      });
+    });
+
+    server.once('error', (error: NodeJS.ErrnoException) => {
+      if (error.code === 'EADDRINUSE') {
+        resolve(false);
+      } else {
+        resolve(true);
+      }
+    });
+  });
 }
