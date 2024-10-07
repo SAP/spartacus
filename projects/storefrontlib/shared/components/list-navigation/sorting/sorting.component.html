@@ -6,7 +6,7 @@
   [ngModel]="selectedOption"
   [cxNgSelectA11y]="{
     ariaLabel: ariaLabel || ('productList.sortResults' | cxTranslate),
-    ariaControls: ariaControls
+    ariaControls: ariaControls,
   }"
 >
   <ng-option *ngFor="let sort of sortOptions" [value]="sort.code">{{

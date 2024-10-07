@@ -48,6 +48,7 @@ export class ProductImageZoomDialogComponent {
     protected el: ElementRef
   ) {
     useFeatureStyles('a11yCloseProductImageBtnFocus');
+    useFeatureStyles('a11yExpandedFocusIndicator');
   }
 
   close(reason = ''): void {

@@ -53,6 +53,7 @@ export class ImportEntriesDialogComponent {
     );
 
   constructor(protected launchDialogService: LaunchDialogService) {
+    useFeatureStyles('a11yExpandedFocusIndicator');
     useFeatureStyles('a11yVisibleFocusOverflows');
   }
 

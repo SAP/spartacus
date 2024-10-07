@@ -1,0 +1,23 @@
+%cx-opf-quick-buy-buttons {
+  padding-inline-end: 0;
+  padding-inline-start: 3rem;
+  padding-top: 0;
+
+  @include media-breakpoint-up(lg) {
+    flex: none;
+  }
+
+  @include media-breakpoint-down(md) {
+    align-self: flex-end;
+    padding-inline-start: 0;
+    order: 5;
+  }
+
+  @include media-breakpoint-down(sm) {
+    margin-bottom: -2rem;
+    padding: 2rem 0 0;
+    max-width: 100%;
+    padding-inline-end: 0;
+    padding-inline-start: 0;
+  }
+}

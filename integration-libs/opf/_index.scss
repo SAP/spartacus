@@ -3,13 +3,16 @@
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';
 @import 'bootstrap/scss/_mixins';
-@import './checkout/styles/index';
 @import './base/styles/index';
+@import './checkout/styles/index';
+@import './cta/styles/index';
+@import './quick-buy/styles/index';
 
 $opf-components-allowlist: cx-opf-checkout-payment-and-review,
   cx-opf-checkout-payments, cx-opf-checkout-billing-address-form,
   cx-opf-checkout-payment-wrapper, cx-opf-checkout-terms-and-conditions-alert,
-  cx-opf-error-modal, cx-opf-cta-element !default;
+  cx-opf-error-modal, cx-opf-cta-element, cx-opf-google-pay, cx-opf-apple-pay,
+  cx-opf-quick-buy-buttons !default;
 
 $skipComponentStyles: () !default;
 

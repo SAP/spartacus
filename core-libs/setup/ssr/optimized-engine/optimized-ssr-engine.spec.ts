@@ -182,29 +182,28 @@ describe('OptimizedSsrEngine', () => {
       });
 
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-        [
-          "{
-          "message": "[spartacus] SSR optimization engine initialized",
-          "context": {
-            "timestamp": "2023-01-01T00:00:00.000Z",
-            "options": {
-              "cacheSize": 3000,
-              "concurrency": 10,
-              "timeout": 50,
-              "forcedSsrTimeout": 60000,
-              "maxRenderTime": 300000,
-              "reuseCurrentRendering": true,
-              "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR",
-              "logger": "DefaultExpressServerLogger",
-              "shouldCacheRenderingResult": "({ options, entry }) => !(options.ssrFeatureToggles?.avoidCachingErrors === true &&\\n        Boolean(entry.err))",
-              "ssrFeatureToggles": {
-                "avoidCachingErrors": false
-              }
-            }
-          }
-        }",
-        ]
-      `);
+[
+  "{
+  message: '[spartacus] SSR optimization engine initialized',
+  context: {
+    timestamp: '2023-01-01T00:00:00.000Z',
+    options: {
+      cacheSize: 3000,
+      concurrency: 10,
+      timeout: 50,
+      forcedSsrTimeout: 60000,
+      maxRenderTime: 300000,
+      reuseCurrentRendering: true,
+      renderingStrategyResolver: '() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR',
+      logger: 'DefaultExpressServerLogger',
+      shouldCacheRenderingResult: '({ options, entry }) => !(options.ssrFeatureToggles?.avoidCachingErrors === true &&\\n' +
+        '        Boolean(entry.err))',
+      ssrFeatureToggles: { avoidCachingErrors: false }
+    }
+  }
+}",
+]
+`);
     });
   });
 

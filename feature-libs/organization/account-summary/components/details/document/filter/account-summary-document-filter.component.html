@@ -26,7 +26,7 @@
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
-            label: 'orgAccountSummary.filter.startRange' | cxTranslate
+            label: 'orgAccountSummary.filter.startRange' | cxTranslate,
           }"
           [control]="formGroup.controls.from"
         ></cx-form-errors>
@@ -64,7 +64,7 @@
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
-            label: 'orgAccountSummary.filter.endRange' | cxTranslate
+            label: 'orgAccountSummary.filter.endRange' | cxTranslate,
           }"
           [control]="formGroup.controls.to"
         ></cx-form-errors>
@@ -98,7 +98,7 @@
         bindValue="code"
         [cxNgSelectA11y]="{
           ariaLabel: 'orgAccountSummary.filter.status' | cxTranslate,
-          ariaControls: 'cx-account-summary-document-table'
+          ariaControls: 'cx-account-summary-document-table',
         }"
       >
       </ng-select>
@@ -107,7 +107,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'orgAccountSummary.filter.status' | cxTranslate
+          label: 'orgAccountSummary.filter.status' | cxTranslate,
         }"
         [control]="filterForm.controls.status"
       ></cx-form-errors>
@@ -129,7 +129,7 @@
         bindValue="code"
         [cxNgSelectA11y]="{
           ariaLabel: 'orgAccountSummary.filter.filterBy' | cxTranslate,
-          ariaControls: 'cx-account-summary-document-table'
+          ariaControls: 'cx-account-summary-document-table',
         }"
       >
       </ng-select>
@@ -138,7 +138,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'orgAccountSummary.filter.filterBy' | cxTranslate
+          label: 'orgAccountSummary.filter.filterBy' | cxTranslate,
         }"
         [control]="filterForm.controls.filterBy"
       ></cx-form-errors>
@@ -168,7 +168,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'orgAccountSummary.filter.documentType' | cxTranslate
+          label: 'orgAccountSummary.filter.documentType' | cxTranslate,
         }"
         [control]="filterForm.controls.documentType"
       ></cx-form-errors>
@@ -193,7 +193,7 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
-          label: 'orgAccountSummary.filter.documentNumber' | cxTranslate
+          label: 'orgAccountSummary.filter.documentNumber' | cxTranslate,
         }"
         [control]="filterForm.controls.documentNumber"
       ></cx-form-errors>
@@ -210,7 +210,7 @@
           rangeInput;
           context: {
             formGroup: filterForm.get('documentNumberRange'),
-            type: 'text'
+            type: 'text',
           }
         "
       >
@@ -223,7 +223,7 @@
           rangeInput;
           context: {
             formGroup: filterForm.get('documentDateRange'),
-            type: 'date'
+            type: 'date',
           }
         "
       >
@@ -246,7 +246,7 @@
           rangeInput;
           context: {
             formGroup: filterForm.get('originalAmountRange'),
-            type: 'number'
+            type: 'number',
           }
         "
       >
@@ -259,7 +259,7 @@
           rangeInput;
           context: {
             formGroup: filterForm.get('openAmountRange'),
-            type: 'number'
+            type: 'number',
           }
         "
       >

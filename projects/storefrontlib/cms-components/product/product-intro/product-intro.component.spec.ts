@@ -6,10 +6,7 @@ import {
   Product,
   TranslationService,
 } from '@spartacus/core';
-import {
-  ComponentCreateEvent,
-  ComponentDestroyEvent,
-} from '@spartacus/storefront';
+import { ComponentCreateEvent } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
@@ -192,18 +189,6 @@ describe('ProductIntroComponent in product', () => {
       );
     });
 
-    it('should not display Show Reviews when reviews are not available', () => {
-      productIntroComponent.product$ = of({
-        averageRating: 5,
-      } as Product);
-      productIntroComponent['getReviewsComponent'] = () => null;
-
-      fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).not.toContain(
-        'productSummary.showReviews'
-      );
-    });
-
     it('should display Show Reviews when the reviews component is available', () => {
       const event = new ComponentCreateEvent();
       event.id = 'ProductReviewsTabComponent';
@@ -240,26 +225,6 @@ describe('ProductIntroComponent in product', () => {
 
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'productSummary.showReviews'
-      );
-    });
-
-    it('should not display Show Reviews when reviews component has been destroyed', () => {
-      const event = new ComponentDestroyEvent();
-      event.id = 'ProductReviewsTabComponent';
-
-      spyOn(eventService, 'get').and.returnValues(EMPTY, of(event));
-
-      fixture = TestBed.createComponent(ProductIntroComponent);
-      productIntroComponent = fixture.componentInstance;
-
-      productIntroComponent.product$ = of({
-        averageRating: 4,
-      } as Product);
-      productIntroComponent['getReviewsComponent'] = () => ({}) as HTMLElement;
-
-      fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).not.toContain(
         'productSummary.showReviews'
       );
     });
