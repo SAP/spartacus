@@ -39,7 +39,7 @@
             | cxTranslate
               : {
                   price: usageChargeEntry.price?.formattedValue,
-                  usage: usageCharge.usageUnit?.name
+                  usage: usageCharge.usageUnit?.name,
                 }
         }}
       </ng-container>
@@ -52,7 +52,7 @@
                   block:
                     usageCharge.blockSize +
                     ' ' +
-                    usageCharge?.usageUnit?.namePlural
+                    usageCharge?.usageUnit?.namePlural,
                 }
         }}
       </ng-container>
@@ -78,7 +78,7 @@
                   usageChargeEntry.tierEnd + ' ' + usageCharge.usageUnit?.name,
                 fixed: usageChargeEntry.fixedPrice?.formattedValue,
                 price: usageChargeEntry.price?.formattedValue,
-                usage: usageCharge.usageUnit?.name
+                usage: usageCharge.usageUnit?.name,
               }
       }}
     </div>
@@ -97,7 +97,7 @@
                   usageCharge.usageUnit?.name,
                 fixed: usageChargeEntry.fixedPrice?.formattedValue,
                 price: usageChargeEntry.price?.formattedValue,
-                usage: usageCharge.usageUnit?.name
+                usage: usageCharge.usageUnit?.name,
               }
       }}
     </div>
@@ -124,7 +124,7 @@
                 to:
                   usageChargeEntry.tierEnd + ' ' + usageCharge.usageUnit?.name,
                 price: usageChargeEntry.price?.formattedValue,
-                usage: usageCharge.usageUnit?.name
+                usage: usageCharge.usageUnit?.name,
               }
       }}
     </div>
@@ -141,7 +141,7 @@
                   1 +
                   (usageCharge?.usageUnit?.name || ''),
                 price: usageChargeEntry.price?.formattedValue,
-                usage: usageCharge.usageUnit?.name
+                usage: usageCharge.usageUnit?.name,
               }
       }}
     </div>
@@ -163,7 +163,7 @@
             : {
                 ratio: usageCharge.ratio,
                 price: usageChargeEntry.price?.formattedValue,
-                usage: usageCharge.usageUnit?.name
+                usage: usageCharge.usageUnit?.name,
               }
       }}
     </div>

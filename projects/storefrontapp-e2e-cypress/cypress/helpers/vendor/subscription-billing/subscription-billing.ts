@@ -72,10 +72,9 @@ export function verifySubscriptionProductDetails(product) {
       ' ' +
       product.sapSubscriptionTerm.renewalTerm.frequency.name
   );
-  cy.get(`${susbscriptionUsageChargeContainer} .subscription-usage-charge .subscription-usage-charge-name`).should(
-    'contain',
-    'Usage Charges'
-  );
+  cy.get(
+    `${susbscriptionUsageChargeContainer} .subscription-usage-charge .subscription-usage-charge-name`
+  ).should('contain', 'Usage Charges');
   cy.get(`${addToCartButton}`).should('exist');
   cy.get(`${itemCounter}`).should('not.exist');
 }
