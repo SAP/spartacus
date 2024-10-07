@@ -11,11 +11,11 @@ import {
   Component,
   ComponentRef,
   HostListener,
+  inject,
   Input,
   OnDestroy,
   OnInit,
   Optional,
-  inject,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
@@ -28,10 +28,10 @@ import {
   CmsAddToCartComponent,
   EventService,
   FeatureConfigService,
-  Product,
+  FeatureToggles,
   isNotNullable,
   OccEndpointsService,
-  FeatureToggles,
+  Product,
   ProductScope
 } from '@spartacus/core';
 import {
@@ -60,6 +60,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() product: Product;
 
   maxQuantity: number;
+  realTimeStock: string = '';
 
   hasStock: boolean = false;
   inventoryThreshold: boolean = false;
@@ -169,59 +170,68 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    */
   getInventory(): string {
     if (this.featureToggles.realTimeStockDispaly) {
-      let qty = this.loadrealtimestock(this.productCode);
-      console.log(qty);
-      const parsedResponse = JSON.parse(qty);
-      const availabilityItems = parsedResponse.availabilityItems;
-      if (availabilityItems && availabilityItems.length > 0) {
-        const unitAvailabilities = availabilityItems[0].unitAvailabilities;
-        if (
-          unitAvailabilities &&
-          unitAvailabilities.length > 0 &&
-          unitAvailabilities[0].status === 'IN_STOCK'
-        ) {
-          const quantity = unitAvailabilities[0].quantity;
-          const quantityDisplay = quantity ? quantity : '';
-          return this.inventoryThreshold
-            ? quantityDisplay + '+'
-            : quantityDisplay;
-        } else {
-          return '';
-        }
+      // If stock hasn't been fetched yet, make the API call
+      if (!this.realTimeStock) {
+        const productUrl = this.occEndpoints.buildUrl('product', {
+          urlParams: { productCode: this.productCode },
+          scope: ProductScope.UNIT,
+        });
+
+        this.http
+          .get(productUrl)
+          .pipe(take(1))
+          .subscribe((response: any) => {
+            console.log('response', response.sapUnit.sapCode);
+
+            let availabilityUrl = this.occEndpoints.buildUrl('product', {
+              scope: ProductScope.PRODUCT_AVAILABILITIES,
+              urlParams: {
+                productCode: this.productCode,
+                sapCode: response.sapUnit.sapCode,
+              },
+            });
+
+            console.log(availabilityUrl);
+
+            this.http
+              .get(availabilityUrl)
+              .pipe(take(1))
+              .subscribe((availabilities: any) => {
+                const quantity =
+                  availabilities.availabilityItems[0].unitAvailabilities[0]
+                    .quantity;
+                console.log('quantf', quantity);
+
+                // Store the quantity in realTimeStock to be returned next time
+                this.realTimeStock = this.inventoryThreshold
+                  ? quantity + '+'
+                  : quantity.toString();
+
+                // Trigger change detection to update the UI
+                this.cd.markForCheck();
+              });
+          });
+
+        // While waiting for the API call to complete, return an empty string or a loading indicator
+        return 'Loading...';
+      } else {
+        // Return the real-time stock if it has been fetched
+        return this.realTimeStock;
+      }
+    } else {
+      // Fallback to default stock handling
+      if (this.hasStock) {
+        const quantityDisplay = this.maxQuantity
+          ? this.maxQuantity.toString()
+          : '';
+        return this.inventoryThreshold
+          ? quantityDisplay + '+'
+          : quantityDisplay;
+      } else {
+        return '';
       }
     }
-    if (this.hasStock) {
-      const quantityDisplay = this.maxQuantity
-        ? this.maxQuantity.toString()
-        : '';
-      return this.inventoryThreshold ? quantityDisplay + '+' : quantityDisplay;
-    } else {
-      return '';
-    }
   }
-  loadrealtimestock(productCode: string): string{
-    if (this.featureToggles.realTimeStockDispaly) {
-      let productUrl = this.occEndpoints.buildUrl('product', {
-        urlParams: { productCode: productCode },
-        scope: ProductScope.UNIT
-      });
-      const res = this.http.get(productUrl);
-      console.log(res);
-      this.http.get(productUrl).pipe(
-        map((sapCode) => {
-          let availabilityUrl = this.occEndpoints.buildUrl('product', {
-            queryParams: { productCode: productCode, sapCode: sapCode },
-            scope: ProductScope.PRODUCT_AVAILABILITIES
-          });
-          console.log(productUrl);
-          console.log(availabilityUrl);
-          return this.http.get(availabilityUrl);
-        })
-      );
-    }
-    return '';
-  }
-
 
   updateCount(value: number): void {
     this.quantity = value;
