@@ -299,6 +299,7 @@ if (environment.subscriptionBilling) {
         showDownloadProposalButton: false,
         showPromotionsInPDP: false,
         recentSearches: true,
+        trendingSearches: false,
         pdfInvoicesSortByInvoiceDate: false,
         storeFrontLibCardParagraphTruncated: true,
         useProductCarouselBatchApi: true,
