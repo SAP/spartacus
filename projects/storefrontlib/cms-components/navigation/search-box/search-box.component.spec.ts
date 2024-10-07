@@ -538,7 +538,10 @@ describe('SearchBoxComponent', () => {
             [mockElement],
             ['element2'],
           ]);
-          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(1);
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(1);
 
           searchBoxComponent.focusPreviousGroup(mockEvent);
 
@@ -549,8 +552,13 @@ describe('SearchBoxComponent', () => {
 
         it('should not change focus if there are no groups', () => {
           const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
-          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([]); // No groups
-          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(0);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue(
+            []
+          ); // No groups
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(0);
 
           const result = searchBoxComponent.focusPreviousGroup(mockEvent);
 
@@ -563,7 +571,10 @@ describe('SearchBoxComponent', () => {
             [],
             ['element2'],
           ]); // First group is empty
-          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(0);
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(0);
 
           const result = searchBoxComponent.focusPreviousGroup(mockEvent);
 
@@ -577,7 +588,10 @@ describe('SearchBoxComponent', () => {
             [mockElement],
             ['element2'],
           ]);
-          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(1);
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(1);
 
           searchBoxComponent.focusPreviousGroup(mockEvent);
 
@@ -591,7 +605,10 @@ describe('SearchBoxComponent', () => {
             [mockElement],
             ['element2'],
           ]);
-          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(0);
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(0);
 
           searchBoxComponent.focusPreviousGroup(mockEvent);
 
@@ -599,7 +616,6 @@ describe('SearchBoxComponent', () => {
         });
       });
       describe('focusNextGroup', () => {
-
         it('should prevent default key scrolling', () => {
           const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
 
@@ -611,7 +627,10 @@ describe('SearchBoxComponent', () => {
             ['element1'],
             [mockElement],
           ]);
-          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(0); // First group focused
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(0); // First group focused
 
           searchBoxComponent.focusNextGroup(mockEvent);
 
@@ -622,8 +641,13 @@ describe('SearchBoxComponent', () => {
 
         it('should not change focus if there are no groups', () => {
           const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
-          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([]); // No groups
-          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(0);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue(
+            []
+          ); // No groups
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(0);
 
           const result = searchBoxComponent.focusNextGroup(mockEvent);
 
@@ -636,7 +660,10 @@ describe('SearchBoxComponent', () => {
             [],
             [],
           ]); // Both groups are empty
-          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(0);
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(0);
 
           const result = searchBoxComponent.focusNextGroup(mockEvent);
 
@@ -650,7 +677,10 @@ describe('SearchBoxComponent', () => {
             ['element1'],
             [mockElement],
           ]);
-          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(0);
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(0);
 
           searchBoxComponent.focusNextGroup(mockEvent);
 
@@ -664,7 +694,10 @@ describe('SearchBoxComponent', () => {
             [mockElement],
             ['element2'],
           ]);
-          spyOn<any>(searchBoxComponent, 'getFocusedGroupIndex').and.returnValue(1); // Last group
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(1); // Last group
 
           searchBoxComponent.focusNextGroup(mockEvent);
 

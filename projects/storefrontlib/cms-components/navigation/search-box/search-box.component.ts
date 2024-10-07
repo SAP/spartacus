@@ -464,13 +464,17 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   // Focus on previous item in results list
   focusPreviousGroup(event: UIEvent) {
-    event.preventDefault();  // Prevent default key scrolling behavior
+    event.preventDefault(); // Prevent default key scrolling behavior
 
-    const results = this.getGroupElements();  // Get all group elements
-    const focusedGroupIndex = this.getFocusedGroupIndex();  // Get the currently focused group index
+    const results = this.getGroupElements(); // Get all group elements
+    const focusedGroupIndex = this.getFocusedGroupIndex(); // Get the currently focused group index
 
     // Check if there are any groups and if the focused index is valid
-    if (!results.length || focusedGroupIndex < 0 || focusedGroupIndex >= results.length) {
+    if (
+      !results.length ||
+      focusedGroupIndex < 0 ||
+      focusedGroupIndex >= results.length
+    ) {
       return; // Exit if no groups or invalid focused index
     }
 
@@ -481,7 +485,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     }
 
     // Set focus on the appropriate group
-    const previousGroupIndex = focusedGroupIndex > 0 ? focusedGroupIndex - 1 : 0;
+    const previousGroupIndex =
+      focusedGroupIndex > 0 ? focusedGroupIndex - 1 : 0;
     const previousGroup = results[previousGroupIndex];
 
     // Check if the previous group contains any elements
@@ -499,7 +504,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     const focusedGroupIndex = this.getFocusedGroupIndex(); // Get the current focused group index
 
     // Check if there are any groups and if the focused index is valid
-    if (!results.length || focusedGroupIndex < 0 || focusedGroupIndex >= results.length) {
+    if (
+      !results.length ||
+      focusedGroupIndex < 0 ||
+      focusedGroupIndex >= results.length
+    ) {
       return; // Exit if no groups or invalid focused index
     }
 
@@ -507,7 +516,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     let nextGroupIndex = focusedGroupIndex + 1;
 
     // Loop forward through groups until a non-empty group is found
-    while (nextGroupIndex < results.length && results[nextGroupIndex].length === 0) {
+    while (
+      nextGroupIndex < results.length &&
+      results[nextGroupIndex].length === 0
+    ) {
       nextGroupIndex++; // Keep moving to the next group if current one is empty
     }
 
