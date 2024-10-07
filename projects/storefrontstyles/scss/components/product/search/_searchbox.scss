@@ -305,6 +305,9 @@
           cx-media {
             grid-row: 1 / 3;
           }
+        cx-media {
+          grid-row: 1 / 3;
+        }
 
           div.name {
             text-overflow: ellipsis;
@@ -566,6 +569,14 @@
           }
         }
       }
+    }
+
+    .message {
+      border-bottom: solid 1px var(--cx-color-medium);
+      font-size: var(--cx-font-small, 0.9rem);
+      font-weight: 600;
+      padding-top: 16px;
+      padding-bottom: 5px;
     }
 
     .message {
