@@ -1,4 +1,4 @@
 <div
-  *ngIf="ctaScriptHtml?.html"
+  *ngIf="ctaScriptHtml && ctaScriptHtml.html"
   [innerHTML]="renderHtml(ctaScriptHtml.html)"
 ></div>

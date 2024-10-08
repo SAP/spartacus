@@ -69,7 +69,7 @@ export class OpfCtaScriptsService {
       concatMap((ctaScriptsRequest) => {
         isDynamicCtaLocation =
           !!ctaScriptsRequest?.scriptLocations?.length &&
-          !!ctaScriptsRequest?.scriptLocations.map((location) =>
+          !!ctaScriptsRequest?.scriptLocations.find((location) =>
             DynamicCtaLocations.includes(location)
           );
         isDynamicCtaLocation &&
