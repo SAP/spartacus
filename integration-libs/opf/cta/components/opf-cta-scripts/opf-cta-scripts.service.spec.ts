@@ -133,6 +133,9 @@ describe('OpfCtaScriptsService', () => {
         'Thanks for purchasing our great products'
       );
       expect(
+        opfDynamicCtaServiceMock.registerScriptReadyEvent
+      ).not.toHaveBeenCalled();
+      expect(
         opfStaticCtaServiceMock.fillCtaRequestforPagesWithOrder
       ).toHaveBeenCalled();
       done();
@@ -148,6 +151,9 @@ describe('OpfCtaScriptsService', () => {
       expect(htmlsList[0].html).toContain(
         'Thanks for purchasing our great products'
       );
+      expect(
+        opfDynamicCtaServiceMock.registerScriptReadyEvent
+      ).not.toHaveBeenCalled();
       expect(
         opfStaticCtaServiceMock.fillCtaRequestforPagesWithOrder
       ).toHaveBeenCalled();
@@ -165,6 +171,9 @@ describe('OpfCtaScriptsService', () => {
         'Thanks for purchasing our great products'
       );
       expect(
+        opfDynamicCtaServiceMock.registerScriptReadyEvent
+      ).toHaveBeenCalled();
+      expect(
         opfDynamicCtaServiceMock.fillCtaRequestforProductPage
       ).toHaveBeenCalled();
       done();
@@ -180,6 +189,9 @@ describe('OpfCtaScriptsService', () => {
       expect(htmlsList[0].html).toContain(
         'Thanks for purchasing our great products'
       );
+      expect(
+        opfDynamicCtaServiceMock.registerScriptReadyEvent
+      ).toHaveBeenCalled();
       expect(
         opfDynamicCtaServiceMock.fillCtaRequestforCartPage
       ).toHaveBeenCalled();
