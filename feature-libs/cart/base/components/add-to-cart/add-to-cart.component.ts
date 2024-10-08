@@ -202,24 +202,20 @@ export class AddToCartComponent implements OnInit, OnDestroy {
                     .quantity;
                 console.log('quantf', quantity);
 
-                // Store the quantity in realTimeStock to be returned next time
                 this.realTimeStock = this.inventoryThreshold
                   ? quantity + '+'
                   : quantity.toString();
 
-                // Trigger change detection to update the UI
                 this.cd.markForCheck();
               });
           });
 
-        // While waiting for the API call to complete, return an empty string or a loading indicator
-        return 'Loading...';
+        // While waiting for the API call to complete, return an empty string
+        return '';
       } else {
-        // Return the real-time stock if it has been fetched
         return this.realTimeStock;
       }
     } else {
-      // Fallback to default stock handling
       if (this.hasStock) {
         const quantityDisplay = this.maxQuantity
           ? this.maxQuantity.toString()
