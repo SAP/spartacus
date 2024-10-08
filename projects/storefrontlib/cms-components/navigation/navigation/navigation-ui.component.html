@@ -1,5 +1,5 @@
 <nav [attr.aria-label]="navAriaLabel">
-  <ul [attr.role]="flyout ? 'list' : 'presentation'">
+  <ul [attr.role]="flyout && node?.children?.length > 1 ? 'list' : 'presentation'">
     <li
       *ngIf="flyout && (node?.children?.length ?? 0) > 1"
       class="back is-open"
@@ -18,7 +18,13 @@
 </nav>
 <!-- we generate links in a recursive manner -->
 
-<ng-template #nav let-node="node" let-depth="depth">
+<ng-template
+  #nav
+  let-node="node"
+  let-depth="depth"
+  let-listLength="listLength"
+  let-position="position"
+>
   <li [attr.role]="!flyout && !depth ? 'presentation' : 'listitem'">
     <ng-container *cxFeature="'!a11yNavigationUiKeyboardControls'">
       <cx-generic-link
@@ -40,6 +46,15 @@
         *ngIf="
           node.url && (!node.children || node.children?.length === 0);
           else heading
+        "
+        [ariaLabel]="
+          'navigation.linkItemInList'
+            | cxTranslate
+              : {
+                  title: node.title,
+                  position,
+                  listLength,
+                }
         "
         [url]="node.url"
         [target]="node.target"
@@ -128,9 +143,17 @@
         [attr.wrap-after]="node.children.length > wrapAfter ? wrapAfter : null"
         [attr.columns]="getColumnCount(node.children.length)"
       >
-        <ng-container *ngFor="let child of node.children">
+        <ng-container *ngFor="let child of node.children; index as i">
           <ng-container
-            *ngTemplateOutlet="nav; context: { node: child, depth: depth + 1 }"
+            *ngTemplateOutlet="
+              nav;
+              context: {
+                node: child,
+                depth: depth + 1,
+                listLength: node.children.length,
+                position: i + 1,
+              }
+            "
           >
           </ng-container>
         </ng-container>
