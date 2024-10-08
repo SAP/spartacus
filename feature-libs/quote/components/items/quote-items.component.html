@@ -23,12 +23,12 @@
         <ng-template
           [cxAbstractOrderContext]="{
             id: quoteItemsData.abstractOrderId,
-            type: quoteItemsData.abstractOrderType
+            type: quoteItemsData.abstractOrderType,
           }"
           [cxOutlet]="cartOutlets.CART_ITEM_LIST"
           [cxOutletContext]="{
             items: quoteItemsData.entries ?? [],
-            readonly: quoteItemsData.readOnly
+            readonly: quoteItemsData.readOnly,
           }"
         >
         </ng-template>

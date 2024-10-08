@@ -56,7 +56,7 @@ export class LoadBudgetSuccess extends StateUtils.EntitySuccessAction {
       BUDGET_ENTITIES,
       Array.isArray(payload)
         ? payload.map((budget) => budget?.code ?? '')
-        : payload?.code ?? ''
+        : (payload?.code ?? '')
     );
   }
 }

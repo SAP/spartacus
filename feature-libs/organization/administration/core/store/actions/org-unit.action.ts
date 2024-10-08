@@ -128,7 +128,7 @@ export class LoadOrgUnitSuccess extends StateUtils.EntitySuccessAction {
       ORG_UNIT_ENTITIES,
       Array.isArray(payload)
         ? payload.map((orgUnit) => orgUnit?.uid ?? '')
-        : payload?.uid ?? ''
+        : (payload?.uid ?? '')
     );
   }
 }
@@ -631,7 +631,7 @@ export class LoadAddressSuccess extends StateUtils.EntitySuccessAction {
       ADDRESS_ENTITIES,
       Array.isArray(payload)
         ? payload.map((address) => address?.id ?? '')
-        : payload?.id ?? ''
+        : (payload?.id ?? '')
     );
   }
 }
