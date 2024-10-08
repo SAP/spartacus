@@ -26,6 +26,13 @@
       width: 100%;
     }
 
+    .cx-product-card {
+      @include media-breakpoint-down(sm) {
+        padding-inline-start: 0px;
+        padding-inline-end: 0px;
+      }
+    }
+
     &:first-of-type {
       .cx-product-card-rows {
         padding-inline-start: 0px;
