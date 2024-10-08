@@ -1,5 +1,9 @@
 <nav [attr.aria-label]="navAriaLabel">
-  <ul [attr.role]="flyout && (node?.children?.length ?? 0) > 1 ? 'list' : 'presentation'">
+  <ul
+    [attr.role]="
+      flyout && (node?.children?.length ?? 0) > 1 ? 'list' : 'presentation'
+    "
+  >
     <li
       *ngIf="flyout && (node?.children?.length ?? 0) > 1"
       class="back is-open"
