@@ -214,10 +214,9 @@ export function selectAccountPayment() {
       // first element of Cost Center is the default one, always match the combo-box selection
       b2bDeliveryAddress.id =
         xhr.response.body.costCenters[0].unit.addresses[0].id;
-        cy.log("Cost center update required");  
-    }
-    else{
-      cy.log("Cost center update not required");
+      cy.log('Cost center update required');
+    } else {
+      cy.log('Cost center update not required');
     }
     // cy.pause();
   });
@@ -260,10 +259,9 @@ export function selectAccountShippingAddress(a11yCheck: boolean = false) {
   });
 
   cy.wait(2000);
-  cy.get('.card-body').click({force: true});
-  
-  // // cy.get('cx-card .card-header').should('contain', 'Selected');
+  cy.get('.card-body').click({ force: true });
 
+  // cy.get('cx-card .card-header').should('contain', 'Selected');
   /**
    * Delivery mode PUT intercept is not in selectAccountDeliveryMode()
    * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
@@ -275,15 +273,28 @@ export function selectAccountShippingAddress(a11yCheck: boolean = false) {
   );
 
   // Accessibility
-  // GC -> Disable for now.
-  if (a11yCheck){ 
-   verifyTabbingOrder(
-     'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-     config.shippingAddressAccount
-   );
+  // GC -> Disable for now because of random errors.
+  if (a11yCheck) {
+    verifyTabbingOrder(
+      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+      config.shippingAddressAccount
+    );
   }
   // cy.wait(2000);
   // End GC change
+
+  // Funny, yet, thoughtful phrases to consider while load testing a new server.
+  // GC: Rather difficult to deploy linux servers and watch Champions league at the same time...
+  // Colleague 1:
+  // Colleague 2:
+  // Colleague 3:
+  // Colleague 4:
+  // Colleague 5:
+  // Colleague 6:
+  // Colleague 7:
+  // Colleague 8:
+  // Colleague 9:
+  // Colleague 10:
 
   cy.get('button.btn-primary').should('be.enabled').click();
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
