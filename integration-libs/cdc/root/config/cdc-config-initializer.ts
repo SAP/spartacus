@@ -5,7 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { CdcConfig } from '@spartacus/cdc/root';
+import { CdcConfig } from './cdc-config';
 import { BaseSiteService, ConfigInitializer } from '@spartacus/core';
 import { Observable, lastValueFrom } from 'rxjs';
 import { map, take } from 'rxjs/operators';
