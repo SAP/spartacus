@@ -384,7 +384,8 @@
       h3:not(.cx-product-name) {
         display: inline-block;
         padding-inline-start: 0;
-        font-size: $font-size-base * 1.25; // 20px
+        font-size: $font-size-base; // 16px
+        text-transform: uppercase;
         @include weight('semi');
       }
       ul {
@@ -407,7 +408,7 @@
           background-color: pink;
         }
         ul {
-          border-top: none;
+          border-top: solid 1px var(--cx-color-medium)
         }
         a {
           max-width: unset;
@@ -432,7 +433,7 @@
           }
         }
         ul {
-          border-top: none;
+          border-top: solid 1px var(--cx-color-medium)
         }
         a {
           max-width: unset;
@@ -462,7 +463,7 @@
             }
           }
           ul {
-            border-top: none;
+            border-top: solid 1px var(--cx-color-medium)
           }
           a {
             max-width: unset;
@@ -477,6 +478,7 @@
       .products {
         cx-carousel {
           display: flex;
+          border-top: solid 1px var(--cx-color-medium)
         }
 
         ul {
