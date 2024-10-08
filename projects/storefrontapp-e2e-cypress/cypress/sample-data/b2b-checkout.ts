@@ -18,6 +18,7 @@ export const USER_REQUEST_ENDPOINT = 'orgUsers';
 export const ORDER_REQUEST_ENDPOINT = 'replenishmentOrders';
 export const poNumber = '123';
 export const costCenter = 'Rustic Global';
+export const costCenterId = 'Rustic_Global';
 export const b2bUnit = 'Rustic';
 export const replenishmentDay = '8';
 export const replenishmentDate = '2100-01-01';
