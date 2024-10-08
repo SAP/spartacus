@@ -81,7 +81,7 @@
               "
               [routerLink]="
                 {
-                  cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress)
+                  cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
                 } | cxUrl
               "
               ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
@@ -103,7 +103,7 @@
               "
               [routerLink]="
                 {
-                  cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryMode)
+                  cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryMode),
                 } | cxUrl
               "
               ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
@@ -117,7 +117,7 @@
         [cxOutletContext]="{
           items: entries,
           readonly: true,
-          promotionLocation: promotionLocation
+          promotionLocation: promotionLocation,
         }"
       >
       </ng-template>
