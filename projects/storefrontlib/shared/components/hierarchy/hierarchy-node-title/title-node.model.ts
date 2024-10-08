@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { HierarchyNode } from '../hierarchy-node/hierarchy-node.model';
 
 /**
