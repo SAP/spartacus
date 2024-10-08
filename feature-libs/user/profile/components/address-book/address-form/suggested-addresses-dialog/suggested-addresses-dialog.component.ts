@@ -11,7 +11,7 @@ import {
   HostListener,
   OnInit,
 } from '@angular/core';
-import { Address } from '@spartacus/core';
+import { Address, useFeatureStyles } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -47,7 +47,9 @@ export class SuggestedAddressDialogComponent implements OnInit {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef
-  ) {}
+  ) {
+    useFeatureStyles('a11yExpandedFocusIndicator');
+  }
 
   ngOnInit(): void {
     this.data$.pipe(take(1)).subscribe((data) => this.setSelectedAddress(data));

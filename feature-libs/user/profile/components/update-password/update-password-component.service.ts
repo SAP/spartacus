@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import {
@@ -28,13 +29,27 @@ import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 @Injectable()
 export class UpdatePasswordComponentService {
   // TODO: (CXSPA-7315) Remove feature toggle in the next major
+  // TODO: (CXSPA-8550) Remove feature toggle
   private featureConfigService = inject(FeatureConfigService);
 
   protected passwordValidators = this.featureConfigService?.isEnabled(
     'formErrorsDescriptiveMessages'
   )
-    ? [CustomFormValidators.passwordValidator]
-    : CustomFormValidators.passwordValidators;
+    ? this.featureConfigService.isEnabled(
+        'enableConsecutiveCharactersPasswordRequirement'
+      )
+      ? [
+          ...CustomFormValidators.passwordValidators,
+          CustomFormValidators.noConsecutiveCharacters,
+        ]
+      : CustomFormValidators.passwordValidators
+    : [
+        this.featureConfigService.isEnabled(
+          'enableConsecutiveCharactersPasswordRequirement'
+        )
+          ? CustomFormValidators.strongPasswordValidator
+          : CustomFormValidators.passwordValidator,
+      ];
 
   constructor(
     protected userPasswordService: UserPasswordFacade,
@@ -62,10 +77,7 @@ export class UpdatePasswordComponentService {
       newPasswordConfirm: new UntypedFormControl('', Validators.required),
     },
     {
-      validators: CustomFormValidators.passwordsMustMatch(
-        'newPassword',
-        'newPasswordConfirm'
-      ),
+      validators: this.getPasswordValidators(),
     }
   );
 
@@ -127,5 +139,25 @@ export class UpdatePasswordComponentService {
     }
     this.busy$.next(false);
     this.form.reset();
+  }
+
+  // TODO: (CXSPA-8550) Remove after removing enablePasswordsCannotMatchInPasswordUpdateForm feature toggle
+  protected getPasswordValidators(): ValidatorFn[] {
+    const passwordMustMatchValidator = CustomFormValidators.passwordsMustMatch(
+      'newPassword',
+      'newPasswordConfirm'
+    );
+
+    return this.featureConfigService.isEnabled(
+      'enablePasswordsCannotMatchInPasswordUpdateForm'
+    )
+      ? [
+          passwordMustMatchValidator,
+          CustomFormValidators.passwordsCannotMatch(
+            'oldPassword',
+            'newPassword'
+          ),
+        ]
+      : [passwordMustMatchValidator];
   }
 }

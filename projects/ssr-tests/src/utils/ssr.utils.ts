@@ -10,7 +10,7 @@
  */
 
 import * as childProcess from 'child_process';
-import * as Log from './log.utils';
+import * as LogUtils from './log.utils';
 
 /**
  * Default timeout for SSR rendering to happen.
@@ -50,12 +50,15 @@ export async function startSsrServer({
   cache = false,
   timeout = DEFAULT_SSR_TIMEOUT,
 }: SsrServerOptions = {}) {
+  LogUtils.clearSsrLogFile();
+
   child = childProcess.spawn(
-    `NODE_TLS_REJECT_UNAUTHORIZED=0 SSR_CACHE=${cache} SSR_TIMEOUT=${timeout} PORT=${port} npm run serve:ssr --prefix ../../> .ssr.log`,
+    // `2>&1` - redirect stderr to stdout, so also `console.error` and `console.warn` messages are captured in the log file
+    `NODE_TLS_REJECT_UNAUTHORIZED=0 SSR_CACHE=${cache} SSR_TIMEOUT=${timeout} PORT=${port} npm run serve:ssr --prefix ../../> .ssr.log 2>&1`,
     { detached: true, shell: true }
   );
 
-  await Log.waitUntilLogContainsText(`Node Express server listening on `);
+  await LogUtils.waitUntilLogContainsText(`Node Express server listening on `);
 }
 
 /**

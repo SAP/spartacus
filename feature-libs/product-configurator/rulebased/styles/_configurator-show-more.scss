@@ -13,6 +13,7 @@
       display: inline-block;
       outline-offset: 0px;
       text-decoration: underline;
+      color: var(--cx-color-text);
 
       @include forFeature('productConfiguratorAttributeTypesV2') {
         padding-inline-start: 0;

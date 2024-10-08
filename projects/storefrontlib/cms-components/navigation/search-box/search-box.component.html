@@ -11,8 +11,8 @@
         a11ySearchBoxMobileFocusEnabled ? getTabIndex(isMobile | async) : null
       "
       [attr.aria-label]="'searchBox.placeholder' | cxTranslate"
+      (click)="search(searchInput.value)"
       (focus)="a11ySearchBoxMobileFocusEnabled ? null : open()"
-      (click)="open()"
       (input)="search(searchInput.value)"
       (blur)="close($any($event))"
       (keydown.tab)="
@@ -71,7 +71,7 @@
     [innerHTML]="result.message"
   ></div>
   <!--RESULT  SUGGESTIONS-->
-  <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
+  <ng-container>
     <div class="message" *ngIf="result?.suggestions?.length">
       {{ 'searchBox.suggestions' | cxTranslate }}
     </div>
@@ -88,7 +88,7 @@
         [routerLink]="
           {
             cxRoute: 'search',
-            params: { query: suggestion }
+            params: { query: suggestion },
           } | cxUrl
         "
         (keydown.arrowup)="focusPreviousChild($any($event))"
@@ -101,7 +101,7 @@
           dispatchSuggestionEvent({
             freeText: searchInput.value,
             selectedSuggestion: suggestion,
-            searchSuggestions: result.suggestions ?? []
+            searchSuggestions: result.suggestions ?? [],
           });
           updateChosenWord(suggestion)
         "
@@ -118,13 +118,26 @@
       [cxOutletContext]="{
         search: searchInput.value,
         searchBoxActive: searchBoxActive,
-        maxRecentSearches: config.maxRecentSearches
+        maxRecentSearches: config.maxRecentSearches,
       }"
     ></ng-template>
   </ng-container>
 
+  <!--  TRENDING SEARCHES-->
+  <ng-container *ngIf="searchInput?.value?.length === 0">
+    <ng-container *cxFeature="searchBoxFeatures.TRENDING_SEARCHES_FEATURE">
+      <ng-template
+        *ngIf="config.trendingSearches"
+        [cxOutlet]="searchBoxOutlets.TRENDING_SEARCHES"
+        [cxOutletContext]="{
+          maxTrendingSearches: config.maxTrendingSearches,
+        }"
+      ></ng-template>
+    </ng-container>
+  </ng-container>
+
   <!--RESULT  PRODUCTS-->
-  <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
+  <ng-container>
     <div class="message" *ngIf="result.products?.length">
       {{ 'searchBox.products' | cxTranslate }}
     </div>
@@ -141,7 +154,7 @@
         [routerLink]="
           {
             cxRoute: 'product',
-            params: product
+            params: product,
           } | cxUrl
         "
         [class.has-media]="config.displayProductImages"
@@ -154,7 +167,7 @@
         (click)="
           dispatchProductEvent({
             freeText: searchInput.value,
-            productCode: product.code
+            productCode: product.code,
           })
         "
       >

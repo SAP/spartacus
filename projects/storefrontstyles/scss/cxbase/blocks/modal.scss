@@ -1,4 +1,3 @@
-@import '../../theme';
 @import 'bootstrap/scss/modal';
 @import 'bootstrap/scss/close';
 
@@ -47,6 +46,14 @@ $modal-min-width-asm: 95% !important;
 
     @include media-breakpoint-down(md) {
       margin-bottom: 0;
+    }
+  }
+
+  @include forFeature('a11yExpandedFocusIndicator') {
+    .cx-dialog-header button.close,
+    button.close {
+      padding: 0;
+      margin: 0 0 0 auto;
     }
   }
 

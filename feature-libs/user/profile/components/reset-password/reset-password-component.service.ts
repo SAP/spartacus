@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -26,13 +26,27 @@ import { map, tap } from 'rxjs/operators';
 @Injectable()
 export class ResetPasswordComponentService {
   // TODO: (CXSPA-7315) Remove feature toggle in the next major
+  // TODO: (CXSPA-8550) Remove feature toggle
   private featureConfigService = inject(FeatureConfigService);
 
   protected passwordValidators = this.featureConfigService?.isEnabled(
     'formErrorsDescriptiveMessages'
   )
-    ? [CustomFormValidators.passwordValidator]
-    : CustomFormValidators.passwordValidators;
+    ? this.featureConfigService.isEnabled(
+        'enableConsecutiveCharactersPasswordRequirement'
+      )
+      ? [
+          ...CustomFormValidators.passwordValidators,
+          CustomFormValidators.noConsecutiveCharacters,
+        ]
+      : CustomFormValidators.passwordValidators
+    : [
+        this.featureConfigService.isEnabled(
+          'enableConsecutiveCharactersPasswordRequirement'
+        )
+          ? CustomFormValidators.strongPasswordValidator
+          : CustomFormValidators.passwordValidator,
+      ];
 
   constructor(
     protected userPasswordService: UserPasswordFacade,
