@@ -26,41 +26,13 @@ export function clearSsrLogFile(): void {
 }
 
 /**
- * Validates that all lines starting with `{` are valid JSON objects.
- * Otherwise it throws an error.
- *
- * Note: multi-line JSONs (printed by SSR in dev mode) cannot be parsed by `JSON.parse`.
- *       That's why we need to to run SSR in prod mode to get single line JSON logs.
- */
-function validateJsonsInLogs(logs: string[]): void {
-  logs.forEach((text) => {
-    if (text.charAt(0) === '{') {
-      try {
-        JSON.parse(text);
-      } catch (error) {
-        throw new Error(
-          `Encountered in SSR Logs a line starting with \`{\` that could not be parsed as JSON.
-          Perhaps its a multi-line JSON log from SSR dev mode.
-          Please make sure to build Spartacus SSR in prod mode - to get single line JSONs that can be parsed in tests.`
-        );
-      }
-    }
-  });
-}
-
-/**
  * Returns raw logs as an array of strings.
  *
  * Note: Non-JSON log entries are also included in the returned array.
- *
- * It also validates whether each line starting with `{` is a valid JSON object.
- * Otherwise it throws an error.
  */
 export function getRawLogs(): string[] {
   const data = fs.readFileSync(SSR_LOG_PATH).toString();
-  const logs = data.toString().split('\n');
-  validateJsonsInLogs(logs);
-  return logs;
+  return data.toString().split('\n');
 }
 
 /**
@@ -125,44 +97,4 @@ export async function waitUntilLogContainsText(
       checkInterval
     );
   });
-}
-
-/**
- * A higher-order function that wraps a test callback and includes SSR logs
- * in any error thrown during the test execution. The logs are put into the `cause`
- * property of the Error.
- *
- * @param testFn - The original test function to be wrapped.
- * @returns A new function that can be passed to Jest's `it()` or `test()`.
- *
- * @example
- * it('should perform SSR correctly', attachLogsToErrors(async () => {
- *   // Your test code here
- * }));
- */
-export function attachLogsToErrors(
-  testFn: () => Promise<void> | void
-): () => Promise<void> {
-  return async () => {
-    try {
-      await testFn();
-    } catch (error: unknown) {
-      const readableLogs = getRawLogsPretty().join('\n');
-      const ssrLogs = `(more context below)\n--- SSR LOGS (with JSONs pretty-printed) ---\n${readableLogs}\n--- SSR LOGS END ---`;
-
-      if (error instanceof Error) {
-        // Error's `cause` property is the only property printed by Jest
-        // besides `message` that we can utilize for attaching logs.
-        // No other custom properties are printed by Jest.
-        // See their source code of their function `formatExecError`:
-        // https://github.com/jestjs/jest/blob/bd1c6db7c15c23788ca3e09c919138e48dd3b28a/packages/jest-message-util/src/index.ts#L436
-
-        error.cause = ssrLogs;
-      } else {
-        throw new Error(error as string, { cause: ssrLogs });
-      }
-
-      throw error;
-    }
-  };
 }
