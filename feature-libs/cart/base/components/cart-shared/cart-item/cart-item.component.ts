@@ -13,9 +13,9 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
+import { useFeatureStyles } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
-import { useFeatureStyles } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-item',
@@ -45,6 +45,7 @@ export class CartItemComponent implements OnChanges {
 
   constructor(protected cartItemContextSource: CartItemContextSource) {
     useFeatureStyles('a11yCartItemsLinksStyles');
+    useFeatureStyles('a11yQTY2Quantity');
   }
 
   ngOnChanges(changes?: SimpleChanges) {
