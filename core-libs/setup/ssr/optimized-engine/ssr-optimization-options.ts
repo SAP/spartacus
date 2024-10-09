@@ -5,6 +5,7 @@
  */
 
 import { Request } from 'express';
+import { getRequestUrl } from '../express-utils/express-request-url';
 import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
 import { RenderingEntry } from './rendering-cache.model';
 import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
@@ -48,7 +49,7 @@ export interface SsrOptimizationOptions {
    * Time in milliseconds after prerendered page is becoming stale and should
    * be rendered again.
    */
-  ttl?: number;
+  ttl?: number | undefined;
 
   /**
    * Allows overriding default key generator for custom differentiating
@@ -188,25 +189,38 @@ type DeepRequired<T> = {
   [P in keyof T]-?: DeepRequired<T[P]>;
 };
 
-export const defaultSsrOptimizationOptions: SsrOptimizationOptions &
+/**
+ * Returns the full url for the given SSR Request.
+ */
+export const getDefaultRenderKey = getRequestUrl;
+
+export const defaultSsrOptimizationOptions: Omit<
+  Required<SsrOptimizationOptions>,
+  'ttl' | 'debug'
+> & {
+  ttl: number | undefined;
+} & DeepRequired<Pick<SsrOptimizationOptions, 'ssrFeatureToggles'>> =
   // To not forget adding default values, when adding new feature toggles in the type in the future
-  DeepRequired<Pick<SsrOptimizationOptions, 'ssrFeatureToggles'>> = {
-  cacheSize: 3000,
-  concurrency: 10,
-  timeout: 3_000,
-  forcedSsrTimeout: 60_000,
-  maxRenderTime: 300_000,
-  reuseCurrentRendering: true,
-  renderingStrategyResolver: defaultRenderingStrategyResolver(
-    defaultRenderingStrategyResolverOptions
-  ),
-  logger: new DefaultExpressServerLogger(),
-  shouldCacheRenderingResult: ({ options, entry }) =>
-    !(
-      options.ssrFeatureToggles?.avoidCachingErrors === true &&
-      Boolean(entry.err)
+  {
+    cache: false,
+    cacheSize: 3000,
+    ttl: undefined,
+    concurrency: 10,
+    timeout: 3_000,
+    forcedSsrTimeout: 60_000,
+    maxRenderTime: 300_000,
+    reuseCurrentRendering: true,
+    renderingStrategyResolver: defaultRenderingStrategyResolver(
+      defaultRenderingStrategyResolverOptions
     ),
-  ssrFeatureToggles: {
-    avoidCachingErrors: false,
-  },
-};
+    logger: new DefaultExpressServerLogger(),
+    shouldCacheRenderingResult: ({ options, entry }) =>
+      !(
+        options.ssrFeatureToggles?.avoidCachingErrors === true &&
+        Boolean(entry.err)
+      ),
+    renderKeyResolver: getDefaultRenderKey,
+    ssrFeatureToggles: {
+      avoidCachingErrors: false,
+    },
+  };
