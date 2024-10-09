@@ -217,6 +217,14 @@
 
     h3 {
       @include type('8');
+      font-size: $font-size-base; // 16px
+      margin-bottom: 0px;
+      @include weight('semi');
+      @include media-breakpoint-down(sm) {
+        text-transform: uppercase;
+        border-bottom: 1px solid var(--cx-color-medium);
+        width: 100%;
+      }
     }
 
     @include media-breakpoint-down(sm) {
@@ -501,7 +509,7 @@
       h3:not(.cx-product-name) {
         display: none;
         padding-inline-start: 0;
-        font-size: $font-size-base * 1.25; // 20px
+        font-size: $font-size-base; // 16px
         @include weight('semi');
         @include media-breakpoint-down(sm) {
           display: inline-block;

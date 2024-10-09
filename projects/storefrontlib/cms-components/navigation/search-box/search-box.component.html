@@ -74,15 +74,15 @@
   </button>
   <h3 *ngIf="result.message" [innerHTML]="result.message"></h3>
 
-  <!--RESULT  SUGGESTIONS-->
-  <div class="suggestions" *ngIf="result.suggestions?.length">
+  <!--RESULT SUGGESTIONS-->
+  <div class="suggestions" *ngIf="searchInput?.value?.length > 0">
     <ng-container
       *ngIf="
         isEnabledFeature(searchBoxFeatures.RECENT_SEARCHES_FEATURE) ||
         isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
       "
     >
-      <h3 *ngIf="result?.suggestions?.length">
+      <h3>
         {{ 'searchBox.suggestions' | cxTranslate }}
       </h3>
     </ng-container>
@@ -98,7 +98,7 @@
           [routerLink]="
             {
               cxRoute: 'search',
-              params: { query: suggestion }
+              params: { query: suggestion },
             } | cxUrl
           "
           (keydown.arrowup)="focusPreviousChild($any($event))"
@@ -113,7 +113,7 @@
             dispatchSuggestionEvent({
               freeText: searchInput.value,
               selectedSuggestion: suggestion,
-              searchSuggestions: result.suggestions ?? []
+              searchSuggestions: result.suggestions ?? [],
             });
             updateChosenWord(suggestion)
           "
@@ -133,7 +133,7 @@
         <ng-template
           [cxOutlet]="searchBoxOutlets.TRENDING_SEARCHES"
           [cxOutletContext]="{
-            maxTrendingSearches: config.maxTrendingSearches
+            maxTrendingSearches: config.maxTrendingSearches,
           }"
         ></ng-template>
       </ng-container>
@@ -148,7 +148,7 @@
       [cxOutletContext]="{
         search: searchInput.value,
         searchBoxActive: searchBoxActive,
-        maxRecentSearches: config.maxRecentSearches
+        maxRecentSearches: config.maxRecentSearches,
       }"
     ></ng-template>
   </ng-container>
@@ -177,7 +177,7 @@
           [routerLink]="
             {
               cxRoute: 'product',
-              params: product
+              params: product,
             } | cxUrl
           "
           [class.has-media]="config.displayProductImages"
@@ -192,7 +192,7 @@
           (click)="
             dispatchProductEvent({
               freeText: searchInput.value,
-              productCode: product.code
+              productCode: product.code,
             })
           "
         >
@@ -223,7 +223,7 @@
           [routerLink]="
             {
               cxRoute: 'product',
-              params: product
+              params: product,
             } | cxUrl
           "
           [class.has-media]="config.displayProductImages"
@@ -236,7 +236,7 @@
           (click)="
             dispatchProductEvent({
               freeText: searchInput.value,
-              productCode: product.code
+              productCode: product.code,
             })
           "
         >
@@ -264,7 +264,11 @@
     [class.header-panel-divider]="!result.message"
     *ngIf="isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)"
   >
-    <h3 class="search-panel-message" *ngIf="result.message" [innerHTML]="result.message"></h3>
+    <h3
+      class="search-panel-message"
+      *ngIf="result.message"
+      [innerHTML]="result.message"
+    ></h3>
     <h3 class="suggestions-header">
       {{ 'searchBox.suggestions' | cxTranslate }}
     </h3>
