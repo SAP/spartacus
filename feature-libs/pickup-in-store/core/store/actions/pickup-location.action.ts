@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { createAction, props } from '@ngrx/store';
-import { TypedAction } from '@ngrx/store/src/models';
+import { createAction, props, Action } from '@ngrx/store';
 import { PointOfService } from '@spartacus/core';
 import {
   AugmentedPointOfService,
@@ -95,7 +94,7 @@ export const SetStoreDetailsFailure = ($props: {
 }): {
   payload: any;
   error: any;
-} & TypedAction<typeof STORE_DETAILS_FAIL> => {
+} & Action<typeof STORE_DETAILS_FAIL> => {
   return {
     ..._SetStoreDetailsFailure($props),
     error: $props.payload,

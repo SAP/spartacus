@@ -1,25 +1,18 @@
 {
   "migrations": [
     {
-      "version": "18.0.0",
-      "description": "Updates two-way bindings that have an invalid expression to use the longform expression instead.",
-      "factory": "./migrations/invalid-two-way-bindings/bundle",
-      "package": "@angular/core",
-      "name": "invalid-two-way-bindings"
+      "description": "As of NgRx v18, the `TypedAction` has been removed in favor of `Action`.",
+      "version": "18-beta",
+      "factory": "./18_0_0-beta/index",
+      "package": "@ngrx/store",
+      "name": "ngrx-store-migration-18-beta"
     },
     {
-      "version": "18.0.0",
-      "description": "Replace deprecated HTTP related modules with provider functions",
-      "factory": "./migrations/http-providers/bundle",
-      "package": "@angular/core",
-      "name": "migration-http-providers"
-    },
-    {
-      "version": "18.1.0",
-      "description": "Updates calls to afterRender with an explicit phase to the new API",
-      "factory": "./migrations/after-render-phase/bundle",
-      "package": "@angular/core",
-      "name": "migration-after-render-phase"
+      "description": "As of NgRx v18, the `concatLatestFrom` import has been removed from `@ngrx/effects` in favor of the `@ngrx/operators` package.",
+      "version": "18-beta",
+      "factory": "./18_0_0-beta/index",
+      "package": "@ngrx/effects",
+      "name": "ngrx-effects-migration-18-beta"
     }
   ]
 }
