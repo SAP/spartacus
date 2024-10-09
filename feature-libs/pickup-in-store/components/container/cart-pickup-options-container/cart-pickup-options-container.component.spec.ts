@@ -6,7 +6,12 @@ import {
   tick,
 } from '@angular/core/testing';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { CmsService, I18nTestingModule, Page } from '@spartacus/core';
+import {
+  CmsService,
+  FeatureConfigService,
+  I18nTestingModule,
+  Page,
+} from '@spartacus/core';
 import {
   AugmentedPointOfService,
   IntendedPickupLocationFacade,
@@ -16,8 +21,8 @@ import {
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
 import {
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
   OutletContextData,
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
@@ -109,6 +114,12 @@ const mockOutletContext: { item: OrderEntry; cartType: string } = {
   cartType: 'cart',
 };
 
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 const context$ = of(mockOutletContext);
 
 class MockIntendedPickupLocationFacade {
@@ -166,6 +177,10 @@ describe('CartPickupOptionsContainerComponent', () => {
         {
           provide: IntendedPickupLocationFacade,
           useClass: MockIntendedPickupLocationFacade,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
       ],
     });

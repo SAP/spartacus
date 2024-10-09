@@ -562,7 +562,7 @@ export interface FeatureTogglesInterface {
 
   /**
    * When enabled, the focus will be returned to the trigger element after the dialog is closed.
-   * Affected components: 'AddtoCartComponent', 'PickupOptionsComponent'
+   * Affected components: 'AddtoCartComponent', 'PickupOptionsComponent', CartPickupOptionsContainerComponent, PDPPickupOptionsContainerComponent
    */
   a11yDialogTriggerRefocus?: boolean;
 
