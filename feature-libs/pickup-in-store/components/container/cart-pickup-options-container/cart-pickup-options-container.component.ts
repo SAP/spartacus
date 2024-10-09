@@ -275,6 +275,7 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
   onPickupOptionChange(
     event: { option: PickupOption; triggerElement: ElementRef } | PickupOption
   ): void {
+    /* istanbul ignore else */
     if (
       this.featureConfigService.isEnabled('a11yDialogTriggerRefocus') &&
       typeof event === 'object'

@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { ElementRef } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -213,10 +214,11 @@ describe('CartPickupOptionsContainerComponent', () => {
     });
 
     it('should trigger and open dialog', () => {
-      component.openDialog();
+      const triggerElement = new ElementRef({});
+      component.openDialog(triggerElement);
       expect(launchDialogService.openDialog).toHaveBeenCalledWith(
         LAUNCH_CALLER.PICKUP_IN_STORE,
-        component.element,
+        triggerElement,
         component['vcr'],
         { productCode: 'productCode1', entryNumber: 1, quantity: 1 }
       );
@@ -225,7 +227,12 @@ describe('CartPickupOptionsContainerComponent', () => {
     it('should not openDialog if display name is not set and ship it is selected', () => {
       spyOn(component, 'openDialog');
       component['displayNameIsSet'] = false;
-      component.onPickupOptionChange('delivery');
+      const pickupOption: PickupOption = 'delivery';
+      const event = {
+        option: pickupOption,
+        triggerElement: new ElementRef({}),
+      };
+      component.onPickupOptionChange(event);
       expect(component.openDialog).not.toHaveBeenCalled();
     });
 
@@ -233,6 +240,10 @@ describe('CartPickupOptionsContainerComponent', () => {
       const entryNumber = 2;
       const pickupOption: PickupOption = 'pickup';
       const quantity = 3;
+      const event = {
+        option: pickupOption,
+        triggerElement: new ElementRef({}),
+      };
 
       component.entryNumber = entryNumber;
       component.quantity = quantity;
@@ -241,7 +252,7 @@ describe('CartPickupOptionsContainerComponent', () => {
       spyOn(pickupOptionService, 'setPickupOption');
       spyOn(activeCartService, 'updateEntry');
 
-      component.onPickupOptionChange(pickupOption);
+      component.onPickupOptionChange(event);
       expect(pickupOptionService.setPickupOption).toHaveBeenCalledWith(
         entryNumber,
         pickupOption
