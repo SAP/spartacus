@@ -455,6 +455,7 @@
 
       cx-recent-searches:has(.recent-searches) ~ .search-panel-header {
         .products-header {
+          display: inline-block;
           flex-basis: 80%;
           @include media-breakpoint-down(sm) {
             width: 100%;
@@ -464,6 +465,7 @@
       .trending-searches-container:has(.trending-searches)
         ~ .search-panel-header {
         .products-header {
+          display: inline-block;
           flex-basis: 80%;
           @include media-breakpoint-down(sm) {
             width: 100%;
