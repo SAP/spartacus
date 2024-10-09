@@ -5,7 +5,7 @@
  */
 
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { provideConfigValidator, provideDefaultConfig } from '@spartacus/core';
+import { provideConfigValidator, provideDefaultConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { CdsConfig, cdsConfigValidator, defaultCdsConfigFactory } from './config';
 import { MerchandisingModule } from './merchandising';
 import {
@@ -30,7 +30,7 @@ export class CdsModule {
     return {
       ngModule: CdsModule,
       providers: [
-        provideDefaultConfig(defaultCdsConfigFactory()),
+        provideDefaultConfigFactory(defaultCdsConfigFactory),
         provideDefaultConfig(config),
         provideConfigValidator(cdsConfigValidator),
         ProfileTagPushEventsService,

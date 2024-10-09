@@ -17,11 +17,22 @@ import {
   cdsTranslations,
 } from '@spartacus/cds/assets';
 
+/**
+ * Only differences to the default cds config, they are merged together.
+ * 
+ * @see defaultCdsConfigFactory
+ * @see CdsModule.forRoot
+ */
 const cds1: CdsConfig = {
   cds: {
-    baseSite: ['electronics-spa', 'electronics', 'electronics-standalone'],
+    baseSite: [
+      'electronics-spa',
+      'electronics',
+      'electronics-standalone'
+    ],
     tenant: 'argotest',
     baseUrl: 'https://api.stage.context.cloud.sap',
+<<<<<<< Updated upstream
     endpoints: {
       strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
       searchIntelligence:
@@ -30,17 +41,25 @@ const cds1: CdsConfig = {
     merchandising: {
       defaultCarouselViewportThreshold: 80,
     },
+=======
+>>>>>>> Stashed changes
     profileTag: {
       javascriptUrl:
         'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
       configUrl:
         'https://tag.static.stage.context.cloud.sap/config/mytenant-main-default',
-      allowInsecureCookies: true,
+        allowInsecureCookies: true,
     },
   },
 };
 
-const cds2 = {
+/**
+* Only differences to the default cds config, they are merged together.
+* 
+* @see defaultCdsConfigFactory
+* @see CdsModule.forRoot
+*/
+const cds2: CdsConfig = {
   cds: {
     baseSite: [
       'apparel-de',
@@ -50,6 +69,7 @@ const cds2 = {
     ],
     tenant: 'A_CDS_TENANT',
     baseUrl: 'A_CDS_BASE_URL',
+<<<<<<< Updated upstream
     endpoints: {
       strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
       searchIntelligence:
@@ -58,6 +78,8 @@ const cds2 = {
     merchandising: {
       defaultCarouselViewportThreshold: 80,
     },
+=======
+>>>>>>> Stashed changes
     profileTag: {
       javascriptUrl: 'A_CDS_PROFILE_TAG_LOAD_URL',
       configUrl: 'A_CDS_PROFILE_TAG_CONFIG_URL',
@@ -66,9 +88,10 @@ const cds2 = {
   },
 };
 
-const cdsConfigArray = [cds1, cds2];
+function cdsConfigFactory(windowRef: WindowRef): CdsConfig {
 
-const cdsConfig = (windowRef: WindowRef): CdsConfig => {
+  const cdsConfigArray = [cds1, cds2];
+
   if (!windowRef.isBrowser()) {
     return cds1;
   }
@@ -90,7 +113,7 @@ const cdsConfig = (windowRef: WindowRef): CdsConfig => {
         fallbackLang: 'en',
       },
     }),
-    provideConfigFactory(cdsConfig, [WindowRef]),
+    provideConfigFactory(cdsConfigFactory, [WindowRef]),
   ],
 })
 export class CdsFeatureModule {}

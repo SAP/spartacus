@@ -44,7 +44,6 @@ export class CdsMerchandisingStrategyAdapter
         this.http.get(
           this.cdsEndpointsService.getUrl(
             STRATEGY_PRODUCTS_ENDPOINT_KEY,
-            // TODO: different for non CAS. Does it matter? Or can we skip evaluating the feature toggle here
             {
               baseSite,
               strategyId,
