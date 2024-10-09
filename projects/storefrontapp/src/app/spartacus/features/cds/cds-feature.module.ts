@@ -32,17 +32,6 @@ const cds1: CdsConfig = {
     ],
     tenant: 'argotest',
     baseUrl: 'https://api.stage.context.cloud.sap',
-<<<<<<< Updated upstream
-    endpoints: {
-      strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
-      searchIntelligence:
-        '/search-intelligence/v1/sites/${cdsSiteId}/trendingSearches',
-    },
-    merchandising: {
-      defaultCarouselViewportThreshold: 80,
-    },
-=======
->>>>>>> Stashed changes
     profileTag: {
       javascriptUrl:
         'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
@@ -69,17 +58,6 @@ const cds2: CdsConfig = {
     ],
     tenant: 'A_CDS_TENANT',
     baseUrl: 'A_CDS_BASE_URL',
-<<<<<<< Updated upstream
-    endpoints: {
-      strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
-      searchIntelligence:
-        '/search-intelligence/v1/sites/${cdsSiteId}/trendingSearches',
-    },
-    merchandising: {
-      defaultCarouselViewportThreshold: 80,
-    },
-=======
->>>>>>> Stashed changes
     profileTag: {
       javascriptUrl: 'A_CDS_PROFILE_TAG_LOAD_URL',
       configUrl: 'A_CDS_PROFILE_TAG_CONFIG_URL',
