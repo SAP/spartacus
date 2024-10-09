@@ -194,14 +194,22 @@ type DeepRequired<T> = {
  */
 export const getDefaultRenderKey = getRequestUrl;
 
-// All properties and ssrFeatureToggles are Required in the default config,
-// so all possible options are well-defined and can be printed to logs on the SSR server start.
+// The type of `defaultSsrOptimizationOptions` ensures that all properties are set to a default value.
+// This is useful for debugging, as all options are well-defined and can be printed to logs on the SSR server start.
 export const defaultSsrOptimizationOptions: Omit<
   Required<SsrOptimizationOptions>,
-  'ttl' | 'debug'
+  | 'debug' // debug is deprecated and not used anymore
+  | 'ttl' // ttl is required but its default value is `undefined`
 > & {
   ttl: number | undefined; // needed, otherwise we could not set the value `ttl: undefined` value (due to the Required<...>)
-} & DeepRequired<Pick<SsrOptimizationOptions, 'ssrFeatureToggles'>> = {
+} & DeepRequired<
+    // all nested properties of `ssrFeatureToggles` are required too
+    Pick<
+      SsrOptimizationOptions,
+      //
+      'ssrFeatureToggles'
+    >
+  > = {
   cache: false,
   cacheSize: 3000,
   ttl: undefined,
