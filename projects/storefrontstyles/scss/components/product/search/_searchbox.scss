@@ -262,6 +262,7 @@
           flex: 100%;
           line-height: 2rem;
           display: block;
+          max-width: 100%;
         }
       }
     }
@@ -343,6 +344,7 @@
         @include type('6');
       }
       @include media-breakpoint-down(sm) {
+        display: block;
         right: 12px;
         top: 20px;
       }
@@ -358,6 +360,116 @@
       padding: 24px 40px 48px 40px;
       margin-top: 14px;
       overflow: hidden;
+      flex-wrap: wrap;
+
+      .search-panel-header {
+        width: 100%;
+        display: flex;
+        order: -1;
+        height: min-content;
+        &.header-panel-divider {
+          border-bottom: 1px solid var(--cx-color-medium);
+        }
+        @include media-breakpoint-down(sm) {
+          display: none;
+        }
+        .search-panel-close-btn {
+          display: block;
+        }
+
+        h3:not(.cx-product-name) {
+          padding-inline-start: 0;
+          font-size: $font-size-base; // 16px
+          text-transform: uppercase;
+          @include weight('semi');
+          @include media-breakpoint-down(sm) {
+            display: none;
+          }
+
+          &.search-panel-message {
+            display: inline-block;
+          }
+        }
+
+        .suggestions-header {
+          width: 20%;
+          display: none;
+        }
+        .trendingSearches-header {
+          width: 20%;
+        }
+        .recentSearches-header {
+          width: 20%;
+          display: none;
+        }
+      }
+      cx-recent-searches:has(.recent-searches)
+        ~ .search-panel-header
+        .recentSearches-header {
+        display: inline-block;
+      }
+
+      .trending-searches-container:has(.trending-searches)
+        ~ .search-panel-header
+        .trendingSearches-header {
+        display: inline-block;
+      }
+
+      .suggestions ~ .search-panel-header .suggestions-header {
+        display: inline-block;
+      }
+
+      .suggestions-header
+        ~ cx-recent-searches:has(.recent-searches)
+        ~ .search-panel-header {
+        .products-header {
+          display: inline-block;
+          flex-basis: 60%;
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+          }
+        }
+      }
+
+      .trending-searches-container:has(.trending-searches)
+        ~ cx-recent-searches:has(.recent-searches)
+        ~ .search-panel-header {
+        .products-header {
+          display: inline-block;
+          flex-basis: 60%;
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+          }
+        }
+      }
+
+      .suggestions ~ .search-panel-header {
+        .products-header {
+          display: inline-block;
+          flex-basis: 80%;
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+          }
+        }
+      }
+
+      cx-recent-searches:has(.recent-searches) ~ .search-panel-header {
+        .products-header {
+          flex-basis: 80%;
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+          }
+        }
+      }
+      .trending-searches-container:has(.trending-searches)
+        ~ .search-panel-header {
+        .products-header {
+          flex-basis: 80%;
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+          }
+        }
+      }
 
       @include media-breakpoint-down(sm) {
         height: inherit;
@@ -372,6 +484,9 @@
         max-width: 160px;
         display: block;
         cursor: pointer;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         @include type('6');
 
         .highlight,
@@ -382,11 +497,13 @@
       }
 
       h3:not(.cx-product-name) {
-        display: inline-block;
+        display: none;
         padding-inline-start: 0;
-        font-size: $font-size-base; // 16px
-        text-transform: uppercase;
+        font-size: $font-size-base * 1.25; // 20px
         @include weight('semi');
+        @include media-breakpoint-down(sm) {
+          display: inline-block;
+        }
       }
       ul {
         padding-inline-start: 0;
@@ -408,10 +525,9 @@
           background-color: pink;
         }
         ul {
-          border-top: solid 1px var(--cx-color-medium)
+          border-top: none;
         }
         a {
-          max-width: unset;
           &:hover,
           &:focus {
             color: var(--cx-color-primary);
@@ -433,10 +549,9 @@
           }
         }
         ul {
-          border-top: solid 1px var(--cx-color-medium)
+          border-top: none;
         }
         a {
-          max-width: unset;
           &:hover {
             color: var(--cx-color-primary);
             text-decoration: underline;
@@ -463,10 +578,9 @@
             }
           }
           ul {
-            border-top: solid 1px var(--cx-color-medium)
+            border-top: none;
           }
           a {
-            max-width: unset;
             &:hover {
               color: var(--cx-color-primary);
               text-decoration: underline;
@@ -478,7 +592,6 @@
       .products {
         cx-carousel {
           display: flex;
-          border-top: solid 1px var(--cx-color-medium)
         }
 
         ul {

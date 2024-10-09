@@ -14,7 +14,6 @@
       (click)="search(searchInput.value)"
       (focus)="a11ySearchBoxMobileFocusEnabled ? null : open()"
       (input)="search(searchInput.value)"
-      (blur)="close($any($event))"
       (keydown.tab)="
         a11ySearchBoxMobileFocusEnabled ? close($any($event)) : null
       "
@@ -99,7 +98,7 @@
           [routerLink]="
             {
               cxRoute: 'search',
-              params: { query: suggestion },
+              params: { query: suggestion }
             } | cxUrl
           "
           (keydown.arrowup)="focusPreviousChild($any($event))"
@@ -114,7 +113,7 @@
             dispatchSuggestionEvent({
               freeText: searchInput.value,
               selectedSuggestion: suggestion,
-              searchSuggestions: result.suggestions ?? [],
+              searchSuggestions: result.suggestions ?? []
             });
             updateChosenWord(suggestion)
           "
@@ -134,7 +133,7 @@
         <ng-template
           [cxOutlet]="searchBoxOutlets.TRENDING_SEARCHES"
           [cxOutletContext]="{
-            maxTrendingSearches: config.maxTrendingSearches,
+            maxTrendingSearches: config.maxTrendingSearches
           }"
         ></ng-template>
       </ng-container>
@@ -149,7 +148,7 @@
       [cxOutletContext]="{
         search: searchInput.value,
         searchBoxActive: searchBoxActive,
-        maxRecentSearches: config.maxRecentSearches,
+        maxRecentSearches: config.maxRecentSearches
       }"
     ></ng-template>
   </ng-container>
@@ -178,7 +177,7 @@
           [routerLink]="
             {
               cxRoute: 'product',
-              params: product,
+              params: product
             } | cxUrl
           "
           [class.has-media]="config.displayProductImages"
@@ -193,7 +192,7 @@
           (click)="
             dispatchProductEvent({
               freeText: searchInput.value,
-              productCode: product.code,
+              productCode: product.code
             })
           "
         >
@@ -224,7 +223,7 @@
           [routerLink]="
             {
               cxRoute: 'product',
-              params: product,
+              params: product
             } | cxUrl
           "
           [class.has-media]="config.displayProductImages"
@@ -237,7 +236,7 @@
           (click)="
             dispatchProductEvent({
               freeText: searchInput.value,
-              productCode: product.code,
+              productCode: product.code
             })
           "
         >
@@ -257,6 +256,37 @@
         </div>
       </ng-template>
     </ng-container>
+  </div>
+
+  <div
+    [class.d-none]="!hasSearchBoxV2"
+    class="search-panel-header"
+    [class.header-panel-divider]="!result.message"
+    *ngIf="isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)"
+  >
+    <h3 class="search-panel-message" *ngIf="result.message" [innerHTML]="result.message"></h3>
+    <h3 class="suggestions-header">
+      {{ 'searchBox.suggestions' | cxTranslate }}
+    </h3>
+    <h3
+      class="trendingSearches-header"
+      *ngIf="searchInput?.value?.length === 0"
+    >
+      {{ 'cdsTrendingSearches.trendingSearches' | cxTranslate }}
+    </h3>
+    <h3 class="recentSearches-header">
+      {{ 'cdsRecentSearches.recentSearches' | cxTranslate }}
+    </h3>
+    <h3 class="products-header" *ngIf="result.products?.length">
+      {{ 'searchBox.products' | cxTranslate }}
+    </h3>
+    <button
+      class="btn btn-tertiary search-panel-close-btn"
+      (keydown.arrowdown)="focusPreviousGroup($any($event))"
+      (click)="close($any($event))"
+    >
+      {{ 'searchBox.closeSearchPanel' | cxTranslate }}
+    </button>
   </div>
 
   <span id="initialDescription" class="cx-visually-hidden">
