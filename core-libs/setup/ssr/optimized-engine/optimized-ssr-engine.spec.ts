@@ -847,7 +847,7 @@ describe('OptimizedSsrEngine', () => {
   });
 
   describe('forcedSsrTimeout option', () => {
-    it('should fallback to CSR when forcedSsrTimeout timeout is exceeded for ALWAYS_SSR rendering strategy, and when after that rendering ends its HTML should be reused in the next request for the same url', fakeAsync(() => {
+    it('should fallback to CSR when forcedSsrTimeout timeout is exceeded for ALWAYS_SSR rendering strategy, and after that rendering ends, its HTML should be reused in the next request for the same url', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({
         renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
         timeout: 50,
