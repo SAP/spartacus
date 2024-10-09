@@ -194,33 +194,33 @@ type DeepRequired<T> = {
  */
 export const getDefaultRenderKey = getRequestUrl;
 
+// All properties and ssrFeatureToggles are Required in the default config,
+// so all possible options are well-defined and can be printed to logs on the SSR server start.
 export const defaultSsrOptimizationOptions: Omit<
   Required<SsrOptimizationOptions>,
   'ttl' | 'debug'
 > & {
-  ttl: number | undefined;
-} & DeepRequired<Pick<SsrOptimizationOptions, 'ssrFeatureToggles'>> =
-  // To not forget adding default values, when adding new feature toggles in the type in the future
-  {
-    cache: false,
-    cacheSize: 3000,
-    ttl: undefined,
-    concurrency: 10,
-    timeout: 3_000,
-    forcedSsrTimeout: 60_000,
-    maxRenderTime: 300_000,
-    reuseCurrentRendering: true,
-    renderingStrategyResolver: defaultRenderingStrategyResolver(
-      defaultRenderingStrategyResolverOptions
+  ttl: number | undefined; // needed, otherwise we could not set the value `ttl: undefined` value (due to the Required<...>)
+} & DeepRequired<Pick<SsrOptimizationOptions, 'ssrFeatureToggles'>> = {
+  cache: false,
+  cacheSize: 3000,
+  ttl: undefined,
+  concurrency: 10,
+  timeout: 3_000,
+  forcedSsrTimeout: 60_000,
+  maxRenderTime: 300_000,
+  reuseCurrentRendering: true,
+  renderingStrategyResolver: defaultRenderingStrategyResolver(
+    defaultRenderingStrategyResolverOptions
+  ),
+  logger: new DefaultExpressServerLogger(),
+  shouldCacheRenderingResult: ({ options, entry }) =>
+    !(
+      options.ssrFeatureToggles?.avoidCachingErrors === true &&
+      Boolean(entry.err)
     ),
-    logger: new DefaultExpressServerLogger(),
-    shouldCacheRenderingResult: ({ options, entry }) =>
-      !(
-        options.ssrFeatureToggles?.avoidCachingErrors === true &&
-        Boolean(entry.err)
-      ),
-    renderKeyResolver: getDefaultRenderKey,
-    ssrFeatureToggles: {
-      avoidCachingErrors: false,
-    },
-  };
+  renderKeyResolver: getDefaultRenderKey,
+  ssrFeatureToggles: {
+    avoidCachingErrors: false,
+  },
+};
