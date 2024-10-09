@@ -269,21 +269,23 @@
       *ngIf="result.message"
       [innerHTML]="result.message"
     ></h3>
-    <h3 class="suggestions-header">
-      {{ 'searchBox.suggestions' | cxTranslate }}
-    </h3>
-    <h3
-      class="trendingSearches-header"
-      *ngIf="searchInput?.value?.length === 0"
-    >
-      {{ 'cdsTrendingSearches.trendingSearches' | cxTranslate }}
-    </h3>
-    <h3 class="recentSearches-header">
-      {{ 'cdsRecentSearches.recentSearches' | cxTranslate }}
-    </h3>
-    <h3 class="products-header" *ngIf="result.products?.length">
-      {{ 'searchBox.products' | cxTranslate }}
-    </h3>
+    <ng-container *ngIf="!result.message">
+      <h3 class="suggestions-header">
+        {{ 'searchBox.suggestions' | cxTranslate }}
+      </h3>
+      <h3
+        class="trendingSearches-header"
+        *ngIf="searchInput?.value?.length === 0"
+      >
+        {{ 'cdsTrendingSearches.trendingSearches' | cxTranslate }}
+      </h3>
+      <h3 class="recentSearches-header">
+        {{ 'cdsRecentSearches.recentSearches' | cxTranslate }}
+      </h3>
+      <h3 class="products-header" *ngIf="result.products?.length">
+        {{ 'searchBox.products' | cxTranslate }}
+      </h3>
+    </ng-container>
     <button
       class="btn btn-tertiary search-panel-close-btn"
       (keydown.arrowdown)="focusPreviousGroup($any($event))"
