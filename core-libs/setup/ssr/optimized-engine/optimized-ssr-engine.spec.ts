@@ -188,7 +188,9 @@ describe('OptimizedSsrEngine', () => {
   context: {
     timestamp: '2023-01-01T00:00:00.000Z',
     options: {
+      cache: false,
       cacheSize: 3000,
+      ttl: undefined,
       concurrency: 10,
       timeout: 50,
       forcedSsrTimeout: 60000,
@@ -198,6 +200,9 @@ describe('OptimizedSsrEngine', () => {
       logger: 'DefaultExpressServerLogger',
       shouldCacheRenderingResult: '({ options, entry }) => !(options.ssrFeatureToggles?.avoidCachingErrors === true &&\\n' +
         '        Boolean(entry.err))',
+      renderKeyResolver: 'function getRequestUrl(req) {\\n' +
+        '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
+        '}',
       ssrFeatureToggles: { avoidCachingErrors: false }
     }
   }
@@ -1459,34 +1464,39 @@ describe('OptimizedSsrEngine', () => {
         logger: new MockExpressServerLogger() as ExpressServerLogger,
       });
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-        [
-          "[spartacus] SSR optimization engine initialized",
-          {
-            "options": {
-              "cacheSize": 3000,
-              "concurrency": 10,
-              "forcedSsrTimeout": 60000,
-              "logger": "MockExpressServerLogger",
-              "maxRenderTime": 300000,
-              "renderingStrategyResolver": "(request) => {
-            if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {
-                return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;
-            }
-            return shouldFallbackToCsr(request, options)
-                ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR
-                : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
-        }",
-              "reuseCurrentRendering": true,
-              "shouldCacheRenderingResult": "({ options, entry }) => !(options.ssrFeatureToggles?.avoidCachingErrors === true &&
-                Boolean(entry.err))",
-              "ssrFeatureToggles": {
-                "avoidCachingErrors": false,
-              },
-              "timeout": 3000,
-            },
-          },
-        ]
-      `);
+[
+  "[spartacus] SSR optimization engine initialized",
+  {
+    "options": {
+      "cache": false,
+      "cacheSize": 3000,
+      "concurrency": 10,
+      "forcedSsrTimeout": 60000,
+      "logger": "MockExpressServerLogger",
+      "maxRenderTime": 300000,
+      "renderKeyResolver": "function getRequestUrl(req) {
+    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;
+}",
+      "renderingStrategyResolver": "(request) => {
+    if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {
+        return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;
+    }
+    return shouldFallbackToCsr(request, options)
+        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR
+        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
+}",
+      "reuseCurrentRendering": true,
+      "shouldCacheRenderingResult": "({ options, entry }) => !(options.ssrFeatureToggles?.avoidCachingErrors === true &&
+        Boolean(entry.err))",
+      "ssrFeatureToggles": {
+        "avoidCachingErrors": false,
+      },
+      "timeout": 3000,
+      "ttl": undefined,
+    },
+  },
+]
+`);
     });
   });
 });
