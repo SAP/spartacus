@@ -121,7 +121,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   protected focusOnFirstNavigationItem() {
     const closestNavigationUi = this.elementRef.nativeElement.querySelector(
-      '.NavigationBar cx-navigation-ui'
+      'header cx-navigation-ui'
     );
     const focusable = closestNavigationUi?.querySelector<HTMLElement>(
       'li:not(.back) button, [tabindex="0"]'
