@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "2211.28.0-1",
+  "version": "2211.29.0",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -28,7 +28,7 @@
     "@angular-devkit/schematics": "^17.0.5",
     "@angular/compiler": "^17.0.5",
     "@schematics/angular": "^17.0.5",
-    "jsonc-parser": "^3.2.0",
+    "jsonc-parser": "~3.2.1",
     "parse5": "^7.1.2",
     "typescript": "^5.2.2"
   },

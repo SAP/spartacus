@@ -5,27 +5,22 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
+  generateDefaultWorkspace,
+  LibraryOptions as SpartacusOrganizationOptions,
+  orderFeatureModulePath,
   ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
   ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
   ORGANIZATION_UNIT_ORDER_FEATURE_NAME,
   ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
-  SPARTACUS_CONFIGURATION_MODULE,
-  SPARTACUS_ORGANIZATION,
-  SPARTACUS_SCHEMATICS,
-  SpartacusOptions,
-  LibraryOptions as SpartacusOrganizationOptions,
-  orderFeatureModulePath,
   organizationAccountSummaryFeatureModulePath,
   organizationAdministrationFeatureModulePath,
   organizationOrderApprovalFeatureModulePath,
   organizationUnitOrderFeatureModulePath,
   organizationUserRegistrationFeatureModulePath,
+  SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_ORGANIZATION,
+  SPARTACUS_SCHEMATICS,
   userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -41,27 +36,6 @@ describe('Spartacus Organization schematics: ng-add', () => {
   );
 
   let appTree: UnitTestTree;
-
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [],
-  };
 
   const libraryNoFeaturesOptions: SpartacusOrganizationOptions = {
     project: 'schematics-test',
@@ -94,35 +68,10 @@ describe('Spartacus Organization schematics: ng-add', () => {
     features: [ORGANIZATION_UNIT_ORDER_FEATURE_NAME],
   };
 
-  beforeEach(async () => {
-    schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
-      '../../projects/schematics/src/collection.json'
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      appTree
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      SPARTACUS_SCHEMATICS,
-      'ng-add',
-      { ...spartacusDefaultOptions, name: 'schematics-test' },
-      appTree
-    );
-  });
-
   describe('Without features', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+      appTree = await generateDefaultWorkspace(schematicRunner, appTree);
+
       appTree = await schematicRunner.runSchematic(
         'ng-add',
         libraryNoFeaturesOptions,
@@ -176,7 +125,9 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
   describe('Administration feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
+
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           administrationFeatureOptions,
@@ -219,7 +170,9 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
+
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...administrationFeatureOptions, lazy: false },
@@ -238,7 +191,9 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
   describe('Order approval feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
+
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           orderApprovalFeatureOptions,
@@ -284,7 +239,9 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
+
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...orderApprovalFeatureOptions, lazy: false },
@@ -303,7 +260,9 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
   describe('Account summary feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
+
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           accountSummaryFeatureOptions,
@@ -348,7 +307,8 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...accountSummaryFeatureOptions, lazy: false },
@@ -367,7 +327,8 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
   describe('User registration feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           userRegistrationFeatureOptions,
@@ -412,7 +373,8 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...userRegistrationFeatureOptions, lazy: false },
@@ -431,7 +393,8 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
   describe('Unit order feature', () => {
     describe('general setup', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           unitOrderFeatureOptions,
@@ -477,7 +440,8 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
 
     describe('eager loading', () => {
-      beforeEach(async () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
         appTree = await schematicRunner.runSchematic(
           'ng-add',
           { ...unitOrderFeatureOptions, lazy: false },

@@ -507,7 +507,7 @@ export const cartUser = {
   registrationData: {
     firstName: 'Winston',
     lastName: 'Rumfoord',
-    password: 'Password123.',
+    password: 'Pas!sword123.',
     titleCode: 'mr',
     email: generateMail(randomString(), true),
   },

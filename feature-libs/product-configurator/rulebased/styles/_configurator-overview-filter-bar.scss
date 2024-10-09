@@ -9,6 +9,10 @@
   .cx-overview-filter-applied {
     background-color: var(--cx-color-background);
     border: 1px solid var(--cx-color-light);
+    @include cx-highContrastTheme {
+      border: solid 1px var(--cx-color-dark);
+      color: var(--cx-color-text);
+    }
     border-radius: 2px;
 
     padding-inline-start: 10px;

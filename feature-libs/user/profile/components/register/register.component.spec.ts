@@ -1,6 +1,10 @@
 import { Component, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -10,18 +14,19 @@ import {
   AnonymousConsentsConfig,
   AnonymousConsentsService,
   AuthConfigService,
+  BaseSite,
+  BaseSiteService,
   ConsentTemplate,
+  FeatureConfigService,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  LanguageService,
   OAuthFlow,
   RoutingService,
-  Title,
-  BaseSite,
   SiteAdapter,
-  BaseSiteService,
-  LanguageService,
+  Title,
 } from '@spartacus/core';
 import {
   CaptchaModule,
@@ -437,6 +442,56 @@ describe('RegisterComponent', () => {
       expect(getCaptchaControl(component).value).toBe(true);
       expect(getCaptchaControl(component).valid).toEqual(true);
       expect(component.registerUser).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('password validators', () => {
+    let featureConfigService: FeatureConfigService;
+
+    it('should have new validators when feature flag is enabled', () => {
+      featureConfigService = TestBed.inject(FeatureConfigService);
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+
+      fixture = TestBed.createComponent(RegisterComponent);
+      component = fixture.componentInstance;
+
+      fixture.detectChanges();
+
+      const passwordControl = component.registerForm.get(
+        'password'
+      ) as UntypedFormControl;
+      const validators = passwordControl.validator
+        ? passwordControl.validator({} as any)
+        : [];
+
+      expect(passwordControl).toBeTruthy();
+      expect(validators).toEqual({
+        required: true,
+        cxMinOneDigit: true,
+        cxMinOneUpperCaseCharacter: true,
+        cxMinOneSpecialCharacter: true,
+        cxMinSixCharactersLength: true,
+      });
+    });
+
+    it('should have old validators when feature flag is not enabled', () => {
+      featureConfigService = TestBed.inject(FeatureConfigService);
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+
+      fixture = TestBed.createComponent(RegisterComponent);
+      component = fixture.componentInstance;
+
+      fixture.detectChanges();
+
+      const passwordControl = component.registerForm.get(
+        'password'
+      ) as UntypedFormControl;
+      const validators = passwordControl.validator
+        ? passwordControl.validator({} as any)
+        : [];
+
+      expect(passwordControl).toBeTruthy();
+      expect(validators).toEqual({ required: true, cxInvalidPassword: true });
     });
   });
 });

@@ -227,8 +227,22 @@ $useAccordionOnly: false !default;
   } @else {
     @extend %pdpFlat !optional;
   }
+  @extend %cx-tab !optional;
 
   .active {
     background-color: var(--cx-color-inverse);
+  }
+  > div > button {
+    @include cx-highContrastTheme {
+      border-top-color: var(--cx-color-text);
+      color: var(--cx-color-text);
+    }
+  }
+
+  @include cx-highContrastTheme {
+    .active {
+      color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+    }
   }
 }

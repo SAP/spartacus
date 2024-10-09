@@ -15,6 +15,9 @@
     }
     .cx-conflict-notification-banner {
       background-color: mix(#ffffff, theme-color('warning'), 78%);
+      @include cx-highContrastTheme-dark {
+        color: var(--cx-color-light);
+      }
       .cx-icon {
         color: var(--cx-color-warning);
       }
@@ -59,6 +62,10 @@
       button.link {
         font-size: inherit;
       }
+    }
+
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
     }
   }
 }

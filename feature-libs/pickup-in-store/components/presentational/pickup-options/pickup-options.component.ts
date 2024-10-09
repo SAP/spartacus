@@ -6,12 +6,16 @@
 
 import {
   Component,
+  ElementRef,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { FeatureConfigService, useFeatureStyles } from '@spartacus/core';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
 
 /**
@@ -31,9 +35,18 @@ export class PickupOptionsComponent implements OnChanges {
   @Input() disableControls = false;
 
   /** Emitted when the selected option is changed. */
-  @Output() pickupOptionChange = new EventEmitter<PickupOption>();
+  // TODO: Remove the 'PickupOption' type when the `a11yDialogTriggerRefocus` feature flag is removed.
+  @Output() pickupOptionChange = new EventEmitter<
+    { option: PickupOption; triggerElement: ElementRef } | PickupOption
+  >();
+
   /** Emitted when a new store should be selected. */
-  @Output() pickupLocationChange = new EventEmitter<undefined>();
+  // TODO: Remove the undefined type when the `a11yDialogTriggerRefocus` feature flag is removed.
+  @Output() pickupLocationChange = new EventEmitter<ElementRef | undefined>();
+
+  @ViewChild('dialogTriggerEl') triggerElement: ElementRef;
+
+  private featureConfigService = inject(FeatureConfigService);
 
   pickupId = `pickup-id:${Math.random().toString(16)}`;
   deliveryId = `delivery-id:${Math.random().toString(16)}`;
@@ -41,6 +54,10 @@ export class PickupOptionsComponent implements OnChanges {
   pickupOptionsForm = new FormGroup({
     pickupOption: new FormControl<PickupOption | null>(null),
   });
+
+  constructor() {
+    useFeatureStyles('a11yDeliveryMethodFieldset');
+  }
 
   ngOnChanges(): void {
     if (this.disableControls) {
@@ -52,12 +69,23 @@ export class PickupOptionsComponent implements OnChanges {
 
   /** Emit a new selected option. */
   onPickupOptionChange(option: PickupOption): void {
-    this.pickupOptionChange.emit(option);
+    if (this.featureConfigService.isEnabled('a11yDialogTriggerRefocus')) {
+      this.pickupOptionChange.emit({
+        option,
+        triggerElement: this.triggerElement,
+      });
+    } else {
+      this.pickupOptionChange.emit(option);
+    }
   }
 
   /** Emit to indicate a new store should be selected. */
   onPickupLocationChange(): boolean {
-    this.pickupLocationChange.emit();
+    if (this.featureConfigService.isEnabled('a11yDialogTriggerRefocus')) {
+      this.pickupLocationChange.emit(this.triggerElement);
+    } else {
+      this.pickupLocationChange.emit();
+    }
     // Return false to stop `onPickupOptionChange` being called after this
     return false;
   }

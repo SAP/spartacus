@@ -39,11 +39,17 @@ cx-product-image-zoom-dialog {
           padding: 1rem;
         }
 
-        // TODO: (CXSPA-7212) - Remove feature flag next major release
         @include forFeature('a11yCloseProductImageBtnFocus') {
           .close {
             outline-offset: -4px;
+            @include forFeature('a11yExpandedFocusIndicator') {
+              outline-offset: unset;
+            }
           }
+        }
+
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
         }
       }
       .cx-dialog-body {
@@ -55,6 +61,19 @@ cx-product-image-zoom-dialog {
         @media only screen and (max-width: 900px) and (orientation: landscape) {
           padding: 0;
         }
+      }
+    }
+  }
+  @include cx-highContrastTheme {
+    .cx-dialog-content {
+      color: var(--cx-color-text);
+      background-color: var(--cx-color-background);
+      border: 1px solid var(--cx-color-text);
+      .cx-dialog-body {
+        background-color: var(--cx-color-background);
+      }
+      .close {
+        color: var(--cx-color-dark);
       }
     }
   }

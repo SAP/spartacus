@@ -11,7 +11,6 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -20,7 +19,7 @@ import {
   RoutingService,
   useFeatureStyles,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, tap } from 'rxjs';
 import {
   FocusConfig,
   KeyboardFocusService,
@@ -39,22 +38,20 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   readonly StorefrontOutlets = StorefrontOutlets;
 
-  @Optional() featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  private featureConfigService = inject(FeatureConfigService);
 
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
 
   // TODO: (CXSPA-7464) - Remove feature flags and following bindings next major release.
-  @HostBinding('attr.role') role = this?.featureConfigService?.isEnabled(
+  @HostBinding('attr.role') role = this?.featureConfigService.isEnabled(
     'a11yScreenReaderBloatFix'
   )
     ? null
     : 'presentation';
 
   // required by esc focus
-  @HostBinding('tabindex') tabindex = this?.featureConfigService?.isEnabled(
+  @HostBinding('tabindex') tabindex = this?.featureConfigService.isEnabled(
     'a11yScreenReaderBloatFix'
   )
     ? '-1'
@@ -93,6 +90,19 @@ export class StorefrontComponent implements OnInit, OnDestroy {
         this.startNavigating = val === true;
         this.stopNavigating = val === false;
       });
+    if (
+      this.featureConfigService.isEnabled(
+        'a11yMobileFocusOnFirstNavigationItem'
+      )
+    ) {
+      this.isExpanded$ = this.hamburgerMenuService.isExpanded.pipe(
+        tap((isExpanded) => {
+          if (isExpanded) {
+            this.focusOnFirstNavigationItem();
+          }
+        })
+      );
+    }
   }
 
   collapseMenuIfClickOutside(event: any): void {
@@ -107,6 +117,18 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   collapseMenu(): void {
     this.hamburgerMenuService.toggle(true);
+  }
+
+  protected focusOnFirstNavigationItem() {
+    const closestNavigationUi = this.elementRef.nativeElement.querySelector(
+      'header cx-navigation-ui'
+    );
+    const focusable = closestNavigationUi?.querySelector<HTMLElement>(
+      'li:not(.back) button, [tabindex="0"]'
+    );
+    if (focusable) {
+      setTimeout(() => focusable.focus());
+    }
   }
 
   ngOnDestroy(): void {

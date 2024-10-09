@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '@spartacus/core';
+import { ErrorAction, StateUtils } from '@spartacus/core';
 import { ConsignmentTracking } from '@spartacus/order/root';
 import {
   CONSIGNMENT_TRACKING_BY_ID_ENTITIES,
@@ -37,7 +37,10 @@ export class LoadConsignmentTrackingById extends StateUtils.EntityLoadAction {
   }
 }
 
-export class LoadConsignmentTrackingByIdFail extends StateUtils.EntityFailAction {
+export class LoadConsignmentTrackingByIdFail
+  extends StateUtils.EntityFailAction
+  implements ErrorAction
+{
   readonly type = LOAD_CONSIGNMENT_TRACKING_BY_ID_FAIL;
   constructor(
     public payload: { orderCode: string; consignmentCode: string; error: any }

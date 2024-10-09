@@ -21,7 +21,7 @@ cx-import-entries-dialog {
           font-weight: var(--cx-font-weight-semi);
           line-height: var(--cx-line-height, 1.2222222222);
         }
-        // TODO: (CXSPA-7208) Remove feature flag next major
+
         @include forFeature('a11yVisibleFocusOverflows') {
           .cx-import-entries-close {
             margin: 0;
@@ -132,6 +132,19 @@ cx-import-entries-dialog {
             }
           }
         }
+      }
+    }
+  }
+
+  @include cx-highContrastTheme {
+    .cx-import-entries-container {
+      border: 1px solid var(--cx-color-text);
+      cx-import-entries-form,
+      cx-import-to-new-saved-cart-form {
+        background-color: var(--cx-color-background);
+      }
+      .close {
+        color: var(--cx-color-text);
       }
     }
   }

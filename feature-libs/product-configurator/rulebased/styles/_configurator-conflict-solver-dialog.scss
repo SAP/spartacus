@@ -12,7 +12,6 @@
     $modal-dialog-margin-sm: 0 !important;
 
     .cx-modal-container {
-      height: auto !important;
       margin-block-start: 80px;
       overflow-x: hidden;
 
@@ -33,6 +32,11 @@
       }
 
       .cx-modal-content {
+        margin: auto;
+        @include media-breakpoint-down(sm) {
+          min-height: 100%;
+        }
+
         .cx-dialog-header {
           outline: 0;
           padding-inline-start: 16px;
@@ -54,6 +58,9 @@
             @include media-breakpoint-down(md) {
               padding-block-end: 0px;
             }
+          }
+          @include cx-highContrastTheme {
+            background-color: var(--cx-color-background);
           }
         }
 
@@ -89,6 +96,9 @@
             padding-inline-start: 0px;
             padding-block-start: 5px;
             padding-block-end: 5px;
+          }
+          @include cx-highContrastTheme {
+            background-color: var(--cx-color-background);
           }
         }
       }

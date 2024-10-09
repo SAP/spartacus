@@ -69,7 +69,7 @@
                 "
                 [attr.aria-label]="getAriaLabel(group)"
                 [cxFocus]="{
-                  key: group.id
+                  key: group.id,
                 }"
                 (click)="click(group, currentGroup)"
                 [tabindex]="getTabIndex(group, currentGroup.id)"

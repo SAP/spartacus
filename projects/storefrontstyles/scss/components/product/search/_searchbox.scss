@@ -1,5 +1,3 @@
-@import '../../../theme';
-
 // To control visual effects while searching the searchbox requires
 // some CSS rules to the outer elements.
 %cx-searchbox__body {
@@ -138,7 +136,7 @@
         color: currentColor;
 
         @include forFeature('a11yImproveContrast') {
-          color: var(--cx-color-dark);
+          color: var(--cx-color-secondary);
         }
       }
     }
@@ -203,7 +201,6 @@
     a {
       text-decoration: none;
       cursor: pointer;
-
       font-weight: 800;
 
       .highlight,
@@ -224,6 +221,7 @@
       list-style: none;
       padding-inline-start: 0;
       margin-bottom: 0;
+
       li,
       a {
         flex: 100%;
@@ -238,7 +236,7 @@
       list-style: none;
       padding-inline-start: 0;
       margin-bottom: 0;
-      border-top: solid 1px var(--cx-color-light);
+
       li,
       a {
         flex: 100%;
@@ -264,8 +262,6 @@
           // create a grid layout in case we show an image
           grid-template-columns: 50px 1fr;
         }
-
-        border-top: solid 1px var(--cx-color-light);
 
         cx-media {
           grid-row: 1 / 3;
@@ -293,6 +289,47 @@
           }
         }
       }
+    }
+
+    .message {
+      border-bottom: solid 1px var(--cx-color-medium);
+      font-size: var(--cx-font-small, 0.9rem);
+      font-weight: 600;
+      padding-top: 16px;
+      padding-bottom: 5px;
+    }
+  }
+
+  @include cx-highContrastTheme {
+    border: 1px solid var(--cx-color-dark);
+    label {
+      background-color: var(--cx-color-background);
+      input {
+        background-color: var(--cx-color-background);
+        color: var(--cx-color-text);
+      }
+      input:focus {
+        outline-style: none;
+        box-shadow: none;
+      }
+    }
+    .suggestions {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    .results {
+      border: 1px solid var(--cx-color-text);
+      a {
+        &:hover,
+        &:focus {
+          background: var(--cx-color-text);
+          color: var(--cx-color-background);
+        }
+      }
+    }
+    .products {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
     }
   }
 }
