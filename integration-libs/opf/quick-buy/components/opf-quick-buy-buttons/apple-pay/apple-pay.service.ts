@@ -202,8 +202,10 @@ export class ApplePayService {
   ): Observable<ApplePaySessionVerificationResponse> {
     return this.opfQuickBuyTransactionService.getCurrentCartId().pipe(
       switchMap((cartId: string) => {
+        console.log('event', event);
         const verificationRequest: ApplePaySessionVerificationRequest = {
-          validationUrl: event.validationURL,
+          validationUrl:
+            'https://apple-pay-gateway-pr-pod5.apple.com/paymentservices/startSession',
           initiative: 'web',
           initiativeContext: (this.winRef?.nativeWindow as Window).location
             ?.hostname,
