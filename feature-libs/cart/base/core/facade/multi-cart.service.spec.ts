@@ -41,7 +41,7 @@ const testCart: Cart = {
       label: '',
       type: 'CONFIGURABLEBUNDLE',
       entries: [ { entryNumber: 2, product: { code: '1236' } } ],
-    }  
+    }
   ],
   totalPrice: {
     currencyIso: 'USD',
@@ -427,7 +427,7 @@ describe('MultiCartService', () => {
             active: true,
           },
           cart: testCart,
-          cartId: testCart.code!,
+          cartId: testCart.code,
         })
       );
 

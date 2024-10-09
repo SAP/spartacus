@@ -1112,7 +1112,7 @@ export namespace Occ {
 
     sapQuote?: SapQuote;
   }
- 
+
   /**
    *
    * An interface representing the entry groups.
