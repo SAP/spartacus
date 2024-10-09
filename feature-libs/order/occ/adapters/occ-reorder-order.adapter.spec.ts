@@ -1,6 +1,6 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { CartModificationList } from '@spartacus/cart/base/root';
@@ -12,6 +12,10 @@ import {
 import { REORDER_ORDER_NORMALIZER } from '@spartacus/order/root';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { OccReorderOrderAdapter } from './occ-reorder-order.adapter';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const userId = OCC_USER_ID_CURRENT;
 const orderCode = 'orderCode';
@@ -28,10 +32,12 @@ describe(`OccReorderOrderAdapter`, () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccReorderOrderAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
   }));

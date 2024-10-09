@@ -1,7 +1,11 @@
-import { HttpClientModule, HttpRequest } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpRequest,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
@@ -23,13 +27,14 @@ describe('OccUnitOrderAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, HttpClientTestingModule],
       providers: [
         OccUnitOrderAdapter,
         {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

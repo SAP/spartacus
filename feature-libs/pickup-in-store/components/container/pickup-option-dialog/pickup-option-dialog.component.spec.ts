@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
@@ -28,6 +28,10 @@ import { MockPreferredStoreService } from '../../../core/services/preferred-stor
 import { StoreListStubComponent } from '../store-list/store-list.component.spec';
 import { StoreSearchStubComponent } from '../store-search/store-search.component.spec';
 import { PickupOptionDialogComponent } from './pickup-option-dialog.component';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 export class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
@@ -97,7 +101,6 @@ describe('PickupOptionDialogComponent', () => {
       ],
       imports: [
         CommonModule,
-        HttpClientTestingModule,
         I18nTestingModule,
         IconTestingModule,
         KeyboardFocusModule,
@@ -124,6 +127,8 @@ describe('PickupOptionDialogComponent', () => {
           provide: PickupOptionFacade,
           useClass: MockPickupOptionFacade,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
 

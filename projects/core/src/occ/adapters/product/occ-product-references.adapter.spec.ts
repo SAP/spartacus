@@ -1,6 +1,6 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { PRODUCT_REFERENCES_NORMALIZER } from '../../../product/connectors/references/converters';
@@ -8,6 +8,10 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccProductReferencesAdapter } from './occ-product-references.adapter';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import createSpy = jasmine.createSpy;
 
 const productCode = 'productCode';
@@ -44,7 +48,7 @@ describe('OccProductReferencesAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccProductReferencesAdapter,
         {
@@ -52,6 +56,8 @@ describe('OccProductReferencesAdapter', () => {
           useClass: MockOccEndpointsService,
         },
         { provide: ConverterService, useClass: MockConvertService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     service = TestBed.inject(OccProductReferencesAdapter);

@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { UntypedFormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -27,6 +27,10 @@ import {
 } from '@spartacus/user/profile/root';
 import { config, Observable, of, throwError } from 'rxjs';
 import { CDCRegisterComponentService } from './cdc-register-component.service';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import createSpy = jasmine.createSpy;
 
 const userRegisterFormData: UserSignUp = {
@@ -124,7 +128,7 @@ describe('CdcRegisterComponentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: Store, useValue: { dispatch: () => {} } },
@@ -154,6 +158,8 @@ describe('CdcRegisterComponentService', () => {
           useClass: MockAnonymousConsentsService,
         },
         CDCRegisterComponentService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

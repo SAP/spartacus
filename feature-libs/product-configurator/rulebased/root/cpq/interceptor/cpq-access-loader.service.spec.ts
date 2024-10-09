@@ -1,6 +1,6 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
@@ -9,6 +9,10 @@ import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/uni
 import { of } from 'rxjs';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const accessData: CpqAccessData = {
   accessToken: '8273635',
@@ -30,11 +34,13 @@ describe('CpqAccessLoaderService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         CpqAccessLoaderService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

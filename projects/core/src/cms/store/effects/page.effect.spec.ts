@@ -1,5 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpErrorResponse,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, StoreModule } from '@ngrx/store';
@@ -102,7 +106,6 @@ describe('Page Effects', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CMS_FEATURE, fromCmsReducer.getReducers()),
       ],
@@ -112,6 +115,8 @@ describe('Page Effects', () => {
         { provide: LoggerService, useClass: MockLoggerService },
         fromEffects.PageEffects,
         provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

@@ -1,5 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpErrorResponse,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -87,14 +91,12 @@ describe('ConfiguratorTextfieldEffect', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(
           CONFIGURATION_TEXTFIELD_FEATURE,
           reducers.getConfiguratorTextfieldReducers()
         ),
       ],
-
       providers: [
         fromEffects.ConfiguratorTextfieldEffects,
         provideMockActions(() => actions$),
@@ -103,6 +105,8 @@ describe('ConfiguratorTextfieldEffect', () => {
           useClass: MockConnector,
         },
         { provide: LoggerService, useClass: MockLoggerService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

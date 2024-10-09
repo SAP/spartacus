@@ -1,7 +1,11 @@
-import { HttpHeaders } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpHeaders,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Cart, CART_NORMALIZER } from '@spartacus/cart/base/root';
@@ -54,11 +58,13 @@ describe('OccCartAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccCartAdapter,
         ProductImageNormalizer,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

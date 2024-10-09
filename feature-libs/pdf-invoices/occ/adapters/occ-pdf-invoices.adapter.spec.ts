@@ -1,7 +1,12 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpClient,
+  HttpErrorResponse,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -104,11 +109,13 @@ describe('OccPDFInvoicesAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccPDFInvoicesAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: LoggerService, useClass: MockLoggerService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     occPDFInvoicesAdapter = TestBed.inject(OccPDFInvoicesAdapter);

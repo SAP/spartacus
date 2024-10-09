@@ -1,7 +1,11 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpErrorResponse,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { AuthConfigService, AuthToken } from '@spartacus/core';
@@ -43,13 +47,15 @@ describe('CdcUserAuthenticationTokenService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         CdcUserAuthenticationTokenService,
         {
           provide: AuthConfigService,
           useClass: MockAuthConfigService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

@@ -1,11 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { OccCancelServiceOrderAdapter } from './occ-cancel-service-order.adapter';
 import { OccEndpointsService } from '@spartacus/core';
 import { CancellationDetails } from '@spartacus/s4-service/root';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 describe('OccCancelServiceOrderAdapter', () => {
   let adapter: OccCancelServiceOrderAdapter;
@@ -23,10 +27,12 @@ describe('OccCancelServiceOrderAdapter', () => {
     ]);
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccCancelServiceOrderAdapter,
         { provide: OccEndpointsService, useValue: spyOccEndpointsService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

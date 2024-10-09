@@ -2,11 +2,13 @@ import {
   HttpClient,
   HttpHeaders,
   HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
 } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
   TestRequest,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
@@ -63,7 +65,7 @@ describe('ClientTokenInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         { provide: OccConfig, useValue: MockAuthModuleConfig },
         { provide: ClientTokenService, useClass: MockClientTokenService },
@@ -76,6 +78,8 @@ describe('ClientTokenInterceptor', () => {
           useClass: ClientTokenInterceptor,
           multi: true,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     httpMock = TestBed.inject(HttpTestingController);

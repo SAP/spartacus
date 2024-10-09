@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Component, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -28,6 +28,10 @@ import { VisualPickingProductListItem } from './model/visual-picking-product-lis
 import { PagedListModule } from './paged-list/paged-list.module';
 import { VisualPickingProductListComponent } from './visual-picking-product-list.component';
 import { VisualPickingProductListService } from './visual-picking-product-list.service';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
   data$: of({}),
@@ -139,6 +143,7 @@ describe('VisualPickingProductListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      declarations: [VisualPickingProductListComponent],
       imports: [
         CommonModule,
         StoreModule.forRoot({}),
@@ -148,7 +153,6 @@ describe('VisualPickingProductListComponent', () => {
             component: MockPageLayoutComponent,
           },
         ]),
-        HttpClientTestingModule,
         CommonModule,
         MediaModule,
         IconModule,
@@ -159,13 +163,14 @@ describe('VisualPickingProductListComponent', () => {
         I18nTestingModule,
         CompactAddToCartModule,
       ],
-      declarations: [VisualPickingProductListComponent],
       providers: [
         Actions,
         {
           provide: CmsComponentData,
           useValue: MockCmsComponentData,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     })
       .overrideComponent(VisualPickingProductListComponent, {

@@ -1,5 +1,10 @@
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpErrorResponse,
+  HttpHeaders,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -120,7 +125,6 @@ describe('UserGroup Effects', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         StoreModule.forRoot({
           userGroup: () => mockUserGroupState,
         }),
@@ -134,6 +138,8 @@ describe('UserGroup Effects', () => {
         { provide: LoggerService, useClass: MockLoggerService },
         fromEffects.UserGroupEffects,
         provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

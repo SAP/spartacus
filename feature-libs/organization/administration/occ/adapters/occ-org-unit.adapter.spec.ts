@@ -1,6 +1,6 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -21,6 +21,10 @@ import {
   B2B_USERS_NORMALIZER,
 } from '@spartacus/organization/administration/core';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import createSpy = jasmine.createSpy;
 
 const orgUnitId = 'testId';
@@ -50,13 +54,15 @@ describe('OccOrgUnitAdapter', () => {
   let converterService: ConverterService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccOrgUnitAdapter,
         {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     converterService = TestBed.inject(ConverterService);

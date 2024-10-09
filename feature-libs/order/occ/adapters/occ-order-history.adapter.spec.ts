@@ -1,7 +1,11 @@
-import { HttpClientModule, HttpRequest } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpRequest,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import {
@@ -11,14 +15,14 @@ import {
 } from '@spartacus/core';
 import {
   CancellationRequestEntryInputList,
-  ConsignmentTracking,
   CONSIGNMENT_TRACKING_NORMALIZER,
+  ConsignmentTracking,
   Order,
   ORDER_HISTORY_NORMALIZER,
   ORDER_NORMALIZER,
-  ORDER_RETURNS_NORMALIZER,
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
+  ORDER_RETURNS_NORMALIZER,
   ReturnRequest,
   ReturnRequestEntryInputList,
 } from '@spartacus/order/root';
@@ -47,7 +51,6 @@ describe('OccOrderHistoryAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, HttpClientTestingModule],
       providers: [
         OccOrderHistoryAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },
@@ -55,6 +58,8 @@ describe('OccOrderHistoryAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

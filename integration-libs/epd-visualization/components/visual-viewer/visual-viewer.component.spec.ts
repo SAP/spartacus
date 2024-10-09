@@ -1,6 +1,6 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Component, ElementRef, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -33,6 +33,10 @@ import { VisualViewerAnimationSliderModule } from './toolbar/visual-viewer-anima
 import { VisualViewerToolbarButtonModule } from './toolbar/visual-viewer-toolbar-button/visual-viewer-toolbar-button.module';
 import { VisualViewerComponent } from './visual-viewer.component';
 import { VisualViewerService } from './visual-viewer.service';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 class MockVisualViewerService {
   set backgroundTopColor(backgroundTopColor: string) {
@@ -259,15 +263,14 @@ describe('VisualViewerComponent', () => {
       };
 
       TestBed.configureTestingModule({
+        declarations: [VisualViewerComponent],
         imports: [
           RouterTestingModule,
-          HttpClientTestingModule,
           I18nTestingModule,
           VisualViewerToolbarButtonModule,
           VisualViewerAnimationSliderModule,
           SpinnerModule,
         ],
-        declarations: [VisualViewerComponent],
         providers: [
           provideConfigFactory(getTestConfig),
           provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
@@ -283,6 +286,8 @@ describe('VisualViewerComponent', () => {
             provide: SceneAdapter,
             useClass: StorageV1Adapter,
           },
+          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClientTesting(),
         ],
       }).compileComponents();
 
@@ -304,7 +309,6 @@ describe('VisualViewerComponent', () => {
         declarations: [VisualViewerComponent],
         imports: [
           RouterTestingModule,
-          HttpClientTestingModule,
           I18nTestingModule,
           VisualViewerToolbarButtonModule,
           VisualViewerAnimationSliderModule,
@@ -320,6 +324,8 @@ describe('VisualViewerComponent', () => {
             provide: VisualViewerAnimationSliderComponent,
             useClass: MockVisualViewerAnimationSliderComponent,
           },
+          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClientTesting(),
         ],
       }).overrideComponent(VisualViewerComponent, {
         set: {

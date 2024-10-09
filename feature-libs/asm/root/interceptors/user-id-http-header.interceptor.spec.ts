@@ -2,10 +2,12 @@ import {
   HttpClient,
   HttpContext,
   HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
 } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -33,7 +35,7 @@ describe('UserIdHttpHeaderInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         { provide: OCC_USER_ID_CONSTANTS, useValue: [] },
         { provide: UserIdService, useClass: MockUserIdService },
@@ -49,6 +51,8 @@ describe('UserIdHttpHeaderInterceptor', () => {
             },
           },
         }),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
   });
@@ -185,7 +189,7 @@ describe('UserIdHttpHeaderInterceptor', () => {
 
   it('should pass the original request if the interceptor is not feature-enabled', (done) => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         { provide: OCC_USER_ID_CONSTANTS, useValue: [] },
         { provide: UserIdService, useClass: MockUserIdService },
@@ -201,6 +205,8 @@ describe('UserIdHttpHeaderInterceptor', () => {
             },
           },
         }),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

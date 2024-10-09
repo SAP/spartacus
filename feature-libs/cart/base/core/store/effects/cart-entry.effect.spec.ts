@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -9,6 +9,10 @@ import { Observable, of } from 'rxjs';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
 import { CartActions } from '../actions/index';
 import * as fromEffects from './cart-entry.effect';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import createSpy = jasmine.createSpy;
 
 const MockOccModuleConfig: OccConfig = {
@@ -45,12 +49,14 @@ describe('Cart effect', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         { provide: CartEntryConnector, useValue: mockCartEntryConnector },
         fromEffects.CartEntryEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

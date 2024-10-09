@@ -3,10 +3,12 @@ import {
   HttpInterceptor,
   HttpRequest,
   HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
 } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -75,7 +77,7 @@ describe('AnonymousConsentsInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: AnonymousConsentsService,
@@ -92,6 +94,8 @@ describe('AnonymousConsentsInterceptor', () => {
           provide: AnonymousConsentsConfig,
           useValue: mockAnonymousConsentsConfig,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     httpMock = TestBed.inject(HttpTestingController);

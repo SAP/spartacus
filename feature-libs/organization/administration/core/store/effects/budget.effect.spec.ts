@@ -1,5 +1,10 @@
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpErrorResponse,
+  HttpHeaders,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -90,16 +95,15 @@ describe('Budget Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({ budget: () => mockBudgetState }),
-      ],
+      imports: [StoreModule.forRoot({ budget: () => mockBudgetState })],
       providers: [
         { provide: BudgetConnector, useClass: MockBudgetConnector },
         { provide: OccConfig, useValue: mockOccModuleConfig },
         { provide: LoggerService, useClass: MockLoggerService },
         fromEffects.BudgetEffects,
         provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

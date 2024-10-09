@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -15,6 +15,10 @@ import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-fe
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { StoreListComponent } from './store-list.component';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 describe('StoreListComponent', () => {
   let component: StoreListComponent;
@@ -25,7 +29,6 @@ describe('StoreListComponent', () => {
     TestBed.configureTestingModule({
       declarations: [StoreListComponent, MockFeatureDirective],
       imports: [
-        HttpClientTestingModule,
         I18nTestingModule,
         RouterTestingModule,
         SpinnerModule,
@@ -41,6 +44,8 @@ describe('StoreListComponent', () => {
           provide: IntendedPickupLocationFacade,
           useClass: MockIntendedPickupLocationService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
 

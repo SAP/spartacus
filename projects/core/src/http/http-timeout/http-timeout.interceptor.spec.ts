@@ -9,10 +9,12 @@ import {
   HttpInterceptor,
   HttpRequest,
   HttpResponse,
+  provideHttpClient,
+  withInterceptorsFromDi,
 } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { TestBed, fakeAsync, flush, tick } from '@angular/core/testing';
@@ -42,7 +44,7 @@ describe('HttpTimeoutInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: HTTP_INTERCEPTORS,
@@ -61,6 +63,8 @@ describe('HttpTimeoutInterceptor', () => {
           },
         },
         { provide: WindowRef, useValue: { isBrowser: () => {} } },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 
@@ -303,7 +307,7 @@ describe('HttpTimeoutInterceptor used alongside other slow interceptors', () => 
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: HTTP_INTERCEPTORS,
@@ -327,6 +331,8 @@ describe('HttpTimeoutInterceptor used alongside other slow interceptors', () => 
           },
         },
         { provide: WindowRef, useValue: { isBrowser: () => {} } },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

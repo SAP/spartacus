@@ -1,7 +1,12 @@
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed, inject } from '@angular/core/testing';
 import {
@@ -39,7 +44,7 @@ describe('CmsTicketInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: SmartEditLauncherService,
@@ -54,6 +59,8 @@ describe('CmsTicketInterceptor', () => {
           useClass: CmsTicketInterceptor,
           multi: true,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

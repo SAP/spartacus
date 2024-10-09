@@ -1,7 +1,12 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpClient,
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { ErrorHandler } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
@@ -44,7 +49,7 @@ describe('HttpErrorInterceptor', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: HTTP_INTERCEPTORS,
@@ -93,6 +98,8 @@ describe('HttpErrorInterceptor', () => {
         },
         { provide: GlobalMessageService, useValue: mockMessageService },
         { provide: AuthService, useValue: mockAuthService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 
