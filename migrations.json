@@ -1,18 +1,18 @@
 {
   "migrations": [
     {
-      "description": "As of NgRx v18, the `TypedAction` has been removed in favor of `Action`.",
-      "version": "18-beta",
-      "factory": "./18_0_0-beta/index",
-      "package": "@ngrx/store",
-      "name": "ngrx-store-migration-18-beta"
+      "version": "17.2.2-alpha.0",
+      "description": "Updates @angular-eslint to v17.3",
+      "factory": "./migrations/update-17-3-0/update-17-3-0",
+      "package": "@angular-eslint/schematics",
+      "name": "update-17-3-0"
     },
     {
-      "description": "As of NgRx v18, the `concatLatestFrom` import has been removed from `@ngrx/effects` in favor of the `@ngrx/operators` package.",
-      "version": "18-beta",
-      "factory": "./18_0_0-beta/index",
-      "package": "@ngrx/effects",
-      "name": "ngrx-effects-migration-18-beta"
+      "version": "18.1.1-alpha.0",
+      "description": "Updates @angular-eslint to v18.2",
+      "factory": "./migrations/update-18-2-0/update-18-2-0",
+      "package": "@angular-eslint/schematics",
+      "name": "update-18-2-0"
     }
   ]
 }
