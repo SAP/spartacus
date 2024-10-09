@@ -39,6 +39,15 @@ cx-product-image-zoom-dialog {
           padding: 1rem;
         }
 
+        @include forFeature('a11yCloseProductImageBtnFocus') {
+          .close {
+            outline-offset: -4px;
+            @include forFeature('a11yExpandedFocusIndicator') {
+              outline-offset: unset;
+            }
+          }
+        }
+
         @include cx-highContrastTheme {
           background-color: var(--cx-color-background);
         }

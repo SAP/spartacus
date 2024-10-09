@@ -14,6 +14,7 @@ import {
   TrackingModule,
 } from './profiletag';
 import { RecentSearchesModule } from './recent-searches/recent-searches.module';
+import { TrendingSearchesModule } from './trending-searches/trending-searches.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { RecentSearchesModule } from './recent-searches/recent-searches.module';
     TrackingModule,
     MerchandisingModule,
     RecentSearchesModule,
+    TrendingSearchesModule,
   ],
 })
 export class CdsModule {
