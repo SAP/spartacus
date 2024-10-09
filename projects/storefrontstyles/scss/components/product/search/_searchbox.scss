@@ -188,7 +188,7 @@
         }
         @include media-breakpoint-down(sm) {
           position: relative;
-          left: 140px;
+          left: 120px;
           z-index: 20;
           top: 59px;
           margin-top: 0;
@@ -217,14 +217,6 @@
 
     h3 {
       @include type('8');
-      font-size: $font-size-base; // 16px
-      margin-bottom: 0px;
-      @include weight('semi');
-      @include media-breakpoint-down(sm) {
-        text-transform: uppercase;
-        border-bottom: 1px solid var(--cx-color-medium);
-        width: 100%;
-      }
     }
 
     @include media-breakpoint-down(sm) {
@@ -388,7 +380,6 @@
         h3:not(.cx-product-name) {
           padding-inline-start: 0;
           font-size: $font-size-base; // 16px
-          text-transform: uppercase;
           @include weight('semi');
           @include media-breakpoint-down(sm) {
             display: none;
@@ -513,7 +504,10 @@
         @include weight('semi');
         @include media-breakpoint-down(sm) {
           display: inline-block;
+          border-bottom: 1px solid var(--cx-color-medium);
+          width: 100%;
         }
+        @include weight('semi');
       }
       ul {
         padding-inline-start: 0;
@@ -536,10 +530,12 @@
         }
         ul {
           border-top: none;
+          li{
+            padding-right: 40px;
+          }
         }
         a {
-          &:hover,
-          &:focus {
+          &:hover {
             color: var(--cx-color-primary);
             text-decoration: underline;
           }
@@ -560,6 +556,9 @@
         }
         ul {
           border-top: none;
+          li{
+            padding-right: 40px;
+          }
         }
         a {
           &:hover {
@@ -589,6 +588,9 @@
           }
           ul {
             border-top: none;
+            li{
+              padding-right: 40px;
+            }
           }
           a {
             &:hover {
@@ -615,7 +617,7 @@
         margin-bottom: 0;
         overflow: hidden;
         position: relative;
-
+        min-height: 100%;
         .slides {
           text-align: center;
           text-overflow: ellipsis;
