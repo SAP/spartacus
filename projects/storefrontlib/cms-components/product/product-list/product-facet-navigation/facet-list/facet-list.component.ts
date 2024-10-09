@@ -134,6 +134,7 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
       const tabs = facets.map((facet, i) => ({
         header: facet.name,
         content: this.facetsRef?.get(i),
+        disableBorderFocus: true,
       }));
 
       this.tabs$.next(tabs);
