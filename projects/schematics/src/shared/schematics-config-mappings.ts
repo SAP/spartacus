@@ -40,6 +40,7 @@ import { EPD_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/epd-schema
 import {
   OPF_BASE_SCHEMATICS_CONFIG,
   OPF_CHECKOUT_SCHEMATICS_CONFIG,
+  OPF_PAYMENT_SCHEMATICS_CONFIG,
 } from './lib-configs/integration-libs/opf-schematics-config';
 import { S4OM_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/s4om-schematics-config';
 
@@ -168,6 +169,7 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
 
   OPF_BASE_SCHEMATICS_CONFIG,
   OPF_CHECKOUT_SCHEMATICS_CONFIG,
+  OPF_PAYMENT_SCHEMATICS_CONFIG,
 
   S4_SERVICE_SCHEMATICS_CONFIG,
 
