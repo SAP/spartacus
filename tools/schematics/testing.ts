@@ -80,11 +80,12 @@ const commands = [
   'test all schematics',
   'exit',
 ] as const;
-type Command = typeof commands[number];
+type Command = (typeof commands)[number];
 
 const buildLibRegEx = new RegExp('build (.*?)/schematics');
 const verdaccioUrl = 'http://localhost:4873/';
-const npmUrl = 'https://registry.npmjs.org/';
+
+const npmUrl = execSync('npm config get @spartacus:registry').toString().trim();
 
 function startVerdaccio(): ChildProcess {
   execSync('rm -rf ./scripts/install/storage');
