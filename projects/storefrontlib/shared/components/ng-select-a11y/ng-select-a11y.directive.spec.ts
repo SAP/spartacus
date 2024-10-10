@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeatureConfigService, TranslationService } from '@spartacus/core';
+import { BreakpointService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { NgSelectA11yDirective } from './ng-select-a11y.directive';
 import { NgSelectA11yModule } from './ng-select-a11y.module';
-import { BreakpointService } from '@spartacus/storefront';
 
 @Component({
   template: `
@@ -41,6 +41,7 @@ describe('NgSelectA11yDirective', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
   let breakpointService: BreakpointService;
+  let directive: NgSelectA11yDirective;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -55,6 +56,10 @@ describe('NgSelectA11yDirective', () => {
     fixture = TestBed.createComponent(MockComponent);
     component = fixture.componentInstance;
     breakpointService = TestBed.inject(BreakpointService);
+    const directiveEl = fixture.debugElement.query(
+      By.directive(NgSelectA11yDirective)
+    );
+    directive = directiveEl.injector.get(NgSelectA11yDirective);
   });
 
   function getNgSelect(): DebugElement {
@@ -96,6 +101,7 @@ describe('NgSelectA11yDirective', () => {
     const isDownSpy = spyOn(breakpointService, 'isDown').and.returnValue(
       of(true)
     );
+    directive['platformId'] = 'browser';
     fixture.detectChanges();
     const ngSelectInstance = getNgSelect().componentInstance;
     ngSelectInstance.writeValue(component.selected);
