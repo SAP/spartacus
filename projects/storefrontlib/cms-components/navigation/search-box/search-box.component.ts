@@ -16,6 +16,7 @@ import {
   OnDestroy,
   OnInit,
   Optional,
+  Renderer2,
   ViewChild,
 } from '@angular/core';
 import {
@@ -150,7 +151,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     protected winRef: WindowRef,
     protected routingService: RoutingService,
-    protected elementRef: ElementRef
+    protected elementRef: ElementRef,
+    private renderer: Renderer2
   ) {}
 
   /**
@@ -238,6 +240,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   search(query: string): void {
     this.searchBoxComponentService.search(query, this.config);
 
+    this.checkOuterResults();
     // force the searchBox to open
     this.open();
   }
@@ -313,6 +316,19 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       this.winRef.document.querySelector('input[aria-label="Search"]') ===
         this.getFocusedElement()
     );
+  }
+
+  protected checkOuterResults() {
+    const recentSearches = this.elementRef.nativeElement.querySelector(
+      'cx-recent-searches .recent-searches'
+    );
+    const trendingSearches = this.elementRef.nativeElement.querySelector(
+      'cx-trending-searches .trending-searches'
+    );
+    const results = this.elementRef.nativeElement.querySelector('.results');
+    if (recentSearches || trendingSearches) {
+      this.renderer.addClass(results, 'has-outer-results');
+    }
   }
 
   /**

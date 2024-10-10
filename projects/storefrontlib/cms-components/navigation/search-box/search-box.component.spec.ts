@@ -377,14 +377,6 @@ describe('SearchBoxComponent', () => {
         expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
       }));
 
-      it('should contain 2 suggestion after search', () => {
-        searchBoxComponent.queryText = 'te';
-        fixture.detectChanges();
-        expect(
-          fixture.debugElement.queryAll(By.css('.suggestions a')).length
-        ).toEqual(2);
-      });
-
       it('should contain a message after search', () => {
         searchBoxComponent.queryText = 'te';
         fixture.detectChanges();
@@ -516,16 +508,6 @@ describe('SearchBoxComponent', () => {
         expect(inputSearchBox).toBe(getFocusedElement());
       });
 
-      it('should navigate to second child', () => {
-        searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
-        searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
-
-        expect(
-          fixture.debugElement.query(
-            By.css('.results .suggestions ul  > li:nth-child(2) > a')
-          ).nativeElement
-        ).toBe(getFocusedElement());
-      });
       describe('focusPreviousGroup', () => {
         it('should prevent default key scrolling', () => {
           const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);

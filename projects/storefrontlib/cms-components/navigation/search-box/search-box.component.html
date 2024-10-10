@@ -14,6 +14,7 @@
       (click)="search(searchInput.value)"
       (focus)="a11ySearchBoxMobileFocusEnabled ? null : open()"
       (input)="search(searchInput.value)"
+      (blur)="close($any($event))"
       (keydown.tab)="
         a11ySearchBoxMobileFocusEnabled ? close($any($event)) : null
       "
@@ -98,7 +99,7 @@
           [routerLink]="
             {
               cxRoute: 'search',
-              params: { query: suggestion },
+              params: { query: suggestion }
             } | cxUrl
           "
           (keydown.arrowup)="focusPreviousChild($any($event))"
@@ -113,7 +114,7 @@
             dispatchSuggestionEvent({
               freeText: searchInput.value,
               selectedSuggestion: suggestion,
-              searchSuggestions: result.suggestions ?? [],
+              searchSuggestions: result.suggestions ?? []
             });
             updateChosenWord(suggestion)
           "
@@ -133,7 +134,7 @@
         <ng-template
           [cxOutlet]="searchBoxOutlets.TRENDING_SEARCHES"
           [cxOutletContext]="{
-            maxTrendingSearches: config.maxTrendingSearches,
+            maxTrendingSearches: config.maxTrendingSearches
           }"
         ></ng-template>
       </ng-container>
@@ -148,7 +149,7 @@
       [cxOutletContext]="{
         search: searchInput.value,
         searchBoxActive: searchBoxActive,
-        maxRecentSearches: config.maxRecentSearches,
+        maxRecentSearches: config.maxRecentSearches
       }"
     ></ng-template>
   </ng-container>
@@ -177,7 +178,7 @@
           [routerLink]="
             {
               cxRoute: 'product',
-              params: product,
+              params: product
             } | cxUrl
           "
           [class.has-media]="config.displayProductImages"
@@ -192,7 +193,7 @@
           (click)="
             dispatchProductEvent({
               freeText: searchInput.value,
-              productCode: product.code,
+              productCode: product.code
             })
           "
         >
@@ -223,7 +224,7 @@
           [routerLink]="
             {
               cxRoute: 'product',
-              params: product,
+              params: product
             } | cxUrl
           "
           [class.has-media]="config.displayProductImages"
@@ -236,7 +237,7 @@
           (click)="
             dispatchProductEvent({
               freeText: searchInput.value,
-              productCode: product.code,
+              productCode: product.code
             })
           "
         >
