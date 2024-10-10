@@ -118,11 +118,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     const numbers = getAddressNumbers(address, textPhone, textMobile);
     const isSelected: boolean = selected && selected.id === address.id;
 
-    const isButtonRole =
-      this.featureConfigService?.isEnabled(
-        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
-      ) && !isSelected;
-    const role = isButtonRole ? 'button' : 'region';
+    const role = this.getCardRole(isSelected);
 
     return {
       role,
@@ -338,5 +334,13 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   protected shouldUseAddressSavedInCart(): boolean {
     return !!this.checkoutConfigService?.shouldUseAddressSavedInCart();
+  }
+
+  private getCardRole(isCardSelected: boolean): 'button' | 'region' {
+    const isButtonRole =
+      this.featureConfigService?.isEnabled(
+        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
+      ) && !isCardSelected;
+    return isButtonRole ? 'button' : 'region';
   }
 }
