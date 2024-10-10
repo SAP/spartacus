@@ -118,9 +118,11 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     const numbers = getAddressNumbers(address, textPhone, textMobile);
     const isSelected: boolean = selected && selected.id === address.id;
 
-    const isButtonRole = this.featureConfigService?.isEnabled('a11ySelectLabelWithContextForSelectedAddrOrPayment') && !isSelected;
+    const isButtonRole =
+      this.featureConfigService?.isEnabled(
+        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
+      ) && !isSelected;
     const role = isButtonRole ? 'button' : 'region';
-
 
     return {
       role,
@@ -229,9 +231,11 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         'checkoutAddress.defaultDeliveryAddress'
       ),
       this.translationService.translate('checkoutAddress.shipToThisAddress'),
-      this.featureConfigService?.isEnabled('a11ySelectLabelWithContextForSelectedAddrOrPayment') ?
-        this.translationService.translate('addressCard.selectedAddress') :
-        this.translationService.translate('addressCard.selected'),
+      this.featureConfigService?.isEnabled(
+        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
+      )
+        ? this.translationService.translate('addressCard.selectedAddress')
+        : this.translationService.translate('addressCard.selected'),
       this.translationService.translate('addressCard.phoneNumber'),
       this.translationService.translate('addressCard.mobileNumber'),
     ]);
