@@ -5,7 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, GuardResult, Router } from '@angular/router';
 import {
   isNotUndefined,
   Product,
@@ -36,9 +36,7 @@ export class ProductMultiDimensionalSelectorGuard {
     inject(SemanticPathService);
   protected router: Router = inject(Router);
 
-  canActivate(
-    activatedRoute: ActivatedRouteSnapshot
-  ): Observable<boolean | UrlTree> {
+  canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<GuardResult> {
     const productCode = activatedRoute.params?.productCode;
     if (!productCode) {
       return of(false);
@@ -64,7 +62,7 @@ export class ProductMultiDimensionalSelectorGuard {
    * Finds a valid product code from variant options and returns a URL tree for redirection.
    *
    * @param {Product} product - The product with variant options.
-   * @returns {Observable<boolean | UrlTree>} - An observable that resolves to a `UrlTree` for
+   * @returns {Observable<GuardResult>} - An observable that resolves to a `UrlTree` for
    * redirection if a valid product code is found, or `false` if no valid code is available.
    *
    * @description
@@ -74,7 +72,7 @@ export class ProductMultiDimensionalSelectorGuard {
    */
   protected findValidProductCodeAndReturnUrlTree(
     product: Product
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     const validVariantCode = this.getValidVariantCode(product);
     const fallbackProductCode = this.getFallbackProductCode(product);
 

@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
+import { GuardResult, Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutAuthGuard,
@@ -48,7 +48,7 @@ export class CheckoutB2BAuthGuard extends CheckoutAuthGuard {
     );
   }
 
-  canActivate(): Observable<boolean | UrlTree> {
+  canActivate(): Observable<GuardResult> {
     return combineLatest([
       this.authService.isUserLoggedIn(),
       this.activeCartFacade.isGuestCart(),

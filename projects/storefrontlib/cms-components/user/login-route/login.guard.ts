@@ -7,8 +7,8 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
+  GuardResult,
   RouterStateSnapshot,
-  UrlTree,
 } from '@angular/router';
 import { AuthConfigService, AuthService, OAuthFlow } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -34,7 +34,7 @@ export class LoginGuard {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     return this.authService.isUserLoggedIn().pipe(
       take(1),
       switchMap((isUserLoggedIn) => {

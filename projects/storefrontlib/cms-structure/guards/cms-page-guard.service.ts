@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { RouterStateSnapshot, UrlTree } from '@angular/router';
+import { GuardResult, RouterStateSnapshot } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   CmsService,
@@ -67,7 +67,7 @@ export class CmsPageGuardService {
     pageData: Page,
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     return this.cmsService.getPageComponentTypes(pageContext).pipe(
       take(1),
       switchMap((componentTypes) =>
@@ -108,7 +108,7 @@ export class CmsPageGuardService {
     pageContext: PageContext,
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     const notFoundLabel = this.semanticPathService.get('notFound');
     if (!notFoundLabel) {
       return of(false);

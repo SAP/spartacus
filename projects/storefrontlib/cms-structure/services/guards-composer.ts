@@ -5,24 +5,31 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivateFn, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  CanActivateFn,
+  GuardResult,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { CmsActivatedRouteSnapshot, wrapIntoObservable } from '@spartacus/core';
 import { Observable, concat, endWith, first, of, skipWhile } from 'rxjs';
 
 /**
  * Replacement for the Angular's deprecated type `CanActivate`.
  */
+//TODO: discuss moving this to `@spartacus/core`
 export type CanActivate = { canActivate: CanActivateFn };
 
 /**
  * Observable that emits a boolean or an UrlTree.
  */
-export type CanActivateObservable = Observable<boolean | UrlTree>;
+//TODO: discuss moving this to `@spartacus/core`
+export type CanActivateObservable = Observable<GuardResult>;
 
 /**
  * Utility service for running multiple guards and composing their results
  * into a single result observable.
  */
+//TODO: discuss moving this to `@spartacus/core`
 @Injectable({ providedIn: 'root' })
 export class GuardsComposer {
   /**
@@ -36,7 +43,7 @@ export class GuardsComposer {
     guards: CanActivate[],
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     if (guards.length) {
       const canActivateObservables = guards.map((guard) =>
         this.canActivateGuard(guard, route, state)
@@ -56,7 +63,7 @@ export class GuardsComposer {
     guard: CanActivate,
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     if (this.isCanActivate(guard)) {
       return wrapIntoObservable(guard.canActivate(route, state)).pipe(first());
     } else {
@@ -75,7 +82,7 @@ export class GuardsComposer {
     canActivateObservables: CanActivateObservable[]
   ): CanActivateObservable {
     return concat(...canActivateObservables).pipe(
-      skipWhile((canActivate: boolean | UrlTree) => canActivate === true),
+      skipWhile((canActivate: GuardResult) => canActivate === true),
       endWith(true),
       first()
     );

@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
+import { GuardResult, Router } from '@angular/router';
 import {
   ActiveCartFacade,
   CartValidationFacade,
@@ -37,7 +37,7 @@ export class CartValidationGuard {
 
   protected GLOBAL_MESSAGE_TIMEOUT = 10000;
 
-  canActivate(): Observable<boolean | UrlTree> {
+  canActivate(): Observable<GuardResult> {
     return !this.cartConfigService.isCartValidationEnabled()
       ? of(true)
       : this.cartValidationService.validateCart().pipe(

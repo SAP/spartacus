@@ -5,7 +5,11 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { CanActivateFn, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  CanActivateFn,
+  GuardResult,
+  RouterStateSnapshot,
+} from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   FeatureConfigService,
@@ -40,7 +44,7 @@ export class CmsGuardsService {
     componentTypes: string[],
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     const guards = this.cmsComponentsService.getGuards(componentTypes);
 
     if (
@@ -56,12 +60,12 @@ export class CmsGuardsService {
     // When the FeatureToggle 'cmsGuardsServiceUseGuardsComposer' is disabled,
     // use the old approach:
     if (guards.length) {
-      const canActivateObservables = guards.map((guard) =>
+      const canActivateObservabless = guards.map((guard) =>
         this.canActivateGuard(guard, route, state)
       );
 
-      return concat(...canActivateObservables).pipe(
-        skipWhile((canActivate: boolean | UrlTree) => canActivate === true),
+      return concat(...canActivateObservabless).pipe(
+        skipWhile((canActivate: GuardResult) => canActivate === true),
         endWith(true),
         first()
       );
@@ -85,7 +89,7 @@ export class CmsGuardsService {
     guardClass: any,
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     const guard = getLastValueSync(
       this.unifiedInjector.get<{
         canActivate: CanActivateFn;

@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
+import { GuardResult, Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import { RoutingConfigService } from '@spartacus/core';
@@ -38,7 +38,7 @@ export class CheckoutGuard {
     protected checkoutStepService: CheckoutStepService
   ) {}
 
-  canActivate(): Observable<boolean | UrlTree> {
+  canActivate(): Observable<GuardResult> {
     const expressCheckout$ = this.expressCheckoutService
       .trySetDefaultCheckoutDetails()
       .pipe(

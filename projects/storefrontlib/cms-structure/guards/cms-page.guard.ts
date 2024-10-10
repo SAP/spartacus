@@ -5,7 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { RouterStateSnapshot, UrlTree } from '@angular/router';
+import { GuardResult, RouterStateSnapshot } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   CmsService,
@@ -51,7 +51,7 @@ export class CmsPageGuard {
   canActivate(
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     return this.beforeCmsPageGuardService.canActivate(route, state).pipe(
       switchMap((canActivate) =>
         canActivate === true
