@@ -191,6 +191,7 @@ describe('Graph utils', () => {
           "TMS-GTM",
           "OPF-Base",
           "OPF-Checkout",
+          "OPF-Payment",
           "PDF-Invoices",
           "Requested-Delivery-Date",
           "Customer-Ticketing",

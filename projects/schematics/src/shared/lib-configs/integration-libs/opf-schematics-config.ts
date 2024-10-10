@@ -77,7 +77,11 @@ export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  dependencyFeatures: [CHECKOUT_BASE_FEATURE_NAME, OPF_BASE_FEATURE_NAME],
+  dependencyFeatures: [
+    CHECKOUT_BASE_FEATURE_NAME,
+    OPF_BASE_FEATURE_NAME,
+    OPF_PAYMENT_FEATURE_NAME,
+  ],
   importAfter: [
     {
       markerModuleName: CHECKOUT_BASE_MODULE,
@@ -116,7 +120,6 @@ export const OPF_PAYMENT_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  customConfig: buildOpfConfig,
 };
 
 export const OPF_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
