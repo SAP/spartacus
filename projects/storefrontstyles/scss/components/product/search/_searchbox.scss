@@ -532,6 +532,9 @@
           border-top: none;
           li {
             padding-right: 40px;
+            @include media-breakpoint-down(sm) {
+              padding-right: 0;
+            }
           }
         }
         a {
@@ -558,6 +561,9 @@
           border-top: none;
           li {
             padding-right: 40px;
+            @include media-breakpoint-down(sm) {
+              padding-right: 0;
+            }
           }
         }
         a {
@@ -590,6 +596,9 @@
             border-top: none;
             li {
               padding-right: 40px;
+              @include media-breakpoint-down(sm) {
+                padding-right: 0;
+              }
             }
           }
           a {
