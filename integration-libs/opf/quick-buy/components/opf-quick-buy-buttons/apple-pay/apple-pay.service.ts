@@ -204,8 +204,7 @@ export class ApplePayService {
       switchMap((cartId: string) => {
         console.log('event', event);
         const verificationRequest: ApplePaySessionVerificationRequest = {
-          validationUrl:
-            'https://apple-pay-gateway-pr-pod5.apple.com/paymentservices/startSession',
+          validationUrl: event.validationURL,
           initiative: 'web',
           initiativeContext: (this.winRef?.nativeWindow as Window).location
             ?.hostname,
