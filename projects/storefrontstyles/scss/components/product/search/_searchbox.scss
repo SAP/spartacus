@@ -531,9 +531,9 @@
         ul {
           border-top: none;
           li {
-            padding-right: 40px;
+            padding: 0 40px 0 0;
             @include media-breakpoint-down(sm) {
-              padding-right: 0;
+              padding: 0;
             }
           }
         }
@@ -560,9 +560,9 @@
         ul {
           border-top: none;
           li {
-            padding-right: 40px;
+            padding: 0 40px 0 0;
             @include media-breakpoint-down(sm) {
-              padding-right: 0;
+              padding: 0;
             }
           }
         }
@@ -595,9 +595,9 @@
           ul {
             border-top: none;
             li {
-              padding-right: 40px;
+              padding: 0 40px 0 0;
               @include media-breakpoint-down(sm) {
-                padding-right: 0;
+                padding: 0;
               }
             }
           }
