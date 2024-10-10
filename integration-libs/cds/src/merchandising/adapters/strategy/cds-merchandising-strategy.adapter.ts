@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, switchMap, take } from 'rxjs';
 import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
 import { MerchandisingStrategyAdapter } from '../../connectors/strategy/merchandising-strategy.adapter';
@@ -19,11 +19,9 @@ const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
 export class CdsMerchandisingStrategyAdapter
   implements MerchandisingStrategyAdapter
 {
-
-  protected baseSiteService = inject(BaseSiteService);
-
   constructor(
     private cdsEndpointsService: CdsEndpointsService,
+    private baseSiteService: BaseSiteService,
     protected http: HttpClient
   ) {}
 

@@ -375,12 +375,12 @@ if (environment.cpq) {
         a11yDialogTriggerRefocus: true,
         a11yAddToWishlistFocus: true,
         a11ySearchBoxFocusOnEscape: true,
-        cmsBottomHeaderSlotUsingFlexStyles: true,
+        cmsBottomHeaderSlotUsingFlexStyles: true, 
         useSiteThemeService: false,
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
         allPageMetaResolversEnabledInCsr: true,
-        cdsCasEnabled: true,
+        cdsCasEnabled: false,
       };
       return appFeatureToggles;
     }),
