@@ -584,7 +584,7 @@ export interface FeatureTogglesInterface {
 
   /**
    * `StoreComponent and MyPreferredStoreComponent` an icon in a button that triggers showing
-   * stores opening hours has an acceptable contrast ratio in a default theme
+   * store's opening hours has an acceptable contrast ratio in a default theme
    */
   a11yViewHoursButtonIconContrast?: boolean;
 
