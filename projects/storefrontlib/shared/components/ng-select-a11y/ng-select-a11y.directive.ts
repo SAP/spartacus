@@ -4,17 +4,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   Directive,
   ElementRef,
   HostListener,
+  Inject,
   inject,
   Input,
+  Optional,
+  PLATFORM_ID,
   Renderer2,
 } from '@angular/core';
 import { FeatureConfigService, TranslationService } from '@spartacus/core';
-import { take } from 'rxjs';
+import { filter, take } from 'rxjs';
+import { BREAKPOINT, BreakpointService } from '../../../layout';
+
+const ARIA_LABEL = 'aria-label';
 
 @Directive({
   selector: '[cxNgSelectA11y]',
@@ -41,6 +48,10 @@ export class NgSelectA11yDirective implements AfterViewInit {
     observer.observe(this.elementRef.nativeElement, { childList: true });
   }
 
+  @Optional() breakpointService = inject(BreakpointService, { optional: true });
+
+  @Inject(PLATFORM_ID) protected platformId: Object;
+
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef
@@ -56,7 +67,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
     const ariaControls = this.cxNgSelectA11y.ariaControls ?? elementId;
 
     if (ariaLabel) {
-      this.renderer.setAttribute(divCombobox, 'aria-label', ariaLabel);
+      this.renderer.setAttribute(divCombobox, ARIA_LABEL, ariaLabel);
     }
 
     if (ariaControls) {
@@ -65,9 +76,21 @@ export class NgSelectA11yDirective implements AfterViewInit {
 
     if (
       this.featureConfigService.isEnabled('a11yNgSelectMobileReadout') &&
-      inputElement.readOnly
+      inputElement.readOnly &&
+      isPlatformBrowser(this.platformId)
     ) {
-      this.renderer.setAttribute(inputElement, 'aria-hidden', 'true');
+      this.breakpointService
+        ?.isDown(BREAKPOINT.md)
+        .pipe(filter(Boolean), take(1))
+        .subscribe(() => {
+          const selectObserver = new MutationObserver((changes, observer) => {
+            this.appendValueToAriaLabel(changes, observer, divCombobox);
+          });
+          selectObserver.observe(this.elementRef.nativeElement, {
+            subtree: true,
+            characterData: true,
+          });
+        });
     }
   }
 
@@ -85,11 +108,36 @@ export class NgSelectA11yDirective implements AfterViewInit {
           options.forEach(
             (option: HTMLOptionElement, index: string | number) => {
               const ariaLabel = `${option.innerText}, ${+index + 1} ${translation} ${options.length}`;
-              this.renderer.setAttribute(option, 'aria-label', ariaLabel);
+              this.renderer.setAttribute(option, ARIA_LABEL, ariaLabel);
             }
           );
         });
     }
     observerInstance.disconnect();
+  }
+
+  /**
+   * Hides the input value from the screen reader and provides it as part of the aria-label instead.
+   * This improves the screen reader output on mobile devices.
+   */
+  appendValueToAriaLabel(
+    _changes: any,
+    observer: MutationObserver,
+    divCombobox: HTMLElement
+  ) {
+    const valueLabel =
+      this.elementRef.nativeElement.querySelector('.ng-value-label')?.innerText;
+    if (valueLabel) {
+      const comboboxAriaLabel = divCombobox?.getAttribute(ARIA_LABEL) || '';
+      const valueElement =
+        this.elementRef.nativeElement.querySelector('.ng-value');
+      this.renderer.setAttribute(valueElement, 'aria-hidden', 'true');
+      this.renderer.setAttribute(
+        divCombobox,
+        ARIA_LABEL,
+        comboboxAriaLabel + ', ' + valueLabel
+      );
+    }
+    observer.disconnect();
   }
 }
