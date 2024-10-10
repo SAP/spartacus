@@ -13,6 +13,7 @@
       -moz-appearance: textfield;
     }
   }
+
   &.readonly {
     button {
       display: none;
@@ -77,8 +78,17 @@
       font-weight: var(--cx-font-weight-bold);
     }
 
+    // TODO: The styles for ":disabled" selector should be deleted when "a11yItemCounterFocus" feature flag has been removed
     &:disabled {
       color: var(--cx-color-light);
+      cursor: not-allowed;
+    }
+
+    @include forFeature('a11yItemCounterFocus') {
+      &[aria-disabled='true'] {
+        color: var(--cx-color-light);
+        cursor: not-allowed;
+      }
     }
 
     @include forFeature('a11yImproveContrast') {
@@ -90,8 +100,14 @@
       &:focus {
         box-shadow: 0 0 0 0;
       }
+      // TODO: The styles for ":disabled" selector should be deleted when "a11yItemCounterFocus" feature flag has been removed
       &:disabled {
         color: var(--cx-color-dark);
+      }
+      @include forFeature('a11yItemCounterFocus') {
+        &[aria-disabled='true'] {
+          color: var(--cx-color-dark);
+        }
       }
     }
   }
