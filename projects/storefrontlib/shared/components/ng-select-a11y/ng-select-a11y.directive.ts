@@ -4,14 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   Directive,
   ElementRef,
   HostListener,
+  Inject,
   inject,
   Input,
   Optional,
+  PLATFORM_ID,
   Renderer2,
 } from '@angular/core';
 import { FeatureConfigService, TranslationService } from '@spartacus/core';
@@ -47,6 +50,8 @@ export class NgSelectA11yDirective implements AfterViewInit {
 
   @Optional() breakpointService = inject(BreakpointService, { optional: true });
 
+  @Inject(PLATFORM_ID) protected platformId: Object;
+
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef
@@ -71,7 +76,8 @@ export class NgSelectA11yDirective implements AfterViewInit {
 
     if (
       this.featureConfigService.isEnabled('a11yNgSelectMobileReadout') &&
-      inputElement.readOnly
+      inputElement.readOnly &&
+      isPlatformBrowser(this.platformId)
     ) {
       this.breakpointService
         ?.isDown(BREAKPOINT.md)
