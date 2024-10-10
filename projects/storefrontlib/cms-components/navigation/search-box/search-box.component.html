@@ -76,7 +76,7 @@
   <h3 *ngIf="result.message" [innerHTML]="result.message"></h3>
 
   <!--RESULT SUGGESTIONS-->
-  <div class="suggestions" *ngIf="searchInput?.value?.length > 0">
+  <div class="suggestions" *ngIf="(searchInput?.value ?? '').length > 0">
     <ng-container
       *ngIf="
         isEnabledFeature(searchBoxFeatures.RECENT_SEARCHES_FEATURE) ||
