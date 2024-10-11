@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { ElementRef } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -6,7 +7,12 @@ import {
   tick,
 } from '@angular/core/testing';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { CmsService, I18nTestingModule, Page } from '@spartacus/core';
+import {
+  CmsService,
+  FeatureConfigService,
+  I18nTestingModule,
+  Page,
+} from '@spartacus/core';
 import {
   AugmentedPointOfService,
   IntendedPickupLocationFacade,
@@ -16,8 +22,8 @@ import {
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
 import {
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
   OutletContextData,
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
@@ -109,6 +115,12 @@ const mockOutletContext: { item: OrderEntry; cartType: string } = {
   cartType: 'cart',
 };
 
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 const context$ = of(mockOutletContext);
 
 class MockIntendedPickupLocationFacade {
@@ -167,6 +179,10 @@ describe('CartPickupOptionsContainerComponent', () => {
           provide: IntendedPickupLocationFacade,
           useClass: MockIntendedPickupLocationFacade,
         },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     });
 
@@ -198,10 +214,11 @@ describe('CartPickupOptionsContainerComponent', () => {
     });
 
     it('should trigger and open dialog', () => {
-      component.openDialog();
+      const triggerElement = new ElementRef({});
+      component.openDialog(triggerElement);
       expect(launchDialogService.openDialog).toHaveBeenCalledWith(
         LAUNCH_CALLER.PICKUP_IN_STORE,
-        component.element,
+        triggerElement,
         component['vcr'],
         { productCode: 'productCode1', entryNumber: 1, quantity: 1 }
       );
@@ -210,7 +227,12 @@ describe('CartPickupOptionsContainerComponent', () => {
     it('should not openDialog if display name is not set and ship it is selected', () => {
       spyOn(component, 'openDialog');
       component['displayNameIsSet'] = false;
-      component.onPickupOptionChange('delivery');
+      const pickupOption: PickupOption = 'delivery';
+      const event = {
+        option: pickupOption,
+        triggerElement: new ElementRef({}),
+      };
+      component.onPickupOptionChange(event);
       expect(component.openDialog).not.toHaveBeenCalled();
     });
 
@@ -218,6 +240,10 @@ describe('CartPickupOptionsContainerComponent', () => {
       const entryNumber = 2;
       const pickupOption: PickupOption = 'pickup';
       const quantity = 3;
+      const event = {
+        option: pickupOption,
+        triggerElement: new ElementRef({}),
+      };
 
       component.entryNumber = entryNumber;
       component.quantity = quantity;
@@ -226,7 +252,7 @@ describe('CartPickupOptionsContainerComponent', () => {
       spyOn(pickupOptionService, 'setPickupOption');
       spyOn(activeCartService, 'updateEntry');
 
-      component.onPickupOptionChange(pickupOption);
+      component.onPickupOptionChange(event);
       expect(pickupOptionService.setPickupOption).toHaveBeenCalledWith(
         entryNumber,
         pickupOption
