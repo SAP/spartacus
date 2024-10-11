@@ -19,7 +19,7 @@
     "@angular-devkit/schematics": "^17.0.5",
     "@angular/compiler": "^17.0.5",
     "@schematics/angular": "^17.0.5",
-    "jsonc-parser": "~3.2.1",
+    "jsonc-parser": "~3.3.0",
     "parse5": "^7.1.2",
     "typescript": "^5.2.2"
   },
