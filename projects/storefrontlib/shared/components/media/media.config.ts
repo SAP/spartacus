@@ -61,27 +61,6 @@ export abstract class MediaConfig {
   pictureFormatsOrder?: string[];
 
   /**
-   * A map that associates the keys of `PictureElementQueries` with their corresponding CSS media query features.
-   *
-   * @type {Record<keyof PictureElementQueries, string>}
-   *
-   * The `queryMap` is used to translate the query properties provided in a `PictureElementQueries` object
-   * to their respective CSS media query feature names. This map includes the following mappings:
-   *
-   * @example
-   * - `minWidth` -> `min-width`
-   * - `maxWidth` -> `max-width`
-   * - `minHeight` -> `min-height`
-   * - `maxHeight` -> `max-height`
-   * - `minDevicePixelRatio` -> `min-device-pixel-ratio`
-   * - `maxDevicePixelRatio` -> `max-device-pixel-ratio`
-   * - `orientation` -> `orientation`
-   * - `minAspectRatio` -> `min-aspect-ratio`
-   * - `maxAspectRatio` -> `max-aspect-ratio`
-   */
-  mediaQueryMap?: Record<keyof PictureElementQueries, string>;
-
-  /**
    * Indicates how the browser should load the image. There's only one
    * global strategy for all media cross media in Spartacus.
    *

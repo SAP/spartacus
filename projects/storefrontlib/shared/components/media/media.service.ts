@@ -56,11 +56,9 @@ export class MediaService {
         'useMediaComponentWithConfigurableMediaQueries'
       ) && elementType !== 'img';
 
-    const getMediaFn = shouldGetMediaForPictureElement
-      ? this.getMediaForPictureElement
-      : this.getMedia;
-
-    return getMediaFn(mediaContainer, format, alt, role);
+    return shouldGetMediaForPictureElement
+      ? this.getMediaForPictureElement(mediaContainer, format, alt, role)
+      : this.getMedia(mediaContainer, format, alt, role);
   }
 
   /**
@@ -233,24 +231,12 @@ export class MediaService {
    * @param {PictureElementQueries} queries - An object containing media query properties.
    * @returns {string} A string representing the CSS media query.
    *
-   * This method constructs a media query string by mapping the provided query properties
-   * to their corresponding CSS media query features and joining them with "and".
+   * This method constructs a media query string from the provided query
+   * properties in config and joining them with "and".
    */
   protected generateMediaQuery(queries: PictureElementQueries): string {
-    const queryMap = this.config?.mediaQueryMap;
-
-    if (!queryMap) {
-      return '';
-    }
-
-    return Object.keys(queries)
-      .filter((key) => key in queryMap && queries[key] !== undefined)
-      .map((key) => {
-        const mediaFeature = queryMap[key];
-        const value = queries[key];
-
-        return `(${mediaFeature}: ${value})`;
-      })
+    return Object.entries(queries)
+      .map(([key, value]) => `(${key}: ${value})`)
       .join(' and ');
   }
 

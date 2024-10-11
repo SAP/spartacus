@@ -21,27 +21,29 @@ export const mediaConfig: MediaConfig = {
   pictureElementFormats: {
     mobile: {
       mediaQueries: {
-        maxWidth: '767px',
+        'max-width': '767px',
       },
-      width: 50,
-      height: 50,
     },
     tablet: {
-      mediaQueries: { minWidth: '768px', maxWidth: '1024px' },
+      mediaQueries: { 'min-width': '768px', 'max-width': '1024px' },
     },
     desktop: {
-      mediaQueries: { minWidth: '1025px', maxWidth: '1439px' },
-      width: 100,
-      height: 100,
+      mediaQueries: { 'min-width': '1025px', 'max-width': '1439px' },
     },
     widescreen: {
-      mediaQueries: { minWidth: '1440px' },
+      mediaQueries: { 'min-width': '1440px' },
     },
     retina_mobile: {
-      mediaQueries: { maxWidth: '786px', minDevicePixelRatio: 3 },
+      mediaQueries: {
+        'max-width': '786px',
+        '-webkit-min-device-pixel-ratio': 3,
+      },
     },
     retina_desktop: {
-      mediaQueries: { minWidth: '1440px', minDevicePixelRatio: 2 },
+      mediaQueries: {
+        'min-width': '1440px',
+        '-webkit-min-device-pixel-ratio': 2,
+      },
     },
   },
   pictureFormatsOrder: [
@@ -52,17 +54,4 @@ export const mediaConfig: MediaConfig = {
     'tablet',
     'mobile',
   ],
-  mediaQueryMap: {
-    minWidth: 'min-width',
-    maxWidth: 'max-width',
-    minHeight: 'min-height',
-    maxHeight: 'max-height',
-    minDevicePixelRatio: '-webkit-min-device-pixel-ratio',
-    maxDevicePixelRatio: '-webkit-max-device-pixel-ratio',
-    orientation: 'orientation',
-    minAspectRatio: 'min-aspect-ratio',
-    maxAspectRatio: 'max-aspect-ratio',
-    minResolution: 'min-resolution',
-    maxResolution: 'max-resolution',
-  },
 };

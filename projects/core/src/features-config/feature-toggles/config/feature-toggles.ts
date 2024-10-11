@@ -630,15 +630,16 @@ export interface FeatureTogglesInterface {
   /**
    * When enabled, allows to provide extended formats and media queries for <picture> element if used in MediaComponent.
    *
-   * For proper work requires `pictureElementFormats` and `mediaQueryMap` provided in media config:
+   * For proper work requires `pictureElementFormats` provided in media config:
    *  ```ts
    * provideConfig({
    *   pictureElementFormats: {
-   *    ...
+   *    mediaQueries: {
+   *     'max-width': '767px',
+   *    },
+   *    width: 50,
+   *    height: 50,
    *   },
-   *   mediaQueryMap: {
-   *    ...
-   *   }
    * })
    * ```
    */

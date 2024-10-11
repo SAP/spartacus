@@ -54,19 +54,6 @@ const MockStorefrontConfig: Config = {
     },
   },
   pictureFormatsOrder: ['format1', 'format200', 'format400', 'format600'],
-  mediaQueryMap: {
-    minWidth: 'min-width',
-    maxWidth: 'max-width',
-    minHeight: 'min-height',
-    maxHeight: 'max-height',
-    minDevicePixelRatio: '-webkit-min-device-pixel-ratio',
-    maxDevicePixelRatio: '-webkit-max-device-pixel-ratio',
-    orientation: 'orientation',
-    minAspectRatio: 'min-aspect-ratio',
-    maxAspectRatio: 'max-aspect-ratio',
-    minResolution: 'min-resolution',
-    maxResolution: 'max-resolution',
-  },
 };
 
 const mockUnknownMediaContainer = {
