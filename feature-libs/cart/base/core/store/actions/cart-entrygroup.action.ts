@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '@spartacus/core';
+import { ErrorAction, StateUtils } from '@spartacus/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
@@ -34,13 +34,14 @@ export class CartRemoveEntryGroupSuccess extends StateUtils.EntityProcessesDecre
   }
 }
 
-export class CartRemoveEntryGroupFail extends StateUtils.EntityProcessesDecrementAction {
+export class CartRemoveEntryGroupFail extends StateUtils.EntityProcessesDecrementAction implements ErrorAction {
   readonly type = CART_REMOVE_ENTRYGROUP_FAIL;
   constructor(
-    public payload: { error: any; cartId: string; userId: string; entryGroupNumber: number; }
+    public payload: { error: any; cartId: string; userId: string; entryGroupNumber: number }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
+  error: Object;
 }
 
 export class CartAddToEntryGroup extends StateUtils.EntityProcessesIncrementAction {
@@ -77,7 +78,7 @@ export class CartAddToEntryGroupSuccess extends StateUtils.EntityProcessesDecrem
   }
 }
 
-export class CartAddToEntryGroupFail extends StateUtils.EntityProcessesDecrementAction {
+export class CartAddToEntryGroupFail extends StateUtils.EntityProcessesDecrementAction implements ErrorAction {
   readonly type = CART_ADD_TO_ENTRYGROUP_FAIL;
   constructor(
     public payload: {
@@ -91,6 +92,7 @@ export class CartAddToEntryGroupFail extends StateUtils.EntityProcessesDecrement
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
+  error: Object;
 }
 
 export type CartEntryGroupAction =
