@@ -25,10 +25,24 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["OPF-Checkout", "OPF-Base", "OPF-Payment"],
+        "enum": [
+          "OPF-Checkout",
+          "OPF-Base",
+          "OPF-Payment",
+          "OPF-Cta",
+          "OPF-Global-Functions",
+          "OPF-Quick-Buy"
+        ],
         "type": "string"
       },
-      "default": ["OPF-Checkout", "OPF-Base", "OPF-Payment"]
+      "default": [
+        "OPF-Checkout",
+        "OPF-Base",
+        "OPF-Payment",
+        "OPF-Cta",
+        "OPF-Global-Functions",
+        "OPF-Quick-Buy"
+      ]
     },
     "baseUrl": {
       "type": "string",

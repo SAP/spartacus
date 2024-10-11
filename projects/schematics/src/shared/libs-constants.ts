@@ -241,6 +241,15 @@ export const SPARTACUS_OPF_PAYMENT = `@spartacus/opf/payment`;
 export const SPARTACUS_OPF_PAYMENT_ROOT = `@spartacus/opf/payment/root`;
 export const SPARTACUS_OPF_PAYMENT_ASSETS = `@spartacus/opf/payment/assets`;
 
+export const SPARTACUS_OPF_GLOBAL_FUNCTIONS = `@spartacus/opf/global-functions`;
+export const SPARTACUS_OPF_GLOBAL_FUNCTIONS_ROOT = `@spartacus/opf/global-functions/root`;
+
+export const SPARTACUS_OPF_CTA = `@spartacus/opf/cta`;
+export const SPARTACUS_OPF_CTA_ROOT = `@spartacus/opf/cta/root`;
+
+export const SPARTACUS_OPF_QUICK_BUY = `@spartacus/opf/quick-buy`;
+export const SPARTACUS_OPF_QUICK_BUY_ROOT = `@spartacus/opf/quick-buy/root`;
+
 export const SPARTACUS_OPF_BASE = `@spartacus/opf/base`;
 export const SPARTACUS_OPF_BASE_ROOT = `@spartacus/opf/base/root`;
 
@@ -360,6 +369,9 @@ export const OPF_FEATURE_NAME = 'OPF';
 export const OPF_CHECKOUT_FEATURE_NAME = 'OPF-Checkout';
 export const OPF_BASE_FEATURE_NAME = 'OPF-Base';
 export const OPF_PAYMENT_FEATURE_NAME = 'OPF-Payment';
+export const OPF_CTA_FEATURE_NAME = 'OPF-Cta';
+export const OPF_GLOBAL_FUNCTIONS_FEATURE_NAME = 'OPF-Global-Functions';
+export const OPF_QUICK_BUY_FEATURE_NAME = 'OPF-Quick-Buy';
 /***** Feature name end *****/
 
 /***** Feature name start *****/
