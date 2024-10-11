@@ -651,7 +651,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     return this.getEntryGroups().pipe(
       map(entryGroups => {
         function traverse(groups: OrderEntryGroup[]): OrderEntryGroup[] {
-          let localResult: OrderEntryGroup[] = [];
+          const localResult: OrderEntryGroup[] = [];
 
           for (const group of groups) {
             const newGroup = { ...group };

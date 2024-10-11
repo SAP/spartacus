@@ -97,9 +97,9 @@ export class HierarchyComponentService {
         parent.children.push(treeNode);
       }
       count++;
-      node.entryGroups && node.entryGroups.length > 0
-        ? this.buildHierarchyTree(node.entryGroups, treeNode, count)
-        : [];
+      if (node.entryGroups && node.entryGroups.length > 0) {
+        this.buildHierarchyTree(node.entryGroups, treeNode, count);
+      }
     });
   }
 }
