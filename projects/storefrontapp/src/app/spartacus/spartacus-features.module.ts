@@ -282,7 +282,6 @@ if (environment.cpq) {
       provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
       useValue: environment.myAccountV2,
     },
-    // CXSPA-6793: refactor to`provideFeatureToggles` and `satisfies` keyword
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
@@ -376,6 +375,7 @@ if (environment.cpq) {
         a11yDialogTriggerRefocus: true,
         a11yAddToWishlistFocus: true,
         a11ySearchBoxFocusOnEscape: true,
+        a11yItemCounterFocus: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,
         enableConsecutiveCharactersPasswordRequirement: true,
