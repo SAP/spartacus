@@ -60,6 +60,8 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
+  protected readonly elementRef = inject(ElementRef);
+  protected readonly renderer = inject(Renderer2);
   readonly searchBoxOutlets = SearchBoxOutlets;
   readonly searchBoxFeatures = SearchBoxFeatures;
   @Input() config: SearchBoxConfig;
@@ -150,9 +152,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     @Optional()
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     protected winRef: WindowRef,
-    protected routingService: RoutingService,
-    protected elementRef: ElementRef,
-    private renderer: Renderer2
+    protected routingService: RoutingService
   ) {}
 
   /**
@@ -407,13 +407,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   protected getFocusedGroupIndex(): number {
-    let indexGroup = 0;
-    this.getGroupElements().forEach((group, index) => {
-      if (group.indexOf(this.getFocusedElement()) !== -1) {
-        indexGroup = index;
-      }
-    });
-    return indexGroup;
+    return (
+      this.getGroupElements().findIndex(
+        (group) => group.indexOf(this.getFocusedElement()) !== -1
+      ) ?? 0
+    );
   }
 
   protected propagateEvent(event: KeyboardEvent) {
