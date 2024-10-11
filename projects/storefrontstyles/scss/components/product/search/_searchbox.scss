@@ -211,6 +211,10 @@
     background-color: #fff;
     font-size: var(--cx-font-small, 1rem);
 
+    &.no-headers {
+      padding-top: 4px;
+    }
+
     @include forFeature('a11yImproveContrast') {
       @include type('8');
     }
@@ -257,6 +261,9 @@
         padding-inline-start: 0;
         margin-bottom: 0;
         border-top: solid 1px var(--cx-color-light);
+        &.no-headers {
+          border-top: none;
+        }
         li,
         a {
           flex: 100%;

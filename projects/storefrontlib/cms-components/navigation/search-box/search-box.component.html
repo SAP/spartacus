@@ -64,6 +64,11 @@
   id="results"
   (click)="close($any($event), true)"
   role="dialog"
+  [class.no-headers]="
+    !isEnabledFeature(searchBoxFeatures.RECENT_SEARCHES_FEATURE) &&
+    !isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) &&
+    !isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
+  "
 >
   <button
     *ngIf="isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)"
@@ -80,6 +85,7 @@
     <ng-container
       *ngIf="
         isEnabledFeature(searchBoxFeatures.RECENT_SEARCHES_FEATURE) ||
+        isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) ||
         isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
       "
     >
@@ -91,6 +97,11 @@
       tabindex="0"
       attr.aria-label="{{ 'searchBox.ariaLabelSuggestions' | cxTranslate }}"
       role="listbox"
+      [class.no-headers]="
+        !isEnabledFeature(searchBoxFeatures.RECENT_SEARCHES_FEATURE) &&
+        !isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) &&
+        !isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
+      "
     >
       <li *ngFor="let suggestion of result.suggestions">
         <a
@@ -159,6 +170,7 @@
     <ng-container
       *ngIf="
         isEnabledFeature(searchBoxFeatures.RECENT_SEARCHES_FEATURE) ||
+        isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) ||
         isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
       "
     >
