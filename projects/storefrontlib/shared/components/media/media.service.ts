@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Config, Image } from '@spartacus/core';
+import { Injectable, inject } from '@angular/core';
+import { Config, FeatureConfigService, Image } from '@spartacus/core';
 import { MediaConfig } from './media.config';
 import {
   ImageLoadingStrategy,
@@ -40,11 +40,34 @@ export class MediaService {
   private _sortedPictureFormats: { code: string; mediaQuery: string }[];
   private _reversedFormats: { code: string; size: MediaFormatSize }[];
 
+  private readonly featureConfigService = inject(FeatureConfigService);
+
   constructor(protected config: Config) {}
+
+  getMediaBasedOnHTMLElementType(
+    elementType: 'img' | 'picture',
+    mediaContainer?: MediaContainer | Image,
+    format?: string,
+    alt?: string,
+    role?: string
+  ): Media | undefined {
+    const shouldGetMediaForPictureElement =
+      this.featureConfigService.isEnabled(
+        'useMediaComponentWithConfigurableMediaQueries'
+      ) && elementType !== 'img';
+
+    const getMediaFn = shouldGetMediaForPictureElement
+      ? this.getMediaForPictureElement
+      : this.getMedia;
+
+    return getMediaFn(mediaContainer, format, alt, role);
+  }
 
   /**
    * Returns a `Media` object with the main media (`src`) and various media (`src`)
    * for specific formats.
+   *
+   * This method is used for creating `Media` object that is used in `img` HTML element
    */
   getMedia(
     mediaContainer?: MediaContainer | Image,

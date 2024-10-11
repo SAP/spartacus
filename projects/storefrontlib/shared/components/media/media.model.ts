@@ -69,6 +69,9 @@ export interface MediaFormatSize {
 /**
  * Specifies media queries that can be used to generate information for the
  * browser to resolve the right media for the right layout or device.
+ *
+ * You can check available queries in official docs
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries
  */
 export type PictureElementQueries = {
   [query: string]: string | number;

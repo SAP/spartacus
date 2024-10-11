@@ -15,12 +15,7 @@ import {
   Output,
   TrackByFunction,
 } from '@angular/core';
-import {
-  Config,
-  FeatureConfigService,
-  Image,
-  ImageGroup,
-} from '@spartacus/core';
+import { Config, Image, ImageGroup } from '@spartacus/core';
 import { ImageLoadingStrategy, Media, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
@@ -66,7 +61,7 @@ export class MediaComponent implements OnChanges {
    */
   @Input() loading: ImageLoadingStrategy | null = this.loadingStrategy;
 
-  @Input() useImgElement: boolean = false;
+  @Input() elementType: 'img' | 'picture' = 'picture';
 
   /**
    * The intrinsic width of the image, in pixels
@@ -125,18 +120,16 @@ export class MediaComponent implements OnChanges {
     item.media;
 
   /**
-   * @deprecated will be removed
+   * @deprecated since 2211.30. It will be eventually removed in the future
    *
    * To use `img` HTML element instead of `picture`
    * use `useMediaComponentWithConfigurableMediaQueries` feature flag
-   * and pass `[useImgElement]="true"` input to the component
+   * and pass `[elementType]="'img'"` input to the component
    */
   protected isLegacy =
     inject(USE_LEGACY_MEDIA_COMPONENT, { optional: true }) ||
     (inject(Config) as any)['useLegacyMediaComponent'] ||
     false;
-
-  protected readonly featureConfigService = inject(FeatureConfigService);
 
   constructor(protected mediaService: MediaService) {}
 
@@ -148,16 +141,8 @@ export class MediaComponent implements OnChanges {
    * Creates the `Media` object
    */
   protected create(): void {
-    const shouldGetMediaForPictureElement =
-      this.featureConfigService.isEnabled(
-        'useMediaComponentWithConfigurableMediaQueries'
-      ) && !this.useImgElement;
-
-    const getMedia = shouldGetMediaForPictureElement
-      ? this.mediaService.getMediaForPictureElement.bind(this.mediaService)
-      : this.mediaService.getMedia.bind(this.mediaService);
-
-    this.media = getMedia(
+    this.media = this.mediaService.getMediaBasedOnHTMLElementType(
+      this.elementType,
       this.container instanceof Array ? this.container[0] : this.container,
       this.format,
       this.alt,

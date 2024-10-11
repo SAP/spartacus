@@ -17,7 +17,7 @@ import { ImageLoadingStrategy, Media } from './media.model';
 import { MediaService } from './media.service';
 import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
 
-export const IS_CONFIGURABLE_MEDIA_COMPONENT = new InjectionToken<boolean>(
+const IS_CONFIGURABLE_MEDIA_COMPONENT = new InjectionToken<boolean>(
   'IS_CONFIGURABLE_MEDIA_COMPONENT'
 );
 
@@ -100,6 +100,7 @@ class MockMediaService {
       ],
     };
   }
+
   getMissingImage() {
     return {
       src: 'missing.jpg',
@@ -156,11 +157,15 @@ function createComponent(useImgElement = false) {
     service,
     'getMediaForPictureElement'
   ).and.callThrough();
+  const getMediaBasedOnHTMLElementType = spyOn(
+    service,
+    'getMediaBasedOnHTMLElementType'
+  ).and.callThrough();
 
   component.container = mockImageContainer;
 
   if (useImgElement) {
-    component.useImgElement = useImgElement;
+    component.elementType = 'img';
   }
 
   component.ngOnChanges();
@@ -172,12 +177,13 @@ function createComponent(useImgElement = false) {
     component,
     getMediaSpy,
     getMediaForPictureElementSpy,
+    getMediaBasedOnHTMLElementType,
   };
 }
 
 describe('MediaComponent', () => {
   describe('with enabled useMediaComponentWithConfigurableMediaQueries', () => {
-    it('should have picture element if useImgElement is false', () => {
+    it('should have picture element if elementType is `picture`', () => {
       configureTestingModule(new MockMediaService('srcset'), false, true);
       const { fixture } = createComponent(false);
 
@@ -186,7 +192,7 @@ describe('MediaComponent', () => {
       expect(picture).not.toBeNull();
     });
 
-    it('should not have picture element if useImgElement is true', () => {
+    it('should not have picture element if elementType is `img`', () => {
       configureTestingModule(new MockMediaService('srcset'), false, true);
       const { fixture } = createComponent(true);
 
@@ -195,22 +201,29 @@ describe('MediaComponent', () => {
       expect(picture).toBeNull();
     });
 
-    it('should call getMedia() method from service if useImgElement is true', () => {
+    it('should call getMediaBasedOnHTMLElementType() method from service', () => {
       configureTestingModule(new MockMediaService('srcset'), false, true);
-      const { getMediaSpy, getMediaForPictureElementSpy } =
-        createComponent(true);
+      const { getMediaSpy } = createComponent(true);
 
-      expect(getMediaForPictureElementSpy).not.toHaveBeenCalled();
       expect(getMediaSpy).toHaveBeenCalled();
     });
 
-    it('should call getMediaForPictureElement() method from service if useImgElement is false', () => {
+    it('should call getMediaForPictureElement() method from service if elementType is `picture`', () => {
       configureTestingModule(new MockMediaService('srcset'), false, true);
       const { getMediaForPictureElementSpy, getMediaSpy } =
         createComponent(false);
 
       expect(getMediaForPictureElementSpy).toHaveBeenCalled();
       expect(getMediaSpy).not.toHaveBeenCalled();
+    });
+
+    it('should call getMedia() method from service if elementType is `img`', () => {
+      configureTestingModule(new MockMediaService('srcset'), false, true);
+      const { getMediaForPictureElementSpy, getMediaSpy } =
+        createComponent(true);
+
+      expect(getMediaForPictureElementSpy).not.toHaveBeenCalled();
+      expect(getMediaSpy).toHaveBeenCalled();
     });
   });
 

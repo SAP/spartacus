@@ -1,7 +1,10 @@
 <ng-container *ngIf="!!media">
   <ng-container *cxFeature="'useMediaComponentWithConfigurableMediaQueries'">
     <picture
-      *ngIf="!!media?.sources?.length && !useImgElement; else imageElementTmp"
+      *ngIf="
+        !!media?.sources?.length && elementType !== 'img';
+        else imageElementTmp
+      "
     >
       <source
         *ngFor="let source of media.sources; trackBy: trackByMedia"
@@ -62,9 +65,6 @@
         [attr.role]="media.role"
         (load)="loadHandler()"
         (error)="errorHandler()"
-        [attr.width]="width"
-        [attr.height]="height"
-        [attr.sizes]="sizes"
       />
     </picture>
 
@@ -79,9 +79,6 @@
         [attr.role]="media.role"
         (load)="loadHandler()"
         (error)="errorHandler()"
-        [attr.width]="width"
-        [attr.height]="height"
-        [attr.sizes]="sizes"
       />
     </ng-template>
   </ng-container>
