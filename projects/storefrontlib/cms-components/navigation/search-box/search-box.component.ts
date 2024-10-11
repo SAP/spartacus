@@ -60,8 +60,8 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
-  protected readonly elementRef = inject(ElementRef);
-  protected readonly renderer = inject(Renderer2);
+  private elementRef = inject(ElementRef);
+  private renderer = inject(Renderer2);
   readonly searchBoxOutlets = SearchBoxOutlets;
   readonly searchBoxFeatures = SearchBoxFeatures;
   @Input() config: SearchBoxConfig;
