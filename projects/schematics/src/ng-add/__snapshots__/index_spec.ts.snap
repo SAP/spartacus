@@ -89,7 +89,7 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
     "jasmine-core": "~5.1.0",
-    "jsonc-parser": "~3.2.1",
+    "jsonc-parser": "~3.3.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
