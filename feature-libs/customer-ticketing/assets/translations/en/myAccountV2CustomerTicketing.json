@@ -2,6 +2,7 @@
   "myAccountV2CustomerTicketing": {
     "heading": "Customer Service",
     "showMore": "Show More",
+    "showMoreLabel": "Navigate to customer service requests history",
     "changedOn": "Changed On: {{value}}",
     "ticketId": "ID: {{value}}",
     "subjectLabel": "Subject",

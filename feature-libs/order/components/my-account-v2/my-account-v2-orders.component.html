@@ -11,7 +11,7 @@
   <div class="cx-my-account-view-show-more">
     <a
       id="show-more-orders"
-      [attr.aria-label]="'myAccountV2Orders.showMore' | cxTranslate"
+      [attr.aria-label]="'myAccountV2Orders.showMoreLabel' | cxTranslate"
       class="btn-link cx-action-link"
       [routerLink]="
         {
@@ -116,7 +116,8 @@
                   <a
                     class="btn-link cx-action-link"
                     [attr.aria-label]="
-                      'myAccountV2Orders.orderDetailsLabel' | cxTranslate
+                      'myAccountV2Orders.orderDetailsLabel'
+                        | cxTranslate: { value: order.code }
                     "
                     [routerLink]="
                       {
