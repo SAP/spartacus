@@ -562,7 +562,7 @@ export interface FeatureTogglesInterface {
 
   /**
    * When enabled, the focus will be returned to the trigger element after the dialog is closed.
-   * Affected components: 'AddtoCartComponent', 'PickupOptionsComponent'
+   * Affected components: 'AddtoCartComponent', 'PickupOptionsComponent', CartPickupOptionsContainerComponent, PDPPickupOptionsContainerComponent
    */
   a11yDialogTriggerRefocus?: boolean;
 
@@ -575,6 +575,12 @@ export interface FeatureTogglesInterface {
    * `SearchBoxComponent` should no longer lose focus after closing the popup the esc key.
    */
   a11ySearchBoxFocusOnEscape?: boolean;
+
+  /**
+   * In `ItemCounterComponenet`, Remove button no longer lose focus after activating when count is 2.
+   * Add button no longer lose focus after activating when count is `max - 1`.
+   */
+  a11yItemCounterFocus?: boolean;
 
   /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
@@ -686,7 +692,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusableCarouselControls: false,
   a11yUseTrapTabInsteadOfTrapInDialogs: false,
   cmsGuardsServiceUseGuardsComposer: false,
-  cartQuickOrderRemoveListeningToFailEvent: false,
+  cartQuickOrderRemoveListeningToFailEvent: true,
   a11yKeyboardAccessibleZoom: false,
   a11yOrganizationLinkableCells: false,
   a11yVisibleFocusOverflows: false,
@@ -724,6 +730,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDialogTriggerRefocus: false,
   a11yAddToWishlistFocus: false,
   a11ySearchBoxFocusOnEscape: false,
+  a11yItemCounterFocus: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
   useSiteThemeService: false,
