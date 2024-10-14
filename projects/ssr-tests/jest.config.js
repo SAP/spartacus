@@ -1,23 +1,14 @@
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig.json');
-const { defaultTransformerOptions } = require('jest-preset-angular/presets');
 
 /** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
-  preset: 'jest-preset-angular',
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
     prefix: '<rootDir>/',
   }),
-  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   testMatch: ['**/+(*.)+(spec).+(ts)'],
   transform: {
-    '^.+\\.(ts|js|mjs|html|svg)$': [
-      'jest-preset-angular',
-      {
-        ...defaultTransformerOptions,
-        tsconfig: '<rootDir>/tsconfig.json',
-      },
-    ],
+    '^.+\\.(ts|js|mjs)$': ['ts-jest'],
   },
 
   collectCoverage: false,
@@ -31,4 +22,6 @@ module.exports = {
       lines: 90,
     },
   },
+  testEnvironment: './src/environments/custom-test-environment.ts',
+  globalSetup: './validate-ssr-build.ts',
 };
