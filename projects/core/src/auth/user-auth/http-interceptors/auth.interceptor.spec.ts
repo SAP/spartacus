@@ -370,4 +370,37 @@ describe('AuthInterceptor', () => {
     );
     sub.unsubscribe();
   });
+
+  it(`Should handle 401 error for invalid error when customer in Logout process`, (done) => {
+    spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({
+      disablePKCE: false,
+    });
+
+    spyOn(authHeaderService, 'handleExpiredAccessToken').and.callThrough();
+    spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
+
+    const sub: Subscription = http.get('/occ').subscribe({
+      error: (err) => {
+        expect(err.status).toEqual(401);
+        expect(
+          authHeaderService.handleExpiredAccessToken
+        ).not.toHaveBeenCalled();
+        expect(
+          authHeaderService.handleExpiredRefreshToken
+        ).not.toHaveBeenCalled();
+        done();
+      },
+    });
+
+    const mockReq: TestRequest = httpMock.expectOne(
+      (req) => req.url === '/occ'
+    );
+
+    mockReq.flush(
+      { errors: [{ message: 'Access is denied' }] },
+      { status: 401, statusText: 'Unauthorized' }
+    );
+
+    sub.unsubscribe();
+  });
 });
