@@ -41,19 +41,27 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
           const exclude = (arr: string[], args: string[]) =>
             arr.filter((item) => args.every((arg) => arg !== item));
           return isEmpty(cart) && loadingCart
-            ? exclude(slots, [
-                'TopContent',
-                'CenterRightContentSlot',
-                'EmptyCartMiddleContent',
-              ])
+            ? exclude(slots, ['TopContent', 'CenterRightContentSlot', 'EmptyCartMiddleContent'])
             : (cart.totalItems || cart.entryGroups?.length)
             ? exclude(slots, ['EmptyCartMiddleContent'])
             : (selectiveCart?.totalItems || selectiveCart?.entryGroups?.length)
-            ? exclude(slots, [
-                'EmptyCartMiddleContent',
-                'CenterRightContentSlot',
-              ])
+            ? exclude(slots, ['EmptyCartMiddleContent', 'CenterRightContentSlot'])
             : exclude(slots, ['TopContent', 'CenterRightContentSlot']);
+
+          // return isEmpty(cart) && loadingCart
+          //   ? exclude(slots, [
+          //       'TopContent',
+          //       'CenterRightContentSlot',
+          //       'EmptyCartMiddleContent',
+          //     ])
+          //   : (cart.totalItems || cart.entryGroups?.length)
+          //   ? exclude(slots, ['EmptyCartMiddleContent'])
+          //   : (selectiveCart?.totalItems || selectiveCart?.entryGroups?.length)
+          //   ? exclude(slots, [
+          //       'EmptyCartMiddleContent',
+          //       'CenterRightContentSlot',
+          //     ])
+          //   : exclude(slots, ['TopContent', 'CenterRightContentSlot']);
         })
       );
     }
