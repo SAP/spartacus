@@ -170,51 +170,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    */
   getInventory(): string {
     if (this.featureToggles.realTimeStockDispaly) {
-      // If stock hasn't been fetched yet, make the API call
-      if (!this.realTimeStock) {
-        const productUrl = this.occEndpoints.buildUrl('product', {
-          urlParams: { productCode: this.productCode },
-          scope: ProductScope.UNIT,
-        });
-
-        this.http
-          .get(productUrl)
-          .pipe(take(1))
-          .subscribe((response: any) => {
-            console.log('response', response.sapUnit.sapCode);
-
-            let availabilityUrl = this.occEndpoints.buildUrl('product', {
-              scope: ProductScope.PRODUCT_AVAILABILITIES,
-              urlParams: {
-                productCode: this.productCode,
-                sapCode: response.sapUnit.sapCode,
-              },
-            });
-
-            console.log(availabilityUrl);
-
-            this.http
-              .get(availabilityUrl)
-              .pipe(take(1))
-              .subscribe((availabilities: any) => {
-                const quantity =
-                  availabilities.availabilityItems[0].unitAvailabilities[0]
-                    .quantity;
-                console.log('quantf', quantity);
-
-                this.realTimeStock = this.inventoryThreshold
-                  ? quantity + '+'
-                  : quantity.toString();
-
-                this.cd.markForCheck();
-              });
-          });
-
-        // While waiting for the API call to complete, return an empty string
-        return '';
-      } else {
-        return this.realTimeStock;
-      }
+      this.loadRealTimeStock();
+      return this.inventoryThreshold
+      ? this.realTimeStock + '+'
+      : this.realTimeStock;
     } else {
       if (this.hasStock) {
         const quantityDisplay = this.maxQuantity
@@ -226,6 +185,51 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       } else {
         return '';
       }
+    }
+  }
+  loadRealTimeStock(){
+    if (!this.realTimeStock) {
+      const productUrl = this.occEndpoints.buildUrl('product', {
+        urlParams: { productCode: this.productCode },
+        scope: ProductScope.UNIT,
+      });
+
+      this.http
+        .get(productUrl)
+        .pipe(take(1))
+        .subscribe((response: any) => {
+          console.log('response', response.sapUnit.sapCode);
+
+          let availabilityUrl = this.occEndpoints.buildUrl('product', {
+            scope: ProductScope.PRODUCT_AVAILABILITIES,
+            urlParams: {
+              productCode: this.productCode,
+              sapCode: response.sapUnit.sapCode,
+            },
+          });
+
+          console.log(availabilityUrl);
+
+          this.http
+            .get(availabilityUrl)
+            .pipe(take(1))
+            .subscribe((availabilities: any) => {
+              const quantity =
+                availabilities?.availabilityItems[0]?.unitAvailabilities[0]?.quantity??" ";
+              console.log('quantf', quantity);
+
+              this.realTimeStock = this.inventoryThreshold
+                ? quantity + '+'
+                : quantity.toString();
+
+              this.cd.markForCheck();
+            });
+        });
+
+      // While waiting for the API call to complete, return an empty string
+      return '';
+    } else {
+      return this.realTimeStock;
     }
   }
 
