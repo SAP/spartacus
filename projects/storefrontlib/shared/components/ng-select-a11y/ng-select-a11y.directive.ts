@@ -47,27 +47,26 @@ export class NgSelectA11yDirective implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    const divCombobox =
+    const inputCombobox =
       this.elementRef.nativeElement.querySelector('[role="combobox"]');
-    const inputElement = divCombobox.querySelector('input');
 
     const ariaLabel = this.cxNgSelectA11y.ariaLabel;
     const elementId = this.elementRef.nativeElement.id;
     const ariaControls = this.cxNgSelectA11y.ariaControls ?? elementId;
 
     if (ariaLabel) {
-      this.renderer.setAttribute(divCombobox, 'aria-label', ariaLabel);
+      this.renderer.setAttribute(inputCombobox, 'aria-label', ariaLabel);
     }
 
     if (ariaControls) {
-      this.renderer.setAttribute(divCombobox, 'aria-controls', ariaControls);
+      this.renderer.setAttribute(inputCombobox, 'aria-controls', ariaControls);
     }
 
     if (
       this.featureConfigService.isEnabled('a11yNgSelectMobileReadout') &&
-      inputElement.readOnly
+      inputCombobox.readOnly
     ) {
-      this.renderer.setAttribute(inputElement, 'aria-hidden', 'true');
+      this.renderer.setAttribute(inputCombobox, 'aria-hidden', 'true');
     }
   }
 
