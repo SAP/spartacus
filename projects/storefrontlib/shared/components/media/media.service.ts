@@ -236,6 +236,7 @@ export class MediaService {
    */
   protected generateMediaQuery(queries: PictureElementQueries): string {
     return Object.entries(queries)
+      .filter(([key, value]) => !!key && !!value)
       .map(([key, value]) => `(${key}: ${value})`)
       .join(' and ');
   }

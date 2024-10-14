@@ -31,25 +31,25 @@ const MockStorefrontConfig: Config = {
   pictureElementFormats: {
     format400: {
       mediaQueries: {
-        maxWidth: '786px',
-        minDevicePixelRatio: 3,
+        'max-width': '786px',
+        '-webkit-min-device-pixel-ratio': 3,
       },
     },
     format200: {
       mediaQueries: {
-        minWidth: '768px',
-        maxWidth: '1024px',
+        'min-width': '768px',
+        'max-width': '1024px',
       },
     },
     format600: {
       mediaQueries: {
-        minWidth: '1025px',
-        maxWidth: '1439px',
+        'min-width': '1025px',
+        'max-width': '1439px',
       },
     },
     format1: {
       mediaQueries: {
-        minWidth: '1440px',
+        'min-width': '1440px',
       },
     },
   },
@@ -631,16 +631,6 @@ describe('MediaService', () => {
   });
 
   describe('generateMediaQuery()', () => {
-    it('should return an empty string if config is not defined', () => {
-      configureTestingModule({});
-      const service = TestBed.inject(MediaService);
-
-      const queries: PictureElementQueries = {
-        minWidth: 768,
-      };
-      expect(service['generateMediaQuery'](queries)).toBe('');
-    });
-
     it('should return an empty string if queries are empty', () => {
       configureTestingModule({});
       const service = TestBed.inject(MediaService);
@@ -654,23 +644,12 @@ describe('MediaService', () => {
       const service = TestBed.inject(MediaService);
 
       const queries: PictureElementQueries = {
-        minWidth: 768,
-        maxWidth: 1024,
+        'min-width': 768,
+        'max-width': 1024,
       };
       expect(service['generateMediaQuery'](queries)).toBe(
         '(min-width: 768) and (max-width: 1024)'
       );
-    });
-
-    it('should ignore queries that are not in the query map', () => {
-      configureTestingModule(MockStorefrontConfig);
-      const service = TestBed.inject(MediaService);
-
-      const queries: PictureElementQueries = {
-        minWidth: 768,
-        unknownQuery: 100,
-      };
-      expect(service['generateMediaQuery'](queries)).toBe('(min-width: 768)');
     });
 
     it('should ignore undefined query values', () => {
@@ -678,8 +657,8 @@ describe('MediaService', () => {
       const service = TestBed.inject(MediaService);
 
       const queries: PictureElementQueries = {
-        minWidth: 768,
-        maxWidth: undefined as unknown as any,
+        'min-width': 768,
+        'max-width': undefined as unknown as any,
       };
       expect(service['generateMediaQuery'](queries)).toBe('(min-width: 768)');
     });
@@ -689,8 +668,8 @@ describe('MediaService', () => {
       const service = TestBed.inject(MediaService);
 
       const queries: PictureElementQueries = {
-        minWidth: 768,
-        maxWidth: 1024,
+        'min-width': 768,
+        'max-width': 1024,
         orientation: 'landscape',
       };
       expect(service['generateMediaQuery'](queries)).toBe(
@@ -706,31 +685,31 @@ describe('MediaService', () => {
         pictureElementFormats: {
           format400: {
             mediaQueries: {
-              maxWidth: '786px',
-              minDevicePixelRatio: 3,
+              'max-width': '786px',
+              '-webkit-min-device-pixel-ratio': 3,
             },
             width: 200,
             height: 300,
           },
           format200: {
             mediaQueries: {
-              minWidth: '768px',
-              maxWidth: '1024px',
+              'min-width': '768px',
+              'max-width': '1024px',
             },
             width: 700,
             height: 1000,
           },
           format600: {
             mediaQueries: {
-              minWidth: '1025px',
-              maxWidth: '1439px',
+              'min-width': '1025px',
+              'max-width': '1439px',
             },
             width: 1000,
             height: 800,
           },
           format1: {
             mediaQueries: {
-              minWidth: '1440px',
+              'min-width': '1440px',
             },
             width: 1440,
             height: 1000,

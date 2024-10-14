@@ -72,10 +72,16 @@ export class MockMediaSourcesPipe implements PipeTransform {
 }
 
 class MockMediaService {
-  srcset: string | undefined;
+  srcset: any;
+  useMediaComponentWithConfigurableMediaQueries: boolean;
 
-  constructor(srcset?: string) {
+  constructor(
+    srcset: string | null,
+    useMediaComponentWithConfigurableMediaQueries: boolean
+  ) {
     this.srcset = srcset;
+    this.useMediaComponentWithConfigurableMediaQueries =
+      useMediaComponentWithConfigurableMediaQueries;
   }
 
   getMedia(media: any): Media {
@@ -99,6 +105,19 @@ class MockMediaService {
         },
       ],
     };
+  }
+
+  getMediaBasedOnHTMLElementType(
+    elementType: 'img' | 'picture',
+    mediaContainer?: any
+  ) {
+    const shouldGetMediaForPictureElement =
+      this.useMediaComponentWithConfigurableMediaQueries &&
+      elementType !== 'img';
+
+    return shouldGetMediaForPictureElement
+      ? this.getMediaForPictureElement(mediaContainer)
+      : this.getMedia(mediaContainer);
   }
 
   getMissingImage() {
@@ -184,7 +203,7 @@ function createComponent(useImgElement = false) {
 describe('MediaComponent', () => {
   describe('with enabled useMediaComponentWithConfigurableMediaQueries', () => {
     it('should have picture element if elementType is `picture`', () => {
-      configureTestingModule(new MockMediaService('srcset'), false, true);
+      configureTestingModule(new MockMediaService('srcset', true), false, true);
       const { fixture } = createComponent(false);
 
       const picture = fixture.debugElement.query(By.css('picture'));
@@ -193,7 +212,7 @@ describe('MediaComponent', () => {
     });
 
     it('should not have picture element if elementType is `img`', () => {
-      configureTestingModule(new MockMediaService('srcset'), false, true);
+      configureTestingModule(new MockMediaService('srcset', true), false, true);
       const { fixture } = createComponent(true);
 
       const picture = fixture.debugElement.query(By.css('picture'));
@@ -202,14 +221,14 @@ describe('MediaComponent', () => {
     });
 
     it('should call getMediaBasedOnHTMLElementType() method from service', () => {
-      configureTestingModule(new MockMediaService('srcset'), false, true);
+      configureTestingModule(new MockMediaService('srcset', true), false, true);
       const { getMediaSpy } = createComponent(true);
 
       expect(getMediaSpy).toHaveBeenCalled();
     });
 
     it('should call getMediaForPictureElement() method from service if elementType is `picture`', () => {
-      configureTestingModule(new MockMediaService('srcset'), false, true);
+      configureTestingModule(new MockMediaService('srcset', true), false, true);
       const { getMediaForPictureElementSpy, getMediaSpy } =
         createComponent(false);
 
@@ -218,7 +237,7 @@ describe('MediaComponent', () => {
     });
 
     it('should call getMedia() method from service if elementType is `img`', () => {
-      configureTestingModule(new MockMediaService('srcset'), false, true);
+      configureTestingModule(new MockMediaService('srcset', true), false, true);
       const { getMediaForPictureElementSpy, getMediaSpy } =
         createComponent(true);
 
@@ -228,21 +247,21 @@ describe('MediaComponent', () => {
   });
 
   it('should create', () => {
-    configureTestingModule(new MockMediaService());
+    configureTestingModule(new MockMediaService(null, false));
     const { component } = createComponent();
 
     expect(component).toBeTruthy();
   });
 
   it('should create media object with valid image url', () => {
-    configureTestingModule(new MockMediaService());
+    configureTestingModule(new MockMediaService(null, false));
     const { component } = createComponent();
 
     expect(component?.media?.src).toEqual(mediaUrl);
   });
 
   it('should update the img element with image url', () => {
-    configureTestingModule(new MockMediaService());
+    configureTestingModule(new MockMediaService(null, false));
     const { fixture } = createComponent();
 
     expect(
@@ -253,7 +272,7 @@ describe('MediaComponent', () => {
   });
 
   it('should not contain the loading attribute for the image element', () => {
-    configureTestingModule(new MockMediaService());
+    configureTestingModule(new MockMediaService(null, false));
     const { fixture } = createComponent();
 
     const el: HTMLElement = <HTMLImageElement>(
@@ -265,7 +284,7 @@ describe('MediaComponent', () => {
   });
 
   it('should contain loading="lazy" for the image element', () => {
-    configureTestingModule(new MockMediaService());
+    configureTestingModule(new MockMediaService(null, false));
     const { service } = createComponent();
 
     spyOnProperty(service, 'loadingStrategy').and.returnValue(
@@ -283,7 +302,7 @@ describe('MediaComponent', () => {
   });
 
   it('should contain is-loading classes while loading', () => {
-    configureTestingModule(new MockMediaService());
+    configureTestingModule(new MockMediaService(null, false));
     const { fixture } = createComponent();
 
     expect(
@@ -292,7 +311,7 @@ describe('MediaComponent', () => {
   });
 
   it('should update classes when loaded', () => {
-    configureTestingModule(new MockMediaService());
+    configureTestingModule(new MockMediaService(null, false));
     const { fixture } = createComponent();
 
     const load = new UIEvent('load');
@@ -309,7 +328,7 @@ describe('MediaComponent', () => {
   });
 
   it('should have is-missing class when there is no image', () => {
-    configureTestingModule(new MockMediaService());
+    configureTestingModule(new MockMediaService(null, false));
     const { fixture, component, getMediaSpy } = createComponent();
 
     component.container = mockImageContainer;
@@ -329,7 +348,7 @@ describe('MediaComponent', () => {
   });
 
   it('should not have picture element if there is no srcset in media', () => {
-    configureTestingModule(new MockMediaService());
+    configureTestingModule(new MockMediaService(null, false));
     const { fixture } = createComponent();
 
     const picture = fixture.debugElement.query(By.css('picture'));
@@ -338,7 +357,7 @@ describe('MediaComponent', () => {
   });
 
   it('should have picture element if there is srcset in media', () => {
-    configureTestingModule(new MockMediaService('srcset'), false);
+    configureTestingModule(new MockMediaService('srcset', false), false);
     const { fixture } = createComponent();
 
     const picture = fixture.debugElement.query(By.css('picture'));
@@ -347,7 +366,7 @@ describe('MediaComponent', () => {
   });
 
   it('should not have picture element if there is srcset in media but isLegacy mode', () => {
-    configureTestingModule(new MockMediaService('srcset'));
+    configureTestingModule(new MockMediaService('srcset', false));
     const { fixture } = createComponent();
 
     const picture = fixture.debugElement.query(By.css('picture'));
