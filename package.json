@@ -212,7 +212,7 @@
     "jest-circus": "^29.0.0",
     "jest-environment-node": "^29.0.0",
     "jest-preset-angular": "13.1.6",
-    "jsonc-parser": "~3.2.1",
+    "jsonc-parser": "~3.3.0",
     "karma": "~6.4.1",
     "karma-chrome-launcher": "~3.2.0",
     "karma-cli": "^2.0.0",
@@ -237,7 +237,7 @@
     "ts-morph": "^23.0.0",
     "ts-node": "^10.6.0",
     "typescript": "^5.2.2",
-    "webpack": "~5.94.0",
+    "webpack": "~5.95.0",
     "webpack-cli": "^5.0.0"
   }
 }
