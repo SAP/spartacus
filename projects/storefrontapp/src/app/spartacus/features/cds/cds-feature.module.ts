@@ -25,11 +25,7 @@ import {
  */
 const cds1: CdsConfig = {
   cds: {
-    baseSite: [
-      'electronics-spa',
-      'electronics',
-      'electronics-standalone'
-    ],
+    baseSite: ['electronics-spa', 'electronics', 'electronics-standalone'],
     tenant: 'argotest',
     baseUrl: 'https://api.stage.context.cloud.sap',
     profileTag: {
@@ -37,7 +33,7 @@ const cds1: CdsConfig = {
         'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
       configUrl:
         'https://tag.static.stage.context.cloud.sap/config/mytenant-main-default',
-        allowInsecureCookies: true,
+      allowInsecureCookies: true,
     },
   },
 };
@@ -67,7 +63,6 @@ const cds2: CdsConfig = {
 };
 
 function cdsConfigFactory(windowRef: WindowRef): CdsConfig {
-
   const cdsConfigArray = [cds1, cds2];
 
   if (!windowRef.isBrowser()) {
@@ -79,7 +74,7 @@ function cdsConfigFactory(windowRef: WindowRef): CdsConfig {
     );
   });
   return cds ?? cds1;
-};
+}
 
 @NgModule({
   imports: [CdsModule.forRoot()],

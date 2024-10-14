@@ -15,7 +15,7 @@ const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
 const TEST_BASE_SITE = 'testBaseSite';
 
 const TEST_URL_PARAMS = {
-  baseSite : TEST_BASE_SITE,
+  baseSite: TEST_BASE_SITE,
   strategyId: STRATEGY_ID,
 };
 
@@ -58,8 +58,8 @@ class MockCdsEndpointsService {
 }
 
 class MockBaseSiteService {
-  getActive = createSpy('MockBaseSiteService.getActive').and.callFake(
-    () => of(TEST_BASE_SITE)
+  getActive = createSpy('MockBaseSiteService.getActive').and.callFake(() =>
+    of(TEST_BASE_SITE)
   );
 }
 

@@ -16,9 +16,10 @@ export function defaultCdsConfigFactory(): CdsConfig {
       baseUrl: '',
       endpoints: {
         strategyProducts: featureToggles.cdsCasEnabled
-        ? '/strategy/v1/sites/${baseSite}/strategies/${strategyId}/products'
-        : '/strategy/${tenant}/strategies/${strategyId}/products',
-        searchIntelligence: '/search-intelligence/v1/sites/${cdsSiteId}/trendingSearches',
+          ? '/strategy/v1/sites/${baseSite}/strategies/${strategyId}/products'
+          : '/strategy/${tenant}/strategies/${strategyId}/products',
+        searchIntelligence:
+          '/search-intelligence/v1/sites/${cdsSiteId}/trendingSearches',
       },
       merchandising: {
         defaultCarouselViewportThreshold: 80,

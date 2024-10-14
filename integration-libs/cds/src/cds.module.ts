@@ -5,8 +5,16 @@
  */
 
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { provideConfigValidator, provideDefaultConfig, provideDefaultConfigFactory } from '@spartacus/core';
-import { CdsConfig, cdsConfigValidator, defaultCdsConfigFactory } from './config';
+import {
+  provideConfigValidator,
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
+import {
+  CdsConfig,
+  cdsConfigValidator,
+  defaultCdsConfigFactory,
+} from './config';
 import { MerchandisingModule } from './merchandising';
 import {
   ProfileTagModule,
