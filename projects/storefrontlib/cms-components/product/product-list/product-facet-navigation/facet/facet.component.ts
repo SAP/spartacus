@@ -140,6 +140,9 @@ export class FacetComponent implements AfterViewInit {
       case 'ArrowLeft':
         this.onArrowLeft(event);
         break;
+      case 'ArrowRight':
+        this.onArrowRight(event);
+        break;
       case 'ArrowDown':
         this.onArrowDown(event, targetIndex);
         break;
@@ -149,21 +152,60 @@ export class FacetComponent implements AfterViewInit {
     }
   }
 
+  onArrowRight(event: Event): void {
+    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
+      return;
+    }
+
+    if (!this.isExpanded) {
+      this.toggleGroup(event as UIEvent);
+    }
+  }
+
   onArrowLeft(event: Event): void {
-    event.preventDefault();
-    const parent: any =
-      this.values.get(0)?.nativeElement.parentElement?.parentElement
-        ?.parentElement?.parentElement?.previousElementSibling;
-    parent?.click();
+    // Navigate to tab buttons when tab component enabled
+    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
+      event.preventDefault();
+      const parent: any =
+        this.values.get(0)?.nativeElement.parentElement?.parentElement
+          ?.parentElement?.parentElement?.previousElementSibling;
+      parent?.click();
+      return;
+    }
+
+    if (this.isExpanded) {
+      this.toggleGroup(event as UIEvent);
+      this.facetHeader.nativeElement.focus();
+    }
   }
 
   onArrowDown(event: Event, targetIndex: number): void {
-    event.preventDefault();
-    this.values.get(targetIndex + 1)?.nativeElement.focus();
+    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
+      event.preventDefault();
+      this.values.get(targetIndex + 1)?.nativeElement.focus();
+      return;
+    }
+
+    if (this.isExpanded) {
+      event.preventDefault();
+      if (event.target === this.facetHeader.nativeElement) {
+        this.values?.first?.nativeElement.focus();
+        return;
+      }
+      this.values.get(targetIndex + 1)?.nativeElement.focus();
+    }
   }
 
   onArrowUp(event: Event, targetIndex: number): void {
-    event.preventDefault();
-    this.values.get(targetIndex - 1)?.nativeElement.focus();
+    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
+      event.preventDefault();
+      this.values.get(targetIndex - 1)?.nativeElement.focus();
+      return;
+    }
+
+    if (this.isExpanded) {
+      event.preventDefault();
+      this.values.get(targetIndex - 1)?.nativeElement.focus();
+    }
   }
 }

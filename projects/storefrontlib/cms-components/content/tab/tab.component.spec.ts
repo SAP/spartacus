@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { of } from 'rxjs';
 import { TabComponent } from './tab.component';
 import { TAB_MODE } from './tab.model';
 
@@ -10,11 +11,9 @@ describe('TabComponent', () => {
   const mockTabs = [
     {
       headerKey: 'tab0',
-      header: 'tab 0',
       id: 0,
     },
     {
-      headerKey: 'tab1',
       header: 'tab 1',
       id: 1,
     },
@@ -29,6 +28,8 @@ describe('TabComponent', () => {
       id: 3,
     },
   ];
+
+  const mockTabs$ = of(mockTabs);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -54,6 +55,34 @@ describe('TabComponent', () => {
     });
 
     it('should display menu buttons for tabs', () => {
+      const tabEl = document.querySelector('div[class="tab"]');
+      expect(tabEl?.role).toEqual('tablist');
+
+      const buttonEls = document.querySelectorAll('button[role="tab"]');
+      expect(buttonEls.length).toEqual(4);
+
+      const firstButton = buttonEls[0];
+      expect(firstButton.getAttribute('id')).toEqual('0');
+      expect(firstButton.getAttribute('class')).toEqual('tab-btn active');
+      expect(firstButton.getAttribute('aria-selected')).toEqual('true');
+      expect(firstButton.getAttribute('aria-expanded')).toEqual(null);
+      expect(firstButton.getAttribute('aria-controls')).toEqual('section-0');
+      expect(firstButton.getAttribute('tabindex')).toEqual('0');
+
+      const secondButton = buttonEls[1];
+      expect(secondButton.getAttribute('id')).toEqual('1');
+      expect(secondButton.getAttribute('class')).toEqual('tab-btn');
+      expect(secondButton.getAttribute('aria-selected')).toEqual('false');
+      expect(secondButton.getAttribute('aria-expanded')).toEqual(null);
+      expect(secondButton.getAttribute('aria-controls')).toEqual('section-1');
+      expect(secondButton.getAttribute('tabindex')).toEqual('-1');
+    });
+
+    it('should display menu buttons for tabs$', () => {
+      component.tabs = [];
+      component.tabs$ = mockTabs$;
+      fixture.detectChanges();
+
       const tabEl = document.querySelector('div[class="tab"]');
       expect(tabEl?.role).toEqual('tablist');
 
@@ -259,6 +288,7 @@ describe('TabComponent', () => {
       expect(firstButton.getAttribute('aria-expanded')).toEqual('true');
       expect(firstButton.getAttribute('aria-controls')).toEqual('section-0');
       expect(firstButton.getAttribute('tabindex')).toEqual('0');
+      expect(firstButton.getAttribute('title')).toEqual('Collapse tab0');
 
       const secondButton = buttonEls[1];
       expect(secondButton.getAttribute('id')).toEqual('1');
@@ -267,6 +297,7 @@ describe('TabComponent', () => {
       expect(secondButton.getAttribute('aria-expanded')).toEqual('false');
       expect(secondButton.getAttribute('aria-controls')).toEqual('section-1');
       expect(secondButton.getAttribute('tabindex')).toEqual('0');
+      expect(secondButton.getAttribute('title')).toEqual('Expand tab 1');
     });
 
     it('should toggle tabs correctly in accordian mode', () => {

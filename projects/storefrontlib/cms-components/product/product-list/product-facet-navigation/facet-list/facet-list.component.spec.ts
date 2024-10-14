@@ -9,11 +9,7 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  FeatureConfigService,
-  FeaturesConfig,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import {
@@ -25,6 +21,7 @@ import { FacetService } from '../services/facet.service';
 import { FacetListComponent } from './facet-list.component';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { TabModule } from 'projects/storefrontlib/cms-components/content/tab/tab.module';
 
 @Component({
   selector: 'cx-icon',
@@ -74,7 +71,7 @@ describe('FacetListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [I18nTestingModule, RouterTestingModule, TabModule],
       declarations: [
         FacetListComponent,
         MockIconComponent,
@@ -82,15 +79,7 @@ describe('FacetListComponent', () => {
         MockKeyboadFocusDirective,
         MockFeatureDirective,
       ],
-      providers: [
-        { provide: FacetService, useClass: MockFacetService },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '5.1' },
-          },
-        },
-      ],
+      providers: [{ provide: FacetService, useClass: MockFacetService }],
     })
       .overrideComponent(FacetListComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
@@ -201,13 +190,6 @@ describe('FacetListComponent', () => {
       expect(result).toBeFalsy();
     });
 
-    it('should have collapsed class', () => {
-      fixture.detectChanges();
-      const el = element.queryAll(By.css('cx-facet'));
-      const e = el[0];
-      expect(e.nativeElement.classList).toContain('collapsed');
-    });
-
     it('should not have expanded class', () => {
       fixture.detectChanges();
       const el = element.queryAll(By.css('cx-facet'));
@@ -248,13 +230,6 @@ describe('FacetListComponent', () => {
       const el = element.queryAll(By.css('cx-facet'));
       const e = el[0];
       expect(e.nativeElement.classList).not.toContain('collapsed');
-    });
-
-    it('should have expanded class', () => {
-      fixture.detectChanges();
-      const el = element.queryAll(By.css('cx-facet'));
-      const e = el[0];
-      expect(e.nativeElement.classList).toContain('expanded');
     });
   });
 
@@ -327,6 +302,21 @@ describe('FacetListComponent', () => {
       (component as any).enableFocusHandlingOnFacetListChanges();
 
       expect((component as any).subscriptions.add).toHaveBeenCalled();
+    });
+  });
+
+  describe('updateTabs()', () => {
+    it('should update tabs on init, AfterViewInit, and facet changes', () => {
+      fixture = TestBed.createComponent(FacetListComponent);
+      element = fixture.debugElement;
+      component = fixture.componentInstance;
+      const spy = spyOn(component, 'updateTabs');
+      expect(spy).toHaveBeenCalledTimes(0);
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledTimes(2);
+      fixture.detectChanges();
+      component.facetsRef.notifyOnChanges();
+      expect(spy).toHaveBeenCalledTimes(3);
     });
   });
 });
