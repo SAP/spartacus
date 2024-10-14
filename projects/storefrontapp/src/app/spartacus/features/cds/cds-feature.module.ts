@@ -19,7 +19,7 @@ import {
 
 /**
  * Only differences to the default cds config, they are merged together.
- * 
+ *
  * @see defaultCdsConfigFactory
  * @see CdsModule.forRoot
  */
@@ -43,11 +43,11 @@ const cds1: CdsConfig = {
 };
 
 /**
-* Only differences to the default cds config, they are merged together.
-* 
-* @see defaultCdsConfigFactory
-* @see CdsModule.forRoot
-*/
+ * Only differences to the default cds config, they are merged together.
+ *
+ * @see defaultCdsConfigFactory
+ * @see CdsModule.forRoot
+ */
 const cds2: CdsConfig = {
   cds: {
     baseSite: [
