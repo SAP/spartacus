@@ -179,8 +179,11 @@ describe('OrderReturnRequestListComponent', () => {
 
     const sortComponents = el.queryAll(By.css('cx-sorting'));
     expect(sortComponents.length).toBe(2);
+    console.log(sortComponents);
     expect(
-      sortComponents[1].query(By.css('div[aria-controls="order-return-table"]'))
+      sortComponents[1].query(
+        By.css('input[aria-controls="order-return-table"]')
+      )
     ).not.toBeNull();
   });
 });

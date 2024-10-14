@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
   ActivatedRouteSnapshot,
+  RedirectCommand,
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
@@ -15,9 +16,9 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { NEVER, of } from 'rxjs';
+import { BeforeCmsPageGuardService } from './before-cms-page-guard.service';
 import { CmsPageGuardService } from './cms-page-guard.service';
 import { CmsPageGuard } from './cms-page.guard';
-import { BeforeCmsPageGuardService } from './before-cms-page-guard.service';
 
 class MockRoutingService implements Partial<RoutingService> {
   getNextPageContext = () => of({} as any);
@@ -71,7 +72,7 @@ describe('CmsPageGuard', () => {
           useClass: MockBeforeCmsPageGuardService,
         },
       ],
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule], //TODO: consider replacing deprecated `RouterTestingModule`
     });
 
     routingService = TestBed.inject(RoutingService);
@@ -91,7 +92,7 @@ describe('CmsPageGuard', () => {
       });
 
       it('should emit redirect url', () => {
-        let result: boolean | UrlTree;
+        let result: boolean | UrlTree | RedirectCommand | undefined;
         guard
           .canActivate(mockActivatedRouteSnapshot, mockRouterStateSnapshot)
           .subscribe((value) => (result = value))

@@ -1,10 +1,11 @@
-import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import { TSESLint } from '@typescript-eslint/utils';
 import {
   rule,
   RULE_NAME,
 } from './no-ngrx-fail-action-without-error-action-implementation';
 
+//TODO: consider replacing deprecated TSESLint utils
 const ruleTester = new TSESLint.RuleTester({
   parser: require.resolve('@typescript-eslint/parser'),
 });
@@ -12,7 +13,7 @@ const ruleTester = new TSESLint.RuleTester({
 ruleTester.run(RULE_NAME, rule, {
   valid: [
     // actions with `Fail` in name, that implement `ErrorAction`
-    `        
+    `        kt
     import { ErrorAction } from '@spartacus/core';
     export class LoadProductFail implements ErrorAction {}
     `,

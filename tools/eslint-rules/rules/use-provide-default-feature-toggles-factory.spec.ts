@@ -1,4 +1,4 @@
-import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
+import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils';
 import { TSESLint } from '@typescript-eslint/utils';
 import { rule, RULE_NAME } from './use-provide-default-feature-toggles-factory';
 

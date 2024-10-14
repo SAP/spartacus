@@ -4,7 +4,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { UrlTree } from '@angular/router';
+import { RedirectCommand, UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SemanticPathService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -56,21 +56,21 @@ describe(`OrderReturnGuard`, () => {
   });
 
   it(`should redirect to the order detail page`, () => {
-    let result: boolean | UrlTree;
+    let result: boolean | UrlTree | RedirectCommand | undefined;
     guard
       .canActivate()
       .subscribe((r) => (result = r))
       .unsubscribe();
-    expect(result.toString()).toEqual('/orders');
+    expect(result?.toString()).toEqual('/orders');
   });
 
   it(`should return true when the form data is valid`, () => {
     mockControl.setValue(100);
-    let result: boolean | UrlTree;
+    let result: boolean | UrlTree | RedirectCommand | undefined;
     guard
       .canActivate()
       .subscribe((r) => (result = r))
       .unsubscribe();
-    expect(result).toBeTrue();
+    expect(result).toBeTruthy();
   });
 });

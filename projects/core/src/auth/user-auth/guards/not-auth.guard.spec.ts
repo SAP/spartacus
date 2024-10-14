@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { UrlTree } from '@angular/router';
+import { RedirectCommand, UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EMPTY, Observable, of } from 'rxjs';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
@@ -40,7 +40,7 @@ describe('NotAuthGuard', () => {
     });
 
     it('should return homepage url to redirect to', () => {
-      let result: boolean | UrlTree;
+      let result: boolean | UrlTree | RedirectCommand;
       guard
         .canActivate()
         .subscribe((value) => (result = value))
@@ -56,7 +56,7 @@ describe('NotAuthGuard', () => {
     });
 
     it('should return true', () => {
-      let result: boolean | UrlTree;
+      let result: boolean | UrlTree | RedirectCommand | undefined;
       guard
         .canActivate()
         .subscribe((value) => (result = value))

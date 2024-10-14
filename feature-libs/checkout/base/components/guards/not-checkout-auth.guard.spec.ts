@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { UrlTree } from '@angular/router';
+import { RedirectCommand, UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { AuthService, SemanticPathService } from '@spartacus/core';
@@ -51,7 +51,7 @@ describe('NotCheckoutAuthGuard', () => {
     });
 
     it('should return homepage url', () => {
-      let result: boolean | UrlTree | undefined;
+      let result: boolean | UrlTree | RedirectCommand | undefined;
       guard
         .canActivate()
         .subscribe((value) => (result = value))
@@ -68,7 +68,7 @@ describe('NotCheckoutAuthGuard', () => {
     });
 
     it('should return cart page url', () => {
-      let result: boolean | UrlTree | undefined;
+      let result: boolean | UrlTree | RedirectCommand | undefined;
       guard
         .canActivate()
         .subscribe((value) => (result = value))
@@ -85,7 +85,7 @@ describe('NotCheckoutAuthGuard', () => {
     });
 
     it('should return true', () => {
-      let result: boolean | UrlTree | undefined;
+      let result: boolean | UrlTree | RedirectCommand | undefined;
       guard
         .canActivate()
         .subscribe((value) => (result = value))

@@ -34,7 +34,6 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
     type: 'problem',
     docs: {
       description: ``,
-      recommended: 'recommended',
     },
     schema: [], // no options
     messages: {
