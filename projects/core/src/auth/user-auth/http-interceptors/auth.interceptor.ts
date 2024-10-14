@@ -115,7 +115,12 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   protected isExpiredToken(resp: HttpErrorResponse): boolean {
-    if (!this.authConfigService.getOAuthLibConfig().disablePKCE) {
+    const isLogoutProcess =
+      resp.error?.errors?.[0]?.message === 'Access is denied';
+    if (
+      !this.authConfigService.getOAuthLibConfig().disablePKCE &&
+      !isLogoutProcess
+    ) {
       return resp.error?.errors?.[0]?.type === 'AccessDeniedError';
     }
     return resp.error?.errors?.[0]?.type === 'InvalidTokenError';
