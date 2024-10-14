@@ -15,7 +15,7 @@
             : {
                 discount: formatDiscount(
                   getDiscountPercentage(
-                    quoteDiscountData.basePrice?.value,
+                    quoteDiscountData.basePrice?.value ?? 0,
                     discount.appliedValue,
                     quoteDiscountData.quantity
                   )

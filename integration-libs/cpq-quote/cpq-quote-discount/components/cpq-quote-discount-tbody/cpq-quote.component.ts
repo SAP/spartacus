@@ -51,14 +51,15 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
     }
   }
   getDiscountedPrice(
-    basePrice: number | undefined,
+    basePrice: number,
     appliedDiscount: number | undefined,
     quantity: number | undefined
   ): number | undefined {
     if (
-      basePrice !== undefined &&
+      basePrice > 0 &&
       appliedDiscount !== undefined &&
-      quantity !== undefined
+      quantity !== undefined &&
+      quantity > 0
     ) {
       const totalBasePrice = basePrice * quantity;
       const discountedPrice = totalBasePrice - appliedDiscount;

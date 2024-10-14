@@ -12,7 +12,7 @@
         {{ discount.isoCode
         }}{{
           getDiscountedPrice(
-            quoteDiscountData.basePrice?.value,
+            quoteDiscountData.basePrice?.value ?? 0,
             discount.appliedValue,
             quoteDiscountData.quantity
           ) | number: '1.2-2' : 'en-US'
