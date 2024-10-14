@@ -641,7 +641,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showPromotionsInPDP: true,
   recentSearches: true,
   trendingSearches: false,
-  pdfInvoicesSortByInvoiceDate: false,
+  pdfInvoicesSortByInvoiceDate: true,
   storeFrontLibCardParagraphTruncated: true,
   useProductCarouselBatchApi: false,
   productConfiguratorAttributeTypesV2: true,
