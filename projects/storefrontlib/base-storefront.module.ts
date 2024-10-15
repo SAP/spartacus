@@ -13,7 +13,6 @@ import { OutletModule } from './cms-structure/outlet/outlet.module';
 import { PageComponentModule } from './cms-structure/page/component/page-component.module';
 import { PageLayoutModule } from './cms-structure/page/page-layout/page-layout.module';
 import { PageSlotModule } from './cms-structure/page/slot/page-slot.module';
-import { PwaModule } from './cms-structure/pwa/pwa.module';
 import { RoutingModule } from './cms-structure/routing/routing.module';
 import { SeoModule } from './cms-structure/seo/seo.module';
 import { KeyboardFocusModule } from './layout/a11y/keyboard-focus/keyboard-focus.module';
@@ -29,7 +28,6 @@ import { MediaModule } from './shared/components/media/media.module';
     GlobalMessageComponentModule,
     OutletModule,
     OutletRefModule,
-    PwaModule,
     PageLayoutModule,
     SeoModule,
     PageComponentModule.forRoot(),

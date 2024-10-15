@@ -25,7 +25,6 @@ import {
   OutletModule,
   PasswordVisibilityToggleModule,
   PromotionsModule,
-  PwaModule,
   provideOutlet,
 } from '@spartacus/storefront';
 import { OrderConfirmationGuard } from '../guards/order-confirmation.guard';
@@ -51,7 +50,6 @@ const orderConfirmationComponents = [
   imports: [
     CommonModule,
     CardModule,
-    PwaModule,
     PromotionsModule,
     I18nModule,
     ReactiveFormsModule,
