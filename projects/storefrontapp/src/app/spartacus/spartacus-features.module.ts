@@ -380,7 +380,7 @@ if (environment.cpq) {
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
         allPageMetaResolversEnabledInCsr: true,
-        useMediaComponentWithConfigurableMediaQueries: true,
+        useExtendedMediaComponent: true,
       };
       return appFeatureToggles;
     }),

@@ -52,9 +52,8 @@ export class MediaService {
     role?: string
   ): Media | undefined {
     const shouldGetMediaForPictureElement =
-      this.featureConfigService.isEnabled(
-        'useMediaComponentWithConfigurableMediaQueries'
-      ) && elementType !== 'img';
+      this.featureConfigService.isEnabled('useExtendedMediaComponent') &&
+      elementType !== 'img';
 
     return shouldGetMediaForPictureElement
       ? this.getMediaForPictureElement(mediaContainer, format, alt, role)

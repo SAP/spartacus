@@ -1,5 +1,5 @@
 <ng-container *ngIf="!!media">
-  <ng-container *cxFeature="'useMediaComponentWithConfigurableMediaQueries'">
+  <ng-container *cxFeature="'useExtendedMediaComponent'">
     <picture
       *ngIf="
         !!media?.sources?.length && elementType !== 'img';
@@ -46,7 +46,7 @@
     </ng-template>
   </ng-container>
 
-  <ng-container *cxFeature="'!useMediaComponentWithConfigurableMediaQueries'">
+  <ng-container *cxFeature="'!useExtendedMediaComponent'">
     <picture *ngIf="media.srcset && !isLegacy; else legacyImgTmp">
       <source
         *ngFor="

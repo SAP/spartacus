@@ -644,7 +644,7 @@ export interface FeatureTogglesInterface {
    * })
    * ```
    */
-  useMediaComponentWithConfigurableMediaQueries?: boolean;
+  useExtendedMediaComponent?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -743,5 +743,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableConsecutiveCharactersPasswordRequirement: false,
   enablePasswordsCannotMatchInPasswordUpdateForm: false,
   allPageMetaResolversEnabledInCsr: false,
-  useMediaComponentWithConfigurableMediaQueries: false,
+  useExtendedMediaComponent: false,
 };

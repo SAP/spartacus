@@ -73,15 +73,11 @@ export class MockMediaSourcesPipe implements PipeTransform {
 
 class MockMediaService {
   srcset: any;
-  useMediaComponentWithConfigurableMediaQueries: boolean;
+  useExtendedMediaComponent: boolean;
 
-  constructor(
-    srcset: string | null,
-    useMediaComponentWithConfigurableMediaQueries: boolean
-  ) {
+  constructor(srcset: string | null, useExtendedMediaComponent: boolean) {
     this.srcset = srcset;
-    this.useMediaComponentWithConfigurableMediaQueries =
-      useMediaComponentWithConfigurableMediaQueries;
+    this.useExtendedMediaComponent = useExtendedMediaComponent;
   }
 
   getMedia(media: any): Media {
@@ -112,8 +108,7 @@ class MockMediaService {
     mediaContainer?: any
   ) {
     const shouldGetMediaForPictureElement =
-      this.useMediaComponentWithConfigurableMediaQueries &&
-      elementType !== 'img';
+      this.useExtendedMediaComponent && elementType !== 'img';
 
     return shouldGetMediaForPictureElement
       ? this.getMediaForPictureElement(mediaContainer)
@@ -201,7 +196,7 @@ function createComponent(useImgElement = false) {
 }
 
 describe('MediaComponent', () => {
-  describe('with enabled useMediaComponentWithConfigurableMediaQueries', () => {
+  describe('with enabled useExtendedMediaComponent', () => {
     it('should have picture element if elementType is `picture`', () => {
       configureTestingModule(new MockMediaService('srcset', true), false, true);
       const { fixture } = createComponent(false);

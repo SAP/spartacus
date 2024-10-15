@@ -65,11 +65,15 @@ export class MediaComponent implements OnChanges {
 
   /**
    * The intrinsic width of the image, in pixels
+   *
+   * Works only when `useExtendedMediaComponent` toggle is true
    */
   @Input() width: number;
 
   /**
    * The intrinsic height of the image, in pixels
+   *
+   * Works only when `useExtendedMediaComponent` toggle is true
    */
   @Input() height: number;
 
@@ -82,6 +86,8 @@ export class MediaComponent implements OnChanges {
    * - The sizes attribute is defined using media queries.
    * - It allows specifying different sizes for various screen widths or other conditions (e.g., device orientation).
    * - The browser uses the value to pick the most appropriate image source from the `srcset`.
+   *
+   * Works only when `useExtendedMediaComponent` toggle is true
    */
   @Input() sizes: string;
 
@@ -123,7 +129,7 @@ export class MediaComponent implements OnChanges {
    * @deprecated since 2211.30. It will be eventually removed in the future
    *
    * To use `img` HTML element instead of `picture`
-   * use `useMediaComponentWithConfigurableMediaQueries` feature flag
+   * use `useExtendedMediaComponent` feature flag
    * and pass `[elementType]="'img'"` input to the component
    */
   protected isLegacy =
