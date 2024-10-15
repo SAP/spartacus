@@ -234,7 +234,13 @@ export class MediaService {
    * This method constructs a media query string from the provided query
    * properties in config and joining them with "and".
    */
-  protected generateMediaQuery(queries: PictureElementQueries): string {
+  protected generateMediaQuery(
+    queries: PictureElementQueries | undefined
+  ): string {
+    if (!queries) {
+      return '';
+    }
+
     return Object.entries(queries)
       .filter(([key, value]) => !!key && !!value)
       .map(([key, value]) => `(${key}: ${value})`)
