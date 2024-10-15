@@ -37,14 +37,7 @@ export interface SpartacusOpfOptions extends LibraryOptions {
 
 export const OPF_FOLDER_NAME = 'opf';
 export const OPF_MODULE_NAME = 'Opf';
-// export const OPF_BASE_MODULE_NAME = 'OpfBase';
-// export const OPF_PAYMENT_MODULE_NAME = 'OpfPayment';
-// export const OPF_CHECKOUT_MODULE_NAME = 'OpfCheckout';
-// export const OPF_CTA_MODULE_NAME = 'OpfCta';
-// export const OPF_GLOBAL_FUNCTIONS_MODULE_NAME = 'OpfGlobalFunctions';
-// export const OPF_QUICK_BUY_MODULE_NAME = 'OpfQuickBuy';
 export const OPF_SCSS_FILE_NAME = 'opf.scss';
-
 export const OPF_CONFIG = 'OpfConfig';
 
 export const OPF_CHECKOUT_FEATURE_NAME_CONSTANT = 'OPF_CHECKOUT_FEATURE';
