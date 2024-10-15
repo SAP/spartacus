@@ -73,7 +73,9 @@ export class MediaService {
   get loadingStrategy(): ImageLoadingStrategy {
     return (
       (this.config as MediaConfig)?.imageLoadingStrategy ??
-      ImageLoadingStrategy.EAGER
+      // SPIKE NEW:
+      ImageLoadingStrategy.LAZY
+      // ImageLoadingStrategy.EAGER
     );
   }
 
