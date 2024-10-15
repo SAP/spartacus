@@ -116,7 +116,12 @@ export class MediaComponent implements OnChanges {
       this.alt,
       this.role
     );
+
     if (!this.media?.src) {
+      this.handleMissing();
+    }
+
+    if (!this.media) {
       this.handleMissing();
     }
   }
