@@ -5,6 +5,7 @@
  */
 
 import {
+  CHECKOUT_BASE_FEATURE_NAME,
   OPF_BASE_FEATURE_NAME,
   OPF_CHECKOUT_FEATURE_NAME,
   OPF_CTA_FEATURE_NAME,
@@ -124,13 +125,7 @@ export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  dependencyFeatures: [OPF_BASE_FEATURE_NAME],
-  importAfter: [
-    {
-      markerModuleName: OPF_BASE_FEATURE_NAME,
-      featureModuleName: OPF_CHECKOUT_MODULE,
-    },
-  ],
+  dependencyFeatures: [CHECKOUT_BASE_FEATURE_NAME, OPF_BASE_FEATURE_NAME],
 };
 
 export const OPF_PAYMENT_SCHEMATICS_CONFIG: SchematicConfig = {
@@ -162,12 +157,6 @@ export const OPF_PAYMENT_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  importAfter: [
-    {
-      markerModuleName: OPF_BASE_FEATURE_NAME,
-      featureModuleName: OPF_PAYMENT_MODULE,
-    },
-  ],
   dependencyFeatures: [OPF_BASE_FEATURE_NAME],
 };
 
@@ -195,12 +184,6 @@ export const OPF_CTA_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  importAfter: [
-    {
-      markerModuleName: OPF_BASE_FEATURE_NAME,
-      featureModuleName: OPF_CTA_MODULE,
-    },
-  ],
   dependencyFeatures: [OPF_BASE_FEATURE_NAME],
 };
 
@@ -228,12 +211,6 @@ export const OPF_GLOBAL_FUNCTIONS_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  importAfter: [
-    {
-      markerModuleName: OPF_BASE_FEATURE_NAME,
-      featureModuleName: OPF_GLOBAL_FUNCTIONS_MODULE,
-    },
-  ],
   dependencyFeatures: [OPF_BASE_FEATURE_NAME],
 };
 
@@ -261,12 +238,6 @@ export const OPF_QUICK_BUY_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  importAfter: [
-    {
-      markerModuleName: OPF_BASE_FEATURE_NAME,
-      featureModuleName: OPF_QUICK_BUY_MODULE,
-    },
-  ],
   dependencyFeatures: [OPF_BASE_FEATURE_NAME],
 };
 
