@@ -36,6 +36,7 @@ export class HierarchyNodeCollapsibleComponent<T> {
   }
 
   editBundle(entryGroupNumber: any) {
-    console.log('editBundle: ', entryGroupNumber);
+    // TODO: Implement editBundle
+    return entryGroupNumber;
   }
 }

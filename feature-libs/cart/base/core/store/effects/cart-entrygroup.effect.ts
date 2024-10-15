@@ -10,7 +10,7 @@ import { CartModification } from '@spartacus/cart/base/root';
 import {
   LoggerService,
   SiteContextActions,
-  normalizeHttpError,
+  tryNormalizeHttpError,
   withdrawOn,
 } from '@spartacus/core';
 import { Observable, from } from 'rxjs';
@@ -37,7 +37,9 @@ export class CartEntryGroupEffects {
     this.actions$.pipe(
       ofType(CartActions.CART_REMOVE_ENTRYGROUP),
       map((action: CartActions.CartRemoveEntryGroup) => action.payload),
-      tap((payload) => {console.log('remove bundle payload is '+ JSON.stringify(payload));}),
+      tap((payload) => {
+        this.logger.log(`remove bundle payload is ${JSON.stringify(payload)}`);
+      }),
       concatMap((payload) =>
         this.cartEntryGroupConnector
           .remove(payload.userId, payload.cartId, payload.entryGroupNumber)
@@ -51,7 +53,7 @@ export class CartEntryGroupEffects {
               from([
                 new CartActions.CartRemoveEntryGroupFail({
                   ...payload,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new CartActions.LoadCart({
                   cartId: payload.cartId,
@@ -94,7 +96,7 @@ export class CartEntryGroupEffects {
               from([
                 new CartActions.CartAddToEntryGroupFail({
                   ...payload,
-                  error: normalizeHttpError(error, this.logger),
+                  error: tryNormalizeHttpError(error, this.logger),
                 }),
                 new CartActions.LoadCart({
                   cartId: payload.cartId,

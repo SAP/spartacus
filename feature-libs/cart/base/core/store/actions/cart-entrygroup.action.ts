@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StateUtils } from '@spartacus/core';
+import { StateUtils, ErrorAction } from '@spartacus/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { MULTI_CART_DATA } from '../multi-cart-state';
-import { ErrorAction } from '@spartacus/core';
 
 export const CART_REMOVE_ENTRYGROUP = '[Cart-entrygroup] Remove EntryGroup';
 export const CART_REMOVE_ENTRYGROUP_SUCCESS = '[Cart-entrygroup] Remove EntryGroup Success';

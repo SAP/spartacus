@@ -51,4 +51,4 @@ export const defaultHierarchyNodeArgs: Partial<HierarchyNode> = {
 export interface Value {
   entryGroupNumber?: number;
   entries?: any[];
-};
+}
