@@ -643,6 +643,9 @@ export interface FeatureTogglesInterface {
    *   },
    * })
    * ```
+   *
+   * After activating this toggle, new inputs in `MediaComponent` — specifically
+   * `width`, `height`, and `size` — will be passed to the template as HTML attributes.
    */
   useExtendedMediaComponent?: boolean;
 }
