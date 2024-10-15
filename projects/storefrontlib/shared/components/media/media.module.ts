@@ -5,9 +5,15 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ModuleWithProviders,
+  NgModule,
+  inject,
+} from '@angular/core';
 import { MediaSourcesPipe } from './media-sources.pipe';
 import { MediaComponent } from './media.component';
+import { MediaService } from './media.service';
 
 @NgModule({
   imports: [CommonModule],
@@ -18,6 +24,16 @@ export class MediaModule {
   static forRoot(): ModuleWithProviders<MediaModule> {
     return {
       ngModule: MediaModule,
+      providers: [
+        {
+          provide: APP_INITIALIZER,
+          useFactory: () => {
+            const mediaService = inject(MediaService);
+            return () => mediaService.init();
+          },
+          multi: true,
+        },
+      ],
     };
   }
 }

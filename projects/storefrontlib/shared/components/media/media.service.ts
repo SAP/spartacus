@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Injectable, RendererFactory2, inject } from '@angular/core';
 import { Config, Image } from '@spartacus/core';
 import { MediaConfig } from './media.config';
 import {
@@ -37,7 +38,21 @@ export class MediaService {
   private _sortedFormats: { code: string; size: MediaFormatSize }[];
   private _reversedFormats: { code: string; size: MediaFormatSize }[];
 
+  rendererFactory = inject(RendererFactory2);
+  document = inject(DOCUMENT);
   constructor(protected config: Config) {}
+
+  init() {
+    // add preconnect for the base url:
+
+    // SPIKE IT SHOULD BE DONE IN APPINITALZIER. setTimeout is a hack here
+    const renderer = this.rendererFactory.createRenderer(null, null);
+    const preconnect = renderer.createElement('link');
+    renderer.setAttribute(preconnect, 'rel', 'preconnect');
+    renderer.setAttribute(preconnect, 'href', this.getBaseUrl());
+    renderer.appendChild(this.document.head, preconnect);
+    console.log('[MEDIA SERVICE] SPIKE NEW: added preconnect', preconnect);
+  }
 
   /**
    * Returns a `Media` object with the main media (`src`) and various media (`src`)
