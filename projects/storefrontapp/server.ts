@@ -59,7 +59,11 @@ export function app(): express.Express {
     '*.*',
     express.static(distFolder, {
       maxAge: '1y',
-    })
+    }),
+    (_req, res) => {
+      // If this middleware is reached, it means the file was not found
+      res.status(404).send('File not found');
+    }
   );
 
   // All regular routes use the Universal engine
@@ -88,7 +92,7 @@ function run() {
     any special logger available in this context. */
     console.log(`Node Express server listening on http://localhost:${port}`);
 
-    exec('say "storefrontapp rebuilt"');
+    exec('say "storefrontapp SSR started"');
   });
 }
 
