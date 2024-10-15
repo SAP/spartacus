@@ -43,7 +43,7 @@ export abstract class MediaConfig {
    */
   pictureElementFormats?: {
     [format: string]: {
-      mediaQueries: PictureElementQueries;
+      mediaQueries?: PictureElementQueries;
       width?: number;
       height?: number;
     };

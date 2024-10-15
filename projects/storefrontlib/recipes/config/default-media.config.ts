@@ -33,25 +33,6 @@ export const mediaConfig: MediaConfig = {
     widescreen: {
       mediaQueries: { 'min-width': '1440px' },
     },
-    retina_mobile: {
-      mediaQueries: {
-        'max-width': '786px',
-        '-webkit-min-device-pixel-ratio': 3,
-      },
-    },
-    retina_desktop: {
-      mediaQueries: {
-        'min-width': '1440px',
-        '-webkit-min-device-pixel-ratio': 2,
-      },
-    },
   },
-  pictureFormatsOrder: [
-    'retina_desktop',
-    'retina_mobile',
-    'widescreen',
-    'desktop',
-    'tablet',
-    'mobile',
-  ],
+  pictureFormatsOrder: ['widescreen', 'desktop', 'tablet', 'mobile'],
 };
