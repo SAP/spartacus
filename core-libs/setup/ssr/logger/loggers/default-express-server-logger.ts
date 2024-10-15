@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isDevMode } from '@angular/core';
 import { Request } from 'express';
 import { formatWithOptions } from 'node:util';
 import { getRequestContext } from '../../optimized-engine/request-context';
@@ -66,7 +65,9 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
   ): string {
     const logObject = { message, context: this.mapContext(context) };
 
-    if (isDevMode()) {
+    const isDevMode = true; // SPIKE TODO REMOVE
+
+    if (isDevMode) {
       // In dev mode, we want a *human-readable* string representation of the log object
       // that can be printed in the console.
       return formatWithOptions(getLoggerInspectOptions(), logObject);
