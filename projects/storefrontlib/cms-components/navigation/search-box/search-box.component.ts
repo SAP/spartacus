@@ -87,12 +87,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Listener for clicout out of searchInput and searchPanel
+   * Listener for clickout out of searchInput and searchPanel
    * */
   @HostListener('document:click', ['$event'])
   clickout(event: UIEvent) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
-      this.close(event);
+      this.softClose();
     }
   }
 
@@ -295,7 +295,13 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     });
   }
 
+  softClose(): void {
+    this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
+    this.searchBoxActive = false;
+  }
+
   protected blurSearchBox(event: UIEvent): void {
+    this.softClose();
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
     this.searchBoxActive = false;
     // TODO: (CXSPA-6929) - Remove feature flag next major release
