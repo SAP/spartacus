@@ -10,6 +10,7 @@ const mockOutput = ['test.required.consent'];
 describe('ConsentManagementComponentService', () => {
   let service: ConsentManagementComponentService;
   beforeEach(() => {
+    console.log('Starting ConsentManagementComponentService test');
     TestBed.configureTestingModule({
       imports: [],
       declarations: [],

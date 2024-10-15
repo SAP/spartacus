@@ -7,6 +7,7 @@ describe('Carousel Service', () => {
   let element: HTMLElement;
 
   beforeEach(() => {
+    console.log('Starting Carousel Service test');
     TestBed.configureTestingModule({
       providers: [CarouselService, WindowRef],
     });

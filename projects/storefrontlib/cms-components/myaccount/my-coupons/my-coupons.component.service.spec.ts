@@ -26,6 +26,7 @@ describe('MyCouponsComponentService', () => {
   ]);
 
   beforeEach(() => {
+    console.log('Starting MyCouponsComponentService test');
     TestBed.configureTestingModule({
       providers: [
         MyCouponsComponentService,

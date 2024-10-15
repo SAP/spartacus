@@ -33,6 +33,7 @@ describe('SkipLinkDirective', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting SkipLinkDirective test');
     fixture = TestBed.createComponent(TestContainerComponent);
     service = TestBed.inject(SkipLinkService);
   });

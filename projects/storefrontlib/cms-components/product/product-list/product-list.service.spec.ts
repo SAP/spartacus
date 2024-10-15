@@ -13,6 +13,7 @@ describe('ProductListService', () => {
   let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
+    console.log('Starting ProductListService test');
     TestBed.configureTestingModule({
       providers: [
         ProductListService,

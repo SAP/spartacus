@@ -34,6 +34,7 @@ describe('ThemeService', () => {
   let mockFeatureConfigService: MockFeatureConfigService;
 
   beforeEach(() => {
+    console.log('Starting ThemeService test');
     mockSiteThemeService = new MockSiteThemeService();
     mockFeatureConfigService = new MockFeatureConfigService();
     TestBed.configureTestingModule({

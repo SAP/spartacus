@@ -9,6 +9,7 @@ describe('PageMetaLinkService', () => {
   const pageUrl = 'https://www.myurl.com/en/USD';
 
   beforeEach(() => {
+    console.log('Starting PageMetaLinkService test');
     TestBed.configureTestingModule({
       providers: [WindowRef],
     });

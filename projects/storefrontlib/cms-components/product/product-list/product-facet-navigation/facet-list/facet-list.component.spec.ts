@@ -99,6 +99,7 @@ describe('FacetListComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting FacetListComponent test');
     fixture = TestBed.createComponent(FacetListComponent);
     element = fixture.debugElement;
     component = fixture.componentInstance;
@@ -176,6 +177,7 @@ describe('FacetListComponent', () => {
 
   describe('collapsed', () => {
     beforeEach(() => {
+    console.log('Starting FacetListComponent test');
       spyOn(service, 'getState').and.returnValue(
         of({
           toggled: FacetGroupCollapsedState.COLLAPSED,
@@ -218,6 +220,7 @@ describe('FacetListComponent', () => {
 
   describe('expanded', () => {
     beforeEach(() => {
+    console.log('Starting FacetListComponent test');
       spyOn(service, 'getState').and.returnValue(
         of({
           toggled: FacetGroupCollapsedState.EXPANDED,
@@ -260,6 +263,7 @@ describe('FacetListComponent', () => {
 
   describe('handleDialogFocus', () => {
     beforeEach(() => {
+    console.log('Starting FacetListComponent test');
       spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
     });
 

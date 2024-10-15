@@ -27,6 +27,7 @@ describe('TabPanelComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting TabPanelComponent test');
     fixture = TestBed.createComponent(TabPanelComponent);
     component = fixture.componentInstance;
     component.tab = mockTab;

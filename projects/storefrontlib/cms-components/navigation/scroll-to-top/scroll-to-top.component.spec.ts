@@ -36,6 +36,7 @@ describe('ScrollToTopComponent', () => {
   let scrollBtn: HTMLElement;
 
   beforeEach(() => {
+    console.log('Starting ScrollToTopComponent test');
     TestBed.configureTestingModule({
       imports: [IconTestingModule, I18nTestingModule],
       declarations: [ScrollToTopComponent],
@@ -82,6 +83,7 @@ describe('ScrollToTopComponent', () => {
 
   describe('on focused out', () => {
     beforeEach(() => {
+    console.log('Starting ScrollToTopComponent test');
       component.display = true;
       component['displayThreshold'] = 0;
 

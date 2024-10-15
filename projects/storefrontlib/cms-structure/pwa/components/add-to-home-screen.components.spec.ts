@@ -40,6 +40,7 @@ describe('AddToHomeScreenComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting AddToHomeScreenComponent test');
     fixture = TestBed.createComponent(ExampleAddToHomeScreenComponent);
     component = fixture.componentInstance;
   });

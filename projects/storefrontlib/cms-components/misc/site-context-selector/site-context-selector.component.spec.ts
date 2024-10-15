@@ -123,6 +123,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting SiteContextSelectorComponent in CmsLib test');
     fixture = TestBed.createComponent(SiteContextSelectorComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;

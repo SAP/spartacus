@@ -6,6 +6,7 @@ describe('ProductListItemContextSource', () => {
   let contextSource: ProductListItemContextSource;
 
   beforeEach(() => {
+    console.log('Starting ProductListItemContextSource test');
     TestBed.configureTestingModule({
       providers: [ProductListItemContextSource],
     });

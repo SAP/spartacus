@@ -62,6 +62,7 @@ describe('IconLoaderService', () => {
   let winRef: WindowRef;
 
   beforeEach(() => {
+    console.log('Starting IconLoaderService test');
     TestBed.configureTestingModule({
       providers: [{ provide: IconConfig, useValue: MockFontIconConfig }],
     });

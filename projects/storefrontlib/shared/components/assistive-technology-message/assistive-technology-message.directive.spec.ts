@@ -45,6 +45,7 @@ describe('AtMessageDirective', () => {
   let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
+    console.log('Starting AtMessageDirective test');
     TestBed.configureTestingModule({
       imports: [AtMessageModule, I18nTestingModule],
       declarations: [MockComponent],

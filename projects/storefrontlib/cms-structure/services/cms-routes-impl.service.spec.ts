@@ -38,6 +38,7 @@ describe('CmsRoutesImplService', () => {
   };
 
   beforeEach(() => {
+    console.log('Starting CmsRoutesImplService test');
     mockRouter = {
       config: mockRouterConfig,
       navigateByUrl: createSpy('router.navigateByUrl'),

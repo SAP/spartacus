@@ -60,6 +60,7 @@ describe('OutletRenderStrategy', () => {
   let outletRendererService: OutletRendererService;
 
   beforeEach(() => {
+    console.log('Starting OutletRenderStrategy test');
     TestBed.configureTestingModule({
       providers: [
         OutletRenderStrategy,

@@ -12,6 +12,7 @@ describe('FileReaderService', () => {
   let service: FileReaderService;
 
   beforeEach(() => {
+    console.log('Starting FileReaderService test');
     TestBed.configureTestingModule({});
     service = TestBed.inject(FileReaderService);
   });

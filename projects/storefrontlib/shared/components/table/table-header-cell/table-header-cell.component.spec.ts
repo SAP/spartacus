@@ -22,6 +22,7 @@ describe('TableHeaderCellComponent', () => {
 
   describe('static field', () => {
     beforeEach(() => {
+    console.log('Starting TableHeaderCellComponent test');
       TestBed.configureTestingModule({
         declarations: [TableHeaderCellComponent],
         imports: [I18nTestingModule],
@@ -41,6 +42,7 @@ describe('TableHeaderCellComponent', () => {
     });
 
     beforeEach(() => {
+    console.log('Starting TableHeaderCellComponent test');
       fixture = TestBed.createComponent(TableHeaderCellComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -57,6 +59,7 @@ describe('TableHeaderCellComponent', () => {
 
   describe('i18n default', () => {
     beforeEach(() => {
+    console.log('Starting TableHeaderCellComponent test');
       TestBed.configureTestingModule({
         declarations: [TableHeaderCellComponent],
         imports: [I18nTestingModule],
@@ -77,6 +80,7 @@ describe('TableHeaderCellComponent', () => {
     });
 
     beforeEach(() => {
+    console.log('Starting TableHeaderCellComponent test');
       fixture = TestBed.createComponent(TableHeaderCellComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -89,6 +93,7 @@ describe('TableHeaderCellComponent', () => {
 
   describe('i18n field', () => {
     beforeEach(() => {
+    console.log('Starting TableHeaderCellComponent test');
       TestBed.configureTestingModule({
         declarations: [TableHeaderCellComponent],
         imports: [I18nTestingModule],
@@ -108,6 +113,7 @@ describe('TableHeaderCellComponent', () => {
     });
 
     beforeEach(() => {
+    console.log('Starting TableHeaderCellComponent test');
       fixture = TestBed.createComponent(TableHeaderCellComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();

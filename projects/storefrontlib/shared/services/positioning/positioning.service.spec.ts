@@ -70,6 +70,7 @@ describe('PositioningService', () => {
   });
 
   beforeEach(() => {
+    console.log('Starting PositioningService test');
     TestBed.configureTestingModule({
       declarations: [TestComponent],
       providers: [{ provide: WindowRef, useClass: MockWindowRef }],

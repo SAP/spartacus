@@ -57,6 +57,7 @@ describe('CmsNavigationComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting CmsNavigationComponent test');
     fixture = TestBed.createComponent(NavigationComponent);
     navigationComponent = fixture.componentInstance;
     element = fixture.debugElement;

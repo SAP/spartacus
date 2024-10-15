@@ -35,6 +35,7 @@ describe('RoutingContextService', () => {
   let mockActivatedRoutes$: BehaviorSubject<ActivatedRouteSnapshot[]>;
 
   beforeEach(() => {
+    console.log('Starting RoutingContextService test');
     mockActivatedRoutes$ = new BehaviorSubject([mockActivatedRoute1]);
     TestBed.configureTestingModule({
       providers: [

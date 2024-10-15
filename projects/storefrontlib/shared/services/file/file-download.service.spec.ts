@@ -9,6 +9,7 @@ describe('FileDownloadService', () => {
   let service: FileDownloadService;
 
   beforeEach(() => {
+    console.log('Starting FileDownloadService test');
     TestBed.configureTestingModule({});
     service = TestBed.inject(FileDownloadService);
   });

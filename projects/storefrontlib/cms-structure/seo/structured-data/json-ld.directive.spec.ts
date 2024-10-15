@@ -21,6 +21,7 @@ describe('JsonLdDirective', () => {
   });
 
   beforeEach(() => {
+    console.log('Starting JsonLdDirective test');
     TestBed.configureTestingModule({
       declarations: [TestComponent, JsonLdDirective],
       imports: [],

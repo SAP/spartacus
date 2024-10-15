@@ -69,6 +69,7 @@ describe('EscapeFocusService', () => {
     };
 
     beforeEach(() => {
+    console.log('Starting EscapeFocusService test');
       spyOn(ev, 'preventDefault');
       spyOn(ev, 'stopPropagation');
 
@@ -91,6 +92,7 @@ describe('EscapeFocusService', () => {
 
       describe('host is already focused', () => {
         beforeEach(() => {
+    console.log('Starting EscapeFocusService test');
           ev.target = el;
 
           spyOn(focusUtility, 'findFirstFocusable');

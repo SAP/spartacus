@@ -44,6 +44,7 @@ describe('PasswordVisibilityToggleComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting PasswordVisibilityToggleComponent test');
     fixture = TestBed.createComponent(PasswordVisibilityToggleComponent);
     component = fixture.componentInstance;
     input = document.createElement('input');

@@ -91,6 +91,7 @@ describe('MediaService', () => {
     let mediaService: MediaService;
 
     beforeEach(() => {
+    console.log('Starting MediaService test');
       TestBed.configureTestingModule({
         providers: [
           MediaService,
@@ -330,6 +331,7 @@ describe('MediaService', () => {
     let mediaService: MediaService;
 
     beforeEach(() => {
+    console.log('Starting MediaService test');
       TestBed.configureTestingModule({
         providers: [
           MediaService,
@@ -358,6 +360,7 @@ describe('MediaService', () => {
     let mediaService: MediaService;
 
     beforeEach(() => {
+    console.log('Starting MediaService test');
       TestBed.configureTestingModule({
         providers: [
           MediaService,

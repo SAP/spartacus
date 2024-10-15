@@ -22,6 +22,7 @@ describe('ComponentDataProvider', () => {
   let cmsService: CmsService;
 
   beforeEach(() => {
+    console.log('Starting ComponentDataProvider test');
     TestBed.configureTestingModule({
       providers: [
         {

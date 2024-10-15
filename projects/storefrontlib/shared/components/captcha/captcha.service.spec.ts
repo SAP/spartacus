@@ -48,6 +48,7 @@ describe('CaptchaService Service', () => {
   let service: MyCaptchaService;
 
   beforeEach(() => {
+    console.log('Starting CaptchaService Service test');
     TestBed.configureTestingModule({
       providers: [
         MyCaptchaService,

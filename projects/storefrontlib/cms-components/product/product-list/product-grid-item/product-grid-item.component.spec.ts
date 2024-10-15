@@ -125,6 +125,7 @@ describe('ProductGridItemComponent in product-list', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ProductGridItemComponent in product-list test');
     fixture = TestBed.createComponent(ProductGridItemComponent);
     component = fixture.componentInstance;
     componentInjector = fixture.debugElement.injector;

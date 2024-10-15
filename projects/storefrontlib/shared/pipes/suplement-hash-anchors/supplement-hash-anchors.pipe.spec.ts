@@ -52,6 +52,7 @@ describe('AnchorPipe', () => {
   let renderer: Renderer2;
 
   beforeEach(() => {
+    console.log('Starting AnchorPipe test');
     TestBed.configureTestingModule({
       providers: [
         { provide: WindowRef, useValue: mockWindowRef },

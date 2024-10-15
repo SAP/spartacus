@@ -27,6 +27,7 @@ describe('DirectionService', () => {
   let configInitializerService: ConfigInitializerService;
 
   beforeEach(() => {
+    console.log('Starting DirectionService test');
     TestBed.configureTestingModule({
       providers: [
         { provide: WindowRef, useClass: MockWindowRef },
@@ -76,6 +77,7 @@ describe('DirectionService', () => {
   describe('getDirection', () => {
     describe('without default', () => {
       beforeEach(() => {
+    console.log('Starting DirectionService test');
         spyOn(configInitializerService, 'getStable').and.returnValue(
           of({
             direction: {
@@ -103,6 +105,7 @@ describe('DirectionService', () => {
 
     describe('with default', () => {
       beforeEach(() => {
+    console.log('Starting DirectionService test');
         spyOn(configInitializerService, 'getStable').and.returnValue(
           of({
             direction: {
@@ -122,6 +125,7 @@ describe('DirectionService', () => {
   describe('initialize', () => {
     describe('when `detect` config is falsy', () => {
       beforeEach(() => {
+    console.log('Starting DirectionService test');
         spyOn(languageService, 'getActive').and.callThrough();
         spyOn(service, 'setDirection');
         spyOn(configInitializerService, 'getStable').and.returnValue(
@@ -144,6 +148,7 @@ describe('DirectionService', () => {
 
     describe('when `detect` config is true', () => {
       beforeEach(() => {
+    console.log('Starting DirectionService test');
         spyOn(configInitializerService, 'getStable').and.returnValue(
           of({
             direction: { detect: true, default: DirectionMode.LTR },

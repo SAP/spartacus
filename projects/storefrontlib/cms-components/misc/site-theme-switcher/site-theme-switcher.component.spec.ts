@@ -35,6 +35,7 @@ describe('ThemeSwitcherComponent', () => {
   });
 
   beforeEach(() => {
+    console.log('Starting ThemeSwitcherComponent test');
     fixture = TestBed.createComponent(SiteThemeSwitcherComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

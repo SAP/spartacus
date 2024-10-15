@@ -86,6 +86,7 @@ describe('LaunchDialogService', () => {
   let componentRef: ComponentRef<TestContainerComponent>;
 
   beforeEach(() => {
+    console.log('Starting LaunchDialogService test');
     TestBed.configureTestingModule({
       providers: [
         LaunchDialogService,
@@ -176,6 +177,7 @@ describe('LaunchDialogService', () => {
 
   describe('openDialog', () => {
     beforeEach(() => {
+    console.log('Starting LaunchDialogService test');
       spyOn(service, 'launch').and.returnValue(of(componentRef));
     });
 

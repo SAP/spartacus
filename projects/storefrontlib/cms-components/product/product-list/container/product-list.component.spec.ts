@@ -147,6 +147,7 @@ describe('ProductListComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ProductListComponent test');
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
     componentService = TestBed.inject(ProductListComponentService);
@@ -154,6 +155,7 @@ describe('ProductListComponent', () => {
 
   describe('ngOnInit', () => {
     beforeEach(() => {
+    console.log('Starting ProductListComponent test');
       component.ngOnInit();
     });
 

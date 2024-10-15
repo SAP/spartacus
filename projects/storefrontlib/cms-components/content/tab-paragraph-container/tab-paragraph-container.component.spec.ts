@@ -97,6 +97,7 @@ describe('TabParagraphContainerComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting TabParagraphContainerComponent test');
     fixture = TestBed.createComponent(TabParagraphContainerComponent);
     component = fixture.componentInstance;
     cmsService = TestBed.inject(CmsService);

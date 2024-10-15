@@ -47,6 +47,7 @@ describe('LogoutGuard', () => {
   let router: Router;
 
   beforeEach(() => {
+    console.log('Starting LogoutGuard test');
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule.withRoutes([
@@ -96,6 +97,7 @@ describe('LogoutGuard', () => {
 
   describe('When user is authorized,', () => {
     beforeEach(() => {
+    console.log('Starting LogoutGuard test');
       spyOn(authService, 'coreLogout').and.callThrough();
     });
 

@@ -62,6 +62,7 @@ describe('CmsPageGuardService', () => {
   let service: CmsPageGuardService;
 
   beforeEach(() => {
+    console.log('Starting CmsPageGuardService test');
     TestBed.configureTestingModule({
       providers: [
         { provide: SemanticPathService, useClass: MockSemanticPathService },
@@ -97,6 +98,7 @@ describe('CmsPageGuardService', () => {
     let state: RouterStateSnapshot;
 
     beforeEach(() => {
+    console.log('Starting CmsPageGuardService test');
       pageContext = { type: PageType.CONTENT_PAGE, id: 'pageId' };
       pageData = {};
       route = {} as any;
@@ -114,6 +116,7 @@ describe('CmsPageGuardService', () => {
 
     describe('when CmsGuardsService emits false', () => {
       beforeEach(() => {
+    console.log('Starting CmsPageGuardService test');
         spyOn(cmsGuards, 'cmsPageCanActivate').and.returnValue(of(false));
       });
 
@@ -149,6 +152,7 @@ describe('CmsPageGuardService', () => {
       let urlTree;
 
       beforeEach(() => {
+    console.log('Starting CmsPageGuardService test');
         urlTree = new UrlTree();
         spyOn(cmsGuards, 'cmsPageCanActivate').and.returnValue(of(urlTree));
       });
@@ -185,6 +189,7 @@ describe('CmsPageGuardService', () => {
       let componentTypes;
 
       beforeEach(() => {
+    console.log('Starting CmsPageGuardService test');
         componentTypes = ['componentType1, componentType2'];
 
         spyOn(cmsGuards, 'cmsPageCanActivate').and.returnValue(of(true));
@@ -202,6 +207,7 @@ describe('CmsPageGuardService', () => {
 
       describe('when route contains `data.cxCmsRouteContext`', () => {
         beforeEach(() => {
+    console.log('Starting CmsPageGuardService test');
           route = { data: { cxCmsRouteContext: {} } } as any;
         });
 
@@ -217,6 +223,7 @@ describe('CmsPageGuardService', () => {
 
       describe('when route does NOT contain `data.cxCmsRouteContext`', () => {
         beforeEach(() => {
+    console.log('Starting CmsPageGuardService test');
           route = {} as any;
           state = { url: 'url' } as any;
         });
@@ -278,6 +285,7 @@ describe('CmsPageGuardService', () => {
     let notFoundPageData: Page;
 
     beforeEach(() => {
+    console.log('Starting CmsPageGuardService test');
       pageContext = { type: PageType.PRODUCT_PAGE, id: '1234' };
       route = {} as any;
       state = {} as any;

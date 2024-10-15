@@ -5,6 +5,7 @@ describe('GenericLinkService', () => {
   let service: GenericLinkComponentService;
 
   beforeEach(() => {
+    console.log('Starting GenericLinkService test');
     TestBed.configureTestingModule({
       providers: [GenericLinkComponentService],
     });

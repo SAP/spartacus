@@ -53,6 +53,7 @@ describe('MyAccountV2NavigationComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting MyAccountV2NavigationComponent test');
     fixture = TestBed.createComponent(MyAccountV2NavigationComponent);
     component = fixture.componentInstance;
     component.styleClass$ = of(mockCmsComponentData.styleClass);

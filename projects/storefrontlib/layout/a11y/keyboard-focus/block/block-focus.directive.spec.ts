@@ -40,6 +40,7 @@ describe('BlockFocusDirective', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting BlockFocusDirective test');
     fixture.detectChanges();
   });
 

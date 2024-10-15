@@ -37,6 +37,7 @@ describe('ProductSummaryComponent in product', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ProductSummaryComponent in product test');
     fixture = TestBed.createComponent(ProductSummaryComponent);
     productSummaryComponent = fixture.componentInstance;
     currentProductService = TestBed.inject(CurrentProductService);

@@ -49,6 +49,7 @@ describe('DeferLoaderService', () => {
   describe('SSR', () => {
     describe('without global loading strategy', () => {
       beforeEach(() => {
+    console.log('Starting DeferLoaderService test');
         TestBed.configureTestingModule(getModule('browser', {}));
         service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
@@ -68,6 +69,7 @@ describe('DeferLoaderService', () => {
 
     describe('global INSTANT strategy', () => {
       beforeEach(() => {
+    console.log('Starting DeferLoaderService test');
         TestBed.configureTestingModule(
           getModule('server', MockInstantLayoutConfig)
         );
@@ -89,6 +91,7 @@ describe('DeferLoaderService', () => {
 
     describe('global DEFER strategy', () => {
       beforeEach(() => {
+    console.log('Starting DeferLoaderService test');
         TestBed.configureTestingModule(
           getModule('server', MockDeferLayoutConfig)
         );
@@ -124,6 +127,7 @@ describe('DeferLoaderService', () => {
   describe('browser', () => {
     describe('without global loading strategy', () => {
       beforeEach(() => {
+    console.log('Starting DeferLoaderService test');
         TestBed.configureTestingModule(getModule('browser', {}));
         service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
@@ -152,6 +156,7 @@ describe('DeferLoaderService', () => {
 
     describe('global INSTANT strategy', () => {
       beforeEach(() => {
+    console.log('Starting DeferLoaderService test');
         TestBed.configureTestingModule(
           getModule('browser', MockInstantLayoutConfig)
         );
@@ -182,6 +187,7 @@ describe('DeferLoaderService', () => {
 
     describe('global DEFER strategy', () => {
       beforeEach(() => {
+    console.log('Starting DeferLoaderService test');
         TestBed.configureTestingModule(
           getModule('browser', MockDeferLayoutConfig)
         );

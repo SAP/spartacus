@@ -14,6 +14,7 @@ describe('MediaSourcesPipe', () => {
   let pipe: MediaSourcesPipe;
 
   beforeEach(() => {
+    console.log('Starting MediaSourcesPipe test');
     TestBed.configureTestingModule({
       providers: [MediaSourcesPipe],
     });

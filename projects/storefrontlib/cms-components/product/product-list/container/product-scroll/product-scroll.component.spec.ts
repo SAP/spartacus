@@ -188,6 +188,7 @@ describe('ProductScrollComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ProductScrollComponent test');
     fixture = TestBed.createComponent(ProductScrollComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
@@ -238,6 +239,7 @@ describe('ProductScrollComponent', () => {
 
     describe('with limit', () => {
       beforeEach(() => {
+    console.log('Starting ProductScrollComponent test');
         const scrollConfig: ViewConfig = {
           view: {
             infiniteScroll: {
@@ -289,6 +291,7 @@ describe('ProductScrollComponent', () => {
 
     describe('with button', () => {
       beforeEach(() => {
+    console.log('Starting ProductScrollComponent test');
         const scrollConfig: ViewConfig = {
           view: {
             infiniteScroll: {

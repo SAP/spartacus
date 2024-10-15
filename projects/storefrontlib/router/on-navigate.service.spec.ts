@@ -79,6 +79,7 @@ describe('OnNavigateService', () => {
   let viewportScroller: ViewportScroller;
 
   beforeEach(() => {
+    console.log('Starting OnNavigateService test');
     TestBed.configureTestingModule({
       imports: [],
       providers: [
@@ -230,6 +231,7 @@ describe('OnNavigateService', () => {
 
   describe('selectedHostElement', () => {
     beforeEach(() => {
+    console.log('Starting OnNavigateService test');
       config.enableResetViewOnNavigate.selectedHostElement = 'cx-storefront';
     });
 

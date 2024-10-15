@@ -32,6 +32,7 @@ describe('TrapFocusService', () => {
   let fixture: ComponentFixture<MockComponent>;
 
   beforeEach(() => {
+    console.log('Starting TrapFocusService test');
     TestBed.configureTestingModule({
       declarations: [MockComponent],
       providers: [
@@ -76,6 +77,7 @@ describe('TrapFocusService', () => {
     let children;
 
     beforeEach(() => {
+    console.log('Starting TrapFocusService test');
       host = fixture.debugElement.query(By.css('#b')).nativeElement;
       children = fixture.debugElement.queryAll(By.css('#b > *'));
       spyOn(service, 'findFocusable').and.returnValue(
@@ -112,6 +114,7 @@ describe('TrapFocusService', () => {
         let next;
 
         beforeEach(() => {
+    console.log('Starting TrapFocusService test');
           last = fixture.debugElement.query(By.css('#b5')).nativeElement;
           next = fixture.debugElement.query(By.css('#b1')).nativeElement;
           spyOn(next, 'focus').and.callThrough();
@@ -216,6 +219,7 @@ describe('TrapFocusService', () => {
         let next;
 
         beforeEach(() => {
+    console.log('Starting TrapFocusService test');
           current = fixture.debugElement.query(By.css('#b1')).nativeElement;
           next = fixture.debugElement.query(By.css('#b5')).nativeElement;
           spyOn(next, 'focus').and.callThrough();
