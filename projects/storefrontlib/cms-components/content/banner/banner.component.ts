@@ -74,6 +74,15 @@ export class BannerComponent {
     }
   }
 
+  spike_isLCP(data: CmsBannerComponent): boolean {
+    const text = data.name ?? '';
+    const SPIKE_LCP_Banner_name =
+      'Electronics Homepage Splash Banner Component'; // SPIKE HARDCODED VALUE
+    const isLCP = text.includes(SPIKE_LCP_Banner_name);
+    console.log('<cx-banner> SPIKE NEW: isLCP', isLCP, text); // SPIKE NEW
+    return isLCP;
+  }
+
   getImage(data: CmsBannerComponent): Image | ImageGroup | undefined {
     if (data.media) {
       if ('url' in data.media) {

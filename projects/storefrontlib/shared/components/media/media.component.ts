@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,6 +14,7 @@ import {
   Input,
   OnChanges,
   Output,
+  Renderer2,
   TrackByFunction,
 } from '@angular/core';
 import { Config, Image, ImageGroup } from '@spartacus/core';
@@ -72,6 +74,8 @@ export class MediaComponent implements OnChanges {
    */
   media: Media | undefined;
 
+  @Input() isLCP = false;
+
   /**
    * The `cx-media` component has an `is-initialized` class as long as the
    * media is being initialized.
@@ -100,6 +104,8 @@ export class MediaComponent implements OnChanges {
     (inject(Config) as any)['useLegacyMediaComponent'] ||
     false;
 
+  protected renderer = inject(Renderer2);
+  protected document = inject(DOCUMENT);
   constructor(protected mediaService: MediaService) {}
 
   ngOnChanges(): void {
@@ -119,6 +125,22 @@ export class MediaComponent implements OnChanges {
     if (!this.media?.src) {
       this.handleMissing();
     }
+
+    // SPIKE NEW
+    if (this.isLCP) {
+      console.log('<cx-media> SPIKE NEW: isLCP', this.isLCP, this);
+      // create a preload link for the image
+      const src = this.media?.src;
+
+      if (src) {
+        const preloadLink = this.renderer.createElement('link');
+        this.renderer.setAttribute(preloadLink, 'rel', 'preload');
+        this.renderer.setAttribute(preloadLink, 'href', src);
+        this.renderer.setAttribute(preloadLink, 'as', 'image');
+        this.renderer.appendChild(this.document.head, preloadLink);
+        console.log('<cx-media> SPIKE NEW: added preloadLink', preloadLink);
+      }
+    }
   }
 
   /**
@@ -135,6 +157,10 @@ export class MediaComponent implements OnChanges {
    * Indicates whether the browser should lazy load the image.
    */
   get loadingStrategy(): ImageLoadingStrategy | null {
+    if (this.isLCP) {
+      return ImageLoadingStrategy.EAGER;
+    }
+
     return this.mediaService.loadingStrategy === ImageLoadingStrategy.LAZY
       ? ImageLoadingStrategy.LAZY
       : null;
