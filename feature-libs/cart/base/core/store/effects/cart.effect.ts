@@ -33,13 +33,6 @@ import { CartActions } from '../actions/index';
 import { StateWithMultiCart } from '../multi-cart-state';
 import { getCartHasPendingProcessesSelectorFactory } from '../selectors/multi-cart.selector';
 
-type CartSuccessActions =
-  | CartActions.CartAddEntrySuccess
-  | CartActions.CartUpdateEntrySuccess
-  | CartActions.CartRemoveEntrySuccess
-  | CartActions.CartRemoveEntryGroupSuccess
-  | CartActions.CartRemoveVoucherSuccess;
-
 @Injectable()
 export class CartEffects {
   private contextChange$ = this.actions$.pipe(
@@ -250,7 +243,16 @@ export class CartEffects {
           CartActions.CART_UPDATE_ENTRY_SUCCESS,
           CartActions.CART_REMOVE_VOUCHER_SUCCESS
         ),
-        map((action: CartSuccessActions) => action.payload),
+        map(
+          (
+            action:
+              | CartActions.CartAddEntrySuccess
+              | CartActions.CartUpdateEntrySuccess
+              | CartActions.CartRemoveEntrySuccess
+              | CartActions.CartRemoveEntryGroupSuccess
+              | CartActions.CartRemoveVoucherSuccess
+          ) => action.payload
+        ),
         map(
           (payload) =>
             new CartActions.LoadCart({

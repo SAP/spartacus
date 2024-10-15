@@ -40,23 +40,20 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
         map(([slots, cart, selectiveCart, loadingCart]) => {
           const exclude = (arr: string[], args: string[]) =>
             arr.filter((item) => args.every((arg) => arg !== item));
-          let excludedSlots: string[] = [];
-
-          if (isEmpty(cart) && loadingCart) {
-            excludedSlots = exclude(slots, [
-              'TopContent',
-              'CenterRightContentSlot',
-              'EmptyCartMiddleContent',
-            ]);
-          } else if (cart.totalItems || cart.entryGroups?.length) {
-            excludedSlots = exclude(slots, ['EmptyCartMiddleContent']);
-          } else if (selectiveCart?.totalItems || selectiveCart?.entryGroups?.length) {
-            excludedSlots = exclude(slots, ['EmptyCartMiddleContent', 'CenterRightContentSlot']);
-          } else {
-            excludedSlots = exclude(slots, ['TopContent', 'CenterRightContentSlot']);
-          }
-
-          return excludedSlots;
+           return isEmpty(cart) && loadingCart
+            ? exclude(slots, [
+                'TopContent',
+                'CenterRightContentSlot',
+                'EmptyCartMiddleContent',
+              ])
+            : (cart.totalItems || cart.entryGroups?.length)
+            ? exclude(slots, ['EmptyCartMiddleContent'])
+            : (selectiveCart?.totalItems || selectiveCart?.entryGroups?.length)
+            ? exclude(slots, [
+                'EmptyCartMiddleContent',
+                'CenterRightContentSlot',
+              ])
+            : exclude(slots, ['TopContent', 'CenterRightContentSlot']);
         })
       );
     }
