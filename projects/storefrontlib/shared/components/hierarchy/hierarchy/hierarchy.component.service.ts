@@ -62,7 +62,7 @@ export class HierarchyComponentService {
               }
               return undefined; // Add this line to explicitly return undefined
             })
-            .filter((node): node is CollapsibleNode<any> => node !== undefined) // Filter out undefined elements and cast to CollapsibleNode<any>
+            .filter((node): node is CollapsibleNode => node !== undefined) // Filter out undefined elements and cast to CollapsibleNode<any>
       )
     );
   }
@@ -78,7 +78,7 @@ export class HierarchyComponentService {
     parent: HierarchyNode,
     count: number = 0
   ): void {
-    let treeNode: HierarchyNode<any, any>;
+    let treeNode: HierarchyNode;
     nodes.forEach((node) => {
       if (count === 0) {
         treeNode = new TitleNode(node.label, {

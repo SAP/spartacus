@@ -19,5 +19,5 @@ export type DeliveryPointOfService = {
   value: Array<OrderEntry>;
   storeDetails: PointOfService;
   entryGroups?: OrderEntryGroup[];
-  hierachyTrees?: HierarchyNode<any, any>[];
+  hierachyTrees?: HierarchyNode[];
 };
