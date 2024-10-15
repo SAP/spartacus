@@ -110,7 +110,6 @@
             "bundleName": "s4-service"
           }
         ],
-        "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",
         "scripts": []
       },
       "configurations": {
