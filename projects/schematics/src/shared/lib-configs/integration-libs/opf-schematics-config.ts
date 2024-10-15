@@ -5,7 +5,6 @@
  */
 
 import {
-  CHECKOUT_BASE_FEATURE_NAME,
   OPF_BASE_FEATURE_NAME,
   OPF_CHECKOUT_FEATURE_NAME,
   OPF_CTA_FEATURE_NAME,
@@ -38,6 +37,12 @@ export interface SpartacusOpfOptions extends LibraryOptions {
 
 export const OPF_FOLDER_NAME = 'opf';
 export const OPF_MODULE_NAME = 'Opf';
+// export const OPF_BASE_MODULE_NAME = 'OpfBase';
+// export const OPF_PAYMENT_MODULE_NAME = 'OpfPayment';
+// export const OPF_CHECKOUT_MODULE_NAME = 'OpfCheckout';
+// export const OPF_CTA_MODULE_NAME = 'OpfCta';
+// export const OPF_GLOBAL_FUNCTIONS_MODULE_NAME = 'OpfGlobalFunctions';
+// export const OPF_QUICK_BUY_MODULE_NAME = 'OpfQuickBuy';
 export const OPF_SCSS_FILE_NAME = 'opf.scss';
 
 export const OPF_CONFIG = 'OpfConfig';
@@ -100,34 +105,6 @@ export const OPF_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
   customConfig: buildOpfConfig,
 };
 
-export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
-  library: {
-    featureName: OPF_CHECKOUT_FEATURE_NAME,
-    mainScope: SPARTACUS_OPF,
-    featureScope: SPARTACUS_OPF_CHECKOUT,
-  },
-  folderName: OPF_FOLDER_NAME,
-  moduleName: OPF_MODULE_NAME,
-  featureModule: {
-    name: OPF_CHECKOUT_MODULE,
-    importPath: SPARTACUS_OPF_CHECKOUT,
-  },
-  rootModule: {
-    name: OPF_CHECKOUT_ROOT_MODULE,
-    importPath: SPARTACUS_OPF_CHECKOUT_ROOT,
-  },
-  i18n: {
-    resources: OPF_CHECKOUT_TRANSLATIONS,
-    chunks: OPF_CHECKOUT_TRANSLATION_CHUNKS_CONFIG,
-    importPath: SPARTACUS_OPF_CHECKOUT_ASSETS,
-  },
-  styles: {
-    scssFileName: OPF_SCSS_FILE_NAME,
-    importStyle: SPARTACUS_OPF,
-  },
-  dependencyFeatures: [CHECKOUT_BASE_FEATURE_NAME, OPF_BASE_FEATURE_NAME],
-};
-
 export const OPF_PAYMENT_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: OPF_PAYMENT_FEATURE_NAME,
@@ -157,7 +134,42 @@ export const OPF_PAYMENT_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  dependencyFeatures: [OPF_BASE_FEATURE_NAME],
+  customConfig: buildOpfConfig,
+};
+
+export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
+  library: {
+    featureName: OPF_CHECKOUT_FEATURE_NAME,
+    mainScope: SPARTACUS_OPF,
+    featureScope: SPARTACUS_OPF_CHECKOUT,
+  },
+  folderName: OPF_FOLDER_NAME,
+  moduleName: OPF_MODULE_NAME,
+  featureModule: {
+    name: OPF_CHECKOUT_MODULE,
+    importPath: SPARTACUS_OPF_CHECKOUT,
+  },
+  rootModule: {
+    name: OPF_CHECKOUT_ROOT_MODULE,
+    importPath: SPARTACUS_OPF_CHECKOUT_ROOT,
+  },
+  i18n: {
+    resources: OPF_CHECKOUT_TRANSLATIONS,
+    chunks: OPF_CHECKOUT_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_OPF_CHECKOUT_ASSETS,
+  },
+  styles: {
+    scssFileName: OPF_SCSS_FILE_NAME,
+    importStyle: SPARTACUS_OPF,
+  },
+  customConfig: buildOpfConfig,
+  dependencyFeatures: [
+    OPF_PAYMENT_FEATURE_NAME,
+    OPF_BASE_FEATURE_NAME,
+    OPF_CTA_FEATURE_NAME,
+    OPF_GLOBAL_FUNCTIONS_FEATURE_NAME,
+    OPF_QUICK_BUY_FEATURE_NAME,
+  ],
 };
 
 export const OPF_CTA_SCHEMATICS_CONFIG: SchematicConfig = {
@@ -184,7 +196,7 @@ export const OPF_CTA_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  dependencyFeatures: [OPF_BASE_FEATURE_NAME],
+  customConfig: buildOpfConfig,
 };
 
 export const OPF_GLOBAL_FUNCTIONS_SCHEMATICS_CONFIG: SchematicConfig = {
@@ -211,7 +223,7 @@ export const OPF_GLOBAL_FUNCTIONS_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  dependencyFeatures: [OPF_BASE_FEATURE_NAME],
+  customConfig: buildOpfConfig,
 };
 
 export const OPF_QUICK_BUY_SCHEMATICS_CONFIG: SchematicConfig = {
@@ -238,7 +250,7 @@ export const OPF_QUICK_BUY_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  dependencyFeatures: [OPF_BASE_FEATURE_NAME],
+  customConfig: buildOpfConfig,
 };
 
 function buildOpfConfig(
