@@ -227,4 +227,20 @@ export class MediaService {
       ''
     );
   }
+
+  getSources(srcset: string): MediaSource[] {
+    return srcset
+      .split(',')
+      .map((src) => src.trim().split(' '))
+      .map(([srcset, width]) => ({
+        srcset,
+        width: parseInt(width.replace('w', ''), 10),
+      }))
+      .sort((a, b) => a.width - b.width);
+  }
+}
+
+export interface MediaSource {
+  srcset: string;
+  width: number;
 }

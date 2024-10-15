@@ -63,6 +63,13 @@ export class MediaComponent implements OnChanges {
    */
   @Input() loading: ImageLoadingStrategy | null = this.loadingStrategy;
 
+  get SPIKE_loading(): ImageLoadingStrategy | null {
+    if (this.isLCP) {
+      return ImageLoadingStrategy.EAGER;
+    }
+    return this.loading;
+  }
+
   /**
    * Once the media is loaded, we emit an event.
    */
@@ -126,21 +133,41 @@ export class MediaComponent implements OnChanges {
       this.handleMissing();
     }
 
-    // SPIKE NEW
-    if (this.isLCP) {
-      console.log('<cx-media> SPIKE NEW: isLCP', this.isLCP, this);
-      // create a preload link for the image
-      const src = this.media?.src;
-
-      if (src) {
-        const preloadLink = this.renderer.createElement('link');
-        this.renderer.setAttribute(preloadLink, 'rel', 'preload');
-        this.renderer.setAttribute(preloadLink, 'href', src);
-        this.renderer.setAttribute(preloadLink, 'as', 'image');
-        this.renderer.appendChild(this.document.head, preloadLink);
-        console.log('<cx-media> SPIKE NEW: added preloadLink', preloadLink);
-      }
+    if (this.isLCP && !this.isLegacy) {
+      this.createPreloadLinks();
     }
+  }
+
+  protected createPreloadLinks(): void {
+    if (!this.media?.srcset) {
+      return;
+    }
+
+    const sources = this.mediaService.getSources(this.media.srcset);
+    let previousMaxWidth = 0;
+
+    sources.forEach((source, index) => {
+      const preloadLink = this.renderer.createElement('link');
+      this.renderer.setAttribute(preloadLink, 'rel', 'preload');
+      this.renderer.setAttribute(preloadLink, 'as', 'image');
+      this.renderer.setAttribute(preloadLink, 'href', source.srcset);
+
+      // Calculate the media attribute
+      let mediaQuery = '';
+      if (index === 0) {
+        mediaQuery = `(max-width: ${source.width}px)`;
+      } else if (index === sources.length - 1) {
+        mediaQuery = `(min-width: ${previousMaxWidth + 0.1}px)`;
+      } else {
+        mediaQuery = `(min-width: ${previousMaxWidth + 0.1}px) and (max-width: ${source.width}px)`;
+      }
+      this.renderer.setAttribute(preloadLink, 'media', mediaQuery);
+
+      this.renderer.appendChild(this.document.head, preloadLink);
+      console.log('<cx-media> SPIKE NEW: added preloadLink', preloadLink);
+
+      previousMaxWidth = source.width;
+    });
   }
 
   /**
@@ -157,10 +184,6 @@ export class MediaComponent implements OnChanges {
    * Indicates whether the browser should lazy load the image.
    */
   get loadingStrategy(): ImageLoadingStrategy | null {
-    if (this.isLCP) {
-      return ImageLoadingStrategy.EAGER;
-    }
-
     return this.mediaService.loadingStrategy === ImageLoadingStrategy.LAZY
       ? ImageLoadingStrategy.LAZY
       : null;
