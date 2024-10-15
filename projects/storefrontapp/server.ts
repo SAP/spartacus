@@ -14,6 +14,7 @@ import {
 } from '@spartacus/setup/ssr';
 
 import express from 'express';
+import { exec } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'path';
 import 'zone.js/node';
@@ -86,6 +87,8 @@ function run() {
     to be logged using any special logger. Moreover, we don't have
     any special logger available in this context. */
     console.log(`Node Express server listening on http://localhost:${port}`);
+
+    exec('say "storefrontapp rebuilt"');
   });
 }
 
