@@ -120,10 +120,6 @@ export class MediaComponent implements OnChanges {
     if (!this.media?.src) {
       this.handleMissing();
     }
-
-    if (!this.media) {
-      this.handleMissing();
-    }
   }
 
   /**
