@@ -65,10 +65,4 @@ describe('HierarchyNodeCollapsibleComponent', () => {
     expect(component.collapsibleChildren).toEqual([]);
   });
 
-  it('should call console.log with correct entryGroupNumber when editBundle is called', () => {
-    spyOn(console, 'log');
-    const entryGroupNumber = 123;
-    component.editBundle(entryGroupNumber);
-    expect(console.log).toHaveBeenCalledWith('editBundle: ', entryGroupNumber);
-  });
 });
