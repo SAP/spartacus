@@ -13,19 +13,19 @@ describe('HierarchyNodeTitleComponent', () => {
   const mockTree: TitleNode = new TitleNode('Test Title', {
     value: {
       entryGroupNumber: 1,
-      entries: [{ code: 'productCode1' }, { code: 'productCode2' }]
+      entries: [{ code: 'productCode1' }, { code: 'productCode2' }],
     },
     children: [],
   });
 
   beforeEach(async () => {
-    mockActiveCartFacade = jasmine.createSpyObj('ActiveCartFacade', ['removeEntryGroup']);
+    mockActiveCartFacade = jasmine.createSpyObj('ActiveCartFacade', [
+      'removeEntryGroup',
+    ]);
 
     await TestBed.configureTestingModule({
       declarations: [HierarchyNodeTitleComponent],
-      imports: [
-        I18nTestingModule,
-      ],
+      imports: [I18nTestingModule],
       providers: [
         { provide: ActiveCartFacade, useValue: mockActiveCartFacade },
       ],

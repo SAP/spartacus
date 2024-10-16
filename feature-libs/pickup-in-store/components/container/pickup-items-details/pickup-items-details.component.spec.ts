@@ -1,7 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-import { CmsPickupItemDetails, FeatureConfigService, FeaturesConfigModule, I18nModule, I18nTestingModule, UrlModule } from '@spartacus/core';
+import {
+  CmsPickupItemDetails,
+  FeatureConfigService,
+  FeaturesConfigModule,
+  I18nModule,
+  I18nTestingModule,
+  UrlModule,
+} from '@spartacus/core';
 import {
   CardModule,
   CmsComponentData,
@@ -14,14 +21,17 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { StoreModule } from '../../presentational/store';
 import { DeliveryPointsService } from '../../services/delivery-points.service';
-import { DeliveryPointsServiceMock, mockDeliveryPointOfService } from '../../services/delivery-points.service.spec';
+import {
+  DeliveryPointsServiceMock,
+  mockDeliveryPointOfService,
+} from '../../services/delivery-points.service.spec';
 import { PickUpItemsDetailsComponent } from './pickup-items-details.component';
 import createSpy = jasmine.createSpy;
 import { OrderEntry } from '@spartacus/cart/base/root';
 
 const mockOrderEntries: Observable<OrderEntry[]> = of([{ orderCode: '123' }]);
 
-class MockHierachyService implements Partial<HierarchyComponentService>{
+class MockHierachyService implements Partial<HierarchyComponentService> {
   getEntriesFromGroups = createSpy().and.returnValue(mockOrderEntries);
 }
 
@@ -78,7 +88,10 @@ describe('Delivery Mode - PickUpItemsDetailsComponent', () => {
   const data = <CmsComponentData<any>>{
     data$: config$.asObservable(),
   };
-  const mockFeatureConfigService = jasmine.createSpyObj('FeatureConfigService', ['isEnabled']);
+  const mockFeatureConfigService = jasmine.createSpyObj(
+    'FeatureConfigService',
+    ['isEnabled']
+  );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -105,9 +118,7 @@ describe('Delivery Mode - PickUpItemsDetailsComponent', () => {
           provide: CmsComponentData,
           useValue: data,
         },
-        { provide: FeatureConfigService,
-          useValue: mockFeatureConfigService,
-        },
+        { provide: FeatureConfigService, useValue: mockFeatureConfigService },
         {
           provide: HierarchyComponentService,
           useClass: MockHierachyService,
@@ -134,5 +145,4 @@ describe('Delivery Mode - PickUpItemsDetailsComponent', () => {
     const result = component.getEntriesFromGroups(mockEntryGroups);
     expect(result).toEqual(mockOrderEntries);
   });
-
 });

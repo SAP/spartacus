@@ -222,7 +222,6 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     );
   }
 
-
   /**
    * Returns last cart entry for provided product code.
    * Needed to cover processes where multiple entries can share the same product code
@@ -634,22 +633,28 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * Return cart's pickup entry groups
    */
   getPickupEntryGroups(): Observable<OrderEntryGroup[]> {
-    return this.getFilteredEntryGroups(entry => entry.deliveryPointOfService !== undefined);
+    return this.getFilteredEntryGroups(
+      (entry) => entry.deliveryPointOfService !== undefined
+    );
   }
   /**
    * Return cart's delivery entry groups
    */
   getDeliveryEntryGroups(): Observable<OrderEntryGroup[]> {
-    return this.getFilteredEntryGroups(entry => entry.deliveryPointOfService === undefined);
-    }
+    return this.getFilteredEntryGroups(
+      (entry) => entry.deliveryPointOfService === undefined
+    );
+  }
 
   /**
    * Return cart's entry groups based on a filter condition
    * @param predicate - Function to determine the filtering condition for entries
    */
-  private getFilteredEntryGroups(predicate: (entry: OrderEntry) => boolean): Observable<OrderEntryGroup[]> {
+  private getFilteredEntryGroups(
+    predicate: (entry: OrderEntry) => boolean
+  ): Observable<OrderEntryGroup[]> {
     return this.getEntryGroups().pipe(
-      map(entryGroups => {
+      map((entryGroups) => {
         function traverse(groups: OrderEntryGroup[]): OrderEntryGroup[] {
           const localResult: OrderEntryGroup[] = [];
 
@@ -685,11 +690,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     this.activeCartId$
       .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
       .subscribe(([cartId, userId]) => {
-        this.multiCartFacade.removeEntryGroup(
-          userId,
-          cartId,
-          entryGroupNumber
-        );
+        this.multiCartFacade.removeEntryGroup(userId, cartId, entryGroupNumber);
       });
   }
 
@@ -706,16 +707,16 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     quantity: number = 1
   ): void {
     this.requireLoadedCart()
-    .pipe(withLatestFrom(this.userIdService.getUserId()))
-    .subscribe(([cart, userId]) => {
-      this.multiCartFacade.addToEntryGroup(
-        userId,
-        getCartIdByUserId(cart, userId),
-        entryGroupNumber,
-        productCode,
-        quantity,
-      );
-    });
+      .pipe(withLatestFrom(this.userIdService.getUserId()))
+      .subscribe(([cart, userId]) => {
+        this.multiCartFacade.addToEntryGroup(
+          userId,
+          getCartIdByUserId(cart, userId),
+          entryGroupNumber,
+          productCode,
+          quantity
+        );
+      });
   }
 
   ngOnDestroy(): void {

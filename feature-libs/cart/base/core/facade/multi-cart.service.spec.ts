@@ -28,20 +28,20 @@ const testCart: Cart = {
       entryGroupNumber: 1,
       label: '',
       type: 'STANDALONE',
-      entries: [ { entryNumber: 0, product: { code: '1234' } } ],
+      entries: [{ entryNumber: 0, product: { code: '1234' } }],
     },
     {
       entryGroupNumber: 2,
       label: '',
       type: 'STANDALONE',
-      entries: [ { entryNumber: 1, product: { code: '1235' } } ],
+      entries: [{ entryNumber: 1, product: { code: '1235' } }],
     },
     {
       entryGroupNumber: 3,
       label: '',
       type: 'CONFIGURABLEBUNDLE',
-      entries: [ { entryNumber: 2, product: { code: '1236' } } ],
-    }
+      entries: [{ entryNumber: 2, product: { code: '1236' } }],
+    },
   ],
   totalPrice: {
     currencyIso: 'USD',
@@ -502,7 +502,7 @@ describe('MultiCartService', () => {
           userId: 'userId',
           entryGroupNumber: 1,
           productCode: 'productCode',
-          quantity: 2
+          quantity: 2,
         })
       );
     });

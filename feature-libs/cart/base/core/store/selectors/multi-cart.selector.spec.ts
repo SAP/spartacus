@@ -44,7 +44,7 @@ describe('Multi Cart selectors', () => {
         type: 'CONFIGURABLEBUNDLE',
         label: '',
         entries: [{ entryNumber: 3, product: { code: '3234' } }],
-      }
+      },
     ],
     totalPrice: {
       currencyIso: 'USD',

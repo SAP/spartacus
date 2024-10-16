@@ -18,7 +18,6 @@ import { Observable, map } from 'rxjs';
  * Service responsible for handling hierarchy-related operations.
  */
 export class HierarchyComponentService {
-
   /**
    * Retrieves the order entries from the given entry groups.
    *

@@ -122,7 +122,7 @@ class MockFeatureConfigService implements Partial<FeatureConfigService> {
   }
 }
 
-class MockHierachyService implements Partial<HierarchyComponentService>{
+class MockHierachyService implements Partial<HierarchyComponentService> {
   getEntriesFromGroups = createSpy().and.returnValue(of([{}]));
   getBundlesFromGroups = createSpy().and.returnValue(of([]));
 }

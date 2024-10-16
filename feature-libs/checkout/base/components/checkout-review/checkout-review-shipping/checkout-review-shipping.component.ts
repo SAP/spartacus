@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   ActiveCartFacade,
   CartOutlets,
@@ -17,9 +22,18 @@ import {
   CheckoutDeliveryModesFacade,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { Address, FeatureConfigService, TranslationService } from '@spartacus/core';
+import {
+  Address,
+  FeatureConfigService,
+  TranslationService,
+} from '@spartacus/core';
 import { deliveryAddressCard, deliveryModeCard } from '@spartacus/order/root';
-import { Card, HierarchyComponentService, HierarchyNode, ICON_TYPE } from '@spartacus/storefront';
+import {
+  Card,
+  HierarchyComponentService,
+  HierarchyNode,
+  ICON_TYPE,
+} from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
@@ -60,11 +74,15 @@ export class CheckoutReviewShippingComponent implements OnInit {
       // The user has enabled feature toggle "isEntryGroupsEnabled"
       // which makes the cart use the new entry groups feature to provide bundle support.
       this.entryGroups$ = this.activeCartFacade.getDeliveryEntryGroups();
-      this.entries$ = this.hierarchyService.getEntriesFromGroups(this.entryGroups$);
-      this.bundles$ = this.hierarchyService.getBundlesFromGroups(this.entryGroups$);
+      this.entries$ = this.hierarchyService.getEntriesFromGroups(
+        this.entryGroups$
+      );
+      this.bundles$ = this.hierarchyService.getBundlesFromGroups(
+        this.entryGroups$
+      );
     } else {
-    // The user has NOT enabled feature toggle "isEntryGroupsEnabled"
-    // which makes the cart use the OLD entries items. So new features that use entryGroups like bundles will not be supported until the user opts-in.
+      // The user has NOT enabled feature toggle "isEntryGroupsEnabled"
+      // which makes the cart use the OLD entries items. So new features that use entryGroups like bundles will not be supported until the user opts-in.
       this.entries$ = this.activeCartFacade.getDeliveryEntries();
     }
   }

@@ -1,5 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { ActiveCartFacade, Cart, OrderEntryGroup } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  Cart,
+  OrderEntryGroup,
+} from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
 import { Order, OrderFacade } from '@spartacus/order/root';
 import {
@@ -9,26 +13,30 @@ import {
 } from '@spartacus/pickup-in-store/root';
 import { Observable, of } from 'rxjs';
 import { DeliveryPointsService } from './delivery-points.service';
-import { HierarchyComponentService, HierarchyNode } from '@spartacus/storefront';
+import {
+  HierarchyComponentService,
+  HierarchyNode,
+} from '@spartacus/storefront';
 
-export const mockDeliveryPointOfService: Observable<DeliveryPointOfService[]> = of([
-  {
-    name: 'A Store',
-    value: [
-      { deliveryPointOfService: { name: 'A Store' } },
-      { deliveryPointOfService: { name: 'A Store' } },
-    ],
-    storeDetails: {},
-  },
-  {
-    name: 'B Store',
-    value: [
-      { deliveryPointOfService: { name: 'B Store' } },
-      { deliveryPointOfService: { name: 'B Store' } },
-    ],
-    storeDetails: {},
-  },
-]);
+export const mockDeliveryPointOfService: Observable<DeliveryPointOfService[]> =
+  of([
+    {
+      name: 'A Store',
+      value: [
+        { deliveryPointOfService: { name: 'A Store' } },
+        { deliveryPointOfService: { name: 'A Store' } },
+      ],
+      storeDetails: {},
+    },
+    {
+      name: 'B Store',
+      value: [
+        { deliveryPointOfService: { name: 'B Store' } },
+        { deliveryPointOfService: { name: 'B Store' } },
+      ],
+      storeDetails: {},
+    },
+  ]);
 
 class MockActiveCartFacade {
   getPickupEntries() {
@@ -83,7 +91,9 @@ class MockPickupLocationsSearchFacade {
 class MockHierarchyComponentService {
   buildHierarchyTree(groups: OrderEntryGroup[], root: HierarchyNode): void {
     // Simulate the logic for building the hierarchy tree
-    root.children.push(...groups.map(group => new HierarchyNode(group.type, {})));
+    root.children.push(
+      ...groups.map((group) => new HierarchyNode(group.type, {}))
+    );
   }
 }
 
@@ -95,7 +105,9 @@ export class DeliveryPointsServiceMock {
   }
   getDeliveryPointsOfServiceFromOrder() {}
 
-  getDeliveryPointsOfServiceFromCartWithEntryGroups(): Observable<Array<DeliveryPointOfService>> {
+  getDeliveryPointsOfServiceFromCartWithEntryGroups(): Observable<
+    Array<DeliveryPointOfService>
+  > {
     return mockDeliveryPointOfService;
   }
 }
@@ -125,9 +137,7 @@ export class MockOrderFacade {
 const mockEntryGroups: OrderEntryGroup[] = [
   {
     type: 'CONFIGURABLEBUNDLE',
-    entries: [
-      { entryNumber: 1, deliveryPointOfService: { name: 'A Store' } },
-    ],
+    entries: [{ entryNumber: 1, deliveryPointOfService: { name: 'A Store' } }],
     entryGroups: [
       {
         type: 'CONFIGURABLEBUNDLE',
@@ -144,7 +154,7 @@ const mockEntryGroups: OrderEntryGroup[] = [
         ],
       },
     ],
-  }
+  },
 ];
 
 const mockPickupEntries = [
@@ -168,8 +178,9 @@ describe('DeliveryPointsService', () => {
           provide: PickupLocationsSearchFacade,
           useClass: MockPickupLocationsSearchFacade,
         },
-        { provide: HierarchyComponentService,
-          useClass: MockHierarchyComponentService
+        {
+          provide: HierarchyComponentService,
+          useClass: MockHierarchyComponentService,
         },
       ],
     });
@@ -245,27 +256,33 @@ describe('DeliveryPointsService', () => {
   });
 
   it('getDeliveryPointsOfServiceFromCartWithEntryGroups should return Observable<Array<DeliveryPointOfService>>', () => {
-    deliveryPointsService.getDeliveryPointsOfServiceFromCartWithEntryGroups().subscribe(result => {
-      expect(result).toBeDefined();
-      expect(result.length).toBe(2); // Two stores in the mock data
+    deliveryPointsService
+      .getDeliveryPointsOfServiceFromCartWithEntryGroups()
+      .subscribe((result) => {
+        expect(result).toBeDefined();
+        expect(result.length).toBe(2); // Two stores in the mock data
 
-      result.forEach((deliveryPoint, index) => {
-        expect(deliveryPoint.name).toBe(index === 0 ? 'A Store' : 'B Store');
-        expect(deliveryPoint.entryGroups).toBeDefined();
-        expect(deliveryPoint.hierachyTrees).toBeDefined();
+        result.forEach((deliveryPoint, index) => {
+          expect(deliveryPoint.name).toBe(index === 0 ? 'A Store' : 'B Store');
+          expect(deliveryPoint.entryGroups).toBeDefined();
+          expect(deliveryPoint.hierachyTrees).toBeDefined();
 
-        if (deliveryPoint.hierachyTrees) {
-          deliveryPoint.hierachyTrees.forEach(tree => {
-            expect(tree.children.length).toBeGreaterThan(0);
-          });
-        }
+          if (deliveryPoint.hierachyTrees) {
+            deliveryPoint.hierachyTrees.forEach((tree) => {
+              expect(tree.children.length).toBeGreaterThan(0);
+            });
+          }
+        });
       });
-    });
 
     expect(activeCartFacade.getPickupEntries).toHaveBeenCalled();
     expect(activeCartFacade.getPickupEntryGroups).toHaveBeenCalled();
-    expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledTimes(2);
-    expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledTimes(2);
+    expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledTimes(
+      2
+    );
+    expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledTimes(
+      2
+    );
   });
 
   it('should correctly handle recursive entryGroups logic', () => {
@@ -274,29 +291,40 @@ describe('DeliveryPointsService', () => {
     (activeCartFacade.getPickupEntryGroups as jasmine.Spy).calls.reset();
 
     // set return value
-    (activeCartFacade.getPickupEntries as jasmine.Spy).and.returnValue(of(mockPickupEntries));
-    (activeCartFacade.getPickupEntryGroups as jasmine.Spy).and.returnValue(of(mockEntryGroups));
+    (activeCartFacade.getPickupEntries as jasmine.Spy).and.returnValue(
+      of(mockPickupEntries)
+    );
+    (activeCartFacade.getPickupEntryGroups as jasmine.Spy).and.returnValue(
+      of(mockEntryGroups)
+    );
 
-    deliveryPointsService.getDeliveryPointsOfServiceFromCartWithEntryGroups().subscribe((result) => {
-      expect(result).toBeDefined();
-      expect(result.length).toBeGreaterThan(0);
+    deliveryPointsService
+      .getDeliveryPointsOfServiceFromCartWithEntryGroups()
+      .subscribe((result) => {
+        expect(result).toBeDefined();
+        expect(result.length).toBeGreaterThan(0);
 
-      const firstStore = result[0];
-      expect(firstStore.name).toBe('A Store');
-      expect(firstStore.entryGroups?.length).toBeGreaterThan(0);
+        const firstStore = result[0];
+        expect(firstStore.name).toBe('A Store');
+        expect(firstStore.entryGroups?.length).toBeGreaterThan(0);
 
-      const firstEntryGroup = firstStore.entryGroups ? firstStore.entryGroups[0] : null;
-      expect(firstEntryGroup).toBeDefined();
+        const firstEntryGroup = firstStore.entryGroups
+          ? firstStore.entryGroups[0]
+          : null;
+        expect(firstEntryGroup).toBeDefined();
 
-      if (firstEntryGroup?.entryGroups) {
-        expect(firstEntryGroup.entryGroups.length).toBe(1);
-      }
+        if (firstEntryGroup?.entryGroups) {
+          expect(firstEntryGroup.entryGroups.length).toBe(1);
+        }
       });
 
-      expect(activeCartFacade.getPickupEntries).toHaveBeenCalled();
-      expect(activeCartFacade.getPickupEntryGroups).toHaveBeenCalled();
-      expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledTimes(1);
-      expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledTimes(1);
+    expect(activeCartFacade.getPickupEntries).toHaveBeenCalled();
+    expect(activeCartFacade.getPickupEntryGroups).toHaveBeenCalled();
+    expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledTimes(
+      1
+    );
+    expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledTimes(
+      1
+    );
   });
-
 });

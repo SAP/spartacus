@@ -9,7 +9,10 @@ import { Injectable } from '@angular/core';
 import { CartEntryGroupAdapter } from '@spartacus/cart/base/core';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CartModification, CART_MODIFICATION_NORMALIZER } from '@spartacus/cart/base/root';
+import {
+  CartModification,
+  CART_MODIFICATION_NORMALIZER,
+} from '@spartacus/cart/base/root';
 
 @Injectable()
 export class OccCartEntryGroupAdapter implements CartEntryGroupAdapter {
@@ -52,7 +55,7 @@ export class OccCartEntryGroupAdapter implements CartEntryGroupAdapter {
 
     const toAdd = {
       quantity,
-      product: { code: productCode }
+      product: { code: productCode },
     };
 
     const headers = new HttpHeaders({

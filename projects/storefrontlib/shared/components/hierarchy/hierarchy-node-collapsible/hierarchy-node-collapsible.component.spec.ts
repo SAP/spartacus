@@ -10,9 +10,7 @@ describe('HierarchyNodeCollapsibleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-      ],
+      imports: [I18nTestingModule],
       declarations: [HierarchyNodeCollapsibleComponent],
     }).compileComponents();
   });
@@ -64,5 +62,4 @@ describe('HierarchyNodeCollapsibleComponent', () => {
   it('should return collapsible children', () => {
     expect(component.collapsibleChildren).toEqual([]);
   });
-
 });

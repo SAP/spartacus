@@ -54,13 +54,13 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
                 'EmptyCartMiddleContent',
               ])
             : hasCartContent
-            ? exclude(slots, ['EmptyCartMiddleContent'])
-            : hasSelectiveCartContent
-            ? exclude(slots, [
-                'EmptyCartMiddleContent',
-                'CenterRightContentSlot',
-              ])
-            : exclude(slots, ['TopContent', 'CenterRightContentSlot']);
+              ? exclude(slots, ['EmptyCartMiddleContent'])
+              : hasSelectiveCartContent
+                ? exclude(slots, [
+                    'EmptyCartMiddleContent',
+                    'CenterRightContentSlot',
+                  ])
+                : exclude(slots, ['TopContent', 'CenterRightContentSlot']);
         })
       );
     }

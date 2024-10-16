@@ -12,27 +12,27 @@ import { HierarchyNodeComponent } from './hierarchy-node/hierarchy-node.componen
 import { HierarchyNodeTitleComponent } from './hierarchy-node-title/hierarchy-node-title.component';
 import { HierarchyComponent } from './hierarchy/hierarchy.component';
 import { I18nModule } from '@spartacus/core';
-import { IconModule } from "../../../cms-components/misc/icon/icon.module";
+import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 
 @NgModule({
-    exports: [
-        HierarchyComponent,
-        HierarchyNodeComponent,
-        HierarchyNodeTitleComponent,
-        HierarchyNodeCollapsibleComponent,
-    ],
-    declarations: [
-        HierarchyNodeCollapsibleComponent,
-        HierarchyNodeTitleComponent,
-        HierarchyNodeComponent,
-        HierarchyComponent,
-    ],
-    imports: [
-        ReactiveFormsModule,
-        CommonModule,
-        FormsModule,
-        I18nModule,
-        IconModule,
-      ]
+  exports: [
+    HierarchyComponent,
+    HierarchyNodeComponent,
+    HierarchyNodeTitleComponent,
+    HierarchyNodeCollapsibleComponent,
+  ],
+  declarations: [
+    HierarchyNodeCollapsibleComponent,
+    HierarchyNodeTitleComponent,
+    HierarchyNodeComponent,
+    HierarchyComponent,
+  ],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    FormsModule,
+    I18nModule,
+    IconModule,
+  ],
 })
 export class HierarchyModule {}

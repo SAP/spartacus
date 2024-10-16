@@ -216,5 +216,6 @@ export abstract class ActiveCartFacade {
   abstract addToEntryGroup(
     entryGroupNumber: number,
     productCode: string,
-    quantity?: number): void;
+    quantity?: number
+  ): void;
 }

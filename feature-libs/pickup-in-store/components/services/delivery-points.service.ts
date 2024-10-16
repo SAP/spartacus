@@ -5,7 +5,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, OrderEntry, OrderEntryGroup } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  OrderEntry,
+  OrderEntryGroup,
+} from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import {
@@ -13,7 +17,11 @@ import {
   getProperty,
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
-import { CollapsibleNode, HierarchyComponentService, HierarchyNode } from '@spartacus/storefront';
+import {
+  CollapsibleNode,
+  HierarchyComponentService,
+  HierarchyNode,
+} from '@spartacus/storefront';
 import { combineLatest, iif, Observable, of } from 'rxjs';
 import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
@@ -56,28 +64,38 @@ export class DeliveryPointsService {
     );
   }
 
-  getDeliveryPointsOfServiceFromCartWithEntryGroups(): Observable<Array<DeliveryPointOfService>> {
+  getDeliveryPointsOfServiceFromCartWithEntryGroups(): Observable<
+    Array<DeliveryPointOfService>
+  > {
     return combineLatest([
       this.activeCartFacade.getPickupEntries(),
       this.activeCartFacade.getPickupEntryGroups(),
     ]).pipe(
-      filter(([entries, entryGroups]) => !!entries?.length && !!entryGroups?.length),
+      filter(
+        ([entries, entryGroups]) => !!entries?.length && !!entryGroups?.length
+      ),
       switchMap(([entries, entryGroups]) =>
         this.getDeliveryPointsOfService(entries).pipe(
           map((deliveryPoints) =>
             deliveryPoints.map((deliveryPoint) => {
               // Define a function to find matching entry groups while preserving the original structure
-              const findMatchingEntryGroups = (group: OrderEntryGroup): OrderEntryGroup | null => {
+              const findMatchingEntryGroups = (
+                group: OrderEntryGroup
+              ): OrderEntryGroup | null => {
                 // Check if current group matches
-                const matches = group.entries?.some(entry =>
-                  deliveryPoint.value.some(dEntry => dEntry.entryNumber === entry.entryNumber)
+                const matches = group.entries?.some((entry) =>
+                  deliveryPoint.value.some(
+                    (dEntry) => dEntry.entryNumber === entry.entryNumber
+                  )
                 );
 
                 if (matches) {
                   // Create a copy of the group with its entryGroups
                   return {
                     ...group,
-                    entryGroups: group.entryGroups?.map(findMatchingEntryGroups).filter(Boolean) as OrderEntryGroup[]
+                    entryGroups: group.entryGroups
+                      ?.map(findMatchingEntryGroups)
+                      .filter(Boolean) as OrderEntryGroup[],
                   };
                 }
 
@@ -95,11 +113,13 @@ export class DeliveryPointsService {
               };
 
               // Apply the recursive function to filter and map entryGroups
-              const relatedEntryGroups = entryGroups.map(findMatchingEntryGroups).filter(Boolean) as OrderEntryGroup[];
+              const relatedEntryGroups = entryGroups
+                .map(findMatchingEntryGroups)
+                .filter(Boolean) as OrderEntryGroup[];
 
               // Convert entryGroups to HierarchyNode
               const bundles: HierarchyNode[] = [];
-              relatedEntryGroups.forEach(entryGroup => {
+              relatedEntryGroups.forEach((entryGroup) => {
                 if (entryGroup.type === 'CONFIGURABLEBUNDLE') {
                   const root = new CollapsibleNode('ROOT', {
                     children: [],
@@ -113,7 +133,7 @@ export class DeliveryPointsService {
               return {
                 ...deliveryPoint,
                 entryGroups: relatedEntryGroups,
-                hierachyTrees: bundles,  // Add the bundles property here
+                hierachyTrees: bundles, // Add the bundles property here
               };
             })
           )

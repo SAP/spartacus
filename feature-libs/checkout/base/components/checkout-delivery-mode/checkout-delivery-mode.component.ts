@@ -17,7 +17,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade, CartOutlets, OrderEntry, OrderEntryGroup } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  CartOutlets,
+  OrderEntry,
+  OrderEntryGroup,
+} from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import {
   FeatureConfigService,
@@ -35,14 +40,17 @@ import {
 } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
-import { HierarchyComponentService, HierarchyNode } from '@spartacus/storefront';
+import {
+  HierarchyComponentService,
+  HierarchyNode,
+} from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-delivery-mode',
   templateUrl: './checkout-delivery-mode.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutDeliveryModeComponent  implements OnInit {
+export class CheckoutDeliveryModeComponent implements OnInit {
   protected globalMessageService = inject(GlobalMessageService);
   protected busy$ = new BehaviorSubject(false);
   protected readonly isSetDeliveryModeHttpErrorSub = new BehaviorSubject(false);
@@ -125,8 +133,12 @@ export class CheckoutDeliveryModeComponent  implements OnInit {
       // The user has enabled feature toggle "isEntryGroupsEnabled"
       // which makes the cart use the new entry groups feature to provide bundle support.
       this.entryGroups$ = this.activeCartFacade.getDeliveryEntryGroups();
-      this.entries$ = this.hierachyService.getEntriesFromGroups(this.entryGroups$);
-      this.bundles$ = this.hierachyService.getBundlesFromGroups(this.entryGroups$);
+      this.entries$ = this.hierachyService.getEntriesFromGroups(
+        this.entryGroups$
+      );
+      this.bundles$ = this.hierachyService.getBundlesFromGroups(
+        this.entryGroups$
+      );
     }
   }
 

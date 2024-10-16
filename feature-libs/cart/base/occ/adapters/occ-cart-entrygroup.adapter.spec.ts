@@ -101,7 +101,10 @@ describe('OccCartEntryGroupAdapter', () => {
         .addTo(userId, cartId, 1, '147852', 5)
         .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne({ method: 'POST', url: 'addToEntryGroup' });
+      const mockReq = httpMock.expectOne({
+        method: 'POST',
+        url: 'addToEntryGroup',
+      });
 
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
         'application/json'
@@ -112,13 +115,16 @@ describe('OccCartEntryGroupAdapter', () => {
         quantity: 5,
       });
 
-      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('addToEntryGroup', {
-        urlParams: {
-          userId,
-          cartId,
-          entryGroupNumber,
-        },
-      });
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'addToEntryGroup',
+        {
+          urlParams: {
+            userId,
+            cartId,
+            entryGroupNumber,
+          },
+        }
+      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

@@ -23,14 +23,18 @@ describe('HierarchyComponentService', () => {
           entryGroups: [],
         },
         {
-          entries: [{ orderCode: 'order3', quantity: 3, totalPrice: { value: 300 } }],
+          entries: [
+            { orderCode: 'order3', quantity: 3, totalPrice: { value: 300 } },
+          ],
           entryGroups: [],
         },
       ];
 
       service.getEntriesFromGroups(of(mockEntryGroups)).subscribe((entries) => {
         expect(entries.length).toBe(3);
-        expect(entries).toEqual(mockEntryGroups.flatMap(group => group.entries));
+        expect(entries).toEqual(
+          mockEntryGroups.flatMap((group) => group.entries)
+        );
         done();
       });
     });
@@ -39,7 +43,9 @@ describe('HierarchyComponentService', () => {
       const mockEntryGroups: OrderEntryGroup[] = [
         {
           entries: [{ orderCode: 'order1', quantity: 1 }],
-          entryGroups: [{ entries: [{ orderCode: 'order2' }], entryGroups: [] }],
+          entryGroups: [
+            { entries: [{ orderCode: 'order2' }], entryGroups: [] },
+          ],
         },
         {
           entries: [{ orderCode: 'order3', quantity: 3 }],
@@ -48,8 +54,8 @@ describe('HierarchyComponentService', () => {
       ];
 
       service.getEntriesFromGroups(of(mockEntryGroups)).subscribe((entries) => {
-        expect(entries.length).toBe(1);  // 修正为 1
-        expect(entries).toEqual([{ orderCode: 'order3', quantity: 3 }]);  // 修正为只保留 order3
+        expect(entries.length).toBe(1); // 修正为 1
+        expect(entries).toEqual([{ orderCode: 'order3', quantity: 3 }]); // 修正为只保留 order3
         done();
       });
     });
@@ -58,8 +64,8 @@ describe('HierarchyComponentService', () => {
   describe('getBundlesFromGroups', () => {
     it('should return collapsible nodes for configurable bundles', (done) => {
       const mockEntryGroups: OrderEntryGroup[] = [
-        { type: "CONFIGURABLEBUNDLE", label: 'Bundle 1', entryGroups: [] },
-        { type: "STANDALONE", label: 'Bundle 2', entryGroups: [] },
+        { type: 'CONFIGURABLEBUNDLE', label: 'Bundle 1', entryGroups: [] },
+        { type: 'STANDALONE', label: 'Bundle 2', entryGroups: [] },
       ];
 
       service.getBundlesFromGroups(of(mockEntryGroups)).subscribe((nodes) => {
@@ -72,8 +78,8 @@ describe('HierarchyComponentService', () => {
 
     it('should not include non-configurable bundles', (done) => {
       const mockEntryGroups: OrderEntryGroup[] = [
-        { type: "STANDALONE", label: 'Bundle 1', entryGroups: [] },
-        { type: "STANDALONE", label: 'Bundle 2', entryGroups: [] },
+        { type: 'STANDALONE', label: 'Bundle 1', entryGroups: [] },
+        { type: 'STANDALONE', label: 'Bundle 2', entryGroups: [] },
       ];
 
       service.getBundlesFromGroups(of(mockEntryGroups)).subscribe((nodes) => {

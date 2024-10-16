@@ -135,13 +135,13 @@
       {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
     </h2>
     <ng-template
-    [cxOutlet]="CartOutlets.CART_ITEM_LIST"
-    [cxOutletContext]="{
-      items: activeCartFacade.getDeliveryEntries() | async,
-      readonly: true,
-    }"
-  >
-  </ng-template>
+      [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+      [cxOutletContext]="{
+        items: activeCartFacade.getDeliveryEntries() | async,
+        readonly: true,
+      }"
+    >
+    </ng-template>
   </ng-container>
   <!-- CART ITEM AND HIERACHYTREE SECTION -->
   <ng-container *cxFeature="'isEntryGroupsEnabled'">
@@ -156,18 +156,19 @@
               [cxOutlet]="CartOutlets.CART_ITEM_LIST"
               [cxOutletContext]="{
                 items: entries,
-                readonly: true
+                readonly: true,
               }"
             >
             </ng-template>
           </div>
           <ng-container *ngFor="let bundle of bundles$ | async">
-              <cx-hierarchy 
-                [tree]="bundle" 
-                [template]="bundlesTemplate"
-                [activeCartService]="activeCartFacade"
-                [titleReadonly]="true"
-                [collasibleReadonly]="true">      
+            <cx-hierarchy
+              [tree]="bundle"
+              [template]="bundlesTemplate"
+              [activeCartService]="activeCartFacade"
+              [titleReadonly]="true"
+              [collasibleReadonly]="true"
+            >
             </cx-hierarchy>
           </ng-container>
         </div>
@@ -202,11 +203,12 @@
 </div>
 
 <ng-template #bundlesTemplate let-items>
-  <ng-template 
-  [cxOutlet]="CartOutlets.CART_ITEM_LIST"
-  [cxOutletContext]="{
-    items: items,
-    hasHeader: false,
-    readonly: true
-    }"/>
+  <ng-template
+    [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+    [cxOutletContext]="{
+      items: items,
+      hasHeader: false,
+      readonly: true,
+    }"
+  />
 </ng-template>

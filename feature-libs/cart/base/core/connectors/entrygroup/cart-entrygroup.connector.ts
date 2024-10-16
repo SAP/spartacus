@@ -29,6 +29,12 @@ export class CartEntryGroupConnector {
     productCode: string,
     quantity: number = 1
   ): Observable<any> {
-    return this.adapter.addTo(userId, cartId, entryGroupNumber, productCode, quantity);
+    return this.adapter.addTo(
+      userId,
+      cartId,
+      entryGroupNumber,
+      productCode,
+      quantity
+    );
   }
 }

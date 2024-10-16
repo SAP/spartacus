@@ -75,8 +75,14 @@ describe('OccCartNormalizer', () => {
       ],
     };
     occCartNormalizer.convert(cart);
-    expect(converter.convert).toHaveBeenCalledWith(standaloneProduct, PRODUCT_NORMALIZER);
-    expect(converter.convert).toHaveBeenCalledWith(bundleProduct, PRODUCT_NORMALIZER);
+    expect(converter.convert).toHaveBeenCalledWith(
+      standaloneProduct,
+      PRODUCT_NORMALIZER
+    );
+    expect(converter.convert).toHaveBeenCalledWith(
+      bundleProduct,
+      PRODUCT_NORMALIZER
+    );
   });
 
   it('should not contain duplicated promotions', () => {

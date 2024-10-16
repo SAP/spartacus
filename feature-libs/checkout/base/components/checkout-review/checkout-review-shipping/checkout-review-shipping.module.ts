@@ -14,7 +14,12 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { CardModule, HierarchyModule, IconModule, OutletModule } from '@spartacus/storefront';
+import {
+  CardModule,
+  HierarchyModule,
+  IconModule,
+  OutletModule,
+} from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';

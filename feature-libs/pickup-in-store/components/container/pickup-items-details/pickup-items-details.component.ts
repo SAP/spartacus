@@ -13,11 +13,19 @@ import {
 } from '@angular/core';
 import { CmsPickupItemDetails, FeatureConfigService } from '@spartacus/core';
 import { DeliveryPointOfService } from '@spartacus/pickup-in-store/root';
-import { CmsComponentData, HierarchyComponentService, ICON_TYPE } from '@spartacus/storefront';
+import {
+  CmsComponentData,
+  HierarchyComponentService,
+  ICON_TYPE,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { DeliveryPointsService } from '../../services/delivery-points.service';
-import { CartOutlets, OrderEntry, OrderEntryGroup } from '@spartacus/cart/base/root';
+import {
+  CartOutlets,
+  OrderEntry,
+  OrderEntryGroup,
+} from '@spartacus/cart/base/root';
 
 @Component({
   selector: 'cx-pick-up-in-store-items-details',
@@ -44,20 +52,19 @@ export class PickUpItemsDetailsComponent implements OnInit {
       // The user has enabled feature toggle "isEntryGroupsEnabled"
       // which makes the cart use the new entry groups feature to provide bundle support.
 
-    this.component.data$
-    .pipe(
-      tap((data: CmsPickupItemDetails) => {
-        this.showEdit = data.showEdit;
-        this.context = data.context;
-        this.itemsDetails =
-          data.context === 'order'
-            ? this.deliveryPointsService.getDeliveryPointsOfServiceFromOrder()
-            : this.deliveryPointsService.getDeliveryPointsOfServiceFromCartWithEntryGroups();
-      }),
-      take(1)
-    )
-    .subscribe();
-
+      this.component.data$
+        .pipe(
+          tap((data: CmsPickupItemDetails) => {
+            this.showEdit = data.showEdit;
+            this.context = data.context;
+            this.itemsDetails =
+              data.context === 'order'
+                ? this.deliveryPointsService.getDeliveryPointsOfServiceFromOrder()
+                : this.deliveryPointsService.getDeliveryPointsOfServiceFromCartWithEntryGroups();
+          }),
+          take(1)
+        )
+        .subscribe();
     } else {
       this.component.data$
         .pipe(
@@ -72,10 +79,12 @@ export class PickUpItemsDetailsComponent implements OnInit {
           take(1)
         )
         .subscribe();
-      }
+    }
   }
 
-  getEntriesFromGroups(entryGroups: OrderEntryGroup[]): Observable<OrderEntry[]> {
+  getEntriesFromGroups(
+    entryGroups: OrderEntryGroup[]
+  ): Observable<OrderEntry[]> {
     return this.hierarchyService.getEntriesFromGroups(of(entryGroups));
   }
 }

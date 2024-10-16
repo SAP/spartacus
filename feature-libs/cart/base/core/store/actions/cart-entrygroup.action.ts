@@ -9,12 +9,16 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CART_REMOVE_ENTRYGROUP = '[Cart-entrygroup] Remove EntryGroup';
-export const CART_REMOVE_ENTRYGROUP_SUCCESS = '[Cart-entrygroup] Remove EntryGroup Success';
-export const CART_REMOVE_ENTRYGROUP_FAIL = '[Cart-entrygroup] Remove EntryGroup Fail';
+export const CART_REMOVE_ENTRYGROUP_SUCCESS =
+  '[Cart-entrygroup] Remove EntryGroup Success';
+export const CART_REMOVE_ENTRYGROUP_FAIL =
+  '[Cart-entrygroup] Remove EntryGroup Fail';
 
 export const CART_ADD_TO_ENTRYGROUP = '[Cart-entrygroup] Add to EntryGroup';
-export const CART_ADD_TO_ENTRYGROUP_SUCCESS = '[Cart-entrygroup] Add to EntryGroup Success';
-export const CART_ADD_TO_ENTRYGROUP_FAIL = '[Cart-entrygroup] Add to EntryGroup Fail';
+export const CART_ADD_TO_ENTRYGROUP_SUCCESS =
+  '[Cart-entrygroup] Add to EntryGroup Success';
+export const CART_ADD_TO_ENTRYGROUP_FAIL =
+  '[Cart-entrygroup] Add to EntryGroup Fail';
 
 export class CartRemoveEntryGroup extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_REMOVE_ENTRYGROUP;
@@ -34,10 +38,18 @@ export class CartRemoveEntryGroupSuccess extends StateUtils.EntityProcessesDecre
   }
 }
 
-export class CartRemoveEntryGroupFail extends StateUtils.EntityProcessesDecrementAction implements ErrorAction {
+export class CartRemoveEntryGroupFail
+  extends StateUtils.EntityProcessesDecrementAction
+  implements ErrorAction
+{
   readonly type = CART_REMOVE_ENTRYGROUP_FAIL;
   constructor(
-    public payload: { error: any; cartId: string; userId: string; entryGroupNumber: number }
+    public payload: {
+      error: any;
+      cartId: string;
+      userId: string;
+      entryGroupNumber: number;
+    }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -74,16 +86,26 @@ export class CartAddToEntryGroupSuccess extends StateUtils.EntityProcessesDecrem
       quantityAdded?: number;
       statusCode?: string;
       statusMessage?: string;
-     }
+    }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
-export class CartAddToEntryGroupFail extends StateUtils.EntityProcessesDecrementAction implements ErrorAction {
+export class CartAddToEntryGroupFail
+  extends StateUtils.EntityProcessesDecrementAction
+  implements ErrorAction
+{
   readonly type = CART_ADD_TO_ENTRYGROUP_FAIL;
   constructor(
-    public payload: { error: any; userId: string; cartId: string; entryGroupNumber: number; productCode: string; quantity: number }
+    public payload: {
+      error: any;
+      userId: string;
+      cartId: string;
+      entryGroupNumber: number;
+      productCode: string;
+      quantity: number;
+    }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }

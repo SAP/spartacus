@@ -10,9 +10,7 @@ describe('HierarchyNodeCollapsibleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-      ],
+      imports: [I18nTestingModule],
       declarations: [HierarchyNodeCollapsibleComponent],
     }).compileComponents();
   });

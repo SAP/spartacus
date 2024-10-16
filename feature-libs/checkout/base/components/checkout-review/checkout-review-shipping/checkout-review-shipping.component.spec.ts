@@ -6,7 +6,13 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { Address, Country, FeatureConfigService, FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import {
+  Address,
+  Country,
+  FeatureConfigService,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
@@ -23,7 +29,11 @@ import {
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { Card, HierarchyComponentService, OutletModule } from '@spartacus/storefront';
+import {
+  Card,
+  HierarchyComponentService,
+  OutletModule,
+} from '@spartacus/storefront';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 
@@ -108,12 +118,10 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   getDeliveryEntryGroups = createSpy().and.returnValue(of([{}]));
 }
 
-
-class MockHierachyService implements Partial<HierarchyComponentService>{
+class MockHierachyService implements Partial<HierarchyComponentService> {
   getEntriesFromGroups = createSpy().and.returnValue(of([{}]));
   getBundlesFromGroups = createSpy().and.returnValue(of([]));
 }
-
 
 @Pipe({
   name: 'cxUrl',
@@ -140,7 +148,10 @@ class MockCardComponent {
 describe('CheckoutReviewShippingComponent', () => {
   let component: CheckoutReviewShippingComponent;
   let fixture: ComponentFixture<CheckoutReviewShippingComponent>;
-  const mockFeatureConfigService = jasmine.createSpyObj('FeatureConfigService', ['isEnabled']);
+  const mockFeatureConfigService = jasmine.createSpyObj(
+    'FeatureConfigService',
+    ['isEnabled']
+  );
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -149,7 +160,7 @@ describe('CheckoutReviewShippingComponent', () => {
         RouterTestingModule,
         IconTestingModule,
         OutletModule,
-        FeaturesConfigModule
+        FeaturesConfigModule,
       ],
       declarations: [
         CheckoutReviewShippingComponent,
@@ -178,9 +189,7 @@ describe('CheckoutReviewShippingComponent', () => {
           provide: HierarchyComponentService,
           useClass: MockHierachyService,
         },
-        { provide: FeatureConfigService,
-          useValue: mockFeatureConfigService,
-        },
+        { provide: FeatureConfigService, useValue: mockFeatureConfigService },
       ],
     }).compileComponents();
 

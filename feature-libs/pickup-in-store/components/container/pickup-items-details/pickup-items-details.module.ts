@@ -15,7 +15,13 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { CardModule, HierarchyModule, IconModule, MediaModule, OutletModule } from '@spartacus/storefront';
+import {
+  CardModule,
+  HierarchyModule,
+  IconModule,
+  MediaModule,
+  OutletModule,
+} from '@spartacus/storefront';
 import { StoreModule } from '../../presentational';
 import { PickUpItemsDetailsComponent } from './pickup-items-details.component';
 

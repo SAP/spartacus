@@ -41,13 +41,16 @@ describe('Cart effect', () => {
 
     const mockCartEntryGroupConnector: Partial<CartEntryGroupConnector> = {
       addTo: createSpy().and.returnValue(of(mockCartModification)),
-      remove: createSpy().and.returnValue(of({}))
+      remove: createSpy().and.returnValue(of({})),
     };
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        { provide: CartEntryGroupConnector, useValue: mockCartEntryGroupConnector },
+        {
+          provide: CartEntryGroupConnector,
+          useValue: mockCartEntryGroupConnector,
+        },
         fromEffects.CartEntryGroupEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$),
@@ -59,8 +62,16 @@ describe('Cart effect', () => {
 
   describe('removeEntryGroup$', () => {
     it('should remove an entry group', () => {
-      const action = new CartActions.CartRemoveEntryGroup({ userId, cartId, entryGroupNumber });
-      const completion = new CartActions.CartRemoveEntryGroupSuccess({ userId, cartId, entryGroupNumber });
+      const action = new CartActions.CartRemoveEntryGroup({
+        userId,
+        cartId,
+        entryGroupNumber,
+      });
+      const completion = new CartActions.CartRemoveEntryGroupSuccess({
+        userId,
+        cartId,
+        entryGroupNumber,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

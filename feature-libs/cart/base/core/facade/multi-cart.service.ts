@@ -11,7 +11,7 @@ import {
   CartType,
   MultiCartFacade,
   OrderEntry,
-  OrderEntryGroup
+  OrderEntryGroup,
 } from '@spartacus/cart/base/root';
 import { isNotUndefined, StateUtils, UserIdService } from '@spartacus/core';
 import { Observable, of, timer } from 'rxjs';
@@ -444,7 +444,7 @@ export class MultiCartService implements MultiCartFacade {
     cartId: string,
     entryGroupNumber: number,
     productCode: string,
-    quantity: number = 1,
+    quantity: number = 1
   ): void {
     this.store.dispatch(
       new CartActions.CartAddToEntryGroup({

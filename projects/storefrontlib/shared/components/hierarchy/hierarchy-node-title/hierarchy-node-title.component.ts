@@ -25,5 +25,4 @@ export class HierarchyNodeTitleComponent {
   removeBundle(entryGroupNumber: any) {
     this.activeCartService.removeEntryGroup(entryGroupNumber);
   }
-
 }

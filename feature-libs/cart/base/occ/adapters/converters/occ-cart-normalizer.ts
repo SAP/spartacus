@@ -41,16 +41,22 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
     }
 
     if (source.entryGroups) {
-      const mapEntryGroups = (groups: Occ.OrderEntryGroup[]): OrderEntryGroup[] =>
+      const mapEntryGroups = (
+        groups: Occ.OrderEntryGroup[]
+      ): OrderEntryGroup[] =>
         groups.map(
           (group) =>
             ({
               ...group,
-              entries: group.entries?.map(e => target?.entries?.find(entry => entry.entryNumber === e.entryNumber)),
+              entries: group.entries?.map((e) =>
+                target?.entries?.find(
+                  (entry) => entry.entryNumber === e.entryNumber
+                )
+              ),
               ...(group.entryGroups?.length && {
                 entryGroups: mapEntryGroups(group.entryGroups),
               }),
-            } as OrderEntryGroup)
+            }) as OrderEntryGroup
         );
       target.entryGroups = mapEntryGroups(source.entryGroups);
     }

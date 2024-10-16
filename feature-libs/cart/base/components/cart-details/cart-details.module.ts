@@ -15,12 +15,15 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { PromotionsModule, HierarchyModule, OutletModule } from '@spartacus/storefront';
+import {
+  PromotionsModule,
+  HierarchyModule,
+  OutletModule,
+} from '@spartacus/storefront';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartDetailsComponent } from './cart-details.component';
 import { CartValidationWarningsModule } from '../validation/cart-warnings/cart-validation-warnings.module';
-
 
 @NgModule({
   imports: [

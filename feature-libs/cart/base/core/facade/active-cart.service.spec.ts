@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { Cart, MultiCartFacade, OrderEntry, OrderEntryGroup } from '@spartacus/cart/base/root';
+import {
+  Cart,
+  MultiCartFacade,
+  OrderEntry,
+  OrderEntryGroup,
+} from '@spartacus/cart/base/root';
 import {
   getLastValueSync,
   OCC_CART_ID_CURRENT,
@@ -87,19 +92,19 @@ const mockOrderEntryGroups: OrderEntryGroup[] = [
     type: 'STANDALONE',
     entryGroups: [],
     entryGroupNumber: 1,
-    entries: [{ orderCode: 'code1', deliveryPointOfService: { name: 'A Store' } }],
+    entries: [
+      { orderCode: 'code1', deliveryPointOfService: { name: 'A Store' } },
+    ],
   },
   {
     type: 'CONFIGURABLEBUNDLE',
     entryGroups: [
       {
         type: 'CONFIGURABLEBUNDLE',
-        entries: [
-          { entryNumber: 2 },
-        ]
+        entries: [{ entryNumber: 2 }],
       },
     ],
-  }
+  },
 ];
 
 describe('ActiveCartService', () => {
@@ -314,7 +319,9 @@ describe('ActiveCartService', () => {
 
   describe('getEntryGroups', () => {
     it('should return cart entry groups', () => {
-      spyOn(multiCartFacade, 'getEntryGroups').and.returnValue(of(mockOrderEntryGroups));
+      spyOn(multiCartFacade, 'getEntryGroups').and.returnValue(
+        of(mockOrderEntryGroups)
+      );
       service['activeCartId$'] = of('cartId');
 
       let result;
@@ -1073,7 +1080,9 @@ describe('ActiveCartService', () => {
 
   describe('getPickupEntryGroups', () => {
     it('should return only entry groups with pickup entries', (done) => {
-      spyOn(multiCartFacade, 'getEntryGroups').and.returnValue(of(mockOrderEntryGroups));
+      spyOn(multiCartFacade, 'getEntryGroups').and.returnValue(
+        of(mockOrderEntryGroups)
+      );
 
       service.getPickupEntryGroups().subscribe((result) => {
         expect(result.length).toBe(1);
@@ -1085,14 +1094,15 @@ describe('ActiveCartService', () => {
 
   describe('getDeliveryEntryGroups', () => {
     it('should return only entry groups with delivery entries', (done) => {
-      spyOn(multiCartFacade, 'getEntryGroups').and.returnValue(of(mockOrderEntryGroups));
+      spyOn(multiCartFacade, 'getEntryGroups').and.returnValue(
+        of(mockOrderEntryGroups)
+      );
 
       service.getDeliveryEntryGroups().subscribe((result) => {
         expect(result.length).toBe(1);
-        expect(result[0].type).toBe("CONFIGURABLEBUNDLE");
+        expect(result[0].type).toBe('CONFIGURABLEBUNDLE');
         done();
       });
     });
   });
-
 });

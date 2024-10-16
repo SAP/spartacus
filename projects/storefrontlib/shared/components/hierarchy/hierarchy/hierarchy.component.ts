@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  Input,
-  OnInit,
-  TemplateRef,
-} from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { HierarchyNode } from '../hierarchy-node/hierarchy-node.model';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 

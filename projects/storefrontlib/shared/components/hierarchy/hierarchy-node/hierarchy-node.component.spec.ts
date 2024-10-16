@@ -15,13 +15,13 @@ describe('HierarchyNodeComponent', () => {
       providers: [
         {
           provide: ActiveCartFacade,
-          useValue: {} // mock the ActiveCartFacade
+          useValue: {}, // mock the ActiveCartFacade
         },
         {
           provide: TemplateRef,
-          useValue: {} // mock the TemplateRef
-        }
-      ]
+          useValue: {}, // mock the TemplateRef
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HierarchyNodeComponent);
@@ -60,8 +60,8 @@ describe('HierarchyNodeComponent', () => {
         currentValue: titleNode,
         previousValue: null,
         firstChange: true,
-        isFirstChange: () => true
-      }
+        isFirstChange: () => true,
+      },
     });
 
     expect(component.type).toBe('TITLE');
@@ -76,8 +76,8 @@ describe('HierarchyNodeComponent', () => {
         currentValue: collapsibleNode,
         previousValue: null,
         firstChange: true,
-        isFirstChange: () => true
-      }
+        isFirstChange: () => true,
+      },
     });
 
     expect(component.type).toBe('COLLAPSIBLE');

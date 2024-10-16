@@ -18,7 +18,11 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
-import { HierarchyComponentService, HierarchyNode, PromotionsModule } from '@spartacus/storefront';
+import {
+  HierarchyComponentService,
+  HierarchyNode,
+  PromotionsModule,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CartDetailsComponent } from './cart-details.component';
 
@@ -109,11 +113,19 @@ describe('CartDetailsComponent', () => {
 
   const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
 
-  const mockFeatureConfigService = jasmine.createSpyObj('FeatureConfigService', ['isEnabled']);
+  const mockFeatureConfigService = jasmine.createSpyObj(
+    'FeatureConfigService',
+    ['isEnabled']
+  );
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, PromotionsModule, I18nTestingModule, FeaturesConfigModule],
+      imports: [
+        RouterTestingModule,
+        PromotionsModule,
+        I18nTestingModule,
+        FeaturesConfigModule,
+      ],
       declarations: [
         CartDetailsComponent,
         MockCartItemListComponent,
@@ -136,9 +148,7 @@ describe('CartDetailsComponent', () => {
           provide: HierarchyComponentService,
           useClass: MockHierachyService,
         },
-        { provide: FeatureConfigService,
-          useValue: mockFeatureConfigService,
-        },
+        { provide: FeatureConfigService, useValue: mockFeatureConfigService },
       ],
     }).compileComponents();
 
