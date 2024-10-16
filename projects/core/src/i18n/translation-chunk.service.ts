@@ -57,10 +57,10 @@ export class TranslationChunkService {
         }.${key}'.`
       );
     });
-    this.logger.warn(
-      `Duplicated keys has been found in the config of i18n chunks:\n${dupes.join(
-        '\n'
-      )}`
-    );
+    // this.logger.warn(
+    //   `Duplicated keys has been found in the config of i18n chunks:\n${dupes.join(
+    //     '\n'
+    //   )}`
+    // );
   }
 }
