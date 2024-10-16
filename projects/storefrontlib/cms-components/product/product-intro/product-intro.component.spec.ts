@@ -17,8 +17,8 @@ import { ProductIntroComponent } from './product-intro.component';
   template: '',
 })
 class MockStarRatingComponent {
-  @Input() rating;
-  @Input() disabled;
+  @Input() rating: number;
+  @Input() disabled: boolean;
 }
 
 class MockCurrentProductService {

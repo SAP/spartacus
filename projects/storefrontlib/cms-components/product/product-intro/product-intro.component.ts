@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   EventService,
+  FeatureConfigService,
   Product,
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { defer, merge, Observable, of } from 'rxjs';
+import { Observable, defer, merge, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import {
   ComponentCreateEvent,
@@ -27,6 +28,8 @@ import { CurrentProductService } from '../current-product.service';
 export class ProductIntroComponent {
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
+
+  private featureConfigService = inject(FeatureConfigService);
 
   /**
    * Observable that checks the reviews component availability on the page.
@@ -72,12 +75,25 @@ export class ProductIntroComponent {
         const tabsComponent = this.getTabsComponent();
         const reviewsTab =
           tabsComponent && this.getTabByLabel(reviewsTabLabel, tabsComponent);
-
         if (reviewsTab) {
           this.clickTabIfInactive(reviewsTab);
           setTimeout(() => {
-            reviewsTab.scrollIntoView({ behavior: 'smooth' });
-            reviewsTab.focus({ preventScroll: true });
+            if (
+              this.featureConfigService?.isEnabled(
+                'a11yScrollToReviewByShowReview'
+              )
+            ) {
+              requestAnimationFrame(() => {
+                reviewsTab.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start',
+                });
+                reviewsTab.focus({ preventScroll: true });
+              });
+            } else {
+              reviewsTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              reviewsTab.focus({ preventScroll: true });
+            }
           });
         }
       })
