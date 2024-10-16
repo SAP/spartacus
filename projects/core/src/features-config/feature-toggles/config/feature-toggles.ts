@@ -62,6 +62,11 @@ export interface FeatureTogglesInterface {
   showSearchingCustomerByOrderInASM?: boolean;
 
   /**
+   * New REDESIGNED search-box component
+   */
+  searchBoxV2?: boolean;
+
+  /**
    * Some Changes for input of cart Number and text of Customer360View in ASM view
    */
   showStyleChangesInASM?: boolean;
@@ -662,6 +667,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showBillingAddressInDigitalPayments: false,
   showDownloadProposalButton: false,
   showPromotionsInPDP: true,
+  searchBoxV2: false,
   recentSearches: true,
   trendingSearches: false,
   pdfInvoicesSortByInvoiceDate: true,
