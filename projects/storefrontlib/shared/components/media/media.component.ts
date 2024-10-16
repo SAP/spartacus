@@ -17,7 +17,7 @@ import {
   Renderer2,
   TrackByFunction,
 } from '@angular/core';
-import { Config, Image, ImageGroup } from '@spartacus/core';
+import { Config, Image, ImageGroup, WindowRef } from '@spartacus/core';
 import { ImageLoadingStrategy, Media, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
@@ -113,6 +113,7 @@ export class MediaComponent implements OnChanges {
 
   protected renderer = inject(Renderer2);
   protected document = inject(DOCUMENT);
+  protected windowRef = inject(WindowRef);
   constructor(protected mediaService: MediaService) {}
 
   ngOnChanges(): void {
@@ -144,34 +145,38 @@ export class MediaComponent implements OnChanges {
     }
 
     const sources = this.mediaService.getSources(this.media.srcset);
-    let previousMaxWidth = 0;
 
-    sources.forEach((source, index) => {
-      const preloadLink = this.renderer.createElement('link');
-      this.renderer.setAttribute(preloadLink, 'rel', 'preload');
-      this.renderer.setAttribute(preloadLink, 'as', 'image');
-      this.renderer.setAttribute(preloadLink, 'href', source.srcset);
+    sources
+      .reverse() // SPIKE - ORDER IS IMPORTANT. IF WE insertBefore, then we have to reverse the list first
+      .forEach((source, index) => {
+        const preloadLink = this.renderer.createElement('link');
+        this.renderer.setAttribute(preloadLink, 'rel', 'preload');
+        this.renderer.setAttribute(preloadLink, 'as', 'image');
+        this.renderer.setAttribute(preloadLink, 'href', source.srcset);
 
-      // Calculate the media attribute
-      let mediaQuery = '';
-      if (index === 0) {
-        mediaQuery = `(max-width: ${source.width}px)`;
-      } else if (index === sources.length - 1) {
-        mediaQuery = `(min-width: ${previousMaxWidth + 0.1}px)`;
-      } else {
-        mediaQuery = `(min-width: ${previousMaxWidth + 0.1}px) and (max-width: ${source.width}px)`;
-      }
-      this.renderer.setAttribute(preloadLink, 'media', mediaQuery);
+        // Calculate the media attribute
+        let mediaQuery = '';
 
-      this.document.head.insertBefore(
-        preloadLink,
-        this.document.head.firstChild
-      );
+        // SPIKE OLD - buggy, because first source is also min-width. HOWEVER WE MIGHT WANT TO FIX IT
+        // if (index === 0) {
+        //   mediaQuery = `(max-width: ${source.width}px)`;
+        // } else if (index === sources.length - 1) {
 
-      console.log('<cx-media> SPIKE NEW: added preloadLink', preloadLink);
+        // SPIKE NEW - but still buggy, because first source is also min-width
+        if (index < sources.length - 1) {
+          mediaQuery = `(min-width: ${source.width}px) and (max-width: ${sources[index + 1].width}px)`;
+        } else {
+          mediaQuery = `(min-width: ${source.width}px)`;
+        }
+        this.renderer.setAttribute(preloadLink, 'media', mediaQuery);
 
-      previousMaxWidth = source.width;
-    });
+        this.document.head.insertBefore(
+          preloadLink,
+          this.document.head.firstChild
+        );
+
+        console.log('<cx-media> SPIKE NEW: added preloadLink', preloadLink);
+      });
   }
 
   /**
