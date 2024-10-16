@@ -50,7 +50,7 @@ export class MediaService {
     const preconnect = renderer.createElement('link');
     renderer.setAttribute(preconnect, 'rel', 'preconnect');
     renderer.setAttribute(preconnect, 'href', this.getBaseUrl());
-    renderer.appendChild(this.document.head, preconnect);
+    this.document.head.insertBefore(preconnect, this.document.head.firstChild);
     console.log('[MEDIA SERVICE] SPIKE NEW: added preconnect', preconnect);
   }
 

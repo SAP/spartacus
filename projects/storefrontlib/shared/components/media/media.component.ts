@@ -163,7 +163,11 @@ export class MediaComponent implements OnChanges {
       }
       this.renderer.setAttribute(preloadLink, 'media', mediaQuery);
 
-      this.renderer.appendChild(this.document.head, preloadLink);
+      this.document.head.insertBefore(
+        preloadLink,
+        this.document.head.firstChild
+      );
+
       console.log('<cx-media> SPIKE NEW: added preloadLink', preloadLink);
 
       previousMaxWidth = source.width;
