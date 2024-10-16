@@ -1,8 +1,5 @@
-<section [attr.aria-labelledby]="'shipping-address-title'">
-  <h2
-    id="shipping-address-title"
-    class="cx-checkout-title d-none d-lg-block d-xl-block"
-  >
+<section [attr.aria-label]="'checkoutAddress.shippingAddress' | cxTranslate">
+  <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'checkoutAddress.shippingAddress' | cxTranslate }}
   </h2>
 
@@ -30,7 +27,6 @@
         <div class="cx-checkout-btns cx-checkout-btns-top">
           <button
             class="btn btn-block btn-secondary"
-            [attr.aria-describedby]="'shipping-address-title'"
             (click)="showNewAddressForm()"
           >
             {{ 'checkoutAddress.addNewAddress' | cxTranslate }}
