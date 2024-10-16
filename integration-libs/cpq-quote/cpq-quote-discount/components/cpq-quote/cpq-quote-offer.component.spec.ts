@@ -109,5 +109,51 @@ describe('CpqQuoteOfferComponent', () => {
       component.ngOnInit();
       expect(component.quoteDiscountData).toBeNull();
     });
+    it('should calculate the correct discount percentage', () => {
+      const basePrice = 100;
+      const appliedDiscount = 20;
+      const quantity = 1;
+      const expectedPercentage =
+        (appliedDiscount / (basePrice * quantity)) * 100;
+      const result = component.getDiscountPercentage(
+        basePrice,
+        appliedDiscount,
+        quantity
+      );
+      expect(result).toBe(expectedPercentage);
+    });
+  });
+  describe('formatDiscount', () => {
+    it('should return an empty string for undefined input', () => {
+      expect(component.formatDiscount(undefined)).toBe('');
+    });
+
+    it('should return "5" for input 5', () => {
+      expect(component.formatDiscount(5)).toBe('5');
+    });
+
+    it('should return "5.50" for input 5.5', () => {
+      expect(component.formatDiscount(5.5)).toBe('5.50');
+    });
+
+    it('should return "5.12" for input 5.1234', () => {
+      expect(component.formatDiscount(5.1234)).toBe('5.12');
+    });
+
+    it('should return "0" for input 0', () => {
+      expect(component.formatDiscount(0)).toBe('0');
+    });
+
+    it('should return "-3" for input -3', () => {
+      expect(component.formatDiscount(-3)).toBe('-3');
+    });
+
+    it('should return "-3.25" for input -3.25', () => {
+      expect(component.formatDiscount(-3.25)).toBe('-3.25');
+    });
+
+    it('should return "1000000" for input 1000000', () => {
+      expect(component.formatDiscount(1000000)).toBe('1000000');
+    });
   });
 });
