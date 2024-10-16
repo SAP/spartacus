@@ -16,7 +16,7 @@
         "outputPath": "dist/storefrontapp",
         "index": "projects/storefrontapp/src/index.html",
         "main": "projects/storefrontapp/src/main.ts",
-        "polyfills": ["core-js/es/reflect", "zone.js"],
+        "polyfills": ["zone.js"],
         "tsConfig": "projects/storefrontapp/tsconfig.app.json",
         "assets": [
           "projects/storefrontapp/src/favicon.ico",
@@ -166,7 +166,7 @@
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
         "main": "projects/storefrontapp/src/test.ts",
-        "polyfills": ["core-js/es/reflect", "zone.js"],
+        "polyfills": ["zone.js"],
         "tsConfig": "projects/storefrontapp/tsconfig.spec.json",
         "karmaConfig": "projects/storefrontapp/karma.conf.js",
         "styles": ["projects/storefrontapp/src/styles.scss"],
