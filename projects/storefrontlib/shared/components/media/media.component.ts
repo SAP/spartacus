@@ -140,6 +140,10 @@ export class MediaComponent implements OnChanges {
   }
 
   protected createPreloadLinks(): void {
+    if (this.windowRef.isBrowser()) {
+      return;
+    }
+
     if (!this.media?.srcset) {
       return;
     }

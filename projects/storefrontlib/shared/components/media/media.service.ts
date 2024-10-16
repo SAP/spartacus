@@ -6,7 +6,7 @@
 
 import { DOCUMENT } from '@angular/common';
 import { Injectable, RendererFactory2, inject } from '@angular/core';
-import { Config, Image } from '@spartacus/core';
+import { Config, Image, WindowRef } from '@spartacus/core';
 import { MediaConfig } from './media.config';
 import {
   ImageLoadingStrategy,
@@ -40,9 +40,14 @@ export class MediaService {
 
   rendererFactory = inject(RendererFactory2);
   document = inject(DOCUMENT);
+  windowRef = inject(WindowRef);
   constructor(protected config: Config) {}
 
   init() {
+    if (this.windowRef.isBrowser()) {
+      return;
+    }
+
     // add preconnect for the base url:
 
     // SPIKE IT SHOULD BE DONE IN APPINITALZIER. setTimeout is a hack here
