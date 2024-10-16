@@ -62,7 +62,8 @@
     "footerNavLabel": "Footer links",
     "goTo": "Go to {{location}}",
     "navigateTo": "Navigate to {{nav}}",
-    "scrollToTop": "Scroll back to the top of the page"
+    "scrollToTop": "Scroll back to the top of the page",
+    "linkItemInList": "{{title}}. {{position}} of {{listLength}}"
   },
   "searchBox": {
     "placeholder": "Enter product name or SKU",
@@ -83,7 +84,8 @@
       "noMatch": "We could not find any results",
       "exactMatch": "{{ term }}",
       "empty": "Ask us anything"
-    }
+    },
+    "closeSearchPanel": "Close"
   },
   "sorting": {
     "date": "Date",
