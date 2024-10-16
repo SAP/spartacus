@@ -9,7 +9,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
@@ -40,14 +39,11 @@ import { CartValidationWarningsModule } from '../validation/cart-warnings/cart-v
     FeaturesConfigModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig | FeaturesConfig>{
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CartComponent: {
           component: CartDetailsComponent,
         },
-      },
-      features: {
-        isEntryGroupsEnabled: true,
       },
     }),
   ],

@@ -1,5 +1,5 @@
 <ng-container *ngIf="entries$ | async as entries">
-  <ng-container *cxFeature="'!isEntryGroupsEnabled'">
+  <ng-container *cxFeature="'!enableBundles'">
     <ng-container *ngIf="entries.length > 0">
       <h2 class="cx-review-header">
         {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
@@ -66,7 +66,7 @@
     </ng-container>
   </ng-container>
 
-  <ng-container *cxFeature="'isEntryGroupsEnabled'">
+  <ng-container *cxFeature="'enableBundles'">
     <ng-container *ngIf="entryGroups$ | async as entryGroups">
       <ng-container *ngIf="entries.length > 0 || entryGroups.length > 0">
         <h2 class="cx-review-header">
@@ -138,7 +138,7 @@
             >
             </ng-template>
           </div>
-          <ng-container *cxFeature="'isEntryGroupsEnabled'">
+          <ng-container *cxFeature="'enableBundles'">
             <ng-container *ngFor="let bundle of bundles$ | async">
               <cx-hierarchy
                 [tree]="bundle"

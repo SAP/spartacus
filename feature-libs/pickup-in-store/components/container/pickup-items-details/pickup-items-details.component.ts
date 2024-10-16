@@ -48,8 +48,8 @@ export class PickUpItemsDetailsComponent implements OnInit {
     protected hierarchyService: HierarchyComponentService
   ) {}
   ngOnInit() {
-    if (this.featureConfig.isEnabled('isEntryGroupsEnabled')) {
-      // The user has enabled feature toggle "isEntryGroupsEnabled"
+    if (this.featureConfig.isEnabled('enableBundles')) {
+      // The user has enabled feature toggle "enableBundles"
       // which makes the cart use the new entry groups feature to provide bundle support.
 
       this.component.data$

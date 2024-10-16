@@ -36,7 +36,7 @@
         </div>
       </div>
 
-      <ng-container *cxFeature="'isEntryGroupsEnabled'">
+      <ng-container *cxFeature="'enableBundles'">
         <div class="cx-pickup-items-list">
           <div
             *ngIf="
@@ -69,7 +69,7 @@
         </div>
       </ng-container>
 
-      <ng-container *cxFeature="'!isEntryGroupsEnabled'">
+      <ng-container *cxFeature="'!enableBundles'">
         <div
           [ngClass]="'d-none d-md-flex'"
           class="row cx-delivery-pointof-service-item-header"

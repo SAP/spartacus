@@ -129,8 +129,8 @@ export class CheckoutDeliveryModeComponent implements OnInit {
     protected hierachyService: HierarchyComponentService
   ) {}
   ngOnInit() {
-    if (this.featureConfigService?.isEnabled('isEntryGroupsEnabled')) {
-      // The user has enabled feature toggle "isEntryGroupsEnabled"
+    if (this.featureConfigService?.isEnabled('enableBundles')) {
+      // The user has enabled feature toggle "enableBundles"
       // which makes the cart use the new entry groups feature to provide bundle support.
       this.entryGroups$ = this.activeCartFacade.getDeliveryEntryGroups();
       this.entries$ = this.hierachyService.getEntriesFromGroups(

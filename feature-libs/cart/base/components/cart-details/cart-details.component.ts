@@ -62,8 +62,8 @@ export class CartDetailsComponent implements OnInit {
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();
 
-    if (this.featureConfig.isEnabled('isEntryGroupsEnabled')) {
-      // The user has enabled feature toggle "isEntryGroupsEnabled"
+    if (this.featureConfig.isEnabled('enableBundles')) {
+      // The user has enabled feature toggle "enableBundles"
       // which makes the cart use the new entry groups feature to provide bundle support.
       this.entryGroups$ = this.activeCartService.getEntryGroups();
       this.entries$ = this.hierarchyService.getEntriesFromGroups(
@@ -73,7 +73,7 @@ export class CartDetailsComponent implements OnInit {
         this.entryGroups$
       );
     } else {
-      // The user has NOT enabled feature toggle "isEntryGroupsEnabled"
+      // The user has NOT enabled feature toggle "enableBundles"
       // which makes the cart use the OLD entries items. So new features that use entryGroups like bundles will not be supported until the user opts-in.
       this.entries$ = this.activeCartService
         .getEntries()

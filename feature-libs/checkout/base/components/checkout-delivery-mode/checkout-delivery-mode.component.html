@@ -130,7 +130,7 @@
 </ng-container>
 
 <ng-container *ngIf="activeCartFacade.hasPickupItems() | async">
-  <ng-container *cxFeature="'!isEntryGroupsEnabled'">
+  <ng-container *cxFeature="'!enableBundles'">
     <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
       {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
     </h2>
@@ -144,7 +144,7 @@
     </ng-template>
   </ng-container>
   <!-- CART ITEM AND HIERACHYTREE SECTION -->
-  <ng-container *cxFeature="'isEntryGroupsEnabled'">
+  <ng-container *cxFeature="'enableBundles'">
     <h2 class="cx-delivery-mode-header">
       {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
     </h2>

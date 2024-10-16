@@ -220,7 +220,7 @@ describe('CartDetailsComponent', () => {
     expect(cartName).toEqual('cartDetails.cartName code:123');
   });
 
-  it('should set entries$ and bundles$ if isEntryGroupsEnabled feature is enabled', () => {
+  it('should set entries$ and bundles$ if enableBundles feature is enabled', () => {
     mockFeatureConfigService.isEnabled.and.returnValue(true);
     fixture.detectChanges();
     expect(component.entryGroups$).toBeDefined();

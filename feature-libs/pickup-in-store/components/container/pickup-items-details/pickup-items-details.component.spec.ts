@@ -134,7 +134,7 @@ describe('Delivery Mode - PickUpItemsDetailsComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should set items details if isEntryGroupsEnabled feature is enabled', () => {
+  it('should set items details if enableBundles feature is enabled', () => {
     mockFeatureConfigService.isEnabled.and.returnValue(true);
     component.ngOnInit();
     expect(component.itemsDetails).toEqual(mockDeliveryPointOfService);

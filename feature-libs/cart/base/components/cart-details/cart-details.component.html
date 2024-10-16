@@ -26,7 +26,7 @@
         [ngClass]="entries.length === 0 ? 'emptyList' : 'noneEmptyList'"
       ></cx-cart-item-list>
     </ng-container>
-    <ng-container *cxFeature="'isEntryGroupsEnabled'">
+    <ng-container *cxFeature="'enableBundles'">
       <ng-container *ngFor="let bundle of bundles$ | async">
         <cx-hierarchy
           [tree]="bundle"

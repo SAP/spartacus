@@ -304,7 +304,7 @@ describe('CheckoutDeliveryModeComponent', () => {
     });
   }));
 
-  it('should set entries$ and bundles$ if isEntryGroupsEnabled feature is enabled', () => {
+  it('should set entries$ and bundles$ if enableBundles feature is enabled', () => {
     component.ngOnInit();
     expect(component.entryGroups$).toBeDefined();
     expect(component.entries$).toBeDefined();
