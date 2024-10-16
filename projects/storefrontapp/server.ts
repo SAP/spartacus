@@ -13,6 +13,7 @@ import {
   ngExpressEngine as engine,
 } from '@spartacus/setup/ssr';
 
+import compression from 'compression';
 import express from 'express';
 import { exec } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
@@ -37,6 +38,9 @@ const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
+
+  server.use(compression());
+
   const distFolder = join(process.cwd(), 'dist/storefrontapp');
   const indexHtml = existsSync(join(distFolder, 'index.original.html'))
     ? join(distFolder, 'index.original.html')
