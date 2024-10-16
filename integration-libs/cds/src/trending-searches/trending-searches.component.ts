@@ -60,4 +60,11 @@ export class TrendingSearchesComponent implements OnInit {
   get contextObservable() {
     return this.outletContext?.context$ ?? EMPTY;
   }
+
+  shareEvent(event: KeyboardEvent) {
+    if (!event) {
+      throw new Error('Missing Event');
+    }
+    this.searchBoxComponentService.shareEvent(event);
+  }
 }
