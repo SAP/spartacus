@@ -1,11 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Config, Image } from '@spartacus/core';
 import { LayoutConfig } from '../../../layout/config/layout-config';
-import {
-  ImageLoadingStrategy,
-  MediaContainer,
-  PictureElementQueries,
-} from './media.model';
+import { ImageLoadingStrategy, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 
 const MockStorefrontConfig: Config = {
@@ -30,27 +26,17 @@ const MockStorefrontConfig: Config = {
   },
   pictureElementFormats: {
     format400: {
-      mediaQueries: {
-        'max-width': '786px',
-        '-webkit-min-device-pixel-ratio': 3,
-      },
+      mediaQueries:
+        '(max-width: 768px) and (-webkit-min-device-pixel-ratio: 3)',
     },
     format200: {
-      mediaQueries: {
-        'min-width': '768px',
-        'max-width': '1024px',
-      },
+      mediaQueries: '(min-width: 768px) and (max-width: 1024px)',
     },
     format600: {
-      mediaQueries: {
-        'min-width': '1025px',
-        'max-width': '1439px',
-      },
+      mediaQueries: '(min-width: 1025px) and (max-width: 1439px)',
     },
     format1: {
-      mediaQueries: {
-        'min-width': '1440px',
-      },
+      mediaQueries: '(min-width: 1440px)',
     },
   },
   pictureFormatsOrder: ['format1', 'format200', 'format400', 'format600'],
@@ -446,7 +432,7 @@ describe('MediaService', () => {
           },
           {
             srcset: 'base:format-400.url',
-            media: '(max-width: 786px) and (-webkit-min-device-pixel-ratio: 3)',
+            media: '(max-width: 768px) and (-webkit-min-device-pixel-ratio: 3)',
             width: undefined,
             height: undefined,
           },
@@ -480,7 +466,7 @@ describe('MediaService', () => {
           },
           {
             srcset: 'base:format-400.url',
-            media: '(max-width: 786px) and (-webkit-min-device-pixel-ratio: 3)',
+            media: '(max-width: 768px) and (-webkit-min-device-pixel-ratio: 3)',
             width: undefined,
             height: undefined,
           },
@@ -497,7 +483,7 @@ describe('MediaService', () => {
           },
           {
             srcset: 'base:format-400.url',
-            media: '(max-width: 786px) and (-webkit-min-device-pixel-ratio: 3)',
+            media: '(max-width: 768px) and (-webkit-min-device-pixel-ratio: 3)',
             width: undefined,
             height: undefined,
           },
@@ -630,87 +616,29 @@ describe('MediaService', () => {
     });
   });
 
-  describe('generateMediaQuery()', () => {
-    it('should return an empty string if queries are empty', () => {
-      configureTestingModule({});
-      const service = TestBed.inject(MediaService);
-
-      const queries: PictureElementQueries = {};
-      expect(service['generateMediaQuery'](queries)).toBe('');
-    });
-
-    it('should return correct media query for given queries', () => {
-      configureTestingModule(MockStorefrontConfig);
-      const service = TestBed.inject(MediaService);
-
-      const queries: PictureElementQueries = {
-        'min-width': 768,
-        'max-width': 1024,
-      };
-      expect(service['generateMediaQuery'](queries)).toBe(
-        '(min-width: 768) and (max-width: 1024)'
-      );
-    });
-
-    it('should ignore undefined query values', () => {
-      configureTestingModule(MockStorefrontConfig);
-      const service = TestBed.inject(MediaService);
-
-      const queries: PictureElementQueries = {
-        'min-width': 768,
-        'max-width': undefined as unknown as any,
-      };
-      expect(service['generateMediaQuery'](queries)).toBe('(min-width: 768)');
-    });
-
-    it('should return correct media query for mixed queries', () => {
-      configureTestingModule(MockStorefrontConfig);
-      const service = TestBed.inject(MediaService);
-
-      const queries: PictureElementQueries = {
-        'min-width': 768,
-        'max-width': 1024,
-        orientation: 'landscape',
-      };
-      expect(service['generateMediaQuery'](queries)).toBe(
-        '(min-width: 768) and (max-width: 1024) and (orientation: landscape)'
-      );
-    });
-  });
-
   describe('width and height attributes for picture sources', () => {
     it('should return all images with proper width and height properties based on values from config', () => {
       const config = {
         ...MockStorefrontConfig,
         pictureElementFormats: {
           format400: {
-            mediaQueries: {
-              'max-width': '786px',
-              '-webkit-min-device-pixel-ratio': 3,
-            },
+            mediaQueries:
+              '(max-width: 768px) and (-webkit-min-device-pixel-ratio: 3)',
             width: 200,
             height: 300,
           },
           format200: {
-            mediaQueries: {
-              'min-width': '768px',
-              'max-width': '1024px',
-            },
+            mediaQueries: '(min-width: 768px) and (max-width: 1024px)',
             width: 700,
             height: 1000,
           },
           format600: {
-            mediaQueries: {
-              'min-width': '1025px',
-              'max-width': '1439px',
-            },
+            mediaQueries: '(min-width: 1025px) and (max-width: 1439px)',
             width: 1000,
             height: 800,
           },
           format1: {
-            mediaQueries: {
-              'min-width': '1440px',
-            },
+            mediaQueries: '(min-width: 1440px)',
             width: 1440,
             height: 1000,
           },
@@ -728,7 +656,7 @@ describe('MediaService', () => {
         },
         {
           srcset: 'base:format-400.url',
-          media: '(max-width: 786px) and (-webkit-min-device-pixel-ratio: 3)',
+          media: '(max-width: 768px) and (-webkit-min-device-pixel-ratio: 3)',
           width: 200,
           height: 300,
         },

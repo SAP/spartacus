@@ -12,7 +12,6 @@ import {
   Media,
   MediaContainer,
   MediaFormatSize,
-  PictureElementQueries,
   PictureHTMLElementSources,
 } from './media.model';
 
@@ -191,9 +190,7 @@ export class MediaService {
       this._sortedPictureFormats = Object.keys(pictureElementMediaFormats).map(
         (key) => ({
           code: key,
-          mediaQuery: this.generateMediaQuery(
-            pictureElementMediaFormats[key].mediaQueries
-          ),
+          mediaQuery: pictureElementMediaFormats[key]?.mediaQueries || '',
         })
       );
 
@@ -211,28 +208,6 @@ export class MediaService {
     }
 
     return this._sortedPictureFormats ?? [];
-  }
-
-  /**
-   * Generates a CSS media query string from the given PictureElementQueries object.
-   *
-   * @param {PictureElementQueries} queries - An object containing media query properties.
-   * @returns {string} A string representing the CSS media query.
-   *
-   * This method constructs a media query string from the provided query
-   * properties in config and joining them with "and".
-   */
-  protected generateMediaQuery(
-    queries: PictureElementQueries | undefined
-  ): string {
-    if (!queries) {
-      return '';
-    }
-
-    return Object.entries(queries)
-      .filter(([key, value]) => !!key && !!value)
-      .map(([key, value]) => `(${key}: ${value})`)
-      .join(' and ');
   }
 
   /**

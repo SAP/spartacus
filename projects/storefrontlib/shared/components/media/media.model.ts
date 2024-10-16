@@ -73,9 +73,7 @@ export interface MediaFormatSize {
  * You can check available queries in official docs
  * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries
  */
-export type PictureElementQueries = {
-  [query: string]: string | number;
-};
+export type PictureElementQueries = string;
 
 export interface PictureHTMLElementSources {
   srcset: string;
