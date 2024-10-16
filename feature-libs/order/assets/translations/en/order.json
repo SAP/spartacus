@@ -130,7 +130,8 @@
       "AccountOrderHistoryComponent": "ALL ORDERS ({{param}})",
       "OrderReturnRequestListComponent": "RETURNS ({{param}})"
     },
-    "tabPanelContainerRegion": "Group with order history details"
+    "tabPanelContainerRegion": "Group with order history details",
+    "tabPanelContainerRegionGroup": "Group with order history details"
   },
   "returnRequestList": {
     "returnRequestId": "Return #",
