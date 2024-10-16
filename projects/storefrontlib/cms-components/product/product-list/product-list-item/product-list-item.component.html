@@ -11,6 +11,15 @@
       class="cx-product-image-container"
     >
       <cx-media
+        *cxFeature="'useExtendedMediaComponentConfiguration'"
+        class="cx-product-image"
+        [elementType]="'img'"
+        [container]="product.images?.PRIMARY"
+        format="product"
+        [alt]="product.name || product.summary"
+      ></cx-media>
+      <cx-media
+        *cxFeature="'!useExtendedMediaComponentConfiguration'"
         class="cx-product-image"
         [container]="product.images?.PRIMARY"
         format="product"

@@ -21,7 +21,17 @@
               (click)="changeVariant(option.code)"
               [cxFocus]="{ key: option.code }"
             >
-              <cx-media [container]="option.image" role="img" />
+              <cx-media
+                *cxFeature="'useExtendedMediaComponentConfiguration'"
+                [container]="option.image"
+                role="img"
+                [elementType]="'img'"
+              />
+              <cx-media
+                *cxFeature="'!useExtendedMediaComponentConfiguration'"
+                [container]="option.image"
+                role="img"
+              />
             </button>
           </div>
         </div>

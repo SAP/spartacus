@@ -54,6 +54,13 @@
         <td role="cell">
           <div class="cx-table-item-container">
             <cx-media
+              *cxFeature="'useExtendedMediaComponentConfiguration'"
+              [container]="item.product.images?.PRIMARY"
+              [elementType]="'img'"
+              format="thumbnail"
+            ></cx-media>
+            <cx-media
+              *cxFeature="'!useExtendedMediaComponentConfiguration'"
               [container]="item.product.images?.PRIMARY"
               format="thumbnail"
             ></cx-media>

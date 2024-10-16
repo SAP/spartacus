@@ -10,21 +10,45 @@
 </ng-container>
 
 <ng-template #thumb let-item="item">
-  <cx-media
-    *cxFeature="'a11yCarouselArrowKeysNavigation'"
-    cxFocusableCarouselItem
-    [container]="item.container"
-    tabindex="0"
-    (focus)="openImage(item.container)"
-    [class.is-active]="isActive(item.container) | async"
-  >
-  </cx-media>
-  <cx-media
-    *cxFeature="'!a11yCarouselArrowKeysNavigation'"
-    [container]="item.container"
-    tabindex="0"
-    (focus)="openImage(item.container)"
-    [class.is-active]="isActive(item.container) | async"
-  >
-  </cx-media>
+  <ng-container *cxFeature="'useExtendedMediaComponentConfiguration'">
+    <cx-media
+      *cxFeature="'a11yCarouselArrowKeysNavigation'"
+      [elementType]="'img'"
+      cxFocusableCarouselItem
+      [container]="item.container"
+      tabindex="0"
+      (focus)="openImage(item.container)"
+      [class.is-active]="isActive(item.container) | async"
+    >
+    </cx-media>
+    <cx-media
+      *cxFeature="'!a11yCarouselArrowKeysNavigation'"
+      [elementType]="'img'"
+      [container]="item.container"
+      tabindex="0"
+      (focus)="openImage(item.container)"
+      [class.is-active]="isActive(item.container) | async"
+    >
+    </cx-media>
+  </ng-container>
+
+  <ng-container *cxFeature="'!useExtendedMediaComponentConfiguration'">
+    <cx-media
+      *cxFeature="'a11yCarouselArrowKeysNavigation'"
+      cxFocusableCarouselItem
+      [container]="item.container"
+      tabindex="0"
+      (focus)="openImage(item.container)"
+      [class.is-active]="isActive(item.container) | async"
+    >
+    </cx-media>
+    <cx-media
+      *cxFeature="'!a11yCarouselArrowKeysNavigation'"
+      [container]="item.container"
+      tabindex="0"
+      (focus)="openImage(item.container)"
+      [class.is-active]="isActive(item.container) | async"
+    >
+    </cx-media>
+  </ng-container>
 </ng-template>

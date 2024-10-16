@@ -35,6 +35,13 @@
     <div class="cx-details" [class.open]="showMore">
       <div class="cx-details-image" aria-hidden="true">
         <cx-media
+          *cxFeature="'useExtendedMediaComponentConfiguration'"
+          [container]="product?.images?.PRIMARY"
+          format="product"
+          [elementType]="'img'"
+        ></cx-media>
+        <cx-media
+          *cxFeature="'!useExtendedMediaComponentConfiguration'"
           [container]="product?.images?.PRIMARY"
           format="product"
         ></cx-media>

@@ -1,5 +1,13 @@
 <ng-container *ngIf="mainImage$ | async as main">
-  <cx-media [container]="main"></cx-media>
+  <cx-media
+    *cxFeature="'useExtendedMediaComponentConfiguration'"
+    [elementType]="'img'"
+    [container]="main"
+  ></cx-media>
+  <cx-media
+    *cxFeature="'!useExtendedMediaComponentConfiguration'"
+    [container]="main"
+  ></cx-media>
 </ng-container>
 
 <ng-container *ngIf="thumbs$ | async as thumbs">
@@ -15,6 +23,17 @@
 
 <ng-template #thumb let-item="item">
   <cx-media
+    *cxFeature="'useExtendedMediaComponentConfiguration'"
+    [container]="item.container"
+    [elementType]="'img'"
+    tabindex="0"
+    (focus)="openImage(item.container)"
+    [class.is-active]="isActive(item.container) | async"
+    format="product"
+  >
+  </cx-media>
+  <cx-media
+    *cxFeature="'!useExtendedMediaComponentConfiguration'"
     [container]="item.container"
     tabindex="0"
     (focus)="openImage(item.container)"

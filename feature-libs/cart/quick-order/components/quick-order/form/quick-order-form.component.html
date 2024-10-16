@@ -82,14 +82,29 @@
           class="quick-order-results-product"
           role="option"
         >
-          <cx-media
-            *ngIf="config?.quickOrder?.searchForm?.displayProductImages"
-            [alt]="product.name"
-            [container]="product.images?.PRIMARY"
-            class="media"
-            format="thumbnail"
-            role="presentation"
-          ></cx-media>
+          <ng-container *cxFeature="'useExtendedMediaComponentConfiguration'">
+            <cx-media
+              *ngIf="config?.quickOrder?.searchForm?.displayProductImages"
+              [elementType]="'img'"
+              [alt]="product.name"
+              [container]="product.images?.PRIMARY"
+              class="media"
+              format="thumbnail"
+              role="presentation"
+            ></cx-media>
+          </ng-container>
+
+          <ng-container *cxFeature="'!useExtendedMediaComponentConfiguration'">
+            <cx-media
+              *ngIf="config?.quickOrder?.searchForm?.displayProductImages"
+              [alt]="product.name"
+              [container]="product.images?.PRIMARY"
+              class="media"
+              format="thumbnail"
+              role="presentation"
+            ></cx-media>
+          </ng-container>
+
           <div class="name" [innerHTML]="product.name"></div>
           <span class="id">
             {{
@@ -139,14 +154,31 @@
             class="quick-order-results-product"
             role="option"
           >
-            <cx-media
-              *ngIf="config?.quickOrder?.searchForm?.displayProductImages"
-              [alt]="product.name"
-              [container]="product.images?.PRIMARY"
-              class="media"
-              format="thumbnail"
-              role="presentation"
-            ></cx-media>
+            <ng-container *cxFeature="'useExtendedMediaComponentConfiguration'">
+              <cx-media
+                *ngIf="config?.quickOrder?.searchForm?.displayProductImages"
+                [alt]="product.name"
+                [elementType]="'img'"
+                [container]="product.images?.PRIMARY"
+                class="media"
+                format="thumbnail"
+                role="presentation"
+              ></cx-media>
+            </ng-container>
+
+            <ng-container
+              *cxFeature="'!useExtendedMediaComponentConfiguration'"
+            >
+              <cx-media
+                *ngIf="config?.quickOrder?.searchForm?.displayProductImages"
+                [alt]="product.name"
+                [container]="product.images?.PRIMARY"
+                class="media"
+                format="thumbnail"
+                role="presentation"
+              ></cx-media>
+            </ng-container>
+
             <div class="name" [innerHTML]="product.name"></div>
             <span class="id">
               {{

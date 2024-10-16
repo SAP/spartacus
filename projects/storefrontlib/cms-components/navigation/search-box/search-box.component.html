@@ -209,12 +209,24 @@
             })
           "
         >
-          <cx-media
-            *ngIf="config.displayProductImages"
-            [container]="product.images?.PRIMARY"
-            format="thumbnail"
-            role="presentation"
-          ></cx-media>
+          <ng-container *cxFeature="'useExtendedMediaComponentConfiguration'">
+            <cx-media
+              *ngIf="config.displayProductImages"
+              [elementType]="'img'"
+              [container]="product.images?.PRIMARY"
+              format="thumbnail"
+              role="presentation"
+            ></cx-media>
+          </ng-container>
+          <ng-container *cxFeature="'!useExtendedMediaComponentConfiguration'">
+            <cx-media
+              *ngIf="config.displayProductImages"
+              [container]="product.images?.PRIMARY"
+              format="thumbnail"
+              role="presentation"
+            ></cx-media>
+          </ng-container>
+
           <div class="name" [innerHTML]="product.nameHtml"></div>
           <span class="price">{{ product.price?.formattedValue }}</span>
         </a>
