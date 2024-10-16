@@ -11,11 +11,13 @@ import {
   inject,
   Input,
   isDevMode,
+  OnChanges,
   OnInit,
+  Output,
   TemplateRef,
 } from '@angular/core';
 import { LoggerService, useFeatureStyles } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { CarouselService } from './carousel.service';
@@ -40,7 +42,8 @@ import { CarouselService } from './carousel.service';
   templateUrl: './carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent implements OnInit, OnChanges {
+  @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);
   /**
    * The title is rendered as the carousel heading.
    */
@@ -101,6 +104,8 @@ export class CarouselComponent implements OnInit {
       );
       return;
     }
+  }
+  ngOnChanges() {
     this.size$ = this.service
       .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
       .pipe(tap(() => (this.activeSlide = 0)));
@@ -165,5 +170,12 @@ export class CarouselComponent implements OnInit {
   getSlideNumber(size: number, currentIndex: number): number {
     const normalizedCurrentIndex = currentIndex + 1;
     return Math.ceil(normalizedCurrentIndex / size);
+  }
+
+  shareEvent(event: KeyboardEvent) {
+    if (!event) {
+      throw new Error('Missing Event');
+    }
+    this.keybordEvent.next(event);
   }
 }

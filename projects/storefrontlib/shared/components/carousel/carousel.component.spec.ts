@@ -91,7 +91,7 @@ describe('Carousel Component', () => {
       component.template = template;
       component.ngOnInit();
       let results: number;
-
+      component.ngOnChanges();
       component.size$.subscribe((value) => (results = value)).unsubscribe();
 
       expect(results).toEqual(4);
@@ -101,6 +101,7 @@ describe('Carousel Component', () => {
       spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
       component.template = template;
       component.ngOnInit();
+      component.ngOnChanges();
       component.size$.subscribe().unsubscribe();
       expect(component.activeSlide).toEqual(0);
     });
@@ -139,6 +140,7 @@ describe('Carousel Component', () => {
       it('should have h2 with title', () => {
         component.title = 'test carousel with title';
         component.ngOnInit();
+        component.ngOnChanges();
         fixture.detectChanges();
 
         const el = fixture.debugElement.query(By.css('h2'));
@@ -163,6 +165,7 @@ describe('Carousel Component', () => {
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
         component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
         component.ngOnInit();
+        component.ngOnChanges();
         fixture.detectChanges();
       });
 
@@ -278,6 +281,7 @@ describe('Carousel Component', () => {
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
         component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
         component.ngOnInit();
+        component.ngOnChanges();
         fixture.detectChanges();
       });
 
@@ -325,6 +329,7 @@ describe('Carousel Component', () => {
           EMPTY,
         ];
         component.ngOnInit();
+        component.ngOnChanges();
         fixture.detectChanges();
       });
 
@@ -363,6 +368,7 @@ describe('Carousel Component', () => {
         component.title = 'test carousel with title';
         component.items = [EMPTY, EMPTY, EMPTY];
         component.ngOnInit();
+        component.ngOnChanges();
         fixture.detectChanges();
       });
 
