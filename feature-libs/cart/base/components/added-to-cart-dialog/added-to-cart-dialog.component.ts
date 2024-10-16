@@ -95,6 +95,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   ) {
     useFeatureStyles('a11yExpandedFocusIndicator');
     useFeatureStyles('a11yPreventHorizontalScroll');
+    useFeatureStyles('a11yUpdatingCartNoNarration');
   }
 
   ngOnInit(): void {

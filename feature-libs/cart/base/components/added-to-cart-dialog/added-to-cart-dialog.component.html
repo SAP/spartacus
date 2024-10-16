@@ -13,7 +13,27 @@
       aria-atomic="true"
       class="cx-dialog-header modal-header"
     >
-      <div id="dialogTitle" class="cx-dialog-title modal-title">
+      <div
+        *cxFeature="'a11yUpdatingCartNoNarration'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+      >
+        <span *ngIf="loaded$ | async">
+          {{
+            (addedEntryWasMerged$ | async)
+              ? ('addToCart.itemsIncrementedInYourCart' | cxTranslate)
+              : ('addToCart.itemsAddedToYourCart' | cxTranslate)
+          }}
+        </span>
+        <span *ngIf="!(loaded$ | async)" aria-hidden="true">
+          {{ 'addToCart.updatingCart' | cxTranslate }}
+        </span>
+      </div>
+      <div
+        *cxFeature="'!a11yUpdatingCartNoNarration'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+      >
         {{
           (loaded$ | async)
             ? (addedEntryWasMerged$ | async)
