@@ -81,6 +81,8 @@ export class FacetComponent implements AfterViewInit {
   }
 
   /**
+   * @deprecated: Header will no longer be used in favour of TabComponent headers.
+   *
    * Handles clicking the heading of the facet group, which means toggling
    * the visibility of the group (collapse / expand) and optionally focusing
    * the group.
@@ -136,6 +138,8 @@ export class FacetComponent implements AfterViewInit {
     const targetIndex = this.values.toArray().findIndex((el) => {
       return el.nativeElement === event.target;
     });
+    // TODO: Left and Right arrow keys are disabled when setting a11yTabComponent.
+    // We can remove these in the future.
     switch (event.key) {
       case 'ArrowLeft':
         this.onArrowLeft(event);
@@ -152,6 +156,9 @@ export class FacetComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * @deprecated: Arrow key functions will be removed in favour of using the TabComponent.
+   */
   onArrowRight(event: Event): void {
     if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
       return;
@@ -162,14 +169,12 @@ export class FacetComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * @deprecated: Arrow key functions will be removed in favour of using the TabComponent.
+   */
   onArrowLeft(event: Event): void {
     // Navigate to tab buttons when tab component enabled
     if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
-      event.preventDefault();
-      const parent: any =
-        this.values.get(0)?.nativeElement.parentElement?.parentElement
-          ?.parentElement?.parentElement?.previousElementSibling;
-      parent?.click();
       return;
     }
 

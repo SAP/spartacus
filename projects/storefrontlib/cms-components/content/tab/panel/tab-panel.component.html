@@ -4,7 +4,7 @@
   [attr.aria-labelledby]="tab.id ?? null"
   [attr.id]="tab.id ? 'section-' + tab.id : null"
   class="active"
-  [cxFocus]="{ focusOnEscape: true }"
+  [cxFocus]="{ focusOnEscape: !tab.disableBorderFocus }"
 >
   <ng-container [ngTemplateOutlet]="tab.content"></ng-container>
 </div>
