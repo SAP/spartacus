@@ -146,6 +146,10 @@ export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
     name: OPF_CHECKOUT_ROOT_MODULE,
     importPath: SPARTACUS_OPF_CHECKOUT_ROOT,
   },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_OPF_CHECKOUT_ROOT,
+    namedImports: [OPF_CHECKOUT_FEATURE_NAME_CONSTANT],
+  },
   i18n: {
     resources: OPF_CHECKOUT_TRANSLATIONS,
     chunks: OPF_CHECKOUT_TRANSLATION_CHUNKS_CONFIG,
@@ -189,7 +193,6 @@ export const OPF_CTA_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  customConfig: buildOpfConfig,
 };
 
 export const OPF_GLOBAL_FUNCTIONS_SCHEMATICS_CONFIG: SchematicConfig = {
@@ -216,7 +219,6 @@ export const OPF_GLOBAL_FUNCTIONS_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  customConfig: buildOpfConfig,
 };
 
 export const OPF_QUICK_BUY_SCHEMATICS_CONFIG: SchematicConfig = {
@@ -243,7 +245,6 @@ export const OPF_QUICK_BUY_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  customConfig: buildOpfConfig,
 };
 
 function buildOpfConfig(
