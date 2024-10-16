@@ -282,7 +282,6 @@ if (environment.cpq) {
       provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
       useValue: environment.myAccountV2,
     },
-    // CXSPA-6793: refactor to`provideFeatureToggles` and `satisfies` keyword
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
@@ -294,9 +293,10 @@ if (environment.cpq) {
         showBillingAddressInDigitalPayments: false,
         showDownloadProposalButton: false,
         showPromotionsInPDP: false,
+        searchBoxV2: false,
         recentSearches: true,
         trendingSearches: false,
-        pdfInvoicesSortByInvoiceDate: false,
+        pdfInvoicesSortByInvoiceDate: true,
         storeFrontLibCardParagraphTruncated: true,
         useProductCarouselBatchApi: true,
         productConfiguratorAttributeTypesV2: true,
