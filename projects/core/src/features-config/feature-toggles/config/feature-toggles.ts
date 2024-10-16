@@ -645,9 +645,11 @@ export interface FeatureTogglesInterface {
    * ```
    *
    * After activating this toggle, new inputs in `MediaComponent` — specifically
-   * `width`, `height`, and `size` — will be passed to the template as HTML attributes.
+   * `width`, `height`, and `sizes` — will be passed to the template as HTML attributes.
+   *
+   * Toggle activates `@Input() elementType: 'img' | 'picture' = 'picture';` in `MediaComponent`
    */
-  useExtendedMediaComponent?: boolean;
+  useExtendedMediaComponentConfiguration?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -746,5 +748,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableConsecutiveCharactersPasswordRequirement: false,
   enablePasswordsCannotMatchInPasswordUpdateForm: false,
   allPageMetaResolversEnabledInCsr: false,
-  useExtendedMediaComponent: false,
+  useExtendedMediaComponentConfiguration: false,
 };

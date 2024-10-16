@@ -52,8 +52,9 @@ export class MediaService {
     role?: string
   ): Media | undefined {
     const shouldGetMediaForPictureElement =
-      this.featureConfigService.isEnabled('useExtendedMediaComponent') &&
-      elementType !== 'img';
+      this.featureConfigService.isEnabled(
+        'useExtendedMediaComponentConfiguration'
+      ) && elementType !== 'img';
 
     return shouldGetMediaForPictureElement
       ? this.getMediaForPictureElement(mediaContainer, format, alt, role)
@@ -83,10 +84,6 @@ export class MediaService {
       role
     );
 
-    if (!commonMediaProperties) {
-      return;
-    }
-
     return {
       ...commonMediaProperties,
       srcset: this.resolveSrcSet(mediaContainer, format),
@@ -114,10 +111,6 @@ export class MediaService {
       role
     );
 
-    if (!commonMediaProperties) {
-      return;
-    }
-
     return {
       ...commonMediaProperties,
       sources: this.resolveSources(mediaContainer, format),
@@ -128,15 +121,11 @@ export class MediaService {
    * Generates attributes common for `<img>` ang `<picture>`.
    */
   protected getCommonMediaObject(
-    mediaContainer?: MediaContainer | Image,
+    mediaContainer: MediaContainer | Image,
     format?: string,
     alt?: string,
     role?: string
-  ): Media | undefined {
-    if (!mediaContainer) {
-      return;
-    }
-
+  ): Media {
     const mainMedia: Image = mediaContainer.url
       ? mediaContainer
       : this.resolveMedia(mediaContainer as MediaContainer, format);
