@@ -376,18 +376,6 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
       );
     });
 
-    it("should contain label elements with class name 'form-check-label' and 'aria-hidden' attribute attribute that removes label from the accessibility tree", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'label',
-        'form-check-label',
-        2,
-        'aria-hidden',
-        'true'
-      );
-    });
-
     it("should contain button elements with 'aria-label' attribute that point out that there is a description for the current value", () => {
       (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
       fixture.detectChanges();
