@@ -503,12 +503,11 @@ export class ConfiguratorGroupMenuComponent {
     group: Configurator.Group,
     currentGroupId?: string
   ): boolean {
-    let groupIdx = group.subGroups?.findIndex(
+    return !!group.subGroups?.find(
       (subGroup) =>
         this.isGroupSelected(subGroup.id, currentGroupId) ||
         this.containsSelectedGroup(subGroup, currentGroupId)
     );
-    return groupIdx !== -1;
   }
 
   /**
