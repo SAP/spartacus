@@ -6,6 +6,10 @@
     margin: 15px 0;
   }
 
+  @include media-breakpoint-down(sm) {
+    display: block;
+  }
+
   &:not([disabled='true']) {
     cursor: pointer;
   }
@@ -13,6 +17,10 @@
   .star {
     font-size: 20px;
     margin: 0 2.5px;
+
+    @include media-breakpoint-down(sm) {
+      font-size: 48px;
+    }
 
     @for $i from 1 to 6 {
       &:nth-child(#{$i}) {
