@@ -1,6 +1,17 @@
 <cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
 
-<form (ngSubmit)="onSubmit()" [formGroup]="form">
+<!--
+  FOR DEMONSTRATION PURPOSES I've reused the contents of the old login page.
+  As a consequence, I need to tweak a bit the old form component - to not show
+  the fields for the username and password, but instead just show a link to the
+  regular `/login` route, which will be handled by the LoginGuard that will
+  redirect to the external login page.
+-->
+<form
+  (ngSubmit)="onSubmit()"
+  [formGroup]="form"
+  *ngIf="!loginAsGuest; else loginAsGuestForm"
+>
   <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
   <label>
     <span class="label-content">
@@ -70,6 +81,15 @@
     {{ 'loginForm.signIn' | cxTranslate }}
   </button>
 </form>
+
+<ng-template #loginAsGuestForm>
+  <a
+    class="btn btn-block btn-primary"
+    [routerLink]="{ cxRoute: 'login' } | cxUrl"
+  >
+    {{ 'loginForm.signIn' | cxTranslate }}
+  </a>
+</ng-template>
 
 <ng-template #requiredAsterisk>
   <abbr
