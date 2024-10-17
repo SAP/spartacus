@@ -21,6 +21,7 @@
   (keyup.enter)="updateValue()"
   [cxFocus]="{ key: 'qty' }"
   attr.aria-label="{{ 'itemCounter.quantity' | cxTranslate }}"
+  [attr.aria-describedby]="ariaDescribedById"
 />
 <button
   type="button"

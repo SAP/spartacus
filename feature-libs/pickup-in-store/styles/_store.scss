@@ -38,6 +38,11 @@
     padding-top: 0.5rem;
     border: none;
     background: none;
+
+    @include forFeature('a11yVisibleFocusOverflows') {
+      padding-top: 0;
+      margin-top: 0.5rem;
+    }
   }
 
   .cx-stock-level {

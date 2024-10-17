@@ -62,6 +62,11 @@ export interface FeatureTogglesInterface {
   showSearchingCustomerByOrderInASM?: boolean;
 
   /**
+   * New REDESIGNED search-box component
+   */
+  searchBoxV2?: boolean;
+
+  /**
    * Some Changes for input of cart Number and text of Customer360View in ASM view
    */
   showStyleChangesInASM?: boolean;
@@ -361,7 +366,8 @@ export interface FeatureTogglesInterface {
   /**
    * Stops the focus indicator from overflowing and being obstructed by other elements.
    * Modifies the 'visible-focus' mixin. Includes style changes for:
-   * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent, 'SkipLinkComponent'
+   * `StarRatingComponent`, `AddToWishListComponent`, `StarRatingComponent`, `SkipLinkComponent`,
+   * `StoreComponent`, `SetPreferredStoreComponent`, `WishListComponent`
    */
   a11yVisibleFocusOverflows?: boolean;
 
@@ -644,6 +650,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showBillingAddressInDigitalPayments: false,
   showDownloadProposalButton: false,
   showPromotionsInPDP: true,
+  searchBoxV2: false,
   recentSearches: true,
   trendingSearches: false,
   pdfInvoicesSortByInvoiceDate: true,
@@ -653,37 +660,37 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   propagateErrorsToServer: false,
   ssrStrictErrorHandlingForHttpAndNgrx: false,
   productConfiguratorDeltaRendering: false,
-  a11yRequiredAsterisks: false,
-  a11yQuantityOrderTabbing: false,
-  a11yNavigationUiKeyboardControls: false,
+  a11yRequiredAsterisks: true,
+  a11yQuantityOrderTabbing: true,
+  a11yNavigationUiKeyboardControls: true,
   a11yNavMenuExpandStateReadout: false,
-  a11yOrderConfirmationHeadingOrder: false,
-  a11yStarRating: false,
-  a11yViewChangeAssistiveMessage: false,
+  a11yOrderConfirmationHeadingOrder: true,
+  a11yStarRating: true,
+  a11yViewChangeAssistiveMessage: true,
   a11yPreventHorizontalScroll: false,
-  a11yReorderDialog: false,
-  a11yPopoverFocus: false,
-  a11yScheduleReplenishment: false,
-  a11yScrollToTop: false,
-  a11ySavedCartsZoom: false,
-  a11ySortingOptionsTruncation: false,
-  a11yExpandedFocusIndicator: false,
-  a11yCheckoutDeliveryFocus: false,
-  a11yMobileVisibleFocus: false,
-  a11yOrganizationsBanner: false,
-  a11yOrganizationListHeadingOrder: false,
+  a11yReorderDialog: true,
+  a11yPopoverFocus: true,
+  a11yScheduleReplenishment: true,
+  a11yScrollToTop: true,
+  a11ySavedCartsZoom: true,
+  a11ySortingOptionsTruncation: true,
+  a11yExpandedFocusIndicator: true,
+  a11yCheckoutDeliveryFocus: true,
+  a11yMobileVisibleFocus: true,
+  a11yOrganizationsBanner: true,
+  a11yOrganizationListHeadingOrder: true,
   a11yCartImportConfirmationMessage: false,
-  a11yReplenishmentOrderFieldset: false,
-  a11yListOversizedFocus: false,
-  a11yStoreFinderOverflow: false,
+  a11yReplenishmentOrderFieldset: true,
+  a11yListOversizedFocus: true,
+  a11yStoreFinderOverflow: true,
   a11yMobileFocusOnFirstNavigationItem: false,
-  a11yCartSummaryHeadingOrder: false,
+  a11yCartSummaryHeadingOrder: true,
   a11ySearchBoxMobileFocus: false,
   a11yFacetKeyboardNavigation: false,
-  a11yUnitsListKeyboardControls: false,
-  a11yCartItemsLinksStyles: false,
+  a11yUnitsListKeyboardControls: true,
+  a11yCartItemsLinksStyles: true,
   a11yHideSelectBtnForSelectedAddrOrPayment: false,
-  a11yFocusableCarouselControls: false,
+  a11yFocusableCarouselControls: true,
   a11yUseTrapTabInsteadOfTrapInDialogs: false,
   cmsGuardsServiceUseGuardsComposer: false,
   cartQuickOrderRemoveListeningToFailEvent: true,
