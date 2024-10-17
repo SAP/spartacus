@@ -133,7 +133,7 @@
     "@angular/service-worker": "^17.0.5",
     "@angular/ssr": "^17.0.5",
     "@fontsource/open-sans": "^4.5.14",
-    "@fortawesome/fontawesome-free": "6.5.1",
+    "@fortawesome/fontawesome-free": "6.6.0",
     "@ng-select/ng-select": "^12.0.4",
     "@ngrx/effects": "^17.0.1",
     "@ngrx/router-store": "^17.0.1",
