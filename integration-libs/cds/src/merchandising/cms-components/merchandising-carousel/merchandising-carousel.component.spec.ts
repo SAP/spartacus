@@ -16,6 +16,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { MerchandisingMetadata, MerchandisingProduct } from '../../model/index';
@@ -174,6 +175,7 @@ describe('MerchandisingCarouselComponent', () => {
         MockAttributesDirective,
         MockMediaComponent,
         MockUrlPipe,
+        MockFeatureDirective,
       ],
       providers: [
         {
