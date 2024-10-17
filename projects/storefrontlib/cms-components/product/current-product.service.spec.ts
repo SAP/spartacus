@@ -124,4 +124,10 @@ describe('CurrentProductService', () => {
 
     sub.unsubscribe();
   });
+  it('should show item counter for any product', () => {
+    expect(currentProductService.showItemCounter({})).toEqual(true);
+    expect(currentProductService.showItemCounter({ code: '123' })).toEqual(
+      true
+    );
+  });
 });

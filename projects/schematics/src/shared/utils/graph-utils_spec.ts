@@ -29,6 +29,7 @@ import {
   SPARTACUS_SEGMENT_REFS,
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFINDER,
+  SPARTACUS_SUBSCRIPTION_BILLING,
   SPARTACUS_TRACKING,
   SPARTACUS_USER,
 } from '../libs-constants';
@@ -146,6 +147,7 @@ describe('Graph utils', () => {
         SPARTACUS_CUSTOMER_TICKETING,
         SPARTACUS_ORGANIZATION,
         SPARTACUS_ASM,
+        SPARTACUS_SUBSCRIPTION_BILLING,
         SPARTACUS_SEGMENT_REFS,
         SPARTACUS_S4OM,
         SPARTACUS_S4_SERVICE,
@@ -202,6 +204,7 @@ describe('Graph utils', () => {
           "ASM",
           "ASM-Customer-360",
           "cpq-quote",
+          "Subscription-Billing",
           "Segment-Refs",
           "s4-service",
           "S4HANA-Order-Management",

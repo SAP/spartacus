@@ -1,0 +1,76 @@
+<ng-container *ngIf="product$ | async as product">
+  <div
+    class="subscription"
+    *ngIf="isCurrentProductSubscription(product); else showGenericProductPrice"
+  >
+    <div class="subscription-name">{{ product.sapPricePlan?.name }}:</div>
+    <div *ngIf="getOneTimeCharges(product).length > 0">
+      <ng-container *ngTemplateOutlet="showOneTimeCharges"></ng-container>
+    </div>
+    <div *ngIf="getRecurringCharges(product).length > 0">
+      <ng-container *ngTemplateOutlet="showRecurringCharges"></ng-container>
+    </div>
+    <ng-container *ngTemplateOutlet="showTerm"></ng-container>
+    <cx-subscription-product-usage-charge
+      [product]="product"
+    ></cx-subscription-product-usage-charge>
+  </div>
+  <ng-template #showOneTimeCharges>
+    <div
+      class="subscription-onetimecharge"
+      *ngFor="let charge of getOneTimeCharges(product)"
+    >
+      <div>
+        {{ charge.billingTime?.name }}: {{ charge.price?.formattedValue }}
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #showRecurringCharges>
+    <div
+      class="subscription-recurringcharge"
+      *ngFor="let charge of getRecurringCharges(product)"
+    >
+      <div>
+        {{ product.sapSubscriptionTerm?.billingPlan?.billingTime?.name }}:
+        {{ charge.price?.formattedValue }}
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #showTerm>
+    <div class="subscription-minimumterm">
+      {{
+        'subscriptionProduct.minimumTerm'
+          | cxTranslate
+            : {
+                term:
+                  product.sapSubscriptionTerm?.minimumTerm?.value +
+                  ' ' +
+                  product.sapSubscriptionTerm?.minimumTerm?.frequency?.name,
+              }
+      }}
+    </div>
+    <div class="subscription-renewalterm">
+      {{
+        'subscriptionProduct.renewalTerm'
+          | cxTranslate
+            : {
+                term:
+                  product.sapSubscriptionTerm?.renewalTerm?.value +
+                  ' ' +
+                  product.sapSubscriptionTerm?.renewalTerm?.frequency?.name,
+              }
+      }}
+    </div>
+  </ng-template>
+
+  <ng-template #showGenericProductPrice>
+    <div
+      [attr.aria-label]="'productSummary.newItemPrice' | cxTranslate"
+      class="price"
+    >
+      {{ product.price?.formattedValue }}
+    </div>
+  </ng-template>
+</ng-container>
