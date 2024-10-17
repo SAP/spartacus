@@ -9,6 +9,7 @@
     opacity: 1;
     transition: all 0.6s;
 
+    // SPIKE NEW - potentially breaking change. needs a feature toggle! AND TESTING!
     width: 100%;
     height: auto;
   }
