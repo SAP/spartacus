@@ -33,6 +33,7 @@ import {
   StorefrontComponent,
   USE_LEGACY_MEDIA_COMPONENT,
 } from '@spartacus/storefront';
+import { RouteLoadStrategy } from '../../../core/src/routing/configurable-routes';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
@@ -68,9 +69,17 @@ if (!environment.production) {
         },
         media: {
           baseUrl: 'http://localhost:9002',
+          // baseUrl: 'https://40.76.109.9:9002',
         },
       },
     }),
+    // SPIKE NEW:
+    provideConfig(<RoutingConfig>{
+      routing: {
+        loadStrategy: RouteLoadStrategy.ONCE,
+      },
+    }),
+
     provideConfig(<RoutingConfig>{
       // custom routing configuration for e2e testing
       routing: {
