@@ -8,6 +8,7 @@ import {
   IconModule,
   MediaModule,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { StoreModule } from '../../presentational/store';
 import { DeliveryPointsService } from '../../services/delivery-points.service';
@@ -26,7 +27,7 @@ describe('Order - PickUpItemsDetailsComponent', () => {
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PickUpItemsDetailsComponent],
+      declarations: [PickUpItemsDetailsComponent, MockFeatureDirective],
       imports: [
         CommonModule,
         I18nModule,

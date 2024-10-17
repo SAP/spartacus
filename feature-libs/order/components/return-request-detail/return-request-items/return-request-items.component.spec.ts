@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ReturnRequest } from '@spartacus/order/root';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';
@@ -37,6 +38,7 @@ describe('ReturnRequestItemsComponent', () => {
         ReturnRequestItemsComponent,
         MockMediaComponent,
         MockFeatureLevelDirective,
+        MockFeatureDirective,
       ],
       providers: [
         { provide: ReturnRequestService, useClass: MockCheckoutService },

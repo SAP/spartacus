@@ -5,6 +5,7 @@ import { I18nTestingModule, Images, TranslationService } from '@spartacus/core';
 import { MyAccountV2OrderConsignmentsService } from '@spartacus/order/components';
 import { OrderHistoryView } from '@spartacus/order/root';
 import { MediaContainer } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable } from 'rxjs';
 import { MyAccountV2OrderConsolidatedInformationComponent } from './my-account-v2-order-consolidated-information.component';
 import createSpy = jasmine.createSpy;
@@ -73,6 +74,7 @@ describe('MyAccountV2OrderConsolidatedInformationComponent', () => {
         MyAccountV2OrderConsolidatedInformationComponent,
         MockUrlPipe,
         MockMediaComponent,
+        MockFeatureDirective,
       ],
       providers: [
         {

@@ -20,6 +20,7 @@ import { CartItemContext, PromotionLocation } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
 import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { CartItemComponent } from './cart-item.component';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
@@ -131,6 +132,7 @@ describe('CartItemComponent', () => {
         MockOutletDirective,
         MockCartItemValidationWarningComponent,
         MockAtMessageDirective,
+        MockFeatureDirective,
       ],
       providers: [
         {

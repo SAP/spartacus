@@ -1,8 +1,8 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
@@ -18,13 +18,14 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import {
   BehaviorSubject,
   EMPTY,
   Observable,
   ReplaySubject,
-  of,
   delay,
+  of,
 } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
@@ -172,6 +173,7 @@ describe('SearchBoxComponent', () => {
         MockHighlightPipe,
         MockCxIconComponent,
         MockMediaComponent,
+        MockFeatureDirective,
       ],
       providers: [
         {

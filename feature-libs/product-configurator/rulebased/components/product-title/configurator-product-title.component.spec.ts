@@ -18,14 +18,15 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { IconLoaderService } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 
 const mockProductConfiguration = ConfigurationTestData.productConfiguration;
 const PRODUCT_CODE = ConfigurationTestData.PRODUCT_CODE;
@@ -327,6 +328,7 @@ describe('ConfigProductTitleComponent', () => {
         ConfiguratorProductTitleComponent,
         MockCxIconComponent,
         MockMediaComponent,
+        MockFeatureDirective,
       ],
       providers: [
         {

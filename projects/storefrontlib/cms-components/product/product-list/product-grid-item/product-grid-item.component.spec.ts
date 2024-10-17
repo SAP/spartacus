@@ -16,6 +16,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { OutletDirective, OutletModule } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
@@ -106,6 +107,7 @@ describe('ProductGridItemComponent in product-list', () => {
         MockCxIconComponent,
         MockFeatureLevelDirective,
         MockOutletDirective,
+        MockFeatureDirective,
       ],
       providers: [
         {

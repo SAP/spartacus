@@ -9,6 +9,7 @@ import {
 } from '@spartacus/core';
 import { MyAccountV2OrderHistoryService } from '@spartacus/order/core';
 import { OrderHistoryListView } from '@spartacus/order/root';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { MyAccountV2OrdersComponent } from './my-account-v2-orders.component';
 
@@ -102,6 +103,7 @@ describe(' MyAccountV2OrdersComponent', () => {
         MockUrlPipe,
         MockMediaComponent,
         MockSpinnerComponent,
+        MockFeatureDirective,
       ],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },

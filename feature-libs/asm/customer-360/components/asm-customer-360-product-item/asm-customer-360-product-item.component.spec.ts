@@ -11,6 +11,7 @@ import { I18nTestingModule, ImageType, Product } from '@spartacus/core';
 import { FocusConfig, ICON_TYPE } from '@spartacus/storefront';
 
 import { By } from '@angular/platform-browser';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { AsmCustomer360ProductItemComponent } from './asm-customer-360-product-item.component';
 
 @Component({
@@ -79,6 +80,7 @@ describe('AsmCustomer360ProductItemComponent', () => {
         MockTranslatePipe,
         MockCxIconComponent,
         MockMediaComponent,
+        MockFeatureDirective,
       ],
     }).compileComponents();
   });

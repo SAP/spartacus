@@ -25,6 +25,7 @@ import {
   BreakpointService,
   CurrentProductService,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { ProductImageZoomViewComponent } from './product-image-zoom-view.component';
 
@@ -141,6 +142,7 @@ describe('ProductImageZoomViewComponent', () => {
         MockMediaComponent,
         MockProductThumbnailsComponent,
         MockProductImageZoomThumbnailsComponent,
+        MockFeatureDirective,
       ],
       providers: [
         { provide: CurrentProductService, useClass: MockCurrentProductService },

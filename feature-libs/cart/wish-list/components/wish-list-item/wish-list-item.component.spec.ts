@@ -18,6 +18,7 @@ import {
   ProductListItemContext,
   ProductListItemContextSource,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { WishListItemComponent } from './wish-list-item.component';
 
 @Component({
@@ -94,6 +95,7 @@ describe('WishListItemComponent', () => {
         MockAddToCartComponent,
         MockUrlPipe,
         MockAtMessageDirective,
+        MockFeatureDirective,
       ],
     })
       .overrideComponent(WishListItemComponent, {

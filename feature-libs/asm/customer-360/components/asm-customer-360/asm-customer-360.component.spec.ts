@@ -24,6 +24,7 @@ import {
   FocusDirective,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { AsmCustomer360Config } from '../config/asm-customer-360-config';
 import {
@@ -179,6 +180,7 @@ describe('AsmCustomer360Component', () => {
         MockAsmCustomer360SectionComponent,
         ArgsPipe,
         FocusDirective,
+        MockFeatureDirective,
       ],
       providers: [
         CxDatePipe,

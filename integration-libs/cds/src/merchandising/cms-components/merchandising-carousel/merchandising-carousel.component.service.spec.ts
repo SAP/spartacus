@@ -10,6 +10,7 @@ import {
   StrategyResponse,
 } from '@spartacus/cds';
 import { Product, ProductService } from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import {
   MerchandisingCarouselClickedEvent,
@@ -146,6 +147,7 @@ describe('MerchandisingCarouselComponentService', () => {
           useValue: mockCdsConfig,
         },
       ],
+      declarations: [MockFeatureDirective],
     });
   }
 
