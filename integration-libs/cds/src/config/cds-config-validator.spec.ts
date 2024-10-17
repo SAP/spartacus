@@ -82,6 +82,7 @@ describe('cdsConfigValidator', () => {
         baseUrl: '',
         endpoints: {
           strategyProducts: undefined,
+          searchIntelligence: undefined,
         },
       },
     };
@@ -95,6 +96,7 @@ describe('cdsConfigValidator', () => {
         baseUrl: '',
         endpoints: {
           strategyProducts: '',
+          searchIntelligence: '',
         },
       },
     };
