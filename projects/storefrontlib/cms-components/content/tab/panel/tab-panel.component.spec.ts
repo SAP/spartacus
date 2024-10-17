@@ -58,6 +58,17 @@ describe('TabPanelComponent', () => {
     expect(tabPanel?.getAttribute('aria-labelledby')).toEqual('1');
   });
 
+  it('should have correct attribues when disableBorderFocus is active', () => {
+    component.tab = {
+      ...mockTab,
+      disableBorderFocus: true,
+    };
+    fixture.detectChanges();
+
+    const tabPanel = document.querySelector('div[role="tabpanel"]');
+    expect(tabPanel?.getAttribute('tabindex')).toEqual(null);
+  });
+
   it('should display template ref', () => {
     const mockFixture = TestBed.createComponent(MockComponent);
     mockFixture.detectChanges();
