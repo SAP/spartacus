@@ -78,9 +78,13 @@
               "with": "projects/storefrontapp/src/environments/environment.prod.ts"
             }
           ],
-          "optimization": true,
+          "optimization": {
+            "scripts": false,
+            "styles": true,
+            "fonts": true
+          },
           "outputHashing": "all",
-          "sourceMap": false,
+          "sourceMap": true,
           "namedChunks": true,
           "aot": true,
           "extractLicenses": true,
