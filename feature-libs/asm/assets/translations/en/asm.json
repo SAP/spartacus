@@ -135,6 +135,7 @@
         "row": {
           "id": "ID",
           "qty": "Qty",
+          "qtyFull": "Quantity",
           "total": "Total"
         },
         "actions": {
