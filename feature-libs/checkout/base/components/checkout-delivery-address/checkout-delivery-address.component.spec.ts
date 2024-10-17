@@ -199,6 +199,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
     spyOn(component, 'addAddress').and.callThrough();
     spyOn(component, 'selectAddress').and.callThrough();
     spyOn<any>(component, 'setAddress').and.callThrough();
+    spyOn<any>(component, 'getCardRole').and.callThrough();
   });
 
   it('should be created', () => {
@@ -344,6 +345,67 @@ describe('CheckoutDeliveryAddressComponent', () => {
         'M'
       );
       expect(card.actions?.length).toBe(1);
+    });
+    
+    describe('role', () => {
+      it('should be set to "region" for selected addresses when feature flag is enabled', () => {
+        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
+        expect(component.getCardContent(
+          // isSelected = true!
+          mockAddress1,
+          mockAddress1,
+          'default',
+          'shipTo',
+          'selected',
+          'P',
+          'M'
+        ).role).toEqual('region');
+        expect(component['getCardRole']).toHaveBeenCalledWith(true);
+      });
+
+      it('should be set to "region" when feature flag is disabled', () => {
+        spyOn(featureConfig, 'isEnabled').and.returnValue(false);
+        
+        expect(component.getCardContent(
+          // isSelected = true!
+          mockAddress1,
+          mockAddress1,
+          'default',
+          'shipTo',
+          'selected',
+          'P',
+          'M'
+        ).role).toEqual('region');
+        expect(component['getCardRole']).toHaveBeenCalledWith(true);
+        
+        expect(component.getCardContent(
+          // isSelected = false!
+          mockAddress1,
+          mockAddress2,
+          'default',
+          'shipTo',
+          'selected',
+          'P',
+          'M'
+        ).role).toEqual('region');
+        expect(component['getCardRole']).toHaveBeenCalledWith(false);
+      });
+
+      it('should be set to "button" for all non selected addresses when feature flag is enabled', () => {
+        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
+        
+        expect(component.getCardContent(
+          // isSelected = false!
+          mockAddress1,
+          mockAddress2,
+          'default',
+          'shipTo',
+          'selected',
+          'P',
+          'M'
+        ).role).toEqual('button');
+        expect(component['getCardRole']).toHaveBeenCalledWith(false);
+      });
     });
   });
 
@@ -500,4 +562,11 @@ describe('CheckoutDeliveryAddressComponent', () => {
       expect(getSpinner()).toBeFalsy();
     });
   });
+
+  // describe('getCardRole()', () => {
+  //   it('should get card role as region', () => {
+  //     const role = component.getCardRole(true);
+  //     expect(role).toEqual('button');
+  //   });
+  // });
 });
