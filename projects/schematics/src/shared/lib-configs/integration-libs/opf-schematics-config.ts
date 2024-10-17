@@ -31,8 +31,7 @@ import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
 
 export interface SpartacusOpfOptions extends LibraryOptions {
-  baseUrl?: string;
-  commerceCloudApiUrl?: string;
+  opfBaseUrl?: string;
   commerceCloudPublicKey?: string;
 }
 
@@ -261,7 +260,7 @@ function buildOpfConfig(
       ],
       content: `<${OPF_CONFIG}>{
           opf: {
-            baseUrl: "${options.commerceCloudApiUrl || options.baseUrl || 'PLACEHOLDER_OPF_BASE_URL'}",
+            opfBaseUrl: "${options.opfBaseUrl || 'PLACEHOLDER_OPF_BASE_URL'}",
             commerceCloudPublicKey: "${
               options.commerceCloudPublicKey ||
               'PLACEHOLDER_COMMERCE_CLOUD_PUBLIC_KEY'
