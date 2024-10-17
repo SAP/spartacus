@@ -628,8 +628,8 @@ export interface FeatureTogglesInterface {
   allPageMetaResolversEnabledInCsr?: boolean;
 
   /**
-   * CDS/ISS is integrated into CAS. CAS uses different URL fomats for its services. This feature toggle can be use to
-   * switch the CDS modules to make use of the CAS URLs.
+   * CDS/ISS is integrated into CAS. CAS uses different URL formats for its services. This feature toggle can be used
+   * to make the CDS module use the CAS URLs.
    */
   cdsCasEnabled?: boolean;
 }
