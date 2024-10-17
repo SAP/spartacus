@@ -348,10 +348,11 @@ describe('CheckoutDeliveryAddressComponent', () => {
     });
     
     describe('role', () => {
-      it('should be set to "region" for selected addresses when feature flag is enabled', () => {
+      beforeEach(() => {
         spyOn(featureConfig, 'isEnabled').and.returnValue(true);
+      });
+      it('should be set to "region" for selected address', () => {
         expect(component.getCardContent(
-          // isSelected = true!
           mockAddress1,
           mockAddress1,
           'default',
@@ -363,39 +364,8 @@ describe('CheckoutDeliveryAddressComponent', () => {
         expect(component['getCardRole']).toHaveBeenCalledWith(true);
       });
 
-      it('should be set to "region" when feature flag is disabled', () => {
-        spyOn(featureConfig, 'isEnabled').and.returnValue(false);
-        
+      it('should be set to "button" for all non selected addresses', () => {
         expect(component.getCardContent(
-          // isSelected = true!
-          mockAddress1,
-          mockAddress1,
-          'default',
-          'shipTo',
-          'selected',
-          'P',
-          'M'
-        ).role).toEqual('region');
-        expect(component['getCardRole']).toHaveBeenCalledWith(true);
-        
-        expect(component.getCardContent(
-          // isSelected = false!
-          mockAddress1,
-          mockAddress2,
-          'default',
-          'shipTo',
-          'selected',
-          'P',
-          'M'
-        ).role).toEqual('region');
-        expect(component['getCardRole']).toHaveBeenCalledWith(false);
-      });
-
-      it('should be set to "button" for all non selected addresses when feature flag is enabled', () => {
-        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
-        
-        expect(component.getCardContent(
-          // isSelected = false!
           mockAddress1,
           mockAddress2,
           'default',
@@ -562,11 +532,4 @@ describe('CheckoutDeliveryAddressComponent', () => {
       expect(getSpinner()).toBeFalsy();
     });
   });
-
-  // describe('getCardRole()', () => {
-  //   it('should get card role as region', () => {
-  //     const role = component.getCardRole(true);
-  //     expect(role).toEqual('button');
-  //   });
-  // });
 });

@@ -621,6 +621,7 @@ describe('CheckoutPaymentMethodComponent', () => {
     describe('createCard().role', () => {
       let paymentMethod1: PaymentDetails;
       beforeEach(() => {
+        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
         paymentMethod1= {
           id: 'selected payment method',
           accountHolderName: 'Name',
@@ -636,9 +637,7 @@ describe('CheckoutPaymentMethodComponent', () => {
         };
       });
 
-      it('should be set to "region" for selected cards when feature flag is enabled', () => {
-        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
-        
+      it('should be set to "region" for selected payment card', () => {
         expect(component['createCard'](
           paymentMethod1,
           {
@@ -651,9 +650,7 @@ describe('CheckoutPaymentMethodComponent', () => {
         ).role).toEqual('region');
       });
 
-      it('should be set to "region" when feature flag is disabled', () => {
-        spyOn(featureConfig, 'isEnabled').and.returnValue(false);
-        
+      it('should be set to "button" for non selected payment cards', () => {
         expect(component['createCard'](
           paymentMethod1,
           {
@@ -662,34 +659,6 @@ describe('CheckoutPaymentMethodComponent', () => {
             textUseThisPayment: 'Use this payment',
             textSelected: 'Selected',
           },
-          paymentMethod1
-        ).role).toEqual('region');
-        
-        expect(component['createCard'](
-          paymentMethod1,
-          {
-            textDefaultPaymentMethod: '✓ DEFAULT',
-            textExpires: 'Expires',
-            textUseThisPayment: 'Use this payment',
-            textSelected: 'Selected',
-          },
-          // payment method that isn't the selected one
-          {...paymentMethod1, id: 'newId'}
-        ).role).toEqual('region');
-      });
-
-      it('should be set to "button" for all non selected card when feature flag is enabled', () => {
-        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
-        
-        expect(component['createCard'](
-          paymentMethod1,
-          {
-            textDefaultPaymentMethod: '✓ DEFAULT',
-            textExpires: 'Expires',
-            textUseThisPayment: 'Use this payment',
-            textSelected: 'Selected',
-          },
-          // payment method that isn't the selected one
           {...paymentMethod1, id: 'newId'}
         ).role).toEqual('button');
       });
