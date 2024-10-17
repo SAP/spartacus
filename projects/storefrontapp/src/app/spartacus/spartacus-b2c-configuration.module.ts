@@ -16,6 +16,8 @@ import {
 import { environment } from '../../environments/environment';
 
 const defaultBaseSite = [
+  'automobile-spa',
+  'automobile',
   'electronics-spa',
   'electronics',
   'electronics-standalone',
