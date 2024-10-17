@@ -336,7 +336,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     return !!this.checkoutConfigService?.shouldUseAddressSavedInCart();
   }
 
-  private getCardRole(isCardSelected: boolean): 'button' | 'region' {
+  protected getCardRole(isCardSelected: boolean): 'button' | 'region' {
     const isButtonRole =
       this.featureConfigService?.isEnabled(
         'a11ySelectLabelWithContextForSelectedAddrOrPayment'
