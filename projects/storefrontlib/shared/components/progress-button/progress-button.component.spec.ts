@@ -22,6 +22,7 @@ describe('ProgressButtonComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ProgressButtonComponent test');
     fixture = TestBed.createComponent(ProgressButtonComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
@@ -93,6 +94,7 @@ describe('ProgressButtonComponent', () => {
 
   describe('should not trigger clickEvent on button click when ', () => {
     beforeEach(() => {
+    console.log('Starting ProgressButtonComponent test');
       spyOn(component.clickEvent, 'emit').and.callThrough();
     });
 

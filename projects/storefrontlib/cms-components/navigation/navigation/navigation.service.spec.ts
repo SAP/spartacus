@@ -159,6 +159,7 @@ describe('NavigationComponentService', () => {
   let mockCmsService: any;
 
   beforeEach(() => {
+    console.log('Starting NavigationComponentService test');
     mockCmsService = {
       loadNavigationItems: createSpy(),
       getNavigationEntryItems: createSpy().and.returnValue(of(undefined)),

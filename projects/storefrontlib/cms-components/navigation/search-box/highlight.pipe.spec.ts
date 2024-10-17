@@ -5,6 +5,7 @@ describe('HighlightPipe', () => {
   let pipe: HighlightPipe;
 
   beforeEach(() => {
+    console.log('Starting HighlightPipe test');
     TestBed.configureTestingModule({
       providers: [HighlightPipe],
     });

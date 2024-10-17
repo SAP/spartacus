@@ -65,6 +65,7 @@ describe('TableService', () => {
 
   describe('with table config', () => {
     beforeEach(() => {
+    console.log('Starting TableService test');
       TestBed.configureTestingModule({
         providers: [
           TableService,
@@ -175,6 +176,7 @@ describe('TableService', () => {
 
       describe('lg breakpoint', () => {
         beforeEach(() => {
+    console.log('Starting TableService test');
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
             of(BREAKPOINT.lg)
           );
@@ -194,6 +196,7 @@ describe('TableService', () => {
 
       describe('xs breakpoint', () => {
         beforeEach(() => {
+    console.log('Starting TableService test');
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
             of(BREAKPOINT.xs)
           );

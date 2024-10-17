@@ -65,6 +65,7 @@ describe('TableRendererService', () => {
 
   describe('with global configured cell components', () => {
     beforeEach(() => {
+    console.log('Starting TableRendererService test');
       TestBed.configureTestingModule({
         declarations: [
           MockDataComponent,
@@ -111,6 +112,7 @@ describe('TableRendererService', () => {
 
   describe('without global configured cell components', () => {
     beforeEach(() => {
+    console.log('Starting TableRendererService test');
       TestBed.configureTestingModule({
         declarations: [
           MockDataComponent,

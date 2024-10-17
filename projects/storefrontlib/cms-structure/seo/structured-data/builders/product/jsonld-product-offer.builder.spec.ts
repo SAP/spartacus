@@ -20,6 +20,7 @@ describe('JsonLdProductOfferBuilder', () => {
   let service: JsonLdProductOfferBuilder;
 
   beforeEach(() => {
+    console.log('Starting JsonLdProductOfferBuilder test');
     TestBed.configureTestingModule({
       providers: [JsonLdProductOfferBuilder],
     });

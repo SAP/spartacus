@@ -51,6 +51,7 @@ describe('MessageComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting MessageComponent test');
     fixture = TestBed.createComponent(MessageComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;

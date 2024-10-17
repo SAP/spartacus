@@ -14,6 +14,7 @@ describe('LazyComponentHandler', () => {
   let service: LazyComponentHandler;
 
   beforeEach(() => {
+    console.log('Starting LazyComponentHandler test');
     TestBed.configureTestingModule({
       providers: [
         {

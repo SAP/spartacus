@@ -71,6 +71,7 @@ describe('ProductAttributesComponent in product', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ProductAttributesComponent in product test');
     fixture = TestBed.createComponent(ProductAttributesComponent);
     productAttributesComponent = fixture.componentInstance;
   });

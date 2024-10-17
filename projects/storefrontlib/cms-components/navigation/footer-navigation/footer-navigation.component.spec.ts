@@ -97,6 +97,7 @@ describe('FooterNavigationComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting FooterNavigationComponent test');
     fixture = TestBed.createComponent(FooterNavigationComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement;

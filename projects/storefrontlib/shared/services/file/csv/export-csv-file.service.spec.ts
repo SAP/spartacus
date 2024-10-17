@@ -29,6 +29,7 @@ describe('ExportCsvFileService', () => {
   let fileDownloadService: FileDownloadService;
 
   beforeEach(() => {
+    console.log('Starting ExportCsvFileService test');
     TestBed.configureTestingModule({
       providers: [
         { provide: FileDownloadService, useClass: MockFileDownloadService },

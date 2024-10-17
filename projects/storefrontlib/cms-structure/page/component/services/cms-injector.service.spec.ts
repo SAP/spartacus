@@ -18,6 +18,7 @@ describe('CmsInjectorService', () => {
   let service: CmsInjectorService;
 
   beforeEach(() => {
+    console.log('Starting CmsInjectorService test');
     TestBed.configureTestingModule({
       providers: [
         {

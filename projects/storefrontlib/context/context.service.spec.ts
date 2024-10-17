@@ -15,6 +15,7 @@ describe('ContextService', () => {
   let routingContextService: RoutingContextService;
 
   beforeEach(() => {
+    console.log('Starting ContextService test');
     TestBed.configureTestingModule({
       providers: [
         { provide: RoutingContextService, useClass: MockRoutingContextService },

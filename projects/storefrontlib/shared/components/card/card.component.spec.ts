@@ -84,6 +84,7 @@ describe('CardComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting CardComponent test');
     fixture = TestBed.createComponent(CardComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;

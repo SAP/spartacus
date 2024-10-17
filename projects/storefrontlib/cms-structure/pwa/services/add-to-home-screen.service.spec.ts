@@ -24,6 +24,7 @@ describe('AddToHomeScreenService', () => {
   let winRef: WindowRef;
 
   beforeEach(() => {
+    console.log('Starting AddToHomeScreenService test');
     TestBed.configureTestingModule({
       providers: [
         AddToHomeScreenService,

@@ -25,6 +25,7 @@ describe('DefaultComponentHandler', () => {
   let handler: DefaultComponentHandler;
 
   beforeEach(() => {
+    console.log('Starting DefaultComponentHandler test');
     TestBed.configureTestingModule({
       providers: [
         {

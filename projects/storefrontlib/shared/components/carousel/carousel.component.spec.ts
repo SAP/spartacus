@@ -63,6 +63,7 @@ describe('Carousel Component', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting Carousel Component test');
     fixture = TestBed.createComponent(CarouselComponent);
     component = fixture.componentInstance;
     service = TestBed.inject(CarouselService);
@@ -129,10 +130,12 @@ describe('Carousel Component', () => {
 
   describe('(UI tests)', () => {
     beforeEach(() => {
+    console.log('Starting Carousel Component test');
       component.template = template;
     });
     describe('carousel title', () => {
       beforeEach(() => {
+    console.log('Starting Carousel Component test');
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(1));
         component.items = [EMPTY];
       });
@@ -162,6 +165,7 @@ describe('Carousel Component', () => {
 
     describe('carousel buttons', () => {
       beforeEach(() => {
+    console.log('Starting Carousel Component test');
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
         component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
         component.ngOnInit();
@@ -278,6 +282,7 @@ describe('Carousel Component', () => {
 
     describe('carousel with 5 items divided by 2 slides', () => {
       beforeEach(() => {
+    console.log('Starting Carousel Component test');
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
         component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
         component.ngOnInit();
@@ -316,6 +321,7 @@ describe('Carousel Component', () => {
 
     describe('carousel with 7 items divided by 3 slides', () => {
       beforeEach(() => {
+    console.log('Starting Carousel Component test');
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(3));
         component.title = 'test carousel with title';
         component.items = [
@@ -364,6 +370,7 @@ describe('Carousel Component', () => {
 
     describe('carousel with 3 items divided by 1 slide', () => {
       beforeEach(() => {
+    console.log('Starting Carousel Component test');
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(3));
         component.title = 'test carousel with title';
         component.items = [EMPTY, EMPTY, EMPTY];
@@ -399,6 +406,7 @@ describe('Carousel Component', () => {
 
     describe('empty carousel', () => {
       beforeEach(() => {
+    console.log('Starting Carousel Component test');
         spyOn(service, 'getItemsPerSlide').and.returnValue(of(1));
         component.items = [];
       });
@@ -446,6 +454,7 @@ describe('Carousel Component', () => {
     let nativeElement: HTMLElement;
     const sizeMock = 4;
     beforeEach(() => {
+    console.log('Starting Carousel Component test');
       component.template = template;
       nativeElement = fixture.nativeElement;
 
@@ -515,6 +524,7 @@ describe('Carousel Component', () => {
     describe('focusNextPrevItem', () => {
       let focusableElements: NodeListOf<HTMLElement>;
       beforeEach(() => {
+    console.log('Starting Carousel Component test');
         nativeElement = fixture.nativeElement;
         component.activeSlide = 0;
         fixture.detectChanges();

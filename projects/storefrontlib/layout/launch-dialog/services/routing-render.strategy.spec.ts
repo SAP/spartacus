@@ -29,6 +29,7 @@ describe('RoutingRenderStrategy', () => {
   let routingService: RoutingService;
 
   beforeEach(() => {
+    console.log('Starting RoutingRenderStrategy test');
     TestBed.configureTestingModule({
       providers: [
         RoutingRenderStrategy,

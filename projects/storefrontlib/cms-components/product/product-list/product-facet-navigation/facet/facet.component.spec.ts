@@ -86,6 +86,7 @@ describe('FacetComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting FacetComponent test');
     fixture = TestBed.createComponent(FacetComponent);
     element = fixture.debugElement;
     component = fixture.componentInstance;
@@ -149,6 +150,7 @@ describe('FacetComponent', () => {
 
   describe('toggleGroup', () => {
     beforeEach(() => {
+    console.log('Starting FacetComponent test');
       spyOn(facetService, 'toggle').and.stub();
       component.facet = MockFacet;
       fixture.detectChanges();
@@ -189,6 +191,7 @@ describe('FacetComponent', () => {
     });
 
     beforeEach(() => {
+    console.log('Starting FacetComponent test');
       component.values = Object.assign(new QueryList(), {
         _results: [
           { nativeElement: firstOptionElement },

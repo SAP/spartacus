@@ -127,6 +127,7 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting LanguageCurrencyComponent in CmsLib test');
     fixture = TestBed.createComponent(LanguageCurrencyComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;

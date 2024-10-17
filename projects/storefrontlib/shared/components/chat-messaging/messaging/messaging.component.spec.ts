@@ -57,6 +57,7 @@ describe('MessagingComponent', () => {
   });
 
   beforeEach(() => {
+    console.log('Starting MessagingComponent test');
     fixture = TestBed.createComponent(MessagingComponent);
     component = fixture.componentInstance;
     component.messageEvents$ = of(mockMessageEvents);
@@ -204,6 +205,7 @@ describe('MessagingComponent', () => {
   });
   describe('resetForm', () => {
     beforeEach(() => {
+    console.log('Starting MessagingComponent test');
       component.fileUploadComponent = jasmine.createSpyObj(
         'fileUploadComponent',
         ['removeFile']

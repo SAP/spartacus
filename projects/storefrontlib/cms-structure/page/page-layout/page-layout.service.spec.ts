@@ -128,6 +128,7 @@ describe('PageLayoutService', () => {
   let breakpointService: BreakpointService;
 
   beforeEach(() => {
+    console.log('Starting PageLayoutService test');
     TestBed.configureTestingModule({
       providers: [
         PageLayoutService,
@@ -162,11 +163,13 @@ describe('PageLayoutService', () => {
 
   describe('Page template 1', () => {
     beforeEach(() => {
+    console.log('Starting PageLayoutService test');
       spyOn(cmsService, 'getCurrentPage').and.returnValue(of(page_1));
     });
 
     describe('mobile (xs)', () => {
       beforeEach(() => {
+    console.log('Starting PageLayoutService test');
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
           of(BREAKPOINT.xs)
         );
@@ -200,6 +203,7 @@ describe('PageLayoutService', () => {
 
     describe('tablet (md)', () => {
       beforeEach(() => {
+    console.log('Starting PageLayoutService test');
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
           of(BREAKPOINT.md)
         );
@@ -227,6 +231,7 @@ describe('PageLayoutService', () => {
 
     describe('desktop (lg)', () => {
       beforeEach(() => {
+    console.log('Starting PageLayoutService test');
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
           of(BREAKPOINT.lg)
         );
@@ -255,11 +260,13 @@ describe('PageLayoutService', () => {
 
   describe('Page template 2', () => {
     beforeEach(() => {
+    console.log('Starting PageLayoutService test');
       spyOn(cmsService, 'getCurrentPage').and.returnValue(of(page_2));
     });
 
     describe('mobile (xs)', () => {
       beforeEach(() => {
+    console.log('Starting PageLayoutService test');
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
           of(BREAKPOINT.xs)
         );
@@ -276,6 +283,7 @@ describe('PageLayoutService', () => {
 
     describe('mobile (md)', () => {
       beforeEach(() => {
+    console.log('Starting PageLayoutService test');
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
           of(BREAKPOINT.md)
         );
@@ -293,6 +301,7 @@ describe('PageLayoutService', () => {
 
     describe('desktop (lg)', () => {
       beforeEach(() => {
+    console.log('Starting PageLayoutService test');
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
           of(BREAKPOINT.lg)
         );
@@ -310,6 +319,7 @@ describe('PageLayoutService', () => {
 
   describe('Page template 3', () => {
     beforeEach(() => {
+    console.log('Starting PageLayoutService test');
       spyOn(cmsService, 'getCurrentPage').and.returnValue(of(page_3));
       spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
         of(BREAKPOINT.lg)
@@ -404,6 +414,7 @@ describe('PageLayoutService', () => {
 
     describe('any breakpoint', () => {
       beforeEach(() => {
+    console.log('Starting PageLayoutService test');
         spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
           of(BREAKPOINT.md)
         );
@@ -434,6 +445,7 @@ describe('PageLayoutService', () => {
   let breakpointService: BreakpointService;
 
   beforeEach(() => {
+    console.log('Starting PageLayoutService test');
     TestBed.configureTestingModule({
       providers: [
         PageLayoutService,

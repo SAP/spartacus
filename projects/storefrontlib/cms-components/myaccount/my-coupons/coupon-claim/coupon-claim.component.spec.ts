@@ -54,6 +54,7 @@ describe('CouponClaimComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting CouponClaimComponent test');
     couponService.claimCustomerCoupon.and.stub();
     couponService.getClaimCustomerCouponResultSuccess.and.returnValue(of(true));
     routingService.getRouterState.and.returnValue(of(mockRouterState));

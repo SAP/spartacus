@@ -87,6 +87,7 @@ describe('ProductDetailsTabComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ProductDetailsTabComponent test');
     fixture = TestBed.createComponent(ProductDetailsTabComponent);
     productDetailsTabComponent = fixture.componentInstance;
   });

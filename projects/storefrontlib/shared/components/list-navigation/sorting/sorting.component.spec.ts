@@ -24,6 +24,7 @@ describe('SortingComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting SortingComponent test');
     fixture = TestBed.createComponent(SortingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

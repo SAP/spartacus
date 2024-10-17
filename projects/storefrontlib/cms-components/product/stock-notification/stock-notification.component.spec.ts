@@ -149,6 +149,7 @@ describe('StockNotificationComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting StockNotificationComponent test');
     userIdService.getUserId.and.returnValue(of(OCC_USER_ID_CURRENT));
     notificationPrefService.loadPreferences.and.stub();
     notificationPrefService.clearPreferences.and.stub();

@@ -37,6 +37,7 @@ describe('IntersectionService', () => {
   let service: IntersectionService;
 
   beforeEach(() => {
+    console.log('Starting IntersectionService test');
     TestBed.configureTestingModule({
       providers: [{ provide: LayoutConfig, useValue: MOCK_LAYOUT_CONFIG }],
     });

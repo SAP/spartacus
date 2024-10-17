@@ -38,6 +38,7 @@ describe('TabComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting TabComponent test');
     fixture = TestBed.createComponent(TabComponent);
     component = fixture.componentInstance;
     component.tabs = mockTabs;
@@ -45,6 +46,7 @@ describe('TabComponent', () => {
 
   describe('Tab Mode', () => {
     beforeEach(() => {
+    console.log('Starting TabComponent test');
       component.config = {
         label: 'test',
         mode: TAB_MODE.TAB,
@@ -238,6 +240,7 @@ describe('TabComponent', () => {
 
   describe('Accordian Mode', () => {
     beforeEach(() => {
+    console.log('Starting TabComponent test');
       component.config = {
         label: 'test',
         mode: TAB_MODE.ACCORDIAN,
