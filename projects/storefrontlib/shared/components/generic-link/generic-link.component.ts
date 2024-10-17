@@ -77,6 +77,18 @@ export class GenericLinkComponent implements OnChanges {
     return this.routeParts.path;
   }
 
+  get linkUrl(): string {
+    let url: string;
+    if (this.isExternalUrl()) {
+      url = this.url as string;
+    } else {
+      const homeUrlTree = this.router.createUrlTree(['']);
+      const homeUrl = this.router.serializeUrl(homeUrlTree).slice(0, -1);
+      url = `${homeUrl}${this.url}`;
+    }
+    return url;
+  }
+
   /**
    * The part with the query params of the local url.
    */
@@ -89,6 +101,19 @@ export class GenericLinkComponent implements OnChanges {
    */
   get fragment(): string | undefined {
     return this.routeParts.fragment ?? undefined;
+  }
+
+  onClick(event: UIEvent): void {
+    event.preventDefault();
+    if (this.isExternalUrl() || this.target === '_blank') {
+      window.open(this.url as string, this.target ?? '');
+    } else {
+      const url: string =
+        typeof this.url === 'string'
+          ? this.url
+          : this.router.createUrlTree([this.url]).toString();
+      this.router.navigateByUrl(url);
+    }
   }
 
   /**
