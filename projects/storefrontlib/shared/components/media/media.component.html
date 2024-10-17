@@ -7,6 +7,8 @@
       "
       [srcset]="source.srcset"
       [media]="source.media"
+      [width]="SPIKE_extractDimensionsFromUrl(source.srcset).width"
+      [height]="SPIKE_extractDimensionsFromUrl(source.srcset).height"
     />
 
     <img
@@ -17,6 +19,8 @@
       [attr.role]="media.role"
       (load)="loadHandler()"
       (error)="errorHandler()"
+      [width]="SPIKE_extractDimensionsFromUrl(media.src).width"
+      [height]="SPIKE_extractDimensionsFromUrl(media.src).height"
     />
   </picture>
 
@@ -31,6 +35,10 @@
       [attr.role]="media.role"
       (load)="loadHandler()"
       (error)="errorHandler()"
+      [width]="SPIKE_extractDimensionsFromUrl(media?.srcset || media.src).width"
+      [height]="
+        SPIKE_extractDimensionsFromUrl(media?.srcset || media.src).height
+      "
     />
   </ng-template>
 </ng-container>

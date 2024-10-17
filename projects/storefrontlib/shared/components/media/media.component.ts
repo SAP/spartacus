@@ -203,6 +203,39 @@ export class MediaComponent implements OnChanges {
   }
 
   /**
+   * SPIKE
+   * the src can look like this:
+   * - https://<some IP>/medias/Elec-350x450-HomeSmallDiscount-EN-01-350W.jpg?context=bWFzdGVyfGltYWdlc3wxMzQ0MXxpbWFnZS9qcGVnfGFXMWhaMlZ6TDJobU1DOW9NMk12T0RjNU56UTBOalEzTVRjeE1DNXFjR2N8NWE2ZmFkZDFmOTNjNWE1YmI3MzdhZWQ0YTk0YjMyNzcyNjk0NTU1OGY4MWQzOTJiNzMxMGQ5NTVkNzYzMDkzOA
+   *  - height 450
+   *  - width 350
+   * - https://domain.com/medias/Elec-200x150-HomeFamLight-EN-01-200W.jpg?context=bWFzdGVyfGltYWdlc3w5NzIwfGltYWdlL2pwZWd8YVcxaFoyVnpMMmd4WWk5b1pEUXZPRGM1TnpRME5EazJORE00TWk1cWNHY3wzZGZjMDk3MGNmMzA4YTg1YjlmOWFiZjRhOGM5YjliOGMzODEwMWY2YTg5Mjk1Y2UwYzQzZGZlODljY2JjNjE4
+   *  - height 150
+   *  - width 200
+   * we want to get the height and width from the url
+   *
+   */
+  SPIKE_extractDimensionsFromUrl(url: string): {
+    width?: number;
+    height?: number;
+  } {
+    // Define a regular expression pattern to match the desired format
+    const pattern = /\/medias\/[^-]+-(\d+)x(\d+)-[^-]+/;
+
+    // Execute the pattern on the URL
+    const match = url.match(pattern);
+
+    // Check if the pattern matched and extract the dimensions
+    if (match) {
+      const width = parseInt(match[1], 10);
+      const height = parseInt(match[2], 10);
+      return { width, height };
+    } else {
+      // Return null if the pattern does not match
+      return {};
+    }
+  }
+
+  /**
    * Whenever an error happens during load, we mark the component
    * with css classes to have a missing media.
    */
