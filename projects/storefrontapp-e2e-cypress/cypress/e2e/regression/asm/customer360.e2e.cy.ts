@@ -26,6 +26,7 @@ context('Assisted Service Module', () => {
     beforeEach(() => {
       cy.restoreLocalStorage();
       checkout.visitHomePage('asm=true');
+      cy.wait(2000);
       cy.get('button.cx-360-button').click();
       cy.get('button.cx-tab-header').contains('Overview').click();
     });
@@ -223,6 +224,7 @@ context('Assisted Service Module', () => {
       cy.get('.cx-asm-customer-360-promotion-listing-row')
         .first()
         .within(() => {
+          cy.wait(3000);
           cy.intercept('DELETE', /\.*\/vouchers\.*/).as('removeCoupon');
           cy.get('button').contains('Remove').click();
           cy.wait('@removeCoupon').its('response.statusCode').should('eq', 204);

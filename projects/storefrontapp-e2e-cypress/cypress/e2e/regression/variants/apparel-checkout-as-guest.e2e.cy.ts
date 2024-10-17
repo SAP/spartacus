@@ -10,15 +10,18 @@ import {
   configureProductWithVariants,
 } from '../../../helpers/variants/apparel-checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 context('Apparel - checkout as guest', () => {
   viewportContext(['desktop', 'mobile'], () => {
     describe('core tests', () => {
       before(() => {
+        cy.window().then((win) => win.sessionStorage.clear());
         checkoutVariants.generateVariantGuestUser();
       });
 
       beforeEach(() => {
+        clearAllStorage();
         Cypress.env('BASE_SITE', APPAREL_BASESITE);
         configureProductWithVariants();
       });
@@ -30,10 +33,12 @@ context('Apparel - checkout as guest', () => {
   viewportContext(['desktop'], () => {
     describe('all tests', () => {
       before(() => {
+        cy.window().then((win) => win.sessionStorage.clear());
         checkoutVariants.generateVariantGuestUser();
       });
 
       beforeEach(() => {
+        clearAllStorage();
         Cypress.env('BASE_SITE', APPAREL_BASESITE);
         configureProductWithVariants();
       });
