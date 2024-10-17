@@ -9,7 +9,7 @@
     "description": "Description",
     "item": "Item",
     "itemPrice": "Item price",
-    "quantity": "Qty",
+    "quantity": "Quantity",
     "quantityTitle": "The quantity represents the total number of this item in your cart.",
     "total": "Total",
     "actions": "Actions",
