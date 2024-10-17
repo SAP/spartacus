@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, User } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_BASE_CORE_FEATURE } from '../feature-name';
-import { Cart, OrderEntry } from '../models/cart.model';
+import { Cart, OrderEntry, OrderEntryGroup } from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +22,7 @@ import { Cart, OrderEntry } from '../models/cart.model';
         'getActiveCartId',
         'takeActiveCartId',
         'getEntries',
+        'getEntryGroups',
         'getLastEntry',
         'getLoading',
         'isStable',
@@ -39,6 +40,9 @@ import { Cart, OrderEntry } from '../models/cart.model';
         'hasDeliveryItems',
         'getPickupEntries',
         'getDeliveryEntries',
+        'getPickupEntryGroups',
+        'getDeliveryEntryGroups',
+        'removeEntryGroup',
       ],
       async: true,
     }),
@@ -68,6 +72,11 @@ export abstract class ActiveCartFacade {
    * Returns cart entries
    */
   abstract getEntries(): Observable<OrderEntry[]>;
+
+  /**
+   * Returns cart entry groups
+   */
+  abstract getEntryGroups(): Observable<OrderEntryGroup[]>;
 
   /**
    * Returns last cart entry for provided product code.
@@ -179,4 +188,34 @@ export abstract class ActiveCartFacade {
    * Return cart's delivery entries
    */
   abstract getDeliveryEntries(): Observable<OrderEntry[]>;
+
+  /**
+   * Return cart's pickup entry groups
+   */
+  abstract getPickupEntryGroups(): Observable<OrderEntryGroup[]>;
+
+  /**
+   * Return cart's delivery entry groups
+   */
+  abstract getDeliveryEntryGroups(): Observable<OrderEntryGroup[]>;
+
+  /**
+   * Remove entry group
+   *
+   * @param entryGroupNumber
+   */
+  abstract removeEntryGroup(entryGroupNumber: number): void;
+
+  /**
+   * Add entry to entry group
+   *
+   * @param entryGroupNumber
+   * @param productCode
+   * @param quantity
+   */
+  abstract addToEntryGroup(
+    entryGroupNumber: number,
+    productCode: string,
+    quantity?: number
+  ): void;
 }

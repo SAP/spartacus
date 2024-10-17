@@ -21,6 +21,27 @@ const testCart: Cart = {
   entries: [
     { entryNumber: 0, product: { code: '1234' } },
     { entryNumber: 1, product: { code: '1234' } },
+    { entryNumber: 2, product: { code: '1236' } },
+  ],
+  entryGroups: [
+    {
+      entryGroupNumber: 1,
+      label: '',
+      type: 'STANDALONE',
+      entries: [{ entryNumber: 0, product: { code: '1234' } }],
+    },
+    {
+      entryGroupNumber: 2,
+      label: '',
+      type: 'STANDALONE',
+      entries: [{ entryNumber: 1, product: { code: '1235' } }],
+    },
+    {
+      entryGroupNumber: 3,
+      label: '',
+      type: 'CONFIGURABLEBUNDLE',
+      entries: [{ entryNumber: 2, product: { code: '1236' } }],
+    },
   ],
   totalPrice: {
     currencyIso: 'USD',
@@ -390,6 +411,30 @@ describe('MultiCartService', () => {
     });
   });
 
+  describe('getEntryGroups', () => {
+    it('should return cart bundle entry groups', () => {
+      let result;
+      service.getEntryGroups('xxx').subscribe((cart) => {
+        result = cart;
+      });
+
+      expect(result).toEqual([]);
+
+      store.dispatch(
+        new CartActions.LoadCartSuccess({
+          userId: 'userId',
+          extraData: {
+            active: true,
+          },
+          cart: testCart,
+          cartId: testCart.code,
+        })
+      );
+
+      expect(result).toEqual(testCart.entryGroups);
+    });
+  });
+
   describe('addEntry', () => {
     it('should dispatch addEntry action', () => {
       service.addEntry('userId', 'cartId', 'productCode', 2);
@@ -442,6 +487,35 @@ describe('MultiCartService', () => {
           userId: 'userId',
           productCode: 'productCode2',
           quantity: 3,
+        })
+      );
+    });
+  });
+
+  describe('addToEntryGroup', () => {
+    it('should dispatch addToEntryGroup action', () => {
+      service.addToEntryGroup('userId', 'cartId', 1, 'productCode', 2);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.CartAddToEntryGroup({
+          cartId: 'cartId',
+          userId: 'userId',
+          entryGroupNumber: 1,
+          productCode: 'productCode',
+          quantity: 2,
+        })
+      );
+    });
+  });
+
+  describe('removeEntryGroup', () => {
+    it('should dispatch RemoveEntryGroup action', () => {
+      service.removeEntryGroup('userId', 'cartId', 1);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.CartRemoveEntryGroup({
+          cartId: 'cartId',
+          userId: 'userId',
+          entryGroupNumber: 1,
         })
       );
     });

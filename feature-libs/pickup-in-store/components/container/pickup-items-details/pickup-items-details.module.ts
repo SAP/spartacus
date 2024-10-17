@@ -11,10 +11,17 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { CardModule, IconModule, MediaModule } from '@spartacus/storefront';
+import {
+  CardModule,
+  HierarchyModule,
+  IconModule,
+  MediaModule,
+  OutletModule,
+} from '@spartacus/storefront';
 import { StoreModule } from '../../presentational';
 import { PickUpItemsDetailsComponent } from './pickup-items-details.component';
 
@@ -28,6 +35,9 @@ import { PickUpItemsDetailsComponent } from './pickup-items-details.component';
     StoreModule,
     CardModule,
     MediaModule,
+    OutletModule,
+    FeaturesConfigModule,
+    HierarchyModule,
     ConfigModule.withConfig({
       cmsComponents: {
         OrderConfirmationPickUpComponent: {

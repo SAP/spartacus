@@ -37,7 +37,9 @@ export class SaveForLaterComponent implements OnInit {
   ngOnInit() {
     this.isCartEmpty$ = this.cartService
       .getActive()
-      .pipe(map((cart) => !(cart && cart.totalItems && cart.totalItems > 0)));
+      .pipe(
+        map((cart) => !(cart && (cart.totalItems || cart.entryGroups?.length)))
+      );
     this.saveForLater$ = this.selectiveCartService.getCart();
     this.entries$ = this.selectiveCartService
       .getEntries()
