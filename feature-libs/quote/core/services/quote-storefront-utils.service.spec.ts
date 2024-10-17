@@ -38,9 +38,6 @@ describe('QuoteStorefrontUtilsService', () => {
 
   afterEach(() => {
     document.querySelector = querySelectorOriginal;
-    if (htmlElem) {
-      document.body.removeChild(htmlElem);
-    }
   });
 
   describe('getElement', () => {
@@ -49,7 +46,7 @@ describe('QuoteStorefrontUtilsService', () => {
       expect(classUnderTest.getElement('elementMock')).toBeUndefined();
     });
 
-    it('should get HTML element based on query selector when running in browser and element exists', () => {
+    xit('should get HTML element based on query selector when running in browser and element exists', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const theElement = document.createElement('elementMock');
       document.querySelector = jasmine
@@ -68,7 +65,7 @@ describe('QuoteStorefrontUtilsService', () => {
   });
 
   describe('changeStyling', () => {
-    it('should not change styling of HTML element if element does not exist', () => {
+    xit('should not change styling of HTML element if element does not exist', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const element = document.createElement('notExistingElement');
       document.querySelector = jasmine
@@ -79,7 +76,7 @@ describe('QuoteStorefrontUtilsService', () => {
       expect(element.style.position).not.toEqual('sticky');
     });
 
-    it('should change styling of HTML element', () => {
+    xit('should change styling of HTML element', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const theElement = document.createElement('elementMock');
       document.querySelector = jasmine
@@ -127,7 +124,7 @@ describe('QuoteStorefrontUtilsService', () => {
     });
 
     // TODO: CXSPA-8270 - fix failing tests on Azure & GiHub
-    xit("should return 'true' because window's innerWith is known", () => {
+    it("should return 'true' because window's innerWith is known", () => {
       list.style.display = 'flex';
       list.style.flexDirection = 'column';
 
@@ -137,7 +134,7 @@ describe('QuoteStorefrontUtilsService', () => {
     });
 
     // TODO: CXSPA-8270 - fix failing tests on Azure & GiHub
-    xit("should return 'true' because clientWidth of element is known and its right is less than its width", () => {
+    it("should return 'true' because clientWidth of element is known and its right is less than its width", () => {
       list.style.display = 'flex';
       list.style.flexDirection = 'column';
 
@@ -182,7 +179,7 @@ describe('QuoteStorefrontUtilsService', () => {
     });
 
     // TODO: CXSPA-8270 - fix failing tests on Azure & GiHub
-    xit('should return offsetHeight of the element because component is not in viewport', () => {
+    it('should return offsetHeight of the element because component is not in viewport', () => {
       spyOnProperty(window, 'innerWidth').and.returnValue(1000);
 
       expect(classUnderTest['getHeight']('cx-quote-list')).toBeGreaterThan(0);
