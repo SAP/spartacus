@@ -353,6 +353,7 @@ if (environment.cpq) {
         a11yUseButtonsForBtnLinks: true,
         a11yTabComponent: true,
         a11yCarouselArrowKeysNavigation: true,
+        a11yPickupOptionsTabs: true,
         a11yNotificationsOnConsentChange: true,
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,

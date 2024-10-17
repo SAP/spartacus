@@ -1,159 +1,216 @@
-<form [formGroup]="pickupOptionsForm">
-  <fieldset *cxFeature="'a11yDeliveryMethodFieldset'">
-    <legend>{{ 'pickupOptions.legend' | cxTranslate }}</legend>
-    <div class="form-check">
-      <input
-        type="radio"
-        role="radio"
-        [attr.id]="deliveryId"
-        data-pickup="delivery"
-        value="delivery"
-        (click)="onPickupOptionChange('delivery')"
-        formControlName="pickupOption"
-        [attr.aria-label]="'pickupOptions.delivery' | cxTranslate"
-        [attr.aria-checked]="
-          pickupOptionsForm.value.pickupOption === 'delivery'
-        "
-      />
-      <label [attr.for]="deliveryId">
-        {{ 'pickupOptions.delivery' | cxTranslate }}
-      </label>
+<ng-container *cxFeature="'!a11yPickupOptionsTabs'">
+  <form [formGroup]="pickupOptionsForm">
+    <fieldset *cxFeature="'a11yDeliveryMethodFieldset'">
+      <legend>{{ 'pickupOptions.legend' | cxTranslate }}</legend>
+      <div class="form-check">
+        <input
+          type="radio"
+          role="radio"
+          [attr.id]="deliveryId"
+          data-pickup="delivery"
+          value="delivery"
+          (click)="onPickupOptionChange('delivery')"
+          formControlName="pickupOption"
+          [attr.aria-label]="'pickupOptions.delivery' | cxTranslate"
+          [attr.aria-checked]="
+            pickupOptionsForm.value.pickupOption === 'delivery'
+          "
+        />
+        <label [attr.for]="deliveryId">
+          {{ 'pickupOptions.delivery' | cxTranslate }}
+        </label>
+      </div>
+      <div class="form-check">
+        <input
+          type="radio"
+          role="radio"
+          [attr.id]="pickupId"
+          data-pickup="pickup"
+          value="pickup"
+          (click)="onPickupOptionChange('pickup')"
+          formControlName="pickupOption"
+          [attr.aria-label]="'pickupOptions.pickup' | cxTranslate"
+          [attr.aria-checked]="
+            pickupOptionsForm.value.pickupOption === 'pickup'
+          "
+        />
+        <label [attr.for]="pickupId">
+          <p>
+            {{ 'pickupOptions.pickup' | cxTranslate
+            }}<ng-container *ngIf="displayPickupLocation"
+              >:
+              <strong [attr.data-pickup-location]="displayPickupLocation">{{
+                displayPickupLocation
+              }}</strong>
+            </ng-container>
+            |
+            <button
+              *cxFeature="'a11yUseButtonsForBtnLinks'"
+              #dialogTriggerEl
+              [attr.data-store-location-link]="
+                displayPickupLocation ? 'change' : 'select'
+              "
+              class="link cx-action-link"
+              (click)="onPickupLocationChange()"
+            >
+              {{
+                (displayPickupLocation
+                  ? 'pickupOptions.changeStore'
+                  : 'pickupOptions.selectStore'
+                ) | cxTranslate
+              }}
+            </button>
+            <a
+              *cxFeature="'!a11yUseButtonsForBtnLinks'"
+              role="button"
+              #dialogTriggerEl
+              [attr.data-store-location-link]="
+                displayPickupLocation ? 'change' : 'select'
+              "
+              class="cx-action-link"
+              (click)="onPickupLocationChange()"
+              tabindex="0"
+              >{{
+                (displayPickupLocation
+                  ? 'pickupOptions.changeStore'
+                  : 'pickupOptions.selectStore'
+                ) | cxTranslate
+              }}</a
+            >
+          </p>
+        </label>
+      </div>
+    </fieldset>
+    <ng-container *cxFeature="'!a11yDeliveryMethodFieldset'">
+      <div class="form-check">
+        <input
+          type="radio"
+          role="radio"
+          [attr.id]="deliveryId"
+          data-pickup="delivery"
+          value="delivery"
+          (click)="onPickupOptionChange('delivery')"
+          formControlName="pickupOption"
+          [attr.aria-label]="'pickupOptions.delivery' | cxTranslate"
+          [attr.aria-checked]="
+            pickupOptionsForm.value.pickupOption === 'delivery'
+          "
+        />
+        <label [attr.for]="deliveryId">
+          {{ 'pickupOptions.delivery' | cxTranslate }}
+        </label>
+      </div>
+      <div class="form-check">
+        <input
+          type="radio"
+          role="radio"
+          [attr.id]="pickupId"
+          data-pickup="pickup"
+          value="pickup"
+          (click)="onPickupOptionChange('pickup')"
+          formControlName="pickupOption"
+          [attr.aria-label]="'pickupOptions.pickup' | cxTranslate"
+          [attr.aria-checked]="
+            pickupOptionsForm.value.pickupOption === 'pickup'
+          "
+        />
+        <label [attr.for]="pickupId">
+          <p>
+            {{ 'pickupOptions.pickup' | cxTranslate
+            }}<ng-container *ngIf="displayPickupLocation"
+              >:
+              <strong [attr.data-pickup-location]="displayPickupLocation">{{
+                displayPickupLocation
+              }}</strong>
+            </ng-container>
+            |
+            <button
+              *cxFeature="'a11yUseButtonsForBtnLinks'"
+              #dialogTriggerEl
+              [attr.data-store-location-link]="
+                displayPickupLocation ? 'change' : 'select'
+              "
+              class="link cx-action-link"
+              (click)="onPickupLocationChange()"
+            >
+              {{
+                (displayPickupLocation
+                  ? 'pickupOptions.changeStore'
+                  : 'pickupOptions.selectStore'
+                ) | cxTranslate
+              }}
+            </button>
+            <a
+              *cxFeature="'!a11yUseButtonsForBtnLinks'"
+              #dialogTriggerEl
+              role="button"
+              [attr.data-store-location-link]="
+                displayPickupLocation ? 'change' : 'select'
+              "
+              class="cx-action-link"
+              (click)="onPickupLocationChange()"
+              tabindex="0"
+              >{{
+                (displayPickupLocation
+                  ? 'pickupOptions.changeStore'
+                  : 'pickupOptions.selectStore'
+                ) | cxTranslate
+              }}</a
+            >
+          </p>
+        </label>
+      </div>
+    </ng-container>
+  </form>
+</ng-container>
+<ng-container *cxFeature="'a11yPickupOptionsTabs'">
+  <div class="cx-pickup-options">
+    <div class="cx-pickup-options-container">
+      <h5 class="cx-pickup-options-legend">
+        {{ 'pickupOptions.legend' | cxTranslate }}
+      </h5>
+
+      <cx-tab
+        *ngIf="tabs"
+        [disabled]="disableControls"
+        [tabs]="tabs"
+        [config]="tabConfig"
+      ></cx-tab>
     </div>
-    <div class="form-check">
-      <input
-        type="radio"
-        role="radio"
-        [attr.id]="pickupId"
-        data-pickup="pickup"
-        value="pickup"
-        (click)="onPickupOptionChange('pickup')"
-        formControlName="pickupOption"
-        [attr.aria-label]="'pickupOptions.pickup' | cxTranslate"
-        [attr.aria-checked]="pickupOptionsForm.value.pickupOption === 'pickup'"
-      />
-      <label [attr.for]="pickupId">
-        <p>
-          {{ 'pickupOptions.pickup' | cxTranslate
-          }}<ng-container *ngIf="displayPickupLocation"
-            >:
-            <strong [attr.data-pickup-location]="displayPickupLocation">{{
-              displayPickupLocation
-            }}</strong>
-          </ng-container>
-          |
-          <button
-            *cxFeature="'a11yUseButtonsForBtnLinks'"
-            #dialogTriggerEl
-            [attr.data-store-location-link]="
-              displayPickupLocation ? 'change' : 'select'
-            "
-            class="link cx-action-link"
-            (click)="onPickupLocationChange()"
-          >
-            {{
-              (displayPickupLocation
-                ? 'pickupOptions.changeStore'
-                : 'pickupOptions.selectStore'
-              ) | cxTranslate
-            }}
-          </button>
-          <a
-            *cxFeature="'!a11yUseButtonsForBtnLinks'"
-            role="button"
-            #dialogTriggerEl
-            [attr.data-store-location-link]="
-              displayPickupLocation ? 'change' : 'select'
-            "
-            class="cx-action-link"
-            (click)="onPickupLocationChange()"
-            tabindex="0"
-            >{{
-              (displayPickupLocation
-                ? 'pickupOptions.changeStore'
-                : 'pickupOptions.selectStore'
-              ) | cxTranslate
-            }}</a
-          >
-        </p>
-      </label>
+    <div aria-live="assertive" aria-atomic="true">
+      <span *ngIf="validationError" tabindex="0" class="cx-invalid-message">
+        {{ validationError | cxTranslate }}
+      </span>
     </div>
-  </fieldset>
-  <ng-container *cxFeature="'!a11yDeliveryMethodFieldset'">
-    <div class="form-check">
-      <input
-        type="radio"
-        role="radio"
-        [attr.id]="deliveryId"
-        data-pickup="delivery"
-        value="delivery"
-        (click)="onPickupOptionChange('delivery')"
-        formControlName="pickupOption"
-        [attr.aria-label]="'pickupOptions.delivery' | cxTranslate"
-        [attr.aria-checked]="
-          pickupOptionsForm.value.pickupOption === 'delivery'
-        "
-      />
-      <label [attr.for]="deliveryId">
-        {{ 'pickupOptions.delivery' | cxTranslate }}
-      </label>
-    </div>
-    <div class="form-check">
-      <input
-        type="radio"
-        role="radio"
-        [attr.id]="pickupId"
-        data-pickup="pickup"
-        value="pickup"
-        (click)="onPickupOptionChange('pickup')"
-        formControlName="pickupOption"
-        [attr.aria-label]="'pickupOptions.pickup' | cxTranslate"
-        [attr.aria-checked]="pickupOptionsForm.value.pickupOption === 'pickup'"
-      />
-      <label [attr.for]="pickupId">
-        <p>
-          {{ 'pickupOptions.pickup' | cxTranslate
-          }}<ng-container *ngIf="displayPickupLocation"
-            >:
-            <strong [attr.data-pickup-location]="displayPickupLocation">{{
-              displayPickupLocation
-            }}</strong>
-          </ng-container>
-          |
-          <button
-            *cxFeature="'a11yUseButtonsForBtnLinks'"
-            #dialogTriggerEl
-            [attr.data-store-location-link]="
-              displayPickupLocation ? 'change' : 'select'
-            "
-            class="link cx-action-link"
-            (click)="onPickupLocationChange()"
-          >
-            {{
-              (displayPickupLocation
-                ? 'pickupOptions.changeStore'
-                : 'pickupOptions.selectStore'
-              ) | cxTranslate
-            }}
-          </button>
-          <a
-            *cxFeature="'!a11yUseButtonsForBtnLinks'"
-            #dialogTriggerEl
-            role="button"
-            [attr.data-store-location-link]="
-              displayPickupLocation ? 'change' : 'select'
-            "
-            class="cx-action-link"
-            (click)="onPickupLocationChange()"
-            tabindex="0"
-            >{{
-              (displayPickupLocation
-                ? 'pickupOptions.changeStore'
-                : 'pickupOptions.selectStore'
-              ) | cxTranslate
-            }}</a
-          >
-        </p>
-      </label>
-    </div>
-  </ng-container>
-</form>
+  </div>
+
+  <ng-template #deliveryTabPanel>{{
+    'pickupOptions.freeReturn' | cxTranslate
+  }}</ng-template>
+  <ng-template #pickupTabPanel>
+    <ng-container *ngIf="displayPickupLocation">
+      <strong
+        class="cx-pickup-store"
+        [attr.data-pickup-location]="displayPickupLocation"
+      >
+        {{ displayPickupLocation }}
+      </strong>
+    </ng-container>
+
+    <button
+      #dialogTriggerEl
+      [attr.data-store-location-link]="
+        displayPickupLocation ? 'change' : 'select'
+      "
+      class="link cx-action-link"
+      (click)="onPickupLocationChange()"
+    >
+      {{
+        (displayPickupLocation
+          ? 'pickupOptions.changeStore'
+          : 'pickupOptions.selectStore'
+        ) | cxTranslate
+      }}
+    </button>
+  </ng-template>
+</ng-container>
