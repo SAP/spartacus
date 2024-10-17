@@ -2,36 +2,22 @@
 
 exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { opfBaseTranslationChunksConfig, opfBaseTranslations } from "@spartacus/opf/base/assets";
-import { OPF_BASE_FEATURE, OpfBaseRootModule, OpfConfig } from "@spartacus/opf/base/root";
+import { CmsConfig, provideConfig } from "@spartacus/core";
+import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyRootModule } from "@spartacus/opf/quick-buy/root";
 
 @NgModule({
   declarations: [],
   imports: [
-    OpfBaseRootModule
+    OpfQuickBuyRootModule
   ],
   providers: [provideConfig(<CmsConfig>{
     featureModules: {
-      [OPF_BASE_FEATURE]: {
+      [OPF_QUICK_BUY_FEATURE]: {
         module: () =>
-          import('@spartacus/opf/base').then((m) => m.OpfBaseModule),
+          import('@spartacus/opf/quick-buy').then((m) => m.OpfQuickBuyModule),
       },
     }
-  }),
-  provideConfig(<I18nConfig>{
-    i18n: {
-      resources: opfBaseTranslations,
-      chunks: opfBaseTranslationChunksConfig,
-    },
-  }),
-  provideConfig(<OpfConfig>{
-    opf: {
-      baseUrl: "PLACEHOLDER_OPF_BASE_URL",
-      commerceCloudPublicKey: "PLACEHOLDER_COMMERCE_CLOUD_PUBLIC_KEY",
-    },
-  })
-  ]
+  })]
 })
 export class OpfFeatureModule { }
 "
@@ -39,36 +25,22 @@ export class OpfFeatureModule { }
 
 exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup should add the feature using the lazy loading syntax 2`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { opfBaseTranslationChunksConfig, opfBaseTranslations } from "@spartacus/opf/base/assets";
-import { OPF_BASE_FEATURE, OpfBaseRootModule, OpfConfig } from "@spartacus/opf/base/root";
+import { CmsConfig, provideConfig } from "@spartacus/core";
+import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyRootModule } from "@spartacus/opf/quick-buy/root";
 
 @NgModule({
   declarations: [],
   imports: [
-    OpfBaseRootModule
+    OpfQuickBuyRootModule
   ],
   providers: [provideConfig(<CmsConfig>{
     featureModules: {
-      [OPF_BASE_FEATURE]: {
+      [OPF_QUICK_BUY_FEATURE]: {
         module: () =>
-          import('@spartacus/opf/base').then((m) => m.OpfBaseModule),
+          import('@spartacus/opf/quick-buy').then((m) => m.OpfQuickBuyModule),
       },
     }
-  }),
-  provideConfig(<I18nConfig>{
-    i18n: {
-      resources: opfBaseTranslations,
-      chunks: opfBaseTranslationChunksConfig,
-    },
-  }),
-  provideConfig(<OpfConfig>{
-    opf: {
-      baseUrl: "PLACEHOLDER_OPF_BASE_URL",
-      commerceCloudPublicKey: "PLACEHOLDER_COMMERCE_CLOUD_PUBLIC_KEY",
-    },
-  })
-  ]
+  })]
 })
 export class OpfFeatureModule { }
 "

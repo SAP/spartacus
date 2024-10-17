@@ -25,12 +25,26 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["OPF-Checkout", "OPF-Base"],
+        "enum": [
+          "OPF-Checkout",
+          "OPF-Base",
+          "OPF-Payment",
+          "OPF-Cta",
+          "OPF-Global-Functions",
+          "OPF-Quick-Buy"
+        ],
         "type": "string"
       },
-      "default": ["OPF-Checkout", "OPF-Base"]
+      "default": [
+        "OPF-Checkout",
+        "OPF-Base",
+        "OPF-Payment",
+        "OPF-Cta",
+        "OPF-Global-Functions",
+        "OPF-Quick-Buy"
+      ]
     },
-    "baseUrl": {
+    "opfBaseUrl": {
       "type": "string",
       "description": "The base url of Cloud Commerce Adapter for Open Payment Framework integration",
       "x-prompt": "[OPF] What is the base URL (origin) of your OPF Cloud Commerce Adapter?"

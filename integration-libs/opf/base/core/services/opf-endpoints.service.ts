@@ -59,8 +59,8 @@ export class OpfEndpointsService {
   }
 
   private getBaseEndpoint(): string {
-    if (this.opfConfig && this.opfConfig.opf && this.opfConfig.opf.baseUrl) {
-      return this.opfConfig.opf.baseUrl;
+    if (this.opfConfig && this.opfConfig.opf && this.opfConfig.opf.opfBaseUrl) {
+      return this.opfConfig.opf.opfBaseUrl;
     }
 
     return '';

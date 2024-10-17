@@ -19,7 +19,7 @@ describe('OpfEndpointsService', () => {
   beforeEach(() => {
     opfConfigMock = {
       opf: {
-        baseUrl: 'https://elec-spa.com/opf',
+        opfBaseUrl: 'https://elec-spa.com/opf',
       },
     };
     opfApiConfigMock = {
@@ -70,7 +70,7 @@ describe('OpfEndpointsService', () => {
     });
 
     it('should return an empty string when baseUrl is empty', () => {
-      service['opfConfig'] = { opf: { baseUrl: '' } };
+      service['opfConfig'] = { opf: { opfBaseUrl: '' } };
       const result = service['getBaseEndpoint']();
       expect(result).toEqual('');
     });
