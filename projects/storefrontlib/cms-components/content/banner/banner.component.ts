@@ -76,9 +76,16 @@ export class BannerComponent {
 
   spike_isLCP(data: CmsBannerComponent): boolean {
     const text = data.name ?? '';
-    const SPIKE_LCP_Banner_name =
-      'Electronics Homepage Splash Banner Component'; // SPIKE HARDCODED VALUE
-    const isLCP = text.includes(SPIKE_LCP_Banner_name);
+    const spike_LCP_HOMEPAGE_component_names = [
+      'Electronics Homepage Splash Banner Component',
+      // 'Site Logo Component',
+      // 'Electronics Homepage Discount Banner Component',
+      // 'Electronics Homepage Light Family Banner Component',
+      // 'Electronics Homepage Light Family Text Banner Component',
+    ]; // SPIKE HARDCODED VALUES
+    const isLCP = spike_LCP_HOMEPAGE_component_names.some((name) =>
+      text.includes(name)
+    );
     console.log('<cx-banner> SPIKE NEW: isLCP', isLCP, text); // SPIKE NEW
     return isLCP;
   }
