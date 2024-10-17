@@ -36,7 +36,7 @@
     "findAStore": "Find a Store",
     "findStores": "Find Stores",
     "hideOutOfStockOptions": "Hide out of stock options",
-    "searchPlaceholder": "Enter Zip Code, Town or Address",
+    "searchPlaceholder": "Enter Zip Code or Town or Address",
     "useMyLocation": "Use my location"
   },
   "addressBookPickupInStore": {

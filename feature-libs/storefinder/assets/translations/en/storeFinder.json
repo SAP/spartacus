@@ -22,7 +22,7 @@
     "useMyLocation": "Use my location",
     "viewAllStores": "View all stores",
     "contactUs": "Contact us",
-    "searchBox": "Postal code, town or address",
+    "searchBox": "Postal code or town or address",
     "backToList": "Back to list",
     "noStoresMessage": "No stores found in database...",
     "geolocationNotEnabled": "Cannot locate nearby stores. Geolocation consent has not been enabled",
