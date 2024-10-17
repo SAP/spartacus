@@ -7,11 +7,11 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { NEVER, Observable, of } from 'rxjs';
+import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import {
-  BreakPoint,
   BREAKPOINT,
+  BreakPoint,
   LayoutBreakPoints,
   LayoutConfig,
 } from '../config/layout-config';
@@ -37,10 +37,25 @@ import {
 export class BreakpointService {
   private _breakpoints: BREAKPOINT[];
 
+  private nonFallbackBreakpointAlreadyVisited = false;
+
   breakpoint$: Observable<BREAKPOINT> = isPlatformBrowser(this.platform)
     ? this.winRef.resize$.pipe(
         map((event) => this.getBreakpoint((<Window>event.target).innerWidth)),
-        distinctUntilChanged()
+        distinctUntilChanged(),
+
+        // SPIKE IT MIGHT CAUSE BUGS, becasue
+        switchMap((breakpoint) => {
+          // skip the fallback breakpoint until we have visited a non-fallback breakpoint
+          if (
+            breakpoint === this.fallbackBreakpoint &&
+            !this.nonFallbackBreakpointAlreadyVisited
+          ) {
+            return NEVER;
+          }
+          this.nonFallbackBreakpointAlreadyVisited = true;
+          return of(breakpoint);
+        })
       )
     : of(this.fallbackBreakpoint);
 
