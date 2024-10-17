@@ -8,6 +8,9 @@
     transform: scale(1);
     opacity: 1;
     transition: all 0.6s;
+
+    width: 100%;
+    height: auto;
   }
 
   &.is-missing {
