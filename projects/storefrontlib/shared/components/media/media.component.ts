@@ -63,8 +63,10 @@ export class MediaComponent implements OnChanges {
 
   /**
    * Works only when `useExtendedMediaComponentConfiguration` toggle is true
+   *
+   * @default img
    */
-  @Input() elementType: 'img' | 'picture' = 'picture';
+  @Input() elementType: 'img' | 'picture' = 'img';
 
   /**
    * The intrinsic width of the image, in pixels

@@ -642,6 +642,10 @@ export interface FeatureTogglesInterface {
   /**
    * When enabled, allows to provide extended formats and media queries for <picture> element if used in MediaComponent.
    *
+   * Important: After activation default HTML element in MediaComponent will be `<img>`
+   * Only BannerComponent has passed `'picture'` value. If you need to use `<picture>` HTML element
+   * you need to pass `[elementType]="'picture'"` to `<cx-media>`
+   *
    * For proper work requires `pictureElementFormats`  provided in media config:
    *  ```ts
    * provideConfig({
@@ -659,7 +663,8 @@ export interface FeatureTogglesInterface {
    * After activating this toggle, new inputs in `MediaComponent` — specifically
    * `width`, `height`, and `sizes` — will be passed to the template as HTML attributes.
    *
-   * Toggle activates `@Input() elementType: 'img' | 'picture' = 'picture';` in `MediaComponent`
+   * Toggle activates `@Input() elementType: 'img' | 'picture' = 'img'` in `MediaComponent`
+   *
    */
   useExtendedMediaComponentConfiguration?: boolean;
 }
