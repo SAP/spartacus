@@ -17,19 +17,17 @@ import {
   cdsTranslations,
 } from '@spartacus/cds/assets';
 
+/**
+ * Only differences to the default cds config, they are merged together.
+ *
+ * @see defaultCdsConfigFactory
+ * @see CdsModule.forRoot
+ */
 const cds1: CdsConfig = {
   cds: {
     baseSite: ['electronics-spa', 'electronics', 'electronics-standalone'],
     tenant: 'argotest',
     baseUrl: 'https://api.stage.context.cloud.sap',
-    endpoints: {
-      strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
-      searchIntelligence:
-        '/search-intelligence/v1/sites/${cdsSiteId}/trendingSearches',
-    },
-    merchandising: {
-      defaultCarouselViewportThreshold: 80,
-    },
     profileTag: {
       javascriptUrl:
         'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
@@ -40,7 +38,13 @@ const cds1: CdsConfig = {
   },
 };
 
-const cds2 = {
+/**
+ * Only differences to the default cds config, they are merged together.
+ *
+ * @see defaultCdsConfigFactory
+ * @see CdsModule.forRoot
+ */
+const cds2: CdsConfig = {
   cds: {
     baseSite: [
       'apparel-de',
@@ -50,14 +54,6 @@ const cds2 = {
     ],
     tenant: 'A_CDS_TENANT',
     baseUrl: 'A_CDS_BASE_URL',
-    endpoints: {
-      strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
-      searchIntelligence:
-        '/search-intelligence/v1/sites/${cdsSiteId}/trendingSearches',
-    },
-    merchandising: {
-      defaultCarouselViewportThreshold: 80,
-    },
     profileTag: {
       javascriptUrl: 'A_CDS_PROFILE_TAG_LOAD_URL',
       configUrl: 'A_CDS_PROFILE_TAG_CONFIG_URL',
@@ -66,9 +62,9 @@ const cds2 = {
   },
 };
 
-const cdsConfigArray = [cds1, cds2];
+function cdsConfigFactory(windowRef: WindowRef): CdsConfig {
+  const cdsConfigArray = [cds1, cds2];
 
-const cdsConfig = (windowRef: WindowRef): CdsConfig => {
   if (!windowRef.isBrowser()) {
     return cds1;
   }
@@ -78,7 +74,7 @@ const cdsConfig = (windowRef: WindowRef): CdsConfig => {
     );
   });
   return cds ?? cds1;
-};
+}
 
 @NgModule({
   imports: [CdsModule.forRoot()],
@@ -90,7 +86,7 @@ const cdsConfig = (windowRef: WindowRef): CdsConfig => {
         fallbackLang: 'en',
       },
     }),
-    provideConfigFactory(cdsConfig, [WindowRef]),
+    provideConfigFactory(cdsConfigFactory, [WindowRef]),
   ],
 })
 export class CdsFeatureModule {}
