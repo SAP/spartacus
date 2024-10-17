@@ -16,7 +16,9 @@ import {
   Optional,
   PLATFORM_ID,
   Renderer2,
+  SecurityContext,
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { FeatureConfigService, TranslationService } from '@spartacus/core';
 import { filter, take } from 'rxjs';
 import { BREAKPOINT, BreakpointService } from '../../../layout';
@@ -35,6 +37,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
   @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
 
   protected translationService = inject(TranslationService);
+  protected domSanitizer = inject(DomSanitizer);
   private featureConfigService = inject(FeatureConfigService);
 
   @HostListener('open')
@@ -107,7 +110,11 @@ export class NgSelectA11yDirective implements AfterViewInit {
         .subscribe((translation) => {
           options.forEach(
             (option: HTMLOptionElement, index: string | number) => {
-              const ariaLabel = `${option.innerText}, ${+index + 1} ${translation} ${options.length}`;
+              const sanitizedOptionText = this.domSanitizer.sanitize(
+                SecurityContext.HTML,
+                option.innerText
+              );
+              const ariaLabel = `${sanitizedOptionText}, ${+index + 1} ${translation} ${options.length}`;
               this.renderer.setAttribute(option, ARIA_LABEL, ariaLabel);
             }
           );
@@ -125,9 +132,11 @@ export class NgSelectA11yDirective implements AfterViewInit {
     observer: MutationObserver,
     divCombobox: HTMLElement
   ) {
-    const valueLabel =
-      this.elementRef.nativeElement.querySelector('.ng-value-label')?.innerText;
-    if (valueLabel) {
+    const sanitizedValueLabel = this.domSanitizer.sanitize(
+      SecurityContext.HTML,
+      this.elementRef.nativeElement.querySelector('.ng-value-label')?.innerText
+    );
+    if (sanitizedValueLabel) {
       const comboboxAriaLabel = divCombobox?.getAttribute(ARIA_LABEL) || '';
       const valueElement =
         this.elementRef.nativeElement.querySelector('.ng-value');
@@ -135,7 +144,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
       this.renderer.setAttribute(
         divCombobox,
         ARIA_LABEL,
-        comboboxAriaLabel + ', ' + valueLabel
+        comboboxAriaLabel + ', ' + sanitizedValueLabel
       );
     }
     observer.disconnect();
