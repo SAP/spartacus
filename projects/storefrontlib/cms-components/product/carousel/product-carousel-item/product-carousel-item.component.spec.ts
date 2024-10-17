@@ -8,7 +8,6 @@ import {
   SimpleChange,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
@@ -21,8 +20,8 @@ import {
   ProductListItemContext,
   ProductListItemContextSource,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { ProductCarouselItemComponent } from './product-carousel-item.component';
+import { By } from '@angular/platform-browser';
 
 @Pipe({
   name: 'cxUrl',
@@ -81,7 +80,6 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
         MockUrlPipe,
         MockOutletDirective,
         MockMediaComponent,
-        MockFeatureDirective,
       ],
       providers: [
         {

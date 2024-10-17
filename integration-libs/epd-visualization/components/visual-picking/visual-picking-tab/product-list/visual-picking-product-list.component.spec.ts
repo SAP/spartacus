@@ -22,7 +22,6 @@ import {
   IconModule,
   MediaModule,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { CompactAddToCartModule } from './compact-add-to-cart/compact-add-to-cart.module';
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
@@ -160,7 +159,7 @@ describe('VisualPickingProductListComponent', () => {
         I18nTestingModule,
         CompactAddToCartModule,
       ],
-      declarations: [VisualPickingProductListComponent, MockFeatureDirective],
+      declarations: [VisualPickingProductListComponent],
       providers: [
         Actions,
         {

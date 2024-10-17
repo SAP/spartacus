@@ -14,7 +14,6 @@ import {
   ProductReference,
   ProductReferenceService,
 } from '@spartacus/core';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
@@ -130,7 +129,6 @@ describe('ProductReferencesComponent', () => {
         MockCarouselComponent,
         MockMediaComponent,
         MockUrlPipe,
-        MockFeatureDirective,
       ],
       providers: [
         {

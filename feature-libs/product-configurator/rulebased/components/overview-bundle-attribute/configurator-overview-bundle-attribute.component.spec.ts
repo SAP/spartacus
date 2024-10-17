@@ -9,7 +9,6 @@ import {
   ProductService,
 } from '@spartacus/core';
 import { MediaModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -75,7 +74,6 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
         ConfiguratorOverviewBundleAttributeComponent,
         MockConfiguratorPriceComponent,
         MockNumericPipe,
-        MockFeatureDirective,
       ],
       providers: [
         { provide: ProductService, useClass: MockProductService },

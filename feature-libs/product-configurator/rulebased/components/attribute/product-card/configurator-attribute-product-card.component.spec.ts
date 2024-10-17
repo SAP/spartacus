@@ -17,16 +17,15 @@ import {
   MediaModule,
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
-import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
+import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 
 const product: Product = {
   name: 'Product Name',
@@ -169,7 +168,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         MockConfiguratorPriceComponent,
         MockFocusDirective,
         MockConfiguratorAttributeQuantityComponent,
-        MockFeatureDirective,
       ],
       providers: [
         {

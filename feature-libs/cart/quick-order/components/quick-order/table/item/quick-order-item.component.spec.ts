@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { I18nTestingModule } from '@spartacus/core';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Subject } from 'rxjs';
 import { QuickOrderItemComponent } from './quick-order-item.component';
 
@@ -66,7 +65,6 @@ describe('QuickOrderItemComponent', () => {
         MockUrlPipe,
         MockItemCounterComponent,
         MockMediaComponent,
-        MockFeatureDirective,
       ],
       providers: [
         { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },

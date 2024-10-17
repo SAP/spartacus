@@ -1,5 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
+import { ProductMultiDimensionalSelectorComponent } from './product-multi-dimensional-selector.component';
+import {
+  ProductMultiDimensionalSelectorService,
+  VariantCategoryGroup,
+  VariantCategoryOption,
+} from '@spartacus/product-multi-dimensional/selector/core';
 import {
   I18nTestingModule,
   Product,
@@ -7,15 +13,8 @@ import {
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import {
-  ProductMultiDimensionalSelectorService,
-  VariantCategoryGroup,
-  VariantCategoryOption,
-} from '@spartacus/product-multi-dimensional/selector/core';
+import { ActivatedRoute } from '@angular/router';
 import { CurrentProductService } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { of } from 'rxjs';
-import { ProductMultiDimensionalSelectorComponent } from './product-multi-dimensional-selector.component';
 
 describe('ProductMultiDimensionalSelectorComponent', () => {
   let component: ProductMultiDimensionalSelectorComponent;
@@ -50,10 +49,7 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [
-        ProductMultiDimensionalSelectorComponent,
-        MockFeatureDirective,
-      ],
+      declarations: [ProductMultiDimensionalSelectorComponent],
       providers: [
         { provide: ProductService, useValue: mockProductService },
         { provide: RoutingService, useValue: mockRoutingService },
