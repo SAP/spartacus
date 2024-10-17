@@ -60,7 +60,6 @@
             createAttributeValueIdForConfigurator(attribute, value.valueCode) +
               '-input'
           }}"
-          aria-hidden="true"
           class="form-check-label form-radio-label"
         >
           <img
@@ -150,7 +149,6 @@
                 value.valueCode
               ) + '-input'
             }}"
-            aria-hidden="true"
             class="form-check-label form-radio-label"
             [style.cursor]="!isReadOnly(attribute) ? 'pointer' : 'default'"
             title="{{ getLabel(expMode, value.valueDisplay, value.valueCode) }}"
