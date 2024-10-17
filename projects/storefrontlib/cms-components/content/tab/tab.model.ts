@@ -20,7 +20,7 @@ export interface Tab {
   /**
    * Content to display in tab panel when open.
    */
-  content: TemplateRef<any>;
+  content?: TemplateRef<any>;
   /**
    * Identifies the index of the tab to set attributes by.
    */
