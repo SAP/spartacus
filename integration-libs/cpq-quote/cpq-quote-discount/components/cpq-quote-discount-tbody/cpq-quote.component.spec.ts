@@ -28,7 +28,7 @@ describe('CpqQuoteDiscountComponent', () => {
 
   beforeEach(async () => {
     cpqQuoteServiceMock = {
-      isFlag$: of(false), // Mock isFlag$ to return false
+      isFlag$: of(false),
     };
     mockCartItemContext = new MockCartItemContext();
     await TestBed.configureTestingModule({
@@ -54,7 +54,7 @@ describe('CpqQuoteDiscountComponent', () => {
     const contentElements = fixture.nativeElement.querySelectorAll(
       '.cx-total, .cx-formatted-value'
     );
-    expect(contentElements.length).toBeGreaterThan(0); // Ensure that at least one element is found
+    expect(contentElements.length).toBeGreaterThan(0);
   });
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -92,23 +92,35 @@ describe('CpqQuoteDiscountComponent', () => {
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-discount').length).toBe(1);
     });
-
     it('should display the appliedValue data', () => {
       const discounts: CpqDiscounts[] = [
         { appliedValue: 30, isoCode: 'USD', value: 15 },
       ];
       mockCartItemContext.item$.next({
         cpqDiscounts: discounts,
+        basePrice: { value: 100, formattedValue: 'USD100.00' },
+        quantity: 1,
       });
-
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
       const discountsDisplayed = htmlElem.querySelectorAll('.cx-discount');
       expect(discountsDisplayed.length).toBe(discounts.length);
-
       for (let i = 0; i < discountsDisplayed.length; i++) {
-        expect(discountsDisplayed[i].textContent).toContain(
-          component.getDiscountedPrice(discounts[i].appliedValue, 100) // Assuming 100 as base price
+        const expectedDiscountedPrice = component.getDiscountedPrice(
+          100,
+          discounts[i].appliedValue,
+          1
+        );
+        const formattedPrice = new Intl.NumberFormat('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(expectedDiscountedPrice ?? 0);
+        const expectedDisplayValue = `${discounts[i].isoCode}${formattedPrice}`;
+        console.log(
+          `Expected: ${expectedDisplayValue}, Actual: ${discountsDisplayed[i].textContent}`
+        );
+        expect(discountsDisplayed[i].textContent.trim()).toBe(
+          expectedDisplayValue
         );
       }
     });
