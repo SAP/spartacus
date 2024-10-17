@@ -8,7 +8,7 @@ import {
   OccConfig,
   OrderApprovalPermissionType,
   SearchConfig,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   OrganizationActions,
@@ -66,7 +66,7 @@ class MockLoggerService {
   debug(): void {}
 }
 
-const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
+const error = tryNormalizeHttpError(httpErrorResponse, new MockLoggerService());
 
 describe('Permission Effects', () => {
   let actions$: Observable<PermissionActions.PermissionAction>;

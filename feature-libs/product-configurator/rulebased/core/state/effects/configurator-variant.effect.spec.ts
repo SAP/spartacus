@@ -4,7 +4,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorType,
@@ -171,7 +171,7 @@ describe('ConfiguratorVariantEffect', () => {
 
     const completionFailure = new ConfiguratorActions.SearchVariantsFail({
       ownerKey: productConfiguration.owner.key,
-      error: normalizeHttpError(errorResponse, new MockLoggerService()),
+      error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
     });
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completionFailure });

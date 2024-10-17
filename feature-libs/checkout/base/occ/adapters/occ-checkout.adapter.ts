@@ -17,7 +17,7 @@ import {
   OccEndpointsService,
   backOff,
   isJaloError,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -40,7 +40,7 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
       .get<CheckoutState>(this.getGetCheckoutDetailsEndpoint(userId, cartId))
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,

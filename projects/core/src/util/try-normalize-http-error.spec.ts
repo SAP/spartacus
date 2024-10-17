@@ -26,7 +26,7 @@ describe('tryNormalizeHttpError', () => {
 
     expect(result).toBe(inputError);
     expect(mockLogger.error).toHaveBeenCalledWith(
-      'Error passed to normalizeHttpError is not HttpErrorResponse instance',
+      'Error passed to tryNormalizeHttpError is not HttpErrorResponse instance',
       inputError
     );
   });

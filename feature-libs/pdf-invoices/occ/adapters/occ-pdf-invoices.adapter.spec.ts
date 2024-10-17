@@ -9,7 +9,7 @@ import {
   LoggerService,
   OccConfig,
   OccEndpoints,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   InvoiceQueryParams,
@@ -170,7 +170,7 @@ describe('OccPDFInvoicesAdapter', () => {
         });
 
       expect(result).toEqual(
-        normalizeHttpError(
+        tryNormalizeHttpError(
           mockNoOrderIdBadRequestResponse,
           new MockLoggerService()
         )
@@ -255,7 +255,7 @@ describe('OccPDFInvoicesAdapter', () => {
         });
 
       expect(result).toEqual(
-        normalizeHttpError(
+        tryNormalizeHttpError(
           mockDownloadPDFBadRequestResponse,
           new MockLoggerService()
         )
