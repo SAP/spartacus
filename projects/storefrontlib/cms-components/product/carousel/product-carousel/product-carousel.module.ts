@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -18,8 +19,8 @@ import {
   CarouselModule,
   MediaModule,
 } from '../../../../shared/components/index';
-import { ProductCarouselComponent } from './product-carousel.component';
 import { ProductCarouselItemComponent } from '../product-carousel-item/product-carousel-item.component';
+import { ProductCarouselComponent } from './product-carousel.component';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { ProductCarouselItemComponent } from '../product-carousel-item/product-c
     UrlModule,
     I18nModule,
     PageComponentModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
