@@ -48,7 +48,6 @@ export class CheckoutLoginComponent implements OnDestroy {
       if (!this.sub) {
         this.sub = this.activeCartFacade.isGuestCart().subscribe((isGuest) => {
           if (isGuest) {
-            this.authRedirectService.setRedirectUrl('/cart');
             this.authRedirectService.redirect();
           }
         });

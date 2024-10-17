@@ -39,7 +39,7 @@ export const defaultOpfCheckoutConfig: CheckoutConfig = {
     flows: {
       OPF: {
         steps: opfCheckoutSteps,
-        guest: true,
+        guest: false,
       },
       'OPF-guest': {
         steps: opfCheckoutSteps,
