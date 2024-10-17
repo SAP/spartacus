@@ -56,6 +56,8 @@ export class ResetPasswordComponentService {
 
   protected busy$ = new BehaviorSubject(false);
 
+  tokenName = 'token';
+
   isUpdating$ = this.busy$.pipe(
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
@@ -63,7 +65,10 @@ export class ResetPasswordComponentService {
   resetToken$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(
-      map((routerState: RouterState) => routerState.state.queryParams['token'])
+      map(
+        (routerState: RouterState) =>
+          routerState.state.queryParams[this.tokenName]
+      )
     );
 
   form: UntypedFormGroup = new UntypedFormGroup(
