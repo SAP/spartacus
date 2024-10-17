@@ -99,7 +99,7 @@ class MockProductImageZoomTriggerComponent {
   @Output() dialogClose = new EventEmitter<void>();
 }
 
-describe('ProductImageZoomProductImagesComponent', () => {
+fdescribe('ProductImageZoomProductImagesComponent', () => {
   let component: ProductImageZoomProductImagesComponent;
   let fixture: ComponentFixture<ProductImageZoomProductImagesComponent>;
   let currentProductService: CurrentProductService;
