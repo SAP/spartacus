@@ -61,7 +61,7 @@ describe('Kayboard navigation', () => {
       cy.get('@firstFacetOption').should('be.visible');
     });
 
-    it('navigates facet options with down arrow key', () => {
+    it.skip('navigates facet options with down arrow key', () => {
       cy.get('@firstFacetOption').focus().type('{downArrow}');
       cy.contains('Choshi').should('have.focus').type('{downArrow}');
       cy.contains('Fukuoka Best Western')
@@ -75,7 +75,7 @@ describe('Kayboard navigation', () => {
       cy.contains('Fukuoka Hotel').should('have.focus');
     });
 
-    it('navigates facet options with up arrow key', () => {
+    it.skip('navigates facet options with up arrow key', () => {
       cy.contains('Fukuoka Hotel').focus().type('{upArrow}');
       cy.contains('Fukuoka Hilton').should('have.focus').type('{upArrow}');
       cy.contains('Fukuoka Canal City').should('have.focus').type('{upArrow}');

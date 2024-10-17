@@ -18,7 +18,7 @@ import {
 } from '../../../helpers/product-search';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-context('Product search store flow', () => {
+context('Product search category flow', () => {
   viewportContext(['desktop', 'mobile'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
@@ -26,7 +26,7 @@ context('Product search store flow', () => {
     });
 
     describe('Product search', () => {
-      it('should be able to search with store filtering', () => {
+      it('should be able to search with category filtering', () => {
         const category = 'canon';
         cy.onMobile(() => {
           clickSearchIcon();
@@ -63,7 +63,7 @@ context('Product search store flow', () => {
           'facets'
         );
 
-        clickFacet('Stores');
+        clickFacet('Category');
 
         cy.wait(`@facets`).its('response.statusCode').should('eq', 200);
 
