@@ -5,6 +5,7 @@
  */
 
 import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { useFeatureStyles } from '@spartacus/core';
 
 import {
   PointOfServiceNames,
@@ -28,7 +29,9 @@ export class SetPreferredStoreComponent implements OnInit, OnDestroy {
   constructor(
     protected preferredStoreFacade: PreferredStoreFacade,
     @Optional() protected outlet: OutletContextData<PointOfServiceNames>
-  ) {}
+  ) {
+    useFeatureStyles('a11yVisibleFocusOverflows');
+  }
 
   ngOnInit() {
     this.subscription.add(
