@@ -25,7 +25,7 @@
       either by using specific configuration or generic sproutlets
   -->
   <ng-container *cxFeature="'a11yTabComponent'">
-    <cx-tab [tabs$]="tabs$" [config]="tabConfig" *ngIf="tabs$ | async"></cx-tab>
+    <cx-tab [tabs$]="tabs$" [config]="tabConfig"></cx-tab>
 
     <ng-template #facetsRef *ngFor="let facet of facets">
       <cx-facet
@@ -36,7 +36,7 @@
             | cxTranslate
               : {
                   name: facet.name,
-                  count: facet?.values?.length
+                  count: facet?.values?.length,
                 }
         }}"
       ></cx-facet>
@@ -56,7 +56,7 @@
           | cxTranslate
             : {
                 name: facet.name,
-                count: facet?.values?.length
+                count: facet?.values?.length,
               }
       }}"
     ></cx-facet>

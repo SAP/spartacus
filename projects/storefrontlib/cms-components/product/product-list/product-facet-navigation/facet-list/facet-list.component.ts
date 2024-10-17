@@ -79,7 +79,7 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   tabConfig: TabConfig = {
-    label: 'Product Facets',
+    label: 'productFacetNavigation.productFacets',
     mode: TAB_MODE.ACCORDIAN,
     openTabs: [0],
   };

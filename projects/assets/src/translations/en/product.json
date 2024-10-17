@@ -45,7 +45,8 @@
     "ariaLabelItemsAvailable_other": "{{name}}, {{state}} {{count}} items available",
     "decreaseOptionsVisibility": "Options were hidden from the active group, tab backward to read them or forward for the next group",
     "increaseOptionsVisibility": "More options were added to the active group, tab backward to read them or forward for the next group",
-    "backToResults": "Back To Results"
+    "backToResults": "Back To Results",
+    "productFacets": "Product Facets"
   },
   "productSummary": {
     "id": "ID",
