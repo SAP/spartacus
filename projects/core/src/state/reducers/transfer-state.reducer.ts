@@ -53,11 +53,7 @@ export function getServerTransferStateReducer(
       const newState = reducer(state, action);
       if (newState) {
         const stateSlice = getStateSlice(transferStateKeys, [], newState);
-
-        // SPIKE TODO REVERT - disabling rendering transfer state in SSR
-        if (false) {
-          transferState.set(CX_KEY, stateSlice);
-        }
+        transferState.set(CX_KEY, stateSlice);
       }
 
       return newState;
