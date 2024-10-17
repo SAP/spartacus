@@ -193,15 +193,6 @@
     <ng-container *ngIf="order.entries">
       <ng-container *ngFor="let item of getProductImages(order.entries)">
         <cx-media
-          *cxFeature="'useExtendedMediaComponentConfiguration'"
-          [elementType]="'img'"
-          [container]="item.PRIMARY"
-          class="cx-order-img"
-          format="thumbnail"
-          role="presentation"
-        ></cx-media>
-        <cx-media
-          *cxFeature="'!useExtendedMediaComponentConfiguration'"
           [container]="item.PRIMARY"
           class="cx-order-img"
           format="thumbnail"

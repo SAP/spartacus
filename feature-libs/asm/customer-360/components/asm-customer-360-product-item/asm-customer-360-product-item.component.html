@@ -4,14 +4,6 @@
   (click)="selectProduct.emit(product)"
 >
   <cx-media
-    *cxFeature="'useExtendedMediaComponentConfiguration'"
-    [container]="product?.images?.PRIMARY"
-    format="product"
-    [elementType]="'img'"
-    [alt]="product?.name ?? ''"
-  ></cx-media>
-  <cx-media
-    *cxFeature="'!useExtendedMediaComponentConfiguration'"
     [container]="product?.images?.PRIMARY"
     format="product"
     [alt]="product?.name ?? ''"

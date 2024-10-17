@@ -34,13 +34,6 @@
         <!-- Item Image -->
         <div class="cx-table-item-container">
           <cx-media
-            *cxFeature="'useExtendedMediaComponentConfiguration'"
-            [elementType]="'img'"
-            [container]="returnEntry.orderEntry?.product.images?.PRIMARY"
-            format="thumbnail"
-          ></cx-media>
-          <cx-media
-            *cxFeature="'!useExtendedMediaComponentConfiguration'"
             [container]="returnEntry.orderEntry?.product.images?.PRIMARY"
             format="thumbnail"
           ></cx-media>

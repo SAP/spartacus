@@ -43,13 +43,6 @@
       <div class="thumbnail-container">
         <div class="thumbnail" [class.selected]="item.selected">
           <cx-media
-            *cxFeature="'useExtendedMediaComponentConfiguration'"
-            [container]="item.product.images?.PRIMARY"
-            format="thumbnail"
-            [elementType]="'img'"
-          ></cx-media>
-          <cx-media
-            *cxFeature="'!useExtendedMediaComponentConfiguration'"
             [container]="item.product.images?.PRIMARY"
             format="thumbnail"
           ></cx-media>

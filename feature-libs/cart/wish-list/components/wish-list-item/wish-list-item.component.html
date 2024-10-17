@@ -6,13 +6,6 @@
       tabindex="-1"
     >
       <cx-media
-        *cxFeature="'useExtendedMediaComponentConfiguration'"
-        [container]="cartEntry.product?.images?.PRIMARY"
-        [elementType]="'img'"
-        format="thumbnail"
-      ></cx-media>
-      <cx-media
-        *cxFeature="'!useExtendedMediaComponentConfiguration'"
         [container]="cartEntry.product?.images?.PRIMARY"
         format="thumbnail"
       ></cx-media>

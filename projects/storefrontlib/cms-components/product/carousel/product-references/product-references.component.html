@@ -8,17 +8,7 @@
 
 <ng-template #carouselItem let-item="item">
   <a tabindex="0" [routerLink]="{ cxRoute: 'product', params: item } | cxUrl">
-    <cx-media
-      *cxFeature="'useExtendedMediaComponentConfiguration'"
-      [container]="item.images?.PRIMARY"
-      format="product"
-      [elementType]="'img'"
-    ></cx-media>
-    <cx-media
-      *cxFeature="'!useExtendedMediaComponentConfiguration'"
-      [container]="item.images?.PRIMARY"
-      format="product"
-    ></cx-media>
+    <cx-media [container]="item.images?.PRIMARY" format="product"></cx-media>
     <h4>{{ item.name }}</h4>
     <div class="price">{{ item.price?.formattedValue }}</div>
   </a>

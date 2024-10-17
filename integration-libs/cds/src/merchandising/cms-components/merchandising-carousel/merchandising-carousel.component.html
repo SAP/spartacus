@@ -27,24 +27,12 @@
         onMerchandisingCarouselItemClick(merchandisingCarouselModel, item)
       "
     >
-      <ng-container *cxFeature="'useExtendedMediaComponentConfiguration'">
-        <cx-media
-          *ngIf="item.images?.PRIMARY"
-          [elementType]="'img'"
-          [container]="item.images.PRIMARY"
-          format="product"
-        >
-        </cx-media>
-      </ng-container>
-      <ng-container *cxFeature="'!useExtendedMediaComponentConfiguration'">
-        <cx-media
-          *ngIf="item.images?.PRIMARY"
-          [container]="item.images.PRIMARY"
-          format="product"
-        >
-        </cx-media>
-      </ng-container>
-
+      <cx-media
+        *ngIf="item.images?.PRIMARY"
+        [container]="item.images.PRIMARY"
+        format="product"
+      >
+      </cx-media>
       <h4>{{ item.name }}</h4>
       <div class="price">
         {{ item.price?.formattedValue }}

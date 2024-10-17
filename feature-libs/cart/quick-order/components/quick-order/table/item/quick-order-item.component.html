@@ -9,15 +9,6 @@
       tabindex="-1"
     >
       <cx-media
-        *cxFeature="'useExtendedMediaComponentConfiguration'"
-        [container]="entry?.product?.images?.PRIMARY"
-        [elementType]="'img'"
-        [alt]="entry?.product?.name"
-        format="cartIcon"
-      ></cx-media>
-
-      <cx-media
-        *cxFeature="'!useExtendedMediaComponentConfiguration'"
         [container]="entry?.product?.images?.PRIMARY"
         [alt]="entry?.product?.name"
         format="cartIcon"

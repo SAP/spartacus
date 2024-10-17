@@ -11,43 +11,16 @@
     </div>
     <!-- TODO: (CXSPA-7492) - Remove feature flag next major release. -->
     <div *cxFeature="'a11yKeyboardAccessibleZoom'" class="cx-image-container">
-      <ng-container *cxFeature="'useExtendedMediaComponentConfiguration'">
-        <cx-media
-          *ngIf="!isZoomed"
-          [elementType]="'img'"
-          #defaultImage
-          class="cx-default-image-zoom"
-          (loaded)="onImageLoad()"
-          [container]="main"
-        >
-        </cx-media>
-      </ng-container>
-      <ng-container *cxFeature="'!useExtendedMediaComponentConfiguration'">
-        <cx-media
-          *ngIf="!isZoomed"
-          #defaultImage
-          class="cx-default-image-zoom"
-          (loaded)="onImageLoad()"
-          [container]="main"
-        >
-        </cx-media>
-      </ng-container>
-
+      <cx-media
+        #defaultImage
+        class="cx-default-image-zoom"
+        (loaded)="onImageLoad()"
+        *ngIf="!isZoomed"
+        [container]="main"
+      >
+      </cx-media>
       <div #zoomContainer class="cx-zoom-container" *ngIf="isZoomed">
         <cx-media
-          *cxFeature="'useExtendedMediaComponentConfiguration'"
-          #zoomedImage
-          [elementType]="'img'"
-          class="cx-image-zoomed"
-          [container]="main"
-          (mousemove)="pointerMove($event)"
-          (touchmove)="touchMove($event)"
-          (touchend)="clearTouch()"
-          (loaded)="onImageLoad()"
-        >
-        </cx-media>
-        <cx-media
-          *cxFeature="'!useExtendedMediaComponentConfiguration'"
           #zoomedImage
           class="cx-image-zoomed"
           [container]="main"
@@ -87,40 +60,15 @@
       </button>
     </div>
     <ng-container *cxFeature="'!a11yKeyboardAccessibleZoom'">
-      <ng-container *cxFeature="'useExtendedMediaComponentConfiguration'">
-        <cx-media
-          *ngIf="!isZoomed"
-          [elementType]="'img'"
-          #defaultImage
-          class="cx-default-image-zoom"
-          [container]="main"
-        >
-        </cx-media>
-      </ng-container>
-      <ng-container *cxFeature="'!useExtendedMediaComponentConfiguration'">
-        <cx-media
-          *ngIf="!isZoomed"
-          #defaultImage
-          class="cx-default-image-zoom"
-          [container]="main"
-        >
-        </cx-media>
-      </ng-container>
-
+      <cx-media
+        #defaultImage
+        class="cx-default-image-zoom"
+        *ngIf="!isZoomed"
+        [container]="main"
+      >
+      </cx-media>
       <div #zoomContainer class="cx-zoom-container" *ngIf="isZoomed">
         <cx-media
-          *cxFeature="'useExtendedMediaComponentConfiguration'"
-          #zoomedImage
-          class="cx-image-zoomed"
-          [elementType]="'img'"
-          [container]="main"
-          (mousemove)="pointerMove($event)"
-          (touchmove)="touchMove($event)"
-          (touchend)="clearTouch()"
-        >
-        </cx-media>
-        <cx-media
-          *cxFeature="'!useExtendedMediaComponentConfiguration'"
           #zoomedImage
           class="cx-image-zoomed"
           [container]="main"
