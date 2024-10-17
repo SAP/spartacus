@@ -81,16 +81,18 @@ ADD_OPPS=false
 # config.epd-visualization.sh contains default values to use in your config.sh when ADD_EPD_VISUALIZATION is true.
 ADD_EPD_VISUALIZATION=false
 ADD_S4OM=false
+# config.opf.sh contains default values to use in your config.sh when ADD_OPF is true.
 ADD_OPF=false
-# The base URL and public key values are required for connection to Cloud Commerce Adapter (OPF)
-OPF_BASE_URL=
-OPF_CLIENT_PUBLIC_KEY=
 ADD_CPQ_QUOTE=false
 ADD_S4_SERVICE=false
 ADD_PRODUCT_MULTI_DIMENSIONAL=false
 
 # The base URL (origin) of the SAP EPD Visualization Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=
+
+# The base URL and public key values are required for connection to Cloud Commerce Adapter (OPF)
+OPF_BASE_URL=
+OPF_CLIENT_PUBLIC_KEY=
 
 #NPM connection info
 #NPM_URL must start by 'https://' and end with '/' char
