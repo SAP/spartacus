@@ -66,7 +66,17 @@
         </span>
 
         <span class="cx-cart-quick-order-form-qty">
-          <label class="cx-cart-quick-order-form-label">
+          <label
+            *cxFeature="'a11yQTY2Quantity'"
+            class="cx-cart-quick-order-form-label"
+          >
+            {{ 'quickOrderCartForm.quantityFullLabel' | cxTranslate }}
+          </label>
+
+          <label
+            *cxFeature="'!a11yQTY2Quantity'"
+            class="cx-cart-quick-order-form-label"
+          >
             {{ 'quickOrderCartForm.quantityLabel' | cxTranslate }}
           </label>
 
@@ -153,7 +163,15 @@
           ></cx-form-errors>
 
           <cx-form-errors
-            *cxFeature="'formErrorsDescriptiveMessages'"
+            *cxFeature="'formErrorsDescriptiveMessages && a11yQTY2Quantity'"
+            [translationParams]="{
+              label: 'quickOrderCartForm.quantityFullLabel' | cxTranslate,
+            }"
+            [control]="quickOrderForm.get('quantity')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages && !a11yQTY2Quantity'"
             [translationParams]="{
               label: 'quickOrderCartForm.quantityLabel' | cxTranslate,
             }"
