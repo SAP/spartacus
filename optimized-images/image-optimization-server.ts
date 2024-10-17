@@ -25,7 +25,9 @@ app.get('*', async (req, res) => {
 
     // SPIKE ADD artificial delay
 
-    const artificialDelay = 0; //200;
+    const artificialDelay = 50;
+    // const artificialDelay = 0;
+
     await new Promise((resolve) => setTimeout(resolve, artificialDelay));
 
     console.log({ 'req.url': req.url, isFromCache, artificialDelay });
