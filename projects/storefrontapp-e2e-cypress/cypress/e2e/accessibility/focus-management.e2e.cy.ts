@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import * as cart from '../../helpers/cart';
 import * as checkout from '../../helpers/checkout-flow';
 
 describe('Focus managment for a11y', () => {
@@ -21,6 +22,33 @@ describe('Focus managment for a11y', () => {
         cy.wait('@getDeliveryMethods');
         cy.get('#deliveryMode-premium-gross').should('have.focus');
       });
+    });
+  });
+
+  context('Add to cart modal', () => {
+    it('Should re-focus the element triggering the modal after it closes', () => {
+      cy.visit(`/product/266685`);
+      cy.contains('Add to cart').click();
+      cy.get('[aria-label="Close Modal"]').click();
+      cy.contains('Add to cart').should('have.focus');
+    });
+  });
+
+  context('Pick up in store modal', () => {
+    it('Should re-focus the element triggering the modal on PDP after it closes', () => {
+      cy.visit(`/product/266685`);
+      cy.contains('Select Store').click();
+      cy.get('[aria-label="Close"]').click();
+      cy.contains('Select Store').should('have.focus');
+    });
+
+    it('Should re-focus the element triggering the modal in Cart after it closes', () => {
+      cy.visit(`/product/266685`);
+      cart.addProductAsAnonymous();
+      cy.visit('/cart');
+      cy.contains('Select Store').click();
+      cy.get('[aria-label="Close"]').click();
+      cy.contains('Select Store').should('have.focus');
     });
   });
 });

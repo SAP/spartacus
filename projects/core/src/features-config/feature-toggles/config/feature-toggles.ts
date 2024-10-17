@@ -62,6 +62,11 @@ export interface FeatureTogglesInterface {
   showSearchingCustomerByOrderInASM?: boolean;
 
   /**
+   * New REDESIGNED search-box component
+   */
+  searchBoxV2?: boolean;
+
+  /**
    * Some Changes for input of cart Number and text of Customer360View in ASM view
    */
   showStyleChangesInASM?: boolean;
@@ -70,6 +75,11 @@ export interface FeatureTogglesInterface {
    * In `SearchBoxComponent` it shows the recent searches.
    */
   recentSearches?: boolean;
+
+  /**
+   * In `SearchBoxComponent` it shows the trending searches.
+   */
+  trendingSearches?: boolean;
 
   /**
    * In `InvoicesListComponent` it sorts invoices by the date of the invoice itself.
@@ -356,7 +366,8 @@ export interface FeatureTogglesInterface {
   /**
    * Stops the focus indicator from overflowing and being obstructed by other elements.
    * Modifies the 'visible-focus' mixin. Includes style changes for:
-   * 'StarRatingComponent', AddToWishListComponent, StarRatingComponent, 'SkipLinkComponent'
+   * `StarRatingComponent`, `AddToWishListComponent`, `StarRatingComponent`, `SkipLinkComponent`,
+   * `StoreComponent`, `SetPreferredStoreComponent`, `WishListComponent`
    */
   a11yVisibleFocusOverflows?: boolean;
 
@@ -368,6 +379,12 @@ export interface FeatureTogglesInterface {
    * 4. `CheckoutProgressMobileTopComponent` - checkout step names do not have huge vertical white space
    */
   a11yTruncatedTextForResponsiveView?: boolean;
+
+  /**
+   * When enabled focus outline on the close button inside `ProductImageZoomDialogComponent`
+   * will be fully visible
+   */
+  a11yCloseProductImageBtnFocus?: boolean;
 
   /**
    * Modifies getAriaLabel method in 'PaginationComponent' to return a sematic label.
@@ -550,6 +567,12 @@ export interface FeatureTogglesInterface {
   a11yDialogsHeading?: boolean;
 
   /**
+   * When enabled, the focus will be returned to the trigger element after the dialog is closed.
+   * Affected components: 'AddtoCartComponent', 'PickupOptionsComponent', CartPickupOptionsContainerComponent, PDPPickupOptionsContainerComponent
+   */
+  a11yDialogTriggerRefocus?: boolean;
+
+  /**
    * The 'AddToWishListComponent' will restore focus to the button after adding or removing an item from the wishlist.
    */
   a11yAddToWishlistFocus?: boolean;
@@ -558,6 +581,12 @@ export interface FeatureTogglesInterface {
    * `SearchBoxComponent` should no longer lose focus after closing the popup the esc key.
    */
   a11ySearchBoxFocusOnEscape?: boolean;
+
+  /**
+   * `StoreComponent and MyPreferredStoreComponent` an icon in a button that triggers showing
+   * store's opening hours has an acceptable contrast ratio in a default theme
+   */
+  a11yViewHoursButtonIconContrast?: boolean;
 
   /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
@@ -621,48 +650,50 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showBillingAddressInDigitalPayments: false,
   showDownloadProposalButton: false,
   showPromotionsInPDP: true,
+  searchBoxV2: false,
   recentSearches: true,
-  pdfInvoicesSortByInvoiceDate: false,
+  trendingSearches: false,
+  pdfInvoicesSortByInvoiceDate: true,
   storeFrontLibCardParagraphTruncated: true,
   useProductCarouselBatchApi: false,
   productConfiguratorAttributeTypesV2: true,
   propagateErrorsToServer: false,
   ssrStrictErrorHandlingForHttpAndNgrx: false,
   productConfiguratorDeltaRendering: false,
-  a11yRequiredAsterisks: false,
-  a11yQuantityOrderTabbing: false,
-  a11yNavigationUiKeyboardControls: false,
+  a11yRequiredAsterisks: true,
+  a11yQuantityOrderTabbing: true,
+  a11yNavigationUiKeyboardControls: true,
   a11yNavMenuExpandStateReadout: false,
-  a11yOrderConfirmationHeadingOrder: false,
-  a11yStarRating: false,
-  a11yViewChangeAssistiveMessage: false,
+  a11yOrderConfirmationHeadingOrder: true,
+  a11yStarRating: true,
+  a11yViewChangeAssistiveMessage: true,
   a11yPreventHorizontalScroll: false,
-  a11yReorderDialog: false,
-  a11yPopoverFocus: false,
-  a11yScheduleReplenishment: false,
-  a11yScrollToTop: false,
-  a11ySavedCartsZoom: false,
-  a11ySortingOptionsTruncation: false,
-  a11yExpandedFocusIndicator: false,
-  a11yCheckoutDeliveryFocus: false,
-  a11yMobileVisibleFocus: false,
-  a11yOrganizationsBanner: false,
-  a11yOrganizationListHeadingOrder: false,
+  a11yReorderDialog: true,
+  a11yPopoverFocus: true,
+  a11yScheduleReplenishment: true,
+  a11yScrollToTop: true,
+  a11ySavedCartsZoom: true,
+  a11ySortingOptionsTruncation: true,
+  a11yExpandedFocusIndicator: true,
+  a11yCheckoutDeliveryFocus: true,
+  a11yMobileVisibleFocus: true,
+  a11yOrganizationsBanner: true,
+  a11yOrganizationListHeadingOrder: true,
   a11yCartImportConfirmationMessage: false,
-  a11yReplenishmentOrderFieldset: false,
-  a11yListOversizedFocus: false,
-  a11yStoreFinderOverflow: false,
+  a11yReplenishmentOrderFieldset: true,
+  a11yListOversizedFocus: true,
+  a11yStoreFinderOverflow: true,
   a11yMobileFocusOnFirstNavigationItem: false,
-  a11yCartSummaryHeadingOrder: false,
+  a11yCartSummaryHeadingOrder: true,
   a11ySearchBoxMobileFocus: false,
   a11yFacetKeyboardNavigation: false,
-  a11yUnitsListKeyboardControls: false,
-  a11yCartItemsLinksStyles: false,
+  a11yUnitsListKeyboardControls: true,
+  a11yCartItemsLinksStyles: true,
   a11yHideSelectBtnForSelectedAddrOrPayment: false,
-  a11yFocusableCarouselControls: false,
+  a11yFocusableCarouselControls: true,
   a11yUseTrapTabInsteadOfTrapInDialogs: false,
   cmsGuardsServiceUseGuardsComposer: false,
-  cartQuickOrderRemoveListeningToFailEvent: false,
+  cartQuickOrderRemoveListeningToFailEvent: true,
   a11yKeyboardAccessibleZoom: false,
   a11yOrganizationLinkableCells: false,
   a11yVisibleFocusOverflows: false,
@@ -671,6 +702,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPreventSRFocusOnHiddenElements: false,
   a11yMyAccountLinkOutline: false,
+  a11yCloseProductImageBtnFocus: false,
   a11yNotificationPreferenceFieldset: false,
   a11yImproveContrast: false,
   a11yEmptyWishlistHeading: false,
@@ -696,8 +728,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yQuickOrderAriaControls: false,
   a11yRemoveStatusLoadedRole: false,
   a11yDialogsHeading: false,
+  a11yDialogTriggerRefocus: false,
   a11yAddToWishlistFocus: false,
   a11ySearchBoxFocusOnEscape: false,
+  a11yViewHoursButtonIconContrast: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
   useSiteThemeService: false,

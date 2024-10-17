@@ -5,6 +5,7 @@
  */
 
 import { Request } from 'express';
+import { getRequestUrl } from '../express-utils/express-request-url';
 import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
 import { RenderingEntry } from './rendering-cache.model';
 import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
@@ -48,7 +49,7 @@ export interface SsrOptimizationOptions {
    * Time in milliseconds after prerendered page is becoming stale and should
    * be rendered again.
    */
-  ttl?: number;
+  ttl?: number | undefined;
 
   /**
    * Allows overriding default key generator for custom differentiating
@@ -188,10 +189,34 @@ type DeepRequired<T> = {
   [P in keyof T]-?: DeepRequired<T[P]>;
 };
 
-export const defaultSsrOptimizationOptions: SsrOptimizationOptions &
-  // To not forget adding default values, when adding new feature toggles in the type in the future
-  DeepRequired<Pick<SsrOptimizationOptions, 'ssrFeatureToggles'>> = {
+/**
+ * Returns the full url for the given SSR Request.
+ */
+export const getDefaultRenderKey = getRequestUrl;
+
+/**
+ * The type of `defaultSsrOptimizationOptions` ensures that all properties are set to a default value.
+ * Thanks to this, all options are well-defined and can be printed to logs on the SSR server start.
+ */
+type DefaultSsrOptimizationOptions = Omit<
+  Required<SsrOptimizationOptions>,
+  | 'debug' // debug is deprecated and not used anymore
+  | 'ttl' // ttl is required but its default value is `undefined`
+> & {
+  ttl: number | undefined; // needed, otherwise we could not set the value `ttl: undefined` value (due to the Required<...>)
+} & DeepRequired<
+    // all nested properties of `ssrFeatureToggles` are required too
+    Pick<
+      SsrOptimizationOptions,
+      //
+      'ssrFeatureToggles'
+    >
+  >;
+
+export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
+  cache: false,
   cacheSize: 3000,
+  ttl: undefined,
   concurrency: 10,
   timeout: 3_000,
   forcedSsrTimeout: 60_000,
@@ -206,6 +231,7 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions &
       options.ssrFeatureToggles?.avoidCachingErrors === true &&
       Boolean(entry.err)
     ),
+  renderKeyResolver: getDefaultRenderKey,
   ssrFeatureToggles: {
     avoidCachingErrors: false,
   },

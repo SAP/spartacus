@@ -12,6 +12,7 @@
       </ng-container>
       <ng-container *cxFeature="'!a11yUseButtonsForBtnLinks'">
         <a
+          role="button"
           [routerLink]="{ cxRoute: 'home' } | cxUrl"
           class="btn btn-block btn-secondary"
           >{{ 'common.cancel' | cxTranslate }}</a

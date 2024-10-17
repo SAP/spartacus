@@ -20,6 +20,7 @@
   <ng-container *cxFeature="'!a11yUseButtonsForBtnLinks'">
     <ng-container *ngIf="!loginAsGuest">
       <a
+        role="button"
         [routerLink]="{ cxRoute: 'register' } | cxUrl"
         class="btn btn-block btn-secondary btn-register"
         >{{ 'loginForm.register' | cxTranslate }}</a
@@ -28,6 +29,7 @@
 
     <ng-container *ngIf="loginAsGuest">
       <a
+        role="button"
         [routerLink]="{ cxRoute: 'checkoutLogin' } | cxUrl"
         class="btn btn-block btn-secondary btn-guest"
         >{{ 'loginForm.guestCheckout' | cxTranslate }}</a

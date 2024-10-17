@@ -16,8 +16,8 @@ import {
   SearchBoxComponentService,
 } from '@spartacus/storefront';
 import { RecentSearchesService } from './recent-searches.service';
-import { map, switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
 
 export interface SearchBoxOutlet {
   search: string;
@@ -26,35 +26,40 @@ export interface SearchBoxOutlet {
 }
 
 const MAX_RECENT_SEARCHES = 5;
+
 @Component({
   selector: 'cx-recent-searches',
   templateUrl: './recent-searches.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecentSearchesComponent implements OnInit {
+  public result$: Observable<string[]>;
+  public outletContext$: Observable<SearchBoxOutlet>;
   protected recentSearchesService = inject(RecentSearchesService);
   protected searchBoxComponentService = inject(SearchBoxComponentService);
-  result$ = this.outletContext?.context$.pipe(
-    switchMap((context: SearchBoxOutlet) =>
-      this.recentSearchesService.recentSearches$.pipe(
-        map((recentSearches: string[]) =>
-          recentSearches
-            .filter(
-              (phrase) =>
-                phrase.toLowerCase().indexOf(context.search.toLowerCase()) >= 0
-            )
-            .slice(0, context.maxRecentSearches ?? MAX_RECENT_SEARCHES)
-        )
-      )
-    )
-  );
-  outletContext$: Observable<SearchBoxOutlet>;
 
   constructor(
     @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>
   ) {}
 
   ngOnInit() {
+    this.result$ = combineLatest([
+      this.outletContext?.context$,
+      this.recentSearchesService.recentSearches$,
+    ]).pipe(
+      map(([context, recentSearches]: [SearchBoxOutlet, string[]]) =>
+        recentSearches
+          .filter(
+            (phrase) =>
+              phrase.toLowerCase().indexOf(context.search.toLowerCase()) >= 0
+          )
+          .slice(0, context.maxRecentSearches ?? MAX_RECENT_SEARCHES)
+      ),
+      tap((results) => {
+        this.searchBoxComponentService.setRecentSearches(!!results.length);
+      })
+    );
+
     this.outletContext$ = this.outletContext.context$;
   }
 
