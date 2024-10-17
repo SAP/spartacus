@@ -10,7 +10,7 @@ BACKEND_URL="https://40.76.109.9:9002"
 
 # A comma separated list of base sites.
 # When empty, the base sites will not be explicitly specified in spartacus-configuration.module.ts
-BASE_SITE=
+BASE_SITE="electronics-spa,electronics,apparel-de,apparel-uk,apparel-uk-spa"
 
 OCC_PREFIX="/occ/v2/"
 
