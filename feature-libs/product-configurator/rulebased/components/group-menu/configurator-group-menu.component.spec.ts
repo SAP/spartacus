@@ -36,6 +36,7 @@ import {
   GROUP_ID_4,
   GROUP_ID_5,
   GROUP_ID_7,
+  GROUP_ID_8,
   PRODUCT_CODE,
   mockRouterState,
   productConfiguration,
@@ -1203,6 +1204,44 @@ describe('ConfiguratorGroupMenuComponent', () => {
           GROUP_ID_4
         )
       ).toBe(true);
+    });
+
+    it('should return `true` because a group with current group ID is part of the sub group hierarchy', () => {
+      expect(
+        component.containsSelectedGroup(
+          mockProductConfiguration.groups[3], // GROUP_ID_5 is parent of GROUP_ID_7 which in turn is parent of GROUP_ID_8
+          GROUP_ID_8
+        )
+      ).toBe(true);
+    });
+  });
+
+  describe('getTabIndex', () => {
+    it('should return `0` because current group id matches group itself', () => {
+      expect(
+        component.getTabIndex(mockProductConfiguration.groups[0], GROUP_ID_1)
+      ).toBe(0);
+    });
+
+    it("should return `-1` because current group id doesn't match group or its children", () => {
+      expect(
+        component.getTabIndex(mockProductConfiguration.groups[0], GROUP_ID_4)
+      ).toBe(-1);
+    });
+
+    it('should return `0` because current group id matches a direct child group id', () => {
+      expect(
+        component.getTabIndex(mockProductConfiguration.groups[2], GROUP_ID_4)
+      ).toBe(0);
+    });
+
+    it('should return `0` because current group id matches a in-direct child group id', () => {
+      expect(
+        component.getTabIndex(
+          mockProductConfiguration.groups[3], // GROUP_ID_5 is parent of GROUP_ID_7 which in turn is parent of GROUP_ID_8
+          GROUP_ID_8
+        )
+      ).toBe(0);
     });
   });
 
