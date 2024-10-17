@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { WindowRef } from '@spartacus/core';
 import { QuoteStorefrontUtilsService } from './quote-storefront-utils.service';
 
 @Component({

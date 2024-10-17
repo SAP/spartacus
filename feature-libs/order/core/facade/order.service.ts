@@ -53,6 +53,38 @@ export class OrderService implements OrderFacade {
       }
     );
 
+  protected placePaymentAuthorizedOrderCommand: Command<boolean, Order> =
+    this.commandService.create<boolean, Order>(
+      (payload) =>
+        this.checkoutPreconditions().pipe(
+          switchMap(([userId, cartId]) =>
+            this.orderConnector
+              .placePaymentAuthorizedOrder(userId, cartId, payload)
+              .pipe(
+                tap((order) => {
+                  this.setPlacedOrder(order);
+                  this.eventService.dispatch(
+                    {
+                      order,
+                      userId,
+                      cartId,
+                      /**
+                       * As we know the cart is not anonymous (precondition checked),
+                       * we can safely use the cartId, which is actually the cart.code.
+                       */
+                      cartCode: cartId,
+                    },
+                    OrderPlacedEvent
+                  );
+                })
+              )
+          )
+        ),
+      {
+        strategy: CommandStrategy.CancelPrevious,
+      }
+    );
+
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
@@ -86,6 +118,10 @@ export class OrderService implements OrderFacade {
 
   placeOrder(termsChecked: boolean): Observable<Order> {
     return this.placeOrderCommand.execute(termsChecked);
+  }
+
+  placePaymentAuthorizedOrder(termsChecked: boolean): Observable<Order> {
+    return this.placePaymentAuthorizedOrderCommand.execute(termsChecked);
   }
 
   getOrderDetails(): Observable<Order | undefined> {

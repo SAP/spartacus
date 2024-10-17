@@ -7,6 +7,7 @@
 import { NgModule } from '@angular/core';
 import { HttpErrorHandler } from '@spartacus/core';
 import { CartPersistenceModule } from './cart-persistence.module';
+import { CartAccessCodeConnector } from './connectors';
 import { CartConnector } from './connectors/cart/cart.connector';
 import { CartEntryConnector } from './connectors/entry/cart-entry.connector';
 import { CartValidationConnector } from './connectors/validation/cart-validation.connector';
@@ -30,6 +31,7 @@ import { MultiCartStoreModule } from './store/multi-cart-store.module';
     CartEntryConnector,
     CartVoucherConnector,
     CartValidationConnector,
+    CartAccessCodeConnector,
     ...facadeProviders,
     {
       provide: HttpErrorHandler,
