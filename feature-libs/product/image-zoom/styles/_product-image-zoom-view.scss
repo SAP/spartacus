@@ -42,9 +42,6 @@ cx-product-image-zoom-view {
     .cx-default-image-zoom {
       display: flex;
       justify-content: center;
-      &:has(picture) {
-        max-height: calc(90vh - 200px);
-      }
       @include media-breakpoint-up(lg) {
         height: calc(90vh - 200px);
         // TODO: (CXSPA-7492) - Remove feature flag next major release.
