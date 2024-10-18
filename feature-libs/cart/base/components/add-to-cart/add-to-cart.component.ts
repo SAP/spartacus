@@ -32,6 +32,7 @@ import {
   Product,
   isNotNullable,
 } from '@spartacus/core';
+import { AugmentedPointOfService } from '@spartacus/pickup-in-store/root';
 import {
   CmsComponentData,
   CurrentProductService,
@@ -63,7 +64,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   @ViewChild('addToCartDialogTriggerEl') addToCartDialogTriggerEl: ElementRef;
 
   maxQuantity: number;
-
+  disabled: boolean = false;
   hasStock: boolean = false;
   inventoryThreshold: boolean = false;
 
@@ -72,7 +73,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   quantity = 1;
 
-  subscription: Subscription;
+  subscription = new Subscription();
 
   addToCartForm = new UntypedFormGroup({
     quantity: new UntypedFormControl(1, { updateOn: 'blur' }),
@@ -125,17 +126,18 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.hasStock = true;
       this.cd.markForCheck();
     } else {
-      this.subscription = (
-        this.productListItemContext
+      this.subscription.add(
+        (this.productListItemContext
           ? this.productListItemContext.product$
           : this.currentProductService.getProduct()
-      )
-        .pipe(filter(isNotNullable))
-        .subscribe((product) => {
-          this.productCode = product.code ?? '';
-          this.setStockInfo(product);
-          this.cd.markForCheck();
-        });
+        )
+          .pipe(filter(isNotNullable))
+          .subscribe((product) => {
+            this.productCode = product.code ?? '';
+            this.setStockInfo(product);
+            this.cd.markForCheck();
+          })
+      );
     }
   }
 
@@ -239,9 +241,21 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     return newEvent;
   }
 
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+  onPickupOptionsCompLoaded() {
+    if (this.featureConfigService.isEnabled('a11yPickupOptionsTabs')) {
+      this.subscription.add(
+        this.pickupOptionCompRef.instance.intendedPickupChange.subscribe(
+          (intendedPickupLocation: AugmentedPointOfService | undefined) => {
+            this.disabled =
+              intendedPickupLocation?.pickupOption === 'pickup' &&
+              !intendedPickupLocation.displayName;
+          }
+        )
+      );
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
