@@ -21,17 +21,15 @@
                 'register.titleOptional' | cxTranslate
               }}</span>
               <ng-select
-                [clearable]="false"
                 [items]="titles$ | async"
                 [placeholder]="'register.selectTitle' | cxTranslate"
-                [searchable]="false"
+                [searchable]="true"
+                [clearable]="false"
                 bindLabel="name"
                 bindValue="code"
                 formControlName="titleCode"
                 id="title-select"
-                [cxNgSelectA11y]="{
-                  ariaLabel: 'register.title' | cxTranslate,
-                }"
+                cxNgSelectA11y
               >
               </ng-select>
             </label>
