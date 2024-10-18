@@ -78,6 +78,9 @@ class MockCurrentProductService {
   getProduct(): Observable<Product> {
     return EMPTY;
   }
+  showItemCounter(_product: Product): boolean {
+    return true;
+  }
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {

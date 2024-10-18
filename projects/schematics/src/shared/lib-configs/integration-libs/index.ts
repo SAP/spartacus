@@ -15,3 +15,4 @@ export * from './opps-schematics-config';
 export * from './cpq-quote-schematics-config';
 export * from './s4-service-schematics-config';
 export * from './omf-schematics-config';
+export * from './subscription-billing-schematics-config';

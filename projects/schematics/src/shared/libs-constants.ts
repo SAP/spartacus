@@ -239,6 +239,10 @@ export const SPARTACUS_OPPS_ROOT = '@spartacus/opps/root';
 export const SPARTACUS_SEGMENT_REFS = '@spartacus/segment-refs';
 export const SPARTACUS_SEGMENT_REFS_ROOT = `@spartacus/segment-refs/root`;
 
+export const SPARTACUS_SUBSCRIPTION_BILLING = '@spartacus/subscription-billing';
+export const SPARTACUS_SUBSCRIPTION_BILLING_ASSETS = `@spartacus/subscription-billing/assets`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_ROOT = `@spartacus/subscription-billing/root`;
+
 export const SPARTACUS_S4_SERVICE = '@spartacus/s4-service';
 export const SPARTACUS_S4_SERVICE_ASSETS = `@spartacus/s4-service/assets`;
 export const SPARTACUS_S4_SERVICE_ROOT = `@spartacus/s4-service/root`;
@@ -333,6 +337,8 @@ export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
 export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 
 export const SEGMENT_REFS_FEATURE_NAME = 'Segment-Refs';
+
+export const SUBSCRIPTION_BILLING_FEATURE_NAME = 'Subscription-Billing';
 
 export const S4_SERVICE_FEATURE_NAME = 's4-service';
 

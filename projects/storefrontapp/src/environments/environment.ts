@@ -39,4 +39,5 @@ export const environment: Environment = {
   pdfInvoices: buildProcess.env.CX_PDF_INVOICES ?? false,
   myAccountV2: buildProcess.env.CX_MY_ACCOUNT_V2 ?? false,
   s4Service: buildProcess.env.CX_S4_SERVICE ?? false,
+  subscriptionBilling: buildProcess.env.CX_SUBSCRIPTION_BILLING ?? false,
 };
