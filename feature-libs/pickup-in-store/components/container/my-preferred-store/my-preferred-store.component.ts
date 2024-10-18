@@ -10,6 +10,7 @@ import {
   Page,
   PointOfService,
   RoutingService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
@@ -66,6 +67,8 @@ export class MyPreferredStoreComponent implements OnInit {
         this.pointOfService = store;
       })
     );
+
+    useFeatureStyles('a11yViewHoursButtonIconContrast');
   }
 
   ngOnInit(): void {

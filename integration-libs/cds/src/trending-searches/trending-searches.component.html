@@ -1,26 +1,34 @@
 <ng-container *ngIf="searchPhrases$ | async as searchPhrases">
   <ng-container *ngIf="searchPhrases?.length">
-    <div class="message">
-      {{ 'cdsTrendingSearches.trendingSearches' | cxTranslate }}
+    <div class="trending-searches">
+      <h3>
+        {{ 'cdsTrendingSearches.trendingSearches' | cxTranslate }}
+      </h3>
+      <ul
+        tabindex="0"
+        [ariaLabel]="'cdsTrendingSearches.ariaTrendingSearches' | cxTranslate"
+      >
+        <li *ngFor="let phrase of searchPhrases">
+          <a
+            role="option"
+            [routerLink]="
+              {
+                cxRoute: 'search',
+                params: { query: phrase.searchPhrase },
+              } | cxUrl
+            "
+            (mousedown)="$event.preventDefault()"
+            (keydown.arrowup)="shareEvent($any($event))"
+            (keydown.arrowdown)="shareEvent($any($event))"
+            (keydown.arrowleft)="shareEvent($any($event))"
+            (keydown.arrowright)="shareEvent($any($event))"
+            (keydown.enter)="shareEvent($any($event))"
+            (keydown.escape)="shareEvent($any($event))"
+          >
+            {{ phrase.searchPhrase }}
+          </a>
+        </li>
+      </ul>
     </div>
-
-    <ul
-      class="recent-searches"
-      [ariaLabel]="'cdsTrendingSearches.ariaTrendingSearches' | cxTranslate"
-    >
-      <li *ngFor="let phrase of searchPhrases">
-        <a
-          role="option"
-          [routerLink]="
-            {
-              cxRoute: 'search',
-              params: { query: phrase.searchPhrase },
-            } | cxUrl
-          "
-        >
-          {{ phrase.searchPhrase }}
-        </a>
-      </li>
-    </ul>
   </ng-container>
 </ng-container>
