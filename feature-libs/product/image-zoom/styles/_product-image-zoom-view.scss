@@ -48,7 +48,9 @@ cx-product-image-zoom-view {
         height: calc(90vh - 200px);
         // TODO: (CXSPA-7492) - Remove feature flag next major release.
         @include forFeature('a11yKeyboardAccessibleZoom') {
-          height: unset;
+          &:has(picture) {
+            height: unset;
+          }
         }
       }
 
