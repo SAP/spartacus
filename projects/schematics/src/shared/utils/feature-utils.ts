@@ -421,7 +421,7 @@ function isStaticallyImported(
   if (
     !staticImportExists(sourceFile, moduleConfig.importPath, moduleConfig.name)
   ) {
-    false;
+    return false;
   }
 
   const elements =
