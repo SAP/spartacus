@@ -16,7 +16,11 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  KeyboardFocusService,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
   delay,
@@ -30,7 +34,6 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
-import { KeyboardFocusService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configurator-form',
