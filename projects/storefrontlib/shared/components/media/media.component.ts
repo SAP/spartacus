@@ -62,6 +62,41 @@ export class MediaComponent implements OnChanges {
   @Input() loading: ImageLoadingStrategy | null = this.loadingStrategy;
 
   /**
+   * Works only when `useExtendedMediaComponentConfiguration` toggle is true
+   *
+   * @default img
+   */
+  @Input() elementType: 'img' | 'picture' = 'img';
+
+  /**
+   * The intrinsic width of the image, in pixels
+   *
+   * Works only when `useExtendedMediaComponentConfiguration` toggle is true
+   */
+  @Input() width: number;
+
+  /**
+   * The intrinsic height of the image, in pixels
+   *
+   * Works only when `useExtendedMediaComponentConfiguration` toggle is true
+   */
+  @Input() height: number;
+
+  /**
+   * Specifies the sizes attribute for responsive images.
+   *
+   * The `sizes` attribute describes the layout width of the image for various viewport sizes.
+   * It helps the browser determine which image to download from the `srcset` attribute.
+   *
+   * - The sizes attribute is defined using media queries.
+   * - It allows specifying different sizes for various screen widths or other conditions (e.g., device orientation).
+   * - The browser uses the value to pick the most appropriate image source from the `srcset`.
+   *
+   * Works only when `useExtendedMediaComponentConfiguration` toggle is true
+   */
+  @Input() sizes: string;
+
+  /**
    * Once the media is loaded, we emit an event.
    */
   @Output() loaded: EventEmitter<Boolean> = new EventEmitter<Boolean>();
@@ -95,6 +130,13 @@ export class MediaComponent implements OnChanges {
   protected trackByMedia: TrackByFunction<HTMLSourceElement> = (_, item) =>
     item.media;
 
+  /**
+   * @deprecated since 2211.30. It will be eventually removed in the future
+   *
+   * To use `img` HTML element instead of `picture`
+   * use `useExtendedMediaComponentConfiguration` feature flag
+   * and pass `[elementType]="'img'"` input to the component
+   */
   protected isLegacy =
     inject(USE_LEGACY_MEDIA_COMPONENT, { optional: true }) ||
     (inject(Config) as any)['useLegacyMediaComponent'] ||
@@ -110,7 +152,8 @@ export class MediaComponent implements OnChanges {
    * Creates the `Media` object
    */
   protected create(): void {
-    this.media = this.mediaService.getMedia(
+    this.media = this.mediaService.getMediaBasedOnHTMLElementType(
+      this.elementType,
       this.container instanceof Array ? this.container[0] : this.container,
       this.format,
       this.alt,

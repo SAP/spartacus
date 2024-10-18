@@ -12,6 +12,7 @@ import {
   SemanticPathService,
   UrlCommand,
 } from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
@@ -82,7 +83,12 @@ describe('BannerComponent', () => {
     console.log('Starting BannerComponent test');
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, FeaturesConfigModule],
-      declarations: [BannerComponent, MockMediaComponent, GenericLinkComponent],
+      declarations: [
+        BannerComponent,
+        MockMediaComponent,
+        GenericLinkComponent,
+        MockFeatureDirective,
+      ],
       providers: [
         {
           provide: CmsComponentData,

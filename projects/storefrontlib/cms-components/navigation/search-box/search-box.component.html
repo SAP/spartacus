@@ -63,52 +63,94 @@
   class="results"
   id="results"
   (click)="close($any($event), true)"
-  role="dialog"
+  role="listbox"
+  [class.no-headers]="
+    !isEnabledFeature(searchBoxFeatures.RECENT_SEARCHES_FEATURE) &&
+    !isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) &&
+    !isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
+  "
 >
-  <div
-    *ngIf="result.message"
-    class="message"
-    [innerHTML]="result.message"
-  ></div>
-  <!--RESULT  SUGGESTIONS-->
-  <ng-container>
-    <div class="message" *ngIf="result?.suggestions?.length">
-      {{ 'searchBox.suggestions' | cxTranslate }}
-    </div>
-  </ng-container>
-  <ul
-    class="suggestions"
-    attr.aria-label="{{ 'searchBox.ariaLabelSuggestions' | cxTranslate }}"
-    role="listbox"
+  <button
+    *ngIf="isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)"
+    class="btn btn-tertiary search-panel-close-btn"
+    (keydown.arrowdown)="focusPreviousGroup($any($event))"
+    (click)="close($any($event))"
   >
-    <li *ngFor="let suggestion of result.suggestions">
-      <a
-        role="option"
-        [innerHTML]="suggestion | cxHighlight: searchInput.value"
-        [routerLink]="
-          {
-            cxRoute: 'search',
-            params: { query: suggestion },
-          } | cxUrl
-        "
-        (keydown.arrowup)="focusPreviousChild($any($event))"
-        (keydown.arrowdown)="focusNextChild($any($event))"
-        (keydown.enter)="close($any($event), true)"
-        (keydown.escape)="close($any($event), true)"
-        (blur)="close($event)"
-        (mousedown)="preventDefault($event)"
-        (click)="
-          dispatchSuggestionEvent({
-            freeText: searchInput.value,
-            selectedSuggestion: suggestion,
-            searchSuggestions: result.suggestions ?? [],
-          });
-          updateChosenWord(suggestion)
-        "
-      >
-      </a>
-    </li>
-  </ul>
+    {{ 'searchBox.closeSearchPanel' | cxTranslate }}
+  </button>
+  <h3 *ngIf="result.message" [innerHTML]="result.message"></h3>
+
+  <!--RESULT SUGGESTIONS-->
+  <div class="suggestions" *ngIf="(searchInput?.value ?? '').length > 0">
+    <ng-container
+      *ngIf="
+        isEnabledFeature(searchBoxFeatures.RECENT_SEARCHES_FEATURE) ||
+        isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) ||
+        isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
+      "
+    >
+      <h3>
+        {{ 'searchBox.suggestions' | cxTranslate }}
+      </h3>
+    </ng-container>
+    <ul
+      tabindex="0"
+      attr.aria-label="{{ 'searchBox.ariaLabelSuggestions' | cxTranslate }}"
+      role="listbox"
+      [class.no-headers]="
+        !isEnabledFeature(searchBoxFeatures.RECENT_SEARCHES_FEATURE) &&
+        !isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) &&
+        !isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
+      "
+    >
+      <li *ngFor="let suggestion of result.suggestions">
+        <a
+          role="option"
+          [innerHTML]="suggestion | cxHighlight: searchInput.value"
+          [routerLink]="
+            {
+              cxRoute: 'search',
+              params: { query: suggestion },
+            } | cxUrl
+          "
+          (keydown.arrowup)="focusPreviousChild($any($event))"
+          (keydown.arrowdown)="focusNextChild($any($event))"
+          (keydown.arrowleft)="focusPreviousGroup($any($event))"
+          (keydown.arrowright)="focusNextGroup($any($event))"
+          (keydown.enter)="close($any($event), true)"
+          (keydown.escape)="close($any($event), true)"
+          (blur)="close($event)"
+          (mousedown)="preventDefault($event)"
+          (click)="
+            dispatchSuggestionEvent({
+              freeText: searchInput.value,
+              selectedSuggestion: suggestion,
+              searchSuggestions: result.suggestions ?? [],
+            });
+            updateChosenWord(suggestion)
+          "
+        >
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!--  TRENDING SEARCHES-->
+  <div
+    class="trending-searches-container"
+    [class.d-block]="searchInput?.value?.length === 0"
+  >
+    <ng-container *ngIf="searchBoxFeatures.TRENDING_SEARCHES_FEATURE">
+      <ng-container *cxFeature="searchBoxFeatures.TRENDING_SEARCHES_FEATURE">
+        <ng-template
+          [cxOutlet]="searchBoxOutlets.TRENDING_SEARCHES"
+          [cxOutletContext]="{
+            maxTrendingSearches: config.maxTrendingSearches,
+          }"
+        ></ng-template>
+      </ng-container>
+    </ng-container>
+  </div>
 
   <!--  RECENT SEARCHES-->
   <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
@@ -123,65 +165,149 @@
     ></ng-template>
   </ng-container>
 
-  <!--  TRENDING SEARCHES-->
-  <ng-container *ngIf="searchInput?.value?.length === 0">
-    <ng-container *cxFeature="searchBoxFeatures.TRENDING_SEARCHES_FEATURE">
-      <ng-template
-        *ngIf="config.trendingSearches"
-        [cxOutlet]="searchBoxOutlets.TRENDING_SEARCHES"
-        [cxOutletContext]="{
-          maxTrendingSearches: config.maxTrendingSearches,
-        }"
-      ></ng-template>
-    </ng-container>
-  </ng-container>
-
   <!--RESULT  PRODUCTS-->
-  <ng-container>
-    <div class="message" *ngIf="result.products?.length">
-      {{ 'searchBox.products' | cxTranslate }}
-    </div>
-  </ng-container>
-  <ul
-    class="products"
-    *ngIf="result.products"
-    attr.aria-label="{{ 'searchBox.ariaLabelProducts' | cxTranslate }}"
-    role="listbox"
-  >
-    <li *ngFor="let product of result.products">
-      <a
-        role="option"
-        [routerLink]="
-          {
-            cxRoute: 'product',
-            params: product,
-          } | cxUrl
-        "
-        [class.has-media]="config.displayProductImages"
-        (keydown.arrowup)="focusPreviousChild($any($event))"
-        (keydown.arrowdown)="focusNextChild($any($event))"
-        (keydown.enter)="close($any($event), true)"
-        (keydown.escape)="close($any($event), true)"
-        (blur)="close($any($event))"
-        (mousedown)="preventDefault($event)"
-        (click)="
-          dispatchProductEvent({
-            freeText: searchInput.value,
-            productCode: product.code,
-          })
-        "
+  <div class="products">
+    <ng-container
+      *ngIf="
+        isEnabledFeature(searchBoxFeatures.RECENT_SEARCHES_FEATURE) ||
+        isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) ||
+        isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
+      "
+    >
+      <h3 *ngIf="result.products?.length">
+        {{ 'searchBox.products' | cxTranslate }}
+      </h3>
+    </ng-container>
+    <ul
+      *ngIf="result.products"
+      attr.aria-label="{{ 'searchBox.ariaLabelProducts' | cxTranslate }}"
+      role="listbox"
+      [class.hidden]="hasSearchBoxV2"
+    >
+      <li *ngFor="let product of result.products">
+        <a
+          role="option"
+          [routerLink]="
+            {
+              cxRoute: 'product',
+              params: product,
+            } | cxUrl
+          "
+          [class.has-media]="config.displayProductImages"
+          (keydown.arrowup)="focusPreviousChild($any($event))"
+          (keydown.arrowdown)="focusNextChild($any($event))"
+          (keydown.arrowleft)="focusPreviousGroup($any($event))"
+          (keydown.arrowright)="focusNextGroup($any($event))"
+          (keydown.enter)="close($any($event), true)"
+          (keydown.escape)="close($any($event), true)"
+          (blur)="close($any($event))"
+          (mousedown)="preventDefault($event)"
+          (click)="
+            dispatchProductEvent({
+              freeText: searchInput.value,
+              productCode: product.code,
+            })
+          "
+        >
+          <cx-media
+            *ngIf="config.displayProductImages"
+            [container]="product.images?.PRIMARY"
+            format="thumbnail"
+            role="presentation"
+          ></cx-media>
+          <div class="name" [innerHTML]="product.nameHtml"></div>
+          <span class="price">{{ product.price?.formattedValue }}</span>
+        </a>
+      </li>
+    </ul>
+    <ng-container *ngIf="items$ | async as items">
+      <cx-carousel
+        role="region"
+        [items]="items"
+        [template]="carouselItem"
+        itemWidth="160px"
+        (keybordEvent)="carouselEventPropagator($event)"
       >
-        <cx-media
-          *ngIf="config.displayProductImages"
-          [container]="product.images?.PRIMARY"
-          format="thumbnail"
-          role="presentation"
-        ></cx-media>
-        <div class="name" [innerHTML]="product.nameHtml"></div>
-        <span class="price">{{ product.price?.formattedValue }}</span>
-      </a>
-    </li>
-  </ul>
+      </cx-carousel>
+
+      <ng-template #carouselItem let-product="item">
+        <a
+          tabindex="0"
+          [routerLink]="
+            {
+              cxRoute: 'product',
+              params: product,
+            } | cxUrl
+          "
+          [class.has-media]="config.displayProductImages"
+          (keydown.enter)="close($any($event), true)"
+          (keydown.escape)="close($any($event), true)"
+          (keydown.arrowleft)="carouselEventPropagator($any($event))"
+          (keydown.arrowright)="carouselEventPropagator($any($event))"
+          (keydown.arrowup)="carouselEventPropagator($any($event))"
+          (mousedown)="preventDefault($event)"
+          (click)="
+            dispatchProductEvent({
+              freeText: searchInput.value,
+              productCode: product.code,
+            })
+          "
+        >
+          <cx-media
+            tabindex="0"
+            [container]="product.images?.PRIMARY"
+            format="product"
+            [alt]="product.name ?? ''"
+          ></cx-media>
+          <h3 class="cx-product-name" [innerHtml]="product.nameHtml"></h3>
+          <div class="price">
+            {{ product.price?.formattedValue }}
+          </div>
+        </a>
+        <div class="actions">
+          <ng-container cxInnerComponentsHost></ng-container>
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+
+  <div
+    [class.d-none]="!hasSearchBoxV2"
+    class="search-panel-header"
+    [class.header-panel-divider]="!result.message"
+    *ngIf="isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)"
+  >
+    <h3
+      class="search-panel-message"
+      *ngIf="result.message"
+      [innerHTML]="result.message"
+    ></h3>
+    <ng-container *ngIf="!result.message">
+      <h3 class="suggestions-header">
+        {{ 'searchBox.suggestions' | cxTranslate }}
+      </h3>
+      <h3
+        class="trendingSearches-header"
+        *ngIf="searchInput?.value?.length === 0"
+      >
+        {{ 'cdsTrendingSearches.trendingSearches' | cxTranslate }}
+      </h3>
+      <h3 class="recentSearches-header">
+        {{ 'cdsRecentSearches.recentSearches' | cxTranslate }}
+      </h3>
+      <h3 class="products-header" *ngIf="result.products?.length">
+        {{ 'searchBox.products' | cxTranslate }}
+      </h3>
+    </ng-container>
+    <button
+      class="btn btn-tertiary search-panel-close-btn"
+      (keydown.arrowdown)="focusPreviousGroup($any($event))"
+      (click)="close($any($event))"
+    >
+      {{ 'searchBox.closeSearchPanel' | cxTranslate }}
+    </button>
+  </div>
+
   <span id="initialDescription" class="cx-visually-hidden">
     {{ 'searchBox.initialDescription' | cxTranslate }}
   </span>
