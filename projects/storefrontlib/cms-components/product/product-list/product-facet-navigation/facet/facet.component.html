@@ -9,6 +9,7 @@
       'productFacetNavigation.filterBy.name' | cxTranslate: { name: facet.name }
     "
     [cxFocus]="{ key: facet.name }"
+    *cxFeature="'!a11yTabComponent'"
   >
     {{ facet.name }}
     <cx-icon
@@ -31,7 +32,6 @@
       routerLink="./"
       [queryParams]="getLinkParams(value)"
       class="value"
-      [tabindex]="isFacetKeyboardNavigationEnabled ? -1 : 0"
       [class.selected]="value.selected"
       [cxFocus]="{ key: value.name }"
       (keydown)="onKeydown($event)"
@@ -57,7 +57,6 @@
         "
         #facetValue
         routerLink="./"
-        [tabindex]="isFacetKeyboardNavigationEnabled ? -1 : 0"
         [queryParams]="getLinkParams(value)"
         class="value"
         [class.selected]="value.selected"

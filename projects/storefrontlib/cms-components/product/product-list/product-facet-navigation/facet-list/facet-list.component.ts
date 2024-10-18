@@ -18,10 +18,15 @@ import {
   Renderer2,
   ViewChild,
   inject,
+  AfterViewInit,
+  ViewChildren,
+  QueryList,
+  TemplateRef,
 } from '@angular/core';
-import { Facet, FeatureConfigService } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Facet, FeatureConfigService, useFeatureStyles } from '@spartacus/core';
+import { Tab, TabConfig, TAB_MODE } from '../../../../content/tab/tab.model';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
 import {
   FocusConfig,
   KeyboardFocusService,
@@ -36,7 +41,7 @@ import { FacetService } from '../services/facet.service';
   templateUrl: './facet-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FacetListComponent implements OnInit, OnDestroy {
+export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
   protected subscriptions = new Subscription();
   private _isDialog: boolean;
 
@@ -73,6 +78,16 @@ export class FacetListComponent implements OnInit, OnDestroy {
     autofocus: 'cx-facet > button',
   };
 
+  tabConfig: TabConfig = {
+    label: 'productFacetNavigation.productFacets',
+    mode: TAB_MODE.ACCORDIAN,
+    openTabs: [0],
+  };
+
+  tabs$: BehaviorSubject<Tab[]> = new BehaviorSubject<Tab[]>([]);
+
+  @ViewChildren('facetsRef') facetsRef: QueryList<TemplateRef<any>>;
+
   @HostListener('click') handleClick() {
     this.close();
   }
@@ -85,13 +100,45 @@ export class FacetListComponent implements OnInit, OnDestroy {
     protected facetService: FacetService,
     protected elementRef: ElementRef,
     protected renderer: Renderer2
-  ) {}
+  ) {
+    useFeatureStyles('a11yTabComponent');
+  }
 
   ngOnInit(): void {
     // TODO: (CXSPA-7321) - Remove feature flag next major release
     if (this.featureConfigService?.isEnabled('a11yFacetsDialogFocusHandling')) {
       this.enableFocusHandlingOnFacetListChanges();
     }
+
+    // Required to load facets when initial load in side panel.
+    this.updateTabs();
+  }
+
+  ngAfterViewInit(): void {
+    // Required to render facets when opening filters dialog.
+    this.updateTabs();
+
+    // Required to render facet changes (ie. select facet, etc)
+    this.subscriptions.add(
+      this.facetsRef.changes
+        .pipe(filter((changes) => !!changes))
+        .subscribe(() => {
+          this.updateTabs();
+        })
+    );
+  }
+
+  updateTabs(): void {
+    this.facetList$.pipe(take(1)).subscribe((list) => {
+      const facets = list.facets;
+      const tabs = facets.map((facet, i) => ({
+        header: facet.name,
+        content: this.facetsRef?.get(i),
+        disableBorderFocus: true,
+      }));
+
+      this.tabs$.next(tabs);
+    });
   }
 
   /**

@@ -58,6 +58,10 @@ $intialExpandedFacetsLarge: 3 !default;
         a,
         button:not(.heading) {
           display: none;
+
+          @include forFeature('a11yTabComponent') {
+            display: flex;
+          }
         }
       }
       &.expanded .expand-icon {
