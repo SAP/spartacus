@@ -32,7 +32,8 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
       {
         baseSite: 'electronics-spa',
         javascriptUrl: 'JS_SDK_URL_PLACEHOLDER',
-        sessionExpiration: 3600
+        sessionExpiration: 3600,
+        httpHeaderName: apikey,
       },
     ],
   })
@@ -72,7 +73,8 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
       {
         baseSite: 'electronics-spa',
         javascriptUrl: 'JS_SDK_URL_PLACEHOLDER',
-        sessionExpiration: 3600
+        sessionExpiration: 3600,
+        httpHeaderName: apikey,
       },
     ],
   })
@@ -176,7 +178,8 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
       {
         baseSite: 'electronics-spa',
         javascriptUrl: '<dc>.gigya.com/<api-key>',
-        sessionExpiration: 3600
+        sessionExpiration: 3600,
+        httpHeaderName: apikey,
       },
     ],
   })
@@ -214,7 +217,8 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
       {
         baseSite: 'electronics-spa',
         javascriptUrl: 'JS_SDK_URL_PLACEHOLDER',
-        sessionExpiration: 3600
+        sessionExpiration: 3600,
+        httpHeaderName: apikey,
       },
     ],
   })
@@ -254,7 +258,8 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
       {
         baseSite: 'electronics-spa',
         javascriptUrl: 'JS_SDK_URL_PLACEHOLDER',
-        sessionExpiration: 3600
+        sessionExpiration: 3600,
+        httpHeaderName: apikey,
       },
     ],
   })
@@ -326,7 +331,8 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
       {
         baseSite: 'electronics-spa',
         javascriptUrl: '<dc>.gigya.com/<api-key>',
-        sessionExpiration: 3600
+        sessionExpiration: 3600,
+        httpHeaderName: apikey,
       },
     ],
   })
