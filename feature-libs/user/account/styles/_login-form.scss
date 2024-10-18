@@ -6,6 +6,10 @@
     button {
       flex: 100%;
     }
+    // a fix to make the link look like a full-width button
+    a {
+      flex: 100%;
+    }
   }
 
   @include cx-highContrastTheme {

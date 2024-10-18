@@ -4,8 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 
@@ -14,8 +21,14 @@ import { LoginFormComponentService } from './login-form-component.service';
   templateUrl: './login-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements OnInit {
   constructor(protected service: LoginFormComponentService) {}
+
+  protected activatedRoute = inject(ActivatedRoute);
+  loginAsGuest = false;
+  ngOnInit(): void {
+    this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
+  }
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;

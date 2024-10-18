@@ -12,7 +12,7 @@ import {
   AuthService,
   SemanticPathService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 
@@ -54,7 +54,12 @@ export class CheckoutAuthGuard {
     this.authRedirectService.saveCurrentNavigationUrl();
     if (this.checkoutConfigService.isGuestCheckout()) {
       return this.router.createUrlTree(
-        [this.semanticPathService.get('login')],
+        // If we redirected to the route /login, then we would be redirected to an EXTERNAL Login page
+        // by the LoginGuard.
+        // Instead we want to land on a page that will show us 2 options:
+        // 1. Link to `/login` that wll be handled by a `LoginGuard` and redirect to an external Login page.
+        // 2. Continue as guest (give email)
+        [this.semanticPathService.get('checkoutRequireAuth')],
         { queryParams: { forced: true } }
       );
     } else {
