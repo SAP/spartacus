@@ -88,11 +88,22 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   protected errorIsInvalidToken(errResponse: HttpErrorResponse): boolean {
-    return (
-      (errResponse.url?.includes(this.authConfigService.getTokenEndpoint()) &&
-        errResponse.error.error === 'invalid_token') ??
-      false
-    );
+    const authHeader = errResponse.headers.get('www-authenticate');
+    if (!this.authConfigService.getOAuthLibConfig().disablePKCE && authHeader) {
+      const parts = authHeader.split(',').map((part) => part.trim());
+      const errorPart = parts.find((part) => part.startsWith('Bearer error='));
+      const errorDetails = errorPart
+        ? errorPart.split('=')[1].replace(/"/g, '')
+        : '';
+
+      return errorDetails === 'invalid_token' ?? false;
+    } else {
+      return (
+        (errResponse.url?.includes(this.authConfigService.getTokenEndpoint()) &&
+          errResponse.error.error === 'invalid_token') ??
+        false
+      );
+    }
   }
 
   protected errorIsInvalidGrant(errResponse: HttpErrorResponse): boolean {
@@ -104,6 +115,14 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   protected isExpiredToken(resp: HttpErrorResponse): boolean {
+    const isLogoutProcess =
+      resp.error?.errors?.[0]?.message === 'Access is denied';
+    if (
+      !this.authConfigService.getOAuthLibConfig().disablePKCE &&
+      !isLogoutProcess
+    ) {
+      return resp.error?.errors?.[0]?.type === 'AccessDeniedError';
+    }
     return resp.error?.errors?.[0]?.type === 'InvalidTokenError';
   }
 }

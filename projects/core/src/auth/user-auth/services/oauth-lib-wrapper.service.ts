@@ -29,9 +29,7 @@ export class OAuthLibWrapperService {
     protected authConfigService: AuthConfigService,
     @Inject(PLATFORM_ID) protected platformId: Object,
     protected winRef: WindowRef
-  ) {
-    this.initialize();
-  }
+  ) {}
 
   protected initialize() {
     const isSSR = !this.winRef.isBrowser();
@@ -144,8 +142,7 @@ export class OAuthLibWrapperService {
         .subscribe((event) => (tokenReceivedEvent = event));
 
       this.oAuthService
-        .tryLogin({
-          // We don't load discovery document, because it doesn't contain revoke endpoint information
+        .loadDiscoveryDocumentAndTryLogin({
           disableOAuth2StateCheck: true,
         })
         .then((result: boolean) => {
@@ -158,5 +155,9 @@ export class OAuthLibWrapperService {
           subscription.unsubscribe();
         });
     });
+  }
+
+  public refreshAuthConfig() {
+    this.initialize();
   }
 }
