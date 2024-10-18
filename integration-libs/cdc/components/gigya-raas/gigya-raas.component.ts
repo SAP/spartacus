@@ -33,12 +33,12 @@ export class GigyaRaasComponent implements OnInit {
 
   public constructor(
     public component: CmsComponentData<GigyaRaasComponentData>,
-    private baseSiteService: BaseSiteService,
-    private languageService: LanguageService,
-    private cdcConfig: CdcConfig,
-    private winRef: WindowRef,
-    private cdcJSService: CdcJsService,
-    private zone: NgZone
+    protected baseSiteService: BaseSiteService,
+    protected languageService: LanguageService,
+    protected cdcConfig: CdcConfig,
+    protected winRef: WindowRef,
+    protected cdcJSService: CdcJsService,
+    protected zone: NgZone
   ) {}
 
   ngOnInit(): void {
