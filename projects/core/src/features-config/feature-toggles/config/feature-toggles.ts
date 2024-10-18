@@ -638,6 +638,12 @@ export interface FeatureTogglesInterface {
    *       in the future together with this feature toggle.
    */
   allPageMetaResolversEnabledInCsr?: boolean;
+
+  /**
+   * CDS/ISS is integrated into CAS. CAS uses different URL formats for its services. This feature toggle can be used
+   * to make the CDS module use the CAS URLs.
+   */
+  cdsCasEnabled?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -738,4 +744,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableConsecutiveCharactersPasswordRequirement: false,
   enablePasswordsCannotMatchInPasswordUpdateForm: false,
   allPageMetaResolversEnabledInCsr: false,
+  cdsCasEnabled: false,
 };
