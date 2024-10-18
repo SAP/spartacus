@@ -31,6 +31,7 @@ import {
   FeatureConfigService,
   Product,
   isNotNullable,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -112,7 +113,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected component: CmsComponentData<CmsAddToCartComponent>,
     protected eventService: EventService,
     @Optional() protected productListItemContext?: ProductListItemContext
-  ) {}
+  ) {
+    useFeatureStyles('a11yQTY2Quantity');
+  }
 
   ngOnInit() {
     if (this.product) {

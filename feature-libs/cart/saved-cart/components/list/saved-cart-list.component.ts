@@ -64,6 +64,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService
   ) {
     useFeatureStyles('a11ySavedCartsZoom');
+    useFeatureStyles('a11yQTY2Quantity');
   }
 
   ngOnInit(): void {
