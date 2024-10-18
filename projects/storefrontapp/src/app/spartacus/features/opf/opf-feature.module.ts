@@ -117,9 +117,9 @@ if (environment.b2b) {
     }),
     provideConfig(<OpfConfig>{
       opf: {
-        baseUrl:
-          'https://opf-iss-d0.opf.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
-        commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
+        opfBaseUrl:
+          'https://cp96avkh5f-integrati2-d2.opf.commerce.stage.context.cloud.sap/commerce-cloud-adapter-stage/storefront',
+        commerceCloudPublicKey: 'k2N3m3TJPLragwia5ZUvS/qkIPVQoy5qjUkOAB6Db+U=',
       },
     }),
     ...extensionProviders,

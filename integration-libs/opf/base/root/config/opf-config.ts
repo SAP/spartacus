@@ -13,7 +13,7 @@ import { Config } from '@spartacus/core';
 })
 export abstract class OpfConfig {
   opf?: {
-    baseUrl?: string;
+    opfBaseUrl?: string;
     commerceCloudPublicKey?: string;
   };
 }

@@ -81,6 +81,7 @@ export interface Cart {
   paymentInfo?: PaymentDetails;
   paymentType?: PaymentType;
   paymentAddress?: Address;
+  sapBillingAddress?: Address;
   pickupItemsQuantity?: number;
   pickupOrderGroups?: PickupOrderEntryGroup[];
   potentialOrderPromotions?: PromotionResult[];

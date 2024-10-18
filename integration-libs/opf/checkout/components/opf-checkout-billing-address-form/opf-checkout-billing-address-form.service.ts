@@ -21,9 +21,9 @@ import {
 } from '@spartacus/core';
 import {
   BehaviorSubject,
-  combineLatest,
   EMPTY,
   Observable,
+  combineLatest,
   throwError,
 } from 'rxjs';
 import {
@@ -174,7 +174,7 @@ export class OpfCheckoutBillingAddressFormService {
   protected getPaymentAddress(): Observable<Address | undefined> {
     return this.activeCartService
       .getActive()
-      .pipe(map((cart: Cart) => cart.paymentAddress));
+      .pipe(map((cart: Cart) => cart.sapBillingAddress));
   }
 
   protected getAddressWithId(address: Address): Address {
