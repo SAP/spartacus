@@ -22,6 +22,7 @@ import { Order } from '../model/order.model';
         'clearPlacedOrder',
         'setPlacedOrder',
         'placeOrder',
+        'placePaymentAuthorizedOrder',
         'getPickupEntries',
         'getDeliveryEntries',
       ],
@@ -44,6 +45,12 @@ export abstract class OrderFacade {
    * Places an order
    */
   abstract placeOrder(termsChecked: boolean): Observable<Order>;
+  /**
+   * Places an order after the payment was authorized
+   */
+  abstract placePaymentAuthorizedOrder(
+    termsChecked: boolean
+  ): Observable<Order>;
   /**
    * Return order's pickup entries
    */

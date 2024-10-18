@@ -1,0 +1,7 @@
+<ng-container *ngIf="isReadyToPayState$ | async as isReadyToPay">
+  <div
+    *ngIf="isReadyToPay"
+    class="cx-opf-google-pay-button"
+    #googlePayButtonContainer
+  ></div>
+</ng-container>

@@ -74,6 +74,10 @@ export interface OrderOccEndpoints {
    */
   placeOrder?: string | OccEndpoint;
   /**
+   * Endpoint for place order after the payment authorization
+   */
+  placePaymentAuthorizedOrder?: string | OccEndpoint;
+  /**
    * Endpoint for scheduling a replenishment order
    */
   scheduleReplenishmentOrder?: string | OccEndpoint;

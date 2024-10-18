@@ -20,4 +20,17 @@ export abstract class OrderAdapter {
     cartId: string,
     termsChecked: boolean
   ): Observable<Order>;
+
+  /**
+   * Abstract method used to place an order with previous payment authorization.
+   *
+   * @param userId The `userId` for given user
+   * @param cartId The `cartId` for cart used for placing order
+   * @param termsChecked The `boolean value` whether the terms were accepted or not
+   */
+  abstract placePaymentAuthorizedOrder(
+    userId: string,
+    cartId: string,
+    termsChecked: boolean
+  ): Observable<Order>;
 }
