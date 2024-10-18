@@ -53,7 +53,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
     mockActiveCartFacade = {
       reloadActiveCart: () => of(true),
       isStable: () => of(true),
-      getActive: () => of({ paymentAddress: mockPaymentAddress } as Cart),
+      getActive: () => of({ sapBillingAddress: mockPaymentAddress } as Cart),
     };
 
     mockGlobalMessageService = {
@@ -167,7 +167,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
 
   it('should get payment address', () => {
     spyOn(mockActiveCartFacade, 'getActive').and.returnValue(
-      of({ paymentAddress: mockPaymentAddress } as Cart)
+      of({ sapBillingAddress: mockPaymentAddress } as Cart)
     );
 
     service['getPaymentAddress']().subscribe((result) => {
@@ -177,7 +177,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
 
   it('should not get payment address when not present', () => {
     spyOn(mockActiveCartFacade, 'getActive').and.returnValue(
-      of({ paymentAddress: undefined } as Cart)
+      of({ sapBillingAddress: undefined } as Cart)
     );
 
     service['getPaymentAddress']().subscribe((result) => {
@@ -196,7 +196,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
 
   it('should not get payment address when it is not present', (done) => {
     spyOn(mockActiveCartFacade, 'getActive').and.returnValue(
-      of({ paymentAddress: undefined } as Cart)
+      of({ sapBillingAddress: undefined } as Cart)
     );
 
     service['getPaymentAddress']().subscribe((result) => {
