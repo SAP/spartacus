@@ -1,3 +1,8 @@
+<h3>
+  SPIKE stock:
+  <pre>{{ (product$ | async)?.stock | json }}</pre>
+</h3>
+<hr />
 <ng-container *ngIf="product$ | async as product">
   <div class="rating" *ngIf="product?.averageRating">
     <cx-star-rating [rating]="product?.averageRating ?? 0"></cx-star-rating>
