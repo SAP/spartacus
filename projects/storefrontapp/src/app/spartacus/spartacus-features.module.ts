@@ -377,6 +377,7 @@ if (environment.cpq) {
         a11yAddToWishlistFocus: true,
         a11ySearchBoxFocusOnEscape: true,
         a11yViewHoursButtonIconContrast: true,
+        a11yCheckoutDeliveryAddressAddLandmark: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,
         enableConsecutiveCharactersPasswordRequirement: true,

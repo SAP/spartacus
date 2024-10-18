@@ -1,4 +1,14 @@
-<section [attr.aria-label]="'checkoutAddress.shippingAddress' | cxTranslate">
+@if (
+  featureConfigService?.isEnabled('a11yCheckoutDeliveryAddressAddLandmark')
+) {
+  <section [attr.aria-label]="'checkoutAddress.shippingAddress' | cxTranslate">
+    <ng-template [ngTemplateOutlet]="content"></ng-template>
+  </section>
+} @else {
+  <ng-template [ngTemplateOutlet]="content"></ng-template>
+}
+
+<ng-template #content>
   <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'checkoutAddress.shippingAddress' | cxTranslate }}
   </h2>
@@ -100,7 +110,7 @@
       </ng-template>
     </ng-container>
   </ng-container>
-</section>
+</ng-template>
 
 <ng-template #loading>
   <div class="cx-spinner">
