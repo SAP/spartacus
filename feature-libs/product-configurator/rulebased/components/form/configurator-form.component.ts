@@ -9,6 +9,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import {
@@ -29,6 +30,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { KeyboardFocusService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configurator-form',
@@ -38,6 +40,7 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
+  protected focusService = inject(KeyboardFocusService);
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
@@ -157,6 +160,9 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
               );
             }
           });
+      } else {
+        // Clear persisted focus before entering the configurator UI
+        this.focusService.clear();
       }
 
       if (routingData.expMode) {
