@@ -1,7 +1,19 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { WindowRef } from '@spartacus/core';
 import { QuoteStorefrontUtilsService } from './quote-storefront-utils.service';
+
+const mockedWindowTemplate: { innerWidth?: number; innerHeight?: number } = {
+  innerWidth: 1000,
+  innerHeight: 1000,
+};
+
+let mockedWindow = mockedWindowTemplate;
+class MockedWindowRef extends WindowRef {
+  get nativeWindow(): Window | undefined {
+    return this.isBrowser() ? <any>mockedWindow : undefined;
+  }
+}
 
 @Component({
   selector: 'cx-quote',
@@ -20,24 +32,23 @@ describe('QuoteStorefrontUtilsService', () => {
   let fixture: ComponentFixture<MockQuoteComponent>;
   let htmlElem: HTMLElement;
   let windowRef: WindowRef;
-  let querySelectorOriginal: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [MockQuoteComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [{ provide: WindowRef, useClass: MockedWindowRef }],
     }).compileComponents();
 
     classUnderTest = TestBed.inject(QuoteStorefrontUtilsService);
     fixture = TestBed.createComponent(MockQuoteComponent);
     htmlElem = fixture.nativeElement;
     windowRef = TestBed.inject(WindowRef);
+    mockedWindow = structuredClone(mockedWindowTemplate);
     fixture.detectChanges();
-    querySelectorOriginal = document.querySelector;
   });
 
   afterEach(() => {
-    document.querySelector = querySelectorOriginal;
     if (htmlElem) {
       document.body.removeChild(htmlElem);
     }
@@ -52,17 +63,13 @@ describe('QuoteStorefrontUtilsService', () => {
     it('should get HTML element based on query selector when running in browser and element exists', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const theElement = document.createElement('elementMock');
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(theElement);
+      spyOn(windowRef.document, 'querySelector').and.returnValue(theElement);
       expect(classUnderTest.getElement('elementMock')).toEqual(theElement);
     });
 
     it('should get null if element does not exist', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(null);
+      spyOn(windowRef.document, 'querySelector').and.returnValue(null);
       expect(classUnderTest.getElement('unknownElement')).toEqual(null);
     });
   });
@@ -71,9 +78,7 @@ describe('QuoteStorefrontUtilsService', () => {
     it('should not change styling of HTML element if element does not exist', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const element = document.createElement('notExistingElement');
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(undefined);
+      spyOn(windowRef.document, 'querySelector').and.returnValue(undefined);
 
       classUnderTest.changeStyling('notExistingElement', 'position', 'sticky');
       expect(element.style.position).not.toEqual('sticky');
@@ -82,9 +87,7 @@ describe('QuoteStorefrontUtilsService', () => {
     it('should change styling of HTML element', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const theElement = document.createElement('elementMock');
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(theElement);
+      spyOn(windowRef.document, 'querySelector').and.returnValue(theElement);
       classUnderTest.changeStyling('elementMock', 'position', 'sticky');
       expect(theElement.style.position).toEqual('sticky');
     });
@@ -121,27 +124,25 @@ describe('QuoteStorefrontUtilsService', () => {
         label.style.height = '10px';
       });
 
-      spyOnProperty(window, 'innerWidth').and.returnValue(100);
+      mockedWindow.innerWidth = 100;
 
       expect(classUnderTest['isInViewport'](list)).toBe(false);
     });
 
-    // TODO: CXSPA-8270 - fix failing tests on Azure & GiHub
-    xit("should return 'true' because window's innerWith is known", () => {
+    it("should return 'true' because window's innerWith is known", () => {
       list.style.display = 'flex';
       list.style.flexDirection = 'column';
 
-      spyOnProperty(window, 'innerWidth').and.returnValue(1000);
+      mockedWindow.innerWidth = 1000;
 
       expect(classUnderTest['isInViewport'](list)).toBe(true);
     });
 
-    // TODO: CXSPA-8270 - fix failing tests on Azure & GiHub
-    xit("should return 'true' because clientWidth of element is known and its right is less than its width", () => {
+    it("should return 'true' because clientWidth of element is known and its right is less than its width", () => {
       list.style.display = 'flex';
       list.style.flexDirection = 'column';
 
-      spyOnProperty(window, 'innerWidth').and.returnValue(undefined);
+      mockedWindow.innerWidth = undefined;
 
       expect(classUnderTest['isInViewport'](list)).toBe(true);
     });
@@ -151,7 +152,7 @@ describe('QuoteStorefrontUtilsService', () => {
       list.style.flexDirection = 'column';
       list.style.height = '1000px';
 
-      spyOnProperty(window, 'innerHeight').and.returnValue(undefined);
+      mockedWindow.innerHeight = undefined;
 
       expect(classUnderTest['isInViewport'](list)).toBe(true);
     });
@@ -176,14 +177,13 @@ describe('QuoteStorefrontUtilsService', () => {
     });
 
     it('should return zero because component is not in viewport', () => {
-      spyOnProperty(window, 'innerWidth').and.returnValue(100);
+      mockedWindow.innerWidth = 100;
 
       expect(classUnderTest['getHeight']('cx-quote-list')).toBe(0);
     });
 
-    // TODO: CXSPA-8270 - fix failing tests on Azure & GiHub
-    xit('should return offsetHeight of the element because component is not in viewport', () => {
-      spyOnProperty(window, 'innerWidth').and.returnValue(1000);
+    it('should return offsetHeight of the element because component is in viewport', () => {
+      mockedWindow.innerWidth = 1000;
 
       expect(classUnderTest['getHeight']('cx-quote-list')).toBeGreaterThan(0);
     });
