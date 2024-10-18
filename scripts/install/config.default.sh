@@ -82,7 +82,7 @@ ADD_OPPS=false
 ADD_EPD_VISUALIZATION=false
 ADD_S4OM=false
 # config.opf.sh contains default values to use in your config.sh when ADD_OPF is true.
-ADD_OPF=false
+ADD_OPF=true
 ADD_CPQ_QUOTE=false
 ADD_S4_SERVICE=false
 ADD_PRODUCT_MULTI_DIMENSIONAL=false
