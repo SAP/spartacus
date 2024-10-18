@@ -22,7 +22,7 @@
 
 import { assign, parse, stringify } from 'comment-json';
 import fs from 'fs';
-import glob from 'glob';
+import * as glob from 'glob';
 import path from 'path';
 import { SPARTACUS_SCHEMATICS, SPARTACUS_SCOPE } from './const';
 import {
