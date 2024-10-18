@@ -622,7 +622,7 @@ describe('CheckoutPaymentMethodComponent', () => {
       let paymentMethod1: PaymentDetails;
       beforeEach(() => {
         spyOn(featureConfig, 'isEnabled').and.returnValue(true);
-        paymentMethod1= {
+        paymentMethod1 = {
           id: 'selected payment method',
           accountHolderName: 'Name',
           cardNumber: '123456789',
@@ -638,29 +638,33 @@ describe('CheckoutPaymentMethodComponent', () => {
       });
 
       it('should be set to "region" for selected payment card', () => {
-        expect(component['createCard'](
-          paymentMethod1,
-          {
-            textDefaultPaymentMethod: '✓ DEFAULT',
-            textExpires: 'Expires',
-            textUseThisPayment: 'Use this payment',
-            textSelected: 'Selected',
-          },
-          paymentMethod1
-        ).role).toEqual('region');
+        expect(
+          component['createCard'](
+            paymentMethod1,
+            {
+              textDefaultPaymentMethod: '✓ DEFAULT',
+              textExpires: 'Expires',
+              textUseThisPayment: 'Use this payment',
+              textSelected: 'Selected',
+            },
+            paymentMethod1
+          ).role
+        ).toEqual('region');
       });
 
       it('should be set to "button" for non selected payment cards', () => {
-        expect(component['createCard'](
-          paymentMethod1,
-          {
-            textDefaultPaymentMethod: '✓ DEFAULT',
-            textExpires: 'Expires',
-            textUseThisPayment: 'Use this payment',
-            textSelected: 'Selected',
-          },
-          {...paymentMethod1, id: 'newId'}
-        ).role).toEqual('button');
+        expect(
+          component['createCard'](
+            paymentMethod1,
+            {
+              textDefaultPaymentMethod: '✓ DEFAULT',
+              textExpires: 'Expires',
+              textUseThisPayment: 'Use this payment',
+              textSelected: 'Selected',
+            },
+            { ...paymentMethod1, id: 'newId' }
+          ).role
+        ).toEqual('button');
       });
     });
   });
