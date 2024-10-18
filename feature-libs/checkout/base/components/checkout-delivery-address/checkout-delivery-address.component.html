@@ -1,12 +1,12 @@
-@if (
-  featureConfigService?.isEnabled('a11yCheckoutDeliveryAddressAddLandmark')
-) {
-  <section [attr.aria-label]="'checkoutAddress.shippingAddress' | cxTranslate">
-    <ng-template [ngTemplateOutlet]="content"></ng-template>
-  </section>
-} @else {
+<section
+  *ngIf="
+    featureConfigService?.isEnabled('a11yCheckoutDeliveryAddressAddLandmark');
+    else content
+  "
+  [attr.aria-label]="'checkoutAddress.shippingAddress' | cxTranslate"
+>
   <ng-template [ngTemplateOutlet]="content"></ng-template>
-}
+</section>
 
 <ng-template #content>
   <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
