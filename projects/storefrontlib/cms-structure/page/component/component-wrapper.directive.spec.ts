@@ -114,6 +114,7 @@ describe('ComponentWrapperDirective', () => {
   let testBedConfig: TestModuleMetadata;
 
   beforeEach(() => {
+    console.log('Starting ComponentWrapperDirective test');
     testBedConfig = {
       imports: [PageComponentModule.forRoot(), TestModule],
       declarations: [TestWrapperComponent, ComponentWrapperDirective],
@@ -153,6 +154,7 @@ describe('ComponentWrapperDirective', () => {
 
     describe('with angular component', () => {
       beforeEach(() => {
+    console.log('Starting ComponentWrapperDirective test');
         fixture = TestBed.createComponent(
           TestWrapperComponent as Type<TestWrapperComponent>
         );
@@ -184,6 +186,7 @@ describe('ComponentWrapperDirective', () => {
 
     describe('with angular component', () => {
       beforeEach(() => {
+    console.log('Starting ComponentWrapperDirective test');
         fixture = TestBed.createComponent(TestWrapperComponent);
         dynamicAttributeService = TestBed.inject(DynamicAttributeService);
         eventService = TestBed.inject(EventService);
@@ -291,6 +294,7 @@ describe('ComponentWrapperDirective', () => {
       let scriptEl;
 
       beforeEach(() => {
+    console.log('Starting ComponentWrapperDirective test');
         const cmsMapping = TestBed.inject(CmsConfig);
         cmsMapping.cmsComponents.CMSTestComponent.component =
           'path/to/file.js#cms-component';

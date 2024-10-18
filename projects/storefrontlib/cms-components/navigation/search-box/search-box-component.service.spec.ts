@@ -94,6 +94,7 @@ describe('SearchBoxComponentService', () => {
   let searchBoxService: SearchboxService;
   let eventService: EventService;
   beforeEach(() => {
+    console.log('Starting SearchBoxComponentService test');
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
@@ -167,6 +168,7 @@ describe('SearchBoxComponentService', () => {
   describe('search result suggestions', () => {
     let result: SearchResults;
     beforeEach(() => {
+    console.log('Starting SearchBoxComponentService test');
       spyOn(searchBoxService, 'getResults').and.returnValue(
         of(mockSearchResults)
       );

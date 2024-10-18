@@ -236,6 +236,7 @@ describe('MyInterestsComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting MyInterestsComponent test');
     fixture = TestBed.createComponent(MyInterestsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;

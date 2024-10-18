@@ -43,6 +43,7 @@ describe('JsonLdProductReviewBuilder', () => {
   let reviewService: ProductReviewService;
 
   beforeEach(() => {
+    console.log('Starting JsonLdProductReviewBuilder test');
     TestBed.configureTestingModule({
       providers: [
         JsonLdProductReviewBuilder,

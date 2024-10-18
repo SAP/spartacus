@@ -28,6 +28,7 @@ describe('ImportCsvFileService', () => {
   let fileReaderService: FileReaderService;
 
   beforeEach(() => {
+    console.log('Starting ImportCsvFileService test');
     TestBed.configureTestingModule({
       providers: [
         { provide: FileReaderService, useClass: MockFileReaderService },

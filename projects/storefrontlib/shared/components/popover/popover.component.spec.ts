@@ -35,6 +35,7 @@ describe('PopoverComponent', () => {
   let fixture: ComponentFixture<PopoverComponent>;
 
   beforeEach(() => {
+    console.log('Starting PopoverComponent test');
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,

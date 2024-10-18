@@ -56,6 +56,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting AnonymousConsentManagementBannerComponent test');
     fixture = TestBed.createComponent(
       AnonymousConsentManagementBannerComponent
     );

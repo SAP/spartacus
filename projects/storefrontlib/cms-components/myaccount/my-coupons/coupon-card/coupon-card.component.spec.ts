@@ -109,6 +109,7 @@ describe('CouponCardComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting CouponCardComponent test');
     fixture = TestBed.createComponent(MyCouponsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;

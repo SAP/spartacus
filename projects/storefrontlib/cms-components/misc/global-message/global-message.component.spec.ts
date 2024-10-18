@@ -47,6 +47,7 @@ describe('GlobalMessageComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting GlobalMessageComponent test');
     fixture = TestBed.createComponent(GlobalMessageComponent);
     globalMessageComponent = fixture.componentInstance;
 

@@ -122,6 +122,7 @@ describe('ProductReferencesComponent', () => {
   let fixture: ComponentFixture<ProductReferencesComponent>;
 
   beforeEach(() => {
+    console.log('Starting ProductReferencesComponent test');
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [
@@ -148,6 +149,7 @@ describe('ProductReferencesComponent', () => {
   });
 
   beforeEach(() => {
+    console.log('Starting ProductReferencesComponent test');
     fixture = TestBed.createComponent(ProductReferencesComponent);
     productReferenceService = TestBed.inject(ProductReferenceService);
     component = fixture.componentInstance;

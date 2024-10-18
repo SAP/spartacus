@@ -9,6 +9,7 @@ describe('HomePageEventBuilder', () => {
   let eventService: EventService;
 
   beforeEach(() => {
+    console.log('Starting HomePageEventBuilder test');
     TestBed.configureTestingModule({});
 
     TestBed.inject(HomePageEventBuilder); // register events

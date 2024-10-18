@@ -12,6 +12,7 @@ describe('OutletRendererService', () => {
   let outletRendererService: OutletRendererService;
 
   beforeEach(() => {
+    console.log('Starting OutletRendererService test');
     TestBed.configureTestingModule({
       providers: [OutletRendererService],
     });

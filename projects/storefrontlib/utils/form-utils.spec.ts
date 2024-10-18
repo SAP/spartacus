@@ -5,6 +5,7 @@ describe('FormUtils', () => {
   let fb: UntypedFormBuilder;
 
   beforeEach(() => {
+    console.log('Starting FormUtils test');
     fb = new UntypedFormBuilder();
   });
 

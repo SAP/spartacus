@@ -95,6 +95,7 @@ describe('LockFocusDirective', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting LockFocusDirective test');
     const children = fixture.debugElement.queryAll(
       By.css('#a1,#a2,#b1,#b2,#b3,#d1,#d2')
     );
@@ -138,6 +139,7 @@ describe('LockFocusDirective', () => {
 
   describe('configuration', () => {
     beforeEach(() => {
+    console.log('Starting LockFocusDirective test');
       spyOn(event, 'stopPropagation');
       spyOn(service, 'hasFocusableChildren').and.returnValue(false);
       fixture.detectChanges();
@@ -212,6 +214,7 @@ describe('LockFocusDirective', () => {
 
   describe('unlock group', () => {
     beforeEach(() => {
+    console.log('Starting LockFocusDirective test');
       spyOn(service, 'hasFocusableChildren').and.returnValue(false);
       fixture.detectChanges();
     });
@@ -331,6 +334,7 @@ describe('LockFocusDirective', () => {
 
   describe('use autofocus', () => {
     beforeEach(() => {
+    console.log('Starting LockFocusDirective test');
       spyOn(service, 'hasFocusableChildren').and.returnValue(false);
       fixture.detectChanges();
     });

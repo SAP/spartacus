@@ -77,6 +77,7 @@ describe('PdfComponent', () => {
   });
 
   beforeEach(() => {
+    console.log('Starting PdfComponent test');
     fixture = TestBed.createComponent(PDFComponent);
     pdfComponent = fixture.componentInstance;
     fixture.detectChanges();

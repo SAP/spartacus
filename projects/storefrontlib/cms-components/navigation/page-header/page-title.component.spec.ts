@@ -38,6 +38,7 @@ describe('PageTitleComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting PageTitleComponent test');
     fixture = TestBed.createComponent(PageTitleComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;

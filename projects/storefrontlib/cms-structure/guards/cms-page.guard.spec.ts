@@ -56,6 +56,7 @@ describe('CmsPageGuard', () => {
   let beforeCmsPageGuardService: BeforeCmsPageGuardService;
 
   beforeEach(() => {
+    console.log('Starting CmsPageGuard test');
     TestBed.configureTestingModule({
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
@@ -85,6 +86,7 @@ describe('CmsPageGuard', () => {
     describe('when BeforeCmsPageGuardService.canActivate emits redirect url,', () => {
       const urlTree = new UrlTree();
       beforeEach(() => {
+    console.log('Starting CmsPageGuard test');
         spyOn(beforeCmsPageGuardService, 'canActivate').and.returnValue(
           of(urlTree)
         );
@@ -103,6 +105,7 @@ describe('CmsPageGuard', () => {
 
     describe('when BeforeCmsPageGuardService.canActivate emits true,', () => {
       beforeEach(() => {
+    console.log('Starting CmsPageGuard test');
         spyOn(beforeCmsPageGuardService, 'canActivate').and.returnValue(
           of(true)
         );
@@ -124,6 +127,7 @@ describe('CmsPageGuard', () => {
 
       describe('and when `loadStrategy` is set to ONCE', () => {
         beforeEach(() => {
+    console.log('Starting CmsPageGuard test');
           const routingConfig = TestBed.inject(RoutingConfigService);
           spyOn(routingConfig, 'getLoadStrategy').and.returnValue(
             RouteLoadStrategy.ONCE

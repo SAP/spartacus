@@ -75,6 +75,7 @@ describe('CategoryNavigationComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting CategoryNavigationComponent test');
     fixture = TestBed.createComponent(CategoryNavigationComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement;

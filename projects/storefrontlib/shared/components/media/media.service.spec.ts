@@ -107,6 +107,7 @@ describe('MediaService', () => {
     let mediaService: MediaService;
 
     beforeEach(() => {
+      console.log('Starting MediaService test');
       configureTestingModule(MockStorefrontConfig);
       mediaService = TestBed.inject(MediaService);
     });

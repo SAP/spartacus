@@ -18,6 +18,7 @@ describe('StarRatingComponent in product', () => {
   let fixture: ComponentFixture<StarRatingComponent>;
 
   beforeEach(() => {
+    console.log('Starting StarRatingComponent in product test');
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       // TODO: (CXSPA-5707) Remove MockFeatureLevelDirective next major
@@ -31,6 +32,7 @@ describe('StarRatingComponent in product', () => {
   });
 
   beforeEach(() => {
+    console.log('Starting StarRatingComponent in product test');
     fixture = TestBed.createComponent(StarRatingComponent);
     component = fixture.componentInstance;
   });
@@ -70,6 +72,7 @@ describe('StarRatingComponent in product', () => {
 
   describe('disabled = false', () => {
     beforeEach(() => {
+    console.log('Starting StarRatingComponent in product test');
       component.disabled = false;
     });
 
@@ -109,6 +112,7 @@ describe('StarRatingComponent in product', () => {
     };
 
     beforeEach(() => {
+    console.log('Starting StarRatingComponent in product test');
       component.disabled = false;
     });
 

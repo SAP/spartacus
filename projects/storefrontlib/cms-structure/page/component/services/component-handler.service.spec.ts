@@ -19,6 +19,7 @@ describe('ComponentHandlerService', () => {
   let service: ComponentHandlerService;
 
   beforeEach(() => {
+    console.log('Starting ComponentHandlerService test');
     TestBed.configureTestingModule({
       providers: [
         TestHandler,

@@ -108,12 +108,14 @@ describe('VisibleFocusDirective', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting VisibleFocusDirective test');
     fixture.detectChanges();
   });
 
   describe('default behaviour', () => {
     let host: DebugElement;
     beforeEach(() => {
+    console.log('Starting VisibleFocusDirective test');
       host = fixture.debugElement.query(By.css('#a'));
       fixture.detectChanges();
     });
@@ -201,6 +203,7 @@ describe('VisibleFocusDirective', () => {
   describe('explicitly set disableMouseFocus to false', () => {
     let host: DebugElement;
     beforeEach(() => {
+    console.log('Starting VisibleFocusDirective test');
       host = fixture.debugElement.query(By.css('#b'));
       fixture.detectChanges();
     });

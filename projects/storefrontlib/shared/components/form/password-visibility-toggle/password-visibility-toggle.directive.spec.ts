@@ -72,6 +72,7 @@ describe('PasswordVisibilityToggleDirective', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting PasswordVisibilityToggleDirective test');
     fixture = TestBed.createComponent(MockFormComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;

@@ -58,6 +58,7 @@ describe('CmsGuardsService', () => {
   }
 
   beforeEach(() => {
+    console.log('Starting CmsGuardsService test');
     guards = [];
     TestBed.configureTestingModule({
       imports: [ConfigModule.forRoot()],
@@ -85,11 +86,13 @@ describe('CmsGuardsService', () => {
 
   describe('cmsPageCanActivate', () => {
     beforeEach(() => {
+    console.log('Starting CmsGuardsService test');
       service = TestBed.inject(CmsGuardsService);
       featureConfig = TestBed.inject(FeatureConfigService);
     });
     describe('feature toggle cmsGuardsServiceUseGuardsComposer is false', () => {
       beforeEach(() => {
+    console.log('Starting CmsGuardsService test');
         spyOn(featureConfig, 'isEnabled').and.returnValue(false);
       });
       it('should resolve to true if not guards are defined', () => {
@@ -165,6 +168,7 @@ describe('CmsGuardsService', () => {
     });
     describe('feature toggle cmsGuardsServiceUseGuardsComposer is true', () => {
       beforeEach(() => {
+    console.log('Starting CmsGuardsService test');
         spyOn(featureConfig, 'isEnabled').and.returnValue(true);
       });
       it('should resolve to true if not guards are defined', (done) => {

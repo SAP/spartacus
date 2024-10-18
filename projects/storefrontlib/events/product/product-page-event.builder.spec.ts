@@ -31,6 +31,7 @@ describe('ProductPageEventModule', () => {
   let eventService: EventService;
 
   beforeEach(() => {
+    console.log('Starting ProductPageEventModule test');
     TestBed.configureTestingModule({
       providers: [
         { provide: ProductService, useClass: MockProductService },

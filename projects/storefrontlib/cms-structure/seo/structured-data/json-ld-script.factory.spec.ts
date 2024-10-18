@@ -11,6 +11,7 @@ describe('JsonLdScriptFactory', () => {
 
   describe('server', () => {
     beforeEach(() => {
+    console.log('Starting JsonLdScriptFactory test');
       TestBed.configureTestingModule({
         providers: [
           WindowRef,
@@ -41,6 +42,7 @@ describe('JsonLdScriptFactory', () => {
 
     describe('security', () => {
       beforeEach(() => {
+    console.log('Starting JsonLdScriptFactory test');
         spyOn(console, 'warn').and.stub();
       });
       it('should escape html tags within malicious code', () => {
@@ -80,6 +82,7 @@ describe('JsonLdScriptFactory', () => {
 
   describe('browser', () => {
     beforeEach(() => {
+    console.log('Starting JsonLdScriptFactory test');
       TestBed.configureTestingModule({
         providers: [
           WindowRef,

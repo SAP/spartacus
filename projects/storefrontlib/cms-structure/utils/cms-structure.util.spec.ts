@@ -5,6 +5,7 @@ import { provideCmsStructure } from './cms-structure.util';
 
 describe('provideCmsStructure', () => {
   beforeEach(() => {
+    console.log('Starting provideCmsStructure test');
     TestBed.configureTestingModule({});
   });
 

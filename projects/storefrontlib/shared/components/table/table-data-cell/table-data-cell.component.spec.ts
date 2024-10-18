@@ -9,6 +9,7 @@ describe('TableDataCellComponent', () => {
 
   describe('static field', () => {
     beforeEach(() => {
+    console.log('Starting TableDataCellComponent test');
       TestBed.configureTestingModule({
         declarations: [TableDataCellComponent],
         imports: [I18nTestingModule],
@@ -29,6 +30,7 @@ describe('TableDataCellComponent', () => {
     });
 
     beforeEach(() => {
+    console.log('Starting TableDataCellComponent test');
       fixture = TestBed.createComponent(TableDataCellComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();

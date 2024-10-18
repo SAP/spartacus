@@ -35,6 +35,7 @@ class BetaComponent {}
 
 describe('OutletModule.forRoot()', () => {
   beforeEach(() => {
+    console.log('Starting OutletModule.forRoot() test');
     TestBed.configureTestingModule({
       providers: [
         {

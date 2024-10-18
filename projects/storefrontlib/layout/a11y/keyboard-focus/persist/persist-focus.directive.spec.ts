@@ -62,6 +62,7 @@ describe('PersistFocusDirective', () => {
 
   describe('store key', () => {
     beforeEach(() => {
+    console.log('Starting PersistFocusDirective test');
       fixture.detectChanges();
     });
     it('should not create `data-cx-focus`', () => {
