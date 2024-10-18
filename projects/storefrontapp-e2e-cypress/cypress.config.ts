@@ -17,7 +17,8 @@ export default defineConfig({
   env: {
     CLIENT_ID: 'mobile_android',
     CLIENT_SECRET: 'secret',
-    API_URL: 'https://40.76.109.9:9002',
+    API_URL:
+      'https://api.c432wmya2v-teamspart3-s2-public.model-t.myhybris.cloud',
     BASE_SITE: 'electronics-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
