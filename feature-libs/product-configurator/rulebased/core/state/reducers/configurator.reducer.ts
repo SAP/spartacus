@@ -455,6 +455,8 @@ function takeOverChanges(
       showConflictSolverDialog: state.interactionState.showConflictSolverDialog,
       issueNavigationDone: true,
     },
+    pricingMerged: false,
+    timestamp: Date.now(),
   };
   if (result.priceSupplements) {
     // remove any price supplements, as they are now invalid
@@ -479,7 +481,7 @@ function takeOverPricingChanges(
         )
       : state.groups;
 
-  const result = {
+  const result: Configurator.Configuration = {
     ...state,
     ...content,
     groups: groups,
@@ -488,6 +490,8 @@ function takeOverPricingChanges(
       ...content.interactionState,
       issueNavigationDone: true,
     },
+    pricingMerged: true,
+    timestamp: Date.now(),
   };
   return result;
 }

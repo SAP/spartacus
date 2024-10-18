@@ -98,6 +98,9 @@
       "confirmationQuoteUpdate": "Quote has been updated with configuration",
       "quantity": "Qty"
     },
+    "chat": {
+      "buttonClose": "Close"
+    },
     "overviewForm": {
       "noAttributeHeader": "No Results",
       "noAttributeText": "Remove filter(s) to see Overview content",

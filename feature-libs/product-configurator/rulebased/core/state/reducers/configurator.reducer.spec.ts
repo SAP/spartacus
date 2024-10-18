@@ -142,7 +142,6 @@ describe('Configurator reducer', () => {
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
-      expect(state).toEqual(CONFIGURATION);
       expect(state.interactionState.currentGroup).toEqual(
         CONFIGURATION.groups[0].id
       );
@@ -183,7 +182,6 @@ describe('Configurator reducer', () => {
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
-      expect(state).toEqual(CONFIGURATION);
       expect(state.interactionState.currentGroup).toEqual(
         CONFIGURATION.groups[0].id
       );
@@ -225,7 +223,6 @@ describe('Configurator reducer', () => {
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
-      expect(state).toEqual(CONFIGURATION);
       expect(state.interactionState.currentGroup).toEqual(
         CONFIGURATION.groups[0].id
       );
