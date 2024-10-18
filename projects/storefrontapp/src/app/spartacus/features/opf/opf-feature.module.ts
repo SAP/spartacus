@@ -117,7 +117,7 @@ if (environment.b2b) {
     }),
     provideConfig(<OpfConfig>{
       opf: {
-        baseUrl:
+        opfBaseUrl:
           'https://cp96avkh5f-integrati2-d2.opf.commerce.stage.context.cloud.sap/commerce-cloud-adapter-stage/storefront',
         commerceCloudPublicKey: 'k2N3m3TJPLragwia5ZUvS/qkIPVQoy5qjUkOAB6Db+U=',
       },

@@ -8,6 +8,6 @@ import { OpfConfig } from './opf-config';
 
 export const defaultOpfConfig: OpfConfig = {
   opf: {
-    baseUrl: '',
+    opfBaseUrl: '',
   },
 };
