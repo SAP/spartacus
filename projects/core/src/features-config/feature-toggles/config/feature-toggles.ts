@@ -640,9 +640,6 @@ export interface FeatureTogglesInterface {
   allPageMetaResolversEnabledInCsr?: boolean;
 
   /**
-   * Enables bunles feature, which allows to group products into bundles.
-   */
-  enableBundles?: boolean;
    * When enabled, allows to provide extended formats and media queries for <picture> element if used in MediaComponent.
    *
    * Important: After activation default HTML element in MediaComponent will be `<img>`
@@ -669,7 +666,13 @@ export interface FeatureTogglesInterface {
    * Toggle activates `@Input() elementType: 'img' | 'picture' = 'img'` in `MediaComponent`
    *
    */
+
   useExtendedMediaComponentConfiguration?: boolean;
+
+  /**
+   * Enables bunles feature, which allows to group products into bundles.
+   */
+  enableBundles?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -770,6 +773,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableConsecutiveCharactersPasswordRequirement: false,
   enablePasswordsCannotMatchInPasswordUpdateForm: false,
   allPageMetaResolversEnabledInCsr: false,
-  enableBundles: false,
   useExtendedMediaComponentConfiguration: false,
+  enableBundles: false,
 };
