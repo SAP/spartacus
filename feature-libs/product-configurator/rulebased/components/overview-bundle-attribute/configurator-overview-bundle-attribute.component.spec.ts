@@ -2,6 +2,7 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  FeatureConfigService,
   I18nTestingModule,
   ImageType,
   Product,
@@ -64,6 +65,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
   let component: ConfiguratorOverviewBundleAttributeComponent;
   let fixture: ComponentFixture<ConfiguratorOverviewBundleAttributeComponent>;
   let htmlElem: HTMLElement;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -73,7 +75,10 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
         MockConfiguratorPriceComponent,
         MockNumericPipe,
       ],
-      providers: [{ provide: ProductService, useClass: MockProductService }],
+      providers: [
+        { provide: ProductService, useClass: MockProductService },
+        FeatureConfigService,
+      ],
     }).compileComponents();
   }));
 
@@ -83,6 +88,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
     );
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
+    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   beforeEach(() => {
@@ -142,6 +148,8 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
 
     describe('product image', () => {
       it('should be visible if primary', () => {
+        spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+
         product$.next(mockProduct);
 
         fixture.detectChanges();

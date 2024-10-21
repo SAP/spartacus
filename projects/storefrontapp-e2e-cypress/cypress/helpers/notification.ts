@@ -283,7 +283,7 @@ export function navigateToPDPInCustomerInterest(productCode: string) {
   cy.get('.cx-product-interests-product-item').within(() => {
     cy.get('.cx-code').should('contain', productCode);
     cy.get(
-      '.cx-product-interests-product-image-link > .is-initialized > picture'
+      '.cx-product-interests-product-image-link > .is-initialized > img'
     ).click();
   });
 }

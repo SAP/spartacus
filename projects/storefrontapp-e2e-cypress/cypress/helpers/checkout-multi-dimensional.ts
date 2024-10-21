@@ -4,20 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { assertAddressForm } from './address-book';
-import { login } from './auth-forms';
-import * as guestCheckout from './checkout-as-guest';
-import * as checkout from './checkout-flow';
-import { validateUpdateProfileForm } from './update-profile';
+import { getSampleUser } from '../sample-data/checkout-flow';
 import {
   cartWithMultipleVariantProducts,
   cartWithTotalVariantProduct,
   multiDBaseProduct,
   multiDProduct,
 } from '../sample-data/multi-dimensional-flow';
-import { getSampleUser } from '../sample-data/checkout-flow';
-import { searchForProduct } from './product-search';
+import { assertAddressForm } from './address-book';
 import { addProductToCart } from './applied-promotions';
+import { login } from './auth-forms';
+import * as guestCheckout from './checkout-as-guest';
+import * as checkout from './checkout-flow';
+import { searchForProduct } from './product-search';
+import { validateUpdateProfileForm } from './update-profile';
 
 export function testCheckoutMultiDAsGuest() {
   it('should perform checkout as guest, create an account and verify guest data', () => {
@@ -160,9 +160,19 @@ export function testCheckoutMultiDAsGuestAndVerifyCart() {
     cy.findByText(/Sign in \/ Register/i).click();
     cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
+    cy.intercept(
+      'GET',
+      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/carts?fields*`
+    ).as('carts');
+
     login(multiDUser.email, multiDUser.password);
 
     cy.get('cx-login div.cx-login-greet').should('exist');
+
+    cy.wait('@carts').its('response.statusCode').should('eq', 200);
+
     cy.get('cx-mini-cart .count').contains('1');
 
     const cartPage = checkout.waitForPage('/cart', 'getCartPage');
