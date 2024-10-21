@@ -4,326 +4,112 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// TODO: Add unit tests
+import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { QueryService, QueryState } from '@spartacus/core';
+import { OpfBaseConnector } from '../connectors/opf-base.connector';
+import { OpfBaseService } from './opf-base.service';
+import {
+  ActiveConfiguration,
+  OpfPaymentProviderType,
+} from '@spartacus/opf/base/root';
 
-// import { TestBed } from '@angular/core/testing';
-// import { CommandService, QueryService } from '@spartacus/core';
-// import { Observable, of } from 'rxjs';
-// import {
-//   ActiveConfiguration,
-//   AfterRedirectScriptResponse,
-//   CtaScriptsLocation,
-//   CtaScriptsRequest,
-//   CtaScriptsResponse,
-//   OpfPaymentProviderType,
-//   OpfPaymentVerificationPayload,
-//   OpfPaymentVerificationResponse,
-//   SubmitCompleteInput,
-//   SubmitInput,
-// } from '../../root/model';
-// import { OpfPaymentConnector } from '../connectors';
-// import { OpfPaymentHostedFieldsService } from '../services';
-// import { OpfPaymentService } from './opf-base.service';
+describe('OpfBaseService', () => {
+  let service: OpfBaseService;
+  let queryService: jasmine.SpyObj<QueryService>;
+  let opfBaseConnector: jasmine.SpyObj<OpfBaseConnector>;
 
-// class MockPaymentConnector implements Partial<OpfPaymentConnector> {
-//   verifyPayment(
-//     _paymentSessionId: string,
-//     _payload: OpfPaymentVerificationPayload
-//   ): Observable<OpfPaymentVerificationResponse> {
-//     return of({
-//       result: 'result',
-//     }) as Observable<OpfPaymentVerificationResponse>;
-//   }
-//   afterRedirectScripts(
-//     _paymentSessionId: string
-//   ): Observable<AfterRedirectScriptResponse> {
-//     return of({ afterRedirectScript: {} });
-//   }
-//   getActiveConfigurations(): Observable<ActiveConfiguration[]> {
-//     return of(mockActiveConfigurations);
-//   }
-//   getCtaScripts(
-//     _ctaScriptsRequest: CtaScriptsRequest
-//   ): Observable<CtaScriptsResponse> {
-//     return of(MockCtaScriptsResponse);
-//   }
-// }
+  beforeEach(() => {
+    const queryServiceSpy = jasmine.createSpyObj('QueryService', ['create']);
+    const opfBaseConnectorSpy = jasmine.createSpyObj('OpfBaseConnector', [
+      'getActiveConfigurations',
+    ]);
 
-// class MockOpfPaymentHostedFieldsService {
-//   submitPayment(): Observable<boolean> {
-//     return of(true);
-//   }
+    TestBed.configureTestingModule({
+      providers: [
+        OpfBaseService,
+        { provide: QueryService, useValue: queryServiceSpy },
+        { provide: OpfBaseConnector, useValue: opfBaseConnectorSpy },
+      ],
+    });
 
-//   submitCompletePayment(): Observable<boolean> {
-//     return of(true);
-//   }
-// }
+    service = TestBed.inject(OpfBaseService);
+    queryService = TestBed.inject(QueryService) as jasmine.SpyObj<QueryService>;
+    opfBaseConnector = TestBed.inject(
+      OpfBaseConnector
+    ) as jasmine.SpyObj<OpfBaseConnector>;
 
-// const mockSubmitInput = {
-//   cartId: '123',
-// } as SubmitInput;
+    const mockActiveConfigurations: ActiveConfiguration[] = [
+      {
+        id: 1,
+        description: 'Payment gateway for merchant 123',
+        merchantId: '123',
+        providerType: OpfPaymentProviderType.PAYMENT_GATEWAY,
+        displayName: 'Gateway 123',
+        acquirerCountryCode: 'US',
+      },
+      {
+        id: 2,
+        description: 'Payment method for merchant 456',
+        merchantId: '456',
+        providerType: OpfPaymentProviderType.PAYMENT_METHOD,
+        displayName: 'Method 456',
+        acquirerCountryCode: 'GB',
+      },
+    ];
 
-// const mockActiveConfigurations: ActiveConfiguration[] = [
-//   {
-//     id: 1,
-//     providerType: OpfPaymentProviderType.PAYMENT_GATEWAY,
-//     displayName: 'Test1',
-//   },
-//   {
-//     id: 2,
-//     providerType: OpfPaymentProviderType.PAYMENT_METHOD,
-//     displayName: 'Test2',
-//   },
-// ];
+    opfBaseConnector.getActiveConfigurations.and.returnValue(
+      of(mockActiveConfigurations)
+    );
 
-// const MockCtaRequest: CtaScriptsRequest = {
-//   cartId: '00259012',
-//   ctaProductItems: [
-//     {
-//       productId: '301233',
-//       quantity: 1,
-//     },
-//     {
-//       productId: '2231913',
-//       quantity: 1,
-//     },
-//     {
-//       productId: '1776948',
-//       quantity: 1,
-//     },
-//   ],
-//   scriptLocations: [CtaScriptsLocation.ORDER_HISTORY_PAYMENT_GUIDE],
-// };
+    const mockQuery = {
+      get: jasmine
+        .createSpy('get')
+        .and.returnValue(of(mockActiveConfigurations)),
+      getState: jasmine.createSpy('getState').and.returnValue(
+        of({
+          loading: false,
+          error: undefined,
+          data: mockActiveConfigurations,
+        })
+      ),
+    };
 
-// const MockCtaScriptsResponse: CtaScriptsResponse = {
-//   value: [
-//     {
-//       paymentAccountId: 1,
-//       dynamicScript: {
-//         html: "<h2>CTA Html snippet #1</h2><script>alert('CTA Script #1 is running')</script>",
-//         cssUrls: [
-//           {
-//             url: 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.2.1/adyen.css',
-//             sri: '',
-//           },
-//         ],
-//         jsUrls: [
-//           {
-//             url: 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/4.2.1/adyen.js',
-//             sri: '',
-//           },
-//         ],
-//       },
-//     },
-//   ],
-// };
+    queryService.create.and.returnValue(mockQuery);
+    service['activeConfigurationsQuery'] = mockQuery;
+  });
 
-// describe('OpfPaymentService', () => {
-//   let service: OpfPaymentService;
-//   let paymentConnector: MockPaymentConnector;
-//   let opfPaymentHostedFieldsServiceSpy: OpfPaymentHostedFieldsService;
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       providers: [
-//         OpfPaymentService,
-//         QueryService,
-//         CommandService,
-//         {
-//           provide: OpfPaymentConnector,
-//           useClass: MockPaymentConnector,
-//         },
-//         {
-//           provide: OpfPaymentHostedFieldsService,
-//           useClass: MockOpfPaymentHostedFieldsService,
-//         },
-//       ],
-//     });
+  it('getActiveConfigurationsState should return an observable with the correct state and call the connector', (done: DoneFn) => {
+    service
+      .getActiveConfigurationsState()
+      .subscribe((state: QueryState<ActiveConfiguration[] | undefined>) => {
+        expect(state.loading).toBeFalsy();
+        expect(state.error).toBeUndefined();
+        expect(state.data).toEqual([
+          {
+            id: 1,
+            description: 'Payment gateway for merchant 123',
+            merchantId: '123',
+            providerType: OpfPaymentProviderType.PAYMENT_GATEWAY,
+            displayName: 'Gateway 123',
+            acquirerCountryCode: 'US',
+          },
+          {
+            id: 2,
+            description: 'Payment method for merchant 456',
+            merchantId: '456',
+            providerType: OpfPaymentProviderType.PAYMENT_METHOD,
+            displayName: 'Method 456',
+            acquirerCountryCode: 'GB',
+          },
+        ]);
+        done();
+      });
 
-//     service = TestBed.inject(OpfPaymentService);
-//     paymentConnector = TestBed.inject(OpfPaymentConnector);
-//     opfPaymentHostedFieldsServiceSpy = TestBed.inject(
-//       OpfPaymentHostedFieldsService
-//     );
-//   });
-
-//   it('should be created', () => {
-//     expect(service).toBeTruthy();
-//   });
-
-//   it('should call submitPayment with proper payload after submitPaymentCommand execution', () => {
-//     const submitPaymentSpy = spyOn(
-//       opfPaymentHostedFieldsServiceSpy,
-//       'submitPayment'
-//     ).and.callThrough();
-
-//     const submitInput: SubmitInput = {
-//       cartId: 'testCart',
-//     } as SubmitInput;
-
-//     service['submitPaymentCommand'].execute({ submitInput });
-
-//     expect(submitPaymentSpy).toHaveBeenCalledWith(submitInput);
-//   });
-
-//   it('should call verifyPayment with proper payload after verifyPaymentCommand execution', () => {
-//     const verifyPaymentSpy = spyOn(
-//       paymentConnector,
-//       'verifyPayment'
-//     ).and.callThrough();
-
-//     const verifyPaymentPayload = {
-//       paymentSessionId: 'exampleSessionId',
-//       paymentVerificationPayload: {
-//         responseMap: [],
-//       },
-//     };
-
-//     service['verifyPaymentCommand'].execute(verifyPaymentPayload);
-
-//     expect(verifyPaymentSpy).toHaveBeenCalledWith(
-//       verifyPaymentPayload.paymentSessionId,
-//       verifyPaymentPayload.paymentVerificationPayload
-//     );
-//   });
-
-//   it('should call submitCompletePayment with proper payload after submitCompletePaymentCommand execution', () => {
-//     const submitCompletePaymentSpy = spyOn(
-//       opfPaymentHostedFieldsServiceSpy,
-//       'submitCompletePayment'
-//     ).and.callThrough();
-
-//     const submitCompleteInput: SubmitCompleteInput = {
-//       cartId: 'testCart',
-//     } as SubmitCompleteInput;
-
-//     service['submitCompletePaymentCommand'].execute({ submitCompleteInput });
-
-//     expect(submitCompletePaymentSpy).toHaveBeenCalledWith(submitCompleteInput);
-//   });
-
-//   it('should call verifyPayment from connector with the correct payload', () => {
-//     const paymentSessionId = 'exampleSessionId';
-//     const paymentVerificationPayload = {
-//       responseMap: [
-//         {
-//           key: 'key',
-//           value: 'value',
-//         },
-//       ],
-//     } as OpfPaymentVerificationPayload;
-//     const connectorVerifySpy = spyOn(
-//       paymentConnector,
-//       'verifyPayment'
-//     ).and.callThrough();
-
-//     service.verifyPayment(paymentSessionId, paymentVerificationPayload);
-
-//     expect(connectorVerifySpy).toHaveBeenCalledWith(
-//       paymentSessionId,
-//       paymentVerificationPayload
-//     );
-//   });
-
-//   it('should call submitPayment from opfPaymentHostedFieldsService with the correct payload', () => {
-//     const submitPaymentSpy = spyOn(
-//       opfPaymentHostedFieldsServiceSpy,
-//       'submitPayment'
-//     ).and.callThrough();
-
-//     service.submitPayment(mockSubmitInput);
-
-//     expect(submitPaymentSpy).toHaveBeenCalledWith(mockSubmitInput);
-//   });
-
-//   it('should call submitCompletePayment from opfPaymentHostedFieldsService with the correct payload', () => {
-//     const submitCompletePaymentSpy = spyOn(
-//       opfPaymentHostedFieldsServiceSpy,
-//       'submitCompletePayment'
-//     ).and.callThrough();
-
-//     service.submitCompletePayment(mockSubmitInput);
-
-//     expect(submitCompletePaymentSpy).toHaveBeenCalledWith(mockSubmitInput);
-//   });
-
-//   it('should return true when payment submission is successful', (done) => {
-//     const result = service.submitPayment(mockSubmitInput);
-
-//     result.subscribe((response) => {
-//       expect(response).toBe(true);
-//       done();
-//     });
-//   });
-
-//   it('should return a successful payment verification response', (done) => {
-//     const paymentSessionId = 'exampleSessionId';
-//     const paymentVerificationPayload = {
-//       responseMap: [
-//         {
-//           key: 'key',
-//           value: 'value',
-//         },
-//       ],
-//     } as OpfPaymentVerificationPayload;
-
-//     const expectedResult = {
-//       result: 'result',
-//     } as OpfPaymentVerificationResponse;
-
-//     const result = service.verifyPayment(
-//       paymentSessionId,
-//       paymentVerificationPayload
-//     );
-
-//     result.subscribe((response) => {
-//       expect(response).toEqual(expectedResult);
-//       done();
-//     });
-//   });
-
-//   it('should return true when payment submission is completed successfully', (done) => {
-//     const result = service.submitCompletePayment(mockSubmitInput);
-
-//     result.subscribe((response) => {
-//       expect(response).toBe(true);
-//       done();
-//     });
-//   });
-
-//   it('should call afterRedirectScripts from connector with the correct payload', () => {
-//     const paymentSessionId = 'exampleSessionId';
-
-//     const connectorSpy = spyOn(
-//       paymentConnector,
-//       'afterRedirectScripts'
-//     ).and.callThrough();
-
-//     service.afterRedirectScripts(paymentSessionId);
-
-//     expect(connectorSpy).toHaveBeenCalledWith(paymentSessionId);
-//   });
-
-//   it(`should return mockActiveConfigurations data`, (done) => {
-//     service.getActiveConfigurationsState().subscribe((state) => {
-//       expect(state).toEqual({
-//         loading: false,
-//         error: false,
-//         data: mockActiveConfigurations,
-//       });
-//       done();
-//     });
-//   });
-
-//   it(`should return ctaScripts data`, (done) => {
-//     const connectorCtaSpy = spyOn(
-//       paymentConnector,
-//       'getCtaScripts'
-//     ).and.callThrough();
-
-//     service.getCtaScripts(MockCtaRequest).subscribe(() => {
-//       expect(connectorCtaSpy).toHaveBeenCalledWith(MockCtaRequest);
-//       done();
-//     });
-//   });
-// });
+    expect(queryService.create).toHaveBeenCalled();
+  });
+});

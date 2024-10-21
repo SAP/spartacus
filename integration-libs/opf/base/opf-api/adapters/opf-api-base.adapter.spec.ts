@@ -4,245 +4,132 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// TODO: Add unit tests...
+import { HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { ConverterService, LoggerService } from '@spartacus/core';
+import { OpfApiBaseAdapter } from './opf-api-base.adapter';
+import { OpfEndpointsService } from '@spartacus/opf/base/core';
+import {
+  ActiveConfiguration,
+  OPF_CC_PUBLIC_KEY_HEADER,
+  OpfConfig,
+  OpfPaymentProviderType,
+} from '@spartacus/opf/base/root';
+import { map } from 'rxjs';
 
-// import {
-//   HttpClient,
-//   HttpErrorResponse,
-//   HttpHeaders,
-// } from '@angular/common/http';
-// import {
-//   HttpClientTestingModule,
-//   HttpTestingController,
-// } from '@angular/common/http/testing';
-// import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-// import {
-//   BaseOccUrlProperties,
-//   ConverterService,
-//   DynamicAttributes,
-//   HttpErrorModel,
-//   normalizeHttpError,
-// } from '@spartacus/core';
-// import { defer, of, throwError } from 'rxjs';
-// import { take } from 'rxjs/operators';
-// import { OpfEndpointsService } from '../../core/services';
-// import { OPF_PAYMENT_VERIFICATION_NORMALIZER } from '../../core/tokens';
-// import { OpfConfig } from '../../root/config';
-// import { OpfPaymentVerificationResponse } from '../../root/model';
-// import { OccOpfPaymentAdapter } from './occ-opf.adapter';
+const mockActiveConfigurations: ActiveConfiguration[] = [
+  {
+    id: 1,
+    description: 'First active configuration',
+    merchantId: 'merchant-123',
+    providerType: OpfPaymentProviderType.PAYMENT_GATEWAY,
+    displayName: 'Payment Gateway 1',
+    acquirerCountryCode: 'US',
+  },
+  {
+    id: 2,
+    description: 'Second active configuration',
+    merchantId: 'merchant-456',
+    providerType: OpfPaymentProviderType.PAYMENT_METHOD,
+    displayName: 'Payment Method 2',
+    acquirerCountryCode: 'CA',
+  },
+];
 
-// const mockJaloError = new HttpErrorResponse({
-//   error: {
-//     errors: [
-//       {
-//         message: 'The application has encountered an error',
-//         type: 'JaloObjectNoLongerValidError',
-//       },
-//     ],
-//   },
-// });
+const mockErrorResponse = new HttpErrorResponse({
+  error: 'test 404 error',
+  status: 404,
+  statusText: 'Not Found',
+});
 
-// const mockOpfConfig: OpfConfig = {};
+class MockLoggerService implements Partial<LoggerService> {
+  log(): void {}
+  warn(): void {}
+  error(): void {}
+  info(): void {}
+  debug(): void {}
+}
 
-// const mockPayload = {
-//   responseMap: [
-//     {
-//       key: 'key',
-//       value: 'value',
-//     },
-//   ],
-// };
+const mockOpfConfig: OpfConfig = {
+  opf: {
+    commerceCloudPublicKey: 'test-public-key',
+  },
+};
 
-// const mockResult: OpfPaymentVerificationResponse = {
-//   result: 'mockResult',
-// };
+class MockOpfEndpointsService implements Partial<OpfEndpointsService> {
+  buildUrl(endpoint: string): string {
+    return `test-url/${endpoint}`;
+  }
+}
 
-// export class MockOpfEndpointsService implements Partial<OpfEndpointsService> {
-//   buildUrl(
-//     endpoint: string,
-//     _attributes?: DynamicAttributes,
-//     _propertiesToOmit?: BaseOccUrlProperties
-//   ) {
-//     return this.getEndpoint(endpoint);
-//   }
-//   getEndpoint(endpoint: string) {
-//     if (!endpoint.startsWith('/')) {
-//       endpoint = '/' + endpoint;
-//     }
-//     return endpoint;
-//   }
-// }
+describe('OpfApiBaseAdapter', () => {
+  let service: OpfApiBaseAdapter;
+  let httpMock: HttpTestingController;
+  let converter: ConverterService;
+  let opfEndpointsService: OpfEndpointsService;
+  let logger: LoggerService;
 
-// const mockPaymentSessionId = '123';
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        OpfApiBaseAdapter,
+        ConverterService,
+        { provide: LoggerService, useClass: MockLoggerService },
+        { provide: OpfEndpointsService, useClass: MockOpfEndpointsService },
+        { provide: OpfConfig, useValue: mockOpfConfig },
+      ],
+    });
 
-// const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
+    service = TestBed.inject(OpfApiBaseAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    opfEndpointsService = TestBed.inject(OpfEndpointsService);
+    logger = TestBed.inject(LoggerService);
 
-// const mock500Error = new HttpErrorResponse({
-//   error: 'error',
-//   headers: new HttpHeaders().set('xxx', 'xxx'),
-//   status: 500,
-//   statusText: 'Unknown error',
-//   url: '/xxx',
-// });
+    spyOn(converter, 'pipeable').and.returnValue(
+      map(() => mockActiveConfigurations)
+    );
+    spyOn(logger, 'error').and.callThrough();
+  });
 
-// const mockNormalized500Error = normalizeHttpError(mock500Error);
+  afterEach(() => {
+    httpMock.verify();
+  });
 
-// describe(`OccOpfPaymentAdapter`, () => {
-//   let service: OccOpfPaymentAdapter;
-//   let httpMock: HttpTestingController;
-//   let converter: ConverterService;
-//   let opfEndpointsService: OpfEndpointsService;
-//   let httpClient: HttpClient;
+  it('should be created', () => {
+    if (opfEndpointsService) {
+    }
+    expect(service).toBeTruthy();
+  });
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       imports: [HttpClientTestingModule],
-//       providers: [
-//         OccOpfPaymentAdapter,
-//         {
-//           provide: OpfEndpointsService,
-//           useClass: MockOpfEndpointsService,
-//         },
-//         {
-//           provide: OpfConfig,
-//           useValue: mockOpfConfig,
-//         },
-//       ],
-//     });
+  it('should fetch active configurations successfully', () => {
+    service.getActiveConfigurations().subscribe((result) => {
+      expect(result).toEqual(mockActiveConfigurations);
+    });
 
-//     service = TestBed.inject(OccOpfPaymentAdapter);
-//     httpMock = TestBed.inject(HttpTestingController);
-//     httpClient = TestBed.inject(HttpClient);
-//     converter = TestBed.inject(ConverterService);
-//     opfEndpointsService = TestBed.inject(OpfEndpointsService);
-//     spyOn(converter, 'convert').and.callThrough();
-//     spyOn(converter, 'pipeable').and.callThrough();
-//     spyOn(opfEndpointsService, 'buildUrl').and.callThrough();
-//   });
+    const req = httpMock.expectOne('test-url/getActiveConfigurations');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.headers.get('Accept-Language')).toBe('en-us');
+    expect(req.request.headers.get(OPF_CC_PUBLIC_KEY_HEADER)).toBe(
+      'test-public-key'
+    );
 
-//   afterEach(() => {
-//     httpMock.verify();
-//   });
+    req.flush(mockActiveConfigurations);
+  });
 
-//   it('should be created', () => {
-//     expect(service).toBeTruthy();
-//   });
+  it('should handle http errors when fetching active configurations', () => {
+    service.getActiveConfigurations().subscribe({
+      error: (error) => {
+        expect(error).toBeTruthy();
+      },
+    });
 
-//   describe(`verifyPayment`, () => {
-//     it(`should get all supported delivery modes for cart for given user id and cart id`, (done) => {
-//       service
-//         .verifyPayment(mockPaymentSessionId, mockPayload)
-//         .pipe(take(1))
-//         .subscribe((result) => {
-//           expect(result).toEqual(mockResult);
-//           done();
-//         });
-
-//       const url = service['verifyPaymentEndpoint'](mockPaymentSessionId);
-//       const mockReq = httpMock.expectOne(url);
-
-//       expect(mockReq.cancelled).toBeFalsy();
-//       expect(mockReq.request.responseType).toEqual('json');
-//       mockReq.flush(mockResult);
-//       expect(converter.pipeable).toHaveBeenCalledWith(
-//         OPF_PAYMENT_VERIFICATION_NORMALIZER
-//       );
-//     });
-
-//     describe(`back-off`, () => {
-//       it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-//         spyOn(httpClient, 'post').and.returnValue(throwError(mockJaloError));
-
-//         let result: HttpErrorModel | undefined;
-//         const subscription = service
-//           .verifyPayment(mockPaymentSessionId, mockPayload)
-//           .subscribe({ error: (err) => (result = err) });
-
-//         tick(4200);
-
-//         expect(result).toEqual(mockNormalizedJaloError);
-
-//         subscription.unsubscribe();
-//       }));
-
-//       it(`should successfully backOff on Jalo error and recover after the third retry`, fakeAsync(() => {
-//         let calledTimes = -1;
-
-//         spyOn(httpClient, 'post').and.returnValue(
-//           defer(() => {
-//             calledTimes++;
-//             if (calledTimes === 3) {
-//               return of(mockResult);
-//             }
-//             return throwError(mockJaloError);
-//           })
-//         );
-
-//         let result: OpfPaymentVerificationResponse | undefined;
-//         const subscription = service
-//           .verifyPayment(mockPaymentSessionId, mockPayload)
-//           .pipe(take(1))
-//           .subscribe((res) => (result = res));
-
-//         // 1*1*300 = 300
-//         tick(300);
-//         expect(result).toEqual(undefined);
-
-//         // 2*2*300 = 1200
-//         tick(1200);
-//         expect(result).toEqual(undefined);
-
-//         // 3*3*300 = 2700
-//         tick(2700);
-
-//         expect(result).toEqual(mockResult);
-//         subscription.unsubscribe();
-//       }));
-
-//       it(`should successfully backOff on 500 error and recover after the 2nd retry`, fakeAsync(() => {
-//         let calledTimes = -1;
-
-//         spyOn(httpClient, 'post').and.returnValue(
-//           defer(() => {
-//             calledTimes++;
-//             if (calledTimes === 2) {
-//               return of(mockResult);
-//             }
-//             return throwError(mock500Error);
-//           })
-//         );
-
-//         let result: OpfPaymentVerificationResponse | undefined;
-//         const subscription = service
-//           .verifyPayment(mockPaymentSessionId, mockPayload)
-//           .pipe(take(1))
-//           .subscribe((res) => (result = res));
-
-//         // 1*1*300 = 300
-//         tick(300);
-//         expect(result).toEqual(undefined);
-
-//         // 2*2*300 = 1200
-//         tick(1200);
-
-//         expect(result).toEqual(mockResult);
-//         subscription.unsubscribe();
-//       }));
-
-//       it(`should unsuccessfully backOff on 500 error`, fakeAsync(() => {
-//         spyOn(httpClient, 'post').and.returnValue(throwError(mock500Error));
-
-//         let result: HttpErrorModel | undefined;
-//         const subscription = service
-//           .verifyPayment(mockPaymentSessionId, mockPayload)
-//           .subscribe({ error: (err) => (result = err) });
-
-//         tick(4200);
-
-//         expect(result).toEqual(mockNormalized500Error);
-
-//         subscription.unsubscribe();
-//       }));
-//     });
-//   });
-// });
+    const req = httpMock.expectOne('test-url/getActiveConfigurations');
+    req.flush(mockErrorResponse, { status: 404, statusText: 'Not Found' });
+  });
+});
