@@ -7,7 +7,7 @@
 import { ChildProcess, exec, execSync } from 'child_process';
 import { prompt } from 'enquirer';
 import fs from 'fs';
-import glob from 'glob';
+import * as glob from 'glob';
 import path from 'path';
 import { chalk } from '../chalk';
 
