@@ -293,6 +293,7 @@ if (environment.cpq) {
         showBillingAddressInDigitalPayments: false,
         showDownloadProposalButton: false,
         showPromotionsInPDP: false,
+        searchBoxV2: false,
         recentSearches: true,
         trendingSearches: false,
         pdfInvoicesSortByInvoiceDate: true,
@@ -375,11 +376,13 @@ if (environment.cpq) {
         a11yDialogTriggerRefocus: true,
         a11yAddToWishlistFocus: true,
         a11ySearchBoxFocusOnEscape: true,
+        a11yViewHoursButtonIconContrast: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
         allPageMetaResolversEnabledInCsr: true,
+        useExtendedMediaComponentConfiguration: true,
       };
       return appFeatureToggles;
     }),

@@ -305,9 +305,12 @@
                 <ng-container *ngIf="countries$ | async as countries">
                   <div *ngIf="countries.length !== 0">
                     <label>
-                      <span class="label-content required">{{
-                        'addressForm.country' | cxTranslate
-                      }}</span>
+                      <span class="label-content required">
+                        {{ 'addressForm.country' | cxTranslate }}
+                        <ng-template
+                          [ngTemplateOutlet]="requiredAsterisk"
+                        ></ng-template>
+                      </span>
                       <ng-select
                         [inputAttrs]="{ required: 'true' }"
                         [searchable]="true"
@@ -346,9 +349,12 @@
               </div>
               <div class="form-group">
                 <label>
-                  <span class="label-content required">{{
-                    'addressForm.firstName.label' | cxTranslate
-                  }}</span>
+                  <span class="label-content required">
+                    {{ 'addressForm.firstName.label' | cxTranslate }}
+                    <ng-template
+                      [ngTemplateOutlet]="requiredAsterisk"
+                    ></ng-template>
+                  </span>
                   <input
                     required="true"
                     class="form-control"
@@ -376,9 +382,12 @@
               </div>
               <div class="form-group">
                 <label>
-                  <span class="label-content required">{{
-                    'addressForm.lastName.label' | cxTranslate
-                  }}</span>
+                  <span class="label-content required">
+                    {{ 'addressForm.lastName.label' | cxTranslate }}
+                    <ng-template
+                      [ngTemplateOutlet]="requiredAsterisk"
+                    ></ng-template>
+                  </span>
                   <input
                     required="true"
                     type="text"
@@ -406,9 +415,12 @@
               </div>
               <div class="form-group">
                 <label>
-                  <span class="label-content required">{{
-                    'addressForm.address1' | cxTranslate
-                  }}</span>
+                  <span class="label-content required">
+                    {{ 'addressForm.address1' | cxTranslate }}
+                    <ng-template
+                      [ngTemplateOutlet]="requiredAsterisk"
+                    ></ng-template>
+                  </span>
                   <input
                     required="true"
                     type="text"
@@ -450,9 +462,12 @@
               <div class="row">
                 <div class="form-group col-md-6">
                   <label>
-                    <span class="label-content required">{{
-                      'addressForm.city.label' | cxTranslate
-                    }}</span>
+                    <span class="label-content required">
+                      {{ 'addressForm.city.label' | cxTranslate }}
+                      <ng-template
+                        [ngTemplateOutlet]="requiredAsterisk"
+                      ></ng-template>
+                    </span>
                     <input
                       required="true"
                       type="text"
@@ -480,9 +495,12 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label>
-                    <span class="label-content required">{{
-                      'addressForm.zipCode.label' | cxTranslate
-                    }}</span>
+                    <span class="label-content required">
+                      {{ 'addressForm.zipCode.label' | cxTranslate }}
+                      <ng-template
+                        [ngTemplateOutlet]="requiredAsterisk"
+                      ></ng-template>
+                    </span>
                     <input
                       required="true"
                       type="text"
@@ -599,7 +617,9 @@
 <ng-template #requiredAsterisk>
   <abbr
     *cxFeature="'a11yRequiredAsterisks'"
+    aria-hidden="true"
     class="text-decoration-none"
+    aria-hidden="true"
     title="{{ 'common.required' | cxTranslate }}"
     >*</abbr
   >
