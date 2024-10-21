@@ -20,9 +20,8 @@ describe('UrlUtils', () => {
     });
 
     it('should return false for data: protocol', () => {
-      expect(
-        isHttpOrHttps(new URL('data://data:text/plain,some%20data/'))
-      ).toBeFalsy();
+      const url = getUrl('data:text/plain,some%20data/');
+      expect(url && isHttpOrHttps(url)).toBeFalsy();
     });
   });
 });
