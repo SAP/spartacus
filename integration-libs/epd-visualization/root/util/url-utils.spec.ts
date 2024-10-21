@@ -20,9 +20,7 @@ describe('UrlUtils', () => {
     });
 
     it('should return false for non http-based protocol', () => {
-      expect(
-        isHttpOrHttps(new URL('ws://example.com'))
-      ).toBeFalsy();
+      expect(isHttpOrHttps(new URL('ws://example.com'))).toBeFalsy();
     });
   });
 });
