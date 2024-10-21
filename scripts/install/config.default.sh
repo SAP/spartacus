@@ -6,11 +6,11 @@
 # Url of the hybris backend
 # Will replace default host (https://localhost:9002) as a backend endpoint
 # Make sure you specify the full url for the backend (https://[host]:[port]
-BACKEND_URL="https://api.cp96avkh5f-integrati2-d2-public.model-t.cc.commerce.ondemand.com"
+BACKEND_URL="https://api.cp96avkh5f-integrati2-s1-public.model-t.cc.commerce.ondemand.com"
 
 # A comma separated list of base sites.
 # When empty, the base sites will not be explicitly specified in spartacus-configuration.module.ts
-BASE_SITE="electronics-spa-standalone"
+BASE_SITE="electronics-spa"
 
 OCC_PREFIX="/occ/v2/"
 
@@ -91,8 +91,8 @@ ADD_PRODUCT_MULTI_DIMENSIONAL=false
 EPD_VISUALIZATION_BASE_URL=
 
 # The base URL and public key values are required for connection to Cloud Commerce Adapter (OPF)
-OPF_BASE_URL="https://cp96avkh5f-integrati2-d2.opf.commerce.stage.context.cloud.sap/commerce-cloud-adapter-stage/storefront"
-OPF_CLIENT_PUBLIC_KEY="k2N3m3TJPLragwia5ZUvS/qkIPVQoy5qjUkOAB6Db+U="
+OPF_BASE_URL="https://opf-iss-d0.opf.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront"
+OPF_CLIENT_PUBLIC_KEY="ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg="
 
 #NPM connection info
 #NPM_URL must start by 'https://' and end with '/' char
