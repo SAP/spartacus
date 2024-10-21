@@ -1,6 +1,46 @@
 <!-- https://github.com/angular/angular/issues/24567 -->
+<!-- <a
+  cxGenericLink
+  [href]="linkUrl"
+  [attr.target]="target"
+  [attr.rel]="rel"
+  [attr.id]="id"
+  [attr.class]="class"
+  [attr.style]="style"
+  [attr.title]="title"
+  [tabindex]="tabindex"
+  ><ng-content></ng-content
+></a> -->
 
-<ng-container *ngIf="isExternalUrl(); else isLocalUrl">
+<a
+  [href]="linkUrl"
+  [attr.target]="target"
+  [attr.rel]="rel"
+  [attr.id]="id"
+  [attr.class]="class"
+  [attr.style]="style"
+  [attr.title]="title"
+  [tabindex]="tabindex"
+  (click)="onClick($event)"
+>
+  <ng-content></ng-content>
+</a>
+
+<!-- <a
+  [routerLink]="routerUrl"
+  [href]="url"
+  [queryParams]="queryParams"
+  [fragment]="fragment"
+  [target]="target || undefined"
+  [attr.id]="id"
+  [attr.class]="class"
+  [attr.style]="style"
+  [attr.title]="title"
+>
+  <ng-content></ng-content>
+</a> -->
+
+<!-- <ng-container *ngIf="isExternalUrl(); else isLocalUrl">
   <a
     [href]="url"
     [attr.target]="target"
@@ -35,4 +75,4 @@
 
 <ng-template #content>
   <ng-content></ng-content>
-</ng-template>
+</ng-template> -->
