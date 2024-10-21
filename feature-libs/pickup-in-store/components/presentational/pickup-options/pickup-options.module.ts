@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { PickupOptionsComponent } from './pickup-options.component';
+import { TabModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { PickupOptionsComponent } from './pickup-options.component';
     I18nModule,
     ReactiveFormsModule,
     FeaturesConfigModule,
+    TabModule,
   ],
   declarations: [PickupOptionsComponent],
   exports: [PickupOptionsComponent],

@@ -1,8 +1,25 @@
 %cx-tab {
+  // Tabs
+  --cx-tab-gap: 0;
+  --cx-tab-btn-bg-color: var(--cx-color-background);
+  --cx-tab-btn-width: 20%;
+  --cx-tab-btn-border: none;
+  --cx-tab-btn-border-radius: none;
+  --cx-tab-btn-font-size: 1.2rem;
+  // Tab panel
+  --cx-tab-panel-bg: var(--cx-color-background);
+  --cx-tab-panel-padding: 50px 0;
+  --cx-tab-panel-border-radius: 0;
+  --cx-tab-panel-margin-top: 0;
+  --cx-tab-panel-border-top: 1px var(--cx-color-light) solid;
+  --cx-tab-panel-border-end: none;
+  --cx-tab-panel-border-bottom: none;
+  --cx-tab-panel-border-start: none;
+
   .tab-btn {
     order: 0;
     transition: all 0.6s;
-    font-size: 1.2rem;
+    font-size: var(--cx-tab-btn-font-size);
     text-align: center;
     margin: 0;
     border: 0;
@@ -12,17 +29,22 @@
     }
 
     margin-bottom: 0;
+
+    cursor: pointer;
+    &[disabled] {
+      cursor: not-allowed;
+    }
+
     &.active,
-    &:hover {
+    &:hover:not([disabled]) {
       color: var(--cx-color-primary);
     }
     &:focus {
       z-index: 1;
     }
-    cursor: pointer;
 
     &.active:after,
-    &:hover:after {
+    &:hover:not([disabled]):after {
       width: 100%;
     }
     &.active:after,
@@ -53,14 +75,25 @@
   }
 
   div[role='tabpanel'] {
-    border-top: 1px var(--cx-color-light) solid;
-    padding: 50px 0;
-    background: var(--cx-color-background);
+    margin-top: var(--cx-tab-panel-margin-top);
+    border-top: var(--cx-tab-panel-border-top);
+    border-inline-end: var(--cx-tab-panel-border-end);
+    border-bottom: var(--cx-tab-panel-border-bottom);
+    border-inline-start: var(--cx-tab-panel-border-start);
+    border-radius: var(--cx-tab-panel-border-radius);
+    padding: var(--cx-tab-panel-padding);
+    background: var(--cx-tab-panel-bg);
   }
 
   .tab {
+    display: flex;
+    gap: var(--cx-tab-gap);
+
     button {
-      width: 20%;
+      width: var(--cx-tab-btn-width);
+      background-color: var(--cx-tab-btn-bg-color);
+      border: var(--cx-tab-btn-border);
+      border-radius: var(--cx-tab-btn-border-radius);
     }
   }
 

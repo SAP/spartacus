@@ -25,6 +25,11 @@ export interface Tab {
    * Identifies the index of the tab to set attributes by.
    */
   id?: number;
+  /**
+   * Disables the tabindex on the border element so that the border
+   * of the tab can no longer be focused.
+   */
+  disableBorderFocus?: boolean;
 }
 
 export interface TabConfig {
