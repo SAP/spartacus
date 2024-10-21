@@ -95,6 +95,7 @@ function configureSpartacusModules(
         'PageTitleModule',
         'VideoModule',
         'PDFModule',
+        'SiteThemeSwitcherModule',
       ].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
@@ -116,6 +117,7 @@ function configureSpartacusModules(
                 'PageTitleModule',
                 'VideoModule',
                 'PDFModule',
+                'SiteThemeSwitcherModule',
               ],
             },
           ],
