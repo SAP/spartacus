@@ -45,7 +45,16 @@
         <div class="cx-price-header col-md-2">
           {{ 'cartItems.itemPrice' | cxTranslate }}
         </div>
-        <div class="cx-quantity-header col-md-1">
+        <div
+          *cxFeature="'a11yQTY2Quantity'"
+          class="cx-quantity-header col-md-1"
+        >
+          {{ 'cartItems.quantityFull' | cxTranslate }}
+        </div>
+        <div
+          *cxFeature="'!a11yQTY2Quantity'"
+          class="cx-quantity-header col-md-1"
+        >
           {{ 'cartItems.quantity' | cxTranslate }}
         </div>
         <div class="cx-total-header col-md-2">
@@ -116,6 +125,16 @@
               >
                 <div class="cx-value">
                   <span
+                    *cxFeature="'a11yQTY2Quantity'"
+                    class="cx-label"
+                    [ngClass]="'d-md-none d-lg-none d-xl-none'"
+                    placement="left"
+                    title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
+                  >
+                    {{ 'cartItems.quantityFull' | cxTranslate }}
+                  </span>
+                  <span
+                    *cxFeature="'!a11yQTY2Quantity'"
                     class="cx-label"
                     [ngClass]="'d-md-none d-lg-none d-xl-none'"
                     placement="left"

@@ -2,6 +2,7 @@
   "productDetails": {
     "id": "ID",
     "quantity": "Qty",
+    "quantityFull": "Quantity",
     "productDetails": "Product Details",
     "specification": "Specs",
     "reviews": "Reviews",
@@ -82,6 +83,7 @@
     "viewCart": "view cart",
     "proceedToCheckout": "proceed to checkout",
     "quantity": "Qty",
+    "quantityFull": "Quantity",
     "outOfStock": "Out of stock",
     "inStock": "In stock",
     "selectStyleAndSize": "Select style and size to check stock",
