@@ -33,7 +33,7 @@ import {
   isNotNullable,
   FeatureToggles,
   OccEndpointsService,
-  ProductScope
+  ProductScope,
 } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -176,8 +176,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (this.featureToggles.realTimeStockDispaly) {
       this.loadRealTimeStock();
       return this.inventoryThreshold
-      ? this.realTimeStock + '+'
-      : this.realTimeStock;
+        ? this.realTimeStock + '+'
+        : this.realTimeStock;
     } else {
       if (this.hasStock) {
         const quantityDisplay = this.maxQuantity
@@ -191,7 +191,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       }
     }
   }
-  loadRealTimeStock(){
+  loadRealTimeStock() {
     if (!this.realTimeStock) {
       const productUrl = this.occEndpoints.buildUrl('product', {
         urlParams: { productCode: this.productCode },
@@ -215,7 +215,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
             .pipe(take(1))
             .subscribe((availabilities: any) => {
               const quantity =
-                availabilities?.availabilityItems[0]?.unitAvailabilities[0]?.quantity??" ";
+                availabilities?.availabilityItems[0]?.unitAvailabilities[0]
+                  ?.quantity ?? ' ';
               this.realTimeStock = this.inventoryThreshold
                 ? quantity + '+'
                 : quantity.toString();
