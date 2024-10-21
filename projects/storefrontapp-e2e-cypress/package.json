@@ -53,5 +53,8 @@
     "ts-loader": "^9.4.2",
     "typescript": "^5.0.0",
     "webpack": "^5.94.0"
+  },
+  "optionalDependencies": {
+    "@continuum/continuum-javascript-professional": "^6.8.0"
   }
 }
