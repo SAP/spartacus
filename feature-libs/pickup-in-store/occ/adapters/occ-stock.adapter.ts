@@ -8,10 +8,10 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
   LoggerService,
-  normalizeHttpError,
   OccEndpointsService,
   Stock,
   StoreFinderStockSearchPage,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { StockAdapter } from '@spartacus/pickup-in-store/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
@@ -45,7 +45,7 @@ export class OccStockAdapter implements StockAdapter {
       )
       .pipe(
         catchError((error: any) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         })
       );
   }
@@ -62,7 +62,7 @@ export class OccStockAdapter implements StockAdapter {
       )
       .pipe(
         catchError((error: any) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         })
       );
   }

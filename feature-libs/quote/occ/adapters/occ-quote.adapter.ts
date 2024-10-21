@@ -9,9 +9,9 @@ import { inject, Injectable } from '@angular/core';
 import {
   ConverterService,
   LoggerService,
-  normalizeHttpError,
   OccEndpointsService,
   PaginationModel,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   QUOTE_ACTION_SERIALIZER,
@@ -260,7 +260,7 @@ export class OccQuoteAdapter implements QuoteAdapter {
   ): Observable<T> {
     return quoteObservable.pipe(
       catchError((error) =>
-        throwError(normalizeHttpError(error, this.loggerService))
+        throwError(() => tryNormalizeHttpError(error, this.loggerService))
       )
     );
   }

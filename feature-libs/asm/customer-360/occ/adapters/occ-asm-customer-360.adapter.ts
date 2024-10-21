@@ -21,7 +21,7 @@ import {
   LoggerService,
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -82,7 +82,7 @@ export class OccAsmCustomer360Adapter implements AsmCustomer360Adapter {
       .post<AsmCustomer360Response>(url, requestBody, { headers })
       .pipe(
         catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
+          throwError(() => tryNormalizeHttpError(error, this.logger))
         ),
         this.converterService.pipeable(ASM_CUSTOMER_360_NORMALIZER)
       );

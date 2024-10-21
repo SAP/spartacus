@@ -9,7 +9,7 @@ import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
   LoggerService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   NODES_RESPONSE_NORMALIZER,
@@ -99,7 +99,7 @@ export class StorageV1Adapter implements SceneAdapter {
       .get(this.getUrl(sceneId, nodeIds, $expand, $filter, contentType))
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(NODES_RESPONSE_NORMALIZER)
       );

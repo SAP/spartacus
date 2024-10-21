@@ -6,13 +6,13 @@ import { StoreModule } from '@ngrx/store';
 import {
   AuthActions,
   B2BUser,
+  FeatureConfigService,
   LoggerService,
   OccConfig,
   RoutingService,
   SearchConfig,
+  tryNormalizeHttpError,
   UserIdService,
-  normalizeHttpError,
-  FeatureConfigService,
 } from '@spartacus/core';
 import {
   OrganizationActions,
@@ -150,7 +150,7 @@ class MockFeatureConfigService {
   }
 }
 
-const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
+const error = tryNormalizeHttpError(httpErrorResponse, new MockLoggerService());
 
 describe('B2B User Effects', () => {
   let actions$: Observable<B2BUserActions.B2BUserAction>;
