@@ -46,6 +46,9 @@ export class ProductLoadingService {
   ) {}
 
   get(productCode: string, scopes: string[]): Observable<Product> {
+    if (this.isInvalidProductCode(productCode)) {
+      throw new Error('Invalid product code');
+    }
     scopes = this.loadingScopes.expand('product', scopes);
 
     this.initProductScopes(productCode, scopes);
@@ -80,6 +83,9 @@ export class ProductLoadingService {
     }
   }
 
+  protected isInvalidProductCode(productCode: string): boolean {
+    return ['__proto__', 'constructor', 'prototype'].includes(productCode);
+  }
   protected getScopesIndex(scopes: string[]): string {
     return scopes.join('ɵ');
   }
