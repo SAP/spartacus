@@ -21,7 +21,7 @@ describe('UrlUtils', () => {
 
     it('should return false for data: protocol', () => {
       expect(
-        isHttpOrHttps(new URL('data://data:text/plain,some%20data/'))
+        isHttpOrHttps(new URL('data:text/plain,some%20data'))
       ).toBeFalsy();
     });
   });
