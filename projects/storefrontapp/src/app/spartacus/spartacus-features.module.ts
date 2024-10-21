@@ -383,6 +383,7 @@ if (environment.cpq) {
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
         allPageMetaResolversEnabledInCsr: true,
         useExtendedMediaComponentConfiguration: true,
+        realTimeStockDispaly: false,
       };
       return appFeatureToggles;
     }),
