@@ -31,6 +31,9 @@ import {
   FeatureConfigService,
   Product,
   isNotNullable,
+  FeatureToggles,
+  OccEndpointsService,
+  ProductScope
 } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -40,6 +43,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -63,6 +67,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   @ViewChild('addToCartDialogTriggerEl') addToCartDialogTriggerEl: ElementRef;
 
   maxQuantity: number;
+  realTimeStock: string = '';
 
   hasStock: boolean = false;
   inventoryThreshold: boolean = false;
@@ -85,6 +90,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
 
   private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   /**
    * We disable the dialog launch on quantity input,
@@ -111,6 +117,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected activeCartService: ActiveCartFacade,
     protected component: CmsComponentData<CmsAddToCartComponent>,
     protected eventService: EventService,
+    protected occEndpoints: OccEndpointsService,
+    protected http: HttpClient,
     @Optional() protected productListItemContext?: ProductListItemContext
   ) {}
 
@@ -162,15 +170,64 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    * When backoffice forces a product to be in stock, omit showing the stock level.
    * When product stock level is limited by a threshold value, append '+' at the end.
    * When out of stock, display no numerical value.
+   * CXSPA-8577: Bugfix for scenario where a user might want the live stocks to be displayed on PDP.
    */
   getInventory(): string {
-    if (this.hasStock) {
-      const quantityDisplay = this.maxQuantity
-        ? this.maxQuantity.toString()
-        : '';
-      return this.inventoryThreshold ? quantityDisplay + '+' : quantityDisplay;
+    if (this.featureToggles.realTimeStockDispaly) {
+      this.loadRealTimeStock();
+      return this.inventoryThreshold
+      ? this.realTimeStock + '+'
+      : this.realTimeStock;
     } else {
+      if (this.hasStock) {
+        const quantityDisplay = this.maxQuantity
+          ? this.maxQuantity.toString()
+          : '';
+        return this.inventoryThreshold
+          ? quantityDisplay + '+'
+          : quantityDisplay;
+      } else {
+        return '';
+      }
+    }
+  }
+  loadRealTimeStock(){
+    if (!this.realTimeStock) {
+      const productUrl = this.occEndpoints.buildUrl('product', {
+        urlParams: { productCode: this.productCode },
+        scope: ProductScope.UNIT,
+      });
+
+      this.http
+        .get(productUrl)
+        .pipe(take(1))
+        .subscribe((response: any) => {
+          let availabilityUrl = this.occEndpoints.buildUrl('product', {
+            scope: ProductScope.PRODUCT_AVAILABILITIES,
+            urlParams: {
+              productCode: this.productCode,
+              sapCode: response.sapUnit.sapCode,
+            },
+          });
+
+          this.http
+            .get(availabilityUrl)
+            .pipe(take(1))
+            .subscribe((availabilities: any) => {
+              const quantity =
+                availabilities?.availabilityItems[0]?.unitAvailabilities[0]?.quantity??" ";
+              this.realTimeStock = this.inventoryThreshold
+                ? quantity + '+'
+                : quantity.toString();
+
+              this.cd.markForCheck();
+            });
+        });
+
+      // While waiting for the API call to complete, return an empty string
       return '';
+    } else {
+      return this.realTimeStock;
     }
   }
 
