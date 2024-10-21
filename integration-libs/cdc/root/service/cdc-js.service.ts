@@ -149,6 +149,16 @@ export class CdcJsService implements OnDestroy {
     return '';
   }
 
+  private getHttpHeaderNameForCurrentSite(baseSite: string): string {
+    const filteredConfigs = (this.cdcConfig.cdc ?? []).filter(
+      (conf) => conf.baseSite === baseSite
+    );
+    if (filteredConfigs && filteredConfigs.length > 0) {
+      return filteredConfigs[0].httpHeaderName ?? '';
+    }
+    return '';
+  }
+
   /**
    * Register login event listeners for CDC login
    *
@@ -759,12 +769,7 @@ export class CdcJsService implements OnDestroy {
   getSiteConsentDetails(
     persistToLocalStorage: boolean = false
   ): Observable<CdcSiteConsentTemplate> {
-    const baseSite: string = this.getCurrentBaseSite();
-    const javascriptURL: string = this.getJavascriptUrlForCurrentSite(baseSite);
-    const queryParams = new URLSearchParams(
-      javascriptURL.substring(javascriptURL.indexOf('?'))
-    );
-    const siteApiKey: string | null = queryParams.get('apikey');
+    const siteApiKey = this.getSiteAPIKey();
     return this.invokeAPI('accounts.getSiteConsentDetails', {
       apiKey: siteApiKey,
     }).pipe(
@@ -776,6 +781,20 @@ export class CdcJsService implements OnDestroy {
         },
       })
     );
+  }
+
+  getSiteAPIKey(): string | null {
+    const baseSite: string = this.getCurrentBaseSite();
+    const javascriptURL: string = this.getJavascriptUrlForCurrentSite(baseSite);
+    const queryParams = new URLSearchParams(
+      javascriptURL.substring(javascriptURL.indexOf('?'))
+    );
+    return queryParams.get('apikey');
+  }
+
+  getHttpHeaderName(): string {
+    const baseSite: string = this.getCurrentBaseSite();
+    return this.getHttpHeaderNameForCurrentSite(baseSite);
   }
 
   /**
