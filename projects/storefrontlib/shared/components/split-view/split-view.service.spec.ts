@@ -6,6 +6,7 @@ describe('SplitViewService', () => {
   let service: SplitViewService;
 
   beforeEach(() => {
+    console.log('Starting SplitViewService test');
     TestBed.configureTestingModule({
       providers: [SplitViewService],
     });

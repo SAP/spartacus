@@ -31,6 +31,7 @@ describe('StructuredDataFactory', () => {
   let jsonLdScriptFactory: JsonLdScriptFactory;
 
   beforeEach(() => {
+    console.log('Starting StructuredDataFactory test');
     TestBed.configureTestingModule({
       providers: [
         {

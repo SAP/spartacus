@@ -73,6 +73,7 @@ class MockConfigInitializerService
 
 describe('CmsComponentsService', () => {
   beforeEach(() => {
+    console.log('Starting CmsComponentsService test');
     TestBed.configureTestingModule({
       providers: [
         { provide: CmsConfig, useValue: mockConfig },
@@ -208,6 +209,7 @@ describe('CmsComponentsService', () => {
 
 describe('with SSR', () => {
   beforeEach(() => {
+    console.log('Starting CmsComponentsService test');
     TestBed.configureTestingModule({
       providers: [
         { provide: CmsConfig, useValue: mockConfig },

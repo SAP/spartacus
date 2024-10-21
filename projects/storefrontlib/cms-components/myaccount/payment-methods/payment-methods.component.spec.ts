@@ -96,6 +96,7 @@ describe('PaymentMethodsComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting PaymentMethodsComponent test');
     fixture = TestBed.createComponent(PaymentMethodsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;

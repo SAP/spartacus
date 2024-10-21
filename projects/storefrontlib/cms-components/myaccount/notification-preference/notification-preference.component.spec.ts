@@ -67,6 +67,7 @@ describe('NotificationPreferenceComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting NotificationPreferenceComponent test');
     fixture = TestBed.createComponent(NotificationPreferenceComponent);
     el = fixture.debugElement;
     component = fixture.componentInstance;

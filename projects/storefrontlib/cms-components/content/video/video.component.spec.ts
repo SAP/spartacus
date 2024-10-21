@@ -80,6 +80,7 @@ describe('VideoComponent', () => {
   let videoElement: any;
 
   beforeEach(() => {
+    console.log('Starting VideoComponent test');
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [VideoComponent, MockTranslatePipe],
@@ -92,6 +93,7 @@ describe('VideoComponent', () => {
     }).compileComponents();
   });
   beforeEach(() => {
+    console.log('Starting VideoComponent test');
     fixture = TestBed.createComponent(VideoComponent);
     videoComponent = fixture.componentInstance;
     fixture.detectChanges();
@@ -170,6 +172,7 @@ describe('VideoComponent', () => {
 
   describe('Routing', () => {
     beforeEach(() => {
+    console.log('Starting VideoComponent test');
       videoElement = fixture.nativeElement.querySelector('a');
     });
 

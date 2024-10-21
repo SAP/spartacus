@@ -41,6 +41,7 @@ describe('TableComponent', () => {
   let tableRendererService: TableRendererService;
 
   beforeEach(() => {
+    console.log('Starting TableComponent test');
     TestBed.configureTestingModule({
       imports: [OutletModule],
       declarations: [TableComponent],
@@ -101,6 +102,7 @@ describe('TableComponent', () => {
 
   describe('table header', () => {
     beforeEach(() => {
+    console.log('Starting TableComponent test');
       tableComponent.structure = mockDataset.structure;
       tableComponent.data = mockDataset.data;
       tableComponent.i18nRoot = 'i18nRoot';
@@ -153,6 +155,7 @@ describe('TableComponent', () => {
 
   describe('table data', () => {
     beforeEach(() => {
+    console.log('Starting TableComponent test');
       tableComponent.structure = mockDataset.structure;
       tableComponent.data = mockDataset.data;
       tableComponent.i18nRoot = 'i18nRoot';
@@ -221,6 +224,7 @@ describe('TableComponent', () => {
   describe('table layout', () => {
     describe('vertical', () => {
       beforeEach(() => {
+    console.log('Starting TableComponent test');
         const table = Object.assign({}, mockDataset);
         table.structure.options.layout = TableLayout.VERTICAL;
         tableComponent.structure = table.structure;
@@ -271,6 +275,7 @@ describe('TableComponent', () => {
 
     describe('vertical stacked', () => {
       beforeEach(() => {
+    console.log('Starting TableComponent test');
         const table = Object.assign({}, mockDataset);
         table.structure.options.layout = TableLayout.VERTICAL_STACKED;
         tableComponent.structure = table.structure;
@@ -321,6 +326,7 @@ describe('TableComponent', () => {
 
     describe('horizontal', () => {
       beforeEach(() => {
+    console.log('Starting TableComponent test');
         const table = Object.assign({}, mockDataset);
         table.structure.options.layout = TableLayout.HORIZONTAL;
         tableComponent.structure = table.structure;

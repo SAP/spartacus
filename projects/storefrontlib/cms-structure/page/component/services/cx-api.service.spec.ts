@@ -58,6 +58,7 @@ describe('CxApiService', () => {
   let translationService: TranslationService;
 
   beforeEach(() => {
+    console.log('Starting CxApiService test');
     TestBed.configureTestingModule({
       providers: [
         CxApiService,

@@ -34,6 +34,7 @@ describe('AnonymousConsentOpenDialogComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting AnonymousConsentOpenDialogComponent test');
     fixture = TestBed.createComponent(AnonymousConsentOpenDialogComponent);
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);

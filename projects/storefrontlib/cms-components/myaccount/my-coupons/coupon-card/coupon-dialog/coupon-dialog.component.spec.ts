@@ -56,6 +56,7 @@ describe('CouponDialogComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting CouponDialogComponent test');
     fixture = TestBed.createComponent(CouponDialogComponent);
     el = fixture.debugElement;
     component = fixture.componentInstance;

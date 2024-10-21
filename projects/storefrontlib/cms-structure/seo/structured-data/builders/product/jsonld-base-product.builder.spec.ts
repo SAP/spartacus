@@ -25,6 +25,7 @@ const completeProductMock: Product = {
 describe('JsonLdBaseProductBuilder', () => {
   let service: JsonLdBaseProductBuilder;
   beforeEach(() => {
+    console.log('Starting JsonLdBaseProductBuilder test');
     TestBed.configureTestingModule({
       providers: [JsonLdBaseProductBuilder],
     });

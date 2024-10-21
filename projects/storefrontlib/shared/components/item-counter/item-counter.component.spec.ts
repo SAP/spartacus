@@ -26,6 +26,7 @@ describe('ItemCounterComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ItemCounterComponent test');
     fixture = TestBed.createComponent(ItemCounterComponent);
     component = fixture.componentInstance;
 

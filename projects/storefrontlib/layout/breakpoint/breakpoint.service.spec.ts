@@ -29,6 +29,7 @@ describe('BreakpointService', () => {
   let windowRef: WindowRef;
 
   beforeEach(() => {
+    console.log('Starting BreakpointService test');
     TestBed.configureTestingModule({
       providers: [
         { provide: WindowRef, useClass: MockWindowRef },
@@ -143,6 +144,7 @@ describe('BreakpointService', () => {
 
   describe('breakpoint size', () => {
     beforeEach(() => {
+    console.log('Starting BreakpointService test');
       config.breakpoints = {
         xs: 576,
         sm: {
@@ -195,6 +197,7 @@ describe('BreakpointService', () => {
 
   describe('with current window size', () => {
     beforeEach(() => {
+    console.log('Starting BreakpointService test');
       config.breakpoints = {
         xs: 576,
         sm: 768,
@@ -254,6 +257,7 @@ describe('BreakpointService', () => {
 
   describe('match size', () => {
     beforeEach(() => {
+    console.log('Starting BreakpointService test');
       config.breakpoints = {
         xs: 500, // xs = > 500
         sm: 700, // sm = 501 - 700

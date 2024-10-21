@@ -48,6 +48,7 @@ describe('LoginGuard', () => {
   let authConfigService: AuthConfigService;
 
   beforeEach(() => {
+    console.log('Starting LoginGuard test');
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule.withRoutes([

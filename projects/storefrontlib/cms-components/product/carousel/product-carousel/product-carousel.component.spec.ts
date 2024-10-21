@@ -194,6 +194,7 @@ describe('ProductCarouselComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ProductCarouselComponent test');
     fixture = TestBed.createComponent(ProductCarouselComponent);
     component = fixture.componentInstance;
     featureConfigService = TestBed.inject(
@@ -268,6 +269,7 @@ describe('ProductCarouselComponent', () => {
 
   describe('Carousel with inner component mapping', () => {
     beforeEach(() => {
+    console.log('Starting ProductCarouselComponent test');
       TestBed.resetTestingModule();
       TestBed.configureTestingModule(testBedDefaults);
 

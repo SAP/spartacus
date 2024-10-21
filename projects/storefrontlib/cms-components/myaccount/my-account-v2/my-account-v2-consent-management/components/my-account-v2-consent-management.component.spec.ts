@@ -155,6 +155,7 @@ describe('MyAccountV2ConsentManagementComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting MyAccountV2ConsentManagementComponent test');
     fixture = TestBed.createComponent(MyAccountV2ConsentManagementComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;

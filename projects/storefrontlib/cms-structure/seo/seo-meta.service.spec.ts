@@ -33,6 +33,7 @@ describe('SeoMetaService', () => {
   let addCanonicalLinkSpy: jasmine.Spy;
 
   beforeEach(() => {
+    console.log('Starting SeoMetaService test');
     TestBed.configureTestingModule({
       providers: [
         SeoMetaService,

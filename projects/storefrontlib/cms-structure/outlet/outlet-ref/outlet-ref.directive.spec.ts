@@ -71,6 +71,7 @@ describe('OutletRefDirective', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting OutletRefDirective test');
     service = TestBed.inject(OutletService);
   });
 

@@ -19,6 +19,7 @@ describe('BeforeCmsPageGuardService', () => {
   let guardsComposer: GuardsComposer;
 
   beforeEach(() => {
+    console.log('Starting BeforeCmsPageGuardService test');
     TestBed.configureTestingModule({
       providers: [
         BeforeCmsPageGuardService,

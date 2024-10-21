@@ -22,6 +22,7 @@ describe('ConsentManagementFormComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ConsentManagementFormComponent test');
     fixture = TestBed.createComponent(ConsentManagementFormComponent);
     component = fixture.componentInstance;
     component.consentTemplate = {};

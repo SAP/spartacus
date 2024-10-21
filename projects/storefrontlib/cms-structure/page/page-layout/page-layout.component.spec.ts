@@ -114,6 +114,7 @@ describe('PageLayoutComponent', () => {
   let fixture: ComponentFixture<MockPageTemplateComponent>;
 
   beforeEach(() => {
+    console.log('Starting PageLayoutComponent test');
     TestBed.configureTestingModule({
       declarations: [PageTemplateDirective],
       imports: [TestModule],
@@ -121,6 +122,7 @@ describe('PageLayoutComponent', () => {
   });
 
   beforeEach(() => {
+    console.log('Starting PageLayoutComponent test');
     fixture = TestBed.createComponent(MockPageTemplateComponent);
     pageLayoutComponent = fixture.componentInstance;
     fixture.detectChanges();
@@ -163,6 +165,7 @@ describe('SectionLayoutComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting PageLayoutComponent test');
     fixture = TestBed.createComponent(MockHeaderComponent);
     sectionLayoutComponent = fixture.componentInstance;
     fixture.detectChanges();

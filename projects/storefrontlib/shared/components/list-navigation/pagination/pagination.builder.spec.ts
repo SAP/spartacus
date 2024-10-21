@@ -60,6 +60,7 @@ describe('PaginationBuilder', () => {
   describe('Default config', () => {
     let service: PaginationBuilder;
     beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
       service = setup({});
     });
 
@@ -70,6 +71,7 @@ describe('PaginationBuilder', () => {
     describe('undefined', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
         pages = service.paginate(undefined, undefined);
       });
 
@@ -81,6 +83,7 @@ describe('PaginationBuilder', () => {
     describe('(no pages)', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
         pages = service.paginate(0, 0);
       });
 
@@ -125,6 +128,7 @@ describe('PaginationBuilder', () => {
   describe('Fullblown config', () => {
     let service: PaginationBuilder;
     beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
       service = setup(FULL_CONFIG);
     });
 
@@ -155,6 +159,7 @@ describe('PaginationBuilder', () => {
     describe('(1st page)', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
         pages = service.paginate(10, 0);
       });
 
@@ -229,6 +234,7 @@ describe('PaginationBuilder', () => {
     describe('(2nd page)', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
         pages = service.paginate(10, 1);
       });
 
@@ -275,6 +281,7 @@ describe('PaginationBuilder', () => {
     describe('(4th page)', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
         pages = service.paginate(10, 3);
       });
 
@@ -289,6 +296,7 @@ describe('PaginationBuilder', () => {
     describe('(5th page)', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
         pages = service.paginate(10, 4);
       });
 
@@ -311,6 +319,7 @@ describe('PaginationBuilder', () => {
   describe('config with custom labels', () => {
     let pages: PaginationItem[];
     beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
       const service = setup(
         Object.assign(FULL_CONFIG, {
           dotsLabel: 'd',
@@ -343,6 +352,7 @@ describe('PaginationBuilder', () => {
   describe('Config with rangeCount=1', () => {
     let pages: PaginationItem[];
     beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
       const service = setup({
         rangeCount: 1,
         addDots: true,
@@ -361,6 +371,7 @@ describe('PaginationBuilder', () => {
   describe('Config with rangeCount=5', () => {
     let pages: PaginationItem[];
     beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
       const service = setup({ rangeCount: 5 });
       pages = service.paginate(100, 50);
     });
@@ -373,6 +384,7 @@ describe('PaginationBuilder', () => {
   describe('config without start and end links', () => {
     let pages: PaginationItem[];
     beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
       const service = setup({ addStart: false, addEnd: false });
       pages = service.paginate(100, 50);
     });
@@ -392,6 +404,7 @@ describe('PaginationBuilder', () => {
   describe('config with previous and next links added', () => {
     let pages: PaginationItem[] = null;
     beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
       const service = setup({
         addPrevious: true,
         addNext: true,
@@ -416,6 +429,7 @@ describe('PaginationBuilder', () => {
   describe('config with first and last links added', () => {
     let pages: PaginationItem[];
     beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
       const service = setup({ addFirst: true, addLast: true });
       pages = service.paginate(100, 50);
     });
@@ -436,6 +450,7 @@ describe('PaginationBuilder', () => {
     describe('one gap at the start', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
         const service = setup({ addDots: true });
         pages = service.paginate(4, 2);
       });
@@ -450,6 +465,7 @@ describe('PaginationBuilder', () => {
     describe('one gap at the end', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
         const service = setup({ addDots: true });
         pages = service.paginate(4, 0);
       });
@@ -464,6 +480,7 @@ describe('PaginationBuilder', () => {
     describe('gaps at both sides', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
         const service = setup({ addDots: true });
         pages = service.paginate(100, 50);
       });
@@ -481,6 +498,7 @@ describe('PaginationBuilder', () => {
     describe('no gaps for small number of pages', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
         const service = setup({ addDots: true });
         pages = service.paginate(3, 0);
       });
@@ -496,6 +514,7 @@ describe('PaginationBuilder', () => {
     describe('should substitute first dots for singular page', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
         const service = setup({
           addDots: true,
           substituteDotsForSingularPage: true,
@@ -519,6 +538,7 @@ describe('PaginationBuilder', () => {
     describe('should substitute last dots for singular page', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
         const service = setup({
           addDots: true,
           substituteDotsForSingularPage: true,
@@ -544,6 +564,7 @@ describe('PaginationBuilder', () => {
     describe('navigation at the start', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
         const service = setup({
           navigationPosition: PaginationNavigationPosition.BEFORE,
           addStart: true,
@@ -570,6 +591,7 @@ describe('PaginationBuilder', () => {
     describe('navigation at the end', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
+    console.log('Starting PaginationBuilder test');
         const service = setup({
           navigationPosition: PaginationNavigationPosition.AFTER,
           addStart: true,

@@ -22,6 +22,7 @@ describe('PromotionsComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting PromotionsComponent test');
     fixture = TestBed.createComponent(PromotionsComponent);
     component = fixture.componentInstance;
   });

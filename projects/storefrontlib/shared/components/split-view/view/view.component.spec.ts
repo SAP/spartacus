@@ -65,6 +65,7 @@ describe('ViewComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ViewComponent test');
     fixture = TestBed.createComponent(ViewComponent);
     component = fixture.componentInstance;
     service = TestBed.inject(SplitViewService);

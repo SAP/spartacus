@@ -10,6 +10,7 @@ describe('GuardsComposer', () => {
   let service: GuardsComposer;
 
   beforeEach(() => {
+    console.log('Starting GuardsComposer test');
     TestBed.configureTestingModule({
       providers: [GuardsComposer],
     });

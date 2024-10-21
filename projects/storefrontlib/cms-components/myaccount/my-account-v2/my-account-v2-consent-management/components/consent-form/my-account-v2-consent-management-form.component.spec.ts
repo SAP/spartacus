@@ -21,6 +21,7 @@ describe('MyAccountV2ConsentManagementFormComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting MyAccountV2ConsentManagementFormComponent test');
     fixture = TestBed.createComponent(
       MyAccountV2ConsentManagementFormComponent
     );

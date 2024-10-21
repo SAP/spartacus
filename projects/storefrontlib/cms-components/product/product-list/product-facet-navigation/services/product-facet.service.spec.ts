@@ -25,6 +25,7 @@ describe('ProductFacetService', () => {
   let productListComponentService: ProductListComponentService;
 
   beforeEach(() => {
+    console.log('Starting ProductFacetService test');
     TestBed.configureTestingModule({
       imports: [],
       providers: [
@@ -65,6 +66,7 @@ describe('ProductFacetService', () => {
       } as ProductSearchPage;
 
       beforeEach(() => {
+    console.log('Starting ProductFacetService test');
         routingService = TestBed.inject(RoutingService);
         spyOn(routingService, 'getRouterState').and.returnValue(
           of(mockCategoryPage as any)
@@ -131,6 +133,7 @@ describe('ProductFacetService', () => {
       } as ProductSearchPage;
 
       beforeEach(() => {
+    console.log('Starting ProductFacetService test');
         routingService = TestBed.inject(RoutingService);
         spyOn(routingService, 'getRouterState').and.returnValue(
           of(mockBrandPage as any)
@@ -169,6 +172,7 @@ describe('ProductFacetService', () => {
       } as ProductSearchPage;
 
       beforeEach(() => {
+    console.log('Starting ProductFacetService test');
         routingService = TestBed.inject(RoutingService);
         spyOn(routingService, 'getRouterState').and.returnValue(
           of(mockSearchPage as any)
@@ -209,6 +213,7 @@ describe('ProductFacetService', () => {
       } as ProductSearchPage;
 
       beforeEach(() => {
+    console.log('Starting ProductFacetService test');
         routingService = TestBed.inject(RoutingService);
         spyOn(routingService, 'getRouterState').and.returnValue(
           of(mockAnyPage as RouterState)

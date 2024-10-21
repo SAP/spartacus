@@ -42,6 +42,7 @@ describe('InlineRenderStrategy', () => {
   let component: TestContainerComponent;
 
   beforeEach(() => {
+    console.log('Starting InlineRenderStrategy test');
     TestBed.configureTestingModule({
       providers: [
         InlineRenderStrategy,
