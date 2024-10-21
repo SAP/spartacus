@@ -15,7 +15,7 @@ BASE_SITE="electronics-spa"
 OCC_PREFIX="/occ/v2/"
 
 URL_PARAMETERS="baseSite,language,currency"
-CURRENCY="USD,EUR"
+CURRENCY="USD,EUR,JPY,GBP"
 
 SPARTACUS_PROJECTS=(
         "dist/core:projects/core"
