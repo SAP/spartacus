@@ -6,6 +6,17 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 import { AuthRedirectService } from './auth-redirect.service';
+import {
+  CurrencySetEvent,
+  CxEvent,
+  EventService,
+  LanguageSetEvent,
+} from '@spartacus/core';
+import { Location } from '@angular/common';
+import { Subject } from 'rxjs';
+
+const mockEventStream$ = new Subject<CxEvent>();
+const mockLocationPath = '/electronics-spa/de/JPY';
 
 class MockRoutingService implements Partial<RoutingService> {
   go = jasmine.createSpy('go');
@@ -16,6 +27,18 @@ class MockAuthFlowRoutesService implements Partial<AuthFlowRoutesService> {
   isAuthFlow(url: string): boolean {
     return url === '/login';
   }
+}
+
+class MockEventService implements Partial<EventService> {
+  get = jasmine.createSpy().and.returnValue(mockEventStream$.asObservable());
+  dispatch = jasmine.createSpy();
+}
+
+class MockLocation implements Partial<Location> {
+  path = jasmine.createSpy().and.returnValue(mockLocationPath);
+  replaceState = jasmine.createSpy('replaceState');
+  isCurrentPathEqualTo = jasmine.createSpy('isCurrentPathEqualTo');
+  go = jasmine.createSpy('go');
 }
 
 @Component({ selector: 'cx-test-component', template: 'test' })
@@ -38,11 +61,12 @@ describe('AuthRedirectService', () => {
           useClass: MockRoutingService,
         },
         { provide: AuthFlowRoutesService, useClass: MockAuthFlowRoutesService },
+        { provide: EventService, useClass: MockEventService },
+        { provide: Location, useClass: MockLocation },
       ],
       imports: [
         RouterTestingModule.withRoutes([
           { path: 'login', component: TestComponent },
-
           { path: 'some/url', redirectTo: 'some/url/after/redirects' },
           { path: 'some/url/after/redirects', component: TestComponent },
           { path: 'other/url', component: TestComponent },
@@ -103,6 +127,42 @@ describe('AuthRedirectService', () => {
 
     expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
       '/other/url'
+    );
+  });
+
+  it('should save redirect url on language change', () => {
+    mockEventStream$.next(new LanguageSetEvent());
+    expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
+      mockLocationPath
+    );
+  });
+
+  it('should NOT save redirect url on language change, when the URL is part of the auth flow', async () => {
+    await zone.run(() => router.navigateByUrl('/login'));
+    mockEventStream$.next(new LanguageSetEvent());
+    expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
+      mockLocationPath
+    );
+    expect(authRedirectStorageService.setRedirectUrl).not.toHaveBeenCalledWith(
+      '/login'
+    );
+  });
+
+  it('should save redirect url on currency change', () => {
+    mockEventStream$.next(new CurrencySetEvent());
+    expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
+      mockLocationPath
+    );
+  });
+
+  it('should NOT save redirect url on currency change, when the URL is part of the auth flow', async () => {
+    await zone.run(() => router.navigateByUrl('/login'));
+    mockEventStream$.next(new CurrencySetEvent());
+    expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
+      mockLocationPath
+    );
+    expect(authRedirectStorageService.setRedirectUrl).not.toHaveBeenCalledWith(
+      '/login'
     );
   });
 
