@@ -202,7 +202,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         .get(productUrl)
         .pipe(take(1))
         .subscribe((response: any) => {
-          let availabilityUrl = this.occEndpoints.buildUrl('product', {
+          const availabilityUrl = this.occEndpoints.buildUrl('product', {
             scope: ProductScope.PRODUCT_AVAILABILITIES,
             urlParams: {
               productCode: this.productCode,
