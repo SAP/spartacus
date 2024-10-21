@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import {
+  Cart,
+  MultiCartFacade,
+  OrderEntry,
+  OrderEntryGroup,
+} from '@spartacus/cart/base/root';
 import {
   getLastValueSync,
   OCC_CART_ID_CURRENT,
@@ -37,8 +42,13 @@ export class MultiCartFacadeStub {
     return EMPTY;
   }
   updateEntry() {}
+  addToEntryGroup() {}
+  removeEntryGroup() {}
   removeEntry() {}
   getEntries() {
+    return of([]);
+  }
+  getEntryGroups() {
     return of([]);
   }
   createCart() {}
@@ -76,6 +86,26 @@ const mockCartEntry: OrderEntry = {
   product: { code: 'code' },
   quantity: 1,
 };
+
+const mockOrderEntryGroups: OrderEntryGroup[] = [
+  {
+    type: 'STANDALONE',
+    entryGroups: [],
+    entryGroupNumber: 1,
+    entries: [
+      { orderCode: 'code1', deliveryPointOfService: { name: 'A Store' } },
+    ],
+  },
+  {
+    type: 'CONFIGURABLEBUNDLE',
+    entryGroups: [
+      {
+        type: 'CONFIGURABLEBUNDLE',
+        entries: [{ entryNumber: 2 }],
+      },
+    ],
+  },
+];
 
 describe('ActiveCartService', () => {
   let service: ActiveCartService;
@@ -287,6 +317,24 @@ describe('ActiveCartService', () => {
     });
   });
 
+  describe('getEntryGroups', () => {
+    it('should return cart entry groups', () => {
+      spyOn(multiCartFacade, 'getEntryGroups').and.returnValue(
+        of(mockOrderEntryGroups)
+      );
+      service['activeCartId$'] = of('cartId');
+
+      let result;
+      service
+        .getEntryGroups()
+        .subscribe((val) => (result = val))
+        .unsubscribe();
+
+      expect(result).toEqual(mockOrderEntryGroups);
+      expect(multiCartFacade['getEntryGroups']).toHaveBeenCalledWith('cartId');
+    });
+  });
+
   describe('getLastEntry', () => {
     it('should return last entry by product code', () => {
       spyOn(multiCartFacade, 'getLastEntry').and.returnValue(of(mockCartEntry));
@@ -494,6 +542,26 @@ describe('ActiveCartService', () => {
     });
   });
 
+  describe('addToEntryGroup', () => {
+    it('should just add to entry group after cart is provided', () => {
+      spyOn<any>(service, 'requireLoadedCart').and.returnValue(
+        of({ code: 'code', guid: 'guid' })
+      );
+      spyOn(multiCartFacade, 'addToEntryGroup').and.callThrough();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      service.addToEntryGroup(1, 'productCode', 2);
+
+      expect(multiCartFacade['addToEntryGroup']).toHaveBeenCalledWith(
+        OCC_USER_ID_ANONYMOUS,
+        'guid',
+        1,
+        'productCode',
+        2
+      );
+    });
+  });
+
   describe('removeEntry', () => {
     it('should call multiCartFacade remove entry method with active cart', () => {
       userId$.next('userId');
@@ -504,6 +572,22 @@ describe('ActiveCartService', () => {
         entryNumber: 3,
       });
       expect(multiCartFacade['removeEntry']).toHaveBeenCalledWith(
+        'userId',
+        'cartId',
+        3
+      );
+    });
+  });
+
+  describe('removeEntryGroup', () => {
+    it('should call multiCartFacade removeEntryGroup method with active cart', () => {
+      userId$.next('userId');
+      service['activeCartId$'] = of('cartId');
+      spyOn(multiCartFacade, 'removeEntryGroup').and.callThrough();
+
+      service.removeEntryGroup(3);
+
+      expect(multiCartFacade['removeEntryGroup']).toHaveBeenCalledWith(
         'userId',
         'cartId',
         3
@@ -989,6 +1073,34 @@ describe('ActiveCartService', () => {
       service.getDeliveryEntries().subscribe((deliveryEntries) => {
         expect(deliveryEntries.length).toEqual(1);
         expect(deliveryEntries[0].orderCode).toEqual('deliveryEntry');
+        done();
+      });
+    });
+  });
+
+  describe('getPickupEntryGroups', () => {
+    it('should return only entry groups with pickup entries', (done) => {
+      spyOn(multiCartFacade, 'getEntryGroups').and.returnValue(
+        of(mockOrderEntryGroups)
+      );
+
+      service.getPickupEntryGroups().subscribe((result) => {
+        expect(result.length).toBe(1);
+        expect(result[0].entryGroupNumber).toBe(1);
+        done();
+      });
+    });
+  });
+
+  describe('getDeliveryEntryGroups', () => {
+    it('should return only entry groups with delivery entries', (done) => {
+      spyOn(multiCartFacade, 'getEntryGroups').and.returnValue(
+        of(mockOrderEntryGroups)
+      );
+
+      service.getDeliveryEntryGroups().subscribe((result) => {
+        expect(result.length).toBe(1);
+        expect(result[0].type).toBe('CONFIGURABLEBUNDLE');
         done();
       });
     });

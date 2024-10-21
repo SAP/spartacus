@@ -1,0 +1,12 @@
+<ng-container *ngIf="!disabled">
+  <div class="cx-hierarchy" [ngStyle]="hierarchyStyle">
+    <cx-hierarchy-node
+      *ngFor="let child of tree.children; let i = index"
+      [tree]="child"
+      [template]="template"
+      [activeCartService]="activeCartService"
+      [titleReadonly]="titleReadonly"
+      [collasibleReadonly]="collasibleReadonly"
+    ></cx-hierarchy-node>
+  </div>
+</ng-container>

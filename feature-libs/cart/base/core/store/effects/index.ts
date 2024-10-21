@@ -5,12 +5,14 @@
  */
 
 import { CartEntryEffects } from './cart-entry.effect';
+import { CartEntryGroupEffects } from './cart-entrygroup.effect';
 import { CartVoucherEffects } from './cart-voucher.effect';
 import { CartEffects } from './cart.effect';
 import { MultiCartEffects } from './multi-cart.effect';
 
 export const effects: any[] = [
   CartEntryEffects,
+  CartEntryGroupEffects,
   CartVoucherEffects,
   CartEffects,
   MultiCartEffects,

@@ -162,6 +162,11 @@
       "@spartacus/cart/wish-list/root": [
         "feature-libs/cart/wish-list/root/public_api"
       ],
+
+      // "@spartacus/cart/hierarchy-select": [
+      //   "feature-libs/cart/base/components/hierarchy-select/index"
+      // ],
+
       "@spartacus/checkout/b2b/assets": [
         "feature-libs/checkout/b2b/assets/public_api"
       ],

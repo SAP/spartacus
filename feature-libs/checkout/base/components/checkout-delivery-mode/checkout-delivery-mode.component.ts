@@ -7,6 +7,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnInit,
   Optional,
   inject,
 } from '@angular/core';
@@ -16,14 +17,19 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade, CartOutlets } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  CartOutlets,
+  OrderEntry,
+  OrderEntryGroup,
+} from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import {
   FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -34,18 +40,26 @@ import {
 } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
+import {
+  HierarchyComponentService,
+  HierarchyNode,
+} from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-delivery-mode',
   templateUrl: './checkout-delivery-mode.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutDeliveryModeComponent {
+export class CheckoutDeliveryModeComponent implements OnInit {
   protected globalMessageService = inject(GlobalMessageService);
   protected busy$ = new BehaviorSubject(false);
   protected readonly isSetDeliveryModeHttpErrorSub = new BehaviorSubject(false);
 
   readonly CartOutlets = CartOutlets;
+
+  entries$: Observable<OrderEntry[]>;
+  bundles$: Observable<HierarchyNode[]>;
+  entryGroups$: Observable<OrderEntryGroup[]> = of([]);
 
   @Optional() featureConfigService = inject(FeatureConfigService, {
     optional: true,
@@ -111,8 +125,22 @@ export class CheckoutDeliveryModeComponent {
     protected activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
+    protected hierachyService: HierarchyComponentService
   ) {}
+  ngOnInit() {
+    if (this.featureConfigService?.isEnabled('enableBundles')) {
+      // The user has enabled feature toggle "enableBundles"
+      // which makes the cart use the new entry groups feature to provide bundle support.
+      this.entryGroups$ = this.activeCartFacade.getDeliveryEntryGroups();
+      this.entries$ = this.hierachyService.getEntriesFromGroups(
+        this.entryGroups$
+      );
+      this.bundles$ = this.hierachyService.getBundlesFromGroups(
+        this.entryGroups$
+      );
+    }
+  }
 
   changeMode(code: string | undefined, event?: Event): void {
     if (!code) {

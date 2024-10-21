@@ -9,11 +9,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { CardModule, IconModule, OutletModule } from '@spartacus/storefront';
+import {
+  CardModule,
+  HierarchyModule,
+  IconModule,
+  OutletModule,
+} from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
@@ -29,6 +35,8 @@ import { CheckoutReviewShippingComponent } from './checkout-review-shipping.comp
     RouterModule,
     IconModule,
     OutletModule,
+    FeaturesConfigModule,
+    HierarchyModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

@@ -1,0 +1,18 @@
+%cx-hierarchy-node-title {
+  .cx-hierarchy-node-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    @include type('6');
+    background: var(--cx-color-inverse);
+    border-bottom: 1px solid var(--cx-color-medium);
+
+    .node-title {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      min-height: 48px;
+    }
+  }
+}
