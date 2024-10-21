@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus Subscription Billing Schematics: ng-add Subscription Billing feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { SubscriptionBillingModule } from "@spartacus/subscription-billing";
+import { subscriptionBillingTranslationChunksConfig, subscriptionBillingTranslations } from "@spartacus/subscription-billing/assets";
+import { SubscriptionBillingRootModule } from "@spartacus/subscription-billing/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    SubscriptionBillingRootModule,
+    SubscriptionBillingModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: subscriptionBillingTranslations,
+      chunks: subscriptionBillingTranslationChunksConfig,
+    },
+  })]
+})
+export class SubscriptionBillingFeatureModule { }
+"
+`;
+
+exports[`Spartacus Subscription Billing Schematics: ng-add Subscription Billing feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
+import { subscriptionBillingTranslationChunksConfig, subscriptionBillingTranslations } from "@spartacus/subscription-billing/assets";
+import { SubscriptionBillingRootModule } from "@spartacus/subscription-billing/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    SubscriptionBillingRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      SubscriptionBilling: {
+        module: () =>
+          import('@spartacus/subscription-billing').then((m) => m.SubscriptionBillingModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: subscriptionBillingTranslations,
+      chunks: subscriptionBillingTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class SubscriptionBillingFeatureModule { }
+"
+`;

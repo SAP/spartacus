@@ -168,6 +168,12 @@ function add_S4_SERVICE {
     fi
 }
 
+function add_subscription_billing {
+  if [ "$ADD_SUBSCRIPTION_BILLING" = true ] ; then
+        ng add --skip-confirmation @spartacus/subscription-billing@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
 function add_cpq-quote {
   if [ "$ADD_CPQ_QUOTE" = true ] ; then
         ng add --skip-confirmation @spartacus/cpq-quote@${SPARTACUS_VERSION} --interactive false
@@ -223,6 +229,7 @@ function add_spartacus_csr {
     add_S4_SERVICE
     add_requested_delivery_date
     add_estimated_delivery_date
+    add_subscription_billing
     add_cpq-quote
     add_pdf_invoices
     remove_npmrc
@@ -252,6 +259,7 @@ function add_spartacus_ssr {
     add_S4_SERVICE
     add_requested_delivery_date
     add_estimated_delivery_date
+    add_subscription_billing
     add_cpq-quote
     add_pdf_invoices
     remove_npmrc
@@ -279,6 +287,7 @@ function add_spartacus_ssr_pwa {
     add_S4_SERVICE
     add_requested_delivery_date
     add_estimated_delivery_date
+    add_subscription_billing
     add_cpq-quote
     add_pdf_invoices
     remove_npmrc
@@ -834,6 +843,11 @@ function parseInstallArgs {
                 echo "➖ Added Estimated Delivery Date"
                 shift
                 ;;
+            subscription-billing)
+                ADD_SUBSCRIPTION_BILLING=true
+                echo "➖ Added Subscription Billing"
+                shift
+                ;;    
             invoices)
                 ADD_PDF_INVOICES=true
                 echo "➖ Added PDF Invoices"

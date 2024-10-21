@@ -98,6 +98,9 @@ class MockCurrentProductService {
   getProduct(): Observable<Product> {
     return EMPTY;
   }
+  showItemCounter(_product: Product): boolean {
+    return true;
+  }
 }
 
 @Component({
@@ -404,6 +407,27 @@ describe('AddToCartComponent', () => {
 
     it('should hide quantity if showQuantity is set to false', () => {
       addToCartComponent.showQuantity = false;
+      fixture.detectChanges();
+      const quantityEl = el.query(By.css('.quantity'));
+      expect(quantityEl).toBeNull();
+    });
+    it('should not show quantity (item counter) button if explicitly set to be hidden', () => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockProduct)
+      );
+      spyOn(currentProductService, 'showItemCounter').and.returnValue(false);
+      addToCartComponent.showQuantity = true;
+      addToCartComponent.ngOnInit();
+      fixture.detectChanges();
+      const quantityEl = el.query(By.css('.quantity'));
+      expect(quantityEl).toBeNull();
+    });
+    it('should not show quantity (item counter) button if it fails condition, even if explicitly set to show', () => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockProduct)
+      );
+      addToCartComponent.showQuantity = false;
+      addToCartComponent.ngOnInit();
       fixture.detectChanges();
       const quantityEl = el.query(By.css('.quantity'));
       expect(quantityEl).toBeNull();
