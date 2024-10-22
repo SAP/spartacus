@@ -43,7 +43,7 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
-  protected focusService = inject(KeyboardFocusService);
+  protected keyboardFocusService = inject(KeyboardFocusService);
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
@@ -165,7 +165,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
           });
       } else {
         // Clear persisted focus before entering the configurator UI
-        this.focusService.clear();
+        this.keyboardFocusService.clear();
       }
 
       if (routingData.expMode) {
