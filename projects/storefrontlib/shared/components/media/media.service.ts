@@ -6,13 +6,19 @@
 
 import { DOCUMENT } from '@angular/common';
 import { Injectable, RendererFactory2, inject } from '@angular/core';
-import { Config, Image, WindowRef } from '@spartacus/core';
+import {
+  Config,
+  FeatureConfigService,
+  Image,
+  WindowRef,
+} from '@spartacus/core';
 import { MediaConfig } from './media.config';
 import {
   ImageLoadingStrategy,
   Media,
   MediaContainer,
   MediaFormatSize,
+  PictureHTMLElementSources,
 } from './media.model';
 
 /**
@@ -36,13 +42,17 @@ export class MediaService {
    * size is sorted on top.
    */
   private _sortedFormats: { code: string; size: MediaFormatSize }[];
+  private _sortedPictureFormats: { code: string; mediaQuery: string }[];
   private _reversedFormats: { code: string; size: MediaFormatSize }[];
 
-  rendererFactory = inject(RendererFactory2);
-  document = inject(DOCUMENT);
-  windowRef = inject(WindowRef);
+  private readonly featureConfigService = inject(FeatureConfigService);
+
   constructor(protected config: Config) {}
 
+  // SPIKE NEW
+  protected rendererFactory = inject(RendererFactory2);
+  protected document = inject(DOCUMENT);
+  protected windowRef = inject(WindowRef);
   init() {
     if (this.windowRef.isBrowser()) {
       return;
@@ -58,10 +68,30 @@ export class MediaService {
     this.document.head.insertBefore(preconnect, this.document.head.firstChild);
     console.log('[MEDIA SERVICE] SPIKE NEW: added preconnect', preconnect);
   }
+  // SPIKE NEW END
+
+  getMediaBasedOnHTMLElementType(
+    elementType: 'img' | 'picture',
+    mediaContainer?: MediaContainer | Image,
+    format?: string,
+    alt?: string,
+    role?: string
+  ): Media | undefined {
+    const shouldGetMediaForPictureElement =
+      this.featureConfigService.isEnabled(
+        'useExtendedMediaComponentConfiguration'
+      ) && elementType !== 'img';
+
+    return shouldGetMediaForPictureElement
+      ? this.getMediaForPictureElement(mediaContainer, format, alt, role)
+      : this.getMedia(mediaContainer, format, alt, role);
+  }
 
   /**
    * Returns a `Media` object with the main media (`src`) and various media (`src`)
    * for specific formats.
+   *
+   * This method is used for creating `Media` object that is used in `img` HTML element
    */
   getMedia(
     mediaContainer?: MediaContainer | Image,
@@ -73,6 +103,55 @@ export class MediaService {
       return;
     }
 
+    const commonMediaProperties = this.getCommonMediaObject(
+      mediaContainer,
+      format,
+      alt,
+      role
+    );
+
+    return {
+      ...commonMediaProperties,
+      srcset: this.resolveSrcSet(mediaContainer, format),
+    };
+  }
+
+  /**
+   * Returns a `Media` object with the main media (`src`) and various sources
+   * for specific formats for HTML `<picture>` element.
+   */
+  getMediaForPictureElement(
+    mediaContainer?: MediaContainer | Image,
+    format?: string,
+    alt?: string,
+    role?: string
+  ): Media | undefined {
+    if (!mediaContainer) {
+      return;
+    }
+
+    const commonMediaProperties = this.getCommonMediaObject(
+      mediaContainer,
+      format,
+      alt,
+      role
+    );
+
+    return {
+      ...commonMediaProperties,
+      sources: this.resolveSources(mediaContainer, format),
+    };
+  }
+
+  /**
+   * Generates attributes common for `<img>` ang `<picture>`.
+   */
+  protected getCommonMediaObject(
+    mediaContainer: MediaContainer | Image,
+    format?: string,
+    alt?: string,
+    role?: string
+  ): Media {
     const mainMedia: Image = mediaContainer.url
       ? mediaContainer
       : this.resolveMedia(mediaContainer as MediaContainer, format);
@@ -81,7 +160,6 @@ export class MediaService {
       src: this.resolveAbsoluteUrl(mainMedia?.url ?? ''),
       alt: alt ?? mainMedia?.altText,
       role: role ?? mainMedia?.role,
-      srcset: this.resolveSrcSet(mediaContainer, format),
     };
   }
 
@@ -106,6 +184,7 @@ export class MediaService {
    */
   protected get sortedFormats(): { code: string; size: MediaFormatSize }[] {
     const mediaFormats = this.config?.mediaFormats;
+
     if (!this._sortedFormats && mediaFormats) {
       this._sortedFormats = Object.keys(mediaFormats)
         .map((key) => ({
@@ -116,7 +195,48 @@ export class MediaService {
           a.size.width && b.size.width && a.size.width > b.size.width ? 1 : -1
         );
     }
+
     return this._sortedFormats ?? [];
+  }
+
+  /**
+   * Creates the media formats in a logical sorted order. The map contains the
+   * format key and the format media query information. We do this only once for performance
+   * benefits.
+   */
+  protected get sortedPictureFormats(): {
+    code: string;
+    mediaQuery: string;
+  }[] {
+    const pictureElementMediaFormats = this.config?.pictureElementFormats;
+    const pictureFormatsOrder = this.config?.pictureFormatsOrder;
+
+    if (!pictureElementMediaFormats) {
+      return [];
+    }
+
+    if (!this._sortedPictureFormats && pictureElementMediaFormats) {
+      this._sortedPictureFormats = Object.keys(pictureElementMediaFormats).map(
+        (key) => ({
+          code: key,
+          mediaQuery: pictureElementMediaFormats[key]?.mediaQueries || '',
+        })
+      );
+
+      if (pictureFormatsOrder) {
+        this._sortedPictureFormats.sort((a, b) => {
+          const orderA = pictureFormatsOrder.indexOf(a.code);
+          const orderB = pictureFormatsOrder.indexOf(b.code);
+
+          return (
+            (orderA !== -1 ? orderA : Infinity) -
+            (orderB !== -1 ? orderB : Infinity)
+          );
+        });
+      }
+    }
+
+    return this._sortedPictureFormats ?? [];
   }
 
   /**
@@ -179,12 +299,7 @@ export class MediaService {
       return undefined;
     }
 
-    // Only create srcset images that are smaller than the given `maxFormat` (if any)
-    let formats = this.sortedFormats;
-    const max: number = formats.findIndex((f) => f.code === maxFormat);
-    if (max > -1) {
-      formats = formats.slice(0, max + 1);
-    }
+    const formats = this.getFormatsUpToMaxFormat(this.sortedFormats, maxFormat);
 
     const srcset = formats.reduce((set, format) => {
       const image = (media as MediaContainer)[format.code];
@@ -200,6 +315,77 @@ export class MediaService {
     }, '');
 
     return srcset === '' ? undefined : srcset;
+  }
+
+  /**
+   * Resolves the sources for a picture element based on the provided media container and maximum format.
+   *
+   * This method generates an array of picture element attributes (`srcset` and `media`) by filtering
+   * the sorted picture formats up to the specified maximum format. It then maps the corresponding
+   * media sources from the provided media container.
+   *
+   * The method will return an array of picture element attributes suitable for use
+   * in a `<picture>` element, or `undefined` if no media is provided.
+   */
+  protected resolveSources(
+    media: MediaContainer | Image,
+    maxFormat?: string
+  ): PictureHTMLElementSources[] | undefined {
+    if (!media) {
+      return undefined;
+    }
+
+    const pictureFormats = this.getFormatsUpToMaxFormat(
+      this.sortedPictureFormats,
+      maxFormat
+    );
+    const pictureElementMediaFormats = this.config?.pictureElementFormats;
+
+    return pictureFormats.reduce<
+      {
+        srcset: string;
+        media: string;
+        width: number | undefined;
+        height: number | undefined;
+      }[]
+    >((sources, format) => {
+      const image = (media as MediaContainer)[format.code];
+
+      if (image?.url) {
+        sources.push({
+          srcset: this.resolveAbsoluteUrl(image.url),
+          media: format.mediaQuery,
+          width: pictureElementMediaFormats?.[format?.code]?.width,
+          height: pictureElementMediaFormats?.[format?.code]?.height,
+        });
+      }
+      return sources;
+    }, []);
+  }
+
+  /**
+   * Retrieves a list of formats up to and including the specified max format.
+   *
+   * @template T - A type that extends an object containing a `code` property of type `string`.
+   * @param {T[]} formats - An array of format objects, each containing at least a `code` property.
+   * @param {string} [maxFormat] - The maximum format code to include in the returned list.
+   * @returns {T[]} An array of formats up to and including the specified max format. If `maxFormat` is not found, returns the entire list.
+   *
+   * This method filters the provided list of formats to include only those up to and including
+   * the specified max format. If the `maxFormat` is not found, the entire list of formats is returned.
+   */
+  protected getFormatsUpToMaxFormat<T extends { code: string }>(
+    formats: T[],
+    maxFormat?: string
+  ): T[] {
+    let pictureFormats = formats;
+    const maxIndex = pictureFormats.findIndex((f) => f.code === maxFormat);
+
+    if (maxIndex > -1) {
+      pictureFormats = pictureFormats.slice(0, maxIndex + 1);
+    }
+
+    return pictureFormats;
   }
 
   /**

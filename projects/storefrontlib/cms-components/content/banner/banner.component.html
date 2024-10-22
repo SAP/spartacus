@@ -11,8 +11,14 @@
       </cx-generic-link>
       <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
       <cx-media
+        *cxFeature="'useExtendedMediaComponentConfiguration'"
         [container]="getImage(data)"
+        [elementType]="'picture'"
         [isLCP]="spike_isLCP(data)"
+      ></cx-media>
+      <cx-media
+        *cxFeature="'!useExtendedMediaComponentConfiguration'"
+        [container]="getImage(data)"
       ></cx-media>
       <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
     </ng-container>
@@ -25,8 +31,14 @@
     >
       <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
       <cx-media
+        *cxFeature="'useExtendedMediaComponentConfiguration'"
         [container]="getImage(data)"
+        [elementType]="'picture'"
         [isLCP]="spike_isLCP(data)"
+      ></cx-media>
+      <cx-media
+        *cxFeature="'!useExtendedMediaComponentConfiguration'"
+        [container]="getImage(data)"
       ></cx-media>
       <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
     </cx-generic-link>
@@ -35,8 +47,14 @@
     <div class="no-link">
       <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
       <cx-media
+        *cxFeature="'useExtendedMediaComponentConfiguration'"
         [container]="getImage(data)"
+        [elementType]="'picture'"
         [isLCP]="spike_isLCP(data)"
+      ></cx-media>
+      <cx-media
+        *cxFeature="'!useExtendedMediaComponentConfiguration'"
+        [container]="getImage(data)"
       ></cx-media>
       <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
     </div>

@@ -346,6 +346,7 @@ import { UserFeatureModule } from './features/user/user-feature.module';
         showBillingAddressInDigitalPayments: false,
         showDownloadProposalButton: false,
         showPromotionsInPDP: false,
+        searchBoxV2: false,
         recentSearches: true,
         trendingSearches: false,
         pdfInvoicesSortByInvoiceDate: true,
@@ -428,11 +429,13 @@ import { UserFeatureModule } from './features/user/user-feature.module';
         a11yDialogTriggerRefocus: true,
         a11yAddToWishlistFocus: true,
         a11ySearchBoxFocusOnEscape: true,
+        a11yViewHoursButtonIconContrast: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
         allPageMetaResolversEnabledInCsr: true,
+        useExtendedMediaComponentConfiguration: true,
       };
       return appFeatureToggles;
     }),
