@@ -9,13 +9,23 @@ import {
   Component,
   Input,
   OnInit,
+  inject,
 } from '@angular/core';
-import { CmsPickupItemDetails } from '@spartacus/core';
+import { CmsPickupItemDetails, FeatureConfigService } from '@spartacus/core';
 import { DeliveryPointOfService } from '@spartacus/pickup-in-store/root';
-import { CmsComponentData, ICON_TYPE } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import {
+  CmsComponentData,
+  HierarchyComponentService,
+  ICON_TYPE,
+} from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { DeliveryPointsService } from '../../services/delivery-points.service';
+import {
+  CartOutlets,
+  OrderEntry,
+  OrderEntryGroup,
+} from '@spartacus/cart/base/root';
 
 @Component({
   selector: 'cx-pick-up-in-store-items-details',
@@ -23,6 +33,9 @@ import { DeliveryPointsService } from '../../services/delivery-points.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PickUpItemsDetailsComponent implements OnInit {
+  private featureConfig = inject(FeatureConfigService);
+  readonly cartOutlets = CartOutlets;
+
   @Input() showEdit: boolean;
   @Input() itemsDetails: Observable<Array<DeliveryPointOfService>>;
   readonly ICON_TYPE = ICON_TYPE;
@@ -31,21 +44,47 @@ export class PickUpItemsDetailsComponent implements OnInit {
 
   constructor(
     protected component: CmsComponentData<CmsPickupItemDetails>,
-    protected deliveryPointsService: DeliveryPointsService
+    protected deliveryPointsService: DeliveryPointsService,
+    protected hierarchyService: HierarchyComponentService
   ) {}
   ngOnInit() {
-    this.component.data$
-      .pipe(
-        tap((data: CmsPickupItemDetails) => {
-          this.showEdit = data.showEdit;
-          this.context = data.context;
-          this.itemsDetails =
-            data.context === 'order'
-              ? this.deliveryPointsService.getDeliveryPointsOfServiceFromOrder()
-              : this.deliveryPointsService.getDeliveryPointsOfServiceFromCart();
-        }),
-        take(1)
-      )
-      .subscribe();
+    if (this.featureConfig.isEnabled('enableBundles')) {
+      // The user has enabled feature toggle "enableBundles"
+      // which makes the cart use the new entry groups feature to provide bundle support.
+
+      this.component.data$
+        .pipe(
+          tap((data: CmsPickupItemDetails) => {
+            this.showEdit = data.showEdit;
+            this.context = data.context;
+            this.itemsDetails =
+              data.context === 'order'
+                ? this.deliveryPointsService.getDeliveryPointsOfServiceFromOrder()
+                : this.deliveryPointsService.getDeliveryPointsOfServiceFromCartWithEntryGroups();
+          }),
+          take(1)
+        )
+        .subscribe();
+    } else {
+      this.component.data$
+        .pipe(
+          tap((data: CmsPickupItemDetails) => {
+            this.showEdit = data.showEdit;
+            this.context = data.context;
+            this.itemsDetails =
+              data.context === 'order'
+                ? this.deliveryPointsService.getDeliveryPointsOfServiceFromOrder()
+                : this.deliveryPointsService.getDeliveryPointsOfServiceFromCart();
+          }),
+          take(1)
+        )
+        .subscribe();
+    }
+  }
+
+  getEntriesFromGroups(
+    entryGroups: OrderEntryGroup[]
+  ): Observable<OrderEntry[]> {
+    return this.hierarchyService.getEntriesFromGroups(of(entryGroups));
   }
 }

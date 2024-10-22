@@ -23,3 +23,4 @@ export * from './ng-select-a11y/index';
 export * from './assistive-technology-message/index';
 export * from './captcha/index';
 export * from './chat-messaging/index';
+export * from './hierarchy/index';

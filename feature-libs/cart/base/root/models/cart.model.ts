@@ -73,6 +73,7 @@ export interface Cart {
   deliveryOrderGroups?: DeliveryOrderEntryGroup[];
   description?: string;
   entries?: OrderEntry[];
+  entryGroups?: OrderEntryGroup[];
   expirationTime?: Date;
   guid?: string;
   name?: string;
@@ -162,6 +163,15 @@ export interface OrderEntry {
   promotions?: PromotionResult[];
 }
 
+export interface OrderEntryGroup {
+  entryGroupNumber?: number;
+  erroneous?: boolean;
+  label?: string;
+  type?: `${OrderEntryGroupType}`;
+  entries?: OrderEntry[];
+  entryGroups?: OrderEntryGroup[];
+}
+
 export interface PickupOrderEntryGroup {
   deliveryPointOfService?: PointOfService;
   distance?: number;
@@ -195,6 +205,11 @@ export enum CartType {
   WISH_LIST = 'WishList',
   SELECTIVE = 'Selective',
   NEW_CREATED = 'NewCreated',
+}
+
+export enum OrderEntryGroupType {
+  STANDALONE = 'STANDALONE',
+  CONFIGURABLEBUNDLE = 'CONFIGURABLEBUNDLE',
 }
 
 export interface CartModificationList {

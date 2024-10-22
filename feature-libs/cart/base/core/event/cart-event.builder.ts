@@ -17,6 +17,8 @@ import {
   CartAddEntrySuccessEvent,
   CartRemoveEntryFailEvent,
   CartRemoveEntrySuccessEvent,
+  CartRemoveEntryGroupFailEvent,
+  CartRemoveEntryGroupSuccessEvent,
   CartUpdateEntryFailEvent,
   CartUpdateEntrySuccessEvent,
   CreateCartEvent,
@@ -62,6 +64,7 @@ export class CartEventBuilder {
     this.registerAddEntry();
     this.registerRemoveEntry();
     this.registerUpdateEntry();
+    this.registerRemoveEntryGroup();
     this.registerDeleteCart();
     this.registerAddCartVoucher();
     this.registerRemoveCartVoucher();
@@ -94,6 +97,17 @@ export class CartEventBuilder {
     this.registerMapped({
       action: CartActions.CART_REMOVE_ENTRY_FAIL,
       event: CartRemoveEntryFailEvent,
+    });
+  }
+
+  protected registerRemoveEntryGroup(): void {
+    this.registerMapped({
+      action: CartActions.CART_REMOVE_ENTRYGROUP_SUCCESS,
+      event: CartRemoveEntryGroupSuccessEvent,
+    });
+    this.registerMapped({
+      action: CartActions.CART_REMOVE_ENTRYGROUP_FAIL,
+      event: CartRemoveEntryGroupFailEvent,
     });
   }
 

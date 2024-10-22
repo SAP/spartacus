@@ -1,20 +1,20 @@
 <ng-container *ngIf="cart$ | async as cart">
-  <ng-container *ngIf="entries$ | async as entries">
-    <div *ngIf="cart.totalItems > 0" class="cart-details-wrapper">
-      <cx-cart-validation-warnings></cx-cart-validation-warnings>
+  <div class="cart-details-wrapper">
+    <cx-cart-validation-warnings></cx-cart-validation-warnings>
 
-      <h2 class="cx-total">
-        {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
-      </h2>
+    <h2 class="cx-total">
+      {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
+    </h2>
 
-      <cx-promotions
-        [promotions]="
-          (cart.appliedOrderPromotions || []).concat(
-            cart.potentialOrderPromotions || []
-          )
-        "
-      ></cx-promotions>
+    <cx-promotions
+      [promotions]="
+        (cart.appliedOrderPromotions || []).concat(
+          cart.potentialOrderPromotions || []
+        )
+      "
+    ></cx-promotions>
 
+    <ng-container *ngIf="entries$ | async as entries">
       <cx-cart-item-list
         [items]="entries"
         [cartIsLoading]="!(cartLoaded$ | async)"
@@ -23,9 +23,20 @@
           isSaveForLater: false,
           optionalBtn: saveForLaterBtn,
         }"
+        [ngClass]="entries.length === 0 ? 'emptyList' : 'noneEmptyList'"
       ></cx-cart-item-list>
-    </div>
-  </ng-container>
+    </ng-container>
+    <ng-container *cxFeature="'enableBundles'">
+      <ng-container *ngFor="let bundle of bundles$ | async">
+        <cx-hierarchy
+          [tree]="bundle"
+          [template]="bundlesTemplate"
+          [activeCartService]="activeCartService"
+        >
+        </cx-hierarchy>
+      </ng-container>
+    </ng-container>
+  </div>
 </ng-container>
 
 <ng-template let-ctx #saveForLaterBtn>
@@ -38,4 +49,15 @@
   >
     {{ 'saveForLaterItems.saveForLater' | cxTranslate }}
   </button>
+</ng-template>
+
+<ng-template #bundlesTemplate let-items>
+  <ng-template
+    [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+    [cxOutletContext]="{
+      items: items,
+      hasHeader: false,
+    }"
+  >
+  </ng-template>
 </ng-template>

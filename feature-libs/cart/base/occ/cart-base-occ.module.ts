@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import {
   CartAdapter,
   CartEntryAdapter,
+  CartEntryGroupAdapter,
   CartValidationAdapter,
   CartVoucherAdapter,
 } from '@spartacus/cart/base/core';
@@ -20,6 +21,7 @@ import { provideDefaultConfigFactory } from '@spartacus/core';
 import { OccCartNormalizer } from './adapters/converters/occ-cart-normalizer';
 import { OrderEntryPromotionsNormalizer } from './adapters/converters/order-entry-promotions-normalizer';
 import { OccCartEntryAdapter } from './adapters/occ-cart-entry.adapter';
+import { OccCartEntryGroupAdapter } from './adapters/occ-cart-entrygroup.adapter';
 import { OccCartValidationAdapter } from './adapters/occ-cart-validation.adapter';
 import { OccCartVoucherAdapter } from './adapters/occ-cart-voucher.adapter';
 import { OccCartAdapter } from './adapters/occ-cart.adapter';
@@ -46,6 +48,10 @@ import { defaultOccCartConfigFactory } from './config/default-occ-cart-config-fa
     {
       provide: CartEntryAdapter,
       useClass: OccCartEntryAdapter,
+    },
+    {
+      provide: CartEntryGroupAdapter,
+      useClass: OccCartEntryGroupAdapter,
     },
     {
       provide: CartVoucherAdapter,

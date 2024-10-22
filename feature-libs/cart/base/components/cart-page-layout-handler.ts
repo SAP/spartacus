@@ -40,15 +40,22 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
         map(([slots, cart, selectiveCart, loadingCart]) => {
           const exclude = (arr: string[], args: string[]) =>
             arr.filter((item) => args.every((arg) => arg !== item));
+
+          const hasItems = (cartOrGroup: any) =>
+            cartOrGroup?.totalItems || cartOrGroup?.entryGroups?.length;
+
+          const hasCartContent = hasItems(cart);
+          const hasSelectiveCartContent = hasItems(selectiveCart);
+
           return isEmpty(cart) && loadingCart
             ? exclude(slots, [
                 'TopContent',
                 'CenterRightContentSlot',
                 'EmptyCartMiddleContent',
               ])
-            : cart.totalItems
+            : hasCartContent
               ? exclude(slots, ['EmptyCartMiddleContent'])
-              : selectiveCart?.totalItems
+              : hasSelectiveCartContent
                 ? exclude(slots, [
                     'EmptyCartMiddleContent',
                     'CenterRightContentSlot',

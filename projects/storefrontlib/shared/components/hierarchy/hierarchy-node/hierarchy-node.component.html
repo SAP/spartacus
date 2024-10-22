@@ -1,0 +1,16 @@
+<div>
+  <ng-container *ngIf="type === 'TITLE'">
+    <cx-hierarchy-node-title
+      [tree]="tree"
+      [activeCartService]="activeCartService"
+      [readonly]="titleReadonly"
+    ></cx-hierarchy-node-title>
+  </ng-container>
+  <ng-container *ngIf="type === 'COLLAPSIBLE'">
+    <cx-hierarchy-node-collapsible
+      [tree]="collasibleTree"
+      [template]="template"
+      [readonly]="collasibleReadonly"
+    ></cx-hierarchy-node-collapsible>
+  </ng-container>
+</div>
