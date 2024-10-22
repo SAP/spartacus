@@ -17,16 +17,16 @@
     "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "@angular/pwa": "18.2.7",
-    "@angular/ssr": "18.2.7",
+    "@angular/pwa": "^18.2.7",
+    "@angular/ssr": "^18.2.7",
     "semver": "^7.5.2",
     "ts-morph": "^23.0.0",
     "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@angular-devkit/core": "18.2.7",
-    "@angular-devkit/schematics": "18.2.7",
-    "@angular/compiler": "18.2.7",
+    "@angular-devkit/core": "^18.2.7",
+    "@angular-devkit/schematics": "^18.2.7",
+    "@angular/compiler": "^18.2.7",
     "@schematics/angular": "18.2.7",
     "jsonc-parser": "~3.2.1",
     "parse5": "^7.1.2",
