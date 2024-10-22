@@ -717,7 +717,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
 
     // TODO: CXSPA-8270 - fix failing tests on Azure & GiHub
-    xit("should return true because window's innerWith is known", () => {
+    it("should return true because window's innerWith is known", () => {
       form.style.display = 'flex';
       form.style.flexDirection = 'column';
 
@@ -727,7 +727,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
 
     // TODO: CXSPA-8270 - fix failing tests on Azure & GiHub
-    xit('should return true because clientWidth of element is known and its right is less than its width', () => {
+    it('should return true because clientWidth of element is known and its right is less than its width', () => {
       form.style.display = 'flex';
       form.style.flexDirection = 'column';
 
@@ -772,7 +772,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
 
     // TODO: CXSPA-8270 - fix failing tests on Azure & GiHub
-    xit('should return offsetHeight of the element because form is not im viewport', () => {
+    it('should return offsetHeight of the element because form is not im viewport', () => {
       spyOnProperty(window, 'innerWidth').and.returnValue(1000);
 
       expect(
