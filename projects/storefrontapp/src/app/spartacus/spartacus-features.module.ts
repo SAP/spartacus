@@ -376,11 +376,8 @@ if (environment.cpq) {
         a11yDialogTriggerRefocus: true,
         a11yAddToWishlistFocus: true,
         a11ySearchBoxFocusOnEscape: true,
-<<<<<<< HEAD
         a11yItemCounterFocus: true,
-=======
         a11yViewHoursButtonIconContrast: true,
->>>>>>> origin/develop
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,
         enableConsecutiveCharactersPasswordRequirement: true,
