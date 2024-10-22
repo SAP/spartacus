@@ -15,6 +15,8 @@ export interface Image {
   galleryIndex?: number;
   imageType?: ImageType;
   url?: string;
+  width?: number;
+  height?: number;
 }
 
 export enum ImageType {

@@ -22,6 +22,36 @@ import {
 })
 export abstract class MediaConfig {
   /**
+   * Config properties related to media component
+   */
+  media?: {
+    /**
+     * Picture element configuration holds the media queries assigned to
+     * a format.
+     * The order of formats matters.
+     * <source> elements in <picture> will be sorted based on this order.
+     * This is necessary because the browser evaluates each
+     * <source> element in order and uses the first one that matches.
+     */
+    pictureElementFormats?: {
+      [format: string]: {
+        mediaQueries?: PictureElementQueries;
+      };
+    };
+
+    /**
+     * Used to specify the order of formats.
+     * <source> elements in <picture> will be sorted based on this order.
+     * This is necessary because the browser evaluates each
+     * <source> element in order and uses the first one that matches.
+     *
+     * @example
+     * ['mobile', 'tablet', 'desktop']
+     */
+    pictureFormatsOrder?: string[];
+  };
+
+  /**
    * Media _format_ configuration holds the size of the media's assigned to
    * a format.
    */
@@ -32,33 +62,6 @@ export abstract class MediaConfig {
      */
     [format: string]: MediaFormatSize;
   };
-
-  /**
-   * Picture element configuration holds the media queries assigned to
-   * a format.
-   * The order of formats matters.
-   * <source> elements in <picture> will be sorted based on this order.
-   * This is necessary because the browser evaluates each
-   * <source> element in order and uses the first one that matches.
-   */
-  pictureElementFormats?: {
-    [format: string]: {
-      mediaQueries?: PictureElementQueries;
-      width?: number;
-      height?: number;
-    };
-  };
-
-  /**
-   * Used to specify the order of formats.
-   * <source> elements in <picture> will be sorted based on this order.
-   * This is necessary because the browser evaluates each
-   * <source> element in order and uses the first one that matches.
-   *
-   * @example
-   * ['mobile', 'tablet', 'desktop']
-   */
-  pictureFormatsOrder?: string[];
 
   /**
    * Indicates how the browser should load the image. There's only one

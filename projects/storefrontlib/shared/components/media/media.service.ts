@@ -12,7 +12,7 @@ import {
   Media,
   MediaContainer,
   MediaFormatSize,
-  PictureHTMLElementSources,
+  PictureHTMLElementSource,
 } from './media.model';
 
 /**
@@ -84,8 +84,9 @@ export class MediaService {
     );
 
     return {
-      ...commonMediaProperties,
       srcset: this.resolveSrcSet(mediaContainer, format),
+      ...commonMediaProperties,
+      ...this.getWidthAndHeight(mediaContainer, format),
     };
   }
 
@@ -111,8 +112,9 @@ export class MediaService {
     );
 
     return {
-      ...commonMediaProperties,
       sources: this.resolveSources(mediaContainer, format),
+      ...commonMediaProperties,
+      ...this.getWidthAndHeight(mediaContainer, format),
     };
   }
 
@@ -133,6 +135,26 @@ export class MediaService {
       src: this.resolveAbsoluteUrl(mainMedia?.url ?? ''),
       alt: alt ?? mainMedia?.altText,
       role: role ?? mainMedia?.role,
+    };
+  }
+
+  /**
+   * Returns width and height for Image.
+   *
+   * Width and height are not coming from CMS so it should be
+   * manually added to the Container | Image object
+   */
+  protected getWidthAndHeight(
+    mediaContainer: MediaContainer | Image,
+    format?: string
+  ) {
+    const mainMedia: Image = mediaContainer.url
+      ? mediaContainer
+      : this.resolveMedia(mediaContainer as MediaContainer, format);
+
+    return {
+      width: mainMedia?.width,
+      height: mainMedia?.height,
     };
   }
 
@@ -179,8 +201,9 @@ export class MediaService {
     code: string;
     mediaQuery: string;
   }[] {
-    const pictureElementMediaFormats = this.config?.pictureElementFormats;
-    const pictureFormatsOrder = this.config?.pictureFormatsOrder;
+    const pictureElementMediaFormats =
+      this.config?.media?.pictureElementFormats;
+    const pictureFormatsOrder = this.config?.media?.pictureFormatsOrder;
 
     if (!pictureElementMediaFormats) {
       return [];
@@ -301,7 +324,7 @@ export class MediaService {
   protected resolveSources(
     media: MediaContainer | Image,
     maxFormat?: string
-  ): PictureHTMLElementSources[] | undefined {
+  ): PictureHTMLElementSource[] | undefined {
     if (!media) {
       return undefined;
     }
@@ -310,28 +333,22 @@ export class MediaService {
       this.sortedPictureFormats,
       maxFormat
     );
-    const pictureElementMediaFormats = this.config?.pictureElementFormats;
 
-    return pictureFormats.reduce<
-      {
-        srcset: string;
-        media: string;
-        width: number | undefined;
-        height: number | undefined;
-      }[]
-    >((sources, format) => {
-      const image = (media as MediaContainer)[format.code];
+    return pictureFormats.reduce<PictureHTMLElementSource[]>(
+      (sources, format) => {
+        const image = (media as MediaContainer)[format.code];
 
-      if (image?.url) {
-        sources.push({
-          srcset: this.resolveAbsoluteUrl(image.url),
-          media: format.mediaQuery,
-          width: pictureElementMediaFormats?.[format?.code]?.width,
-          height: pictureElementMediaFormats?.[format?.code]?.height,
-        });
-      }
-      return sources;
-    }, []);
+        if (image?.url) {
+          sources.push({
+            srcset: this.resolveAbsoluteUrl(image.url),
+            media: format.mediaQuery,
+            ...this.getWidthAndHeight(image, maxFormat),
+          });
+        }
+        return sources;
+      },
+      []
+    );
   }
 
   /**
