@@ -99,6 +99,7 @@
   </label>
 
   <a
+    role="button"
     class="btn btn-block btn-secondary"
     [routerLink]="{ cxRoute: 'home' } | cxUrl"
   >
@@ -113,6 +114,7 @@
 <ng-template #requiredAsterisk>
   <abbr
     *cxFeature="'a11yRequiredAsterisks'"
+    aria-hidden="true"
     class="text-decoration-none"
     title="{{ 'common.required' | cxTranslate }}"
     >*</abbr

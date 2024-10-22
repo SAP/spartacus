@@ -1,35 +1,40 @@
 <ng-container *ngIf="result$ | async as results">
   <ng-container *ngIf="results?.length">
-    <div class="message">
-      {{ 'cdsRecentSearches.recentSearches' | cxTranslate }}
+    <div class="recent-searches">
+      <h3>
+        {{ 'cdsRecentSearches.recentSearches' | cxTranslate }}
+      </h3>
+      <ul
+        tabindex="0"
+        [ariaLabel]="'cdsRecentSearches.ariaRecentSearches' | cxTranslate"
+        role="listbox"
+      >
+        <li *ngFor="let recentSearch of results">
+          <a
+            role="option"
+            [innerHTML]="
+              recentSearch
+                | cxHighlight: (outletContext$ | async)?.search : false
+            "
+            [routerLink]="
+              {
+                cxRoute: 'search',
+                params: { query: recentSearch },
+              } | cxUrl
+            "
+            (mousedown)="$event.preventDefault()"
+            (keydown.arrowup)="shareEvent($any($event))"
+            (keydown.arrowdown)="shareEvent($any($event))"
+            (keydown.arrowleft)="shareEvent($any($event))"
+            (keydown.arrowright)="shareEvent($any($event))"
+            (keydown.enter)="shareEvent($any($event))"
+            (keydown.escape)="shareEvent($any($event))"
+            (blur)="shareEvent($any($event))"
+            (click)="updateChosenWord(recentSearch)"
+          >
+          </a>
+        </li>
+      </ul>
     </div>
-    <ul
-      class="recent-searches"
-      [ariaLabel]="'cdsRecentSearches.ariaRecentSearches' | cxTranslate"
-      role="listbox"
-    >
-      <li *ngFor="let recentSearch of results">
-        <a
-          role="option"
-          [innerHTML]="
-            recentSearch | cxHighlight: (outletContext$ | async)?.search : false
-          "
-          [routerLink]="
-            {
-              cxRoute: 'search',
-              params: { query: recentSearch },
-            } | cxUrl
-          "
-          (mousedown)="$event.preventDefault()"
-          (keydown.arrowup)="shareEvent($any($event))"
-          (keydown.arrowdown)="shareEvent($any($event))"
-          (keydown.enter)="shareEvent($any($event))"
-          (keydown.escape)="shareEvent($any($event))"
-          (blur)="shareEvent($any($event))"
-          (click)="updateChosenWord(recentSearch)"
-        >
-        </a>
-      </li>
-    </ul>
   </ng-container>
 </ng-container>
