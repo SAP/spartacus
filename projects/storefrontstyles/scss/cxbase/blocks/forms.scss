@@ -503,3 +503,12 @@ form {
     }
   }
 }
+
+input[cxpasswordvisibilityswitch] {
+  @include forFeature('a11yPasswordVisibliltyBtnValueOverflow') {
+    $password-visibbility-btn-width: 30px;
+    padding-inline-end: calc(
+      $password-visibbility-btn-width + $input-padding-x
+    );
+  }
+}

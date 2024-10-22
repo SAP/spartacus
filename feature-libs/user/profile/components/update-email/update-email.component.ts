@@ -6,6 +6,7 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';
 
@@ -16,7 +17,9 @@ import { UpdateEmailComponentService } from './update-email-component.service';
   host: { class: 'user-form' },
 })
 export class UpdateEmailComponent {
-  constructor(protected service: UpdateEmailComponentService) {}
+  constructor(protected service: UpdateEmailComponentService) {
+    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
+  }
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;

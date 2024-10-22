@@ -15,7 +15,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { RoutingService, WindowRef } from '@spartacus/core';
+import { RoutingService, useFeatureStyles, WindowRef } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
@@ -57,6 +57,10 @@ export class OneTimePasswordLoginFormComponent {
   });
 
   @HostBinding('class.user-form') style = true;
+
+  constructor() {
+    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
+  }
 
   onSubmit(): void {
     if (!this.form.valid) {

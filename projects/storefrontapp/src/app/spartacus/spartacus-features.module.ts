@@ -376,6 +376,7 @@ if (environment.cpq) {
         a11yDialogTriggerRefocus: true,
         a11yAddToWishlistFocus: true,
         a11ySearchBoxFocusOnEscape: true,
+        a11yPasswordVisibliltyBtnValueOverflow: true,
         a11yViewHoursButtonIconContrast: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,

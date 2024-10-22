@@ -583,6 +583,11 @@ export interface FeatureTogglesInterface {
   a11ySearchBoxFocusOnEscape?: boolean;
 
   /**
+   * Stops the inputs value from obstructing the 'PasswordVisibilityToggleComponent'.
+   */
+  a11yPasswordVisibliltyBtnValueOverflow?: boolean;
+
+  /**
    * `StoreComponent and MyPreferredStoreComponent` an icon in a button that triggers showing
    * store's opening hours has an acceptable contrast ratio in a default theme
    */
@@ -760,6 +765,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDialogTriggerRefocus: false,
   a11yAddToWishlistFocus: false,
   a11ySearchBoxFocusOnEscape: false,
+  a11yPasswordVisibliltyBtnValueOverflow: false,
   a11yViewHoursButtonIconContrast: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
