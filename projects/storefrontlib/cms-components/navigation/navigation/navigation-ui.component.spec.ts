@@ -145,6 +145,7 @@ describe('Navigation UI Component', () => {
       ],
     }).compileComponents();
   });
+
   beforeEach(() => {
     fixture = TestBed.createComponent(NavigationUIComponent);
     hamburgerMenuService = TestBed.inject(HamburgerMenuService);
