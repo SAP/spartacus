@@ -19,10 +19,8 @@ describe('UrlUtils', () => {
       expect(isHttpOrHttps(new URL('http://www.google.com/'))).toBeTruthy();
     });
 
-    it('should return false for data: protocol', () => {
-      expect(
-        isHttpOrHttps(new URL('data://data:text/plain,some%20data/'))
-      ).toBeFalsy();
+    it('should return false for non http-based protocol', () => {
+      expect(isHttpOrHttps(new URL('ws://example.com'))).toBeFalsy();
     });
   });
 });

@@ -10,7 +10,15 @@
       >
       </cx-generic-link>
       <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
-      <cx-media [container]="getImage(data)"></cx-media>
+      <cx-media
+        *cxFeature="'useExtendedMediaComponentConfiguration'"
+        [container]="getImage(data)"
+        [elementType]="'picture'"
+      ></cx-media>
+      <cx-media
+        *cxFeature="'!useExtendedMediaComponentConfiguration'"
+        [container]="getImage(data)"
+      ></cx-media>
       <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
     </ng-container>
   </ng-container>
@@ -21,14 +29,30 @@
       [target]="getTarget(data)"
     >
       <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
-      <cx-media [container]="getImage(data)"></cx-media>
+      <cx-media
+        *cxFeature="'useExtendedMediaComponentConfiguration'"
+        [container]="getImage(data)"
+        [elementType]="'picture'"
+      ></cx-media>
+      <cx-media
+        *cxFeature="'!useExtendedMediaComponentConfiguration'"
+        [container]="getImage(data)"
+      ></cx-media>
       <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
     </cx-generic-link>
   </ng-container>
   <ng-container *ngIf="!routerLink">
     <div class="no-link">
       <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
-      <cx-media [container]="getImage(data)"></cx-media>
+      <cx-media
+        *cxFeature="'useExtendedMediaComponentConfiguration'"
+        [container]="getImage(data)"
+        [elementType]="'picture'"
+      ></cx-media>
+      <cx-media
+        *cxFeature="'!useExtendedMediaComponentConfiguration'"
+        [container]="getImage(data)"
+      ></cx-media>
       <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
     </div>
   </ng-container>

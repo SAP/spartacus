@@ -34,6 +34,7 @@
     "coupon": "Have a coupon?",
     "coupon_other": "Coupon codes",
     "couponLabel": "Enter a promo code here",
+    "addCoupon": "Add a coupon",
     "apply": "Apply",
     "placeholder": "Promo code",
     "applyVoucherSuccess": "{{voucherCode}} has been applied.",
