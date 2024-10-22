@@ -12,8 +12,8 @@
     </ng-container>
 
     <form (ngSubmit)="applyVoucher()" [formGroup]="couponForm">
-      <label class="cx-cart-coupon-title">
-        {{ 'voucher.coupon' | cxTranslate }}
+      <label id="card-coupon-input-label" class="cx-cart-coupon-title">
+        {{ 'voucher.addCoupon' | cxTranslate }}
         <!-- TODO: (CXSPA-7479) Remove feature flags next major -->
         <ng-container
           *cxFeature="
@@ -22,6 +22,7 @@
         >
           <abbr
             *cxFeature="'a11yRequiredAsterisks'"
+            aria-hidden="true"
             class="text-decoration-none"
             title="{{ 'common.required' | cxTranslate }}"
             >*</abbr
@@ -37,7 +38,7 @@
           "
         >
           <input
-            [attr.aria-label]="'voucher.couponLabel' | cxTranslate"
+            [attr.aria-labelledby]="'card-coupon-input-label'"
             type="text"
             class="form-control input-coupon-code"
             formControlName="couponCode"
@@ -62,7 +63,7 @@
         >
           <!-- TODO: (CXSPA-7479) Remove feature flags next major -->
           <input
-            [attr.aria-label]="'voucher.couponLabel' | cxTranslate"
+            [attr.aria-labelledby]="'card-coupon-input-label'"
             required="true"
             type="text"
             class="form-control input-coupon-code"

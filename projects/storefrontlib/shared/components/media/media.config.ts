@@ -6,7 +6,11 @@
 
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
-import { ImageLoadingStrategy, MediaFormatSize } from './media.model';
+import {
+  ImageLoadingStrategy,
+  MediaFormatSize,
+  PictureElementQueries,
+} from './media.model';
 
 /**
  * Provides configuration specific to Media, such as images. This is used to optimize
@@ -30,6 +34,33 @@ export abstract class MediaConfig {
   };
 
   /**
+   * Picture element configuration holds the media queries assigned to
+   * a format.
+   * The order of formats matters.
+   * <source> elements in <picture> will be sorted based on this order.
+   * This is necessary because the browser evaluates each
+   * <source> element in order and uses the first one that matches.
+   */
+  pictureElementFormats?: {
+    [format: string]: {
+      mediaQueries?: PictureElementQueries;
+      width?: number;
+      height?: number;
+    };
+  };
+
+  /**
+   * Used to specify the order of formats.
+   * <source> elements in <picture> will be sorted based on this order.
+   * This is necessary because the browser evaluates each
+   * <source> element in order and uses the first one that matches.
+   *
+   * @example
+   * ['mobile', 'tablet', 'desktop']
+   */
+  pictureFormatsOrder?: string[];
+
+  /**
    * Indicates how the browser should load the image. There's only one
    * global strategy for all media cross media in Spartacus.
    *
@@ -42,6 +73,7 @@ export abstract class MediaConfig {
   imageLoadingStrategy?: ImageLoadingStrategy;
 
   /**
+   * @deprecated since 2211.30. It will be eventually removed in the future
    * As of v7.0, Spartacus started using the <picture> element by default when a srcset is available.
    *
    * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture for more
