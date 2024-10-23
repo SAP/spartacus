@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { FeaturesConfig } from '@spartacus/core';
 
 describe('in Spare Parts Tab', () => {
