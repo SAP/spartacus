@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { FeaturesConfig } from '@spartacus/core';
-
 export function configureDefaultProduct() {
   cy.window().then((win) => win.sessionStorage.clear());
 
@@ -16,7 +14,7 @@ export function configureDefaultProduct() {
     features: {
       a11yTabComponent: false
     },
-  } as FeaturesConfig);
+  } as any);
 
   cy.intercept(
     'GET',
