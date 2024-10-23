@@ -6,9 +6,10 @@
         *ngIf="hasStock"
         [max]="maxQuantity"
         [control]="addToCartForm.get('quantity')"
+        [ariaDescribedById]="'add-to-card-stock-info'"
       ></cx-item-counter>
 
-      <span class="info">
+      <span class="info" id="add-to-card-stock-info">
         <span *ngIf="showInventory$ | async">{{ getInventory() }}</span>
         {{
           hasStock

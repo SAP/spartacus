@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * This function checks if the provided property name is invalid.
  * It prevents the use of dangerous object keys that can lead to prototype pollution attacks.

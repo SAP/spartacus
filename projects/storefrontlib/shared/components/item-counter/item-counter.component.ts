@@ -66,6 +66,12 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
   @Input() allowZero = false;
 
   /**
+   * ID of the element associated with the number input,
+   * so it gets narrated by a screen reader
+   */
+  @Input() ariaDescribedById: string = '';
+
+  /**
    * In readonly mode the item counter will only be shown as a label,
    * the form controls are not rendered.
    * Please not that readonly is different from the `disabled` form state.
