@@ -687,7 +687,7 @@ describe('MediaService', () => {
         mockContainerWithWidthAndHeight
       );
 
-      // Width & Height of best format image
+      // Width & Height of the best format image
       expect(result?.width).toBe(600);
       expect(result?.height).toBe(400);
 
@@ -700,7 +700,7 @@ describe('MediaService', () => {
 
       const result = service.getMedia(mockContainerWithWidthAndHeight);
 
-      // Width & Height of best format image
+      // Width & Height of the best format image
       expect(result?.width).toBe(600);
       expect(result?.height).toBe(400);
     });
