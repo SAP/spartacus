@@ -3,12 +3,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { FeaturesConfig } from '@spartacus/core';
 
 export function configureDefaultProduct() {
   cy.window().then((win) => win.sessionStorage.clear());
 
   // We need to ensure we use control the screen width, since the animation controls are removed at lower breakpoints.
   cy.viewport(1200, 800); // Bootstrap 4 XL breakpoint
+
+  cy.cxConfig({
+    features: {
+      a11yTabComponent: false
+    },
+  } as FeaturesConfig);
 
   cy.intercept(
     'GET',

@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { FeaturesConfig } from '@spartacus/core';
 
 describe('in Spare Parts Tab', () => {
   context('visualization lookup scenarios', () => {
@@ -11,6 +12,11 @@ describe('in Spare Parts Tab', () => {
     });
 
     beforeEach(() => {
+      cy.cxConfig({
+        features: {
+          a11yTabComponent: false
+        },
+      } as FeaturesConfig);
       cy.intercept(
         'GET',
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
