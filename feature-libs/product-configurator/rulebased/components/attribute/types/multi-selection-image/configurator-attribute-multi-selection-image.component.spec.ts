@@ -241,6 +241,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     expect(description.nativeElement.innerText).toBe(
       (component.attribute.values ?? [{ description: '' }])[1]?.description
     );
+    infoButton.click(); // hide popover after test again
   });
 
   it('should mark two values as selected', () => {
