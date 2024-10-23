@@ -16,6 +16,11 @@
       text-decoration: underline;
       border: none;
       background: none;
+
+      @include forFeature('a11yVisibleFocusOverflows') {
+        padding-inline-start: 0;
+        margin-inline-start: 0.5rem;
+      }
     }
   }
 }
