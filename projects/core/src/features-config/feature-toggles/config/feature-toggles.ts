@@ -583,6 +583,11 @@ export interface FeatureTogglesInterface {
   a11ySearchBoxFocusOnEscape?: boolean;
 
   /**
+   * `ProductIntroComponent` should now scroll to the Review tab on the first click of the 'Show Review' button.
+   */
+  a11yScrollToReviewByShowReview?: boolean;
+
+  /**
    * `StoreComponent and MyPreferredStoreComponent` an icon in a button that triggers showing
    * store's opening hours has an acceptable contrast ratio in a default theme
    */
@@ -760,6 +765,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDialogTriggerRefocus: false,
   a11yAddToWishlistFocus: false,
   a11ySearchBoxFocusOnEscape: false,
+  a11yScrollToReviewByShowReview: false,
   a11yViewHoursButtonIconContrast: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
