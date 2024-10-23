@@ -583,12 +583,6 @@ export interface FeatureTogglesInterface {
   a11ySearchBoxFocusOnEscape?: boolean;
 
   /**
-   * In `ItemCounterComponenet`, Remove button no longer lose focus after activating when count is 2.
-   * Add button no longer lose focus after activating when count is `max - 1`.
-   */
-  a11yItemCounterFocus?: boolean;
-
-  /**
    * `ProductIntroComponent` should now scroll to the Review tab on the first click of the 'Show Review' button.
    */
   a11yScrollToReviewByShowReview?: boolean;
@@ -771,7 +765,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDialogTriggerRefocus: false,
   a11yAddToWishlistFocus: false,
   a11ySearchBoxFocusOnEscape: false,
-  a11yItemCounterFocus: false,
   a11yScrollToReviewByShowReview: false,
   a11yViewHoursButtonIconContrast: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
