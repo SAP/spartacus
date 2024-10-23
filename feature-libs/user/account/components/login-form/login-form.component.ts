@@ -6,6 +6,7 @@
 
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 
@@ -15,7 +16,9 @@ import { LoginFormComponentService } from './login-form-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginFormComponent {
-  constructor(protected service: LoginFormComponentService) {}
+  constructor(protected service: LoginFormComponentService) {
+    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
+  }
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
