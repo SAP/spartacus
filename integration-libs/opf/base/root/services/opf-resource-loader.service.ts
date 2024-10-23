@@ -138,6 +138,10 @@ export class OpfResourceLoaderService extends ScriptLoader {
   }
 
   executeScriptFromHtml(html: string | undefined) {
+    const isSSR = isPlatformServer(this.platformId);
+    if (isSSR) {
+      return;
+    }
     if (html) {
       const element = new DOMParser().parseFromString(html, 'text/html');
       const script = element.getElementsByTagName('script');
