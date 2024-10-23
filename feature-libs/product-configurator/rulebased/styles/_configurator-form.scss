@@ -19,6 +19,9 @@
     .cx-ghost-price,
     .cx-ghost-label {
       height: 30px;
+      @include forFeature('attributeTypesV2') {
+        height: 300px;
+      }
     }
 
     .cx-ghost-title,

@@ -9,13 +9,19 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  useFeatureStyles,
+} from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { Config } from 'projects/core/src/config';
 import { Observable, Subscription } from 'rxjs';
 import {
   delay,
@@ -61,6 +67,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
     )
   );
 
+  protected config = inject(Config);
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
@@ -68,7 +75,9 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
     protected configExpertModeService: ConfiguratorExpertModeService,
     protected launchDialogService: LaunchDialogService,
     protected globalMessageService: GlobalMessageService
-  ) {}
+  ) {
+    useFeatureStyles('attributeTypesV2');
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -97,6 +106,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log('CHHI ' + this.config.features?.attributeTypesV2);
     this.listenForConflictResolution();
 
     this.routerData$
