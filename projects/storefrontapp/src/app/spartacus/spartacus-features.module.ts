@@ -377,6 +377,7 @@ if (environment.cpq) {
         a11yAddToWishlistFocus: true,
         a11ySearchBoxFocusOnEscape: true,
         a11yItemCounterFocus: true,
+        a11yScrollToReviewByShowReview: true,
         a11yViewHoursButtonIconContrast: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,
