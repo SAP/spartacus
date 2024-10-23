@@ -24,9 +24,12 @@ import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
  * The HTML element rendered in the template can be either `<img>` or `<picture>`,
  * depending on the input value of `elementType`, which defaults to `'img'`.
  *
- * In the case of a `<picture>` element, the `srcset` attribute will always include only one URL.
+ * In the case of a `<picture>` element, each `<source>` element will contain `srcset` attribute with exactly one URL.
  *
- * For example, instead of:
+ * If you need multiple URLs per `<source>` (e.g. for different pixel densities),
+ * split it into multiple media queries (e.g. with `min-device-pixel-ratio`). See the following example:
+ *
+ * Instead of:
  *
  * ```html
  * <source media="(min-width: 960px)" srcset="image-1400.jpg 1x, image-2800.jpg 2x">
@@ -35,8 +38,8 @@ import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
  * Use additional formats and additional media queries, such as:
  *
  * ```html
- * <source media="(min-width: 960px)" srcset="image-1400.jpg">
  * <source media="(min-width: 960px) and (-webkit-min-device-pixel-ratio: 2)" srcset="image-2800.jpg">
+ * <source media="(min-width: 960px)" srcset="image-1400.jpg">
  * ```
  */
 @Component({
