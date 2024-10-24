@@ -713,14 +713,6 @@
       padding-top: 16px;
       padding-bottom: 5px;
     }
-
-    .message {
-      border-bottom: solid 1px var(--cx-color-medium);
-      font-size: var(--cx-font-small, 0.9rem);
-      font-weight: 600;
-      padding-top: 16px;
-      padding-bottom: 5px;
-    }
   }
 
   @include cx-highContrastTheme {
