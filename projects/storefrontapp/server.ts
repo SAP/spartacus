@@ -13,7 +13,9 @@ import {
   ngExpressEngine as engine,
 } from '@spartacus/setup/ssr';
 
+import compression from 'compression';
 import express from 'express';
+import { exec } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'path';
 import 'zone.js/node';
@@ -23,10 +25,12 @@ const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
-  cache: process.env['SSR_CACHE'] === 'true',
+
   ssrFeatureToggles: {
     avoidCachingErrors: true,
   },
+
+  cache: true,
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
@@ -34,6 +38,15 @@ const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
+
+  server.use(compression());
+
+  // add an artifical delay to every response/console.error();
+  server.use((_req, _res, next) => {
+    const artificialDelay_SSR = 50;
+    setTimeout(next, artificialDelay_SSR); // SPIKE - simulate artificial delay from the server or CDN
+  });
+
   const distFolder = join(process.cwd(), 'dist/storefrontapp');
   const indexHtml = existsSync(join(distFolder, 'index.original.html'))
     ? join(distFolder, 'index.original.html')
@@ -58,7 +71,11 @@ export function app(): express.Express {
     '*.*',
     express.static(distFolder, {
       maxAge: '1y',
-    })
+    }),
+    (_req, res) => {
+      // If this middleware is reached, it means the file was not found
+      res.status(404).send('File not found');
+    }
   );
 
   // All regular routes use the Universal engine
@@ -86,6 +103,8 @@ function run() {
     to be logged using any special logger. Moreover, we don't have
     any special logger available in this context. */
     console.log(`Node Express server listening on http://localhost:${port}`);
+
+    exec('say "storefrontapp SSR started"');
   });
 }
 

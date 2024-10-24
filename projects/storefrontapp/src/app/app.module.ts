@@ -29,6 +29,7 @@ import {
 import { StoreFinderConfig } from '@spartacus/storefinder/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
 import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
+import { RouteLoadStrategy } from '../../../core/src/routing/configurable-routes';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
@@ -62,8 +63,19 @@ if (!environment.production) {
           baseUrl: environment.occBaseUrl,
           prefix: environment.occApiPrefix,
         },
+        media: {
+          baseUrl: 'http://localhost:9002',
+          // baseUrl: 'https://40.76.109.9:9002',
+        },
       },
     }),
+    // SPIKE NEW:
+    provideConfig(<RoutingConfig>{
+      routing: {
+        loadStrategy: RouteLoadStrategy.ONCE,
+      },
+    }),
+
     provideConfig(<RoutingConfig>{
       // custom routing configuration for e2e testing
       routing: {

@@ -6,12 +6,12 @@
 
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
+import { StateKey, TransferState, makeStateKey } from '@angular/core';
 import { INIT } from '@ngrx/store';
 import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateConfig, StateTransferType } from '../config/state-config';
 import { filterKeysByType, getStateSlice } from '../utils/get-state-slice';
-import { makeStateKey, StateKey, TransferState } from '@angular/core';
 
 export const CX_KEY: StateKey<string> = makeStateKey<string>('cx-state');
 

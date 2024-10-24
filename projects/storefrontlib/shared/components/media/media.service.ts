@@ -4,8 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
-import { Config, FeatureConfigService, Image } from '@spartacus/core';
+import { DOCUMENT } from '@angular/common';
+import { Injectable, RendererFactory2, inject } from '@angular/core';
+import {
+  Config,
+  FeatureConfigService,
+  Image,
+  WindowRef,
+} from '@spartacus/core';
 import { MediaConfig } from './media.config';
 import {
   ImageLoadingStrategy,
@@ -42,6 +48,27 @@ export class MediaService {
   private readonly featureConfigService = inject(FeatureConfigService);
 
   constructor(protected config: Config) {}
+
+  // SPIKE NEW
+  protected rendererFactory = inject(RendererFactory2);
+  protected document = inject(DOCUMENT);
+  protected windowRef = inject(WindowRef);
+  init() {
+    if (this.windowRef.isBrowser()) {
+      return;
+    }
+
+    // add preconnect for the base url:
+
+    // SPIKE IT SHOULD BE DONE IN APPINITALZIER. setTimeout is a hack here
+    const renderer = this.rendererFactory.createRenderer(null, null);
+    const preconnect = renderer.createElement('link');
+    renderer.setAttribute(preconnect, 'rel', 'preconnect');
+    renderer.setAttribute(preconnect, 'href', this.getBaseUrl());
+    this.document.head.insertBefore(preconnect, this.document.head.firstChild);
+    console.log('[MEDIA SERVICE] SPIKE NEW: added preconnect', preconnect);
+  }
+  // SPIKE NEW END
 
   getMediaBasedOnHTMLElementType(
     elementType: 'img' | 'picture',
@@ -165,7 +192,9 @@ export class MediaService {
   get loadingStrategy(): ImageLoadingStrategy {
     return (
       (this.config as MediaConfig)?.imageLoadingStrategy ??
-      ImageLoadingStrategy.EAGER
+      // SPIKE NEW:
+      ImageLoadingStrategy.LAZY
+      // ImageLoadingStrategy.EAGER
     );
   }
 
@@ -405,4 +434,20 @@ export class MediaService {
       ''
     );
   }
+
+  getSources(srcset: string): MediaSource[] {
+    return srcset
+      .split(',')
+      .map((src) => src.trim().split(' '))
+      .map(([srcset, width]) => ({
+        srcset,
+        width: parseInt(width.replace('w', ''), 10),
+      }))
+      .sort((a, b) => a.width - b.width);
+  }
+}
+
+export interface MediaSource {
+  srcset: string;
+  width: number;
 }

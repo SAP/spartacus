@@ -10,8 +10,8 @@ import { WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import {
-  BreakPoint,
   BREAKPOINT,
+  BreakPoint,
   LayoutBreakPoints,
   LayoutConfig,
 } from '../config/layout-config';

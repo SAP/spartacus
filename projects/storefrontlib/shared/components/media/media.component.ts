@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,9 +14,10 @@ import {
   Input,
   OnChanges,
   Output,
+  Renderer2,
   TrackByFunction,
 } from '@angular/core';
-import { Config, Image, ImageGroup } from '@spartacus/core';
+import { Config, Image, ImageGroup, WindowRef } from '@spartacus/core';
 import { ImageLoadingStrategy, Media, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
@@ -83,6 +85,13 @@ export class MediaComponent implements OnChanges {
    */
   @Input() loading: ImageLoadingStrategy | null = this.loadingStrategy;
 
+  get SPIKE_loading(): ImageLoadingStrategy | null {
+    if (this.isLCP) {
+      return ImageLoadingStrategy.EAGER;
+    }
+    return this.loading;
+  }
+
   /**
    * Works only when `useExtendedMediaComponentConfiguration` toggle is true
    *
@@ -117,6 +126,8 @@ export class MediaComponent implements OnChanges {
    * object might contain more info once other media types (i.e. video) is supported.
    */
   media: Media | undefined;
+
+  @Input() isLCP = false;
 
   /**
    * The `cx-media` component has an `is-initialized` class as long as the
@@ -153,6 +164,9 @@ export class MediaComponent implements OnChanges {
     (inject(Config) as any)['useLegacyMediaComponent'] ||
     false;
 
+  protected renderer = inject(Renderer2);
+  protected document = inject(DOCUMENT);
+  protected windowRef = inject(WindowRef);
   constructor(protected mediaService: MediaService) {}
 
   ngOnChanges(): void {
@@ -174,6 +188,54 @@ export class MediaComponent implements OnChanges {
     if (!this.media?.src) {
       this.handleMissing();
     }
+
+    if (this.isLCP && !this.isLegacy) {
+      this.createPreloadLinks();
+    }
+  }
+
+  protected createPreloadLinks(): void {
+    if (this.windowRef.isBrowser()) {
+      return;
+    }
+
+    if (!this.media?.srcset) {
+      return;
+    }
+
+    const sources = this.mediaService.getSources(this.media.srcset);
+
+    sources
+      .reverse() // SPIKE - ORDER IS IMPORTANT. IF WE insertBefore, then we have to reverse the list first
+      .forEach((source, index) => {
+        const preloadLink = this.renderer.createElement('link');
+        this.renderer.setAttribute(preloadLink, 'rel', 'preload');
+        this.renderer.setAttribute(preloadLink, 'as', 'image');
+        this.renderer.setAttribute(preloadLink, 'href', source.srcset);
+
+        // Calculate the media attribute
+        let mediaQuery = '';
+
+        // SPIKE OLD - buggy, because first source is also min-width. HOWEVER WE MIGHT WANT TO FIX IT
+        // if (index === 0) {
+        //   mediaQuery = `(max-width: ${source.width}px)`;
+        // } else if (index === sources.length - 1) {
+
+        // SPIKE NEW - but still buggy, because first source is also min-width
+        if (index < sources.length - 1) {
+          mediaQuery = `(min-width: ${source.width}px) and (max-width: ${sources[index + 1].width}px)`;
+        } else {
+          mediaQuery = `(min-width: ${source.width}px)`;
+        }
+        this.renderer.setAttribute(preloadLink, 'media', mediaQuery);
+
+        this.document.head.insertBefore(
+          preloadLink,
+          this.document.head.firstChild
+        );
+
+        console.log('<cx-media> SPIKE NEW: added preloadLink', preloadLink);
+      });
   }
 
   /**
@@ -193,6 +255,39 @@ export class MediaComponent implements OnChanges {
     return this.mediaService.loadingStrategy === ImageLoadingStrategy.LAZY
       ? ImageLoadingStrategy.LAZY
       : null;
+  }
+
+  /**
+   * SPIKE
+   * the src can look like this:
+   * - https://<some IP>/medias/Elec-350x450-HomeSmallDiscount-EN-01-350W.jpg?context=bWFzdGVyfGltYWdlc3wxMzQ0MXxpbWFnZS9qcGVnfGFXMWhaMlZ6TDJobU1DOW9NMk12T0RjNU56UTBOalEzTVRjeE1DNXFjR2N8NWE2ZmFkZDFmOTNjNWE1YmI3MzdhZWQ0YTk0YjMyNzcyNjk0NTU1OGY4MWQzOTJiNzMxMGQ5NTVkNzYzMDkzOA
+   *  - height 450
+   *  - width 350
+   * - https://domain.com/medias/Elec-200x150-HomeFamLight-EN-01-200W.jpg?context=bWFzdGVyfGltYWdlc3w5NzIwfGltYWdlL2pwZWd8YVcxaFoyVnpMMmd4WWk5b1pEUXZPRGM1TnpRME5EazJORE00TWk1cWNHY3wzZGZjMDk3MGNmMzA4YTg1YjlmOWFiZjRhOGM5YjliOGMzODEwMWY2YTg5Mjk1Y2UwYzQzZGZlODljY2JjNjE4
+   *  - height 150
+   *  - width 200
+   * we want to get the height and width from the url
+   *
+   */
+  SPIKE_extractDimensionsFromUrl(url: string): {
+    width?: number;
+    height?: number;
+  } {
+    // Define a regular expression pattern to match the desired format
+    const pattern = /\/medias\/[^-]+-(\d+)x(\d+)-[^-]+/;
+
+    // Execute the pattern on the URL
+    const match = url.match(pattern);
+
+    // Check if the pattern matched and extract the dimensions
+    if (match) {
+      const width = parseInt(match[1], 10);
+      const height = parseInt(match[2], 10);
+      return { width, height };
+    } else {
+      // Return null if the pattern does not match
+      return {};
+    }
   }
 
   /**
