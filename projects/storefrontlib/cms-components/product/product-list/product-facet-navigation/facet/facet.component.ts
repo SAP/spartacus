@@ -81,6 +81,8 @@ export class FacetComponent implements AfterViewInit {
   }
 
   /**
+   * @deprecated: Header will no longer be used in favour of TabComponent headers.
+   *
    * Handles clicking the heading of the facet group, which means toggling
    * the visibility of the group (collapse / expand) and optionally focusing
    * the group.
@@ -136,6 +138,8 @@ export class FacetComponent implements AfterViewInit {
     const targetIndex = this.values.toArray().findIndex((el) => {
       return el.nativeElement === event.target;
     });
+    // TODO: Left and Right arrow keys are disabled when setting a11yTabComponent.
+    // We can remove these in the future.
     switch (event.key) {
       case 'ArrowLeft':
         this.onArrowLeft(event);
@@ -152,13 +156,28 @@ export class FacetComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * @deprecated: Arrow key functions will be removed in favour of using the TabComponent.
+   */
   onArrowRight(event: Event): void {
+    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
+      return;
+    }
+
     if (!this.isExpanded) {
       this.toggleGroup(event as UIEvent);
     }
   }
 
+  /**
+   * @deprecated: Arrow key functions will be removed in favour of using the TabComponent.
+   */
   onArrowLeft(event: Event): void {
+    // Navigate to tab buttons when tab component enabled
+    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
+      return;
+    }
+
     if (this.isExpanded) {
       this.toggleGroup(event as UIEvent);
       this.facetHeader.nativeElement.focus();
@@ -166,6 +185,12 @@ export class FacetComponent implements AfterViewInit {
   }
 
   onArrowDown(event: Event, targetIndex: number): void {
+    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
+      event.preventDefault();
+      this.values.get(targetIndex + 1)?.nativeElement.focus();
+      return;
+    }
+
     if (this.isExpanded) {
       event.preventDefault();
       if (event.target === this.facetHeader.nativeElement) {
@@ -177,6 +202,12 @@ export class FacetComponent implements AfterViewInit {
   }
 
   onArrowUp(event: Event, targetIndex: number): void {
+    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
+      event.preventDefault();
+      this.values.get(targetIndex - 1)?.nativeElement.focus();
+      return;
+    }
+
     if (this.isExpanded) {
       event.preventDefault();
       this.values.get(targetIndex - 1)?.nativeElement.focus();

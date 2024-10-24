@@ -231,7 +231,7 @@ export function clickFacet(header: string) {
   cy.onMobile(() => {
     cy.get('cx-product-facet-navigation button').click();
   });
-  cy.get('cx-facet .heading')
+  cy.get('cx-facet-list cx-tab button.tab-btn')
     .contains(header)
     .then((el) => {
       if (el.find('.fa-plus').is(':visible')) {
@@ -239,13 +239,10 @@ export function clickFacet(header: string) {
         cy.wrap(el).click({ force: true });
       }
     });
-  cy.get('cx-facet .heading')
-    .contains(header)
-    .parents('cx-facet')
-    .within(() => {
-      // TODO Remove force once you can scroll facets on mobile
-      cy.get('a.value').first().click({ force: true });
-    });
+  cy.get(`cx-facet[aria-label^="${header}"]`).within(() => {
+    // TODO Remove force once you can scroll facets on mobile
+    cy.get('a.value').first().click({ force: true });
+  });
   cy.onMobile(() => {
     cy.get('cx-product-facet-navigation button.close').click();
   });

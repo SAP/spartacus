@@ -1,10 +1,13 @@
 <div
   [attr.role]="mode === TAB_MODE.ACCORDIAN ? 'region' : 'tabpanel'"
-  [tabindex]="0"
+  [attr.tabindex]="tab.disableBorderFocus ? null : 0"
   [attr.aria-labelledby]="tab.id ?? null"
   [attr.id]="tab.id ? 'section-' + tab.id : null"
   class="active"
-  [cxFocus]="{ focusOnEscape: true }"
+  [cxFocus]="{ focusOnEscape: !tab.disableBorderFocus }"
 >
-  <ng-container [ngTemplateOutlet]="tab.content"></ng-container>
+  <ng-container
+    *ngIf="tab.content"
+    [ngTemplateOutlet]="tab.content"
+  ></ng-container>
 </div>

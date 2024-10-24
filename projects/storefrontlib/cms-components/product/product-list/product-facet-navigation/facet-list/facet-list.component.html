@@ -8,9 +8,7 @@
   (click)="block($event)"
 >
   <div class="list-header">
-    <h4>
-      {{ 'productList.filterBy.label' | cxTranslate }}
-    </h4>
+    <h4>{{ 'productList.filterBy.label' | cxTranslate }}</h4>
     <button
       type="button"
       class="close"
@@ -26,22 +24,43 @@
       Here we'd like to introduce configurable facet components,
       either by using specific configuration or generic sproutlets
   -->
-  <cx-facet
-    *ngFor="let facet of facets"
-    #facetRef
-    [facet]="facet"
-    [class.expanded]="isExpanded(facet) | async"
-    [class.collapsed]="isCollapsed(facet) | async"
-    role="group"
-    attr.aria-label="{{
-      'productFacetNavigation.ariaLabelItemsAvailable'
-        | cxTranslate
-          : {
-              name: facet.name,
-              count: facet?.values?.length,
-            }
-    }}"
-  ></cx-facet>
+  <ng-container *cxFeature="'a11yTabComponent'">
+    <cx-tab [tabs$]="tabs$" [config]="tabConfig"></cx-tab>
+
+    <ng-template #facetsRef *ngFor="let facet of facets">
+      <cx-facet
+        [facet]="facet"
+        role="group"
+        attr.aria-label="{{
+          'productFacetNavigation.ariaLabelItemsAvailable'
+            | cxTranslate
+              : {
+                  name: facet.name,
+                  count: facet?.values?.length,
+                }
+        }}"
+      ></cx-facet>
+    </ng-template>
+  </ng-container>
+
+  <ng-container *cxFeature="'!a11yTabComponent'">
+    <cx-facet
+      *ngFor="let facet of facets"
+      #facetRef
+      [facet]="facet"
+      [class.expanded]="isExpanded(facet) | async"
+      [class.collapsed]="isCollapsed(facet) | async"
+      role="group"
+      attr.aria-label="{{
+        'productFacetNavigation.ariaLabelItemsAvailable'
+          | cxTranslate
+            : {
+                name: facet.name,
+                count: facet?.values?.length,
+              }
+      }}"
+    ></cx-facet>
+  </ng-container>
 
   <ng-container *cxFeature="'a11yFacetsDialogFocusHandling'">
     <div *ngIf="isDialog" class="cx-facet-list-footer">
