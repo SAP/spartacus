@@ -81,10 +81,14 @@ export class OpfResourceLoaderService extends ScriptLoader {
     resources: OpfDynamicScriptResource[],
     resolve: (value: void | PromiseLike<void>) => void
   ) {
+    console.log('flo7', resource);
     this.loadedResources.push(resource);
+    console.log('flo75');
     if (this.isResourceLoadingCompleted(resources)) {
+      console.log('flo8');
       resolve();
     }
+    console.log('flo9');
   }
 
   protected loadScript(
@@ -102,19 +106,23 @@ export class OpfResourceLoaderService extends ScriptLoader {
         attributes[attribute.key] = attribute.value;
       });
     }
-
+    console.log('flo9');
     if (resource.url && !this.hasScript(resource.url)) {
+      console.log('flo91');
       super.embedScript({
         src: resource.url,
         attributes: attributes,
         callback: () => {
+          console.log('flo93');
           this.markResourceAsLoaded(resource, resources, resolve);
         },
         errorCallback: () => {
+          console.log('flo94');
           this.handleLoadingResourceError(resolve);
         },
       });
     } else {
+      console.log('flo92');
       this.markResourceAsLoaded(resource, resources, resolve);
     }
   }
@@ -139,9 +147,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
 
   executeScriptFromHtml(html: string | undefined) {
     const isSSR = isPlatformServer(this.platformId);
-    if (isSSR) {
-      return;
-    }
+    console.log('3 isSSR', isSSR);
     if (html) {
       const element = new DOMParser().parseFromString(html, 'text/html');
       const script = element.getElementsByTagName('script');
@@ -166,6 +172,10 @@ export class OpfResourceLoaderService extends ScriptLoader {
     scripts: OpfDynamicScriptResource[] = [],
     styles: OpfDynamicScriptResource[] = []
   ): Promise<void> {
+    const isSSR = isPlatformServer(this.platformId);
+    if (isSSR) {
+      return Promise.resolve();
+    }
     const resources: OpfDynamicScriptResource[] = [
       ...scripts.map((script) => ({
         ...script,
@@ -176,16 +186,21 @@ export class OpfResourceLoaderService extends ScriptLoader {
         type: OpfDynamicScriptResourceType.STYLES,
       })),
     ];
+    console.log('flo4');
     if (!resources.length) {
+      console.log('flo5');
       return Promise.resolve();
     }
     return new Promise((resolve) => {
       this.loadedResources = [];
-
+      console.log('flo6');
       resources.forEach((resource: OpfDynamicScriptResource) => {
+        console.log('flo61', resource);
         if (!resource.url) {
+          console.log('flo65');
           this.markResourceAsLoaded(resource, resources, resolve);
         } else {
+          console.log('flo66');
           switch (resource.type) {
             case OpfDynamicScriptResourceType.SCRIPT:
               this.loadScript(resource, resources, resolve);
