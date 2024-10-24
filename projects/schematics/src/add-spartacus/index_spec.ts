@@ -382,7 +382,7 @@ describe('add-spartacus', () => {
         expect(appModule.includes(`language: ['en', 'rs'],`)).toBe(true);
         expect(
           appModule.includes(
-            `baseSite: ['electronics-spa', 'apparel-uk-spa', 'apparel-uk', 'electronics', 'apparel-de'],`
+            `baseSite: ['electronics-spa', 'apparel-uk-spa', 'apparel-uk', 'electronics', 'apparel-de', 'automobile-spa', 'automobile'],`
           )
         ).toBe(true);
         expect(
