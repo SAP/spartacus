@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { AuthConfig, AuthLibConfig } from '../config/auth-config';
 import { OAuthFlow } from '../models/oauth-flow';
-
+// dummy change
 /**
  * Utility service on top of the authorization config.
  * Provides handy defaults, when not everything is set in the configuration.
