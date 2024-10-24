@@ -21,18 +21,18 @@ export const mediaConfig: MediaConfig = {
   media: {
     pictureElementFormats: {
       mobile: {
-        mediaQueries: '(max-width: 767px)',
+        mediaQueries: '(max-width: 480px)',
       },
       tablet: {
-        mediaQueries: '(min-width: 768px) and (max-width: 1024px)',
+        mediaQueries: '(max-width: 770px)',
       },
       desktop: {
-        mediaQueries: '(min-width: 1025px) and (max-width: 1439px)',
+        mediaQueries: '(max-width: 960px)',
       },
       widescreen: {
-        mediaQueries: '(min-width: 1440px)',
+        mediaQueries: '(min-width: 961px)',
       },
     },
-    pictureFormatsOrder: ['widescreen', 'desktop', 'tablet', 'mobile'],
+    pictureFormatsOrder: ['mobile', 'tablet', 'desktop', 'widescreen'],
   },
 };
