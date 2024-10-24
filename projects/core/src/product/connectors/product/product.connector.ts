@@ -31,7 +31,7 @@ export class ProductConnector {
     return this.adapter.loadMany(products);
   }
 
-  getRealTimeStock(productCode: string): Observable<String> {
+  getRealTimeStock(productCode: string): Observable<string> {
     return this.adapter.loadRealTimeStock(productCode);
   }
 }
