@@ -4,23 +4,37 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   CheckoutConfig,
   DeliveryModePreferences,
 } from '@spartacus/checkout/base/root';
+import { CheckoutFlowOrchestratorService } from './checkout-flow-orchestrator.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutConfigService {
+  protected checkoutFlowOrchestratorService = inject(
+    CheckoutFlowOrchestratorService
+  );
+
   private express: boolean = this.checkoutConfig.checkout?.express ?? false;
   private guest: boolean = this.checkoutConfig.checkout?.guest ?? false;
   private defaultDeliveryMode: Array<DeliveryModePreferences | string> =
     this.checkoutConfig.checkout?.defaultDeliveryMode || [];
 
-  constructor(private checkoutConfig: CheckoutConfig) {}
+  protected checkoutFlow =
+    this.checkoutFlowOrchestratorService?.getCheckoutFlow();
+
+  constructor(private checkoutConfig: CheckoutConfig) {
+    if (this.checkoutFlowOrchestratorService) {
+      this.express = this.checkoutFlow?.express ?? false;
+      this.guest = this.checkoutFlow?.guest ?? false;
+      this.defaultDeliveryMode = this.checkoutFlow?.defaultDeliveryMode || [];
+    }
+  }
 
   protected compareDeliveryCost(
     deliveryMode1: DeliveryMode,
@@ -77,6 +91,10 @@ export class CheckoutConfigService {
   }
 
   shouldUseAddressSavedInCart(): boolean {
+    if (this.checkoutFlowOrchestratorService) {
+      return !!this.checkoutFlow?.guestUseSavedAddress;
+    }
+
     return !!this.checkoutConfig?.checkout?.guestUseSavedAddress;
   }
 

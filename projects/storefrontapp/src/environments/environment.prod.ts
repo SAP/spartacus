@@ -18,6 +18,7 @@ export const environment: Environment = {
   digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS,
   epdVisualization: buildProcess.env.CX_EPD_VISUALIZATION,
   s4om: buildProcess.env.CX_S4OM,
+  opf: buildProcess.env.CX_OPF,
   omf: buildProcess.env.CX_OMF,
   segmentRefs: buildProcess.env.CX_SEGMENT_REFS,
   opps: buildProcess.env.CX_OPPS,

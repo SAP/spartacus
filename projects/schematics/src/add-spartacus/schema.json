@@ -34,6 +34,7 @@
           "OPPS",
           "Digital-Payments",
           "EPD-Visualization",
+          "OPF-Checkout",
           "Customer-Ticketing",
           "Administration",
           "Order-Approval",
@@ -159,6 +160,10 @@
           {
             "value": "EPD-Visualization",
             "label": "EPD Visualization Integration"
+          },
+          {
+            "value": "OPF-Checkout",
+            "label": "Open Payment Framework Checkout Integration"
           },
           {
             "value": "Administration",

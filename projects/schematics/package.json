@@ -70,6 +70,7 @@
       "@spartacus/epd-visualization",
       "@spartacus/s4om",
       "@spartacus/customer-ticketing",
+      "@spartacus/opf",
       "@spartacus/estimated-delivery-date"
     ]
   },

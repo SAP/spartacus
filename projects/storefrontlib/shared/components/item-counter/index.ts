@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './item-counter.module';
 export * from './item-counter.component';
+export * from './item-counter.module';

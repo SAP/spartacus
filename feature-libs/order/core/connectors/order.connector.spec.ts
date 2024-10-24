@@ -11,6 +11,11 @@ class MockOrderAdapter implements Partial<OrderAdapter> {
     (userId: string, cartId: string, termsChecked: boolean) =>
       of(`placedOrder-${userId}-${cartId}-${termsChecked}`)
   );
+  placePaymentAuthorizedOrder = createSpy(
+    'OrderAdapter.placePaymentAuthorizedOrder'
+  ).and.callFake((userId: string, cartId: string, termsChecked: boolean) =>
+    of(`placePaymentAuthorizedOrder-${userId}-${cartId}-${termsChecked}`)
+  );
 }
 
 describe('OrderConnector', () => {
@@ -41,5 +46,19 @@ describe('OrderConnector', () => {
       .subscribe((res) => (result = res));
     expect(result).toBe('placedOrder-user1-cart1-true');
     expect(adapter.placeOrder).toHaveBeenCalledWith('user1', 'cart1', true);
+  });
+
+  it('placePaymentAuthorizedOrder should call adapter', () => {
+    let result;
+    service
+      .placePaymentAuthorizedOrder('user1', 'cart1', true)
+      .pipe(take(1))
+      .subscribe((res) => (result = res));
+    expect(result).toBe('placePaymentAuthorizedOrder-user1-cart1-true');
+    expect(adapter.placePaymentAuthorizedOrder).toHaveBeenCalledWith(
+      'user1',
+      'cart1',
+      true
+    );
   });
 });

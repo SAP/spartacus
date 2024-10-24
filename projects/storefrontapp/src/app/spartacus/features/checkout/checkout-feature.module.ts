@@ -15,8 +15,8 @@ import {
   checkoutTranslations,
 } from '@spartacus/checkout/base/assets';
 import {
-  CheckoutRootModule,
   CHECKOUT_FEATURE,
+  CheckoutRootModule,
 } from '@spartacus/checkout/base/root';
 import {
   checkoutScheduledReplenishmentTranslationChunksConfig,
