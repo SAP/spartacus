@@ -7,6 +7,7 @@
 import { NgModule } from '@angular/core';
 import { ConfiguratorAddToCartButtonModule } from './add-to-cart-button/configurator-add-to-cart-button.module';
 import { ConfiguratorAttributeCompositionModule } from './attribute/composition/configurator-attribute-composition.module';
+import { ConfiguratorChatModule } from './chat/configurator-chat.module';
 import { ConfiguratorConflictAndErrorMessagesModule } from './configurator-conflict-and-error-messages/configurator-conflict-and-error-messages.module';
 import { ConfiguratorConflictSolverDialogModule } from './conflict-solver-dialog/configurator-conflict-solver-dialog.module';
 import { ConfiguratorExitButtonModule } from './exit-button/configurator-exit-button.module';
@@ -37,6 +38,7 @@ import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurat
     ConfiguratorGroupMenuModule,
     ConfiguratorProductTitleModule,
     ConfiguratorTabBarModule,
+    ConfiguratorChatModule,
     ConfiguratorGroupModule,
     ConfiguratorFormModule,
     ConfiguratorGroupTitleModule,
