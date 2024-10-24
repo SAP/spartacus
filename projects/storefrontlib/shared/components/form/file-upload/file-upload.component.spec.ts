@@ -33,6 +33,7 @@ describe('FileUploadComponent', () => {
   let inputEl: DebugElement;
 
   beforeEach(() => {
+    console.log('Starting FileUploadComponent test');
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule],
       declarations: [FileUploadComponent, MockFormErrorComponent],
@@ -40,6 +41,7 @@ describe('FileUploadComponent', () => {
   });
 
   beforeEach(() => {
+    console.log('Starting FileUploadComponent test');
     fixture = TestBed.createComponent(FileUploadComponent);
     component = fixture.componentInstance;
 

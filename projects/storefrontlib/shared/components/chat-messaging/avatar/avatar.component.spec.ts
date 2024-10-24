@@ -22,6 +22,7 @@ describe('AvatarComponent', () => {
   });
 
   beforeEach(() => {
+    console.log('Starting AvatarComponent test');
     fixture = TestBed.createComponent(AvatarComponent);
     component = fixture.componentInstance;
     component.message = mockEvent;

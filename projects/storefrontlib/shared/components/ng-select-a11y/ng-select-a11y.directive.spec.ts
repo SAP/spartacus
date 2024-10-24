@@ -44,6 +44,7 @@ describe('NgSelectA11yDirective', () => {
   let directive: NgSelectA11yDirective;
 
   beforeEach(() => {
+    console.log('Starting NgSelectA11yDirective test');
     TestBed.configureTestingModule({
       imports: [NgSelectA11yModule, NgSelectModule],
       declarations: [MockComponent, NgSelectA11yDirective],

@@ -43,6 +43,7 @@ describe('Captcha Component', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting Captcha Component test');
     fixture = TestBed.createComponent(CaptchaComponent);
     component = fixture.componentInstance;
     service = TestBed.inject(MockCaptchaService);

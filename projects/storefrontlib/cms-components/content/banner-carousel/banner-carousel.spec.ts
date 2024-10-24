@@ -51,6 +51,7 @@ describe('CreateComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting CreateComponent test');
     fixture = TestBed.createComponent(BannerCarouselComponent);
     bannerCarouselComponent = fixture.componentInstance;
   });

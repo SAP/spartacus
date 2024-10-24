@@ -71,6 +71,7 @@ describe('ProductIntroComponent in product', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ProductIntroComponent in product test');
     translationService = TestBed.inject(TranslationService);
     spyOn(translationService, 'translate').and.returnValue(of(reviewsLabel));
 
@@ -148,6 +149,7 @@ describe('ProductIntroComponent in product', () => {
     );
 
     beforeEach(() => {
+    console.log('Starting ProductIntroComponent in product test');
       productIntroComponent['getTabsComponent'] = () => tabsComponent;
     });
 

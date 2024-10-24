@@ -21,6 +21,7 @@ describe('CmsI18nService', () => {
   };
 
   beforeEach(() => {
+    console.log('Starting CmsI18nService test');
     TestBed.configureTestingModule({
       providers: [
         CmsI18nService,

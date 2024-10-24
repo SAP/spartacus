@@ -18,6 +18,7 @@ describe('GenericLinkComponent', () => {
   let fixture: ComponentFixture<GenericLinkComponent>;
 
   beforeEach(() => {
+    console.log('Starting GenericLinkComponent test');
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [GenericLinkComponent],
@@ -25,6 +26,7 @@ describe('GenericLinkComponent', () => {
   });
 
   beforeEach(() => {
+    console.log('Starting GenericLinkComponent test');
     fixture = TestBed.createComponent(GenericLinkComponent);
     component = fixture.componentInstance;
   });

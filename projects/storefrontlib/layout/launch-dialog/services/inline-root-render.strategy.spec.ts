@@ -54,6 +54,7 @@ describe('InlineRootRenderStrategy', () => {
   let appRef: ApplicationRef;
 
   beforeEach(() => {
+    console.log('Starting InlineRootRenderStrategy test');
     TestBed.configureTestingModule({
       providers: [
         InlineRootRenderStrategy,

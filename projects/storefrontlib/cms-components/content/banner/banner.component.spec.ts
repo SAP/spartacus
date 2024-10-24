@@ -81,6 +81,7 @@ describe('BannerComponent', () => {
   let el: DebugElement;
 
   beforeEach(() => {
+    console.log('Starting BannerComponent test');
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, FeaturesConfigModule],
       declarations: [

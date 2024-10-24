@@ -31,6 +31,7 @@ describe('PopoverService', () => {
   let fixture: ComponentFixture<MockComponent>;
   let el: ElementRef<HTMLElement>;
   beforeEach(() => {
+    console.log('Starting PopoverService test');
     TestBed.configureTestingModule({
       providers: [
         PopoverService,

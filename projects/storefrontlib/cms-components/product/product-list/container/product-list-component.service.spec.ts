@@ -73,6 +73,7 @@ describe('ProductListComponentService', () => {
   }
 
   beforeEach(() => {
+    console.log('Starting ProductListComponentService test');
     TestBed.configureTestingModule({
       providers: [
         ProductListComponentService,

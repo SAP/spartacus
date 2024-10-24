@@ -66,6 +66,7 @@ describe('ProductFacetNavigationComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ProductFacetNavigationComponent test');
     fixture = TestBed.createComponent(ProductFacetNavigationComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement;

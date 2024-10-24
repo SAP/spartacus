@@ -66,6 +66,7 @@ describe('StockNotificationDialogComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting StockNotificationDialogComponent test');
     fixture = TestBed.createComponent(StockNotificationDialogComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;

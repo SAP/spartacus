@@ -36,6 +36,7 @@ describe('BreadcrumbComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting BreadcrumbComponent test');
     fixture = TestBed.createComponent(BreadcrumbComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

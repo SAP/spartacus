@@ -27,6 +27,7 @@ describe('SplitViewComponent', () => {
   let splitViewService: SplitViewService;
 
   beforeEach(() => {
+    console.log('Starting SplitViewComponent test');
     TestBed.configureTestingModule({
       declarations: [SplitViewComponent],
       providers: [
@@ -45,6 +46,7 @@ describe('SplitViewComponent', () => {
   });
 
   beforeEach(() => {
+    console.log('Starting SplitViewComponent test');
     fixture = TestBed.createComponent(SplitViewComponent);
     component = fixture.componentInstance;
     breakpointService = TestBed.inject(BreakpointService);

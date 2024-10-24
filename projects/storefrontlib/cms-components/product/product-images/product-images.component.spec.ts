@@ -102,6 +102,7 @@ describe('ProductImagesComponent', () => {
 
   describe('with multiple pictures', () => {
     beforeEach(() => {
+    console.log('Starting ProductImagesComponent test');
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockDataWithMultiplePictures)
       );
@@ -152,6 +153,7 @@ describe('ProductImagesComponent', () => {
 
   describe('with one pictures', () => {
     beforeEach(() => {
+    console.log('Starting ProductImagesComponent test');
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockDataWithOnePicture)
       );
@@ -190,6 +192,7 @@ describe('ProductImagesComponent', () => {
 
   describe('without pictures', () => {
     beforeEach(() => {
+    console.log('Starting ProductImagesComponent test');
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockDataWitoutPrimaryPictures)
       );

@@ -27,6 +27,7 @@ describe('FormValidationService', () => {
   let form: UntypedFormGroup;
 
   beforeEach(() => {
+    console.log('Starting FormValidationService test');
     email = new UntypedFormControl();
 
     form = new UntypedFormGroup({

@@ -110,6 +110,7 @@ describe('PageSlotComponent', () => {
   let pageSlotService: PageSlotService;
 
   beforeEach(() => {
+    console.log('Starting PageSlotComponent test');
     TestBed.configureTestingModule({
       declarations: [
         PageSlotComponent,
@@ -182,6 +183,7 @@ describe('PageSlotComponent', () => {
 
   describe('cx-pending style class', () => {
     beforeEach(() => {
+    console.log('Starting PageSlotComponent test');
       pageSlotComponent.position = 'Section1';
     });
     it('should not have cx-pending class when there is no slot data', () => {
@@ -242,6 +244,7 @@ describe('PageSlotComponent', () => {
 
   describe('components', () => {
     beforeEach(() => {
+    console.log('Starting PageSlotComponent test');
       pageSlotComponent.position = 'Section1';
     });
     it('should have empty component list if slot is undefined', () => {
@@ -318,6 +321,7 @@ describe('PageSlotComponent', () => {
 
   describe('has-components class', () => {
     beforeEach(() => {
+    console.log('Starting PageSlotComponent test');
       pageSlotComponent.position = 'Section1';
     });
     it('should not add has-components class when slot has no components', () => {

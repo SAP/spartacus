@@ -48,6 +48,7 @@ describe('OutletService', () => {
   let outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>;
 
   beforeEach(() => {
+    console.log('Starting OutletService test');
     TestBed.configureTestingModule({
       imports: [AnyModule],
       declarations: [TestContainerComponent, OutletRefDirective],
@@ -65,6 +66,7 @@ describe('OutletService', () => {
     let fixture: ComponentFixture<TestContainerComponent>;
 
     beforeEach(() => {
+    console.log('Starting OutletService test');
       fixture = TestBed.createComponent(TestContainerComponent);
       fixture.detectChanges();
     });
@@ -131,6 +133,7 @@ describe('OutletService', () => {
     let factory: ComponentFactory<any>;
 
     beforeEach(() => {
+    console.log('Starting OutletService test');
       componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
       factory = componentFactoryResolver.resolveComponentFactory(AnyComponent);
     });
@@ -208,6 +211,7 @@ describe('OutletService', () => {
     let fixture: ComponentFixture<TestContainerComponent>;
 
     beforeEach(() => {
+    console.log('Starting OutletService test');
       fixture = TestBed.createComponent(TestContainerComponent);
       fixture.detectChanges();
     });
@@ -235,6 +239,7 @@ describe('OutletService', () => {
     let factory2: ComponentFactory<any>;
 
     beforeEach(() => {
+    console.log('Starting OutletService test');
       componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
       factory = componentFactoryResolver.resolveComponentFactory(AnyComponent);
       factory2 =

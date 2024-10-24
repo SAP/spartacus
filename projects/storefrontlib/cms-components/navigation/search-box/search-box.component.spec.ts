@@ -200,6 +200,7 @@ describe('SearchBoxComponent', () => {
 
   describe('Default config', () => {
     beforeEach(() => {
+    console.log('Starting SearchBoxComponent test');
       cmsComponentData = TestBed.inject(CmsComponentData);
 
       spyOnProperty(cmsComponentData, 'data$').and.returnValue(
@@ -497,6 +498,7 @@ describe('SearchBoxComponent', () => {
 
     describe('Arrow key tests', () => {
       beforeEach(() => {
+    console.log('Starting SearchBoxComponent test');
         searchBoxComponent.queryText = 'te';
         fixture.detectChanges();
 
@@ -720,6 +722,7 @@ describe('SearchBoxComponent', () => {
   describe('Searchbox config ', () => {
     describe('displayProductImages=false', () => {
       beforeEach(() => {
+    console.log('Starting SearchBoxComponent test');
         cmsComponentData = TestBed.inject(CmsComponentData);
 
         spyOnProperty(cmsComponentData, 'data$').and.returnValue(
@@ -755,6 +758,7 @@ describe('SearchBoxComponent', () => {
 
     describe('displaySuggestions=false', () => {
       beforeEach(() => {
+    console.log('Starting SearchBoxComponent test');
         cmsComponentData = TestBed.inject(CmsComponentData);
 
         spyOnProperty(cmsComponentData, 'data$').and.returnValue(

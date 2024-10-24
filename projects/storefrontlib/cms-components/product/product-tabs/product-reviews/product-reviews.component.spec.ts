@@ -74,6 +74,7 @@ describe('ProductReviewsComponent in product', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ProductReviewsComponent in product test');
     fixture = TestBed.createComponent(ProductReviewsComponent);
     productReviewsComponent = fixture.componentInstance;
     fixture.detectChanges();

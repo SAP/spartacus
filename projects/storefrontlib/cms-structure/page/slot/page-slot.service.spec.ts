@@ -25,6 +25,7 @@ describe('PageSlotService', () => {
   let pageSlotService: PageSlotService;
 
   beforeEach(() => {
+    console.log('Starting PageSlotService test');
     TestBed.configureTestingModule({
       providers: [
         {

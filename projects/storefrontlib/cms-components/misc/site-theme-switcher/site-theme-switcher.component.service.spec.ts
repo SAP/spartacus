@@ -8,6 +8,7 @@ describe('SiteThemeSwitcherComponentService', () => {
   let siteThemeService: jasmine.SpyObj<SiteThemeService>;
 
   beforeEach(() => {
+    console.log('Starting SiteThemeSwitcherComponentService test');
     const siteThemeServiceSpy = jasmine.createSpyObj('SiteThemeService', [
       'getAll',
       'getActive',

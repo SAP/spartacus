@@ -116,6 +116,7 @@ describe('Navigation UI Component', () => {
   let element: DebugElement;
 
   beforeEach(() => {
+    console.log('Starting Navigation UI Component test');
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
@@ -147,6 +148,7 @@ describe('Navigation UI Component', () => {
   });
 
   beforeEach(() => {
+    console.log('Starting Navigation UI Component test');
     fixture = TestBed.createComponent(NavigationUIComponent);
     hamburgerMenuService = TestBed.inject(HamburgerMenuService);
     navigationComponent = fixture.debugElement.componentInstance;
@@ -158,6 +160,7 @@ describe('Navigation UI Component', () => {
 
   describe('calculate columns', () => {
     beforeEach(() => {
+    console.log('Starting Navigation UI Component test');
       navigationComponent.wrapAfter = 5;
     });
 
@@ -377,6 +380,7 @@ describe('Navigation UI Component', () => {
 
   describe('Keyboard navigation', () => {
     beforeEach(() => {
+    console.log('Starting Navigation UI Component test');
       fixture.detectChanges();
     });
 

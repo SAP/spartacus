@@ -29,6 +29,7 @@ describe('TruncateTextPopoverComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting TruncateTextPopoverComponent test');
     fixture = TestBed.createComponent(TruncateTextPopoverComponent);
     component = fixture.componentInstance;
     component.content = mockContent;

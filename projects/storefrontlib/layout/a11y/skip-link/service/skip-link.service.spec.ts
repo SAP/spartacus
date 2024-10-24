@@ -67,6 +67,7 @@ describe('SkipLinkService', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting SkipLinkService test');
     fixture = TestBed.createComponent(TestContainerComponent);
     service = TestBed.inject(SkipLinkService);
     keyboardFocusService = TestBed.inject(KeyboardFocusService);
@@ -111,6 +112,7 @@ describe('SkipLinkService', () => {
     let secondSkipLink: SkipLink;
 
     beforeEach(() => {
+    console.log('Starting SkipLinkService test');
       const first = fixture.debugElement.query(By.css('#skip1')).nativeElement;
       const second = fixture.debugElement.query(By.css('#skip2')).nativeElement;
       service.add(SKIP_KEY_1, first);

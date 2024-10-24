@@ -27,6 +27,7 @@ describe('FacetService', () => {
   let productFacetService: ProductFacetService;
 
   beforeEach(() => {
+    console.log('Starting FacetService test');
     TestBed.configureTestingModule({
       imports: [],
       providers: [
@@ -60,6 +61,7 @@ describe('FacetService', () => {
   } as Breadcrumb;
 
   beforeEach(() => {
+    console.log('Starting FacetService test');
     (productFacetService.facetList$ as any) = of({
       facets: [facet1, facet2, facet3, facet4, facet5],
       activeFacets: [breadcrumb1, breadcrumb2],

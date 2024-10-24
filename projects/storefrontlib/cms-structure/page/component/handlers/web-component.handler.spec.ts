@@ -21,6 +21,7 @@ describe('WebComponentHandler', () => {
   let handler: WebComponentHandler;
 
   beforeEach(() => {
+    console.log('Starting WebComponentHandler test');
     TestBed.configureTestingModule({
       providers: [
         {

@@ -40,6 +40,7 @@ describe('FormErrors', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting FormErrors test');
     fixture = TestBed.createComponent(FormErrorsComponent);
     component = fixture.componentInstance;
     control = new UntypedFormControl('exampleControl');

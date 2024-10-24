@@ -27,6 +27,7 @@ describe('DatePickerComponent', () => {
   let inputEl: DebugElement;
 
   beforeEach(() => {
+    console.log('Starting DatePickerComponent test');
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule],
       declarations: [
@@ -38,6 +39,7 @@ describe('DatePickerComponent', () => {
   });
 
   beforeEach(() => {
+    console.log('Starting DatePickerComponent test');
     fixture = TestBed.createComponent(DatePickerComponent);
     component = fixture.componentInstance;
 
@@ -55,6 +57,7 @@ describe('DatePickerComponent', () => {
 
   describe('minimum date', () => {
     beforeEach(() => {
+    console.log('Starting DatePickerComponent test');
       component.min = '2020-12-1';
       fixture.detectChanges();
     });
@@ -70,6 +73,7 @@ describe('DatePickerComponent', () => {
 
   describe('maximum date', () => {
     beforeEach(() => {
+    console.log('Starting DatePickerComponent test');
       component.max = '2020-12-1';
       fixture.detectChanges();
     });

@@ -4,6 +4,7 @@ import { DatePickerService } from './date-picker.service';
 describe('DatePickerService', () => {
   let service: DatePickerService;
   beforeEach(() => {
+    console.log('Starting DatePickerService test');
     TestBed.configureTestingModule({
       providers: [DatePickerService],
     });
@@ -48,6 +49,7 @@ describe('DatePickerService', () => {
 
   describe('yyyy/mm/dd', () => {
     beforeEach(() => {
+    console.log('Starting DatePickerService test');
       spyOnProperty(service, 'placeholder').and.returnValue('yyyy/mm/dd');
     });
 
@@ -62,6 +64,7 @@ describe('DatePickerService', () => {
 
   describe('dd.mm.yyyy', () => {
     beforeEach(() => {
+    console.log('Starting DatePickerService test');
       spyOnProperty(service, 'placeholder').and.returnValue('dd.mm.yyyy');
     });
 
@@ -76,6 +79,7 @@ describe('DatePickerService', () => {
 
   describe('dd-mm-yyyy', () => {
     beforeEach(() => {
+    console.log('Starting DatePickerService test');
       spyOnProperty(service, 'placeholder').and.returnValue('dd-mm-yyyy');
     });
 
@@ -90,6 +94,7 @@ describe('DatePickerService', () => {
 
   describe('dd mm yyyy', () => {
     beforeEach(() => {
+    console.log('Starting DatePickerService test');
       spyOnProperty(service, 'placeholder').and.returnValue('dd mm yyyy');
     });
 

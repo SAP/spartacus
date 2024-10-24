@@ -23,6 +23,7 @@ describe('PRODUCT_LISTING_URL_MATCHER', () => {
   let urlMatcherService: UrlMatcherService;
 
   beforeEach(() => {
+    console.log('Starting PRODUCT_LISTING_URL_MATCHER test');
     TestBed.configureTestingModule({
       providers: [
         {

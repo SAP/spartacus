@@ -95,6 +95,7 @@ describe('StorefrontComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting StorefrontComponent test');
     fixture = TestBed.createComponent(StorefrontComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;

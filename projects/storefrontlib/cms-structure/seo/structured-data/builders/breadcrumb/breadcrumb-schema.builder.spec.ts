@@ -51,6 +51,7 @@ describe('JsonLdProductOfferBuilder', () => {
   let pageMetaService: PageMetaService;
 
   beforeEach(() => {
+    console.log('Starting JsonLdProductOfferBuilder test');
     TestBed.configureTestingModule({
       providers: [
         BreadcrumbSchemaBuilder,

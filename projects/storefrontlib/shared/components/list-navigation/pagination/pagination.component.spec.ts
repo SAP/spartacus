@@ -40,6 +40,7 @@ describe('PaginationComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting PaginationComponent test');
     fixture = TestBed.createComponent(PaginationComponent);
     debugEl = fixture.debugElement;
     component = fixture.componentInstance;
@@ -100,6 +101,7 @@ describe('PaginationComponent', () => {
 
     describe('pageNr parameter', () => {
       beforeEach(() => {
+    console.log('Starting PaginationComponent test');
         component.queryParam = 'currentPage';
       });
       it('should return { currentPage: 0 } for 1st page', () => {
@@ -127,6 +129,7 @@ describe('PaginationComponent', () => {
   describe('UI', () => {
     describe('10 pages', () => {
       beforeEach(() => {
+    console.log('Starting PaginationComponent test');
         component.pagination = {
           currentPage: 0,
           totalPages: 10,

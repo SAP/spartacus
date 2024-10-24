@@ -16,6 +16,7 @@ describe('NavigationEventBuilder', () => {
   let actions$: Subject<ActionWithPayload>;
 
   beforeEach(() => {
+    console.log('Starting NavigationEventBuilder test');
     actions$ = new Subject();
     TestBed.configureTestingModule({
       providers: [{ provide: ActionsSubject, useValue: actions$ }],

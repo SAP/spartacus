@@ -25,6 +25,7 @@ describe('ProductViewComponent in product-list', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ProductViewComponent in product-list test');
     fixture = TestBed.createComponent(ProductViewComponent);
     component = fixture.componentInstance;
     component.mode = ViewModes.List;

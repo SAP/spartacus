@@ -43,6 +43,7 @@ describe('PageTemplateDirective', () => {
   let fixture: ComponentFixture<MockTemplateComponent>;
 
   beforeEach(() => {
+    console.log('Starting PageTemplateDirective test');
     TestBed.configureTestingModule({
       imports: [],
       declarations: [MockTemplateComponent, PageTemplateDirective],

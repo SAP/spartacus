@@ -95,6 +95,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ProductCarouselItemComponent in product-carousel test');
     fixture = TestBed.createComponent(ProductCarouselItemComponent);
     component = fixture.componentInstance;
     componentInjector = fixture.debugElement.injector;

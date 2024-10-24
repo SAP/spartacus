@@ -11,6 +11,7 @@ describe('HamburgerMenuService', () => {
   let service: HamburgerMenuService;
 
   beforeEach(() => {
+    console.log('Starting HamburgerMenuService test');
     TestBed.configureTestingModule({
       providers: [{ provide: Router, useClass: MockRouter }],
     });

@@ -44,6 +44,7 @@ describe('CurrentProductService', () => {
   let productService: ProductService;
 
   beforeEach(() => {
+    console.log('Starting CurrentProductService test');
     TestBed.configureTestingModule({
       imports: [],
       providers: [

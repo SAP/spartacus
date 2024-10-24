@@ -33,6 +33,7 @@ describe('LinkComponent', () => {
   let el: DebugElement;
 
   beforeEach(() => {
+    console.log('Starting LinkComponent test');
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, GenericLinkModule],
       declarations: [LinkComponent],

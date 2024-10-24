@@ -49,6 +49,7 @@ describe('ActiveFacetsComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ActiveFacetsComponent test');
     fixture = TestBed.createComponent(ActiveFacetsComponent);
     element = fixture.debugElement;
     component = fixture.componentInstance;

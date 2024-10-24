@@ -14,6 +14,7 @@ describe('TotalComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting TotalComponent test');
     fixture = TestBed.createComponent(TotalComponent);
     component = fixture.componentInstance;
   });

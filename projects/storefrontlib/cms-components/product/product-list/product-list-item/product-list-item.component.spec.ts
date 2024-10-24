@@ -125,6 +125,7 @@ describe('ProductListItemComponent in product-list', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting ProductListItemComponent in product-list test');
     fixture = TestBed.createComponent(ProductListItemComponent);
     component = fixture.componentInstance;
     componentInjector = fixture.debugElement.injector;

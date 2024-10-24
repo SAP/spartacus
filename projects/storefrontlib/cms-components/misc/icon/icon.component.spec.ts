@@ -48,6 +48,7 @@ describe('IconComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting IconComponent test');
     fixture = TestBed.createComponent(IconComponent);
     component = fixture.componentInstance;
     service = TestBed.inject(IconLoaderService);
@@ -110,6 +111,7 @@ describe('IconComponent', () => {
     let debugElement: DebugElement;
 
     beforeEach(() => {
+    console.log('Starting IconComponent test');
       debugElement = fixture.debugElement;
     });
 
@@ -193,6 +195,7 @@ describe('host icon components', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting IconComponent test');
     fixture = TestBed.createComponent(IconComponent);
     service = TestBed.inject(IconLoaderService);
 
@@ -209,6 +212,7 @@ describe('host icon components', () => {
 
   describe('font based icons', () => {
     beforeEach(() => {
+    console.log('Starting IconComponent test');
       fixture.detectChanges();
       debugElement = fixture.debugElement;
       service = TestBed.inject(IconLoaderService);

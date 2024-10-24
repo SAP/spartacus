@@ -59,6 +59,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting CmsParagraphComponent in CmsLib test');
     fixture = TestBed.createComponent(ParagraphComponent);
     paragraphComponent = fixture.componentInstance;
     router = TestBed.inject(Router);
@@ -100,6 +101,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
 
   describe('Internal Link Navigation', () => {
     beforeEach(() => {
+    console.log('Starting CmsParagraphComponent in CmsLib test');
       spyOn(router, 'navigateByUrl');
 
       // Prevent external link navigation

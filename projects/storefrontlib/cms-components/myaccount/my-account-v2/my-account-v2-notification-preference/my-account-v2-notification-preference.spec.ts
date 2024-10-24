@@ -67,6 +67,7 @@ describe('MyAccountV2NotificationPreferenceComponent', () => {
   }));
 
   beforeEach(() => {
+    console.log('Starting MyAccountV2NotificationPreferenceComponent test');
     fixture = TestBed.createComponent(
       MyAccountV2NotificationPreferenceComponent
     );

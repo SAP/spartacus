@@ -9,6 +9,7 @@ describe('FocusableCarouselItemDirective', () => {
   let mockElementRef: ElementRef;
 
   beforeEach(() => {
+    console.log('Starting FocusableCarouselItemDirective test');
     mockLogger = {
       warn: createSpy(),
     } as unknown as LoggerService;
