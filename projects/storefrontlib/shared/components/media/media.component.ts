@@ -20,6 +20,28 @@ import { ImageLoadingStrategy, Media, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
 
+/**
+ * The HTML element rendered in the template can be either `<img>` or `<picture>`,
+ * depending on the input value of `elementType`, which defaults to `'img'`.
+ *
+ * In the case of a `<picture>` element, each `<source>` element will contain `srcset` attribute with exactly one URL.
+ *
+ * If you need multiple URLs per `<source>` (e.g. for different pixel densities),
+ * split it into multiple media queries (e.g. with `min-device-pixel-ratio`). See the following example:
+ *
+ * Instead of:
+ *
+ * ```html
+ * <source media="(min-width: 960px)" srcset="image-1400.jpg 1x, image-2800.jpg 2x">
+ * ```
+ *
+ * Use additional formats and additional media queries, such as:
+ *
+ * ```html
+ * <source media="(min-width: 960px) and (-webkit-min-device-pixel-ratio: 2)" srcset="image-2800.jpg">
+ * <source media="(min-width: 960px)" srcset="image-1400.jpg">
+ * ```
+ */
 @Component({
   selector: 'cx-media',
   templateUrl: './media.component.html',
@@ -69,32 +91,21 @@ export class MediaComponent implements OnChanges {
   @Input() elementType: 'img' | 'picture' = 'img';
 
   /**
-   * The intrinsic width of the image, in pixels
-   *
-   * Works only when `useExtendedMediaComponentConfiguration` toggle is true
-   */
-  @Input() width: number;
-
-  /**
-   * The intrinsic height of the image, in pixels
-   *
-   * Works only when `useExtendedMediaComponentConfiguration` toggle is true
-   */
-  @Input() height: number;
-
-  /**
-   * Specifies the sizes attribute for responsive images.
+   * Specifies the `sizes` attribute for responsive images.
    *
    * The `sizes` attribute describes the layout width of the image for various viewport sizes.
    * It helps the browser determine which image to download from the `srcset` attribute.
    *
-   * - The sizes attribute is defined using media queries.
+   * - The `sizes` attribute is defined using media queries.
    * - It allows specifying different sizes for various screen widths or other conditions (e.g., device orientation).
    * - The browser uses the value to pick the most appropriate image source from the `srcset`.
    *
-   * Works only when `useExtendedMediaComponentConfiguration` toggle is true
+   * This input is applicable only when the `elementType` input is set to `'img'`, as the `sizes` attribute
+   * is currently added only to the `<img>` HTML element.
+   *
+   * Works only when the `useExtendedMediaComponentConfiguration` toggle is set to `true`.
    */
-  @Input() sizes: string;
+  @Input() sizesForImgElement: string;
 
   /**
    * Once the media is loaded, we emit an event.
@@ -131,7 +142,7 @@ export class MediaComponent implements OnChanges {
     item.media;
 
   /**
-   * @deprecated since 2211.30. It will be eventually removed in the future
+   * @deprecated since 2211.31. It will be eventually removed in the future
    *
    * To use `img` HTML element instead of `picture`
    * use `useExtendedMediaComponentConfiguration` feature flag
