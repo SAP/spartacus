@@ -54,7 +54,7 @@ export class VisibleFocusDirective extends BaseFocusDirective {
     }
   }
 
-  @HostListener('keydown', ['$event']) handleKeydown(event: KeyboardEvent) {
+  @HostListener('keyup', ['$event']) handleKeydown(event: KeyboardEvent) {
     if (this.shouldFocusVisible) {
       this.mouseFocus = !this.isNavigating(event);
     }
