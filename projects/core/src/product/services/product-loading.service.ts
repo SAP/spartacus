@@ -28,6 +28,7 @@ import { withdrawOn } from '../../util/rxjs/withdraw-on';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
+import { isKeyInvalid } from '../../util';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +47,8 @@ export class ProductLoadingService {
   ) {}
 
   get(productCode: string, scopes: string[]): Observable<Product> {
+    isKeyInvalid(productCode);
+
     scopes = this.loadingScopes.expand('product', scopes);
 
     this.initProductScopes(productCode, scopes);
