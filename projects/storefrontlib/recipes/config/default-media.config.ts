@@ -24,15 +24,15 @@ export const mediaConfig: MediaConfig = {
         mediaQueries: '(max-width: 480px)',
       },
       tablet: {
-        mediaQueries: '(min-width: 481px) and (max-width: 770px)',
+        mediaQueries: '(max-width: 770px)',
       },
       desktop: {
-        mediaQueries: '(min-width: 771px) and (max-width: 960px)',
+        mediaQueries: '(max-width: 960px)',
       },
       widescreen: {
         mediaQueries: '(min-width: 961px)',
       },
     },
-    pictureFormatsOrder: ['widescreen', 'desktop', 'tablet', 'mobile'],
+    pictureFormatsOrder: ['mobile', 'tablet', 'desktop', 'widescreen'],
   },
 };
