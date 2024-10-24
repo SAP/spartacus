@@ -155,6 +155,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (this.productListItemContext) {
       this.showQuantity = false;
     }
+    this.showQuantity =
+      this.showQuantity && this.currentProductService.showItemCounter(product);
   }
 
   /**

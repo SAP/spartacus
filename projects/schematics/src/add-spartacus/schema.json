@@ -56,6 +56,7 @@
           "S4HANA-Order-Management",
           "cpq-quote",
           "s4-service",
+          "subscription-billing",
           "OMF",
           "SmartEdit",
           "Store-Finder",
@@ -243,6 +244,10 @@
           {
             "value": "s4-service",
             "label": "S/4HANA Service Integration (b2b feature)"
+          },
+          {
+            "value": "subscription-billing",
+            "label": "Subscription Billing Integration"
           },
           {
             "value": "OMF",

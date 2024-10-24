@@ -415,6 +415,13 @@
       "@spartacus/s4om/root": ["dist/s4om/root"],
       "@spartacus/segment-refs": ["dist/segment-refs"],
       "@spartacus/segment-refs/root": ["dist/segment-refs/root"],
+      "@spartacus/subscription-billing/assets": [
+        "dist/subscription-billing/assets"
+      ],
+      "@spartacus/subscription-billing": ["dist/subscription-billing"],
+      "@spartacus/subscription-billing/root": [
+        "dist/subscription-billing/root"
+      ],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]
