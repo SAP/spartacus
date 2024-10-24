@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -117,7 +116,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected component: CmsComponentData<CmsAddToCartComponent>,
     protected eventService: EventService,
     protected occEndpoints: OccEndpointsService,
-    protected http: HttpClient,
     @Optional() protected productListItemContext?: ProductListItemContext
   ) {}
 
