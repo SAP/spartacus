@@ -1,4 +1,3 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import {
   Component,
   DebugElement,
@@ -126,7 +125,6 @@ describe('CompactAddToCartComponent', () => {
         I18nTestingModule,
         ReactiveFormsModule,
         IconModule,
-        HttpClientTestingModule,
       ],
       declarations: [CompactAddToCartComponent, MockItemCounterComponent],
       providers: [

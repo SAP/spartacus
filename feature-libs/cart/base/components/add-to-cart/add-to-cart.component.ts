@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -29,11 +30,10 @@ import {
   CmsAddToCartComponent,
   EventService,
   FeatureConfigService,
-  Product,
-  isNotNullable,
   FeatureToggles,
   OccEndpointsService,
-  ProductScope,
+  Product,
+  isNotNullable,
 } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -43,7 +43,6 @@ import {
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -174,7 +173,12 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    */
   getInventory(): string {
     if (this.featureToggles.realTimeStockDispaly) {
-      this.loadRealTimeStock();
+      this.currentProductService
+        .getRealTimeStockData(this.productCode)
+        .subscribe((quantity: string) => {
+          this.realTimeStock = quantity;
+          this.cd.markForCheck();
+        });
       return this.inventoryThreshold
         ? this.realTimeStock + '+'
         : this.realTimeStock;
@@ -189,46 +193,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       } else {
         return '';
       }
-    }
-  }
-  loadRealTimeStock() {
-    if (!this.realTimeStock) {
-      const productUrl = this.occEndpoints.buildUrl('product', {
-        urlParams: { productCode: this.productCode },
-        scope: ProductScope.UNIT,
-      });
-
-      this.http
-        .get(productUrl)
-        .pipe(take(1))
-        .subscribe((response: any) => {
-          const availabilityUrl = this.occEndpoints.buildUrl('product', {
-            scope: ProductScope.PRODUCT_AVAILABILITIES,
-            urlParams: {
-              productCode: this.productCode,
-              sapCode: response.sapUnit.sapCode,
-            },
-          });
-
-          this.http
-            .get(availabilityUrl)
-            .pipe(take(1))
-            .subscribe((availabilities: any) => {
-              const quantity =
-                availabilities?.availabilityItems[0]?.unitAvailabilities[0]
-                  ?.quantity ?? ' ';
-              this.realTimeStock = this.inventoryThreshold
-                ? quantity + '+'
-                : quantity.toString();
-
-              this.cd.markForCheck();
-            });
-        });
-
-      // While waiting for the API call to complete, return an empty string
-      return '';
-    } else {
-      return this.realTimeStock;
     }
   }
 
