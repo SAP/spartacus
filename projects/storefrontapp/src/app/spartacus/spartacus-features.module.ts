@@ -379,6 +379,7 @@ if (environment.cpq) {
         a11yItemCounterFocus: true,
         a11yScrollToReviewByShowReview: true,
         a11yViewHoursButtonIconContrast: true,
+        a11yCheckoutDeliveryAddressAddLandmark: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,
         enableConsecutiveCharactersPasswordRequirement: true,
