@@ -464,6 +464,16 @@ export interface FeatureTogglesInterface {
   a11yCarouselArrowKeysNavigation?: boolean;
 
   /**
+   * Use tabs instead of radio group for pickup options. Improves SR narration and keyboard navigation pattern.
+   * Modified components:
+   *  - `PickupOptionsComponent`
+   *  - `PdpPickupOptionsContainerComponent`
+   *  - `CartPickupOptionsContainerComponent`
+   *  - `AddToCartComponent`
+   */
+  a11yPickupOptionsTabs?: boolean;
+
+  /**
    * `AnonymousConsentDialogComponent` - after consent was given/withdrawn the notification
    * will be displayed
    * `ConsentManagementComponent` - improve stability of notifications announcements by VoiceOver
@@ -750,6 +760,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUseButtonsForBtnLinks: false,
   a11yTabComponent: false,
   a11yCarouselArrowKeysNavigation: false,
+  a11yPickupOptionsTabs: false,
   a11yNotificationsOnConsentChange: false,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: false,
   a11yFacetsDialogFocusHandling: false,

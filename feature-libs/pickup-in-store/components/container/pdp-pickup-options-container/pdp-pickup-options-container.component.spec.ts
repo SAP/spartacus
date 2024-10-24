@@ -97,6 +97,7 @@ describe('PdpPickupOptionsComponent', () => {
   let intendedPickupLocationService: IntendedPickupLocationFacade;
   let currentProductService: CurrentProductService;
   let preferredStoreFacade: PreferredStoreFacade;
+  let featureConfigService: FeatureConfigService;
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
@@ -145,6 +146,7 @@ describe('PdpPickupOptionsComponent', () => {
     preferredStoreFacade = TestBed.inject(PreferredStoreFacade);
 
     currentProductService = TestBed.inject(CurrentProductService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
 
     spyOn(currentProductService, 'getProduct').and.callThrough();
     spyOn(launchDialogService, 'openDialog').and.callThrough();
@@ -218,12 +220,22 @@ describe('PdpPickupOptionsComponent', () => {
       expect(component.openDialog).not.toHaveBeenCalled();
     });
 
-    it('should open dialog if displayName is not set on pickup option change', () => {
+    it('should open dialog if displayName is not set and a11yPickupOptionsTabs disabled', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
       spyOn(component, 'openDialog');
       component['displayNameIsSet'] = false;
       const option = 'pickup';
       component.onPickupOptionChange(option);
       expect(component.openDialog).toHaveBeenCalled();
+    });
+
+    it('should NOT open dialog if displayName is not set and a11yPickupOptionsTabs enabled', () => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      spyOn(component, 'openDialog');
+      component['displayNameIsSet'] = false;
+      const option = 'pickup';
+      component.onPickupOptionChange(option);
+      expect(component.openDialog).not.toHaveBeenCalled();
     });
   });
   describe('without current product', () => {

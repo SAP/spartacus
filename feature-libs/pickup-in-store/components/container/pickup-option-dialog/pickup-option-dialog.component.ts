@@ -164,25 +164,27 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
     if (reason === this.CLOSE_WITHOUT_SELECTION) {
-      this.intendedPickupLocationService
-        .getIntendedLocation(this.productCode)
-        .pipe(
-          filter(
-            (store: AugmentedPointOfService | undefined) =>
-              typeof store !== 'undefined'
-          ),
-          map((store) => store as AugmentedPointOfService),
-          filter((store) => !store.name),
-          take(1),
-          tap(() =>
-            this.intendedPickupLocationService.setPickupOption(
-              this.productCode,
-              'delivery'
+      if (!this.featureConfigService.isEnabled('a11yPickupOptionsTabs')) {
+        this.intendedPickupLocationService
+          .getIntendedLocation(this.productCode)
+          .pipe(
+            filter(
+              (store: AugmentedPointOfService | undefined) =>
+                typeof store !== 'undefined'
+            ),
+            map((store) => store as AugmentedPointOfService),
+            filter((store) => !store.name),
+            take(1),
+            tap(() =>
+              this.intendedPickupLocationService.setPickupOption(
+                this.productCode,
+                'delivery'
+              )
             )
           )
-        )
-        .subscribe();
-      this.pickupOptionFacade.setPickupOption(this.entryNumber, 'delivery');
+          .subscribe();
+        this.pickupOptionFacade.setPickupOption(this.entryNumber, 'delivery');
+      }
       return;
     }
     this.subscription.add(

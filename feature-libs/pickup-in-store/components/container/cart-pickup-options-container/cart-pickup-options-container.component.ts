@@ -310,7 +310,10 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
           );
         });
 
-      if (!this.displayNameIsSet) {
+      if (
+        !this.featureConfigService.isEnabled('a11yPickupOptionsTabs') &&
+        !this.displayNameIsSet
+      ) {
         this.openDialog(event.triggerElement);
       }
     } else if (typeof event === 'string') {
@@ -344,7 +347,10 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
           );
         });
 
-      if (!this.displayNameIsSet) {
+      if (
+        !this.featureConfigService.isEnabled('a11yPickupOptionsTabs') &&
+        !this.displayNameIsSet
+      ) {
         this.openDialog();
       }
     }

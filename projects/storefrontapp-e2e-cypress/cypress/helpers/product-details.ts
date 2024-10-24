@@ -8,8 +8,9 @@ import { addProductToCart as addToCart } from './applied-promotions';
 
 export const summaryContainer = `cx-product-summary`;
 export const infoContainer = `cx-product-intro`;
-export const tabsContainer = 'cx-tab';
+export const tabsContainer = 'cx-tab-paragraph-container cx-tab';
 export const tabsHeaderList = `${tabsContainer} > div > button`;
+export const tabPanel = `${tabsContainer} cx-tab-panel`;
 export const activeTabContainer = `${tabsContainer} .active .container`;
 export const shippingTabActive = `${tabsContainer} .active cx-paragraph`;
 export const reviewContainer = 'cx-product-reviews';
@@ -138,7 +139,7 @@ export function verifyQuantityInCart() {
 export function verifyTabKeyboardNavigation(accordian = false) {
   it('should navigate tab component with keyboard', () => {
     cy.reload();
-    cy.get('cx-tab button').eq(0).click();
+    cy.get(tabsHeaderList).eq(0).click();
     cy.focused().contains('Product Details').type('{downArrow}');
     verifySpaceBarKeyForAccordian();
     cy.focused().contains('Specs').type('{rightArrow}');
@@ -159,11 +160,11 @@ export function verifyTabKeyboardNavigation(accordian = false) {
 
     function verifySpaceBarKeyForAccordian() {
       if (accordian) {
-        cy.get('cx-tab-panel').should('not.exist');
+        cy.get(tabPanel).should('not.exist');
         cy.focused().type(' ');
-        cy.get('cx-tab-panel').should('exist');
+        cy.get(tabPanel).should('exist');
         cy.focused().type(' ');
-        cy.get('cx-tab-panel').should('not.exist');
+        cy.get(tabPanel).should('not.exist');
       }
     }
   });
