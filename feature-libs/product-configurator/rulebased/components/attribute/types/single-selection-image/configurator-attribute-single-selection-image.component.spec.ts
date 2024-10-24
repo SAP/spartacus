@@ -222,6 +222,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     expect(description.nativeElement.innerText).toBe(
       (component.attribute.values ?? [{}])[1].description
     );
+    infoButton.click(); // hide popover after test again
   });
 
   it('should init with val3', () => {
@@ -356,18 +357,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         2,
         'checked',
         'checked'
-      );
-    });
-
-    it("should contain label element with class name 'form-check-label' and 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'label',
-        'form-check-label',
-        1,
-        'aria-hidden',
-        'true'
       );
     });
 

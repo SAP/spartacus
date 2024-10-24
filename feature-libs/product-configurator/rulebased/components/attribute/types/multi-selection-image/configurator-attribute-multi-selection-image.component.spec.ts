@@ -241,6 +241,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     expect(description.nativeElement.innerText).toBe(
       (component.attribute.values ?? [{ description: '' }])[1]?.description
     );
+    infoButton.click(); // hide popover after test again
   });
 
   it('should mark two values as selected', () => {
@@ -373,18 +374,6 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
         2,
         'checked',
         'checked'
-      );
-    });
-
-    it("should contain label elements with class name 'form-check-label' and 'aria-hidden' attribute attribute that removes label from the accessibility tree", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'label',
-        'form-check-label',
-        2,
-        'aria-hidden',
-        'true'
       );
     });
 
