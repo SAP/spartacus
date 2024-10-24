@@ -110,7 +110,10 @@
             </div>
 
             <div class="cx-saved-cart-values-container">
-              <div class="cx-saved-cart-label">
+              <div *cxFeature="'a11yQTY2Quantity'" class="cx-saved-cart-label">
+                {{ 'savedCartDialog.quantityFull' | cxTranslate }}
+              </div>
+              <div *cxFeature="'!a11yQTY2Quantity'" class="cx-saved-cart-label">
                 {{ 'savedCartDialog.quantity' | cxTranslate }}
               </div>
               <div class="cx-saved-cart-value">

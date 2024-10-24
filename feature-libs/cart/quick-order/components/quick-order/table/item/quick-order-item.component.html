@@ -41,7 +41,10 @@
 </td>
 
 <td role="cell" class="cx-quantity">
-  <div class="cx-mobile-header">
+  <div *cxFeature="'a11yQTY2Quantity'" class="cx-mobile-header">
+    {{ 'quickOrderTable.quantityFull' | cxTranslate }}
+  </div>
+  <div *cxFeature="'!a11yQTY2Quantity'" class="cx-mobile-header">
     {{ 'quickOrderTable.qty' | cxTranslate }}
   </div>
   <div class="cx-value">

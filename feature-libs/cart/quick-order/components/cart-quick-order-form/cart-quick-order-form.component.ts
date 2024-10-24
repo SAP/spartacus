@@ -27,6 +27,7 @@ import {
   FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';
@@ -55,7 +56,9 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
     protected eventService: EventService,
     protected formBuilder: UntypedFormBuilder,
     protected globalMessageService: GlobalMessageService
-  ) {}
+  ) {
+    useFeatureStyles('a11yQTY2Quantity');
+  }
 
   ngOnInit(): void {
     this.buildForm();

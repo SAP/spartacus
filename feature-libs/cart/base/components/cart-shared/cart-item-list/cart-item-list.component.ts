@@ -18,12 +18,12 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   CartItemComponentOptions,
+  CartOutlets,
   ConsignmentEntry,
   MultiCartFacade,
   OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
-  CartOutlets,
 } from '@spartacus/cart/base/root';
 import {
   FeatureConfigService,
@@ -99,6 +99,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     @Optional() protected outlet?: OutletContextData<ItemListContext>
   ) {
     useFeatureStyles('a11yPreventHorizontalScroll');
+    useFeatureStyles('a11yQTY2Quantity');
   }
 
   ngOnInit(): void {

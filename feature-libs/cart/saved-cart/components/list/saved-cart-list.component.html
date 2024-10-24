@@ -25,7 +25,20 @@
           <th role="columnheader" scope="col">
             {{ 'savedCartList.dateSaved' | cxTranslate }}
           </th>
-          <th role="columnheader" scope="col" class="cx-saved-cart-list-th-qty">
+          <th
+            *cxFeature="'a11yQTY2Quantity'"
+            role="columnheader"
+            scope="col"
+            class="cx-saved-cart-list-th-qty"
+          >
+            {{ 'savedCartList.quantityFull' | cxTranslate }}
+          </th>
+          <th
+            *cxFeature="'!a11yQTY2Quantity'"
+            role="columnheader"
+            scope="col"
+            class="cx-saved-cart-list-th-qty"
+          >
             {{ 'savedCartList.quantity' | cxTranslate }}
           </th>
           <th
@@ -92,7 +105,16 @@
               >
             </td>
             <td class="cx-saved-cart-list-quantity">
-              <div class="cx-table-label-mobile cx-saved-cart-list-label">
+              <div
+                *cxFeature="'a11yQTY2Quantity'"
+                class="cx-table-label-mobile cx-saved-cart-list-label"
+              >
+                {{ 'savedCartList.quantityFull' | cxTranslate }}
+              </div>
+              <div
+                *cxFeature="'!a11yQTY2Quantity'"
+                class="cx-table-label-mobile cx-saved-cart-list-label"
+              >
                 {{ 'savedCartList.quantity' | cxTranslate }}
               </div>
               <a

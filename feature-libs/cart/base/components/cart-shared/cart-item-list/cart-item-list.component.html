@@ -15,7 +15,18 @@
         [cxOutlet]="CartOutlets.CPQ_QUOTE_HEADING"
         [cxOutletContext]="items"
       ></ng-template>
-      <th role="columnheader" class="cx-item-list-qty">
+      <th
+        *cxFeature="'a11yQTY2Quantity'"
+        role="columnheader"
+        class="cx-item-list-qty"
+      >
+        {{ 'cartItems.quantityFull' | cxTranslate }}
+      </th>
+      <th
+        *cxFeature="'!a11yQTY2Quantity'"
+        role="columnheader"
+        class="cx-item-list-qty"
+      >
         {{ 'cartItems.quantity' | cxTranslate }}
       </th>
       <ng-container *ngIf="options.isSaveForLater; else totalHeader">

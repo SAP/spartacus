@@ -40,7 +40,7 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { combineLatest, merge, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest, merge } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 export interface SavedCartFormDialogOptions {
@@ -100,6 +100,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     protected globalMessageService: GlobalMessageService
   ) {
     useFeatureStyles('a11yVisibleFocusOverflows');
+    useFeatureStyles('a11yQTY2Quantity');
   }
 
   ngOnInit(): void {

@@ -6,7 +6,11 @@
 
 import { Component, Optional, inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { CxDatePipe, TranslationService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import {
   ArrivalSlot,
   ArrivalSlots,
@@ -25,6 +29,10 @@ export class EstimatedDeliveryDateComponent {
   protected orderHistoryFacade = inject(OrderHistoryFacade);
   protected translationService = inject(TranslationService);
   protected datePipe = inject(CxDatePipe);
+
+  constructor() {
+    useFeatureStyles('a11yQTY2Quantity');
+  }
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;

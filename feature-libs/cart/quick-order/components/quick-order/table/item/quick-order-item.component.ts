@@ -51,6 +51,7 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
     protected quickOrderService: QuickOrderFacade
   ) {
     useFeatureStyles('a11yCartItemsLinksStyles');
+    useFeatureStyles('a11yQTY2Quantity');
   }
 
   ngOnInit(): void {
