@@ -5,12 +5,15 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { Event, NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Location } from '@angular/common';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription, merge } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
+import { EventService } from '../../../event';
+import { CurrencySetEvent, LanguageSetEvent } from '../../../site-context';
 
 /**
  * Responsible for saving last accessed page (or attempted) before login and for redirecting to that page after login.
@@ -37,7 +40,9 @@ export class AuthRedirectService implements OnDestroy {
     protected routing: RoutingService,
     protected router: Router,
     protected authRedirectStorageService: AuthRedirectStorageService,
-    protected authFlowRoutesService: AuthFlowRoutesService
+    protected authFlowRoutesService: AuthFlowRoutesService,
+    protected eventService: EventService,
+    protected location: Location
   ) {
     this.init();
   }
@@ -45,9 +50,19 @@ export class AuthRedirectService implements OnDestroy {
   protected subscription: Subscription;
 
   protected init() {
-    this.subscription = this.router.events.subscribe((event: Event) => {
+    this.subscription = merge(
+      this.router.events,
+      this.eventService.get(LanguageSetEvent),
+      this.eventService.get(CurrencySetEvent)
+    ).subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.setRedirectUrl(event.urlAfterRedirects);
+      }
+      if (
+        event instanceof LanguageSetEvent ||
+        event instanceof CurrencySetEvent
+      ) {
+        this.setRedirectUrl(this.location.path());
       }
     });
   }
