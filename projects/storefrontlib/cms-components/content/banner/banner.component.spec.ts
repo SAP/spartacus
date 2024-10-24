@@ -72,6 +72,7 @@ class MockSemanticPathService {
 })
 class MockMediaComponent {
   @Input() container: any;
+  @Input() elementType: 'img' | 'picture' = 'img';
 }
 
 describe('BannerComponent', () => {
