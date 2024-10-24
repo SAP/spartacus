@@ -24,7 +24,6 @@ import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service
 export class OpfCtaElementComponent implements AfterViewInit {
   protected sanitizer = inject(DomSanitizer);
   protected opfCtaScriptsService = inject(OpfCtaScriptsService);
-  loader = true;
   protected windowRef = inject(WindowRef);
 
   @Input() ctaScriptHtml: OpfDynamicScript;
