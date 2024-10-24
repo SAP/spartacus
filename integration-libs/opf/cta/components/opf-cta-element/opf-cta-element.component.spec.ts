@@ -53,17 +53,21 @@ describe('OpfCtaButton', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should renderHtml call bypassSecurityTrustHtml', () => {
-    const html = '<script>console.log("script");</script>';
+  it('should renderHtml remove script tags and call bypassSecurityTrustHtml', () => {
+    const html =
+      '<h1>Test1</h1><script>console.log("script1");</script><h2>Test2</h2><script>console.log("script2");</script>';
+    const expectedHtml = '<h1>Test1</h1><h2>Test2</h2>';
     spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
     component.renderHtml(html);
 
-    expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(html);
+    expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(
+      expectedHtml
+    );
   });
 
   it('should renderHtml not call bypassSecurityTrustHtml in SSR', () => {
     spyOn(windowRef, 'isBrowser').and.returnValue(false);
-    const html = '<script>console.log("script");</script>';
+    const html = '<h1>Test</h1><script>console.log("script");</script>';
     spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
     component.renderHtml(html);
 
