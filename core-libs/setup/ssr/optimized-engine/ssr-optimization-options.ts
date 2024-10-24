@@ -193,8 +193,8 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions &
   DeepRequired<Pick<SsrOptimizationOptions, 'ssrFeatureToggles'>> = {
   cacheSize: 3000,
   concurrency: 10,
-  timeout: 3_000,
-  forcedSsrTimeout: 60_000,
+  timeout: 222_000,
+  forcedSsrTimeout: 200_000,
   maxRenderTime: 300_000,
   reuseCurrentRendering: true,
   renderingStrategyResolver: defaultRenderingStrategyResolver(

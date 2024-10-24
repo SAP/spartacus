@@ -12,6 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { WindowRef } from '@spartacus/core';
 import { OpfDynamicScript } from '@spartacus/opf/base/root';
 import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service';
 
@@ -24,13 +25,31 @@ export class OpfCtaElementComponent implements AfterViewInit {
   protected sanitizer = inject(DomSanitizer);
   protected opfCtaScriptsService = inject(OpfCtaScriptsService);
   loader = true;
+  protected windowRef = inject(WindowRef);
 
   @Input() ctaScriptHtml: OpfDynamicScript;
 
   ngAfterViewInit(): void {
-    this.opfCtaScriptsService.loadAndRunScript(this.ctaScriptHtml);
+    const isSSR = !this.windowRef.isBrowser();
+    console.log('ngAfterViewInit isSSR', isSSR);
+
+    this.windowRef.isBrowser() &&
+      this.opfCtaScriptsService.loadAndRunScript(this.ctaScriptHtml);
   }
   renderHtml(html: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(html);
+    const isSSR = !this.windowRef.isBrowser();
+    console.log('renderHtml isSSR', isSSR);
+
+    return this.windowRef.isBrowser()
+      ? this.sanitizer.bypassSecurityTrustHtml(this.removeScriptTags(html))
+      : '';
+  }
+
+  protected removeScriptTags(html: string) {
+    const element = new DOMParser().parseFromString(html, 'text/html');
+    Array.from(element.getElementsByTagName('script')).forEach((script) => {
+      html = html.replace(script.outerHTML, '');
+    });
+    return html;
   }
 }
