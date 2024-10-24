@@ -146,6 +146,7 @@ describe('Navigation UI Component', () => {
       ],
     }).compileComponents();
   });
+
   beforeEach(() => {
     console.log('Starting Navigation UI Component test');
     fixture = TestBed.createComponent(NavigationUIComponent);
@@ -318,10 +319,10 @@ describe('Navigation UI Component', () => {
         .query(By.css('nav > ul > li:nth-child(2) > button'))
         .nativeElement.click();
       element
-        .query(By.css('button[aria-label="Child 1"]'))
+        .query(By.css('button[aria-controls="Child 1"]'))
         .nativeElement.click();
       element
-        .query(By.css('button[aria-label="Sub child 1"]'))
+        .query(By.css('button[aria-controls="Sub child 1"]'))
         .nativeElement.click();
 
       expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toBe(1);
@@ -366,10 +367,10 @@ describe('Navigation UI Component', () => {
     it('should apply role="heading" to nested dropdown trigger button while on desktop', () => {
       fixture.detectChanges();
       const nestedTriggerButton = fixture.debugElement.query(
-        By.css('button[aria-label="Child 1"]')
+        By.css('button[aria-controls="Child 1"]')
       ).nativeElement;
       const rootTriggerButton = fixture.debugElement.query(
-        By.css('button[aria-label="Root 1"]')
+        By.css('button[aria-controls="Root 1"]')
       ).nativeElement;
 
       expect(nestedTriggerButton.getAttribute('role')).toEqual('heading');
@@ -387,7 +388,7 @@ describe('Navigation UI Component', () => {
       const spy = spyOn(navigationComponent, 'toggleOpen');
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
-        By.css('button[aria-label="Sub child 1"]')
+        By.css('button[aria-controls="Sub child 1"]')
       ).nativeElement;
       Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
 
@@ -401,7 +402,7 @@ describe('Navigation UI Component', () => {
       const spy = spyOn(firstChild.nativeElement, 'focus');
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
-        By.css('button[aria-label="Sub child 1"]')
+        By.css('button[aria-controls="Sub child 1"]')
       ).nativeElement;
       Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
 
@@ -422,7 +423,7 @@ describe('Navigation UI Component', () => {
       });
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
-        By.css('button[aria-label="Sub child 1"]')
+        By.css('button[aria-controls="Sub child 1"]')
       ).nativeElement;
       Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
       Object.defineProperty(arrowDownEvent, 'target', {
