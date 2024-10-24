@@ -33,7 +33,7 @@ export interface Media {
   /**
    * The sources holds a list of source element for picture html element
    */
-  sources?: PictureHTMLElementSources[];
+  sources?: PictureHTMLElementSource[];
 
   /**
    * Specifies the intrinsic width of the image in pixels. Allowed if the parent of `<source>` is a `<picture>`
@@ -75,11 +75,11 @@ export interface MediaFormatSize {
  */
 export type PictureElementQueries = string;
 
-export interface PictureHTMLElementSources {
+export interface PictureHTMLElementSource {
   srcset: string;
   media: string;
-  width: number | undefined;
-  height: number | undefined;
+  width?: number;
+  height?: number;
 }
 
 /**

@@ -609,7 +609,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const elements: Array<HTMLElement> = createElements('section', 10);
 
-      asSpy(windowRef.document.querySelectorAll).and.returnValue(<any>elements);
+      spyOn(document, 'querySelectorAll').and.returnValue(<any>elements);
 
       const htmlElements = classUnderTest.getElements('section');
 

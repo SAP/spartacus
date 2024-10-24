@@ -404,7 +404,7 @@ import { UserFeatureModule } from './features/user/user-feature.module';
         a11yEmptyWishlistHeading: true,
         a11yScreenReaderBloatFix: true,
         a11yUseButtonsForBtnLinks: true,
-        a11yTabComponent: true,
+        a11yTabComponent: false,
         a11yCarouselArrowKeysNavigation: true,
         a11yNotificationsOnConsentChange: true,
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
@@ -429,6 +429,8 @@ import { UserFeatureModule } from './features/user/user-feature.module';
         a11yDialogTriggerRefocus: true,
         a11yAddToWishlistFocus: true,
         a11ySearchBoxFocusOnEscape: true,
+        a11yItemCounterFocus: true,
+        a11yScrollToReviewByShowReview: true,
         a11yViewHoursButtonIconContrast: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,

@@ -102,7 +102,6 @@ export class CarouselComponent implements OnInit, OnChanges {
       this.logger.error(
         'No template reference provided to render the carousel items for the `cx-carousel`'
       );
-      return;
     }
   }
   ngOnChanges() {

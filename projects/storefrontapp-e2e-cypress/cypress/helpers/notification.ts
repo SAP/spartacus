@@ -127,7 +127,7 @@ export function updateEmail(): String {
 }
 
 export function updateEmailV2(): String {
-  const password = 'Password123.';
+  const password = 'Pas!sword123.';
   const newUid = generateMail(randomString(), true);
 
   navigateToUpdateEmailPage();

@@ -1,4 +1,17 @@
 <button
+  *cxFeature="'a11yItemCounterFocus'"
+  type="button"
+  (click)="decrement()"
+  [attr.aria-disabled]="control.disabled || control.value <= min"
+  [tabindex]="control.disabled || control.value <= min ? -1 : 0"
+  [cxFocus]="{ key: 'decrement' }"
+  attr.aria-label="{{ 'itemCounter.removeOne' | cxTranslate }}"
+  title="{{ 'itemCounter.removeOne' | cxTranslate }}"
+>
+  -
+</button>
+<button
+  *cxFeature="'!a11yItemCounterFocus'"
   type="button"
   (click)="decrement()"
   [disabled]="control.disabled || control.value <= min"
@@ -24,6 +37,18 @@
   [attr.aria-describedby]="ariaDescribedById"
 />
 <button
+  *cxFeature="'a11yItemCounterFocus'"
+  type="button"
+  (click)="increment()"
+  [attr.aria-disabled]="control.disabled || control.value >= max"
+  [cxFocus]="{ key: 'increment' }"
+  attr.aria-label="{{ 'itemCounter.addOneMore' | cxTranslate }}"
+  title="{{ 'itemCounter.addOneMore' | cxTranslate }}"
+>
+  +
+</button>
+<button
+  *cxFeature="'!a11yItemCounterFocus'"
   type="button"
   (click)="increment()"
   [disabled]="control.disabled || control.value >= max"

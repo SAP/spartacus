@@ -31,6 +31,7 @@ import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
+import { KeyboardFocusService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configurator-group',
@@ -258,6 +259,7 @@ let component: ConfiguratorFormComponent;
 let htmlElem: HTMLElement;
 let configExpertModeService: ConfiguratorExpertModeService;
 let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
+let keyboardFocusService: KeyboardFocusService;
 
 describe('ConfigurationFormComponent', () => {
   beforeEach(waitForAsync(() => {
@@ -347,6 +349,10 @@ describe('ConfigurationFormComponent', () => {
       LaunchDialogService as Type<LaunchDialogService>
     );
     spyOn(launchDialogService, 'openDialogAndSubscribe').and.callThrough();
+    keyboardFocusService = TestBed.inject(
+      KeyboardFocusService as Type<KeyboardFocusService>
+    );
+    spyOn(keyboardFocusService, 'clear').and.callThrough();
   });
 
   describe('resolve issues navigation', () => {
@@ -419,6 +425,14 @@ describe('ConfigurationFormComponent', () => {
         0
       );
     });
+  });
+
+  it('should reset persisted focus when UI is opened without resolve issue mode', () => {
+    routerStateObservable = mockRouterStateWithQueryParams({
+      resolveIssues: 'false',
+    });
+    createComponentWithData();
+    expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
   });
 
   describe('Rendering', () => {

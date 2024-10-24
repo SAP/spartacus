@@ -10,6 +10,12 @@ export function configureDefaultProduct() {
   // We need to ensure we use control the screen width, since the animation controls are removed at lower breakpoints.
   cy.viewport(1200, 800); // Bootstrap 4 XL breakpoint
 
+  cy.cxConfig({
+    features: {
+      a11yTabComponent: false,
+    },
+  } as any);
+
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(

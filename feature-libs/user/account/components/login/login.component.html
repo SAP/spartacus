@@ -1,5 +1,5 @@
 <ng-container *ngIf="user$ | async as user; else login">
-  <div class="cx-login-greet">
+  <div class="cx-login-greet" id="greeting">
     {{ 'miniLogin.userGreeting' | cxTranslate: { name: user.name } }}
   </div>
   <cx-page-slot id="account-nav" position="HeaderLinks"></cx-page-slot>

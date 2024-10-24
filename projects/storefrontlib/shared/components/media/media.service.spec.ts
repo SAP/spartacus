@@ -24,22 +24,24 @@ const MockStorefrontConfig: Config = {
       width: 1,
     },
   },
-  pictureElementFormats: {
-    format400: {
-      mediaQueries:
-        '(max-width: 768px) and (-webkit-min-device-pixel-ratio: 3)',
+  media: {
+    pictureElementFormats: {
+      format400: {
+        mediaQueries:
+          '(max-width: 768px) and (-webkit-min-device-pixel-ratio: 3)',
+      },
+      format200: {
+        mediaQueries: '(min-width: 768px) and (max-width: 1024px)',
+      },
+      format600: {
+        mediaQueries: '(min-width: 1025px) and (max-width: 1439px)',
+      },
+      format1: {
+        mediaQueries: '(min-width: 1440px)',
+      },
     },
-    format200: {
-      mediaQueries: '(min-width: 768px) and (max-width: 1024px)',
-    },
-    format600: {
-      mediaQueries: '(min-width: 1025px) and (max-width: 1439px)',
-    },
-    format1: {
-      mediaQueries: '(min-width: 1440px)',
-    },
+    pictureFormatsOrder: ['format1', 'format200', 'format400', 'format600'],
   },
-  pictureFormatsOrder: ['format1', 'format200', 'format400', 'format600'],
 };
 
 const mockUnknownMediaContainer = {
@@ -87,6 +89,41 @@ const mockBestFormatMediaContainer: MediaContainer = {
     format: 'format600',
     altText: 'alt text for format-600',
     role: 'presentation',
+  },
+};
+
+const mockContainerWithWidthAndHeight: MediaContainer = {
+  format1: {
+    url: 'format-1.url',
+    format: 'format1',
+    altText: 'alt text for format-1',
+    role: 'presentation',
+    width: 1400,
+    height: 500,
+  },
+  format2: {
+    url: 'format-2.url',
+    format: 'format2',
+    altText: 'alt text for format-2',
+    role: 'presentation',
+    width: 200,
+    height: 100,
+  },
+  format400: {
+    url: 'format-400.url',
+    format: 'format400',
+    altText: 'alt text for format-400',
+    role: 'presentation',
+    width: 400,
+    height: 300,
+  },
+  format600: {
+    url: 'format-600.url',
+    format: 'format600',
+    altText: 'alt text for format-600',
+    role: 'presentation',
+    width: 600,
+    height: 400,
   },
 };
 
@@ -576,7 +613,10 @@ describe('MediaService', () => {
     it('should be sorted based on provided config', () => {
       const config = {
         ...MockStorefrontConfig,
-        pictureFormatsOrder: ['format600', 'format1', 'format400'],
+        media: {
+          ...MockStorefrontConfig.media,
+          pictureFormatsOrder: ['format600', 'format1', 'format400'],
+        },
       };
       configureTestingModule(config);
       const mediaService = TestBed.inject(MediaService);
@@ -597,7 +637,10 @@ describe('MediaService', () => {
     it('should be sorted in natural order if the order was not provided in config', () => {
       const config = {
         ...MockStorefrontConfig,
-        pictureFormatsOrder: [],
+        media: {
+          ...MockStorefrontConfig.media,
+          pictureFormatsOrder: [],
+        },
       };
       configureTestingModule(config);
       const mediaService = TestBed.inject(MediaService);
@@ -616,63 +659,69 @@ describe('MediaService', () => {
     });
   });
 
-  describe('width and height attributes for picture sources', () => {
-    it('should return all images with proper width and height properties based on values from config', () => {
-      const config = {
-        ...MockStorefrontConfig,
-        pictureElementFormats: {
-          format400: {
-            mediaQueries:
-              '(max-width: 768px) and (-webkit-min-device-pixel-ratio: 3)',
-            width: 200,
-            height: 300,
-          },
-          format200: {
-            mediaQueries: '(min-width: 768px) and (max-width: 1024px)',
-            width: 700,
-            height: 1000,
-          },
-          format600: {
-            mediaQueries: '(min-width: 1025px) and (max-width: 1439px)',
-            width: 1000,
-            height: 800,
-          },
-          format1: {
-            mediaQueries: '(min-width: 1440px)',
-            width: 1440,
-            height: 1000,
-          },
-        },
-      };
-      configureTestingModule(config);
+  describe('width and height attributes', () => {
+    it('should return all images with proper width and height properties based on values passed to container', () => {
+      configureTestingModule(MockStorefrontConfig);
       const service = TestBed.inject(MediaService);
-
       const expectedResult = [
         {
           srcset: 'base:format-1.url',
           media: '(min-width: 1440px)',
-          width: 1440,
-          height: 1000,
+          width: 1400,
+          height: 500,
         },
         {
           srcset: 'base:format-400.url',
           media: '(max-width: 768px) and (-webkit-min-device-pixel-ratio: 3)',
-          width: 200,
+          width: 400,
           height: 300,
         },
         {
           srcset: 'base:format-600.url',
           media: '(min-width: 1025px) and (max-width: 1439px)',
-          width: 1000,
-          height: 800,
+          width: 600,
+          height: 400,
         },
       ];
-
       const result = service.getMediaForPictureElement(
-        mockBestFormatMediaContainer
-      )?.sources;
+        mockContainerWithWidthAndHeight
+      );
 
-      expect(result).toEqual(expectedResult);
+      // Width & Height of the best format image
+      expect(result?.width).toBe(600);
+      expect(result?.height).toBe(400);
+
+      expect(result?.sources).toEqual(expectedResult);
+    });
+
+    it('should return media for <img> HTML element with proper width and height properties based on values passed to container', () => {
+      configureTestingModule(MockStorefrontConfig);
+      const service = TestBed.inject(MediaService);
+
+      const result = service.getMedia(mockContainerWithWidthAndHeight);
+
+      // Width & Height of the best format image
+      expect(result?.width).toBe(600);
+      expect(result?.height).toBe(400);
+    });
+
+    it('should return media for <img> HTML element with proper width and height if container is type of Image', () => {
+      configureTestingModule(MockStorefrontConfig);
+      const service = TestBed.inject(MediaService);
+      const image = {
+        url: 'format-1.url',
+        format: 'format1',
+        altText: 'alt text for format-1',
+        role: 'presentation',
+        width: 1400,
+        height: 500,
+      };
+      const result = service.getMedia(image);
+
+      console.log(JSON.stringify(result));
+
+      expect(result?.width).toBe(image.width);
+      expect(result?.height).toBe(image.height);
     });
   });
 
