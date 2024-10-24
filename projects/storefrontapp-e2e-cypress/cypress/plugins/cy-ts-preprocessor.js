@@ -19,6 +19,7 @@ const webpackOptions = {
       domain: false,
       os: false,
       child_process: false,
+      "@continuum/continuum-javascript-professional": false,
     },
   },
   module: {
