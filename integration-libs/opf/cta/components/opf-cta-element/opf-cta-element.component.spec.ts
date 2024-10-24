@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
+import { WindowRef } from '@spartacus/core';
 import { OpfDynamicScript } from '@spartacus/opf/base/root';
 import { OpfCtaScriptsService } from '../opf-cta-scripts';
 import { OpfCtaElementComponent } from './opf-cta-element.component';
@@ -9,6 +10,7 @@ describe('OpfCtaButton', () => {
   let fixture: ComponentFixture<OpfCtaElementComponent>;
   let domSanitizer: DomSanitizer;
   let opfCtaScriptsServiceMock: jasmine.SpyObj<OpfCtaScriptsService>;
+  let windowRef: WindowRef;
 
   const dynamicScriptMock: OpfDynamicScript = {
     html: '<div  style="border-style: solid;text-align:center;border-radius:10px;align-content:center;background-color:yellow;color:black"><h2>Thanks for purchasing our great products</h2><h3>Please use promo code:<b>123abc</b> for your next purchase<h3></div><script>console.log(\'CTA Script #1 is running\')</script>',
@@ -44,6 +46,7 @@ describe('OpfCtaButton', () => {
     opfCtaScriptsServiceMock.loadAndRunScript.and.returnValue(
       Promise.resolve(dynamicScriptMock)
     );
+    windowRef = TestBed.inject(WindowRef);
   });
 
   it('should create', () => {
@@ -56,6 +59,15 @@ describe('OpfCtaButton', () => {
     component.renderHtml(html);
 
     expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(html);
+  });
+
+  it('should renderHtml not call bypassSecurityTrustHtml in SSR', () => {
+    spyOn(windowRef, 'isBrowser').and.returnValue(false);
+    const html = '<script>console.log("script");</script>';
+    spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+    component.renderHtml(html);
+
+    expect(domSanitizer.bypassSecurityTrustHtml).not.toHaveBeenCalledWith(html);
   });
 
   it('should call loadAndRunScript', () => {
