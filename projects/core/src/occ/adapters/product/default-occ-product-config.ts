@@ -16,12 +16,12 @@ export const defaultOccProductConfig: OccConfig = {
             'products/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,manufacturer,numberOfReviews,categories(FULL),baseOptions,baseProduct,variantOptions,variantType',
           list: 'products/${productCode}?fields=code,purchasable,name,summary,price(formattedValue),images(DEFAULT,galleryIndex),baseProduct',
           details:
-            'products/${productCode}?fields=averageRating,stock(DEFAULT),description,availableForPickup,code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(FULL),priceRange,multidimensional,tags,images(FULL)',
+            'products/${productCode}?fields=averageRating,description,availableForPickup,code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(FULL),priceRange,multidimensional,tags,images(FULL)',
           promotions:
             'products/${productCode}?fields=potentialPromotions(description)',
           attributes: 'products/${productCode}?fields=classifications',
           price: 'products/${productCode}?fields=price(formattedValue)',
-          stock: 'products/${productCode}?fields=stock(DEFAULT)',
+          stock: 'spike-new-availability-api',
           list_item:
             'products/${productCode}?fields=code,name,price(formattedValue),images(DEFAULT),baseProduct',
         },
@@ -48,7 +48,11 @@ export const defaultOccProductConfig: OccConfig = {
     loadingScopes: {
       product: {
         details: {
-          include: [ProductScope.LIST, ProductScope.VARIANTS],
+          include: [
+            ProductScope.LIST,
+            ProductScope.VARIANTS,
+            ProductScope.STOCK,
+          ],
         },
       },
     },

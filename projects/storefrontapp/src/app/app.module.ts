@@ -59,7 +59,7 @@ if (!environment.production) {
     provideConfig(<OccConfig>{
       backend: {
         occ: {
-          baseUrl: environment.occBaseUrl,
+          baseUrl: 'http://localhost:9002',
           prefix: environment.occApiPrefix,
         },
       },
