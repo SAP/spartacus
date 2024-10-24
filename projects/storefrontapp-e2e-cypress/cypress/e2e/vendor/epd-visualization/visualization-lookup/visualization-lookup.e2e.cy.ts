@@ -13,7 +13,7 @@ describe('in Spare Parts Tab', () => {
     beforeEach(() => {
       cy.cxConfig({
         features: {
-          a11yTabComponent: false
+          a11yTabComponent: false,
         },
       } as any);
       cy.intercept(
