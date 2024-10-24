@@ -172,10 +172,6 @@ export class OpfResourceLoaderService extends ScriptLoader {
     scripts: OpfDynamicScriptResource[] = [],
     styles: OpfDynamicScriptResource[] = []
   ): Promise<void> {
-    const isSSR = isPlatformServer(this.platformId);
-    if (isSSR) {
-      return Promise.resolve();
-    }
     const resources: OpfDynamicScriptResource[] = [
       ...scripts.map((script) => ({
         ...script,
