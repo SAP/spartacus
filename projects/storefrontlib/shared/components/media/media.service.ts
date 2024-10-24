@@ -84,9 +84,8 @@ export class MediaService {
     );
 
     return {
-      srcset: this.resolveSrcSet(mediaContainer, format),
       ...commonMediaProperties,
-      ...this.getWidthAndHeight(mediaContainer, format),
+      srcset: this.resolveSrcSet(mediaContainer, format),
     };
   }
 
@@ -112,9 +111,8 @@ export class MediaService {
     );
 
     return {
-      sources: this.resolveSources(mediaContainer, format),
       ...commonMediaProperties,
-      ...this.getWidthAndHeight(mediaContainer, format),
+      sources: this.resolveSources(mediaContainer, format),
     };
   }
 
@@ -135,6 +133,7 @@ export class MediaService {
       src: this.resolveAbsoluteUrl(mainMedia?.url ?? ''),
       alt: alt ?? mainMedia?.altText,
       role: role ?? mainMedia?.role,
+      ...this.getWidthAndHeight(mediaContainer, format),
     };
   }
 

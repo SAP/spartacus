@@ -76,7 +76,7 @@ export abstract class MediaConfig {
   imageLoadingStrategy?: ImageLoadingStrategy;
 
   /**
-   * @deprecated since 2211.30. It will be eventually removed in the future
+   * @deprecated since 2211.31. It will be eventually removed in the future
    * As of v7.0, Spartacus started using the <picture> element by default when a srcset is available.
    *
    * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture for more

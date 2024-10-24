@@ -142,7 +142,7 @@ export class MediaComponent implements OnChanges {
     item.media;
 
   /**
-   * @deprecated since 2211.30. It will be eventually removed in the future
+   * @deprecated since 2211.31. It will be eventually removed in the future
    *
    * To use `img` HTML element instead of `picture`
    * use `useExtendedMediaComponentConfiguration` feature flag
