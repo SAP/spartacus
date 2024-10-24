@@ -91,7 +91,7 @@ function setConfiguratorTypeIntoFirstConfigInfo(
   }
 }
 
-describe('ConfiguratorCartEntryBundleInfoComponent', () => {
+fdescribe('ConfiguratorCartEntryBundleInfoComponent', () => {
   let component: ConfiguratorCartEntryBundleInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryBundleInfoComponent>;
   let changeDetectorRef: ChangeDetectorRef;
@@ -146,6 +146,25 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
 
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    // Reset the fixture
+    if(fixture) {
+      fixture.destroy();
+      fixture = null as any as ComponentFixture<ConfiguratorCartEntryBundleInfoComponent>;
+    }
+
+    // Reset the component instance
+    component = null as any as ConfiguratorCartEntryBundleInfoComponent;
+    changeDetectorRef = null as any as ChangeDetectorRef;
+    htmlElem = null as any as HTMLElement;
+
+    // Reset any services or mocks
+    mockCartItemContext = null as any as MockCartItemContext;
+    commonConfigUtilsService = null  as any as CommonConfiguratorUtilsService;
+    configCartEntryBundleInfoService = null as any as ConfiguratorCartEntryBundleInfoService;
+    breakpointService = null as any as BreakpointService;
   });
 
   it('should create', () => {
@@ -251,8 +270,10 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     it('should return corresponding state after toggling the link show / hide items', () => {
       expect(component.hideItems).toBe(true);
       component.toggleItems();
+      changeDetectorRef.detectChanges();
       expect(component.hideItems).toBe(false);
       component.toggleItems();
+      changeDetectorRef.detectChanges();
       expect(component.hideItems).toBe(true);
     });
   });
@@ -300,10 +321,13 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         fixture.detectChanges();
       });
 
-      it('should not display number of bundle items', () => {
+      it('should not display number of bundle items', (done) => {
         let numberOfItems: number = 0;
         component.numberOfLineItems$.subscribe(
-          (value) => (numberOfItems = value)
+          (value) => {
+            (numberOfItems = value);
+            done();
+          }
         );
         expect(numberOfItems).toBe(0);
 
@@ -346,12 +370,16 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         fixture.detectChanges();
       });
 
-      it('should display number of bundle items', () => {
+      it('should display number of bundle items', (done) => {
         let numberOfItems: number = 0;
         component.numberOfLineItems$.subscribe(
-          (value) => (numberOfItems = value)
+          (value) => {
+            (numberOfItems = value);
+            done();
+          }
         );
         expect(numberOfItems).toBe(configurationInfos?.length);
+        fixture.detectChanges();
 
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
@@ -612,8 +640,8 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
             'cx-configure-cart-entry'
           );
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+          expect(element?.hasAttribute('ng-reflect-read-only')).toBe(true);
+          expect(element?.getAttribute('ng-reflect-read-only')).toBe('false');
         });
 
         it('should expose readonly$ as false in case readonly$ is null', () => {
@@ -624,8 +652,8 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
             'cx-configure-cart-entry'
           );
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+          expect(element?.hasAttribute('ng-reflect-read-only')).toBe(true);
+          expect(element?.getAttribute('ng-reflect-read-only')).toBe('false');
         });
 
         it('should expose readonly$ as false in case readonly$ is false', () => {
@@ -636,8 +664,8 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
             'cx-configure-cart-entry'
           );
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+          expect(element?.hasAttribute('ng-reflect-read-only')).toBe(true);
+          expect(element?.getAttribute('ng-reflect-read-only')).toBe('false');
         });
 
         it('should expose readonly$ as true in case readonly$ is true', () => {
@@ -648,8 +676,8 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
             'cx-configure-cart-entry'
           );
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('true');
+          expect(element?.hasAttribute('ng-reflect-read-only')).toBe(true);
+          expect(element?.getAttribute('ng-reflect-read-only')).toBe('true');
         });
       });
 

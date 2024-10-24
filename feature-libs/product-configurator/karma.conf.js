@@ -14,7 +14,7 @@ module.exports = function (config) {
       require('karma-junit-reporter'),
     ],
     client: {
-      clearContext: false, // close Jasmine Spec Runner output in browser to avoid 'Some of your tests did a full page reload!' error when '--no-watch' is active
+      clearContext: true, // close Jasmine Spec Runner output in browser to avoid 'Some of your tests did a full page reload!' error when '--no-watch' is active
       jasmine: {
         random: false,
       },
@@ -48,6 +48,7 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
+    //browsers: ['ChromeHeadless'],
     browsers: ['Chrome'],
     singleRun: false,
     restartOnFileChange: true,
