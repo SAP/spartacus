@@ -83,6 +83,8 @@ class MockCaptchaService implements CaptchaRenderer {
   renderCaptcha(): Observable<string> {
     return of('');
   }
+
+  resetCaptcha(): void {}
 }
 
 const mockCaptchaApiConfig: CaptchaApiConfig = {

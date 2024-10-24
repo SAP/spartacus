@@ -100,4 +100,6 @@ export abstract class CaptchaService implements CaptchaRenderer, OnDestroy {
   loadResource(): void {
     this.captchaConfigSubject$.next(this.captchaConfig);
   }
+
+  resetCaptcha(_element: HTMLElement): void {}
 }

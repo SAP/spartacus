@@ -1,10 +1,11 @@
 import { Observable, of } from 'rxjs';
 import { CaptchaConfig } from '@spartacus/core';
-import { CaptchaComponent, CaptchaRenderer } from '@spartacus/storefront';
+import { CaptchaComponent } from '@spartacus/storefront';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CaptchaApiConfig } from './captcha-api-config';
+import { ElementRef } from '@angular/core';
 
-class MockCaptchaService implements CaptchaRenderer {
+class MockCaptchaService {
   getCaptchaConfig(): Observable<CaptchaConfig> {
     return of({
       enabled: true,
@@ -19,6 +20,8 @@ class MockCaptchaService implements CaptchaRenderer {
   renderCaptcha(): Observable<string> {
     return of('');
   }
+
+  resetCaptcha(): void {}
 }
 
 const mockCaptchaApiConfig: CaptchaApiConfig = {
@@ -27,10 +30,10 @@ const mockCaptchaApiConfig: CaptchaApiConfig = {
   captchaRenderer: MockCaptchaService,
 };
 
-describe('Captcha Component', () => {
+describe('CaptchaComponent', () => {
   let component: CaptchaComponent;
   let fixture: ComponentFixture<CaptchaComponent>;
-  let service: CaptchaRenderer;
+  let service: MockCaptchaService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -45,7 +48,13 @@ describe('Captcha Component', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CaptchaComponent);
     component = fixture.componentInstance;
+
+    component.captchaRef = {
+      nativeElement: document.createElement('div'),
+    } as ElementRef;
+
     service = TestBed.inject(MockCaptchaService);
+    fixture.detectChanges();
   });
 
   it('should be created', () => {
@@ -55,7 +64,7 @@ describe('Captcha Component', () => {
   it('should init correctly', () => {
     spyOn(service, 'getCaptchaConfig').and.callThrough();
     spyOn(service, 'renderCaptcha').and.callThrough();
-
+    component.ngAfterViewInit();
     fixture.detectChanges();
 
     expect(service.getCaptchaConfig).toHaveBeenCalledTimes(1);
