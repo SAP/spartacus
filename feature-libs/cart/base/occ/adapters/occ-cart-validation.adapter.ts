@@ -15,7 +15,7 @@ import {
   ConverterService,
   LoggerService,
   OccEndpointsService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -37,7 +37,7 @@ export class OccCartValidationAdapter implements CartValidationAdapter {
 
     return this.http.post<any>(url, null).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       }),
       this.converter.pipeable(CART_VALIDATION_NORMALIZER)
     );

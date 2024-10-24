@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Observable } from 'rxjs';
-import { ProductSearchByCodeEffects } from './product-search-by-code.effect';
-import { ProductActions } from '../actions/index';
-import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
+import { AuthActions } from '@spartacus/core';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
+import { Observable } from 'rxjs';
 import { LoggerService } from '../../../logger/logger.service';
-import { AuthActions, normalizeHttpError } from '@spartacus/core';
+import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
+import { ProductActions } from '../actions/index';
+import { ProductSearchByCodeEffects } from './product-search-by-code.effect';
 
 describe('ProductSearchByCodeEffects', () => {
   let actions$: Observable<any>;
@@ -59,7 +59,7 @@ describe('ProductSearchByCodeEffects', () => {
       code: '123',
       scope: 'test',
     });
-    const error = normalizeHttpError('Error loading products', logger);
+    const error = tryNormalizeHttpError('Error loading products', logger);
     const completion = new ProductActions.ProductSearchLoadByCodeFail({
       code: '123',
       scope: 'test',

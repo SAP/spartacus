@@ -15,7 +15,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
   OccEndpointsService,
   USE_CLIENT_TOKEN,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -59,7 +59,7 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
 
     return this.http.post(url, toAdd, { headers, params }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       }),
       this.converter.pipeable(CART_VOUCHER_NORMALIZER)
     );
@@ -75,7 +75,7 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
 
     return this.http.delete(url, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }

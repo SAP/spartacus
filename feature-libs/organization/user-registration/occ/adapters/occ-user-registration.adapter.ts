@@ -5,14 +5,14 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   ConverterService,
   InterceptorUtil,
   LoggerService,
   OccEndpointsService,
+  tryNormalizeHttpError,
   USE_CLIENT_TOKEN,
-  normalizeHttpError,
 } from '@spartacus/core';
 import {
   ORGANIZATION_USER_REGISTRATION_SERIALIZER,
@@ -51,7 +51,7 @@ export class OccUserRegistrationAdapter implements UserRegistrationAdapter {
       .post<OrganizationUserRegistration>(url, userData, { headers })
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         })
       );
   }

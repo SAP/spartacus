@@ -8,7 +8,7 @@ import {
   LoggerService,
   OccConfig,
   SearchConfig,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   OrganizationActions,
@@ -91,7 +91,7 @@ class MockLoggerService {
   debug(): void {}
 }
 
-const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
+const error = tryNormalizeHttpError(httpErrorResponse, new MockLoggerService());
 
 describe('UserGroup Effects', () => {
   let actions$: Observable<UserGroupActions.UserGroupAction>;

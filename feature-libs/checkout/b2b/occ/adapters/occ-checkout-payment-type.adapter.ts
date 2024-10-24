@@ -19,7 +19,7 @@ import {
   OccEndpointsService,
   backOff,
   isJaloError,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -45,7 +45,7 @@ export class OccCheckoutPaymentTypeAdapter
       .get<Occ.PaymentTypeList>(this.getPaymentTypesEndpoint(), { context })
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({ shouldRetry: isJaloError }),
         map((paymentTypeList) => paymentTypeList.paymentTypes ?? []),
@@ -75,7 +75,7 @@ export class OccCheckoutPaymentTypeAdapter
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(CART_NORMALIZER)

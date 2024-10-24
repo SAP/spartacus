@@ -7,7 +7,7 @@ import * as ngrxStore from '@ngrx/store';
 import { StoreModule } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
 import { CartModification } from '@spartacus/cart/base/root';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -454,7 +454,7 @@ describe('ConfiguratorCartEffect', () => {
       const completion = new ConfiguratorActions.ReadCartEntryConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: normalizeHttpError(errorResponse, new MockLoggerService()),
+          error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
         }
       );
       actions$ = cold('-a', { a: action });
@@ -506,7 +506,7 @@ describe('ConfiguratorCartEffect', () => {
       const completion =
         new ConfiguratorActions.ReadOrderEntryConfigurationFail({
           ownerKey: productConfiguration.owner.key,
-          error: normalizeHttpError(errorResponse, new MockLoggerService()),
+          error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
         });
       actions$ = cold('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -597,7 +597,7 @@ describe('ConfiguratorCartEffect', () => {
         cartId,
         productCode,
         quantity,
-        error: normalizeHttpError(errorResponse, new MockLoggerService()),
+        error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
       });
 
       actions$ = cold('-a', { a: action });
@@ -638,7 +638,7 @@ describe('ConfiguratorCartEffect', () => {
         userId,
         cartId,
         entryNumber: entryNumber.toString(),
-        error: normalizeHttpError(errorResponse, new MockLoggerService()),
+        error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
       });
 
       actions$ = cold('-a', { a: action });

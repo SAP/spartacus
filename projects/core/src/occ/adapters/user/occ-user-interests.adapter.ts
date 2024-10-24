@@ -17,7 +17,7 @@ import {
 import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests/converters';
 import { UserInterestsAdapter } from '../../../user/connectors/interests/user-interests.adapter';
 import { ConverterService } from '../../../util/converter.service';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
@@ -71,7 +71,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
       .pipe(
         this.converter.pipeable(PRODUCT_INTERESTS_NORMALIZER),
         catchError((error: any) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         })
       );
   }
@@ -97,7 +97,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
           )
           .pipe(
             catchError((error: any) => {
-              throw normalizeHttpError(error, this.logger);
+              throw tryNormalizeHttpError(error, this.logger);
             })
           )
       );
@@ -126,7 +126,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
       )
       .pipe(
         catchError((error: any) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         })
       );
   }

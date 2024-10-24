@@ -10,7 +10,7 @@ import {
   ConverterService,
   LoggerService,
   OccEndpointsService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   CUSTOMER_TICKETING_ASSOCIATED_OBJECTS_NORMALIZER,
@@ -53,7 +53,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         map(
           (associatedObjectList) =>
@@ -78,7 +78,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       .get<CategoriesList>(this.getTicketCategoriesEndpoint())
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         map((categoryList) => categoryList.ticketCategories ?? []),
         this.converter.pipeableMany(CUSTOMER_TICKETING_CATEGORY_NORMALIZER)
@@ -94,7 +94,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       .get<TicketDetails>(this.getTicketEndpoint(customerId, ticketId))
       .pipe(
         catchError((errorResponse) => {
-          throw normalizeHttpError(errorResponse, this.logger);
+          throw tryNormalizeHttpError(errorResponse, this.logger);
         }),
         tap((ticket) => ticket.ticketEvents?.reverse()),
         this.converter.pipeable(CUSTOMER_TICKETING_DETAILS_NORMALIZER)
@@ -120,7 +120,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       })
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(CUSTOMER_TICKETING_CREATE_NORMALIZER)
       );
@@ -146,7 +146,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(CUSTOMER_TICKETING_LIST_NORMALIZER)
       );
@@ -185,7 +185,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(CUSTOMER_TICKETING_EVENT_NORMALIZER)
       );
@@ -219,7 +219,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(CUSTOMER_TICKETING_FILE_NORMALIZER)
       );
@@ -260,7 +260,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(CUSTOMER_TICKETING_FILE_NORMALIZER)
       );

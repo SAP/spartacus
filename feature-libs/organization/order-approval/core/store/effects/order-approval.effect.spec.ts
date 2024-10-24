@@ -7,7 +7,7 @@ import {
   LoggerService,
   OccConfig,
   SearchConfig,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
@@ -61,7 +61,7 @@ class MockLoggerService {
   debug(): void {}
 }
 
-const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
+const error = tryNormalizeHttpError(httpErrorResponse, new MockLoggerService());
 
 describe('OrderApproval Effects', () => {
   let actions$: Observable<OrderApprovalActions.OrderApprovalAction>;

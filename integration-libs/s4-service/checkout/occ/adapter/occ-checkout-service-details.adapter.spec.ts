@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { LoggerService, OccEndpointsService } from '@spartacus/core';
 import { ServiceDetails } from '@spartacus/s4-service/root';
 import { OccCheckoutServiceDetailsAdapter } from './occ-checkout-service-details.adapter';
@@ -57,7 +57,7 @@ describe('OccCheckoutServiceDetailsAdapter', () => {
     req.flush({});
   });
 
-  it('should handle errors and call normalizeHttpError', () => {
+  it('should handle errors and call tryNormalizeHttpError', () => {
     const mockError = {
       status: 500,
       statusText: 'We are getting an internal server error',

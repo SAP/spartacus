@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
-import { RescheduleServiceOrderAdapter } from '../../core/connector/reschedule-service-order.adapter';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import {
   LoggerService,
-  normalizeHttpError,
   OccEndpointsService,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { ServiceDetails } from '@spartacus/s4-service/root';
 import { catchError, Observable } from 'rxjs';
+import { RescheduleServiceOrderAdapter } from '../../core/connector/reschedule-service-order.adapter';
 
 @Injectable()
 export class OccRescheduleServiceOrderAdapter
@@ -36,7 +36,7 @@ export class OccRescheduleServiceOrderAdapter
     });
     return this.http.patch(url, scheduledAt, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }

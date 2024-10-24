@@ -9,7 +9,7 @@ import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
   LoggerService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER,
@@ -80,7 +80,7 @@ export class VisualizationV1Adapter implements VisualizationAdapter {
   ): Observable<LookupVisualizationsResponse> {
     return this.http.get(this.getUrl(visualizationUsageId, folderUsageId)).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       }),
       this.converter.pipeable(LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER)
     );
