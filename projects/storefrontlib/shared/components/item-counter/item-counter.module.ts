@@ -7,18 +7,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
+import { I18nModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { ItemCounterComponent } from './item-counter.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    I18nModule,
-    KeyboardFocusModule,
-    FeaturesConfigModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, I18nModule, KeyboardFocusModule],
   declarations: [ItemCounterComponent],
   exports: [ItemCounterComponent],
 })

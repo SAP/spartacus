@@ -91,7 +91,6 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
 
   constructor() {
     useFeatureStyles('a11yVisibleFocusOverflows');
-    useFeatureStyles('a11yItemCounterFocus');
   }
 
   // TODO: (CXSPA-6034) Remove HostListener next major release
