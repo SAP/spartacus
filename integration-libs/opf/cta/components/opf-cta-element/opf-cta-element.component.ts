@@ -40,9 +40,9 @@ export class OpfCtaElementComponent implements AfterViewInit {
     const isSSR = !this.windowRef.isBrowser();
     console.log('renderHtml isSSR', isSSR);
 
-    return this.windowRef.isBrowser()
-      ? this.sanitizer.bypassSecurityTrustHtml(this.removeScriptTags(html))
-      : '';
+    return this.sanitizer.bypassSecurityTrustHtml(
+      this.windowRef.isBrowser() ? this.removeScriptTags(html) : html
+    );
   }
 
   protected removeScriptTags(html: string) {
