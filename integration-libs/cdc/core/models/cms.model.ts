@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CmsComponent } from '@spartacus/core';
+import { BaseSite, CmsComponent } from '@spartacus/core';
 
 export interface GigyaRaasComponentData extends CmsComponent {
   /** Unique identifier of the Component */
@@ -39,4 +39,15 @@ export interface GigyaRaasComponentData extends CmsComponent {
 
   /** Decides whether screenset should be visible for logged in user */
   showLoggedIn?: string;
+}
+
+export interface CdcSiteConfig {
+  oidcOpIssuerURI: string;
+  oidcRpClientId: string;
+  scopes: string[];
+  siteApiKey?: string;
+}
+
+export interface CdcBaseSite extends BaseSite {
+  cdcSiteConfig?: CdcSiteConfig;
 }

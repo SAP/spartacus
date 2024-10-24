@@ -5,3 +5,8 @@
  */
 
 export * from './cdc-js.service';
+export * from './cdc-base-site.service';
+export * from './cdc-auth.service';
+export * from './cdc-auth-logout.service';
+export * from './cdc-auth-http-header.service';
+export * from './cdc-oauth-lib-wrapper.service';
