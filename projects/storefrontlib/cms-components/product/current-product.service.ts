@@ -55,4 +55,7 @@ export class CurrentProductService {
       .getRouterState()
       .pipe(map((state) => state.state.params['productCode']));
   }
+  getRealTimeStockData(productCode: string): Observable<string> {
+    return this.getRealTimeStockData(productCode);
+  }
 }

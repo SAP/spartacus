@@ -22,6 +22,9 @@ export const defaultOccProductConfig: OccConfig = {
           attributes: 'products/${productCode}?fields=classifications',
           price: 'products/${productCode}?fields=price(formattedValue)',
           stock: 'products/${productCode}?fields=stock(DEFAULT)',
+          unit: 'products/${productCode}?fields=sapUnit',
+          productAvailabilities:
+            'productAvailabilities?filters=${productCode}:${sapCode}',
           list_item:
             'products/${productCode}?fields=code,name,price(formattedValue),images(DEFAULT),baseProduct',
         },

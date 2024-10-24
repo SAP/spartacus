@@ -29,6 +29,8 @@ import {
   CmsAddToCartComponent,
   EventService,
   FeatureConfigService,
+  FeatureToggles,
+  OccEndpointsService,
   Product,
   isNotNullable,
 } from '@spartacus/core';
@@ -63,6 +65,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   @ViewChild('addToCartDialogTriggerEl') addToCartDialogTriggerEl: ElementRef;
 
   maxQuantity: number;
+  realTimeStock: string = '';
 
   hasStock: boolean = false;
   inventoryThreshold: boolean = false;
@@ -85,6 +88,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
 
   private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   /**
    * We disable the dialog launch on quantity input,
@@ -111,6 +115,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected activeCartService: ActiveCartFacade,
     protected component: CmsComponentData<CmsAddToCartComponent>,
     protected eventService: EventService,
+    protected occEndpoints: OccEndpointsService,
     @Optional() protected productListItemContext?: ProductListItemContext
   ) {}
 
@@ -162,15 +167,30 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    * When backoffice forces a product to be in stock, omit showing the stock level.
    * When product stock level is limited by a threshold value, append '+' at the end.
    * When out of stock, display no numerical value.
+   * CXSPA-8577: Bugfix for scenario where a user might want the live stocks to be displayed on PDP.
    */
   getInventory(): string {
-    if (this.hasStock) {
-      const quantityDisplay = this.maxQuantity
-        ? this.maxQuantity.toString()
-        : '';
-      return this.inventoryThreshold ? quantityDisplay + '+' : quantityDisplay;
+    if (this.featureToggles.realTimeStockDispaly) {
+      this.currentProductService
+        .getRealTimeStockData(this.productCode)
+        .subscribe((quantity: string) => {
+          this.realTimeStock = quantity;
+          this.cd.markForCheck();
+        });
+      return this.inventoryThreshold
+        ? this.realTimeStock + '+'
+        : this.realTimeStock;
     } else {
-      return '';
+      if (this.hasStock) {
+        const quantityDisplay = this.maxQuantity
+          ? this.maxQuantity.toString()
+          : '';
+        return this.inventoryThreshold
+          ? quantityDisplay + '+'
+          : quantityDisplay;
+      } else {
+        return '';
+      }
     }
   }
 

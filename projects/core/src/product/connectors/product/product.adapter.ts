@@ -27,4 +27,6 @@ export abstract class ProductAdapter {
    * @param products
    */
   abstract loadMany?(products: ScopedProductData[]): ScopedProductData[];
+
+  abstract loadRealTimeStock(productCode: string): Observable<string>;
 }
