@@ -617,5 +617,55 @@ describe('CheckoutPaymentMethodComponent', () => {
       );
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
+
+    describe('createCard().role', () => {
+      let paymentMethod1: PaymentDetails;
+      beforeEach(() => {
+        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
+        paymentMethod1 = {
+          id: 'selected payment method',
+          accountHolderName: 'Name',
+          cardNumber: '123456789',
+          cardType: {
+            code: 'Visa',
+            name: 'Visa',
+          },
+          expiryMonth: '01',
+          expiryYear: '2022',
+          cvn: '123',
+          defaultPayment: true,
+        };
+      });
+
+      it('should be set to "region" for selected payment card', () => {
+        expect(
+          component['createCard'](
+            paymentMethod1,
+            {
+              textDefaultPaymentMethod: '✓ DEFAULT',
+              textExpires: 'Expires',
+              textUseThisPayment: 'Use this payment',
+              textSelected: 'Selected',
+            },
+            paymentMethod1
+          ).role
+        ).toEqual('region');
+      });
+
+      it('should be set to "button" for non selected payment cards', () => {
+        expect(
+          component['createCard'](
+            paymentMethod1,
+            {
+              textDefaultPaymentMethod: '✓ DEFAULT',
+              textExpires: 'Expires',
+              textUseThisPayment: 'Use this payment',
+              textSelected: 'Selected',
+            },
+            { ...paymentMethod1, id: 'newId' }
+          ).role
+        ).toEqual('button');
+      });
+    });
   });
 });

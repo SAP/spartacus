@@ -333,6 +333,7 @@ if (environment.cpq) {
         a11yUnitsListKeyboardControls: true,
         a11yCartItemsLinksStyles: true,
         a11yHideSelectBtnForSelectedAddrOrPayment: true,
+        a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
         a11yFocusableCarouselControls: true,
         a11yUseTrapTabInsteadOfTrapInDialogs: true,
         cmsGuardsServiceUseGuardsComposer: true,

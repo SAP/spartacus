@@ -325,6 +325,13 @@ export interface FeatureTogglesInterface {
   a11yHideSelectBtnForSelectedAddrOrPayment?: boolean;
 
   /**
+   * If enabled, the "Checkout Shipping address/Payment" views
+   * will have a more a11y friendly selected label, including the context
+   * indicating weather the user is on a selected Address or Payment regsion.
+   */
+  a11ySelectLabelWithContextForSelectedAddrOrPayment?: boolean;
+
+  /**
    * Determines whether the controls in the `CarouselComponent` are focusable and accessible from the keyboard.
    */
   a11yFocusableCarouselControls?: boolean;
@@ -730,6 +737,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUnitsListKeyboardControls: true,
   a11yCartItemsLinksStyles: true,
   a11yHideSelectBtnForSelectedAddrOrPayment: false,
+  a11ySelectLabelWithContextForSelectedAddrOrPayment: false,
   a11yFocusableCarouselControls: true,
   a11yUseTrapTabInsteadOfTrapInDialogs: false,
   cmsGuardsServiceUseGuardsComposer: false,

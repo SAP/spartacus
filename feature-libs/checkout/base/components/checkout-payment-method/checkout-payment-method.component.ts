@@ -151,7 +151,11 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       this.selectedMethod$,
       this.translationService.translate('paymentForm.useThisPayment'),
       this.translationService.translate('paymentCard.defaultPaymentMethod'),
-      this.translationService.translate('paymentCard.selected'),
+      this.featureConfigService?.isEnabled(
+        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
+      )
+        ? this.translationService.translate('paymentCard.selectedPayment')
+        : this.translationService.translate('paymentCard.selected'),
     ]).pipe(
       tap(([paymentMethods, selectedMethod]) =>
         this.selectDefaultPaymentMethod(paymentMethods, selectedMethod)
@@ -299,9 +303,14 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       'a11yHideSelectBtnForSelectedAddrOrPayment'
     );
     const isSelected = selected?.id === paymentDetails.id;
+    const isButtonRole =
+      this.featureConfigService?.isEnabled(
+        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
+      ) && !isSelected;
+    const role = isButtonRole ? 'button' : 'region';
 
     return {
-      role: 'region',
+      role,
       title: paymentDetails.defaultPayment
         ? cardLabels.textDefaultPaymentMethod
         : '',
