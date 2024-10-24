@@ -20,6 +20,7 @@
     data-text="setPreferredStore.myStore"
     [attr.data-preferred-store]="pointOfServiceName.name"
     class="set-preferred-heading"
+    aria-hidden="true"
   >
     {{
       pointOfServiceName.name === (storeSelected$ | async)?.name
