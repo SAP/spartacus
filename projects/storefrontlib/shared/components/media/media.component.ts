@@ -167,6 +167,7 @@ export class MediaComponent implements OnChanges {
   protected renderer = inject(Renderer2);
   protected document = inject(DOCUMENT);
   protected windowRef = inject(WindowRef);
+  protected config = inject(Config);
   constructor(protected mediaService: MediaService) {}
 
   ngOnChanges(): void {
@@ -199,43 +200,95 @@ export class MediaComponent implements OnChanges {
       return;
     }
 
-    if (!this.media?.srcset) {
+    const sources = this.media?.sources;
+    if (!sources || sources.length === 0) {
       return;
     }
 
-    const sources = this.mediaService.getSources(this.media.srcset);
+    const config = this.config as Config;
+    const formats = config?.media?.pictureElementFormats;
+    const order = config?.media?.pictureFormatsOrder;
 
-    sources
-      .reverse() // SPIKE - ORDER IS IMPORTANT. IF WE insertBefore, then we have to reverse the list first
-      .forEach((source, index) => {
-        const preloadLink = this.renderer.createElement('link');
-        this.renderer.setAttribute(preloadLink, 'rel', 'preload');
-        this.renderer.setAttribute(preloadLink, 'as', 'image');
-        this.renderer.setAttribute(preloadLink, 'href', source.srcset);
+    if (!formats || !order) {
+      return;
+    }
 
-        // Calculate the media attribute
-        let mediaQuery = '';
+    const renderer = this.renderer;
+    const head = this.document.head;
 
-        // SPIKE OLD - buggy, because first source is also min-width. HOWEVER WE MIGHT WANT TO FIX IT
-        // if (index === 0) {
-        //   mediaQuery = `(max-width: ${source.width}px)`;
-        // } else if (index === sources.length - 1) {
+    for (let i = 0; i < order.length; i++) {
+      const formatName = order[i];
+      const mediaQuery = formats[formatName]?.mediaQueries;
+      const source = sources[i];
 
-        // SPIKE NEW - but still buggy, because first source is also min-width
-        if (index < sources.length - 1) {
-          mediaQuery = `(min-width: ${source.width}px) and (max-width: ${sources[index + 1].width}px)`;
+      if (!mediaQuery || !source) {
+        continue;
+      }
+
+      let adjustedMediaQuery = mediaQuery;
+      let minWidth: number | null = null;
+      let maxWidth: number | null = null;
+
+      const parts = mediaQuery.split(' and ').map((part) => part.trim());
+      const otherConditions = [];
+
+      parts.forEach((part) => {
+        if (part.includes('max-width')) {
+          maxWidth = parseInt(
+            part.match(/max-width:\s*(\d+)px/)?.[1] ?? '',
+            10
+          );
+        } else if (part.includes('min-width')) {
+          minWidth = parseInt(
+            part.match(/min-width:\s*(\d+)px/)?.[1] ?? '',
+            10
+          );
         } else {
-          mediaQuery = `(min-width: ${source.width}px)`;
+          otherConditions.push(part);
         }
-        this.renderer.setAttribute(preloadLink, 'media', mediaQuery);
-
-        this.document.head.insertBefore(
-          preloadLink,
-          this.document.head.firstChild
-        );
-
-        console.log('<cx-media> SPIKE NEW: added preloadLink', preloadLink);
       });
+
+      if (i > 0) {
+        const previousFormatName = order[i - 1];
+        const previousMediaQuery = formats[previousFormatName]?.mediaQueries;
+        if (previousMediaQuery) {
+          const previousParts = previousMediaQuery
+            .split(' and ')
+            .map((part) => part.trim());
+
+          previousParts.forEach((part) => {
+            if (part.includes('max-width')) {
+              const previousMaxWidth = parseInt(
+                part.match(/max-width:\s*(\d+)px/)?.[1] ?? '',
+                10
+              );
+              minWidth = previousMaxWidth + 1;
+            }
+          });
+        }
+      }
+
+      const mediaQueryParts: string[] = [];
+      if (minWidth !== null) {
+        mediaQueryParts.push(`(min-width: ${minWidth}px)`);
+      }
+      if (maxWidth !== null) {
+        mediaQueryParts.push(`(max-width: ${maxWidth}px)`);
+      }
+
+      mediaQueryParts.push(...otherConditions);
+
+      adjustedMediaQuery = mediaQueryParts.join(' and ');
+
+      const preloadLink = renderer.createElement('link');
+      renderer.setAttribute(preloadLink, 'rel', 'preload');
+      renderer.setAttribute(preloadLink, 'as', 'image');
+      renderer.setAttribute(preloadLink, 'href', source.srcset);
+      renderer.setAttribute(preloadLink, 'media', adjustedMediaQuery);
+
+      renderer.appendChild(head, preloadLink);
+      console.log('SPIKE - preloadLink added', preloadLink);
+    }
   }
 
   /**
