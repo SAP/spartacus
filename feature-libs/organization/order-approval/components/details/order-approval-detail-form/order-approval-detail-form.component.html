@@ -41,11 +41,14 @@
             rows="3"
             formControlName="comment"
             maxlength="255"
+            [attr.aria-describedby]="'commentError'"
           ></textarea>
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
+            id="commentError"
+            aria-live="off"
             [translationParams]="{
               label:
                 'orderApprovalDetails.form.comment_' +

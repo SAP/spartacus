@@ -42,11 +42,14 @@
         required
         placeholder="{{ 'orgUser.firstName' | cxTranslate }}"
         formControlName="firstName"
+        [attr.aria-describedby]="'firstNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="firstNameError"
+        aria-live="off"
         [translationParams]="{ label: 'orgUser.firstName' | cxTranslate }"
         [control]="form.get('firstName')"
       ></cx-form-errors>
@@ -68,11 +71,14 @@
         required
         placeholder="{{ 'orgUser.lastName' | cxTranslate }}"
         formControlName="lastName"
+        [attr.aria-describedby]="'lastNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="lastNameError"
+        aria-live="off"
         [translationParams]="{ label: 'orgUser.lastName' | cxTranslate }"
         [control]="form.get('lastName')"
       ></cx-form-errors>
@@ -94,11 +100,14 @@
         required
         placeholder="{{ 'orgUser.email' | cxTranslate }}"
         formControlName="email"
+        [attr.aria-describedby]="'emailError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="emailError"
+        aria-live="off"
         [translationParams]="{ label: 'orgUser.email' | cxTranslate }"
         [control]="form.get('email')"
       ></cx-form-errors>
