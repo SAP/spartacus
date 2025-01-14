@@ -40,6 +40,16 @@
         }
       }
 
+      @include forFeature('a11yAnonymousConsentMessageInDialog') {
+        .cx-dialog-message {
+          padding: 1.5rem 1.75rem 0;
+
+          .cx-message {
+            margin: 0;
+          }
+        }
+      }
+
       .cx-action-link {
         margin: 0 0.35rem;
 

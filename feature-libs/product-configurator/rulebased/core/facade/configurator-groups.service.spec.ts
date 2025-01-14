@@ -10,7 +10,9 @@ import {
   GROUP_ID_2,
   GROUP_ID_3,
   GROUP_ID_4,
+  GROUP_ID_10,
   GROUP_ID_CONFLICT_3,
+  DESCRIPTION_FOR,
   productConfiguration,
   productConfigurationWithConflicts,
 } from '../../testing/configurator-test-data';
@@ -231,6 +233,58 @@ describe('ConfiguratorGroupsService', () => {
     });
   });
 
+  describe('getDescriptionForGroupId', () => {
+    it('should return description for group', () => {
+      expect(
+        classUnderTest['getDescriptionForGroupId'](
+          GROUP_ID_4,
+          productConfiguration
+        )
+      ).toBe(DESCRIPTION_FOR + GROUP_ID_4);
+    });
+
+    it('should return description of first gropu if group id cannot be found', () => {
+      expect(
+        classUnderTest['getDescriptionForGroupId'](
+          'unknownGroupId',
+          productConfiguration
+        )
+      ).toBe(DESCRIPTION_FOR + GROUP_ID_1);
+    });
+  });
+
+  describe('getNextGroupDescription', () => {
+    it('should return description of next group', (done) => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfiguration)
+      );
+      const nextGroupDescription =
+        classUnderTest.getNextGroupDescription(productConfiguration);
+
+      expect(nextGroupDescription).toBeDefined();
+      nextGroupDescription.subscribe((description) => {
+        expect(description).toBe(DESCRIPTION_FOR + GROUP_ID_4);
+        done();
+      });
+    });
+
+    it('should return empty string if no next group exists', (done) => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfiguration)
+      );
+      productConfiguration.interactionState.currentGroup = GROUP_ID_10;
+      const nextGroupDescription =
+        classUnderTest.getNextGroupDescription(productConfiguration);
+
+      expect(nextGroupDescription).toBeDefined();
+      nextGroupDescription.subscribe((description) => {
+        expect(description).toBe('');
+        done();
+      });
+      productConfiguration.interactionState.currentGroup = GROUP_ID_2;
+    });
+  });
+
   describe('getPreviousGroupId', () => {
     it('should return a previous group ID', (done) => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
@@ -287,6 +341,38 @@ describe('ConfiguratorGroupsService', () => {
         expect(groupId).toBe(GROUP_ID_1);
         done();
       });
+    });
+  });
+
+  describe('getPreviousGroupDescription', () => {
+    it('should return description of previous group', (done) => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfiguration)
+      );
+      const previousGroupDescription =
+        classUnderTest.getPreviousGroupDescription(productConfiguration);
+
+      expect(previousGroupDescription).toBeDefined();
+      previousGroupDescription.subscribe((description) => {
+        expect(description).toBe(DESCRIPTION_FOR + GROUP_ID_1);
+        done();
+      });
+    });
+
+    it('should return empty string if no previous group exists', (done) => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfiguration)
+      );
+      productConfiguration.interactionState.currentGroup = GROUP_ID_1;
+      const previousGroupDescription =
+        classUnderTest.getPreviousGroupDescription(productConfiguration);
+
+      expect(previousGroupDescription).toBeDefined();
+      previousGroupDescription.subscribe((description) => {
+        expect(description).toBe('');
+        done();
+      });
+      productConfiguration.interactionState.currentGroup = GROUP_ID_2;
     });
   });
 

@@ -4,7 +4,13 @@
       class="btn btn-block btn-secondary cx-previous"
       [disabled]="isFirstGroup(configuration.owner) | async"
       (click)="onPrevious(configuration)"
-      [attr.aria-label]="'configurator.a11y.previous' | cxTranslate"
+      [attr.aria-label]="
+        'configurator.a11y.previous'
+          | cxTranslate
+            : {
+                group: getPreviousGroupDescription(configuration) | async,
+              }
+      "
     >
       {{ 'configurator.button.previous' | cxTranslate }}
     </button>
@@ -12,7 +18,13 @@
       class="btn btn-block btn-secondary cx-next"
       [disabled]="isLastGroup(configuration.owner) | async"
       (click)="onNext(configuration)"
-      [attr.aria-label]="'configurator.a11y.next' | cxTranslate"
+      [attr.aria-label]="
+        'configurator.a11y.next'
+          | cxTranslate
+            : {
+                group: getNextGroupDescription(configuration) | async,
+              }
+      "
     >
       {{ 'configurator.button.next' | cxTranslate }}
     </button>

@@ -8,21 +8,22 @@ import {
   RouterState,
   RoutingService,
   UserIdService,
+  WindowRef,
 } from '@spartacus/core';
 import {
   OpfDynamicScriptResourceType,
   OpfMetadataStoreService,
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
-import { OrderFacade } from '@spartacus/order/root';
-import { of, throwError } from 'rxjs';
-
 import { OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE } from '@spartacus/opf/checkout/root';
+import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import {
   OpfPaymentFacade,
   OpfPaymentRenderPattern,
   OpfPaymentSessionData,
 } from '@spartacus/opf/payment/root';
+import { OrderFacade } from '@spartacus/order/root';
+import { of, throwError } from 'rxjs';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
 const mockUrl = 'https://sap.com';
@@ -38,6 +39,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   let globalMessageServiceMock: jasmine.SpyObj<GlobalMessageService>;
   let orderFacadeMock: jasmine.SpyObj<OrderFacade>;
   let opfMetadataStoreServiceMock: jasmine.SpyObj<OpfMetadataStoreService>;
+  let windowRefMock: jasmine.SpyObj<WindowRef>;
 
   beforeEach(() => {
     opfPaymentFacadeMock = jasmine.createSpyObj('OpfPaymentFacade', [
@@ -69,6 +71,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       'OpfMetadataStoreService',
       ['updateOpfMetadata']
     );
+    windowRefMock = jasmine.createSpyObj('WindowRef', ['nativeWindow']);
 
     routingServiceMock.getRouterState.and.returnValue(
       of({
@@ -95,6 +98,10 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         {
           provide: OpfMetadataStoreService,
           useValue: opfMetadataStoreServiceMock,
+        },
+        {
+          provide: WindowRef,
+          useValue: windowRefMock,
         },
       ],
     });
@@ -163,6 +170,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
           cartId: mockCartId,
           resultURL: mockUrl,
           cancelURL: mockUrl,
+          browserInfo: getBrowserInfo(windowRefMock.nativeWindow),
         },
       });
 
@@ -422,7 +430,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     const config = service['getPaymentInitiationConfig'](
       mockActiveCartId,
       mockOtpKey,
-      mockPaymentOptionId
+      mockPaymentOptionId,
+      getBrowserInfo(windowRefMock.nativeWindow)
     );
 
     expect(config).toEqual({
@@ -432,6 +441,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         cartId: mockActiveCartId,
         resultURL: mockUrl,
         cancelURL: mockUrl,
+        browserInfo: getBrowserInfo(windowRefMock.nativeWindow),
       },
     });
   });

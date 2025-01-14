@@ -181,6 +181,11 @@ $intialExpandedFacetsLarge: 3 !default;
       background-color: var(--cx-color-primary);
       border-color: var(--cx-color-primary);
       color: var(--cx-color-inverse);
+
+      @include cx-highContrastTheme-dark {
+        background-color: transparent;
+        border-color: var(--cx-color-dark);
+      }
     }
   }
 

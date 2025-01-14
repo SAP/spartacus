@@ -51,6 +51,18 @@
     }
   }
 
+  @include forFeature('a11yMiniCartFocusOnMobile') {
+    @include media-breakpoint-down(md) {
+      a {
+        &:focus {
+          outline-offset: -4px;
+          outline-color: var(--cx-color-inverse);
+          box-shadow: 0 0 0 2px var(--cx-color-visual-focus) inset;
+        }
+      }
+    }
+  }
+
   @mixin native-high-contrast-fix {
     @media (forced-colors: active) {
       a {

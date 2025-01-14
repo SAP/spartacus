@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -237,6 +237,12 @@ export interface OccEndpoints {
    * @member {string}
    */
   claimCoupon?: string | OccEndpoint;
+  /**
+   * Endpoint for claiming coupon with code in request body
+   *
+   * @member {string}
+   */
+  claimCustomerCoupon?: string | OccEndpoint;
   /**
    * Endpoint for coupons
    *

@@ -152,6 +152,9 @@
     background-color: var(--cx-color-background);
     .cx-review-summary-payment-card {
       background-color: var(--cx-color-background);
+      @include forFeature('a11yHighContrastBorders') {
+        border-color: var(--cx-color-dark);
+      }
     }
     .cx-review-summary {
       background-color: var(--cx-color-background);

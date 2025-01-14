@@ -1,0 +1,83 @@
+<div
+  class="cx-coupon-dialog"
+  role="dialog"
+  [cxFocus]="focusConfig"
+  (esc)="close('Escape clicked')"
+  aria-labelledby="dialogTitle"
+>
+  <div class="cx-coupon-container">
+    <!-- Modal Header -->
+
+    <div class="cx-dialog-header modal-header">
+      <h3 id="dialogTitle" class="cx-dialog-title modal-title">
+        {{ 'myCoupons.claimCoupondialogTitle' | cxTranslate }}
+      </h3>
+      <button
+        type="button"
+        class="close"
+        title="{{ 'common.close' | cxTranslate }}"
+        [attr.aria-label]="'common.close' | cxTranslate"
+        (click)="close('Cross click')"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <form (ngSubmit)="onSubmit()" [formGroup]="form" class="cx-dialog-item">
+        <label>
+          <span class="label-content"
+            >{{ 'myCoupons.claimCouponCode.label' | cxTranslate }}
+            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
+          ></span>
+          <input
+            required="true"
+            type="text"
+            name="couponCode"
+            formControlName="couponCode"
+            placeholder="{{
+              'myCoupons.claimCouponCode.placeholder' | cxTranslate
+            }}"
+            class="form-control"
+          />
+          <cx-form-errors
+            [translationParams]="{
+              label: 'myCoupons.claimCouponCode.label' | cxTranslate,
+            }"
+            [control]="form.get('couponCode')"
+          ></cx-form-errors>
+        </label>
+        <div class="cx-dialog-row">
+          <div class="col-md-6 cx-dialog-row--reset-button">
+            <a
+              role="button"
+              class="btn btn-block btn-secondary"
+              (click)="cancelEdit()"
+            >
+              {{ 'myCoupons.reset' | cxTranslate }}
+            </a>
+          </div>
+          <div class="col-md-6 cx-dialog-row-submit-button">
+            <button
+              class="btn btn-block btn-primary"
+              [disabled]="form.disabled"
+            >
+              {{ 'myCoupons.claim' | cxTranslate }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<ng-template #requiredAsterisk>
+  <abbr
+    aria-hidden="true"
+    class="text-decoration-none"
+    title="{{ 'common.required' | cxTranslate }}"
+    >*</abbr
+  >
+</ng-template>

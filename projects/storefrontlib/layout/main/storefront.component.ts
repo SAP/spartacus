@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
+  Optional,
   ViewChild,
 } from '@angular/core';
 import {
@@ -26,11 +27,12 @@ import {
   SkipFocusConfig,
   KeyboardFocusService,
 } from '../a11y/keyboard-focus/index';
-import { SkipLinkComponent } from '../a11y/skip-link/index';
+import { SkipLinkComponent, SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontOutlets } from './storefront-outlets.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'cx-storefront',
@@ -49,6 +51,12 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   private featureConfigService = inject(FeatureConfigService);
   protected destroyRef = inject(DestroyRef);
+  @Optional() protected document = inject(DOCUMENT, {
+    optional: true,
+  });
+  @Optional() protected skipLinkService = inject(SkipLinkService, {
+    optional: true,
+  });
 
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
@@ -99,10 +107,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.navigateSubscription = this.routingService
       .isNavigating()
-      .subscribe((val) => {
-        this.startNavigating = val === true;
-        this.stopNavigating = val === false;
-      });
+      .subscribe((val) => this.onNavigation(val));
     if (
       this.featureConfigService.isEnabled(
         'a11yMobileFocusOnFirstNavigationItem'
@@ -163,6 +168,20 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.navigateSubscription) {
       this.navigateSubscription.unsubscribe();
+    }
+  }
+
+  protected onNavigation(isNavigating: boolean): void {
+    this.startNavigating = isNavigating === true;
+    this.stopNavigating = isNavigating === false;
+
+    // After clicking a link the focus should move to the first available item in the main content area.
+    if (
+      this.featureConfigService.isEnabled('a11yResetFocusAfterNavigating') &&
+      this.stopNavigating &&
+      this.document?.activeElement !== this.document?.body
+    ) {
+      this.skipLinkService?.scrollToTarget('cx-main');
     }
   }
 }

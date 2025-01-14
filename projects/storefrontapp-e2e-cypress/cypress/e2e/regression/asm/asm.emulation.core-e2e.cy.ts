@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -61,9 +61,17 @@ context('Assisted Service Module', () => {
       cy.get('.cx-page-title').then((el) => {
         const orderNumber = el.text().match(/\d+/)[0];
         cy.log('--> End session');
+        // const homepage = waitForPage('homepage', 'getHomePage');
         cy.get('cx-customer-emulation')
           .findByText(/End Session/i)
           .click();
+        // Make sure homepage is visible
+        cy.wait(`@getHomePage`).its('response.statusCode').should('eq', 200);
+        cy.get('cx-global-message div').should(
+          'contain',
+          'You have successfully signed out.'
+        );
+        cy.wait(1000);
         asm.startCustomerEmulationWithOrderID(orderNumber, customer);
       });
     });

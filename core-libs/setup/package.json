@@ -16,7 +16,7 @@
     "test": "../../node_modules/.bin/jest --config ./jest.config.js"
   },
   "dependencies": {
-    "tslib": "^2.6.2"
+    "tslib": "^2.8.1"
   },
   "peerDependencies": {
     "@angular/core": "^17.0.5",

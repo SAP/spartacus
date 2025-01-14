@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -317,6 +317,7 @@ if (environment.cpq) {
         a11yPreventHorizontalScroll: true,
         a11yReorderDialog: true,
         a11yPopoverFocus: true,
+        a11yPopoverHighContrast: true,
         a11yScheduleReplenishment: true,
         a11yScrollToTop: true,
         a11ySavedCartsZoom: true,
@@ -327,10 +328,12 @@ if (environment.cpq) {
         a11yOrganizationsBanner: true,
         a11yOrganizationListHeadingOrder: true,
         a11yCartImportConfirmationMessage: true,
+        a11yAnonymousConsentMessageInDialog: true,
         a11yReplenishmentOrderFieldset: true,
         a11yListOversizedFocus: true,
         a11yStoreFinderOverflow: true,
         a11yMobileFocusOnFirstNavigationItem: true,
+        a11yQuickOrderSearchListKeyboardNavigation: false,
         a11yCartSummaryHeadingOrder: true,
         a11ySearchBoxMobileFocus: true,
         a11yFacetKeyboardNavigation: true,
@@ -367,6 +370,7 @@ if (environment.cpq) {
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
         a11yFacetsDialogFocusHandling: true,
+        a11yResetFocusAfterNavigating: true,
         headerLayoutForSmallerViewports: true,
         a11yStoreFinderAlerts: true,
         a11yFormErrorMuteIcon: true,
@@ -398,6 +402,7 @@ if (environment.cpq) {
         a11yCheckoutStepsLandmarks: true,
         a11yQTY2Quantity: true,
         a11yImproveButtonsInCardComponent: true,
+        a11yMiniCartFocusOnMobile: true,
         a11yApprovalProcessWithNoClearable: true,
         a11yPostRegisterSuccessMessage: true,
         a11yDeleteButton2First: true,
@@ -407,13 +412,19 @@ if (environment.cpq) {
         a11yTextSpacingAdjustments: true,
         a11yTableHeaderReadout: true,
         a11ySearchboxAssistiveMessage: true,
+        updateConsentGivenInOnChanges: true,
         a11yDifferentiateFocusedAndSelected: true,
+        a11yQuickOrderSearchBoxRefocusOnClose: true,
         a11yKeyboardFocusInSearchBox: true,
         a11yAddPaddingToCarouselPanel: true,
         a11yButtonAriaFixes: true,
+        a11yFocusOnCardAfterSelecting: true,
+        a11ySearchableDropdownFirstElementFocus: true,
         a11yHideConsentButtonWhenBannerVisible: true,
+        a11yRepeatingButtonsUniqueLabels: true,
+        a11yHighContrastBorders: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
-        useSiteThemeService: false,
+        useSiteThemeService: true,
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
         allPageMetaResolversEnabledInCsr: true,
@@ -421,9 +432,11 @@ if (environment.cpq) {
         a11yHamburgerMenuTrapFocus: true,
         useExtendedMediaComponentConfiguration: true,
         showRealTimeStockInPDP: false,
+        a11yScrollToTopPositioning: false,
         a11yWrapReviewOrderInSection: true,
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
+        enableClaimCustomerCouponWithCodeInRequestBody: false,
       };
       return appFeatureToggles;
     }),
