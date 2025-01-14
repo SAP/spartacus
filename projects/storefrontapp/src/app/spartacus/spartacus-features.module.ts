@@ -420,6 +420,7 @@ if (environment.cpq) {
         a11yFocusOnCardAfterSelecting: true,
         a11ySearchableDropdownFirstElementFocus: true,
         a11yHideConsentButtonWhenBannerVisible: true,
+        a11yRepeatingButtonsUniqueLabels: true,
         a11yHighContrastBorders: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: true,

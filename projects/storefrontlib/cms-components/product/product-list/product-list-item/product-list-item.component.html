@@ -20,7 +20,7 @@
   </div>
   <div class="col-12 col-md-8">
     <ng-container *cxFeature="'a11yExpandedFocusIndicator'">
-      <h2 class="cx-product-name">
+      <h2 [id]="product.code + '_header'" class="cx-product-name">
         <a
           [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
           [innerHtml]="product.nameHtml"
