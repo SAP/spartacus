@@ -2,10 +2,8 @@
   <span> {{ 'siteThemeSwitcher.theme' | cxTranslate }}:</span>
   <select (change)="activeItem = $any($event).target.value">
     <option
-      [attr.aria-label]="
-        theme.i18nNameKey ? (theme.i18nNameKey | cxTranslate) : theme.className
-      "
-      *ngFor="let theme of themes"
+      [attr.aria-label]="ariaLabel$(theme, i, themes.length) | async"
+      *ngFor="let theme of themes; index as i"
       value="{{ theme.className }}"
       [selected]="(activeItem$ | async) === theme.className"
     >
