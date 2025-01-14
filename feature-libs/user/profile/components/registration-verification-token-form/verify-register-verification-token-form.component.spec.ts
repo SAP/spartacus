@@ -234,7 +234,13 @@ describe('RegistrationVerificationTokenFormComponent', () => {
         : [];
 
       expect(passwordControl).toBeTruthy();
-      expect(validators).toEqual({ required: true, cxInvalidPassword: true });
+      expect(validators).toEqual({
+        cxMinOneDigit: true,
+        cxMinOneSpecialCharacter: true,
+        cxMinOneUpperCaseCharacter: true,
+        cxMinSixCharactersLength: true,
+        required: true,
+      });
     });
   });
 });

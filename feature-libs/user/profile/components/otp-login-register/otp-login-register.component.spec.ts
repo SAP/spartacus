@@ -295,7 +295,7 @@ describe('OneTimePasswordRegisterComponent', () => {
     });
   });
 
-  describe('SendRegistrationVerificationToken', () => {
+  describe('sendRegistrationVerificationToken', () => {
     it('should create registration verification token with valid form', () => {
       component.registerForm.patchValue(mockRegisterFormData);
       component.ngOnInit();
@@ -318,7 +318,7 @@ describe('OneTimePasswordRegisterComponent', () => {
 
     it('should redirect to next register page', () => {
       component.ngOnInit();
-      component.SendRegistrationVerificationToken();
+      component.sendRegistrationVerificationToken();
 
       expect(mockRoutingService.go).toHaveBeenCalled();
     });
@@ -374,7 +374,7 @@ describe('OneTimePasswordRegisterComponent', () => {
     let captchaComponent;
     beforeEach(() => {
       captchaComponent = fixture.debugElement.query(By.css('cx-captcha'));
-      spyOn(component, 'SendRegistrationVerificationToken').and.callThrough();
+      spyOn(component, 'sendRegistrationVerificationToken').and.callThrough();
       mockRegisterFormData.captcha = false;
       component.registerForm.patchValue(mockRegisterFormData);
     });
@@ -394,7 +394,7 @@ describe('OneTimePasswordRegisterComponent', () => {
       component.submitForm();
 
       expect(getCaptchaControl(component).valid).toEqual(false);
-      expect(component.SendRegistrationVerificationToken).toHaveBeenCalledTimes(
+      expect(component.sendRegistrationVerificationToken).toHaveBeenCalledTimes(
         0
       );
     });
@@ -408,7 +408,7 @@ describe('OneTimePasswordRegisterComponent', () => {
 
       expect(getCaptchaControl(component).value).toBe(true);
       expect(getCaptchaControl(component).valid).toEqual(true);
-      expect(component.SendRegistrationVerificationToken).toHaveBeenCalledTimes(
+      expect(component.sendRegistrationVerificationToken).toHaveBeenCalledTimes(
         1
       );
     });

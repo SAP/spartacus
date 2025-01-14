@@ -25,7 +25,7 @@ import {
 } from '@spartacus/storefront';
 import { RegistrationVerificationTokenFormComponent } from './verify-register-verification-token-form.component';
 import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
-import { UserRegisterFacade } from '../../root/facade';
+import { UserRegisterFacade } from '@spartacus/user/profile/root';
 
 @NgModule({
   imports: [
@@ -44,7 +44,7 @@ import { UserRegisterFacade } from '../../root/facade';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        VerifyOTPTokenForRegistrationComponent: {
+        VerifyOTPForRegistrationComponent: {
           component: RegistrationVerificationTokenFormComponent,
           guards: [NotAuthGuard],
           providers: [

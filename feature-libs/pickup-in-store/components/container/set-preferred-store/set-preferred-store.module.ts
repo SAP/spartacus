@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule } from '@spartacus/core';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { StoreFinderOutlets } from '@spartacus/storefinder/root';
 import {
   IconModule,
@@ -16,7 +16,7 @@ import {
 import { SetPreferredStoreComponent } from './set-preferred-store.component';
 
 @NgModule({
-  imports: [CommonModule, IconModule, I18nModule],
+  imports: [CommonModule, IconModule, I18nModule, FeaturesConfigModule],
   exports: [SetPreferredStoreComponent],
   declarations: [SetPreferredStoreComponent],
   providers: [

@@ -32,7 +32,7 @@ import {
   OAuthFlow,
   RoutingService,
 } from '@spartacus/core';
-import { UserSignUp } from '../../root/model';
+import { UserSignUp } from '@spartacus/user/profile/root';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   VerificationToken,
@@ -60,28 +60,38 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
     inject(LaunchDialogService);
 
   private featureConfigService = inject(FeatureConfigService);
-  protected passwordValidators = this.featureConfigService?.isEnabled(
-    'formErrorsDescriptiveMessages'
-  )
-    ? this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-      ? CustomFormValidators.securePasswordValidators
-      : this.featureConfigService.isEnabled(
+  protected passwordValidators = this.getPasswordValidators();
+
+  getPasswordValidators(): any {
+    if (this.featureConfigService?.isEnabled('formErrorsDescriptiveMessages')) {
+      if (
+        this.featureConfigService.isEnabled('enableSecurePasswordValidation')
+      ) {
+        return CustomFormValidators.securePasswordValidators;
+      } else {
+        if (
+          this.featureConfigService.isEnabled(
             'enableConsecutiveCharactersPasswordRequirement'
           )
-        ? [
+        ) {
+          return [
             ...CustomFormValidators.passwordValidators,
             CustomFormValidators.noConsecutiveCharacters,
-          ]
-        : CustomFormValidators.passwordValidators
-    : [
+          ];
+        } else {
+          return CustomFormValidators.passwordValidators;
+        }
+      }
+    } else {
+      if (
         this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-          ? CustomFormValidators.securePasswordValidator
-          : this.featureConfigService.isEnabled(
-                'enableConsecutiveCharactersPasswordRequirement'
-              )
-            ? CustomFormValidators.strongPasswordValidator
-            : CustomFormValidators.passwordValidator,
-      ];
+      ) {
+        return CustomFormValidators.securePasswordValidator;
+      } else {
+        return CustomFormValidators.passwordValidators;
+      }
+    }
+  }
 
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
@@ -215,9 +225,9 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
 
   collectDataFromRegisterForm(formData: any): UserSignUp {
     const {
+      email,
       firstName,
       lastName,
-      email,
       password,
       titleCode,
       tokenId: verificationTokenId,
@@ -225,9 +235,9 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
     } = formData;
 
     return {
+      uid: email.toLowerCase(),
       firstName,
       lastName,
-      uid: email.toLowerCase(),
       password,
       titleCode,
       verificationTokenId,
