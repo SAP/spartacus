@@ -14,8 +14,8 @@ export function defaultOrganizationUserRegistrationComponentsConfig(): CmsConfig
       [ORGANIZATION_USER_REGISTRATION_FEATURE]: {
         cmsComponents: [
           'OrganizationUserRegistrationComponent',
-          'OneTimePasswordOrganizationUserRegistrationComponent',
-          'RegisterVerifyOTPTokenComponent',
+          'RegisterB2BCustomerWithOTPComponent',
+          'VerifyOTPForB2BRegistrationComponent',
         ],
       },
     },

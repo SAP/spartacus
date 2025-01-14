@@ -37,7 +37,7 @@ import { UserRegistrationOTPFormComponent } from './user-registration-otp-form.c
     NgSelectA11yModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        OneTimePasswordOrganizationUserRegistrationComponent: {
+        RegisterB2BCustomerWithOTPComponent: {
           component: UserRegistrationOTPFormComponent,
           guards: [NotAuthGuard],
         },
