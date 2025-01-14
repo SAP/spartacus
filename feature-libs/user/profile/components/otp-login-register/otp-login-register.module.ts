@@ -48,7 +48,7 @@ import { RegisterComponentService } from '../register';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        ReturningCustomerOTPRegisterComponent: {
+        RegisterCustomerWithOTPComponent: {
           component: OneTimePasswordRegisterComponent,
           guards: [NotAuthGuard],
           providers: [

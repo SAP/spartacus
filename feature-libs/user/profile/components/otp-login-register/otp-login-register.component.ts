@@ -187,10 +187,7 @@ export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
       .createVerificationToken(registrationVerificationTokenCreation)
       .subscribe({
         next: (result: VerificationToken) =>
-          this.goToVerificationTokenForm(
-            result,
-            registrationVerificationTokenCreation
-          ),
+          this.goToVerificationTokenForm(result),
         error: () => this.isLoading$.next(false),
         complete: () => this.onCreateRegistrationVerificationTokenComplete(),
       });
@@ -208,8 +205,7 @@ export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
   }
 
   protected goToVerificationTokenForm(
-    registrationVerificationToken: VerificationToken,
-    registrationVerificationTokenCreation: VerificationTokenCreation
+    registrationVerificationToken: VerificationToken
   ): void {
     this.routingService.go(
       {
@@ -217,7 +213,7 @@ export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
       },
       {
         state: {
-          loginId: registrationVerificationTokenCreation.loginId,
+          loginId: this.registerForm.value.email.toLowerCase(),
           tokenId: registrationVerificationToken.tokenId,
           expiresIn: registrationVerificationToken.expiresIn,
           titleCode: this.registerForm.value.titleCode,

@@ -60,28 +60,38 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
     inject(LaunchDialogService);
 
   private featureConfigService = inject(FeatureConfigService);
-  protected passwordValidators = this.featureConfigService?.isEnabled(
-    'formErrorsDescriptiveMessages'
-  )
-    ? this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-      ? CustomFormValidators.securePasswordValidators
-      : this.featureConfigService.isEnabled(
+  protected passwordValidators = this.getPasswordValidators();
+
+  getPasswordValidators(): any {
+    if (this.featureConfigService?.isEnabled('formErrorsDescriptiveMessages')) {
+      if (
+        this.featureConfigService.isEnabled('enableSecurePasswordValidation')
+      ) {
+        return CustomFormValidators.securePasswordValidators;
+      } else {
+        if (
+          this.featureConfigService.isEnabled(
             'enableConsecutiveCharactersPasswordRequirement'
           )
-        ? [
+        ) {
+          return [
             ...CustomFormValidators.passwordValidators,
             CustomFormValidators.noConsecutiveCharacters,
-          ]
-        : CustomFormValidators.passwordValidators
-    : [
+          ];
+        } else {
+          return CustomFormValidators.passwordValidators;
+        }
+      }
+    } else {
+      if (
         this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-          ? CustomFormValidators.securePasswordValidator
-          : this.featureConfigService.isEnabled(
-                'enableConsecutiveCharactersPasswordRequirement'
-              )
-            ? CustomFormValidators.strongPasswordValidator
-            : CustomFormValidators.passwordValidator,
-      ];
+      ) {
+        return CustomFormValidators.securePasswordValidator;
+      } else {
+        return CustomFormValidators.passwordValidators;
+      }
+    }
+  }
 
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 

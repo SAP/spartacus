@@ -44,7 +44,7 @@ import { UserRegisterFacade } from '@spartacus/user/profile/root';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        VerifyOTPTokenForRegistrationComponent: {
+        VerifyOTPForRegistrationComponent: {
           component: RegistrationVerificationTokenFormComponent,
           guards: [NotAuthGuard],
           providers: [
