@@ -383,7 +383,7 @@ if (environment.cpq) {
         /**
          * Defaults to false cause ng-select options ariaLabels are working as expected
          * since Spartacus 2211.33
-         */      
+         */
         a11yNgSelectOptionsCount: false,
         a11yNgSelectCloseDropdownOnEscape: true,
         a11yRepeatedCancelOrderError: true,
