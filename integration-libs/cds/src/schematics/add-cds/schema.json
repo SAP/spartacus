@@ -47,6 +47,12 @@
       "type": "string",
       "description": "Configuration URL for ProfileTag. (e.g. https://tag.static.stage.context.cloud.sap/config/my-config123)",
       "x-prompt": "[CDS] What is the ProfileTag configuration URL?"
+    },
+    "sciEnabled": {
+      "type": "boolean",
+      "description": "CDS/ISS is integrated into the SAP Cloud Identity Service (SCI). The downstream services use different domains and URL formats. This property enables the CDS module to use these new URLs.",
+      "default": false,
+      "x-prompt": "[CDS] Do you want to enable SCI?"
     }
   }
 }
