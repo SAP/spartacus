@@ -212,6 +212,11 @@ export interface FeatureTogglesInterface {
   a11yPopoverFocus?: boolean;
 
   /**
+   * Fix popover appearance when a High Contrast Theme is applied.
+   */
+  a11yPopoverHighContrast?: boolean;
+
+  /**
    * Adds Datepicker and Combobox label and corrects heading order for 'CheckoutScheduleReplenishmentOrderComponent'.
    */
   a11yScheduleReplenishment?: boolean;
@@ -984,6 +989,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventHorizontalScroll: false,
   a11yReorderDialog: true,
   a11yPopoverFocus: true,
+  a11yPopoverHighContrast: false,
   a11yScheduleReplenishment: true,
   a11yScrollToTop: true,
   a11ySavedCartsZoom: true,

@@ -317,6 +317,7 @@ if (environment.cpq) {
         a11yPreventHorizontalScroll: true,
         a11yReorderDialog: true,
         a11yPopoverFocus: true,
+        a11yPopoverHighContrast: true,
         a11yScheduleReplenishment: true,
         a11yScrollToTop: true,
         a11ySavedCartsZoom: true,
