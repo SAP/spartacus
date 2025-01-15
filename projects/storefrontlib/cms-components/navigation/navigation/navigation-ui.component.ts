@@ -398,16 +398,16 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Returns the ID for the `aria-describedby` attribute of a button.
+   * // Replace spaces with hyphens and convert to lowercase
    */
-  getAriaDescribedbyOfButton(node: NavigationNode): string | null {
-    return node.title === 'My Account' ? 'greeting' : null;
+  getSanitizedTitle(title: string | undefined): string | null {
+    return title ? title.replace(/\s+/g, '-').toLowerCase() : null;
   }
 
   /**
    * Returns the value for the `aria-control` and the `aria-label` attribute of a button.
    */
   getAriaLabelAndControl(node: NavigationNode): string | null {
-    return node.title || null;
+    return this.getSanitizedTitle(node.title) || null;
   }
 }
