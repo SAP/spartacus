@@ -1,3 +1,12 @@
+.cx-organization-user-register-button {
+  @import '@spartacus/styles/scss/cxbase/mixins';
+  a {
+    &:focus {
+      @include visible-focus();
+    }
+  }
+}
+
 %cx-user-registration-form {
   form {
     width: 50%;
