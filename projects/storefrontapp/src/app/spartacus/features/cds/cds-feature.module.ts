@@ -74,7 +74,7 @@ function cdsConfigFactory(windowRef: WindowRef): CdsConfig {
     );
   });
   return cds ?? cds1;
-};
+}
 
 @NgModule({
   imports: [CdsModule.forRoot()],

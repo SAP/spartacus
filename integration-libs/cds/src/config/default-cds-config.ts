@@ -8,9 +8,8 @@ import { environment } from 'projects/storefrontapp/src/environments/environment
 import { CdsConfig } from './cds-config';
 
 export function defaultCdsConfigFactory(): CdsConfig {
-  
   const sciEnabled = environment.sciEnabled;
-  
+
   return {
     cds: {
       tenant: '',
