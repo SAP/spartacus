@@ -76,7 +76,7 @@ export class UserRegistrationOTPFormComponent {
       },
       {
         state: {
-          form: this.registerForm.value,
+          registrationDataForm: this.registerForm.value,
           loginId: this.registerForm.value.email.toLowerCase(),
           tokenId: verificationToken.tokenId,
           expiresIn: verificationToken.expiresIn,

@@ -61,7 +61,7 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
 
   ngOnInit() {
     if (!!history.state) {
-      this.registerData = history.state['form'];
+      this.registerData = history.state['registrationDataForm'];
       this.tokenId = history.state['tokenId'];
       this.target = history.state['loginId'];
       history.pushState(

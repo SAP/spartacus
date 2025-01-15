@@ -255,7 +255,7 @@ describe('UserRegistrationOTPFormComponent', () => {
       { cxRoute: 'registerVerifyToken' },
       {
         state: {
-          form: formData,
+          registrationDataForm: formData,
           loginId: 'test@example.com',
           tokenId: 'testToken',
           expiresIn: '300',
