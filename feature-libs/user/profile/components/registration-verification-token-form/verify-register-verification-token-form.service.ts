@@ -17,11 +17,8 @@ import { Observable } from 'rxjs';
 const globalMsgShowTime: number = 10000;
 @Injectable()
 export class RegistrationVerificationTokenFormComponentService {
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected userRegisterFacade: UserRegisterFacade
-  ) {}
-
+  protected globalMessageService = inject(GlobalMessageService);
+  protected userRegisterFacade = inject(UserRegisterFacade);
   private featureConfigService: FeatureConfigService =
     inject(FeatureConfigService);
 
