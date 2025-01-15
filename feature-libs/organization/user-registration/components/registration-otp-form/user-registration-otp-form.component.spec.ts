@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import {
   Country,
   GlobalMessageService,
@@ -24,20 +24,21 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { HttpErrorResponse } from '@angular/common/http';
 
-class MockRoutingService implements Partial<RoutingService> {
-  go = () => Promise.resolve(true);
+class MockRoutingService {
+  go = createSpy();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
 }
 
-class MockVerificationTokenFacade implements Partial<VerificationTokenFacade> {
-  createVerificationToken = createSpy().and.returnValue(
-    of({ tokenId: 'testTokenId', expiresIn: '300' })
-  );
-}
+// class MockVerificationTokenFacade implements Partial<VerificationTokenFacade> {
+//   createVerificationToken = createSpy().and.returnValue(
+//     of({ tokenId: 'testTokenId', expiresIn: '300' })
+//   );
+// }
 
 const mockForm: FormGroup = new FormGroup({
   titleCode: new FormControl(),
@@ -142,10 +143,10 @@ describe('UserRegistrationOTPFormComponent', () => {
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        {
-          provide: VerificationTokenFacade,
-          useClass: MockVerificationTokenFacade,
-        },
+        // {
+        //   provide: VerificationTokenFacade,
+        //   useClass: MockVerificationTokenFacade,
+        // },
         {
           provide: UserRegistrationFormService,
           useClass: MockUserRegistrationFormService,
@@ -171,6 +172,12 @@ describe('UserRegistrationOTPFormComponent', () => {
   });
 
   it('should not submit if form is invalid', () => {
+    spyOn(verificationTokenFacade, 'createVerificationToken').and.returnValue(
+      of({
+        expiresIn: '300',
+        tokenId: 'mockTokenId',
+      })
+    );
     component.registerForm.setValue({
       titleCode: '0001',
       firstName: 'John',
@@ -193,6 +200,12 @@ describe('UserRegistrationOTPFormComponent', () => {
   });
 
   it('should submit form when valid', () => {
+    spyOn(verificationTokenFacade, 'createVerificationToken').and.returnValue(
+      of({
+        expiresIn: '300',
+        tokenId: 'mockTokenId',
+      })
+    );
     const verificationData = {
       loginId: 'test@example.com',
       purpose: 'REGISTRATION',
@@ -219,6 +232,12 @@ describe('UserRegistrationOTPFormComponent', () => {
   });
 
   it('should mark all fields as touched if form is invalid', () => {
+    spyOn(verificationTokenFacade, 'createVerificationToken').and.returnValue(
+      of({
+        expiresIn: '300',
+        tokenId: 'mockTokenId',
+      })
+    );
     spyOn(component.registerForm, 'markAllAsTouched').and.callThrough();
     component.registerForm.patchValue({
       email: '',
@@ -232,7 +251,6 @@ describe('UserRegistrationOTPFormComponent', () => {
 
   it('should navigate to verifyTokenRegister route', () => {
     const routingService = TestBed.inject(RoutingService);
-    spyOn(routingService, 'go').and.callThrough();
     const verificationToken = { tokenId: 'testToken', expiresIn: '300' };
     const formData = {
       email: 'test@example.com',
@@ -266,4 +284,19 @@ describe('UserRegistrationOTPFormComponent', () => {
       }
     );
   });
-});
+
+  it('should redirect to next register page when create registration verification token up to rate limit', () => {
+    const routingService = TestBed.inject(RoutingService);
+    const httpErrorResponse = new HttpErrorResponse({
+      status: 400,
+      url: 'https://localhost:9002/occ/v2/electronics-spa/users/anonymous/verificationToken?lang=en&curr=USD',
+    });
+    spyOn(verificationTokenFacade, 'createVerificationToken').and.returnValue(throwError(() => httpErrorResponse));
+    component.onSubmit();
+
+   
+    expect(routingService.go).toHaveBeenCalled();
+   });
+
+})
+

@@ -237,5 +237,40 @@ describe('RegisterVerificationTokenFormComponent', () => {
         { target: 'example@example.com' }
       );
     });
+
+    it('should diplay error message when creat verification token up to rate limit', () => {
+      history.pushState(
+        {
+          tokenId: '',
+          loginId: 'JohnDoe@thebest.john.intheworld.com',
+          errorStatus: 400,
+          form: {
+            titleCode: '0001',
+            firstName: 'John',
+            lastName: 'Doe',
+            companyName: 'Company',
+            email: '',
+            country: { isocode: 'CA' },
+            region: { isocode: 'CA-ON' },
+            town: 'Townsville',
+            line1: '123 Main St',
+            line2: '',
+            postalCode: '12345',
+            phoneNumber: '1234567890',
+            message: '',
+          },
+        },
+        ''
+      );
+  
+      component.ngOnInit();
+      fixture.detectChanges();
+      fixture.whenStable();
+      expect(component.upToRateLimit).toBe(true);
+      component.waitTimeForRateLimit = 300;
+      const errorMessageElement = fixture.debugElement.queryAll(By.css('.rate-limit-error-display'));
+      expect(errorMessageElement).toBeTruthy();
+      
+    });
   });
 });

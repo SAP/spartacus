@@ -103,15 +103,6 @@ class MockAnonymousConsentsService {
   }
 }
 
-// class MockVerificationTokenFacade implements Partial<VerificationTokenFacade> {
-//   createVerificationToken = createSpy().and.returnValue(
-//     of({
-//       expiresIn: '300',
-//       tokenId: 'mockTokenId',
-//     })
-//   );
-// }
-
 const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
   anonymousConsents: {
     registerConsent: 'MARKETING',

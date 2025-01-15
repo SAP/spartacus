@@ -204,7 +204,7 @@ describe('RegistrationVerificationTokenFormComponent', () => {
       const errorMessageElement = fixture.debugElement.queryAll(By.css('.rate-limit-error-display'));
       expect(errorMessageElement).toBeTruthy();
       
-    })
+    });
   });
 
   describe('password validators', () => {

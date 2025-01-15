@@ -59,7 +59,7 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
 
   isResendDisabled: boolean = true;
 
-  errorStatus: int;
+  errorStatus: number;
 
   upToRateLimit: boolean;
 
