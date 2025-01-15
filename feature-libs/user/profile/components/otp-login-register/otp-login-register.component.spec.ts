@@ -34,13 +34,14 @@ import {
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
 import { OneTimePasswordRegisterComponent } from './otp-login-register.component';
 import { VerificationTokenFacade } from '@spartacus/user/account/root';
 import { RegisterComponentService } from '../register';
+import { HttpErrorResponse } from '@angular/common/http';
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -102,14 +103,14 @@ class MockAnonymousConsentsService {
   }
 }
 
-class MockVerificationTokenFacade implements Partial<VerificationTokenFacade> {
-  createVerificationToken = createSpy().and.returnValue(
-    of({
-      expiresIn: '300',
-      tokenId: 'mockTokenId',
-    })
-  );
-}
+// class MockVerificationTokenFacade implements Partial<VerificationTokenFacade> {
+//   createVerificationToken = createSpy().and.returnValue(
+//     of({
+//       expiresIn: '300',
+//       tokenId: 'mockTokenId',
+//     })
+//   );
+// }
 
 const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
   anonymousConsents: {
@@ -221,10 +222,6 @@ describe('OneTimePasswordRegisterComponent', () => {
           provide: ClientAuthenticationTokenService,
           useClass: MockClientAuthenticationTokenService,
         },
-        {
-          provide: VerificationTokenFacade,
-          useClass: MockVerificationTokenFacade,
-        },
       ],
     }).compileComponents();
   }));
@@ -297,6 +294,12 @@ describe('OneTimePasswordRegisterComponent', () => {
 
   describe('sendRegistrationVerificationToken', () => {
     it('should create registration verification token with valid form', () => {
+      spyOn(registrationVerificationTokenFacade, 'createVerificationToken').and.returnValue(
+        of({
+          expiresIn: '300',
+          tokenId: 'mockTokenId',
+        })
+      );
       component.registerForm.patchValue(mockRegisterFormData);
       component.ngOnInit();
       component.submitForm();
@@ -309,6 +312,12 @@ describe('OneTimePasswordRegisterComponent', () => {
     });
 
     it('should not create registration verification token with valid form', () => {
+      spyOn(registrationVerificationTokenFacade, 'createVerificationToken').and.returnValue(
+        of({
+          expiresIn: '300',
+          tokenId: 'mockTokenId',
+        })
+      );
       component.ngOnInit();
       component.submitForm();
       expect(
@@ -318,6 +327,18 @@ describe('OneTimePasswordRegisterComponent', () => {
 
     it('should redirect to next register page', () => {
       component.ngOnInit();
+      component.sendRegistrationVerificationToken();
+
+      expect(mockRoutingService.go).toHaveBeenCalled();
+    });
+
+    it('should redirect to next register page when create registration verification token up to rate limit', () => {
+      const httpErrorResponse = new HttpErrorResponse({
+        status: 400,
+        url: 'https://localhost:9002/occ/v2/electronics-spa/users/anonymous/verificationToken?lang=en&curr=USD',
+      })
+      component.ngOnInit();
+      spyOn(registrationVerificationTokenFacade, 'createVerificationToken').and.returnValue(throwError(() => httpErrorResponse));
       component.sendRegistrationVerificationToken();
 
       expect(mockRoutingService.go).toHaveBeenCalled();

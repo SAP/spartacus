@@ -11,9 +11,10 @@ import {
   VerificationTokenCreation,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
 import createSpy = jasmine.createSpy;
+import { HttpErrorResponse } from '@angular/common/http';
 
 const verificationTokenCreation: VerificationTokenCreation = {
   purpose: 'LOGIN',
@@ -202,4 +203,17 @@ describe('OneTimePasswordLoginFormComponent', () => {
       expect(service.createVerificationToken).toHaveBeenCalled();
     });
   });
+
+  describe('Up To Rate Limit For Login', ()=>{
+    it('should redirect to next register page when create registration verification token up to rate limit', () => {
+      const httpErrorResponse = new HttpErrorResponse({
+        status: 400,
+        url: 'https://localhost:9002/occ/v2/electronics-spa/users/anonymous/verificationToken?lang=en&curr=USD',
+      })
+      spyOn(service, 'createVerificationToken').and.returnValue(throwError(() => httpErrorResponse));
+      component.onSubmit();
+
+      expect(MockRoutingService).toHaveBeenCalled();
+    });
+  })
 });

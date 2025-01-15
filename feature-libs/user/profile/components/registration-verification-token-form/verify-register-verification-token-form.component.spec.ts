@@ -25,6 +25,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
 import { RegistrationVerificationTokenFormComponent } from './verify-register-verification-token-form.component';
+import { By } from '@angular/platform-browser';
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -181,6 +182,29 @@ describe('RegistrationVerificationTokenFormComponent', () => {
         { target: 'example@example.com' }
       );
     });
+
+    it('should diplay error message when creat verification token up to rate limit', () => {
+      history.pushState(
+        {
+          tokenId: '',
+          loginId: 'JohnDoe@thebest.john.intheworld.com',
+          titleCode: 'Mr',
+          firstName: 'John',
+          lastName: 'Doe',
+          errorStatus: 400,
+        },
+        ''
+      );
+
+      component.ngOnInit();
+      fixture.detectChanges();
+      fixture.whenStable();
+      expect(component.upToRateLimit).toBe(true);
+      component.waitTimeForRateLimit = 300;
+      const errorMessageElement = fixture.debugElement.queryAll(By.css('.rate-limit-error-display'));
+      expect(errorMessageElement).toBeTruthy();
+      
+    })
   });
 
   describe('password validators', () => {

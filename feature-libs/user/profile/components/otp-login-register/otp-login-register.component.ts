@@ -189,8 +189,7 @@ export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (result: VerificationToken) =>
           this.goToVerificationTokenForm(
-            result,
-            registrationVerificationTokenCreation
+            result
           ),
           error: (error: HttpErrorResponse) => {
             this.routingService.go(
@@ -203,7 +202,7 @@ export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
                   titleCode: this.registerForm.value.titleCode,
                   firstName: this.registerForm.value.firstName,
                   lastName: this.registerForm.value.lastName,
-                  loginId: registrationVerificationTokenCreation.loginId,
+                  loginId: this.registerForm.value.email.toLowerCase(),
                 },
               }
             );

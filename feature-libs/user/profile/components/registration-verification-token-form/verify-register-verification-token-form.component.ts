@@ -144,8 +144,6 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
       this.upToRateLimit = true;
       this.tokenId = "invalidTokenId";
       this.startRateLimitWaitTimeInterval();
-     
-      this.isLoading$.next(false);
     }
 
      else if (!this.target || !this.tokenId || !this.firstName || !this.lastName) {
@@ -181,7 +179,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
 
   passwordconf: string;
 
-  errorStatus: int;
+  errorStatus: number;
 
   isResendDisabled: boolean = true;
 
