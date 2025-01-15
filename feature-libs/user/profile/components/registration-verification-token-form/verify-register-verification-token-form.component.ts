@@ -51,7 +51,6 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
   protected registrationVerificationTokenFacade = inject(
     VerificationTokenFacade
   );
-  constructor() {}
   protected service: RegistrationVerificationTokenFormComponentService = inject(
     RegistrationVerificationTokenFormComponentService
   );
