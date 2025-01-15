@@ -8,13 +8,6 @@ import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { user } from '../../../sample-data/checkout-flow';
 
-// export function listenForCreateRegistrationVerificationToken(): string {
-//   return interceptPost(
-//     'createVerificationToken',
-//     '/users/anonymous/verificationToken?*'
-//   );
-// }
-
 export function listenForUserRegistrationVerficationCodeEmailReceive(
   customerEmail: string
 ) {
@@ -37,14 +30,12 @@ export function listenForUserRegistrationVerficationCodeEmailReceive(
 
 describe('OTP Registration', () => {
   viewportContext(['mobile'], () => {
-    describe('Create OTP For B2C Customer Registration', () => {
+    describe('B2C Customer Registration With OTP', () => {
       beforeEach(() => {
         cy.visit('/login/register');
       });
 
       it('should be able to create b2c customer with otp (CXSPA-3919)', () => {
-        // listenForCreateRegistrationVerificationToken();
-
         cy.log(`create verification token from the register form`);
         cy.get('cx-otp-register-form form').within(() => {
           cy.get('ng-select[formcontrolname="titleCode"]')
@@ -58,10 +49,6 @@ describe('OTP Registration', () => {
           cy.get('[formcontrolname="termsandconditions"]').click();
           cy.get('button[type=submit]').click();
         });
-
-        // cy.wait('@createVerificationToken')
-        //   .its('response.statusCode')
-        //   .should('eq', 201);
 
         cy.get('cx-registration-verification-token-form').should('exist');
         cy.get('cx-registration-verification-token-form').should('be.visible');
@@ -113,8 +100,6 @@ describe('OTP Registration', () => {
         });
       });
       it('should not be able to register customer with invalid verification code (CXSPA-3919)', () => {
-        // listenForCreateRegistrationVerificationToken();
-
         cy.log(`create verification token from the register form`);
         cy.get('cx-otp-register-form form').within(() => {
           cy.get('ng-select[formcontrolname="titleCode"]')
@@ -129,9 +114,6 @@ describe('OTP Registration', () => {
           cy.get('button[type=submit]').click();
         });
 
-        // cy.wait('@createVerificationToken')
-        //   .its('response.statusCode')
-        //   .should('eq', 201);
         const verificationCode = 'invalidCode';
 
         cy.get('cx-registration-verification-token-form').should('exist');
@@ -148,7 +130,7 @@ describe('OTP Registration', () => {
         });
         cy.get('cx-form-errors')
           .should('be.visible')
-          .and('contain.text', 'This code is not invalid');
+          .and('contain.text', 'This code is not valid');
       });
     });
 
