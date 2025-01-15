@@ -16,7 +16,7 @@
     "wrongEmailFormat": "This is not a valid email format."
   },
   "verificationTokenForm": {
-    "createVerificationToken": "Verification code sent to {{target}}. Please check and enter the code.",
+    "createVerificationToken": "Verification code has been sent to {{target}}. Please enter the code.",
     "needInputCredentials": "Please enter your credentials to continue.",
     "sendRateLime": "in {{waitTime}} seconds",
     "resend": "Resend",

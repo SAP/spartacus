@@ -291,12 +291,11 @@ describe('UserRegistrationOTPFormComponent', () => {
       status: 400,
       url: 'https://localhost:9002/occ/v2/electronics-spa/users/anonymous/verificationToken?lang=en&curr=USD',
     });
-    spyOn(verificationTokenFacade, 'createVerificationToken').and.returnValue(throwError(() => httpErrorResponse));
+    spyOn(verificationTokenFacade, 'createVerificationToken').and.returnValue(
+      throwError(() => httpErrorResponse)
+    );
     component.onSubmit();
 
-   
     expect(routingService.go).toHaveBeenCalled();
-   });
-
-})
-
+  });
+});

@@ -188,26 +188,24 @@ export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
       .createVerificationToken(registrationVerificationTokenCreation)
       .subscribe({
         next: (result: VerificationToken) =>
-          this.goToVerificationTokenForm(
-            result
-          ),
-          error: (error: HttpErrorResponse) => {
-            this.routingService.go(
-              {
-                cxRoute: 'verifyTokenForRegistration',
+          this.goToVerificationTokenForm(result),
+        error: (error: HttpErrorResponse) => {
+          this.routingService.go(
+            {
+              cxRoute: 'verifyTokenForRegistration',
+            },
+            {
+              state: {
+                errorStatus: error.status,
+                titleCode: this.registerForm.value.titleCode,
+                firstName: this.registerForm.value.firstName,
+                lastName: this.registerForm.value.lastName,
+                loginId: this.registerForm.value.email.toLowerCase(),
               },
-              {
-                state: {
-                  errorStatus: error.status,
-                  titleCode: this.registerForm.value.titleCode,
-                  firstName: this.registerForm.value.firstName,
-                  lastName: this.registerForm.value.lastName,
-                  loginId: this.registerForm.value.email.toLowerCase(),
-                },
-              }
-            );
-            this.isLoading$.next(false);
-          },
+            }
+          );
+          this.isLoading$.next(false);
+        },
         complete: () => this.onCreateRegistrationVerificationTokenComplete(),
       });
   }

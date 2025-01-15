@@ -31,7 +31,6 @@ class MockWinRef {
   }
 }
 
-
 class MockRoutingService {
   go = createSpy();
 }
@@ -217,7 +216,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
     });
   });
 
-  describe('Up To Rate Limit For Login', ()=>{
+  describe('Up To Rate Limit For Login', () => {
     beforeEach(() => {
       component.form.setValue({
         userId: verificationTokenCreation.loginId,
@@ -229,10 +228,12 @@ describe('OneTimePasswordLoginFormComponent', () => {
       const httpErrorResponse = new HttpErrorResponse({
         status: 400,
         url: 'https://localhost:9002/occ/v2/electronics-spa/users/anonymous/verificationToken?lang=en&curr=USD',
-      })
-      spyOn(service, 'createVerificationToken').and.returnValue(throwError(() => httpErrorResponse));
+      });
+      spyOn(service, 'createVerificationToken').and.returnValue(
+        throwError(() => httpErrorResponse)
+      );
       component.onSubmit();
       expect(mockRoutingService.go).toHaveBeenCalled();
     });
-  })
+  });
 });

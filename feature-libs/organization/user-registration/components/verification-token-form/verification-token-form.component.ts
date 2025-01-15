@@ -79,14 +79,13 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
         },
         'verifyToken'
       );
-      if(this.errorStatus === 400) {
+      if (this.errorStatus === 400) {
         this.upToRateLimit = true;
-        this.tokenId = "invalidTokenId";
+        this.tokenId = 'invalidTokenId';
         this.startRateLimitWaitTimeInterval();
-       
+
         this.isUpdating$.next(false);
-      }
-      else if (!this.target || !this.tokenId) {
+      } else if (!this.target || !this.tokenId) {
         this.service.displayMessage(
           'verificationTokenForm.needInputCredentials',
           {}

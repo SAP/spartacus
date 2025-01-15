@@ -96,7 +96,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
 
   waitTime: number = 60;
 
-  waitTimeForRateLimit: number = 10;
+  waitTimeForRateLimit: number = 300;
 
   registerForm: UntypedFormGroup = this.fb.group(
     {
@@ -139,13 +139,16 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
       );
     }
 
-    if(this.errorStatus === 400) {
+    if (this.errorStatus === 400) {
       this.upToRateLimit = true;
-      this.tokenId = "invalidTokenId";
+      this.tokenId = 'invalidTokenId';
       this.startRateLimitWaitTimeInterval();
-    }
-
-     else if (!this.target || !this.tokenId || !this.firstName || !this.lastName) {
+    } else if (
+      !this.target ||
+      !this.tokenId ||
+      !this.firstName ||
+      !this.lastName
+    ) {
       this.router.go(['/login/register']);
     } else {
       this.startWaitTimeInterval();

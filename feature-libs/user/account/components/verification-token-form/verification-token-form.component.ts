@@ -63,7 +63,7 @@ export class VerificationTokenFormComponent implements OnInit {
 
   upToRateLimit: boolean;
 
-  waitTimeForRateLimit: number = 10;
+  waitTimeForRateLimit: number = 300;
 
   ngOnInit() {
     if (!!history.state) {
@@ -80,12 +80,11 @@ export class VerificationTokenFormComponent implements OnInit {
         },
         'verifyToken'
       );
-      if(this.errorStatus === 400) {
+      if (this.errorStatus === 400) {
         this.upToRateLimit = true;
-        this.tokenId = "invalidTokenId";
+        this.tokenId = 'invalidTokenId';
         this.startRateLimitWaitTimeInterval();
-      }
-      else if (!this.target || !this.password || !this.tokenId) {
+      } else if (!this.target || !this.password || !this.tokenId) {
         this.service.displayMessage(
           'verificationTokenForm.needInputCredentials',
           {}

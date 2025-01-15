@@ -201,9 +201,10 @@ describe('RegistrationVerificationTokenFormComponent', () => {
       fixture.whenStable();
       expect(component.upToRateLimit).toBe(true);
       component.waitTimeForRateLimit = 300;
-      const errorMessageElement = fixture.debugElement.queryAll(By.css('.rate-limit-error-display'));
+      const errorMessageElement = fixture.debugElement.queryAll(
+        By.css('.rate-limit-error-display')
+      );
       expect(errorMessageElement).toBeTruthy();
-      
     });
   });
 

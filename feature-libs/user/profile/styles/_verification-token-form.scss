@@ -63,11 +63,11 @@
     padding-inline-start: 1.5625rem;
     position: relative;
     word-break: break-word;
- 
+
     @include forFeature('a11yImproveContrast') {
       @include type('7');
     }
- 
+
     &::before,
     &::after {
       position: absolute;
@@ -78,13 +78,13 @@
       width: 1.25rem;
       height: 1.25rem;
     }
- 
+
     &::before {
       content: '';
       background-color: var(--cx-color-danger);
       border-radius: 50%;
     }
- 
+
     &::after {
       content: '!';
       // TODO: (CXSPA-7588) - Remove feature flag next major release
@@ -96,11 +96,10 @@
       text-align: center;
       line-height: 1.25rem;
     }
- 
+
     &:focus {
       box-shadow: none;
       -webkit-box-shadow: none;
     }
   }
-
 }

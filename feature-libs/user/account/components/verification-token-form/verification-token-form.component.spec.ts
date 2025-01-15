@@ -213,7 +213,7 @@ describe('VerificationTokenFormComponent', () => {
     });
   });
 
-  describe('Up To Rate Limit For Login', ()=>{
+  describe('Up To Rate Limit For Login', () => {
     it('should diplay error message when creat verification token up to rate limit', () => {
       history.pushState(
         {
@@ -232,9 +232,10 @@ describe('VerificationTokenFormComponent', () => {
       fixture.whenStable();
       expect(component.upToRateLimit).toBe(true);
       component.waitTimeForRateLimit = 300;
-      const errorMessageElement = fixture.debugElement.queryAll(By.css('.rate-limit-error-display'));
+      const errorMessageElement = fixture.debugElement.queryAll(
+        By.css('.rate-limit-error-display')
+      );
       expect(errorMessageElement).toBeTruthy();
-      
-    })
-  })
+    });
+  });
 });

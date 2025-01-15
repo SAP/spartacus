@@ -285,7 +285,10 @@ describe('OneTimePasswordRegisterComponent', () => {
 
   describe('sendRegistrationVerificationToken', () => {
     it('should create registration verification token with valid form', () => {
-      spyOn(registrationVerificationTokenFacade, 'createVerificationToken').and.returnValue(
+      spyOn(
+        registrationVerificationTokenFacade,
+        'createVerificationToken'
+      ).and.returnValue(
         of({
           expiresIn: '300',
           tokenId: 'mockTokenId',
@@ -303,7 +306,10 @@ describe('OneTimePasswordRegisterComponent', () => {
     });
 
     it('should not create registration verification token with valid form', () => {
-      spyOn(registrationVerificationTokenFacade, 'createVerificationToken').and.returnValue(
+      spyOn(
+        registrationVerificationTokenFacade,
+        'createVerificationToken'
+      ).and.returnValue(
         of({
           expiresIn: '300',
           tokenId: 'mockTokenId',
@@ -327,9 +333,12 @@ describe('OneTimePasswordRegisterComponent', () => {
       const httpErrorResponse = new HttpErrorResponse({
         status: 400,
         url: 'https://localhost:9002/occ/v2/electronics-spa/users/anonymous/verificationToken?lang=en&curr=USD',
-      })
+      });
       component.ngOnInit();
-      spyOn(registrationVerificationTokenFacade, 'createVerificationToken').and.returnValue(throwError(() => httpErrorResponse));
+      spyOn(
+        registrationVerificationTokenFacade,
+        'createVerificationToken'
+      ).and.returnValue(throwError(() => httpErrorResponse));
       component.sendRegistrationVerificationToken();
 
       expect(mockRoutingService.go).toHaveBeenCalled();

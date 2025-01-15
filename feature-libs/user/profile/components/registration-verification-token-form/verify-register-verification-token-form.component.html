@@ -14,7 +14,10 @@
     />
     <cx-form-errors [control]="registerForm.get('tokenCode')"></cx-form-errors>
     <div class="rate-limit-error-display" *ngIf="upToRateLimit">
-      {{ 'register.rateLimitForRegistrationMessage' | cxTranslate: { seconds: waitTimeForRateLimit } }}
+      {{
+        'register.rateLimitForRegistrationMessage'
+          | cxTranslate: { seconds: waitTimeForRateLimit }
+      }}
     </div>
   </label>
 

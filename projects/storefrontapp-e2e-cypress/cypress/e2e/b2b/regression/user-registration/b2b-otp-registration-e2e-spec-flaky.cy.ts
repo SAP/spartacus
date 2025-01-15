@@ -73,6 +73,32 @@ describe('Tabbing order for B2B OTP registration', () => {
       });
     });
   });
+
+  describe('Rate limit for registration', () => {
+    it('Should display error message when create verification token with registration up to rate limit (CXSPA-9111)', () => {
+      for (let i = 0; i < 6; i++) {
+        cy.visit('/login/register');
+        cy.get('cx-user-registration-form form').within(() => {
+          cy.get('ng-select[formcontrolname="titleCode"]')
+            .click()
+            .get('div.ng-option')
+            .contains('Mr')
+            .click();
+          cy.get('[formcontrolname="firstName"]').clear().type('John');
+          cy.get('[formcontrolname="lastName"]').clear().type('Doe');
+          cy.get('[formcontrolname="companyName"]')
+            .clear()
+            .type('My Company Inc.');
+          cy.get('[formcontrolname="email"]').clear().type('test@example.com');
+          cy.get('button[type=submit]').click();
+          cy.wait(1000);
+        });
+      }
+
+      cy.get('cx-verification-token-form').should('exist');
+      cy.get('.rate-limit-error-display').should('exist');
+    });
+  });
 });
 
 export function listenForUserVerficationCodeEmailReceive(
