@@ -23,9 +23,7 @@
             bindValue="isocode"
             placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
             (change)="countrySelected($event)"
-            [cxNgSelectA11y]="{
-              ariaLabel: 'addressForm.country' | cxTranslate,
-            }"
+            [cxNgSelectA11y]="{}"
           >
           </ng-select>
           <cx-form-errors

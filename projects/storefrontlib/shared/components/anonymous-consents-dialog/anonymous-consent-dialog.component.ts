@@ -7,7 +7,6 @@
 import {
   Component,
   ElementRef,
-  HostBinding,
   HostListener,
   inject,
   OnDestroy,
@@ -35,9 +34,6 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
   templateUrl: './anonymous-consent-dialog.component.html',
 })
 export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
-  @HostBinding('attr.role') role = 'dialog';
-  @HostBinding('attr.aria-modal') modal = true;
-
   private subscriptions = new Subscription();
   private featureConfigService = inject(FeatureConfigService);
 

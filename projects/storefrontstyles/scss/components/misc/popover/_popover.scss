@@ -209,4 +209,14 @@
       font-size: 1rem;
     }
   }
+
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+    box-shadow: none;
+    .popover-body > .cx-close-row {
+      .close {
+        color: var(--cx-color-text);
+      }
+    }
+  }
 }
