@@ -20,7 +20,7 @@
     "@angular/compiler": "^18.2.9",
     "@schematics/angular": "^18.2.9",
     "jsonc-parser": "~3.2.1",
-    "parse5": "^7.1.2",
+    "parse5": "^7.2.1",
     "typescript": "^5.2.2"
   },
   "ssr-tests": {
@@ -47,7 +47,7 @@
   },
   "@spartacus/styles": {
     "@fontsource/open-sans": "^4.5.14",
-    "@fortawesome/fontawesome-free": "6.5.1",
+    "@fortawesome/fontawesome-free": "6.7.2",
     "@ng-select/ng-select": "^13.9.1"
   },
   "@spartacus/setup": {
@@ -485,7 +485,7 @@
     "@angular/service-worker": "^18.2.9",
     "@angular/ssr": "^18.2.9",
     "@fontsource/open-sans": "^4.5.14",
-    "@fortawesome/fontawesome-free": "6.5.1",
+    "@fortawesome/fontawesome-free": "6.7.2",
     "@ng-select/ng-select": "^13.9.1",
     "@ngrx/effects": "^18.1.1",
     "@ngrx/operators": "^18.0.0",

@@ -29,7 +29,7 @@
     "@angular/compiler": "^18.2.9",
     "@schematics/angular": "^18.2.9",
     "jsonc-parser": "~3.2.1",
-    "parse5": "^7.1.2",
+    "parse5": "^7.2.1",
     "typescript": "^5.2.2"
   },
   "peerDependenciesMeta": {
