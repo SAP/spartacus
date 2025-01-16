@@ -15,12 +15,15 @@
       type="email"
       class="form-control"
       formControlName="userId"
+      [attr.aria-describedby]="'userIdError'"
       placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
     />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
+      id="userIdError"
+      aria-live="off"
       [translationParams]="{
         label: 'loginForm.emailAddress.label' | cxTranslate,
       }"
@@ -45,12 +48,15 @@
       placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
       formControlName="password"
       [attr.aria-label]="'loginForm.password.placeholder' | cxTranslate"
+      [attr.aria-describedby]="'passwordError'"
       cxPasswordVisibilitySwitch
     />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
+      id="passwordError"
+      aria-live="off"
       [translationParams]="{
         label: 'loginForm.password.label' | cxTranslate,
       }"

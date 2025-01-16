@@ -8,6 +8,11 @@
           <button
             (click)="toggleOpenHours()"
             [attr.aria-expanded]="openHoursOpen"
+            [attr.aria-label]="
+              ('store.viewHours' | cxTranslate) +
+              ', ' +
+              storeDetails.displayName
+            "
             class="cx-store-opening-hours-toggle"
           >
             {{ 'store.viewHours' | cxTranslate }}
@@ -65,6 +70,9 @@
     class="btn btn-secondary btn-block"
     [disabled]="!isInStock"
     [attr.data-pickup-in-store-button]="storeDetails.name"
+    [attr.aria-label]="
+      ('store.pickupFromHere' | cxTranslate) + ', ' + storeDetails.displayName
+    "
   >
     {{ 'store.pickupFromHere' | cxTranslate }}
   </button>

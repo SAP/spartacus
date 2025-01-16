@@ -17,11 +17,14 @@
         placeholder="{{
           'checkoutLogin.emailAddress.placeholder' | cxTranslate
         }}"
+        [attr.aria-describedby]="'emailError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="emailError"
+        aria-live="off"
         [translationParams]="{
           label: 'checkoutLogin.emailAddress.label' | cxTranslate,
         }"
@@ -50,11 +53,14 @@
         placeholder="{{
           'checkoutLogin.confirmEmail.placeholder' | cxTranslate
         }}"
+        [attr.aria-describedby]="'emailConfirmationError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="emailConfirmationError"
+        aria-live="off"
         [translationParams]="{
           label: 'checkoutLogin.confirmEmail.label' | cxTranslate,
         }"
