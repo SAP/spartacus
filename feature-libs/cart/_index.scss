@@ -2,10 +2,6 @@
 @import '@spartacus/styles/scss/cxbase/blocks/modal';
 @import '@spartacus/styles/scss/misc/table';
 
-@import '@spartacus/styles/vendor/bootstrap/scss/functions';
-@import '@spartacus/styles/vendor/bootstrap/scss/variables';
-@import '@spartacus/styles/vendor/bootstrap/scss/_mixins';
-
 @mixin visible-focus {
   outline-style: solid;
   outline-color: var(--cx-color-visual-focus);

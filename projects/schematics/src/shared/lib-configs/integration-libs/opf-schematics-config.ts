@@ -12,6 +12,9 @@ import {
   OPF_PAYMENT_FEATURE_NAME,
   OPF_QUICK_BUY_FEATURE_NAME,
   ORDER_FEATURE_NAME,
+  SPARTACUS_BOOTSTRAP_FUNCTIONS,
+  SPARTACUS_BOOTSTRAP_MIXINS,
+  SPARTACUS_BOOTSTRAP_VARIABLES,
   SPARTACUS_OPF,
   SPARTACUS_OPF_BASE,
   SPARTACUS_OPF_BASE_ROOT,
@@ -100,6 +103,11 @@ export const OPF_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
   customConfig: buildOpfConfig,
 };
@@ -132,6 +140,11 @@ export const OPF_PAYMENT_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
   customConfig: buildOpfConfig,
 };
@@ -170,6 +183,11 @@ export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
   customConfig: buildOpfConfig,
   dependencyFeatures: [
@@ -211,6 +229,11 @@ export const OPF_CTA_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
 };
 
@@ -237,6 +260,11 @@ export const OPF_GLOBAL_FUNCTIONS_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
 };
 
@@ -263,6 +291,11 @@ export const OPF_QUICK_BUY_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
   customConfig: buildOpfQuickBuyConfig,
 };
@@ -303,12 +336,12 @@ function buildOpfQuickBuyConfig(
         },
       ],
       content: `<${OPF_QUICKBUY_CONFIG}>{
-      providers: 
+      providers:
         {
           googlePay: {
            resourceUrl: "${options.opfGooglePayApiUrl || 'PLACEHOLDER_GOOGLE_PAY_API_URL'}"
           }
-        }      
+        }
         }`,
     },
   };

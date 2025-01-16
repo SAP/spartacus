@@ -387,3 +387,10 @@ export const CPQ_QUOTE_FEATURE_NAME = 'cpq-quote';
 export const SPARTACUS_CPQ_QUOTE = `@spartacus/cpq-quote`;
 export const SPARTACUS_CPQ_QUOTE_ROOT = `@spartacus/cpq-quote/root`;
 export const SPARTACUS_CPQ_QUOTE_ASSETS = `@spartacus/cpq-quote/assets`;
+
+export const SPARTACUS_BOOTSTRAP_FUNCTIONS =
+  '@spartacus/styles/vendor/bootstrap/scss/functions';
+export const SPARTACUS_BOOTSTRAP_VARIABLES =
+  '@spartacus/styles/vendor/bootstrap/scss/variables';
+export const SPARTACUS_BOOTSTRAP_MIXINS =
+  '@spartacus/styles/vendor/bootstrap/scss/_mixins';
