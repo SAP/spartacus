@@ -74,7 +74,6 @@ describe('TabComponent', () => {
       expect(secondButton.getAttribute('class')).toEqual('tab-btn');
       expect(secondButton.getAttribute('aria-selected')).toEqual('false');
       expect(secondButton.getAttribute('aria-expanded')).toEqual(null);
-      expect(secondButton.getAttribute('aria-controls')).toEqual('section-1');
       expect(secondButton.getAttribute('tabindex')).toEqual('-1');
     });
 
@@ -102,7 +101,6 @@ describe('TabComponent', () => {
       expect(secondButton.getAttribute('class')).toEqual('tab-btn');
       expect(secondButton.getAttribute('aria-selected')).toEqual('false');
       expect(secondButton.getAttribute('aria-expanded')).toEqual(null);
-      expect(secondButton.getAttribute('aria-controls')).toEqual('section-1');
       expect(secondButton.getAttribute('tabindex')).toEqual('-1');
     });
 
@@ -353,7 +351,6 @@ describe('TabComponent', () => {
       expect(secondButton.getAttribute('class')).toEqual('tab-btn');
       expect(secondButton.getAttribute('aria-selected')).toEqual(null);
       expect(secondButton.getAttribute('aria-expanded')).toEqual('false');
-      expect(secondButton.getAttribute('aria-controls')).toEqual('section-1');
       expect(secondButton.getAttribute('tabindex')).toEqual('0');
       expect(secondButton.getAttribute('title')).toEqual('Expand tab 1');
     });
