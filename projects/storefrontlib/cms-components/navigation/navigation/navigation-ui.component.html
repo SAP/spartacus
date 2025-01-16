@@ -105,7 +105,7 @@
           </button>
         </ng-container>
         <ng-container *cxFeature="'a11yNavigationUiKeyboardControls'">
-          <ng-container *cxFeature="'!a11yButtonAriaFixes'">
+          <ng-container *cxFeature="'!a11yNavigationButtonsAriaFixes'">
             <button
               aria-level="4"
               [attr.role]="(isDesktop$ | async) && depth ? 'heading' : 'button'"
@@ -127,7 +127,7 @@
               <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
             </button>
           </ng-container>
-          <ng-container *cxFeature="'a11yButtonAriaFixes'">
+          <ng-container *cxFeature="'a11yNavigationButtonsAriaFixes'">
             <button
               [attr.role]="(isDesktop$ | async) && depth ? 'heading' : 'button'"
               [attr.aria-haspopup]="true"
