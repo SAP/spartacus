@@ -49,10 +49,13 @@
                   placeholder="{{
                     'asm.createCustomerForm.firstName.placeholder' | cxTranslate
                   }}"
+                  [attr.aria-describedby]="'firstNameError'"
                   formControlName="firstName"
                   name="text"
                 />
                 <cx-form-errors
+                  id="firstNameError"
+                  aria-live="off"
                   [control]="registerForm.get('firstName')"
                 ></cx-form-errors>
               </label>
@@ -69,10 +72,13 @@
                   placeholder="{{
                     'asm.createCustomerForm.lastName.placeholder' | cxTranslate
                   }}"
+                  [attr.aria-describedby]="'lastNameError'"
                   name="text"
                   formControlName="lastName"
                 />
                 <cx-form-errors
+                  id="lastNameError"
+                  aria-live="off"
                   [control]="registerForm.get('lastName')"
                 ></cx-form-errors>
               </label>
@@ -90,10 +96,13 @@
                     'asm.createCustomerForm.emailAddress.placeholder'
                       | cxTranslate
                   }}"
+                  [attr.aria-describedby]="'emailError'"
                   name="email"
                   formControlName="email"
                 />
                 <cx-form-errors
+                  id="emailError"
+                  aria-live="off"
                   [control]="registerForm.get('email')"
                 ></cx-form-errors>
               </label>

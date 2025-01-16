@@ -26,12 +26,15 @@
             placeholder="{{ 'register.password.placeholder' | cxTranslate }}"
             formControlName="password"
             [attr.aria-label]="'register.password.placeholder' | cxTranslate"
+            [attr.aria-describedby]="'passwordError'"
             cxPasswordVisibilitySwitch
           />
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
+            id="passwordError"
+            aria-live="off"
             [translationParams]="{
               label: 'register.password.label' | cxTranslate,
             }"
@@ -63,12 +66,15 @@
             [attr.aria-label]="
               'register.confirmPassword.placeholder' | cxTranslate
             "
+            [attr.aria-describedby]="'passwordconfError'"
             cxPasswordVisibilitySwitch
           />
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
+            id="passwordconfError"
+            aria-live="off"
             [translationParams]="{
               label: 'register.confirmPassword.label' | cxTranslate,
             }"
