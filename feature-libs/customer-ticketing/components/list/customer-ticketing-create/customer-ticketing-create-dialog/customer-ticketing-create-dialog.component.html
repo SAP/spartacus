@@ -38,9 +38,14 @@
             class="form-control"
             formControlName="subject"
             rows="1"
+            [attr.aria-describedby]="'subjectError'"
           ></textarea>
 
-          <cx-form-errors [control]="form.get('subject')"></cx-form-errors>
+          <cx-form-errors
+            id="subjectError"
+            aria-live="off"
+            [control]="form.get('subject')"
+          ></cx-form-errors>
           <p class="cx-customer-ticket-input-hint">
             {{
               'customerTicketing.charactersLeft'
@@ -110,9 +115,14 @@
             class="form-control"
             formControlName="message"
             rows="5"
+            [attr.aria-describedby]="'messageError'"
           ></textarea>
 
-          <cx-form-errors [control]="form.get('message')"></cx-form-errors>
+          <cx-form-errors
+            id="messageError"
+            aria-live="off"
+            [control]="form.get('message')"
+          ></cx-form-errors>
 
           <p class="cx-customer-ticket-input-hint">
             {{
