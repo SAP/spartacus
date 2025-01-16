@@ -31,14 +31,14 @@ import { CdcUserListService } from './cdc-user-list.service';
               provide: UserListService,
               useExisting: CdcUserListService,
             },
+            //to override B2BUserService in UserDetailsComponent, UnitUserListComponent
+            { provide: B2BUserService, useClass: CdcB2BUserService },
             userCmsConfig.cmsComponents?.ManageUsersListComponent?.providers ||
               [],
           ],
         },
       },
     }),
-    //to override B2BUserService in UserDetailsComponent, UnitUserListComponent
-    { provide: B2BUserService, useClass: CdcB2BUserService },
     //to override B2BUserService in UnitUserRolesCellComponent
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -48,13 +48,13 @@ import { CdcUserListService } from './cdc-user-list.service';
               provide: B2BUserService,
               useExisting: CdcB2BUserService,
             },
+            { provide: OrgUnitService, useClass: CdcOrgUnitService },
             unitsCmsConfig.cmsComponents?.ManageUnitsListComponent?.providers ||
               [],
           ],
         },
       },
     }),
-    { provide: OrgUnitService, useClass: CdcOrgUnitService },
   ],
 })
 export class CdcAdministrationModule {}
