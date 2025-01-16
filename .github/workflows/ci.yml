@@ -9,7 +9,7 @@ on:
 
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-  NODE_VERSION: '20'
+  NODE_VERSION: '22'
   AMP_API_TOKEN: ${{ secrets.AMP_API_TOKEN }}
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
 
