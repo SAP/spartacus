@@ -403,30 +403,44 @@ export function createStylePreprocessorOptions(
 }
 
 function createStylePreprocessorOptionsArray(angularJsonStylePreprocessorOptions: {
+  includePaths?: string[];
+  sass?: {
+    silenceDeprecations?: string[];
+  };
+  [key: string]: any;
+}): {
   includePaths: string[];
-}): { includePaths: string[] } {
-  const NODE_MODULES_PATH = 'node_modules/';
+  sass: { silenceDeprecations: string[] };
+  [key: string]: any;
+} {
   if (!angularJsonStylePreprocessorOptions) {
-    angularJsonStylePreprocessorOptions = {
-      includePaths: [NODE_MODULES_PATH],
-    };
-  } else {
-    if (!angularJsonStylePreprocessorOptions.includePaths) {
-      angularJsonStylePreprocessorOptions.includePaths = [NODE_MODULES_PATH];
-    } else {
-      if (
-        !angularJsonStylePreprocessorOptions.includePaths.includes(
-          NODE_MODULES_PATH
-        )
-      ) {
-        angularJsonStylePreprocessorOptions.includePaths.push(
-          NODE_MODULES_PATH
-        );
-      }
-    }
+    angularJsonStylePreprocessorOptions = {};
   }
 
-  return angularJsonStylePreprocessorOptions;
+  const NODE_MODULES_PATH = 'node_modules/';
+  const includePaths = Array.from(
+    new Set([
+      ...(angularJsonStylePreprocessorOptions.includePaths || []),
+      NODE_MODULES_PATH,
+    ])
+  );
+
+  const DEFAULT_SILENCE_DEPRECATIONS = ['import'];
+  const silenceDeprecations = Array.from(
+    new Set([
+      ...(angularJsonStylePreprocessorOptions.sass?.silenceDeprecations || []),
+      ...DEFAULT_SILENCE_DEPRECATIONS,
+    ])
+  );
+
+  return {
+    ...angularJsonStylePreprocessorOptions,
+    includePaths,
+    sass: {
+      ...angularJsonStylePreprocessorOptions.sass,
+      silenceDeprecations,
+    },
+  };
 }
 
 function prepareDependencies(features: string[]): NodeDependency[] {
