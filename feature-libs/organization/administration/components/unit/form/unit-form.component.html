@@ -15,10 +15,13 @@
         placeholder="{{ 'orgUnit.name' | cxTranslate }}"
         formControlName="name"
         (blur)="createUidWithName(form.get('name'), form.get('uid'))"
+        [attr.aria-describedby]="'nameError'"
       />
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="nameError"
+        aria-live="off"
         [translationParams]="{
           label: 'orgUnit.name' | cxTranslate,
         }"
@@ -42,11 +45,14 @@
         required
         placeholder="{{ 'orgUnit.uid' | cxTranslate }}"
         formControlName="uid"
+        [attr.aria-describedby]="'uidError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="uidError"
+        aria-live="off"
         [translationParams]="{
           label: 'orgUnit.uid' | cxTranslate,
         }"

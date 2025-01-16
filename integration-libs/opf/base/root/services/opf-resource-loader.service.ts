@@ -87,7 +87,10 @@ export class OpfResourceLoaderService {
     keyValueList?.forEach((keyValue: OpfKeyValueMap) => {
       attributes[keyValue.key] = keyValue.value;
     });
-    if (attributes?.[this.OPF_RESOURCE_LOAD_ONCE_ATTRIBUTE_KEY] === 'true') {
+    if (
+      !attributes?.[this.OPF_RESOURCE_LOAD_ONCE_ATTRIBUTE_KEY] ||
+      attributes[this.OPF_RESOURCE_LOAD_ONCE_ATTRIBUTE_KEY] !== 'true'
+    ) {
       attributes[this.OPF_RESOURCE_ATTRIBUTE_KEY] = 'true';
     }
     delete attributes?.[this.OPF_RESOURCE_LOAD_ONCE_ATTRIBUTE_KEY];
