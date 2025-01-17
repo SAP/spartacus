@@ -217,6 +217,11 @@ export interface FeatureTogglesInterface {
   a11yPopoverHighContrast?: boolean;
 
   /**
+   * 'TabComponent' disallow automatic tab activation.
+   */
+  a11yTabsManualActivation?: boolean;
+
+  /**
    * Adds Datepicker and Combobox label and corrects heading order for 'CheckoutScheduleReplenishmentOrderComponent'.
    */
   a11yScheduleReplenishment?: boolean;
@@ -998,6 +1003,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yReorderDialog: true,
   a11yPopoverFocus: true,
   a11yPopoverHighContrast: false,
+  a11yTabsManualActivation: false,
   a11yScheduleReplenishment: true,
   a11yScrollToTop: true,
   a11ySavedCartsZoom: true,
