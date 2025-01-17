@@ -34,12 +34,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
 }
 
-// class MockVerificationTokenFacade implements Partial<VerificationTokenFacade> {
-//   createVerificationToken = createSpy().and.returnValue(
-//     of({ tokenId: 'testTokenId', expiresIn: '300' })
-//   );
-// }
-
 const mockForm: FormGroup = new FormGroup({
   titleCode: new FormControl(),
   firstName: new FormControl(),

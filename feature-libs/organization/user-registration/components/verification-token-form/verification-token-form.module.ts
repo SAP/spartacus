@@ -47,7 +47,7 @@ import { VerificationTokenFacade } from '@spartacus/user/account/root';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        RegisterVerifyOTPTokenComponent: {
+        VerifyOTPForB2BRegistrationComponent: {
           component: RegisterVerificationTokenFormComponent,
           guards: [NotAuthGuard],
           providers: [
