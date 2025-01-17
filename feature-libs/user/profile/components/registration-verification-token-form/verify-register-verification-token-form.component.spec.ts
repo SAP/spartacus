@@ -13,6 +13,7 @@ import {
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   FeatureConfigService,
+  GlobalMessageService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -21,7 +22,7 @@ import {
   LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
 import { RegistrationVerificationTokenFormComponent } from './verify-register-verification-token-form.component';
@@ -75,6 +76,14 @@ class MockRegistrationVerificationTokenFormComponentService
   displayMessage = createSpy();
 }
 
+class MockGlobalMessageService {
+  add = createSpy();
+  remove = createSpy();
+  get() {
+    return EMPTY;
+  }
+}
+
 describe('RegistrationVerificationTokenFormComponent', () => {
   let component: RegistrationVerificationTokenFormComponent;
   let fixture: ComponentFixture<RegistrationVerificationTokenFormComponent>;
@@ -103,6 +112,10 @@ describe('RegistrationVerificationTokenFormComponent', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
+        },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
         },
         {
           provide: RegistrationVerificationTokenFormComponentService,

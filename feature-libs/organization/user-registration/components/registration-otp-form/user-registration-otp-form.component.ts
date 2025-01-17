@@ -70,6 +70,7 @@ export class UserRegistrationOTPFormComponent {
             },
             {
               state: {
+                registrationDataForm: this.registerForm.value,
                 loginId: this.registerForm.value.email.toLowerCase(),
                 errorStatus: error.status,
                 form: this.registerForm.value,
