@@ -29,6 +29,8 @@ import { RegistrationVerificationTokenFormComponentService } from './verify-regi
 import {
   AuthConfigService,
   FeatureConfigService,
+  GlobalMessageService,
+  GlobalMessageType,
   OAuthFlow,
   RoutingService,
 } from '@spartacus/core';
@@ -54,6 +56,8 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
   protected service: RegistrationVerificationTokenFormComponentService = inject(
     RegistrationVerificationTokenFormComponentService
   );
+
+  protected globalMessage = inject(GlobalMessageService);
 
   protected launchDialogService: LaunchDialogService =
     inject(LaunchDialogService);
@@ -217,6 +221,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
             this.registerForm
               .get('tokenCode')
               ?.setErrors({ invalidTokenCodeError: error.message });
+            this.globalMessage.remove(GlobalMessageType.MSG_TYPE_ERROR);
           }
           this.isLoading$.next(false);
         },
