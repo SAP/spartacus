@@ -42,8 +42,9 @@ const cds1: CdsConfig = {
     profileTag: {
       javascriptUrl:
         'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
-      configUrl:
-        'https://tag.static.stage.context.cloud.sap/config/mytenant-main-default',
+      configUrl: sciEnabled
+        ? 'https://tag.static.stage.context.cloud.sap/config/profiletag-default-config'
+        : 'https://tag.static.stage.context.cloud.sap/config/mytenant-main-default',
       allowInsecureCookies: true,
       sciEnabled: sciEnabled,
     },
@@ -75,7 +76,9 @@ const cds2: CdsConfig = {
     },
     profileTag: {
       javascriptUrl: 'A_CDS_PROFILE_TAG_LOAD_URL',
-      configUrl: 'A_CDS_PROFILE_TAG_CONFIG_URL',
+      configUrl: sciEnabled
+        ? 'https://tag.static.stage.context.cloud.sap/config/profiletag-default-config'
+        : 'A_CDS_PROFILE_TAG_CONFIG_URL',
       allowInsecureCookies: true,
       sciEnabled: sciEnabled,
     },
