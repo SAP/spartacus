@@ -939,10 +939,5 @@
         border: 1px solid var(--cx-color-text);
       }
     }
-
-    // native high contrast themes fix
-    @media (forced-colors: active) {
-      border-color: Canvas;
-    }
   }
 }

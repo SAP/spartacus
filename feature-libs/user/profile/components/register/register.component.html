@@ -50,11 +50,14 @@
                   'register.firstName.placeholder' | cxTranslate
                 }}"
                 formControlName="firstName"
+                [attr.aria-describedby]="'firstNameError'"
               />
 
               <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
+                id="firstNameError"
+                aria-live="off"
                 [translationParams]="{
                   label: 'register.firstName.label' | cxTranslate,
                 }"
@@ -83,11 +86,14 @@
                   'register.lastName.placeholder' | cxTranslate
                 }}"
                 formControlName="lastName"
+                [attr.aria-describedby]="'lastNameError'"
               />
 
               <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
+                id="lastNameError"
+                aria-live="off"
                 [translationParams]="{
                   label: 'register.lastName.label' | cxTranslate,
                 }"
@@ -116,11 +122,14 @@
                   'register.emailAddress.placeholder' | cxTranslate
                 }}"
                 formControlName="email"
+                [attr.aria-describedby]="'emailError'"
               />
 
               <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
+                id="emailError"
+                aria-live="off"
                 [translationParams]="{
                   label: 'register.emailAddress.label' | cxTranslate,
                 }"
@@ -193,12 +202,15 @@
                 [attr.aria-label]="
                   'register.confirmPassword.placeholder' | cxTranslate
                 "
+                [attr.aria-describedby]="'passwordconfError'"
                 cxPasswordVisibilitySwitch
               />
 
               <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
+                id="passwordconfError"
+                aria-live="off"
                 [translationParams]="{
                   label: 'register.confirmPassword.label' | cxTranslate,
                 }"
@@ -264,6 +276,7 @@
                   type="checkbox"
                   name="termsandconditions"
                   formControlName="termsandconditions"
+                  [attr.aria-describedby]="'termsandconditionsError'"
                 />
                 <span class="form-check-label">
                   {{ 'register.confirmThatRead' | cxTranslate }}
@@ -282,6 +295,8 @@
                 <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
                   *cxFeature="'formErrorsDescriptiveMessages'"
+                  id="termsandconditionsError"
+                  aria-live="off"
                   [translationParams]="{
                     label: 'register.termsAndConditions' | cxTranslate,
                   }"

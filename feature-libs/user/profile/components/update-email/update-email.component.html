@@ -17,12 +17,15 @@
       placeholder="{{
         'updateEmailForm.newEmailAddress.placeholder' | cxTranslate
       }}"
+      [attr.aria-describedby]="'emailError'"
       class="form-control"
     />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
+      id="emailError"
+      aria-live="off"
       [translationParams]="{
         label: 'updateEmailForm.newEmailAddress.label' | cxTranslate,
       }"
@@ -48,12 +51,15 @@
       placeholder="{{
         'updateEmailForm.confirmNewEmailAddress.placeholder' | cxTranslate
       }}"
+      [attr.aria-describedby]="'confirmEmailError'"
       class="form-control"
     />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
+      id="confirmEmailError"
+      aria-live="off"
       [translationParams]="{
         label: 'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate,
       }"
@@ -80,12 +86,15 @@
       class="form-control"
       autocomplete="new-password"
       [attr.aria-label]="'updateEmailForm.password.placeholder' | cxTranslate"
+      [attr.aria-describedby]="'passwordError'"
       cxPasswordVisibilitySwitch
     />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
+      id="passwordError"
+      aria-live="off"
       [translationParams]="{
         label: 'updateEmailForm.password.label' | cxTranslate,
       }"
