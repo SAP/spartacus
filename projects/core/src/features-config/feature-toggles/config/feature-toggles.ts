@@ -598,6 +598,8 @@ export interface FeatureTogglesInterface {
   /**
    * 'NgSelectA11yDirective' will now provide a count of items for each availble option.
    * Including this count in aria-label will help screen readers to provide more context to the user.
+   * Update (since 2211.33): This feature toggle and the logic behind it should be removed
+   * in next major relase since ng-select now correctly handles aria-label values of select options.
    */
   a11yNgSelectOptionsCount?: boolean;
 
@@ -824,6 +826,12 @@ export interface FeatureTogglesInterface {
    * Affects: AnonymousConsentOpenDialogComponent, AnonymousConsentManagementBannerComponent
    */
   a11yHideConsentButtonWhenBannerVisible?: boolean;
+
+  /**
+   * Adds a unique `aria-label` to repeating buttons that contain the same text.
+   * Affects: SetPreferredStoreComponent
+   */
+  a11yRepeatingButtonsUniqueLabels?: boolean;
 
   /**
    * Ensures that borders across all UI elements are visible and meet accessibility standards in high-contrast dark and light themes.
@@ -1097,6 +1105,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusOnCardAfterSelecting: false,
   a11ySearchableDropdownFirstElementFocus: false,
   a11yHideConsentButtonWhenBannerVisible: false,
+  a11yRepeatingButtonsUniqueLabels: false,
   a11yHighContrastBorders: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,

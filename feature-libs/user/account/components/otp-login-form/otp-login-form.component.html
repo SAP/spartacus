@@ -16,8 +16,13 @@
       class="form-control"
       formControlName="userId"
       placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
+      [attr.aria-describedby]="'userIdError'"
     />
-    <cx-form-errors [control]="form.get('userId')"></cx-form-errors>
+    <cx-form-errors
+      id="userIdError"
+      aria-live="off"
+      [control]="form.get('userId')"
+    ></cx-form-errors>
   </label>
 
   <label>
@@ -32,9 +37,14 @@
       placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
       formControlName="password"
       [attr.aria-label]="'loginForm.password.placeholder' | cxTranslate"
+      [attr.aria-describedby]="'passwordError'"
       cxPasswordVisibilitySwitch
     />
-    <cx-form-errors [control]="form.get('password')"></cx-form-errors>
+    <cx-form-errors
+      id="passwordError"
+      aria-live="off"
+      [control]="form.get('password')"
+    ></cx-form-errors>
   </label>
 
   <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">

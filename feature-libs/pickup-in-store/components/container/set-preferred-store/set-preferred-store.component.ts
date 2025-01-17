@@ -44,8 +44,15 @@ export class SetPreferredStoreComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
   setAsPreferred(): boolean {
     this.preferredStoreFacade.setPreferredStore(this.pointOfServiceName);
     return false;
+  }
+
+  getSetStoreButtonLabel(storeName: string): string {
+    return this.pointOfServiceName.name === storeName
+      ? 'setPreferredStore.myStore'
+      : 'setPreferredStore.makeThisMyStore';
   }
 }
