@@ -164,7 +164,7 @@ describe('RegisterVerificationTokenFormComponent', () => {
         ''
       );
       component.ngOnInit();
-      expect(routineservice.go).toHaveBeenCalledWith(['/login']);
+      expect(routineservice.go).toHaveBeenCalledWith(['/login/register']);
       expect(service.displayMessage).toHaveBeenCalledWith(
         'verificationTokenForm.needInputCredentials',
         {}

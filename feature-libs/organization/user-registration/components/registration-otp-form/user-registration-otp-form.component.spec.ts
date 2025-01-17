@@ -137,10 +137,6 @@ describe('UserRegistrationOTPFormComponent', () => {
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        // {
-        //   provide: VerificationTokenFacade,
-        //   useClass: MockVerificationTokenFacade,
-        // },
         {
           provide: UserRegistrationFormService,
           useClass: MockUserRegistrationFormService,
@@ -262,15 +258,12 @@ describe('UserRegistrationOTPFormComponent', () => {
       message: '',
     };
     component.registerForm.setValue(formData);
-    component['goToVerificationTokenForm'](verificationToken, {
-      loginId: 'test@example.com',
-      purpose: 'REGISTRATION',
-    });
+    component['goToVerificationTokenForm'](verificationToken);
     expect(routingService.go).toHaveBeenCalledWith(
-      { cxRoute: 'verifyTokenRegister' },
+      { cxRoute: 'verifyTokenForRegistration' },
       {
         state: {
-          form: formData,
+          registrationDataForm: formData,
           loginId: 'test@example.com',
           tokenId: 'testToken',
           expiresIn: '300',

@@ -67,7 +67,7 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
 
   ngOnInit() {
     if (!!history.state) {
-      this.registerData = history.state['form'];
+      this.registerData = history.state['registrationDataForm'];
       this.tokenId = history.state['tokenId'];
       this.target = history.state['loginId'];
       this.errorStatus = history.state['errorStatus'];
@@ -90,7 +90,7 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
           'verificationTokenForm.needInputCredentials',
           {}
         );
-        this.routingService.go(['/login']);
+        this.routingService.go(['/login/register']);
       } else {
         this.startWaitTimeInterval();
         this.service.displayMessage(

@@ -20,11 +20,6 @@ const verificationTokenCreation: VerificationTokenCreation = {
   password: '1234',
 };
 
-// const verificationToken: VerificationToken = {
-//   expiresIn: '300',
-//   tokenId: 'mockTokenId',
-// };
-
 class MockWinRef {
   get nativeWindow(): Window {
     return {} as Window;

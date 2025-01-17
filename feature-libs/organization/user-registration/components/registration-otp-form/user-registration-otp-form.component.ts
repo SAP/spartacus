@@ -57,12 +57,12 @@ export class UserRegistrationOTPFormComponent {
     }
 
     this.busy$.next(true);
-    const verificationTokenCreation = this.collectDataFromRegistrationForm();
+    const tokenCreationReqBody = this.collectDataFromRegistrationForm();
     this.verificationTokenFacade
-      .createVerificationToken(verificationTokenCreation)
+      .createVerificationToken(tokenCreationReqBody)
       .subscribe({
         next: (result: VerificationToken) =>
-          this.goToVerificationTokenForm(result, verificationTokenCreation),
+          this.goToVerificationTokenForm(result),
         error: (error: HttpErrorResponse) => {
           this.routingService.go(
             {
@@ -70,7 +70,7 @@ export class UserRegistrationOTPFormComponent {
             },
             {
               state: {
-                loginId: verificationTokenCreation.loginId,
+                loginId: this.registerForm.value.email.toLowerCase(),
                 errorStatus: error.status,
                 form: this.registerForm.value,
               },
@@ -83,17 +83,16 @@ export class UserRegistrationOTPFormComponent {
   }
 
   protected goToVerificationTokenForm(
-    verificationToken: VerificationToken,
-    verificationTokenCreation: VerificationTokenCreation
+    verificationToken: VerificationToken
   ): void {
     this.routingService.go(
       {
-        cxRoute: 'verifyTokenRegister',
+        cxRoute: 'verifyTokenForRegistration',
       },
       {
         state: {
-          form: this.registerForm.value,
-          loginId: verificationTokenCreation.loginId,
+          registrationDataForm: this.registerForm.value,
+          loginId: this.registerForm.value.email.toLowerCase(),
           tokenId: verificationToken.tokenId,
           expiresIn: verificationToken.expiresIn,
         },
