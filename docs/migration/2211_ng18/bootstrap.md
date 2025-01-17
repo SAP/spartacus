@@ -51,3 +51,26 @@
 // Replace with
 @import '@spartacus/styles/vendor/bootstrap/scss/reboot';
 ```
+
+4. Some libraries have stopped importing Bootstrap-related styles. Instead, these styles should now be imported directly within the application. For example, the lib-cart.scss file should include the following imports:
+```scss
+// original imports
+@import '../styles-config';
+@import '@spartacus/cart';
+// new imports
+@import '@spartacus/styles/vendor/bootstrap/scss/functions';
+@import '@spartacus/styles/vendor/bootstrap/scss/variables';
+@import '@spartacus/styles/vendor/bootstrap/scss/_mixins';
+```
+Affected libraries:
+- cart
+- checkout
+- organization
+- pick-up-in-store
+- product
+- product-multi-dimensional
+- qualtrics
+- quote
+- storefinder
+- epd-visualization
+- opf
