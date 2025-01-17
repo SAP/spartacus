@@ -56,8 +56,8 @@ export class AsmFeatureModule { }
 `;
 
 exports[`Spartacus Asm schematics: ng-add Asm feature general setup styling should create a proper scss file 1`] = `
-"@import "../../styles-config";
-@import "@spartacus/asm";
+"@use "../../styles-config";
+@use "@spartacus/asm";
 "
 `;
 

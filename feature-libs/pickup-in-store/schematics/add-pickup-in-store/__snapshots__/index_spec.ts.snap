@@ -56,8 +56,8 @@ export class PickupInStoreFeatureModule { }
 `;
 
 exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature general setup styling should create a proper scss file 1`] = `
-"@import "../../styles-config";
-@import "@spartacus/pickup-in-store";
+"@use "../../styles-config";
+@use "@spartacus/pickup-in-store";
 "
 `;
 

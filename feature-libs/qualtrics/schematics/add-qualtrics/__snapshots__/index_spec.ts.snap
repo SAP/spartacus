@@ -40,8 +40,8 @@ export class QualtricsFeatureModule { }
 `;
 
 exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup styling should create a proper scss file 1`] = `
-"@import "../../styles-config";
-@import "@spartacus/qualtrics";
+"@use "../../styles-config";
+@use "@spartacus/qualtrics";
 "
 `;
 

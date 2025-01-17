@@ -111,8 +111,8 @@ export class QuoteFeatureModule { }
 `;
 
 exports[`Spartacus Quote schematics: ng-add Quote feature general setup styling should create a proper scss file 1`] = `
-"@import "../../styles-config";
-@import "@spartacus/quote";
+"@use "../../styles-config";
+@use "@spartacus/quote";
 "
 `;
 

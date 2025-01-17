@@ -67,10 +67,10 @@ describe('Lib utils', () => {
   const SCSS_FILE_NAME = 'xxx.scss';
   const STYLE_IMPORT_PATH = FEATURE_MODULE_IMPORT_PATH;
 
-  const STYLES_CONFIG_IMPORT = '@import "../../styles-config";';
+  const STYLES_CONFIG_IMPORT = '@use "../../styles-config";';
   const STYLES_CONFIG_FILE_PATH = 'src/styles-config.scss';
 
-  const FEATURE_MODULE_STYLE_IMPORT = `@import "${FEATURE_MODULE_IMPORT_PATH}";`;
+  const FEATURE_MODULE_STYLE_IMPORT = `@use "${FEATURE_MODULE_IMPORT_PATH}";`;
 
   const scssFilePath = `src/styles/spartacus/${SCSS_FILE_NAME}`;
 
@@ -365,7 +365,7 @@ describe('Lib utils', () => {
             await generateWorkspace();
             appTree.create(
               scssFilePath,
-              `@import "${FEATURE_MODULE_IMPORT_PATH}";`
+              `@use "${FEATURE_MODULE_IMPORT_PATH}";`
             );
           });
           it('should NOT append it', async () => {
@@ -380,7 +380,7 @@ describe('Lib utils', () => {
           });
         });
         describe('and the scss file with a different content already exists', () => {
-          const randomContent = `@import "@random/xxx";`;
+          const randomContent = `@use "@random/xxx";`;
           beforeEach(async () => {
             await generateWorkspace();
             appTree.create(scssFilePath, randomContent);
@@ -394,7 +394,7 @@ describe('Lib utils', () => {
             expect(appTree.exists(scssFilePath)).toEqual(true);
             const content = appTree.read(scssFilePath)?.toString(UTF_8);
             expect(content).toEqual(
-              `${randomContent}\n@import "${FEATURE_MODULE_IMPORT_PATH}";`
+              `${randomContent}\n@use "${FEATURE_MODULE_IMPORT_PATH}";`
             );
           });
         });

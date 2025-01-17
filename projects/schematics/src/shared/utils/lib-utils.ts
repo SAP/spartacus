@@ -633,7 +633,7 @@ export function addLibraryStyles(
     const libraryScssPath = `${getSourceRoot(tree, {
       project: project,
     })}/styles/spartacus/${stylingConfig.scssFileName}`;
-    const libraryStylesImport = `@import "${stylingConfig.importStyle}";`;
+    const libraryStylesImport = `@use "${stylingConfig.importStyle}";`;
     if (tree.exists(libraryScssPath)) {
       const initialContent = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
       let content = initialContent;
@@ -659,7 +659,7 @@ export function addLibraryStyles(
         getProject(tree, project),
         libraryScssPath
       );
-      const stylesConfigImport = `@import "${styleConfigImportPath}";`;
+      const stylesConfigImport = `@use "${styleConfigImportPath}";`;
       libraryScssFileContent += `${stylesConfigImport}\n`;
     }
 

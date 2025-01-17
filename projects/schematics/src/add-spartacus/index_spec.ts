@@ -145,9 +145,7 @@ describe('add-spartacus', () => {
       const stylesFile = tree.readContent(
         '/projects/schematics-test/src/styles.scss'
       );
-      expect(stylesFile.includes(`@import '@spartacus/styles/index';`)).toBe(
-        true
-      );
+      expect(stylesFile.includes(`@use '@spartacus/styles/index';`)).toBe(true);
     });
   });
 
@@ -205,7 +203,7 @@ describe('add-spartacus', () => {
       const mainStylesContent = tree.readContent(
         '/projects/schematics-test/src/styles.scss'
       );
-      expect(mainStylesContent.includes("@import 'styles-config';")).toBe(true);
+      expect(mainStylesContent.includes("@use 'styles-config';")).toBe(true);
     });
 
     describe('context config', () => {
@@ -448,7 +446,7 @@ describe('add-spartacus', () => {
       '/projects/schematics-test/src/styles.scss'
     );
     expect(
-      stylesFile.includes(`@import '@spartacus/styles/scss/theme/santorini';`)
+      stylesFile.includes(`@use '@spartacus/styles/scss/theme/santorini';`)
     ).toBe(true);
   });
 

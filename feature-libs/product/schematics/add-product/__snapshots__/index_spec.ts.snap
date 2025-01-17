@@ -91,8 +91,8 @@ export class ProductBulkPricingFeatureModule { }
 `;
 
 exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup styling should create a proper scss file 1`] = `
-"@import "../../styles-config";
-@import "@spartacus/product";
+"@use "../../styles-config";
+@use "@spartacus/product";
 "
 `;
 
@@ -311,8 +311,8 @@ export class ProductFutureStockFeatureModule { }
 `;
 
 exports[`Spartacus Product schematics: ng-add FutureStock feature general setup styling should create a proper scss file 1`] = `
-"@import "../../styles-config";
-@import "@spartacus/product";
+"@use "../../styles-config";
+@use "@spartacus/product";
 "
 `;
 
@@ -496,8 +496,8 @@ export class ProductImageZoomFeatureModule { }
 `;
 
 exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup styling should create a proper scss file 1`] = `
-"@import "../../styles-config";
-@import "@spartacus/product";
+"@use "../../styles-config";
+@use "@spartacus/product";
 "
 `;
 
@@ -681,8 +681,8 @@ export class ProductVariantsFeatureModule { }
 `;
 
 exports[`Spartacus Product schematics: ng-add Variants feature general setup styling should create a proper scss file 1`] = `
-"@import "../../styles-config";
-@import "@spartacus/product";
+"@use "../../styles-config";
+@use "@spartacus/product";
 "
 `;
 

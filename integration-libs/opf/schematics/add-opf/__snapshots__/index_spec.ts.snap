@@ -67,8 +67,8 @@ export class OpfFeatureModule { }
 exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup should add the feature using the lazy loading syntax 3`] = `""`;
 
 exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup styling should create a proper scss file 1`] = `
-"@import "../../styles-config";
-@import "@spartacus/opf";
+"@use "../../styles-config";
+@use "@spartacus/opf";
 "
 `;
 

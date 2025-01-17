@@ -5,8 +5,8 @@ exports[`Spartacus PDF Invoices schematics: ng-add PDF Invoices feature eager lo
 exports[`Spartacus PDF Invoices schematics: ng-add PDF Invoices feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
 
 exports[`Spartacus PDF Invoices schematics: ng-add PDF Invoices feature general setup styling should create a proper scss file 1`] = `
-"@import "../../styles-config";
-@import "@spartacus/pdf-invoices";
+"@use "../../styles-config";
+@use "@spartacus/pdf-invoices";
 "
 `;
 

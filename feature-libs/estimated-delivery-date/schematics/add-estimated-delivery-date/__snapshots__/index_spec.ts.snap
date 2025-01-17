@@ -40,8 +40,8 @@ export class CartBaseWrapperModule { }
 `;
 
 exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery-Date feature general setup styling should create a proper scss file 1`] = `
-"@import "../../styles-config";
-@import "@spartacus/estimated-delivery-date";
+"@use "../../styles-config";
+@use "@spartacus/estimated-delivery-date";
 "
 `;
 
