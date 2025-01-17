@@ -16,6 +16,9 @@ export const PRODUCT_DETAIL_ENTITY = '[Product] Detail Entity';
 export const PRODUCT_SEARCH_RESULTS_BY_CODES_ENTITY =
   '[Product] Search Results By Codes Entity';
 
+export const PRODUCT_SEARCH_RESULTS_BY_CATEGORY_ENTITY =
+  '[Product] Search Results By Category Entity';
+
 export interface StateWithProduct {
   [PRODUCT_FEATURE]: ProductsState;
 }
@@ -24,6 +27,7 @@ export interface ProductsState {
   details: EntityScopedLoaderState<Product>;
   search: ProductsSearchState;
   searchByCode: EntityScopedLoaderState<Product>;
+  searchByCategory: EntityScopedLoaderState<Product[]>;
   reviews: ProductReviewsState;
   references: ProductReferencesState;
 }

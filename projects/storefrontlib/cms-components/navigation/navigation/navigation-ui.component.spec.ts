@@ -462,4 +462,29 @@ describe('Navigation UI Component', () => {
       expect(mockHeader.focus).toHaveBeenCalled();
     }));
   });
+
+  describe('trigger buttions ariaLabel/title', () => {
+    it('should have the ariaLabel and title set', () => {
+      const rootNode = mockNode.children?.[0];
+      const childNode = rootNode?.children?.[0];
+      const rootTitle = rootNode?.title;
+      const childTitle = childNode?.title;
+      fixture.detectChanges();
+      const nestedTriggerButton = fixture.debugElement.query(
+        By.css(`button[aria-label="${childTitle}"]`)
+      ).nativeElement;
+      const rootTriggerButton = fixture.debugElement.query(
+        By.css(`button[aria-label="${rootTitle}"]`)
+      ).nativeElement;
+
+      expect(nestedTriggerButton).toBeDefined();
+      expect(rootTriggerButton).toBeDefined();
+      expect(rootTriggerButton.getAttribute('title')).toEqual(
+        `navigation.menuButonTitle title:${rootTitle}`
+      );
+      expect(nestedTriggerButton.getAttribute('title')).toEqual(
+        `navigation.menuButonTitle title:${childTitle}`
+      );
+    });
+  });
 });

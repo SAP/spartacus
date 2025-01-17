@@ -143,18 +143,6 @@ describe('ConfiguratorShowMoreComponent', () => {
       fixture.detectChanges();
     });
 
-    it("should contain span element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'span',
-        undefined,
-        0,
-        'aria-label',
-        'configurator.a11y.itemDescription item:Camera bundle'
-      );
-    });
-
     it("should contain button element with a content 'configurator.button.less'", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,

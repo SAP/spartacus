@@ -49,8 +49,13 @@
         formControlName="name"
         required
         type="text"
+        [attr.aria-describedby]="'nameError'"
       />
-      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+      <cx-form-errors
+        id="nameError"
+        aria-live="off"
+        [control]="form.get('name')"
+      ></cx-form-errors>
     </label>
   </div>
 

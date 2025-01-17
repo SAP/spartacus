@@ -704,40 +704,40 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it("should contain span element with 'aria-label' attribute  for product name that defines an accessible name to label the current element", () => {
+    it("should contain span element with 'title' attribute for product name that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'span',
         undefined,
         2,
-        'aria-label',
+        'title',
         'configurator.a11y.productName',
         mockProduct.name
       );
     });
 
-    it("should contain span element with 'aria-label' attribute for product code that defines an accessible name to label the current element", () => {
+    it("should contain span element with 'title' attribute for product code that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'span',
         undefined,
         3,
-        'aria-label',
+        'title',
         'configurator.a11y.productCode',
         mockProduct.code
       );
     });
 
-    it("should contain span element with 'aria-label' attribute for product description that defines an accessible name to label the current element", () => {
+    it("should contain span element with 'title' attribute for product description that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'span',
         undefined,
         4,
-        'aria-label',
+        'title',
         'configurator.a11y.productDescription',
         mockProduct.description
       );

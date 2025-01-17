@@ -15,11 +15,12 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure';
+import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
+import { CarouselModule } from '../../../shared';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { IconModule } from '../../misc/icon/icon.module';
 import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponent } from './search-box.component';
-import { CarouselModule } from '../../../shared';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { CarouselModule } from '../../../shared';
     OutletModule,
     FeaturesConfigModule,
     CarouselModule,
+    KeyboardFocusModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

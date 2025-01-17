@@ -90,6 +90,9 @@
             [attr.aria-haspopup]="true"
             [attr.aria-expanded]="false"
             [attr.aria-label]="node.title"
+            [attr.title]="
+              'navigation.menuButonTitle' | cxTranslate: { title: node.title }
+            "
             (click)="toggleOpen($any($event))"
             (mouseenter)="onMouseEnter($event)"
             (keydown.space)="toggleOpen($any($event))"
@@ -108,7 +111,10 @@
             [attr.aria-haspopup]="true"
             [attr.aria-expanded]="false"
             [attr.aria-controls]="node.title"
-            [attr.aria-describedby]="'greeting'"
+            [attr.aria-label]="node.title"
+            [attr.title]="
+              'navigation.menuButonTitle' | cxTranslate: { title: node.title }
+            "
             (click)="toggleOpen($any($event))"
             (mouseenter)="onMouseEnter($event)"
             (keydown.space)="onSpace($any($event))"

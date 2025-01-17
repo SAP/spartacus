@@ -9,4 +9,5 @@ export * from './product-references.selectors';
 export * from './product-reviews.selectors';
 export * from './product-search.selectors';
 export * from './product-search-by-code.selectors';
+export * from './product-search-by-category.selectors';
 export * from './product.selectors';

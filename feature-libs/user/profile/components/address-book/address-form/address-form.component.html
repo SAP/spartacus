@@ -23,9 +23,7 @@
             bindValue="isocode"
             placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
             (change)="countrySelected($event)"
-            [cxNgSelectA11y]="{
-              ariaLabel: 'addressForm.country' | cxTranslate,
-            }"
+            [cxNgSelectA11y]="{}"
           >
           </ng-select>
           <cx-form-errors
@@ -80,9 +78,12 @@
         type="text"
         placeholder="{{ 'addressForm.firstName.placeholder' | cxTranslate }}"
         formControlName="firstName"
+        [attr.aria-describedby]="'firstNameError'"
       />
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="firstNameError"
+        aria-live="off"
         [translationParams]="{
           label: 'addressForm.firstName.label' | cxTranslate,
         }"
@@ -106,9 +107,12 @@
         class="form-control"
         placeholder="{{ 'addressForm.lastName.placeholder' | cxTranslate }}"
         formControlName="lastName"
+        [attr.aria-describedby]="'lastNameError'"
       />
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="lastNameError"
+        aria-live="off"
         [translationParams]="{
           label: 'addressForm.lastName.label' | cxTranslate,
         }"
@@ -132,9 +136,12 @@
         class="form-control"
         placeholder="{{ 'addressForm.streetAddress' | cxTranslate }}"
         formControlName="line1"
+        [attr.aria-describedby]="'line1Error'"
       />
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="line1Error"
+        aria-live="off"
         [translationParams]="{
           label: 'addressForm.address1' | cxTranslate,
         }"
@@ -172,9 +179,12 @@
           class="form-control"
           placeholder="{{ 'addressForm.city.placeholder' | cxTranslate }}"
           formControlName="town"
+          [attr.aria-describedby]="'townError'"
         />
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
+          id="townError"
+          aria-live="off"
           [translationParams]="{
             label: 'addressForm.city.label' | cxTranslate,
           }"
@@ -198,9 +208,12 @@
           class="form-control"
           placeholder="{{ 'addressForm.zipCode.placeholder' | cxTranslate }}"
           formControlName="postalCode"
+          [attr.aria-describedby]="'postalCodeError'"
         />
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
+          id="postalCodeError"
+          aria-live="off"
           [translationParams]="{
             label: 'addressForm.zipCode.label' | cxTranslate,
           }"

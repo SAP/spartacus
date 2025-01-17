@@ -18,7 +18,7 @@ import { UpdateEmailComponentService } from './update-email-component.service';
 })
 export class UpdateEmailComponent {
   constructor(protected service: UpdateEmailComponentService) {
-    useFeatureStyles('a11yPasswordVisibilityBtnValueOverflow');
+    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
   }
 
   form: UntypedFormGroup = this.service.form;

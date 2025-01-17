@@ -71,12 +71,49 @@
         class="quick-order-results-product-container"
       >
         <button
+          *cxFeature="'!a11yQuickOrderSearchListKeyboardNavigation'"
           (blur)="onBlur($event)"
           (mousedown)="add(product, $event)"
           (keydown.arrowdown)="focusNextChild($event)"
           (keydown.arrowup)="focusPreviousChild($event)"
           (keydown.enter)="add(product, $event)"
           (keydown.escape)="clear($event)"
+          [class.has-media]="
+            config?.quickOrder?.searchForm?.displayProductImages
+          "
+          class="quick-order-results-product"
+          role="option"
+        >
+          <cx-media
+            *ngIf="config?.quickOrder?.searchForm?.displayProductImages"
+            [alt]="product.name"
+            [container]="product.images?.PRIMARY"
+            class="media"
+            format="thumbnail"
+            role="presentation"
+          ></cx-media>
+          <div class="name" [innerHTML]="product.name"></div>
+          <span class="id">
+            {{
+              'quickOrderForm.id'
+                | cxTranslate
+                  : {
+                      id: product.code,
+                    }
+            }}
+          </span>
+          <span class="price">{{ product.price?.formattedValue }}</span>
+        </button>
+        <button
+          *cxFeature="'a11yQuickOrderSearchListKeyboardNavigation'"
+          (blur)="onBlur($event)"
+          (mousedown)="add(product, $event)"
+          (keydown.arrowdown)="focusNextChild($event)"
+          (keydown.arrowup)="focusPreviousChild($event)"
+          (keydown.enter)="add(product, $event)"
+          (keydown.escape)="clear($event)"
+          (keydown.tab)="close()"
+          (keydown.shift.tab)="close()"
           [class.has-media]="
             config?.quickOrder?.searchForm?.displayProductImages
           "

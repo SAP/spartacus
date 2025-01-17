@@ -13,6 +13,7 @@ import {
   ProductsState,
   PRODUCT_DETAIL_ENTITY,
   PRODUCT_SEARCH_RESULTS_BY_CODES_ENTITY,
+  PRODUCT_SEARCH_RESULTS_BY_CATEGORY_ENTITY,
 } from '../product-state';
 import * as fromProductReferences from './product-references.reducer';
 import * as fromProductReviews from './product-reviews.reducer';
@@ -23,6 +24,9 @@ export function getReducers(): ActionReducerMap<ProductsState, any> {
     search: fromProductsSearch.reducer,
     searchByCode: entityScopedLoaderReducer<Product>(
       PRODUCT_SEARCH_RESULTS_BY_CODES_ENTITY
+    ),
+    searchByCategory: entityScopedLoaderReducer<Product[]>(
+      PRODUCT_SEARCH_RESULTS_BY_CATEGORY_ENTITY
     ),
     details: entityScopedLoaderReducer<Product>(PRODUCT_DETAIL_ENTITY),
     reviews: fromProductReviews.reducer,

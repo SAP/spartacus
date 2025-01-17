@@ -531,6 +531,7 @@ export function startCustomerEmulationWithOrderID(
   cy.get('cx-customer-selection form').within(() => {
     cy.get('[formcontrolname="searchOrder"]')
       .should('not.be.disabled')
+      .focus()
       .type(order);
     cy.get('[formcontrolname="searchOrder"]').should('have.value', `${order}`);
   });

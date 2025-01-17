@@ -46,7 +46,7 @@
         <div class="cx-detail-title">
           <span
             *ngIf="product.name"
-            [attr.aria-label]="'configurator.a11y.productName' | cxTranslate"
+            [attr.title]="'configurator.a11y.productName' | cxTranslate"
           >
             {{ product.name }}
           </span>
@@ -54,7 +54,7 @@
         <div class="cx-code">
           <span
             *ngIf="product.code"
-            [attr.aria-label]="'configurator.a11y.productCode' | cxTranslate"
+            [attr.title]="'configurator.a11y.productCode' | cxTranslate"
           >
             {{ product.code }}
           </span>
@@ -62,9 +62,7 @@
         <div class="cx-description">
           <span
             *ngIf="product.description"
-            [attr.aria-label]="
-              'configurator.a11y.productDescription' | cxTranslate
-            "
+            [attr.title]="'configurator.a11y.productDescription' | cxTranslate"
           >
             {{ product.description }}
           </span>

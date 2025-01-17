@@ -236,6 +236,7 @@
                   required="true"
                   [maxLength]="nameMaxLength"
                   class="form-control"
+                  [attr.aria-describedby]="'nameError'"
                   formControlName="name"
                   required
                   type="text"
@@ -244,6 +245,8 @@
                 <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
                   *cxFeature="'formErrorsDescriptiveMessages'"
+                  id="nameError"
+                  aria-live="off"
                   [translationParams]="{
                     label: 'savedCartDialog.savedCartName' | cxTranslate,
                   }"
@@ -269,6 +272,7 @@
               <textarea
                 [maxLength]="descriptionMaxLength"
                 class="form-control"
+                [attr.aria-describedby]="'descriptionError'"
                 formControlName="description"
                 rows="5"
               ></textarea>
@@ -276,6 +280,8 @@
               <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
+                id="descriptionError"
+                aria-live="off"
                 [translationParams]="{
                   label: 'savedCartDialog.savedCartDescription' | cxTranslate,
                 }"

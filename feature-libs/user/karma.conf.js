@@ -32,8 +32,7 @@ module.exports = function (config) {
         global: {
           statements: 90,
           lines: 90,
-          //TODO CXSPA-8984 change branches to 75 after fix
-          branches: 70,
+          branches: 75,
           functions: 80,
         },
       },

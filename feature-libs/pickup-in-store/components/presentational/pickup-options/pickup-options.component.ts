@@ -18,6 +18,7 @@ import {
   ViewChild,
   TemplateRef,
   Optional,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FeatureConfigService, useFeatureStyles } from '@spartacus/core';
@@ -32,6 +33,7 @@ import { PickupOptionsTabs } from './pickup-options.model';
 @Component({
   selector: 'cx-pickup-options',
   templateUrl: './pickup-options.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PickupOptionsComponent
   implements OnChanges, AfterViewInit, OnDestroy

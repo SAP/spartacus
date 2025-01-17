@@ -168,10 +168,19 @@
                     class="cx-unit-level-order-history-value"
                   >
                     {{ order?.orgCustomer?.name }}
-                    <span class="text-ellipsis">{{
-                      order?.orgCustomer?.email
-                    }}</span></a
-                  >
+                    <ng-container
+                      *cxFeature="'a11yTruncatedTextUnitLevelOrderHistory'"
+                    >
+                      <span>{{ order?.orgCustomer?.email }}</span>
+                    </ng-container>
+                    <ng-container
+                      *cxFeature="'!a11yTruncatedTextUnitLevelOrderHistory'"
+                    >
+                      <span class="text-ellipsis">{{
+                        order?.orgCustomer?.email
+                      }}</span>
+                    </ng-container>
+                  </a>
                 </td>
                 <td class="cx-unit-level-order-history-unit">
                   <div class="cx-unit-level-order-history-label">
