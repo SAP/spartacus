@@ -49,4 +49,4 @@ import { GtmModule } from '@spartacus/tracking/tms/gtm';
     }),
   ],
 })
-export class TrackingFeatureModule {}
+export class PersonalizationFeatureModule {}
