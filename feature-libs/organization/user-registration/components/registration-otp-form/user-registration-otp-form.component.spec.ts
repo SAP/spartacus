@@ -252,7 +252,7 @@ describe('UserRegistrationOTPFormComponent', () => {
     component.registerForm.setValue(formData);
     component['goToVerificationTokenForm'](verificationToken);
     expect(routingService.go).toHaveBeenCalledWith(
-      { cxRoute: 'registerVerifyToken' },
+      { cxRoute: 'verifyTokenForRegistration' },
       {
         state: {
           registrationDataForm: formData,

@@ -72,7 +72,7 @@ export class UserRegistrationOTPFormComponent {
   ): void {
     this.routingService.go(
       {
-        cxRoute: 'registerVerifyToken',
+        cxRoute: 'verifyTokenForRegistration',
       },
       {
         state: {

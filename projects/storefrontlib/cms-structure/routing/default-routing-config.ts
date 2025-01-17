@@ -21,7 +21,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     protected: false,
     authFlow: true,
   },
-  registerVerifyToken: {
+  verifyTokenForRegistration: {
     paths: ['register/verify-token'],
     protected: false,
     authFlow: true,
