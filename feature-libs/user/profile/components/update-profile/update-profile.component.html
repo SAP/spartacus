@@ -36,11 +36,14 @@
         'updateProfileForm.firstName.placeholder' | cxTranslate
       }}"
       formControlName="firstName"
+      [attr.aria-describedby]="'firstNameError'"
     />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
+      id="firstNameError"
+      aria-live="off"
       [translationParams]="{
         label: 'updateProfileForm.firstName.label' | cxTranslate,
       }"
@@ -65,11 +68,14 @@
       name="lastName"
       placeholder="{{ 'updateProfileForm.lastName.placeholder' | cxTranslate }}"
       formControlName="lastName"
+      [attr.aria-describedby]="'lastNameError'"
     />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
+      id="lastNameError"
+      aria-live="off"
       [translationParams]="{
         label: 'updateProfileForm.lastName.label' | cxTranslate,
       }"
@@ -92,12 +98,15 @@
       class="form-control"
       name="customerId"
       formControlName="customerId"
+      [attr.aria-describedby]="'customerIdError'"
       readonly
     />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
+      id="customerIdError"
+      aria-live="off"
       [translationParams]="{
         label: 'updateProfileForm.customerId' | cxTranslate,
       }"
