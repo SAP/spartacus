@@ -35,4 +35,4 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
     }),
   ],
 })
-export class SavedCartFeatureModule {}
+export class CartSavedCartFeatureModule {}
