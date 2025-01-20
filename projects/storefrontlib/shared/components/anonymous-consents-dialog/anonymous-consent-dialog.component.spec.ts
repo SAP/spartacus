@@ -377,6 +377,14 @@ describe('AnonymousConsentsDialogComponent', () => {
     });
   });
 
+  describe('closeMessage', () => {
+    it('should reset message$ subject', () => {
+      spyOn(component.message$, 'next').and.stub();
+      component.closeMessage();
+      expect(component.message$.next).toHaveBeenCalledWith(null);
+    });
+  });
+
   describe('ngOnDestroy', () => {
     it('should call unsubscribe', () => {
       spyOn<any>(component['subscriptions'], 'unsubscribe').and.stub();

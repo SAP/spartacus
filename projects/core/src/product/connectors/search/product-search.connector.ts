@@ -9,8 +9,8 @@ import { ProductSearchAdapter } from './product-search.adapter';
 import { SearchConfig } from '../../model/search-config';
 import { Observable } from 'rxjs';
 import {
-  Suggestion,
   ProductSearchPage,
+  Suggestion,
 } from '../../../model/product-search.model';
 import { Product } from '../../../model';
 
@@ -33,6 +33,13 @@ export class ProductSearchConnector {
     scope?: string
   ): Observable<{ products: Product[] }> {
     return this.adapter.searchByCodes(codes, scope);
+  }
+
+  searchByCategory(
+    category: string,
+    scope?: string
+  ): Observable<{ products: Product[] }> {
+    return this.adapter.searchByCategory(category, scope);
   }
 
   getSuggestions(term: string, pageSize?: number): Observable<Suggestion[]> {

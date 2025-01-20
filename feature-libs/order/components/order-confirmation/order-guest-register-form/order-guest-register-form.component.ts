@@ -75,7 +75,7 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
     protected authService: AuthService,
     protected fb: UntypedFormBuilder
   ) {
-    useFeatureStyles('a11yPasswordVisibilityBtnValueOverflow');
+    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
   }
 
   submit() {

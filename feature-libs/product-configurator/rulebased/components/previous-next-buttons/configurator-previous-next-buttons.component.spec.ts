@@ -45,6 +45,14 @@ class MockConfiguratorGroupsService {
   }
 
   navigateToGroup() {}
+
+  getPreviousGroupDescription() {
+    return of('previousGroupDescription');
+  }
+
+  getNextGroupDescription() {
+    return of('nextGroupDescription');
+  }
 }
 
 const groups: Configurator.Group = {
@@ -337,7 +345,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         'cx-previous',
         0,
         'aria-label',
-        'configurator.a11y.previous',
+        'configurator.a11y.previous group:previousGroupDescription',
         'configurator.button.previous'
       );
     });
@@ -350,7 +358,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         'cx-next',
         0,
         'aria-label',
-        'configurator.a11y.next',
+        'configurator.a11y.next group:nextGroupDescription',
         'configurator.button.next'
       );
     });

@@ -34,6 +34,16 @@ viewportContext(['mobile', 'desktop'], () => {
     });
   });
 
+  describe('My coupons - claim coupons with code in body using authenticated user', () => {
+    beforeEach(() => {
+      cy.window().then((win) => {
+        win.sessionStorage.clear();
+      });
+      cy.requireLoggedIn();
+    });
+    myCoupons.testClaimCustomerCouponWithCodeInBody();
+  });
+
   describe('My coupons - Authenticated user', () => {
     beforeEach(() => {
       cy.window().then((win) => {

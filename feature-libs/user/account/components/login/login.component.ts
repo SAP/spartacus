@@ -5,7 +5,11 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { AuthService, useFeatureStyles } from '@spartacus/core';
+import {
+  AuthService,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -17,10 +21,12 @@ import { switchMap } from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit {
   user$: Observable<User | undefined>;
+  greeting$: Observable<string | undefined>;
 
   constructor(
     private auth: AuthService,
-    private userAccount: UserAccountFacade
+    private userAccount: UserAccountFacade,
+    private translation: TranslationService
   ) {
     useFeatureStyles('a11yMyAccountLinkOutline');
   }
@@ -35,5 +41,16 @@ export class LoginComponent implements OnInit {
         }
       })
     );
+    this.greeting$ = this.user$.pipe(
+      switchMap((user) =>
+        this.translation.translate(`miniLogin.userGreeting`, {
+          name: user?.name,
+        })
+      )
+    );
+  }
+
+  onRootNavBtnAdded($event: MutationRecord, greeting: string) {
+    ($event.target as HTMLElement).setAttribute('aria-label', greeting);
   }
 }

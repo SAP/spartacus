@@ -279,6 +279,12 @@
       padding-bottom: 6px;
       padding-inline-start: 10px;
 
+      @include forFeature('a11yKeyboardFocusInSearchBox') {
+        &:focus-within {
+          @include visible-focus();
+        }
+      }
+
       @include media-breakpoint-up(md) {
         border: 1px solid var(--cx-color-medium);
         width: 27vw;
@@ -295,6 +301,13 @@
         background-color: var(--cx-color-inverse);
         z-index: 20;
         padding-top: 25px;
+
+        @include forFeature('a11yKeyboardFocusInSearchBox') {
+          &:focus-within {
+            padding: 27px 10px 8px;
+            outline: 0;
+          }
+        }
       }
     }
 
@@ -310,6 +323,12 @@
         height: 48px;
         border: 1px solid var(--cx-color-medium);
         border-radius: 4px;
+
+        @include forFeature('a11yKeyboardFocusInSearchBox') {
+          &:focus {
+            @include visible-focus();
+          }
+        }
       }
 
       flex-basis: 100%;
@@ -919,11 +938,6 @@
         background-color: var(--cx-color-background);
         border: 1px solid var(--cx-color-text);
       }
-    }
-
-    // native high contrast themes fix
-    @media (forced-colors: active) {
-      border-color: Canvas;
     }
   }
 }

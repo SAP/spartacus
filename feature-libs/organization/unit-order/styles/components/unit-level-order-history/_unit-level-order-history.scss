@@ -23,6 +23,9 @@
 
   .cx-unit-level-order-history-filter-label-wrapper {
     width: 200px;
+    @include forFeature('a11yTruncatedTextUnitLevelOrderHistory') {
+      width: unset;
+    }
     border: 1px solid var(--cx-color-secondary);
     border-radius: 3px;
   }
@@ -106,7 +109,7 @@
           padding-bottom: 1.25rem;
         }
       }
-
+      // TODO: Remove following .text-ellipsis block once 'a11yTruncatedTextUnitLevelOrderHistory' feature flag is removed
       .text-ellipsis {
         @include media-breakpoint-up(md) {
           overflow: hidden;

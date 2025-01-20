@@ -10,9 +10,11 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
-import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
+import { AnonymousConsentsService, useFeatureStyles } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
+import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
 
 @Component({
   selector: 'cx-anonymous-consent-open-dialog',
@@ -21,11 +23,16 @@ import { take } from 'rxjs/operators';
 })
 export class AnonymousConsentOpenDialogComponent {
   @ViewChild('open') openElement: ElementRef;
+  bannerVisible$: Observable<boolean> =
+    this.anonymousConsentsService.isBannerVisible();
 
   constructor(
     protected vcr: ViewContainerRef,
+    protected anonymousConsentsService: AnonymousConsentsService,
     protected launchDialogService: LaunchDialogService
-  ) {}
+  ) {
+    useFeatureStyles('a11yHideConsentButtonWhenBannerVisible');
+  }
 
   openDialog(): void {
     const dialog = this.launchDialogService.openDialog(

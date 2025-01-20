@@ -39,6 +39,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     protected translation: TranslationService
   ) {
     useFeatureStyles('a11yTruncatedTextForResponsiveView');
+    useFeatureStyles('a11yTruncatedTextUnitLevelOrderHistory');
   }
 
   orders$: Observable<OrderHistoryList | undefined> = this.unitOrdersFacade

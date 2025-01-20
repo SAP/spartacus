@@ -24,7 +24,7 @@ export class ResetPasswordComponent {
   token$: Observable<string> = this.service.resetToken$;
 
   constructor(protected service: ResetPasswordComponentService) {
-    useFeatureStyles('a11yPasswordVisibilityBtnValueOverflow');
+    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
   }
 
   onSubmit(token: string) {

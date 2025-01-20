@@ -22,6 +22,7 @@ export const defaultOccUserConfig: OccConfig = {
         addressVerification: 'users/${userId}/addresses/verification',
         customerCoupons: 'users/${userId}/customercoupons',
         claimCoupon: 'users/${userId}/customercoupons/${couponCode}/claim',
+        claimCustomerCoupon: 'users/${userId}/customercoupons/claim',
         couponNotification:
           'users/${userId}/customercoupons/${couponCode}/notification',
         notificationPreference: 'users/${userId}/notificationpreferences',

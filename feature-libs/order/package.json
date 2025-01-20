@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/order",
-  "version": "2211.32.0-1",
+  "version": "2211.32.0",
   "description": "Order feature library for Spartacus",
   "keywords": [
     "spartacus",
@@ -22,7 +22,7 @@
     "test:schematics": "npm --prefix ../../projects/schematics/ run clean && npm run clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "tslib": "^2.6.2"
+    "tslib": "^2.8.1"
   },
   "peerDependencies": {
     "@angular-devkit/schematics": "^19.0.4",
@@ -33,13 +33,13 @@
     "@ng-select/ng-select": "^14.1.0",
     "@ngrx/effects": "^19.0.0",
     "@ngrx/store": "^19.0.0",
-    "@spartacus/cart": "2211.32.0-1",
-    "@spartacus/core": "2211.32.0-1",
-    "@spartacus/pdf-invoices": "2211.32.0-1",
-    "@spartacus/schematics": "2211.32.0-1",
-    "@spartacus/storefront": "2211.32.0-1",
-    "@spartacus/styles": "2211.32.0-1",
-    "@spartacus/user": "2211.32.0-1",
+    "@spartacus/cart": "2211.32.0",
+    "@spartacus/core": "2211.32.0",
+    "@spartacus/pdf-invoices": "2211.32.0",
+    "@spartacus/schematics": "2211.32.0",
+    "@spartacus/storefront": "2211.32.0",
+    "@spartacus/styles": "2211.32.0",
+    "@spartacus/user": "2211.32.0",
     "rxjs": "^7.8.0"
   },
   "publishConfig": {

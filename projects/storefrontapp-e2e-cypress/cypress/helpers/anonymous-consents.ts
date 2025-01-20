@@ -133,7 +133,7 @@ export function checkDialogClosed() {
 }
 
 export function closeAnonymousConsentsDialog() {
-  cy.get(`${ANONYMOUS_DIALOG} button.close`).click({ force: true });
+  cy.get(`${ANONYMOUS_DIALOG} button.close`).first().click({ force: true });
 }
 
 export function toggleAnonymousConsent(position) {

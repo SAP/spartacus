@@ -10,10 +10,11 @@ import {
   FeatureConfigService,
   Product,
   ProductScope,
-  ProductService,
+  ProductSearchByCategoryService,
   ProductSearchByCodeService,
+  ProductService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, of, switchMap, zip } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 
@@ -29,6 +30,8 @@ export class ProductCarouselComponent {
   protected productSearchByCodeService: ProductSearchByCodeService = inject(
     ProductSearchByCodeService
   );
+  protected productSearchByCategoryService: ProductSearchByCategoryService =
+    inject(ProductSearchByCategoryService);
   protected readonly PRODUCT_SCOPE = [ProductScope.LIST, ProductScope.STOCK];
 
   protected readonly PRODUCT_SCOPE_ITEM = [ProductScope.LIST_ITEM];
@@ -53,6 +56,7 @@ export class ProductCarouselComponent {
    */
   items$: Observable<Observable<Product | undefined>[]> =
     this.componentData$.pipe(
+      switchMap((data) => this.handleCategoryCodes(data)),
       map((data) => {
         const componentMappingExist = !!data.composition?.inner?.length;
         const codes = data.productCodes?.trim().split(' ') ?? [];
@@ -79,4 +83,36 @@ export class ProductCarouselComponent {
     protected componentData: CmsComponentData<model>,
     protected productService: ProductService
   ) {}
+  handleCategoryCodes(data: model): Observable<model> {
+    const categoryCodes = data?.categoryCodes?.split(' ');
+
+    // Try to add category codes to the carousel product codes
+    if (
+      categoryCodes &&
+      this.featureConfigService.isEnabled('enableCarouselCategoryProducts')
+    ) {
+      return zip(
+        categoryCodes.map((categoryCode) =>
+          this.productSearchByCategoryService.get({
+            categoryCode,
+            scope: ProductScope.CODE,
+          })
+        )
+      ).pipe(
+        map((results) => {
+          const codes = results
+            .flat()
+            .map((product) => product?.code)
+            .join(' ');
+
+          return {
+            ...data,
+            productCodes: data.productCodes + ' ' + codes,
+          };
+        })
+      );
+    }
+
+    return of(data);
+  }
 }

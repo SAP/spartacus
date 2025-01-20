@@ -173,13 +173,13 @@ function buildSchematicsAndPublish(buildCmd: string): void {
 
 function testAllSchematics(): void {
   try {
-    execSync('npm --prefix projects/schematics run test --coverage', {
+    execSync('npm --prefix projects/schematics run test --coverage -- -u', {
       stdio: 'inherit',
     });
 
     featureLibsFolders.forEach((lib) =>
       execSync(
-        `npm --prefix feature-libs/${lib} run test:schematics --coverage`,
+        `npm --prefix feature-libs/${lib} run test:schematics --coverage -- -u`,
         {
           stdio: 'inherit',
         }
@@ -187,7 +187,7 @@ function testAllSchematics(): void {
     );
     integrationLibsFolders.forEach((lib) =>
       execSync(
-        `npm --prefix integration-libs/${lib} run test:schematics --coverage`,
+        `npm --prefix integration-libs/${lib} run test:schematics --coverage -- -u`,
         {
           stdio: 'inherit',
         }

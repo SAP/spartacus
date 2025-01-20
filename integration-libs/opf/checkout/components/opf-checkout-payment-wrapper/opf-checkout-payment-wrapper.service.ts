@@ -17,6 +17,7 @@ import {
   HttpResponseStatus,
   RoutingService,
   UserIdService,
+  WindowRef,
   backOff,
   isAuthorizationError,
 } from '@spartacus/core';
@@ -26,7 +27,9 @@ import {
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
 import { OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE } from '@spartacus/opf/checkout/root';
+import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import {
+  OpfPaymentBrowserInfo,
   OpfPaymentFacade,
   OpfPaymentRenderMethodEvent,
   OpfPaymentRenderPattern,
@@ -53,6 +56,7 @@ export class OpfCheckoutPaymentWrapperService {
   protected orderFacade = inject(OrderFacade);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected cartAccessCodeFacade = inject(CartAccessCodeFacade);
+  protected winRef = inject(WindowRef);
 
   protected lastPaymentOptionId?: number;
 
@@ -110,7 +114,12 @@ export class OpfCheckoutPaymentWrapperService {
         this.cartAccessCodeFacade.getCartAccessCode(userId, cartId).pipe(
           filter((response) => Boolean(response?.accessCode)),
           map(({ accessCode: otpKey }) =>
-            this.getPaymentInitiationConfig(cartId, otpKey, paymentOptionId)
+            this.getPaymentInitiationConfig(
+              cartId,
+              otpKey,
+              paymentOptionId,
+              getBrowserInfo(this.winRef?.nativeWindow)
+            )
           )
         )
       ),
@@ -263,12 +272,14 @@ export class OpfCheckoutPaymentWrapperService {
   protected getPaymentInitiationConfig(
     cartId: string,
     otpKey: string,
-    paymentOptionId: number
+    paymentOptionId: number,
+    browserInfo?: OpfPaymentBrowserInfo
   ) {
     return {
       otpKey,
       config: {
         cartId,
+        browserInfo,
         configurationId: String(paymentOptionId),
         resultURL: this.routingService.getFullUrl({
           cxRoute: 'paymentVerificationResult',

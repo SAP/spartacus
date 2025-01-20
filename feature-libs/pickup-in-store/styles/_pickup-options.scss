@@ -107,15 +107,6 @@
           color: var(--cx-color-text);
         }
       }
-
-      // native high contrast themes fix
-      @media (forced-colors: active) {
-        button.tab-btn.active {
-          &:after {
-            background-color: LinkText;
-          }
-        }
-      }
     }
   }
 }

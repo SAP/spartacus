@@ -3,7 +3,6 @@
   [attr.aria-label]="'navigation.scrollToTop' | cxTranslate"
   [title]="'navigation.scrollToTop' | cxTranslate"
   class="cx-scroll-to-top-btn"
-  [class.elevated-position]="elevatedPosition$ | async"
   (click)="scrollToTop($event)"
   (focusout)="onFocusOut()"
   (keydown.Tab)="onTab($event)"

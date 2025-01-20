@@ -13,6 +13,7 @@ import {
   I18nTestingModule,
   Product,
   ProductScope,
+  ProductSearchByCategoryService,
   ProductSearchByCodeService,
   ProductService,
 } from '@spartacus/core';
@@ -118,6 +119,14 @@ const mockProductsFromSearchByCodes: Record<string, Record<string, Product>> = {
     },
   },
 };
+const mockProductsFromSearchByCategory: Record<
+  string,
+  Record<string, Product[]>
+> = {
+  electronics: {
+    code: [{ code: 'prod3' }, { code: 'prod4' }, { code: 'prod5' }],
+  },
+};
 
 const mockComponentData: CmsProductCarouselComponent = {
   uid: '001',
@@ -129,6 +138,7 @@ const mockComponentData: CmsProductCarouselComponent = {
   title: 'Mock Title',
   name: 'Mock Product Carousel',
   container: 'false',
+  categoryCodes: 'electronics ',
 };
 const mockComponentWithAddCartData: CmsProductCarouselComponent = {
   ...mockComponentData,
@@ -141,11 +151,13 @@ const MockCmsProductCarouselComponent = <CmsComponentData<any>>{
 const MockCmsProductCarouselComponentAddToCart = <CmsComponentData<any>>{
   data$: of(mockComponentWithAddCartData),
 };
+
 class MockProductService implements Partial<ProductService> {
   get(productCode: string): Observable<Product> {
     return of(mockProducts[productCode]);
   }
 }
+
 class MockFeatureConfigService {
   isEnabled(feature: string): boolean {
     return feature === 'useProductCarouselBatchApi';
@@ -160,11 +172,22 @@ class MockProductSearchByCodeService
   }
 }
 
+class MockProductSearchByCategoryService
+  implements Partial<ProductSearchByCategoryService>
+{
+  get({ categoryCode, scope }: { categoryCode: string; scope?: string }) {
+    const products =
+      mockProductsFromSearchByCategory[categoryCode]?.[scope ?? ''] || [];
+    return of(products);
+  }
+}
+
 describe('ProductCarouselComponent', () => {
   let component: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
   let featureConfigService: MockFeatureConfigService;
   let productSearchByCodeService: MockProductSearchByCodeService;
+  let productSearchByCategoryService: MockProductSearchByCategoryService;
 
   const testBedDefaults = {
     imports: [I18nTestingModule],
@@ -192,6 +215,10 @@ describe('ProductCarouselComponent', () => {
         provide: ProductSearchByCodeService,
         useClass: MockProductSearchByCodeService,
       },
+      {
+        provide: ProductSearchByCategoryService,
+        useClass: MockProductSearchByCategoryService,
+      },
     ],
   };
 
@@ -208,6 +235,9 @@ describe('ProductCarouselComponent', () => {
     productSearchByCodeService = TestBed.inject(
       ProductSearchByCodeService
     ) as MockProductSearchByCodeService;
+    productSearchByCategoryService = TestBed.inject(
+      ProductSearchByCategoryService
+    ) as MockProductSearchByCategoryService;
     fixture.detectChanges();
   });
 
@@ -243,7 +273,9 @@ describe('ProductCarouselComponent', () => {
   }));
 
   it('FeatureToggleEnable: Should use batch API with carouselMinimal scope when componentMappingExist is false', (done) => {
-    spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+    spyOn(featureConfigService, 'isEnabled').and.callFake(
+      (val: string) => val === 'useProductCarouselBatchApi'
+    );
     spyOn(productSearchByCodeService, 'get').and.callThrough();
 
     component.items$.subscribe((items) => {
@@ -310,7 +342,9 @@ describe('ProductCarouselComponent', () => {
     });
 
     it('FeatureToggleEnable: Should use batch API with carousel scope when componentMappingExist is true', (done) => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      spyOn(featureConfigService, 'isEnabled').and.callFake(
+        (val: string) => val === 'useProductCarouselBatchApi'
+      );
       spyOn(productSearchByCodeService, 'get').and.callThrough();
 
       component.items$.subscribe((items) => {
@@ -326,6 +360,42 @@ describe('ProductCarouselComponent', () => {
           scope: 'carousel',
         });
         expect(items?.length).toBe(2);
+        done();
+      });
+    });
+  });
+  describe('Carousel with category products', () => {
+    beforeEach(() => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule(testBedDefaults);
+
+      TestBed.overrideProvider(CmsComponentData, {
+        useValue: MockCmsProductCarouselComponentAddToCart,
+      });
+      TestBed.compileComponents();
+      fixture = TestBed.createComponent(ProductCarouselComponent);
+      component = fixture.componentInstance;
+      featureConfigService = TestBed.inject(
+        FeatureConfigService
+      ) as MockFeatureConfigService;
+      productSearchByCategoryService = TestBed.inject(
+        ProductSearchByCategoryService
+      ) as MockProductSearchByCategoryService;
+      fixture.detectChanges();
+    });
+
+    it('should retrieve products by category', (done) => {
+      spyOn(featureConfigService, 'isEnabled').and.callFake(
+        (val: string) => val !== 'useProductCarouselBatchApi'
+      );
+
+      spyOn(productSearchByCategoryService, 'get').and.callThrough();
+
+      component.items$.subscribe((items) => {
+        expect(items?.length).toBe(5);
+
+        expect(productSearchByCategoryService.get).toHaveBeenCalledTimes(2);
+
         done();
       });
     });

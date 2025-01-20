@@ -104,6 +104,7 @@
       background-color: var(--cx-tab-btn-bg-color);
       border: var(--cx-tab-btn-border);
       border-radius: var(--cx-tab-btn-border-radius);
+      color: inherit;
     }
   }
 
@@ -119,6 +120,7 @@
       text-align: start;
       height: 63px;
       position: relative;
+      color: inherit;
 
       &:before {
         margin: 0px 15px;

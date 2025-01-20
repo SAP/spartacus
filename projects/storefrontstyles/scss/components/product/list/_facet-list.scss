@@ -163,4 +163,10 @@ body.modal-open {
       height: 95%;
     }
   }
+
+  @include cx-highContrastTheme-dark {
+    .inner cx-tab .tab-btn {
+      color: var(--cx-color-text);
+    }
+  }
 }

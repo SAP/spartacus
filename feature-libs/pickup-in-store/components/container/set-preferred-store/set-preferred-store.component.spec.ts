@@ -7,6 +7,7 @@ import {
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
 import { IconTestingModule, OutletContextData } from '@spartacus/storefront';
+import { MockFeatureDirectivesModule } from 'projects/storefrontlib/shared/test/mock-feature-directives.module';
 import { of } from 'rxjs';
 import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
 import { SetPreferredStoreComponent } from './set-preferred-store.component';
@@ -24,7 +25,12 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SetPreferredStoreComponent],
-      imports: [I18nTestingModule, IconTestingModule, CommonModule],
+      imports: [
+        I18nTestingModule,
+        IconTestingModule,
+        CommonModule,
+        MockFeatureDirectivesModule,
+      ],
       providers: [
         { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
       ],

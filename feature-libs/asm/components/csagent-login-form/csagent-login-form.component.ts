@@ -27,7 +27,7 @@ export class CSAgentLoginFormComponent implements OnInit {
   submitEvent = new EventEmitter<{ userId: string; password: string }>();
 
   constructor(protected fb: UntypedFormBuilder) {
-    useFeatureStyles('a11yPasswordVisibilityBtnValueOverflow');
+    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
     useFeatureStyles('a11yTextSpacingAdjustments');
   }
 

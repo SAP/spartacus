@@ -18,7 +18,7 @@ import { LoginFormComponentService } from './login-form-component.service';
 })
 export class LoginFormComponent {
   constructor(protected service: LoginFormComponentService) {
-    useFeatureStyles('a11yPasswordVisibilityBtnValueOverflow');
+    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
   }
 
   form: UntypedFormGroup = this.service.form;

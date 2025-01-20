@@ -16,7 +16,7 @@ export class HttpErrorHandlerModule {
       providers: [
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: HttpErrorHandlerInterceptor,
+          useExisting: HttpErrorHandlerInterceptor,
           multi: true,
         },
       ],

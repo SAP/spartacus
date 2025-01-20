@@ -6,6 +6,7 @@
 
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -14,15 +15,15 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  Output,
-  ViewChild,
-  TemplateRef,
   Optional,
+  Output,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FeatureConfigService, useFeatureStyles } from '@spartacus/core';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
-import { TAB_MODE, Tab, TabComponent, TabConfig } from '@spartacus/storefront';
+import { Tab, TAB_MODE, TabComponent, TabConfig } from '@spartacus/storefront';
 import { Subscription, take } from 'rxjs';
 import { PickupOptionsTabs } from './pickup-options.model';
 
@@ -33,6 +34,7 @@ import { PickupOptionsTabs } from './pickup-options.model';
   selector: 'cx-pickup-options',
   templateUrl: './pickup-options.component.html',
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PickupOptionsComponent
   implements OnChanges, AfterViewInit, OnDestroy

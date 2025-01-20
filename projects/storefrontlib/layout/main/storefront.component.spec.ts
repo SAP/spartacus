@@ -1,9 +1,10 @@
 import { Component, DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RoutingService } from '@spartacus/core';
+import { FeatureConfigService, RoutingService } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { OutletDirective } from '../../cms-structure';
 import { MockFeatureDirective } from '../../shared/test/mock-feature-directive';
+import { SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontComponent } from './storefront.component';
 
@@ -57,6 +58,7 @@ class MockPageLayoutComponent {}
 
 class MockHamburgerMenuService {
   toggle(_forceCollapse?: boolean): void {}
+  isExpanded = of(false);
 }
 
 @Directive({
@@ -67,11 +69,25 @@ class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
 }
 
+class MockSkipLinkService implements Partial<SkipLinkService> {
+  getSkipLinks() {
+    return of([
+      {
+        key: 'cx-main',
+        target: document.createElement('div'),
+        i18nKey: 'skipLink.main',
+      },
+    ]);
+  }
+  scrollToTarget(): void {}
+}
+
 describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
   let fixture: ComponentFixture<StorefrontComponent>;
   let el: DebugElement;
   let routingService: RoutingService;
+  let skipLinkService: SkipLinkService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -95,6 +111,16 @@ describe('StorefrontComponent', () => {
           provide: HamburgerMenuService,
           useClass: MockHamburgerMenuService,
         },
+        {
+          provide: SkipLinkService,
+          useClass: MockSkipLinkService,
+        },
+        {
+          provide: FeatureConfigService,
+          useValue: {
+            isEnabled: () => true,
+          },
+        },
       ],
     }).compileComponents();
   }));
@@ -104,6 +130,7 @@ describe('StorefrontComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     routingService = TestBed.inject(RoutingService);
+    skipLinkService = TestBed.inject(SkipLinkService);
   });
 
   it('should create', () => {
@@ -151,5 +178,64 @@ describe('StorefrontComponent', () => {
     };
     component.collapseMenuIfClickOutside(mockEvent);
     expect(component.collapseMenu).not.toHaveBeenCalled();
+  });
+
+  describe('onNavigation', () => {
+    it('should set navigation flags correctly when navigation starts', () => {
+      component['onNavigation'](true);
+      expect(component.startNavigating).toBe(true);
+      expect(component.stopNavigating).toBe(false);
+    });
+
+    it('should set navigation flags correctly when navigation ends', () => {
+      component['onNavigation'](false);
+      expect(component.startNavigating).toBe(false);
+      expect(component.stopNavigating).toBe(true);
+    });
+
+    it('should call skipLinkService.scrollToTarget when navigation ends and document has active element', () => {
+      spyOn(skipLinkService, 'scrollToTarget');
+      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
+        true
+      );
+
+      const mockDocument = {
+        activeElement: document.createElement('button'),
+        body: document.createElement('body'),
+      };
+      component['document'] = mockDocument as any;
+
+      component['onNavigation'](false);
+
+      expect(skipLinkService.scrollToTarget).toHaveBeenCalledWith('cx-main');
+    });
+
+    it('should not call skipLinkService.scrollToTarget when navigation ends and focus is on body', () => {
+      spyOn(skipLinkService, 'scrollToTarget');
+      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
+        true
+      );
+      const body = document.createElement('body');
+      const mockDocument = {
+        activeElement: body,
+        body,
+      };
+      component['document'] = mockDocument as any;
+
+      component['onNavigation'](false);
+
+      expect(skipLinkService.scrollToTarget).not.toHaveBeenCalled();
+    });
+
+    it('should not call skipLinkService.scrollToTarget when feature is disabled', () => {
+      spyOn(skipLinkService, 'scrollToTarget');
+      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
+        false
+      );
+
+      component['onNavigation'](false);
+
+      expect(skipLinkService.scrollToTarget).not.toHaveBeenCalled();
+    });
   });
 });

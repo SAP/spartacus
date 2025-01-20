@@ -8,6 +8,7 @@ export * from './product-reference.service';
 export * from './product-review.service';
 export * from './product-search.service';
 export * from './product-search-by-code.service';
+export * from './product-search-by-category.service';
 export * from './product.service';
 export * from './searchbox.service';
 export * from './product-availability.service';

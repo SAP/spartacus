@@ -7,6 +7,7 @@ import {
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
+  FeatureConfigService,
   FeaturesConfig,
   GlobalMessageService,
   GlobalMessageType,
@@ -64,6 +65,12 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -102,6 +109,7 @@ describe('QuickOrderFormComponent', () => {
             features: { level: '5.1' },
           },
         },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
 
@@ -214,6 +222,20 @@ describe('QuickOrderFormComponent', () => {
       component.form?.get('product')?.setValue('test');
       component.clear(ev as Event);
       expect(ev.preventDefault).toHaveBeenCalled();
+    });
+
+    it('sets focus back to the input if results box was open', (done) => {
+      const inputSearch: HTMLElement = fixture.debugElement.query(
+        By.css('input')
+      ).nativeElement;
+
+      component.open();
+      expect(inputSearch).not.toBe(getFocusedElement());
+      component.clear();
+      requestAnimationFrame(() => {
+        expect(inputSearch).toBe(getFocusedElement());
+        done();
+      });
     });
   });
 

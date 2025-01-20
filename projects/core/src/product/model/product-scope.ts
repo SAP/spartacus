@@ -9,6 +9,7 @@ export const enum ProductScope {
   DETAILS = 'details',
   ATTRIBUTES = 'attributes',
   VARIANTS = 'variants',
+  CODE = 'code',
   PRICE = 'price',
   /** Fetch the default stock information. */
   STOCK = 'stock',

@@ -2,6 +2,7 @@ import {
   Component,
   DebugElement,
   EventEmitter,
+  ElementRef,
   Input,
   Output,
 } from '@angular/core';
@@ -14,8 +15,9 @@ import {
   FeaturesConfig,
   I18nTestingModule,
 } from '@spartacus/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '../../../layout/index';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 import { MyCouponsComponent } from './my-coupons.component';
@@ -146,10 +148,17 @@ class MockSortingComponent {
   @Output() sortListEvent = new EventEmitter<string>();
 }
 
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialogAndSubscribe(_caller: LAUNCH_CALLER, _openElement?: ElementRef) {
+    return EMPTY;
+  }
+}
+
 describe('MyCouponsComponent', () => {
   let component: MyCouponsComponent;
   let fixture: ComponentFixture<MyCouponsComponent>;
   let el: DebugElement;
+  let launchDialogService: LaunchDialogService;
 
   const customerCouponService = jasmine.createSpyObj('CustomerCouponService', [
     'getCustomerCoupons',
@@ -186,6 +195,7 @@ describe('MyCouponsComponent', () => {
           provide: MyCouponsComponentService,
           useValue: myCouponsComponentService,
         },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
           provide: FeaturesConfig,
           useValue: {
@@ -200,6 +210,7 @@ describe('MyCouponsComponent', () => {
     fixture = TestBed.createComponent(MyCouponsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
+    launchDialogService = TestBed.inject(LaunchDialogService);
 
     customerCouponService.getCustomerCoupons.and.returnValue(
       of(emptyCouponResult)
@@ -320,5 +331,13 @@ describe('MyCouponsComponent', () => {
     expect(customerCouponService.loadCustomerCoupons).toHaveBeenCalledWith(
       PAGE_SIZE
     );
+  });
+
+  it('should be able to open coupon claim dialog if has hash str in location', () => {
+    spyOn(component, 'getHashStr').and.returnValue(String('#testcode'));
+    component.ngOnInit();
+    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
+    fixture.detectChanges();
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
   });
 });

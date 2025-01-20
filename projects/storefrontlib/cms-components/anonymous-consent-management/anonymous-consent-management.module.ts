@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import {
   CmsConfig,
   DeferLoadingStrategy,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
@@ -18,7 +19,12 @@ import { defaultAnonymousConsentLayoutConfig } from './default-anonymous-consent
 import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-consent-open-dialog.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, KeyboardFocusModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    KeyboardFocusModule,
+    FeaturesConfigModule,
+  ],
   providers: [
     provideDefaultConfig(defaultAnonymousConsentLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
