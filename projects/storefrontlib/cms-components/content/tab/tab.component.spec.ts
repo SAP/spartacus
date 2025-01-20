@@ -319,6 +319,25 @@ describe('TabComponent', () => {
       expect(component.isOpen(2)).toEqual(false);
       expect(component.isOpen(0)).toEqual(true);
     });
+
+    it('should not set aria-controls when the tab is closed', () => {
+      component.config = {
+        label: 'test',
+        mode: TAB_MODE.TAB,
+        openTabs: [0],
+      };
+      fixture.detectChanges();
+
+      expect(component.isOpen(0)).toEqual(true);
+      expect(component.isOpen(1)).toEqual(false);
+
+      const buttonEls = document.querySelectorAll('button[role="tab"]');
+
+      const firstButton = buttonEls[0];
+      expect(firstButton.getAttribute('aria-controls')).toEqual('section-0');
+      const secondButton = buttonEls[1];
+      expect(secondButton.getAttribute('aria-controls')).toBeNull();
+    });
   });
 
   describe('Accordian Mode', () => {
