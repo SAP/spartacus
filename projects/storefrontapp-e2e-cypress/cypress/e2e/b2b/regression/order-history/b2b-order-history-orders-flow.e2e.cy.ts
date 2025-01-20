@@ -58,7 +58,7 @@ describe('Order History with orders', { testIsolation: false }, () => {
   });
 
   it('should enter shipping address', () => {
-    b2bCheckout.selectAccountShippingAddress();
+    b2bCheckout.selectAccountShippingAddress(false);
   });
 
   it('should select delivery mode', () => {
