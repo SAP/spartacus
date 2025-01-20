@@ -217,11 +217,6 @@ export interface FeatureTogglesInterface {
   a11yPopoverHighContrast?: boolean;
 
   /**
-   * Fix dropdown appearance when a High Contrast Theme is applied.
-   */
-  a11yDropdownHighContrast?: boolean;
-
-  /**
    * 'TabComponent' disallow automatic tab activation.
    */
   a11yTabsManualActivation?: boolean;
@@ -1008,7 +1003,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yReorderDialog: true,
   a11yPopoverFocus: true,
   a11yPopoverHighContrast: false,
-  a11yDropdownHighContrast: false,
   a11yTabsManualActivation: false,
   a11yScheduleReplenishment: true,
   a11yScrollToTop: true,

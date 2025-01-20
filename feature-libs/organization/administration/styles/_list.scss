@@ -340,16 +340,16 @@
     .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
       white-space: normal;
       overflow: initial;
+    }
+  }
 
-      @include forFeature('a11yDropdownHighContrast') {
-        @include cx-highContrastTheme {
-          background-color: var(--cx-color-background);
-          color: var(--cx-color-text);
-          &.ng-option-marked {
-            background-color: var(--cx-color-text);
-            color: var(--cx-color-background);
-          }
-        }
+  @include cx-highContrastTheme {
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+      &.ng-option-marked {
+        background-color: var(--cx-color-text);
+        color: var(--cx-color-background);
       }
     }
   }
