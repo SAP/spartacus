@@ -93,6 +93,9 @@ export class ProductBulkPricingFeatureModule { }
 exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/product";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -313,6 +316,9 @@ export class ProductFutureStockFeatureModule { }
 exports[`Spartacus Product schematics: ng-add FutureStock feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/product";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -498,6 +504,9 @@ export class ProductImageZoomFeatureModule { }
 exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/product";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -683,6 +692,9 @@ export class ProductVariantsFeatureModule { }
 exports[`Spartacus Product schematics: ng-add Variants feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/product";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 

@@ -93,6 +93,9 @@ export class OrganizationAccountSummaryFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Account summary feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/organization";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -313,6 +316,9 @@ export class OrganizationAdministrationFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Administration feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/organization";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -533,6 +539,9 @@ export class OrganizationOrderApprovalFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Order approval feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/organization";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -753,6 +762,9 @@ export class OrganizationUnitOrderFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Unit order feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/organization";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -973,6 +985,9 @@ export class OrganizationUserRegistrationFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add User registration feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/organization";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 

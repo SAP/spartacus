@@ -2,11 +2,11 @@
   <div
     [cxFocus]="focusConfig"
     (esc)="close('Escape clicked')"
-    class="cx-saved-cart-form-dialog"
+    class="modal-dialog modal-dialog-centered cx-saved-cart-form-dialog"
     role="dialog"
     aria-labelledby="dialogTitle"
   >
-    <form [formGroup]="form" class="cx-saved-cart-form-container">
+    <form [formGroup]="form" class="modal-content cx-saved-cart-form-container">
       <!-- Modal Header -->
       <div class="modal-header cx-saved-cart-form-header">
         <ng-container [ngSwitch]="layoutOption">
@@ -63,7 +63,7 @@
       </div>
 
       <!-- Modal Body -->
-      <div class="cx-saved-cart-form-body">
+      <div class="modal-body cx-saved-cart-form-body">
         <!-- start DELETE and RESTORE form -->
         <ng-container
           *ngIf="

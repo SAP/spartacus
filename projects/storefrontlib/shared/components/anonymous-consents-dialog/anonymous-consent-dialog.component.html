@@ -1,11 +1,11 @@
 <div
-  class="cx-anonymous-consent-dialog"
+  class="modal-dialog modal-dialog-centered modal-lg cx-anonymous-consent-dialog"
   role="dialog"
   [cxFocus]="focusConfig"
   (esc)="close('Escape clicked')"
   aria-labelledby="dialogTitle"
 >
-  <div class="cx-dialog-content">
+  <div class="modal-content cx-dialog-content">
     <div *ngIf="loading$ | async; else dialogBody">
       <cx-spinner></cx-spinner>
     </div>
@@ -15,7 +15,7 @@
         role="status"
         [attr.aria-label]="'common.loaded' | cxTranslate"
       ></div>
-      <div class="cx-dialog-header">
+      <div class="modal-header cx-dialog-header">
         <h3 id="dialogTitle">
           {{ 'anonymousConsents.dialog.title' | cxTranslate }}
         </h3>
@@ -71,7 +71,10 @@
         </ng-container>
       </div>
       <!-- Modal Body -->
-      <div class="cx-dialog-body" *ngIf="templates$ | async as templates">
+      <div
+        class="modal-body cx-dialog-body"
+        *ngIf="templates$ | async as templates"
+      >
         <ng-container *ngIf="consents$ | async as consents">
           <div
             class="cx-dialog-row col-sm-12 col-md-6"
