@@ -63,27 +63,9 @@
     }
   }
 
-  @mixin native-high-contrast-fix {
-    @media (forced-colors: active) {
-      a {
-        forced-color-adjust: none;
-        background: LinkText;
-        color: Canvas;
-
-        &:hover {
-          background: LinkText;
-          color: Canvas;
-        }
-      }
-    }
-  }
-
-  @include native-high-contrast-fix;
-
   @include cx-highContrastTheme {
     a {
       color: var(--cx-color-medium);
     }
-    @include native-high-contrast-fix;
   }
 }

@@ -48,4 +48,13 @@
       background-color: var(--cx-color-background);
     }
   }
+
+  &.cx-theme-high-contrast-dark,
+  &.cx-theme-high-contrast-light {
+    @media (forced-colors: active) {
+      // Prevents forced colors from being applied while Spartacus contrast themes are active.
+      // This prevents interference with the contrast themes yet still allows the default one to be modified.
+      forced-color-adjust: none !important;
+    }
+  }
 }
