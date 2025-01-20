@@ -175,6 +175,11 @@ export interface FeatureTogglesInterface {
   a11yNavigationUiKeyboardControls?: boolean;
 
   /**
+   * In `FutureStockAccordionComponent` use `cx-color-text` for button color
+   */
+  a11yUseProperTextColorForFutureStockAccordion?: boolean;
+
+  /**
    * Improves screen reader(VoiceOver, JAWS) narration of menu buttons inside of 'NavigationUIComponent'.
    */
   a11yNavMenuExpandStateReadout?: boolean;
@@ -995,6 +1000,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRequiredAsterisks: true,
   a11yQuantityOrderTabbing: true,
   a11yNavigationUiKeyboardControls: true,
+  a11yUseProperTextColorForFutureStockAccordion: false,
   a11yNavMenuExpandStateReadout: false,
   a11yOrderConfirmationHeadingOrder: true,
   a11yStarRating: true,
