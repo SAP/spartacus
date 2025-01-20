@@ -88,7 +88,7 @@ export function placeOrder() {
 
   b2bCheckout.enterPONumber();
   b2bCheckout.selectAccountPayment();
-  b2bCheckout.selectAccountShippingAddress();
+  b2bCheckout.selectAccountShippingAddress(false);
   b2bCheckout.selectAccountDeliveryMode();
 
   verifyReviewOrderPage();

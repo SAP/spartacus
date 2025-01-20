@@ -75,7 +75,8 @@ context('B2B - User Registration', () => {
           verifyFormErrors();
         });
 
-        it('should display error global message if user exists (CXSPA-215)', () => {
+        it.skip('should display error global message if user exists (CXSPA-215)', () => {
+          // Skip for now because of CXEC-47202
           let user = getSampleUser();
           user.email = myCompanyAdminUser.registrationData?.email;
 
