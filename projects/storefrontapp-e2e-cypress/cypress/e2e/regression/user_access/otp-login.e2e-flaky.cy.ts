@@ -115,7 +115,6 @@ describe('OTP Login', () => {
               .clear()
               .type(user.password);
 
-            cy.log('password', user.password);
             cy.get('button[type=submit]').click();
             const loginPage = waitForPage('/login', 'getLoginPage');
             cy.wait(`@${loginPage}`)
@@ -132,7 +131,6 @@ describe('OTP Login', () => {
         cy.get('cx-otp-login-form form').within(() => {
           cy.get('[formcontrolname="userId"]').clear().type(user.email);
           cy.get('[formcontrolname="password"]').clear().type(user.password);
-          cy.log('password', user.password);
           cy.get('button[type=submit]').click();
         });
 

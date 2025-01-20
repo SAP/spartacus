@@ -59,7 +59,7 @@
     "titleRequired": "Title is required.",
     "postRegisterMessage": "Please log in with provided credentials.",
     "postRegisterSuccessMessage": "Your account has been successfully created! Please log in with provided credentials",
-    "rateLimitForRegistrationMessage": "You have reached the resend limit. Please wait {{seconds}} seconds before retrying or use a different email",
+    "rateLimitForRegistrationMessage": "You have reached the limit of sending verification code. Please wait {{seconds}} seconds before retrying or use a different email address.",
     "verificationTokenForm": {
       "createVerificationToken": "Verification code has been sent to {{target}}. Please enter the code.",
       "sendRateLime": "in {{waitTime}} seconds",
