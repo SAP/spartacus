@@ -222,6 +222,11 @@ export interface FeatureTogglesInterface {
   a11yDropdownHighContrast?: boolean;
 
   /**
+   * 'TabComponent' disallow automatic tab activation.
+   */
+  a11yTabsManualActivation?: boolean;
+
+  /**
    * Adds Datepicker and Combobox label and corrects heading order for 'CheckoutScheduleReplenishmentOrderComponent'.
    */
   a11yScheduleReplenishment?: boolean;
@@ -598,6 +603,8 @@ export interface FeatureTogglesInterface {
   /**
    * 'NgSelectA11yDirective' will now provide a count of items for each availble option.
    * Including this count in aria-label will help screen readers to provide more context to the user.
+   * Update (since 2211.33): This feature toggle and the logic behind it should be removed
+   * in next major relase since ng-select now correctly handles aria-label values of select options.
    */
   a11yNgSelectOptionsCount?: boolean;
 
@@ -805,6 +812,18 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
+   * Restores the focus to the card once a option has been selected and the checkout has updated.
+   * Affects: CheckoutPaymentMethodComponent, CheckoutDeliveryAddressComponent
+   */
+  a11yFocusOnCardAfterSelecting?: boolean;
+
+  /**
+   * Search dropdowns will display the focus ring correctly when navigating to the options using the down arrow key.
+   * Affects: SearchBoxComponent, QuickOrderFormComponent
+   */
+  a11ySearchableDropdownFirstElementFocus?: boolean;
+
+  /**
    * Hides the 'Consent Management' button from the tab order when the cookies banner is visible.
    * Ensures the button is re-enabled and part of the tab order once consent is given and the banner disappears.
    * Renames the button from "View Details" to "Consent Management" after consent is given.
@@ -812,6 +831,19 @@ export interface FeatureTogglesInterface {
    * Affects: AnonymousConsentOpenDialogComponent, AnonymousConsentManagementBannerComponent
    */
   a11yHideConsentButtonWhenBannerVisible?: boolean;
+
+  /**
+   * Adds a unique `aria-label` to repeating buttons that contain the same text.
+   * Affects: SetPreferredStoreComponent
+   */
+  a11yRepeatingButtonsUniqueLabels?: boolean;
+
+  /**
+   * Ensures that borders across all UI elements are visible and meet accessibility standards in high-contrast dark and light themes.
+   * This change is applied globally to enhance usability for users relying on high-contrast modes.
+   * Affects: CustomerTickingListComponent, CheckoutReviewPaymentComponent, SavedCartListComponent
+   */
+  a11yHighContrastBorders?: boolean;
 
   /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
@@ -977,6 +1009,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPopoverFocus: true,
   a11yPopoverHighContrast: false,
   a11yDropdownHighContrast: false,
+  a11yTabsManualActivation: false,
   a11yScheduleReplenishment: true,
   a11yScrollToTop: true,
   a11ySavedCartsZoom: true,
@@ -1075,7 +1108,11 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yQuickOrderSearchBoxRefocusOnClose: false,
   a11yKeyboardFocusInSearchBox: false,
   a11yAddPaddingToCarouselPanel: false,
+  a11yFocusOnCardAfterSelecting: false,
+  a11ySearchableDropdownFirstElementFocus: false,
   a11yHideConsentButtonWhenBannerVisible: false,
+  a11yRepeatingButtonsUniqueLabels: false,
+  a11yHighContrastBorders: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
   useSiteThemeService: false,

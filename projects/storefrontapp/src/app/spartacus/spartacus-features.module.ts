@@ -319,6 +319,7 @@ if (environment.cpq) {
         a11yPopoverFocus: true,
         a11yPopoverHighContrast: true,
         a11yDropdownHighContrast: true,
+        a11yTabsManualActivation: true,
         a11yScheduleReplenishment: true,
         a11yScrollToTop: true,
         a11ySavedCartsZoom: true,
@@ -381,7 +382,12 @@ if (environment.cpq) {
         a11yLinkBtnsToTertiaryBtns: true,
         a11yRepeatedPageTitleFix: true,
         a11yDeliveryModeRadiogroup: true,
-        a11yNgSelectOptionsCount: true,
+        /**
+         * Defaults to false cause ng-select options ariaLabels are working as expected
+         * since Spartacus 2211.33
+         * TODO: CXSPA-9005: Remove this flag and related code in next major release
+         */
+        a11yNgSelectOptionsCount: false,
         a11yNgSelectCloseDropdownOnEscape: true,
         a11yRepeatedCancelOrderError: true,
         a11yAddedToCartActiveDialog: true,
@@ -418,7 +424,11 @@ if (environment.cpq) {
         a11yQuickOrderSearchBoxRefocusOnClose: true,
         a11yKeyboardFocusInSearchBox: true,
         a11yAddPaddingToCarouselPanel: true,
+        a11yFocusOnCardAfterSelecting: true,
+        a11ySearchableDropdownFirstElementFocus: true,
         a11yHideConsentButtonWhenBannerVisible: true,
+        a11yRepeatingButtonsUniqueLabels: true,
+        a11yHighContrastBorders: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: false,
         enableConsecutiveCharactersPasswordRequirement: true,

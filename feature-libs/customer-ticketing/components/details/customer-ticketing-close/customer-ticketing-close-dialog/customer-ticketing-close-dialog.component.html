@@ -34,10 +34,15 @@
             [maxLength]="inputCharactersLimit"
             class="form-control"
             formControlName="message"
+            [attr.aria-describedby]="'messageError'"
             rows="5"
           ></textarea>
 
-          <cx-form-errors [control]="form.get('message')"></cx-form-errors>
+          <cx-form-errors
+            id="messageError"
+            aria-live="off"
+            [control]="form.get('message')"
+          ></cx-form-errors>
 
           <p class="cx-customer-ticket-input-hint">
             {{

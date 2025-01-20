@@ -481,6 +481,15 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     ];
     // Focus on first index moving to last
     if (results.length) {
+      if (
+        this.featureConfigService?.isEnabled(
+          'a11ySearchableDropdownFirstElementFocus'
+        )
+      ) {
+        this.winRef.document
+          .querySelector('header')
+          ?.classList.remove('mouse-focus');
+      }
       if (focusedIndex >= results.length - 1) {
         results[0].focus();
       } else {

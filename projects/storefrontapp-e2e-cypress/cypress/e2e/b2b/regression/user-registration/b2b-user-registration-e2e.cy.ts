@@ -81,9 +81,16 @@ context('B2B - User Registration', () => {
 
           fillOrganizationUserRegistrationForm(user);
           submitOrganizationUserRegistrationForm();
-          verifyGlobalMessageAfterRegistration(
-            'User with this e-mail address already exists.'
-          );
+
+          /*
+           * CXSPA-9183
+           * Leave below check commented until cx-server gets upgraded to 2211.32
+           * tbd after upgrade: POST orgUsers request should expect '201 created' response.
+           */
+
+          // verifyGlobalMessageAfterRegistration(
+          //   'User with this e-mail address already exists.'
+          // );
         });
       });
     });

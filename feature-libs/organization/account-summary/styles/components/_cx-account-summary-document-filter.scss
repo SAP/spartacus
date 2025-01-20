@@ -32,6 +32,11 @@ cx-account-summary-document-filter {
     @include forFeature('a11yImproveContrast') {
       border-color: var(--cx-color-dark);
     }
+
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+      color: var(--color-text);
+    }
   }
 
   .cx-account-summary-document-filter-form-button-block {
