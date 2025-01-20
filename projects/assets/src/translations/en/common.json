@@ -21,6 +21,7 @@
     "search": "Search",
     "add": "Add",
     "breadcrumbs": "breadcrumbs",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "Select file",
     "clear": "Clear",
     "loaded": "Loaded",
@@ -63,7 +64,8 @@
     "goTo": "Go to {{location}}",
     "navigateTo": "Navigate to {{nav}}",
     "scrollToTop": "Scroll back to the top of the page",
-    "linkItemInList": "{{title}}. {{position}} of {{listLength}}"
+    "linkItemInList": "{{title}}. {{position}} of {{listLength}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "Enter product name or SKU",

@@ -87,7 +87,7 @@
           >
             <a
               *ngIf="!hideAddButton"
-              class="button primary create"
+              class="button btn btn-sm primary btn-primary create"
               [routerLink]="{ cxRoute: structure.type + 'Create' } | cxUrl"
               routerLinkActive="disabled"
             >
@@ -136,7 +136,7 @@
 <ng-template #showButton>
   <button
     *ngIf="!hideAddButton"
-    class="button primary create"
+    class="button btn btn-sm primary btn-primary create"
     (click)="onCreateButtonClick()"
   >
     {{ getCreateButtonLabel() | cxTranslate }}

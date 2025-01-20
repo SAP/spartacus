@@ -4,18 +4,28 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
+  FeatureConfigService,
 } from '@spartacus/core';
 
 @Component({
   selector: 'cx-consent-management-form',
   templateUrl: './consent-management-form.component.html',
 })
-export class ConsentManagementFormComponent implements OnInit {
+export class ConsentManagementFormComponent implements OnInit, OnChanges {
   consentGiven = false;
 
   @Input()
@@ -35,23 +45,24 @@ export class ConsentManagementFormComponent implements OnInit {
     template: ConsentTemplate;
   }>();
 
+  private featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
+
   constructor() {
     // Intentional empty constructor
   }
 
   ngOnInit(): void {
-    if (this.consent) {
-      this.consentGiven = Boolean(
-        this.consent.consentState === ANONYMOUS_CONSENT_STATUS.GIVEN
-      );
-    } else {
-      if (this.consentTemplate && this.consentTemplate.currentConsent) {
-        if (this.consentTemplate.currentConsent.consentWithdrawnDate) {
-          this.consentGiven = false;
-        } else if (this.consentTemplate.currentConsent.consentGivenDate) {
-          this.consentGiven = true;
-        }
-      }
+    this.updateConsentGiven();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      this.featureConfigService?.isEnabled('updateConsentGivenInOnChanges') &&
+      (changes.consent || changes.consentTemplate)
+    ) {
+      this.updateConsentGiven();
     }
   }
 
@@ -66,5 +77,21 @@ export class ConsentManagementFormComponent implements OnInit {
 
   isRequired(templateId: string | undefined): boolean {
     return templateId ? this.requiredConsents.includes(templateId) : false;
+  }
+
+  protected updateConsentGiven(): void {
+    if (this.consent) {
+      this.consentGiven = Boolean(
+        this.consent.consentState === ANONYMOUS_CONSENT_STATUS.GIVEN
+      );
+    } else {
+      if (this.consentTemplate && this.consentTemplate.currentConsent) {
+        if (this.consentTemplate.currentConsent.consentWithdrawnDate) {
+          this.consentGiven = false;
+        } else if (this.consentTemplate.currentConsent.consentGivenDate) {
+          this.consentGiven = true;
+        }
+      }
+    }
   }
 }

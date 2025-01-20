@@ -89,8 +89,11 @@
               'addressForm.firstName.placeholder' | cxTranslate
             }}"
             formControlName="firstName"
+            [attr.aria-describedby]="'firstNameError'"
           />
           <cx-form-errors
+            id="firstNameError"
+            aria-live="off"
             [control]="billingAddressForm.get('firstName')"
           ></cx-form-errors>
         </label>
@@ -107,8 +110,11 @@
             class="form-control"
             placeholder="{{ 'addressForm.lastName.placeholder' | cxTranslate }}"
             formControlName="lastName"
+            [attr.aria-describedby]="'lastNameError'"
           />
           <cx-form-errors
+            id="lastNameError"
+            aria-live="off"
             [control]="billingAddressForm.get('lastName')"
           ></cx-form-errors>
         </label>
@@ -125,8 +131,11 @@
             class="form-control"
             placeholder="{{ 'addressForm.streetAddress' | cxTranslate }}"
             formControlName="line1"
+            [attr.aria-describedby]="'line1Error'"
           />
           <cx-form-errors
+            id="line1Error"
+            aria-live="off"
             [control]="billingAddressForm.get('line1')"
           ></cx-form-errors>
         </label>
@@ -157,8 +166,11 @@
               class="form-control"
               placeholder="{{ 'addressForm.city.placeholder' | cxTranslate }}"
               formControlName="town"
+              [attr.aria-describedby]="'townError'"
             />
             <cx-form-errors
+              id="townError"
+              aria-live="off"
               [control]="billingAddressForm.get('town')"
             ></cx-form-errors>
           </label>
@@ -177,8 +189,11 @@
                 'addressForm.zipCode.placeholder' | cxTranslate
               }}"
               formControlName="postalCode"
+              [attr.aria-describedby]="'postalCodeError'"
             />
             <cx-form-errors
+              id="postalCodeError"
+              aria-live="off"
               [control]="billingAddressForm.get('postalCode')"
             ></cx-form-errors>
           </label>

@@ -194,6 +194,9 @@ export class ProductMultiDimensionalSelectorFeatureModule { }
 exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/product-multi-dimensional";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 

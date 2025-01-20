@@ -5,15 +5,8 @@
   background-color: rgba(0, 0, 0, 0.5);
 
   .cx-anonymous-consent-dialog {
-    @extend .modal-dialog;
-    @extend .modal-dialog-centered;
-    @extend .modal-lg;
-
     .cx-dialog-content {
-      @extend .modal-content;
-
       .cx-dialog-header {
-        @extend .modal-header;
         padding-top: 2rem;
         padding-inline-end: 1.75rem;
         padding-bottom: 0.85rem;
@@ -23,7 +16,6 @@
         }
       }
       .cx-dialog-body {
-        @extend .modal-body;
         padding-top: 0;
         background-color: var(--cx-color-inverse);
 
@@ -37,6 +29,16 @@
         padding: 1rem 4rem;
         @include media-breakpoint-only(xs) {
           padding: 1rem;
+        }
+      }
+
+      @include forFeature('a11yAnonymousConsentMessageInDialog') {
+        .cx-dialog-message {
+          padding: 1.5rem 1.75rem 0;
+
+          .cx-message {
+            margin: 0;
+          }
         }
       }
 

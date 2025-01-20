@@ -53,6 +53,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
     );
 
     useFeatureStyles('productConfiguratorAttributeTypesV2');
+    useFeatureStyles('a11yDifferentiateFocusedAndSelected');
   }
 
   attributeCheckBoxForms = new Array<UntypedFormControl>();

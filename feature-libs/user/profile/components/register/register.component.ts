@@ -124,7 +124,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected authConfigService: AuthConfigService,
     protected registerComponentService: RegisterComponentService
   ) {
-    useFeatureStyles('a11yPasswordVisibilityBtnValueOverflow');
+    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
   }
 
   ngOnInit() {

@@ -12,12 +12,6 @@
     animation: popup 1s 1;
   }
 
-  @include forFeature('a11yScrollToTopPositioning') {
-    &:has(.elevated-position) {
-      bottom: 180px;
-    }
-  }
-
   button {
     height: inherit;
     width: inherit;

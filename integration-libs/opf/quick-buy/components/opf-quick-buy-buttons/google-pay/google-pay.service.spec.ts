@@ -78,6 +78,7 @@ describe('OpfGooglePayService', () => {
         'getTransactionDeliveryInfo',
         'getTransactionLocationContext',
         'getMerchantName',
+        'updateCartGuestUserEmail',
       ]
     );
     mockPaymentFacade = jasmine.createSpyObj('OpfPaymentFacade', [
@@ -630,6 +631,7 @@ describe('OpfGooglePayService', () => {
 
     describe('onPaymentAuthorized', () => {
       it('should handle payment authorization', (done) => {
+        const mockEmail = 'test@mail.com';
         const callbacks = service['handlePaymentCallbacks']();
         const mockToken = 'mockToken';
         const paymentDataResponse = {
@@ -638,6 +640,7 @@ describe('OpfGooglePayService', () => {
               token: mockToken,
             },
           },
+          email: mockEmail,
         } as google.payments.api.PaymentData;
 
         mockPaymentFacade.submitPayment.and.returnValue(of(true));
@@ -646,6 +649,9 @@ describe('OpfGooglePayService', () => {
         );
         mockQuickBuyTransactionService.setDeliveryAddress.and.returnValue(
           of('addressId')
+        );
+        mockQuickBuyTransactionService.updateCartGuestUserEmail.and.returnValue(
+          of(true)
         );
 
         if (callbacks.onPaymentAuthorized) {
@@ -657,6 +663,10 @@ describe('OpfGooglePayService', () => {
 
             expect(result).toBeDefined();
             expect(mockPaymentFacade.submitPayment).toHaveBeenCalled();
+            expect(
+              mockQuickBuyTransactionService.updateCartGuestUserEmail
+            ).toHaveBeenCalledWith(mockEmail);
+
             expect(Object.values(submitPaymentArgs.callbacks).length).toBe(3);
             Object.values(submitPaymentArgs.callbacks).forEach((callback) => {
               expect(typeof callback).toBe('function');

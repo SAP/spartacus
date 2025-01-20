@@ -3,12 +3,16 @@
     <header
       id="cx-header"
       cxSkipLink="cx-header"
-      [cxFocus]="{ disableMouseFocus: true }"
+      [cxFocus]="focusConfig"
       [class.is-expanded]="isExpanded$ | async"
       (keydown.escape)="collapseMenu()"
       (click)="collapseMenuIfClickOutside($event)"
     >
-      <cx-page-layout section="header"></cx-page-layout>
+      <cx-page-layout
+        section="header"
+        [cxSkipFocus]="skipFocusConfig"
+      ></cx-page-layout>
+
       <cx-page-layout section="navigation"></cx-page-layout>
     </header>
     <cx-page-slot

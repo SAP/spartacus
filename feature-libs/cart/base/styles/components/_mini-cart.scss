@@ -51,27 +51,21 @@
     }
   }
 
-  @mixin native-high-contrast-fix {
-    @media (forced-colors: active) {
+  @include forFeature('a11yMiniCartFocusOnMobile') {
+    @include media-breakpoint-down(md) {
       a {
-        forced-color-adjust: none;
-        background: LinkText;
-        color: Canvas;
-
-        &:hover {
-          background: LinkText;
-          color: Canvas;
+        &:focus {
+          outline-offset: -4px;
+          outline-color: var(--cx-color-inverse);
+          box-shadow: 0 0 0 2px var(--cx-color-visual-focus) inset;
         }
       }
     }
   }
 
-  @include native-high-contrast-fix;
-
   @include cx-highContrastTheme {
     a {
       color: var(--cx-color-medium);
     }
-    @include native-high-contrast-fix;
   }
 }

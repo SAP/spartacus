@@ -40,6 +40,10 @@ export class NgSelectA11yDirective implements AfterViewInit {
    */
   @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
 
+  //TODO: CXSPA-9005: Remove this property in next major release
+  /**
+   * @deprecated since 2211.33
+   */
   protected translationService = inject(TranslationService);
   protected domSanitizer = inject(DomSanitizer);
   protected selectComponent = inject(NgSelectComponent);
@@ -47,6 +51,10 @@ export class NgSelectA11yDirective implements AfterViewInit {
   private featureConfigService = inject(FeatureConfigService);
 
   @HostListener('open')
+  //TODO: CXSPA-9005: Remove this method in next major release
+  /**
+   * @deprecated since 2211.33
+   */
   onOpen() {
     if (!this.featureConfigService?.isEnabled('a11yNgSelectOptionsCount')) {
       return;
@@ -137,6 +145,10 @@ export class NgSelectA11yDirective implements AfterViewInit {
     }
   }
 
+  //TODO: CXSPA-9005: Remove this method in next major release
+  /**
+   * @deprecated since 2211.33
+   */
   appendAriaLabelToOptions(
     _changes: MutationRecord[],
     observerInstance: MutationObserver

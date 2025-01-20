@@ -1,8 +1,13 @@
-<div class="cx-order-type-card">
+<div
+  class="cx-order-type-card"
+  role="region"
+  [attr.aria-labelledby]="'checkout-schedule-replenishment-order-title'"
+>
   <div class="cx-label-container">
     <!-- TODO: (CXSPA-6306) - Remove feature flag next major release -->
     <h3
       *cxFeature="'a11yScheduleReplenishment'"
+      id="checkout-schedule-replenishment-order-title"
       class="cx-order-replenishment-header"
     >
       {{ 'checkoutScheduledReplenishment.autoReplenishOrder' | cxTranslate }}

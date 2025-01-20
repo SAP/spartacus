@@ -25,6 +25,11 @@ export abstract class ProductSearchAdapter {
     scope?: string
   ): Observable<{ products: Product[] }>;
 
+  abstract searchByCategory(
+    category: string,
+    scope?: string
+  ): Observable<{ products: Product[] }>;
+
   abstract loadSuggestions(
     term: string,
     pageSize?: number

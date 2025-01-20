@@ -13,11 +13,18 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { PageSlotModule } from '@spartacus/storefront';
+import { DomChangeModule, PageSlotModule } from '@spartacus/storefront';
 import { LoginComponent } from './login.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, PageSlotModule, I18nModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    PageSlotModule,
+    I18nModule,
+    DomChangeModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

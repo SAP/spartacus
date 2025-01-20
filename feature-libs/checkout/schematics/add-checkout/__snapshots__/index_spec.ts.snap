@@ -130,6 +130,9 @@ export class CheckoutWrapperModule { }
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/checkout";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -315,6 +318,9 @@ export class CheckoutFeatureModule { }
 exports[`Spartacus Checkout schematics: ng-add Checkout feature base general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/checkout";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -594,6 +600,9 @@ export class CheckoutWrapperModule { }
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/checkout";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 

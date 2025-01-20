@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { ConsentManagementModule } from '../../../cms-components/myaccount/consent-management/consent-management.module';
+import { MessageComponentModule } from '../../../cms-components/misc/message';
 import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/index';
 import { SpinnerModule } from '../spinner/spinner.module';
 import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
@@ -22,6 +23,7 @@ import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.comp
     ConsentManagementModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
+    MessageComponentModule,
   ],
   declarations: [AnonymousConsentDialogComponent],
   exports: [AnonymousConsentDialogComponent],

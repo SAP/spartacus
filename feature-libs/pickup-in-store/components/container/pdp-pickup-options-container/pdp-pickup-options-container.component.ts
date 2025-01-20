@@ -32,7 +32,7 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import {
   concatMap,
   filter,
@@ -114,34 +114,15 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
           .getIntendedLocation(productCode)
           .pipe(map((intendedLocation) => ({ intendedLocation, productCode })))
       ),
-      switchMap(({ intendedLocation, productCode }) =>
-        iif(
-          () => !!intendedLocation && !!intendedLocation.displayName,
-          of(getProperty(intendedLocation, 'displayName')),
-          this.preferredStoreFacade
-            .getPreferredStoreWithProductInStock(productCode)
-            .pipe(
-              map(({ name }) => name),
-              tap((storeName) =>
-                this.pickupLocationsSearchService.loadStoreDetails(storeName)
-              ),
-              concatMap((storeName: string) =>
-                this.pickupLocationsSearchService.getStoreDetails(storeName)
-              ),
-              filter((storeDetails) => !!storeDetails),
-              tap((storeDetails) => {
-                this.intendedPickupLocationService.setIntendedLocation(
-                  productCode,
-                  {
-                    ...storeDetails,
-                    pickupOption: 'delivery',
-                  }
-                );
-              })
-            )
-        )
-      ),
-      tap(() => (this.displayNameIsSet = true))
+      switchMap(({ intendedLocation, productCode }) => {
+        if (intendedLocation?.displayName) {
+          this.displayNameIsSet = true;
+          return of(getProperty(intendedLocation, 'displayName'));
+        }
+
+        this.setIntendedPickupLocation(productCode);
+        return of(undefined);
+      })
     );
 
     this.intendedPickupLocation$ = this.currentProductService.getProduct().pipe(
@@ -175,6 +156,29 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  setIntendedPickupLocation(productCode: string) {
+    this.subscription.add(
+      this.preferredStoreFacade
+        .getPreferredStoreWithProductInStock(productCode)
+        .pipe(
+          map(({ name }) => name),
+          tap((storeName) =>
+            this.pickupLocationsSearchService.loadStoreDetails(storeName)
+          ),
+          concatMap((storeName: string) =>
+            this.pickupLocationsSearchService.getStoreDetails(storeName)
+          ),
+          filter((storeDetails) => !!storeDetails)
+        )
+        .subscribe((storeDetails) => {
+          this.intendedPickupLocationService.setIntendedLocation(productCode, {
+            ...storeDetails,
+            pickupOption: 'delivery',
+          });
+        })
+    );
   }
 
   // TODO: Make argument required once 'a11yDialogTriggerRefocus' feature flag is removed.

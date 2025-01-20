@@ -135,6 +135,7 @@ export interface CmsBannerCarouselComponent extends CmsComponent {
 }
 
 export interface CmsProductCarouselComponent extends CmsComponent {
+  categoryCodes?: string;
   title?: string;
   productCodes?: string;
   container?: string;

@@ -50,11 +50,13 @@ describe('OpfResourceLoaderService', () => {
       const mockScriptResource = {
         url: 'script-url',
         type: OpfDynamicScriptResourceType.SCRIPT,
+        attributes: [{ key: 'opf-load-once', value: 'true' }],
       };
 
       const mockStyleResource = {
         url: 'style-url',
         type: OpfDynamicScriptResourceType.STYLES,
+        attributes: [{ key: 'opf-load-once', value: 'true' }],
       };
 
       spyOn<any>(opfResourceLoaderService, 'loadScript').and.callThrough();

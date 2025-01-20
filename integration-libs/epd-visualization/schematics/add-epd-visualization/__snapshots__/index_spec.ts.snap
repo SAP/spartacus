@@ -117,6 +117,9 @@ export class EpdVisualizationFeatureModule { }
 exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD Visualization feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/epd-visualization";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
