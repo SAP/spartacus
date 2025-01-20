@@ -36,4 +36,4 @@ import {
     }),
   ],
 })
-export class VariantsFeatureModule {}
+export class ProductVariantsFeatureModule {}
