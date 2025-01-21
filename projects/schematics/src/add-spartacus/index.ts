@@ -373,6 +373,10 @@ export function createStylePreprocessorOptions(
       stylePreprocessorOptions: testStylePreprocessorOptions,
     };
 
+    context.logger.warn(
+      `⚠️ Warnings about the Sass '@import' usage were silenced, because Sass '@import' is used in Spartacus and Bootstrap 4 styles. To enable warnings back, in your angular.json remove the "import" value from the array at section 'architect.build.options.stylePreprocessorOptions.sass.silenceDeprecations'. For more, see: https://sass-lang.com/blog/import-is-deprecated and https://angular.dev/reference/configs/workspace-config#style-preprocessor-options`
+    );
+
     const updatedAngularJson = {
       ...angularJson,
       projects: {
@@ -425,7 +429,17 @@ function createStylePreprocessorOptionsArray(angularJsonStylePreprocessorOptions
     ])
   );
 
-  const DEFAULT_SILENCE_DEPRECATIONS = ['import'];
+  const DEFAULT_SILENCE_DEPRECATIONS = [
+    // We need to silence the deprecation warning for the `@import` directive
+    // because `@import` is used in the Spartacus styles and in the Bootstrap 4 styles
+    // (which are imported by the Spartacus styles).
+    // Otherwise, since Angular v19, all apps would have a wall of deprecation warnings
+    // in the console when running `ng serve`.
+    //
+    // CXSPA-447: Eventually we should remove all the `@import` directives from the Spartacus styles
+    // and drop the usage of Bootstrap 4, and then we can remove the `silenceDeprecations` option.
+    'import',
+  ];
   const silenceDeprecations = Array.from(
     new Set([
       ...(angularJsonStylePreprocessorOptions.sass?.silenceDeprecations || []),
