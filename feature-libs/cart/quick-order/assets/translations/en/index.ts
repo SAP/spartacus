@@ -5,7 +5,6 @@
  */
 
 import quickOrder from './quickOrder.json';
-
 export const en = {
   quickOrder,
 };

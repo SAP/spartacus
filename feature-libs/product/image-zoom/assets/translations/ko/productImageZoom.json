@@ -1,0 +1,9 @@
+{
+  "productImageZoomTrigger": {
+    "expand": "이미지 확대"
+  },
+  "productImageZoomDialog": {
+    "zoomedInImage": "확대된 이미지",
+    "close": "닫기"
+  }
+}

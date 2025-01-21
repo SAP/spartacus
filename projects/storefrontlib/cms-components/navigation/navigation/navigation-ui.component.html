@@ -153,6 +153,7 @@
         [attr.depth]="getTotalDepth(node)"
         [attr.wrap-after]="node.children.length > wrapAfter ? wrapAfter : null"
         [attr.columns]="getColumnCount(node.children.length)"
+        [attr.aria-label]="node.title"
       >
         <ng-container *ngFor="let child of node.children; index as i">
           <ng-container

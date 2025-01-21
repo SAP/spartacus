@@ -5,7 +5,6 @@
  */
 
 import productImageZoom from './productImageZoom.json';
-
 export const en = {
   productImageZoom,
 };

@@ -1,0 +1,52 @@
+{
+  "myAccountV2OrderHistory": {
+    "heading": "모든 주문({{param}})",
+    "item": "{{param}}개 품목",
+    "items": "{{param}}개 품목",
+    "totalPrice": "총 가격: {{param}}",
+    "consignmentCode": "위탁품 {{param}}",
+    "statusDate": "마지막 업데이트: {{param}}",
+    "returnProcessed": "반품 처리: {{param}}",
+    "deliveryPointOfServiceDetails": {
+      "itemsToBePickUp": "픽업 예정 - "
+    },
+    "checkoutMode": {
+      "deliveryEntries": "배송 예정 - "
+    },
+    "checkoutPickupInStore": {
+      "heading": "픽업 예정 - "
+    },
+    "orderListResults": "주문 목록",
+    "orderListPagination": "주문 목록 페이지 매김",
+    "totalPriceLabel": "총 가격",
+    "orderPlaced": "주문일",
+    "orderCodeLabel": "주문 코드",
+    "consignmentDetailLabel": "위탁 정보",
+    "consignmentNumberLabel": "위탁 번호",
+    "consignmentStatusLabel": "위탁 상태",
+    "consignmentStatusDateLabel": "마지막 업데이트 날짜",
+    "estimateDeliveryLabel": "예상 배송일"
+  },
+  "myAccountV2OrderDetails": {
+    "returnItems": "반품 품목",
+    "cancelItems": "품목 취소",
+    "downloadInvoices": "송장 다운로드",
+    "viewAllOrders": "모든 주문 보기",
+    "noInvoices": "송장이 아직 생성되지 않았습니다. 나중에 확인하십시오."
+  },
+  "myAccountV2Orders": {
+    "item": "{{value}}개 품목",
+    "items": "{{value}}개 품목",
+    "heading": "주문 및 반품",
+    "orderNumber": "주문 번호({{value}})",
+    "purchasedOn": "구매일: {{value}}",
+    "orderedItems": "주문 품목: {{value}}",
+    "totalPrice": "총 가격: {{value}}",
+    "orderDetails": "주문 세부사항",
+    "orderDetailsLabel": "주문 번호 {{value}}에 대한 주문 세부사항 표시",
+    "orderStatusLabel": "주문 상태",
+    "returnOrder": "반품 주문",
+    "showMore": "자세히 보기",
+    "showMoreLabel": "주문 내역으로 이동"
+  }
+}

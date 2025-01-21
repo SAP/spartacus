@@ -10,6 +10,7 @@ export interface Environment {
   occApiPrefix: string;
   b2b: boolean;
   cds: boolean;
+  sciEnabled: boolean;
   cdc: boolean;
   cdp: boolean;
   cpq: boolean;

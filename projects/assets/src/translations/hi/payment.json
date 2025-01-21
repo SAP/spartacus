@@ -1,0 +1,62 @@
+{
+  "paymentForm": {
+    "payment": "भुगतान",
+    "choosePaymentMethod": "भुगतान विधि चुनें",
+    "paymentType": "भुगतान प्रकार",
+    "accountHolderName": {
+      "label": "खाता धारक का नाम",
+      "placeholder": "खाता धारक का नाम"
+    },
+    "cardNumber": "कार्ड नंबर",
+    "expirationDate": "समाप्ति दिनांक",
+    "securityCode": "सुरक्षा कोड (CVV)",
+    "securityCodeTitle": "कार्ड सत्यापन मान",
+    "saveAsDefault": "डिफ़ॉल्ट के रूप में सहेजें",
+    "setAsDefault": "डिफ़ॉल्ट भुगतान विधि के रूप में सेट करें",
+    "billingAddress": "बिलिंग पता",
+    "sameAsDeliveryAddress": "वितरण के पते के समान",
+    "billingAddressSameAsShipping": "बिलिंग पता और वितरण पता समान है",
+    "selectOne": "एक चुनें...",
+    "monthMask": "MM",
+    "yearMask": "YYYY",
+    "expirationYear": "समाप्ति वर्ष {{ selected }}",
+    "expirationMonth": "समाप्ति माह {{ selected }}",
+    "useThisPayment": "इस भुगतान का उपयोग करें",
+    "addNewPayment": "नया भुगतान जोड़ें",
+    "paymentAddedSuccessfully": "नया भुगता सफलतापूर्क जोड़ा गया",
+    "changePayment": "भुगतान बदलें"
+  },
+  "paymentMethods": {
+    "paymentMethods": "भुगतान विधि",
+    "paymentMethodSelected": "भुगतान विधि चयनित",
+    "newPaymentMethodsAreAddedDuringCheckout": "चेकआउट के दौरा नई भुगता विधियां जोड़ी गईं.",
+    "invalidField": "अमान्य फ़ील्डः {{ field }}"
+  },
+  "paymentCard": {
+    "deleteConfirmation": "क्या आप वाकई में यह भुगतान विधि हटाना चाहते हैं?",
+    "setAsDefault": "डिफ़ॉल्ट के रूप में सेट करें",
+    "expires": "{{ month }} / {{ year }} को समाप्त",
+    "defaultPaymentMethod": "डिफ़ॉल्ट",
+    "defaultPaymentLabel": "डिफ़ॉल्ट भुगतान विधि",
+    "additionalPaymentLabel": "अतिरिक्त भुगतान विधि {{ number }}",
+    "selected": "चयनित",
+    "selectedPayment": "चयनित भुगतान",
+    "deletePaymentSuccess": "भुगतान विधि सफलतापूर्वक हटाई गई",
+    "visa": "वीसा कार्ड",
+    "master": "मास्टरकार्ड कार्ड",
+    "masterEuro": "मास्टरकार्ड कार्ड यूरोकार्ड कार्ड",
+    "dinersClub": "डाइनर्स क्लब कार्ड",
+    "switch": "स्विच कार्ड",
+    "maestro": "माइस्ट्रो कार्ड",
+    "amex": "अमेरिकन एक्सप्रेस कार्ड",
+    "credit": "क्रेडिट कार्ड"
+  },
+  "paymentTypes": {
+    "title": "भुगतान विधि",
+    "paymentType_CARD": "क्रेडिट कार्ड",
+    "paymentType_ACCOUNT": "खाता"
+  },
+  "paymentMessages": {
+    "setAsDefaultSuccessfully": "नया भुगता सफलतापूर्वक डिफ़ॉल्ट के रूप में सेट किया गया"
+  }
+}

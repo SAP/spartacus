@@ -136,7 +136,9 @@ function parseElement(
 function parseMembers(rawElement: any) {
   const parsedMembers: any[] = [];
   rawElement.members.forEach((rawMember: any) => {
-    if (rawMember?.name?.startsWith('ɵ')) {return;}
+    if (rawMember?.name?.startsWith('ɵ')) {
+      return;
+    }
     const parsedMember: any = {};
     parsedMember.kind = rawMember.kind;
     parsedMember.name = rawMember.name;

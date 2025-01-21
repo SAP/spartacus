@@ -1,0 +1,109 @@
+{
+  "closeAccount": {
+    "confirmAccountClosure": "Confirmer la fermeture du compte",
+    "confirmAccountClosureMessage": "Voulez-vous vraiment fermer votre compte ?",
+    "closeMyAccount": "FERMER MON COMPTE",
+    "accountClosedSuccessfully": "Le compte a été fermé avec succès.",
+    "accountClosedFailure": "La fermeture du compte a échoué."
+  },
+  "updatePasswordForm": {
+    "oldPassword": {
+      "label": "Ancien mot de passe",
+      "placeholder": "Ancien mot de passe"
+    },
+    "oldPasswordIsRequired": "L'ancien mot de passe est obligatoire.",
+    "newPassword": {
+      "label": "Nouveau mot de passe",
+      "placeholder": "Nouveau mot de passe"
+    },
+    "passwordMinRequirements": "Voici un guide rapide pour un mot de passe sûr : Utilisez au moins 8 caractères avec un mélange de lettres majuscules et minuscules, de chiffres et de symboles.",
+    "passwordStrengthRequirements": "Voici un guide rapide pour un mot de passe sûr : utilisez au moins 8 caractères avec un mélange de lettres majuscules et minuscules, de chiffres et de symboles. Veillez à ne pas utiliser le même caractère consécutivement.",
+    "confirmPassword": {
+      "label": "Confirmer le nouveau mot de passe",
+      "placeholder": "Confirmer le mot de passe"
+    },
+    "bothPasswordMustMatch": "Les deux mots de passe doivent correspondre",
+    "passwordUpdateSuccess": "Le mot de passe a été mis à jour avec succès",
+    "accessDeniedError": "Accès refusé"
+  },
+  "updateProfileForm": {
+    "title": "Titre",
+    "none": "",
+    "firstName": {
+      "label": "Prénom",
+      "placeholder": "Prénom"
+    },
+    "firstNameIsRequired": "Prénom requis",
+    "lastName": {
+      "label": "Nom de famille",
+      "placeholder": "Nom de famille"
+    },
+    "lastNameIsRequired": "Nom de famille requis",
+    "profileUpdateSuccess": "Les données personnelles ont été mises à jour avec succès",
+    "customerId": "Nº de client"
+  },
+  "consentManagementForm": {
+    "clearAll": "Effacer tout",
+    "selectAll": "Sélectionner tout",
+    "message": {
+      "success": {
+        "given": "Consentement donné avec succès",
+        "withdrawn": "Consentement retiré avec succès"
+      }
+    }
+  },
+  "myCoupons": {
+    "noCouponsMessage": "Vous n'avez pas de bons de réduction disponibles",
+    "effectiveTitle": "Valide :",
+    "Effective": "VALIDE",
+    "PreSession": "BIENTÔT VALIDE",
+    "ExpireSoon": "BIENTÔT À EXPIRATION",
+    "readMore": "En savoir plus",
+    "notification": "Notification",
+    "findProducts": "Trouver des produits",
+    "status": "Statut :",
+    "dialogTitle": "Bon de réduction",
+    "claimCustomerCoupon": "Vous avez demandé avec succès ce bon de réduction.",
+    "myCoupons": "Mes bons de réduction",
+    "startDateAsc": "Date de début (croissant)",
+    "startDateDesc": "Date de début (décroissant)",
+    "endDateAsc": "Date de fin (croissant)",
+    "endDateDesc": "Date de début (décroissant)",
+    "sortBy": "Trier par",
+    "sortCoupons": "Trier les bons de réduction",
+    "notesPreffix": "Vous pouvez définir vos canaux préférés pour la réception des notifications de bons de réduction sur la page ",
+    "notesLink": "Canaux de notification",
+    "notesSuffix": " ."
+  },
+  "notificationPreference": {
+    "message": "Sélectionnez vos canaux de notification préférés",
+    "note": "Remarque : ",
+    "noteMessage": "Si vous désactivez tous les canaux, vous ne pourrez plus recevoir de notifications.",
+    "EMAIL": "E-mail :",
+    "SMS": "SMS :",
+    "SITE_MESSAGE": "Message du site"
+  },
+  "myInterests": {
+    "header": "Mes intérêts",
+    "item": "ÉLÉMENT",
+    "price": "PRIX",
+    "notifications": "NOTIFICATIONS",
+    "noInterests": "Vous n'avez pas encore d'intérêts enregistrés.",
+    "inStock": "En stock",
+    "lowStock": "Stock faible",
+    "outOfStock": "Épuisé",
+    "BACK_IN_STOCK": "De nouveau disponible",
+    "sortBy": "Trier par",
+    "sortInterests": "Trier les intérêts",
+    "expirationDate": " - Jusqu'au {{ expirationDate }}",
+    "productId": "ID {{ code }}",
+    "remove": "Supprimer",
+    "sorting": {
+      "byNameAsc": "Nom (ordre croissant)",
+      "byNameDesc": "Nom (ordre décroissant)"
+    },
+    "actions": "ACTIONS",
+    "caption": "Contenu de Mes intérêts",
+    "itemRemoved": "L'article sélectionné a été supprimé."
+  }
+}

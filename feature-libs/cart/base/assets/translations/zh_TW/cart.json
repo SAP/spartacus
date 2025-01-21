@@ -1,0 +1,75 @@
+{
+  "cartDetails": {
+    "id": "ID",
+    "proceedToCheckout": "進行結帳",
+    "cartName": "購物車號碼 {{code}}"
+  },
+  "cartItems": {
+    "id": "ID",
+    "description": "說明",
+    "item": "項目",
+    "itemPrice": "項目價格",
+    "quantity": "數量",
+    "quantityFull": "數量",
+    "quantityTitle": "數量表示購物車中此項目的總數量。",
+    "total": "總計",
+    "actions": "動作",
+    "cartTotal": "購物車總計 ({{count}} 個項目)",
+    "cartTotal_other": "購物車總計 ({{count}} 個項目)",
+    "itemRemoved": "已移除選擇的項目。已更新購物車總計。",
+    "caption": "購物車內容。"
+  },
+  "orderCost": {
+    "orderSummary": "訂單摘要",
+    "subtotal": "折扣後小計：",
+    "shipping": "出貨：",
+    "estimatedShipping": "預計出貨：",
+    "discount": "您已節省：",
+    "salesTax": "銷售稅：",
+    "grossTax": "訂單總計未包含下列項目的稅",
+    "grossIncludeTax": "訂單總計包含下列項目的稅",
+    "total": "總計：",
+    "toBeDetermined": "待定"
+  },
+  "voucher": {
+    "coupon": "有優惠券嗎？",
+    "coupon_other": "優惠券代碼",
+    "couponLabel": "在此輸入促銷代碼",
+    "addCoupon": "新增優惠券",
+    "apply": "套用",
+    "placeholder": "促銷代碼",
+    "applyVoucherSuccess": "已套用 {{voucherCode}}。",
+    "removeVoucherSuccess": "已移除 {{voucherCode}}。",
+    "anchorLabel": "輸入或移除優惠券代碼",
+    "vouchersApplied": "套用的優惠券",
+    "availableCoupons": "可用的優惠券",
+    "availableCouponsLabel": "您可將這些優惠券新增至此訂單。"
+  },
+  "saveForLaterItems": {
+    "itemTotal": "儲存以供稍後使用 ({{count}} 個項目)",
+    "itemTotal_other": "儲存以供稍後使用 ({{count}} 個項目)",
+    "cartTitle": "購物車",
+    "saveForLater": "儲存以供稍後使用",
+    "moveToCart": "移至購物車",
+    "stock": "庫存",
+    "forceInStock": "有存貨"
+  },
+  "clearCart": {
+    "clearCart": "清除購物車",
+    "clearingCart": "正在清除購物車...",
+    "cartClearedSuccessfully": "已成功清除啟用中購物車",
+    "areYouSureToClearCart": "您確定要清除此購物車嗎？",
+    "allItemsWillBeRemoved": "將移除啟用中購物中的所有項目。"
+  },
+  "validation": {
+    "cartEntriesChangeDuringCheckout": "在結帳期間，我們發現您的項目發生問題。請審查您的購物車。",
+    "cartEntryRemoved": "已從購物車移除 {{name}}，因為缺貨。",
+    "productOutOfStock": "已從購物車移除 {{name}}，因為庫存不足。",
+    "lowStock": "數量已減少為 {{quantity}}，因為庫存不足。",
+    "reviewConfiguration": "請先針對購物車項目解決組態中的問題。",
+    "configurationError": "請先針對購物車項目解決組態中的問題。",
+    "pricingError": "目前無法使用組態器定價。無法提交結帳/報價。請稍後再試。",
+    "unresolvableIssues": "產品組態需要後端中的其他輸入項，因此無法繼續。請聯絡支援團隊。",
+    "inProgress": "處理中"
+  }
+}

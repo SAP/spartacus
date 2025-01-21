@@ -1,0 +1,92 @@
+{
+  "pickupInfo": {
+    "inStorePickup": "매장 내 픽업",
+    "pickupBy": "픽업자",
+    "pickupFrom": "픽업 위치"
+  },
+  "pickupOptionDialog": {
+    "close": "닫기",
+    "modalHeader": "매장 내 픽업"
+  },
+  "pickupOptions": {
+    "legend": "배송 방법",
+    "changeStore": "매장 변경",
+    "delivery": "배송(무료 반품)",
+    "pickup": "매장 내 무료 픽업",
+    "shipIt": "배송",
+    "selectStore": "매장 선택",
+    "freeReturn": "무료 반품",
+    "storeIsNotSelected": "픽업할 매장이 선택되지 않았습니다."
+  },
+  "setPreferredStore": {
+    "makeThisMyStore": "내 매장으로 설정",
+    "myStore": "내 매장"
+  },
+  "store": {
+    "pickupFromHere": "여기서 픽업",
+    "stockLevel_inStock": "{{ count }} 재고 있음",
+    "stockLevel_outOfStock": "재고 없음",
+    "viewHours": "시간 보기"
+  },
+  "storeList": {
+    "noStoresMessage": "데이터베이스에 매장이 없음..."
+  },
+  "storeSchedule": {
+    "closed": "영업 종료",
+    "storeHours": "매장 시간"
+  },
+  "storeSearch": {
+    "findAStore": "매장 찾기",
+    "findStores": "매장 찾기",
+    "hideOutOfStockOptions": "재고 없음 옵션 숨기기",
+    "searchPlaceholder": "우편 번호나 시/구/군, 주소 입력",
+    "useMyLocation": "내 위치 사용"
+  },
+  "addressBookPickupInStore": {
+    "heading": "픽업 매장"
+  },
+  "storeFinderPickupInStore": {
+    "heading": "내 매장"
+  },
+  "checkoutPickupInStore": {
+    "heading": "픽업할 품목",
+    "storeItemHeading": "픽업 매장 주소"
+  },
+  "cartItems": {
+    "item": "품목"
+  },
+  "cardActions": {
+    "getDirections": "오시는 길, 이 링크를 클릭하면 새 창이 열립니다."
+  },
+  "deliveryPointOfServiceDetails": {
+    "itemsToBePickUp": "픽업할 품목",
+    "pickUpInStoreAddress": "픽업 매장 주소",
+    "itemsToBeShipped": "배송할 품목",
+    "shippingAddress": "배송 주소",
+    "deliveryMethod": "배송 방법",
+    "deliveryOptions": "배송 옵션",
+    "statusDisplay_cancelled": "취소됨",
+    "statusDisplay_cancelling": "취소 보류 중",
+    "statusDisplay_completed": "완료됨",
+    "statusDisplay_created": "작성됨",
+    "statusDisplay_error": "보류 중",
+    "statusDisplay_Error": "보류 중",
+    "statusDisplay_processing": "보류 중",
+    "statusDisplay_open": "미결",
+    "statusDisplay_pending": {
+      "approval": "승인 보류 중",
+      "merchant": {
+        "approval": "판매업체 승인 보류 중"
+      }
+    },
+    "statusDisplay_approved": "승인됨",
+    "statusDisplay_rejected": "거부됨",
+    "statusDisplay_merchant": {
+      "approved": "판매업체 승인됨",
+      "rejected": "판매업체 거부됨"
+    },
+    "statusDisplay_assigned": {
+      "admin": "관리자에게 지정됨"
+    }
+  }
+}

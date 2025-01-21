@@ -1,0 +1,22 @@
+{
+  "checkoutB2B": {
+    "noPoNumber": "Нет",
+    "poNumber": "Номер заказа на покупку (необязательно)",
+    "costCenter": "МВЗ",
+    "placeholder": "Введите ЗП",
+    "availableLabel": "Доступность адресов доставки зависит от единицы МВЗ",
+    "invalid": {
+      "accountType": "Ваша учетная запись не позволяет перейти здесь к оформлению заказа."
+    },
+    "methodOfPayment": {
+      "paymentType": "Тип оплаты"
+    },
+    "review": {
+      "poNumber": "Номер заказа на покупку"
+    },
+    "progress": {
+      "methodOfPayment": "Метод оплаты"
+    },
+    "invalidCostCenter": "Недействительное МВЗ."
+  }
+}

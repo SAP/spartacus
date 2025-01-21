@@ -1,0 +1,23 @@
+{
+  "opfCheckout": {
+    "tabs": {
+      "shipping": "शिपिंग",
+      "deliveryMethod": "वितरण विधि",
+      "paymentAndReview": "भुगतान और समीक्षा"
+    },
+    "paymentAndReviewTitle": "भुगतान और समीक्षा",
+    "billingAddress": "बिलिंग पता",
+    "paymentOption": "भुगतान विकल्प",
+    "termsAndConditions": "नियम और शर्तें",
+    "itemsToBeShipped": "शिप किए जाने वाले आइटम",
+    "proceedPayment": "ऑर्डर दें",
+    "retryPayment": "जारी रखने के लिए फिर से कोशिश करें",
+    "checkTermsAndConditionsExplicit": "उपलब्ध भुगतान विकल्प देखने के लिए आपको नियम और शर्तों पर सहमत होना होगा.",
+    "checkTermsAndConditionsImplicit": "ऑर्डर सबमिट करके, आप हमारे नियम और शर्तों पर सहमत हैं.",
+    "errors": {
+      "loadActiveConfigurations": "इस समय हम भुगतान विकल्प लोड करने में असमर्थ हैं. कृपया बाद में फिर को कोशिश करें.",
+      "noActiveConfigurations": "इस समय कोई भुगतान विकल्प उपलब्ध नहीं हैं. कृपया बाद में फिर को कोशिश करें या सहायता से संपर्क करें.",
+      "updateBillingAddress": "पता अपडेट नहीं किया जा सका. कृपया जांचें कि पता जानकारी सही है और आपका उपकरण इंटरनेट से जुड़ा हुआ है. यदि समस्या रहती है, आपको अपनी कार्ट साफ करने की और फिर से चेकआउट प्रारंभ करने की आवश्यकता है."
+    }
+  }
+}

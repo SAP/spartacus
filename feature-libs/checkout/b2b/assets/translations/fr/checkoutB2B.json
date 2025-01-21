@@ -1,0 +1,22 @@
+{
+  "checkoutB2B": {
+    "noPoNumber": "Aucun",
+    "poNumber": "Numéro de commande d'achat (facultatif)",
+    "costCenter": "Centre de coûts",
+    "placeholder": "Saisir la commande d'achat",
+    "availableLabel": "Les adresses de livraison disponibles dépendent de l'unité du centre de coûts.",
+    "invalid": {
+      "accountType": "Votre compte ne vous permet pas d'effectuer le règlement ici."
+    },
+    "methodOfPayment": {
+      "paymentType": "Type de paiement"
+    },
+    "review": {
+      "poNumber": "Numéro de commande de l'achat"
+    },
+    "progress": {
+      "methodOfPayment": "Mode de paiement"
+    },
+    "invalidCostCenter": "Centre de coûts non valide"
+  }
+}

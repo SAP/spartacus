@@ -1,0 +1,47 @@
+{
+  "loginForm": {
+    "forgotPassword": "Lupa kata sandi?",
+    "signIn": "Masuk",
+    "register": "Daftar",
+    "dontHaveAccount": "Tidak memiliki akun?",
+    "guestCheckout": "Pembayaran Tanpa Akun",
+    "emailAddress": {
+      "label": "Alamat email",
+      "placeholder": "Masukkan Alamat Email"
+    },
+    "password": {
+      "label": "Kata Sandi",
+      "placeholder": "Masukkan Kata Sandi Anda"
+    },
+    "wrongEmailFormat": "Format email ini tidak valid."
+  },
+  "verificationTokenForm": {
+    "createVerificationToken": "Kode verifikasi telah dikirim ke {{target}}. Silakan periksa dan masukkan kode tersebut.",
+    "needInputCredentials": "Silakan masukkan kredensial Anda untuk melanjutkan.",
+    "sendRateLime": "dalam {{waitTime}} detik ",
+    "resend": "Kirimkan Ulang",
+    "verificationCode": {
+      "label": "Kode Verifikasi",
+      "placeholder": "Masukkan Kode Verifikasi"
+    },
+    "noReceiveCode": "Tidak menerima kode?",
+    "verify": "Verifikasi",
+    "back": "Kembali",
+    "tokenInputHint": "Anda dapat meminta kode baru. Penghitung waktu akan mulai menampilkan berapa lama Anda perlu menunggu sebelum dapat meminta kode baru."
+  },
+  "verificationTokenDialog": {
+    "title": "Tidak menerima kode",
+    "noReceiveCode": "Jika Anda tidak menerima kode, kemungkinan alasannya adalah:",
+    "contentLine1": "1. Emailnya mungkin belum diterima.",
+    "contentLine2": "2. Email yang diterima mungkin masuk ke folder sampah.",
+    "contentLine3": "3. Alamat email atau kata sandi yang Anda masukkan mungkin salah.",
+    "close": "Tutup"
+  },
+  "miniLogin": {
+    "userGreeting": "Hai, {{name}}",
+    "signInRegister": "Masuk / Daftar"
+  },
+  "myAccountV2User": {
+    "signOut": "Keluar"
+  }
+}

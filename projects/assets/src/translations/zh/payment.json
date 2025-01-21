@@ -1,0 +1,62 @@
+{
+  "paymentForm": {
+    "payment": "付款",
+    "choosePaymentMethod": "选择付款方式",
+    "paymentType": "付款类型",
+    "accountHolderName": {
+      "label": "帐户持有人姓名",
+      "placeholder": "帐户持有人姓名"
+    },
+    "cardNumber": "卡号",
+    "expirationDate": "过期日期",
+    "securityCode": "安全码 (CVV)",
+    "securityCodeTitle": "卡验证值",
+    "saveAsDefault": "另存为默认值",
+    "setAsDefault": "设置为默认付款方式",
+    "billingAddress": "账单地址",
+    "sameAsDeliveryAddress": "与送货地址一致",
+    "billingAddressSameAsShipping": "账单地址与送货地址一致",
+    "selectOne": "选择一个...",
+    "monthMask": "MM",
+    "yearMask": "YYYY",
+    "expirationYear": "到期年份 {{ selected }}",
+    "expirationMonth": "到期月份 {{ selected }}",
+    "useThisPayment": "使用此付款",
+    "addNewPayment": "添加新付款",
+    "paymentAddedSuccessfully": "新付款已成功添加",
+    "changePayment": "更改付款"
+  },
+  "paymentMethods": {
+    "paymentMethods": "付款方式",
+    "paymentMethodSelected": "已选择付款方式",
+    "newPaymentMethodsAreAddedDuringCheckout": "在结账时添加了新的付款方式。",
+    "invalidField": "无效字段：{{ field }}"
+  },
+  "paymentCard": {
+    "deleteConfirmation": "是否确定要删除此付款方式？",
+    "setAsDefault": "设置为默认值",
+    "expires": "过期：{{ month }}/{{ year }}",
+    "defaultPaymentMethod": "✓ 默认值",
+    "defaultPaymentLabel": "默认付款方式",
+    "additionalPaymentLabel": "其他付款方式 {{ number }}",
+    "selected": "已选择",
+    "selectedPayment": "所选付款",
+    "deletePaymentSuccess": "付款方式已成功删除",
+    "visa": "Visa 卡",
+    "master": "Mastercard 卡",
+    "masterEuro": "Mastercard Eurocard 卡",
+    "dinersClub": "Diners Club 卡",
+    "switch": "Switch 卡",
+    "maestro": "Maestro 卡",
+    "amex": "American Express 卡",
+    "credit": "信用卡"
+  },
+  "paymentTypes": {
+    "title": "付款方式",
+    "paymentType_CARD": "信用卡",
+    "paymentType_ACCOUNT": "帐户"
+  },
+  "paymentMessages": {
+    "setAsDefaultSuccessfully": "新付款已成功设置为默认付款"
+  }
+}

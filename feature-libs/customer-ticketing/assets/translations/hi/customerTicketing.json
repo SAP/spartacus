@@ -1,0 +1,48 @@
+{
+  "customerTicketing": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "ग्राहक टिकटिंग",
+    "ticketId": "ID",
+    "createdOn": "निर्माण दिनांक",
+    "changedOn": "परिवर्तन दिनांक",
+    "status": "स्थिति",
+    "message": "संदेश",
+    "cancel": "रद्द करें",
+    "submit": "सबमिट करें",
+    "uploadFile": "फ़ाइल अपलोड करें",
+    "fileSizeLimit": "फ़ाइल आकार सीमा: {{count}} MB",
+    "maximumAttachment": "अधिकतम एक अनुलग्नक प्रति संदेश",
+    "errorMessage": "कुछ गलत हुआ है.",
+    "charactersLeft": "वर्ण बचे हैंः  {{count}}",
+    "customerService": "ग्राहक सेवा"
+  },
+  "customerTicketingList": {
+    "subject": "विषय",
+    "ticketCategory": "श्रेणी",
+    "sortSubtitle": "इसके द्वारा क्रमित",
+    "sortOrders": "ऑर्डर क्रमित करें",
+    "noTickets": "आपके पास कोई अनुरोध नहीं है",
+    "requestTitle": "सभी अनुरोध",
+    "mobile": {
+      "ticketIdFull": "टिकट ID"
+    }
+  },
+  "createCustomerTicket": {
+    "createNewTicket": "जोड़ें",
+    "addNewRequest": "नया अनुरोध जोड़ें",
+    "addRequest": "अनुरोध जोड़ें",
+    "subject": "विषय",
+    "category": "श्रेणी",
+    "associateTo": "इससे संबंधित",
+    "ticketCreated": "अनुरोध बनाया गया.",
+    "optionallySelectAssociatedObject": "विकल्प का चयन करें",
+    "selectCategory": "श्रेणी का चयन करें"
+  },
+  "customerTicketingDetails": {
+    "requestReopened": "अनुरोध का प्रतिसाद दिया गया.",
+    "requestClosed": "अनुरोध बंद किया गया. आवश्यकता हो तो आप प्रतिसाद दे सकते हैं.",
+    "reopenRequest": "प्रतिसाद अनुरोध",
+    "closeRequest": "अनुरोध बंद करें",
+    "ticketNotFound": "टिकट हीं मिला."
+  }
+}

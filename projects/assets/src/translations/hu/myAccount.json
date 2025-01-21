@@ -1,0 +1,109 @@
+{
+  "closeAccount": {
+    "confirmAccountClosure": "Fiókbezárás megerősítése",
+    "confirmAccountClosureMessage": "Biztosan szeretné bezárni a fiókját?",
+    "closeMyAccount": "FIÓK BEZÁRÁSA",
+    "accountClosedSuccessfully": "Fiók bezárása sikeres",
+    "accountClosedFailure": "Fiók bezárása sikertelen"
+  },
+  "updatePasswordForm": {
+    "oldPassword": {
+      "label": "Régi jelszó",
+      "placeholder": "Régi jelszó"
+    },
+    "oldPasswordIsRequired": "A régi jelszó megadása kötelező.",
+    "newPassword": {
+      "label": "Új jelszó",
+      "placeholder": "Új jelszó"
+    },
+    "passwordMinRequirements": "Íme egy gyors útmutató a biztonságos jelszó létrehozásához: Használjon legalább 8 karaktert, kis- és nagybetűket, számokat és szimbólumokat.",
+    "passwordStrengthRequirements": "Íme egy gyors útmutató a biztonságos jelszó létrehozásához: Használjon legalább 8 karaktert, kis- és nagybetűket, számokat és szimbólumokat. Ne használja többször egymás után ugyanazt a karaktert.",
+    "confirmPassword": {
+      "label": "Új jelszó megerősítése",
+      "placeholder": "Jelszó megerősítése"
+    },
+    "bothPasswordMustMatch": "A két jelszónak egyeznie kell",
+    "passwordUpdateSuccess": "Jelszó frissítése sikeres",
+    "accessDeniedError": "Hozzáférés megtagadva"
+  },
+  "updateProfileForm": {
+    "title": "Megszólítás",
+    "none": "",
+    "firstName": {
+      "label": "Utónév",
+      "placeholder": "Utónév"
+    },
+    "firstNameIsRequired": "Az utónév megadása kötelező.",
+    "lastName": {
+      "label": "Vezetéknév",
+      "placeholder": "Vezetéknév"
+    },
+    "lastNameIsRequired": "A vezetéknév megadása kötelező.",
+    "profileUpdateSuccess": "A személyes adatok frissítése sikeres",
+    "customerId": "Ügyfél #"
+  },
+  "consentManagementForm": {
+    "clearAll": "Összes törlése",
+    "selectAll": "Összes kiválasztása",
+    "message": {
+      "success": {
+        "given": "Hozzájárulás megadása sikeres.",
+        "withdrawn": "Hozzájárulás visszavonása sikeres."
+      }
+    }
+  },
+  "myCoupons": {
+    "noCouponsMessage": "Nincsenek elérhető kuponjai.",
+    "effectiveTitle": "Érvényes:",
+    "Effective": "ÉRVÉNYES",
+    "PreSession": "HAMAROSAN ÉRVÉNYBE LÉP",
+    "ExpireSoon": "HAMAROSAN LEJÁR",
+    "readMore": "További információ",
+    "notification": "Értesítés",
+    "findProducts": "Termékek keresése",
+    "status": "Státus:",
+    "dialogTitle": "Kupon",
+    "claimCustomerCoupon": "Sikeresen igényelte ezt a kupont.",
+    "myCoupons": "Saját kuponok",
+    "startDateAsc": "Kezdő dátum (növekvő)",
+    "startDateDesc": "Kezdő dátum (csökkenő)",
+    "endDateAsc": "Záró dátum (növekvő)",
+    "endDateDesc": "Záró dátum (csökkenő)",
+    "sortBy": "Rendezés alapja",
+    "sortCoupons": "Kuponok rendezése",
+    "notesPreffix": "A kuponértesítések fogadása esetén előnyben részesített csatornát az ",
+    "notesLink": "Értesítési csatornák",
+    "notesSuffix": " oldalon kezelheti."
+  },
+  "notificationPreference": {
+    "message": "A preferált értesítési csatornáit az",
+    "note": "Megjegyzés: ",
+    "noteMessage": "Ha inaktiválja az összes csatornát, nem fog tudni további értesítéseket fogadni.",
+    "EMAIL": "E-mail:",
+    "SMS": "SMS:",
+    "SITE_MESSAGE": "Webhelyüzenet"
+  },
+  "myInterests": {
+    "header": "Érdeklődési köreim",
+    "item": "TÉTEL",
+    "price": "ÁR",
+    "notifications": "ÉRTESÍTÉSEK",
+    "noInterests": "Még nem regisztrált érdeklődési kört.",
+    "inStock": "Készleten",
+    "lowStock": "Kevés van készleten",
+    "outOfStock": "Nincs készleten",
+    "BACK_IN_STOCK": "Újra készleten",
+    "sortBy": "Rendezés alapja",
+    "sortInterests": "Érdeklődési körök rendezése",
+    "expirationDate": " Eddig: {{ expirationDate }}",
+    "productId": "Azonosító: {{ code }}",
+    "remove": "Eltávolítás",
+    "sorting": {
+      "byNameAsc": "Név (növekvő sorrend)",
+      "byNameDesc": "Név (csökkenő sorrend)"
+    },
+    "actions": "MŰVELETEK",
+    "caption": "Az „Engem érdeklők” tartalma.",
+    "itemRemoved": "A kiválasztott tétel el lett távolítva."
+  }
+}

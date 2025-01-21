@@ -470,12 +470,12 @@ export function addFeatureTranslations<T extends LibraryOptions>(
             },
             {
               moduleSpecifier: config.i18n.importPath,
-              namedImports: [config.i18n.chunks, config.i18n.resources],
+              namedImports: [config.i18n.chunks, `${config.i18n.resources}En`],
             },
           ],
           content: `${PROVIDE_CONFIG_FUNCTION}(<${I18N_CONFIG}>{
               i18n: {
-                resources: ${config.i18n.resources},
+                resources: { en: ${config.i18n.resources}En },
                 chunks: ${config.i18n.chunks},
               },
             })`,

@@ -3,7 +3,7 @@
 exports[`Spartacus CDC schematics: ng-add CDC-B2B feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { CdcModule } from "@spartacus/cdc";
-import { cdcTranslationChunksConfig, cdcTranslations } from "@spartacus/cdc/assets";
+import { cdcTranslationChunksConfig, cdcTranslationsEn } from "@spartacus/cdc/assets";
 import { CdcAdministrationModule } from "@spartacus/cdc/organization/administration";
 import { CDCB2BRegisterModule } from "@spartacus/cdc/organization/user-registration";
 import { CdcConfig, CdcRootModule } from "@spartacus/cdc/root";
@@ -23,7 +23,7 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: cdcTranslations,
+      resources: { en: cdcTranslationsEn },
       chunks: cdcTranslationChunksConfig,
     },
   }),
@@ -44,7 +44,7 @@ export class CdcFeatureModule { }
 
 exports[`Spartacus CDC schematics: ng-add CDC-B2B feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { cdcTranslationChunksConfig, cdcTranslations } from "@spartacus/cdc/assets";
+import { cdcTranslationChunksConfig, cdcTranslationsEn } from "@spartacus/cdc/assets";
 import { CDC_FEATURE, CdcConfig, CdcRootModule } from "@spartacus/cdc/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -63,7 +63,7 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: cdcTranslations,
+      resources: { en: cdcTranslationsEn },
       chunks: cdcTranslationChunksConfig,
     },
   }),
@@ -148,7 +148,7 @@ export class OrganizationUserRegistrationWrapperModule { }
 
 exports[`Spartacus CDC schematics: ng-add CDC-B2B feature validation of jsSDKUrl should set the given javascriptUrl 1`] = `
 "import { NgModule } from '@angular/core';
-import { cdcTranslationChunksConfig, cdcTranslations } from "@spartacus/cdc/assets";
+import { cdcTranslationChunksConfig, cdcTranslationsEn } from "@spartacus/cdc/assets";
 import { CDC_FEATURE, CdcConfig, CdcRootModule } from "@spartacus/cdc/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -167,7 +167,7 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: cdcTranslations,
+      resources: { en: cdcTranslationsEn },
       chunks: cdcTranslationChunksConfig,
     },
   }),
@@ -189,7 +189,7 @@ export class CdcFeatureModule { }
 exports[`Spartacus CDC schematics: ng-add CDC-B2C feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { CdcModule } from "@spartacus/cdc";
-import { cdcTranslationChunksConfig, cdcTranslations } from "@spartacus/cdc/assets";
+import { cdcTranslationChunksConfig, cdcTranslationsEn } from "@spartacus/cdc/assets";
 import { CdcConfig, CdcRootModule } from "@spartacus/cdc/root";
 import { CDCUserAccountModule } from "@spartacus/cdc/user-account";
 import { CDCUserProfileModule } from "@spartacus/cdc/user-profile";
@@ -205,7 +205,7 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: cdcTranslations,
+      resources: { en: cdcTranslationsEn },
       chunks: cdcTranslationChunksConfig,
     },
   }),
@@ -226,7 +226,7 @@ export class CdcFeatureModule { }
 
 exports[`Spartacus CDC schematics: ng-add CDC-B2C feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { cdcTranslationChunksConfig, cdcTranslations } from "@spartacus/cdc/assets";
+import { cdcTranslationChunksConfig, cdcTranslationsEn } from "@spartacus/cdc/assets";
 import { CDC_FEATURE, CdcConfig, CdcRootModule } from "@spartacus/cdc/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -245,7 +245,7 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: cdcTranslations,
+      resources: { en: cdcTranslationsEn },
       chunks: cdcTranslationChunksConfig,
     },
   }),
@@ -298,7 +298,7 @@ export class UserProfileWrapperModule { }
 
 exports[`Spartacus CDC schematics: ng-add CDC-B2C feature validation of jsSDKUrl should set the given javascriptUrl 1`] = `
 "import { NgModule } from '@angular/core';
-import { cdcTranslationChunksConfig, cdcTranslations } from "@spartacus/cdc/assets";
+import { cdcTranslationChunksConfig, cdcTranslationsEn } from "@spartacus/cdc/assets";
 import { CDC_FEATURE, CdcConfig, CdcRootModule } from "@spartacus/cdc/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -317,7 +317,7 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: cdcTranslations,
+      resources: { en: cdcTranslationsEn },
       chunks: cdcTranslationChunksConfig,
     },
   }),

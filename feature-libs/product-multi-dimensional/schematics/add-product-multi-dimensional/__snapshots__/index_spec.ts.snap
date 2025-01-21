@@ -140,7 +140,7 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { ProductMultiDimensionalSelectorModule } from "@spartacus/product-multi-dimensional/selector";
-import { multiDimensionalSelectorTranslationChunksConfig, multiDimensionalSelectorTranslations } from "@spartacus/product-multi-dimensional/selector/assets";
+import { multiDimensionalSelectorTranslationChunksConfig, multiDimensionalSelectorTranslationsEn } from "@spartacus/product-multi-dimensional/selector/assets";
 import { ProductMultiDimensionalSelectorRootModule } from "@spartacus/product-multi-dimensional/selector/root";
 
 @NgModule({
@@ -151,7 +151,7 @@ import { ProductMultiDimensionalSelectorRootModule } from "@spartacus/product-mu
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: multiDimensionalSelectorTranslations,
+      resources: { en: multiDimensionalSelectorTranslationsEn },
       chunks: multiDimensionalSelectorTranslationChunksConfig,
     },
   })]
@@ -163,7 +163,7 @@ export class ProductMultiDimensionalSelectorFeatureModule { }
 exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { multiDimensionalSelectorTranslationChunksConfig, multiDimensionalSelectorTranslations } from "@spartacus/product-multi-dimensional/selector/assets";
+import { multiDimensionalSelectorTranslationChunksConfig, multiDimensionalSelectorTranslationsEn } from "@spartacus/product-multi-dimensional/selector/assets";
 import { PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE, ProductMultiDimensionalSelectorRootModule } from "@spartacus/product-multi-dimensional/selector/root";
 
 @NgModule({
@@ -181,7 +181,7 @@ import { PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE, ProductMultiDimensionalSele
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: multiDimensionalSelectorTranslations,
+      resources: { en: multiDimensionalSelectorTranslationsEn },
       chunks: multiDimensionalSelectorTranslationChunksConfig,
     },
   })

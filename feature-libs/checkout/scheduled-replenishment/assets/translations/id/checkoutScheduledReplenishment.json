@@ -1,0 +1,14 @@
+{
+  "checkoutScheduledReplenishment": {
+    "autoReplenishOrder": "Pemesanan Pengadaan Ulang Otomatis",
+    "orderType_PLACE_ORDER": "Tidak ada (hanya sekali pemesanan)",
+    "orderType_SCHEDULE_REPLENISHMENT_ORDER": "Pemesanan Pengadaan Ulang",
+    "every": "Setiap",
+    "recurrencePeriodType_DAILY": "Hari",
+    "recurrencePeriodType_WEEKLY": "Minggu",
+    "recurrencePeriodType_MONTHLY": "Bulan",
+    "dayOfMonth": "Pada hari",
+    "startOn": "Dimulai pada",
+    "repeatOnDays": "Ulangi di hari berikutnya"
+  }
+}

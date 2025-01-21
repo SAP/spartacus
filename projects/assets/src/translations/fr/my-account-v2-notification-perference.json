@@ -1,0 +1,9 @@
+{
+  "myAccountV2NotifiationPerference": {
+    "header": "Canaux de notification",
+    "message": "Sélectionnez vos canaux de notification préférés",
+    "note": "Remarque : ",
+    "noteMessage": "Si vous désactivez tous les canaux, vous ne pourrez plus recevoir de notifications.",
+    "EMAIL": "E-mail :"
+  }
+}

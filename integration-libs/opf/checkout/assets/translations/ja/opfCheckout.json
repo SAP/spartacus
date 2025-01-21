@@ -1,0 +1,23 @@
+{
+  "opfCheckout": {
+    "tabs": {
+      "shipping": "配送中",
+      "deliveryMethod": "配送方法",
+      "paymentAndReview": "支払およびレビュー"
+    },
+    "paymentAndReviewTitle": "支払およびレビュー",
+    "billingAddress": "請求先住所",
+    "paymentOption": "支払オプション",
+    "termsAndConditions": "利用条件",
+    "itemsToBeShipped": "配送対象アイテム",
+    "proceedPayment": "ご注文",
+    "retryPayment": "再試行して続行",
+    "checkTermsAndConditionsExplicit": "利用可能な支払オプションを表示するには、利用条件に同意する必要があります。",
+    "checkTermsAndConditionsImplicit": "注文を送信することで、利用条件に同意したことになります。",
+    "errors": {
+      "loadActiveConfigurations": "現時点では支払オプションをロードできません。後でもう一度実行してください。",
+      "noActiveConfigurations": "現在点では利用可能な支払オプションがありません。後でもう一度実行するか、サポートに連絡してください。",
+      "updateBillingAddress": "アドレスを更新できませんでした。住所情報が正しく、デバイスがインターネットに接続されていることを確認してください。問題が解決しない場合は、カートをクリアしてチェックアウトをもう一度開始する必要がある可能性があります。"
+    }
+  }
+}

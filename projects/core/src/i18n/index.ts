@@ -16,3 +16,4 @@ export * from './translate.pipe';
 export * from './translation-chunk.service';
 export * from './translation-resources';
 export * from './translation.service';
+export * from './extract-translation-chunks-config';

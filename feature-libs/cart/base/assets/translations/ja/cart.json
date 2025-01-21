@@ -1,0 +1,75 @@
+{
+  "cartDetails": {
+    "id": "ID",
+    "proceedToCheckout": "チェックアウトに進む",
+    "cartName": "カート番号 {{code}}"
+  },
+  "cartItems": {
+    "id": "ID",
+    "description": "説明",
+    "item": "アイテム",
+    "itemPrice": "商品価格",
+    "quantity": "数量",
+    "quantityFull": "数量",
+    "quantityTitle": "数量はカート内にあるこのアイテムの合計数を表しています。",
+    "total": "合計",
+    "actions": "アクション",
+    "cartTotal": "カート合計 ({{count}} アイテム)",
+    "cartTotal_other": "カート合計 ({{count}} アイテム)",
+    "itemRemoved": "選択したアイテムが削除されました。カート合計が更新されました。",
+    "caption": "ショッピングカートの内容。"
+  },
+  "orderCost": {
+    "orderSummary": "注文内容",
+    "subtotal": "割引後の小計:",
+    "shipping": "配送中:",
+    "estimatedShipping": "配送予定日:",
+    "discount": "以下を保存しました:",
+    "salesTax": "消費税:",
+    "grossTax": "注文合計には次の税は含まれません",
+    "grossIncludeTax": "注文合計には次の税が含まれます",
+    "total": "合計: ",
+    "toBeDetermined": "未定"
+  },
+  "voucher": {
+    "coupon": "クーポンをお持ちですか?",
+    "coupon_other": "クーポンコード",
+    "couponLabel": "プロモーションコードはここに入力します",
+    "addCoupon": "クーポンを追加",
+    "apply": "適用",
+    "placeholder": "プロモーションコード",
+    "applyVoucherSuccess": "{{voucherCode}} が適用されました。",
+    "removeVoucherSuccess": "{{voucherCode}} が削除されました。",
+    "anchorLabel": "クーポンコードを入力または削除してください",
+    "vouchersApplied": "適用されたクーポン",
+    "availableCoupons": "利用可能なクーポン",
+    "availableCouponsLabel": "今回の注文ではこれらのクーポンを追加できます"
+  },
+  "saveForLaterItems": {
+    "itemTotal": "保存して後で使用 ({{count}} アイテム)",
+    "itemTotal_other": "保存して後で使用 ({{count}} アイテム)",
+    "cartTitle": "カート",
+    "saveForLater": "保存して後で使用",
+    "moveToCart": "カートに移動",
+    "stock": "在庫",
+    "forceInStock": "在庫有り"
+  },
+  "clearCart": {
+    "clearCart": "カートをクリア",
+    "clearingCart": "カートのクリア中...",
+    "cartClearedSuccessfully": "有効なカートが正常にクリアされました。",
+    "areYouSureToClearCart": "このカートをクリアしてもよろしいですか?",
+    "allItemsWillBeRemoved": "有効なカート内にあるすべてのアイテムが削除されます。"
+  },
+  "validation": {
+    "cartEntriesChangeDuringCheckout": "チェックアウト中にエントリで問題が見つかりました。カートを確認してください。",
+    "cartEntryRemoved": "在庫がないため、{{name}} はカートから削除されました。",
+    "productOutOfStock": "在庫がないため、{{name}} はカートから削除されました。",
+    "lowStock": "在庫不足のため、数量が {{quantity}} に削減されました。",
+    "reviewConfiguration": "最初にカートエントリの設定の問題を解決してください。",
+    "configurationError": "最初にカートエントリの設定の問題を解決してください。",
+    "pricingError": "価格設定は現在利用できません。チェックアウト/見積を送信できません。後でもう一度実行してください。",
+    "unresolvableIssues": "商品設定にはバックエンドで追加のエントリが必要です。その結果、続行することができません。サポートに連絡してください。",
+    "inProgress": "処理中です"
+  }
+}

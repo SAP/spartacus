@@ -1,0 +1,9 @@
+{
+  "productImageZoomTrigger": {
+    "expand": "Rozšířit obrázek"
+  },
+  "productImageZoomDialog": {
+    "zoomedInImage": "Zvětšený obrázek",
+    "close": "Zavřít"
+  }
+}

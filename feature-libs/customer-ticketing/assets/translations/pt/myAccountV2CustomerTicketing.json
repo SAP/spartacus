@@ -1,0 +1,11 @@
+{
+  "myAccountV2CustomerTicketing": {
+    "heading": "Serviço ao cliente",
+    "showMore": "Mostrar mais",
+    "showMoreLabel": "Navegar para histórico de solicitações de serviço ao cliente",
+    "changedOn": "Modificado em: {{value}}",
+    "ticketId": "ID: {{value}}",
+    "subjectLabel": "Assunto",
+    "idLabel": "ID do serviço ao cliente"
+  }
+}

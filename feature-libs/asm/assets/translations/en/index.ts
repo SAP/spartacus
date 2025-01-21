@@ -5,7 +5,6 @@
  */
 
 import asm from './asm.json';
-
 export const en = {
   asm,
 };

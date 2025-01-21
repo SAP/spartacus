@@ -1,0 +1,254 @@
+{
+  "common": {
+    "cancel": "Zrušit",
+    "delete": "Vymazat",
+    "remove": "Odebrat",
+    "edit": "Upravit",
+    "restore": "Obnovit",
+    "back": "Zpět",
+    "submit": "Odeslat",
+    "continue": "Pokračovat",
+    "save": "Uložit",
+    "done": "Hotovo",
+    "home": "Domů",
+    "noData": "Žádná data",
+    "confirm": "Potvrdit",
+    "more": "více",
+    "close": "Zavřít",
+    "loading": "Načítání",
+    "menu": "Menu",
+    "reset": "Resetovat",
+    "search": "Hledat",
+    "add": "Přidat",
+    "breadcrumbs": "Navigační cesty",
+    "selectFile": "Vyberte soubor",
+    "clear": "Vymazat",
+    "loaded": "Načteno",
+    "results": "Výsledky",
+    "of": "z",
+    "required": "povinné",
+    "zoomIn": "Zvětšit",
+    "zoomOut": "Zmenšit",
+    "selected": "Vybráno",
+    "expand": "Rozbalit",
+    "collapse": "Sbalit"
+  },
+  "pageMetaResolver": {
+    "category": {
+      "title": "{{count}} výsledek pro {{query}}",
+      "title_other": "Počet výsledků pro {{query}}: {{count}}"
+    },
+    "checkout": {
+      "title": "Pokladna"
+    },
+    "search": {
+      "title": "{{count}} výsledek pro „{{query}}“",
+      "title_other": "Počet výsledků pro „{{query}}“: {{count}}",
+      "findProductTitle": "{{count}} výsledek pro kupón „{{coupon}}“",
+      "findProductTitle_other": "Počet výsledků pro kupón „{{coupon}}“: {{count}}",
+      "default_title": "Všechny produkty"
+    },
+    "product": {
+      "description": "{{description}}",
+      "heading": "{{heading}}",
+      "title": "{{title}}"
+    }
+  },
+  "spinner": {
+    "loading": "Načítání…"
+  },
+  "navigation": {
+    "categoryNavLabel": "Nabídka Kategorie",
+    "footerNavLabel": "Odkazy v zápatí",
+    "goTo": "Přejít na {{location}}",
+    "navigateTo": "Navigovat k {{nav}}",
+    "scrollToTop": "Vraťte se na začátek stránky.",
+    "linkItemInList": "{{title}}. {{position}} z {{listLength}}"
+  },
+  "searchBox": {
+    "placeholder": "Zadejte název produktu nebo SKU",
+    "productSearch": "Hledat produkt",
+    "ariaLabelInput": "Hledat zde…",
+    "ariaLabelSuggestions": "návrhy pro psaní",
+    "ariaLabelProducts": "výsledky produktu",
+    "initialDescription": "Když jsou k dispozici výsledky automatického dokončování, použijte šipky nahoru a dolů k prohlížení a enter k výběru. Uživatelé dotykových zařízení mohou vyhledávat dotykem nebo gesty přejetí prstem.",
+    "suggestions": "Navržená klíčová slova",
+    "suggestionsResult": "{{ count }} návrh a ",
+    "suggestionsResult_other": "Počet návrhů: {{ count }} a ",
+    "products": "Doporučené produkty",
+    "productsResult": "{{ count }} produkt je k dispozici.",
+    "productsResult_other": "Počet produktů k dispozici: {{ count }}.",
+    "resetLabel": "Resetovat hledání",
+    "help": {
+      "insufficientChars": "Zadejte víc znaků",
+      "noMatch": "Nemůžeme najít žádné výsledky",
+      "exactMatch": "{{ term }}",
+      "empty": "Zeptejte se nás na cokoliv"
+    },
+    "closeSearchPanel": "Zavřít"
+  },
+  "sorting": {
+    "date": "Datum",
+    "orderNumber": "Číslo objednávky",
+    "rma": "Číslo vratky",
+    "replenishmentNumber": "Číslo doplnění",
+    "nextOrderDate": "Datum další objednávky",
+    "pageViewUpdated": "Zobrazení stránky aktualizováno podle vybraných voleb."
+  },
+  "httpHandlers": {
+    "badRequest": {
+      "bad_credentials": "{{ errorMessage }}. Přihlaste se znovu.",
+      "user_is_disabled": "{{ errorMessage }}. Obraťte se na správce."
+    },
+    "badGateway": "Došlo k chybě serveru. Zkuste to znovu později.",
+    "badRequestPleaseLoginAgain": "{{ errorMessage }}. Přihlaste se znovu.",
+    "badRequestOldPasswordIncorrect": "Staré heslo je chybné.",
+    "badRequestGuestDuplicateEmail": "{{ errorMessage }} e-mail již existuje. Zadejte u pokladny jiný e-mail, čímž se zaregistrujete s účtem hosta.",
+    "conflict": "Již existuje.",
+    "forbidden": "Nemáte oprávnění provádět tuto akci. Obraťte se na správce, pokud si myslíte, že se jedná o chybu.",
+    "gatewayTimeout": "Server nereaguje. Zkuste to později znovu.",
+    "internalServerError": "Došlo k interní chybě serveru. Zkuste to znovu později.",
+    "sessionExpired": "Vypršel časový limit relace. Přihlaste se znovu.",
+    "unknownError": "Došlo k neznámé chybě",
+    "unauthorized": {
+      "common": "Došlo k neznámé chybě ověření",
+      "invalid_client": "Špatné identifikační údaje klienta"
+    },
+    "validationErrors": {
+      "missing": {
+        "card_cardType": "Vybraná platební karta není podporována. Vyberte jinou kartu.",
+        "card_accountNumber": "Zadané číslo kreditní karty je neplatné.",
+        "card_cvNumber": "Zadaný bezpečnostní kód karty je neplatný.",
+        "card_expirationMonth": "Zadané datum konce platnosti kreditní karty je neplatné.",
+        "card_expirationYear": "Zadané číslo kreditní karty není platné.",
+        "billTo_firstName": "Zadané křestní jméno je neplatné.",
+        "billTo_lastName": "Zadané příjmení je neplatné.",
+        "billTo_street1": "Zadaná adresa je neplatná.",
+        "billTo_street2": "Zadaná adresa je neplatná.",
+        "billTo_city": "Zadané město pro tuto kreditní kartu je neplatné.",
+        "billTo_state": "Zadaný stát/správní celek pro tuto kreditní kartu je neplatný.",
+        "billTo_country": "Zadaná země/region pro tuto kreditní kartu je neplatná.",
+        "billTo_postalCode": "Zadané PSČ pro tuto kreditní kartu je neplatné.",
+        "country": {
+          "isocode": "Chybí země/region"
+        }
+      },
+      "invalid": {
+        "card_expirationMonth": "Zadané datum konce platnosti kreditní karty je neplatné.",
+        "firstName": "Zadané křestní jméno je neplatné.",
+        "lastName": "Zadané příjmení je neplatné.",
+        "password": "Zadané heslo není platné.",
+        "uid": "UID je neplatné.",
+        "code": "Kód je neplatný.",
+        "email": "E-mail je neplatný.",
+        "loginId": "E-mail je neplatný."
+      }
+    },
+    "cartNotFound": "Karta nebyla nalezena.",
+    "invalidCodeProvided": "Zadaný kód je neplatný.",
+    "voucherExceeded": "U tohoto kupónu byl překročen počet opakovaných použití.",
+    "unknownIdentifier": "Položka nebyla nalezena.",
+    "otherCartErrors": "Došlo k chybě košíku."
+  },
+  "miniCart": {
+    "item": "{{count}} položka je právě ve vašem košíku",
+    "item_other": "{{count}} položek je právě ve vašem košíku",
+    "total": "{{total}}",
+    "count": "{{count}}"
+  },
+  "skipLink": {
+    "skipTo": "Přeskočit na",
+    "labels": {
+      "header": "Hlavička",
+      "main": "Hlavní obsah",
+      "footer": "Zápatí",
+      "productFacets": "Aspekty produktu",
+      "productList": "Seznam produktů"
+    }
+  },
+  "carousel": {
+    "previousSlide": "Předchozí snímek",
+    "nextSlide": "Další snímek",
+    "slideNumber": "Snímek {{currentSlideNumber}} obsahuje {{numberOfSlides}} položek",
+    "carouselForProduct": "Karusel, obrázky pro {{product}}"
+  },
+  "formErrors": {
+    "labeled": {
+      "required": "Pole {{label}} je povinné",
+      "cxInvalidEmail": "Pole {{label}} nemá platný formát e-mailu. Musí odpovídat vzoru: example@yourdomain.com",
+      "cxInvalidPassword": "Pole {{label}} nemá platný formát hesla",
+      "cxMinOneUpperCaseCharacter": "Heslo musí obsahovat alespoň jedno velké písmeno",
+      "cxMinOneDigit": "Heslo musí obsahovat minimálně jednu číslici",
+      "cxMinOneSpecialCharacter": "Heslo musí obsahovat alespoň jeden symbol.",
+      "cxMinSixCharactersLength": "Heslo musí obsahovat alespoň 6 znaků",
+      "cxMinEightCharactersLength": "Heslo musí obsahovat alespoň 8 znaků",
+      "cxMaxCharactersLength": "Heslo nesmí mít víc jak 128 znaků",
+      "cxContainsSpecialCharacters": "Heslo nesmí obsahovat symboly.",
+      "cxNoConsecutiveCharacters": "Heslo nesmí obsahovat stejné znaky následující po sobě",
+      "date": {
+        "required": "Pole {{label}} je povinné",
+        "min": "Pole {{label}} nesmí být před {{min}}",
+        "max": "Pole {{label}} nesmí být po {{max}}",
+        "pattern": "V poli {{label}} použijte formát data rrrr-mm-dd",
+        "invalid": "V poli {{label}} použijte platné datum"
+      }
+    },
+    "globalMessage": "Formulář, který chcete odeslat, obsahuje chyby.",
+    "required": "Toto pole je povinné",
+    "cxInvalidEmail": "Toto není platný formát e-mailu",
+    "cxInvalidPassword": "Toto není platný formát hesla",
+    "cxPasswordsMustMatch": "Pole hesla se musejí shodovat",
+    "cxPasswordsCannotMatch": "Pole hesla se nemohou shodovat",
+    "cxEmailsMustMatch": "Pole e-mailu se musejí shodovat",
+    "cxStarRatingEmpty": "Pole hodnocení je povinné",
+    "cxNoSelectedItemToCancel": "Vyberte alespoň jednu položku",
+    "cxNegativeAmount": "Částka musí být větší nebo rovna nule",
+    "cxContainsSpecialCharacters": "Toto pole nesmí obsahovat speciální znaky.",
+    "date": {
+      "required": "Toto pole je povinné",
+      "min": "Datum nemůže být před {{min}}",
+      "max": "Datum nemůže být po {{max}}",
+      "pattern": "Použijte formát data rrrr-mm-dd",
+      "invalid": "Použijte platné datum"
+    },
+    "file": {
+      "required": "Soubor je povinný",
+      "empty": "Soubor nesmí být prázdný",
+      "invalidExtension": "Přípona souboru je neplatná",
+      "tooLarge": "Velikost souboru přesahuje {{ maxSize }} MB",
+      "tooManyEntries": "Počet položek je větší než {{ maxEntries }}",
+      "notParsable": "Soubor nelze analyzovat",
+      "fileNotAllowed": "Tento typ souboru není dovolen"
+    }
+  },
+  "errorHandlers": {
+    "scriptFailedToLoad": "Nepovedlo se načíst script",
+    "refreshThePage": "Aktualizujte tuto stránku."
+  },
+  "assistiveMessage": {
+    "actionCancelled": "Akce byla zrušena, nic nebylo změněno."
+  },
+  "passwordVisibility": {
+    "showPassword": "Zobrazit heslo",
+    "hidePassword": "Skrýt heslo"
+  },
+  "generalErrors": {
+    "pageFailure": "Stránku nelze načíst. Zkuste to později znovu."
+  },
+  "formLegend": {
+    "required": "Pole označená hvězdičkou (*) jsou povinná."
+  },
+  "chatMessaging": {
+    "charactersLeft": "zbývá znaků: {{count}}",
+    "addNewMessage": "Přidat novou zprávu",
+    "send": "Odeslat",
+    "uploadFile": "Uploadovat soubor",
+    "informationLabel": "{{author}}. {{text}} v {{date}}",
+    "messages": "Zprávy",
+    "addMessagePlaceHolder": "Začněte psát…",
+    "characterLimitAlert": "Dosažen znakový limit",
+    "a11y": {
+      "itemListBoxLabel": "Vyberte položku, které se zpráva týká."
+    }
+  }
+}

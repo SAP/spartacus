@@ -14,7 +14,7 @@
         (keydown)="handleKeydownEvent(i, tabs, mode, $event)"
         [attr.aria-selected]="mode === TAB_MODE.ACCORDIAN ? null : isOpen(i)"
         [attr.aria-expanded]="mode === TAB_MODE.TAB ? null : isOpen(i)"
-        [attr.aria-controls]="'section-' + i"
+        [attr.aria-controls]="isOpen(i) ? 'section-' + i : null"
         [attr.tabindex]="getTabIndex(i, mode)"
         [attr.id]="tab.id"
         [attr.title]="getTitle(mode, i)"

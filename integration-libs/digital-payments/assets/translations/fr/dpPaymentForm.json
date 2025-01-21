@@ -1,0 +1,16 @@
+{
+  "dpPaymentForm": {
+    "redirect": "Vous serez bientôt redirigé vers la page d'un tiers pour l'enregistrement de la carte.",
+    "callback": "Veuillez patienter... Nous récupérons les détails du paiement...",
+    "cancelledOrFailed": "L'enregistrement de la carte a échoué ou a été annulé.",
+    "error": {
+      "redirect": "Impossible de lancer l'opération. Veuillez réessayer.",
+      "paymentFetch": "Impossible d'obtenir les détails du paiement. Veuillez réessayer.",
+      "unknown": "Une erreur inconnue s'est produite lors de la récupération du paiement. Veuillez contacter le service d'assistance."
+    },
+    "confirmation": {
+      "heading": "Vous avez des modifications non sauvegardées.",
+      "text": "Si vous fermez cette boîte de dialogue, vous perdrez toutes les modifications que vous avez apportées. Êtes-vous sûr de vouloir fermer cette boîte de dialogue ?"
+    }
+  }
+}

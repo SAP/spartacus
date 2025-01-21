@@ -1,0 +1,79 @@
+{
+  "addressForm": {
+    "title": "Tytuł",
+    "titleOptional": "Tytuł (opcjonalny)",
+    "defaultTitle": "Tytuł",
+    "firstName": {
+      "label": "Imię",
+      "placeholder": "Imię"
+    },
+    "lastName": {
+      "label": "Nazwisko",
+      "placeholder": "Nazwisko"
+    },
+    "address1": "Adres 1",
+    "address2": "Adres 2 (opcjonalny)",
+    "country": "Kraj/region",
+    "city": {
+      "label": "Miasto",
+      "placeholder": "Miasto"
+    },
+    "state": "Województwo",
+    "zipCode": {
+      "label": "Kod pocztowy",
+      "placeholder": "Kod pocztowy"
+    },
+    "phoneNumber": {
+      "label": "Numer telefonu (opcjonalny)",
+      "placeholder": "np. (###) - ### - ####"
+    },
+    "cellphone": {
+      "label": "Numer telefonu komórkowego (opcjonalny)",
+      "placeholder": "np. (###) - ### - ###"
+    },
+    "saveAsDefault": "Zapisz jako domyślny",
+    "chooseAddress": "Wybierz adres",
+    "streetAddress": "Ulica",
+    "aptSuite": "Numer mieszkania",
+    "selectOne": "Wybierz jeden...",
+    "setAsDefault": "Ustaw jako domyślny adres dostawy",
+    "titleRequired": "Tytuł jest wymagany.",
+    "userAddressAddSuccess": "Nowy adres został pomyślnie dodany!",
+    "userAddressUpdateSuccess": "Aktualizacja adresu powiodła się!",
+    "userAddressDeleteSuccess": "Adres został usunięty!",
+    "invalidAddress": "Nieprawidłowy adres"
+  },
+  "addressBook": {
+    "addNewDeliveryAddress": "Dodaj nowy adres dostawy",
+    "editDeliveryAddress": "Edytuj adres dostawy",
+    "areYouSureToDeleteAddress": "Czy na pewno chcesz usunąć ten adres?",
+    "addNewAddress": "Dodaj nowy adres",
+    "addAddress": "Dodaj adres",
+    "updateAddress": "Aktualizuj adres",
+    "backToAddressList": "Powrót do listy adresowej",
+    "defaultDeliveryAddress": "Domyślny adres dostawy",
+    "additionalDeliveryAddress": "Dodatkowy adres dostawy {{number}}"
+  },
+  "addressCard": {
+    "default": "DOMYŚLNY",
+    "selected": "Wybrany",
+    "selectedAddress": "Wybrany adres",
+    "setAsDefault": "Ustaw jako domyślny",
+    "shipTo": "Wyślij do:",
+    "billTo": "Odbiorca faktury",
+    "phoneNumber": "T",
+    "mobileNumber": "T"
+  },
+  "addressSuggestion": {
+    "verifyYourAddress": "Zweryfikuj adres",
+    "ensureAccuracySuggestChange": "Aby zapewnić prawidłowość dostawy, sugerujemy zmianę wskazaną poniżej.",
+    "chooseAddressToUse": "Wybierz adres, którego chcesz użyć:",
+    "suggestedAddress": "Sugerowany adres",
+    "enteredAddress": "Wprowadzony adres",
+    "editAddress": "Edytuj adres",
+    "saveAddress": "Zapisz adres"
+  },
+  "addressMessages": {
+    "setAsDefaultSuccessfully": "Adres {{ streetAddress }} został ustawiony jako domyślny."
+  }
+}

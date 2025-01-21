@@ -1,0 +1,129 @@
+{
+  "asmCustomer360": {
+    "alertErrorMessage": "Informace nelze načíst. Opakujte později nebo se obraťte na správce systému.",
+    "errorMessageHeader": "Jejda! Něco se pokazilo.",
+    "applyActionAlter": "Akci nelze dokončit. Zkuste to později znovu.",
+    "header": {
+      "title": "Profil zákazníka",
+      "newTitle": "Zákazník 360°",
+      "subTitle": "{{name}} Zobrazení Zákazník 360°",
+      "newSubTitle": "{{name}} Zobrazení 360",
+      "activeCartLabel": "{{cartSize}} položka přidána do košíku",
+      "recentOrderLabel": "Poslední objednávka {{price}}",
+      "recentTicketLabel": "Poslední tiket",
+      "signedUpAt": "Účet by vytvořen dne {{date}}"
+    },
+    "productListing": {
+      "totalNoItems": "Celkový počet položek {{count}}",
+      "totalPrice": "Cena celkem {{price}}",
+      "showMore": "Zobrazit více",
+      "showLess": "Zobrazit méně"
+    },
+    "productItem": {
+      "outOfStock": "Není skladem",
+      "quantity": "Množství: {{count}}",
+      "itemPrice": "Cena položky: {{price}}"
+    },
+    "activeCart": {
+      "header": "Aktivní košík",
+      "emptyDescription": "Momentálně neexistují žádné položky aktivního košíku",
+      "aria": {
+        "linkLabel": "Aktivní košík {{code}}"
+      }
+    },
+    "savedCart": {
+      "header": "Poslední uložený košík",
+      "emptyDescription": "Momentálně neexistují žádné položky uloženého košíku",
+      "aria": {
+        "linkLabel": "Poslední uložený košík {{code}}"
+      }
+    },
+    "productInterests": {
+      "header": "Zájmové oblasti",
+      "emptyDescription": "Momentálně neexistují žádné položky zájmu"
+    },
+    "profile": {
+      "address": "Adresa",
+      "billingAddress": "Fakturační adresa",
+      "deliveryAddress": "Dodací adresa",
+      "phone1": "Telefon 1",
+      "phone2": "Telefon 2",
+      "paymentMethodHeader": "Uložené způsoby platby"
+    },
+    "activity": {
+      "type": "Typ",
+      "id": "ID",
+      "description": "Popis",
+      "status": "Status",
+      "created": "Vytvořeno",
+      "updated": "Aktualizováno",
+      "numberOfCartItems": "Košík s {{count}} položkami",
+      "cart": "Košík",
+      "order": "Objednávka",
+      "savedCart": "Uložený košík",
+      "emptyStateText": "Momentálně neexistuje žádná zaznamenaná činnost zákazníka",
+      "headerText": "Všeobecné"
+    },
+    "productReviews": {
+      "columnHeaders": {
+        "item": "Položka",
+        "dateAndStatus": "Datum / status",
+        "rating": "Hodnocení",
+        "review": "Recenze"
+      },
+      "header": "Recenze produktů",
+      "emptyDescription": "Momentálně neexistují žádné položky recenze produktů",
+      "sku": "SKU"
+    },
+    "supportTickets": {
+      "columnHeaders": {
+        "id": "ID",
+        "headline": "Nadpis",
+        "category": "Kategorie"
+      },
+      "header": "Tikety podpory",
+      "emptyDescription": "Momentálně neexistují žádné tikety podpory"
+    },
+    "coupons": {
+      "headerText": "Kupóny",
+      "emptyDescription": "Momentálně neexistují žádné kupóny",
+      "applyButtonText": "Použít v košíku",
+      "applied": "Kupón je použitý",
+      "removeButtonText": "Odebrat"
+    },
+    "promotions": {
+      "headerText": "Akce",
+      "emptyDescription": "Momentálně neexistují žádné akce",
+      "applied": "Akce je využitá",
+      "headerName": "Název",
+      "headerAction": "Akce"
+    },
+    "customerCoupons": {
+      "headerText": "Kupóny zákazníka",
+      "emptyDescription": "Momentálně neexistují žádné kupóny zákazníka.",
+      "applyButtonText": "Přiřadit zákazníkovi",
+      "removeButtonText": "Odebrat",
+      "availableTab": "K dispozici",
+      "sentTab": "Odeslané",
+      "searchBox": "Kupón"
+    },
+    "maps": {
+      "storeClosed": "Zavřít",
+      "storesFound": "Nalezeno {{ initial }} – {{ end }} z {{ total }} prodejen"
+    },
+    "overviewTab": "Přehled",
+    "profileTab": "Profil",
+    "activityTab": "Činnost",
+    "feedbackTab": "Zpětná vazba",
+    "promotionsTab": "Akce",
+    "mapsTab": "Mapy",
+    "storeLocationsTab": "Místa obchodů",
+    "aria": {
+      "activeCartCode": "Aktivní košík {{code}}",
+      "recentOrderCode": "Poslední objednávka {{code}}"
+    },
+    "pagination": "Stránkování",
+    "page": "Strana {{number}}",
+    "emptyCellValue": "---"
+  }
+}

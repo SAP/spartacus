@@ -1,0 +1,192 @@
+{
+  "orderDetails": {
+    "orderId": "ऑर्डर #",
+    "orderNumber": "ऑर्डर संख्या",
+    "replenishmentId": "पुनःपूर्ति #",
+    "purchaseOrderId": "क्रय ऑर्डर #",
+    "purchaseOrderNumber": "क्रय ऑर्डर संख्या",
+    "emptyPurchaseOrderId": "कोई नहीं",
+    "none": "कोई नहीं {{value}}",
+    "placed": "दिया गया",
+    "placedBy": "द्वारा स्थापित",
+    "unit": "इकाई",
+    "costCenter": "लागत केंद्र",
+    "costCenterAndUnit": "लागत केंद्र / इकाई ",
+    "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
+    "methodOfPayment": "भुगतान की विधि",
+    "payByAccount": "खाते द्वारा भुगतान करें",
+    "paidByCreditCard": "(क्रेडिट कार्ड द्वारा भुगतान किया गया)",
+    "status": "स्थिति",
+    "active": "सक्रिय",
+    "shippedOn": "शिप करे का दिनांक",
+    "shippingMethod": "शिपिंग विधि",
+    "placedOn": "दिनांक को किया गया",
+    "startOn": "प्रारंभ दिनांक",
+    "nextOrderDate": "अगले ऑर्डर का दिनांक",
+    "frequency": "आवृत्ति",
+    "cancelled": " रद्द किया गया",
+    "deliveryStatus_IN_TRANSIT": "ट्रांज़िट में",
+    "deliveryStatus_READY_FOR_PICKUP": "पिकअप के लिए तैयार है",
+    "deliveryStatus_READY_FOR_SHIPPING": "शिपिंग के लिए तैयार",
+    "deliveryStatus_WAITING": "प्रतीक्षा हो रही है",
+    "deliveryStatus_DELIVERING": "वितरण हो रहा है",
+    "deliveryStatus_PICKPACK": "शिपमेंट के लिए तैयार कर रहे हैं",
+    "deliveryStatus_PICKUP_COMPLETE": "पिकअप पूर्ण",
+    "deliveryStatus_DELIVERY_COMPLETED": "वितरण पूर्ण",
+    "deliveryStatus_PAYMENT_NOT_CAPTURED": "भुगता समस्या",
+    "deliveryStatus_IN_PROCESS": "ऑर्डर प्रोसेसिंग",
+    "deliveryStatus_READY": "ऑर्डर प्रोसेसिंग",
+    "deliveryStatus_DELIVERY_REJECTED": "वितरण अस्वीकृत हुआ",
+    "deliveryStatus_SHIPPED": "भेज दिया गया है",
+    "deliveryStatus_TAX_NOT_COMMITTED": "कर समस्या",
+    "deliveryStatus_CANCELLED": "रद्द किया गया",
+    "statusDisplay_cancelled": "रद्द किया गया",
+    "statusDisplay_cancelling": "लंबित रद्द करें",
+    "statusDisplay_completed": "पूर्ण हुआ",
+    "statusDisplay_created": "बनाया गया",
+    "statusDisplay_error": "लंबित",
+    "statusDisplay_Error": "लंबित",
+    "statusDisplay_processing": "लंबित",
+    "statusDisplay_open": "खोलें",
+    "statusDisplay_pending": {
+      "approval": "लंबित अनुमोदन",
+      "merchant": {
+        "approval": "लंबित मर्चेंट अनुमोदन"
+      }
+    },
+    "statusDisplay_approved": "अनुमोदित",
+    "statusDisplay_rejected": "अस्वीकृत",
+    "statusDisplay_merchant": {
+      "approved": "मर्चेंट अनुमोदित",
+      "rejected": "मर्चेंट अस्वीकृत"
+    },
+    "statusDisplay_assigned": {
+      "admin": "प्रशासक को असाइन किया गया"
+    },
+    "consignmentTracking": {
+      "action": "पैकेज ट्रैक करें",
+      "dialog": {
+        "header": "ट्रैकिंग की जानकारी",
+        "shipped": "भेज दिया गया",
+        "estimate": "अनुमानित वितरण",
+        "carrier": "वितरण सेवा",
+        "trackingId": "ट्रैकिंग संख्या",
+        "noTracking": "वेयरहाउस से पैकेज भेज दिया गया है. पैकेज शिप होने के बाद ट्रैकिंग जानकारी उपलब्ध होगी.",
+        "loadingHeader": "कंसाइनमेंट ट्रैकिंग"
+      }
+    },
+    "cancellationAndReturn": {
+      "returnAction": "वापसी का अनुरोध करें",
+      "cancelAction": "आइटम रद्द करें",
+      "item": "आइटम",
+      "itemPrice": "आइटम मूल्य",
+      "quantity": "अधिकतम मात्रा",
+      "returnQty": "वापस की गई मात्रा",
+      "cancelQty": "रद्द की गई मात्रा",
+      "setAll": "सभी मात्राएं अधिकतम पर सेट करें",
+      "totalPrice": "कुल",
+      "submit": "अनुरोध सबमिट करें",
+      "submitDescription": "अनुरोध सबमिट करें. इस पृष्ठ के आइटम रद्दकरण अनुरोध में शामिल किए जाएंगे.",
+      "returnSuccess": "आपका वापसी अनुरोध ({{rma}}) सबमिट किया गया",
+      "cancelSuccess": "आपका रद्दकरण अनुरोध सबमिट किया गया (मूल ऑर्डर {{orderCode}} अपडेट किया जाएगा)"
+    },
+    "cancelReplenishment": {
+      "title": "पुनःपूर्ति रद्द करें ",
+      "description": "कोई भावी पुनः पूर्ति ऑर्डर रद्द करें?",
+      "accept": "हां",
+      "reject": "नहीं",
+      "cancelSuccess": "पुनः पूर्ति ऑर्डर #{{replenishmentOrderCode}} सफलतापूर्वक रद्द किया गया"
+    },
+    "caption": "ऑर्डर सामग्री."
+  },
+  "orderHistory": {
+    "orderHistory": "ऑर्डर का इतिहास",
+    "orderId": "ऑर्डर #",
+    "emptyPurchaseOrderId": "कोई नहीं",
+    "date": "दिनांक",
+    "status": "स्थिति",
+    "PONumber": "P.O. संख्या",
+    "total": "कुल",
+    "noOrders": "इस खाते के लिए हमारे पास कोई ऑर्डर रिकॉर्ड नहीं हैं.",
+    "noReplenishmentOrders": "इस खाते के लिए हमारे पास कोई पुनः पूर्ति ऑर्डर रिकॉर्ड नहीं हैं.",
+    "startShopping": "शॉपिंग प्रारंभ करें",
+    "sortBy": "इसके द्वारा क्रमित",
+    "sortOrders": "ऑर्डर क्रमित करें",
+    "replenishmentOrderHistory": "पुनःपूर्ति ऑर्डर इतिहास",
+    "replenishmentOrderId": "पुनःपूर्ति #",
+    "purchaseOrderNumber": "PO #",
+    "costCenter": "लागत केंद्र",
+    "startOn": "प्रारंभ दिनांक",
+    "frequency": "आवृत्ति",
+    "nextOrderDate": "अगले ऑर्डर का दिनांक",
+    "cancel": "रद्द करें",
+    "cancelled": "रद्द किया गया",
+    "replenishmentHistory": "पुनःपूर्ति इतिहास",
+    "notFound": "कोई ऑर्डर नहीं मिला ",
+    "actions": "क्रियाएं"
+  },
+  "AccountOrderHistoryTabContainer": {
+    "tabs": {
+      "AccountOrderHistoryComponent": "सभी ऑर्डर ({{param}})",
+      "OrderReturnRequestListComponent": "वापसियाँ ({{param}})"
+    },
+    "tabPanelContainerRegion": "ऑर्डर इतिहास विवरण के साथ समूह",
+    "tabPanelContainerRegionGroup": "ऑर्डर इतिहास विवरण के साथ समूह"
+  },
+  "returnRequestList": {
+    "returnRequestId": "वापसी #",
+    "orderId": "ऑर्डर#",
+    "date": "निर्माण दिनांक",
+    "status": "स्थिति",
+    "sortBy": "इसके द्वारा क्रमित",
+    "sortReturns": "वापसी क्रमित करें",
+    "statusDisplay_APPROVAL_PENDING": "लंबित अनुमोदन",
+    "statusDisplay_CANCELED": "रद्द किया गया",
+    "statusDisplay_CANCELLING": "रद्द किया जा रहा है",
+    "statusDisplay_WAIT": "प्रतीक्षा करें",
+    "statusDisplay_RECEIVED": "प्राप्त",
+    "statusDisplay_RECEIVING": "प्राप्त कर रहा है",
+    "statusDisplay_APPROVING": "अनुमोदित कर रहा है",
+    "statusDisplay_REVERSING_PAYMENT": "भुगतान वापस किया जा रहा है",
+    "statusDisplay_PAYMENT_REVERSED": "भुगतान वापस गया",
+    "statusDisplay_PAYMENT_REVERSAL_FAILED": "भुगतान वापसी विफल",
+    "statusDisplay_REVERSING_TAX": "कर वापस किया जा रहा है",
+    "statusDisplay_TAX_REVERSED": "कर वापस गया",
+    "statusDisplay_TAX_REVERSAL_FAILED": "कर वापसी विफल",
+    "statusDisplay_COMPLETED": "पूर्ण हुआ"
+  },
+  "returnRequest": {
+    "returnRequestId": "वापसी का अनुरोध #",
+    "orderCode": "ऑर्डर के लिए #",
+    "status": "वापसी स्थिति",
+    "cancel": "वापसी अनुरोध रद्द करें",
+    "item": "वर्णन",
+    "itemPrice": "आइटम मूल्य",
+    "returnQty": "मात्रा वापस करें",
+    "total": "कुल",
+    "summary": "कुल वापसी",
+    "subtotal": "उप योग",
+    "deliveryCode": "वितरण की लागत",
+    "estimatedRefund": "अनुमानित धन वापसी",
+    "note": "कुल योग अनुमानित है और लागू कर अन्य शुल्क शामिल नहीं हैं.",
+    "cancelSuccess": "आपका वापसी अनुरोध ({{rma}}) रद्द किया गया",
+    "caption": "ऑर्डर सामग्री."
+  },
+  "reorder": {
+    "button": "पुनःऑर्डर",
+    "dialog": {
+      "reorderProducts": "पुनः ऑर्डर उत्पाद",
+      "messages": {
+        "reviewConfiguration": "\"{{ productCode}}\" कॉन्फ़िगरेशन के साथ त्रुटि उत्पन्न हुई.",
+        "lowStock": "{{ productName }}: {{ quantity }} के लिए मात्रा {{ quantityAdded }} तक कम की गई.",
+        "noStock": "{{ productName }} वर्तमान में स्टॉक में नहीं है.",
+        "pricingError": "\"{{ productCode }}\" के साथ मूल्य-निर्धारण समस्या",
+        "unresolvableIssues": "\"{{ productCode }}\" के साथ अपरिचित समस्या.",
+        "success": "उत्पाद सफलतापूर्वक कार्ट में जोड़ा गया"
+      },
+      "areYouSureToReplaceCart": "वर्तमान कार्ट नए आइटम से पुनर्स्थापित की जाएगी. क्या आप जारी रखना चाहते हैं?",
+      "cancel": "रद्द करें",
+      "continue": "जारी रखें"
+    }
+  }
+}

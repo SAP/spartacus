@@ -1,0 +1,9 @@
+{
+  "myAccountV2NotifiationPerference": {
+    "header": "알림 채널",
+    "message": "원하는 알림 채널을 선택하십시오.",
+    "note": "참고: ",
+    "noteMessage": "모든 채널을 비활성화하면 나중에 통지를 받을 수 없습니다.",
+    "EMAIL": "이메일:"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "myAccountV2OrderHistory": {
+    "heading": "Tutti gli ordini ({{param}})",
+    "item": "Articolo {{param}}",
+    "items": "Articoli {{param}}",
+    "totalPrice": "Prezzo totale: {{param}}",
+    "consignmentCode": "Spedizione {{param}}",
+    "statusDate": "Ultimo aggiornamento: {{param}}",
+    "returnProcessed": "Reso elaborato: {{param}}",
+    "deliveryPointOfServiceDetails": {
+      "itemsToBePickUp": "Da prelevare - "
+    },
+    "checkoutMode": {
+      "deliveryEntries": "Da spedire - "
+    },
+    "checkoutPickupInStore": {
+      "heading": "Da prelevare - "
+    },
+    "orderListResults": "Lista di ordini",
+    "orderListPagination": "Impaginazione lista di ordini",
+    "totalPriceLabel": "Prezzo totale",
+    "orderPlaced": "Data inserimento ordine",
+    "orderCodeLabel": "Codice ordine",
+    "consignmentDetailLabel": "Informazioni spedizione",
+    "consignmentNumberLabel": "Numero spedizione",
+    "consignmentStatusLabel": "Stato spedizione",
+    "consignmentStatusDateLabel": "Data ultimo aggiornamento",
+    "estimateDeliveryLabel": "Data di consegna stimata"
+  },
+  "myAccountV2OrderDetails": {
+    "returnItems": "Restituisci articoli",
+    "cancelItems": "Annulla articoli",
+    "downloadInvoices": "Scarica fatture",
+    "viewAllOrders": "Visualizza tutti gli ordini",
+    "noInvoices": "Fatture non ancora generate. Tornare in seguito."
+  },
+  "myAccountV2Orders": {
+    "item": "Articolo {{value}}",
+    "items": "Articoli {{value}}",
+    "heading": "Ordini e resi",
+    "orderNumber": "Numero dell'ordine ({{value}})",
+    "purchasedOn": "Acquistato il: {{value}}",
+    "orderedItems": "Articoli ordinati: {{value}}",
+    "totalPrice": "Prezzo totale: {{value}}",
+    "orderDetails": "Dettagli ordine",
+    "orderDetailsLabel": "Mostra i dettagli dell'ordine per l'ordine numero {{value}}",
+    "orderStatusLabel": "Stato ordine",
+    "returnOrder": "Restituisci ordine",
+    "showMore": "Mostra di più",
+    "showMoreLabel": "Passa alla cronologia degli ordini"
+  }
+}

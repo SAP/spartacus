@@ -1,0 +1,32 @@
+{
+  "storeFinder": {
+    "openUntil": "閉店時間",
+    "closed": "定休日",
+    "back": "戻る",
+    "call": "電話",
+    "getDirections": "ルート案内取得",
+    "ariaLabelGetDirections": "ルート案内取得 (このリンクをクリックすると新しいウィンドウが開きます)",
+    "ariaLabelCountriesCount": "店舗が {{ count }} カ国で見つかりました",
+    "listView": "リストビュー",
+    "mapView": "地図ビュー",
+    "noStoresFound": "店舗が見つかりませんでした",
+    "storeHours": "店舗の営業時間",
+    "storeFeatures": "店舗の機能",
+    "storeFinder": "店舗検索",
+    "storesFoundTitle": "店舗が見つかりました",
+    "storesFound": "{{ count }} 件の店舗が見つかりました",
+    "storesFound_other": "{{ count }} 件の店舗が見つかりました",
+    "fromStoresFound": "{{ count }} 件の店舗が見つかりました",
+    "fromStoresFound_other": "{{ count }} 件の店舗が見つかりました",
+    "findStore": "店舗検索",
+    "useMyLocation": "自分の位置を使用",
+    "viewAllStores": "すべての店舗を表示",
+    "contactUs": "連絡先",
+    "searchBox": "郵便番号、市区町村名、または住所を入力します",
+    "backToList": "リストに戻る",
+    "noStoresMessage": "データベースに店舗がありません...",
+    "geolocationNotEnabled": "近くにある店舗を見つけられません。位置情報の同意が有効になっていません",
+    "searchNearestStores": "近くにある店舗を検索",
+    "searchBoxLabel": "郵便番号、市区町村名、または住所を入力します"
+  }
+}

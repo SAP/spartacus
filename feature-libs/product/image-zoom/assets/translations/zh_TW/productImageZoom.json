@@ -1,0 +1,9 @@
+{
+  "productImageZoomTrigger": {
+    "expand": "展開圖像"
+  },
+  "productImageZoomDialog": {
+    "zoomedInImage": "放大圖像",
+    "close": "關閉"
+  }
+}

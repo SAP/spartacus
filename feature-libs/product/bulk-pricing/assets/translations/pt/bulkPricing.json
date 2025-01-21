@@ -1,0 +1,7 @@
+{
+  "bulkPricingTable": {
+    "quantity": "Quantidade",
+    "price": "Preço",
+    "discount": "Desconto"
+  }
+}
