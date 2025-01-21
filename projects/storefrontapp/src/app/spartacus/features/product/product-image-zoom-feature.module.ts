@@ -44,4 +44,4 @@ import {
     }),
   ],
 })
-export class ImageZoomFeatureModule {}
+export class ProductImageZoomFeatureModule {}

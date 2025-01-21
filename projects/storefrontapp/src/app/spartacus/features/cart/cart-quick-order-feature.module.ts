@@ -43,4 +43,4 @@ import { provideConfig } from '@spartacus/core';
     }),
   ],
 })
-export class QuickOrderFeatureModule {}
+export class CartQuickOrderFeatureModule {}

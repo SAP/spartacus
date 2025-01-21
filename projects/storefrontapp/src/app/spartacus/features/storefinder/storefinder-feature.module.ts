@@ -42,4 +42,4 @@ import {
     }),
   ],
 })
-export class StorefinderFeatureModule {}
+export class StoreFinderFeatureModule {}

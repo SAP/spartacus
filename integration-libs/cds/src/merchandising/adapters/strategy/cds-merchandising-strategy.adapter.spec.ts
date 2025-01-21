@@ -11,10 +11,17 @@ import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
 import { StrategyProducts } from '../../model/strategy-products.model';
 import { CdsMerchandisingStrategyAdapter } from './cds-merchandising-strategy.adapter';
 import createSpy = jasmine.createSpy;
+import { BaseSiteService } from '@spartacus/core';
+import { of } from 'rxjs';
 
 const STRATEGY_ID = 'test-strategy-id';
 const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
-const strategyIdObject = { strategyId: STRATEGY_ID };
+const TEST_BASE_SITE = 'testBaseSite';
+
+const TEST_URL_PARAMS = {
+  baseSite: TEST_BASE_SITE,
+  strategyId: STRATEGY_ID,
+};
 
 const expectedProductsFromStrategy: StrategyProducts = {
   resultCount: 1,
@@ -50,7 +57,13 @@ const strategyRequestUndefinedConsentReference = {
 
 class MockCdsEndpointsService {
   getUrl = createSpy('MockCdsEndpointsService.getUrl').and.callFake(
-    (endpoint) => endpoint
+    (endpoint: string) => endpoint
+  );
+}
+
+class MockBaseSiteService {
+  getActive = createSpy('MockBaseSiteService.getActive').and.callFake(() =>
+    of(TEST_BASE_SITE)
   );
 }
 
@@ -66,6 +79,10 @@ describe('MerchandisingStrategyAdapter', () => {
         {
           provide: CdsEndpointsService,
           useClass: MockCdsEndpointsService,
+        },
+        {
+          provide: BaseSiteService,
+          useClass: MockBaseSiteService,
         },
         CdsMerchandisingStrategyAdapter,
         provideHttpClient(withInterceptorsFromDi()),
@@ -129,7 +146,7 @@ describe('MerchandisingStrategyAdapter', () => {
 
       expect(cdsEndpointsService.getUrl).toHaveBeenCalledWith(
         STRATEGY_PRODUCTS_ENDPOINT_KEY,
-        strategyIdObject,
+        TEST_URL_PARAMS,
         strategyRequest.queryParams
       );
 
@@ -162,7 +179,7 @@ describe('MerchandisingStrategyAdapter', () => {
 
       expect(cdsEndpointsService.getUrl).toHaveBeenCalledWith(
         STRATEGY_PRODUCTS_ENDPOINT_KEY,
-        strategyIdObject,
+        TEST_URL_PARAMS,
         strategyRequest.queryParams
       );
 

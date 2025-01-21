@@ -43,4 +43,4 @@ import {
     }),
   ],
 })
-export class ImportExportFeatureModule {}
+export class CartImportExportFeatureModule {}

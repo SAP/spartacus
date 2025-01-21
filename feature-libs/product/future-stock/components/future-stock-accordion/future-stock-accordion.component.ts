@@ -20,6 +20,7 @@ export class FutureStockAccordionComponent {
 
   constructor(protected futureStockService: FutureStockFacade) {
     useFeatureStyles('a11yCroppedFocusRing');
+    useFeatureStyles('a11yUseProperTextColorForFutureStockAccordion');
   }
 
   toggle(): void {

@@ -88,10 +88,6 @@
     "commerceCloudPublicKey": {
       "type": "string",
       "description": "Commerce Clould public key required for authentication between OPF Cloud Commerce Adapter and Spartacus"
-    },
-    "opfGooglePayApiUrl": {
-      "type": "string",
-      "description": "GooglePay Api url required for Quick Buy Google Pay Integration."
     }
   },
   "required": []
