@@ -1,0 +1,73 @@
+{
+  "updateEmailForm": {
+    "newEmailAddress": {
+      "label": "Nouvelle adresse e-mail",
+      "placeholder": "Saisissez l'adresse e-mail"
+    },
+    "confirmNewEmailAddress": {
+      "label": "Confirmez la nouvelle adresse e-mail",
+      "placeholder": "Saisissez l'adresse e-mail"
+    },
+    "enterValidEmail": "Veuillez saisir une adresse e-mail valide.",
+    "bothEmailMustMatch": "Les deux adresses e-mail doivent correspondre",
+    "password": {
+      "label": "Mot de passe",
+      "placeholder": "Saisissez le mot de passe"
+    },
+    "pleaseInputPassword": "Veuillez saisir le mot de passe",
+    "emailUpdateSuccess": "Parfait ! Veuillez vous connecter avec {{ newUid }}"
+  },
+  "register": {
+    "confirmPassword": {
+      "action": "Confirmer le mot de passe",
+      "label": "Confirmer le mot de passe",
+      "placeholder": "Confirmer le mot de passe"
+    },
+    "managementInMyAccount": "Gestion dans Mon compte",
+    "termsAndConditions": "Conditions générales",
+    "signIn": "J'ai déjà un compte. Connexion",
+    "register": "S'inscrire",
+    "confirmNewPassword": "Confirmer le nouveau mot de passe",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "createAccount": "Créer un compte",
+    "title": "Titre",
+    "titleOptional": "Titre (facultatif)",
+    "firstName": {
+      "label": "Prénom",
+      "placeholder": "Prénom"
+    },
+    "lastName": {
+      "label": "Nom de famille",
+      "placeholder": "Nom de famille"
+    },
+    "emailAddress": {
+      "label": "Adresse e-mail",
+      "placeholder": "Adresse e-mail"
+    },
+    "password": {
+      "label": "Mot de passe",
+      "placeholder": "Mot de passe"
+    },
+    "newPassword": "Nouveau mot de passe",
+    "emailMarketing": "Utiliser mes données personnelles pour recevoir des lettres d'information par e-mail dans le cadre de campagnes de marketing. Pour modifier vos paramètres, allez à Gestion des consentements dans Mon compte.",
+    "confirmThatRead": "Je confirme que j'ai lu et accepté les",
+    "selectTitle": "Sélectionner un titre",
+    "passwordMinRequirements": "Voici un guide rapide pour un mot de passe sûr : Utilisez au moins 8 caractères avec un mélange de lettres majuscules et minuscules, de chiffres et de symboles.",
+    "passwordStrengthRequirements": "Voici un guide rapide pour un mot de passe sûr : utilisez au moins 8 caractères avec un mélange de lettres majuscules et minuscules, de chiffres et de symboles. Veillez à ne pas utiliser le même caractère consécutivement.",
+    "bothPasswordMustMatch": "Les deux mots de passe doivent correspondre",
+    "titleRequired": "Le titre est obligatoire.",
+    "postRegisterMessage": "Veuillez vous connecter avec les identifiants fournis.",
+    "postRegisterSuccessMessage": "Enregistrement réussi : Veuillez vous connecter avec les identifiants fournis"
+  },
+  "forgottenPassword": {
+    "resetPassword": "Réinitialiser le mot de passe",
+    "enterEmailAddressAssociatedWithYourAccount": "Saisissez l'adresse e-mail associée à votre compte",
+    "emailAddress": {
+      "label": "Adresse e-mail",
+      "placeholder": "Saisissez l'adresse e-mail"
+    },
+    "enterValidEmail": "Saisissez une adresse e-mail valide.",
+    "passwordResetEmailSent": "Un e-mail vous a été envoyé avec des informations pour réinitialiser votre mot de passe.",
+    "passwordResetSuccess": "Parfait ! Vous pouvez désormais vous connecter en utilisant votre nouveau mot de passe."
+  }
+}

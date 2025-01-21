@@ -1,0 +1,73 @@
+{
+  "updateEmailForm": {
+    "newEmailAddress": {
+      "label": "Nuovo indirizzo e-mail",
+      "placeholder": "Inserisci e-mail"
+    },
+    "confirmNewEmailAddress": {
+      "label": "Conferma nuovo indirizzo e-mail",
+      "placeholder": "Inserisci e-mail"
+    },
+    "enterValidEmail": "Inserire un indirizzo e-mail valido.",
+    "bothEmailMustMatch": "Le e-mail devono coincidere",
+    "password": {
+      "label": "Password",
+      "placeholder": "Inserisci password"
+    },
+    "pleaseInputPassword": "Inserisci password",
+    "emailUpdateSuccess": "Operazione eseguita correttamente. Accedere con {{ newUid }}."
+  },
+  "register": {
+    "confirmPassword": {
+      "action": "Conferma password",
+      "label": "Conferma password",
+      "placeholder": "Conferma password"
+    },
+    "managementInMyAccount": "Gestione in Account personale.",
+    "termsAndConditions": "Termini e condizioni",
+    "signIn": "Ho già un account. Accedi",
+    "register": "Registrati",
+    "confirmNewPassword": "Conferma nuova password",
+    "resetPassword": "Reimposta password",
+    "createAccount": "Crea un account",
+    "title": "Titolo",
+    "titleOptional": "Titolo (facoltativo)",
+    "firstName": {
+      "label": "Nome",
+      "placeholder": "Nome"
+    },
+    "lastName": {
+      "label": "Cognome",
+      "placeholder": "Cognome"
+    },
+    "emailAddress": {
+      "label": "Indirizzo e-mail",
+      "placeholder": "Indirizzo e-mail"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Password"
+    },
+    "newPassword": "Nuova password",
+    "emailMarketing": "Utilizzare i dati personali per ricevere newslettere e-mail per campagne di marketing. Per modificare le impostazioni, passare a Gestione consensi in Account personale.",
+    "confirmThatRead": "Confermo di aver letto e accettato",
+    "selectTitle": "Seleziona titolo",
+    "passwordMinRequirements": "Questa è una guida rapida per una password sicura: utilizzare almeno otto caratteri con una combinazione di lettere maiuscole e minuscole, numeri e simboli.",
+    "passwordStrengthRequirements": "Questa è una guida rapida per una password sicura: utilizzare almeno otto caratteri con una combinazione di lettere maiuscole e minuscole, numeri e simboli. Assicurarsi di non utilizzare lo stesso carattere due volte consecutive.",
+    "bothPasswordMustMatch": "Le password devono coincidere",
+    "titleRequired": "Il titolo è obbligatorio.",
+    "postRegisterMessage": "Accedere con le credenziali fornite.",
+    "postRegisterSuccessMessage": "Registrazione corretta. Accedere con le credenziali fornite."
+  },
+  "forgottenPassword": {
+    "resetPassword": "Reimposta password",
+    "enterEmailAddressAssociatedWithYourAccount": "Inserisci l'indirizzo e-mail associato all'account",
+    "emailAddress": {
+      "label": "Indirizzo e-mail",
+      "placeholder": "Inserisci e-mail"
+    },
+    "enterValidEmail": "Inserire un indirizzo e-mail valido.",
+    "passwordResetEmailSent": "È stata inviata un'e-mail contenente informazioni su come reimpostare la password.",
+    "passwordResetSuccess": "Operazione riuscita. Ora è possibile accedere utilizzando la nuova password."
+  }
+}

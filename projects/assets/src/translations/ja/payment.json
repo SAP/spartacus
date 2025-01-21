@@ -1,0 +1,62 @@
+{
+  "paymentForm": {
+    "payment": "支払",
+    "choosePaymentMethod": "支払方法を選択",
+    "paymentType": "支払タイプ",
+    "accountHolderName": {
+      "label": "口座名義人名",
+      "placeholder": "口座名義人名"
+    },
+    "cardNumber": "カード番号",
+    "expirationDate": "有効期限",
+    "securityCode": "セキュリティコード (CVV)",
+    "securityCodeTitle": "カード照合番号",
+    "saveAsDefault": "デフォルトとして保存",
+    "setAsDefault": "デフォルトの支払方法として設定",
+    "billingAddress": "請求先住所",
+    "sameAsDeliveryAddress": "配送先住所と同じ",
+    "billingAddressSameAsShipping": "請求先住所は配送先住所と同じです",
+    "selectOne": "1 つ選択...",
+    "monthMask": "MM",
+    "yearMask": "YYYY",
+    "expirationYear": "有効期限の年 {{ selected }}",
+    "expirationMonth": "有効期限の月 {{ selected }}",
+    "useThisPayment": "この支払を使用",
+    "addNewPayment": "新しい支払を追加",
+    "paymentAddedSuccessfully": "新しい支払が正常に追加されました",
+    "changePayment": "支払を変更"
+  },
+  "paymentMethods": {
+    "paymentMethods": "支払方法",
+    "paymentMethodSelected": "支払方法選択済み",
+    "newPaymentMethodsAreAddedDuringCheckout": "チェックアウト時に新しい支払方法が追加されます。",
+    "invalidField": "InvalidField: {{ field }}"
+  },
+  "paymentCard": {
+    "deleteConfirmation": "この支払方法を削除してもよろしいですか?",
+    "setAsDefault": "デフォルトに設定",
+    "expires": "有効期限: {{ month }}/{{ year }}",
+    "defaultPaymentMethod": "✓ デフォルト",
+    "defaultPaymentLabel": "デフォルトの支払方法",
+    "additionalPaymentLabel": "その他の支払方法 {{ number }}",
+    "selected": "選択済み",
+    "selectedPayment": "選択された支払",
+    "deletePaymentSuccess": "支払方法が正常に削除されました",
+    "visa": "Visa カード",
+    "master": "Mastercard カード",
+    "masterEuro": "Mastercard Eurocard カード",
+    "dinersClub": "Diners Club カード",
+    "switch": "Switch カード",
+    "maestro": "Maestro カード",
+    "amex": "American Express カード",
+    "credit": "クレジットカード"
+  },
+  "paymentTypes": {
+    "title": "支払方法",
+    "paymentType_CARD": "クレジットカード",
+    "paymentType_ACCOUNT": "アカウント"
+  },
+  "paymentMessages": {
+    "setAsDefaultSuccessfully": "新しい支払がデフォルトとして正常に設定されました"
+  }
+}

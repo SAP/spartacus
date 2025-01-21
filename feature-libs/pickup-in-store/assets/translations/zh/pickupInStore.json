@@ -1,0 +1,92 @@
+{
+  "pickupInfo": {
+    "inStorePickup": "店内提货",
+    "pickupBy": "提货人",
+    "pickupFrom": "提货地点"
+  },
+  "pickupOptionDialog": {
+    "close": "关闭",
+    "modalHeader": "店内提货"
+  },
+  "pickupOptions": {
+    "legend": "送货方式",
+    "changeStore": "更改店铺",
+    "delivery": "发货（免费退货）",
+    "pickup": "免费店内提货",
+    "shipIt": "发货",
+    "selectStore": "选择店铺",
+    "freeReturn": "免费退货",
+    "storeIsNotSelected": "未选择提货店铺。"
+  },
+  "setPreferredStore": {
+    "makeThisMyStore": "将此设置为我的店铺",
+    "myStore": "我的店铺"
+  },
+  "store": {
+    "pickupFromHere": "在此提货",
+    "stockLevel_inStock": "有 {{ count }} 个现货 ",
+    "stockLevel_outOfStock": "缺货",
+    "viewHours": "查看营业时间"
+  },
+  "storeList": {
+    "noStoresMessage": "未在数据库中找到店铺..."
+  },
+  "storeSchedule": {
+    "closed": "已关闭",
+    "storeHours": "店铺营业时间"
+  },
+  "storeSearch": {
+    "findAStore": "查找店铺",
+    "findStores": "查找店铺",
+    "hideOutOfStockOptions": "隐藏缺货选项",
+    "searchPlaceholder": "输入邮政编码、城镇或地址",
+    "useMyLocation": "使用我的位置"
+  },
+  "addressBookPickupInStore": {
+    "heading": "提货店铺"
+  },
+  "storeFinderPickupInStore": {
+    "heading": "我的店铺"
+  },
+  "checkoutPickupInStore": {
+    "heading": "待提货商品",
+    "storeItemHeading": "提货店铺地址"
+  },
+  "cartItems": {
+    "item": "商品"
+  },
+  "cardActions": {
+    "getDirections": "获取方位，此链接将在新窗口中打开"
+  },
+  "deliveryPointOfServiceDetails": {
+    "itemsToBePickUp": "待提货商品",
+    "pickUpInStoreAddress": "提货店铺地址",
+    "itemsToBeShipped": "待发货商品",
+    "shippingAddress": "发货地址",
+    "deliveryMethod": "送货方式",
+    "deliveryOptions": "送货选项",
+    "statusDisplay_cancelled": "已取消",
+    "statusDisplay_cancelling": "取消待处理状态",
+    "statusDisplay_completed": "已完成",
+    "statusDisplay_created": "已创建",
+    "statusDisplay_error": "待处理",
+    "statusDisplay_Error": "待处理",
+    "statusDisplay_processing": "待处理",
+    "statusDisplay_open": "未完成",
+    "statusDisplay_pending": {
+      "approval": "等待批准",
+      "merchant": {
+        "approval": "等待商家批准"
+      }
+    },
+    "statusDisplay_approved": "已批准",
+    "statusDisplay_rejected": "已拒绝",
+    "statusDisplay_merchant": {
+      "approved": "商家已批准",
+      "rejected": "商家已拒绝"
+    },
+    "statusDisplay_assigned": {
+      "admin": "已分配至管理员"
+    }
+  }
+}

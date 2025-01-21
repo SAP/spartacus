@@ -1,0 +1,71 @@
+{
+  "epdVisualization": {
+    "visualViewer": {
+      "contentType": {
+        "drawing2D": "2D",
+        "model3D": "3D"
+      },
+      "toolbar": {
+        "homeButton": {
+          "label": "홈"
+        },
+        "zoomButton": {
+          "label": "확대/축소"
+        },
+        "panButton": {
+          "label": "이동"
+        },
+        "rotateButton": {
+          "label": "회전"
+        },
+        "isolateButton": {
+          "label": "분리"
+        },
+        "playButton": {
+          "label": "재생"
+        },
+        "pauseButton": {
+          "label": "일시 중지"
+        },
+        "hotspotsButton": {
+          "label": "핫스폿",
+          "show": "표시",
+          "hide": "숨기기"
+        },
+        "visualViewerAnimationSlider": {
+          "label": "애니메이션 슬라이더",
+          "role": "슬라이더"
+        }
+      }
+    },
+    "visualPicking": {
+      "visualPickingTab": {
+        "noProductReferences": "이 제품의 예비 부품이 없습니다."
+      },
+      "visualPickingProductList": {
+        "description": "설명",
+        "itemPrice": "가격",
+        "outOfStock": "재고 없음",
+        "id": "ID"
+      },
+      "visualPickingProductFilter": {
+        "input": {
+          "placeholder": "이름 또는 ID별 필터"
+        },
+        "searchButton": {
+          "label": "검색"
+        },
+        "resetButton": {
+          "label": "재설정"
+        }
+      }
+    },
+    "errors": {
+      "visualLoad": {
+        "noMatchingVisualFound": "일치하는 시각화가 없습니다.",
+        "multipleMatchingVisualsFound": "일치하는 시각화가 여러 개 있습니다.",
+        "unexpectedLoadError": "시각화를 로드하는 동안 오류가 발생했습니다."
+      }
+    }
+  }
+}

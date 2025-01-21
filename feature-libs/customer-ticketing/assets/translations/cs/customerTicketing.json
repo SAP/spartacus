@@ -1,0 +1,48 @@
+{
+  "customerTicketing": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "Tikety zákazníka",
+    "ticketId": "ID",
+    "createdOn": "Datum vytvoření",
+    "changedOn": "Změněno dne",
+    "status": "Status",
+    "message": "Zpráva",
+    "cancel": "Zrušit",
+    "submit": "Odeslat",
+    "uploadFile": "Uploadovat soubor",
+    "fileSizeLimit": "Maximální velikost souboru: {{count}} MB",
+    "maximumAttachment": "Maximálně jedna příloha ke zprávě",
+    "errorMessage": "Něco se nepovedlo",
+    "charactersLeft": "zbývá znaků: {{count}}",
+    "customerService": "služby zákazníkům"
+  },
+  "customerTicketingList": {
+    "subject": "Předmět",
+    "ticketCategory": "Kategorie",
+    "sortSubtitle": "Řadit podle",
+    "sortOrders": "Seřadit objednávky",
+    "noTickets": "Nemáte žádné požadavky",
+    "requestTitle": "Všechny požadavky",
+    "mobile": {
+      "ticketIdFull": "ID tiketu"
+    }
+  },
+  "createCustomerTicket": {
+    "createNewTicket": "Přidat",
+    "addNewRequest": "Přidat nový požadavek",
+    "addRequest": "Přidat požadavek",
+    "subject": "Předmět",
+    "category": "Kategorie",
+    "associateTo": "Přiřadit k",
+    "ticketCreated": "Požadavek vytvořen.",
+    "optionallySelectAssociatedObject": "Vybrat možnost",
+    "selectCategory": "Vybrat kategorii"
+  },
+  "customerTicketingDetails": {
+    "requestReopened": "Požadavek byl znovu otevřen.",
+    "requestClosed": "Požadavek byl uzavřen. V případě potřeby jej můžete znovu otevřít.",
+    "reopenRequest": "Znovu otevřít požadavek",
+    "closeRequest": "Uzavřít požadavek",
+    "ticketNotFound": "Tiket nebyl nalezen"
+  }
+}

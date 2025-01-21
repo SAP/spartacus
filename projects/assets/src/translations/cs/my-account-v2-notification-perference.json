@@ -1,0 +1,9 @@
+{
+  "myAccountV2NotifiationPerference": {
+    "header": "Kanály oznámení",
+    "message": "Nastavte si preferované kanály oznámení",
+    "note": "Poznámka: ",
+    "noteMessage": "Pokud deaktivujete všechny kanály, nebudete nadále dostávat žádná oznámení.",
+    "EMAIL": "E-mail:"
+  }
+}

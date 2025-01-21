@@ -1,0 +1,31 @@
+{
+  "pdfInvoices": {
+    "featureNotEnabled": "Nem lehet lekérni a számlákat. Győződjön meg róla, hogy engedélyezve van az SAP Invoice és a számlázási API.",
+    "invoicesLoadingError": "Hiba történt. Nem lehet megjeleníteni a rendelés számláit.",
+    "invoicesTable": {
+      "header": "Számlák",
+      "label": "Számlák tábla",
+      "invoiceId": "Számla #",
+      "createdAt": "Dátum",
+      "netAmount": "Nettó összeg",
+      "totalAmount": "Teljes összeg",
+      "attachment": "Számla letöltése",
+      "download": "Letöltés",
+      "attachmentDescription": "Számla ({{id}}) PDF-jének letöltése.",
+      "noneFound": "Nem találhatók számlák"
+    },
+    "downloadPDFError": "Hiba történt. Nem lehet lekérni a számla PDF-jét.",
+    "sortBy": "Rendezés alapja",
+    "sortInvoices": "Számlák rendezése",
+    "sorts": {
+      "byCreatedAtAsc": "Dátum szerint növekvő",
+      "byCreatedAtDesc": "Dátum szerint csökkenő",
+      "byInvoiceIdAsc": "Számlaszám szerint növekvő",
+      "byInvoiceIdDesc": "Számlaszám szerint csökkenő",
+      "byNetAmountAsc": "Nettó összeg szerint növekvő",
+      "byNetAmountDesc": "Nettó összeg szerint csökkenő",
+      "byTotalAmountAsc": "Teljes összeg szerint növekvő",
+      "byTotalAmountDesc": "Teljes összeg szerint csökkenő"
+    }
+  }
+}

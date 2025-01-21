@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
+import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   B2BUser,
   B2BUserRight,
@@ -11,6 +11,7 @@ import {
   B2BUserService,
   Budget,
 } from '@spartacus/organization/administration/core';
+import { FocusConfig } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { EMPTY, of, Subject } from 'rxjs';
 import { DisableInfoModule } from '../../shared';
@@ -22,8 +23,6 @@ import { MessageTestingModule } from '../../shared/message/message.testing.modul
 import { MessageService } from '../../shared/message/services/message.service';
 import { UserDetailsComponent } from './user-details.component';
 import createSpy = jasmine.createSpy;
-import { Directive, Input } from '@angular/core';
-import { FocusConfig } from '@spartacus/storefront';
 
 const mockCode = 'c1';
 
@@ -84,7 +83,6 @@ describe('UserDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        RouterTestingModule,
         I18nTestingModule,
         UrlTestingModule,
         CardTestingModule,

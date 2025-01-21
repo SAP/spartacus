@@ -1,0 +1,67 @@
+{
+  "savedCartDetails": {
+    "cartName": "Nombre",
+    "cartDescription": "Descripción",
+    "cartId": "ID",
+    "dateSaved": "Fecha grabada",
+    "items": "Artículos",
+    "quantity": "Cantidad",
+    "total": "Total",
+    "editSavedCart": "Editar cesta grabada",
+    "deleteSavedCart": "Borrar cesta grabada",
+    "addSelectedItems": "Agregar elementos seleccionados",
+    "emptyCartItems": "Vaciar cesta"
+  },
+  "savedCartList": {
+    "savedCarts": "Cestas grabadas ({{count}})",
+    "cartName": "Nombre",
+    "cartId": "ID",
+    "dateSaved": "Fecha grabada",
+    "cartDescription": "Descripción",
+    "quantity": "Cantidad",
+    "quantityFull": "Cantidad",
+    "total": "Total",
+    "actions": "Acciones",
+    "makeCartActive": "Habilitar cesta",
+    "notFound": "No se encontró ninguna cesta guardada",
+    "swapCartNoActiveCart": "La cesta existente ha sido correctamente activada por {{cartName}}.",
+    "swapCartWithActiveCart": "La cesta existente ha sido correctamente activada por {{cartName}}. Los artículos anteriores han sido grabados en una cesta{{previousCartName}}."
+  },
+  "savedCartCartPage": {
+    "messages": {
+      "cartSaved": "Los artículos de la cesta han sido correctamente grabados en la cesta \"{{cartName}}\""
+    }
+  },
+  "savedCartDialog": {
+    "saveForLater": "Grabar para después",
+    "itemsSavedForLater": "Todos los artículos de su cesta quedarán grabados para después",
+    "savedCartName": "Nombre de la cesta grabada",
+    "savedCartDescription": "Descripción de la cesta grabada",
+    "optional": "opcional",
+    "charactersLeft": "caracteres restantes: {{count}}",
+    "cancel": "Cancelar",
+    "save": "Grabar",
+    "restore": "Restablecer",
+    "followingCartDelete": "Se eliminará la siguiente cesta grabada",
+    "followingCartRestore": "La siguiente cesta grabada se restablecerá como una cesta activa",
+    "delete": "Eliminar",
+    "deleteCartSuccess": "La cesta se ha eliminado correctamente",
+    "editCartSuccess": "La cesta se ha editado correctamente",
+    "editSavedCart": "Editar cesta grabada",
+    "deleteSavedCart": "Borrar cesta grabada",
+    "restoreSavedCart": "Restablecer cesta grabada",
+    "name": "Nombre",
+    "id": "ID",
+    "description": "Descripción",
+    "quantity": "Cantidad",
+    "quantityFull": "Cantidad",
+    "total": "Total",
+    "keepCopySavedCart": "Conservar una copia de esta cesta en la lista de cestas grabadas",
+    "defaultCloneCartName": "Copia de {{name}}",
+    "nameOfCloneCart": "Nombre de la cesta copiada"
+  },
+  "addToSavedCart": {
+    "savedCarts": "Cestas grabadas",
+    "saveCartForLater": "Grabar cesta para después"
+  }
+}

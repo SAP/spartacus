@@ -1,0 +1,192 @@
+{
+  "orderDetails": {
+    "orderId": "N. ordine",
+    "orderNumber": "Numero dell'ordine",
+    "replenishmentId": "N. riapprovvigionamento",
+    "purchaseOrderId": "N. ordine d'acquisto",
+    "purchaseOrderNumber": "Numero ordine acquisto",
+    "emptyPurchaseOrderId": "Nessuno",
+    "none": "Nessuno {{value}}",
+    "placed": "Effettuato",
+    "placedBy": "Effettuato da",
+    "unit": "Unità",
+    "costCenter": "Centro di costo",
+    "costCenterAndUnit": "Centro di costo/unità",
+    "costCenterAndUnitValue": "{{costCenterName}}/{{unitName}}",
+    "methodOfPayment": "Metodo di pagamento",
+    "payByAccount": "Paga con conto",
+    "paidByCreditCard": "(pagato tramite carta di credito)",
+    "status": "Stato",
+    "active": "Attivo",
+    "shippedOn": "Data di spedizione",
+    "shippingMethod": "Metodo di spedizione",
+    "placedOn": "Effettuato il",
+    "startOn": "Inizia il",
+    "nextOrderDate": "Data ordine successivo",
+    "frequency": "Frequenza",
+    "cancelled": " Annullato",
+    "deliveryStatus_IN_TRANSIT": "In transito",
+    "deliveryStatus_READY_FOR_PICKUP": "Pronto per prelievo",
+    "deliveryStatus_READY_FOR_SHIPPING": "Pronto per la spedizione",
+    "deliveryStatus_WAITING": "In attesa",
+    "deliveryStatus_DELIVERING": "In consegna",
+    "deliveryStatus_PICKPACK": "Preparazione alla spedizione in corso",
+    "deliveryStatus_PICKUP_COMPLETE": "Prelievo completato",
+    "deliveryStatus_DELIVERY_COMPLETED": "Consegna completata",
+    "deliveryStatus_PAYMENT_NOT_CAPTURED": "Problema di pagamento",
+    "deliveryStatus_IN_PROCESS": "Elaborazione dell'ordine",
+    "deliveryStatus_READY": "Elaborazione dell'ordine",
+    "deliveryStatus_DELIVERY_REJECTED": "Consegna rifiutata",
+    "deliveryStatus_SHIPPED": "Spedito",
+    "deliveryStatus_TAX_NOT_COMMITTED": "Problema fiscale",
+    "deliveryStatus_CANCELLED": "Annullato",
+    "statusDisplay_cancelled": "Annullato",
+    "statusDisplay_cancelling": "Annullamento in sospeso",
+    "statusDisplay_completed": "Completato",
+    "statusDisplay_created": "Creato",
+    "statusDisplay_error": "In sospeso",
+    "statusDisplay_Error": "In sospeso",
+    "statusDisplay_processing": "In sospeso",
+    "statusDisplay_open": "Aperto",
+    "statusDisplay_pending": {
+      "approval": "In attesa di approvazione",
+      "merchant": {
+        "approval": "In attesa di approvazione da esercente"
+      }
+    },
+    "statusDisplay_approved": "Approvato",
+    "statusDisplay_rejected": "Rifiutato",
+    "statusDisplay_merchant": {
+      "approved": "Approvato dall'esercente",
+      "rejected": "Rifiutato dall'esercente"
+    },
+    "statusDisplay_assigned": {
+      "admin": "Assegnato ad amministratore"
+    },
+    "consignmentTracking": {
+      "action": "Traccia il pacco",
+      "dialog": {
+        "header": "Informazioni di tracciamento",
+        "shipped": "Spedito",
+        "estimate": "Consegna stimata",
+        "carrier": "Servizio di consegna",
+        "trackingId": "Numero tracciamento",
+        "noTracking": "Il pacco non è stato spedito dal magazzino. Le informazioni di tracciamento saranno disponibili dopo la spedizione del pacco.",
+        "loadingHeader": "Tracciamento spedizione"
+      }
+    },
+    "cancellationAndReturn": {
+      "returnAction": "Richiedi un reso",
+      "cancelAction": "Annulla articoli",
+      "item": "Articolo",
+      "itemPrice": "Prezzo articolo",
+      "quantity": "Quantità max",
+      "returnQty": "Quantità da restituire",
+      "cancelQty": "Quantità da annullare",
+      "setAll": "Imposta tutte le quantità sul massimo",
+      "totalPrice": "Totale",
+      "submit": "Invia richiesta",
+      "submitDescription": "Invia richiesta. Gli articoli in questa pagina verranno inclusi nella richiesta di annullamento.",
+      "returnSuccess": "La richiesta di reso ({{rma}}) è stata inviata",
+      "cancelSuccess": "La richiesta di annullamento è stata inviata (l'ordine originale {{orderCode}} verrà aggiornato)"
+    },
+    "cancelReplenishment": {
+      "title": "Annulla riapprovvigionamento",
+      "description": "Annullare qualsiasi ordine di riapprovvigionamento futuro?",
+      "accept": "Sì",
+      "reject": "No",
+      "cancelSuccess": "Odine di riapprovvigionamento n. {{replenishmentOrderCode}} annullato correttamente"
+    },
+    "caption": "Contenuto dell'ordine."
+  },
+  "orderHistory": {
+    "orderHistory": "Cronologia ordini",
+    "orderId": "N. ordine",
+    "emptyPurchaseOrderId": "Nessuno",
+    "date": "Data",
+    "status": "Stato",
+    "PONumber": "Numero ordine di acquisto",
+    "total": "Totale",
+    "noOrders": "Nessun record di ordini per questo account.",
+    "noReplenishmentOrders": "Nessun record di ordini di riapprovvigionamento per questo account.",
+    "startShopping": "Inizia gli acquisti",
+    "sortBy": "Ordina per",
+    "sortOrders": "Ordina ordini",
+    "replenishmentOrderHistory": "Cronologia degli ordini di riapprovvigionamento",
+    "replenishmentOrderId": "N. riapprovvigionamento",
+    "purchaseOrderNumber": "N. ordine d'acquisto",
+    "costCenter": "Centro di costo",
+    "startOn": "Inizia il",
+    "frequency": "Frequenza",
+    "nextOrderDate": "Data ordine successivo",
+    "cancel": "Annulla",
+    "cancelled": "Annullato",
+    "replenishmentHistory": "Cronologia di riapprovvigionamento",
+    "notFound": "Nessun ordine trovato",
+    "actions": "Azioni"
+  },
+  "AccountOrderHistoryTabContainer": {
+    "tabs": {
+      "AccountOrderHistoryComponent": "TUTTI GLI ORDINI ({{param}})",
+      "OrderReturnRequestListComponent": "RESI ({{param}})"
+    },
+    "tabPanelContainerRegion": "Gruppo con dettagli cronologia ordini",
+    "tabPanelContainerRegionGroup": "Gruppo con dettagli cronologia ordini"
+  },
+  "returnRequestList": {
+    "returnRequestId": "N. reso",
+    "orderId": "N. ordine",
+    "date": "Data di creazione",
+    "status": "Stato",
+    "sortBy": "Ordina per",
+    "sortReturns": "Ordina resi",
+    "statusDisplay_APPROVAL_PENDING": "Approvazione in sospeso",
+    "statusDisplay_CANCELED": "Annullato",
+    "statusDisplay_CANCELLING": "Annullamento in corso",
+    "statusDisplay_WAIT": "Attendi",
+    "statusDisplay_RECEIVED": "Ricevuto",
+    "statusDisplay_RECEIVING": "Ricezione in corso",
+    "statusDisplay_APPROVING": "Approvazione in corso",
+    "statusDisplay_REVERSING_PAYMENT": "Storno pagamento in corso",
+    "statusDisplay_PAYMENT_REVERSED": "Pagamento stornato",
+    "statusDisplay_PAYMENT_REVERSAL_FAILED": "Storno pagamento non riuscito",
+    "statusDisplay_REVERSING_TAX": "Storno imposta in corso",
+    "statusDisplay_TAX_REVERSED": "Imposta stornata",
+    "statusDisplay_TAX_REVERSAL_FAILED": "Storno imposta non riuscito",
+    "statusDisplay_COMPLETED": "Completato"
+  },
+  "returnRequest": {
+    "returnRequestId": "N. richiesta di reso",
+    "orderCode": "Per n. ordine",
+    "status": "Stato del reso",
+    "cancel": "Annulla richiesta di reso",
+    "item": "Descrizione",
+    "itemPrice": "Prezzo articolo",
+    "returnQty": "Quantità del reso",
+    "total": "Totale",
+    "summary": "Totali reso",
+    "subtotal": "Totale parziale",
+    "deliveryCode": "Costi di consegna",
+    "estimatedRefund": "Rimborso stimato",
+    "note": "I totali sono stime e potrebbero non includere imposte o altre spese applicabili.",
+    "cancelSuccess": "La richiesta di reso ({{rma}}) è stata annullata",
+    "caption": "Contenuto dell'ordine."
+  },
+  "reorder": {
+    "button": "Ordina nuovamente",
+    "dialog": {
+      "reorderProducts": "Ordina nuovamente i prodotti",
+      "messages": {
+        "reviewConfiguration": "Si è verificato un errore nella configurazione di \"{{ productCode}}\".",
+        "lowStock": "La quantità per {{ productName }}: {{ quantity }} è stata ridotta a {{ quantityAdded }}.",
+        "noStock": "{{ productName }} attualmente non disponibile.",
+        "pricingError": "Problema di determinazione del prezzo con \"{{ productCode }}\".",
+        "unresolvableIssues": "Problema non identificato con \"{{ productCode }}\".",
+        "success": "Prodotti aggiunti correttamente al carrello acquisti"
+      },
+      "areYouSureToReplaceCart": "Il carrello acquisti attuale verrà sostituito da altri articoli. Continuare?",
+      "cancel": "Annulla",
+      "continue": "Continua"
+    }
+  }
+}

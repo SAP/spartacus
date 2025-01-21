@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Event, NavigationEnd, Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ProgressButtonModule } from '@spartacus/storefront';
 import { Subject } from 'rxjs';
@@ -27,7 +26,7 @@ describe('CartProceedToCheckoutComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule, ProgressButtonModule],
+      imports: [I18nTestingModule, ProgressButtonModule],
       declarations: [CartProceedToCheckoutComponent, MockUrlPipe],
       providers: [
         {

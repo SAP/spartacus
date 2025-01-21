@@ -3,7 +3,7 @@
 exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, provideConfig } from "@spartacus/core";
-import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyConfig, OpfQuickBuyRootModule } from "@spartacus/opf/quick-buy/root";
+import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyRootModule } from "@spartacus/opf/quick-buy/root";
 
 @NgModule({
   declarations: [],
@@ -17,16 +17,7 @@ import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyConfig, OpfQuickBuyRootModule } from 
           import('@spartacus/opf/quick-buy').then((m) => m.OpfQuickBuyModule),
       },
     }
-  }),
-  provideConfig(<OpfQuickBuyConfig>{
-    providers:
-    {
-      googlePay: {
-        resourceUrl: "PLACEHOLDER_GOOGLE_PAY_API_URL"
-      }
-    }
-  })
-  ]
+  })]
 })
 export class OpfFeatureModule { }
 "
@@ -35,7 +26,7 @@ export class OpfFeatureModule { }
 exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup should add the feature using the lazy loading syntax 2`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, provideConfig } from "@spartacus/core";
-import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyConfig, OpfQuickBuyRootModule } from "@spartacus/opf/quick-buy/root";
+import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyRootModule } from "@spartacus/opf/quick-buy/root";
 
 @NgModule({
   declarations: [],
@@ -49,16 +40,7 @@ import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyConfig, OpfQuickBuyRootModule } from 
           import('@spartacus/opf/quick-buy').then((m) => m.OpfQuickBuyModule),
       },
     }
-  }),
-  provideConfig(<OpfQuickBuyConfig>{
-    providers:
-    {
-      googlePay: {
-        resourceUrl: "PLACEHOLDER_GOOGLE_PAY_API_URL"
-      }
-    }
-  })
-  ]
+  })]
 })
 export class OpfFeatureModule { }
 "
@@ -69,6 +51,9 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
 exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/opf";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -108,8 +93,10 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -127,13 +114,13 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all"
@@ -159,10 +146,7 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -174,8 +158,10 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",

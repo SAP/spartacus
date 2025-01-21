@@ -1,0 +1,73 @@
+{
+  "updateEmailForm": {
+    "newEmailAddress": {
+      "label": "Neue E-Mail-Adresse",
+      "placeholder": "E-Mail eingeben"
+    },
+    "confirmNewEmailAddress": {
+      "label": "Neue E-Mail-Adresse bestätigen",
+      "placeholder": "E-Mail eingeben"
+    },
+    "enterValidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
+    "bothEmailMustMatch": "Beide E-Mail-Adressen müssen übereinstimmen.",
+    "password": {
+      "label": "Kennwort",
+      "placeholder": "Kennwort eingeben"
+    },
+    "pleaseInputPassword": "Geben Sie ein Kennwort ein",
+    "emailUpdateSuccess": "Erfolgreich. Melden Sie sich mit {{ newUid }} an"
+  },
+  "register": {
+    "confirmPassword": {
+      "action": "Kennwort bestätigen",
+      "label": "Kennwort bestätigen",
+      "placeholder": "Kennwort bestätigen"
+    },
+    "managementInMyAccount": "Verwaltung in meinem Konto",
+    "termsAndConditions": "Allgemeine Geschäftsbedingungen",
+    "signIn": "Ich habe bereits ein Konto. Anmelden",
+    "register": "Registrieren",
+    "confirmNewPassword": "Neues Kennwort bestätigen",
+    "resetPassword": "Kennwort zurücksetzen",
+    "createAccount": "Konto erstellen",
+    "title": "Anrede",
+    "titleOptional": "Anrede (optional)",
+    "firstName": {
+      "label": "Vorname",
+      "placeholder": "Vorname"
+    },
+    "lastName": {
+      "label": "Nachname",
+      "placeholder": "Nachname"
+    },
+    "emailAddress": {
+      "label": "E-Mail-Adresse",
+      "placeholder": "E-Mail-Adresse"
+    },
+    "password": {
+      "label": "Kennwort",
+      "placeholder": "Kennwort"
+    },
+    "newPassword": "Neues Kennwort",
+    "emailMarketing": "Verwendung meiner personenbezogenen Daten für den Erhalt von E-Mail-Newslettern zu Marketingkampagnen. Um Ihre Einstellungen zu ändern, wechseln Sie zu \"Einwilligungsmanagement\" in \"Mein Konto\".",
+    "confirmThatRead": "Ich bestätige, dass ich Folgendes gelesen habe und damit einverstanden bin:",
+    "selectTitle": "Anrede auswählen",
+    "passwordMinRequirements": "Hier eine schnelle Anleitung für ein sicheres Kennwort: Verwenden Sie mindestens 8 Zeichen mit einer Mischung aus Groß- und Kleinbuchstaben, Ziffern und Sonderzeichen.",
+    "passwordStrengthRequirements": "Hier eine schnelle Anleitung für ein sicheres Kennwort: Verwenden Sie mindestens 8 Zeichen mit einer Mischung aus Groß- und Kleinbuchstaben, Ziffern und Sonderzeichen. Stellen Sie sicher, dass Sie ein Zeichen nicht mehrmals hintereinander verwenden.",
+    "bothPasswordMustMatch": "Beide Kennwörter müssen übereinstimmen",
+    "titleRequired": "Anrede ist erforderlich.",
+    "postRegisterMessage": "Melden Sie sich mit den angegebenen Anmeldedaten an.",
+    "postRegisterSuccessMessage": "Registrierung erfolgreich. Melden Sie sich mit den angegebenen Anmeldedaten an."
+  },
+  "forgottenPassword": {
+    "resetPassword": "Kennwort zurücksetzen",
+    "enterEmailAddressAssociatedWithYourAccount": "Geben Sie die E-Mail-Adresse ein, die mit Ihrem Konto verknüpft ist",
+    "emailAddress": {
+      "label": "E-Mail-Adresse",
+      "placeholder": "E-Mail eingeben"
+    },
+    "enterValidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
+    "passwordResetEmailSent": "Es wurde eine E-Mail an Sie geschickt mit Informationen, wie Sie Ihr Kennwort zurücksetzen können.",
+    "passwordResetSuccess": "Erfolgreich! Sie können sich jetzt mit Ihrem neuen Kennwort anmelden."
+  }
+}

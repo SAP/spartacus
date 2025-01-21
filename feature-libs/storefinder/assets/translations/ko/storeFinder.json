@@ -1,0 +1,32 @@
+{
+  "storeFinder": {
+    "openUntil": "영업 시간",
+    "closed": "영업 종료",
+    "back": "뒤로",
+    "call": "전화",
+    "getDirections": "오시는 길",
+    "ariaLabelGetDirections": "오시는 길, 이 링크를 클릭하면 새 창이 열립니다.",
+    "ariaLabelCountriesCount": "{{ count }}개 국가에서 매장을 찾음",
+    "listView": "목록 보기",
+    "mapView": "지도 보기",
+    "noStoresFound": "매장 없음",
+    "storeHours": "매장 시간",
+    "storeFeatures": "매장 특징",
+    "storeFinder": "매장 찾기",
+    "storesFoundTitle": "매장 찾음",
+    "storesFound": "{{ count }}개 매장을 찾음",
+    "storesFound_other": "{{ count }}개 매장을 찾음",
+    "fromStoresFound": "{{ count }}개 매장에서 찾음",
+    "fromStoresFound_other": "{{ count }}개 매장에서 찾음",
+    "findStore": "매장 찾기",
+    "useMyLocation": "내 위치 사용",
+    "viewAllStores": "모든 매장 보기",
+    "contactUs": "사용자 문의",
+    "searchBox": "우편 번호나 시/구/군, 주소 입력",
+    "backToList": "목록으로 돌아가기",
+    "noStoresMessage": "데이터베이스에 매장이 없음...",
+    "geolocationNotEnabled": "가까운 매장을 알 수 없습니다. 지리적 동의가 활성화되지 않았습니다.",
+    "searchNearestStores": "가까운 매장 검색",
+    "searchBoxLabel": "우편 번호나 시/구/군, 주소 입력"
+  }
+}

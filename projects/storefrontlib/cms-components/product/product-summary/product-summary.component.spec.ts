@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   FeatureConfigService,
   I18nTestingModule,
@@ -25,7 +24,7 @@ describe('ProductSummaryComponent in product', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ItemCounterModule, I18nTestingModule, RouterTestingModule],
+      imports: [ItemCounterModule, I18nTestingModule],
       declarations: [ProductSummaryComponent, OutletDirective],
       providers: [
         {

@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { EntitiesModel, I18nTestingModule } from '@spartacus/core';
+import { FocusConfig } from '@spartacus/storefront';
 import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { of } from 'rxjs';
 import { CardTestingModule } from '../card/card.testing.module';
@@ -18,7 +18,7 @@ import { ListService } from '../list/list.service';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { SubListComponent } from './sub-list.component';
 import createSpy = jasmine.createSpy;
-import { FocusConfig } from '@spartacus/storefront';
+import { ActivatedRoute } from '@angular/router';
 
 const mockList: EntitiesModel<any> = {
   values: [
@@ -73,6 +73,10 @@ class MockItemService {
   launchDetails = createSpy('launchDetails');
 }
 
+class ActivatedRouteMock {
+  constructor(public snapshot: any) {}
+}
+
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[cxFocus]',
@@ -93,7 +97,6 @@ describe('SubListComponent', () => {
         CardTestingModule,
         MessageTestingModule,
         I18nTestingModule,
-        RouterTestingModule,
         PaginationTestingModule,
       ],
       declarations: [
@@ -110,6 +113,10 @@ describe('SubListComponent', () => {
         {
           provide: ItemService,
           useClass: MockItemService,
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: new ActivatedRouteMock({}),
         },
       ],
     }).compileComponents();

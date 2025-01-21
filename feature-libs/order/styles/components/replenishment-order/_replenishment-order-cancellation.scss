@@ -22,30 +22,10 @@
   color: var(--cx-color-text);
   background-color: rgba(0, 0, 0, 0.5);
 
-  .cx-cancel-replenishment-dialog-foreground {
-    @extend .modal-dialog;
-    @extend .modal-dialog-centered;
-    @extend .modal-sm;
-
-    .cx-cancel-replenishment-dialog-content {
-      @extend .modal-content;
-
-      .cx-cancel-replenishment-dialog {
-        &-header {
-          @extend .modal-header;
-        }
-
-        &-description {
-          padding-top: 10px;
-          padding-inline-start: 25px;
-          padding-inline-end: 25px;
-          padding-bottom: 0;
-        }
-
-        &-body {
-          @extend .modal-body;
-        }
-      }
-    }
+  .cx-cancel-replenishment-dialog-description {
+    padding-top: 10px;
+    padding-inline-start: 25px;
+    padding-inline-end: 25px;
+    padding-bottom: 0;
   }
 }

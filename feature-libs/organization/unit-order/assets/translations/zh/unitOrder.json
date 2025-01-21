@@ -1,0 +1,47 @@
+{
+  "unitLevelOrderHistory": {
+    "orderHistory": "单位级别订单历史记录",
+    "orderId": "订单号",
+    "emptyPurchaseOrderId": "无",
+    "date": "日期",
+    "status": "状态",
+    "buyer": "买方",
+    "unit": "单位",
+    "total": "总计",
+    "noOrders": "您的单位没有匹配订单记录。",
+    "startShopping": "开始购物",
+    "sortBy": "排序依据",
+    "sortOrders": "对订单进行排序",
+    "purchaseOrderNumber": "采购订单编号",
+    "startOn": "开始日期",
+    "frequency": "频率",
+    "nextOrderDate": "下一个订单日期",
+    "notFound": "找不到订单",
+    "applyFilter": "应用",
+    "filterBy": "过滤条件",
+    "filterByBuyer": "按买方过滤",
+    "filterByBuyerLabel": "买方名称",
+    "filterByBuyerPlaceholder": "输入买方名称",
+    "filterByBuyerAriaLabel": "按买方过滤列表",
+    "filterByUnit": "按单位过滤",
+    "filterByUnitLabel": "单位名称",
+    "filterByUnitPlaceholder": "输入单位名称",
+    "filterByUnitAriaLabel": "按单位过滤列表",
+    "search": "搜索",
+    "clearAll": "全部清除",
+    "removeAppliedFilters": "移除过滤器",
+    "yourFilters": "您的过滤器：",
+    "and": " 和 "
+  },
+  "unitLevelOrderHistorySorting": {
+    "date": "日期",
+    "orderNumber": "订单编号",
+    "buyer": "买方（升序）",
+    "buyerDesc": "买方（降序）",
+    "orgUnit": "单位（升序）",
+    "orgUnitDesc": "单位（降序）"
+  },
+  "unitLevelOrderDetails": {
+    "buyer": "买方"
+  }
+}

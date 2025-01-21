@@ -1,0 +1,9 @@
+{
+  "productImageZoomTrigger": {
+    "expand": "Espandi immagine"
+  },
+  "productImageZoomDialog": {
+    "zoomedInImage": "Immagine ingrandita",
+    "close": "Chiudi"
+  }
+}

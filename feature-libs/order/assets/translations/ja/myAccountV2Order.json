@@ -1,0 +1,52 @@
+{
+  "myAccountV2OrderHistory": {
+    "heading": "すべての注文 ({{param}})",
+    "item": "{{param}} アイテム",
+    "items": "{{param}} アイテム",
+    "totalPrice": "合計価格: {{param}}",
+    "consignmentCode": "出荷/配送指示 {{param}}",
+    "statusDate": "最終更新: {{param}}",
+    "returnProcessed": "返品処理: {{param}}",
+    "deliveryPointOfServiceDetails": {
+      "itemsToBePickUp": "受け取り待ち - "
+    },
+    "checkoutMode": {
+      "deliveryEntries": "配送待ち - "
+    },
+    "checkoutPickupInStore": {
+      "heading": "受け取り待ち - "
+    },
+    "orderListResults": "注文リスト",
+    "orderListPagination": "注文リストのページネーション",
+    "totalPriceLabel": "合計価格",
+    "orderPlaced": "注文実行日",
+    "orderCodeLabel": "注文コード",
+    "consignmentDetailLabel": "出荷/配送指示情報",
+    "consignmentNumberLabel": "出荷/配送指示番号",
+    "consignmentStatusLabel": "出荷/配送指示ステータス",
+    "consignmentStatusDateLabel": "最終更新日",
+    "estimateDeliveryLabel": "配送予定日"
+  },
+  "myAccountV2OrderDetails": {
+    "returnItems": "返品アイテム",
+    "cancelItems": "アイテムをキャンセル",
+    "downloadInvoices": "請求書のダウンロード",
+    "viewAllOrders": "すべての注文を表示",
+    "noInvoices": "請求書はまだ生成されていません。後でもう一度アクセスしてください。"
+  },
+  "myAccountV2Orders": {
+    "item": "{{value}} アイテム",
+    "items": "{{value}} アイテム",
+    "heading": "注文および返品",
+    "orderNumber": "注文番号 ({{value}})",
+    "purchasedOn": "購入日: {{value}}",
+    "orderedItems": "注文アイテム: {{value}}",
+    "totalPrice": "合計価格: {{value}}",
+    "orderDetails": "注文詳細",
+    "orderDetailsLabel": "注文番号 {{value}} の注文詳細を表示",
+    "orderStatusLabel": "注文ステータス",
+    "returnOrder": "返品注文",
+    "showMore": "さらに表示",
+    "showMoreLabel": "注文履歴にナビゲート"
+  }
+}

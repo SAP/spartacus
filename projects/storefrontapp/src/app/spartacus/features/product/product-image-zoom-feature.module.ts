@@ -8,7 +8,10 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   productImageZoomTranslationChunksConfig,
-  productImageZoomTranslations,
+  productImageZoomTranslationsEn,
+  productImageZoomTranslationsJa,
+  productImageZoomTranslationsDe,
+  productImageZoomTranslationsZh,
 } from '@spartacus/product/image-zoom/assets';
 import {
   ProductImageZoomRootModule,
@@ -30,10 +33,15 @@ import {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: productImageZoomTranslations,
+        resources: {
+          en: productImageZoomTranslationsEn,
+          ja: productImageZoomTranslationsJa,
+          de: productImageZoomTranslationsDe,
+          zh: productImageZoomTranslationsZh,
+        },
         chunks: productImageZoomTranslationChunksConfig,
       },
     }),
   ],
 })
-export class ImageZoomFeatureModule {}
+export class ProductImageZoomFeatureModule {}

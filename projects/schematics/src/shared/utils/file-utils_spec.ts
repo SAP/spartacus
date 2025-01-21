@@ -851,7 +851,7 @@ describe('File utils', () => {
           pos: 0,
           getChildren: () => [] as ts.Node[],
           getStart: () => 10,
-        } as ts.Node;
+        } as unknown as ts.Node;
 
         const result = injectService({
           constructorNode: ctorNode,

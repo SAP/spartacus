@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { RoutingService, SemanticPathService } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
@@ -29,7 +28,6 @@ describe(`OrderConfirmationGuard`, () => {
         { provide: OrderFacade, useClass: MockOrderFacade },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
-      imports: [RouterTestingModule],
     });
 
     guard = TestBed.inject(OrderConfirmationGuard);

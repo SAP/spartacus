@@ -1,0 +1,75 @@
+{
+  "cartDetails": {
+    "id": "ID",
+    "proceedToCheckout": "Pokračovat k pokladně",
+    "cartName": "Košík č. {{code}}"
+  },
+  "cartItems": {
+    "id": "ID",
+    "description": "Popis",
+    "item": "Položka",
+    "itemPrice": "Cena položky",
+    "quantity": "Množství",
+    "quantityFull": "Množství",
+    "quantityTitle": "Množství znamená celkové množství této položky ve vašem košíku.",
+    "total": "Celkem",
+    "actions": "Akce",
+    "cartTotal": "Košík celkem ({{count}} položka)",
+    "cartTotal_other": "Košík celkem (Počet položek: {{count}})",
+    "itemRemoved": "Vybraná položka byla vyjmuta. Součet košíku byla aktualizován.",
+    "caption": "Obsah nákupního košíku."
+  },
+  "orderCost": {
+    "orderSummary": "Souhrn objednávky",
+    "subtotal": "Mezisoučet po slevách:",
+    "shipping": "Doručení:",
+    "estimatedShipping": "Odhadované datum dodání:",
+    "discount": "Ušetřili jste:",
+    "salesTax": "Prodejní daň",
+    "grossTax": "Celková suma objednávky nezahrnuje daň",
+    "grossIncludeTax": "Celková suma objednávky zahrnuje daň",
+    "total": "Celkem:",
+    "toBeDetermined": "Bude určeno později"
+  },
+  "voucher": {
+    "coupon": "Máte kupón?",
+    "coupon_other": "Kódy kupónů",
+    "couponLabel": "Sem zadejte propagační kód",
+    "addCoupon": "Přidat kupón",
+    "apply": "Použít",
+    "placeholder": "Propagační kód",
+    "applyVoucherSuccess": "{{voucherCode}} byl použit.",
+    "removeVoucherSuccess": "{{voucherCode}} byl odebrán.",
+    "anchorLabel": "Zadejte nebo odeberte kód kupónu",
+    "vouchersApplied": "Použité kupóny",
+    "availableCoupons": "Dostupné kupóny",
+    "availableCouponsLabel": "Na tuto objednávku můžete použít tyto kupóny."
+  },
+  "saveForLaterItems": {
+    "itemTotal": "Uloženo na později (položek: {{count}})",
+    "itemTotal_other": "Uloženo na později (položek: {{count}})",
+    "cartTitle": "Košík",
+    "saveForLater": "Uložit na později",
+    "moveToCart": "Přesunout do košíku",
+    "stock": "Zásoba",
+    "forceInStock": "Na skladě"
+  },
+  "clearCart": {
+    "clearCart": "Vyprázdnit košík",
+    "clearingCart": "Vyprazdňování košíku…",
+    "cartClearedSuccessfully": "Aktivní košík byl úspěšně vyprázdněn.",
+    "areYouSureToClearCart": "Opravdu chcete vyprázdnit tento košík?",
+    "allItemsWillBeRemoved": "Všechny položky v aktuálním košíku budou odebrány."
+  },
+  "validation": {
+    "cartEntriesChangeDuringCheckout": "U pokladny se vyskytl problém s vašimi položkami. Zkontrolujte svůj košík.",
+    "cartEntryRemoved": "Položka {{name}} byla odebrána z vašeho košíku, protože není skladem.",
+    "productOutOfStock": "Z košíku byla odebrána položka {{name}} z důvodu nedostatečného množství zásob.",
+    "lowStock": "Množství bylo sníženo na {{quantity}} kvůli nedostatečnému stavu zásob.",
+    "reviewConfiguration": "Nejprve vyřešte problémy v konfiguraci pro položku v košíku.",
+    "configurationError": "Nejprve vyřešte problémy v konfiguraci pro položku v košíku.",
+    "pricingError": "Ceny konfigurátoru nejsou v současné době k dispozici. Odeslání objednávky/nabídky není možné. Zkuste to později.",
+    "unresolvableIssues": "Konfigurace produktu vyžaduje další záznamy v backendu. Proto nemůžete pokračovat. Obraťte se na podporu.",
+    "inProgress": "Zpracování"
+  }
+}

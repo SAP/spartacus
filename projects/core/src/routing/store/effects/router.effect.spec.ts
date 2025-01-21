@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule } from '@angular/router';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { hot } from 'jasmine-marbles';
@@ -20,7 +19,7 @@ describe('Router Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes(mockRoutes)],
+      imports: [RouterModule.forRoot(mockRoutes)],
       providers: [
         fromEffects.RouterEffects,
         provideMockActions(() => actions$),

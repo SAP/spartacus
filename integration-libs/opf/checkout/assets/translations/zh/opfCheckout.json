@@ -1,0 +1,23 @@
+{
+  "opfCheckout": {
+    "tabs": {
+      "shipping": "发货",
+      "deliveryMethod": "送货方式",
+      "paymentAndReview": "付款和检查"
+    },
+    "paymentAndReviewTitle": "付款和检查",
+    "billingAddress": "账单地址",
+    "paymentOption": "付款选项",
+    "termsAndConditions": "条款和条件",
+    "itemsToBeShipped": "待发货商品",
+    "proceedPayment": "下达订单",
+    "retryPayment": "重试以继续",
+    "checkTermsAndConditionsExplicit": "必须同意“条款和条件”才能查看可用付款选项。",
+    "checkTermsAndConditionsImplicit": "提交订单即表示您同意我们的“条款和条件”。",
+    "errors": {
+      "loadActiveConfigurations": "我们此时无法加载付款选项。请稍后重试。",
+      "noActiveConfigurations": "此时没有可用的付款选项。请稍后重试或联系支持部门。",
+      "updateBillingAddress": "无法更新地址。请检查地址信息是否正确，以及设备是否连接到互联网。如果问题仍存在，您可能需要清空购物车并重新开始结账。"
+    }
+  }
+}

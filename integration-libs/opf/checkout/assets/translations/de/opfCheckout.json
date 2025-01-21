@@ -1,0 +1,23 @@
+{
+  "opfCheckout": {
+    "tabs": {
+      "shipping": "Versand",
+      "deliveryMethod": "Lieferart",
+      "paymentAndReview": "Zahlung und Prüfung"
+    },
+    "paymentAndReviewTitle": "Zahlung und Prüfung",
+    "billingAddress": "Rechnungsadresse",
+    "paymentOption": "Zahlungsoption",
+    "termsAndConditions": "Allgemeine Geschäftsbedingungen",
+    "itemsToBeShipped": "Zu versendende Positionen",
+    "proceedPayment": "Bestellung erteilen",
+    "retryPayment": "Noch einmal versuchen, um fortzufahren",
+    "checkTermsAndConditionsExplicit": "Sie müssen den allgemeinen Geschäftsbedingungen zustimmen, um die verfügbaren Zahlungsoptionen anzeigen zu können.",
+    "checkTermsAndConditionsImplicit": "Indem Sie die Bestellung abschicken, stimmen Sie unseren allgemeinen Geschäftsbedingungen zu.",
+    "errors": {
+      "loadActiveConfigurations": "Die Zahlungsoptionen können zurzeit nicht geladen werden. Bitte versuchen Sie es später erneut.",
+      "noActiveConfigurations": "Zurzeit sind keine Zahlungsoptionen verfügbar. Bitte versuchen Sie es später erneut, oder wenden Sie sich an den Support.",
+      "updateBillingAddress": "Die Adresse konnte nicht aktualisiert werden. Prüfen Sie, ob die Adressinformationen korrekt sind und Ihr Gerät mit dem Internet verbunden ist. Wenn das Problem weiterhin auftritt, müssen Sie möglicherweise Ihren Warenkorb löschen und erneut zur Kasse gehen. "
+    }
+  }
+}

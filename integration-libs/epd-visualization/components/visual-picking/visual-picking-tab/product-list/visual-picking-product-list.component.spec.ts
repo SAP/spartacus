@@ -1,11 +1,15 @@
 import { CommonModule } from '@angular/common';
 import {
-  HttpClientTestingModule,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Component, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { Actions } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
@@ -141,16 +145,16 @@ describe('VisualPickingProductListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      declarations: [VisualPickingProductListComponent],
       imports: [
         CommonModule,
         StoreModule.forRoot({}),
-        RouterTestingModule.withRoutes([
+        RouterModule.forRoot([
           {
             path: 'product',
             component: MockPageLayoutComponent,
           },
         ]),
-        HttpClientTestingModule,
         CommonModule,
         MediaModule,
         IconModule,
@@ -161,7 +165,6 @@ describe('VisualPickingProductListComponent', () => {
         I18nTestingModule,
         CompactAddToCartModule,
       ],
-      declarations: [VisualPickingProductListComponent],
       providers: [
         Actions,
         {
@@ -172,6 +175,8 @@ describe('VisualPickingProductListComponent', () => {
           provide: ProductAvailabilityAdapter,
           useClass: MockProductAvailabilityAdapter,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     })
       .overrideComponent(VisualPickingProductListComponent, {

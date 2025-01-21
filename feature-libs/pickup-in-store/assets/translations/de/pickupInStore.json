@@ -1,0 +1,92 @@
+{
+  "pickupInfo": {
+    "inStorePickup": "In Filiale abholen",
+    "pickupBy": "Abholen durch",
+    "pickupFrom": "Abholen von"
+  },
+  "pickupOptionDialog": {
+    "close": "Schließen",
+    "modalHeader": "In Filiale abholen"
+  },
+  "pickupOptions": {
+    "legend": "Lieferart",
+    "changeStore": "Filiale ändern",
+    "delivery": "Liefern (kostenlose Rücksendung)",
+    "pickup": "Kostenlos in Filiale abholen",
+    "shipIt": "Liefern",
+    "selectStore": "Filiale auswählen",
+    "freeReturn": "Kostenlose Rücksendung",
+    "storeIsNotSelected": "Keine Filiale für Abholung ausgewählt."
+  },
+  "setPreferredStore": {
+    "makeThisMyStore": "Als meine Filiale festlegen",
+    "myStore": "Meine Filiale"
+  },
+  "store": {
+    "pickupFromHere": "Hier abholen",
+    "stockLevel_inStock": "{{ count }} vorrätig",
+    "stockLevel_outOfStock": "Nicht vorrätig",
+    "viewHours": "Öffnungszeiten anzeigen"
+  },
+  "storeList": {
+    "noStoresMessage": "Keine Filialen in Datenbank gefunden..."
+  },
+  "storeSchedule": {
+    "closed": "Geschlossen",
+    "storeHours": "Öffnungszeiten"
+  },
+  "storeSearch": {
+    "findAStore": "Filiale suchen",
+    "findStores": "Filialen suchen",
+    "hideOutOfStockOptions": "Optionen für nicht vorrätig ausblenden",
+    "searchPlaceholder": "Postleitzahl oder Stadt oder Adresse eingeben",
+    "useMyLocation": "Meinen Standort verwenden"
+  },
+  "addressBookPickupInStore": {
+    "heading": "Filiale für Abholung"
+  },
+  "storeFinderPickupInStore": {
+    "heading": "Meine Filiale"
+  },
+  "checkoutPickupInStore": {
+    "heading": "Abzuholende Positionen",
+    "storeItemHeading": "Adresse der Filiale für Abholung"
+  },
+  "cartItems": {
+    "item": "Position"
+  },
+  "cardActions": {
+    "getDirections": "Wegbeschreibung abrufen, dieser Link öffnet sich in einem neuen Fenster"
+  },
+  "deliveryPointOfServiceDetails": {
+    "itemsToBePickUp": "Abzuholende Positionen",
+    "pickUpInStoreAddress": "Adresse der Filiale für Abholung",
+    "itemsToBeShipped": "Zu versendende Positionen",
+    "shippingAddress": "Lieferadresse",
+    "deliveryMethod": "Lieferart",
+    "deliveryOptions": "Lieferoptionen",
+    "statusDisplay_cancelled": "Storniert",
+    "statusDisplay_cancelling": "Stornierung ausstehend",
+    "statusDisplay_completed": "Abgeschlossen",
+    "statusDisplay_created": "Erstellt",
+    "statusDisplay_error": "Ausstehend",
+    "statusDisplay_Error": "Ausstehend",
+    "statusDisplay_processing": "Ausstehend",
+    "statusDisplay_open": "Offen",
+    "statusDisplay_pending": {
+      "approval": "Genehmigung ausstehend",
+      "merchant": {
+        "approval": "Genehmigung durch Händler ausstehend"
+      }
+    },
+    "statusDisplay_approved": "Genehmigt",
+    "statusDisplay_rejected": "Abgelehnt",
+    "statusDisplay_merchant": {
+      "approved": "Vom Händler genehmigt",
+      "rejected": "Vom Händler abgelehnt"
+    },
+    "statusDisplay_assigned": {
+      "admin": "Dem Administrator zugeordnet"
+    }
+  }
+}

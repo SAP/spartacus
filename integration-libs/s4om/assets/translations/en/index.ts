@@ -5,7 +5,6 @@
  */
 
 import s4omScheduleLines from './s4omScheduleLines.json';
-
 export const en = {
   s4omScheduleLines,
 };

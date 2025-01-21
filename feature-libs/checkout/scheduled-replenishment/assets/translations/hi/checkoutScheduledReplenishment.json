@@ -1,0 +1,14 @@
+{
+  "checkoutScheduledReplenishment": {
+    "autoReplenishOrder": "स्वयं पुनःपूर्ति ऑर्डर",
+    "orderType_PLACE_ORDER": "कोई नहीं (केवल एक बार का ऑर्डर)",
+    "orderType_SCHEDULE_REPLENISHMENT_ORDER": "पुनःपूर्ति ऑर्डर",
+    "every": "प्रत्येक",
+    "recurrencePeriodType_DAILY": "दिन",
+    "recurrencePeriodType_WEEKLY": "सप्ताह",
+    "recurrencePeriodType_MONTHLY": "माह",
+    "dayOfMonth": "दिन पर",
+    "startOn": "प्रारंभ दिनांक",
+    "repeatOnDays": "निम्न दिनों पर फिर से करें"
+  }
+}

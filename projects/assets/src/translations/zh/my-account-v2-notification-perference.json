@@ -1,0 +1,9 @@
+{
+  "myAccountV2NotifiationPerference": {
+    "header": "通知渠道",
+    "message": "选择您的首选通知渠道",
+    "note": "注意： ",
+    "noteMessage": "如果您取消激活所有渠道，将无法接收任何进一步的通知。",
+    "EMAIL": "电子邮件："
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "loginForm": {
+    "forgotPassword": "Elfelejtette a jelszavát?",
+    "signIn": "Bejelentkezés",
+    "register": "Regisztráció",
+    "dontHaveAccount": "Nincs fiókja?",
+    "guestCheckout": "Fizetés vendégként",
+    "emailAddress": {
+      "label": "E-mail-cím",
+      "placeholder": "Adja meg az e-mail-címet"
+    },
+    "password": {
+      "label": "Jelszó",
+      "placeholder": "Adja meg jelszavát"
+    },
+    "wrongEmailFormat": "Ez nem egy érvényes e-mail-formátum."
+  },
+  "verificationTokenForm": {
+    "createVerificationToken": "Ellenőrző kód elküldve a következő címre: {{target}}. Ellenőrizze, és adja meg a kódot.",
+    "needInputCredentials": "A folytatáshoz adja meg a hitelesítő adatait.",
+    "sendRateLime": "{{waitTime}} másodpercen belül",
+    "resend": "Újraküldés",
+    "verificationCode": {
+      "label": "Ellenőrző kód",
+      "placeholder": "Adja meg az ellenőrző kódot"
+    },
+    "noReceiveCode": "Nem kapta meg a kódot?",
+    "verify": "Ellenőrzés",
+    "back": "Vissza",
+    "tokenInputHint": "Igényelhet egy új kódot. Egy időzítő jelzi, hogy mikor kérheti a kód ismételt elküldését."
+  },
+  "verificationTokenDialog": {
+    "title": "Nem kaptam meg a kódot",
+    "noReceiveCode": "Lehetséges okok, amiért nem kapta meg a kódot:",
+    "contentLine1": "1. Az e-mail még nem érkezett meg.",
+    "contentLine2": "2. A kapott e-mail a levélszemét mappába került.",
+    "contentLine3": "3. A megadott e-mail-cím vagy jelszó helytelen.",
+    "close": "Bezárás"
+  },
+  "miniLogin": {
+    "userGreeting": "Üdv, {{name}}!",
+    "signInRegister": "Bejelentkezés / Regisztráció"
+  },
+  "myAccountV2User": {
+    "signOut": "Kijelentkezés"
+  }
+}

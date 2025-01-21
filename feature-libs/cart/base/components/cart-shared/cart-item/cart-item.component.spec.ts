@@ -15,7 +15,6 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { CartItemContext, PromotionLocation } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
@@ -115,12 +114,7 @@ describe('CartItemComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ReactiveFormsModule,
-        I18nTestingModule,
-        OutletModule,
-      ],
+      imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
       declarations: [
         CartItemComponent,
         MockMediaComponent,

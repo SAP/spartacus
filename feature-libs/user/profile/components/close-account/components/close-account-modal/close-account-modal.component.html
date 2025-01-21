@@ -1,10 +1,10 @@
 <ng-container *ngIf="isLoggedIn$ | async">
   <div
-    class="cx-close-account-modal"
+    class="modal-dialog modal-dialog-centered cx-close-account-modal"
     [cxFocus]="focusConfig"
     (esc)="dismissModal('Escape click')"
   >
-    <div class="cx-close-account-modal-container">
+    <div class="modal-content cx-close-account-modal-container">
       <div class="cx-close-account-modal-header cx-modal-header">
         <h3 class="cx-close-account-modal-title">
           {{ 'closeAccount.confirmAccountClosure' | cxTranslate }}
@@ -29,7 +29,7 @@
       </div>
 
       <ng-template #loaded>
-        <div class="cx-close-account-modal-body modal-body">
+        <div class="modal-body">
           <p class="cx-confirmation">
             {{ 'closeAccount.confirmAccountClosureMessage' | cxTranslate }}
           </p>

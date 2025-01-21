@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { S4ServiceOrderDetailActionsComponent } from './s4-service-order-detail-actions.component';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { EMPTY, Observable, of } from 'rxjs';
+import { By } from '@angular/platform-browser';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -13,9 +11,10 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
-import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
-import { By } from '@angular/platform-browser';
 import { Order } from '@spartacus/order/root';
+import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
+import { EMPTY, Observable, of } from 'rxjs';
+import { S4ServiceOrderDetailActionsComponent } from './s4-service-order-detail-actions.component';
 
 const mockOrder1 = {
   serviceCancellable: true,
@@ -78,7 +77,7 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     }
 
     TestBed.configureTestingModule({
-      imports: [I18nModule, RouterTestingModule],
+      imports: [I18nModule],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },

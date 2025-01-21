@@ -12,14 +12,18 @@ import {
   discardPeriodicTasks,
 } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { TrendingSearchesService } from './trending-searches.service';
 import { Observable, of } from 'rxjs';
 import { SearchPhrases } from './model';
 import { CdsConfig } from '@spartacus/cds';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const mockCDSConfig: CdsConfig = {
   cds: {
@@ -46,12 +50,14 @@ describe('TrendingSearchesService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         TrendingSearchesService,
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: CdsConfig, useValue: mockCDSConfig },
         WindowRef,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

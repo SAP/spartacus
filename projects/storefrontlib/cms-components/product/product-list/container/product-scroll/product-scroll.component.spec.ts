@@ -5,9 +5,8 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, ProductSearchPage } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ProductGridItemComponent } from '../..';
@@ -172,12 +171,7 @@ describe('ProductScrollComponent', () => {
         MockStyleIconsComponent,
         MockFeatureLevelDirective,
       ],
-      imports: [
-        InfiniteScrollModule,
-        I18nTestingModule,
-        SpinnerModule,
-        RouterTestingModule,
-      ],
+      imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule],
       providers: [
         {
           provide: ProductListComponentService,

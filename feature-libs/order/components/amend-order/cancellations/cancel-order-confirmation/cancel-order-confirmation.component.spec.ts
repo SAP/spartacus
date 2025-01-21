@@ -2,11 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
@@ -68,12 +67,7 @@ describe('CancelOrderConfirmationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        RouterTestingModule,
-        I18nTestingModule,
-        ReactiveFormsModule,
-      ],
+      imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
       providers: [
         { provide: OrderAmendService, useClass: MockOrderAmendService },
       ],

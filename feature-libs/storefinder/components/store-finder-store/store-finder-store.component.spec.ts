@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   PointOfService,
@@ -55,7 +54,7 @@ describe('StoreFinderStoreComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SpinnerModule, RouterTestingModule, I18nTestingModule],
+      imports: [SpinnerModule, I18nTestingModule],
       declarations: [
         StoreFinderStoreComponent,
         MockStoreFinderStoreDescriptionComponent,

@@ -1,0 +1,62 @@
+{
+  "paymentForm": {
+    "payment": "Pagamento",
+    "choosePaymentMethod": "Selecionar uma forma de pagamento",
+    "paymentType": "Tipo de pagamento",
+    "accountHolderName": {
+      "label": "Nome do titular da conta",
+      "placeholder": "Nome do titular da conta"
+    },
+    "cardNumber": "Número do cartão",
+    "expirationDate": "Data de expiração",
+    "securityCode": "Código de segurança (CVV)",
+    "securityCodeTitle": "Valor de verificação de cartão",
+    "saveAsDefault": "Gravar como padrão",
+    "setAsDefault": "Definir como forma de pagamento padrão",
+    "billingAddress": "Endereço de faturamento",
+    "sameAsDeliveryAddress": "Igual ao endereço de entrega",
+    "billingAddressSameAsShipping": "O endereço de faturamento é igual ao endereço de entrega",
+    "selectOne": "Selecionar um...",
+    "monthMask": "MM",
+    "yearMask": "AAAA",
+    "expirationYear": "Ano da expiração {{ selected }}",
+    "expirationMonth": "Mês da expiração {{ selected }}",
+    "useThisPayment": "Utilizar este pagamento",
+    "addNewPayment": "Adicionar novo pagamento",
+    "paymentAddedSuccessfully": "O novo pagamento foi adicionado com êxito",
+    "changePayment": "Modificar pagamento"
+  },
+  "paymentMethods": {
+    "paymentMethods": "Formas de pagamento",
+    "paymentMethodSelected": "Forma de pagamento selecionada",
+    "newPaymentMethodsAreAddedDuringCheckout": "As novas formas de pagamento são adicionadas durante o check-out.",
+    "invalidField": "Campo inválido: {{ field }}"
+  },
+  "paymentCard": {
+    "deleteConfirmation": "Tem certeza de que quer eliminar esta forma de pagamento?",
+    "setAsDefault": "Definir como padrão",
+    "expires": "Expira: {{ month }}/{{ year }}",
+    "defaultPaymentMethod": "✓ PADRÃO",
+    "defaultPaymentLabel": "Forma de pagamento padrão",
+    "additionalPaymentLabel": "Forma de pagamento adicional {{ number }}",
+    "selected": "Selecionado",
+    "selectedPayment": "Pagamento selecionado",
+    "deletePaymentSuccess": "Forma de pagamento eliminada com êxito",
+    "visa": "Cartão Visa",
+    "master": "Cartão MasterCard",
+    "masterEuro": "Cartão MasterCard Eurocard",
+    "dinersClub": "Cartão Diners Club",
+    "switch": "Mudar cartão",
+    "maestro": "Cartão Maestro",
+    "amex": "Cartão American Express",
+    "credit": "Cartão de crédito"
+  },
+  "paymentTypes": {
+    "title": "Forma de pagamento",
+    "paymentType_CARD": "Cartão de crédito",
+    "paymentType_ACCOUNT": "Conta"
+  },
+  "paymentMessages": {
+    "setAsDefaultSuccessfully": "O novo pagamento foi definido como padrão com êxito"
+  }
+}

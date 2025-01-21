@@ -1,0 +1,48 @@
+{
+  "customerTicketing": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "Сервисные запросы клиента",
+    "ticketId": "Ид.",
+    "createdOn": "Дата создания",
+    "changedOn": "Дата изменения",
+    "status": "Статус",
+    "message": "Сообщение",
+    "cancel": "Отменить",
+    "submit": "Отправить",
+    "uploadFile": "Загрузить файл",
+    "fileSizeLimit": "Максимальный размер файла: {{count}} МБ",
+    "maximumAttachment": "Максимум одно вложение на сообщение",
+    "errorMessage": "Что-то пошло не так.",
+    "charactersLeft": "осталось символов: {{count}}",
+    "customerService": "Сервисная служба"
+  },
+  "customerTicketingList": {
+    "subject": "Тема",
+    "ticketCategory": "Категория",
+    "sortSubtitle": "Сортировать по",
+    "sortOrders": "Сортировать заказы",
+    "noTickets": "У вас нет запросов",
+    "requestTitle": "Все запросы",
+    "mobile": {
+      "ticketIdFull": "Ид. сервисного запроса"
+    }
+  },
+  "createCustomerTicket": {
+    "createNewTicket": "Добавить",
+    "addNewRequest": "Добавить новый запрос",
+    "addRequest": "Добавить запрос",
+    "subject": "Тема",
+    "category": "Категория",
+    "associateTo": "Связать с",
+    "ticketCreated": "Запрос создан.",
+    "optionallySelectAssociatedObject": "Выбрать опцию",
+    "selectCategory": "Выбрать категорию"
+  },
+  "customerTicketingDetails": {
+    "requestReopened": "Запрос открыт повторно.",
+    "requestClosed": "Запрос закрыт, если нужно, его можно открыть повторно.",
+    "reopenRequest": "Открыть запрос повторно ",
+    "closeRequest": "Закрыть запрос ",
+    "ticketNotFound": "Сервисный запрос не найден."
+  }
+}

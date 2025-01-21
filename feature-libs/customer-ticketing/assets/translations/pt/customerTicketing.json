@@ -1,0 +1,48 @@
+{
+  "customerTicketing": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "Tickets do cliente",
+    "ticketId": "ID",
+    "createdOn": "Criado em",
+    "changedOn": "Modificado em",
+    "status": "Status",
+    "message": "Mensagem",
+    "cancel": "Cancelar",
+    "submit": "Enviar",
+    "uploadFile": "Carregar arquivo",
+    "fileSizeLimit": "Limite de tamanho do arquivo: {{count}} MB",
+    "maximumAttachment": "Máximo de um anexo por mensagem",
+    "errorMessage": "Algo deu errado",
+    "charactersLeft": "caracteres restantes: {{count}}",
+    "customerService": "Serviço ao cliente"
+  },
+  "customerTicketingList": {
+    "subject": "Assunto",
+    "ticketCategory": "Categoria",
+    "sortSubtitle": "Ordenar por",
+    "sortOrders": "Ordens de classificação",
+    "noTickets": "Você não tem solicitações",
+    "requestTitle": "Todas as solicitações",
+    "mobile": {
+      "ticketIdFull": "ID do ticket"
+    }
+  },
+  "createCustomerTicket": {
+    "createNewTicket": "Adicionar",
+    "addNewRequest": "Adicionar nova solicitação",
+    "addRequest": "Adicionar solicitação",
+    "subject": "Assunto",
+    "category": "Categoria",
+    "associateTo": "Associar a",
+    "ticketCreated": "Solicitação criada.",
+    "optionallySelectAssociatedObject": "Selecionar opção",
+    "selectCategory": "Selecionar categoria"
+  },
+  "customerTicketingDetails": {
+    "requestReopened": "Solicitação reaberta.",
+    "requestClosed": "Solicitação fechada, você pode reabrir a mesma, se necessário.",
+    "reopenRequest": "Reabrir solicitação",
+    "closeRequest": "Fechar solicitação",
+    "ticketNotFound": "Ticket não encontrado."
+  }
+}

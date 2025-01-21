@@ -1,7 +1,7 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute } from '@angular/router';
 import { CmsLinkComponent } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -27,6 +27,10 @@ class MockCmsComponentData {
   }
 }
 
+class MockActivatedRoute {
+  constructor(public snapshot: any) {}
+}
+
 describe('LinkComponent', () => {
   let linkComponent: LinkComponent;
   let fixture: ComponentFixture<LinkComponent>;
@@ -34,9 +38,13 @@ describe('LinkComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, GenericLinkModule],
+      imports: [GenericLinkModule],
       declarations: [LinkComponent],
       providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: new MockActivatedRoute({}),
+        },
         {
           provide: CmsComponentData,
           useClass: MockCmsComponentData,

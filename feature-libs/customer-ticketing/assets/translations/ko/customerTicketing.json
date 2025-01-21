@@ -1,0 +1,48 @@
+{
+  "customerTicketing": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "고객 티케팅",
+    "ticketId": "ID",
+    "createdOn": "작성일",
+    "changedOn": "변경일",
+    "status": "상태",
+    "message": "메시지",
+    "cancel": "취소",
+    "submit": "제출",
+    "uploadFile": "파일 업로드",
+    "fileSizeLimit": "파일 크기 한도: {{count}}MB",
+    "maximumAttachment": "메시지별 최대 한 개의 첨부 파일",
+    "errorMessage": "문제가 발생했습니다.",
+    "charactersLeft": "{{count}}자 남음",
+    "customerService": "고객 서비스"
+  },
+  "customerTicketingList": {
+    "subject": "제목",
+    "ticketCategory": "범주",
+    "sortSubtitle": "정렬 기준",
+    "sortOrders": "정렬 순서",
+    "noTickets": "요청이 없습니다.",
+    "requestTitle": "모든 요청",
+    "mobile": {
+      "ticketIdFull": "티켓 ID"
+    }
+  },
+  "createCustomerTicket": {
+    "createNewTicket": "추가",
+    "addNewRequest": "새 요청 추가",
+    "addRequest": "요청 추가",
+    "subject": "제목",
+    "category": "범주",
+    "associateTo": "연계 대상",
+    "ticketCreated": "요청이 작성되었습니다.",
+    "optionallySelectAssociatedObject": "옵션 선택",
+    "selectCategory": "범주 선택"
+  },
+  "customerTicketingDetails": {
+    "requestReopened": "요청을 다시 열었습니다.",
+    "requestClosed": "요청을 닫았습니다. 필요하면 다시 열 수 있습니다.",
+    "reopenRequest": "요청 다시 열기",
+    "closeRequest": "요청 닫기",
+    "ticketNotFound": "티켓이 없습니다."
+  }
+}

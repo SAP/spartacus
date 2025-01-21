@@ -1,0 +1,14 @@
+{
+  "checkoutScheduledReplenishment": {
+    "autoReplenishOrder": "Commande de réapprovisionnement automatique",
+    "orderType_PLACE_ORDER": "Aucun (commande ponctuelle uniquement)",
+    "orderType_SCHEDULE_REPLENISHMENT_ORDER": "Commande de réapprovisionnement",
+    "every": "Chaque",
+    "recurrencePeriodType_DAILY": "jour",
+    "recurrencePeriodType_WEEKLY": "semaine",
+    "recurrencePeriodType_MONTHLY": "mois",
+    "dayOfMonth": "À la date",
+    "startOn": "Début le",
+    "repeatOnDays": "Répéter les jours suivants"
+  }
+}

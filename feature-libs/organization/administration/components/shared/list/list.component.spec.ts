@@ -9,7 +9,7 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   EntitiesModel,
@@ -84,6 +84,10 @@ class MockItemService {
   launchDetails = createSpy('launchDetails');
 }
 
+class ActivatedRouteMock {
+  constructor(public snapshot: any) {}
+}
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'cx-table',
@@ -121,7 +125,6 @@ describe('ListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        RouterTestingModule,
         I18nTestingModule,
         UrlTestingModule,
         SplitViewTestingModule,
@@ -138,6 +141,10 @@ describe('ListComponent', () => {
         MockFeatureDirective,
       ],
       providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: new ActivatedRouteMock({}),
+        },
         {
           provide: ListService,
           useClass: MockBaseListService,

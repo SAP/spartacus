@@ -1,0 +1,32 @@
+{
+  "storeFinder": {
+    "openUntil": "Ouvert jusqu'à",
+    "closed": "Fermé",
+    "back": "Retour",
+    "call": "Appeler",
+    "getDirections": "Obtenir des itinéraires",
+    "ariaLabelGetDirections": "Obtenir des itinéraires, ce lien s'ouvre dans une nouvelle fenêtre",
+    "ariaLabelCountriesCount": "Points de vente trouvés dans {{ count }} pays",
+    "listView": "Vue de liste",
+    "mapView": "Vue de carte",
+    "noStoresFound": "Aucun point de vente trouvé",
+    "storeHours": "Horaires du point de vente",
+    "storeFeatures": "Caractéristiques du point de vente",
+    "storeFinder": "Recherche de points de vente",
+    "storesFoundTitle": "Points de vente trouvés",
+    "storesFound": "{{ count }} point de vente trouvé",
+    "storesFound_other": "{{ count }} points de vente trouvés",
+    "fromStoresFound": "de {{ count }} point de vente trouvé",
+    "fromStoresFound_other": "de {{ count }} points de vente trouvés",
+    "findStore": "Rechercher un point de vente",
+    "useMyLocation": "Utiliser ma localisation",
+    "viewAllStores": "Afficher tous les points de vente",
+    "contactUs": "Nous contacter",
+    "searchBox": "Code postal, localité ou adresse",
+    "backToList": "Retour à la liste",
+    "noStoresMessage": "Aucun point de vente trouvé dans la base de données...",
+    "geolocationNotEnabled": "Impossible de localiser des points de vente à proximité. Le consentement à la géolocalisation n'a pas été activé.",
+    "searchNearestStores": "Rechercher les points de vente les plus proches",
+    "searchBoxLabel": "Saisir le code postal, la localité ou l'adresse"
+  }
+}

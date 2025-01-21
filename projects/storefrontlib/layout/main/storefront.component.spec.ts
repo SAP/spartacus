@@ -1,13 +1,12 @@
 import { Component, DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { FeatureConfigService, RoutingService } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { OutletDirective } from '../../cms-structure';
 import { MockFeatureDirective } from '../../shared/test/mock-feature-directive';
+import { SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontComponent } from './storefront.component';
-import { SkipLinkService } from '../a11y/skip-link/index';
 
 @Component({
   selector: 'cx-header',
@@ -85,7 +84,6 @@ describe('StorefrontComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
       declarations: [
         StorefrontComponent,
         MockHeaderComponent,

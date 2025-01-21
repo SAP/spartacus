@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, GuardResult, Router } from '@angular/router';
 import {
   isNotUndefined,
   Product,
@@ -29,9 +29,7 @@ export class ProductVariantsGuard {
     protected semanticPathService: SemanticPathService,
     protected router: Router
   ) {}
-  canActivate(
-    activatedRoute: ActivatedRouteSnapshot
-  ): Observable<boolean | UrlTree> {
+  canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<GuardResult> {
     const productCode = activatedRoute.params?.productCode;
     if (!productCode) {
       return of(true);
