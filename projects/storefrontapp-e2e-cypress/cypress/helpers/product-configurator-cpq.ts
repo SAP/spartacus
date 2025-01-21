@@ -171,7 +171,7 @@ export function convertCardTypeToUiType(cardType: cardType) {
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string,
+  valueName: string
 ): void {
   configuration.selectAttribute(attributeName, uiType, valueName);
   cy.wait('@updateConfig');
@@ -228,7 +228,6 @@ export function setQuantity(
   );
   configuration.checkUpdatingMessageNotDisplayed();
   cy.wait('@updateConfig');
- 
 }
 
 /**
