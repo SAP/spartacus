@@ -65,7 +65,6 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   ) {
     useFeatureStyles('a11ySavedCartsZoom');
     useFeatureStyles('a11yQTY2Quantity');
-    useFeatureStyles('a11yHighContrastBorders');
   }
 
   ngOnInit(): void {

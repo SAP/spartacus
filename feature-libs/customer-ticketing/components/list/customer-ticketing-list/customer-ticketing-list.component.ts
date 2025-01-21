@@ -5,11 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import {
-  RoutingService,
-  TranslationService,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { RoutingService, TranslationService } from '@spartacus/core';
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
@@ -31,9 +27,7 @@ export class CustomerTicketingListComponent {
     protected routingService: RoutingService,
     protected translationService: TranslationService,
     protected customerTicketingConfig: CustomerTicketingConfig
-  ) {
-    useFeatureStyles('a11yHighContrastBorders');
-  }
+  ) {}
   PAGE_SIZE =
     this.customerTicketingConfig.customerTicketing?.listViewPageSize || 5;
   sortType: string;

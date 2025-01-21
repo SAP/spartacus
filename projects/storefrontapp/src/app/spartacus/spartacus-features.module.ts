@@ -416,7 +416,6 @@ if (environment.cpq) {
         a11yKeyboardFocusInSearchBox: true,
         a11yAddPaddingToCarouselPanel: true,
         a11yHideConsentButtonWhenBannerVisible: true,
-        a11yHighContrastBorders: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: true,
         enableConsecutiveCharactersPasswordRequirement: true,
