@@ -6,6 +6,7 @@ import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
 import { PopoverModule, SplitViewService } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { ViewComponent } from 'projects/storefrontlib/shared/components/split-view/view/view.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { ItemService } from '../item.service';
 import { MessageTestingModule } from '../message/message.testing.module';
@@ -39,7 +40,7 @@ describe('CardComponent', () => {
         MessageTestingModule,
         PopoverModule,
       ],
-      declarations: [CardComponent, ViewComponent],
+      declarations: [CardComponent, ViewComponent, MockFeatureDirective],
       providers: [
         {
           provide: ItemService,
