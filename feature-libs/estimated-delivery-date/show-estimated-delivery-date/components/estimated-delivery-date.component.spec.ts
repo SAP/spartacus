@@ -1,15 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { LanguageService } from '@spartacus/core';
+import { Consignment, Order, OrderHistoryFacade } from '@spartacus/order/root';
 import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
 import { Observable, ReplaySubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { EstimatedDeliveryDateComponent } from './estimated-delivery-date.component';
 import { ArrivalSlots } from '../../root/model';
-import { Consignment, Order, OrderHistoryFacade } from '@spartacus/order/root';
+import { EstimatedDeliveryDateComponent } from './estimated-delivery-date.component';
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
@@ -55,7 +54,7 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [
         EstimatedDeliveryDateComponent,
         MockConfigureEstimatedDeliveryDateComponent,

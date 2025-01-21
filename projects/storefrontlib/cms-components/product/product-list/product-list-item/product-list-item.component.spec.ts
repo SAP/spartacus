@@ -9,7 +9,6 @@ import {
   SimpleChange,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   ProductService,
@@ -96,7 +95,7 @@ describe('ProductListItemComponent in product-list', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule, OutletModule],
+      imports: [I18nTestingModule, OutletModule],
       declarations: [
         ProductListItemComponent,
         MockPictureComponent,

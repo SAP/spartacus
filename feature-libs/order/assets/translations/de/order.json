@@ -1,0 +1,192 @@
+{
+  "orderDetails": {
+    "orderId": "Bestellnr.",
+    "orderNumber": "Bestellnummer",
+    "replenishmentId": "Nachbestellnr.",
+    "purchaseOrderId": "Bestellnr.",
+    "purchaseOrderNumber": "Bestellnummer",
+    "emptyPurchaseOrderId": "Keine",
+    "none": "Keine - {{value}}",
+    "placed": "Aufgegeben",
+    "placedBy": "Aufgegeben von",
+    "unit": "Einheit",
+    "costCenter": "Kostenstelle",
+    "costCenterAndUnit": "Kostenstelle / Einheit",
+    "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
+    "methodOfPayment": "Art der Zahlung",
+    "payByAccount": "Über Konto bezahlen",
+    "paidByCreditCard": "(mit Kreditkarte bezahlt)",
+    "status": "Status",
+    "active": "Aktiv",
+    "shippedOn": "Versendet am",
+    "shippingMethod": "Versandart",
+    "placedOn": "Aufgegeben am",
+    "startOn": "Start am",
+    "nextOrderDate": "Nächstes Bestelldatum",
+    "frequency": "Häufigkeit",
+    "cancelled": " Storniert",
+    "deliveryStatus_IN_TRANSIT": "Auf Transportweg",
+    "deliveryStatus_READY_FOR_PICKUP": "Bereit für Abholung",
+    "deliveryStatus_READY_FOR_SHIPPING": "Bereit für Versand",
+    "deliveryStatus_WAITING": "Wartet",
+    "deliveryStatus_DELIVERING": "Wird geliefert",
+    "deliveryStatus_PICKPACK": "Wird auf Versand vorbereitet",
+    "deliveryStatus_PICKUP_COMPLETE": "Abholung abgeschlossen",
+    "deliveryStatus_DELIVERY_COMPLETED": "Lieferung abgeschlossen",
+    "deliveryStatus_PAYMENT_NOT_CAPTURED": "Zahlungsproblem",
+    "deliveryStatus_IN_PROCESS": "Bestellungsabwicklung",
+    "deliveryStatus_READY": "Bestellungsabwicklung",
+    "deliveryStatus_DELIVERY_REJECTED": "Lieferung abgelehnt",
+    "deliveryStatus_SHIPPED": "Versendet",
+    "deliveryStatus_TAX_NOT_COMMITTED": "Steuerproblem",
+    "deliveryStatus_CANCELLED": "Storniert",
+    "statusDisplay_cancelled": "Storniert",
+    "statusDisplay_cancelling": "Stornierung ausstehend",
+    "statusDisplay_completed": "Abgeschlossen",
+    "statusDisplay_created": "Erstellt",
+    "statusDisplay_error": "Ausstehend",
+    "statusDisplay_Error": "Ausstehend",
+    "statusDisplay_processing": "Ausstehend",
+    "statusDisplay_open": "Offen",
+    "statusDisplay_pending": {
+      "approval": "Genehmigung ausstehend",
+      "merchant": {
+        "approval": "Genehmigung durch Händler ausstehend"
+      }
+    },
+    "statusDisplay_approved": "Genehmigt",
+    "statusDisplay_rejected": "Abgelehnt",
+    "statusDisplay_merchant": {
+      "approved": "Vom Händler genehmigt",
+      "rejected": "Vom Händler abgelehnt"
+    },
+    "statusDisplay_assigned": {
+      "admin": "Dem Administrator zugeordnet"
+    },
+    "consignmentTracking": {
+      "action": "Paket nachverfolgen",
+      "dialog": {
+        "header": "Nachverfolgungsinformationen",
+        "shipped": "Versendet",
+        "estimate": "Voraussichtliche Lieferung",
+        "carrier": "Lieferservice",
+        "trackingId": "Sendungsverfolgungsnummer",
+        "noTracking": "Das Paket wurde nicht aus dem Lager versendet. Die Nachverfolgungsinformationen sind nach dem Versand des Pakets verfügbar.",
+        "loadingHeader": "Sendungsverfolgung"
+      }
+    },
+    "cancellationAndReturn": {
+      "returnAction": "Rücksendung anfordern",
+      "cancelAction": "Positionen stornieren",
+      "item": "Position",
+      "itemPrice": "Positionspreis",
+      "quantity": "Maximale Menge",
+      "returnQty": "Rücksendungsmenge",
+      "cancelQty": "Stornierungsmenge",
+      "setAll": "Alle Mengen auf das Maximum festlegen",
+      "totalPrice": "Gesamtsumme",
+      "submit": "Anfrage senden",
+      "submitDescription": "Anfrage senden. Die Positionen auf dieser Seite werden in die Stornierungsanfrage aufgenommen.",
+      "returnSuccess": "Ihre Rücksendungsanfrage ({{rma}}) wurde abgeschickt",
+      "cancelSuccess": "Ihre Stornierungsanfrage wurde abgeschickt (ursprüngliche Bestellung {{orderCode}} wird aktualisiert)"
+    },
+    "cancelReplenishment": {
+      "title": "Nachbestellung stornieren",
+      "description": "Künftige Nachbestellung stornieren?",
+      "accept": "Ja",
+      "reject": "Nein",
+      "cancelSuccess": "Nachbestellnr. {{replenishmentOrderCode}} wurde erfolgreich storniert"
+    },
+    "caption": "Inhalte der Bestellung."
+  },
+  "orderHistory": {
+    "orderHistory": "Bestellverlauf",
+    "orderId": "Bestellnr.",
+    "emptyPurchaseOrderId": "Keine",
+    "date": "Datum",
+    "status": "Status",
+    "PONumber": "Bestellnummer",
+    "total": "Gesamtsumme",
+    "noOrders": "Für dieses Konto gibt es keine Bestellungsdatensätze.",
+    "noReplenishmentOrders": "Für dieses Konto gibt es keine Nachbestellungsdatensätze.",
+    "startShopping": "Einkauf beginnen",
+    "sortBy": "Sortieren nach",
+    "sortOrders": "Bestellungen sortieren",
+    "replenishmentOrderHistory": "Nachbestellverlauf",
+    "replenishmentOrderId": "Nachbestellnr.",
+    "purchaseOrderNumber": "Bestellnr.",
+    "costCenter": "Kostenstelle",
+    "startOn": "Start am",
+    "frequency": "Häufigkeit",
+    "nextOrderDate": "Nächstes Bestelldatum",
+    "cancel": "Abbrechen",
+    "cancelled": "Abgebrochen",
+    "replenishmentHistory": "Nachbestellverlauf",
+    "notFound": "Keine Bestellungen gefunden",
+    "actions": "Aktionen"
+  },
+  "AccountOrderHistoryTabContainer": {
+    "tabs": {
+      "AccountOrderHistoryComponent": "ALLE BESTELLUNGEN ({{param}})",
+      "OrderReturnRequestListComponent": "RÜCKSENDUNGEN ({{param}})"
+    },
+    "tabPanelContainerRegion": "Mit Bestellverlaufdetails gruppieren",
+    "tabPanelContainerRegionGroup": "Mit Bestellverlaufdetails gruppieren"
+  },
+  "returnRequestList": {
+    "returnRequestId": "Rücksendungsnr.",
+    "orderId": "Bestellnr.",
+    "date": "Erstellungsdatum",
+    "status": "Status",
+    "sortBy": "Sortieren nach",
+    "sortReturns": "Rücksendungen sortieren",
+    "statusDisplay_APPROVAL_PENDING": "Genehmigung ausstehend",
+    "statusDisplay_CANCELED": "Storniert",
+    "statusDisplay_CANCELLING": "Wird storniert",
+    "statusDisplay_WAIT": "Warten",
+    "statusDisplay_RECEIVED": "Erhalten",
+    "statusDisplay_RECEIVING": "Wird empfangen",
+    "statusDisplay_APPROVING": "Wird genehmigt",
+    "statusDisplay_REVERSING_PAYMENT": "Zahlung wird storniert",
+    "statusDisplay_PAYMENT_REVERSED": "Zahlung storniert",
+    "statusDisplay_PAYMENT_REVERSAL_FAILED": "Zahlungsstornierung fehlgeschlagen",
+    "statusDisplay_REVERSING_TAX": "Steuer wird storniert",
+    "statusDisplay_TAX_REVERSED": "Steuer storniert",
+    "statusDisplay_TAX_REVERSAL_FAILED": "Steuerstornierung fehlgeschlagen",
+    "statusDisplay_COMPLETED": "Abgeschlossen"
+  },
+  "returnRequest": {
+    "returnRequestId": "Nr. der Rücksendungsanfrage",
+    "orderCode": "Für Bestellnr.",
+    "status": "Rücksendungstatus",
+    "cancel": "Rücksendeanfrage stornieren",
+    "item": "Beschreibung",
+    "itemPrice": "Positionspreis",
+    "returnQty": "Rücksendungsmenge",
+    "total": "Gesamtsumme",
+    "summary": "Gesamtsumme für Rücksendung",
+    "subtotal": "Zwischensumme",
+    "deliveryCode": "Versandkosten",
+    "estimatedRefund": "Geschätzte Rückerstattung",
+    "note": "Die Summen werden geschätzt und enthalten möglicherweise keine anwendbaren Steuern oder andere Gebühren.",
+    "cancelSuccess": "Ihre Rücksendungsanfrage ({{rma}}) wurde storniert",
+    "caption": "Inhalte der Bestellung."
+  },
+  "reorder": {
+    "button": "Erneut bestellen",
+    "dialog": {
+      "reorderProducts": "Produkte erneut bestellen",
+      "messages": {
+        "reviewConfiguration": "Bei der Konfiguration von \"{{ productCode}}\" ist ein Fehler aufgetreten.",
+        "lowStock": "Menge für {{ productName }}: {{ quantity }} wurde auf {{ quantityAdded }} verringert.",
+        "noStock": "{{ productName }} ist zurzeit nicht vorrätig.",
+        "pricingError": "Preisfindungsproblem mit \"{{ productCode }}\".",
+        "unresolvableIssues": "Nicht erkanntes Problem mit \"{{ productCode }}\".",
+        "success": "Produkte wurden dem Warenkorb erfolgreich hinzugefügt"
+      },
+      "areYouSureToReplaceCart": "Der derzeitige Warenkorb wird durch neue Positionen ersetzt. Möchten Sie fortfahren?",
+      "cancel": "Abbrechen",
+      "continue": "Weiter"
+    }
+  }
+}

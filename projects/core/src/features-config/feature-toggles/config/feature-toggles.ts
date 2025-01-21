@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -175,6 +175,11 @@ export interface FeatureTogglesInterface {
   a11yNavigationUiKeyboardControls?: boolean;
 
   /**
+   * In `FutureStockAccordionComponent` use `cx-color-text` for button color
+   */
+  a11yUseProperTextColorForFutureStockAccordion?: boolean;
+
+  /**
    * Improves screen reader(VoiceOver, JAWS) narration of menu buttons inside of 'NavigationUIComponent'.
    */
   a11yNavMenuExpandStateReadout?: boolean;
@@ -210,6 +215,16 @@ export interface FeatureTogglesInterface {
    * Element containing the 'PopoverDirective' will be refocused after the popover is closed.
    */
   a11yPopoverFocus?: boolean;
+
+  /**
+   * Fix popover appearance when a High Contrast Theme is applied.
+   */
+  a11yPopoverHighContrast?: boolean;
+
+  /**
+   * 'TabComponent' disallow automatic tab activation.
+   */
+  a11yTabsManualActivation?: boolean;
 
   /**
    * Adds Datepicker and Combobox label and corrects heading order for 'CheckoutScheduleReplenishmentOrderComponent'.
@@ -588,6 +603,8 @@ export interface FeatureTogglesInterface {
   /**
    * 'NgSelectA11yDirective' will now provide a count of items for each availble option.
    * Including this count in aria-label will help screen readers to provide more context to the user.
+   * Update (since 2211.33): This feature toggle and the logic behind it should be removed
+   * in next major relase since ng-select now correctly handles aria-label values of select options.
    */
   a11yNgSelectOptionsCount?: boolean;
 
@@ -778,6 +795,11 @@ export interface FeatureTogglesInterface {
   a11yDifferentiateFocusedAndSelected?: boolean;
 
   /**
+   * When enabled the input element in `QuickOrderFormComponent' will regain its focus after the dropdown is closed.
+   */
+  a11yQuickOrderSearchBoxRefocusOnClose?: boolean;
+
+  /**
    * Adds a visible focus indicator for keyboard navigation in the `SearchBoxComponent` without affecting the visual state for mouse interactions.
    * Affects: SearchBoxComponent
    */
@@ -790,6 +812,18 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
+   * Restores the focus to the card once a option has been selected and the checkout has updated.
+   * Affects: CheckoutPaymentMethodComponent, CheckoutDeliveryAddressComponent
+   */
+  a11yFocusOnCardAfterSelecting?: boolean;
+
+  /**
+   * Search dropdowns will display the focus ring correctly when navigating to the options using the down arrow key.
+   * Affects: SearchBoxComponent, QuickOrderFormComponent
+   */
+  a11ySearchableDropdownFirstElementFocus?: boolean;
+
+  /**
    * Hides the 'Consent Management' button from the tab order when the cookies banner is visible.
    * Ensures the button is re-enabled and part of the tab order once consent is given and the banner disappears.
    * Renames the button from "View Details" to "Consent Management" after consent is given.
@@ -797,6 +831,19 @@ export interface FeatureTogglesInterface {
    * Affects: AnonymousConsentOpenDialogComponent, AnonymousConsentManagementBannerComponent
    */
   a11yHideConsentButtonWhenBannerVisible?: boolean;
+
+  /**
+   * Adds a unique `aria-label` to repeating buttons that contain the same text.
+   * Affects: SetPreferredStoreComponent
+   */
+  a11yRepeatingButtonsUniqueLabels?: boolean;
+
+  /**
+   * Ensures that borders across all UI elements are visible and meet accessibility standards in high-contrast dark and light themes.
+   * This change is applied globally to enhance usability for users relying on high-contrast modes.
+   * Affects: CustomerTickingListComponent, CheckoutReviewPaymentComponent, SavedCartListComponent
+   */
+  a11yHighContrastBorders?: boolean;
 
   /**
    * In OCC cart requests, it puts parameters of a cart name and cart description
@@ -828,6 +875,14 @@ export interface FeatureTogglesInterface {
    * identical characters (e.g., "aa", "11", or "$$" are not allowed).
    */
   enableConsecutiveCharactersPasswordRequirement?: boolean;
+
+  /**
+   * In CustomerCouponConnector, Enables claiming customer coupon with coupon code in httpRequest body with POST method.
+   *
+   * When set to `false`, claiming customer coupon works with coupon code as parameter in URL, which exposes sensitive data and has security risk.
+   * When set to `true`, claiming customer coupon works with coupon code in httpRequest body with POST method(the new Occ endpoint is available since Commerce 2211.28), which avoids security risk.
+   */
+  enableClaimCustomerCouponWithCodeInRequestBody?: boolean;
 
   /**
    * Enables a validation that prevents new passwords from matching the current password
@@ -862,6 +917,12 @@ export interface FeatureTogglesInterface {
    * keyboard navigation
    */
   a11yHamburgerMenuTrapFocus?: boolean;
+
+  /**
+   * Associates content regions with their headers improving readout while navigating between sections.
+   * Affects: CardComponent, AccountSummaryDocumentComponent, ListComponent
+   */
+  a11yRegionAssociatedHeaders?: boolean;
 
   /**
    * When enabled, allows to provide extended formats and media queries for <picture> element if used in MediaComponent.
@@ -945,6 +1006,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRequiredAsterisks: true,
   a11yQuantityOrderTabbing: true,
   a11yNavigationUiKeyboardControls: true,
+  a11yUseProperTextColorForFutureStockAccordion: false,
   a11yNavMenuExpandStateReadout: false,
   a11yOrderConfirmationHeadingOrder: true,
   a11yStarRating: true,
@@ -952,6 +1014,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventHorizontalScroll: false,
   a11yReorderDialog: true,
   a11yPopoverFocus: true,
+  a11yPopoverHighContrast: false,
+  a11yTabsManualActivation: false,
   a11yScheduleReplenishment: true,
   a11yScrollToTop: true,
   a11ySavedCartsZoom: true,
@@ -1047,9 +1111,15 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySearchboxAssistiveMessage: false,
   updateConsentGivenInOnChanges: false,
   a11yDifferentiateFocusedAndSelected: false,
+  a11yQuickOrderSearchBoxRefocusOnClose: false,
   a11yKeyboardFocusInSearchBox: false,
   a11yAddPaddingToCarouselPanel: false,
+  a11yFocusOnCardAfterSelecting: false,
+  a11ySearchableDropdownFirstElementFocus: false,
   a11yHideConsentButtonWhenBannerVisible: false,
+  a11yRepeatingButtonsUniqueLabels: false,
+  a11yHighContrastBorders: false,
+  a11yRegionAssociatedHeaders: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
   useSiteThemeService: false,
@@ -1063,4 +1133,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yScrollToTopPositioning: false,
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
+  enableClaimCustomerCouponWithCodeInRequestBody: false,
 };

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { StoreFinderComponent } from './store-finder.component';
 
 @Component({
@@ -15,7 +14,6 @@ describe('StoreFinderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
       declarations: [StoreFinderComponent, MockStoreFinderHeaderComponent],
     }).compileComponents();
   }));

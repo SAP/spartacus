@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,10 @@ import {
 } from '@spartacus/opf/base/root';
 import {
   opfCheckoutTranslationChunksConfig,
-  opfCheckoutTranslations,
+  opfCheckoutTranslationsEn,
+  opfCheckoutTranslationsJa,
+  opfCheckoutTranslationsDe,
+  opfCheckoutTranslationsZh,
 } from '@spartacus/opf/checkout/assets';
 import {
   OPF_CHECKOUT_FEATURE,
@@ -23,7 +26,10 @@ import {
 } from '@spartacus/opf/checkout/root';
 import {
   opfPaymentTranslationChunksConfig,
-  opfPaymentTranslations,
+  opfPaymentTranslationsEn,
+  opfPaymentTranslationsJa,
+  opfPaymentTranslationsDe,
+  opfPaymentTranslationsZh,
 } from '@spartacus/opf/payment/assets';
 
 import { OPF_CTA_FEATURE, OpfCtaRootModule } from '@spartacus/opf/cta/root';
@@ -36,10 +42,7 @@ import {
   OpfPaymentRootModule,
 } from '@spartacus/opf/payment/root';
 import {
-  OPF_GOOGLE_PAY_PROVIDER_NAME,
   OPF_QUICK_BUY_FEATURE,
-  OpfQuickBuyConfig,
-  OpfQuickBuyGooglePayProvider,
   OpfQuickBuyRootModule,
 } from '@spartacus/opf/quick-buy/root';
 import { environment } from '../../../../environments/environment';
@@ -93,14 +96,24 @@ if (environment.b2b) {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: opfCheckoutTranslations,
+        resources: {
+          en: opfCheckoutTranslationsEn,
+          ja: opfCheckoutTranslationsJa,
+          de: opfCheckoutTranslationsDe,
+          zh: opfCheckoutTranslationsZh,
+        },
         chunks: opfCheckoutTranslationChunksConfig,
         fallbackLang: 'en',
       },
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: opfPaymentTranslations,
+        resources: {
+          en: opfPaymentTranslationsEn,
+          ja: opfPaymentTranslationsJa,
+          de: opfPaymentTranslationsDe,
+          zh: opfPaymentTranslationsZh,
+        },
         chunks: opfPaymentTranslationChunksConfig,
         fallbackLang: 'en',
       },
@@ -110,13 +123,6 @@ if (environment.b2b) {
         opfBaseUrl:
           'https://opf-iss-d0.opf.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront/',
         commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
-      },
-    }),
-    provideConfig(<OpfQuickBuyConfig>{
-      providers: {
-        [OPF_GOOGLE_PAY_PROVIDER_NAME]: {
-          resourceUrl: 'https://pay.google.com/gp/p/js/pay.js',
-        } as OpfQuickBuyGooglePayProvider,
       },
     }),
     ...extensionProviders,

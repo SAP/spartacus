@@ -1,0 +1,22 @@
+{
+  "checkoutB2B": {
+    "noPoNumber": "Nic",
+    "poNumber": "Číslo objednávky (volitelné)",
+    "costCenter": "Nákladové středisko",
+    "placeholder": "Zadejte č. objednávky",
+    "availableLabel": "Doručovací adresy, které máte k dispozici, závisejí na jednotce nákladového střediska",
+    "invalid": {
+      "accountType": "Váš účet neumožňuje, abyste zde provedli kontrolu a potvrzení."
+    },
+    "methodOfPayment": {
+      "paymentType": "Typ platby"
+    },
+    "review": {
+      "poNumber": "Číslo objednávky"
+    },
+    "progress": {
+      "methodOfPayment": "Způsob platby"
+    },
+    "invalidCostCenter": "Neplatné nákladové středisko."
+  }
+}

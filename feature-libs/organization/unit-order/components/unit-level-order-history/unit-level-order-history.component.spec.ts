@@ -7,8 +7,8 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   PaginationModel,
@@ -17,13 +17,12 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OrderHistoryQueryParams } from '../../core/model/unit-order.model';
 import { UnitOrderFacade } from '../../root/facade';
-import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
 import { UnitLevelOrderHistoryFilterComponent } from './filter/unit-level-order-history-filter.component';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { ReactiveFormsModule } from '@angular/forms';
+import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
 
 const mockOrderList: OrderHistoryList | undefined = {
   orders: [
@@ -162,7 +161,7 @@ describe('UnitLevelOrderHistoryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule, ReactiveFormsModule],
+      imports: [I18nTestingModule, ReactiveFormsModule],
       declarations: [
         UnitLevelOrderHistoryComponent,
         MockUrlPipe,

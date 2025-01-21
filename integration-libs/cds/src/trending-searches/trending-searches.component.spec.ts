@@ -1,21 +1,20 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  *
  */
 
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   OutletContextData,
   SearchBoxComponentService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
-import { I18nTestingModule } from '@spartacus/core';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { TrendingSearchesComponent } from './trending-searches.component';
 import { SearchBoxOutletTrendingSearches } from './model';
+import { TrendingSearchesComponent } from './trending-searches.component';
 import { TrendingSearchesService } from './trending-searches.service';
 
 describe('TrendingSearchesComponent', () => {
@@ -32,7 +31,7 @@ describe('TrendingSearchesComponent', () => {
   };
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [I18nTestingModule],
       declarations: [TrendingSearchesComponent],
       providers: [
         {

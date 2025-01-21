@@ -1,0 +1,23 @@
+{
+  "opfCheckout": {
+    "tabs": {
+      "shipping": "Doprava",
+      "deliveryMethod": "Způsob dodání",
+      "paymentAndReview": "Platba a kontrola"
+    },
+    "paymentAndReviewTitle": "Platba a kontrola",
+    "billingAddress": "Fakturační adresa",
+    "paymentOption": "Možnost platby",
+    "termsAndConditions": "Obchodní podmínky",
+    "itemsToBeShipped": "Položky k odeslání",
+    "proceedPayment": "Objednat",
+    "retryPayment": "Chcete-li pokračovat, zkuste to znovu.",
+    "checkTermsAndConditionsExplicit": "Aby se vám zobrazily možnosti platby, musíte odsouhlasit Obchodní podmínky.",
+    "checkTermsAndConditionsImplicit": "Odesláním objednávky vyjadřujete souhlas s Obchodními podmínkami.",
+    "errors": {
+      "loadActiveConfigurations": "Momentálně nemůžeme načíst možnosti platby. Zkuste to znovu později.",
+      "noActiveConfigurations": "Momentálně nejsou k dispozici žádné možnosti platby. Zkuste to později znovu nebo kontaktujte podporu.",
+      "updateBillingAddress": "Adresu nebylo možné aktualizovat. Zkontrolujte, zda jsou údaje o adrese správné a zda je vaše zařízení připojeno k internetu. Pokud problém přetrvává, bude možná nutné vyprázdnit košík a znovu zahájit proces kontroly a potvrzení."
+    }
+  }
+}

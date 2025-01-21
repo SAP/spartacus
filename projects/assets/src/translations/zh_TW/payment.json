@@ -1,0 +1,62 @@
+{
+  "paymentForm": {
+    "payment": "付款",
+    "choosePaymentMethod": "選擇付款方法",
+    "paymentType": "付款類型",
+    "accountHolderName": {
+      "label": "帳號持有人姓名",
+      "placeholder": "帳號持有人姓名"
+    },
+    "cardNumber": "卡號",
+    "expirationDate": "到期日期",
+    "securityCode": "安全碼 (CVV)",
+    "securityCodeTitle": "卡片驗證值",
+    "saveAsDefault": "儲存為預設",
+    "setAsDefault": "設硬為預設付款方法",
+    "billingAddress": "帳單寄送地址",
+    "sameAsDeliveryAddress": "與交貨地址相同",
+    "billingAddressSameAsShipping": "帳單寄送地址與交貨地址相同",
+    "selectOne": "選擇一個...",
+    "monthMask": "MM",
+    "yearMask": "YYYY",
+    "expirationYear": "到期年度 {{ selected }}",
+    "expirationMonth": "到期月份 {{ selected }}",
+    "useThisPayment": "使用此付款",
+    "addNewPayment": "新增付款",
+    "paymentAddedSuccessfully": "已成功新增付款",
+    "changePayment": "更改付款"
+  },
+  "paymentMethods": {
+    "paymentMethods": "付款方法",
+    "paymentMethodSelected": "已選擇付款方法",
+    "newPaymentMethodsAreAddedDuringCheckout": "結帳期間已新增付款方法。",
+    "invalidField": "欄位無效：{{ field }}"
+  },
+  "paymentCard": {
+    "deleteConfirmation": "您確定要刪除此付款方法嗎？",
+    "setAsDefault": "設定為預設值",
+    "expires": "到期：{{ month }}/{{ year }}",
+    "defaultPaymentMethod": "✓ 預設",
+    "defaultPaymentLabel": "預設付款方法",
+    "additionalPaymentLabel": "附加付款方法 {{ number }}",
+    "selected": "已選擇",
+    "selectedPayment": "所選付款",
+    "deletePaymentSuccess": "已成功刪除付款方法",
+    "visa": "Visa 卡",
+    "master": "萬事達卡",
+    "masterEuro": "萬事達 Eurocard 卡",
+    "dinersClub": "大來國際卡",
+    "switch": "Switch 卡",
+    "maestro": "萬事順卡",
+    "amex": "美國運通卡",
+    "credit": "信用卡"
+  },
+  "paymentTypes": {
+    "title": "付款方法",
+    "paymentType_CARD": "信用卡",
+    "paymentType_ACCOUNT": "帳戶"
+  },
+  "paymentMessages": {
+    "setAsDefaultSuccessfully": "已成功將新付款設定為預設"
+  }
+}

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,6 +32,16 @@ viewportContext(['mobile', 'desktop'], () => {
     it('should apply customer coupon that fails for anonymous user', () => {
       cartCoupon.applyMyCouponAsAnonymous();
     });
+  });
+
+  describe('My coupons - claim coupons with code in body using authenticated user', () => {
+    beforeEach(() => {
+      cy.window().then((win) => {
+        win.sessionStorage.clear();
+      });
+      cy.requireLoggedIn();
+    });
+    myCoupons.testClaimCustomerCouponWithCodeInBody();
   });
 
   describe('My coupons - Authenticated user', () => {

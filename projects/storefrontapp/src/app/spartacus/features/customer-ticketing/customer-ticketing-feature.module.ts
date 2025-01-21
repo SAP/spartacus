@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,10 @@
 import { NgModule } from '@angular/core';
 import {
   customerTicketingTranslationChunksConfig,
-  customerTicketingTranslations,
+  customerTicketingTranslationsEn,
+  customerTicketingTranslationsJa,
+  customerTicketingTranslationsDe,
+  customerTicketingTranslationsZh,
 } from '@spartacus/customer-ticketing/assets';
 import {
   CustomerTicketingRootModule,
@@ -30,7 +33,12 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: customerTicketingTranslations,
+        resources: {
+          en: customerTicketingTranslationsEn,
+          ja: customerTicketingTranslationsJa,
+          de: customerTicketingTranslationsDe,
+          zh: customerTicketingTranslationsZh,
+        },
         chunks: customerTicketingTranslationChunksConfig,
       },
     }),

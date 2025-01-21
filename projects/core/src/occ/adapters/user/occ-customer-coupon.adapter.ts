@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -77,6 +77,21 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     const headers = this.newHttpHeader();
 
     return this.http.post(url, { headers });
+  }
+
+  claimCustomerCouponWithCodeInBody(
+    userId: string,
+    codeVal: string
+  ): Observable<CustomerCoupon2Customer> {
+    const url = this.occEndpoints.buildUrl('claimCustomerCoupon', {
+      urlParams: { userId },
+    });
+    const toClaim = {
+      couponCode: codeVal,
+    };
+    const headers = this.newHttpHeader();
+
+    return this.http.post(url, toClaim, { headers });
   }
 
   claimCustomerCoupon(

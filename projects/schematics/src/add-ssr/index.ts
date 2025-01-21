@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -66,7 +66,7 @@ declare module '@schematics/angular/utility/workspace-models' {
     /**
      * Since ng17 it's no more "browserTarget" but "buildTarget" property
      */
-    buildTarget: string;
+    buildTarget?: string;
   }
 }
 

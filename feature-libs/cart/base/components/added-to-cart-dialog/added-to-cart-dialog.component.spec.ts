@@ -12,7 +12,6 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
@@ -147,7 +146,6 @@ describe('AddedToCartDialogComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
-        RouterTestingModule,
         SpinnerModule,
         I18nTestingModule,
         PromotionsModule,

@@ -1,7 +1,11 @@
-import { HttpRequest } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpRequest,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -60,11 +64,13 @@ describe('OccReplenishmentOrderHistoryAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccReplenishmentOrderHistoryAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

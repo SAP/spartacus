@@ -1,0 +1,75 @@
+{
+  "cartDetails": {
+    "id": "ID",
+    "proceedToCheckout": "Lanjutkan ke Pembayaran",
+    "cartName": "Keranjang #{{code}}"
+  },
+  "cartItems": {
+    "id": "ID",
+    "description": "Deskripsi",
+    "item": "Item",
+    "itemPrice": "Harga item",
+    "quantity": "Jml",
+    "quantityFull": "Jumlah",
+    "quantityTitle": "Jumlah menunjukkan jumlah total item ini dalam keranjang Anda.",
+    "total": "Total",
+    "actions": "Tindakan",
+    "cartTotal": "Total keranjang ({{count}} item)",
+    "cartTotal_other": "Total keranjang ({{count}} item)",
+    "itemRemoved": "Item yang dipilih telah dihapus. Total keranjang telah diperbarui.",
+    "caption": "Isi keranjang belanja."
+  },
+  "orderCost": {
+    "orderSummary": "Ringkasan Pesanan",
+    "subtotal": "Subtotal setelah diskon:",
+    "shipping": "Pengiriman:",
+    "estimatedShipping": "Estimasi pengiriman:",
+    "discount": "Anda hemat:",
+    "salesTax": "Pajak Penjualan:",
+    "grossTax": "Total pesanan tidak termasuk pajak sebesar",
+    "grossIncludeTax": "Total pesanan termasuk pajak sebesar",
+    "total": "Total:",
+    "toBeDetermined": "Menyusul"
+  },
+  "voucher": {
+    "coupon": "Punya kupon?",
+    "coupon_other": "Kode kupon",
+    "couponLabel": "Masukkan kode promo di sini",
+    "addCoupon": "Tambahkan kupon",
+    "apply": "Terapkan",
+    "placeholder": "Kode promo",
+    "applyVoucherSuccess": "{{voucherCode}} telah diterapkan.",
+    "removeVoucherSuccess": "{{voucherCode}} telah dihapus.",
+    "anchorLabel": "Masukkan atau hapus kode kupon Anda",
+    "vouchersApplied": "Kupon yang diterapkan",
+    "availableCoupons": "Kupon yang tersedia",
+    "availableCouponsLabel": "Anda dapat menambahkan kupon ke pesanan ini."
+  },
+  "saveForLaterItems": {
+    "itemTotal": "Disimpan untuk nanti ({{count}} item)",
+    "itemTotal_other": "Disimpan untuk nanti ({{count}} item)",
+    "cartTitle": "Keranjang",
+    "saveForLater": "Simpan Untuk Nanti",
+    "moveToCart": "Pindahkan Ke Keranjang",
+    "stock": "Stok",
+    "forceInStock": "Stok Tersedia"
+  },
+  "clearCart": {
+    "clearCart": "Hapus Keranjang",
+    "clearingCart": "Menghapus Keranjang...",
+    "cartClearedSuccessfully": "Keranjang aktif berhasil dihapus.",
+    "areYouSureToClearCart": "Apakah Anda yakin ingin menghapus keranjang ini?",
+    "allItemsWillBeRemoved": "Semua item dalam keranjang aktif Anda akan dihapus."
+  },
+  "validation": {
+    "cartEntriesChangeDuringCheckout": "Kami menemukan masalah dalam entri Anda saat proses pembayaran. Silakan tinjau keranjang Anda.",
+    "cartEntryRemoved": "{{name}} dihapus dari keranjang karena stok habis.",
+    "productOutOfStock": "{{name}} telah dihapus dari keranjang karena stok kurang.",
+    "lowStock": "Jumlah telah dikurangi menjadi {{quantity}} karena stok kurang.",
+    "reviewConfiguration": "Selesaikan masalah dalam konfigurasi entri pada keranjang terlebih dahulu.",
+    "configurationError": "Selesaikan masalah dalam konfigurasi entri pada keranjang terlebih dahulu.",
+    "pricingError": "Penentuan harga dengan konfigurator saat ini tidak tersedia. Anda tidak dapat melakukan proses pembayaran/pengajuan penawaran. Silakan coba lagi nanti.",
+    "unresolvableIssues": "Konfigurasi produk memerlukan entri tambahan pada back end. Akibatnya, Anda tidak dapat memprosesnya. Silakan hubungi tim dukungan.",
+    "inProgress": "Memproses"
+  }
+}

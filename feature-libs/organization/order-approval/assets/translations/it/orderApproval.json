@@ -1,0 +1,49 @@
+{
+  "orderApprovalDetails": {
+    "back": "Torna alla lista",
+    "showForm_APPROVE": "Approva ordine...",
+    "showForm_REJECT": "Rifiuta ordine...",
+    "form": {
+      "title_APPROVE": "Approva ordine {{orderCode}} per un totale di {{orderTotal}}",
+      "title_REJECT": "Rifiuta ordine {{orderCode}} per un totale di {{orderTotal}}",
+      "submit_APPROVE": "Approva",
+      "submit_REJECT": "Rifiuta",
+      "cancel": "Annulla",
+      "comment_APPROVE": {
+        "label": "Commento (facoltativo, massimo 255 caratteri)",
+        "placeholder": ""
+      },
+      "comment_REJECT": {
+        "label": "Commento (massimo 255 caratteri)",
+        "placeholder": ""
+      }
+    },
+    "permissionResults": {
+      "header": "Dettagli approvazione cliente",
+      "permission": "Autorizzazione",
+      "approver": "Approvatore",
+      "status": "Stato",
+      "approverComments": "Commenti dell'approvatore",
+      "noApprovalComments": "Nessuno",
+      "permissionType_B2BBudgetExceededPermission": "Il budget associato al centro di costo selezionato è stato superato",
+      "permissionType_B2BOrderThresholdPermission": "Il totale dell'ordine ha superato il limite per ordine",
+      "permissionType_B2BOrderThresholdTimespanPermission": "Il totale dell'ordine ha superato il limite per periodo"
+    }
+  },
+  "orderApprovalList": {
+    "orderCode": "N. ordine",
+    "POCode": "N. ordine d'acquisto",
+    "placedBy": "Effettuato da",
+    "date": "Data",
+    "status": "Stato",
+    "total": "Totale",
+    "none": "Nessuno",
+    "emptyList": "Al momento non ci sono ordini da approvare.",
+    "orderApprovalList": "Lista di approvazione ordini"
+  },
+  "orderApprovalGlobal": {
+    "notification": {
+      "noSufficientPermissions": "Autorizzazioni insufficienti per accedere a questa pagina."
+    }
+  }
+}

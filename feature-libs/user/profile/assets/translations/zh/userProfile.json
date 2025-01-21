@@ -1,0 +1,73 @@
+{
+  "updateEmailForm": {
+    "newEmailAddress": {
+      "label": "新电子邮件地址",
+      "placeholder": "输入电子邮件"
+    },
+    "confirmNewEmailAddress": {
+      "label": "确认新电子邮件地址",
+      "placeholder": "输入电子邮件"
+    },
+    "enterValidEmail": "请输入有效的电子邮件。",
+    "bothEmailMustMatch": "两封电子邮件必须匹配",
+    "password": {
+      "label": "密码",
+      "placeholder": "输入密码"
+    },
+    "pleaseInputPassword": "请输入密码",
+    "emailUpdateSuccess": "成功。请使用 {{ newUid }} 进行登录。"
+  },
+  "register": {
+    "confirmPassword": {
+      "action": "确认密码",
+      "label": "确认密码",
+      "placeholder": "确认密码"
+    },
+    "managementInMyAccount": "“我的帐户”中的“管理”。",
+    "termsAndConditions": "条款和条件",
+    "signIn": "我已有帐户。登录",
+    "register": "注册",
+    "confirmNewPassword": "确认新密码",
+    "resetPassword": "重设密码",
+    "createAccount": "创建帐户",
+    "title": "标题",
+    "titleOptional": "标题（可选）",
+    "firstName": {
+      "label": "名字",
+      "placeholder": "名字"
+    },
+    "lastName": {
+      "label": "姓氏",
+      "placeholder": "姓氏"
+    },
+    "emailAddress": {
+      "label": "电子邮件地址",
+      "placeholder": "电子邮件地址"
+    },
+    "password": {
+      "label": "密码",
+      "placeholder": "密码"
+    },
+    "newPassword": "新密码",
+    "emailMarketing": "使用我的个人数据接收市场营销活动的电子邮件简报。要更改设置，请转到“我的帐户”中的 Consent Management。",
+    "confirmThatRead": "我确认我已阅读并同意",
+    "selectTitle": "选择标题",
+    "passwordMinRequirements": "以下是确保密码安全的快速指南：使用至少 8 个字符，且大写和小写字母、数字和符号混合。",
+    "passwordStrengthRequirements": "以下是确保密码安全的快速指南：使用至少 8 个字符，且大写和小写字母、数字和符号混合。确保不要连续使用相同字符。",
+    "bothPasswordMustMatch": "两个密码必须一致",
+    "titleRequired": "标题为必填项。",
+    "postRegisterMessage": "请使用提供的凭据进行登录。",
+    "postRegisterSuccessMessage": "注册成功：请使用提供的凭据进行登录"
+  },
+  "forgottenPassword": {
+    "resetPassword": "重置密码",
+    "enterEmailAddressAssociatedWithYourAccount": "输入与您的帐户相关联的电子邮件地址。",
+    "emailAddress": {
+      "label": "电子邮件地址",
+      "placeholder": "输入电子邮件"
+    },
+    "enterValidEmail": "请输入有效的电子邮件。",
+    "passwordResetEmailSent": "已向您发送电子邮件，其中包含有关如何重置密码的信息。",
+    "passwordResetSuccess": "成功！现在可以使用新密码登录了。"
+  }
+}

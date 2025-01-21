@@ -1,6 +1,6 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
@@ -18,6 +18,10 @@ import {
   B2B_USER_SERIALIZER,
 } from '@spartacus/organization/administration/core';
 import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 import createSpy = jasmine.createSpy;
 
@@ -48,13 +52,15 @@ describe('OccB2BUserAdapter', () => {
   let converterService: ConverterService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccB2BUserAdapter,
         {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     converterService = TestBed.inject(

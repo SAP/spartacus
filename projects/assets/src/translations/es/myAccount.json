@@ -1,0 +1,109 @@
+{
+  "closeAccount": {
+    "confirmAccountClosure": "Confirmar cierre de cuenta",
+    "confirmAccountClosureMessage": "¿Confirma que desea cerrar su cuenta?",
+    "closeMyAccount": "CERRAR MI CUENTA",
+    "accountClosedSuccessfully": "Cuenta cerrada correctamente",
+    "accountClosedFailure": "Error al cerrar la cuenta"
+  },
+  "updatePasswordForm": {
+    "oldPassword": {
+      "label": "Contraseña anterior",
+      "placeholder": "Contraseña anterior"
+    },
+    "oldPasswordIsRequired": "Se requiere la contraseña anterior.",
+    "newPassword": {
+      "label": "Contraseña nueva",
+      "placeholder": "Contraseña nueva"
+    },
+    "passwordMinRequirements": "Esta es una guía rápida para generar una contraseña segura: utilice al menos 8 caracteres e incluya letras en mayúscula y minúscula, números y símbolos.",
+    "passwordStrengthRequirements": "Esta es una guía rápida para generar una contraseña segura: utilice al menos 8 caracteres e incluya letras en mayúscula y minúscula, números y símbolos. Asegúrese de no utilizar el mismo carácter de forma consecutiva.",
+    "confirmPassword": {
+      "label": "Confirmar contraseña nueva",
+      "placeholder": "Confirmar contraseña"
+    },
+    "bothPasswordMustMatch": "Ambas contraseñas deben coincidir",
+    "passwordUpdateSuccess": "Contraseña actualizada correctamente",
+    "accessDeniedError": "Se denegó el acceso"
+  },
+  "updateProfileForm": {
+    "title": "Tratamiento",
+    "none": "",
+    "firstName": {
+      "label": "Nombre",
+      "placeholder": "Nombre"
+    },
+    "firstNameIsRequired": "Se requiere el nombre.",
+    "lastName": {
+      "label": "Apellido",
+      "placeholder": "Apellido"
+    },
+    "lastNameIsRequired": "Se requiere el apellido.",
+    "profileUpdateSuccess": "Detalles personales actualizados correctamente",
+    "customerId": "Cliente n. º"
+  },
+  "consentManagementForm": {
+    "clearAll": "Borrar todo",
+    "selectAll": "Seleccionar todo",
+    "message": {
+      "success": {
+        "given": "Consentimiento otorgado correctamente.",
+        "withdrawn": "Consentimiento retirado correctamente."
+      }
+    }
+  },
+  "myCoupons": {
+    "noCouponsMessage": "No tiene cupones disponibles.",
+    "effectiveTitle": "Entrada en vigencia:",
+    "Effective": "EN VIGENCIA",
+    "PreSession": "EN VIGENCIA PRONTO",
+    "ExpireSoon": "VENCE PRONTO",
+    "readMore": "Más información",
+    "notification": "Notificación",
+    "findProducts": "Buscar productos",
+    "status": "Estado:",
+    "dialogTitle": "Cupón",
+    "claimCustomerCoupon": "Ha reclamado correctamente este cupón.",
+    "myCoupons": "Mis cupones",
+    "startDateAsc": "Fecha de inicio (ascendente)",
+    "startDateDesc": "Fecha de inicio (descendente)",
+    "endDateAsc": "Fecha de fin (ascendente)",
+    "endDateDesc": "Fecha de fin (descendente)",
+    "sortBy": "Clasificar por",
+    "sortCoupons": "Clasificar cupones",
+    "notesPreffix": "Puede definir sus canales favoritos para recibir notificaciones sobre cupones en la página ",
+    "notesLink": "Canales de notificación",
+    "notesSuffix": " ."
+  },
+  "notificationPreference": {
+    "message": "Seleccione sus canales de notificación preferidos",
+    "note": "Nota: ",
+    "noteMessage": "Si desactiva todos los canales, no pdorá recibir más notificaciones.",
+    "EMAIL": "Correo electrónico:",
+    "SMS": "SMS:",
+    "SITE_MESSAGE": "SiteMessage"
+  },
+  "myInterests": {
+    "header": "Mis intereses",
+    "item": "ARTÍCULO",
+    "price": "PRECIO",
+    "notifications": "NOTIFICACIONES",
+    "noInterests": "Aún no tiene intereses registrados.",
+    "inStock": "En stock",
+    "lowStock": "Existencias bajas",
+    "outOfStock": "No disponible en stock",
+    "BACK_IN_STOCK": "De vuelta en stock",
+    "sortBy": "Clasificar por",
+    "sortInterests": "Clasificar intereses",
+    "expirationDate": " - hasta {{ expirationDate }}",
+    "productId": "ID {{ code }}",
+    "remove": "Eliminar",
+    "sorting": {
+      "byNameAsc": "Nombre (ascendente)",
+      "byNameDesc": "Nombre (descendente)"
+    },
+    "actions": "ACCIONES",
+    "caption": "Contenido de Mis intereses.",
+    "itemRemoved": "Se eliminó el artículo seleccionado."
+  }
+}

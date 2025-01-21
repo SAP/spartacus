@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -289,9 +289,9 @@ describe('CDC B2B scenarios', () => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
-    it('should NOT send email to invalid email address in CDC screenset (CXINT-23)', () => {
+    it('should send email to invalid email address in CDC screenset (CXINT-23)', () => {
       cdc.forgotPassword('invalid_email@sapcx.com');
-      cdc.verifyForgotPasswordError();
+      cdc.verifyForgotPasswordSuccess();
     });
 
     it('should send email to invalid email address in CDC screenset (CXINT-23)', () => {
@@ -305,9 +305,9 @@ describe('CDC B2B scenarios', () => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
-    it('should NOT send email to invalid email address in CDC (CXINT-23)', () => {
+    it('should send email to invalid email address in CDC (CXINT-23)', () => {
       cdc.forgotPasswordWithoutScreenset('invalid_email@sapcx.com');
-      cdc.verifyForgotPasswordWithoutScreensetError();
+      cdc.verifyForgotPasswordWithoutScreensetSuccess();
     });
 
     it('should send email to valid email address in CDC (CXINT-23)', () => {

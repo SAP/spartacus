@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   FeatureConfigService,
   I18nTestingModule,
@@ -27,7 +26,7 @@ describe('FormErrors', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       providers: [
         FeatureConfigService,
         {

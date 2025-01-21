@@ -1,0 +1,8 @@
+{
+  "s4omScheduleLines": {
+    "quantity": "- 数量",
+    "a11y": {
+      "scheduleLineEntryInfo": "数量 {{ quantity }} 将于 {{ date }} 前交付"
+    }
+  }
+}

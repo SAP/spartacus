@@ -1,0 +1,80 @@
+{
+  "quickOrderCartForm": {
+    "entriesWereAdded": "({{ quantity }}) {{ product }} wurde dem Warenkorb hinzugefügt",
+    "entryWasAdded": "{{ product }} wurde dem Warenkorb hinzugefügt",
+    "noResults": "Es wurden keine Produkte gefunden",
+    "stockLevelReached": "Der Höchstbestand wurde erreicht",
+    "title": "Schnellbestellung",
+    "productCodePlaceholder": "ID eingeben",
+    "entryProductCode": "Produkt-ID für Schnellbestellung eingeben",
+    "quantity": "Menge für Schnellbestellung",
+    "addToCart": "Produkt zur Schnellbestellung hinzufügen",
+    "add": "Hinzufügen",
+    "product": "Produkt",
+    "products": "Produkte",
+    "productCodeLabel": "Produkt-ID",
+    "quantityLabel": "Menge",
+    "quantityFullLabel": "Menge"
+  },
+  "quickOrderForm": {
+    "placeholder": "Produktname oder SKU eingeben",
+    "searchBoxLabel": "Geben Sie den Produktnamen oder die SKU für die Schnellbestellung ein. Sie können bis zu {{ limit }} Produkte pro Bestellung hinzufügen.",
+    "listLimitReached": "Das Produktlimit wurde erreicht.",
+    "id": "ID {{ id }}",
+    "noResults": "Keine Ergebnisse gefunden",
+    "addProduct": "Produkt {{ product }} hinzufügen",
+    "initialDescription": "Wenn Ergebnisse aus der automatischen Vervollständigung verfügbar sind, können Sie sie mit den nach oben und unten zeigenden Pfeiltasten ansehen und mit der Eingabetaste auswählen.",
+    "productsResults": "{{ count }} Produkte sind verfügbar.",
+    "quickOrderSearch": "Produkte für Schnellbestellung suchen"
+  },
+  "quickOrderList": {
+    "addToCart": "In den Warenkorb",
+    "emptyList": "Liste leeren",
+    "header": "Produkte/SKUs hinzufügen",
+    "subHeader": "Sie können bis zu {{ limit }} gültige SKU gleichzeitig hinzufügen.",
+    "errorProceedingToCart": "Fehler beim Wechsel zum Warenkorb.",
+    "warningProceedingToCart": "Warnung beim Wechsel zum Warenkorb.",
+    "successfullyAddedToCart": "Erfolgreich dem Warenkorb hinzugefügt.",
+    "errors": {
+      "productIsOutOfStock": "{{ name }} (Nr. {{code}}) ist nicht vorrätig.",
+      "reviewErrors": "Überprüfen Sie diese Fehler.",
+      "listIsFull": "Die Liste ist voll, fügen Sie diese {{ count }} Produkte dem Warenkorb hinzu, um fortzufahren.",
+      "nonPurchasableError": "Produkt {{ name }} kann nicht gekauft werden",
+      "outOfStockErrorFound": "{{count}} Produkt, das nicht vorrätig ist, wurde nicht hinzugefügt.",
+      "outOfStockErrorFound_other": "{{count}} Produkte, die nicht vorrätig sind, wurden nicht hinzugefügt."
+    },
+    "warnings": {
+      "productWasReduced": "Menge für {{ name }} (Nr. {{code}}) wurde auf {{ quantityAdded}} verringert.",
+      "reviewWarnings": "Überprüfen Sie diese Warnungen.",
+      "reduceWarningFound": "Menge von {{count}} Produkt wurde verringert.",
+      "reduceWarningFound_other": "Menge von {{count}} Produkten wurde verringert."
+    },
+    "successes": {
+      "productAddedToCart": "{{ name }} (Nr. {{code}}) wurde dem Warenkorb hinzugefügt.",
+      "addedToCartFound": "{{ count }} Produkt wurde dem Warenkorb hinzugefügt.",
+      "addedToCartFound_other": "{{ count }} Produkte wurden dem Warenkorb hinzugefügt."
+    },
+    "informations": {
+      "addProductBeforeAddingToCart": "Bevor Sie die Produkte dem Warenkorb hinzufügen, müssen Sie sie der Liste hinzufügen."
+    },
+    "undo": "RÜCKGÄNGIG",
+    "revokeUndo": "Löschung des Produkts \"{{name}}\" wurde widerrufen.",
+    "productWasDeleted": "Produkt \"{{ name }}\" wurde in den Papierkorb verschoben."
+  },
+  "quickOrderTable": {
+    "product": "Produkt",
+    "id": "ID",
+    "price": "Preis",
+    "quantity": "MENGE",
+    "quantityFull": "Menge",
+    "itemPrice": "Positionspreis",
+    "qty": "Menge",
+    "actions": "Aktionen",
+    "inStock": "Vorrätig",
+    "lowStock": "Niederbestand",
+    "outOfStock": "Nicht vorrätig",
+    "listCleared": "Schnellbestellungsliste wurde geleert",
+    "addedtoCart": "Schnellbestellungsliste wurde dem Warenkorb hinzugefügt",
+    "caption": "Inhalte der Schnellbestellung."
+  }
+}

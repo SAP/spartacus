@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { translationChunksConfig, translations } from '@spartacus/assets';
+import {
+  translationChunksConfig,
+  translationsDe,
+  translationsEn,
+  translationsJa,
+  translationsZh,
+} from '@spartacus/assets';
 import {
   I18nConfig,
   OccConfig,
@@ -78,7 +84,12 @@ if (!environment.production) {
     provideConfig(<I18nConfig>{
       // we bring in static translations to be up and running soon right away
       i18n: {
-        resources: translations,
+        resources: {
+          en: translationsEn,
+          ja: translationsJa,
+          de: translationsDe,
+          zh: translationsZh,
+        },
         chunks: translationChunksConfig,
         fallbackLang: 'en',
       },

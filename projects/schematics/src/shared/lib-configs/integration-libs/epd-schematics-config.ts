@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,9 @@
 import { EPD_VISUALIZATION_CONFIG } from '../../constants';
 import {
   EPD_VISUALIZATION_FEATURE_NAME,
+  SPARTACUS_BOOTSTRAP_FUNCTIONS,
+  SPARTACUS_BOOTSTRAP_MIXINS,
+  SPARTACUS_BOOTSTRAP_VARIABLES,
   SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_EPD_VISUALIZATION_ASSETS,
   SPARTACUS_EPD_VISUALIZATION_ROOT,
@@ -58,6 +61,11 @@ export const EPD_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: EPD_SCSS_FILE_NAME,
     importStyle: SPARTACUS_EPD_VISUALIZATION,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
 };
 

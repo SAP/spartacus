@@ -1,0 +1,23 @@
+{
+  "opfCheckout": {
+    "tabs": {
+      "shipping": "Wysyłka",
+      "deliveryMethod": "Metoda dostawy",
+      "paymentAndReview": "Płatność i przegląd"
+    },
+    "paymentAndReviewTitle": "Płatność i przegląd",
+    "billingAddress": "Adres na fakturze",
+    "paymentOption": "Opcja płatności",
+    "termsAndConditions": "Warunki",
+    "itemsToBeShipped": "Pozycje do wysłania",
+    "proceedPayment": "Złóż zamówienie",
+    "retryPayment": "Ponów próbę, aby kontynuować",
+    "checkTermsAndConditionsExplicit": "Musisz zaakceptować Warunki, aby zobaczyć dostępne opcje płatności.",
+    "checkTermsAndConditionsImplicit": "Złożenie zamówienia jest równoznaczne z akceptacją naszych Warunków.",
+    "errors": {
+      "loadActiveConfigurations": "W tej chwili nie możemy załadować opcji płatności. Spróbuj ponownie później.",
+      "noActiveConfigurations": "Obecnie żadne opcje płatności nie są dostępne. Spróbuj ponownie później lub skontaktuj się z działem pomocy.",
+      "updateBillingAddress": "Nie można zaktualizować adresu. Sprawdź, czy dane adresowe są prawidłowe i czy urządzenie jest połączone z Internetem. Jeśli problem nadal występuje, może być konieczne wyczyszczenie koszyka i ponowne rozpoczęcie realizacji zakupu."
+    }
+  }
+}

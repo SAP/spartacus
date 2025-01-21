@@ -29,6 +29,14 @@ cx-account-summary-document-filter {
     border-style: solid;
     border-color: var(--cx-color-light);
     border-radius: 4px;
+    @include forFeature('a11yImproveContrast') {
+      border-color: var(--cx-color-dark);
+    }
+
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+      color: var(--color-text);
+    }
   }
 
   .cx-account-summary-document-filter-form-button-block {

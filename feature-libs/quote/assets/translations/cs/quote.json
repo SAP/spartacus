@@ -1,0 +1,251 @@
+{
+  "quote": {
+    "confirmDialog": {
+      "name": "Název:",
+      "description": "Popis:",
+      "validity": "Tato nabídka platí do {{ expirationTime }}",
+      "option": {
+        "yes": "Ano",
+        "no": "Ne"
+      },
+      "buyer": {
+        "submit": {
+          "a11y": {
+            "close": "Zavřít modální okno odeslání nabídky"
+          },
+          "title": "Odeslat žádost o nabídku {{ code }}?",
+          "confirmNote": "Chcete tuto žádost o nabídku opravdu odeslat?",
+          "successMessage": "Žádost o nabídku byla úspěšně odeslána"
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Zavřít modální okno zrušení nabídky"
+          },
+          "title": "Zrušit žádost o nabídku {{ code }}?",
+          "confirmNote": "Opravdu chcete zrušit tuto žádost o nabídku?",
+          "successMessage": "Žádost o nabídku byla zrušena"
+        }
+      },
+      "buyer_offer": {
+        "edit": {
+          "a11y": {
+            "close": "Zavřít modální okno úpravy nabídky"
+          },
+          "title": "Potvrdit úpravu nabídky {{ code }}?",
+          "confirmNote": "Chcete tuto schválenou nabídku opravdu upravit?",
+          "warningNote": "Tato nabídka byla schválena, její úprava zabrání přechodu k pokladně, dokud nebudou schváleny nové úpravy."
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Zavřít modální okno zrušení nabídky"
+          },
+          "title": "Zrušit nabídku {{ code }}?",
+          "confirmNote": "Chcete tuto nabídku opravdu zrušit?",
+          "successMessage": "Nabídka byla zrušena"
+        },
+        "checkout": {
+          "a11y": {
+            "close": "Zavřít modální okno kontroly a potvrzení nabídky"
+          },
+          "title": "Zkontrolovat a potvrdit nabídku {{ code }}?",
+          "confirmNote": "Opravdu chcete přijmout a potvrdit tuto nabídku?"
+        }
+      },
+      "expired": {
+        "edit": {
+          "a11y": {
+            "close": "Zavřít modální okno úpravy nabídky"
+          },
+          "title": "Potvrdit úpravu nabídky {{ code }}?",
+          "confirmNote": "Chcete tuto nabídku s ukončenou platností opravdu upravit?",
+          "warningNote": "Platnost této nabídky skončila. Úprava této nabídky zabrání přechodu k pokladně, dokud nebudou schváleny nové úpravy."
+        },
+        "requote": {
+          "a11y": {
+            "close": "Zavřít modální okno opakování nabídky"
+          },
+          "title": "Znovu vytvořit žádost o nabídku {{ code }}?",
+          "confirmNote": "Opravdu chcete znovu vytvořit tuto žádost o nabídku?",
+          "warningNote": "Platnost této nabídky skončila. Jejím opětovným vytvořením vytvoříte novou žádost o nabídku se stejným obsahem, který lze upravit a odeslat ke schválení."
+        }
+      },
+      "seller": {
+        "submit": {
+          "a11y": {
+            "close": "Zavřít modální okno odeslání nabídky"
+          },
+          "title": "Odeslat nabídku {{ code }}?",
+          "confirmNote": "Chcete tuto nabídku opravdu odeslat?",
+          "warningNote": "V závislosti na celkové hodnotě nabídky může být vyžadováno dodatečné schválení, než bude nákupčí moci nabídku zkontrolovat a potvrdit.",
+          "successMessage": "Nabídka byla úspěšně odeslána"
+        }
+      },
+      "sellerapprover": {
+        "approve": {
+          "a11y": {
+            "close": "Zavřít modální okno schválení nabídky"
+          },
+          "title": "Schválit nabídku {{ code }}?",
+          "confirmNote": "Chcete tuto nabídku opravdu schválit?",
+          "successMessage": "Nabídka byla úspěšně schválena"
+        },
+        "reject": {
+          "a11y": {
+            "close": "Zavřít modální okno zamítnutí nabídky"
+          },
+          "title": "Zamítnout nabídku {{ code }}?",
+          "confirmNote": "Chcete tuto nabídku opravdu zamítnout?",
+          "successMessage": "Nabídka byla zamítnuta"
+        }
+      },
+      "cancelled": {
+        "requote": {
+          "a11y": {
+            "close": "Zavřít modální okno opakování nabídky"
+          },
+          "title": "Znovu vytvořit žádost o nabídku {{ code }}?",
+          "confirmNote": "Opravdu chcete znovu vytvořit tuto žádost o nabídku?",
+          "warningNote": "Váš aktuální košík bude změněn na uložený košík."
+        }
+      },
+      "all": {
+        "edit": {
+          "a11y": {
+            "close": "Zavřít modální okno úpravy nabídky"
+          },
+          "title": "Upravit nabídku {{ code }}?",
+          "confirmNote": "Chcete tuto nabídku opravdu upravit?",
+          "warningNote": "Váš aktuální košík bude změněn na uložený košík."
+        }
+      }
+    },
+    "comments": {
+      "regionTitle": "Pole kontakt/komentář",
+      "title": "Kontakt",
+      "invalidComment": "Neplatný vstup – zadejte znovu…",
+      "allProducts": "Všechny produkty"
+    },
+    "commons": {
+      "requestQuote": "Požádat o nabídku",
+      "cart": "Košík",
+      "minRequestInitiationNote": "Pro odeslání nabídky je vyžadován minimální mezisoučet ${{minValue}}. ",
+      "savedActiveCart": "Váš aktuální košík byl změněn na uložený košík {{ code }}"
+    },
+    "header": {
+      "buyerEdit": {
+        "a11y": {
+          "cancel": "Zrušit úpravu informací hlavičky nabídky",
+          "save": "Uložit informace hlavičky nabídky"
+        }
+      },
+      "overview": {
+        "regionTitle": "Shrnutí detailů nabídky",
+        "id": "ID nabídky",
+        "status": "Status",
+        "information": "Informace o nabídce",
+        "name": "Název",
+        "description": "Popis",
+        "charactersLeft": "zbývá znaků: {{count}}",
+        "priceAndExpiry": "Cena a konec platnosti",
+        "estimatedTotal": "Odhadovaný celkový součet",
+        "total": "Celkem",
+        "expirationTime": "Datum konce platnosti",
+        "a11y": {
+          "edit": "Upravit informace hlavičky nabídky"
+        },
+        "createdAndUpdated": "Vytvořeno a aktualizováno",
+        "createdDate": "Vytvořeno",
+        "lastUpdatedDate": "Poslední aktualizace"
+      }
+    },
+    "httpHandlers": {
+      "cartValidationIssue": "Vyskytl se problém s vašimi položkami. Zkontrolujte svůj košík.",
+      "quoteCartIssue": "Položky v košíku nelze měnit. Přejděte k pokladně.",
+      "absoluteDiscountIssue": "Vyberte slevu, která nepřesahuje celkovou hodnotu.",
+      "expirationDateIssue": "Vyberte datum konce platnosti, které je v budoucnosti.",
+      "threshold": {
+        "underThresholdError": "Celková cena požadované nabídky nedosahuje na minimální prahovou hodnotu."
+      },
+      "expired": "Platnost nabídky vypršela. Je třeba znovu odeslat žádost o nabídku, abyste obdrželi novou nabídku dodavatele.",
+      "downloadPDFError": "Něco se pokazilo. Nelze získat dokument návrhu v PDF."
+    },
+    "items": {
+      "regionTitle": "Položky v košíku"
+    },
+    "links": {
+      "newCart": "Nový košík",
+      "quotes": "Nabídky",
+      "download": "Stáhnout dokument návrhu",
+      "a11y": {
+        "newCart": "Vytvořit nový prázdný košík a přejít k němu.",
+        "quotes": "Přejít k seznamu výsledků vyhledávání nabídek.",
+        "download": "Zahájit stahování návrhu nabídky."
+      }
+    },
+    "list": {
+      "regionTitle": "Souhrn seznamu nabídky",
+      "title": "Seznam nabídky",
+      "name": "Název",
+      "updated": "Aktualizováno",
+      "sortBy": "Řadit podle",
+      "sortQuotes": "Řadit nabídky",
+      "empty": "Pro tento účet nemáme žádné záznamy nabídek.",
+      "quoteId": "ID nabídky",
+      "status": "Status",
+      "clickableRow": "Kliknutím na řádek zobrazíte detaily nabídky."
+    },
+    "states": {
+      "BUYER_DRAFT": "Koncept",
+      "BUYER_SUBMITTED": "Odesláno",
+      "BUYER_ACCEPTED": "Přijato",
+      "BUYER_APPROVED": "Schváleno",
+      "BUYER_REJECTED": "Zamítnuto",
+      "BUYER_OFFER": "Nabídka dodavatele",
+      "BUYER_ORDERED": "Objednáno",
+      "SELLER_DRAFT": "Koncept",
+      "SELLER_REQUEST": "Vyžádáno",
+      "SELLER_SUBMITTED": "Odesláno",
+      "SELLERAPPROVER_DRAFT": "Koncept",
+      "SELLERAPPROVER_PENDING": "Čeká na schválení",
+      "SELLERAPPROVER_APPROVED": "Schváleno",
+      "SELLERAPPROVER_REJECTED": "Zamítnuto",
+      "CREATED": "Vytvořeno",
+      "CANCELLED": "Zrušeno",
+      "EXPIRED": "Skončila platnost"
+    },
+    "summary": {
+      "regionTitle": "Souhrn objednávky",
+      "actions": {
+        "APPROVE": "Schválit nabídku",
+        "CANCEL": "Zrušit nabídku",
+        "CHECKOUT": "Přijmout a k pokladně",
+        "EDIT": "Upravit nabídku",
+        "REJECT": "Zamítnout nabídku",
+        "REQUOTE": "Požádat o novou nabídku",
+        "SAVE": "Uložit nabídku",
+        "SUBMIT": "Odeslat nabídku",
+        "VIEW": "Zobrazit nabídku"
+      },
+      "prices": {
+        "title": "Souhrn objednávky",
+        "subtotal": "Mezisoučet",
+        "productDiscount": "Sleva položky",
+        "orderDiscount": "Sleva na objednávku",
+        "quoteDiscount": "Sleva z nabídky",
+        "total": "Celkem",
+        "hint": "V celkovém součtu nejsou zahrnuty žádné daně."
+      },
+      "sellerEdit": {
+        "discount": "Sleva",
+        "apply": "Použít",
+        "expiryDate": "Datum konce platnosti",
+        "discountValidationText": "Zadejte platnou slevu v procentech",
+        "a11y": {
+          "apply": "Zadanou hodnotu slevy aplikujete na tuto nabídku kliknutím.",
+          "discount": "Zadejte slevu v procentech, která se má použít na tuto nabídku.",
+          "expiryDate": "Zadejte datum konce platnosti této nabídky."
+        }
+      }
+    }
+  }
+}

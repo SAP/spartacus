@@ -1,0 +1,79 @@
+{
+  "addressForm": {
+    "title": "Gelar/Sapaan",
+    "titleOptional": "Gelar/Sapaan (opsional)",
+    "defaultTitle": "Gelar/Sapaan",
+    "firstName": {
+      "label": "Nama depan",
+      "placeholder": "Nama Depan"
+    },
+    "lastName": {
+      "label": "Nama belakang",
+      "placeholder": "Nama Belakang"
+    },
+    "address1": "Alamat 1",
+    "address2": "Alamat 2 (opsional)",
+    "country": "Negara/Wilayah",
+    "city": {
+      "label": "Kota",
+      "placeholder": "Kota"
+    },
+    "state": "Provinsi",
+    "zipCode": {
+      "label": "Kode pos",
+      "placeholder": "Kode Pos"
+    },
+    "phoneNumber": {
+      "label": "Nomor telepon (opsional)",
+      "placeholder": "misalnya (###) - ### - ####"
+    },
+    "cellphone": {
+      "label": "Nomor ponsel (opsional)",
+      "placeholder": "misalnya (###) - ### - ####"
+    },
+    "saveAsDefault": "Simpan sebagai default",
+    "chooseAddress": "Pilih alamat",
+    "streetAddress": "Alamat Jalan",
+    "aptSuite": "Nomor Apartemen",
+    "selectOne": "Pilih Satu...",
+    "setAsDefault": "Tetapkan sebagai alamat pengiriman utama",
+    "titleRequired": "Gelar/sapaan wajib diisi.",
+    "userAddressAddSuccess": "Alamat baru berhasil ditambahkan!",
+    "userAddressUpdateSuccess": "Alamat berhasil diperbarui!",
+    "userAddressDeleteSuccess": "Alamat berhasil dihapus!",
+    "invalidAddress": "Alamat Tidak Valid"
+  },
+  "addressBook": {
+    "addNewDeliveryAddress": "Tambahkan alamat pengiriman baru",
+    "editDeliveryAddress": "Edit alamat pengiriman",
+    "areYouSureToDeleteAddress": "Apakah Anda yakin ingin menghapus permanen alamat ini?",
+    "addNewAddress": "Tambah alamat baru",
+    "addAddress": "Tambahkan alamat",
+    "updateAddress": "Perbarui alamat",
+    "backToAddressList": "Kembali ke daftar alamat",
+    "defaultDeliveryAddress": "Alamat Pengiriman Utama",
+    "additionalDeliveryAddress": "Alamat Pengiriman Tambahan {{number}}"
+  },
+  "addressCard": {
+    "default": "UTAMA",
+    "selected": "Dipilih",
+    "selectedAddress": "Alamat yang Dipilih",
+    "setAsDefault": "Tetapkan sebagai utama",
+    "shipTo": "Kirim Ke",
+    "billTo": "Tagih ke",
+    "phoneNumber": "T",
+    "mobileNumber": "P"
+  },
+  "addressSuggestion": {
+    "verifyYourAddress": "Verifikasi alamat Anda",
+    "ensureAccuracySuggestChange": "Untuk memastikan ketepatan pengiriman, kami menyarankan perubahan yang dipilih di bawah ini.",
+    "chooseAddressToUse": "Silakan pilih alamat yang ingin Anda gunakan:",
+    "suggestedAddress": "Alamat yang disarankan",
+    "enteredAddress": "Alamat yang dimasukkan",
+    "editAddress": "Edit alamat",
+    "saveAddress": "Simpan alamat"
+  },
+  "addressMessages": {
+    "setAsDefaultSuccessfully": "Alamat {{ streetAddress }} berhasil ditetapkan sebagai alamat utama"
+  }
+}

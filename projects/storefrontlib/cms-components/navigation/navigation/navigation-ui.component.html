@@ -90,6 +90,9 @@
             [attr.aria-haspopup]="true"
             [attr.aria-expanded]="false"
             [attr.aria-label]="node.title"
+            [attr.title]="
+              'navigation.menuButonTitle' | cxTranslate: { title: node.title }
+            "
             (click)="toggleOpen($any($event))"
             (mouseenter)="onMouseEnter($event)"
             (keydown.space)="toggleOpen($any($event))"
@@ -108,7 +111,10 @@
             [attr.aria-haspopup]="true"
             [attr.aria-expanded]="false"
             [attr.aria-controls]="node.title"
-            [attr.aria-describedby]="'greeting'"
+            [attr.aria-label]="node.title"
+            [attr.title]="
+              'navigation.menuButonTitle' | cxTranslate: { title: node.title }
+            "
             (click)="toggleOpen($any($event))"
             (mouseenter)="onMouseEnter($event)"
             (keydown.space)="onSpace($any($event))"
@@ -147,6 +153,7 @@
         [attr.depth]="getTotalDepth(node)"
         [attr.wrap-after]="node.children.length > wrapAfter ? wrapAfter : null"
         [attr.columns]="getColumnCount(node.children.length)"
+        [attr.aria-label]="node.title"
       >
         <ng-container *ngFor="let child of node.children; index as i">
           <ng-container

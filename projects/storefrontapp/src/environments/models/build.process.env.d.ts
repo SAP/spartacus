@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,7 @@ interface BuildProcess {
 interface Env {
   CX_BASE_URL: string;
   CX_CDS: boolean;
+  CX_SCI: boolean;
   CX_CDC: boolean;
   CX_CDP: boolean;
   CX_B2B: boolean;

@@ -1,10 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
+  SPARTACUS_BOOTSTRAP_FUNCTIONS,
+  SPARTACUS_BOOTSTRAP_MIXINS,
+  SPARTACUS_BOOTSTRAP_VARIABLES,
   SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFINDER_ASSETS,
   SPARTACUS_STOREFINDER_ROOT,
@@ -50,5 +53,10 @@ export const STOREFINDER_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: STOREFINDER_SCSS_FILE_NAME,
     importStyle: SPARTACUS_STOREFINDER,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
 };

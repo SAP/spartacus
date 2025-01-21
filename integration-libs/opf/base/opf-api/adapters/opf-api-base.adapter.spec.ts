@@ -1,13 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpErrorResponse } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpErrorResponse,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, LoggerService } from '@spartacus/core';
@@ -98,7 +102,7 @@ describe('OpfApiBaseAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OpfApiBaseAdapter,
         ConverterService,
@@ -109,6 +113,8 @@ describe('OpfApiBaseAdapter', () => {
           useClass: MockOpfMetadataStatePersistanceService,
         },
         { provide: OpfConfig, useValue: mockOpfConfig },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

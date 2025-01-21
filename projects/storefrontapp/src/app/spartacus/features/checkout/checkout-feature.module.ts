@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,12 +7,18 @@
 import { NgModule, Provider, Type } from '@angular/core';
 import {
   checkoutB2BTranslationChunksConfig,
-  checkoutB2BTranslations,
+  checkoutB2BTranslationsEn,
+  checkoutB2BTranslationsJa,
+  checkoutB2BTranslationsDe,
+  checkoutB2BTranslationsZh,
 } from '@spartacus/checkout/b2b/assets';
 import { CheckoutB2BRootModule } from '@spartacus/checkout/b2b/root';
 import {
   checkoutTranslationChunksConfig,
-  checkoutTranslations,
+  checkoutTranslationsEn,
+  checkoutTranslationsJa,
+  checkoutTranslationsDe,
+  checkoutTranslationsZh,
 } from '@spartacus/checkout/base/assets';
 import {
   CHECKOUT_FEATURE,
@@ -20,7 +26,10 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   checkoutScheduledReplenishmentTranslationChunksConfig,
-  checkoutScheduledReplenishmentTranslations,
+  checkoutScheduledReplenishmentTranslationsEn,
+  checkoutScheduledReplenishmentTranslationsJa,
+  checkoutScheduledReplenishmentTranslationsDe,
+  checkoutScheduledReplenishmentTranslationsZh,
 } from '@spartacus/checkout/scheduled-replenishment/assets';
 import { CheckoutScheduledReplenishmentRootModule } from '@spartacus/checkout/scheduled-replenishment/root';
 import { provideConfig } from '@spartacus/core';
@@ -38,7 +47,12 @@ if (environment.b2b) {
   extensionProviders.push(
     provideConfig({
       i18n: {
-        resources: checkoutB2BTranslations,
+        resources: {
+          en: checkoutB2BTranslationsEn,
+          ja: checkoutB2BTranslationsJa,
+          de: checkoutB2BTranslationsDe,
+          zh: checkoutB2BTranslationsZh,
+        },
         chunks: checkoutB2BTranslationChunksConfig,
       },
     })
@@ -46,7 +60,12 @@ if (environment.b2b) {
   extensionProviders.push(
     provideConfig({
       i18n: {
-        resources: checkoutScheduledReplenishmentTranslations,
+        resources: {
+          en: checkoutScheduledReplenishmentTranslationsEn,
+          ja: checkoutScheduledReplenishmentTranslationsJa,
+          de: checkoutScheduledReplenishmentTranslationsDe,
+          zh: checkoutScheduledReplenishmentTranslationsZh,
+        },
         chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
       },
     })
@@ -68,7 +87,12 @@ if (environment.b2b) {
     }),
     provideConfig({
       i18n: {
-        resources: checkoutTranslations,
+        resources: {
+          en: checkoutTranslationsEn,
+          ja: checkoutTranslationsJa,
+          de: checkoutTranslationsDe,
+          zh: checkoutTranslationsZh,
+        },
         chunks: checkoutTranslationChunksConfig,
       },
     }),

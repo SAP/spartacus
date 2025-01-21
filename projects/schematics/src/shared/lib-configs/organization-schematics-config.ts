@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,6 +28,9 @@ import {
   SPARTACUS_ORGANIZATION_USER_REGISTRATION_ASSETS,
   SPARTACUS_ORGANIZATION_USER_REGISTRATION_ROOT,
   USER_PROFILE_FEATURE_NAME,
+  SPARTACUS_BOOTSTRAP_FUNCTIONS,
+  SPARTACUS_BOOTSTRAP_VARIABLES,
+  SPARTACUS_BOOTSTRAP_MIXINS,
 } from '../libs-constants';
 import { SchematicConfig } from '../utils/lib-utils';
 
@@ -73,6 +76,11 @@ export const ORGANIZATION_ADMINISTRATION_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: ORGANIZATION_SCSS_FILE_NAME,
     importStyle: SPARTACUS_ORGANIZATION,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
   dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
 };
@@ -116,6 +124,11 @@ export const ORGANIZATION_ORDER_APPROVAL_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: ORGANIZATION_SCSS_FILE_NAME,
     importStyle: SPARTACUS_ORGANIZATION,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
   dependencyFeatures: [USER_PROFILE_FEATURE_NAME, ORDER_FEATURE_NAME],
 };
@@ -163,6 +176,11 @@ export const ORGANIZATION_USER_REGISTRATION_SCHEMATICS_CONFIG: SchematicConfig =
     styles: {
       scssFileName: ORGANIZATION_SCSS_FILE_NAME,
       importStyle: SPARTACUS_ORGANIZATION,
+      importStyles: [
+        SPARTACUS_BOOTSTRAP_FUNCTIONS,
+        SPARTACUS_BOOTSTRAP_VARIABLES,
+        SPARTACUS_BOOTSTRAP_MIXINS,
+      ],
     },
     dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
   };
@@ -205,6 +223,11 @@ export const ORGANIZATION_UNIT_ORDER_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: ORGANIZATION_SCSS_FILE_NAME,
     importStyle: SPARTACUS_ORGANIZATION,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
   dependencyFeatures: [USER_PROFILE_FEATURE_NAME, ORDER_FEATURE_NAME],
 };
@@ -248,6 +271,11 @@ export const ORGANIZATION_ACCOUNT_SUMMARY_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: ORGANIZATION_SCSS_FILE_NAME,
     importStyle: SPARTACUS_ORGANIZATION,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
   dependencyFeatures: [ORGANIZATION_ADMINISTRATION_FEATURE_NAME],
 };

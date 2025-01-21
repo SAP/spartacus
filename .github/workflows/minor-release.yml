@@ -1,4 +1,4 @@
-name: Minor Release ${{ github.event.inputs.version }}
+name: Minor Release
 
 on:
   workflow_dispatch:

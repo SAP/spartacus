@@ -1,16 +1,22 @@
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { CancelServiceOrderComponent } from './cancel-service-order.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { CancelServiceOrderFacade } from '@spartacus/s4-service/root';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { RoutingService } from '@spartacus/core';
-import { Pipe, PipeTransform } from '@angular/core';
+import { of, throwError } from 'rxjs';
+import { CancelServiceOrderComponent } from './cancel-service-order.component';
 
 // Mock classes
 class MockOrderDetailsService {
@@ -55,13 +61,8 @@ describe('CancelServiceOrderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
-        I18nTestingModule,
-      ],
       declarations: [CancelServiceOrderComponent, MockUrlPipe],
+      imports: [ReactiveFormsModule, I18nTestingModule],
       providers: [
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         {
@@ -70,6 +71,8 @@ describe('CancelServiceOrderComponent', () => {
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: RoutingService, useClass: MockRoutingService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
   }));

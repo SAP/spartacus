@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable, inject } from '@angular/core';
-import { CanActivate, UrlTree } from '@angular/router';
+import { CanActivate, GuardResult } from '@angular/router';
 import { GigyaRaasComponentData } from '@spartacus/cdc/core';
 import {
   AuthGuard,
@@ -26,7 +26,7 @@ export class GigyaRaasGuard implements CanActivate {
   protected authGuard = inject(AuthGuard);
   protected notAuthGuard = inject(NotAuthGuard);
 
-  canActivate(): Observable<boolean | UrlTree> {
+  canActivate(): Observable<GuardResult> {
     return this.getComponentData().pipe(
       switchMap((componentData) => {
         if (Object.keys(componentData).length === 0) {

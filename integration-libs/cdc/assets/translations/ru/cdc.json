@@ -1,0 +1,12 @@
+{
+  "reconsent": {
+    "dialog": {
+      "title": "Заполнение профиля",
+      "description": "Нам необходимо ваше согласие на следующее:"
+    }
+  },
+  "cdcProfile": {
+    "profileUpdateSuccess": "Сведения профиля обновлены",
+    "profileUpdateFailure": "Не удалось обновить с"
+  }
+}

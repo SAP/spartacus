@@ -1,12 +1,16 @@
 import { CommonModule } from '@angular/common';
 import {
-  HttpClientTestingModule,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Component, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import {
   MockTranslatePipe,
   Product,
@@ -125,13 +129,12 @@ describe('VisualPickingTabComponent', () => {
         IconModule,
         FormsModule,
         UrlModule,
-        RouterTestingModule.withRoutes([
+        RouterModule.forRoot([
           {
             path: 'product',
             component: MockPageLayoutComponent,
           },
         ]),
-        HttpClientTestingModule,
         VisualViewerModule,
         VisualPickingProductListModule,
         VisualPickingProductFilterModule,
@@ -141,6 +144,8 @@ describe('VisualPickingTabComponent', () => {
           provide: TranslationService,
           useClass: MockTranslationService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     })
       .overrideComponent(VisualViewerComponent, {

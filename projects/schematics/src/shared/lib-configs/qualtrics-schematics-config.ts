@@ -1,11 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
   QUALTRICS_FEATURE_NAME,
+  SPARTACUS_BOOTSTRAP_FUNCTIONS,
+  SPARTACUS_BOOTSTRAP_MIXINS,
+  SPARTACUS_BOOTSTRAP_VARIABLES,
   SPARTACUS_QUALTRICS,
   SPARTACUS_QUALTRICS_ROOT,
 } from '../libs-constants';
@@ -42,5 +45,10 @@ export const QUALTRICS_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
     importStyle: SPARTACUS_QUALTRICS,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
 };

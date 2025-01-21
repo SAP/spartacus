@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -188,7 +188,7 @@ function addStorefrontConfig(
       },
       {
         moduleSpecifier: SPARTACUS_ASSETS,
-        namedImports: ['translations', 'translationChunksConfig'],
+        namedImports: ['translationsEn', 'translationChunksConfig'],
       },
     ],
     content: i18nConfig,
@@ -222,7 +222,7 @@ function createBackendConfiguration(options: SpartacusOptions): string {
 function createI18NConfiguration(): string {
   return `provideConfig(<${I18N_CONFIG}>{
   i18n: {
-    resources: translations,
+    resources: { en: translationsEn },
     chunks: translationChunksConfig,
     fallbackLang: 'en'
   },

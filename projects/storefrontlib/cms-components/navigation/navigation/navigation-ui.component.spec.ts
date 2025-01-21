@@ -6,7 +6,6 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   FeatureConfigService,
   I18nTestingModule,
@@ -117,7 +116,7 @@ describe('Navigation UI Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         NavigationUIComponent,
         MockIconComponent,
@@ -462,5 +461,30 @@ describe('Navigation UI Component', () => {
 
       expect(mockHeader.focus).toHaveBeenCalled();
     }));
+  });
+
+  describe('trigger buttions ariaLabel/title', () => {
+    it('should have the ariaLabel and title set', () => {
+      const rootNode = mockNode.children?.[0];
+      const childNode = rootNode?.children?.[0];
+      const rootTitle = rootNode?.title;
+      const childTitle = childNode?.title;
+      fixture.detectChanges();
+      const nestedTriggerButton = fixture.debugElement.query(
+        By.css(`button[aria-label="${childTitle}"]`)
+      ).nativeElement;
+      const rootTriggerButton = fixture.debugElement.query(
+        By.css(`button[aria-label="${rootTitle}"]`)
+      ).nativeElement;
+
+      expect(nestedTriggerButton).toBeDefined();
+      expect(rootTriggerButton).toBeDefined();
+      expect(rootTriggerButton.getAttribute('title')).toEqual(
+        `navigation.menuButonTitle title:${rootTitle}`
+      );
+      expect(nestedTriggerButton.getAttribute('title')).toEqual(
+        `navigation.menuButonTitle title:${childTitle}`
+      );
+    });
   });
 });

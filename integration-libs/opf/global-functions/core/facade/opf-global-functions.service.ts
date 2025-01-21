@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,7 +32,7 @@ import {
 } from '@spartacus/opf/payment/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subject, lastValueFrom } from 'rxjs';
-import { finalize, take } from 'rxjs/operators';
+import { finalize, last, take } from 'rxjs/operators';
 
 @Injectable()
 export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
@@ -236,6 +236,13 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
               returnPath: undefined,
             })
             .pipe(
+              /**
+               * Needed to to handle empty emissions gracefully without
+               * triggering a sequence error.
+               *
+               * It will resolve with `true` if no values are emitted.
+               */
+              last(() => true, true),
               finalize(() => {
                 if (overlayedSpinner) {
                   this.stopLoaderSpinner(overlayedSpinner);

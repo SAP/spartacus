@@ -1,11 +1,15 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ProductAvailabilities } from '../../../model/product.model';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccProductAvailabilityAdapter } from './occ-product-availability-adapter';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 describe('OccProductAvailabilityAdapter', () => {
   let adapter: OccProductAvailabilityAdapter;
@@ -30,7 +34,7 @@ describe('OccProductAvailabilityAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccProductAvailabilityAdapter,
         {
@@ -41,6 +45,8 @@ describe('OccProductAvailabilityAdapter', () => {
               .and.returnValue(mockAvailabilityUrl),
           },
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

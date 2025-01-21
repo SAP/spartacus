@@ -1,0 +1,71 @@
+{
+  "epdVisualization": {
+    "visualViewer": {
+      "contentType": {
+        "drawing2D": "2D",
+        "model3D": "3D"
+      },
+      "toolbar": {
+        "homeButton": {
+          "label": "主页"
+        },
+        "zoomButton": {
+          "label": "缩放"
+        },
+        "panButton": {
+          "label": "平移"
+        },
+        "rotateButton": {
+          "label": "旋转"
+        },
+        "isolateButton": {
+          "label": "隔离"
+        },
+        "playButton": {
+          "label": "播放"
+        },
+        "pauseButton": {
+          "label": "暂停"
+        },
+        "hotspotsButton": {
+          "label": "热点",
+          "show": "显示",
+          "hide": "隐藏"
+        },
+        "visualViewerAnimationSlider": {
+          "label": "动画滑动条",
+          "role": "滑动条"
+        }
+      }
+    },
+    "visualPicking": {
+      "visualPickingTab": {
+        "noProductReferences": "没有可用于此产品的备件。"
+      },
+      "visualPickingProductList": {
+        "description": "描述",
+        "itemPrice": "价格",
+        "outOfStock": "缺货",
+        "id": "标识"
+      },
+      "visualPickingProductFilter": {
+        "input": {
+          "placeholder": "按名称或标识过滤"
+        },
+        "searchButton": {
+          "label": "搜索"
+        },
+        "resetButton": {
+          "label": "重置"
+        }
+      }
+    },
+    "errors": {
+      "visualLoad": {
+        "noMatchingVisualFound": "找不到匹配的可视化",
+        "multipleMatchingVisualsFound": "找到多个匹配的可视化",
+        "unexpectedLoadError": "加载可视化时出错"
+      }
+    }
+  }
+}

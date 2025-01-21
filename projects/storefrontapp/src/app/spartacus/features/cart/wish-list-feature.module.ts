@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,10 @@
 import { NgModule } from '@angular/core';
 import {
   wishListTranslationChunksConfig,
-  wishListTranslations,
+  wishListTranslationsEn,
+  wishListTranslationsJa,
+  wishListTranslationsDe,
+  wishListTranslationsZh,
 } from '@spartacus/cart/wish-list/assets';
 import {
   ADD_TO_WISHLIST_FEATURE,
@@ -35,7 +38,12 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: wishListTranslations,
+        resources: {
+          en: wishListTranslationsEn,
+          ja: wishListTranslationsJa,
+          de: wishListTranslationsDe,
+          zh: wishListTranslationsZh,
+        },
         chunks: wishListTranslationChunksConfig,
         fallbackLang: 'en',
       },

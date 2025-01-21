@@ -1,0 +1,13 @@
+{
+  "opfPayment": {
+    "errors": {
+      "proceedPayment": "W tej chwili nie możemy dokonać płatności tą metodą. Spróbuj ponownie później lub wybierz inną opcję płatności.",
+      "cancelPayment": "Płatność została anulowana. Aby kontynuować realizację zamówienia, spróbuj ponownie lub wybierz inną opcję płatności.",
+      "cardExpired": "Karta kredytowa wygasła.",
+      "insufficientFunds": "Niewystarczające środki finansowe.",
+      "invalidCreditCard": "Nieprawidłowa karta kredytowa. Sprawdź dane karty.",
+      "unknown": "Podczas pobierania płatności wystąpił nieznany błąd. Prosimy o kontakt z obsługą klienta",
+      "cardReportedLost": "Karta została zgłoszona jako utracona."
+    }
+  }
+}

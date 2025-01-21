@@ -1,0 +1,129 @@
+{
+  "asmCustomer360": {
+    "alertErrorMessage": "Die Informationen können nicht geladen werden. Versuchen Sie es später erneut, oder wenden Sie sich an Ihren Systemadministrator.",
+    "errorMessageHeader": "Hoppla, etwas ist schiefgegangen",
+    "applyActionAlter": "Die Aktion konnte nicht abgeschlossen werden. Bitte versuchen Sie es später erneut.",
+    "header": {
+      "title": "Kundenprofil",
+      "newTitle": "Kunde 360°",
+      "subTitle": "{{name}} − 360°-Kundensicht",
+      "newSubTitle": "{{name}} − 360°-Sicht",
+      "activeCartLabel": "{{cartSize}} Position wurde dem Einkaufswagen hinzugefügt",
+      "recentOrderLabel": "Letzte Bestellung {{price}}",
+      "recentTicketLabel": "Letztes Ticket",
+      "signedUpAt": "Konto am {{date}} erstellt"
+    },
+    "productListing": {
+      "totalNoItems": "Gesamtanzahl der Positionen {{count}}",
+      "totalPrice": "Gesamtpreis {{price}}",
+      "showMore": "Mehr anzeigen",
+      "showLess": "Weniger anzeigen"
+    },
+    "productItem": {
+      "outOfStock": "Nicht vorrätig",
+      "quantity": "Menge: {{count}}",
+      "itemPrice": "Positionspreis: {{price}}"
+    },
+    "activeCart": {
+      "header": "Aktiver Warenkorb",
+      "emptyDescription": "Zurzeit sind keine Positionen eines aktiven Warenkorbs vorhanden",
+      "aria": {
+        "linkLabel": "Aktiver Warenkorb {{code}}"
+      }
+    },
+    "savedCart": {
+      "header": "Zuletzt gespeicherter Warenkorb",
+      "emptyDescription": "Zurzeit sind keine Positionen eines gespeicherten Warenkorbs vorhanden",
+      "aria": {
+        "linkLabel": "Zuletzt gespeicherter Warenkorb {{code}}"
+      }
+    },
+    "productInterests": {
+      "header": "Interessen",
+      "emptyDescription": "Zurzeit sind keine Positionen von Interesse vorhanden"
+    },
+    "profile": {
+      "address": "Adresse",
+      "billingAddress": "Rechnungsadresse",
+      "deliveryAddress": "Lieferadresse",
+      "phone1": "Telefon 1",
+      "phone2": "Telefon 2",
+      "paymentMethodHeader": "Gespeicherte Zahlungsarten"
+    },
+    "activity": {
+      "type": "Art",
+      "id": "ID",
+      "description": "Beschreibung",
+      "status": "Status",
+      "created": "Erstellt",
+      "updated": "Aktualisiert",
+      "numberOfCartItems": "Warenkorb mit {{count}} Positionen",
+      "cart": "Warenkorb",
+      "order": "Bestellung",
+      "savedCart": "Gespeicherter Warenkorb",
+      "emptyStateText": "Zurzeit ist keine erfasste Kundenaktivität vorhanden",
+      "headerText": "Allgemein"
+    },
+    "productReviews": {
+      "columnHeaders": {
+        "item": "Position",
+        "dateAndStatus": "Datum/Status",
+        "rating": "Bewertung",
+        "review": "Rezension"
+      },
+      "header": "Produktrezensionen",
+      "emptyDescription": "Zurzeit sind keine Positionen mit Produktrezensionen vorhanden",
+      "sku": "SKU"
+    },
+    "supportTickets": {
+      "columnHeaders": {
+        "id": "ID",
+        "headline": "Überschrift",
+        "category": "Kategorie"
+      },
+      "header": "Supportanfragen",
+      "emptyDescription": "Zurzeit sind keine Supportanfragen vorhanden"
+    },
+    "coupons": {
+      "headerText": "Coupons",
+      "emptyDescription": "Zurzeit sind keine Coupons vorhanden",
+      "applyButtonText": "Auf Warenkorb anwenden",
+      "applied": "Coupon angewendet",
+      "removeButtonText": "Entfernen"
+    },
+    "promotions": {
+      "headerText": "Werbeaktionen",
+      "emptyDescription": "Zurzeit gibt es keine Werbeaktionen",
+      "applied": "Werbeaktion angewendet",
+      "headerName": "Name",
+      "headerAction": "Aktion"
+    },
+    "customerCoupons": {
+      "headerText": "Kundencoupons",
+      "emptyDescription": "Zurzeit sind keine Kundencoupons vorhanden",
+      "applyButtonText": "Dem Kunden zuordnen",
+      "removeButtonText": "Entfernen",
+      "availableTab": "Verfügbar",
+      "sentTab": "Gesendet",
+      "searchBox": "Coupon"
+    },
+    "maps": {
+      "storeClosed": "Schließen",
+      "storesFound": "{{ initial }} - {{ end }} von {{ total }} Filialen gefunden"
+    },
+    "overviewTab": "Übersicht",
+    "profileTab": "Profil",
+    "activityTab": "Aktivität",
+    "feedbackTab": "Feedback",
+    "promotionsTab": "Werbeaktionen",
+    "mapsTab": "Karten",
+    "storeLocationsTab": "Filialstandorte",
+    "aria": {
+      "activeCartCode": "Aktiver Warenkorb {{code}}",
+      "recentOrderCode": "Letzte Bestellung {{code}}"
+    },
+    "pagination": "Paginierung",
+    "page": "Seite {{number}}",
+    "emptyCellValue": "---"
+  }
+}

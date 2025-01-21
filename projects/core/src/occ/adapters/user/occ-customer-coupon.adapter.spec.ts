@@ -1,6 +1,6 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -16,6 +16,10 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 import { OccCustomerCouponAdapter } from './occ-customer-coupon.adapter';
 import { MockOccEndpointsService } from './unit-test.helper';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const userId = 'mockUseId';
 
@@ -38,7 +42,7 @@ describe('OccCustomerCouponAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccCustomerCouponAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
@@ -46,6 +50,8 @@ describe('OccCustomerCouponAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 
@@ -231,6 +237,47 @@ describe('OccCustomerCouponAdapter', () => {
       });
 
       expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(customerCoupon2Customer);
+    });
+  });
+  describe('claim customer coupon with code in body', () => {
+    it('should claim a customer coupon with code in request body for a given user id', () => {
+      const customerCoupon: CustomerCoupon = {
+        couponId: couponCode,
+        name: 'coupon 1',
+        startDate: '',
+        endDate: '',
+        status: 'Effective',
+        description: '',
+        notificationOn: true,
+      };
+      const customerCoupon2Customer: CustomerCoupon2Customer = {
+        coupon: customerCoupon,
+        customer: {},
+      };
+
+      occCustomerCouponAdapter
+        .claimCustomerCouponWithCodeInBody(userId, couponCode)
+        .subscribe((result) => {
+          expect(result).toEqual(customerCoupon2Customer);
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'POST';
+      });
+
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+        'claimCustomerCoupon',
+        {
+          urlParams: {
+            userId: userId,
+          },
+        }
+      );
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.body).toEqual({ couponCode: couponCode });
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(customerCoupon2Customer);
     });

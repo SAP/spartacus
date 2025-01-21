@@ -7,7 +7,6 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   LanguageService,
@@ -138,7 +137,7 @@ describe('QuoteListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         QuoteListComponent,
         MockUrlPipe,

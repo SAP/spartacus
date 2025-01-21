@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import {
+  ActivatedRouteSnapshot,
+  RouterModule,
+  RouterStateSnapshot,
+} from '@angular/router';
 import {
   AuthConfigService,
   AuthService,
@@ -50,7 +53,7 @@ describe('LoginGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule.withRoutes([
+        RouterModule.forRoot([
           {
             path: 'login',
             component: MockPageLayoutComponent,

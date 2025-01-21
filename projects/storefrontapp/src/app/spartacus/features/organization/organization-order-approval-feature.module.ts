@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,10 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   orderApprovalTranslationChunksConfig,
-  orderApprovalTranslations,
+  orderApprovalTranslationsEn,
+  orderApprovalTranslationsJa,
+  orderApprovalTranslationsDe,
+  orderApprovalTranslationsZh,
 } from '@spartacus/organization/order-approval/assets';
 import {
   OrderApprovalRootModule,
@@ -30,7 +33,12 @@ import {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: orderApprovalTranslations,
+        resources: {
+          en: orderApprovalTranslationsEn,
+          ja: orderApprovalTranslationsJa,
+          de: orderApprovalTranslationsDe,
+          zh: orderApprovalTranslationsZh,
+        },
         chunks: orderApprovalTranslationChunksConfig,
       },
     }),

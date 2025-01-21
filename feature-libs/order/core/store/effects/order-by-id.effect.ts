@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
-import { catchError, concatMap, map } from 'rxjs/operators';
+import { catchError, mergeMap, map } from 'rxjs/operators';
 import { OrderHistoryConnector } from '../../connectors/order-history.connector';
 import { OrderActions } from '../actions/index';
 
@@ -25,7 +25,7 @@ export class OrderByIdEffect {
     this.actions$.pipe(
       ofType(OrderActions.LOAD_ORDER_BY_ID),
       map((action: OrderActions.LoadOrderById) => action.payload),
-      concatMap(({ userId, code }) => {
+      mergeMap(({ userId, code }) => {
         return this.orderConnector.get(userId, code).pipe(
           map((order: Order) => {
             return new OrderActions.LoadOrderByIdSuccess(order);

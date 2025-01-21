@@ -1,7 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { Observable, of } from 'rxjs';
@@ -106,7 +105,6 @@ describe('ProductListComponent', () => {
       imports: [
         ListNavigationModule,
         FormsModule,
-        RouterTestingModule,
         I18nTestingModule,
         InfiniteScrollModule,
         SpinnerModule,

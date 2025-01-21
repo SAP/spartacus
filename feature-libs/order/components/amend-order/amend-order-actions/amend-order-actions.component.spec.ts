@@ -1,14 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
 import {
   I18nTestingModule,
   RoutingConfigService,
   RoutingService,
 } from '@spartacus/core';
 import { AmendOrderActionsComponent } from './amend-order-actions.component';
-import { StoreModule } from '@ngrx/store';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Pipe({
   name: 'cxUrl',
@@ -32,11 +31,7 @@ describe('AmendOrderActionsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        I18nTestingModule,
-        StoreModule.forRoot({}),
-      ],
+      imports: [I18nTestingModule, StoreModule.forRoot({})],
       declarations: [MockUrlPipe, AmendOrderActionsComponent],
       providers: [
         {

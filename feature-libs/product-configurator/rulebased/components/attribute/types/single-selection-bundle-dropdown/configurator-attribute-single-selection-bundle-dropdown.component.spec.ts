@@ -6,10 +6,11 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
 
+import { ActivatedRoute } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
@@ -68,6 +69,10 @@ class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
     return of(showRequiredErrorMessage);
   }
+}
+
+class MockActivatedRoute {
+  constructor(public snapshot: any) {}
 }
 
 describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
@@ -203,13 +208,13 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         I18nTestingModule,
-        RouterTestingModule,
         UrlTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
       ],
 
       providers: [
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),

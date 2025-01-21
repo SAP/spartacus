@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -148,7 +148,26 @@ function installStyles(options: SpartacusOptions): Rule {
       styleFilePath
     );
     let insertion =
-      `\n@import '${relativeStyleConfigImportPath}';\n` +
+      `@import '${relativeStyleConfigImportPath}';\n` +
+      `\n// ORDER IMPORTANT: Spartacus core first\n` +
+      `@import '@spartacus/styles/scss/core';\n\n` +
+      `// ORDER IMPORTANT: Copy of Bootstrap files next\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/reboot';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/type';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/grid';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/utilities';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/transitions';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/dropdown';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/card';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/nav';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/buttons';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/forms';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/custom-forms';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/modal';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/close';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/alert';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/tooltip';\n\n` +
+      `// ORDER IMPORTANT: Spartacus styles last\n` +
       `@import '@spartacus/styles/index';\n`;
 
     if (options?.theme) {

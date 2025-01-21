@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -41,7 +41,7 @@ export function getTransferStateReducer(
 
 export function getServerTransferStateReducer(
   transferState: TransferState,
-  keys: { [key: string]: StateTransferType }
+  keys: { [key: string]: StateTransferType | undefined }
 ) {
   const transferStateKeys = filterKeysByType(
     keys,
@@ -63,7 +63,7 @@ export function getServerTransferStateReducer(
 
 export function getBrowserTransferStateReducer(
   transferState: TransferState,
-  keys: { [key: string]: StateTransferType },
+  keys: { [key: string]: StateTransferType | undefined },
   isLoggedIn: boolean
 ) {
   const transferStateKeys = filterKeysByType(

@@ -1,12 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { NgModule } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
-import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
+import {
+  configuratorTranslationsDe,
+  configuratorTranslationsEn,
+  configuratorTranslationsJa,
+  configuratorTranslationsZh,
+} from '@spartacus/product-configurator/common/assets';
 import {} from '@spartacus/product-configurator/rulebased/root';
 import {
   PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
@@ -28,7 +33,12 @@ import {
     }),
     provideConfig({
       i18n: {
-        resources: configuratorTranslations,
+        resources: {
+          en: configuratorTranslationsEn,
+          ja: configuratorTranslationsJa,
+          de: configuratorTranslationsDe,
+          zh: configuratorTranslationsZh,
+        },
       },
     }),
   ],

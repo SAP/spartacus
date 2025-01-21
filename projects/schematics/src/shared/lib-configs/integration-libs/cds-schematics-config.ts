@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -68,9 +68,6 @@ function buildCdsConfig(
       cds: {
         tenant: '${options.tenant || 'TENANT_PLACEHOLDER'}',
         baseUrl: '${options.baseUrl || 'BASE_URL_PLACEHOLDER'}',
-        endpoints: {
-          strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
-        },
         merchandising: {
           defaultCarouselViewportThreshold: 80,
         },

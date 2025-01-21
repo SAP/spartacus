@@ -1,0 +1,92 @@
+{
+  "pickupInfo": {
+    "inStorePickup": "Átvétel üzletben",
+    "pickupBy": "Átvétel eddig:",
+    "pickupFrom": "Átvétel innen:"
+  },
+  "pickupOptionDialog": {
+    "close": "Bezárás",
+    "modalHeader": "Átvétel az üzletben"
+  },
+  "pickupOptions": {
+    "legend": "Kézbesítési mód",
+    "changeStore": "Üzlet módosítása",
+    "delivery": "Szállítás (ingyenes visszáru)",
+    "pickup": "Ingyenes átvétel az üzletben",
+    "shipIt": "Szállítás",
+    "selectStore": "Válasszon üzletet",
+    "freeReturn": "Ingyenes visszáru",
+    "storeIsNotSelected": "Nincs kiválasztva üzlet az átvételhez."
+  },
+  "setPreferredStore": {
+    "makeThisMyStore": "Legyen ez a saját üzletem",
+    "myStore": "Saját üzlet"
+  },
+  "store": {
+    "pickupFromHere": "Átvétel innen",
+    "stockLevel_inStock": "{{ count }} készleten",
+    "stockLevel_outOfStock": "Nincs készleten",
+    "viewHours": "Nyitvatartási idő megtekintése"
+  },
+  "storeList": {
+    "noStoresMessage": "Nem találhatók üzletek az adatbázisban..."
+  },
+  "storeSchedule": {
+    "closed": "Zárva",
+    "storeHours": "Üzlet nyitvatartási ideje"
+  },
+  "storeSearch": {
+    "findAStore": "Üzlet keresése",
+    "findStores": "Üzletek keresése",
+    "hideOutOfStockOptions": "Készleten nem elérhető lehetőségek elrejtése",
+    "searchPlaceholder": "Adja meg az irányítószámot, a települést vagy a címet",
+    "useMyLocation": "Saját hely használata"
+  },
+  "addressBookPickupInStore": {
+    "heading": "Átvételi üzlet"
+  },
+  "storeFinderPickupInStore": {
+    "heading": "Saját üzlet"
+  },
+  "checkoutPickupInStore": {
+    "heading": "Átveendő tételek",
+    "storeItemHeading": "Átvételi üzlet címe"
+  },
+  "cartItems": {
+    "item": "Tétel"
+  },
+  "cardActions": {
+    "getDirections": "Útvonal tervezése; ez a hivatkozás új ablakban nyílik meg"
+  },
+  "deliveryPointOfServiceDetails": {
+    "itemsToBePickUp": "Átveendő tételek",
+    "pickUpInStoreAddress": "Átvételi üzlet címe",
+    "itemsToBeShipped": "Szállítandó tételek",
+    "shippingAddress": "Szállítási cím",
+    "deliveryMethod": "Kézbesítési mód",
+    "deliveryOptions": "Kézbesítési lehetőségek",
+    "statusDisplay_cancelled": "Törölve",
+    "statusDisplay_cancelling": "Törlés függőben",
+    "statusDisplay_completed": "Befejezve",
+    "statusDisplay_created": "Létrehozva",
+    "statusDisplay_error": "Függőben",
+    "statusDisplay_Error": "Függőben",
+    "statusDisplay_processing": "Függőben",
+    "statusDisplay_open": "Nyitott",
+    "statusDisplay_pending": {
+      "approval": "Jóváhagyásra vár",
+      "merchant": {
+        "approval": "Kereskedő jóváhagyására vár"
+      }
+    },
+    "statusDisplay_approved": "Jóváhagyva",
+    "statusDisplay_rejected": "Elutasítva",
+    "statusDisplay_merchant": {
+      "approved": "Kereskedő által jóváhagyva",
+      "rejected": "Kereskedő által elutasítva"
+    },
+    "statusDisplay_assigned": {
+      "admin": "Rendszergazdához rendelve"
+    }
+  }
+}

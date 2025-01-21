@@ -1,0 +1,14 @@
+{
+  "checkoutScheduledReplenishment": {
+    "autoReplenishOrder": "Rendelés automatikus utánpótlása",
+    "orderType_PLACE_ORDER": "Nincs (csak egyszeri rendelés)",
+    "orderType_SCHEDULE_REPLENISHMENT_ORDER": "Rendelés utánpótlása",
+    "every": "Minden",
+    "recurrencePeriodType_DAILY": "Nap",
+    "recurrencePeriodType_WEEKLY": "Hét",
+    "recurrencePeriodType_MONTHLY": "Hónap",
+    "dayOfMonth": "Adott napon",
+    "startOn": "Kezdés dátuma",
+    "repeatOnDays": "Ismétlés a következő napokon:"
+  }
+}

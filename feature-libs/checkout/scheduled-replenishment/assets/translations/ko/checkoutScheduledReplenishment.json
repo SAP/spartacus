@@ -1,0 +1,14 @@
+{
+  "checkoutScheduledReplenishment": {
+    "autoReplenishOrder": "주문 자동 보충",
+    "orderType_PLACE_ORDER": "없음(한 번만 주문)",
+    "orderType_SCHEDULE_REPLENISHMENT_ORDER": "주문 보충",
+    "every": "주기",
+    "recurrencePeriodType_DAILY": "일",
+    "recurrencePeriodType_WEEKLY": "주",
+    "recurrencePeriodType_MONTHLY": "개월",
+    "dayOfMonth": "당일",
+    "startOn": "시작 날짜",
+    "repeatOnDays": "다음 날짜에 반복"
+  }
+}

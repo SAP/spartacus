@@ -1,7 +1,12 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpClient,
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
@@ -57,7 +62,7 @@ describe('OccSegmentRefsInterceptor', () => {
     let httpMock: HttpTestingController;
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
+        imports: [],
         providers: [
           { provide: SegmentRefsConfig, useValue: mockSegmentRefsConfig },
           { provide: WindowRef, useValue: MockWindowRef1 },
@@ -66,6 +71,8 @@ describe('OccSegmentRefsInterceptor', () => {
             useClass: OccSegmentRefsInterceptor,
             multi: true,
           },
+          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClientTesting(),
         ],
       });
       httpMock = TestBed.inject(HttpTestingController);
@@ -94,7 +101,7 @@ describe('OccSegmentRefsInterceptor', () => {
     let httpMock: HttpTestingController;
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
+        imports: [],
         providers: [
           { provide: SegmentRefsConfig, useValue: mockSegmentRefsConfig },
           { provide: WindowRef, useValue: MockWindowRef2 },
@@ -103,6 +110,8 @@ describe('OccSegmentRefsInterceptor', () => {
             useClass: OccSegmentRefsInterceptor,
             multi: true,
           },
+          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClientTesting(),
         ],
       });
       httpMock = TestBed.inject(HttpTestingController);
@@ -131,7 +140,7 @@ describe('OccSegmentRefsInterceptor', () => {
     let httpMock: HttpTestingController;
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
+        imports: [],
         providers: [
           { provide: SegmentRefsConfig, useValue: mockSegmentRefsConfig },
           { provide: WindowRef, useValue: MockWindowRef3 },
@@ -140,6 +149,8 @@ describe('OccSegmentRefsInterceptor', () => {
             useClass: OccSegmentRefsInterceptor,
             multi: true,
           },
+          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClientTesting(),
         ],
       });
       httpMock = TestBed.inject(HttpTestingController);

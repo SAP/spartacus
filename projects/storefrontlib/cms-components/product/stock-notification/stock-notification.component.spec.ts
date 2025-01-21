@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   GlobalMessageService,
   I18nTestingModule,
@@ -121,7 +120,7 @@ describe('StockNotificationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
+      imports: [I18nTestingModule, SpinnerModule],
       declarations: [
         StockNotificationComponent,
         StockNotificationDialogComponent,

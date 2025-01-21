@@ -96,11 +96,7 @@
     </ng-container>
   </div>
 
-  <div
-    *ngIf="!hideIndicators && size < items.length"
-    role="tablist"
-    class="indicators"
-  >
+  <div *ngIf="!hideIndicators && size < items.length" class="indicators">
     <ng-container *ngFor="let _ of items; let i = index">
       <!-- TODO: (CXSPA-6904) - Remove feature flag next major release -->
       <ng-container *cxFeature="'a11yFocusableCarouselControls'">
@@ -125,7 +121,6 @@
                     numberOfSlides: size,
                   }
           "
-          role="tab"
         >
           <cx-icon [type]="indicatorIcon" aria-hidden="true"></cx-icon>
         </button>

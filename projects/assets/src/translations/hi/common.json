@@ -1,0 +1,254 @@
+{
+  "common": {
+    "cancel": "रद्द करें",
+    "delete": "हटाएं",
+    "remove": "निकालें",
+    "edit": "संपादित करें",
+    "restore": "पुनर्स्थापित करें",
+    "back": "वापस जाएं",
+    "submit": "सबमिट करें",
+    "continue": "जारी रखें",
+    "save": "सहेजें",
+    "done": "पूरा हुआ",
+    "home": "होम",
+    "noData": "कोई डेटा नहीं.",
+    "confirm": "पुष्टि करें",
+    "more": "और अधिक",
+    "close": "बंद करें",
+    "loading": "लोड किया जा रहा है",
+    "menu": "मेनू",
+    "reset": "रीसेट करें",
+    "search": "खोजें",
+    "add": "जोड़ें",
+    "breadcrumbs": "ब्रेडक्रंब",
+    "selectFile": "फाइल चुनें",
+    "clear": "साफ़ करें",
+    "loaded": "लोड किया गया",
+    "results": "परिणाम",
+    "of": "इसमें से",
+    "required": "आवश्यक",
+    "zoomIn": "ज़ूम इन",
+    "zoomOut": "ज़ूम आउट",
+    "selected": "चयनित",
+    "expand": "विस्तृत करें",
+    "collapse": "संकुचित करें"
+  },
+  "pageMetaResolver": {
+    "category": {
+      "title": "{{query}} के लिए {{count}} परिणाम",
+      "title_other": "{{query}} के लिए {{count}} परिणाम"
+    },
+    "checkout": {
+      "title": "चेकआउट करें"
+    },
+    "search": {
+      "title": "\"{{query}}\" के लिए {{count}} परिणाम",
+      "title_other": "\"{{query}}\" के लिए {{count}} परिणाम",
+      "findProductTitle": "कूपन \"{{coupon}}\" के लिए {{count}} परिणाम",
+      "findProductTitle_other": "कूपन \"{{coupon}}\" के लिए {{count}} परिणाम",
+      "default_title": "सभी उत्पाद"
+    },
+    "product": {
+      "description": "{{description}}",
+      "heading": "{{heading}}",
+      "title": "{{title}}"
+    }
+  },
+  "spinner": {
+    "loading": "लोड हो रहा है..."
+  },
+  "navigation": {
+    "categoryNavLabel": "श्रेणी मेनू",
+    "footerNavLabel": "फुटर लिंक",
+    "goTo": "{{location}} पर जाएं",
+    "navigateTo": "{{nav}} पर नेविगेट करें",
+    "scrollToTop": "पृष्ठ के शीर्ष पर वापस स्क्रोल करें",
+    "linkItemInList": "{{listLength}} का {{title}}. {{position}}"
+  },
+  "searchBox": {
+    "placeholder": "उत्पाद नाम या SKU दर्ज करें",
+    "productSearch": "उत्पाद खोजें",
+    "ariaLabelInput": "यहां खोजें...",
+    "ariaLabelSuggestions": "टाइपिंग सलाहें",
+    "ariaLabelProducts": "उत्पाद परिणाम",
+    "initialDescription": "स्वतः पूर्ण परिणामों के उपलब्ध होने पर समीक्षा करने के लिए ऊपर और नीचे तीरों का और चयन करने के लिए enter का उपयोग करें. स्पर्श उपकरण उपयोगकर्ता स्पर्श करके या स्वाइप करके खोजें.",
+    "suggestions": "सुझाए गए कीवर्ड",
+    "suggestionsResult": "{{ count }} सुझाव और ",
+    "suggestionsResult_other": "{{ count }} सुझाव और ",
+    "products": "अनुशंसित उत्पाद",
+    "productsResult": "{{ count }} उत्पाद उपलब्ध है.",
+    "productsResult_other": "{{ count }} उत्पाद उपलब्ध हैं.",
+    "resetLabel": "खोज रीसेट करें",
+    "help": {
+      "insufficientChars": "कृपया और वर्ण टाइप करें",
+      "noMatch": "हमें कोई परिणाम नहीं मिल सका",
+      "exactMatch": "{{ term }}",
+      "empty": "हमसे कुछ भी पूछें"
+    },
+    "closeSearchPanel": "बंद करें"
+  },
+  "sorting": {
+    "date": "दिनांक",
+    "orderNumber": "ऑर्डर संख्या",
+    "rma": "वापसी संख्या",
+    "replenishmentNumber": "पुनःपूर्ति संख्या",
+    "nextOrderDate": "अगले ऑर्डर का दिनांक",
+    "pageViewUpdated": "आपके चयनित विकल्पों द्वारा पृष्ठ दृश्य अपडेट किया गया."
+  },
+  "httpHandlers": {
+    "badRequest": {
+      "bad_credentials": "{{ errorMessage }} कृपया फिर से लॉगिन करें.",
+      "user_is_disabled": "{{ errorMessage }}. कृपया व्यवस्थापक से संपर्क करें."
+    },
+    "badGateway": "सर्वर त्रुटि उत्पन्न हुई. कृपया फिर से कोशिश करें.",
+    "badRequestPleaseLoginAgain": "{{ errorMessage }} कृपया फिर से लॉगिन करें.",
+    "badRequestOldPasswordIncorrect": "पुराना पासवर्ड गलत है.",
+    "badRequestGuestDuplicateEmail": "{{ errorMessage }} ईमेल पहले से मौजूद है. गेस्ट खाते का उपयोग कर पंजीकरण करने के लिए अन्य ईमेल से चेकआउट करें.",
+    "conflict": "पहले से मौजूद है.",
+    "forbidden": "आप यह क्रिया करे के लिए प्राधिकृत नहीं हैं. यदि आपको लगता है यह गलती है तो कृपया अपने व्यवस्थापक से संपर्क करें.",
+    "gatewayTimeout": "सर्वर प्रतिसाद नहीं दे रहा, कृपया बाद में फिर से कोशिश करें.",
+    "internalServerError": "आंतरिक सर्वर त्रुटि उत्पन्न हुई. कृपया बाद में फिर से कोशिश करें.",
+    "sessionExpired": "आपका सत्र समाप्त हुआ. कृपया फिर से लॉगिन करें.",
+    "unknownError": "एक अज्ञात त्रुटि उत्पन्न हुई",
+    "unauthorized": {
+      "common": "एक अज्ञात प्राधिकार त्रुटि उत्पन्न हुई",
+      "invalid_client": "खराब क्लाइंट क्रेडेंशियल"
+    },
+    "validationErrors": {
+      "missing": {
+        "card_cardType": "चयनित क्रेडिट कार्ड समर्थित नहीं है. कृपया अन्य चुनें.",
+        "card_accountNumber": "दर्ज की गई क्रेडिट कार्ड संख्या मान्य नहीं है.",
+        "card_cvNumber": "दर्ज किया गया सुरक्षा कोड मान्य नहीं है.",
+        "card_expirationMonth": "दर्ज की गई क्रेडिट कार्ड समाप्ति दिनांक मान्य नहीं है.",
+        "card_expirationYear": "दर्ज की गई क्रेडिट कार्ड समाप्ति दिनांक मान्य नहीं है.",
+        "billTo_firstName": "दर्ज किया गया पहला नाम मान्य नहीं है.",
+        "billTo_lastName": "दर्ज किया गया अंतिम नाम मान्य नहीं है.",
+        "billTo_street1": "दर्ज किया गया पता मान्य नहीं है.",
+        "billTo_street2": "दर्ज किया गया पता मान्य नहीं है.",
+        "billTo_city": "इस क्रेडिट कार्ड के लिए दर्ज किया गया शहर मान्य नहीं है.",
+        "billTo_state": "इस क्रेडिट कार्ड के लिए दर्ज किया गया राज्य/प्रांत मान्य नहीं है.",
+        "billTo_country": "इस क्रेडिट कार्ड के लिए दर्ज किया गया देश/क्षेत्र मान्य नहीं है.",
+        "billTo_postalCode": "इस क्रेडिट कार्ड के लिए ज़िप/पोस्टल कोड मान्य नहीं है.",
+        "country": {
+          "isocode": "देश/क्षेत्र गुम है"
+        }
+      },
+      "invalid": {
+        "card_expirationMonth": "दर्ज की गई क्रेडिट कार्ड समाप्ति दिनांक मान्य नहीं है.",
+        "firstName": "दर्ज किया गया पहला नाम मान्य नहीं है.",
+        "lastName": "दर्ज किया गया अंतिम नाम मान्य नहीं है.",
+        "password": "दर्ज किया गया पासवर्ड मान्य नहीं है.",
+        "uid": "UID मान्य नहीं है.",
+        "code": "कोड मान्य नहीं है.",
+        "email": "ईमेल मान्य नहीं है.",
+        "loginId": "ईमेल मान्य नहीं है."
+      }
+    },
+    "cartNotFound": "कार्ट नहीं मिला",
+    "invalidCodeProvided": "अमान्य कोड प्रदान किया गया.",
+    "voucherExceeded": "इस कूपन का उपयोग करने की सीमा पार हो चुकी है.",
+    "unknownIdentifier": "आइटम नहीं मिला.",
+    "otherCartErrors": "कार्ट त्रुटियां उत्पन्न हुईं."
+  },
+  "miniCart": {
+    "item": "वर्तमान में आपकी कार्ट में {{count}} आइटम हैं",
+    "item_other": "वर्तमान में आपकी कार्ट में {{count}} आइटम हैं",
+    "total": "{{total}}",
+    "count": "{{count}}"
+  },
+  "skipLink": {
+    "skipTo": "इसे छोड़ें",
+    "labels": {
+      "header": "शीर्षलेख",
+      "main": "मुख्य सामग्री",
+      "footer": "फुटर",
+      "productFacets": "उत्पाद पहलू",
+      "productList": "उत्पाद सूची"
+    }
+  },
+  "carousel": {
+    "previousSlide": "पिछली स्लाइड",
+    "nextSlide": "अगली स्लाइड",
+    "slideNumber": "स्लाइड {{currentSlideNumber}} में {{numberOfSlides}} आइटम शामिल हैं",
+    "carouselForProduct": "करोसेल, {{product}} के लिए छवियां"
+  },
+  "formErrors": {
+    "labeled": {
+      "required": "फ़ील्ड {{label}} आवश्यक है.",
+      "cxInvalidEmail": "फ़ील्ड {{label}} में कोई मान्य ईमेल स्वरूप नहीं है. मिलान पैटर्नः  example@yourdomain.com",
+      "cxInvalidPassword": "फ़ील्ड {{label}} में मान्य पासवर्ड स्वरूप नहीं है",
+      "cxMinOneUpperCaseCharacter": "पासवर्ड में कम से कम एक अपरकेस वर्ण होना चाहिए",
+      "cxMinOneDigit": "पासवर्ड में कम से कम एक अंक होना चाहिए",
+      "cxMinOneSpecialCharacter": "पासवर्ड में कम से कम एक विशेष वर्ण होना चाहिए.",
+      "cxMinSixCharactersLength": "पासवर्ड में कम से कम 6 वर्ण होना चाहिए.",
+      "cxMinEightCharactersLength": "पासवर्ड में कम से कम 8 वर्ण होना चाहिए.",
+      "cxMaxCharactersLength": "पासवर्ड में 128 वर्णों से अधिक नहीं हो सकते",
+      "cxContainsSpecialCharacters": "पासवर्ड में विशेष वर्ण शामिल नहीं कर सकते",
+      "cxNoConsecutiveCharacters": "पासवर्ड में क्रमागत समान वर्ण शामिल नहीं कर सकते",
+      "date": {
+        "required": "फ़ील्ड {{label}} आवश्यक है.",
+        "min": "फील्ड {{label}} {{min}} से पहले नहीं हो सकती",
+        "max": "फ़ील्ड {{label}} {{max}} के बाद नहीं हो सकती",
+        "pattern": "फ़ील्ड {{label}} में दिनांक स्वरूप yyyy-mm-dd का उपयोग करें",
+        "invalid": "फ़ील्ड {{label}} में मान्य दिनांक का उपयोग करें"
+      }
+    },
+    "globalMessage": "आप जिस फ़ॉर्म को सबमिट करने की कोशिश कर रहे हैं उसमें त्रुटियां हैं.",
+    "required": "यह फ़ील्ड आवश्यक है",
+    "cxInvalidEmail": "यह मान्य ई-मेल स्वरूप नहीं है.",
+    "cxInvalidPassword": "यह मान्य पासवर्ड स्वरूप नहीं है",
+    "cxPasswordsMustMatch": "पासवर्ड फ़ील्ड मेल खानी चाहिए",
+    "cxPasswordsCannotMatch": "पासवर्ड फ़ील्ड मेल नहीं खा सकतीं.",
+    "cxEmailsMustMatch": "ईमेल फ़ील्ड मेल खानी चाहिए",
+    "cxStarRatingEmpty": "रेटिग फ़ील्ड आवश्यक है",
+    "cxNoSelectedItemToCancel": "कम से कम एक आइटम चुनें",
+    "cxNegativeAmount": "राशि शून्य के बराबर या बड़ी होना चाहिए",
+    "cxContainsSpecialCharacters": "फ़ील्ड में विशेष वर्ण शामिल नहीं हो सकते",
+    "date": {
+      "required": "यह फ़ील्ड आवश्यक है",
+      "min": "दिनांक {{min}} से पहले नहीं हो सकती",
+      "max": "दिनांक {{max}} के बाद नहीं हो सकती",
+      "pattern": "दिनांक स्वरूप yyyy-mm-dd का उपयोग करें",
+      "invalid": "कोई मान्य दिनांक का उपयोग करें"
+    },
+    "file": {
+      "required": "फ़ाइल आवश्यक है",
+      "empty": "फ़ाइल रिक्त नहीं होना चाहिए",
+      "invalidExtension": "फ़ाइल विस्तार मान्य नहीं है",
+      "tooLarge": "फ़ाइल आकार को {{ maxSize }}MB की सीमा पार नहीं करनी चाहिए",
+      "tooManyEntries": "आइटम की संख्या {{ maxEntries }} से अधिक होना चाहिए",
+      "notParsable": "फ़ाइल पार्स करने योग्य नहीं है",
+      "fileNotAllowed": "यह फ़ाइल प्रकार अनुमत नहीं है"
+    }
+  },
+  "errorHandlers": {
+    "scriptFailedToLoad": "स्क्रिप्ट लोड करने में विफल",
+    "refreshThePage": "कृपया इस पृष्ठ को रीफ़्रेश करें."
+  },
+  "assistiveMessage": {
+    "actionCancelled": "कार्रवाई रद्द की गई, कुछ नहीं बदला"
+  },
+  "passwordVisibility": {
+    "showPassword": "पासवर्ड दिखाएं",
+    "hidePassword": "पासवर्ड छिपाएं"
+  },
+  "generalErrors": {
+    "pageFailure": "पृष्ठ लोड नहीं किया जा सका. कृपया फिर से कोशिश करें."
+  },
+  "formLegend": {
+    "required": "\"*\"  से चिह्नित निम्न फ़ील्ड आवश्यक हैं."
+  },
+  "chatMessaging": {
+    "charactersLeft": "वर्ण बचे हैंः  {{count}}",
+    "addNewMessage": "नया संदेश जोड़ें",
+    "send": "भेजें",
+    "uploadFile": "फ़ाइल अपलोड करें",
+    "informationLabel": "{{date}} पर {{author}}. {{text}}",
+    "messages": "संदेश",
+    "addMessagePlaceHolder": "टाइपिंग प्रारंभ करें...",
+    "characterLimitAlert": "वर्ण सीमा तक पहुंच गया.",
+    "a11y": {
+      "itemListBoxLabel": "कोई आइटम चुनें जिस पर संदेश लागू किया जाना चाहिए."
+    }
+  }
+}

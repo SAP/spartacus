@@ -7,13 +7,12 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { ReplenishmentOrderCancellationComponent } from './replenishment-order-cancellation.component';
 
@@ -63,7 +62,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [I18nTestingModule],
       declarations: [ReplenishmentOrderCancellationComponent, MockUrlPipe],
       providers: [
         {

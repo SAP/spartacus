@@ -1,0 +1,55 @@
+{
+  "checkout": {
+    "backToCart": "Vissza a kosárba"
+  },
+  "checkoutProgress": {
+    "label": "Fizetési folyamat",
+    "deliveryAddress": "Szállítási cím",
+    "deliveryMode": "Kézbesítési mód",
+    "paymentDetails": "Fizetés",
+    "reviewOrder": "Vélemény",
+    "state": {
+      "completed": "{{step}}, befejezve",
+      "selected": "{{step}}, kiválasztva",
+      "disabled": "{{step}}, letiltva"
+    }
+  },
+  "checkoutAddress": {
+    "shippingAddress": "Szállítási cím",
+    "selectYourDeliveryAddress": "Válassza ki a kézbesítési címét",
+    "defaultDeliveryAddress": "Alapértelmezett kézbesítési cím",
+    "addNewAddress": "Új cím hozzáadása",
+    "shipToThisAddress": "Szállítás erre a címre",
+    "deliveryAddressSelected": "Kézbesítési cím kiválasztva"
+  },
+  "checkoutMode": {
+    "deliveryMethod": "Kézbesítési mód",
+    "deliveryOptions": "Kézbesítési lehetőségek",
+    "standardDelivery": "Normál kiszállítás",
+    "premiumDelivery": "Prémium kiszállítás",
+    "deliveryEntries": "Szállítandó tételek"
+  },
+  "checkoutReview": {
+    "review": "Áttekintés",
+    "reviewOrder": "Rendelés áttekintése",
+    "orderItems": "Rendelésben szereplő tételek",
+    "confirmThatRead": "Igazolom, hogy elolvastam és elfogadom a következőt:",
+    "placeOrder": "Rendelés leadása",
+    "termsAndConditions": "Használati feltételek",
+    "editDeliveryAddressDetails": "A kézbesítési cím adatainak szerkesztése, megnyitja a Kézbesítési cím oldalt",
+    "editBillingDetails": "A számlázási cím szerkesztése, megnyitja a Fizetési adatok oldalt",
+    "editPaymentDetails": "A fizetési adatok szerkesztése, megnyitja a Fizetési adatok oldalt",
+    "editPaymentType": "A fizetési mód szerkesztése, megnyitja a Fizetési mód oldalt",
+    "editDeliveryMode": "A kézbesítési mód szerkesztése, megnyitja a Kézbesítési mód oldalt",
+    "orderInProcess": "A rendelés folyamatban van. Kérjük, várjon."
+  },
+  "checkoutOrderConfirmation": {
+    "confirmationOfOrder": "Rendelés megerősítése:",
+    "thankYou": "Köszönjük a rendelést!",
+    "invoiceHasBeenSentByEmail": "A számlát elküldtük e-mailben. Hamarosan megkapja.",
+    "orderItems": "Rendelésben szereplő tételek",
+    "orderPlacedSuccessfully": "Rendelés sikeresen leadva",
+    "createAccount": "Szeretne létrehozni egy fiókot?",
+    "createAccountForNext": "Egy <{{email}}>-fiók létrehozásával gyorsabban leadhatja rendelését a következő látogatáskor."
+  }
+}

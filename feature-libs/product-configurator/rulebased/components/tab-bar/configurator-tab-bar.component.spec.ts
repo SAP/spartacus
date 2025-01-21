@@ -12,7 +12,7 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+
 import {
   I18nTestingModule,
   RouterState,
@@ -23,14 +23,14 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorRouter,
 } from '@spartacus/product-configurator/common';
+import { KeyboardFocusService } from '@spartacus/storefront';
 import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { KeyboardFocusService } from '@spartacus/storefront';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -111,7 +111,7 @@ describe('ConfigTabBarComponent', () => {
 
     routerStateObservable = of(mockRouterState);
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterModule, RouterTestingModule],
+      imports: [I18nTestingModule, RouterModule],
       declarations: [ConfiguratorTabBarComponent, MockUrlPipe],
       providers: [
         {

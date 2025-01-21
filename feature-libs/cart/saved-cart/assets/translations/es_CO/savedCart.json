@@ -1,0 +1,67 @@
+{
+  "savedCartDetails": {
+    "cartName": "Nombre",
+    "cartDescription": "Descripción",
+    "cartId": "ID",
+    "dateSaved": "Fecha guardada",
+    "items": "Artículos",
+    "quantity": "Cantidad",
+    "total": "Total",
+    "editSavedCart": "Editar carro guardado",
+    "deleteSavedCart": "Borrar carro guardado",
+    "addSelectedItems": "Agregar elementos seleccionados",
+    "emptyCartItems": "Vaciar carro"
+  },
+  "savedCartList": {
+    "savedCarts": "Carros guardados ({{count}})",
+    "cartName": "Nombre",
+    "cartId": "ID",
+    "dateSaved": "Fecha guardada",
+    "cartDescription": "Descripción",
+    "quantity": "Cantidad",
+    "quantityFull": "Cantidad",
+    "total": "Total",
+    "actions": "Acciones",
+    "makeCartActive": "Habilitar carro",
+    "notFound": "No se encontró ningún carro guardado",
+    "swapCartNoActiveCart": "El carro existente ha sido correctamente activado por {{cartName}}.",
+    "swapCartWithActiveCart": "El carro existente ha sido correctamente activado por {{cartName}}. Los artículos anteriores han sido guardados en un carro {{previousCartName}}."
+  },
+  "savedCartCartPage": {
+    "messages": {
+      "cartSaved": "Los artículos del carro han sido correctamente guardados en el carro \"{{cartName}}\""
+    }
+  },
+  "savedCartDialog": {
+    "saveForLater": "Guardar para después",
+    "itemsSavedForLater": "Todos los artículos de su carro quedarán grabados para después",
+    "savedCartName": "Nombre del carro guardado",
+    "savedCartDescription": "Descripción del carro guardado",
+    "optional": "opcional",
+    "charactersLeft": "caracteres restantes: {{count}}",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "restore": "Restablecer",
+    "followingCartDelete": "Se borrará el siguiente carro guardado",
+    "followingCartRestore": "El siguiente carro grabado se restablecerá como un carro activo",
+    "delete": "Eliminar",
+    "deleteCartSuccess": "El carro se ha eliminado correctamente",
+    "editCartSuccess": "El carro se ha editado correctamente",
+    "editSavedCart": "Editar carro guardado",
+    "deleteSavedCart": "Borrar carro guardado",
+    "restoreSavedCart": "Restablecer carro guardado",
+    "name": "Nombre",
+    "id": "ID",
+    "description": "Descripción",
+    "quantity": "Cantidad",
+    "quantityFull": "Cantidad",
+    "total": "Total",
+    "keepCopySavedCart": "Conservar una copia de este carro en la lista de carros guardados",
+    "defaultCloneCartName": "Copia de {{name}}",
+    "nameOfCloneCart": "Nombre del carro copiado"
+  },
+  "addToSavedCart": {
+    "savedCarts": "Carros guardados",
+    "saveCartForLater": "Guardar carro para después"
+  }
+}

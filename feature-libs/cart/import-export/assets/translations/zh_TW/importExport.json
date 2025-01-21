@@ -1,0 +1,51 @@
+{
+  "exportEntries": {
+    "exportToCsv": "匯出至 CSV",
+    "exportMessage": "CSV 檔案將自動下載至您的裝置，若未下載，請檢查您的瀏覽器設定",
+    "columnNames": {
+      "code": "代碼",
+      "quantity": "數量",
+      "name": "名稱",
+      "price": "價格"
+    },
+    "exportProductToCsv": "將產品匯出至 CSV"
+  },
+  "importEntries": {
+    "importProducts": "匯入產品"
+  },
+  "importEntriesDialog": {
+    "importProducts": "匯入產品",
+    "importProductsSubtitle": "匯入 .CSV 檔案以新增產品。",
+    "importProductsNewSavedCartSubtitle": "透過匯入 .CSV 檔案並建立新儲存的購物車，來新增產品。",
+    "importProductFileDetails": "文字檔案應包含產品清單，並以逗號分隔必要欄：SKU 和數量。",
+    "selectFile": "選擇檔案",
+    "selectedSuccessfully": "已成功選擇 CSV 檔案。",
+    "savedCartName": "儲存的購物車名稱",
+    "savedCartDescription": "儲存的購物車說明",
+    "optional": "選擇性",
+    "charactersLeft": "剩餘字元：{{count}}",
+    "cancel": "取消",
+    "upload": "上傳",
+    "close": "關閉",
+    "summary": {
+      "info": "匯入產品時，請不要關閉或重新整理此視窗。",
+      "loadedToCart": "已將產品載入至購物車 {{ cartName }}",
+      "loaded": "已載入產品",
+      "loading": "正在處理產品... ({{ count }}/{{ total }})",
+      "successes": "已成功匯入 {{ successesCount }} 個產品，總計 {{ total }} 個。",
+      "warning": "未完全匯入 {{ count }} 個產品。",
+      "warning_other": "未完全匯入 {{ count }} 個產品。",
+      "error": "未匯入 {{ count }} 個產品。",
+      "error_other": "未匯入 {{ count }} 個產品。",
+      "messages": {
+        "unknownIdentifier": "產品 SKU「{{ productCode}}」不存在。",
+        "lowStock": "{{ productName }} 的數量：{{ quantity }} 已減少為 {{ quantityAdded }}。",
+        "noStock": "{{ productName }} 目前缺貨。",
+        "unknownError": "「{{ productCode }}」發生無法識別的問題。",
+        "limitExceeded": "無法新增「{{ productCode }}」。已超過限制。"
+      },
+      "show": "顯示",
+      "hide": "隱藏"
+    }
+  }
+}

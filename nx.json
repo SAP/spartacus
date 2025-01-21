@@ -16,5 +16,7 @@
     "e2e": {
       "cache": true
     }
-  }
+  },
+  "useInferencePlugins": false,
+  "useLegacyCache": true
 }

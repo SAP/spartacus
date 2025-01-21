@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,7 +20,7 @@ import { listenForTokenRevocationRequest } from '../../login';
 export const updatedName = ' updated';
 export const updatedEmail = 'cypress_user_updated@sapcx.com';
 export const updatedB2BEmail = 'spartacusb2bupdated@sapcx.com';
-export const updatedPassword = 'NewPassword123.';
+export const updatedPassword = 'NewPas!sword123.';
 
 export function registerUser(cdcUser) {
   cy.findByText("Don't have an account yet?").click();

@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AbstractOrderContext } from '@spartacus/cart/base/components';
 import { AbstractOrderType, OrderEntry } from '@spartacus/cart/base/root';
 import {
@@ -25,6 +24,10 @@ const orderCode = '01008765';
 const savedCartCode = '0108336';
 const quoteCode = '01008764';
 const productCode = 'PRODUCT_CODE';
+
+class MockActivatedRoute {
+  constructor(public snapshot: any) {}
+}
 
 class MockAbstractOrderContext {
   key$ = of({ id: quoteCode, type: AbstractOrderType.QUOTE });
@@ -59,9 +62,10 @@ describe('ConfigureCartEntryComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule, RouterModule],
+      imports: [I18nTestingModule, RouterModule],
       declarations: [ConfigureCartEntryComponent, MockUrlPipe],
       providers: [
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
           provide: RoutingService,
           useClass: MockRoutingService,

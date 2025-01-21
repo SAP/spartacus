@@ -1,0 +1,11 @@
+{
+  "myAccountV2UserProfile": {
+    "myEmailAddress": "Мой адрес электронной почты",
+    "myInformation": "Мои данные",
+    "name": "Имя",
+    "customerId": "Ид. клиента",
+    "title": "Обращение",
+    "firstName": "Имя",
+    "lastName": "Фамилия"
+  }
+}

@@ -342,6 +342,17 @@
       overflow: initial;
     }
   }
+
+  @include cx-highContrastTheme {
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+      &.ng-option-marked {
+        background-color: var(--cx-color-text);
+        color: var(--cx-color-background);
+      }
+    }
+  }
 }
 
 // generic table styles for both vertical and stacked tables

@@ -1,19 +1,18 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { NavigationExtras } from '@angular/router';
 import {
+  BaseOption,
+  I18nTestingModule,
   Product,
   RoutingService,
   UrlCommandRoute,
   UrlCommands,
   VariantType,
-  I18nTestingModule,
-  BaseOption,
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ProductVariantsContainerComponent } from './product-variants-container.component';
-import { NavigationExtras } from '@angular/router';
 
 const mockProduct: Product = {
   name: 'mockProduct',
@@ -97,7 +96,7 @@ describe('ProductVariantsContainerComponent', () => {
         MockCxProductSizeSelectorComponent,
         MockCxProductColorSelectorComponent,
       ],
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       providers: [
         {
           provide: RoutingService,

@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+
+import { ActivatedRoute } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, ProductConnector } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
@@ -59,6 +60,10 @@ function getFirstValue(
 }
 class MockProductConnector {}
 
+class MockActivatedRoute {
+  constructor(public snapshot: any) {}
+}
+
 describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionBundleComponent>;
@@ -98,7 +103,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
-        RouterTestingModule,
         ReactiveFormsModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
@@ -112,6 +116,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         MockConfiguratorAttributeQuantityComponent,
       ],
       providers: [
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),

@@ -15,12 +15,12 @@ exports[`Workspace utils getProject should return project 1`] = `
           "budgets": [
             {
               "maximumError": "3.5mb",
-              "maximumWarning": "500kb",
+              "maximumWarning": "500kB",
               "type": "initial",
             },
             {
-              "maximumError": "4kb",
-              "maximumWarning": "2kb",
+              "maximumError": "4kB",
+              "maximumWarning": "2kB",
               "type": "anyComponentStyle",
             },
           ],
@@ -30,8 +30,10 @@ exports[`Workspace utils getProject should return project 1`] = `
       "defaultConfiguration": "production",
       "options": {
         "assets": [
-          "src/favicon.ico",
-          "src/assets",
+          {
+            "glob": "**/*",
+            "input": "public",
+          },
         ],
         "browser": "src/main.ts",
         "index": "src/index.html",
@@ -54,9 +56,6 @@ exports[`Workspace utils getProject should return project 1`] = `
     },
     "extract-i18n": {
       "builder": "@angular-devkit/build-angular:extract-i18n",
-      "options": {
-        "buildTarget": "schematics-test:build",
-      },
     },
     "serve": {
       "builder": "@angular-devkit/build-angular:dev-server",
@@ -74,8 +73,10 @@ exports[`Workspace utils getProject should return project 1`] = `
       "builder": "@angular-devkit/build-angular:karma",
       "options": {
         "assets": [
-          "src/favicon.ico",
-          "src/assets",
+          {
+            "glob": "**/*",
+            "input": "public",
+          },
         ],
         "inlineStyleLanguage": "scss",
         "polyfills": [
@@ -128,12 +129,12 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
         "budgets": [
           {
             "maximumError": "3.5mb",
-            "maximumWarning": "500kb",
+            "maximumWarning": "500kB",
             "type": "initial",
           },
           {
-            "maximumError": "4kb",
-            "maximumWarning": "2kb",
+            "maximumError": "4kB",
+            "maximumWarning": "2kB",
             "type": "anyComponentStyle",
           },
         ],
@@ -143,8 +144,10 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
     "defaultConfiguration": "production",
     "options": {
       "assets": [
-        "src/favicon.ico",
-        "src/assets",
+        {
+          "glob": "**/*",
+          "input": "public",
+        },
       ],
       "browser": "src/main.ts",
       "index": "src/index.html",
@@ -167,9 +170,6 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
   },
   "extract-i18n": {
     "builder": "@angular-devkit/build-angular:extract-i18n",
-    "options": {
-      "buildTarget": "schematics-test:build",
-    },
   },
   "serve": {
     "builder": "@angular-devkit/build-angular:dev-server",
@@ -187,8 +187,10 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
     "builder": "@angular-devkit/build-angular:karma",
     "options": {
       "assets": [
-        "src/favicon.ico",
-        "src/assets",
+        {
+          "glob": "**/*",
+          "input": "public",
+        },
       ],
       "inlineStyleLanguage": "scss",
       "polyfills": [

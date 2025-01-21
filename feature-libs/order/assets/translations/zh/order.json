@@ -1,0 +1,192 @@
+{
+  "orderDetails": {
+    "orderId": "订单编号",
+    "orderNumber": "订单编号",
+    "replenishmentId": "补货编号",
+    "purchaseOrderId": "采购订单编号",
+    "purchaseOrderNumber": "采购订单号",
+    "emptyPurchaseOrderId": "无",
+    "none": "无 {{value}}",
+    "placed": "已下单",
+    "placedBy": "订货人",
+    "unit": "单位",
+    "costCenter": "成本中心",
+    "costCenterAndUnit": "成本中心/单位",
+    "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
+    "methodOfPayment": "付款方式",
+    "payByAccount": "通过账户支付",
+    "paidByCreditCard": "（通过信用卡支付）",
+    "status": "状态",
+    "active": "活动",
+    "shippedOn": "发货日期",
+    "shippingMethod": "发货方式",
+    "placedOn": "下单日期",
+    "startOn": "开始日期",
+    "nextOrderDate": "下一个订单日期",
+    "frequency": "频率",
+    "cancelled": " 已取消",
+    "deliveryStatus_IN_TRANSIT": "正在途中",
+    "deliveryStatus_READY_FOR_PICKUP": "可提货",
+    "deliveryStatus_READY_FOR_SHIPPING": "准备发货",
+    "deliveryStatus_WAITING": "正在等待",
+    "deliveryStatus_DELIVERING": "正在送货",
+    "deliveryStatus_PICKPACK": "准备装运",
+    "deliveryStatus_PICKUP_COMPLETE": "提货完成",
+    "deliveryStatus_DELIVERY_COMPLETED": "送货完成",
+    "deliveryStatus_PAYMENT_NOT_CAPTURED": "付款问题",
+    "deliveryStatus_IN_PROCESS": "订单处理",
+    "deliveryStatus_READY": "订单处理",
+    "deliveryStatus_DELIVERY_REJECTED": "拒绝送货",
+    "deliveryStatus_SHIPPED": "已发货",
+    "deliveryStatus_TAX_NOT_COMMITTED": "税收问题",
+    "deliveryStatus_CANCELLED": "已取消",
+    "statusDisplay_cancelled": "已取消",
+    "statusDisplay_cancelling": "取消待处理状态",
+    "statusDisplay_completed": "已完成",
+    "statusDisplay_created": "已创建",
+    "statusDisplay_error": "待处理",
+    "statusDisplay_Error": "待处理",
+    "statusDisplay_processing": "待处理",
+    "statusDisplay_open": "未完成",
+    "statusDisplay_pending": {
+      "approval": "等待批准",
+      "merchant": {
+        "approval": "等待商家批准"
+      }
+    },
+    "statusDisplay_approved": "已批准",
+    "statusDisplay_rejected": "已拒绝",
+    "statusDisplay_merchant": {
+      "approved": "商家已批准",
+      "rejected": "商家已拒绝"
+    },
+    "statusDisplay_assigned": {
+      "admin": "已分配至管理员"
+    },
+    "consignmentTracking": {
+      "action": "跟踪包",
+      "dialog": {
+        "header": "跟踪信息",
+        "shipped": "已发货",
+        "estimate": "预计交付",
+        "carrier": "送货服务",
+        "trackingId": "跟踪编号",
+        "noTracking": "包尚未从仓库分派。包发货后，将提供跟踪信息。",
+        "loadingHeader": "发货跟踪"
+      }
+    },
+    "cancellationAndReturn": {
+      "returnAction": "请求退货",
+      "cancelAction": "取消项目",
+      "item": "商品",
+      "itemPrice": "商品价格",
+      "quantity": "最大数量",
+      "returnQty": "退货数量",
+      "cancelQty": "取消数量",
+      "setAll": "将所有数量设置为最大值",
+      "totalPrice": "总计",
+      "submit": "提交请求",
+      "submitDescription": "提交请求。此页面上的内容将包含在取消请求中。",
+      "returnSuccess": "已提交您的退货请求 ({{rma}})",
+      "cancelSuccess": "您的取消请求已提交（原始订单 {{orderCode}} 将更新）"
+    },
+    "cancelReplenishment": {
+      "title": "取消补货",
+      "description": "取消任何未来补货单？",
+      "accept": "是",
+      "reject": "否",
+      "cancelSuccess": "已成功取消补货单编号 {{replenishmentOrderCode}}"
+    },
+    "caption": "订单内容。"
+  },
+  "orderHistory": {
+    "orderHistory": "订单历史记录",
+    "orderId": "订单号",
+    "emptyPurchaseOrderId": "无",
+    "date": "日期",
+    "status": "状态",
+    "PONumber": "采购订单号",
+    "total": "总计",
+    "noOrders": "我们没有此账户的订单记录。",
+    "noReplenishmentOrders": "我们没有此账户的补货单记录。",
+    "startShopping": "开始购物",
+    "sortBy": "排序依据",
+    "sortOrders": "排序顺序",
+    "replenishmentOrderHistory": "补货单历史记录",
+    "replenishmentOrderId": "补货编号",
+    "purchaseOrderNumber": "采购订单编号",
+    "costCenter": "成本中心",
+    "startOn": "开始日期",
+    "frequency": "频率",
+    "nextOrderDate": "下一个订单日期",
+    "cancel": "取消",
+    "cancelled": "已取消",
+    "replenishmentHistory": "补货历史记录",
+    "notFound": "未找到订单",
+    "actions": "操作"
+  },
+  "AccountOrderHistoryTabContainer": {
+    "tabs": {
+      "AccountOrderHistoryComponent": "所有订单 ({{param}})",
+      "OrderReturnRequestListComponent": "退货 ({{param}})"
+    },
+    "tabPanelContainerRegion": "包含订单历史记录详细信息的组",
+    "tabPanelContainerRegionGroup": "包含订单历史记录详细信息的组"
+  },
+  "returnRequestList": {
+    "returnRequestId": "退货编号",
+    "orderId": "订单号",
+    "date": "创建日期",
+    "status": "状态",
+    "sortBy": "排序依据",
+    "sortReturns": "排序退货",
+    "statusDisplay_APPROVAL_PENDING": "待审批",
+    "statusDisplay_CANCELED": "已取消",
+    "statusDisplay_CANCELLING": "正在取消",
+    "statusDisplay_WAIT": "等待",
+    "statusDisplay_RECEIVED": "所收到的商品",
+    "statusDisplay_RECEIVING": "正在接收",
+    "statusDisplay_APPROVING": "正在批准",
+    "statusDisplay_REVERSING_PAYMENT": "正在冲销付款",
+    "statusDisplay_PAYMENT_REVERSED": "付款冲销",
+    "statusDisplay_PAYMENT_REVERSAL_FAILED": "付款冲销失败",
+    "statusDisplay_REVERSING_TAX": "正在冲销税费",
+    "statusDisplay_TAX_REVERSED": "税费冲销",
+    "statusDisplay_TAX_REVERSAL_FAILED": "税费冲销失败",
+    "statusDisplay_COMPLETED": "已完成"
+  },
+  "returnRequest": {
+    "returnRequestId": "退货请求编号",
+    "orderCode": "针对订单编号",
+    "status": "退货状态",
+    "cancel": "取消退货请求",
+    "item": "描述",
+    "itemPrice": "商品价格",
+    "returnQty": "退货数量",
+    "total": "总计",
+    "summary": "退货总计",
+    "subtotal": "小计",
+    "deliveryCode": "送货成本",
+    "estimatedRefund": "预计退货",
+    "note": "总额为估计值，可能不包括适用的税费或其他费用。",
+    "cancelSuccess": "已取消您的退货请求 ({{rma}})",
+    "caption": "订单内容。"
+  },
+  "reorder": {
+    "button": "重订货",
+    "dialog": {
+      "reorderProducts": "重新订购产品",
+      "messages": {
+        "reviewConfiguration": "“{{ productCode}}”配置发生错误。",
+        "lowStock": "{{ productName }} 的数量：{{ quantity }} 已减少至 {{ quantityAdded }}。",
+        "noStock": "{{ productName }} 目前缺货。",
+        "pricingError": "“{{ productCode }}”存在定价问题。",
+        "unresolvableIssues": "“{{ productCode }}”存在无法识别的问题。",
+        "success": "产品已成功添加到购物车"
+      },
+      "areYouSureToReplaceCart": "当前购物车将由新项目替换。是否要继续？",
+      "cancel": "取消",
+      "continue": "继续"
+    }
+  }
+}

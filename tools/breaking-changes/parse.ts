@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -136,7 +136,9 @@ function parseElement(
 function parseMembers(rawElement: any) {
   const parsedMembers: any[] = [];
   rawElement.members.forEach((rawMember: any) => {
-    if (rawMember?.name?.startsWith('ɵ')) {return;}
+    if (rawMember?.name?.startsWith('ɵ')) {
+      return;
+    }
     const parsedMember: any = {};
     parsedMember.kind = rawMember.kind;
     parsedMember.name = rawMember.name;
