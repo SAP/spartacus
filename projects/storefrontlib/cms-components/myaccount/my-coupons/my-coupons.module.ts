@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
   AuthGuard,
   CmsConfig,
@@ -21,16 +22,20 @@ import { KeyboardFocusModule } from '../../../layout/index';
 import { CardModule } from '../../../shared/components/card/card.module';
 import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+import { FormErrorsModule } from '../../../shared/components/form/form-errors';
 import { IconModule } from '../../misc/icon/icon.module';
 import { CouponCardComponent } from './coupon-card/coupon-card.component';
 import { CouponDialogComponent } from './coupon-card/coupon-dialog/coupon-dialog.component';
 import { CouponClaimComponent } from './coupon-claim/coupon-claim.component';
+import { ClaimDialogComponent } from './claim-dialog/claim-dialog.component';
 import { defaultCouponLayoutConfig } from './default-coupon-card-layout.config';
 import { MyCouponsComponent } from './my-coupons.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
     CardModule,
     SpinnerModule,
     I18nModule,
@@ -55,6 +60,7 @@ import { MyCouponsComponent } from './my-coupons.component';
     CouponCardComponent,
     CouponDialogComponent,
     CouponClaimComponent,
+    ClaimDialogComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -67,10 +73,14 @@ import { MyCouponsComponent } from './my-coupons.component';
           component: CouponClaimComponent,
           guards: [AuthGuard],
         },
+        ClaimDialogComponent: {
+          component: ClaimDialogComponent,
+          guards: [AuthGuard],
+        },
       },
     }),
     provideDefaultConfig(defaultCouponLayoutConfig),
   ],
-  exports: [MyCouponsComponent, CouponClaimComponent],
+  exports: [MyCouponsComponent, CouponClaimComponent, ClaimDialogComponent],
 })
 export class MyCouponsModule {}

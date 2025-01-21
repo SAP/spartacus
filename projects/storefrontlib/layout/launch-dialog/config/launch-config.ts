@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -98,5 +98,6 @@ export const enum LAUNCH_CALLER {
   PLACE_ORDER_SPINNER = 'PLACE_ORDER_SPINNER',
   SUGGESTED_ADDRESSES = 'SUGGESTED_ADDRESSES',
   COUPON = 'COUPON',
+  CLAIM_DIALOG = 'CLAIM_DIALOG',
   STOCK_NOTIFICATION = 'STOCK_NOTIFICATION',
 }

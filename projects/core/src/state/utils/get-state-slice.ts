@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -102,7 +102,7 @@ export function getExclusionKeys(key: string, excludeKeys: string[]): string[] {
 }
 
 export function filterKeysByType(
-  keys: { [key: string]: StorageSyncType | StateTransferType },
+  keys: { [key: string]: StorageSyncType | StateTransferType | undefined },
   type: StorageSyncType | StateTransferType
 ): string[] {
   if (!keys) {

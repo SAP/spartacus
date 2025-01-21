@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -75,15 +75,12 @@ context('B2B - User Registration', () => {
           verifyFormErrors();
         });
 
-        it('should display error global message if user exists (CXSPA-215)', () => {
+        it('should no throw error if user already exists (CXSPA-215)', () => {
           let user = getSampleUser();
           user.email = myCompanyAdminUser.registrationData?.email;
 
           fillOrganizationUserRegistrationForm(user);
           submitOrganizationUserRegistrationForm();
-          verifyGlobalMessageAfterRegistration(
-            'User with this e-mail address already exists.'
-          );
         });
       });
     });

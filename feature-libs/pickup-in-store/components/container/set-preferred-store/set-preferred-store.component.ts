@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,8 +44,15 @@ export class SetPreferredStoreComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
   setAsPreferred(): boolean {
     this.preferredStoreFacade.setPreferredStore(this.pointOfServiceName);
     return false;
+  }
+
+  getSetStoreButtonLabel(storeName: string): string {
+    return this.pointOfServiceName.name === storeName
+      ? 'setPreferredStore.myStore'
+      : 'setPreferredStore.makeThisMyStore';
   }
 }

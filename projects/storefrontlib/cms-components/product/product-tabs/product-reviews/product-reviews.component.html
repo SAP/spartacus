@@ -94,11 +94,14 @@
             type="text"
             class="form-control"
             formControlName="title"
+            [attr.aria-describedby]="'titleError'"
           />
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
+            id="titleError"
+            aria-live="off"
             [translationParams]="{
               label: 'productReview.reviewTitle' | cxTranslate,
             }"
@@ -122,11 +125,14 @@
             class="form-control"
             rows="3"
             formControlName="comment"
+            [attr.aria-describedby]="'commentError'"
           ></textarea>
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
+            id="commentError"
+            aria-live="off"
             [translationParams]="{
               label: 'productReview.writeYourComments' | cxTranslate,
             }"
@@ -150,6 +156,7 @@
             type="number"
             formControlName="rating"
             class="rating-input"
+            [attr.aria-describedby]="'ratingError'"
           />
           <cx-star-rating
             tabindex="0"
@@ -161,6 +168,8 @@
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
+            id="ratingError"
+            aria-live="off"
             [translationParams]="{
               label: 'productReview.rating' | cxTranslate,
             }"

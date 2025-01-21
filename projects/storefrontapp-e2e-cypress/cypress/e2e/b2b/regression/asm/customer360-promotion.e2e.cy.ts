@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -111,7 +111,7 @@ context('Assisted Service Module', () => {
     it('should be able to sent customer coupon for customer coupon (CXSPA-3945)', () => {
       interceptPost(
         'claim_customer_coupon',
-        '/users/*/customercoupons/*/claim?*'
+        '/users/*/customercoupons/*/claim?*' //TODO check '/users/*/customercoupons/claim?*' instead when enable 'enableClaimCustomerCouponWithCodeInRequestBody' with the new Occ endpoint is available since Commerce 2211.28
       );
       cy.get('.cx-asm-customer-360-promotion-listing-row')
         .contains(customer_coupon.name)

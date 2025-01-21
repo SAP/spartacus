@@ -20,7 +20,7 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { Observable, of, Subscription } from 'rxjs';
+import { firstValueFrom, Observable, of, Subscription } from 'rxjs';
 import { PdpPickupOptionsContainerComponent } from './pdp-pickup-options-container.component';
 
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
@@ -53,7 +53,7 @@ class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
   getStockLevelAtStore = createSpy().and.returnValue(
     of({ stockLevel: { displayName: 'London School' } })
   );
-  getStoreDetails = createSpy();
+  getStoreDetails = createSpy().and.returnValue(of({ name: 'London School' }));
   loadStoreDetails = createSpy();
 }
 
@@ -218,6 +218,34 @@ describe('PdpPickupOptionsComponent', () => {
       const option = 'delivery';
       component.onPickupOptionChange(option);
       expect(component.openDialog).not.toHaveBeenCalled();
+    });
+
+    it('should return undefined if intendedLocation.displayName is not defined', async () => {
+      spyOn(
+        intendedPickupLocationService,
+        'getIntendedLocation'
+      ).and.returnValue(of({ pickupOption: 'pickup', displayName: undefined }));
+      spyOn(component, 'setIntendedPickupLocation');
+      const displayLocation = await firstValueFrom(
+        component.displayPickupLocation$
+      );
+      expect(displayLocation).toEqual(undefined);
+    });
+
+    it('setIntendedPickupLocation should set pickupOption as delivery', async () => {
+      spyOn(
+        preferredStoreFacade,
+        'getPreferredStoreWithProductInStock'
+      ).and.returnValue(
+        of({ name: 'London School', displayName: 'London School' })
+      );
+      component.setIntendedPickupLocation('productCode');
+      expect(
+        intendedPickupLocationService.setIntendedLocation
+      ).toHaveBeenCalledWith('productCode', {
+        name: 'London School',
+        pickupOption: 'delivery',
+      });
     });
 
     it('should open dialog if displayName is not set and a11yPickupOptionsTabs disabled', () => {

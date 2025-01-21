@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,6 +22,7 @@ export const defaultOccUserConfig: OccConfig = {
         addressVerification: 'users/${userId}/addresses/verification',
         customerCoupons: 'users/${userId}/customercoupons',
         claimCoupon: 'users/${userId}/customercoupons/${couponCode}/claim',
+        claimCustomerCoupon: 'users/${userId}/customercoupons/claim',
         couponNotification:
           'users/${userId}/customercoupons/${couponCode}/notification',
         notificationPreference: 'users/${userId}/notificationpreferences',
