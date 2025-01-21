@@ -1,6 +1,10 @@
 import {
-  HttpClientTestingModule,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
@@ -70,7 +74,7 @@ describe('MerchandisingStrategyAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: CdsEndpointsService,
@@ -81,6 +85,8 @@ describe('MerchandisingStrategyAdapter', () => {
           useClass: MockBaseSiteService,
         },
         CdsMerchandisingStrategyAdapter,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

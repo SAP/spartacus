@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   EntitiesModel,
   I18nTestingModule,
@@ -21,6 +20,7 @@ import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';
 import { OrderApprovalListComponent } from './order-approval-list.component';
 import createSpy = jasmine.createSpy;
+import { ActivatedRoute } from '@angular/router';
 
 const mockOrderApprovals: EntitiesModel<OrderApproval> = {
   pagination: {
@@ -70,6 +70,10 @@ const mockOrderApprovals: EntitiesModel<OrderApproval> = {
   ],
 };
 
+class MockActivatedRoute {
+  constructor(public snapshot: any) {}
+}
+
 @Component({
   template: '',
   selector: 'cx-sorting',
@@ -106,14 +110,10 @@ describe('OrderApprovalListComponent?', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        RouterTestingModule,
-        UrlTestingModule,
-        PaginationTestingModule,
-      ],
+      imports: [I18nTestingModule, UrlTestingModule, PaginationTestingModule],
       declarations: [OrderApprovalListComponent, MockSortingComponent],
       providers: [
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrderApprovalService, useClass: MockOrderApprovalService },
         { provide: RoutingService, useClass: MockRoutingService },

@@ -1,0 +1,109 @@
+{
+  "closeAccount": {
+    "confirmAccountClosure": "Подтвердить закрытие учетной записи",
+    "confirmAccountClosureMessage": "Действительно закрыть учетную запись?",
+    "closeMyAccount": "ЗАКРЫТЬ МОЮ УЧЕТНУЮ ЗАПИСЬ ",
+    "accountClosedSuccessfully": "Учетная запись закрыта",
+    "accountClosedFailure": "Не удалось закрыть учетную запись"
+  },
+  "updatePasswordForm": {
+    "oldPassword": {
+      "label": "Старый пароль",
+      "placeholder": "Старый пароль"
+    },
+    "oldPasswordIsRequired": "Требуется старый пароль.",
+    "newPassword": {
+      "label": "Новый пароль",
+      "placeholder": "Новый пароль"
+    },
+    "passwordMinRequirements": "Вот краткие правила создания надежного пароля: используйте не менее 8 символов, в числе которых должны быть буквы в верхнем и нижнем регистре, цифры и спецсимволы.",
+    "passwordStrengthRequirements": "Вот краткие правила создания надежного пароля: используйте не менее 8 символов, в числе которых должны быть буквы в верхнем и нижнем регистре, цифры и спецсимволы. Не используйте один и тот же символ несколько раз подряд.",
+    "confirmPassword": {
+      "label": "Подтвердить новый пароль",
+      "placeholder": "Подтвердить пароль"
+    },
+    "bothPasswordMustMatch": "Пароли должны совпадать",
+    "passwordUpdateSuccess": "Пароль успешно обновлен",
+    "accessDeniedError": "В доступе отказано"
+  },
+  "updateProfileForm": {
+    "title": "Обращение",
+    "none": "",
+    "firstName": {
+      "label": "Имя",
+      "placeholder": "Имя"
+    },
+    "firstNameIsRequired": "Ввод имени обязателен.",
+    "lastName": {
+      "label": "Фамилия",
+      "placeholder": "Фамилия"
+    },
+    "lastNameIsRequired": "Ввод фамилии обязателен.",
+    "profileUpdateSuccess": "Персональные данные обновлены",
+    "customerId": "№ клиента"
+  },
+  "consentManagementForm": {
+    "clearAll": "Очистить все",
+    "selectAll": "Выделить все",
+    "message": {
+      "success": {
+        "given": "Согласие получено.",
+        "withdrawn": "Согласие отозвано."
+      }
+    }
+  },
+  "myCoupons": {
+    "noCouponsMessage": "У вас нет купонов.",
+    "effectiveTitle": "Действует:",
+    "Effective": "ДЕЙСТВУЕТ ",
+    "PreSession": "СКОРО ВСТУПАЕТ В СИЛУ ",
+    "ExpireSoon": "СКОРО ИСТЕЧЕТ",
+    "readMore": "Подробнее",
+    "notification": "Уведомление",
+    "findProducts": "Найти продукты",
+    "status": "Статус:",
+    "dialogTitle": "Купон",
+    "claimCustomerCoupon": "Вы успешно использовали этот купон.",
+    "myCoupons": "Мои купоны",
+    "startDateAsc": "Дата начала (по возрастанию)",
+    "startDateDesc": "Дата начала (по убыванию)",
+    "endDateAsc": "Дата окончания (по возрастанию)",
+    "endDateDesc": "Дата окончания (по убыванию)",
+    "sortBy": "Сортировать по",
+    "sortCoupons": "Сортировать купоны",
+    "notesPreffix": "Вы можете настроить предпочтительные каналы для получения уведомлений о купонах на странице ",
+    "notesLink": "Каналы уведомления",
+    "notesSuffix": " ."
+  },
+  "notificationPreference": {
+    "message": "Выберите предпочтительные каналы уведомления",
+    "note": "Примечание: ",
+    "noteMessage": "Если вы деактивируете все каналы, вы больше не будете получать уведомления.",
+    "EMAIL": "Электронная почта:",
+    "SMS": "SMS:",
+    "SITE_MESSAGE": "Сообщение на сайте"
+  },
+  "myInterests": {
+    "header": "Мои интересы",
+    "item": "ПОЗИЦИЯ",
+    "price": "ЦЕНА",
+    "notifications": "УВЕДОМЛЕНИЯ",
+    "noInterests": "У вас пока нет интересов.",
+    "inStock": "В наличии",
+    "lowStock": "В наличии мало",
+    "outOfStock": "Нет в наличии",
+    "BACK_IN_STOCK": "Снова в наличии",
+    "sortBy": "Сортировать по",
+    "sortInterests": "Сортировать интересы",
+    "expirationDate": " - До {{ expirationDate }}",
+    "productId": "Ид. {{ code }}",
+    "remove": "Удалить",
+    "sorting": {
+      "byNameAsc": "По имени (по возрастанию)",
+      "byNameDesc": "По имени (по убыванию)"
+    },
+    "actions": "ДЕЙСТВИЯ",
+    "caption": "Содержимое моих интересов.",
+    "itemRemoved": "Выбранная позиция удалена."
+  }
+}

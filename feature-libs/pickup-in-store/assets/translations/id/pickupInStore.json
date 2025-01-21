@@ -1,0 +1,92 @@
+{
+  "pickupInfo": {
+    "inStorePickup": "Pengambilan di Toko",
+    "pickupBy": "Diambil oleh",
+    "pickupFrom": "Diambil dari"
+  },
+  "pickupOptionDialog": {
+    "close": "Tutup",
+    "modalHeader": "Diambil di Toko"
+  },
+  "pickupOptions": {
+    "legend": "Metode Pengiriman",
+    "changeStore": "Ganti Toko",
+    "delivery": "Kirim (Tanpa Biaya Pengembalian)",
+    "pickup": "Tanpa Biaya Pengambilan di Toko",
+    "shipIt": "Kirim",
+    "selectStore": "Pilih Toko",
+    "freeReturn": "Tanpa Biaya Pengembalian",
+    "storeIsNotSelected": "Toko tempat pengambilan tidak dipilih."
+  },
+  "setPreferredStore": {
+    "makeThisMyStore": "Jadikan Sebagai Toko Saya",
+    "myStore": "Toko Saya"
+  },
+  "store": {
+    "pickupFromHere": "Diambil di sini",
+    "stockLevel_inStock": "{{ count }} Stok Tersedia",
+    "stockLevel_outOfStock": "Stok Habis",
+    "viewHours": "Lihat Jam Buka Toko"
+  },
+  "storeList": {
+    "noStoresMessage": "Tidak ada toko di basis data..."
+  },
+  "storeSchedule": {
+    "closed": "Tutup",
+    "storeHours": "Jam buka toko"
+  },
+  "storeSearch": {
+    "findAStore": "Cari Toko",
+    "findStores": "Cari Toko",
+    "hideOutOfStockOptions": "Sembunyikan opsi stok habis",
+    "searchPlaceholder": "Masukkan Kode Pos, Kota, atau Alamat",
+    "useMyLocation": "Gunakan lokasi saya"
+  },
+  "addressBookPickupInStore": {
+    "heading": "Toko Pengambilan"
+  },
+  "storeFinderPickupInStore": {
+    "heading": "Toko Saya"
+  },
+  "checkoutPickupInStore": {
+    "heading": "Item yang Akan Diambil",
+    "storeItemHeading": "Alamat Toko Pengambilan"
+  },
+  "cartItems": {
+    "item": "Item"
+  },
+  "cardActions": {
+    "getDirections": "Dapatkan Petunjuk Arah, tautan ini akan terbuka di jendela baru."
+  },
+  "deliveryPointOfServiceDetails": {
+    "itemsToBePickUp": "Item Yang Akan Diambil",
+    "pickUpInStoreAddress": "Alamat Toko Pengambilan",
+    "itemsToBeShipped": "Item Yang Akan Dikirim",
+    "shippingAddress": "Alamat Pengiriman",
+    "deliveryMethod": "Metode Pengiriman",
+    "deliveryOptions": "Opsi Pengiriman",
+    "statusDisplay_cancelled": "Dibatalkan",
+    "statusDisplay_cancelling": "Batalkan Penundaan",
+    "statusDisplay_completed": "Selesai",
+    "statusDisplay_created": "Dibuat",
+    "statusDisplay_error": "Ditunda",
+    "statusDisplay_Error": "Ditunda",
+    "statusDisplay_processing": "Ditunda",
+    "statusDisplay_open": "Aktif",
+    "statusDisplay_pending": {
+      "approval": "Menunggu Persetujuan",
+      "merchant": {
+        "approval": "Menunggu Persetujuan Pedagang"
+      }
+    },
+    "statusDisplay_approved": "Disetujui",
+    "statusDisplay_rejected": "Ditolak",
+    "statusDisplay_merchant": {
+      "approved": "Disetujui Oleh Pedagang",
+      "rejected": "Ditolak Oleh Pedagang"
+    },
+    "statusDisplay_assigned": {
+      "admin": "Ditetapkan Ke Administrator"
+    }
+  }
+}

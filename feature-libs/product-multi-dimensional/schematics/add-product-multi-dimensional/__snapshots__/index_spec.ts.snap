@@ -50,8 +50,10 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add list feature gen
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss"
@@ -68,13 +70,13 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add list feature gen
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all"
@@ -100,10 +102,7 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add list feature gen
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -115,8 +114,10 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add list feature gen
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss"
@@ -139,7 +140,7 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { ProductMultiDimensionalSelectorModule } from "@spartacus/product-multi-dimensional/selector";
-import { multiDimensionalSelectorTranslationChunksConfig, multiDimensionalSelectorTranslations } from "@spartacus/product-multi-dimensional/selector/assets";
+import { multiDimensionalSelectorTranslationChunksConfig, multiDimensionalSelectorTranslationsEn } from "@spartacus/product-multi-dimensional/selector/assets";
 import { ProductMultiDimensionalSelectorRootModule } from "@spartacus/product-multi-dimensional/selector/root";
 
 @NgModule({
@@ -150,7 +151,7 @@ import { ProductMultiDimensionalSelectorRootModule } from "@spartacus/product-mu
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: multiDimensionalSelectorTranslations,
+      resources: { en: multiDimensionalSelectorTranslationsEn },
       chunks: multiDimensionalSelectorTranslationChunksConfig,
     },
   })]
@@ -162,7 +163,7 @@ export class ProductMultiDimensionalSelectorFeatureModule { }
 exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { multiDimensionalSelectorTranslationChunksConfig, multiDimensionalSelectorTranslations } from "@spartacus/product-multi-dimensional/selector/assets";
+import { multiDimensionalSelectorTranslationChunksConfig, multiDimensionalSelectorTranslationsEn } from "@spartacus/product-multi-dimensional/selector/assets";
 import { PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE, ProductMultiDimensionalSelectorRootModule } from "@spartacus/product-multi-dimensional/selector/root";
 
 @NgModule({
@@ -180,7 +181,7 @@ import { PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE, ProductMultiDimensionalSele
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: multiDimensionalSelectorTranslations,
+      resources: { en: multiDimensionalSelectorTranslationsEn },
       chunks: multiDimensionalSelectorTranslationChunksConfig,
     },
   })
@@ -193,6 +194,9 @@ export class ProductMultiDimensionalSelectorFeatureModule { }
 exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/product-multi-dimensional";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -232,8 +236,10 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -251,13 +257,13 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all"
@@ -283,10 +289,7 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -298,8 +301,10 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",

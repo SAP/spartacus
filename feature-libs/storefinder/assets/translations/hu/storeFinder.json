@@ -1,0 +1,32 @@
+{
+  "storeFinder": {
+    "openUntil": "Nyitva eddig:",
+    "closed": "Zárva",
+    "back": "Vissza",
+    "call": "Hívás",
+    "getDirections": "Útbaigazítás kérése",
+    "ariaLabelGetDirections": "Útvonal tervezése; ez a hivatkozás új ablakban nyílik meg",
+    "ariaLabelCountriesCount": "Üzletek találhatók {{ count }} országban",
+    "listView": "Listanézet",
+    "mapView": "Térképnézet",
+    "noStoresFound": "Nem találhatók üzletek.",
+    "storeHours": "Üzlet nyitvatartási ideje",
+    "storeFeatures": "Üzlet szolgáltatásai",
+    "storeFinder": "Üzletkereső",
+    "storesFoundTitle": "Üzletek találhatók",
+    "storesFound": "{{ count }} üzlet található",
+    "storesFound_other": "{{ count }} üzlet található",
+    "fromStoresFound": "a talált {{ count }} üzletből",
+    "fromStoresFound_other": "a talált {{ count }} üzletből",
+    "findStore": "Üzlet keresése",
+    "useMyLocation": "Saját hely használata",
+    "viewAllStores": "Összes üzlet megtekintése",
+    "contactUs": "Kapcsolatfelvétel",
+    "searchBox": "Irányítószám, település vagy cím",
+    "backToList": "Vissza a listához",
+    "noStoresMessage": "Nem találhatók üzletek az adatbázisban...",
+    "geolocationNotEnabled": "Nem sikerült megjeleníteni a közeli üzleteket. Nem engedélyezték a geolokáció használatát.",
+    "searchNearestStores": "Legközelebbi üzletek keresése",
+    "searchBoxLabel": "Adja meg az irányítószámot, települést vagy címet"
+  }
+}

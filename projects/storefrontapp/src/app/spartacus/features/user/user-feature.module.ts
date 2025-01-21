@@ -8,7 +8,10 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   userAccountTranslationChunksConfig,
-  userAccountTranslations,
+  userAccountTranslationsEn,
+  userAccountTranslationsJa,
+  userAccountTranslationsDe,
+  userAccountTranslationsZh,
 } from '@spartacus/user/account/assets';
 import {
   UserAccountRootModule,
@@ -16,7 +19,10 @@ import {
 } from '@spartacus/user/account/root';
 import {
   userProfileTranslationChunksConfig,
-  userProfileTranslations,
+  userProfileTranslationsEn,
+  userProfileTranslationsJa,
+  userProfileTranslationsDe,
+  userProfileTranslationsZh,
 } from '@spartacus/user/profile/assets';
 import {
   USE_MY_ACCOUNT_V2_EMAIL,
@@ -44,7 +50,12 @@ import { environment } from '../../../../environments/environment';
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: userAccountTranslations,
+        resources: {
+          en: userAccountTranslationsEn,
+          ja: userAccountTranslationsJa,
+          de: userAccountTranslationsDe,
+          zh: userAccountTranslationsZh,
+        },
         chunks: userAccountTranslationChunksConfig,
         fallbackLang: 'en',
       },
@@ -73,7 +84,12 @@ import { environment } from '../../../../environments/environment';
     },
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: userProfileTranslations,
+        resources: {
+          en: userProfileTranslationsEn,
+          ja: userProfileTranslationsJa,
+          de: userProfileTranslationsDe,
+          zh: userProfileTranslationsZh,
+        },
         chunks: userProfileTranslationChunksConfig,
         fallbackLang: 'en',
       },

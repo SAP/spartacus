@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Breadcrumb, I18nTestingModule } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
 import { KeyboardFocusModule } from '../../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
@@ -38,7 +37,7 @@ describe('ActiveFacetsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule, KeyboardFocusModule],
+      imports: [I18nTestingModule, KeyboardFocusModule],
       declarations: [ActiveFacetsComponent, MockCxIconComponent],
       providers: [{ provide: FacetService, useClass: MockFacetService }],
     })

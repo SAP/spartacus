@@ -1,0 +1,149 @@
+{
+  "productDetails": {
+    "id": "Azonosító",
+    "quantity": "Menny.",
+    "quantityFull": "Mennyiség",
+    "productDetails": "Termék részletei",
+    "specification": "Leírás",
+    "reviews": "Értékelések",
+    "shipping": "Kiszállítás",
+    "share": "Megosztás",
+    "showReviews": "Értékelések megjelenítése",
+    "noReviews": "Még nincsenek értékelések",
+    "productPrice": "Termékár",
+    "noProductImage": "Nincs elérhető kép, {{ product }}"
+  },
+  "productList": {
+    "filterBy": {
+      "label": "Szűrés alapja",
+      "action": "Szűrés alapja"
+    },
+    "activeFilter": "{{filter}} szűrő, a gombra kattintva eltávolíthatja a szűrőt",
+    "appliedFilter": "Alkalmazott szűrő:",
+    "showLess": "Kevesebb megjelenítése...",
+    "showMore": "Több megjelenítése...",
+    "sortBy": "Rendezés alapja",
+    "sortResults": "Eredmények rendezése",
+    "backToTopBtn": "VISSZA AZ OLDAL TETEJÉRE",
+    "showMoreBtn": "TÖBB MEGJELENÍTÉSE",
+    "productSearchPagination": "Termékkeresés oldalszámozása",
+    "productListResults": "Terméktalálatok listája"
+  },
+  "productFacetNavigation": {
+    "filterBy": {
+      "label": "Szűrés alapja",
+      "action": "Szűrés alapja",
+      "facet": "Találatok szűrése kategóriák szerint",
+      "name": "Szűrés alapja: {{name}}"
+    },
+    "appliedFilter": "Alkalmazott szűrő:",
+    "showLess": "Kevesebb megjelenítése...",
+    "showMore": "Több megjelenítése...",
+    "sortBy": "Rendezés alapja",
+    "ariaLabelShowLess": "Kevesebb megjelenítése gomb, erre a gombra kattintva csökkentheti az aktív csoporthoz rendelkezésre álló beállításokat",
+    "ariaLabelShowMore": "Több megjelenítése gomb, erre a gombra kattintva megjelenítheti az aktív csoporthoz rendelkezésre álló összes beállítást",
+    "ariaLabelItemsAvailable": "{{name}}, {{state}} {{count}} tétel elérhető",
+    "ariaLabelItemsAvailable_other": "{{name}}, {{state}} {{count}} tétel elérhető",
+    "decreaseOptionsVisibility": "Néhány beállítás el van rejtve az aktív csoportból; az elolvasáshoz lépjen vissza, a következő csoporthoz lépjen előre",
+    "increaseOptionsVisibility": "További beállításokat adtak hozzá az aktív csoporthoz; az elolvasáshoz lépjen vissza, a következő csoporthoz lépjen előre",
+    "backToResults": "Vissza a találatokhoz",
+    "productFacets": "Termékkategóriák"
+  },
+  "productSummary": {
+    "id": "Azonosító",
+    "showReviews": "Értékelések megjelenítése",
+    "showReviewsDetailed": "{{count}} értékelés megjelenítése, minősítés: {{rating}}/5 csillag",
+    "share": "Megosztás",
+    "newItemPrice": "Új tétel ára"
+  },
+  "productReview": {
+    "overallRating": "Átfogó minősítés",
+    "reviewTitle": "Értékelés címe",
+    "writeYourComments": "Írjon megjegyzést",
+    "rating": "Minősítés",
+    "ratingRequired": "Termékminősítés, kötelező",
+    "addRate": "Minősítés hozzáadása: {{count}} csillag",
+    "addRate_other": "Minősítés hozzáadása: {{count}} csillag",
+    "reviewerName": "Értékelő neve (opcionális)",
+    "writeReview": "Értékelés írása",
+    "more": "Több értékelés megjelenítése",
+    "less": "Kevesebb értékelés megjelenítése",
+    "thankYouForReview": "Köszönjük az értékelést! Megjegyzés: előfordulhat, hogy az értékelések csak a felülvizsgálatukat követően jelennek meg itt.",
+    "postReviewFail": "Hiba történt az értékelés közzétételekor. Próbálja újra később.",
+    "ratedOutOf": "Minősítés: {{rating}}/5"
+  },
+  "productCarousel": {
+    "carouselLabel": "Forgótár, {{title}}"
+  },
+  "addToCart": {
+    "itemAddedToYourCart": "Tétel hozzáadva a kosarához",
+    "itemsAddedToYourCart": "Tételek hozzáadva a kosarához",
+    "itemsIncrementedInYourCart": "Ez a tétel már a kosarában volt. Frissült a mennyiség.",
+    "items": "tételek",
+    "updatingCart": "Kosár frissítése...",
+    "addToCart": "Kosárba",
+    "viewCart": "kosár megtekintése",
+    "proceedToCheckout": "tovább a fizetéshez",
+    "quantity": "Menny.",
+    "quantityFull": "Mennyiség",
+    "outOfStock": "Nincs készleten",
+    "inStock": "Készleten",
+    "selectStyleAndSize": "Válasszon stílust és méretet a készlet ellenőrzéséhez",
+    "removeFromCart": "Termék eltávolítása a kosárból",
+    "closeModal": "Párbeszédpanel bezárása",
+    "buyItAgain": "Ismételt vásárlás",
+    "addToActiveCart": "Hozzáadás az aktív kosárhoz"
+  },
+  "TabPanelContainer": {
+    "tabs": {
+      "ProductDetailsTabComponent": "Termék részletei",
+      "ProductSpecsTabComponent": "Leírás",
+      "ProductReviewsTabComponent": "Értékelések",
+      "deliveryTab": "Kiszállítás",
+      "SparePartsTabComponent": " Tartalékalkatrészek"
+    },
+    "tabPanelContainerRegion": "További termékrészleteket tartalmazó lapcsoport",
+    "tabPanelContainerRegionGroup": "További termékrészleteket tartalmazó csoport"
+  },
+  "addToWishList": {
+    "add": "Hozzáadás a kívánságlistához",
+    "remove": "Eltávolítás a kívánságlistáról",
+    "anonymous": "Jelentkezzen be a kívánságlistához történő hozzáadáshoz",
+    "addedToWishList": "Termék hozzáadva a kívánságlistához",
+    "removedFromWishList": "Termék eltávolítva a kívánságlistáról"
+  },
+  "stockNotification": {
+    "notifyMe": "ÉRTESÍTÉST KÉREK",
+    "stopNotify": "ÉRTESÍTÉS LEÁLLÍTÁSA",
+    "getNotify": "Értesítést kérek, ha elérhetővé válik a termék.",
+    "getNotifySuffix": "az értesítés kéréséhez, ha elérhetővé válik a termék.",
+    "activateChannelsPrefix": "Az értesítéshez aktiválnia kell a következőt: ",
+    "channelsLink": "Értesítési csatornák",
+    "activateChannelsSuffix": ".",
+    "notified": "Értesítjük, ha a termék ismét készleten lesz.",
+    "getNotified": "Értesítést kaphat, ha a termék ismét készleten lesz.",
+    "unsubscribeSuccess": "Nem kap értesítést, ha a termék ismét készleten lesz.",
+    "subscriptionDialog": {
+      "header": "Feliratkozás a készletállapotra vonatkozó értesítésekre",
+      "notifiedPrefix": "Értesítjük, ha:",
+      "notifiedSuffix": "a termék ismét készleten lesz.",
+      "manageChannelsPrefix": "A preferált értesítési csatornáit az ",
+      "manageChannelsLink": "Értesítési beállítások",
+      "manageChannelsSuffix": " oldalon kezelheti.",
+      "manageSubscriptionsPrefix": "A feliratkozásait az ",
+      "manageSubscriptionsLink": "Érdeklődési köreim",
+      "manageSubscriptionsSuffix": " oldalon kezelheti.",
+      "okBtn": "OK",
+      "subscribing": "Elindítjuk a feliratkozását a termék készletállapotára vonatkozó értesítéseire"
+    }
+  },
+  "itemCounter": {
+    "removeOne": "Egy eltávolítása",
+    "addOneMore": "Még egy hozzáadása",
+    "quantity": "Mennyiség"
+  },
+  "productView": {
+    "gridView": "Válassza a Rácsnézetre váltáshoz",
+    "listView": "Válassza a Listanézetre váltáshoz"
+  }
+}

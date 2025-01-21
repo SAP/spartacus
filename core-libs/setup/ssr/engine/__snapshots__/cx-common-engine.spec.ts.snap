@@ -7,6 +7,6 @@ exports[`CxCommonEngine should handle APP_INITIALIZER errors the standard Angula
 
 exports[`CxCommonEngine should handle errors propagated from SSR 1`] = `"test error"`;
 
-exports[`CxCommonEngine should not override providers passed to options 1`] = `"<html data-critters-container><head></head><body><cx-token ng-version="17.0.5" ng-server-context="ssr">message:test</cx-token></body></html>"`;
+exports[`CxCommonEngine should not override providers passed to options 1`] = `"<html data-critters-container><head></head><body><cx-token ng-version="18.2.9" ng-server-context="ssr">message:test</cx-token></body></html>"`;
 
-exports[`CxCommonEngine should return html if no errors 1`] = `"<html data-critters-container><head></head><body><cx-mock ng-version="17.0.5" ng-server-context="ssr">some template</cx-mock></body></html>"`;
+exports[`CxCommonEngine should return html if no errors 1`] = `"<html data-critters-container><head></head><body><cx-mock ng-version="18.2.9" ng-server-context="ssr">some template</cx-mock></body></html>"`;

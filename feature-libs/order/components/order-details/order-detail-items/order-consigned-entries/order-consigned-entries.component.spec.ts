@@ -1,7 +1,6 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { PromotionLocation } from '@spartacus/cart/base/root';
 import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
 import { Consignment, Order } from '@spartacus/order/root';
@@ -83,12 +82,7 @@ describe('OrderConsignedEntriesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CardModule,
-        I18nTestingModule,
-        RouterTestingModule,
-        OutletModule,
-      ],
+      imports: [CardModule, I18nTestingModule, OutletModule],
       providers: [
         {
           provide: FeaturesConfig,

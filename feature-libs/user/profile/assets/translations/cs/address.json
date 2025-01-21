@@ -1,0 +1,79 @@
+{
+  "addressForm": {
+    "title": "Oslovení",
+    "titleOptional": "Titul (volitelný)",
+    "defaultTitle": "Oslovení",
+    "firstName": {
+      "label": "Křestní jméno",
+      "placeholder": "Křestní jméno"
+    },
+    "lastName": {
+      "label": "Příjmení",
+      "placeholder": "Příjmení"
+    },
+    "address1": "Adresa 1",
+    "address2": "Adresa 2 (volitelná)",
+    "country": "Země/region",
+    "city": {
+      "label": "Město",
+      "placeholder": "Město"
+    },
+    "state": "Stát",
+    "zipCode": {
+      "label": "PSČ",
+      "placeholder": "PSČ"
+    },
+    "phoneNumber": {
+      "label": "Telefonní číslo (volitelné)",
+      "placeholder": "např. (###) - ### - ####"
+    },
+    "cellphone": {
+      "label": "Číslo mobilního telefonu (volitelné)",
+      "placeholder": "např. (###) - ### - ####"
+    },
+    "saveAsDefault": "Uložit jako standardní",
+    "chooseAddress": "Zvolte adresu",
+    "streetAddress": "Ulice",
+    "aptSuite": "Číslo bytu",
+    "selectOne": "Vyberte jedno…",
+    "setAsDefault": "Nastavit standardní dodací adresu",
+    "titleRequired": "Oslovení je povinné.",
+    "userAddressAddSuccess": "Nová adresa byla úspěšně přidána!",
+    "userAddressUpdateSuccess": "Adresa byla úspěšně aktualizována!",
+    "userAddressDeleteSuccess": "Adresa úspěšně odstraněna!",
+    "invalidAddress": "Neplatná adresa"
+  },
+  "addressBook": {
+    "addNewDeliveryAddress": "Přidat novou dodací adresu",
+    "editDeliveryAddress": "Upravit dodací adresu",
+    "areYouSureToDeleteAddress": "Chcete tuto adresu opravdu odstranit?",
+    "addNewAddress": "Přidat novou adresu",
+    "addAddress": "Přidat adresu",
+    "updateAddress": "Aktualizovat adresu",
+    "backToAddressList": "Zpět na seznam adres",
+    "defaultDeliveryAddress": "Standardní dodací adresa",
+    "additionalDeliveryAddress": "Další dodací adresa {{number}}"
+  },
+  "addressCard": {
+    "default": "STANDARDNÍ",
+    "selected": "Vybráno",
+    "selectedAddress": "Vybraná adresa",
+    "setAsDefault": "Nastavit jako standardní",
+    "shipTo": "Příjemce",
+    "billTo": "Plátce",
+    "phoneNumber": "P",
+    "mobileNumber": "M"
+  },
+  "addressSuggestion": {
+    "verifyYourAddress": "Ověřte svou adresu",
+    "ensureAccuracySuggestChange": "V zájmu přesného doručení doporučujeme změnit následující vybrané.",
+    "chooseAddressToUse": "Vyberte, kterou adresu chcete používat:",
+    "suggestedAddress": "Navržená adresa",
+    "enteredAddress": "Zadaná adresa",
+    "editAddress": "Upravit adresu",
+    "saveAddress": "Uložit adresu"
+  },
+  "addressMessages": {
+    "setAsDefaultSuccessfully": "Adresa {{ streetAddress }} byla úspěšně nastavena jako standardní."
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "futureStockDropdown": {
+    "header": "Disponibilité future",
+    "quantity": "Qté",
+    "noFutureStocks": "Il n'y a aucune information sur la disponibilité future pour ce produit."
+  }
+}

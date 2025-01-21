@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -9,6 +9,10 @@ import * as fromEffects from './view-all-stores.effect';
 import createSpy = jasmine.createSpy;
 import { OccConfig, SiteContextActions } from '@spartacus/core';
 import { StoreCount } from '../../model/store-finder.model';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const mockOccModuleConfig: OccConfig = {
   backend: {
@@ -36,12 +40,14 @@ describe('ViewAllStores Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         { provide: StoreFinderConnector, useValue: mockStoreFinderConnector },
         { provide: OccConfig, useValue: mockOccModuleConfig },
         fromEffects.ViewAllStoresEffect,
         provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

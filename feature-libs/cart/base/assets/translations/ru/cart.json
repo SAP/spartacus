@@ -1,0 +1,75 @@
+{
+  "cartDetails": {
+    "id": "Ид.",
+    "proceedToCheckout": "Перейти к оформлению",
+    "cartName": "Корзина № {{code}}"
+  },
+  "cartItems": {
+    "id": "Ид.",
+    "description": "Описание",
+    "item": "Позиция",
+    "itemPrice": "Цена позиции",
+    "quantity": "Кол.",
+    "quantityFull": "Количество",
+    "quantityTitle": "Количество - это общее число единиц данной позиции в вашей корзине.",
+    "total": "Итого",
+    "actions": "Действия",
+    "cartTotal": "Общая сумма корзины ({{count}} позиция)",
+    "cartTotal_other": "Общая сумма корзины ({{count}} поз.)",
+    "itemRemoved": "Выбранная позиция удалена. Общая сумма корзины обновлена.",
+    "caption": "Содержимое корзины покупок."
+  },
+  "orderCost": {
+    "orderSummary": "Обзор заказа",
+    "subtotal": "Промежуточная сумма с учетом скидок:",
+    "shipping": "Доставка:",
+    "estimatedShipping": "Ожидаемая доставка:",
+    "discount": "Вы сохранили:",
+    "salesTax": "Налог с продаж:",
+    "grossTax": "Общая сумма заказа не включает налог",
+    "grossIncludeTax": "Общая сумма заказа включает налог",
+    "total": "Итого:",
+    "toBeDetermined": "Не определено"
+  },
+  "voucher": {
+    "coupon": "У вас есть купон?",
+    "coupon_other": "Коды купонов",
+    "couponLabel": "Введите промокод здесь",
+    "addCoupon": "Добавить купон",
+    "apply": "Применить",
+    "placeholder": "Промокод",
+    "applyVoucherSuccess": "{{voucherCode}} применен.",
+    "removeVoucherSuccess": "{{voucherCode}} удален.",
+    "anchorLabel": "Введите или удалите код купона",
+    "vouchersApplied": "Примененные купоны",
+    "availableCoupons": "Доступные купоны",
+    "availableCouponsLabel": "Вы можете добавить эти купоны в этот заказ."
+  },
+  "saveForLaterItems": {
+    "itemTotal": "Сохранено на будущее ({{count}} позиция)",
+    "itemTotal_other": "Сохранено на будущее ({{count}} поз.)",
+    "cartTitle": "Корзина",
+    "saveForLater": "Сохранить на будущее",
+    "moveToCart": "Переместить в корзину",
+    "stock": "Запас",
+    "forceInStock": "В наличии"
+  },
+  "clearCart": {
+    "clearCart": "Очистить корзину",
+    "clearingCart": "Очистка корзины...",
+    "cartClearedSuccessfully": "Активная корзина очищена.",
+    "areYouSureToClearCart": "Действительно очистить эту корзину?",
+    "allItemsWillBeRemoved": "Все позиции в вашей активной корзине будут удалены."
+  },
+  "validation": {
+    "cartEntriesChangeDuringCheckout": "При оформлении найдены проблемы с вашими позициями. Проверьте корзину.",
+    "cartEntryRemoved": "{{name}} - удалено из корзины, поскольку нет в наличии.",
+    "productOutOfStock": "{{name}} - удалено из корзины, поскольку нет достаточного количества.",
+    "lowStock": "Количество сокращено до {{quantity}}, поскольку нет достаточного количества.",
+    "reviewConfiguration": "Сначала устраните проблемы в конфигурации для записи корзины.",
+    "configurationError": "Сначала устраните проблемы в конфигурации для записей корзины.",
+    "pricingError": "Конфигуратор расчета цен сейчас недоступен. Оформление/подача предложения невозможны. Повторите попытку позже.",
+    "unresolvableIssues": "Для конфигурации продукта требуются дополнительные записи в бэкэнде. Дальнейшая обработка невозможна. Обратитесь в службу поддержки.",
+    "inProgress": "Обработка"
+  }
+}

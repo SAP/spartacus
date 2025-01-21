@@ -10,7 +10,6 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -60,7 +59,6 @@ describe('UpdatePasswordComponent', () => {
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
-        RouterTestingModule,
         UrlTestingModule,
         PasswordVisibilityToggleModule,
       ],

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import {
   CmsBannerComponentMedia,
   CmsService,
@@ -81,7 +81,7 @@ describe('VideoComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterModule.forRoot([])],
       declarations: [VideoComponent, MockTranslatePipe],
       providers: [
         { provide: CmsComponentData, useClass: MockCmsVideoComponentData },

@@ -1,0 +1,46 @@
+{
+  "serviceOrderCheckout": {
+    "serviceDetails": "Detalhes do serviço",
+    "serviceScheduleHeading": "Programação do serviço - Data e hora",
+    "address": "Igual ao endereço de entrega",
+    "serviceLocationHeading": "Local de prestação de serviços",
+    "datePickerLabel": "Programar data do serviço",
+    "timePickerLabel": "Programar hora do serviço",
+    "unknownError": "Ocorreu um erro desconhecido. Contate o suporte.",
+    "productDeliveryOptions": "Opções de entrega para produtos",
+    "serviceDeliveryOption": "Opção de entrega para serviços",
+    "productDeliveryMethods": "Métodos de entrega para produtos",
+    "serviceDeliveryMethod": "Método de entrega para serviços"
+  },
+  "cancelService": {
+    "heading": "O seguintes itens serão incluídos na solicitação de cancelamento",
+    "cancelReason": "Motivo para cancelamento do serviço",
+    "optional": "(opcional)",
+    "action": "Cancelar serviço",
+    "back": "Voltar",
+    "Submit": "Enviar solicitação",
+    "cancelServiceSuccess": "O serviço foi cancelado com êxito",
+    "unknownError": "Ocorreu um erro desconhecido. Contate o suporte.",
+    "ServiceTime": "Hora do serviço",
+    "ServiceLocation": "Local de prestação de serviços",
+    "ServiceDate": "Data do serviço",
+    "SubmitRequest": "Enviar solicitação",
+    "serviceNotRcancelable": "O serviço não pode ser cancelado",
+    "charactersLeft": "caracteres restantes: {{count}}",
+    "Services": "Serviços"
+  },
+  "rescheduleService": {
+    "actionButtonLabel": "Reprogramar serviço",
+    "headerLabel": "Serviços",
+    "contentLabel": "Reprogramação do serviço - Selecionar nova data e hora",
+    "datePickerLabel": "Data do serviço",
+    "timePickerLabel": "Hora do serviço",
+    "backButtonLabel": "Voltar",
+    "submitButtonLabel": "Enviar solicitação",
+    "note": "Considere que pode demorar alguns minutos para que seu pedido reflita a solicitação.",
+    "unknownError": "Ocorreu um erro desconhecido. Contate o suporte.",
+    "serviceNotReschedulable": "O serviço não pode ser reprogramado.",
+    "serviceNotAmendable": "O serviço não pode ser cancelado ou reprogramado em menos de 24 horas antes da data programada.",
+    "rescheduleSuccess": "A data e hora do serviço foi modificada com êxito."
+  }
+}

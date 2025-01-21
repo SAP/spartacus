@@ -6,7 +6,6 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   ANONYMOUS_CONSENT_STATUS,
@@ -166,7 +165,6 @@ describe('RegisterComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
         NgSelectModule,

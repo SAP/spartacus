@@ -1,0 +1,49 @@
+{
+  "orderApprovalDetails": {
+    "back": "Vissza a listához",
+    "showForm_APPROVE": "Rendelés jóváhagyása...",
+    "showForm_REJECT": "Rendelés elutasítása...",
+    "form": {
+      "title_APPROVE": "Rendelés ({{orderCode}}) jóváhagyása, összesen: {{orderTotal}}",
+      "title_REJECT": "Rendelés ({{orderCode}}) elutasítása, összesen: {{orderTotal}}",
+      "submit_APPROVE": "Jóváhagyás",
+      "submit_REJECT": "Elutasítás",
+      "cancel": "Mégse",
+      "comment_APPROVE": {
+        "label": "Megjegyzés (opcionális, legfeljebb 255 karakter)",
+        "placeholder": ""
+      },
+      "comment_REJECT": {
+        "label": "Megjegyzés (legfeljebb 255 karakter)",
+        "placeholder": ""
+      }
+    },
+    "permissionResults": {
+      "header": "Ügyfél általi jóváhagyás részletei",
+      "permission": "Jogosultság",
+      "approver": "Jóváhagyó",
+      "status": "Státus",
+      "approverComments": "Jóváhagyó megjegyzései",
+      "noApprovalComments": "Nincs",
+      "permissionType_B2BBudgetExceededPermission": "A kiválasztott költséghelyhez társított költségkeret meghaladva",
+      "permissionType_B2BOrderThresholdPermission": "A rendelés összege meghaladta a rendelésenkénti korlátot",
+      "permissionType_B2BOrderThresholdTimespanPermission": "A rendelés összege meghaladta az időszakonkénti korlátot"
+    }
+  },
+  "orderApprovalList": {
+    "orderCode": "Rendelés #",
+    "POCode": "Megrendelés #",
+    "placedBy": "Megrendelő",
+    "date": "Dátum",
+    "status": "Státus",
+    "total": "Összesen",
+    "none": "Nincs",
+    "emptyList": "Jelenleg nincsenek jóváhagyandó rendelések.",
+    "orderApprovalList": "Rendelések jóváhagyási listája"
+  },
+  "orderApprovalGlobal": {
+    "notification": {
+      "noSufficientPermissions": "Nincs megfelelő jogosultsága az oldal eléréséhez."
+    }
+  }
+}

@@ -1,7 +1,6 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { PopoverModule } from './popover.module';
 
@@ -45,7 +44,7 @@ describe('PopoverDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, PopoverModule, I18nTestingModule],
+      imports: [PopoverModule, I18nTestingModule],
       declarations: [PopoverTestComponent],
     }).compileComponents();
 

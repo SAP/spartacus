@@ -6,7 +6,6 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   FeatureConfigService,
   I18nTestingModule,
@@ -117,7 +116,7 @@ describe('Navigation UI Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         NavigationUIComponent,
         MockIconComponent,

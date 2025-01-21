@@ -14,7 +14,10 @@ import {
 } from '@spartacus/core';
 import {
   cdsTranslationChunksConfig,
-  cdsTranslations,
+  cdsTranslationsEn,
+  cdsTranslationsJa,
+  cdsTranslationsDe,
+  cdsTranslationsZh,
 } from '@spartacus/cds/assets';
 import { environment } from '../../../../environments/environment';
 
@@ -104,7 +107,12 @@ function cdsConfigFactory(windowRef: WindowRef): CdsConfig {
   providers: [
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: cdsTranslations,
+        resources: {
+          en: cdsTranslationsEn,
+          ja: cdsTranslationsJa,
+          de: cdsTranslationsDe,
+          zh: cdsTranslationsZh,
+        },
         chunks: cdsTranslationChunksConfig,
         fallbackLang: 'en',
       },

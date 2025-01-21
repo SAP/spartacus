@@ -1,0 +1,88 @@
+{
+  "orgAccountSummary": {
+    "groupName": "Számlaösszegzések",
+    "header": "Összes számlaösszegzés ({{count}})",
+    "name": "Egység",
+    "details": {
+      "header": "Számlaösszegzés részletei",
+      "uid": "Egység azonosítója",
+      "name": "Egység neve",
+      "address": "Cím",
+      "creditRep": "Információ",
+      "creditLine": "Hitelkeret",
+      "currentBalance": "Jelenlegi egyenleg",
+      "openBalance": "Nyitott egyenleg",
+      "pastDueBalance": "Lejárt esedékességű egyenleg",
+      "dayRange": "{{minBoundary}}–{{maxBoundary}} nap",
+      "dayPlus": "{{minBoundary}}+ nap",
+      "notApplicable": "N/A"
+    },
+    "document": {
+      "header": "Dokumentumok",
+      "id": "Dokumentumszám",
+      "type": "Dokumentumtípus",
+      "date": "Létrehozás dátuma",
+      "dueDate": "Esedékesség napja",
+      "originalAmount": "Eredeti összeg",
+      "openAmount": "Nyitott összeg",
+      "status": "Státus",
+      "attachment": "Csatolmány",
+      "download": "Letöltés",
+      "attachmentDescription": "Csatolmány letöltése a következőhöz: {{type}} {{id}}.",
+      "noneFound": "Nem található dokumentum"
+    },
+    "sorts": {
+      "byCreatedAtDateAsc": "Létrehozás dátuma szerint növekvő",
+      "byCreatedAtDateDesc": "Létrehozás dátuma szerint csökkenő",
+      "byDueAtDateAsc": "Esedékesség szerint növekvő",
+      "byDueAtDateDesc": "Esedékesség szerint csökkenő",
+      "byOriginalAmountAsc": "Eredeti összeg szerint növekvő",
+      "byOriginalAmountDesc": "Eredeti összeg szerint csökkenő",
+      "byOpenAmountAsc": "Nyitott összeg szerint növekvő",
+      "byOpenAmountDesc": "Nyitott összeg szerint csökkenő",
+      "byOrgDocumentTypeAsc": "Dokumentumtípus szerint növekvő",
+      "byOrgDocumentTypeDesc": "Dokumentumtípus szerint csökkenő",
+      "byStatusAsc": "Státus szerint növekvő",
+      "byStatusDesc": "Státus szerint csökkenő",
+      "byOrgDocumentIdAsc": "Dokumentumszám szerint növekvő",
+      "byOrgDocumentIdDesc": "Dokumentumszám szerint csökkenő"
+    },
+    "statuses": {
+      "open": "Nyitott",
+      "closed": "Lezárt",
+      "all": "Összes"
+    },
+    "filterByOptions": {
+      "orgDocumentId": "Dokumentumszám",
+      "orgDocumentIdRange": "Dokumentumszám-tartomány",
+      "orgDocumentType": "Dokumentumtípus",
+      "createdAtDateRange": "Létrehozás tartománya",
+      "dueAtDateRange": "Esedékesség tartománya",
+      "amountRange": "Eredeti összeg tartománya",
+      "openAmountRange": "Nyitott összeg tartománya"
+    },
+    "sortBy": "Rendezés alapja",
+    "sortDocuments": "Dokumentumok rendezése",
+    "filter": {
+      "status": "Státus",
+      "filterBy": "Szűrés szempontja",
+      "documentNumber": "Dokumentumszám",
+      "documentType": "Dokumentumtípus",
+      "startRange": "Ettől:",
+      "endRange": "Eddig:",
+      "clear": "Összes törlése",
+      "search": "Keresés",
+      "errors": {
+        "toDateMustComeAfterFrom": "Olyan dátumot válasszon befejezési dátumként, amely későbbi a kezdési dátumnál.",
+        "toAmountMustBeLargeThanFrom": "Olyan értéket válasszon befejezési tartományként, amely kisebb a kezdési értéknél."
+      }
+    },
+    "hint": "A számlaösszegzések lehetővé teszik, hogy ellenőrizze egy egység általános információit, beleértve az egyenlegeket és a számlák lejáratának összesítését. Ezen felül itt tekintheti meg az egységek tranzakciós dokumentumainak listáját is."
+  },
+  "orgAccountSummaryList": {
+    "breadcrumbs": {
+      "list": "Számlaösszegzések",
+      "details": "{{name}}"
+    }
+  }
+}

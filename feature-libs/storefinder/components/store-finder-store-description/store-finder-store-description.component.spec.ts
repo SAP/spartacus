@@ -1,9 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { StoreFinderStoreDescriptionComponent } from './store-finder-store-description.component';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import { StoreFinderStoreDescriptionComponent } from './store-finder-store-description.component';
 
 class StoreFinderServiceMock {
   getStoreLatitude() {}
@@ -26,7 +25,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         StoreFinderStoreDescriptionComponent,
         MockScheduleComponent,

@@ -1,0 +1,192 @@
+{
+  "orderDetails": {
+    "orderId": "Pemesanan #",
+    "orderNumber": "Nomor Pesanan",
+    "replenishmentId": "Pengadaan Ulang #",
+    "purchaseOrderId": "Pesanan Pembelian #",
+    "purchaseOrderNumber": "Nomor Pesanan Pembelian",
+    "emptyPurchaseOrderId": "Tidak ada",
+    "none": "Tidak ada {{value}}",
+    "placed": "Dipesan",
+    "placedBy": "Dipesan Oleh",
+    "unit": "Unit",
+    "costCenter": "Pusat Biaya",
+    "costCenterAndUnit": "Pusat Biaya / Unit",
+    "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
+    "methodOfPayment": "Metode Pembayaran",
+    "payByAccount": "Bayar dengan Kartu",
+    "paidByCreditCard": "(dibayar dengan kartu kredit)",
+    "status": "Status",
+    "active": "Aktif",
+    "shippedOn": "Dikirim pada",
+    "shippingMethod": "Metode Pengiriman",
+    "placedOn": "Dipesan pada",
+    "startOn": "Dimulai Pada",
+    "nextOrderDate": "Tanggal Pemesanan Berikutnya",
+    "frequency": "Frekuensi",
+    "cancelled": " Dibatalkan",
+    "deliveryStatus_IN_TRANSIT": "Sedang Transit",
+    "deliveryStatus_READY_FOR_PICKUP": "Siap Untuk Pengambilan",
+    "deliveryStatus_READY_FOR_SHIPPING": "Siap untuk Pengiriman",
+    "deliveryStatus_WAITING": "Sedang Menunggu",
+    "deliveryStatus_DELIVERING": "Sedang Dikirim",
+    "deliveryStatus_PICKPACK": "Sedang Disiapkan untuk Pengiriman",
+    "deliveryStatus_PICKUP_COMPLETE": "Pengambilan Selesai",
+    "deliveryStatus_DELIVERY_COMPLETED": "Pengiriman Selesai",
+    "deliveryStatus_PAYMENT_NOT_CAPTURED": "Masalah Pembayaran",
+    "deliveryStatus_IN_PROCESS": "Proses Penyiapan Pesanan",
+    "deliveryStatus_READY": "Proses Penyiapan Pesanan",
+    "deliveryStatus_DELIVERY_REJECTED": "Pengiriman Ditolak",
+    "deliveryStatus_SHIPPED": "Dikirim",
+    "deliveryStatus_TAX_NOT_COMMITTED": "Masalah Pajak",
+    "deliveryStatus_CANCELLED": "Dibatalkan",
+    "statusDisplay_cancelled": "Dibatalkan",
+    "statusDisplay_cancelling": "Batalkan Penundaan",
+    "statusDisplay_completed": "Selesai",
+    "statusDisplay_created": "Dibuat",
+    "statusDisplay_error": "Ditunda",
+    "statusDisplay_Error": "Ditunda",
+    "statusDisplay_processing": "Ditunda",
+    "statusDisplay_open": "Terbuka",
+    "statusDisplay_pending": {
+      "approval": "Menunggu Persetujuan",
+      "merchant": {
+        "approval": "Menunggu Persetujuan Pedagang"
+      }
+    },
+    "statusDisplay_approved": "Disetujui",
+    "statusDisplay_rejected": "Ditolak",
+    "statusDisplay_merchant": {
+      "approved": "Disetujui Oleh Pedagang",
+      "rejected": "Ditolak Oleh Pedagang"
+    },
+    "statusDisplay_assigned": {
+      "admin": "Ditetapkan Ke Administrator"
+    },
+    "consignmentTracking": {
+      "action": "Lacak paket",
+      "dialog": {
+        "header": "Informasi Pelacakan",
+        "shipped": "Dikirim",
+        "estimate": "Estimasi Pengiriman",
+        "carrier": "Layanan Pengiriman",
+        "trackingId": "Nomor Pelacakan",
+        "noTracking": "Paket belum dikirim dari gudang. Informasi pelacakan akan tersedia setelah paket dikirim.",
+        "loadingHeader": "Pelacakan Konsinyasi"
+      }
+    },
+    "cancellationAndReturn": {
+      "returnAction": "Minta Pengembalian",
+      "cancelAction": "Batalkan Item",
+      "item": "Item",
+      "itemPrice": "Harga Item",
+      "quantity": "Jumlah Maksimum",
+      "returnQty": "Jumlah yang Akan Dikembalikan",
+      "cancelQty": "Jumlah yang Akan Dibatalkan",
+      "setAll": "Tetapkan semua jumlah menjadi maksimum",
+      "totalPrice": "Total",
+      "submit": "Kirimkan Permintaan",
+      "submitDescription": "Kirimkan Permintaan. Item pada halaman ini akan dimasukkan dalam permintaan pembatalan.",
+      "returnSuccess": "Permintaan pengembalian Anda ({{rma}}) telah dikirim",
+      "cancelSuccess": "Permintaan pembatalan Anda telah dikirim (pesanan awal {{orderCode}} akan diperbarui)"
+    },
+    "cancelReplenishment": {
+      "title": "Batalkan Pengadaan Ulang",
+      "description": "Batalkan setiap pemesanan pengadaan ulang di masa mendatang?",
+      "accept": "Ya",
+      "reject": "Tidak",
+      "cancelSuccess": "Pemesanan pengadaan ulang #{{replenishmentOrderCode}} berhasil dibatalkan"
+    },
+    "caption": "Isi pesanan."
+  },
+  "orderHistory": {
+    "orderHistory": "Riwayat pemesanan",
+    "orderId": "Pemesanan #",
+    "emptyPurchaseOrderId": "Tidak ada",
+    "date": "Tanggal",
+    "status": "Status",
+    "PONumber": "Nomor P.O.",
+    "total": "Total",
+    "noOrders": "Kami tidak memiliki catatan pemesanan untuk akun ini.",
+    "noReplenishmentOrders": "Kami tidak memiliki catatan pemesanan pengadaan ulang untuk akun ini.",
+    "startShopping": "Mulai Berbelanja",
+    "sortBy": "Urutkan berdasarkan",
+    "sortOrders": "Pengaturan urutan",
+    "replenishmentOrderHistory": "Riwayat Pemesanan Pengadaan Ulang",
+    "replenishmentOrderId": "Pengadaan Ulang #",
+    "purchaseOrderNumber": "PO #",
+    "costCenter": "Pusat Biaya",
+    "startOn": "Dimulai Pada",
+    "frequency": "Frekuensi",
+    "nextOrderDate": "Tanggal Pemesanan Berikutnya",
+    "cancel": "Batalkan",
+    "cancelled": "Dibatalkan",
+    "replenishmentHistory": "Riwayat Pengadaan Ulang",
+    "notFound": "Pemesanan Tidak Ditemukan",
+    "actions": "Tindakan"
+  },
+  "AccountOrderHistoryTabContainer": {
+    "tabs": {
+      "AccountOrderHistoryComponent": "SEMUA PEMESANAN ({{param}})",
+      "OrderReturnRequestListComponent": "PENGEMBALIAN ({{param}})"
+    },
+    "tabPanelContainerRegion": "Grup dengan rincian riwayat pemesanan",
+    "tabPanelContainerRegionGroup": "Grup dengan rincian riwayat pemesanan"
+  },
+  "returnRequestList": {
+    "returnRequestId": "Pengembalian #",
+    "orderId": "Pemesanan #",
+    "date": "Tanggal Dibuat",
+    "status": "Status",
+    "sortBy": "Urutkan berdasarkan",
+    "sortReturns": "Urutkan pengembalian",
+    "statusDisplay_APPROVAL_PENDING": "Menunggu Persetujuan",
+    "statusDisplay_CANCELED": "Dibatalkan",
+    "statusDisplay_CANCELLING": "Proses Pembatalan",
+    "statusDisplay_WAIT": "Tunggu",
+    "statusDisplay_RECEIVED": "Diterima",
+    "statusDisplay_RECEIVING": "Proses Penerimaan",
+    "statusDisplay_APPROVING": "Proses Penyetujuan",
+    "statusDisplay_REVERSING_PAYMENT": "Proses Pembatalan Pembayaran",
+    "statusDisplay_PAYMENT_REVERSED": "Pembayaran Dibatalkan",
+    "statusDisplay_PAYMENT_REVERSAL_FAILED": "Pembatalan Pembayaran Gagal",
+    "statusDisplay_REVERSING_TAX": "Proses Pembatalan Pajak",
+    "statusDisplay_TAX_REVERSED": "Pajak Dibatalkan",
+    "statusDisplay_TAX_REVERSAL_FAILED": "Pembatalan Pajak Gagal",
+    "statusDisplay_COMPLETED": "Selesai"
+  },
+  "returnRequest": {
+    "returnRequestId": "Permintaan Pengembalian #",
+    "orderCode": "Untuk Pemesanan #",
+    "status": "Status pengembalian",
+    "cancel": "Batalkan Permintaan Pengembalian",
+    "item": "Deskripsi",
+    "itemPrice": "Harga Item",
+    "returnQty": "Jumlah Pengembalian",
+    "total": "Total",
+    "summary": "Total Pengembalian",
+    "subtotal": "Subtotal",
+    "deliveryCode": "Ongkos kirim",
+    "estimatedRefund": "Estimasi pengembalian dana",
+    "note": "Jumlah total yang tercantum merupakan estimasi dan mungkin tidak termasuk pajak atau biaya lain yang berlaku.",
+    "cancelSuccess": "Permintaan pengembalian Anda ({{rma}}) dibatalkan",
+    "caption": "Isi pesanan."
+  },
+  "reorder": {
+    "button": "Pesan Ulang",
+    "dialog": {
+      "reorderProducts": "Pesan ulang produk",
+      "messages": {
+        "reviewConfiguration": "Terjadi kesalahan dengan konfigurasi \"{{ productCode}}\".",
+        "lowStock": "Jumlah untuk {{ productName }}: {{ quantity }} telah dikurangi menjadi {{ quantityAdded }}.",
+        "noStock": "Stok {{ productName }} saat ini telah habis.",
+        "pricingError": "Terdapat masalah penetapan harga pada \"{{ productCode }}\"",
+        "unresolvableIssues": "Terdapat masalah yang tidak dikenal pada \"{{ productCode }}\".",
+        "success": "Produk telah berhasil ditambahkan ke keranjang"
+      },
+      "areYouSureToReplaceCart": "Keranjang saat ini akan diganti dengan item yang baru. Apakah Anda ingin melanjutkan?",
+      "cancel": "Batalkan",
+      "continue": "Lanjutkan"
+    }
+  }
+}

@@ -1,18 +1,17 @@
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MyAccountV2UserComponent } from './my-account-v2-user.component';
+import { By } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import {
   AuthService,
   I18nTestingModule,
   RoutingService,
   User,
 } from '@spartacus/core';
-import { ActivatedRoute } from '@angular/router';
-import { UserAccountFacade } from '../../root/facade';
 import { Observable, of } from 'rxjs';
-import { RouterTestingModule } from '@angular/router/testing';
+import { UserAccountFacade } from '../../root/facade';
+import { MyAccountV2UserComponent } from './my-account-v2-user.component';
 import createSpy = jasmine.createSpy;
-import { Pipe, PipeTransform } from '@angular/core';
-import { By } from '@angular/platform-browser';
 
 class MockAuthService {
   login = createSpy();
@@ -52,7 +51,7 @@ describe('MyAccountV2UserComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [MyAccountV2UserComponent, MockUrlPipe],
       providers: [
         {

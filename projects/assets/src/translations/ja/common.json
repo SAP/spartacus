@@ -1,0 +1,254 @@
+{
+  "common": {
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "remove": "削除",
+    "edit": "編集",
+    "restore": "復元",
+    "back": "戻る",
+    "submit": "送信",
+    "continue": "続行",
+    "save": "保存",
+    "done": "完了",
+    "home": "ホーム",
+    "noData": "データがありません。",
+    "confirm": "確認",
+    "more": "さらに表示",
+    "close": "閉じる",
+    "loading": "ロードしています",
+    "menu": "メニュー",
+    "reset": "リセット",
+    "search": "検索",
+    "add": "追加",
+    "breadcrumbs": "ブレッドクラム",
+    "selectFile": "ファイルを選択",
+    "clear": "クリア",
+    "loaded": "ロード済み",
+    "results": "結果",
+    "of": "/",
+    "required": "必須",
+    "zoomIn": "拡大",
+    "zoomOut": "縮小",
+    "selected": "選択済み",
+    "expand": "展開",
+    "collapse": "折りたたむ"
+  },
+  "pageMetaResolver": {
+    "category": {
+      "title": "{{query}} に該当する結果: {{count}} 件",
+      "title_other": " {{query}} に該当する結果: {{count}} 件"
+    },
+    "checkout": {
+      "title": "チェックアウト"
+    },
+    "search": {
+      "title": "\"{{query}}\" に該当する結果: {{count}} 件",
+      "title_other": " \"{{query}}\" に該当する結果: {{count}} 件",
+      "findProductTitle": "クーポン \"{{coupon}}\" に該当する結果: {{count}} 件",
+      "findProductTitle_other": "クーポン \"{{coupon}}\" に該当する結果: {{count}} 件",
+      "default_title": "すべての商品"
+    },
+    "product": {
+      "description": "{{description}}",
+      "heading": "{{heading}}",
+      "title": "{{title}}"
+    }
+  },
+  "spinner": {
+    "loading": "ロードしています..."
+  },
+  "navigation": {
+    "categoryNavLabel": "カテゴリメニュー",
+    "footerNavLabel": "フッタリンク",
+    "goTo": "{{location}} に移動",
+    "navigateTo": "{{nav}} にナビゲート",
+    "scrollToTop": "ページの上部にスクロールして戻る",
+    "linkItemInList": "{{title}}. {{position}} / {{listLength}} "
+  },
+  "searchBox": {
+    "placeholder": "商品名または SKU を入力",
+    "productSearch": "商品検索",
+    "ariaLabelInput": "ここで検索...",
+    "ariaLabelSuggestions": "提案を入力",
+    "ariaLabelProducts": "商品結果",
+    "initialDescription": "オートコンプリート結果が表示されたら、上下の矢印キーを使用して確認し、Enter を押して選択します。ダッチデバースユーザは、タッチするかスワイプジェスチャーによって参照します。",
+    "suggestions": "提案されたキーワード",
+    "suggestionsResult": "{{ count }} 提案および ",
+    "suggestionsResult_other": "{{ count }} 提案および ",
+    "products": "推奨商品",
+    "productsResult": "{{ count }} 商品を利用できます。",
+    "productsResult_other": "{{ count }} 商品を利用できます。",
+    "resetLabel": "検索をリセット",
+    "help": {
+      "insufficientChars": "さらに文字を入力してください",
+      "noMatch": "結果が見つかりませんでした",
+      "exactMatch": "{{ term }}",
+      "empty": "何か質問してください"
+    },
+    "closeSearchPanel": "閉じる"
+  },
+  "sorting": {
+    "date": "日付",
+    "orderNumber": "注文番号",
+    "rma": "返品番号",
+    "replenishmentNumber": "補充番号",
+    "nextOrderDate": "次回注文日",
+    "pageViewUpdated": "選択したオプションでページビューが更新されました。"
+  },
+  "httpHandlers": {
+    "badRequest": {
+      "bad_credentials": "{{ errorMessage }}。もう一度ログインしてください。",
+      "user_is_disabled": "{{ errorMessage }}。管理者に連絡してください。"
+    },
+    "badGateway": "サーバエラーが発生しました。後でもう一度実行してください。",
+    "badRequestPleaseLoginAgain": "{{ errorMessage }}。もう一度ログインしてください。",
+    "badRequestOldPasswordIncorrect": "旧パスワードが正しくありません。",
+    "badRequestGuestDuplicateEmail": "{{ errorMessage }} 電子メールがすでに存在します。別の電子メールでチェックアウトし、ゲストアカウントを使用して登録してください。",
+    "conflict": "すでに存在します。",
+    "forbidden": "このアクションを実行する権限がありません。これが誤りであると考えられる場合は、管理者に連絡してください。",
+    "gatewayTimeout": "サーバが応答しませんでした。後でもう一度実行してください。",
+    "internalServerError": "内部サーバエラーが発生しました。後でもう一度実行してください。",
+    "sessionExpired": "セッションの期限が切れました。もう一度ログインしてください。",
+    "unknownError": "不明なエラーが発生しました",
+    "unauthorized": {
+      "common": "不明な権限エラーが発生しました",
+      "invalid_client": "不正なクライアント認証情報"
+    },
+    "validationErrors": {
+      "missing": {
+        "card_cardType": "選択したクレジットカードはサポートされていません。別のクレジットカードを選択してください。",
+        "card_accountNumber": "入力したクレジットカード番号が無効です。",
+        "card_cvNumber": "入力したセキュリティコードが無効です。",
+        "card_expirationMonth": "入力したクレジットカードの有効期限が無効です。",
+        "card_expirationYear": "入力したクレジットカードの有効期限が無効です。",
+        "billTo_firstName": "入力した名が無効です。",
+        "billTo_lastName": "入力した姓が無効です。",
+        "billTo_street1": "入力した住所が無効です。",
+        "billTo_street2": "入力した住所が無効です。",
+        "billTo_city": "このクレジットカードの入力した市区町村が無効です。",
+        "billTo_state": "このクレジットカードの入力した都道府県が無効です。",
+        "billTo_country": "このクレジットカードの入力した国/地域が無効です。",
+        "billTo_postalCode": "このクレジットカードの郵便番号が無効です。",
+        "country": {
+          "isocode": "未入力の国/地域"
+        }
+      },
+      "invalid": {
+        "card_expirationMonth": "入力したクレジットカードの有効期限が無効です。",
+        "firstName": "入力した名が無効です。",
+        "lastName": "入力した姓が無効です。",
+        "password": "入力したパスワードが無効です。",
+        "uid": "UID が無効です。",
+        "code": "コードが無効です。",
+        "email": "電子メールが無効です。",
+        "loginId": "電子メールが無効です。"
+      }
+    },
+    "cartNotFound": "カートが見つかりません。",
+    "invalidCodeProvided": "無効なコードが指定されています。",
+    "voucherExceeded": "このクーポンは使用可能な回数を超えています",
+    "unknownIdentifier": "アイテムが見つかりません。",
+    "otherCartErrors": "カートエラーが発生しました。"
+  },
+  "miniCart": {
+    "item": "現在カートに {{count}} アイテムあります",
+    "item_other": "現在カートに {{count}} アイテムあります",
+    "total": "{{total}}",
+    "count": "{{count}}"
+  },
+  "skipLink": {
+    "skipTo": "スキップ先",
+    "labels": {
+      "header": "ヘッダ",
+      "main": "メインコンテンツ",
+      "footer": "フッタ",
+      "productFacets": "商品ファセット",
+      "productList": "商品リスト"
+    }
+  },
+  "carousel": {
+    "previousSlide": "前のスライド",
+    "nextSlide": "次のスライド",
+    "slideNumber": "スライド {{currentSlideNumber}} に {{numberOfSlides}} アイテムが含まれています",
+    "carouselForProduct": "カルーセル、{{product}} の画像"
+  },
+  "formErrors": {
+    "labeled": {
+      "required": "フィールド {{label}} は必須です",
+      "cxInvalidEmail": "フィールド {{label}} に有効な電子メール形式がありません。一致パターン: example@yourdomain.com",
+      "cxInvalidPassword": "フィールド {{label}} に有効なパスワード形式がありません",
+      "cxMinOneUpperCaseCharacter": "パスワードには大文字を 1 文字以上使用する必要があります",
+      "cxMinOneDigit": "パスワードには数字を 1 つ以上使用する必要があります",
+      "cxMinOneSpecialCharacter": "パスワードには特殊文字を 1 つ以上使用する必要があります",
+      "cxMinSixCharactersLength": "パスワードには 6 文字以上使用する必要があります",
+      "cxMinEightCharactersLength": "パスワードには 8 文字以上使用する必要があります",
+      "cxMaxCharactersLength": "パスワードに 129 文字以上使用することはできません",
+      "cxContainsSpecialCharacters": "パスワードに特殊文字は使用できません",
+      "cxNoConsecutiveCharacters": "パスワードに同一の文字を連続して使用することはできません",
+      "date": {
+        "required": "フィールド {{label}} は必須です",
+        "min": "フィールド {{label}} を {{min}} の前にすることはできません",
+        "max": "フィールド {{label}} を {{max}} の後にすることはできません",
+        "pattern": "フィールド {{label}} では日付書式 yyyy-mm-dd を使用してください",
+        "invalid": "フィールド {{label}} で有効な日付を使用してください"
+      }
+    },
+    "globalMessage": "送信しようとしたフォームにエラーが含まれています。",
+    "required": "このフィールドは必須です",
+    "cxInvalidEmail": "これは有効な電子メール形式ではありません",
+    "cxInvalidPassword": "これは有効なパスワード形式ではありません",
+    "cxPasswordsMustMatch": "パスワードフィールドが一致する必要があります",
+    "cxPasswordsCannotMatch": "パスワードフィールドが一致しません",
+    "cxEmailsMustMatch": "電子メールフィールドが一致する必要があります",
+    "cxStarRatingEmpty": "評価フィールドは必須です",
+    "cxNoSelectedItemToCancel": "アイテムを少なくとも 1 つ選択してください",
+    "cxNegativeAmount": "金額はゼロ以上である必要があります",
+    "cxContainsSpecialCharacters": "フィールドに特殊文字は使用できません",
+    "date": {
+      "required": "このフィールドは必須です",
+      "min": "日付を {{min}} の前にすることはできません",
+      "max": "日付を {{max}} の後にすることはできません",
+      "pattern": "日付書式 yyyy-mm-dd を使用してください",
+      "invalid": "有効な日付を使用してください"
+    },
+    "file": {
+      "required": "ファイルが必須です",
+      "empty": "ファイルを空にすることはできません",
+      "invalidExtension": "ファイル拡張子が無効です",
+      "tooLarge": "ファイルサイズが {{ maxSize }} MB を超えることはできません",
+      "tooManyEntries": "アイテム数が {{ maxEntries }} を超えています",
+      "notParsable": "ファイルを解析できません",
+      "fileNotAllowed": "このファイルタイプは使用できません"
+    }
+  },
+  "errorHandlers": {
+    "scriptFailedToLoad": "スクリプトをロードできませんでした。",
+    "refreshThePage": "ページを更新してください。"
+  },
+  "assistiveMessage": {
+    "actionCancelled": "アクションがキャンセルされました。何も変更されていません"
+  },
+  "passwordVisibility": {
+    "showPassword": "パスワードを表示する",
+    "hidePassword": "パスワードを表示しない"
+  },
+  "generalErrors": {
+    "pageFailure": "ページをロードできませんでした。後でもう一度実行してください。"
+  },
+  "formLegend": {
+    "required": "\"*\" の付いている次のフィールドは必須です。"
+  },
+  "chatMessaging": {
+    "charactersLeft": "残り文字数: {{count}}",
+    "addNewMessage": "メッセージを新規追加",
+    "send": "送信",
+    "uploadFile": "ファイルのアップロード",
+    "informationLabel": "{{author}}。{{text}} ({{date}})",
+    "messages": "メッセージ",
+    "addMessagePlaceHolder": "入力を開始...",
+    "characterLimitAlert": "文字数制限に達しました。",
+    "a11y": {
+      "itemListBoxLabel": "メッセージを適用する必要があるアイテムを選択してください。"
+    }
+  }
+}

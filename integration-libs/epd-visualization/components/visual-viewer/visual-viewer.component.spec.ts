@@ -1,10 +1,13 @@
 import {
-  HttpClientTestingModule,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Component, ElementRef, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   LanguageService,
@@ -259,15 +262,13 @@ describe('VisualViewerComponent', () => {
       };
 
       TestBed.configureTestingModule({
+        declarations: [VisualViewerComponent],
         imports: [
-          RouterTestingModule,
-          HttpClientTestingModule,
           I18nTestingModule,
           VisualViewerToolbarButtonModule,
           VisualViewerAnimationSliderModule,
           SpinnerModule,
         ],
-        declarations: [VisualViewerComponent],
         providers: [
           provideConfigFactory(getTestConfig),
           provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
@@ -283,6 +284,8 @@ describe('VisualViewerComponent', () => {
             provide: SceneAdapter,
             useClass: StorageV1Adapter,
           },
+          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClientTesting(),
         ],
       }).compileComponents();
 
@@ -303,8 +306,6 @@ describe('VisualViewerComponent', () => {
       TestBed.configureTestingModule({
         declarations: [VisualViewerComponent],
         imports: [
-          RouterTestingModule,
-          HttpClientTestingModule,
           I18nTestingModule,
           VisualViewerToolbarButtonModule,
           VisualViewerAnimationSliderModule,
@@ -320,6 +321,8 @@ describe('VisualViewerComponent', () => {
             provide: VisualViewerAnimationSliderComponent,
             useClass: MockVisualViewerAnimationSliderComponent,
           },
+          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClientTesting(),
         ],
       }).overrideComponent(VisualViewerComponent, {
         set: {

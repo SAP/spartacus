@@ -1,7 +1,6 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
@@ -36,7 +35,7 @@ describe('OrderDetailActionsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [I18nTestingModule],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         {

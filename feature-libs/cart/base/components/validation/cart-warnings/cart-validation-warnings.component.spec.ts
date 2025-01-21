@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   CartModification,
   CartValidationFacade,
@@ -82,7 +81,6 @@ describe('CartValidationWarningsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
       declarations: [
         CartValidationWarningsComponent,
         MockCxIconComponent,

@@ -1,0 +1,251 @@
+{
+  "quote": {
+    "confirmDialog": {
+      "name": "名稱：",
+      "description": "說明：",
+      "validity": "此報價 {{ expirationTime }} 前有效",
+      "option": {
+        "yes": "是",
+        "no": "否"
+      },
+      "buyer": {
+        "submit": {
+          "a11y": {
+            "close": "關閉提交報價強制回應視窗"
+          },
+          "title": "提交報價請求 {{ code }} 嗎？",
+          "confirmNote": "您確定要提交此報價請求嗎？",
+          "successMessage": "已成功提交報價請求"
+        },
+        "cancel": {
+          "a11y": {
+            "close": "關閉取消報價強制回應視窗"
+          },
+          "title": "取消報價請求 {{ code }} 嗎？",
+          "confirmNote": "您確定要取消此報價請求嗎？",
+          "successMessage": "已取消報價請求"
+        }
+      },
+      "buyer_offer": {
+        "edit": {
+          "a11y": {
+            "close": "關閉編輯報價強制回應視窗"
+          },
+          "title": "確認編輯報價 {{ code }} 嗎？",
+          "confirmNote": "您確定要編輯此核准的報價嗎？",
+          "warningNote": "此報價已核准，核准新編輯前若編輯此報價將無法結帳。"
+        },
+        "cancel": {
+          "a11y": {
+            "close": "關閉取消報價強制回應視窗"
+          },
+          "title": "取消報價 {{ code }} 嗎？",
+          "confirmNote": "您確定要取消此報價嗎？",
+          "successMessage": "已取消報價"
+        },
+        "checkout": {
+          "a11y": {
+            "close": "關閉結帳報價強制回應視窗"
+          },
+          "title": "結帳報價 {{ code }} 嗎？",
+          "confirmNote": "您確定要接受並結帳此報價嗎？"
+        }
+      },
+      "expired": {
+        "edit": {
+          "a11y": {
+            "close": "關閉編輯報價強制回應視窗"
+          },
+          "title": "確認編輯報價 {{ code }} 嗎？",
+          "confirmNote": "您確定要編輯此過期報價嗎？",
+          "warningNote": "此報價已過期。核准新編輯前若編輯此報價將無法結帳。"
+        },
+        "requote": {
+          "a11y": {
+            "close": "關閉重新報價強制回應視窗"
+          },
+          "title": "重新建立報價請求 {{ code }} 嗎？",
+          "confirmNote": "您確定要重新建立此報價請求嗎？",
+          "warningNote": "此報價已過期。重新報價將建立包含相同內容的新報價請求，隨後可進行編輯和提交核准。"
+        }
+      },
+      "seller": {
+        "submit": {
+          "a11y": {
+            "close": "關閉提交報價強制回應視窗"
+          },
+          "title": "提交報價 {{ code }} 嗎？",
+          "confirmNote": "您確定要提交此報價嗎？",
+          "warningNote": "根據報價的總值，買方可能需要額外核准才能結帳此報價。",
+          "successMessage": "已成功提交報價"
+        }
+      },
+      "sellerapprover": {
+        "approve": {
+          "a11y": {
+            "close": "關閉核准報價強制回應視窗"
+          },
+          "title": "核准報價 {{ code }} 嗎？",
+          "confirmNote": "您確定要核准此報價嗎？",
+          "successMessage": "已成功核准報價"
+        },
+        "reject": {
+          "a11y": {
+            "close": "關閉拒絕報價強制回應視窗"
+          },
+          "title": "拒絕報價 {{ code }} 嗎？",
+          "confirmNote": "您確定要拒絕此報價嗎？",
+          "successMessage": "已拒絕報價"
+        }
+      },
+      "cancelled": {
+        "requote": {
+          "a11y": {
+            "close": "關閉重新報價強制回應視窗"
+          },
+          "title": "重新建立報價請求 {{ code }} 嗎？",
+          "confirmNote": "您確定要重新建立此報價請求嗎？",
+          "warningNote": "您的目前購物車將轉換為儲存的購物車。"
+        }
+      },
+      "all": {
+        "edit": {
+          "a11y": {
+            "close": "關閉編輯報價強制回應視窗"
+          },
+          "title": "編輯報價 {{ code }} 嗎？",
+          "confirmNote": "您確定要編輯此報價嗎？",
+          "warningNote": "您的目前購物車將轉換為儲存的購物車。"
+        }
+      }
+    },
+    "comments": {
+      "regionTitle": "聯絡人/備註方塊",
+      "title": "聯絡人",
+      "invalidComment": "無效輸入 - 請重新輸入...",
+      "allProducts": "所有產品"
+    },
+    "commons": {
+      "requestQuote": "請求報價",
+      "cart": "購物車",
+      "minRequestInitiationNote": "需要最小 ${{minValue}} 小計以提交報價 ",
+      "savedActiveCart": "您的啟用中購物溝已轉換為儲存的購物車 {{ code }}"
+    },
+    "header": {
+      "buyerEdit": {
+        "a11y": {
+          "cancel": "取消編輯報價表頭資訊",
+          "save": "儲存報價表頭資訊"
+        }
+      },
+      "overview": {
+        "regionTitle": "報價明細摘要",
+        "id": "報價 ID",
+        "status": "狀態",
+        "information": "報價資訊",
+        "name": "名稱",
+        "description": "說明",
+        "charactersLeft": "剩餘字元：{{count}}",
+        "priceAndExpiry": "價格和到期",
+        "estimatedTotal": "預估總計",
+        "total": "總計",
+        "expirationTime": "到期日期",
+        "a11y": {
+          "edit": "編輯報價表頭資訊"
+        },
+        "createdAndUpdated": "已建立並更新",
+        "createdDate": "已建立",
+        "lastUpdatedDate": "上次更新"
+      }
+    },
+    "httpHandlers": {
+      "cartValidationIssue": "您的項目發生問題。請審查您的購物車。",
+      "quoteCartIssue": "無法更改購物車項目。請繼續結帳",
+      "absoluteDiscountIssue": "選擇未超過總值的折扣",
+      "expirationDateIssue": "選擇未來的到期日期",
+      "threshold": {
+        "underThresholdError": "請求報價的總價不符合最小門檻"
+      },
+      "expired": "此報價已到期。您必須重新提交報價請求才能接收其他供應商報價。",
+      "downloadPDFError": "發生錯誤。無法取得建議文件 PDF。"
+    },
+    "items": {
+      "regionTitle": "購物車項目"
+    },
+    "links": {
+      "newCart": "新購物車",
+      "quotes": "報價",
+      "download": "下載建議",
+      "a11y": {
+        "newCart": "建立新空白購物車並瀏覽至其中。",
+        "quotes": "瀏覽至報價搜尋結果清單。",
+        "download": "開始下載報價建議"
+      }
+    },
+    "list": {
+      "regionTitle": "報價清單摘要",
+      "title": "報價清單",
+      "name": "名稱",
+      "updated": "已更新",
+      "sortBy": "排序依據",
+      "sortQuotes": "排序報價",
+      "empty": "我們沒有此帳戶的報價記錄。",
+      "quoteId": "報價 ID",
+      "status": "狀態",
+      "clickableRow": "按一下列以取得更多報價明細"
+    },
+    "states": {
+      "BUYER_DRAFT": "草稿",
+      "BUYER_SUBMITTED": "已提交",
+      "BUYER_ACCEPTED": "已接受",
+      "BUYER_APPROVED": "已核准",
+      "BUYER_REJECTED": "已拒絕",
+      "BUYER_OFFER": "供應商報價",
+      "BUYER_ORDERED": "已訂購",
+      "SELLER_DRAFT": "草稿",
+      "SELLER_REQUEST": "已請求",
+      "SELLER_SUBMITTED": "已提交",
+      "SELLERAPPROVER_DRAFT": "草稿",
+      "SELLERAPPROVER_PENDING": "待核准",
+      "SELLERAPPROVER_APPROVED": "已核准",
+      "SELLERAPPROVER_REJECTED": "已拒絕",
+      "CREATED": "已建立",
+      "CANCELLED": "已取消",
+      "EXPIRED": "已到期"
+    },
+    "summary": {
+      "regionTitle": "訂單摘要",
+      "actions": {
+        "APPROVE": "核准報價",
+        "CANCEL": "取消報價",
+        "CHECKOUT": "接受並結帳",
+        "EDIT": "編輯報價",
+        "REJECT": "拒絕報價",
+        "REQUOTE": "請求新報價",
+        "SAVE": "儲存報價",
+        "SUBMIT": "提交報價",
+        "VIEW": "檢視報價"
+      },
+      "prices": {
+        "title": "訂單摘要",
+        "subtotal": "小計",
+        "productDiscount": "項目折扣",
+        "orderDiscount": "訂單折扣",
+        "quoteDiscount": "報價折扣",
+        "total": "總計",
+        "hint": "總計未含稅"
+      },
+      "sellerEdit": {
+        "discount": "折扣",
+        "apply": "套用",
+        "expiryDate": "到期日期",
+        "discountValidationText": "輸入有效的百分比折扣",
+        "a11y": {
+          "apply": "按一下以將輸入的折扣值套用至此報價",
+          "discount": "輸入要套用至此報價的百分比折扣值",
+          "expiryDate": "輸入此報價的到期日期"
+        }
+      }
+    }
+  }
+}

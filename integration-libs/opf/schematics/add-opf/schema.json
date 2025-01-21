@@ -24,6 +24,14 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
+      "default": [
+        "OPF-Checkout",
+        "OPF-Base",
+        "OPF-Payment",
+        "OPF-Cta",
+        "OPF-Global-Functions",
+        "OPF-Quick-Buy"
+      ],
       "items": {
         "enum": [
           "OPF-Checkout",
@@ -35,14 +43,42 @@
         ],
         "type": "string"
       },
-      "default": [
-        "OPF-Checkout",
-        "OPF-Base",
-        "OPF-Payment",
-        "OPF-Cta",
-        "OPF-Global-Functions",
-        "OPF-Quick-Buy"
-      ]
+      "x-prompt": {
+        "message": "Which Opey Payment Framework features would you like to set up?",
+        "type": "list",
+        "items": [
+          {
+            "value": "OPF-Checkout",
+            "label": "OPF Checkout",
+            "checked": true
+          },
+          {
+            "value": "OPF-Base",
+            "label": "OPF Base",
+            "checked": true
+          },
+          {
+            "value": "OPF-Payment",
+            "label": "OPF Payment",
+            "checked": true
+          },
+          {
+            "value": "OPF-Cta",
+            "label": "OPF CTA",
+            "checked": true
+          },
+          {
+            "value": "OPF-Global-Functions",
+            "label": "OPF Global Functions",
+            "checked": true
+          },
+          {
+            "value": "OPF-Quick-Buy",
+            "label": "OPF Quick Buy",
+            "checked": true
+          }
+        ]
+      }
     },
     "opfBaseUrl": {
       "type": "string",

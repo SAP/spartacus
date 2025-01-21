@@ -8,7 +8,10 @@ import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from '@spartacus/core';
 import {
   estimatedDeliveryDateTranslationChunksConfig,
-  estimatedDeliveryDateTranslations,
+  estimatedDeliveryDateTranslationsEn,
+  estimatedDeliveryDateTranslationsJa,
+  estimatedDeliveryDateTranslationsDe,
+  estimatedDeliveryDateTranslationsZh,
 } from '@spartacus/estimated-delivery-date/assets';
 import { EstimatedDeliveryDateRootModule } from '@spartacus/estimated-delivery-date/root';
 
@@ -17,7 +20,12 @@ import { EstimatedDeliveryDateRootModule } from '@spartacus/estimated-delivery-d
   providers: [
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: estimatedDeliveryDateTranslations,
+        resources: {
+          en: estimatedDeliveryDateTranslationsEn,
+          ja: estimatedDeliveryDateTranslationsJa,
+          de: estimatedDeliveryDateTranslationsDe,
+          zh: estimatedDeliveryDateTranslationsZh,
+        },
         chunks: estimatedDeliveryDateTranslationChunksConfig,
         fallbackLang: 'en',
       },

@@ -1,0 +1,67 @@
+{
+  "savedCartDetails": {
+    "cartName": "名前",
+    "cartDescription": "説明",
+    "cartId": "ID",
+    "dateSaved": "保存された日付",
+    "items": "アイテム",
+    "quantity": "数量",
+    "total": "合計",
+    "editSavedCart": "保存されたカートを編集",
+    "deleteSavedCart": "保存されたカートを削除",
+    "addSelectedItems": "選択したアイテムを追加",
+    "emptyCartItems": "カートのアイテムを空にする"
+  },
+  "savedCartList": {
+    "savedCarts": "保存されたカート ({{count}})",
+    "cartName": "名前",
+    "cartId": "ID",
+    "dateSaved": "保存された日付",
+    "cartDescription": "説明",
+    "quantity": "数量",
+    "quantityFull": "数量",
+    "total": "合計",
+    "actions": "アクション",
+    "makeCartActive": "カートの有効化",
+    "notFound": "保存されたカートがありません",
+    "swapCartNoActiveCart": "既存のカートは {{cartName}} によって正常に有効化されました。",
+    "swapCartWithActiveCart": "既存のカートは {{cartName}} によって正常に有効化されました。以前のアイテムはカート {{previousCartName}} に保存されたいます。"
+  },
+  "savedCartCartPage": {
+    "messages": {
+      "cartSaved": "カートアイテムは後で使用するためにカート \"{{cartName}}\" に正常に保存されました。"
+    }
+  },
+  "savedCartDialog": {
+    "saveForLater": "保存して後で使用",
+    "itemsSavedForLater": "カート内のすべてのアイテムは後で使用するために保存されます",
+    "savedCartName": "保存されたカート名",
+    "savedCartDescription": "保存されたカートの説明",
+    "optional": "任意",
+    "charactersLeft": "残り文字数: {{count}}",
+    "cancel": "キャンセル",
+    "save": "保存",
+    "restore": "復元",
+    "followingCartDelete": "以下の保存されたカートは削除されます",
+    "followingCartRestore": "以下の保存されたカートは有効なカートとして復元されます",
+    "delete": "削除",
+    "deleteCartSuccess": "カートが正常に削除されました",
+    "editCartSuccess": "カートが正常に編集されました",
+    "editSavedCart": "保存されたカートを編集",
+    "deleteSavedCart": "保存されたカートを削除",
+    "restoreSavedCart": "保存されたカートを復元",
+    "name": "名前",
+    "id": "ID",
+    "description": "説明",
+    "quantity": "数量",
+    "quantityFull": "数量",
+    "total": "合計",
+    "keepCopySavedCart": "このカートのコピーを保存されたカートの一覧に保持",
+    "defaultCloneCartName": "{{name}} のコピー",
+    "nameOfCloneCart": "コピーされたカートの名前"
+  },
+  "addToSavedCart": {
+    "savedCarts": "保存されたカート",
+    "saveCartForLater": "後で使用するためにカートを保存"
+  }
+}

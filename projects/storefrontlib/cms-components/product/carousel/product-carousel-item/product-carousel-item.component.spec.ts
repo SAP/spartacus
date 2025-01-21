@@ -8,7 +8,7 @@ import {
   SimpleChange,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
   ProductService,
@@ -21,7 +21,6 @@ import {
   ProductListItemContextSource,
 } from '@spartacus/storefront';
 import { ProductCarouselItemComponent } from './product-carousel-item.component';
-import { By } from '@angular/platform-browser';
 
 @Pipe({
   name: 'cxUrl',
@@ -74,7 +73,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule, OutletModule],
+      imports: [I18nTestingModule, OutletModule],
       declarations: [
         ProductCarouselItemComponent,
         MockUrlPipe,

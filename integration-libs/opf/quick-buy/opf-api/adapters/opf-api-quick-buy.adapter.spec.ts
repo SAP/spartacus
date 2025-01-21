@@ -5,11 +5,15 @@
  */
 
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { ConverterService, LoggerService } from '@spartacus/core';
 import { OpfEndpointsService } from '@spartacus/opf/base/core';
 import {
@@ -66,7 +70,7 @@ describe('OpfApiQuickBuyAdapter', () => {
     mockOpfConfig = { opf: { commerceCloudPublicKey: 'public-key' } };
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OpfApiQuickBuyAdapter,
         { provide: ConverterService, useValue: mockConverter },
@@ -77,6 +81,8 @@ describe('OpfApiQuickBuyAdapter', () => {
           provide: OpfMetadataStatePersistanceService,
           useClass: MockOpfMetadataStatePersistanceService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

@@ -1,0 +1,32 @@
+{
+  "anonymousConsents": {
+    "dialog": {
+      "title": "Pengelolaan Persetujuan",
+      "legalDescription": "Kami menggunakan cookie/penyimpanan browser untuk mempersonalisasi konten dan meningkatkan pengalaman pengguna. Kami juga mungkin membagikan data tentang penggunaan situs Anda dengan media sosial kami. Untuk mengetahui selengkapnya, silakan tinjau kebijakan privasi kami.",
+      "selectAll": "Pilih semua",
+      "clearAll": "Hapus semua"
+    },
+    "banner": {
+      "title": "Situs web ini menggunakan cookie",
+      "description": "Kami menggunakan cookie/penyimpanan browser untuk mempersonalisasi konten dan meningkatkan pengalaman pengguna.",
+      "allowAll": "Izinkan Semua",
+      "viewDetails": "Lihat Rincian"
+    }
+  },
+  "checkoutLogin": {
+    "emailAddress": {
+      "label": "Alamat email",
+      "placeholder": "Masukkan email"
+    },
+    "confirmEmail": {
+      "label": "Konfirmasi email",
+      "placeholder": "Konfirmasi email"
+    },
+    "continue": "Lanjutkan",
+    "emailIsRequired": "Format email tidak valid",
+    "emailsMustMatch": "Email tidak cocok"
+  },
+  "authMessages": {
+    "signedOutSuccessfully": "Anda berhasil keluar."
+  }
+}

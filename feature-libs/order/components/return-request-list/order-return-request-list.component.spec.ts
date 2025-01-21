@@ -1,7 +1,7 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute } from '@angular/router';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import {
   OrderReturnRequestFacade,
@@ -27,6 +27,10 @@ const mockReturns: ReturnRequestList = {
 };
 
 const mockReturnRequestList$ = new BehaviorSubject(mockReturns);
+
+class ActivatedRouteMock {
+  constructor(public snapshot: any) {}
+}
 
 @Pipe({
   name: 'cxUrl',
@@ -63,9 +67,13 @@ describe('OrderReturnRequestListComponent', () => {
   let el: DebugElement;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ListNavigationModule, I18nTestingModule],
+      imports: [ListNavigationModule, I18nTestingModule],
       declarations: [OrderReturnRequestListComponent, MockUrlPipe],
       providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: new ActivatedRouteMock({}),
+        },
         {
           provide: OrderReturnRequestFacade,
           useClass: MockOrderReturnRequestService,
@@ -179,8 +187,11 @@ describe('OrderReturnRequestListComponent', () => {
 
     const sortComponents = el.queryAll(By.css('cx-sorting'));
     expect(sortComponents.length).toBe(2);
+    console.log(sortComponents);
     expect(
-      sortComponents[1].query(By.css('div[aria-controls="order-return-table"]'))
+      sortComponents[1].query(
+        By.css('input[aria-controls="order-return-table"]')
+      )
     ).not.toBeNull();
   });
 });

@@ -4,7 +4,7 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature eager loading 
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { BulkPricingModule } from "@spartacus/product/bulk-pricing";
-import { bulkPricingTranslationChunksConfig, bulkPricingTranslations } from "@spartacus/product/bulk-pricing/assets";
+import { bulkPricingTranslationChunksConfig, bulkPricingTranslationsEn } from "@spartacus/product/bulk-pricing/assets";
 import { BulkPricingRootModule } from "@spartacus/product/bulk-pricing/root";
 
 @NgModule({
@@ -15,7 +15,7 @@ import { BulkPricingRootModule } from "@spartacus/product/bulk-pricing/root";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: bulkPricingTranslations,
+      resources: { en: bulkPricingTranslationsEn },
       chunks: bulkPricingTranslationChunksConfig,
     },
   })]
@@ -26,7 +26,7 @@ export class ProductBulkPricingFeatureModule { }
 
 exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from "@spartacus/assets";
+import { translationChunksConfig, translationsEn } from "@spartacus/assets";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
@@ -45,7 +45,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunksConfig,
       fallbackLang: 'en'
     },
@@ -62,7 +62,7 @@ export class SpartacusConfigurationModule { }
 exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { bulkPricingTranslationChunksConfig, bulkPricingTranslations } from "@spartacus/product/bulk-pricing/assets";
+import { bulkPricingTranslationChunksConfig, bulkPricingTranslationsEn } from "@spartacus/product/bulk-pricing/assets";
 import { BulkPricingRootModule, PRODUCT_BULK_PRICING_FEATURE } from "@spartacus/product/bulk-pricing/root";
 
 @NgModule({
@@ -80,7 +80,7 @@ import { BulkPricingRootModule, PRODUCT_BULK_PRICING_FEATURE } from "@spartacus/
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: bulkPricingTranslations,
+      resources: { en: bulkPricingTranslationsEn },
       chunks: bulkPricingTranslationChunksConfig,
     },
   })
@@ -93,6 +93,9 @@ export class ProductBulkPricingFeatureModule { }
 exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/product";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -132,8 +135,10 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -151,13 +156,13 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all"
@@ -183,10 +188,7 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -198,8 +200,10 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -223,7 +227,7 @@ exports[`Spartacus Product schematics: ng-add FutureStock feature eager loading 
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { FutureStockModule } from "@spartacus/product/future-stock";
-import { futureStockTranslationChunksConfig, futureStockTranslations } from "@spartacus/product/future-stock/assets";
+import { futureStockTranslationChunksConfig, futureStockTranslationsEn } from "@spartacus/product/future-stock/assets";
 import { FutureStockRootModule } from "@spartacus/product/future-stock/root";
 
 @NgModule({
@@ -234,7 +238,7 @@ import { FutureStockRootModule } from "@spartacus/product/future-stock/root";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: futureStockTranslations,
+      resources: { en: futureStockTranslationsEn },
       chunks: futureStockTranslationChunksConfig,
     },
   })]
@@ -245,7 +249,7 @@ export class ProductFutureStockFeatureModule { }
 
 exports[`Spartacus Product schematics: ng-add FutureStock feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from "@spartacus/assets";
+import { translationChunksConfig, translationsEn } from "@spartacus/assets";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
@@ -264,7 +268,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunksConfig,
       fallbackLang: 'en'
     },
@@ -281,7 +285,7 @@ export class SpartacusConfigurationModule { }
 exports[`Spartacus Product schematics: ng-add FutureStock feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { futureStockTranslationChunksConfig, futureStockTranslations } from "@spartacus/product/future-stock/assets";
+import { futureStockTranslationChunksConfig, futureStockTranslationsEn } from "@spartacus/product/future-stock/assets";
 import { FutureStockRootModule, PRODUCT_FUTURE_STOCK_FEATURE } from "@spartacus/product/future-stock/root";
 
 @NgModule({
@@ -299,7 +303,7 @@ import { FutureStockRootModule, PRODUCT_FUTURE_STOCK_FEATURE } from "@spartacus/
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: futureStockTranslations,
+      resources: { en: futureStockTranslationsEn },
       chunks: futureStockTranslationChunksConfig,
     },
   })
@@ -312,6 +316,9 @@ export class ProductFutureStockFeatureModule { }
 exports[`Spartacus Product schematics: ng-add FutureStock feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/product";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -351,8 +358,10 @@ exports[`Spartacus Product schematics: ng-add FutureStock feature general setup 
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -370,13 +379,13 @@ exports[`Spartacus Product schematics: ng-add FutureStock feature general setup 
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all"
@@ -402,10 +411,7 @@ exports[`Spartacus Product schematics: ng-add FutureStock feature general setup 
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -417,8 +423,10 @@ exports[`Spartacus Product schematics: ng-add FutureStock feature general setup 
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -442,7 +450,7 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature eager loading sh
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { ProductImageZoomModule } from "@spartacus/product/image-zoom";
-import { productImageZoomTranslationChunksConfig, productImageZoomTranslations } from "@spartacus/product/image-zoom/assets";
+import { productImageZoomTranslationChunksConfig, productImageZoomTranslationsEn } from "@spartacus/product/image-zoom/assets";
 import { ProductImageZoomRootModule } from "@spartacus/product/image-zoom/root";
 
 @NgModule({
@@ -453,7 +461,7 @@ import { ProductImageZoomRootModule } from "@spartacus/product/image-zoom/root";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: productImageZoomTranslations,
+      resources: { en: productImageZoomTranslationsEn },
       chunks: productImageZoomTranslationChunksConfig,
     },
   })]
@@ -465,7 +473,7 @@ export class ProductImageZoomFeatureModule { }
 exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { productImageZoomTranslationChunksConfig, productImageZoomTranslations } from "@spartacus/product/image-zoom/assets";
+import { productImageZoomTranslationChunksConfig, productImageZoomTranslationsEn } from "@spartacus/product/image-zoom/assets";
 import { PRODUCT_IMAGE_ZOOM_FEATURE, ProductImageZoomRootModule } from "@spartacus/product/image-zoom/root";
 
 @NgModule({
@@ -483,7 +491,7 @@ import { PRODUCT_IMAGE_ZOOM_FEATURE, ProductImageZoomRootModule } from "@spartac
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: productImageZoomTranslations,
+      resources: { en: productImageZoomTranslationsEn },
       chunks: productImageZoomTranslationChunksConfig,
     },
   })
@@ -496,6 +504,9 @@ export class ProductImageZoomFeatureModule { }
 exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/product";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -535,8 +546,10 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup st
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -554,13 +567,13 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup st
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all"
@@ -586,10 +599,7 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup st
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -601,8 +611,10 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup st
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -626,7 +638,7 @@ exports[`Spartacus Product schematics: ng-add Variants feature eager loading sho
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { ProductVariantsModule } from "@spartacus/product/variants";
-import { productVariantsTranslationChunksConfig, productVariantsTranslations } from "@spartacus/product/variants/assets";
+import { productVariantsTranslationChunksConfig, productVariantsTranslationsEn } from "@spartacus/product/variants/assets";
 import { ProductVariantsRootModule } from "@spartacus/product/variants/root";
 
 @NgModule({
@@ -637,7 +649,7 @@ import { ProductVariantsRootModule } from "@spartacus/product/variants/root";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: productVariantsTranslations,
+      resources: { en: productVariantsTranslationsEn },
       chunks: productVariantsTranslationChunksConfig,
     },
   })]
@@ -649,7 +661,7 @@ export class ProductVariantsFeatureModule { }
 exports[`Spartacus Product schematics: ng-add Variants feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { productVariantsTranslationChunksConfig, productVariantsTranslations } from "@spartacus/product/variants/assets";
+import { productVariantsTranslationChunksConfig, productVariantsTranslationsEn } from "@spartacus/product/variants/assets";
 import { PRODUCT_VARIANTS_FEATURE, ProductVariantsRootModule } from "@spartacus/product/variants/root";
 
 @NgModule({
@@ -667,7 +679,7 @@ import { PRODUCT_VARIANTS_FEATURE, ProductVariantsRootModule } from "@spartacus/
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: productVariantsTranslations,
+      resources: { en: productVariantsTranslationsEn },
       chunks: productVariantsTranslationChunksConfig,
     },
   })
@@ -680,6 +692,9 @@ export class ProductVariantsFeatureModule { }
 exports[`Spartacus Product schematics: ng-add Variants feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/product";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -719,8 +734,10 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -738,13 +755,13 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all"
@@ -770,10 +787,7 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -785,8 +799,10 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",

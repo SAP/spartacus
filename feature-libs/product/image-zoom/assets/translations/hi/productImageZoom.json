@@ -1,0 +1,9 @@
+{
+  "productImageZoomTrigger": {
+    "expand": "छवि विस्तृत करें"
+  },
+  "productImageZoomDialog": {
+    "zoomedInImage": "छवि ज़ूम इन करें",
+    "close": "बंद करें"
+  }
+}

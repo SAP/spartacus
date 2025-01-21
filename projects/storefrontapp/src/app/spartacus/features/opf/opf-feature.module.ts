@@ -13,7 +13,10 @@ import {
 } from '@spartacus/opf/base/root';
 import {
   opfCheckoutTranslationChunksConfig,
-  opfCheckoutTranslations,
+  opfCheckoutTranslationsEn,
+  opfCheckoutTranslationsJa,
+  opfCheckoutTranslationsDe,
+  opfCheckoutTranslationsZh,
 } from '@spartacus/opf/checkout/assets';
 import {
   OPF_CHECKOUT_FEATURE,
@@ -23,7 +26,10 @@ import {
 } from '@spartacus/opf/checkout/root';
 import {
   opfPaymentTranslationChunksConfig,
-  opfPaymentTranslations,
+  opfPaymentTranslationsEn,
+  opfPaymentTranslationsJa,
+  opfPaymentTranslationsDe,
+  opfPaymentTranslationsZh,
 } from '@spartacus/opf/payment/assets';
 
 import { OPF_CTA_FEATURE, OpfCtaRootModule } from '@spartacus/opf/cta/root';
@@ -90,14 +96,24 @@ if (environment.b2b) {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: opfCheckoutTranslations,
+        resources: {
+          en: opfCheckoutTranslationsEn,
+          ja: opfCheckoutTranslationsJa,
+          de: opfCheckoutTranslationsDe,
+          zh: opfCheckoutTranslationsZh,
+        },
         chunks: opfCheckoutTranslationChunksConfig,
         fallbackLang: 'en',
       },
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: opfPaymentTranslations,
+        resources: {
+          en: opfPaymentTranslationsEn,
+          ja: opfPaymentTranslationsJa,
+          de: opfPaymentTranslationsDe,
+          zh: opfPaymentTranslationsZh,
+        },
         chunks: opfPaymentTranslationChunksConfig,
         fallbackLang: 'en',
       },

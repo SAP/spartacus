@@ -1,7 +1,12 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpClient,
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { OccEndpointsService, WindowRef } from '@spartacus/core';
@@ -48,7 +53,7 @@ describe('OccPersonalizationTimeInterceptor with personalization enabled', () =>
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         { provide: PersonalizationConfig, useValue: mockPersonalizationConfig },
         { provide: WindowRef, useValue: MockWindowRef },
@@ -58,6 +63,8 @@ describe('OccPersonalizationTimeInterceptor with personalization enabled', () =>
           useClass: OccPersonalizationTimeInterceptor,
           multi: true,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 
@@ -120,7 +127,7 @@ describe('OccPersonalizationTimeInterceptor with personalization disabled', () =
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: PersonalizationConfig,
@@ -137,6 +144,8 @@ describe('OccPersonalizationTimeInterceptor with personalization disabled', () =
           useClass: OccPersonalizationTimeInterceptor,
           multi: true,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

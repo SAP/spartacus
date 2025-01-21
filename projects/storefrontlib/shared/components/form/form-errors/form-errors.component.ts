@@ -11,8 +11,6 @@ import {
   DoCheck,
   HostBinding,
   Input,
-  KeyValueDiffer,
-  KeyValueDiffers,
   inject,
 } from '@angular/core';
 import { AbstractControl, UntypedFormControl } from '@angular/forms';
@@ -41,10 +39,7 @@ import { map, startWith } from 'rxjs/operators';
 export class FormErrorsComponent implements DoCheck {
   private featureConfigService = inject(FeatureConfigService);
 
-  constructor(
-    protected ChangeDetectionRef: ChangeDetectorRef,
-    protected keyValueDiffers: KeyValueDiffers
-  ) {
+  constructor(protected ChangeDetectionRef: ChangeDetectorRef) {
     useFeatureStyles('a11yFormErrorMuteIcon');
   }
 
@@ -55,8 +50,6 @@ export class FormErrorsComponent implements DoCheck {
    * the error key and error details.
    */
   errorsDetails$: Observable<Array<[string, string | boolean]>>;
-
-  protected differ: KeyValueDiffer<any, any>;
 
   // TODO: (CXSPA-7315) Remove feature toggle in the next major
   /**
@@ -87,8 +80,6 @@ export class FormErrorsComponent implements DoCheck {
 
     this._control = control;
 
-    this.differ = this.keyValueDiffers.find(this.control).create();
-
     this.errorsDetails$ = control?.statusChanges.pipe(
       startWith({}),
       map(() => control.errors || {}),
@@ -102,14 +93,12 @@ export class FormErrorsComponent implements DoCheck {
     return this._control;
   }
 
+  private previousTouchedState: boolean = false;
+
   ngDoCheck(): void {
-    const changes = this.differ?.diff(this.control);
-    if (changes) {
-      changes.forEachChangedItem((r) => {
-        if (r?.key === 'touched') {
-          this.ChangeDetectionRef.markForCheck();
-        }
-      });
+    if (this.control.touched !== this.previousTouchedState) {
+      this.previousTouchedState = this.control.touched;
+      this.ChangeDetectionRef.markForCheck();
     }
   }
   /**

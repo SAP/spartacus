@@ -1,6 +1,4 @@
 %cx-my-preferred-store {
-  @import 'bootstrap/scss/buttons';
-
   .cx-store-opening-hours-toggle {
     @include type('6');
     color: $cx-color-link-primary;
@@ -40,8 +38,6 @@
     }
     cx-card {
       .cx-card-actions {
-        @extend .btn, .btn-sm, .btn-block !optional;
-        @extend .btn-outline-text !optional;
         border-width: 2px;
         border-style: solid;
         text-decoration: none;

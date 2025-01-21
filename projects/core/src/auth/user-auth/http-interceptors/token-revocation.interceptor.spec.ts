@@ -1,8 +1,13 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpClient,
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
   TestRequest,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { of, Subscription } from 'rxjs';
@@ -33,7 +38,7 @@ describe('TokenRevocationInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: HTTP_INTERCEPTORS,
@@ -48,6 +53,8 @@ describe('TokenRevocationInterceptor', () => {
           provide: AuthStorageService,
           useClass: MockAuthStorageService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

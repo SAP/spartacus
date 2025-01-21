@@ -1,0 +1,13 @@
+{
+  "opfPayment": {
+    "errors": {
+      "proceedPayment": "系統目前無法繼續此付款方法。請稍後再試一次貨選擇不同付款選項。",
+      "cancelPayment": "您已取消付款。若要繼續訂單，請再試一次貨選擇不同付款選項。",
+      "cardExpired": "卡片已到期。",
+      "insufficientFunds": "資金不足。",
+      "invalidCreditCard": "信用卡無效，請審查卡片明細。",
+      "unknown": "取得付款時發生未知錯誤。請聯絡支援團隊",
+      "cardReportedLost": "卡片已掛失。"
+    }
+  }
+}

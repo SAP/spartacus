@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { SemanticPathService } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { of } from 'rxjs';
@@ -25,7 +24,6 @@ describe('CancelServiceOrderGuard', () => {
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
-      imports: [RouterTestingModule],
     });
 
     guard = TestBed.inject(CancelServiceOrderGuard);

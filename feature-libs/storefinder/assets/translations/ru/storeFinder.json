@@ -1,0 +1,32 @@
+{
+  "storeFinder": {
+    "openUntil": "Открыто до",
+    "closed": "Закрыто",
+    "back": "Назад",
+    "call": "Позвонить",
+    "getDirections": "Получить маршрут",
+    "ariaLabelGetDirections": "Получить маршрут, эта ссылка откроется в новом окне",
+    "ariaLabelCountriesCount": "Найдены магазины в {{ count }} странах",
+    "listView": "Список",
+    "mapView": "Карта",
+    "noStoresFound": "Магазины не найдены.",
+    "storeHours": "Часы работы магазина",
+    "storeFeatures": "Характеристики магазина",
+    "storeFinder": "Средство поиска магазинов",
+    "storesFoundTitle": "Магазины найдены",
+    "storesFound": "Найден {{ count }} магазин",
+    "storesFound_other": "Найдено магазинов: {{ count }}",
+    "fromStoresFound": "из {{ count }} магазина найдено",
+    "fromStoresFound_other": "из {{ count }} магазинов найдено",
+    "findStore": "Найти магазин",
+    "useMyLocation": "Использовать мое местоположение",
+    "viewAllStores": "Смотреть все магазины",
+    "contactUs": "Свяжитесь с нами",
+    "searchBox": "Почтовый индекс, город или адрес",
+    "backToList": "Назад к списку",
+    "noStoresMessage": "Магазины не найдены в базе данных...",
+    "geolocationNotEnabled": "Невозможно найти ближайшие магазины. Не активировано согласие на геолокацию.",
+    "searchNearestStores": "Поиск ближайших магазинов",
+    "searchBoxLabel": "Введите почтовый индекс, город или адрес"
+  }
+}

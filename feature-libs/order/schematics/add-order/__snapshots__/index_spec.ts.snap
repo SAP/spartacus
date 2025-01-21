@@ -4,7 +4,7 @@ exports[`Spartacus Order schematics: ng-add Order feature eager loading should i
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { OrderModule } from "@spartacus/order";
-import { orderTranslationChunksConfig, orderTranslations } from "@spartacus/order/assets";
+import { orderTranslationChunksConfig, orderTranslationsEn } from "@spartacus/order/assets";
 import { OrderRootModule } from "@spartacus/order/root";
 
 @NgModule({
@@ -15,7 +15,7 @@ import { OrderRootModule } from "@spartacus/order/root";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: orderTranslations,
+      resources: { en: orderTranslationsEn },
       chunks: orderTranslationChunksConfig,
     },
   })]
@@ -27,7 +27,7 @@ export class OrderFeatureModule { }
 exports[`Spartacus Order schematics: ng-add Order feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { orderTranslationChunksConfig, orderTranslations } from "@spartacus/order/assets";
+import { orderTranslationChunksConfig, orderTranslationsEn } from "@spartacus/order/assets";
 import { ORDER_FEATURE, OrderRootModule } from "@spartacus/order/root";
 
 @NgModule({
@@ -45,7 +45,7 @@ import { ORDER_FEATURE, OrderRootModule } from "@spartacus/order/root";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: orderTranslations,
+      resources: { en: orderTranslationsEn },
       chunks: orderTranslationChunksConfig,
     },
   })
@@ -97,8 +97,10 @@ exports[`Spartacus Order schematics: ng-add Order feature general setup styling 
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -116,13 +118,13 @@ exports[`Spartacus Order schematics: ng-add Order feature general setup styling 
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all"
@@ -148,10 +150,7 @@ exports[`Spartacus Order schematics: ng-add Order feature general setup styling 
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -163,8 +162,10 @@ exports[`Spartacus Order schematics: ng-add Order feature general setup styling 
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",

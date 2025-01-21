@@ -1,6 +1,6 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, PAYMENT_DETAILS_NORMALIZER } from '@spartacus/core';
@@ -13,6 +13,10 @@ import {
   MockOccEndpointsService,
   mockOccModuleConfig,
 } from './unit-test.helper';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const username = 'mockUsername';
 
@@ -24,7 +28,7 @@ describe('OccUserPaymentAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccUserPaymentAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },
@@ -32,6 +36,8 @@ describe('OccUserPaymentAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 
