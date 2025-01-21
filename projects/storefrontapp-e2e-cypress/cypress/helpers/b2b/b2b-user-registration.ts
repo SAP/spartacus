@@ -67,11 +67,11 @@ export function fillOrganizationUserRegistrationForm(
 /**
  * Method submits prefiled form and by default waits till registration request will be completed.
  *
- * @param {boolean} [wiatForRequestCompletion=true]
+ * @param {boolean} [waitForRequestCompletion=true]
  * specifies if cypress should wait till registration request be completed.
  */
 export function submitOrganizationUserRegistrationForm(
-  wiatForRequestCompletion: boolean = true
+  waitForRequestCompletion: boolean = true
 ) {
   interceptPost('registerOrganizationUser', '*/orgUsers*');
 
@@ -79,8 +79,10 @@ export function submitOrganizationUserRegistrationForm(
     cy.get('button[type=submit]').click();
   });
 
-  if (wiatForRequestCompletion) {
-    cy.wait('@registerOrganizationUser');
+  if (waitForRequestCompletion) {
+    cy.wait('@registerOrganizationUser')
+      .its('response.statusCode')
+      .should('eq', 201);
   }
 }
 

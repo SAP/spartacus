@@ -9,7 +9,7 @@ import { OpfQuickBuyConfig } from './opf-quick-buy-config';
 export const defaultOpfQuickBuyConfig: OpfQuickBuyConfig = {
   providers: {
     googlePay: {
-      resourceUrl: '',
+      resourceUrl: 'https://pay.google.com/gp/p/js/pay.js',
     },
   },
 };
