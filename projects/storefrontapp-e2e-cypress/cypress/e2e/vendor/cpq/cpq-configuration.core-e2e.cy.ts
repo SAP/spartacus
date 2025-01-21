@@ -93,12 +93,10 @@ const ATTR_NAMES = {
   ],
 };
 
-//only test with cpqOverOcc = true. For now we leave the option to run the obsolete flavor
-//but delete it finally with the next breaking major release
+
 const testConfig = [
   {
-    name: 'CPQ Configuration - cpqOverOcc Mode',
-    cpqOverOcc: true,
+    name: 'CPQ Configuration',
     backendURL: `${Cypress.env('OCC_PREFIX')}/${POWERTOOLS}/cpqconfigurator/**`,
   },
 ];
@@ -107,7 +105,6 @@ testConfig.forEach((config) => {
   context(config.name, () => {
     const cpqSettings: any = {
       productConfigurator: {
-        cpqOverOcc: config.cpqOverOcc,
       },
     };
     beforeEach(() => {
@@ -140,8 +137,7 @@ testConfig.forEach((config) => {
         configurationCpq.selectAttributeAndWait(
           ATTR_COF_CUPS,
           RADGRP,
-          VAL_COF_CUPS_300,
-          config.cpqOverOcc
+          VAL_COF_CUPS_300, 
         );
         configuration.checkValueSelected(
           RADGRP,
@@ -152,8 +148,7 @@ testConfig.forEach((config) => {
         configurationCpq.selectAttributeAndWait(
           ATTR_COF_CUPS,
           RADGRP,
-          VAL_COF_CUPS_500,
-          config.cpqOverOcc
+          VAL_COF_CUPS_500, 
         );
         configuration.checkValueSelected(
           RADGRP,
@@ -176,16 +171,14 @@ testConfig.forEach((config) => {
         configurationCpq.selectAttributeAndWait(
           ATTR_COF_MODE,
           CHKBOX,
-          VAL_COF_MODE,
-          config.cpqOverOcc
+          VAL_COF_MODE, 
         );
         configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
 
         configurationCpq.selectAttributeAndWait(
           ATTR_COF_MODE,
           CHKBOX,
-          VAL_COF_MODE,
-          config.cpqOverOcc
+          VAL_COF_MODE, 
         );
         configurationCpq.checkValueNotSelected(
           CHKBOX,
@@ -213,8 +206,7 @@ testConfig.forEach((config) => {
         configuration.selectAttribute(
           ATTR_CAM_BODY,
           RADGRP_PROD,
-          VAL_CAM_BODY_D850,
-          config.cpqOverOcc
+          VAL_CAM_BODY_D850, 
         );
         configuration.checkValueSelected(
           RADGRP_PROD,
@@ -230,8 +222,7 @@ testConfig.forEach((config) => {
         configurationCpq.selectAttributeAndWait(
           ATTR_CAM_BODY,
           RADGRP_PROD,
-          VAL_CAM_BODY_EOS80D,
-          config.cpqOverOcc
+          VAL_CAM_BODY_EOS80D, 
         );
         configurationCpq.checkValueNotSelected(
           RADGRP_PROD,
@@ -266,8 +257,7 @@ testConfig.forEach((config) => {
         configurationCpq.selectAttributeAndWait(
           ATTR_CAM_INS,
           DDLB_PROD,
-          VAL_CB_INS_Y2,
-          config.cpqOverOcc
+          VAL_CB_INS_Y2, 
         );
         configurationCpq.checkValueNotSelected(
           DDLB_PROD,
@@ -299,8 +289,7 @@ testConfig.forEach((config) => {
         configurationCpq.selectAttributeAndWait(
           ATTR_CAM_MC,
           CHKBOX_PROD,
-          VAL_CAM_MC_64,
-          config.cpqOverOcc
+          VAL_CAM_MC_64, 
         );
         configuration.checkValueSelected(
           CHKBOX_PROD,
@@ -316,8 +305,7 @@ testConfig.forEach((config) => {
         configurationCpq.selectAttributeAndWait(
           ATTR_CAM_MC,
           CHKBOX_PROD,
-          VAL_CAM_MC_128,
-          config.cpqOverOcc
+          VAL_CAM_MC_128, 
         );
         configurationCpq.checkValueNotSelected(
           CHKBOX_PROD,
@@ -405,8 +393,7 @@ testConfig.forEach((config) => {
         configurationCpq.selectProductCard(
           RADGRP,
           ATTR_CAM_BODY,
-          VAL_CAM_BODY_D850,
-          config.cpqOverOcc
+          VAL_CAM_BODY_D850, 
         );
         configurationCpq.checkPrice(
           RADGRP_PROD,
@@ -425,8 +412,7 @@ testConfig.forEach((config) => {
           CHKBOX_PROD,
           2,
           ATTR_CAM_MC,
-          VAL_CAM_MC_128,
-          config.cpqOverOcc
+          VAL_CAM_MC_128, 
         );
         configurationCpq.checkPrice(
           CHKBOX_PROD,
@@ -438,14 +424,12 @@ testConfig.forEach((config) => {
         configurationCpq.selectProductCard(
           CHKBOX,
           ATTR_CAM_LEN,
-          VAL_CAM_LEN_SI,
-          config.cpqOverOcc
+          VAL_CAM_LEN_SI, 
         );
         configurationCpq.selectProductCard(
           CHKBOX,
           ATTR_CAM_LEN,
-          VAL_CAM_LEN_NI,
-          config.cpqOverOcc
+          VAL_CAM_LEN_NI, 
         );
         configurationCpq.checkPrice(
           CHKBOX_PROD,
@@ -464,16 +448,14 @@ testConfig.forEach((config) => {
         configurationCpq.deSelectProductCard(
           RADGRP,
           ATTR_CAM_BAG,
-          VAL_CAM_BAG_LP,
-          config.cpqOverOcc
+          VAL_CAM_BAG_LP, 
         );
 
         configuration.clickOnNextBtn(GRP_CAM_IAW);
         configurationCpq.selectAttributeAndWait(
           ATTR_CAM_PROF,
           RADGRP,
-          VAL_CAM_PROF_Y,
-          config.cpqOverOcc
+          VAL_CAM_PROF_Y, 
         );
         //wait for this option to disappear
         configuration.checkAttrValueNotDisplayed(
@@ -485,8 +467,7 @@ testConfig.forEach((config) => {
         configurationCpq.selectProductCard(
           DDLB,
           ATTR_CAM_INS,
-          VAL_CB_INS_P4,
-          config.cpqOverOcc
+          VAL_CB_INS_P4, 
         );
         configurationCpq.checkPrice(
           DDLB_PROD,
@@ -626,8 +607,7 @@ testConfig.forEach((config) => {
       configurationCpq.selectAttributeAndWait(
         ATTR_CAM_BODY,
         RADGRP_PROD,
-        VAL_CAM_BODY_D850,
-        config.cpqOverOcc
+        VAL_CAM_BODY_D850, 
       );
       configuration.checkValueSelected(
         RADGRP_PROD,
@@ -637,8 +617,7 @@ testConfig.forEach((config) => {
       configurationCpq.selectAttributeAndWait(
         ATTR_CAM_BODY,
         RADGRP_PROD,
-        VAL_CAM_BODY_EOS80D,
-        config.cpqOverOcc
+        VAL_CAM_BODY_EOS80D, 
       );
       configuration.checkValueSelected(
         RADGRP_PROD,
@@ -648,8 +627,7 @@ testConfig.forEach((config) => {
       configurationCpq.selectAttributeAndWait(
         ATTR_CAM_LEN,
         CHKBOX_PROD,
-        VAL_CAM_LEN_SI,
-        config.cpqOverOcc
+        VAL_CAM_LEN_SI, 
       );
       configuration.checkValueSelected(
         CHKBOX_PROD,
