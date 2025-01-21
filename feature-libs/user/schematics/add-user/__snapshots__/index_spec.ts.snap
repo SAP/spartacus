@@ -4,7 +4,7 @@ exports[`Spartacus User schematics: ng-add User Profile feature eager loading sh
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { UserProfileModule } from "@spartacus/user/profile";
-import { userProfileTranslationChunksConfig, userProfileTranslations } from "@spartacus/user/profile/assets";
+import { userProfileTranslationChunksConfig, userProfileTranslationsEn } from "@spartacus/user/profile/assets";
 import { UserProfileRootModule } from "@spartacus/user/profile/root";
 
 @NgModule({
@@ -15,7 +15,7 @@ import { UserProfileRootModule } from "@spartacus/user/profile/root";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: userProfileTranslations,
+      resources: { en: userProfileTranslationsEn },
       chunks: userProfileTranslationChunksConfig,
     },
   })]
@@ -27,7 +27,7 @@ export class UserFeatureModule { }
 exports[`Spartacus User schematics: ng-add User Profile feature general setup should NOT install the required feature dependencies 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { userProfileTranslationChunksConfig, userProfileTranslations } from "@spartacus/user/profile/assets";
+import { userProfileTranslationChunksConfig, userProfileTranslationsEn } from "@spartacus/user/profile/assets";
 import { USER_PROFILE_FEATURE, UserProfileRootModule } from "@spartacus/user/profile/root";
 
 @NgModule({
@@ -45,7 +45,7 @@ import { USER_PROFILE_FEATURE, UserProfileRootModule } from "@spartacus/user/pro
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: userProfileTranslations,
+      resources: { en: userProfileTranslationsEn },
       chunks: userProfileTranslationChunksConfig,
     },
   })
@@ -58,7 +58,7 @@ export class UserFeatureModule { }
 exports[`Spartacus User schematics: ng-add User Profile feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { userProfileTranslationChunksConfig, userProfileTranslations } from "@spartacus/user/profile/assets";
+import { userProfileTranslationChunksConfig, userProfileTranslationsEn } from "@spartacus/user/profile/assets";
 import { USER_PROFILE_FEATURE, UserProfileRootModule } from "@spartacus/user/profile/root";
 
 @NgModule({
@@ -76,7 +76,7 @@ import { USER_PROFILE_FEATURE, UserProfileRootModule } from "@spartacus/user/pro
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: userProfileTranslations,
+      resources: { en: userProfileTranslationsEn },
       chunks: userProfileTranslationChunksConfig,
     },
   })
@@ -220,7 +220,7 @@ exports[`Spartacus User schematics: ng-add User-Account feature eager loading sh
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { UserAccountModule } from "@spartacus/user/account";
-import { userAccountTranslationChunksConfig, userAccountTranslations } from "@spartacus/user/account/assets";
+import { userAccountTranslationChunksConfig, userAccountTranslationsEn } from "@spartacus/user/account/assets";
 import { UserAccountRootModule } from "@spartacus/user/account/root";
 
 @NgModule({
@@ -231,7 +231,7 @@ import { UserAccountRootModule } from "@spartacus/user/account/root";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: userAccountTranslations,
+      resources: { en: userAccountTranslationsEn },
       chunks: userAccountTranslationChunksConfig,
     },
   })]
@@ -243,7 +243,7 @@ export class UserFeatureModule { }
 exports[`Spartacus User schematics: ng-add User-Account feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { userAccountTranslationChunksConfig, userAccountTranslations } from "@spartacus/user/account/assets";
+import { userAccountTranslationChunksConfig, userAccountTranslationsEn } from "@spartacus/user/account/assets";
 import { USER_ACCOUNT_FEATURE, UserAccountRootModule } from "@spartacus/user/account/root";
 
 @NgModule({
@@ -261,7 +261,7 @@ import { USER_ACCOUNT_FEATURE, UserAccountRootModule } from "@spartacus/user/acc
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: userAccountTranslations,
+      resources: { en: userAccountTranslationsEn },
       chunks: userAccountTranslationChunksConfig,
     },
   })

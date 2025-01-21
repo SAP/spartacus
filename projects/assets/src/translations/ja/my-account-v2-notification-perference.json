@@ -1,0 +1,9 @@
+{
+  "myAccountV2NotifiationPerference": {
+    "header": "通知チャネル",
+    "message": "優先通知チャネルを選択してください",
+    "note": "注記:  ",
+    "noteMessage": "すべてのチャネルを無効化すると、今後通知を受信できなくなります。",
+    "EMAIL": "電子メール: "
+  }
+}

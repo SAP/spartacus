@@ -1,0 +1,66 @@
+{
+  "userRegistrationForm": {
+    "fields": {
+      "titleCode": {
+        "label": "Обращение (необязательно)",
+        "placeholder": "Обращение"
+      },
+      "firstName": {
+        "label": "Имя",
+        "placeholder": "Имя"
+      },
+      "lastName": {
+        "label": "Фамилия",
+        "placeholder": "Фамилия"
+      },
+      "companyName": {
+        "label": "Название компании",
+        "placeholder": "Название компании"
+      },
+      "email": {
+        "label": "Электронная почта",
+        "placeholder": "Электронная почта"
+      },
+      "city": {
+        "label": "Город (необязательно)",
+        "placeholder": "Выберите город"
+      },
+      "country": {
+        "label": "Страна (необязательно)",
+        "placeholder": "Выберите страну"
+      },
+      "state": {
+        "label": "Регион/область (необязательно)",
+        "placeholder": "Выберите регион/область"
+      },
+      "postalCode": {
+        "label": "Почтовый индекс (необязательно)",
+        "placeholder": "Почтовый индекс"
+      },
+      "addressLine": {
+        "label": "Адрес (необязательно)",
+        "placeholder": "Адрес"
+      },
+      "secondAddressLine": {
+        "label": "Адрес, строка 2 (необязательно)",
+        "placeholder": "Адрес, строка 2"
+      },
+      "phoneNumber": {
+        "label": "Телефон (необязательно)",
+        "placeholder": "Телефон"
+      },
+      "message": {
+        "label": "Сообщение (необязательно)",
+        "placeholder": "Пример данных для поля сообщения: \"Отдел: наземная поддержка; должность: главный охранник; начальник: Стив Джексон; комментарий: Пожалуйста, создайте для меня новую учетную запись\"."
+      }
+    },
+    "messageToApproverTemplate": "Название компании: {{companyName}},\n  Телефон: {{phoneNumber}},\n  Адрес: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Сообщение: {{message}}",
+    "successFormSubmitMessage": "Спасибо за регистрацию! Наш представитель свяжется с вами в ближайшее время для подтверждения данных для доступа.",
+    "formSubmitButtonLabel": "Зарегистрироваться",
+    "goToLoginButtonLabel": "Уже зарегистрированы? Используйте кнопку входа.",
+    "httpHandlers": {
+      "conflict": "Пользователь с таким адресом электронной почты уже существует."
+    },
+    "messageToFailedToRegister": "Регистрация не удалась. Обратитесь к администратору."
+  }
+}

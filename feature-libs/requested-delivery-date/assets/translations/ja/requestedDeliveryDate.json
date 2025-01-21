@@ -1,0 +1,8 @@
+{
+  "requestedDeliveryDate": {
+    "datePickerLabel": "配送依頼日",
+    "readOnlyTextLabel": "依頼された配送日",
+    "successMessage": "配送日が正常に更新されました。",
+    "errorMessage": "問題が発生しました。依頼された日付を更新できません。"
+  }
+}

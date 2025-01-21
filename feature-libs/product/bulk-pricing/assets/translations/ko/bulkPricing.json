@@ -1,0 +1,7 @@
+{
+  "bulkPricingTable": {
+    "quantity": "수량",
+    "price": "가격",
+    "discount": "할인"
+  }
+}

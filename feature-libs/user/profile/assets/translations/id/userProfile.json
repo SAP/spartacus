@@ -1,0 +1,73 @@
+{
+  "updateEmailForm": {
+    "newEmailAddress": {
+      "label": "Alamat email baru",
+      "placeholder": "Masukkan email"
+    },
+    "confirmNewEmailAddress": {
+      "label": "Konfirmasikan alamat email baru",
+      "placeholder": "Masukkan email"
+    },
+    "enterValidEmail": "Silakan masukkan email yang valid.",
+    "bothEmailMustMatch": "Kedua email harus sama",
+    "password": {
+      "label": "Kata sandi",
+      "placeholder": "Masukkan kata sandi"
+    },
+    "pleaseInputPassword": "Silakan masukkan kata sandi",
+    "emailUpdateSuccess": "Berhasil. Silakan masuk dengan {{ newUid }}"
+  },
+  "register": {
+    "confirmPassword": {
+      "action": "Konfirmasikan kata sandi",
+      "label": "Konfirmasikan kata sandi",
+      "placeholder": "Konfirmasikan Kata Sandi"
+    },
+    "managementInMyAccount": "Pengelolaan di Akun Saya.",
+    "termsAndConditions": "Syarat & Ketentuan",
+    "signIn": "Saya sudah memiliki akun. Masuk",
+    "register": "Daftar",
+    "confirmNewPassword": "Konfirmasi Kata Sandi Baru",
+    "resetPassword": "Atur Ulang Kata Sandi",
+    "createAccount": "Buat akun",
+    "title": "Gelar/Sapaan",
+    "titleOptional": "Gelar/Sapaan (opsional)",
+    "firstName": {
+      "label": "Nama depan",
+      "placeholder": "Nama depan"
+    },
+    "lastName": {
+      "label": "Nama belakang",
+      "placeholder": "Nama belakang"
+    },
+    "emailAddress": {
+      "label": "Alamat email",
+      "placeholder": "Alamat email"
+    },
+    "password": {
+      "label": "Kata sandi",
+      "placeholder": "Kata sandi"
+    },
+    "newPassword": "Kata Sandi Baru",
+    "emailMarketing": "Gunakan data pribadi saya untuk menerima buletin email terkait kampanye pemasaran. Untuk mengubah pengaturan Anda, buka Pengelolaan Persetujuan di Akun Saya.",
+    "confirmThatRead": "Saya mengonfirmasi bahwa saya telah membaca dan menyetujui",
+    "selectTitle": "Pilih Gelar/Sapaan",
+    "passwordMinRequirements": "Berikut panduan singkat untuk membuat kata sandi yang aman: Gunakan setidaknya 8 karakter dengan kombinasi huruf besar dan kecil, angka, serta simbol.",
+    "passwordStrengthRequirements": "Berikut panduan singkat untuk membuat kata sandi yang aman: Gunakan setidaknya 8 karakter dengan kombinasi huruf besar dan kecil, angka, serta simbol. Pastikan untuk tidak menggunakan karakter yang sama secara berurutan.",
+    "bothPasswordMustMatch": "Kedua kata sandi harus sama",
+    "titleRequired": "Gelar/sapaan wajib diisi.",
+    "postRegisterMessage": "Silakan masuk dengan kredensial yang diberikan.",
+    "postRegisterSuccessMessage": "Pendaftaran Berhasil: Silakan masuk dengan kredensial yang diberikan"
+  },
+  "forgottenPassword": {
+    "resetPassword": "Atur ulang kata sandi",
+    "enterEmailAddressAssociatedWithYourAccount": "Masukkan alamat email yang terkait dengan akun Anda",
+    "emailAddress": {
+      "label": "Alamat email",
+      "placeholder": "Masukkan email"
+    },
+    "enterValidEmail": "Silakan masukkan email yang valid.",
+    "passwordResetEmailSent": "Email telah dikirimkan kepada Anda yang berisi informasi tentang cara mengatur ulang kata sandi Anda.",
+    "passwordResetSuccess": "Berhasil! Anda sekarang dapat masuk menggunakan kata sandi Anda yang baru."
+  }
+}

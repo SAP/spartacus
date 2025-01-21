@@ -1,0 +1,80 @@
+{
+  "quickOrderCartForm": {
+    "entriesWereAdded": "({{ quantity }}) {{ product }} がカートに追加されました",
+    "entryWasAdded": "{{ product }} がカートに追加されました",
+    "noResults": "商品が見つかりません",
+    "stockLevelReached": "在庫の最大レベルに達しました",
+    "title": "簡易注文",
+    "productCodePlaceholder": "ID を入力",
+    "entryProductCode": "簡易注文の商品 ID を入力",
+    "quantity": "簡易注文の数量",
+    "addToCart": "簡易注文に商品を追加",
+    "add": "追加",
+    "product": "商品",
+    "products": "商品",
+    "productCodeLabel": "商品 ID",
+    "quantityLabel": "数量",
+    "quantityFullLabel": "数量"
+  },
+  "quickOrderForm": {
+    "placeholder": "商品名または SKU を入力",
+    "searchBoxLabel": "簡易注文の商品名または SKU を入力します。注文ごとに最大で {{ limit }} 商品を追加することができます。",
+    "listLimitReached": "商品の制限に達しました。",
+    "id": "ID {{ id }}",
+    "noResults": "結果が見つかりませんでした",
+    "addProduct": "商品 {{ product }} を追加",
+    "initialDescription": "オートコンプリート結果が表示されたら、上下の矢印キーを使用して確認し、Enter キーで選択します。",
+    "productsResults": "{{ count }} 商品を利用できます。",
+    "quickOrderSearch": "簡易注文の商品を検索"
+  },
+  "quickOrderList": {
+    "addToCart": "カートに追加",
+    "emptyList": "リストを空にする",
+    "header": "製品/SKU の追加",
+    "subHeader": "同時に最大で {{ limit }} の有効な SKU を追加できます。",
+    "errorProceedingToCart": "カートに進むときにエラーが発生しました。",
+    "warningProceedingToCart": "カートに進むときに警告が発生しました。",
+    "successfullyAddedToCart": "カートへ正常に追加されました。",
+    "errors": {
+      "productIsOutOfStock": "{{ name }} (#{{code}}) は在庫がありません。",
+      "reviewErrors": "これらのエラーを確認してください。",
+      "listIsFull": "リストがいっぱいです。続行するにはこれら {{ count }} の商品をカートに追加します。",
+      "nonPurchasableError": "商品 {{ name }} を購入できません",
+      "outOfStockErrorFound": "{{count}} の在庫切れ商品は追加されませんでした。",
+      "outOfStockErrorFound_other": "{{count}} の在庫切れ商品は追加されませんでした。"
+    },
+    "warnings": {
+      "productWasReduced": "{{ name }} の数量 (#{{code}}) は {{ quantityAdded}} に削減されました。",
+      "reviewWarnings": "これらの警告を確認してください。",
+      "reduceWarningFound": "{{count}} 商品の数量が削減されました。",
+      "reduceWarningFound_other": "{{count}} 商品の数量が削減されました。"
+    },
+    "successes": {
+      "productAddedToCart": "{{ name }} (#{{code}}) がカートに追加されました。",
+      "addedToCartFound": "{{ count }} 商品がカートに追加されました。",
+      "addedToCartFound_other": "{{ count }} 商品がカートに追加されました。"
+    },
+    "informations": {
+      "addProductBeforeAddingToCart": "カートに追加する前に、商品をリストに追加します。"
+    },
+    "undo": "元に戻す",
+    "revokeUndo": "取り消された商品 \"{{name}}\" の削除。",
+    "productWasDeleted": "商品 \"{{ name }}\" をごみ箱に移動します。"
+  },
+  "quickOrderTable": {
+    "product": "商品",
+    "id": "ID",
+    "price": "価格",
+    "quantity": "数量",
+    "quantityFull": "数量",
+    "itemPrice": "商品価格",
+    "qty": "数量",
+    "actions": "アクション",
+    "inStock": "在庫有り",
+    "lowStock": "在庫僅少",
+    "outOfStock": "在庫なし",
+    "listCleared": "簡易注文リストがクリアされました",
+    "addedtoCart": "簡易注文リストがカートに追加されました",
+    "caption": "簡易注文の内容です。"
+  }
+}

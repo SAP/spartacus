@@ -1,0 +1,75 @@
+{
+  "cartDetails": {
+    "id": "ID",
+    "proceedToCheckout": "체크아웃 계속하기",
+    "cartName": "장바구니 #{{code}}"
+  },
+  "cartItems": {
+    "id": "ID",
+    "description": "설명",
+    "item": "품목",
+    "itemPrice": "품목 가격",
+    "quantity": "수량",
+    "quantityFull": "수량",
+    "quantityTitle": "수량은 장바구니에 있는 이 품목의 합계를 나타냅니다.",
+    "total": "합계",
+    "actions": "작업",
+    "cartTotal": "장바구니 합계({{count}}개 품목)",
+    "cartTotal_other": "장바구니 합계({{count}}개 품목)",
+    "itemRemoved": "선택한 품목이 제거되었습니다. 장바구니 합계가 업데이트되었습니다.",
+    "caption": "장바구니 내용"
+  },
+  "orderCost": {
+    "orderSummary": "주문 요약",
+    "subtotal": "할인 후 소계:",
+    "shipping": "배송:",
+    "estimatedShipping": "예상 배송일:",
+    "discount": "절약한 금액:",
+    "salesTax": "매출 부가가치세:",
+    "grossTax": "주문 합계가 다음 세금을 포함하지 않음 -",
+    "grossIncludeTax": "주문 합계가 다음 세금을 포함 -",
+    "total": "합계:",
+    "toBeDetermined": "TBD"
+  },
+  "voucher": {
+    "coupon": "쿠폰이 있습니까?",
+    "coupon_other": "쿠폰 코드",
+    "couponLabel": "여기에 프로모션 코드 입력",
+    "addCoupon": "쿠폰 추가",
+    "apply": "적용",
+    "placeholder": "프로모션 코드",
+    "applyVoucherSuccess": "{{voucherCode}}이(가) 적용되었습니다.",
+    "removeVoucherSuccess": "{{voucherCode}}이(가) 제거되었습니다.",
+    "anchorLabel": "쿠폰 코드를 입력하거나 제거하십시오.",
+    "vouchersApplied": "적용된 쿠폰",
+    "availableCoupons": "사용할 수 있는 쿠폰",
+    "availableCouponsLabel": "이 주문에 이 쿠폰을 추가할 수 있습니다."
+  },
+  "saveForLaterItems": {
+    "itemTotal": "저장 후 나중에 사용({{count}}개 품목)",
+    "itemTotal_other": "저장 후 나중에 사용({{count}}개 품목)",
+    "cartTitle": "장바구니",
+    "saveForLater": "저장 후 나중에 사용",
+    "moveToCart": "장바구니로 이동",
+    "stock": "재고",
+    "forceInStock": "재고 있음"
+  },
+  "clearCart": {
+    "clearCart": "장바구니 비우기",
+    "clearingCart": "장바구니 비우는 중...",
+    "cartClearedSuccessfully": "사용 중인 장바구니를 비웠습니다.",
+    "areYouSureToClearCart": "이 장바구니를 비우시겠습니까?",
+    "allItemsWillBeRemoved": "사용 중인 장바구니의 모든 품목이 제거됩니다."
+  },
+  "validation": {
+    "cartEntriesChangeDuringCheckout": "체크아웃하는 동안 항목에 문제가 있었습니다. 장바구니를 확인하십시오.",
+    "cartEntryRemoved": "재고가 없어서 {{name}}이(가) 장바구니에서 제거되었습니다.",
+    "productOutOfStock": "재고 부족으로 인해 {{name}}이(가) 장바구니에서 제거되었습니다.",
+    "lowStock": "재고 부족으로 인해 수량이  {{quantity}}개로 줄었습니다.",
+    "reviewConfiguration": "먼저 구성에서 장바구니 항목에 대한 문제를 해결하십시오.",
+    "configurationError": "먼저 구성에서 장바구니 항목에 대한 문제를 해결하십시오.",
+    "pricingError": "현재 가격결정 구성을 사용할 수 없습니다. 체크아웃/견적 제출이 불가능합니다. 나중에 다시 시도하십시오.",
+    "unresolvableIssues": "제품 구성을 위해 백엔드에서 추가로 입력해야 합니다. 따라서 계속할 수 없습니다. 지원 팀에 문의하십시오.",
+    "inProgress": "처리 중"
+  }
+}

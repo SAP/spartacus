@@ -1,0 +1,75 @@
+{
+  "cartDetails": {
+    "id": "标识",
+    "proceedToCheckout": "继续结账",
+    "cartName": "购物车编号 {{code}}"
+  },
+  "cartItems": {
+    "id": "标识",
+    "description": "描述",
+    "item": "商品",
+    "itemPrice": "商品价格",
+    "quantity": "数量",
+    "quantityFull": "数量",
+    "quantityTitle": "数量代表您的购物车中此项目的总数。",
+    "total": "总计",
+    "actions": "操作",
+    "cartTotal": "购物车总计（{{count}} 个项目）",
+    "cartTotal_other": "购物车总计（{{count}} 个项目）",
+    "itemRemoved": "所选项目已移除。购物车总计已更新。",
+    "caption": "购物车内容。"
+  },
+  "orderCost": {
+    "orderSummary": "订单摘要",
+    "subtotal": "折扣后的小计：",
+    "shipping": "发货:",
+    "estimatedShipping": "预计发货：",
+    "discount": "您已保存：",
+    "salesTax": "销售税：",
+    "grossTax": "订单总计不包含税",
+    "grossIncludeTax": "订单总计包含税",
+    "total": "总计：",
+    "toBeDetermined": "待定"
+  },
+  "voucher": {
+    "coupon": "具有优惠卷？",
+    "coupon_other": "优惠券代码",
+    "couponLabel": "在此输入促销代码",
+    "addCoupon": "添加优惠券",
+    "apply": "应用",
+    "placeholder": "促销代码",
+    "applyVoucherSuccess": "已应用 {{voucherCode}}。",
+    "removeVoucherSuccess": "已移除 {{voucherCode}}。",
+    "anchorLabel": "输入或移除您的优惠券代码",
+    "vouchersApplied": "应用的优惠券",
+    "availableCoupons": "可用优惠券",
+    "availableCouponsLabel": "您可以将这些优惠券添加到此订单。"
+  },
+  "saveForLaterItems": {
+    "itemTotal": "以后购买（{{count}} 个项目）",
+    "itemTotal_other": "以后购买（{{count}} 个项目）",
+    "cartTitle": "购物车",
+    "saveForLater": "保存备用",
+    "moveToCart": "移动到购物车",
+    "stock": "库存",
+    "forceInStock": "现货"
+  },
+  "clearCart": {
+    "clearCart": "清除购物车",
+    "clearingCart": "正在清除购物车...",
+    "cartClearedSuccessfully": "已成功清除活动购物车。",
+    "areYouSureToClearCart": "是否确定要清除此购物车？",
+    "allItemsWillBeRemoved": "将移除活动购物车中的所有项目。"
+  },
+  "validation": {
+    "cartEntriesChangeDuringCheckout": "结账时我们发现您的输入存在问题。请检查您的购物车。",
+    "cartEntryRemoved": "{{name}} 因缺货而从购物车中移除。",
+    "productOutOfStock": "库存不足，已从购物车中移除 {{name}}.",
+    "lowStock": "库存不足，数量已减少至 {{quantity}}。",
+    "reviewConfiguration": "首先解决购物车条目的配置问题。",
+    "configurationError": "首先解决购物车条目的配置问题。",
+    "pricingError": "配置器定价当前不可用；无法提交结账/报价。请稍后重试。",
+    "unresolvableIssues": "产品配置需要后端中的其他条目。因此，您无法继续。请联系支持部门。",
+    "inProgress": "正在处理"
+  }
+}

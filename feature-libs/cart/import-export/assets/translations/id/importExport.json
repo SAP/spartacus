@@ -1,0 +1,51 @@
+{
+  "exportEntries": {
+    "exportToCsv": "Ekspor ke CSV",
+    "exportMessage": "File CSV akan diunduh secara otomatis ke perangkat Anda. Jika tidak, silakan periksa pengaturan browser Anda",
+    "columnNames": {
+      "code": "Kode",
+      "quantity": "Jumlah",
+      "name": "Nama",
+      "price": "Harga"
+    },
+    "exportProductToCsv": "Ekspor Produk ke CSV"
+  },
+  "importEntries": {
+    "importProducts": "Impor Produk"
+  },
+  "importEntriesDialog": {
+    "importProducts": "Impor Produk",
+    "importProductsSubtitle": "Tambahkan produk dengan mengimpor file .CSV.",
+    "importProductsNewSavedCartSubtitle": "Tambahkan produk dengan mengimpor file .CSV dan membuat keranjang tersimpan baru.",
+    "importProductFileDetails": "File teks harus memuat daftar produk dengan kolom yang diperlukan dan dipisahkan dengan koma: SKU dan jumlah.",
+    "selectFile": "Pilih File",
+    "selectedSuccessfully": "File CSV berhasil dipilih.",
+    "savedCartName": "Nama Keranjang Tersimpan",
+    "savedCartDescription": "Deskripsi Keranjang Tersimpan",
+    "optional": "opsional",
+    "charactersLeft": "karakter tersisa: {{count}}",
+    "cancel": "Batalkan",
+    "upload": "Unggah",
+    "close": "Tutup",
+    "summary": {
+      "info": "Mohon untuk tidak menutup atau menyegarkan jendela ini saat produk sedang diimpor.",
+      "loadedToCart": "Produk telah dimuat ke keranjang {{ cartName }}",
+      "loaded": "Produk telah dimuat",
+      "loading": "Produk sedang diproses... ({{ count }}/{{ total }})",
+      "successes": "{{ successesCount }} dari {{ total }} produk berhasil diimpor.",
+      "warning": "{{ count }} produk tidak terimpor sepenuhnya.",
+      "warning_other": "{{ count }} produk tidak terimpor sepenuhnya.",
+      "error": "{{ count }} produk tidak terimpor.",
+      "error_other": "{{ count }} produk tidak terimpor.",
+      "messages": {
+        "unknownIdentifier": "Produk SKU \"{{ productCode}}\" tidak ada.",
+        "lowStock": "Jumlah untuk {{ productName }}: {{ quantity }} telah dikurangi menjadi {{ quantityAdded }}.",
+        "noStock": "{{ productName }} saat ini telah habis.",
+        "unknownError": "Terdapat masalah pada \"{{ productCode }}\" yang tidak dikenali.",
+        "limitExceeded": "Tidak dapat menambahkan \"{{ productCode }}\". Batas maksimum terlampaui."
+      },
+      "show": "Tampilkan",
+      "hide": "Sembunyikan"
+    }
+  }
+}

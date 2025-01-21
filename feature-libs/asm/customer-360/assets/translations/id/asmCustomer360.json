@@ -1,0 +1,129 @@
+{
+  "asmCustomer360": {
+    "alertErrorMessage": "Informasi tidak dapat dimuat. Silakan coba lagi nanti atau hubungi administrator sistem Anda.",
+    "errorMessageHeader": "Ups, terjadi kesalahan",
+    "applyActionAlter": "Tindakan tidak dapat diselesaikan. Silakan coba lagi nanti.",
+    "header": {
+      "title": "Profil Pelanggan",
+      "newTitle": "Tampilan 360° - Pelanggan",
+      "subTitle": "Tampilan 360° Pelanggan {{name}}",
+      "newSubTitle": "Tampilan 360° {{name}}",
+      "activeCartLabel": "{{cartSize}} item ditambahkan ke troli",
+      "recentOrderLabel": "Pesanan terakhir {{price}}",
+      "recentTicketLabel": "Tiket terakhir",
+      "signedUpAt": "Akun dibuat pada {{date}}"
+    },
+    "productListing": {
+      "totalNoItems": "Total Jumlah Item {{count}}",
+      "totalPrice": "Total Harga {{price}}",
+      "showMore": "Tampilkan Lebih Banyak",
+      "showLess": "Tampilkan Lebih Sedikit"
+    },
+    "productItem": {
+      "outOfStock": "Stok Habis",
+      "quantity": "Jml: {{count}}",
+      "itemPrice": "Harga Item: {{price}}"
+    },
+    "activeCart": {
+      "header": "Keranjang Aktif",
+      "emptyDescription": "Saat ini tidak ada Item dalam keranjang aktif",
+      "aria": {
+        "linkLabel": "Keranjang Aktif {{code}}"
+      }
+    },
+    "savedCart": {
+      "header": "Keranjang Tersimpan Terakhir",
+      "emptyDescription": "Saat ini tidak ada item dalam keranjang tersimpan",
+      "aria": {
+        "linkLabel": "Keranjang Tersimpan Terakhir {{code}}"
+      }
+    },
+    "productInterests": {
+      "header": "Produk Minat",
+      "emptyDescription": "Saat ini tidak ada item untuk produk minat"
+    },
+    "profile": {
+      "address": "Alamat",
+      "billingAddress": "Alamat Penagihan",
+      "deliveryAddress": "Alamat Pengiriman",
+      "phone1": "Telepon 1",
+      "phone2": "Telepon 2",
+      "paymentMethodHeader": "Metode Pembayaran Tersimpan"
+    },
+    "activity": {
+      "type": "Tipe",
+      "id": "Id",
+      "description": "Deskripsi",
+      "status": "Status",
+      "created": "Dibuat",
+      "updated": "Diperbarui",
+      "numberOfCartItems": "Keranjang dengan {{count}} item",
+      "cart": "Keranjang",
+      "order": "Pesanan",
+      "savedCart": "Keranjang Tersimpan",
+      "emptyStateText": "Saat ini tidak ada aktivitas pelanggan yang tercatat",
+      "headerText": "Umum"
+    },
+    "productReviews": {
+      "columnHeaders": {
+        "item": "Item",
+        "dateAndStatus": "Tanggal / Status",
+        "rating": "Penilaian",
+        "review": "Ulasan"
+      },
+      "header": "Ulasan Produk",
+      "emptyDescription": "Saat ini tidak ada item dalam ulasan produk",
+      "sku": "SKU"
+    },
+    "supportTickets": {
+      "columnHeaders": {
+        "id": "ID",
+        "headline": "Judul",
+        "category": "Kategori"
+      },
+      "header": "Tiket Dukungan",
+      "emptyDescription": "Saat ini tidak ada tiket dukungan"
+    },
+    "coupons": {
+      "headerText": "Kupon",
+      "emptyDescription": "Saat ini kupon tidak tersedia",
+      "applyButtonText": "Terapkan ke Troli",
+      "applied": "Kupon Diterapkan",
+      "removeButtonText": "Hapus"
+    },
+    "promotions": {
+      "headerText": "Promosi",
+      "emptyDescription": "Saat ini promosi tidak tersedia",
+      "applied": "Promosi Diterapkan",
+      "headerName": "Nama",
+      "headerAction": "Tindakan"
+    },
+    "customerCoupons": {
+      "headerText": "Kupon Pelanggan",
+      "emptyDescription": "Saat ini kupon pelanggan tidak tersedia",
+      "applyButtonText": "Tetapkan ke Pelanggan",
+      "removeButtonText": "Hapus",
+      "availableTab": "Tersedia",
+      "sentTab": "Terkirim",
+      "searchBox": "Kupon"
+    },
+    "maps": {
+      "storeClosed": "Tutup",
+      "storesFound": "{{ initial }} - {{ end }} dari {{ total }} toko ditemukan"
+    },
+    "overviewTab": "Gambaran Umum",
+    "profileTab": "Profil",
+    "activityTab": "Aktivitas",
+    "feedbackTab": "Umpan Balik",
+    "promotionsTab": "Promosi",
+    "mapsTab": "Peta",
+    "storeLocationsTab": "Lokasi Toko",
+    "aria": {
+      "activeCartCode": "Keranjang Aktif {{code}}",
+      "recentOrderCode": "Pesanan Terakhir {{code}}"
+    },
+    "pagination": "Penomoran Halaman",
+    "page": "Halaman {{number}}",
+    "emptyCellValue": "---"
+  }
+}

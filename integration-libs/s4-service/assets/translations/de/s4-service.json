@@ -1,0 +1,46 @@
+{
+  "serviceOrderCheckout": {
+    "serviceDetails": "Servicedetails",
+    "serviceScheduleHeading": "Terminierung des Service - Datum und Uhrzeit",
+    "address": "Mit Lieferadresse identisch",
+    "serviceLocationHeading": "Serviceort",
+    "datePickerLabel": "Servicedatum terminieren",
+    "timePickerLabel": "Servicezeit terminieren",
+    "unknownError": "Es ist ein unbekannter Fehler aufgetreten. Wenden Sie sich an den Support.",
+    "productDeliveryOptions": "Lieferoptionen für Produkte",
+    "serviceDeliveryOption": "Lieferoption für Services",
+    "productDeliveryMethods": "Lieferarten für Produkte",
+    "serviceDeliveryMethod": "Lieferart für Services"
+  },
+  "cancelService": {
+    "heading": "Die folgenden Positionen sind in der Stornierungsanfrage enthalten",
+    "cancelReason": "Grund für Stornierung des Service",
+    "optional": "(optional)",
+    "action": "Service stornieren",
+    "back": "Zurück",
+    "Submit": "Anfrage senden",
+    "cancelServiceSuccess": "Der Service wurde erfolgreich storniert",
+    "unknownError": "Es ist ein unbekannter Fehler aufgetreten. Wenden Sie sich an den Support.",
+    "ServiceTime": "Servicezeit",
+    "ServiceLocation": "Serviceort",
+    "ServiceDate": "Servicedatum",
+    "SubmitRequest": "Anfrage senden",
+    "serviceNotRcancelable": "Service kann nicht storniert werden.",
+    "charactersLeft": "Zeichen übrig: {{count}}",
+    "Services": "Services"
+  },
+  "rescheduleService": {
+    "actionButtonLabel": "Service umterminieren",
+    "headerLabel": "Services",
+    "contentLabel": "Umterminierung des Service - Datum und Uhrzeit",
+    "datePickerLabel": "Servicedatum",
+    "timePickerLabel": "Servicezeit",
+    "backButtonLabel": "Zurück",
+    "submitButtonLabel": "Anfrage senden",
+    "note": "Bitte beachten Sie, dass es einen Moment dauern kann, bis die Anfrage in Ihrer Bestellung widergespiegelt wird.",
+    "unknownError": "Es ist ein unbekannter Fehler aufgetreten. Wenden Sie sich an den Support.",
+    "serviceNotReschedulable": "Der Service kann nicht umterminiert werden.",
+    "serviceNotAmendable": "Der Service kann nicht mehr storniert oder umterminiert werden, wenn der Zeitraum bis zum geplanten Termin kürzer als 24 Stunden ist.",
+    "rescheduleSuccess": "Datum und Uhrzeit des Service wurden erfolgreich geändert."
+  }
+}

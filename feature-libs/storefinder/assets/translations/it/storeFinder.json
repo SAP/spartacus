@@ -1,0 +1,32 @@
+{
+  "storeFinder": {
+    "openUntil": "Aperto fino a",
+    "closed": "Chiuso",
+    "back": "Indietro",
+    "call": "Chiama",
+    "getDirections": "Ottieni indicazioni stradali",
+    "ariaLabelGetDirections": "Ottieni indicazioni stradali; questo collegamento si apre in una nuova finestra",
+    "ariaLabelCountriesCount": "Trovati punti vendita in {{ count }} paesi",
+    "listView": "Vista elenco",
+    "mapView": "Vista mappa",
+    "noStoresFound": "Nessun punto vendita trovato.",
+    "storeHours": "Orari del punto vendita",
+    "storeFeatures": "Caratteristiche del punto vendita",
+    "storeFinder": "Strumento di ricerca di punti vendita",
+    "storesFoundTitle": "Punti vendita trovati",
+    "storesFound": "{{ count }} punto vendita trovato",
+    "storesFound_other": "{{ count }} punti vendita trovati",
+    "fromStoresFound": "da {{ count }} punto vendita trovato",
+    "fromStoresFound_other": "da {{ count }} punti vendita trovati",
+    "findStore": "Trova punto vendita",
+    "useMyLocation": "Utilizza la mia posizione",
+    "viewAllStores": "Visualizza tutti i punti vendita",
+    "contactUs": "Contatti",
+    "searchBox": "CAP o città o indirizzo",
+    "backToList": "Torna alla lista",
+    "noStoresMessage": "Nessun punto vendita trovato nel database...",
+    "geolocationNotEnabled": "Impossibile individuare punti vendita vicini. Non è stato attivato il consenso alla geolocalizzazione",
+    "searchNearestStores": "Cerca i punti vendita più vicini",
+    "searchBoxLabel": "Inserisci CAP, città o indirizzo"
+  }
+}

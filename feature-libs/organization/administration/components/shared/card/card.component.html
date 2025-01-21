@@ -2,12 +2,21 @@
   [viewTitle]="i18nRoot + '.title' | cxTranslate: { item: item$ | async }"
   class="card"
   role="tabpanel"
+  [attr.aria-labelledby]="i18nRoot + '_title'"
 >
   <div class="header">
     <div class="title-bar">
       <div class="title">
         <h3>
-          {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
+          <span
+            *cxFeature="'a11yRegionAssociatedHeaders'"
+            id="{{ i18nRoot + '_title' }}"
+          >
+            {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
+          </span>
+          <ng-container *cxFeature="'!a11yRegionAssociatedHeaders'">
+            {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
+          </ng-container>
           <button
             *ngIf="showHint"
             [cxPopover]="detailHint"

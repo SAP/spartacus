@@ -4,7 +4,7 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { EpdVisualizationModule } from "@spartacus/epd-visualization";
-import { epdVisualizationTranslationChunksConfig, epdVisualizationTranslations } from "@spartacus/epd-visualization/assets";
+import { epdVisualizationTranslationChunksConfig, epdVisualizationTranslationsEn } from "@spartacus/epd-visualization/assets";
 import { EpdVisualizationConfig, EpdVisualizationRootModule } from "@spartacus/epd-visualization/root";
 
 @NgModule({
@@ -15,7 +15,7 @@ import { EpdVisualizationConfig, EpdVisualizationRootModule } from "@spartacus/e
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: epdVisualizationTranslations,
+      resources: { en: epdVisualizationTranslationsEn },
       chunks: epdVisualizationTranslationChunksConfig,
     },
   }),
@@ -40,7 +40,7 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { EpdVisualizationModule } from "@spartacus/epd-visualization";
-import { epdVisualizationTranslationChunksConfig, epdVisualizationTranslations } from "@spartacus/epd-visualization/assets";
+import { epdVisualizationTranslationChunksConfig, epdVisualizationTranslationsEn } from "@spartacus/epd-visualization/assets";
 import { EpdVisualizationConfig, EpdVisualizationRootModule } from "@spartacus/epd-visualization/root";
 
 @NgModule({
@@ -51,7 +51,7 @@ import { EpdVisualizationConfig, EpdVisualizationRootModule } from "@spartacus/e
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: epdVisualizationTranslations,
+      resources: { en: epdVisualizationTranslationsEn },
       chunks: epdVisualizationTranslationChunksConfig,
     },
   }),
@@ -75,7 +75,7 @@ export class EpdVisualizationFeatureModule { }
 exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD Visualization feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { epdVisualizationTranslationChunksConfig, epdVisualizationTranslations } from "@spartacus/epd-visualization/assets";
+import { epdVisualizationTranslationChunksConfig, epdVisualizationTranslationsEn } from "@spartacus/epd-visualization/assets";
 import { EPD_VISUALIZATION_FEATURE, EpdVisualizationConfig, EpdVisualizationRootModule } from "@spartacus/epd-visualization/root";
 
 @NgModule({
@@ -93,7 +93,7 @@ import { EPD_VISUALIZATION_FEATURE, EpdVisualizationConfig, EpdVisualizationRoot
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: epdVisualizationTranslations,
+      resources: { en: epdVisualizationTranslationsEn },
       chunks: epdVisualizationTranslationChunksConfig,
     },
   }),

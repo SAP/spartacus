@@ -4,7 +4,7 @@ exports[`Spartacus Quote schematics: ng-add Quote feature eager loading should i
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { QuoteModule } from "@spartacus/quote";
-import { quoteTranslationChunksConfig, quoteTranslations } from "@spartacus/quote/assets";
+import { quoteTranslationChunksConfig, quoteTranslationsEn } from "@spartacus/quote/assets";
 import { QuoteCartGuardComponentModule } from "@spartacus/quote/components/cart-guard";
 import { QuoteRequestButtonModule } from "@spartacus/quote/components/request-button";
 import { QuoteRootModule } from "@spartacus/quote/root";
@@ -19,7 +19,7 @@ import { QuoteRootModule } from "@spartacus/quote/root";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: quoteTranslations,
+      resources: { en: quoteTranslationsEn },
       chunks: quoteTranslationChunksConfig,
     },
   })]
@@ -30,7 +30,7 @@ export class QuoteFeatureModule { }
 
 exports[`Spartacus Quote schematics: ng-add Quote feature general setup b2b features should be added for quote library 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from "@spartacus/assets";
+import { translationChunksConfig, translationsEn } from "@spartacus/assets";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
@@ -49,7 +49,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunksConfig,
       fallbackLang: 'en'
     },
@@ -66,7 +66,7 @@ export class SpartacusConfigurationModule { }
 exports[`Spartacus Quote schematics: ng-add Quote feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { quoteTranslationChunksConfig, quoteTranslations } from "@spartacus/quote/assets";
+import { quoteTranslationChunksConfig, quoteTranslationsEn } from "@spartacus/quote/assets";
 import { QUOTE_CART_GUARD_FEATURE, QUOTE_FEATURE, QUOTE_REQUEST_FEATURE, QuoteRootModule } from "@spartacus/quote/root";
 
 @NgModule({
@@ -100,7 +100,7 @@ import { QUOTE_CART_GUARD_FEATURE, QUOTE_FEATURE, QUOTE_REQUEST_FEATURE, QuoteRo
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: quoteTranslations,
+      resources: { en: quoteTranslationsEn },
       chunks: quoteTranslationChunksConfig,
     },
   })

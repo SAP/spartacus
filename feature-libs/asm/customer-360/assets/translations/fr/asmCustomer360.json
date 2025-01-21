@@ -1,0 +1,129 @@
+{
+  "asmCustomer360": {
+    "alertErrorMessage": "Impossible de charger les informations. Veuillez réessayer ultérieurement ou contacter votre administrateur système.",
+    "errorMessageHeader": "Oups ! une erreur s'est produite",
+    "applyActionAlter": "Impossible de terminer l'action. Veuillez réessayer ultérieurement.",
+    "header": {
+      "title": "Profil client",
+      "newTitle": "Client 360°",
+      "subTitle": "Vue client à 360° {{name}}",
+      "newSubTitle": "Vue à 360° {{name}} ",
+      "activeCartLabel": "{{cartSize}} article ajouté au panier",
+      "recentOrderLabel": "Dernière commande {{price}}",
+      "recentTicketLabel": "Dernier ticket",
+      "signedUpAt": "Compte créé le {{date}}"
+    },
+    "productListing": {
+      "totalNoItems": "Nombre total d'articles {{count}}",
+      "totalPrice": "Prix total {{price}}",
+      "showMore": "Afficher plus",
+      "showLess": "Afficher moins"
+    },
+    "productItem": {
+      "outOfStock": "Épuisé",
+      "quantity": "Qté : {{count}}",
+      "itemPrice": "Prix de l'article : {{price}}"
+    },
+    "activeCart": {
+      "header": "Panier actif",
+      "emptyDescription": "Il n'y a actuellement aucun article dans le panier actif.",
+      "aria": {
+        "linkLabel": "Panier actif {{code}}"
+      }
+    },
+    "savedCart": {
+      "header": "Dernier panier enregistré",
+      "emptyDescription": "Il n'y a actuellement aucun article dans le panier enregistré.",
+      "aria": {
+        "linkLabel": "Dernier panier enregistré {{code}}"
+      }
+    },
+    "productInterests": {
+      "header": "Intérêts",
+      "emptyDescription": "Il n'y a actuellement aucun élément d'intérêt."
+    },
+    "profile": {
+      "address": "Adresse",
+      "billingAddress": "Adresse de facturation",
+      "deliveryAddress": "Adresse de livraison",
+      "phone1": "Téléphone 1",
+      "phone2": "Téléphone 2",
+      "paymentMethodHeader": "Modes de paiement enregistrés"
+    },
+    "activity": {
+      "type": "Type",
+      "id": "ID",
+      "description": "Description",
+      "status": "Statut",
+      "created": "Créé",
+      "updated": "Mis à jour",
+      "numberOfCartItems": "Panier avec {{count}} articles",
+      "cart": "Panier",
+      "order": "Commande",
+      "savedCart": "Panier enregistré",
+      "emptyStateText": "Il n'y a actuellement aucune activité client enregistrée.",
+      "headerText": "Général"
+    },
+    "productReviews": {
+      "columnHeaders": {
+        "item": "Article",
+        "dateAndStatus": "Date / Statut",
+        "rating": "Notation",
+        "review": "Évaluation"
+      },
+      "header": "Évaluations de produits",
+      "emptyDescription": "Il n'y a actuellement aucun élément d'évaluation de produit.",
+      "sku": "UGS"
+    },
+    "supportTickets": {
+      "columnHeaders": {
+        "id": "ID",
+        "headline": "Titre",
+        "category": "Catégorie"
+      },
+      "header": "Tickets de support",
+      "emptyDescription": "Il n'y a actuellement aucun ticket de support."
+    },
+    "coupons": {
+      "headerText": "Bons de réduction",
+      "emptyDescription": "Il n'y a actuellement aucun bon de réduction.",
+      "applyButtonText": "Appliquer au panier",
+      "applied": "Bon de réduction appliqué",
+      "removeButtonText": "Supprimer"
+    },
+    "promotions": {
+      "headerText": "Promotions",
+      "emptyDescription": "Il n'y a actuellement aucune promotion.",
+      "applied": "Promotion appliquée",
+      "headerName": "Nom",
+      "headerAction": "Action"
+    },
+    "customerCoupons": {
+      "headerText": "Bons de réduction client",
+      "emptyDescription": "Il n’y a actuellement aucun bon de réduction client.",
+      "applyButtonText": "Affecter au client",
+      "removeButtonText": "Supprimer",
+      "availableTab": "Disponible",
+      "sentTab": "Envoyé",
+      "searchBox": "Bon de réduction"
+    },
+    "maps": {
+      "storeClosed": "Fermer",
+      "storesFound": "{{ initial }} - {{ end }} de {{ total }} points de vente trouvés"
+    },
+    "overviewTab": "Synthèse",
+    "profileTab": "Profil",
+    "activityTab": "Activité",
+    "feedbackTab": "Feedback",
+    "promotionsTab": "Promotions",
+    "mapsTab": "Cartes",
+    "storeLocationsTab": "Lieux des points de vente",
+    "aria": {
+      "activeCartCode": "Panier actif {{code}}",
+      "recentOrderCode": "Dernière commande {{code}}"
+    },
+    "pagination": "Pagination",
+    "page": "Page {{number}}",
+    "emptyCellValue": "---"
+  }
+}

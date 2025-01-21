@@ -1,0 +1,32 @@
+{
+  "storeFinder": {
+    "openUntil": "Offen bis",
+    "closed": "Geschlossen",
+    "back": "Zurück",
+    "call": "Anrufen",
+    "getDirections": "Wegbeschreibung abrufen",
+    "ariaLabelGetDirections": "Wegbeschreibung abrufen, dieser Link öffnet sich in einem neuen Fenster",
+    "ariaLabelCountriesCount": "Filialen in {{ count }} Ländern gefunden",
+    "listView": "Listenansicht",
+    "mapView": "Kartenansicht",
+    "noStoresFound": "Keine Filialen gefunden",
+    "storeHours": "Öffnungszeiten",
+    "storeFeatures": "Filialmerkmale",
+    "storeFinder": "Filialsuche",
+    "storesFoundTitle": "Filialen gefunden",
+    "storesFound": "{{ count }} Filiale gefunden",
+    "storesFound_other": "{{ count }} Filialen gefunden",
+    "fromStoresFound": "von {{ count }} Filiale gefunden",
+    "fromStoresFound_other": "von {{ count }} Filialen gefunden",
+    "findStore": "Filiale suchen",
+    "useMyLocation": "Meinen Standort verwenden",
+    "viewAllStores": "Alle Filialen anzeigen",
+    "contactUs": "Kontakt",
+    "searchBox": "Postleitzahl oder Stadt oder Adresse eingeben",
+    "backToList": "Zurück zur Liste",
+    "noStoresMessage": "Keine Filialen in Datenbank gefunden...",
+    "geolocationNotEnabled": "Filialen in der Nähe konnten nicht gesucht werden. Geolokationseinwilligung wurde nicht aktiviert",
+    "searchNearestStores": "Filialen in der Nähe suchen",
+    "searchBoxLabel": "Postleitzahl oder Stadt oder Adresse eingeben"
+  }
+}

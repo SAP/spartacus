@@ -1,0 +1,254 @@
+{
+  "common": {
+    "cancel": "取消",
+    "delete": "删除",
+    "remove": "移除",
+    "edit": "编辑",
+    "restore": "还原",
+    "back": "返回",
+    "submit": "提交",
+    "continue": "继续",
+    "save": "保存",
+    "done": "完成",
+    "home": "主页",
+    "noData": "无数据。",
+    "confirm": "确认",
+    "more": "更多",
+    "close": "关闭",
+    "loading": "正在加载",
+    "menu": "菜单",
+    "reset": "重置",
+    "search": "搜索",
+    "add": "添加",
+    "breadcrumbs": "面包屑导航",
+    "selectFile": "选择文件",
+    "clear": "清除",
+    "loaded": "已加载",
+    "results": "结果",
+    "of": "/",
+    "required": "必需",
+    "zoomIn": "放大",
+    "zoomOut": "缩小",
+    "selected": "已选择",
+    "expand": "展开",
+    "collapse": "折叠"
+  },
+  "pageMetaResolver": {
+    "category": {
+      "title": "{{query}} 的结果为 {{count}} 个",
+      "title_other": "{{query}} 的结果为 {{count}} 个"
+    },
+    "checkout": {
+      "title": "结账"
+    },
+    "search": {
+      "title": "\"{{query}}\" 的结果为 {{count}} 个",
+      "title_other": "\"{{query}}\" 的结果为 {{count}} 个",
+      "findProductTitle": "优惠卷 \"{{coupon}}\" 的结果为 {{count}} 个",
+      "findProductTitle_other": "优惠卷 \"{{coupon}}\" 的结果为 {{count}} 个",
+      "default_title": "所有产品"
+    },
+    "product": {
+      "description": "{{description}}",
+      "heading": "{{heading}}",
+      "title": "{{title}}"
+    }
+  },
+  "spinner": {
+    "loading": "正在加载..."
+  },
+  "navigation": {
+    "categoryNavLabel": "类别菜单",
+    "footerNavLabel": "页脚链接",
+    "goTo": "转到 {{location}}",
+    "navigateTo": "导航到 {{nav}}",
+    "scrollToTop": "滚动回页面顶部",
+    "linkItemInList": "{{title}}。{{position}}/{{listLength}}"
+  },
+  "searchBox": {
+    "placeholder": "输入产品名称或 SKU",
+    "productSearch": "查找产品",
+    "ariaLabelInput": "在此搜索...",
+    "ariaLabelSuggestions": "输入建议",
+    "ariaLabelProducts": "产品结果",
+    "initialDescription": "如果自动完成结果可用，请使用向上和向下箭头进行审阅，并按回车键进行选择。触摸设备用户，通过触摸或滑动手势进行浏览。",
+    "suggestions": "建议关键字",
+    "suggestionsResult": "{{ count }} 个建议和 ",
+    "suggestionsResult_other": "{{ count }} 个建议和 ",
+    "products": "推荐产品",
+    "productsResult": "{{ count }} 个产品可用。",
+    "productsResult_other": "{{ count }} 个产品可用。",
+    "resetLabel": "重置搜索",
+    "help": {
+      "insufficientChars": "请键入更多字符",
+      "noMatch": "我们找不到任何结果",
+      "exactMatch": "{{ term }}",
+      "empty": "询问我们"
+    },
+    "closeSearchPanel": "关闭"
+  },
+  "sorting": {
+    "date": "日期",
+    "orderNumber": "订单编号",
+    "rma": "退货编号",
+    "replenishmentNumber": "补货单号",
+    "nextOrderDate": "下一个订单日期",
+    "pageViewUpdated": "页面视图已通过所选选项更新。"
+  },
+  "httpHandlers": {
+    "badRequest": {
+      "bad_credentials": "{{ errorMessage }}。请重新登录。",
+      "user_is_disabled": "{{ errorMessage }}。请联系管理。"
+    },
+    "badGateway": "出现服务器错误。请稍后重试。",
+    "badRequestPleaseLoginAgain": "{{ errorMessage }}。请重新登录。",
+    "badRequestOldPasswordIncorrect": "旧密码不正确。",
+    "badRequestGuestDuplicateEmail": "{{ errorMessage }} 电子邮件已存在。请使用其他电子邮件结账，以使用访客帐户进行注册。",
+    "conflict": "已存在。",
+    "forbidden": "您无权执行此操作。如果您认为这是一个错误，请联系您的管理员。",
+    "gatewayTimeout": "服务器未响应，请稍后重试。",
+    "internalServerError": "出现内部服务器错误。请稍后重试。",
+    "sessionExpired": "您的会话已过期。请重新登录。",
+    "unknownError": "出现未知错误",
+    "unauthorized": {
+      "common": "出现未知授权错误",
+      "invalid_client": "客户端凭据错误"
+    },
+    "validationErrors": {
+      "missing": {
+        "card_cardType": "所选信用卡不受支持。请选择其他信用卡。",
+        "card_accountNumber": "输入的信用卡号无效。",
+        "card_cvNumber": "输入的安全码无效。",
+        "card_expirationMonth": "输入的信用卡失效日期无效。",
+        "card_expirationYear": "输入的信用卡失效日期无效。",
+        "billTo_firstName": "输入的名字无效。",
+        "billTo_lastName": "输入的姓氏无效。",
+        "billTo_street1": "输入的地址无效。",
+        "billTo_street2": "输入的地址无效。",
+        "billTo_city": "输入的城市对此信用卡无效。",
+        "billTo_state": "输入的州/省对此信用卡无效。",
+        "billTo_country": "输入的国家/地区对此信用卡无效。",
+        "billTo_postalCode": "邮政编码对此信用卡无效。",
+        "country": {
+          "isocode": "缺少国家/地区"
+        }
+      },
+      "invalid": {
+        "card_expirationMonth": "输入的信用卡失效日期无效。",
+        "firstName": "输入的名字无效。",
+        "lastName": "输入的姓氏无效。",
+        "password": "输入的密码无效。",
+        "uid": "UID 无效。",
+        "code": "代码无效。",
+        "email": "电子邮件无效。",
+        "loginId": "电子邮件无效。"
+      }
+    },
+    "cartNotFound": "找不到购物车。",
+    "invalidCodeProvided": "提供的代码无效。",
+    "voucherExceeded": "此优惠卷已超出可使用的次数",
+    "unknownIdentifier": "找不到商品。",
+    "otherCartErrors": "出现购物车错误。"
+  },
+  "miniCart": {
+    "item": "购物车中当前已有 {{count}} 个商品",
+    "item_other": "购物车中当前已有 {{count}} 个商品",
+    "total": "{{total}}",
+    "count": "{{count}}"
+  },
+  "skipLink": {
+    "skipTo": "跳转至",
+    "labels": {
+      "header": "抬头",
+      "main": "主要内容",
+      "footer": "页脚",
+      "productFacets": "产品构面",
+      "productList": "产品列表"
+    }
+  },
+  "carousel": {
+    "previousSlide": "上一张幻灯片",
+    "nextSlide": "下一张幻灯片",
+    "slideNumber": "幻灯片 {{currentSlideNumber}} 包含 {{numberOfSlides}} 个商品",
+    "carouselForProduct": "轮播控件，{{product}} 的图像"
+  },
+  "formErrors": {
+    "labeled": {
+      "required": "字段 {{label}} 为必填字段",
+      "cxInvalidEmail": "字段 {{label}} 没有有效的电子邮件格式。匹配模式：example@yourdomain.com",
+      "cxInvalidPassword": "字段 {{label}} 没有有效的密码格式",
+      "cxMinOneUpperCaseCharacter": "密码必须至少包含一个大写字符",
+      "cxMinOneDigit": "密码必须至少包含一个数字",
+      "cxMinOneSpecialCharacter": "密码必须至少包含一个特殊字符",
+      "cxMinSixCharactersLength": "密码必须至少包含 6 个字符",
+      "cxMinEightCharactersLength": "密码必须至少包含 8 个字符",
+      "cxMaxCharactersLength": "密码长度不能超过 128 个字符",
+      "cxContainsSpecialCharacters": "密码不能包含特殊字符",
+      "cxNoConsecutiveCharacters": "密码不能包含连续的相同字符",
+      "date": {
+        "required": "字段 {{label}} 为必填字段",
+        "min": "字段 {{label}} 不能早于 {{min}}",
+        "max": "字段 {{label}} 不能晚于 {{max}}",
+        "pattern": "在字段 {{label}} 中使用日期格式 yyyy-mm-dd",
+        "invalid": "在字段 {{label}} 中使用有效日期"
+      }
+    },
+    "globalMessage": "您尝试提交的表单包含错误。",
+    "required": "此字段为必填字段",
+    "cxInvalidEmail": "电子邮件格式无效",
+    "cxInvalidPassword": "密码格式无效",
+    "cxPasswordsMustMatch": "密码字段必须匹配",
+    "cxPasswordsCannotMatch": "密码字段无法匹配",
+    "cxEmailsMustMatch": "电子邮件字段必须匹配",
+    "cxStarRatingEmpty": "评级字段为必填字段",
+    "cxNoSelectedItemToCancel": "至少选择一个商品",
+    "cxNegativeAmount": "金额必须等于或大于零",
+    "cxContainsSpecialCharacters": "字段不能包含特殊字符",
+    "date": {
+      "required": "此字段为必填字段",
+      "min": "日期不能早于 {{min}}",
+      "max": "日期不能晚于 {{max}}",
+      "pattern": "使用日期格式 yyyy-mm-dd",
+      "invalid": "使用有效日期"
+    },
+    "file": {
+      "required": "必须提供文件",
+      "empty": "文件不应为空",
+      "invalidExtension": "文件扩展名无效",
+      "tooLarge": "文件大小不应超过 {{ maxSize }} MB",
+      "tooManyEntries": "商品数大于 {{ maxEntries }}",
+      "notParsable": "文件不可解析",
+      "fileNotAllowed": "不允许此文件类型"
+    }
+  },
+  "errorHandlers": {
+    "scriptFailedToLoad": "无法加载脚本。",
+    "refreshThePage": "请刷新页面。"
+  },
+  "assistiveMessage": {
+    "actionCancelled": "操作已取消，未发生任何更改"
+  },
+  "passwordVisibility": {
+    "showPassword": "显示密码",
+    "hidePassword": "隐藏密码"
+  },
+  "generalErrors": {
+    "pageFailure": "页面无法加载。请稍后重试。"
+  },
+  "formLegend": {
+    "required": "以下标有 \"*\" 的字段是必填字段。"
+  },
+  "chatMessaging": {
+    "charactersLeft": "剩余字符：{{count}}",
+    "addNewMessage": "添加新消息",
+    "send": "发送",
+    "uploadFile": "上载文件",
+    "informationLabel": "{{author}}。{{text}}，{{date}}",
+    "messages": "消息",
+    "addMessagePlaceHolder": "开始键入...",
+    "characterLimitAlert": "已达到字符限制。",
+    "a11y": {
+      "itemListBoxLabel": "选择消息可以应用到的商品。"
+    }
+  }
+}

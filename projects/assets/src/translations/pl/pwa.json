@@ -1,0 +1,9 @@
+{
+  "pwa": {
+    "addToHomeScreenDescription": "Dodaj witrynę sklepu SAP do ekranu głównego swojego urządzenia, aby szybciej wracać do sklepu",
+    "noInstallationNeeded": "Bez potrzeby instalacji",
+    "fastAccessToApplication": "Szybki dostęp do aplikacji",
+    "addToHomeScreen": "Dodaj do ekranu głównego",
+    "addedToHomeScreen": "Dodano SAP Storefront do ekranu głównego"
+  }
+}

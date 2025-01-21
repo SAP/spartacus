@@ -6,7 +6,7 @@
 
 import * as alerts from '../../../../helpers/global-message';
 import * as cdc from '../../../../helpers/vendor/cdc/cdc';
-const requiredFieldMessage = 'This field is required';
+const requiredFieldMessage = 'Field is required';
 const message = 'New address was added successfully!';
 
 describe('CDC', () => {
@@ -245,9 +245,9 @@ describe('CDC', () => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
-    it('should NOT send email to invalid email address in CDC screenset (CXINT-23)', () => {
+    it('should send email to invalid email address in CDC screenset (CXINT-23)', () => {
       cdc.forgotPassword('invalid_email@sapcx.com');
-      cdc.verifyForgotPasswordError();
+      cdc.verifyForgotPasswordSuccess();
     });
 
     it('should send email to invalid email address in CDC screenset (CXINT-23)', () => {
@@ -261,9 +261,9 @@ describe('CDC', () => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
-    it('should NOT send email to invalid email address in CDC (CXINT-23)', () => {
+    it('should send email to invalid email address in CDC (CXINT-23)', () => {
       cdc.forgotPasswordWithoutScreenset('invalid_email@sapcx.com');
-      cdc.verifyForgotPasswordWithoutScreensetError();
+      cdc.verifyForgotPasswordWithoutScreensetSuccess();
     });
 
     it('should send email to valid email address in CDC (CXINT-23)', () => {

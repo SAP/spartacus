@@ -4,7 +4,7 @@ exports[`Spartacus Storefinder schematics: ng-add Storefinder feature eager load
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { StoreFinderModule } from "@spartacus/storefinder";
-import { storeFinderTranslationChunksConfig, storeFinderTranslations } from "@spartacus/storefinder/assets";
+import { storeFinderTranslationChunksConfig, storeFinderTranslationsEn } from "@spartacus/storefinder/assets";
 import { StoreFinderRootModule } from "@spartacus/storefinder/root";
 
 @NgModule({
@@ -15,7 +15,7 @@ import { StoreFinderRootModule } from "@spartacus/storefinder/root";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: storeFinderTranslations,
+      resources: { en: storeFinderTranslationsEn },
       chunks: storeFinderTranslationChunksConfig,
     },
   })]
@@ -27,7 +27,7 @@ export class StoreFinderFeatureModule { }
 exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { storeFinderTranslationChunksConfig, storeFinderTranslations } from "@spartacus/storefinder/assets";
+import { storeFinderTranslationChunksConfig, storeFinderTranslationsEn } from "@spartacus/storefinder/assets";
 import { STORE_FINDER_FEATURE, StoreFinderRootModule } from "@spartacus/storefinder/root";
 
 @NgModule({
@@ -45,7 +45,7 @@ import { STORE_FINDER_FEATURE, StoreFinderRootModule } from "@spartacus/storefin
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: storeFinderTranslations,
+      resources: { en: storeFinderTranslationsEn },
       chunks: storeFinderTranslationChunksConfig,
     },
   })

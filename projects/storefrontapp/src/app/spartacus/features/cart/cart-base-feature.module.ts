@@ -7,7 +7,10 @@
 import { NgModule } from '@angular/core';
 import {
   cartBaseTranslationChunksConfig,
-  cartBaseTranslations,
+  cartBaseTranslationsEn,
+  cartBaseTranslationsJa,
+  cartBaseTranslationsDe,
+  cartBaseTranslationsZh,
 } from '@spartacus/cart/base/assets';
 import {
   ADD_TO_CART_FEATURE,
@@ -52,7 +55,12 @@ import { provideConfig } from '@spartacus/core';
     }),
     provideConfig({
       i18n: {
-        resources: cartBaseTranslations,
+        resources: {
+          en: cartBaseTranslationsEn,
+          ja: cartBaseTranslationsJa,
+          de: cartBaseTranslationsDe,
+          zh: cartBaseTranslationsZh,
+        },
         chunks: cartBaseTranslationChunksConfig,
         fallbackLang: 'en',
       },

@@ -1,0 +1,14 @@
+{
+  "checkoutScheduledReplenishment": {
+    "autoReplenishOrder": "Automatyczne zlecenie uzupełnienia",
+    "orderType_PLACE_ORDER": "Brak (tylko zlecenie jednorazowe)",
+    "orderType_SCHEDULE_REPLENISHMENT_ORDER": "Zlecenie uzupełniania",
+    "every": "Co",
+    "recurrencePeriodType_DAILY": "Dni",
+    "recurrencePeriodType_WEEKLY": "Tygodnie",
+    "recurrencePeriodType_MONTHLY": "Miesiąc",
+    "dayOfMonth": "Dnia",
+    "startOn": "Data rozpoczęcia",
+    "repeatOnDays": "Powtarzaj w następne dni"
+  }
+}

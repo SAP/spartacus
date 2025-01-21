@@ -4,7 +4,7 @@ exports[`Spartacus Customer Ticketing schematics: ng-add Customer Ticketing feat
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { CustomerTicketingModule } from "@spartacus/customer-ticketing";
-import { customerTicketingTranslationChunksConfig, customerTicketingTranslations } from "@spartacus/customer-ticketing/assets";
+import { customerTicketingTranslationChunksConfig, customerTicketingTranslationsEn } from "@spartacus/customer-ticketing/assets";
 import { CustomerTicketingRootModule } from "@spartacus/customer-ticketing/root";
 
 @NgModule({
@@ -15,7 +15,7 @@ import { CustomerTicketingRootModule } from "@spartacus/customer-ticketing/root"
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: customerTicketingTranslations,
+      resources: { en: customerTicketingTranslationsEn },
       chunks: customerTicketingTranslationChunksConfig,
     },
   })]
@@ -27,7 +27,7 @@ export class CustomerTicketingFeatureModule { }
 exports[`Spartacus Customer Ticketing schematics: ng-add Customer Ticketing feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { customerTicketingTranslationChunksConfig, customerTicketingTranslations } from "@spartacus/customer-ticketing/assets";
+import { customerTicketingTranslationChunksConfig, customerTicketingTranslationsEn } from "@spartacus/customer-ticketing/assets";
 import { CUSTOMER_TICKETING_FEATURE, CustomerTicketingRootModule } from "@spartacus/customer-ticketing/root";
 
 @NgModule({
@@ -45,7 +45,7 @@ import { CUSTOMER_TICKETING_FEATURE, CustomerTicketingRootModule } from "@sparta
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: customerTicketingTranslations,
+      resources: { en: customerTicketingTranslationsEn },
       chunks: customerTicketingTranslationChunksConfig,
     },
   })

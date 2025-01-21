@@ -3,7 +3,7 @@
 exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, provideConfig } from "@spartacus/core";
-import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyConfig, OpfQuickBuyRootModule } from "@spartacus/opf/quick-buy/root";
+import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyRootModule } from "@spartacus/opf/quick-buy/root";
 
 @NgModule({
   declarations: [],
@@ -17,16 +17,7 @@ import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyConfig, OpfQuickBuyRootModule } from 
           import('@spartacus/opf/quick-buy').then((m) => m.OpfQuickBuyModule),
       },
     }
-  }),
-  provideConfig(<OpfQuickBuyConfig>{
-    providers:
-    {
-      googlePay: {
-        resourceUrl: "PLACEHOLDER_GOOGLE_PAY_API_URL"
-      }
-    }
-  })
-  ]
+  })]
 })
 export class OpfFeatureModule { }
 "
@@ -35,7 +26,7 @@ export class OpfFeatureModule { }
 exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup should add the feature using the lazy loading syntax 2`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, provideConfig } from "@spartacus/core";
-import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyConfig, OpfQuickBuyRootModule } from "@spartacus/opf/quick-buy/root";
+import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyRootModule } from "@spartacus/opf/quick-buy/root";
 
 @NgModule({
   declarations: [],
@@ -49,16 +40,7 @@ import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyConfig, OpfQuickBuyRootModule } from 
           import('@spartacus/opf/quick-buy').then((m) => m.OpfQuickBuyModule),
       },
     }
-  }),
-  provideConfig(<OpfQuickBuyConfig>{
-    providers:
-    {
-      googlePay: {
-        resourceUrl: "PLACEHOLDER_GOOGLE_PAY_API_URL"
-      }
-    }
-  })
-  ]
+  })]
 })
 export class OpfFeatureModule { }
 "

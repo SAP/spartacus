@@ -145,6 +145,6 @@ describe('RecentSearchesComponent', () => {
 
     expect(() => {
       component.shareEvent(ev);
-    }).toThrowError();
+    }).toThrow();
   });
 });

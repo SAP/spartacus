@@ -4,7 +4,7 @@ exports[`Lib utils addLibraryFeature custom config option should add the custom 
 "import { NgModule } from '@angular/core';
 import { CdsConfig } from "@spartacus/cds";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { translationChunk, translations } from "@spartacus/xxx/assets";
+import { translationChunk, translationsEn } from "@spartacus/xxx/assets";
 import { XxxModuleRoot } from "@spartacus/xxx/root";
 
 @NgModule({
@@ -22,7 +22,7 @@ import { XxxModuleRoot } from "@spartacus/xxx/root";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunk,
     },
   }),
@@ -69,7 +69,7 @@ export class XxxFeatureModule { }
 exports[`Lib utils addLibraryFeature should add i18n config in feature module 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { translationChunk, translations } from "@spartacus/xxx/assets";
+import { translationChunk, translationsEn } from "@spartacus/xxx/assets";
 import { XxxModuleRoot } from "@spartacus/xxx/root";
 
 @NgModule({
@@ -87,7 +87,7 @@ import { XxxModuleRoot } from "@spartacus/xxx/root";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunk,
     },
   })
@@ -100,7 +100,7 @@ export class XxxFeatureModule { }
 exports[`Lib utils addLibraryFeature when the lazy loading is configured should add it in the lazy loading way 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { translationChunk, translations } from "@spartacus/xxx/assets";
+import { translationChunk, translationsEn } from "@spartacus/xxx/assets";
 import { XxxModuleRoot } from "@spartacus/xxx/root";
 
 @NgModule({
@@ -118,7 +118,7 @@ import { XxxModuleRoot } from "@spartacus/xxx/root";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunk,
     },
   })
@@ -388,7 +388,7 @@ exports[`Lib utils when the eager loading is configured should add it in the eag
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { XxxModule } from "@spartacus/xxx";
-import { translationChunk, translations } from "@spartacus/xxx/assets";
+import { translationChunk, translationsEn } from "@spartacus/xxx/assets";
 import { XxxModuleRoot } from "@spartacus/xxx/root";
 
 @NgModule({
@@ -399,7 +399,7 @@ import { XxxModuleRoot } from "@spartacus/xxx/root";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunk,
     },
   })]

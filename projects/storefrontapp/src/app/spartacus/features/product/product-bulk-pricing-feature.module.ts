@@ -8,7 +8,10 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   bulkPricingTranslationChunksConfig,
-  bulkPricingTranslations,
+  bulkPricingTranslationsEn,
+  bulkPricingTranslationsJa,
+  bulkPricingTranslationsDe,
+  bulkPricingTranslationsZh,
 } from '@spartacus/product/bulk-pricing/assets';
 import {
   BulkPricingRootModule,
@@ -30,7 +33,12 @@ import {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: bulkPricingTranslations,
+        resources: {
+          en: bulkPricingTranslationsEn,
+          ja: bulkPricingTranslationsJa,
+          de: bulkPricingTranslationsDe,
+          zh: bulkPricingTranslationsZh,
+        },
         chunks: bulkPricingTranslationChunksConfig,
       },
     }),

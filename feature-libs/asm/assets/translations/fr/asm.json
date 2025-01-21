@@ -1,0 +1,176 @@
+{
+  "asm": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "Mode de service assisté",
+    "logout": "Se déconnecter",
+    "hideUi": "Fermer le mode de service assisté",
+    "helpPortalUrl": "Aide",
+    "customers": "Clients",
+    "asmCustomer360Button": "Vue client à 360°",
+    "asmCustomer360ViewButton": "Client 360°",
+    "createCustomerSuccessfullyAlert": "Le compte client a été créé et la session client a démarré.",
+    "saveInactiveCartAlertInfo": "Le panier identifié est inactif. Pour effectuer d'autres actions sur ce panier, commencez par le sauvegarder.",
+    "activeCartAlertInfo": "Le panier identifié est inactif.",
+    "startCustomerEmulationAlertInfo": "L'émulation du client a démarré. Toutes les actions que vous entreprendrez se répercuteront sur le compte client.",
+    "toggleUi": {
+      "collapse": "Masquer le mode de service assisté",
+      "expand": "Afficher le mode de service assisté"
+    },
+    "loginForm": {
+      "submit": "Se connecter",
+      "userId": {
+        "label": "ID ou e-mail de l'agent"
+      },
+      "password": {
+        "label": "Mot de passe"
+      }
+    },
+    "customerSearch": {
+      "searchTerm": {
+        "label": "Nom/adresse e-mail du client"
+      },
+      "searchCustomer": {
+        "label": "Rechercher par nom ou par adresse e-mail"
+      },
+      "searchOrder": {
+        "label": "Rechercher par ID complet de commande"
+      },
+      "submit": "Démarrer la session",
+      "startEmulation": "Démarrer l'émulation",
+      "noMatch": "Aucun client trouvé",
+      "noMatchResult": "Ce compte est introuvable.",
+      "noCustomerMatchResult": "Aucun client correspondant trouvé",
+      "noOrderMatchResult": "Rechercher par ID complet de commande",
+      "createCustomer": "Créer un nouveau client",
+      "customer": "Client",
+      "orderID": "ID de commande"
+    },
+    "createCustomerForm": {
+      "title": "Créer un nouveau client",
+      "createAccount": "Créer",
+      "cancel": "Annuler",
+      "firstName": {
+        "label": "Prénom",
+        "placeholder": "Prénom"
+      },
+      "lastName": {
+        "label": "Nom de famille",
+        "placeholder": "Nom de famille"
+      },
+      "emailAddress": {
+        "label": "Adresse e-mail",
+        "placeholder": "Adresse e-mail"
+      },
+      "createAccountAlert": "La session client démarre lorsque vous créez le compte client.",
+      "validationErrors": {
+        "firstName": "Saisissez un prénom valide.",
+        "lastName": "Saisissez un nom de famille valide.",
+        "emailAddress": "Saisissez une adresse e-mail valide."
+      },
+      "badRequestDuplicatedEmail": "Saisissez une autre adresse e-mail car {{ emailAddress }} existe déjà."
+    },
+    "customerList": {
+      "title": "Liste de clients",
+      "description": "Sélectionnez un client parmi l'une des listes fournies.",
+      "createCustomer": "Créer un nouveau client",
+      "cancel": "Annuler",
+      "tableHeader": {
+        "customer": "Client",
+        "customerName": "Nom du client",
+        "name": "Nom",
+        "email": "E-mail",
+        "emailId": "E-mail/ID",
+        "phone": "Téléphone",
+        "account": "Compte",
+        "cart": "Panier",
+        "order": "Commande",
+        "view": "Vue 360°",
+        "activeCart": "Panier actif",
+        "viewActiveCart": "Afficher le panier actif",
+        "orders": "Commandes",
+        "viewOrders": "Afficher les commandes",
+        "customer360": "Client 360°",
+        "viewCustomer360": "Vue client à 360°"
+      },
+      "tableSort": {
+        "sortBy": "Trier par",
+        "byName": "Nom (croissant)",
+        "byNameAsc": "Nom (croissant)",
+        "byNameDesc": "Nom (décroissant)",
+        "byDateAsc": "Date (croissant)",
+        "byDateDesc": "Date (décroissant)",
+        "byOrderDateAsc": "Date de commande (croissant)",
+        "byOrderDateDesc": "Date de commande (décroissant)",
+        "byUnit": "Compte (croissant)",
+        "byUnitDesc": "Compte (décroissant)"
+      },
+      "page": {
+        "page": "Page {{count}}",
+        "previous": "Précédent",
+        "next": "Suivant"
+      },
+      "noOfCustomers": "{{count}} clients",
+      "oneCustomer": "1 client",
+      "noCustomers": "Aucun client ne figure actuellement dans cette liste de clients.",
+      "noLists": "Aucune liste de clients n'est disponible actuellement. Contactez votre administrateur système.",
+      "listsError": "Impossible de récupérer les listes de clients. Veuillez réessayer ultérieurement.",
+      "searchBox": "Rechercher",
+      "enterSearchBox": "Saisissez le nom ou l'e-mail du client."
+    },
+    "switchCustomer": {
+      "dialog": {
+        "title": "Avertissement",
+        "body": "Si vous cliquez sur \"Changer de client\", l'émulation se termine pour \"{{ customerA }}\" et commence pour \"{{ customerB }}\". Toutes les modifications non sauvegardées pour \"{{ customerA }}\" seront perdues.",
+        "actions": {
+          "switch": "Changer de client"
+        }
+      }
+    },
+    "saveCart": {
+      "saveCartBtn": "Sauvegarder pour plus tard",
+      "dialog": {
+        "saveInfo": "Sauvegarder le panier avant d'effectuer d'autres actions.",
+        "disableInfo": "Impossible de sauvegarder le panier car il est vide.",
+        "title": "Sauvegarder le panier",
+        "row": {
+          "id": "ID",
+          "qty": "Qté",
+          "qtyFull": "Quantité",
+          "total": "Total"
+        },
+        "actions": {
+          "save": "Sauvegarder pour plus tard"
+        }
+      }
+    },
+    "bindCart": {
+      "cartNumber": "Numéro du panier",
+      "bindCartToCustomer": "Affecter le panier au client",
+      "success": "Le panier a été affecté avec succès.",
+      "assignCartId": "Affecter un ID de panier à un client",
+      "enterCartId": "Saisissez l'ID du panier.",
+      "resetCartId": "Réinitialiser",
+      "dialog": {
+        "title": "Affecter un panier anonyme",
+        "body": "Voulez-vous remplacer le panier actif actuel par le panier anonyme ? Si vous remplacez le panier actif actuel, il est sauvegardé en tant que panier sauvegardé.",
+        "actions": {
+          "replace": "Remplacer le panier"
+        }
+      }
+    },
+    "csagentTokenExpired": "Votre session d'agent de support client a expiré.",
+    "endSession": "Terminer la session",
+    "endEmulation": "Terminer l'émulation",
+    "agentSessionTimer": {
+      "label": "Expiration de la session",
+      "minutes": "min",
+      "reset": "Réinitialiser"
+    },
+    "auth": {
+      "agentLoggedInError": "Impossible de se connecter en tant qu'utilisateur lorsqu'une session de l'agent de support client est active. Veuillez soit émuler l'utilisateur, soit déconnecter l'agent de support client."
+    },
+    "error": {
+      "noCustomerId": "Aucun ID client trouvé pour l'utilisateur sélectionné. Impossible de démarrer la session."
+    }
+  }
+}

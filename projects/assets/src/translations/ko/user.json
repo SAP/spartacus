@@ -1,0 +1,32 @@
+{
+  "anonymousConsents": {
+    "dialog": {
+      "title": "동의 관리",
+      "legalDescription": "쿠키/브라우저 저장소를 사용하여 내용을 개인에 맞게 설정하고 사용자 경험을 향상시킵니다. 소셜 미디어로 사이트 사용에 대한 데이터를 공유할 수도 있습니다. 자세한 내용은 개인정보 보호 정책을 확인하십시오.",
+      "selectAll": "모두 선택",
+      "clearAll": "모두 지우기"
+    },
+    "banner": {
+      "title": "이 웹사이트에서는 쿠키를 사용함",
+      "description": "쿠키/브라우저 저장소를 사용하여 내용을 개인에 맞게 설정하고 사용자 경험을 향상시킵니다.",
+      "allowAll": "모두 허용",
+      "viewDetails": "세부사항 보기"
+    }
+  },
+  "checkoutLogin": {
+    "emailAddress": {
+      "label": "이메일 주소",
+      "placeholder": "이메일 입력"
+    },
+    "confirmEmail": {
+      "label": "이메일 확인",
+      "placeholder": "이메일 확인"
+    },
+    "continue": "계속",
+    "emailIsRequired": "잘못된 이메일 형식입니다.",
+    "emailsMustMatch": "이메일이 일치하지 않습니다."
+  },
+  "authMessages": {
+    "signedOutSuccessfully": "로그아웃했습니다."
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "storeFinder": {
+    "openUntil": "Otevřeno do",
+    "closed": "Zavřeno",
+    "back": "Zpět",
+    "call": "Volat",
+    "getDirections": "Získat popis cesty",
+    "ariaLabelGetDirections": "Získat popis cesty – tento odkaz otevře nové okno",
+    "ariaLabelCountriesCount": "Počet zemí s nalezenými prodejnami: {{ count }}",
+    "listView": "Zobrazení seznamu",
+    "mapView": "Mapové zobrazení",
+    "noStoresFound": "Nebyly nalezeny žádné prodejny.",
+    "storeHours": "Otevírací doba prodejny",
+    "storeFeatures": "Vlastnosti prodejny",
+    "storeFinder": "Vyhledávač prodejen",
+    "storesFoundTitle": "Nalezené prodejny",
+    "storesFound": "{{ count }} nalezená prodejna",
+    "storesFound_other": "Počet nalezených prodejen: {{ count }}",
+    "fromStoresFound": "z {{ count }} nalezené prodejny",
+    "fromStoresFound_other": "z {{ count }} nalezených prodejen",
+    "findStore": "Vyhledat prodejnu",
+    "useMyLocation": "Použít mou polohu",
+    "viewAllStores": "Zobrazit všechny prodejny",
+    "contactUs": "Kontaktujte nás",
+    "searchBox": "PSČ, město nebo adresa",
+    "backToList": "Zpět na seznam",
+    "noStoresMessage": "V databázi nebyly nalezeny žádné prodejny…",
+    "geolocationNotEnabled": "Nepodařilo se najít žádné prodejny v okolí. Nebylo uděleno svolení se sdílením polohy.",
+    "searchNearestStores": "Vyhledat nejbližší prodejny.",
+    "searchBoxLabel": "Zadejte PSČ, město nebo adresu"
+  }
+}

@@ -9,6 +9,10 @@
         class="scaled-input form-check-input"
         required="true"
         type="checkbox"
+        [attr.aria-invalid]="
+          checkoutSubmitForm.get('termsAndConditions')?.touched &&
+          checkoutSubmitForm.get('termsAndConditions')?.invalid
+        "
       />
       <span class="form-check-label">
         {{ 'checkoutReview.confirmThatRead' | cxTranslate }}

@@ -1,0 +1,62 @@
+{
+  "paymentForm": {
+    "payment": "지불",
+    "choosePaymentMethod": "지불 방법 선택",
+    "paymentType": "지불 유형",
+    "accountHolderName": {
+      "label": "계좌 소유주 이름",
+      "placeholder": "계좌 소유주 이름"
+    },
+    "cardNumber": "카드 번호",
+    "expirationDate": "만료일",
+    "securityCode": "보안 코드(CVV)",
+    "securityCodeTitle": "카드 인증 값",
+    "saveAsDefault": "기본값으로 저장",
+    "setAsDefault": "기본 지불 방법으로 설정",
+    "billingAddress": "청구 주소",
+    "sameAsDeliveryAddress": "배송 주소와 같음",
+    "billingAddressSameAsShipping": "청구 주소가 배송 주소와 같습니다.",
+    "selectOne": "하나를 선택하십시오...",
+    "monthMask": "MM",
+    "yearMask": "YYYY",
+    "expirationYear": "만료 연도 {{ selected }}",
+    "expirationMonth": "만료 월 {{ selected }}",
+    "useThisPayment": "이 지불 사용",
+    "addNewPayment": "새 지불 추가",
+    "paymentAddedSuccessfully": "새 지불이 추가되었습니다.",
+    "changePayment": "지불 변경"
+  },
+  "paymentMethods": {
+    "paymentMethods": "지불 방법",
+    "paymentMethodSelected": "지불 방법 선택됨",
+    "newPaymentMethodsAreAddedDuringCheckout": "체크아웃 중에 새 지불 방법이 추가되었습니다.",
+    "invalidField": "잘못된 필드: {{ field }}"
+  },
+  "paymentCard": {
+    "deleteConfirmation": "이 지불 방법을 삭제하시겠습니까?",
+    "setAsDefault": "기본값으로 설정",
+    "expires": "만료: {{ month }}/{{ year }}",
+    "defaultPaymentMethod": "✓ 기본값",
+    "defaultPaymentLabel": "기본 지불 방법",
+    "additionalPaymentLabel": "추가 지불 방법 {{ number }}",
+    "selected": "선택됨",
+    "selectedPayment": "선택한 지불",
+    "deletePaymentSuccess": "지불 방법이 삭제되었습니다.",
+    "visa": "Visa 카드",
+    "master": "Mastercard 카드",
+    "masterEuro": "Mastercard Eurocard 카드",
+    "dinersClub": "Diners Club 카드",
+    "switch": "Switch 카드",
+    "maestro": "Maestro 카드",
+    "amex": "American Express 카드",
+    "credit": "신용 카드"
+  },
+  "paymentTypes": {
+    "title": "지불 방법",
+    "paymentType_CARD": "신용 카드",
+    "paymentType_ACCOUNT": "계좌"
+  },
+  "paymentMessages": {
+    "setAsDefaultSuccessfully": "새 지불이 기본값으로 설정되었습니다."
+  }
+}

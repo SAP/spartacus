@@ -6,7 +6,6 @@
 
 import customerTicketing from './customerTicketing.json';
 import myAccountV2CustomerTicketing from './myAccountV2CustomerTicketing.json';
-
 export const en = {
   customerTicketing,
   myAccountV2CustomerTicketing,

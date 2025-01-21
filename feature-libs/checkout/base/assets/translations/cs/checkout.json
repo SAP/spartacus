@@ -1,0 +1,55 @@
+{
+  "checkout": {
+    "backToCart": "Zpět do košíku"
+  },
+  "checkoutProgress": {
+    "label": "Průběh kontroly a potvrzení",
+    "deliveryAddress": "Dodací adresa",
+    "deliveryMode": "Způsob dodání",
+    "paymentDetails": "Platba",
+    "reviewOrder": "Recenze",
+    "state": {
+      "completed": "{{step}}, dokončeno",
+      "selected": "{{step}}, vybráno",
+      "disabled": "{{step}}, deaktivováno"
+    }
+  },
+  "checkoutAddress": {
+    "shippingAddress": "Dodací adresa",
+    "selectYourDeliveryAddress": "Vyberte dodací adresu",
+    "defaultDeliveryAddress": "Standardní dodací adresa",
+    "addNewAddress": "Přidat novou adresu",
+    "shipToThisAddress": "Doručit na tuto adresu",
+    "deliveryAddressSelected": "Dodací adresa vybrána"
+  },
+  "checkoutMode": {
+    "deliveryMethod": "Způsob dodání",
+    "deliveryOptions": "Možnosti dodání",
+    "standardDelivery": "Standardní dodání",
+    "premiumDelivery": "Prémiové dodání",
+    "deliveryEntries": "Položky k odeslání"
+  },
+  "checkoutReview": {
+    "review": "Recenze",
+    "reviewOrder": "Zkontrolovat objednávku",
+    "orderItems": "Položky objednávky",
+    "confirmThatRead": "Potvrzuji, že po přečtení souhlasím s",
+    "placeOrder": "Objednat",
+    "termsAndConditions": "Obchodní podmínky",
+    "editDeliveryAddressDetails": "Upravit podrobnosti dodací adresy, otevře stránku s dodací adresou",
+    "editBillingDetails": "Upravit fakturační adresu, otevře stránku Platební údaje",
+    "editPaymentDetails": "Upravit platební údaje, otevře stránku Platební údaje",
+    "editPaymentType": "Upravit způsob platby, otevře stránku Způsob platby",
+    "editDeliveryMode": "Upravit režim dodání, otevře stránku Režim dodání",
+    "orderInProcess": "Objednávka se zpracovává, vyčkejte."
+  },
+  "checkoutOrderConfirmation": {
+    "confirmationOfOrder": "Potvrzení objednávky:",
+    "thankYou": "Děkujeme vám za objednávku!",
+    "invoiceHasBeenSentByEmail": "Fakturu jsme odeslali e-mailem. Brzy byste ji měli obdržet.",
+    "orderItems": "Položky objednávky",
+    "orderPlacedSuccessfully": "Objednávka úspěšně podána",
+    "createAccount": "Vytvořit účet?",
+    "createAccountForNext": "Vytvořte si účet pro <{{email}}> za  účelem rychlejší kontroly a potvrzení při příští návštěvě."
+  }
+}

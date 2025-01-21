@@ -1,0 +1,32 @@
+{
+  "anonymousConsents": {
+    "dialog": {
+      "title": "Einwilligungsmanagement",
+      "legalDescription": "Wir verwenden Cookies/den Browserspeicher, um die Inhalte zu personalisieren und die Benutzerfreundlichkeit zu verbessern. Außerdem geben wir möglicherweise die Daten zu Ihrer Verwendung unserer Website an unsere Social Media weiter. Weitere Informationen finden Sie in unserer Datenschutzerklärung.",
+      "selectAll": "Alle auswählen",
+      "clearAll": "Auswahl für alle aufheben"
+    },
+    "banner": {
+      "title": "Diese Website verwendet Cookies",
+      "description": "Wir verwenden Cookies/den Browserspeicher, um die Inhalte zu personalisieren und die Benutzerfreundlichkeit zu verbessern.",
+      "allowAll": "Alle erlauben",
+      "viewDetails": "Details anzeigen"
+    }
+  },
+  "checkoutLogin": {
+    "emailAddress": {
+      "label": "E-Mail-Adresse",
+      "placeholder": "E-Mail eingeben"
+    },
+    "confirmEmail": {
+      "label": "E-Mail bestätigen",
+      "placeholder": "E-Mail bestätigen"
+    },
+    "continue": "Weiter",
+    "emailIsRequired": "Ungültiges E-Mail-Format",
+    "emailsMustMatch": "E-Mail stimmt nicht überein"
+  },
+  "authMessages": {
+    "signedOutSuccessfully": "Sie haben sich erfolgreich abgemeldet."
+  }
+}

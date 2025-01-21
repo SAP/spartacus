@@ -1,0 +1,32 @@
+{
+  "anonymousConsents": {
+    "dialog": {
+      "title": "Hozzájárulás-kezelés",
+      "legalDescription": "Cookie-kat/a böngésző tárhelyét használjuk, hogy személyre szabjuk a tartalmat és javítsuk a felhasználói élményt. Ezen felül megoszthatjuk a weboldal felhasználásával kapcsolatos adatait a közösségi médiánkkal. További információkat a cookie-kra vonatkozó szabályzatunkban találhat.",
+      "selectAll": "Összes kiválasztása",
+      "clearAll": "Összes törlése"
+    },
+    "banner": {
+      "title": "Ez a weboldal cookie-kat használ",
+      "description": "Cookie-kat/a böngésző tárhelyét használjuk, hogy személyre szabjuk a tartalmat és javítsuk a felhasználói élményt.",
+      "allowAll": "Összes engedélyezése",
+      "viewDetails": "Részletek megtekintése"
+    }
+  },
+  "checkoutLogin": {
+    "emailAddress": {
+      "label": "E-mail-cím",
+      "placeholder": "E-mail-cím megadása"
+    },
+    "confirmEmail": {
+      "label": "E-mail-cím megerősítése",
+      "placeholder": "E-mail-cím megerősítése"
+    },
+    "continue": "Folytatás",
+    "emailIsRequired": "Érvénytelen e-mail-formátum",
+    "emailsMustMatch": "Az e-mail-cím nem egyezik"
+  },
+  "authMessages": {
+    "signedOutSuccessfully": "Sikeresen kijelentkezett."
+  }
+}

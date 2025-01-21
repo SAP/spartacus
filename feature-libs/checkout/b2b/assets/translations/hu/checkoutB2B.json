@@ -1,0 +1,22 @@
+{
+  "checkoutB2B": {
+    "noPoNumber": "Nincs",
+    "poNumber": "Megrendelés száma (opcionális)",
+    "costCenter": "Költséghely",
+    "placeholder": "Megrendelés megadása",
+    "availableLabel": "A rendelkezésre álló kézbesítési címek a költséghely egységétől függnek",
+    "invalid": {
+      "accountType": "A fiókja nem teszi lehetővé a fizetést ezen a helyen."
+    },
+    "methodOfPayment": {
+      "paymentType": "Fizetési mód"
+    },
+    "review": {
+      "poNumber": "Megrendelés száma"
+    },
+    "progress": {
+      "methodOfPayment": "Fizetési mód"
+    },
+    "invalidCostCenter": "Érvénytelen költséghely."
+  }
+}

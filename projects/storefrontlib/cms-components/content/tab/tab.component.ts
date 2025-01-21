@@ -21,7 +21,11 @@ import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Tab, TabConfig, TAB_MODE } from './tab.model';
 import { wrapIntoBounds } from './tab.utils';
-import { TranslationService, useFeatureStyles } from '@spartacus/core';
+import {
+  TranslationService,
+  useFeatureStyles,
+  FeatureConfigService,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-tab',
@@ -47,6 +51,9 @@ export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
   protected breakpointService = inject(BreakpointService);
   protected translationService = inject(TranslationService);
   protected cd = inject(ChangeDetectorRef);
+  private featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   @ViewChildren('tabHeader') tabHeaders: QueryList<any>;
 
@@ -112,11 +119,19 @@ export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
   selectOrFocus(tabNum: number, mode: TAB_MODE, event: KeyboardEvent): void {
     event.preventDefault();
 
-    switch (mode) {
-      case TAB_MODE.TAB:
-        return this.select(tabNum, mode);
-      case TAB_MODE.ACCORDIAN:
-        return this.focus(tabNum);
+    if (this.featureConfigService?.isEnabled('a11yTabsManualActivation')) {
+      switch (mode) {
+        case TAB_MODE.TAB:
+        case TAB_MODE.ACCORDIAN:
+          return this.focus(tabNum);
+      }
+    } else {
+      switch (mode) {
+        case TAB_MODE.TAB:
+          return this.select(tabNum, mode);
+        case TAB_MODE.ACCORDIAN:
+          return this.focus(tabNum);
+      }
     }
   }
 
