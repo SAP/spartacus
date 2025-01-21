@@ -429,6 +429,7 @@ if (environment.cpq) {
         a11yHideConsentButtonWhenBannerVisible: true,
         a11yRepeatingButtonsUniqueLabels: true,
         a11yHighContrastBorders: true,
+        a11yRegionAssociatedHeaders: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: true,
         enableConsecutiveCharactersPasswordRequirement: true,

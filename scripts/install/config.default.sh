@@ -93,8 +93,6 @@ EPD_VISUALIZATION_BASE_URL=
 # The base URL and public key values are required for connection to Cloud Commerce Adapter (OPF)
 OPF_BASE_URL=
 OPF_CLIENT_PUBLIC_KEY=
-# Google Pay Api url required for Quick Buy Google Pay integration.
-OPF_QUICK_BUY_GOOGLE_PAY_RESOURCE_URL=
 
 #NPM connection info
 #NPM_URL must start by 'https://' and end with '/' char
