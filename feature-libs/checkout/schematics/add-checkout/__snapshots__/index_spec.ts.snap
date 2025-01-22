@@ -185,7 +185,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -250,7 +255,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }
@@ -373,7 +383,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -438,7 +453,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }
@@ -655,7 +675,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -720,7 +745,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }

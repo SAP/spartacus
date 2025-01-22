@@ -60,6 +60,11 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
               "includePaths": [
                 "node_modules/",
               ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import",
+                ],
+              },
             },
             "styles": [
               "src/styles.scss",
@@ -101,6 +106,11 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
               "includePaths": [
                 "node_modules/",
               ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import",
+                ],
+              },
             },
             "styles": [
               "src/styles.scss",

@@ -59,7 +59,12 @@ exports[`Spartacus Requested Delivery Date schematics: ng-add Requested Delivery
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -124,7 +129,12 @@ exports[`Spartacus Requested Delivery Date schematics: ng-add Requested Delivery
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }
