@@ -430,20 +430,8 @@ context('Product Configuration', () => {
   });
 
   describe('Conflict solver', () => {
-    let configUISettings: any;
-
     beforeEach(() => {
-      configUISettings = {
-        productConfigurator: {
-          enableNavigationToConflict: true,
-        },
-      };
-      cy.cxConfig(configUISettings);
       cy.visit('/');
-    });
-
-    afterEach(() => {
-      configUISettings.productConfigurator.enableNavigationToConflict = false;
     });
 
     it('should support the conflict solving process', () => {

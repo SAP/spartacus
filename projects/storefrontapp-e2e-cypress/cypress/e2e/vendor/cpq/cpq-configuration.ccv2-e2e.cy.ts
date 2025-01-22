@@ -123,16 +123,14 @@ context('CPQ Configuration', () => {
       configurationCpq.selectAttributeAndWait(
         ATTR_COF_CUPS,
         RADGRP,
-        VAL_COF_CUPS_300,
-        true
+        VAL_COF_CUPS_300
       );
       configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_300);
 
       configurationCpq.selectAttributeAndWait(
         ATTR_COF_CUPS,
         RADGRP,
-        VAL_COF_CUPS_500,
-        true
+        VAL_COF_CUPS_500
       );
       configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_500);
     });
@@ -151,16 +149,14 @@ context('CPQ Configuration', () => {
       configurationCpq.selectAttributeAndWait(
         ATTR_COF_MODE,
         CHKBOX,
-        VAL_COF_MODE,
-        true
+        VAL_COF_MODE
       );
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
 
       configurationCpq.selectAttributeAndWait(
         ATTR_COF_MODE,
         CHKBOX,
-        VAL_COF_MODE,
-        true
+        VAL_COF_MODE
       );
       configurationCpq.checkValueNotSelected(
         CHKBOX,
@@ -204,8 +200,7 @@ context('CPQ Configuration', () => {
       configurationCpq.selectAttributeAndWait(
         ATTR_CAM_BODY,
         RADGRP_PROD,
-        VAL_CAM_BODY_EOS80D,
-        true
+        VAL_CAM_BODY_EOS80D
       );
       configurationCpq.checkValueNotSelected(
         RADGRP_PROD,
@@ -236,8 +231,7 @@ context('CPQ Configuration', () => {
       configurationCpq.selectAttributeAndWait(
         ATTR_CAM_INS,
         DDLB_PROD,
-        VAL_CB_INS_Y2,
-        true
+        VAL_CB_INS_Y2
       );
       configurationCpq.checkValueNotSelected(
         DDLB_PROD,
@@ -265,8 +259,7 @@ context('CPQ Configuration', () => {
       configurationCpq.selectAttributeAndWait(
         ATTR_CAM_MC,
         CHKBOX_PROD,
-        VAL_CAM_MC_64,
-        true
+        VAL_CAM_MC_64
       );
       configuration.checkValueSelected(
         CHKBOX_PROD,
@@ -278,14 +271,12 @@ context('CPQ Configuration', () => {
       configurationCpq.selectAttributeAndWait(
         ATTR_CAM_MC,
         CHKBOX_PROD,
-        VAL_CAM_MC_128,
-        true
+        VAL_CAM_MC_128
       );
       configurationCpq.checkValueNotSelected(
         CHKBOX_PROD,
         ATTR_CAM_MC,
-        VAL_CAM_MC_128,
-        true
+        VAL_CAM_MC_128
       );
       configuration.checkValueSelected(CHKBOX_PROD, ATTR_CAM_MC, VAL_CAM_MC_64);
     });
@@ -364,8 +355,7 @@ context('CPQ Configuration', () => {
       configurationCpq.selectProductCard(
         RADGRP,
         ATTR_CAM_BODY,
-        VAL_CAM_BODY_D850,
-        true
+        VAL_CAM_BODY_D850
       );
       configurationCpq.checkPrice(
         RADGRP_PROD,
@@ -380,13 +370,7 @@ context('CPQ Configuration', () => {
         ATTR_CAM_MC,
         VAL_CAM_MC_128
       );
-      configurationCpq.setQuantity(
-        CHKBOX_PROD,
-        2,
-        ATTR_CAM_MC,
-        VAL_CAM_MC_128,
-        true
-      );
+      configurationCpq.setQuantity(CHKBOX_PROD, 2, ATTR_CAM_MC, VAL_CAM_MC_128);
       configurationCpq.checkPrice(
         CHKBOX_PROD,
         '2x($100.00) +$200.00',
@@ -394,18 +378,8 @@ context('CPQ Configuration', () => {
         VAL_CAM_MC_128
       );
 
-      configurationCpq.selectProductCard(
-        CHKBOX,
-        ATTR_CAM_LEN,
-        VAL_CAM_LEN_SI,
-        true
-      );
-      configurationCpq.selectProductCard(
-        CHKBOX,
-        ATTR_CAM_LEN,
-        VAL_CAM_LEN_NI,
-        true
-      );
+      configurationCpq.selectProductCard(CHKBOX, ATTR_CAM_LEN, VAL_CAM_LEN_SI);
+      configurationCpq.selectProductCard(CHKBOX, ATTR_CAM_LEN, VAL_CAM_LEN_NI);
       configurationCpq.checkPrice(
         CHKBOX_PROD,
         '$800.00',
@@ -423,16 +397,14 @@ context('CPQ Configuration', () => {
       configurationCpq.deSelectProductCard(
         RADGRP,
         ATTR_CAM_BAG,
-        VAL_CAM_BAG_LP,
-        true
+        VAL_CAM_BAG_LP
       );
 
       configuration.clickOnNextBtn(GRP_CAM_IAW);
       configurationCpq.selectAttributeAndWait(
         ATTR_CAM_PROF,
         RADGRP,
-        VAL_CAM_PROF_Y,
-        true
+        VAL_CAM_PROF_Y
       );
       //wait for this option to disappear
       configuration.checkAttrValueNotDisplayed(
@@ -441,12 +413,7 @@ context('CPQ Configuration', () => {
         VAL_CB_INS_Y2
       );
 
-      configurationCpq.selectProductCard(
-        DDLB,
-        ATTR_CAM_INS,
-        VAL_CB_INS_P4,
-        true
-      );
+      configurationCpq.selectProductCard(DDLB, ATTR_CAM_INS, VAL_CB_INS_P4);
       configurationCpq.checkPrice(
         DDLB_PROD,
         '$600.00',
