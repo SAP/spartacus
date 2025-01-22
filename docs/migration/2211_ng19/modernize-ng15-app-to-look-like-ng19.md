@@ -188,6 +188,11 @@ In the "scripts" section:
 +    "serve:ssr": "node dist/YOUR-APP-NAME/server/server.mjs",
 ```
 
+TODO: explain here that since now you need to run 2 different terminals to run SSR app in dev mode with reloads on file save.
+`npm run watch`
+and
+`npm run
+
 ### `tsconfig.app.json`
 
 1. Please add 1 new item to the array in the property `"types"`: `"node"`
@@ -250,6 +255,12 @@ rm tsconfig.server.json
 
 Rename file from `app.server.module.ts` to `app.module.server.ts` (swapped words `server` and `module`).
 
+Example command on Mac/Linux:
+
+```bash
+mv src/app.server.module.ts src/app.module.server.ts
+```
+
 ### `src/main.server.ts`
 
 Change the the export path of the `AppServerModule` from `./app/app.server.module'` to `./app/app.module.server'`. And export this item as a `default`.
@@ -280,7 +291,97 @@ Example command on Mac/Linux:
 mv server.ts src/server.ts
 ```
 
+2. Please adjust the contents of the file `src/server.ts`
+
+2.1 Change the imports in the top of the file according to the following diff:
+
+```diff
+- import 'zone.js/node';
+
+- import { ngExpressEngine as engine } from - '@spartacus/setup/ssr';
+- import { NgExpressEngineDecorator } from - '@spartacus/setup/ssr';
+- import * as express from 'express';
+- import { join } from 'path';
+
+- import { AppServerModule } from './src/main.- server';
+- import { existsSync } from 'fs';
+
++ import {
++   NgExpressEngineDecorator,
++   ngExpressEngine as engine,
++ } from '@spartacus/setup/ssr';
++ import express from 'express';
++ import { readFileSync } from 'node:fs';
++ import { dirname, join, resolve } from + 'node:path';
++ import { fileURLToPath } from 'node:url';
++ import AppServerModule from './main.server';
+```
+
+2.2 Replace the constants 2 `distFolder` and `indexHtml` with new 4 constants: `serverDistFolder`, `browserDistFolder`, `indexHtml` and `indexHtmlContent`, as in the diff below:
+
+```diff
+-  const distFolder = join(process.cwd(), 'dist/test-ng15-spa68-ssr/browser');
+-  const indexHtml = existsSync(join(distFolder, 'index.original.html'))
+-    ? 'index.original.html'
+-    : 'index';
++  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
++  const browserDistFolder = resolve(serverDistFolder, '../browser');
++  const indexHtml = join(serverDistFolder, 'index.server.html');
+```
+
+2.3 Use the constant `browserDistFolder` instead of `distFolder` in the call `server.set('views', ...);`
+
+```diff
+-  server.set('views', distFolder);
++  server.set('views', browserDistFolder);
+```
+
+2.4 Use the constant `browserDistFolder` instead of `distFolder` in the call `express.static(...);`
+
+```diff
+   server.get(
+     '*.*',
+-    express.static(distFolder, {
++    express.static(browserDistFolder, {
+```
+
+2.4 Remove the block of code in the bottom of the file related to Webpack `require` and leave instead just the call of the function `run()`
+
+```diff
+- // Webpack will replace 'require' with - '__webpack_require__'
+- // '__non_webpack_require__' is a proxy to Node 'require'
+- // The below code is to ensure that the server is run - only when not requiring the bundle.
+- declare const __non_webpack_require__: NodeRequire;
+- const mainModule = __non_webpack_require__.main;
+- const moduleFilename = (mainModule && mainModule.- filename) || '';
+- if (moduleFilename === __filename || moduleFilename.- includes('iisnode')) {
+-   run();
+- }
+
++ run();
+```
+
+2.5 In the very bottom of the file, remove the re-export of the path `./src/main.server`
+
+```diff
+- export * from './src/main.server';
+```
+
 ## TODOS:
+
+recommended changes in the server.ts file (only after upgraded to ng19):
+
+- in server.ts we recommend adding a feature toggle:
+
+```
+ssrFeatureToggles: {
+  avoidCachingErrors: true,
+},
+```
+
+- use Spartacus default error handlers:
+  - after the line `const indexHtml = join(serverDistFolder, 'index.server.html');` add the line `const indexHtmlContent = readFileSync(indexHtml, 'utf-8');`
+  - after the block of code `server.get('*', (req, res) => {...}`, add the line `server.use(defaultExpressErrorHandlers(indexHtmlContent));`
 
 mention moving stuff to /public folder
 
@@ -290,3 +391,47 @@ mention moving stuff to /public folder
 in angular.json
 TODO: mention the changes in assets config? in both architect "build" and "test"
 TODO: mention the changes in silence deprecations
+
+```
+
+```
+
+### Let's postpone those steps and check them later:
+
+1. Moving assets and favicon to /public folder. And changing assets config in `angular.json`:
+
+```diff
+-              "src/favicon.ico",
+-              "src/assets",
++              {
++                "glob": "**/*",
++                "input": "public"
++              },
+```
+
+because in n17 the error happens:
+
+```
+Error: Schema validation failed with the following errors:
+  Data path "/assets/0" must have required property 'output'.
+  Data path "/assets/0" must be string.
+  Data path "/assets/0" must match exactly one schema in oneOf.
+```
+
+2. Suppressing Sass deprecations
+
+```diff
+ "stylePreprocessorOptions": {
+   "includePaths": ["node_modules/"],
++  "sass": {
++    "silenceDeprecations": ["import"]
++  }
+}
+```
+
+Because in n17 the error happens:
+
+```
+Error: Schema validation failed with the following errors:
+  Data path "/stylePreprocessorOptions" must NOT have additional properties(sass).
+```
