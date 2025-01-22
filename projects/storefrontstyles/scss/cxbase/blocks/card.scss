@@ -25,6 +25,10 @@
   &:first-child {
     border-radius: 0;
   }
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+    color: var(--cx-color-text);
+  }
 }
 
 .card-actions-container {
