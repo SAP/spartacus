@@ -60,16 +60,6 @@ import {
   readPackageJson,
 } from '../shared/utils/package-utils';
 
-// Fix typing bug in @schematics/angular/utility/workspace-models since v17:
-declare module '@schematics/angular/utility/workspace-models' {
-  interface ServeBuilderOptions {
-    /**
-     * Since ng17 it's no more "browserTarget" but "buildTarget" property
-     */
-    buildTarget: string;
-  }
-}
-
 const DEPENDENCY_NAMES: string[] = ['@angular/platform-server', ANGULAR_SSR];
 
 export function modifyAppServerModuleFile(): Rule {
