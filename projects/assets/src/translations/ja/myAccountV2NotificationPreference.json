@@ -1,5 +1,5 @@
 {
-  "myAccountV2NotifiationPerference": {
+  "myAccountV2NotificationPreference": {
     "header": "通知チャネル",
     "message": "優先通知チャネルを選択してください",
     "note": "注記:  ",
