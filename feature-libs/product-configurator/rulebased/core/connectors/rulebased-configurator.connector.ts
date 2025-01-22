@@ -9,7 +9,6 @@ import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { ConfiguratorCoreConfig } from '../config/configurator-core.config';
@@ -147,14 +146,6 @@ export class RulebasedConfiguratorConnector {
     adapter: RulebasedConfiguratorAdapter,
     configuratorType: string
   ): boolean {
-    let matching = adapter.getConfiguratorType() === configuratorType;
-    if (matching && ConfiguratorType.CPQ === configuratorType) {
-      const isCpqOverOccRequested =
-        this.config.productConfigurator?.cpqOverOcc ?? false;
-      const isCpqOverOccSupported =
-        !!adapter.supportsCpqOverOcc && adapter.supportsCpqOverOcc();
-      matching = isCpqOverOccRequested === isCpqOverOccSupported;
-    }
-    return matching;
+    return adapter.getConfiguratorType() === configuratorType;
   }
 }
