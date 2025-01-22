@@ -2,17 +2,23 @@
   <nav [attr.aria-label]="'common.breadcrumbs' | cxTranslate" tabindex="-1">
     <ol [attr.aria-label]="'common.breadcrumbs' | cxTranslate">
       <li *ngFor="let crumb of crumbList; let i = index; let last = last">
-        <a [routerLink]="crumb.link" [innerHTML]="crumb.label" [attr.aria-label]="
-          last
-            ? ('common.breadcrumbsCurrentPage' | cxTranslate) +
-              ' ' +
-             crumb.label+ (i+1) +' of '+ crumbList.length
-            : crumb.label + (i+1) +' of '+ crumbList.length
-        "
-      ></a>
-    </li>
-  </ol>
-</nav>
+        <a
+          [routerLink]="crumb.link"
+          [innerHTML]="crumb.label"
+          [attr.aria-label]="
+            last
+              ? ('common.breadcrumbsCurrentPage' | cxTranslate) +
+                ' ' +
+                crumb.label +
+                (i + 1) +
+                ' of ' +
+                crumbList.length
+              : crumb.label + (i + 1) + ' of ' + crumbList.length
+          "
+        ></a>
+      </li>
+    </ol>
+  </nav>
 </ng-container>
 
 <!-- TODO: Remove feature flag next major release -->
